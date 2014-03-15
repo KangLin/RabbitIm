@@ -19,13 +19,12 @@ public:
     ~MainWindow();
 
 protected:
-    void resizeEvent(QResizeEvent *e);
+    void resizeEvent(QResizeEvent *);
     void showEvent(QShowEvent *);
 
 private:
     Ui::MainWindow *ui;
-
-    CFrmLogin* log;
+    CFrmLogin *m_pLogin;
 };
 
 #endif // MAINWINDOW_H

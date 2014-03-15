@@ -1,3 +1,4 @@
+*.qm
 *.user
 test.xml
 .CCodec.h.kate-swp

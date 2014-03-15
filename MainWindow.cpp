@@ -1,15 +1,14 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    if(parent)
-        this->setFixedSize(parent->childrenRect().width(),
-                       parent->childrenRect().height());
-    log = new CFrmLogin(this);
+
+    m_pLogin = new CFrmLogin(this);
 }
 
 MainWindow::~MainWindow()
@@ -17,14 +16,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::resizeEvent(QResizeEvent *e)
+void MainWindow::resizeEvent(QResizeEvent *)
 {
-    log->setFixedSize(this->childrenRect().width(),
-                      this->childrenRect().height());
+    m_pLogin->setFixedSize(this->geometry().width(),
+                           this->geometry().height());
 }
 
 void MainWindow::showEvent(QShowEvent *)
 {
-    log->setFixedSize(this->childrenRect().width(),
-                      this->childrenRect().height());
 }

@@ -15,8 +15,15 @@ public:
     explicit CFrmLogin(QWidget *parent = 0);
     ~CFrmLogin();
 
+private slots:
+    void on_pbOk_clicked();
+
+    void on_pbClose_clicked();
+
 private:
     Ui::CFrmLogin *ui;
+
+
 };
 
 #endif // FRMLOGIN_H
