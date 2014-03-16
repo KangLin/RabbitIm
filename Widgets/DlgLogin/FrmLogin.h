@@ -2,10 +2,14 @@
 #define FRMLOGIN_H
 
 #include <QFrame>
+#include <QMessageBox>
+#include "../../MainWindow.h"
 
 namespace Ui {
 class CFrmLogin;
 }
+
+class MainWindow;
 
 class CFrmLogin : public QFrame
 {
@@ -15,6 +19,8 @@ public:
     explicit CFrmLogin(QWidget *parent = 0);
     ~CFrmLogin();
 
+    int SetPrompt(QString szPrompt);
+
 private slots:
     void on_pbOk_clicked();
 
@@ -22,8 +28,6 @@ private slots:
 
 private:
     Ui::CFrmLogin *ui;
-
-
 };
 
 #endif // FRMLOGIN_H

@@ -1,0 +1,40 @@
+From 5c716e9e517bb32aed7ea8b40dbc0f1c9593381d Mon Sep 17 00:00:00 2001
+From: KangLin <kl222@126.com>
+Date: Sun, 16 Mar 2014 17:10:06 +0800
+Subject: [PATCH] add handle non-sasl authentication error response
+
+---
+ src/client/QXmppOutgoingClient.cpp |   14 ++++++++++++++
+ 1 files changed, 14 insertions(+), 0 deletions(-)
+ mode change 100644 => 100755 src/client/QXmppOutgoingClient.cpp
+
+diff --git a/src/client/QXmppOutgoingClient.cpp b/src/client/QXmppOutgoingClient.cpp
+old mode 100644
+new mode 100755
+index 7ddc2b2..1fd79da
+--- a/src/client/QXmppOutgoingClient.cpp
++++ b/src/client/QXmppOutgoingClient.cpp
+@@ -638,6 +638,20 @@ void QXmppOutgoingClient::handleStanza(const QDomElement &nodeRecv)
+                     }
+                     sendNonSASLAuth(plainText);
+                 }
++                else
++                {
++                    QXmppNonSASLAuthIq authResponse;
++                    authResponse.parse(nodeRecv);
++
++                    if (QXmppStanza::Error::NotAuthorized == authResponse.error().condition())
++                        d->xmppStreamError = QXmppStanza::Error::NotAuthorized;
++                    else
++                        d->xmppStreamError = QXmppStanza::Error::UndefinedCondition;
++                    emit error(QXmppClient::XmppStreamError);
++
++                    warning("Authentication failure");
++                    disconnectFromHost();
++                }
+             }
+             // XEP-0199: XMPP Ping
+             else if(QXmppPingIq::isPingIq(nodeRecv))
+-- 
+1.7.9
+

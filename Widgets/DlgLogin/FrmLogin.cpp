@@ -1,12 +1,15 @@
 #include "FrmLogin.h"
 #include "ui_FrmLogin.h"
-#include <QMessageBox>
 
 CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmLogin)
 {
     ui->setupUi(this);
+    ui->lnServer->setText("183.62.225.76");
+    ui->lnUser->setText("admin");
+    ui->lnPassword->setText("rdc123456");
+    ui->lbePrompt->setText("");
 }
 
 CFrmLogin::~CFrmLogin()
@@ -16,18 +19,24 @@ CFrmLogin::~CFrmLogin()
 
 void CFrmLogin::on_pbOk_clicked()
 {
-
+    ui->lbePrompt->setText("");
+    QXmppConfiguration config;
+    config.setUseSASLAuthentication(false);
+    config.setHost(ui->lnServer->text());
+    config.setUser(ui->lnUser->text());
+    config.setPassword(ui->lnPassword->text());
+    ((MainWindow*)(this->parent()))->m_pClient->connectToServer(config);
 }
 
 void CFrmLogin::on_pbClose_clicked()
 {
-    QMessageBox msg(QMessageBox::Question,
-                    tr("Close"),
-                    tr("Is close the programe?"),
-                    QMessageBox::Ok | QMessageBox::Cancel);
-    if(QMessageBox::Ok == msg.exec())
-    {
-        //TODO:加入退出程序代码
+    //退出程序
+    ((QWidget*)this->parent())->close();
+}
 
-    }
+int CFrmLogin::SetPrompt(QString szPrompt)
+{
+    int nRet = 0;
+    ui->lbePrompt->setText(szPrompt);
+    return nRet;
 }

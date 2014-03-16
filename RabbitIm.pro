@@ -4,28 +4,34 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = RabbitIm
 TEMPLATE = app
 
-SOURCES += main.cpp\
-        MainWindow.cpp \
-    Widgets/DlgLogin/DlgLogin.cpp \
-    Widgets/DlgLogin/FrmLogin.cpp
+# Determine library name
+CONFIG(debug, debug|release) {
+    QXMPP_LIBRARY_NAME = qxmpp_d
+} else {
+    QXMPP_LIBRARY_NAME = qxmpp
+}
 
-HEADERS  += MainWindow.h \
-    Widgets/DlgLogin/DlgLogin.h \
-    Widgets/DlgLogin/FrmLogin.h
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/ThirdLibary/lib/ -l$$QXMPP_LIBRARY_NAME
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/ThirdLibary/lib/ -l$${QXMPP_LIBRARY_NAME}0
+else:unix: LIBS += -L$$PWD/ThirdLibary/lib/ -l$$QXMPP_LIBRARY_NAME
 
-FORMS    += MainWindow.ui \
-    Widgets/DlgLogin/DlgLogin.ui \
-    Widgets/DlgLogin/FrmLogin.ui
+INCLUDEPATH += $$PWD/ThirdLibary/include
+DEPENDPATH += $$PWD/ThirdLibary/include
+
+include(RabbitIm.pri)
 
 CONFIG += mobility
+
 MOBILITY = 
+
+CONFIG += localize_deployment #本地语言部署
 
 TRANSLATIONS += \
     translations/app_zh_CN.ts
@@ -33,3 +39,4 @@ TRANSLATIONS += \
 OTHER_FILES += README.md \
     .gitignore \
     translations/app_zh_CN.ts
+
