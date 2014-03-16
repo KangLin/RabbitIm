@@ -55,7 +55,8 @@ QXMPP编译：
 6、在项目浏览器中选中qxmpp项目，右键点击“执行qmake”；再右键点击“构建”；再右键点击“部署”。
 7、在部署时会出现":-1: error: [install_htmldocs] Error 4 (ignored)"错误。
 这是由于没有安装doxygen，所以不能产生帮助文档。可以忽略。
-
+8、当前版本有BUG，需要打下面补丁
+ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch
 
 
 翻译文件部署：

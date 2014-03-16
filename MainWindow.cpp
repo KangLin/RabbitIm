@@ -146,10 +146,14 @@ void MainWindow::clientError(QXmppClient::Error e)
 void MainWindow::rosterReceived()
 {
     qDebug("MainWindow:: Roster received");
-    foreach (const QString &bareJid, m_pClient->rosterManager().getRosterBareJids()) {
+    foreach (const QString &bareJid, m_pClient->rosterManager().getRosterBareJids())
+    {
         QString name = m_pClient->rosterManager().getRosterEntry(bareJid).name();
         if(name.isEmpty())
             name = "-";
+        QSet<QString> groups = m_pClient->rosterManager().getRosterEntry(bareJid).groups();
+
+        m_pUserList->InsertUser(bareJid, name, groups);
         qDebug("MainWindow:: Roster received: %s [%s]", qPrintable(bareJid), qPrintable(name));
     }
 }
