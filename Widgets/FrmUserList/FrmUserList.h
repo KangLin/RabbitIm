@@ -48,6 +48,10 @@ protected slots:
     /// removed as a result of roster push.
     void itemRemoved(const QString& bareJid);
 
+    //控件
+    void clicked(const QModelIndex & index);
+    void doubleClicked(const QModelIndex & index);
+
 private:
     Ui::CFrmUserList *ui;
 

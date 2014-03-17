@@ -18,11 +18,19 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     ui->tvUsers->setExpandsOnDoubleClick(true);
     ui->tvUsers->setItemsExpandable(true);
 
+    bool check = connect(ui->tvUsers, SIGNAL(clicked(QModelIndex)),
+                         SLOT(clicked(QModelIndex)));
+    Q_ASSERT(check);
+
+    check = connect(ui->tvUsers, SIGNAL(doubleClicked(QModelIndex)),
+                         SLOT(doubleClicked(QModelIndex)));
+    Q_ASSERT(check);
+
     m_Parent = (MainWindow*)parent;
     if(NULL == m_Parent->m_pClient)
         return;
 
-    bool check = connect(m_Parent->m_pClient,
+    check = connect(m_Parent->m_pClient,
                          SIGNAL(presenceReceived(const QXmppPresence)),
                          SLOT(ChangedPresence(QXmppPresence)));
     Q_ASSERT(check);
@@ -201,4 +209,23 @@ void CFrmUserList::vCardReceived(const QXmppVCardIq& vCard)
     {
         std::cout<<"CFrmUserList::vCardReceived:: Avatar saved to file" <<std::endl<<std::endl;
     }
+}
+
+void CFrmUserList::clicked(const QModelIndex &index)
+{
+    qDebug("CFrmUserList::clicked, row:%d; column:%d",
+           index.row(), index.column());
+    qDebug("CFrmUserList::clicked, %s",
+           qPrintable(index.data().toString()));
+}
+
+void CFrmUserList::doubleClicked(const QModelIndex &index)
+{
+    qDebug("CFrmUserList::doubleClicked, row:%d; column:%d",
+           index.row(), index.column());
+
+    if(ui->tvUsers->isExpanded(index))
+       ui->tvUsers->expand(index);
+    else
+       ui->tvUsers->collapse(index);
 }

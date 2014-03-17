@@ -14,8 +14,47 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>225</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuOperator_O">
+    <property name="title">
+     <string>Operator(&amp;O)</string>
+    </property>
+    <addaction name="actionExit_O"/>
+   </widget>
+   <addaction name="menuOperator_O"/>
+  </widget>
+  <action name="actionExit_O">
+   <property name="text">
+    <string>Exit(&amp;O)</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionExit_O</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>112</x>
+     <y>186</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
