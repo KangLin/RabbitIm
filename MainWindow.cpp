@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //初始化子窗体
     m_pLogin = new CFrmLogin(this);
+    this->setCentralWidget(m_pLogin);
     m_pUserList = NULL;
     m_pClient = new CXmppClient(this);
     if(m_pClient)
@@ -57,13 +58,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *)
 {
-    if(m_pLogin)
-        m_pLogin->setFixedSize(this->geometry().width(),
-                           this->geometry().height());
-
-    if(m_pUserList)
-        m_pUserList->setFixedSize(this->geometry().width(),
-                                  this->geometry().height());
 }
 
 void MainWindow::showEvent(QShowEvent *)
@@ -103,9 +97,7 @@ void MainWindow::clientConnected()
 
     if(m_pUserList)
     {
-        m_pUserList->setFixedSize(this->geometry().width(),
-                                  this->geometry().height());
-        m_pUserList->show();
+        this->setCentralWidget(m_pUserList);
     }
 }
 
