@@ -104,6 +104,52 @@
     </message>
 </context>
 <context>
+    <name>CFrmUserList</name>
+    <message>
+        <location filename="../Widgets/FrmUserList/FrmUserList.ui" line="14"/>
+        <source>Frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Widgets/FrmUserList/FrmUserList.cpp" line="74"/>
+        <source>User had existed</source>
+        <translation type="unfinished">用启已存在</translation>
+    </message>
+</context>
+<context>
+    <name>CRoster</name>
+    <message>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="70"/>
+        <source>OnLine</source>
+        <translation type="unfinished">在线</translation>
+    </message>
+    <message>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="72"/>
+        <source>Temporarily away</source>
+        <translation type="unfinished">临时离开</translation>
+    </message>
+    <message>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="74"/>
+        <source>Chat</source>
+        <translation type="unfinished">空闲</translation>
+    </message>
+    <message>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="76"/>
+        <source>Do not disturb</source>
+        <translation type="unfinished">请勿打扰</translation>
+    </message>
+    <message>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="78"/>
+        <source>Invisible</source>
+        <translation type="unfinished">离线</translation>
+    </message>
+    <message>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="80"/>
+        <source>Away for an extended period</source>
+        <translation type="unfinished">离开</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../MainWindow.ui" line="14"/>
@@ -111,27 +157,27 @@
         <translation type="unfinished">玉兔即时通信</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="82"/>
+        <location filename="../MainWindow.cpp" line="76"/>
         <source>Close</source>
         <translation type="unfinished">关闭</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="83"/>
+        <location filename="../MainWindow.cpp" line="77"/>
         <source>Is close the programe?</source>
         <translation type="unfinished">是否关闭程序？</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="119"/>
+        <location filename="../MainWindow.cpp" line="125"/>
         <source>Socket error</source>
         <translation type="unfinished">Socket 错误</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="124"/>
+        <location filename="../MainWindow.cpp" line="130"/>
         <source>User name or password error</source>
         <translation type="unfinished">用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="128"/>
+        <location filename="../MainWindow.cpp" line="134"/>
         <source>Login success</source>
         <translation type="unfinished">登录成功</translation>
     </message>

@@ -40,3 +40,4 @@ OTHER_FILES += README.md \
     .gitignore \
     translations/app_zh_CN.ts
 
+

@@ -34,16 +34,6 @@ MainWindow::MainWindow(QWidget *parent) :
                         SLOT(clientError(QXmppClient::Error)));
         Q_ASSERT(check);
 
-        check = connect(&(m_pClient->rosterManager()), SIGNAL(rosterReceived()),
-                        SLOT(rosterReceived()));
-        Q_ASSERT(check);
-
-        /// Then QXmppRoster::presenceChanged() is emitted whenever presence of someone
-        /// in roster changes
-        check = connect(&(m_pClient->rosterManager()), SIGNAL(presenceChanged(QString,QString)),
-                        SLOT(presenceChanged(QString,QString)));
-        Q_ASSERT(check);
-
         check = connect(m_pClient, SIGNAL(messageReceived(QXmppMessage)),
                         SLOT(clientMessageReceived(QXmppMessage)));
         Q_ASSERT(check);
@@ -99,6 +89,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 void MainWindow::clientConnected()
 {
     qDebug("MainWindow:: CONNECTED");
+    //关闭登录对话框
     if(m_pLogin)
     {
         m_pLogin->close();
@@ -106,6 +97,7 @@ void MainWindow::clientConnected()
         m_pLogin = NULL;
     }
 
+    //显示好友列表
     if(NULL == m_pUserList)
         m_pUserList = new CFrmUserList(this);
 
@@ -143,30 +135,15 @@ void MainWindow::clientError(QXmppClient::Error e)
 
 }
 
-void MainWindow::rosterReceived()
-{
-    qDebug("MainWindow:: Roster received");
-    foreach (const QString &bareJid, m_pClient->rosterManager().getRosterBareJids())
-    {
-        QString name = m_pClient->rosterManager().getRosterEntry(bareJid).name();
-        if(name.isEmpty())
-            name = "-";
-        QSet<QString> groups = m_pClient->rosterManager().getRosterEntry(bareJid).groups();
-
-        m_pUserList->InsertUser(bareJid, name, groups);
-        qDebug("MainWindow:: Roster received: %s [%s]", qPrintable(bareJid), qPrintable(name));
-    }
-}
-
-void MainWindow::presenceChanged(const QString& bareJid,
-                                 const QString& resource)
-{
-    qDebug("MainWindow:: Presence changed %s/%s", qPrintable(bareJid), qPrintable(resource));
-}
-
 void MainWindow::clientMessageReceived(const QXmppMessage &message)
 {
-    qDebug("MainWindow:: message Received:%s", qPrintable(message.to()));
+    qDebug("MainWindow:: message Received:type:%d;state:%d;from:%s;to:%s;body:%s",
+           message.type(),
+           message.state(), //消息的状态 0:消息内容，其它值表示这个消息的状态
+           qPrintable(message.from()),
+           qPrintable(message.to()),
+           qPrintable(message.body())
+          );
 }
 
 void MainWindow::clientIqReceived(const QXmppIq &iq)

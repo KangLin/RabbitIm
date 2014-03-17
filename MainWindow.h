@@ -8,6 +8,8 @@
 #include "Widgets/DlgLogin/FrmLogin.h"
 #include "Widgets/FrmUserList/FrmUserList.h"
 #include "XmppClient.h"
+#include "qxmpp/QXmppVCardIq.h"
+#include "qxmpp/QXmppVCardManager.h"
 
 class CFrmLogin;
 
@@ -29,8 +31,7 @@ protected slots:
     void clientConnected();
     void clientDisconnected();
     void clientError(QXmppClient::Error e);
-    void rosterReceived();
-    void presenceChanged(const QString& bareJid, const QString& resource);
+
     void clientMessageReceived(const QXmppMessage &message);
     void clientIqReceived(const QXmppIq &iq);
 
