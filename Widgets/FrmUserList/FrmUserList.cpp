@@ -5,6 +5,7 @@
 #include "qxmpp/QXmppUtils.h"
 #include "../../MainWindow.h"
 #include <iostream>
+#include <QKeyEvent>
 
 CFrmUserList::CFrmUserList(QWidget *parent) :
     QFrame(parent),
@@ -17,6 +18,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     ui->tvUsers->setHeaderHidden(true);
     ui->tvUsers->setExpandsOnDoubleClick(true);
     ui->tvUsers->setItemsExpandable(true);
+    ui->tvUsers->installEventFilter(this);
 
     bool check = connect(ui->tvUsers, SIGNAL(clicked(QModelIndex)),
                          SLOT(clicked(QModelIndex)));
@@ -221,4 +223,27 @@ void CFrmUserList::doubleClicked(const QModelIndex &index)
        ui->tvUsers->expand(index);
     else
        ui->tvUsers->collapse(index);
+}
+
+void CFrmUserList::resizeEvent(QResizeEvent *)
+{
+    //ui->tvUsers->move(0, 0);
+    //ui->tvUsers->setGeometry(this->geometry());
+}
+
+bool CFrmUserList::eventFilter(QObject *obj, QEvent *event)
+{
+    if(obj == ui->tvUsers)
+    {
+        if(event->type() == QEvent::MouseButtonPress)
+        {
+            qDebug("Users lists mouse button double chick");
+        }
+        else if(event->type() == QEvent::KeyPress)
+        {
+            QKeyEvent* key = (QKeyEvent*) event;
+            qDebug("Users lists key press:%d", key->key());
+        }
+    }
+    return false;
 }

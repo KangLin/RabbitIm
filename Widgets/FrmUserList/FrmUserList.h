@@ -29,6 +29,9 @@ public:
 private:
     int InsertUser(QXmppRosterIq::Item rosterItem);
 
+    bool eventFilter(QObject *obj, QEvent *event);
+    void resizeEvent(QResizeEvent *);
+
 protected slots:
     //好友列表
     void rosterReceived();

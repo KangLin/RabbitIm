@@ -27,6 +27,7 @@ public:
 
     QStandardItem* GetItem();
     int ChangedPresence(QXmppPresence::Status::Type status);
+    QColor GetStatusColor(QXmppPresence::Status status);
 
 private:
     QString GetStatusText(QXmppPresence::Status status);

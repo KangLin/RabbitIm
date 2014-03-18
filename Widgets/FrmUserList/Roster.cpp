@@ -1,4 +1,5 @@
 #include "Roster.h"
+#include "RosterItem.h"
 
 CRoster::CRoster(QObject *parent) :
     QObject(parent)
@@ -67,7 +68,8 @@ int CRoster::SetGroups(const QSet<QString> &groups)
 
 QStandardItem* CRoster::GetItem()
 {
-    QStandardItem* pItem = new QStandardItem(Name());
+    QStandardItem* pItem = new CRosterItem(this);
+    pItem->setText(Name());
     pItem->setEditable(false);//禁止双击编辑
     m_lstUserListItem.push_back(pItem);
     return pItem;
@@ -89,15 +91,30 @@ QString CRoster::GetStatusText(QXmppPresence::Status status)
         return tr("Away for an extended period");
 }
 
+QColor CRoster::GetStatusColor(QXmppPresence::Status status)
+{
+    if(QXmppPresence::Status::Online == status.type())
+        return QColor(0, 255, 0);
+    else if(QXmppPresence::Status::Away == status.type())
+        return QColor(0, 0, 255);
+    else if(QXmppPresence::Status::Chat == status.type())
+        return QColor(0, 255, 0);
+    else if(QXmppPresence::Status::DND == status.type())
+        return QColor(255, 0, 0);
+    else if(QXmppPresence::Status::Invisible == status.type())
+        return QColor(255, 255, 255);
+    else if(QXmppPresence::Status::XA == status.type())
+        return QColor(255, 0, 255);
+}
+
 //TODO:修改成图片表示
 int CRoster::ChangedPresence(QXmppPresence::Status::Type status)
 {
-    QString szText = Name() + "(" + GetStatusText(status) + ")";
     std::list<QStandardItem*>::iterator it;
     for(it = m_lstUserListItem.begin(); it != m_lstUserListItem.end(); it++)
     {
         QStandardItem* p = *it;
-        p->setText(szText);
+        p->setData(GetStatusColor(status), Qt::BackgroundRole);
     }
     return 0;
 }

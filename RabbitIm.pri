@@ -4,14 +4,18 @@ SOURCES += main.cpp\
     Widgets/DlgLogin/FrmLogin.cpp \
     XmppClient.cpp \
     Widgets/FrmUserList/FrmUserList.cpp \
-    Widgets/FrmUserList/Roster.cpp
+    Widgets/FrmUserList/Roster.cpp \
+    Widgets/FrmUserList/GroupItem.cpp \
+    Widgets/FrmUserList/RosterItem.cpp
 
 HEADERS  += MainWindow.h \
     Widgets/DlgLogin/DlgLogin.h \
     Widgets/DlgLogin/FrmLogin.h \
     XmppClient.h \
     Widgets/FrmUserList/FrmUserList.h \
-    Widgets/FrmUserList/Roster.h
+    Widgets/FrmUserList/Roster.h \
+    Widgets/FrmUserList/GroupItem.h \
+    Widgets/FrmUserList/RosterItem.h
 
 FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \
