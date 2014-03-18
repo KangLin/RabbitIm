@@ -17,3 +17,6 @@ FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \
     Widgets/DlgLogin/FrmLogin.ui \
     Widgets/FrmUserList/FrmUserList.ui
+
+RESOURCES += \
+    Resource/Resource.qrc

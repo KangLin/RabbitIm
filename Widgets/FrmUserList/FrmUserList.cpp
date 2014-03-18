@@ -139,13 +139,6 @@ void CFrmUserList::itemRemoved(const QString &bareJid)
     }
 }
 
-int CFrmUserList::RemoveUser(QString szJid)
-{
-    int nRet = 0;
-
-    return nRet;
-}
-
 //得到好友列表
 void CFrmUserList::rosterReceived()
 {

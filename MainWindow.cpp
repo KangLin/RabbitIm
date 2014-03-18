@@ -114,7 +114,7 @@ void MainWindow::clientError(QXmppClient::Error e)
 
     if(QXmppClient::SocketError == e)
     {
-        m_pLogin->SetPrompt(tr("Socket error"));
+        m_pLogin->SetPrompt(tr("Network error"));
 
     }
     else if(QXmppClient::XmppStreamError == e)
@@ -122,6 +122,8 @@ void MainWindow::clientError(QXmppClient::Error e)
         m_pLogin->SetPrompt(tr("User name or password error"));
 
     }
+    else if(QXmppClient::KeepAliveError == e)
+        m_pLogin->SetPrompt(tr("Keep Alive error"));
     else
         m_pLogin->SetPrompt(tr("Login success"));
 

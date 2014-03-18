@@ -9,42 +9,42 @@
         <location filename="../Widgets/DlgLogin/DlgLogin.ui" line="20"/>
         <location filename="../Widgets/DlgLogin/DlgLogin.ui" line="23"/>
         <source>Login</source>
-        <translation type="unfinished">登录</translation>
+        <translation>登录</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/DlgLogin.ui" line="259"/>
         <source>Ok(&amp;O)</source>
-        <translation type="unfinished">确定（&amp;O）</translation>
+        <translation>确定（&amp;O）</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/DlgLogin.ui" line="278"/>
         <source>Cancel(&amp;C)</source>
-        <translation type="unfinished">取消（&amp;C）</translation>
+        <translation>取消（&amp;C）</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/DlgLogin.ui" line="74"/>
         <source>User:</source>
-        <translation type="unfinished">用户名：</translation>
+        <translation>用户名：</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/DlgLogin.ui" line="121"/>
         <source>Password:</source>
-        <translation type="unfinished">密码：</translation>
+        <translation>密码：</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/DlgLogin.ui" line="168"/>
         <source>Server:</source>
-        <translation type="unfinished">服务器：</translation>
+        <translation>服务器：</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/DlgLogin.ui" line="215"/>
         <source>Save password</source>
-        <translation type="unfinished">保存密码</translation>
+        <translation>保存密码</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/DlgLogin.ui" line="240"/>
         <source>Auto login</source>
-        <translation type="unfinished">自动登录</translation>
+        <translation>自动登录</translation>
     </message>
 </context>
 <context>
@@ -52,101 +52,93 @@
     <message>
         <location filename="../Widgets/DlgLogin/FrmLogin.ui" line="20"/>
         <source>Login</source>
-        <translation type="unfinished">登录</translation>
+        <translation>登录</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/FrmLogin.ui" line="71"/>
         <source>User:</source>
-        <translation type="unfinished">用户名：</translation>
+        <translation>用户名：</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/FrmLogin.ui" line="112"/>
         <source>Password:</source>
-        <translation type="unfinished">密码：</translation>
+        <translation>密码：</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/FrmLogin.ui" line="156"/>
         <source>Server:</source>
-        <translation type="unfinished">服务器：</translation>
+        <translation>服务器：</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/FrmLogin.ui" line="199"/>
         <source>Save password</source>
-        <translation type="unfinished">保存密码</translation>
+        <translation>保存密码</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/FrmLogin.ui" line="224"/>
         <source>Auto login</source>
-        <translation type="unfinished">自动登录</translation>
-    </message>
-    <message>
-        <location filename="../Widgets/DlgLogin/FrmLogin.ui" line="254"/>
-        <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>自动登录</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/FrmLogin.ui" line="278"/>
         <source>Ok(&amp;O)</source>
-        <translation type="unfinished">确定（&amp;O）</translation>
+        <translation>确定（&amp;O）</translation>
     </message>
     <message>
         <location filename="../Widgets/DlgLogin/FrmLogin.ui" line="297"/>
         <source>Close(&amp;C)</source>
-        <translation type="unfinished">关闭（&amp;C）</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation type="obsolete">关闭</translation>
-    </message>
-    <message>
-        <source>Is close the programe?</source>
-        <translation type="obsolete">是否关闭程序？</translation>
+        <translation>关闭（&amp;C）</translation>
     </message>
 </context>
 <context>
     <name>CFrmUserList</name>
     <message>
-        <location filename="../Widgets/FrmUserList/FrmUserList.ui" line="14"/>
-        <source>Frame</source>
-        <translation type="unfinished"></translation>
+        <location filename="../Widgets/FrmUserList/FrmUserList.cpp" line="84"/>
+        <source>User had existed</source>
+        <translation>用启已存在</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/FrmUserList.cpp" line="74"/>
-        <source>User had existed</source>
-        <translation type="unfinished">用启已存在</translation>
+        <location filename="../Widgets/FrmUserList/FrmUserList.cpp" line="91"/>
+        <source>My friends</source>
+        <translation>我的好友</translation>
+    </message>
+    <message>
+        <location filename="../Widgets/FrmUserList/FrmUserList.ui" line="14"/>
+        <source>Roster list</source>
+        <translation>好友列表</translation>
     </message>
 </context>
 <context>
     <name>CRoster</name>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="70"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="79"/>
         <source>OnLine</source>
-        <translation type="unfinished">在线</translation>
+        <translation>在线</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="72"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="81"/>
         <source>Temporarily away</source>
-        <translation type="unfinished">临时离开</translation>
+        <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="74"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="83"/>
         <source>Chat</source>
-        <translation type="unfinished">空闲</translation>
+        <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="76"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="85"/>
         <source>Do not disturb</source>
-        <translation type="unfinished">请勿打扰</translation>
+        <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="78"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="87"/>
         <source>Invisible</source>
-        <translation type="unfinished">离线</translation>
+        <translation>离线</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="80"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="89"/>
         <source>Away for an extended period</source>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
 </context>
 <context>
@@ -154,32 +146,47 @@
     <message>
         <location filename="../MainWindow.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished">玉兔即时通信</translation>
+        <translation>玉兔即时通信</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="76"/>
+        <location filename="../MainWindow.ui" line="28"/>
+        <source>Operator(&amp;O)</source>
+        <translation>操作(&amp;O)</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="36"/>
+        <source>Exit(&amp;O)</source>
+        <translation>退出(&amp;O)</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="70"/>
         <source>Close</source>
-        <translation type="unfinished">关闭</translation>
+        <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="77"/>
+        <location filename="../MainWindow.cpp" line="71"/>
         <source>Is close the programe?</source>
-        <translation type="unfinished">是否关闭程序？</translation>
+        <translation>是否关闭程序？</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="125"/>
-        <source>Socket error</source>
-        <translation type="unfinished">Socket 错误</translation>
+        <location filename="../MainWindow.cpp" line="117"/>
+        <source>Network error</source>
+        <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="130"/>
+        <location filename="../MainWindow.cpp" line="122"/>
         <source>User name or password error</source>
-        <translation type="unfinished">用户名或密码错误</translation>
+        <translation>用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="134"/>
+        <location filename="../MainWindow.cpp" line="126"/>
+        <source>Keep Alive error</source>
+        <translation>与服务器失去联系</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="128"/>
         <source>Login success</source>
-        <translation type="unfinished">登录成功</translation>
+        <translation>登录成功</translation>
     </message>
 </context>
 </TS>

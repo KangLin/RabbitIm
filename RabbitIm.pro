@@ -38,6 +38,9 @@ TRANSLATIONS += \
 
 OTHER_FILES += README.md \
     .gitignore \
-    translations/app_zh_CN.ts
+    translations/app_zh_CN.ts \
+    docs/TODO.txt
+
+ANDROID_EXTRA_LIBS = 
 
 

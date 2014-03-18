@@ -28,7 +28,6 @@ public:
 
 private:
     int InsertUser(QXmppRosterIq::Item rosterItem);
-    int RemoveUser(QString szJid);
 
 protected slots:
     //好友列表

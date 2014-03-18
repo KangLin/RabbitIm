@@ -63,3 +63,12 @@ ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch
 1、工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
 2、手工把源码根目录下的 translations/app_*.pm 复制到执行程序的相同目录下。
 
+文档:
+docs
+  |
+  |----Books      开发相关的资料
+  |----TODO.txt   需要完成的事
+
+
+参考资料：
+Qt Model/View： http://blog.csdn.net/leo115/article/details/7532677

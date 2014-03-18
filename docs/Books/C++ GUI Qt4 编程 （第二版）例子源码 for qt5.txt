@@ -1,0 +1,3 @@
+C++ GUI Qt4 编程 （第二版）例子源码 for qt5
+https://github.com/mutse/qt5-book-code
+git clone https://github.com/mutse/qt5-book-code.git
