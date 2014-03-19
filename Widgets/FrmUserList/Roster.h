@@ -6,6 +6,7 @@
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppPresence.h"
 #include <QSet>
+#include "../FrmMessage/FrmMessage.h"
 
 class CRoster : public QObject
 {
@@ -33,6 +34,7 @@ private:
     QString GetStatusText(QXmppPresence::Status status);
 
 signals:
+    void ReciveMessage(CRoster* pRoster);
 
 public slots:
 
@@ -41,6 +43,7 @@ private:
 
     std::list<QStandardItem*> m_lstUserListItem; //这个要交给控件释放
     QSet<QString> m_Groups;
+
 };
 
 #endif // ROSTER_H

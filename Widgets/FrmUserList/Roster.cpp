@@ -1,5 +1,4 @@
 #include "Roster.h"
-#include "RosterItem.h"
 
 CRoster::CRoster(QObject *parent) :
     QObject(parent)
@@ -68,9 +67,11 @@ int CRoster::SetGroups(const QSet<QString> &groups)
 
 QStandardItem* CRoster::GetItem()
 {
-    QStandardItem* pItem = new CRosterItem(this);
-    pItem->setText(Name());
-    pItem->setEditable(false);//禁止双击编辑
+    QStandardItem* pItem = new QStandardItem(Name());
+    QVariant v;
+    v.setValue(this);
+    pItem->setData(v);
+    pItem->setEditable(true);//允许双击编辑
     m_lstUserListItem.push_back(pItem);
     return pItem;
 }
@@ -118,3 +119,4 @@ int CRoster::ChangedPresence(QXmppPresence::Status::Type status)
     }
     return 0;
 }
+

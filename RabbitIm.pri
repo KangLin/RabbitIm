@@ -6,7 +6,8 @@ SOURCES += main.cpp\
     Widgets/FrmUserList/FrmUserList.cpp \
     Widgets/FrmUserList/Roster.cpp \
     Widgets/FrmUserList/GroupItem.cpp \
-    Widgets/FrmUserList/RosterItem.cpp
+    Widgets/FrmMessage/FrmMessage.cpp \
+    Widgets/FrmMessage/Message.cpp
 
 HEADERS  += MainWindow.h \
     Widgets/DlgLogin/DlgLogin.h \
@@ -15,12 +16,14 @@ HEADERS  += MainWindow.h \
     Widgets/FrmUserList/FrmUserList.h \
     Widgets/FrmUserList/Roster.h \
     Widgets/FrmUserList/GroupItem.h \
-    Widgets/FrmUserList/RosterItem.h
+    Widgets/FrmMessage/FrmMessage.h \
+    Widgets/FrmMessage/Message.h
 
 FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \
     Widgets/DlgLogin/FrmLogin.ui \
-    Widgets/FrmUserList/FrmUserList.ui
+    Widgets/FrmUserList/FrmUserList.ui \
+    Widgets/FrmMessage/FrmMessage.ui
 
 RESOURCES += \
     Resource/Resource.qrc
