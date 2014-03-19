@@ -1,7 +1,6 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include <iostream>
-#include "qxmpp/QXmppMessage.h"
 #include "qxmpp/QXmppRosterManager.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -33,10 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
         check = connect(m_pClient, SIGNAL(error(QXmppClient::Error)),
                         SLOT(clientError(QXmppClient::Error)));
-        Q_ASSERT(check);
-
-        check = connect(m_pClient, SIGNAL(messageReceived(QXmppMessage)),
-                        SLOT(clientMessageReceived(QXmppMessage)));
         Q_ASSERT(check);
 
         check = connect(m_pClient, SIGNAL(iqReceived(QXmppIq)),
@@ -74,6 +69,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     {
         //退出程序
         e->accept();
+        QCoreApplication::exit(0);
     }
     else
         e->ignore(); //忽略退出事件
@@ -127,17 +123,6 @@ void MainWindow::clientError(QXmppClient::Error e)
     else
         m_pLogin->SetPrompt(tr("Login success"));
 
-}
-
-void MainWindow::clientMessageReceived(const QXmppMessage &message)
-{
-    qDebug("MainWindow:: message Received:type:%d;state:%d;from:%s;to:%s;body:%s",
-           message.type(),
-           message.state(), //消息的状态 0:消息内容，其它值表示这个消息的状态
-           qPrintable(message.from()),
-           qPrintable(message.to()),
-           qPrintable(message.body())
-          );
 }
 
 void MainWindow::clientIqReceived(const QXmppIq &iq)

@@ -7,9 +7,9 @@
 #include "qxmpp/QXmppPresence.h"
 #include "qxmpp/QXmppVCardIq.h"
 #include "qxmpp/QXmppLogger.h"
+#include "qxmpp/QXmppMessage.h"
 #include <map>
 #include <QMap>
-#include "Roster.h"
 
 class CRoster;
 
@@ -50,6 +50,9 @@ protected slots:
     /// removed as a result of roster push.
     void itemRemoved(const QString& bareJid);
 
+    //接收消息
+    void clientMessageReceived(const QXmppMessage &message);
+
     //控件
     void clicked(const QModelIndex & index);
     void doubleClicked(const QModelIndex & index);
@@ -58,10 +61,11 @@ private:
     Ui::CFrmUserList *ui;
 
     QStandardItemModel *m_pModel;
-    MainWindow *m_Parent;
-
+    MainWindow *m_pMainWindow;
     QMap<QString, CRoster*> m_Rosters;
     QMap<QString, QStandardItem*> m_Groups;
+
+
 };
 
 #endif // FRMUSERLIST_H

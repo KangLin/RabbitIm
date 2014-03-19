@@ -7,7 +7,8 @@ SOURCES += main.cpp\
     Widgets/FrmUserList/Roster.cpp \
     Widgets/FrmUserList/GroupItem.cpp \
     Widgets/FrmMessage/FrmMessage.cpp \
-    Widgets/FrmMessage/Message.cpp
+    Widgets/FrmMessage/Message.cpp \
+    Global.cpp
 
 HEADERS  += MainWindow.h \
     Widgets/DlgLogin/DlgLogin.h \
@@ -17,7 +18,8 @@ HEADERS  += MainWindow.h \
     Widgets/FrmUserList/Roster.h \
     Widgets/FrmUserList/GroupItem.h \
     Widgets/FrmMessage/FrmMessage.h \
-    Widgets/FrmMessage/Message.h
+    Widgets/FrmMessage/Message.h \
+    Global.h
 
 FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \

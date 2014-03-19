@@ -3,15 +3,12 @@
 CRoster::CRoster(QObject *parent) :
     QObject(parent)
 {
+    Init((MainWindow*)parent);
 }
 
-CRoster::CRoster(QString jid)
+CRoster::CRoster(QString jid, QSet<QString> groups, MainWindow *parent)
 {
-    SetJid(jid);
-}
-
-CRoster::CRoster(QString jid, QSet<QString> groups)
-{
+    Init(parent);
     SetJid(jid);
     SetGroups(groups);
 }
@@ -27,6 +24,15 @@ CRoster::~CRoster()
             p->parent()->removeRow(p->row()); //控件会自己释放 QStandardItem 内存
         }
     }
+}
+
+int CRoster::Init(MainWindow *parent)
+{
+    m_pMainWindow = NULL;
+    m_nNewMessageNumber = 0;
+    m_pMainWindow = parent;
+    m_Message.SetRoster(this, m_pMainWindow);
+    return 0;
 }
 
 QString CRoster::Name()
@@ -65,15 +71,28 @@ int CRoster::SetGroups(const QSet<QString> &groups)
     m_Groups = groups;
 }
 
-QStandardItem* CRoster::GetItem()
+QList<QStandardItem*> CRoster::GetItem()
 {
+    //呢称条目
     QStandardItem* pItem = new QStandardItem(Name());
     QVariant v;
     v.setValue(this);
     pItem->setData(v);
     pItem->setEditable(true);//允许双击编辑
     m_lstUserListItem.push_back(pItem);
-    return pItem;
+
+    //消息条目
+    QStandardItem* pMessageCountItem = new QStandardItem("0");
+    v.setValue(this);
+    pMessageCountItem->setData(v);
+    pMessageCountItem->setEditable(false);//禁止双击编辑
+
+    //TODO:未读新消息数目树形控件中未显示
+    QList<QStandardItem *> lstItems;
+    lstItems.push_back(pItem);
+    lstItems.push_back(pMessageCountItem);
+
+    return lstItems;
 }
 
 QString CRoster::GetStatusText(QXmppPresence::Status status)
@@ -97,7 +116,7 @@ QColor CRoster::GetStatusColor(QXmppPresence::Status status)
     if(QXmppPresence::Status::Online == status.type())
         return QColor(0, 255, 0);
     else if(QXmppPresence::Status::Away == status.type())
-        return QColor(0, 0, 255);
+        return QColor(255, 0, 255);
     else if(QXmppPresence::Status::Chat == status.type())
         return QColor(0, 255, 0);
     else if(QXmppPresence::Status::DND == status.type())
@@ -120,3 +139,28 @@ int CRoster::ChangedPresence(QXmppPresence::Status::Type status)
     return 0;
 }
 
+int CRoster::ShowMessageDialog()
+{
+    int nRet = 0;
+
+    m_Message.show();
+    m_Message.activateWindow();//激活窗口，置顶
+
+    return nRet;
+}
+
+int CRoster::AppendMessage(const QString &szMessage)
+{
+    m_nNewMessageNumber++;
+    //TODO:设置控件计数
+
+    return m_Message.AppendMessage(szMessage);
+}
+
+int CRoster::CleanNewMessageNumber()
+{
+    m_nNewMessageNumber = 0;
+    //TODO:清除控件计数
+
+    return 0;
+}

@@ -1,5 +1,8 @@
 #include "FrmLogin.h"
 #include "ui_FrmLogin.h"
+#include "../../Global.h"
+
+extern CGlobal g_Global;
 
 CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),
@@ -25,6 +28,8 @@ void CFrmLogin::on_pbOk_clicked()
     config.setHost(ui->lnServer->text());
     config.setUser(ui->lnUser->text());
     config.setPassword(ui->lnPassword->text());
+    g_Global.m_szLocalJid = config.jid();
+    qDebug("Local jid:%s", qPrintable(g_Global.m_szLocalJid));
     ((MainWindow*)(this->parent()))->m_pClient->connectToServer(config);
 }
 
