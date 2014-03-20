@@ -91,14 +91,37 @@
     </message>
 </context>
 <context>
+    <name>CFrmMessage</name>
+    <message>
+        <location filename="../Widgets/FrmMessage/FrmMessage.ui" line="14"/>
+        <source>Chat</source>
+        <translation>空闲</translation>
+    </message>
+    <message>
+        <location filename="../Widgets/FrmMessage/FrmMessage.ui" line="34"/>
+        <source>Close(&amp;C)</source>
+        <translation>关闭（&amp;C）</translation>
+    </message>
+    <message>
+        <location filename="../Widgets/FrmMessage/FrmMessage.ui" line="51"/>
+        <source>...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../Widgets/FrmMessage/FrmMessage.ui" line="97"/>
+        <source>Send(&amp;S)</source>
+        <translation>发送(&amp;S)</translation>
+    </message>
+</context>
+<context>
     <name>CFrmUserList</name>
     <message>
-        <location filename="../Widgets/FrmUserList/FrmUserList.cpp" line="84"/>
+        <location filename="../Widgets/FrmUserList/FrmUserList.cpp" line="112"/>
         <source>User had existed</source>
         <translation>用启已存在</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/FrmUserList.cpp" line="91"/>
+        <location filename="../Widgets/FrmUserList/FrmUserList.cpp" line="119"/>
         <source>My friends</source>
         <translation>我的好友</translation>
     </message>
@@ -111,32 +134,32 @@
 <context>
     <name>CRoster</name>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="79"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="101"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="81"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="103"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="83"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="105"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="85"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="107"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="87"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="109"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../Widgets/FrmUserList/Roster.cpp" line="89"/>
+        <location filename="../Widgets/FrmUserList/Roster.cpp" line="111"/>
         <source>Away for an extended period</source>
         <translation>离开</translation>
     </message>
@@ -159,32 +182,32 @@
         <translation>退出(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="70"/>
+        <location filename="../MainWindow.cpp" line="65"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="71"/>
+        <location filename="../MainWindow.cpp" line="66"/>
         <source>Is close the programe?</source>
         <translation>是否关闭程序？</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="117"/>
+        <location filename="../MainWindow.cpp" line="113"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="122"/>
+        <location filename="../MainWindow.cpp" line="118"/>
         <source>User name or password error</source>
         <translation>用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="126"/>
+        <location filename="../MainWindow.cpp" line="122"/>
         <source>Keep Alive error</source>
         <translation>与服务器失去联系</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="128"/>
+        <location filename="../MainWindow.cpp" line="124"/>
         <source>Login success</source>
         <translation>登录成功</translation>
     </message>
