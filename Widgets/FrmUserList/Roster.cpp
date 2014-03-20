@@ -15,6 +15,7 @@ CRoster::CRoster(QString jid, QSet<QString> groups, MainWindow *parent)
 
 CRoster::~CRoster()
 {
+    qDebug("CRoster::~CRoster");
     std::list<QStandardItem*>::iterator it;
     for(it = m_lstUserListItem.begin(); it != m_lstUserListItem.end(); it++)
     {

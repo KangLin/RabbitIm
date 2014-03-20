@@ -9,10 +9,14 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     ui(new Ui::CFrmLogin)
 {
     ui->setupUi(this);
+
+    //TODO:发行时删除下面行---------------
     ui->lnServer->setText("183.62.225.76");
-    ui->lnUser->setText("admin");
-    ui->lnPassword->setText("rdc123456");
+    ui->lnServer->setVisible(false);
+    ui->lnUser->setText("a");
+    ui->lnPassword->setText("a");
     ui->lbePrompt->setText("");
+    //---------------------------------
 }
 
 CFrmLogin::~CFrmLogin()
@@ -24,6 +28,7 @@ void CFrmLogin::on_pbOk_clicked()
 {
     ui->lbePrompt->setText("");
     QXmppConfiguration config;
+    //TODO:设置为非sasl验证
     config.setUseSASLAuthentication(false);
     config.setHost(ui->lnServer->text());
     config.setUser(ui->lnUser->text());

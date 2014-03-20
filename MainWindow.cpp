@@ -61,6 +61,7 @@ void MainWindow::showEvent(QShowEvent *)
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+    qDebug("MainWindow::closeEvent");
     QMessageBox msg(QMessageBox::Question,
                     tr("Close"),
                     tr("Is close the programe?"),

@@ -95,7 +95,7 @@
     <message>
         <location filename="../Widgets/FrmMessage/FrmMessage.ui" line="14"/>
         <source>Chat</source>
-        <translation>空闲</translation>
+        <translation>聊天</translation>
     </message>
     <message>
         <location filename="../Widgets/FrmMessage/FrmMessage.ui" line="34"/>

@@ -7,14 +7,16 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QString locale = QLocale::system().name();
+
     //本地化QT资源
     QTranslator qtTranslator;
-    qtTranslator.load(QString("qt_") + locale + ".qm", a.applicationDirPath());
+    qtTranslator.load("qt_" + QLocale::system().name(),
+                      QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
     //本地化程序资源
-    QTranslator translator;
-    translator.load(QString("app_") + locale + ".qm", a.applicationDirPath());
-    a.installTranslator(&translator);
+    QTranslator myappTranslator;
+    myappTranslator.load("app_" + QLocale::system().name(), a.applicationDirPath());
+    a.installTranslator(&myappTranslator);
 
     MainWindow w;
     w.show();
