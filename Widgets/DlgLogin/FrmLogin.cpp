@@ -28,8 +28,8 @@ void CFrmLogin::on_pbOk_clicked()
     config.setHost(ui->lnServer->text());
     config.setUser(ui->lnUser->text());
     config.setPassword(ui->lnPassword->text());
-    g_Global.m_szLocalJid = config.jid();
-    qDebug("Local jid:%s", qPrintable(g_Global.m_szLocalJid));
+    g_Global.SetJid(config.jid());
+    qDebug("Local jid:%s", qPrintable(g_Global.GetBareJid()));
     ((MainWindow*)(this->parent()))->m_pClient->connectToServer(config);
 }
 

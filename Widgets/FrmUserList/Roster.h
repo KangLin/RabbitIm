@@ -54,6 +54,7 @@ private:
     MainWindow* m_pMainWindow;
     std::list<QStandardItem*> m_lstUserListItem; //这个要交给控件释放
     QSet<QString> m_Groups;
+    //TODO:改成动态产生
     CFrmMessage m_Message;
     int m_nNewMessageNumber;//新消息数
 
