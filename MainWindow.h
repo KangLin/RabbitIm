@@ -31,8 +31,8 @@ protected slots:
     void clientConnected();
     void clientDisconnected();
     void clientError(QXmppClient::Error e);
-
     void clientIqReceived(const QXmppIq &iq);
+
 
 protected:
     void resizeEvent(QResizeEvent *);

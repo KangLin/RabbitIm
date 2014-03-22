@@ -20,13 +20,14 @@
      <x>0</x>
      <y>0</y>
      <width>225</width>
-     <height>17</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOperator_O">
     <property name="title">
      <string>Operator(&amp;O)</string>
     </property>
+    <addaction name="actionRegister_R"/>
     <addaction name="actionExit_O"/>
    </widget>
    <addaction name="menuOperator_O"/>
@@ -34,6 +35,11 @@
   <action name="actionExit_O">
    <property name="text">
     <string>Exit(&amp;O)</string>
+   </property>
+  </action>
+  <action name="actionRegister_R">
+   <property name="text">
+    <string>Register(&amp;R)</string>
    </property>
   </action>
  </widget>

@@ -1,3 +1,5 @@
+﻿添加好友
+
 音视频通话
 
 android国际化
@@ -13,3 +15,11 @@ QT开发环境配置
 好友删除处理完善
 好友呢称修改
 好友住息显示
+
+BUG:
+对方退出，openfire服务器发送下面命令：
+周四 三月 20 16:46:57 2014 RECEIVED <presence type="unavailable" from="admin@127.0.0.1/QXmpp" to="a@127.0.0.1"/>
+这个时候 QXmpp能接收到状态改变，但状为在线：
+CFrmUserList::ChangedPresence jid:admin@127.0.0.1/QXmpp;status:
+源码中 void QXmppRosterManager::_q_presenceReceived(const QXmppPresence& presence)
+有对 unavailable 的处理，但只是发送了emit presenceChanged(bareJid, resource);信号。没有把状态做为参数。不能区分。

@@ -22,10 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
         bool check;
         Q_UNUSED(check);
 
-        check = connect(m_pClient, SIGNAL(connected()),
-                        SLOT(clientConnected()));
-        Q_ASSERT(check);
-
         check = connect(m_pClient, SIGNAL(disconnected()),
                         SLOT(clientDisconnected()));
         Q_ASSERT(check);
@@ -128,5 +124,5 @@ void MainWindow::clientError(QXmppClient::Error e)
 
 void MainWindow::clientIqReceived(const QXmppIq &iq)
 {
-    qDebug("MainWindow:: iq Received:%s", qPrintable(iq.to()));
+    qDebug("MainWindow:: iq Received:%d", iq.type());
 }

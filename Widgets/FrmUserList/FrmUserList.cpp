@@ -109,7 +109,7 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
     }
     else
     {
-        qFatal(qPrintable(tr("User had existed")));
+        qCritical(qPrintable(tr("Error:User had existed")));
         return -1;
     }
 
