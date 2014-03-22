@@ -9,8 +9,7 @@ SOURCES += main.cpp\
     Widgets/FrmMessage/FrmMessage.cpp \
     Widgets/FrmMessage/Message.cpp \
     Global.cpp \
-    Widgets/FrmRegister/FrmRegister.cpp \
-    Widgets/FrmRegister/DlgRegister.cpp
+    Widgets/FrmRegister/FrmRegister.cpp
 
 HEADERS  += MainWindow.h \
     Widgets/DlgLogin/DlgLogin.h \
@@ -22,16 +21,14 @@ HEADERS  += MainWindow.h \
     Widgets/FrmMessage/FrmMessage.h \
     Widgets/FrmMessage/Message.h \
     Global.h \
-    Widgets/FrmRegister/FrmRegister.h \
-    Widgets/FrmRegister/DlgRegister.h
+    Widgets/FrmRegister/FrmRegister.h
 
 FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \
     Widgets/DlgLogin/FrmLogin.ui \
     Widgets/FrmUserList/FrmUserList.ui \
     Widgets/FrmMessage/FrmMessage.ui \
-    Widgets/FrmRegister/FrmRegister.ui \
-    Widgets/FrmRegister/DlgRegister.ui
+    Widgets/FrmRegister/FrmRegister.ui
 
 RESOURCES += \
     Resource/Resource.qrc

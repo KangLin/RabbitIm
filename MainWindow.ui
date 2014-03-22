@@ -39,7 +39,7 @@
   </action>
   <action name="actionRegister_R">
    <property name="text">
-    <string>Register(&amp;R)</string>
+    <string>Add Roster(&amp;A)</string>
    </property>
   </action>
  </widget>
