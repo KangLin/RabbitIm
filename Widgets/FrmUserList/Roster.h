@@ -7,6 +7,7 @@
 #include "qxmpp/QXmppPresence.h"
 #include <QSet>
 #include "../FrmMessage/FrmMessage.h"
+#include "../FrmVideo/FrmVideo.h"
 
 class MainWindow;
 
@@ -37,6 +38,8 @@ public:
     //增加消息
     int AppendMessage(const QString &szMessage);
     int CleanNewMessageNumber();
+
+    CFrmVideo m_Video;
 
 private:
     int Init(MainWindow *parent = 0);

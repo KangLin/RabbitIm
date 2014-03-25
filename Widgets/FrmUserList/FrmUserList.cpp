@@ -243,6 +243,7 @@ void CFrmUserList::clicked(const QModelIndex &index)
        ui->tvUsers->expand(index);
 
    const QAbstractItemModel *m = index.model();
+   //TODO:暂时根据是否有根节点来判断是组还是好友
     if(m->parent(index).isValid())
     {
         //是用户结点，打开消息对话框

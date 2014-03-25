@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>231</width>
+    <width>239</width>
     <height>359</height>
    </rect>
   </property>
@@ -25,7 +25,7 @@
   <property name="frameShadow">
    <enum>QFrame::Raised</enum>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
+  <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QWidget" name="widget" native="true">
      <property name="sizePolicy">
@@ -46,7 +46,7 @@
        <height>323</height>
       </size>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
+     <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
        <widget class="QLabel" name="label_3">
         <property name="sizePolicy">
@@ -72,7 +72,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="0" column="1">
        <widget class="QLineEdit" name="lnUser">
         <property name="minimumSize">
          <size>
@@ -88,7 +88,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="2">
+      <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -113,7 +113,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
+      <item row="1" column="1">
        <widget class="QLineEdit" name="lnPassword">
         <property name="minimumSize">
          <size>
@@ -157,7 +157,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
+      <item row="2" column="1">
        <widget class="QLineEdit" name="lnServer">
         <property name="minimumSize">
          <size>
@@ -173,7 +173,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="3">
+      <item row="3" column="0" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QCheckBox" name="chkSave">
@@ -227,7 +227,7 @@
         </item>
        </layout>
       </item>
-      <item row="4" column="0" colspan="3">
+      <item row="4" column="0" colspan="2">
        <widget class="QLabel" name="lbePrompt">
         <property name="enabled">
          <bool>true</bool>
@@ -258,7 +258,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="3">
+      <item row="5" column="0" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="pbOk">
@@ -276,6 +276,12 @@
           </property>
           <property name="text">
            <string>Login(&amp;L)</string>
+          </property>
+          <property name="autoDefault">
+           <bool>true</bool>
+          </property>
+          <property name="default">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -296,32 +302,44 @@
           <property name="text">
            <string>Close(&amp;C)</string>
           </property>
+          <property name="autoDefault">
+           <bool>true</bool>
+          </property>
+          <property name="default">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
        </layout>
       </item>
-      <item row="6" column="1" colspan="2">
+      <item row="6" column="0" colspan="2">
        <widget class="QPushButton" name="pbRegitster">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>75</width>
+          <width>0</width>
           <height>40</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>75</width>
+          <width>1677251</width>
           <height>40</height>
          </size>
         </property>
         <property name="text">
          <string>Register(&amp;R)</string>
+        </property>
+        <property name="autoDefault">
+         <bool>true</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
         </property>
        </widget>
       </item>

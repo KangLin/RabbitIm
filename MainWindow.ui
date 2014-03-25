@@ -30,7 +30,14 @@
     <addaction name="actionRegister_R"/>
     <addaction name="actionExit_O"/>
    </widget>
+   <widget class="QMenu" name="menuHelp_H">
+    <property name="title">
+     <string>Help(&amp;H)</string>
+    </property>
+    <addaction name="actionAbout_A"/>
+   </widget>
    <addaction name="menuOperator_O"/>
+   <addaction name="menuHelp_H"/>
   </widget>
   <action name="actionExit_O">
    <property name="text">
@@ -40,6 +47,11 @@
   <action name="actionRegister_R">
    <property name="text">
     <string>Add Roster(&amp;A)</string>
+   </property>
+  </action>
+  <action name="actionAbout_A">
+   <property name="text">
+    <string>About(&amp;A)</string>
    </property>
   </action>
  </widget>

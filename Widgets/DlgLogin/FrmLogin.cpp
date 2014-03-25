@@ -1,7 +1,6 @@
 #include "FrmLogin.h"
 #include "ui_FrmLogin.h"
 #include "../../Global.h"
-#include "../FrmRegister/DlgRegister.h"
 
 extern CGlobal g_Global;
 
@@ -13,8 +12,8 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     m_pRegister = new CFrmRegister();
 
     //TODO:发行时删除下面行---------------
-    ui->lnServer->setText("183.62.225.76");
-    ui->lnServer->setVisible(false);
+    ui->lnServer->setText(g_Global.GetXmppServer());
+    //ui->lnServer->setVisible(false);
     ui->lnUser->setText("a");
     ui->lnPassword->setText("a");
     ui->lbePrompt->setText("");
@@ -46,6 +45,8 @@ void CFrmLogin::on_pbOk_clicked()
     config.setUser(ui->lnUser->text());
     config.setPassword(ui->lnPassword->text());
     g_Global.SetJid(config.jid());
+    g_Global.SetXmppServer(ui->lnServer->text());
+
     qDebug("Local jid:%s", qPrintable(g_Global.GetBareJid()));
     ((MainWindow*)(this->parent()))->m_pClient->connectToServer(config);
 }

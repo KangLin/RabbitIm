@@ -24,3 +24,7 @@ BUG:
 CFrmUserList::ChangedPresence jid:admin@127.0.0.1/QXmpp;status:
 源码中 void QXmppRosterManager::_q_presenceReceived(const QXmppPresence& presence)
 有对 unavailable 的处理，但只是发送了emit presenceChanged(bareJid, resource);信号。没有把状态做为参数。不能区分。
+
+同一用户在不同地方登录，openfire服务器会发送下面命令：
+RECEIVED <stream:error xmlns:stream="http://etherx.jabber.org/streams"><conflict xmlns="urn:ietf:params:xml:ns:xmpp-streams"/></stream:error></stream:stream>
+qxmpp能接收到网络断连错误，但没有解析冲突错误。

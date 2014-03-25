@@ -1,4 +1,5 @@
 #include "Roster.h"
+#include "../../MainWindow.h"
 
 CRoster::CRoster(QObject *parent) :
     QObject(parent)
@@ -6,7 +7,7 @@ CRoster::CRoster(QObject *parent) :
     Init((MainWindow*)parent);
 }
 
-CRoster::CRoster(QString jid, QSet<QString> groups, MainWindow *parent)
+CRoster::CRoster(QString jid, QSet<QString> groups, MainWindow *parent) : QObject((QObject*)parent)
 {
     Init(parent);
     SetJid(jid);
@@ -29,10 +30,11 @@ CRoster::~CRoster()
 
 int CRoster::Init(MainWindow *parent)
 {
-    m_pMainWindow = NULL;
     m_nNewMessageNumber = 0;
     m_pMainWindow = parent;
     m_Message.SetRoster(this, m_pMainWindow);
+    //TODO:
+    m_Video.SetClient(m_pMainWindow->m_pClient);
     return 0;
 }
 

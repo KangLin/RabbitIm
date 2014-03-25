@@ -4,6 +4,8 @@
 博客：blog.csdn.net/kl222
 项目位置：https://code.csdn.net/kl222/rabbitim
 
+玉兔即时通信是一款跨操作系统平台（Windows、Linux、Android、MacOs、IOS）的文本、语音、视频的即时通信软件。
+
 依赖：
 UI：QT
 即时通信协议（XMPP）：QXMPP

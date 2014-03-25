@@ -5,6 +5,7 @@
 CXmppClient::CXmppClient(QObject *parent)
     : QXmppClient(parent)
 {
+    this->addExtension(&m_CallManager);
 }
 
 CXmppClient::~CXmppClient()

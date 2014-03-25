@@ -2,12 +2,22 @@
 #include "ui_MainWindow.h"
 #include <iostream>
 #include "qxmpp/QXmppRosterManager.h"
+#include "Widgets/FrmAbout/FrmAbout.h"
+#include <QMessageBox>
+#include "Widgets/FrmUserList/FrmUserList.h"
+#include "Widgets/DlgLogin/FrmLogin.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    bool check;
+    Q_UNUSED(check);
+    check = connect(ui->actionAbout_A, SIGNAL(triggered()),
+            SLOT(About()));
+    Q_ASSERT(check);
 
     //初始化子窗体
     m_pLogin = new CFrmLogin(this);
@@ -19,9 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
         //初始化qxmpp log
         m_pClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
 
-        bool check;
-        Q_UNUSED(check);
-
         check = connect(m_pClient, SIGNAL(disconnected()),
                         SLOT(clientDisconnected()));
         Q_ASSERT(check);
@@ -32,6 +39,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
         check = connect(m_pClient, SIGNAL(iqReceived(QXmppIq)),
                         SLOT(clientIqReceived(QXmppIq)));
+        Q_ASSERT(check);
+
+        check = connect(m_pClient, SIGNAL(stateChanged(QXmppClient::State)),
+                        SLOT(stateChanged(QXmppClient::State)));
         Q_ASSERT(check);
     }
 }
@@ -72,7 +83,6 @@ void MainWindow::closeEvent(QCloseEvent *e)
         e->ignore(); //忽略退出事件
 }
 
-
 void MainWindow::clientConnected()
 {
     qDebug("MainWindow:: CONNECTED");
@@ -108,7 +118,6 @@ void MainWindow::clientError(QXmppClient::Error e)
     if(QXmppClient::SocketError == e)
     {
         m_pLogin->SetPrompt(tr("Network error"));
-
     }
     else if(QXmppClient::XmppStreamError == e)
     {
@@ -125,4 +134,44 @@ void MainWindow::clientError(QXmppClient::Error e)
 void MainWindow::clientIqReceived(const QXmppIq &iq)
 {
     qDebug("MainWindow:: iq Received:%d", iq.type());
+}
+
+void MainWindow::stateChanged(QXmppClient::State state)
+{
+    qDebug("MainWindow::stateChanged");
+
+    //TODO:同一账户在不同地方登录。QXMPP没有提供错误状态
+    /*if(e.xmppStreamError().condition()
+            == QXmppStanza::Error::Conflict)
+    {
+        QMessageBox msg(QMessageBox::QMessageBox::Critical,
+                        tr("Error"),
+                        tr("The user had logined in other place"),
+                        QMessageBox::Ok);
+        if(m_pUserList)
+        {
+            m_pUserList->close();
+            delete m_pUserList;
+            m_pUserList = NULL;
+        }
+
+        if(NULL == m_pLogin)
+            m_pLogin = new CFrmLogin;
+
+        if(m_pLogin)
+        {
+            this->setCentralWidget(m_pLogin);
+        }
+    }*/
+}
+
+void MainWindow::About()
+{
+    qDebug("MainWindow::About");
+    CFrmAbout* pAbout = new CFrmAbout;
+    if(pAbout)
+    {
+        pAbout->show();
+        pAbout->activateWindow();
+    }
 }
