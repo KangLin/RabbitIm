@@ -58,11 +58,16 @@ void CFrmRegister::clientIqReceived(const QXmppIq &iq)
     else if(iq.type() == QXmppIq::Error)
     {
         qDebug("CFrmRegister::clientIqReceived:%d", iq.error().code());
-        QString szReason(tr("Unknow error"));
+        QString szReason(tr("Unknow error:") + iq.error().code());
         if(iq.error().condition() == QXmppIq::Error::Conflict)
         {
             szReason = tr("User") + " [" + ui->txtUser->text() + "] " + tr("had exist");
         }
+        else if(iq.error().condition() == QXmppIq::Error::InternalServerError)
+        {
+            szReason = tr("Sever internal error");
+        }
+
         QMessageBox msg(QMessageBox::Critical,
                         tr("Register fail"),
                         szReason,
@@ -184,7 +189,8 @@ void CFrmRegister::on_pbCreate_clicked()
     config.setUseSASLAuthentication(false);
     config.setUseNonSASLAuthentication(false);
 
-    config.setHost(g_Global.GetXmppServer());
+    config.setHost(g_Global.GetXmppServerHost());
+    config.setDomain(g_Global.GetXmppServer());
     m_pClient->connectToServer(config);
 }
 

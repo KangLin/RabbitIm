@@ -25,6 +25,7 @@ public:
     QString Domain();
     QString Resouce();
     QString BareJid();
+    QString Jid();
     int SetJid(QString jid);
 
     QSet<QString> Groups();

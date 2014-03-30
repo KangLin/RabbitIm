@@ -37,9 +37,9 @@ MainWindow::MainWindow(QWidget *parent) :
                         SLOT(clientError(QXmppClient::Error)));
         Q_ASSERT(check);
 
-        check = connect(m_pClient, SIGNAL(iqReceived(QXmppIq)),
+        /*check = connect(m_pClient, SIGNAL(iqReceived(QXmppIq)),
                         SLOT(clientIqReceived(QXmppIq)));
-        Q_ASSERT(check);
+        Q_ASSERT(check);*/
 
         check = connect(m_pClient, SIGNAL(stateChanged(QXmppClient::State)),
                         SLOT(stateChanged(QXmppClient::State)));

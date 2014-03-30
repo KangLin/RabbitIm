@@ -97,8 +97,7 @@ void CFrmMessage::on_tbMore_clicked()
 
 void CFrmMessage::on_pbVideo_clicked()
 {
-   /* m_pRoster->m_Video.show();
+    m_pRoster->m_Video.show();
     m_pRoster->m_Video.activateWindow();
-    m_pRoster->m_Video.Call(m_pRoster->BareJid());
-    */
+    m_pRoster->m_Video.Call(m_pRoster->BareJid() + "/QXmpp");
 }

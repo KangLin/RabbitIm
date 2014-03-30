@@ -1,0 +1,928 @@
+QXMPP音视频呼叫流程：
+呼叫方：
+CFrmVideo::callStarted:13f277e0
+CFrmVideo::stateChanged:1
+CFrmVideo::connected
+CFrmVideo::ringing
+CFrmVideo::audioModeChanged:3
+
+被叫方：
+CFrmVideo::callReceived:14257708
+CFrmVideo::callStarted:14257708
+CFrmVideo::stateChanged:1
+CFrmVideo::connected
+CFrmVideo::audioModeChanged:3
+
+================================================================================================
+呼叫方：
+CFrmVideo::callStarted:142cd490
+CFrmVideo::ringing
+
+C2S - RECV (1952026462): <iq id="qxmpp8" to="a@rabbitim.com/QXmpp" type="set"><jingle xmlns="urn:xmpp:jingle:1" action="session-initiate" initiator="b@rabbitim.com/QXmpp" sid="ZpDMkXiSfMBeHVD8WQWR2LsuPDNbgXtG"><content creator="initiator" name="voice" senders="both"><description xmlns="urn:xmpp:jingle:apps:rtp:1" media="audio"><payload-type id="0" name="PCMU" clockrate="8000"/><payload-type id="8" name="PCMA" clockrate="8000"/><payload-type id="101" name="telephone-event" clockrate="8000"><parameter name="events" value="0-15"/></payload-type></description><transport xmlns="urn:xmpp:jingle:transports:ice-udp:1" ufrag="IWqC" pwd="j3gDMHhZqM6CITAfgVgtaP"><candidate component="1" foundation="0" generation="0" id="I1dUuj3iM6" ip="192.168.10.12" network="0" port="49152" priority="2130706431" protocol="udp" type="host"/><candidate component="1" foundation="1" generation="0" id="IoHcydNzpA" ip="2001:0:9d38:6abd:108f:350d:3f57:f5f3" network="0" port="49152" priority="2130706431" protocol="udp" type="host"/><candidate component="2" foundation="0" generation="0" id="UkFSZP10S6" ip="192.168.10.12" network="0" port="49153" priority="2130706430" protocol="udp" type="host"/><candidate component="2" foundation="1" generation="0" id="lbgllq2XOr" ip="2001:0:9d38:6abd:108f:350d:3f57:f5f3" network="0" port="49153" priority="2130706430" protocol="udp" type="host"/></transport></content></jingle></iq>
+C2S - SENT (1015904350): <iq id="qxmpp8" to="a@rabbitim.com/QXmpp" type="set" from="b@rabbitim.com/QXmpp"><jingle xmlns="urn:xmpp:jingle:1" action="session-initiate" initiator="b@rabbitim.com/QXmpp" sid="ZpDMkXiSfMBeHVD8WQWR2LsuPDNbgXtG"><content creator="initiator" name="voice" senders="both"><description xmlns="urn:xmpp:jingle:apps:rtp:1" media="audio"><payload-type id="0" name="PCMU" clockrate="8000"/><payload-type id="8" name="PCMA" clockrate="8000"/><payload-type id="101" name="telephone-event" clockrate="8000"><parameter name="events" value="0-15"/></payload-type></description><transport xmlns="urn:xmpp:jingle:transports:ice-udp:1" ufrag="IWqC" pwd="j3gDMHhZqM6CITAfgVgtaP"><candidate component="1" foundation="0" generation="0" id="I1dUuj3iM6" ip="192.168.10.12" network="0" port="49152" priority="2130706431" protocol="udp" type="host"/><candidate component="1" foundation="1" generation="0" id="IoHcydNzpA" ip="2001:0:9d38:6abd:108f:350d:3f57:f5f3" network="0" port="49152" priority="2130706431" protocol="udp" type="host"/><candidate component="2" foundation="0" generation="0" id="UkFSZP10S6" ip="192.168.10.12" network="0" port="49153" priority="2130706430" protocol="udp" type="host"/><candidate component="2" foundation="1" generation="0" id="lbgllq2XOr" ip="2001:0:9d38:6abd:108f:350d:3f57:f5f3" network="0" port="49153" priority="2130706430" protocol="udp" type="host"/></transport></content></jingle></iq>
+C2S - RECV (1015904350): <iq id="qxmpp8" to="b@rabbitim.com/QXmpp" type="result"/><iq id="qxmpp12" to="b@rabbitim.com/QXmpp" type="set"><jingle xmlns="urn:xmpp:jingle:1" action="session-info" sid="ZpDMkXiSfMBeHVD8WQWR2LsuPDNbgXtG"><ringing xmlns="urn:xmpp:jingle:apps:rtp:info:1"/></jingle></iq>
+C2S - SENT (1952026462): <iq id="qxmpp8" to="b@rabbitim.com/QXmpp" type="result" from="a@rabbitim.com/QXmpp"/>
+C2S - SENT (1952026462): <iq id="qxmpp12" to="b@rabbitim.com/QXmpp" type="set" from="a@rabbitim.com/QXmpp"><jingle xmlns="urn:xmpp:jingle:1" action="session-info" sid="ZpDMkXiSfMBeHVD8WQWR2LsuPDNbgXtG"><ringing xmlns="urn:xmpp:jingle:apps:rtp:info:1"/></jingle></iq>
+
+CFrmVideo::stateChanged:1
+CFrmVideo::connected
+CFrmVideo::audioModeChanged:3
+
+被叫方：
+CFrmVideo::callReceived:13f9d280
+
+C2S - RECV (1015904350): <iq id="qxmpp13" to="b@rabbitim.com/QXmpp" type="set"><jingle xmlns="urn:xmpp:jingle:1" action="session-accept" responder="a@rabbitim.com/QXmpp" sid="ZpDMkXiSfMBeHVD8WQWR2LsuPDNbgXtG"><content creator="initiator" name="voice"><description xmlns="urn:xmpp:jingle:apps:rtp:1" media="audio"><payload-type id="0" name="PCMU" clockrate="8000"/><payload-type id="8" name="PCMA" clockrate="8000"/><payload-type id="101" name="telephone-event" clockrate="8000"><parameter name="events" value="0-15"/></payload-type></description><transport xmlns="urn:xmpp:jingle:transports:ice-udp:1" ufrag="HDhl" pwd="B8tVy1GmFIQ6yTeTMfAd7k"><candidate component="1" foundation="0" generation="0" id="hred2n8mp7" ip="192.168.10.2" network="0" port="49152" priority="2130706431" protocol="udp" type="host"/><candidate component="2" foundation="0" generation="0" id="1maMROOaBK" ip="192.168.10.2" network="0" port="49153" priority="2130706430" protocol="udp" type="host"/></transport></content></jingle></iq>
+C2S - SENT (1952026462): <iq id="qxmpp13" to="b@rabbitim.com/QXmpp" type="set" from="a@rabbitim.com/QXmpp"><jingle xmlns="urn:xmpp:jingle:1" action="session-accept" responder="a@rabbitim.com/QXmpp" sid="ZpDMkXiSfMBeHVD8WQWR2LsuPDNbgXtG"><content creator="initiator" name="voice"><description xmlns="urn:xmpp:jingle:apps:rtp:1" media="audio"><payload-type id="0" name="PCMU" clockrate="8000"/><payload-type id="8" name="PCMA" clockrate="8000"/><payload-type id="101" name="telephone-event" clockrate="8000"><parameter name="events" value="0-15"/></payload-type></description><transport xmlns="urn:xmpp:jingle:transports:ice-udp:1" ufrag="HDhl" pwd="B8tVy1GmFIQ6yTeTMfAd7k"><candidate component="1" foundation="0" generation="0" id="hred2n8mp7" ip="192.168.10.2" network="0" port="49152" priority="2130706431" protocol="udp" type="host"/><candidate component="2" foundation="0" generation="0" id="1maMROOaBK" ip="192.168.10.2" network="0" port="49153" priority="2130706430" protocol="udp" type="host"/></transport></content></jingle></iq>
+C2S - RECV (1952026462): <iq id="qxmpp13" to="a@rabbitim.com/QXmpp" type="result"/>
+C2S - SENT (1015904350): <iq id="qxmpp13" to="a@rabbitim.com/QXmpp" type="result" from="b@rabbitim.com/QXmpp"/>
+
+CFrmVideo::callStarted:13f9d280
+CFrmVideo::stateChanged:1
+CFrmVideo::connected
+CFrmVideo::audioModeChanged:3
+
+================================================================================================================
+详细过程：
+
+呼叫方：
+CFrmVideo::callStarted:13fcd520
+周日 三月 30 21:10:07 2014 SENT <iq id="qxmpp8" to="a@rabbitim.com/QXmpp" type="set"><jingle xmlns="urn:xmpp:jingle:1" action="session-initiate" initiator="b@rabbitim.com/QXmpp" sid="YRQBLHXGryPgl4eH2cDynbyLGbuPLmTb"><content creator="initiator" name="voice" senders="both"><description xmlns="urn:xmpp:jingle:apps:rtp:1" media="audio"><payload-type id="0" name="PCMU" clockrate="8000"/><payload-type id="8" name="PCMA" clockrate="8000"/><payload-type id="101" name="telephone-event" clockrate="8000"><parameter name="events" value="0-15"/></payload-type></description><transport xmlns="urn:xmpp:jingle:transports:ice-udp:1" ufrag="vMYF" pwd="sCBRfK02eeD2VZq4lomOSw"><candidate component="1" foundation="0" generation="0" id="qI0Bix142V" ip="192.168.10.12" network="0" port="49152" priority="2130706431" protocol="udp" type="host"/><candidate component="1" foundation="1" generation="0" id="QSLp0Dkwdx" ip="2001:0:9d38:6abd:108f:350d:3f57:f5f3" network="0" port="49152" priority="2130706431" protocol="udp" type="host"/><candidate component="2" foundation="0" generation="0" id="mci0DQ30IT" ip="192.168.10.12" network="0" port="49153" priority="2130706430" protocol="udp" type="host"/><candidate component="2" foundation="1" generation="0" id="G377uKhK24" ip="2001:0:9d38:6abd:108f:350d:3f57:f5f3" network="0" port="49153" priority="2130706430" protocol="udp" type="host"/></transport></content></jingle></iq>
+周日 三月 30 21:10:07 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:07 2014 DEBUG Added candidate 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:07 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:07 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:07 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:07 2014 DEBUG Added candidate 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:07 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:07 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:07 2014 RECEIVED <iq id="qxmpp8" to="b@rabbitim.com/QXmpp" type="result" from="a@rabbitim.com/QXmpp"/>
+周日 三月 30 21:10:07 2014 DEBUG Received ACK for packet qxmpp8
+周日 三月 30 21:10:07 2014 RECEIVED <iq id="qxmpp45" to="b@rabbitim.com/QXmpp" type="set" from="a@rabbitim.com/QXmpp"><jingle xmlns="urn:xmpp:jingle:1" action="session-info" sid="YRQBLHXGryPgl4eH2cDynbyLGbuPLmTb"><ringing xmlns="urn:xmpp:jingle:apps:rtp:info:1"/></jingle></iq>
+CFrmVideo::ringing
+周日 三月 30 21:10:07 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:07 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:07 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:07 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:07 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:07 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:08 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:08 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:08 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:08 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:08 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:08 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:08 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:08 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:08 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:08 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:08 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:08 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:09 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:09 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:09 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:09 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:09 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:09 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:10 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:10 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:10 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:10 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:10 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:10 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:10 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:10 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:10 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:10 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:10 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:10 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:11 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:11 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:11 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:11 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:11 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:11 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:11 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:11 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:11 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:11 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:11 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:11 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:12 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:12 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:12 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:12 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:12 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:12 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:12 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:12 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:12 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:12 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:12 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:12 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:13 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:13 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:13 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:13 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:13 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:13 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:13 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:13 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:13 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+周日 三月 30 21:10:13 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:13 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:13 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+周日 三月 30 21:10:13 2014 RECEIVED <iq id="qxmpp46" to="b@rabbitim.com/QXmpp" type="set" from="a@rabbitim.com/QXmpp"><jingle xmlns="urn:xmpp:jingle:1" action="session-accept" responder="a@rabbitim.com/QXmpp" sid="YRQBLHXGryPgl4eH2cDynbyLGbuPLmTb"><content creator="initiator" name="voice"><description xmlns="urn:xmpp:jingle:apps:rtp:1" media="audio"><payload-type id="0" name="PCMU" clockrate="8000"/><payload-type id="8" name="PCMA" clockrate="8000"/><payload-type id="101" name="telephone-event" clockrate="8000"><parameter name="events" value="0-15"/></payload-type></description><transport xmlns="urn:xmpp:jingle:transports:ice-udp:1" ufrag="0RAW" pwd="4Mh1MMU2hc9mnvfWttyqBZ"><candidate component="1" foundation="0" generation="0" id="iuSWv5q2GW" ip="192.168.10.2" network="0" port="49152" priority="2130706431" protocol="udp" type="host"/><candidate component="2" foundation="0" generation="0" id="O0ljkvZCmD" ip="192.168.10.2" network="0" port="49153" priority="2130706430" protocol="udp" type="host"/></transport></content></jingle></iq>
+周日 三月 30 21:10:13 2014 SENT <iq id="qxmpp46" to="a@rabbitim.com/QXmpp" type="result"/>
+周日 三月 30 21:10:13 2014 DEBUG Checking remote candidates
+CFrmVideo::stateChanged:1
+周日 三月 30 21:10:13 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152)
+ type Binding Request (1)
+ id 4686b9de1553cf8cf6de16fa
+ * USERNAME 0RAW:vMYF
+ * PRIORITY 1862270975
+ * ICE-CONTROLLING 0000000000000000
+周日 三月 30 21:10:13 2014 DEBUG Checking remote candidates
+周日 三月 30 21:10:13 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153)
+ type Binding Request (1)
+ id 5f8bc3706045199ed50715f1
+ * USERNAME 0RAW:vMYF
+ * PRIORITY 1862270974
+ * ICE-CONTROLLING 0000000000000000
+周日 三月 30 21:10:13 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Response (257)
+ id 4686b9de1553cf8cf6de16fa
+ * USERNAME 0RAW:vMYF
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49152
+周日 三月 30 21:10:13 2014 DEBUG ICE forward check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152) (reflexive 192.168.10.12 port 49152)
+周日 三月 30 21:10:13 2014 INFO ICE pair selected 192.168.10.2 port 49152 (local 192.168.10.12 port 49152) (reflexive 192.168.10.12 port 49152) (priority: 7998392938176446463)
+CFrmVideo::connected
+CFrmVideo::audioModeChanged:3
+周日 三月 30 21:10:13 2014 RECEIVED STUN packet from 192.168.10.2 port 49152
+ type Binding Request (1)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:13 2014 SENT Sent to 192.168.10.2 port 49152 (local 192.168.10.12 port 49152) (reflexive 192.168.10.12 port 49152)
+ type Binding Response (257)
+ id f40478889a20278622d69ead
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49152
+周日 三月 30 21:10:13 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49152 (local 192.168.10.12 port 49152) (reflexive 192.168.10.12 port 49152)
+周日 三月 30 21:10:13 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Response (257)
+ id 5f8bc3706045199ed50715f1
+ * USERNAME 0RAW:vMYF
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49153
+周日 三月 30 21:10:13 2014 DEBUG ICE forward check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153) (reflexive 192.168.10.12 port 49153)
+周日 三月 30 21:10:13 2014 INFO ICE pair selected 192.168.10.2 port 49153 (local 192.168.10.12 port 49153) (reflexive 192.168.10.12 port 49153) (priority: 7998392933881479165)
+周日 三月 30 21:10:13 2014 INFO ICE negotiation completed
+周日 三月 30 21:10:13 2014 RECEIVED STUN packet from 192.168.10.2 port 49153
+ type Binding Request (1)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:10:13 2014 SENT Sent to 192.168.10.2 port 49153 (local 192.168.10.12 port 49153) (reflexive 192.168.10.12 port 49153)
+ type Binding Response (257)
+ id 93d9585cc851d03ee467db17
+ * USERNAME vMYF:0RAW
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49153
+周日 三月 30 21:10:13 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49153 (local 192.168.10.12 port 49153) (reflexive 192.168.10.12 port 49153)
+
+
+
+被叫过程：
+
+周日 三月 30 21:19:32 2014 RECEIVED <iq id="qxmpp66" to="b@rabbitim.com/QXmpp" type="set" from="a@rabbitim.com/QXmpp"><jingle xmlns="urn:xmpp:jingle:1" action="session-initiate" initiator="a@rabbitim.com/QXmpp" sid="rYkWiRkucHMFy3pDOacsNZrWJnT6vlk7"><content creator="initiator" name="voice" senders="both"><description xmlns="urn:xmpp:jingle:apps:rtp:1" media="audio"><payload-type id="0" name="PCMU" clockrate="8000"/><payload-type id="8" name="PCMA" clockrate="8000"/><payload-type id="101" name="telephone-event" clockrate="8000"><parameter name="events" value="0-15"/></payload-type></description><transport xmlns="urn:xmpp:jingle:transports:ice-udp:1" ufrag="GLzy" pwd="PsP19xLi0CLC3dSveDAw1q"><candidate component="1" foundation="0" generation="0" id="I5FhIqmvz3" ip="192.168.10.2" network="0" port="49154" priority="2130706431" protocol="udp" type="host"/><candidate component="2" foundation="0" generation="0" id="dyKeafMBh9" ip="192.168.10.2" network="0" port="49155" priority="2130706430" protocol="udp" type="host"/></transport></content></jingle></iq>
+周日 三月 30 21:19:32 2014 SENT <iq id="qxmpp66" to="a@rabbitim.com/QXmpp" type="result"/>
+CFrmVideo::callReceived:13fd5ba8
+周日 三月 30 21:19:32 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:32 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:32 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:32 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:32 2014 SENT <iq id="qxmpp33" to="a@rabbitim.com/QXmpp" type="set"><jingle xmlns="urn:xmpp:jingle:1" action="session-info" sid="rYkWiRkucHMFy3pDOacsNZrWJnT6vlk7"><ringing xmlns="urn:xmpp:jingle:apps:rtp:info:1"/></jingle></iq>
+周日 三月 30 21:19:32 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:32 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:32 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:32 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:32 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:32 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:32 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:32 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:32 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:32 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:33 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:33 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:33 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:33 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:33 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:33 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:33 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:33 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:33 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:33 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:33 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:33 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:33 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:33 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:33 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:33 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:34 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:34 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:34 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:34 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:34 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:34 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:34 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:34 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:34 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:34 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:34 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:34 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:34 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:34 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:34 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:34 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:35 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:35 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:35 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:35 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:35 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:35 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:35 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:35 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:35 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:35 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:35 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:35 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:35 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:35 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:35 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:35 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:36 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:36 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:36 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:36 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:36 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:36 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:36 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:36 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:36 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:36 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:36 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:36 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:36 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:36 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:36 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:36 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:37 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:37 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:37 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:37 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:37 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:37 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:37 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:37 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:37 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:37 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:37 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:37 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:37 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:37 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:37 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:37 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:38 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:38 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:38 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:38 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:38 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:38 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:38 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:38 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:38 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:38 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:38 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:38 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:38 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:38 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:38 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:38 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:39 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:39 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:39 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:39 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:39 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:39 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:39 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:39 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:39 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:39 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:39 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:39 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:39 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:39 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:39 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:39 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:40 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:40 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:40 2014 DEBUG Checking remote candidates
+周日 三月 30 21:19:40 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:40 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:40 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:40 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:40 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:40 2014 SENT <iq id="qxmpp34" to="a@rabbitim.com/QXmpp" type="set"><jingle xmlns="urn:xmpp:jingle:1" action="session-accept" responder="b@rabbitim.com/QXmpp" sid="rYkWiRkucHMFy3pDOacsNZrWJnT6vlk7"><content creator="initiator" name="voice"><description xmlns="urn:xmpp:jingle:apps:rtp:1" media="audio"><payload-type id="0" name="PCMU" clockrate="8000"/><payload-type id="8" name="PCMA" clockrate="8000"/><payload-type id="101" name="telephone-event" clockrate="8000"><parameter name="events" value="0-15"/></payload-type></description><transport xmlns="urn:xmpp:jingle:transports:ice-udp:1" ufrag="NweB" pwd="9n0RsxcqYE6x7tV8QrG2WL"><candidate component="1" foundation="0" generation="0" id="Y75c8T2msw" ip="192.168.10.12" network="0" port="49154" priority="2130706431" protocol="udp" type="host"/><candidate component="1" foundation="1" generation="0" id="KQKbLbEO3x" ip="2001:0:9d38:6abd:108f:350d:3f57:f5f3" network="0" port="49154" priority="2130706431" protocol="udp" type="host"/><candidate componentCFrmVideo::callStarted:13fd5ba8
+="2" foundation="0" generation="0" id="LuZuI9f2Xg" ip="192.168.10.12" network="0" port="49155" priority="2130706430" protocol="udp" type="host"/><candidate component="2" foundation="1" generation="0" id="WJDsXiYuXg" ip="2001:0:9d38:6abd:108f:350d:3f57:f5f3" network="0" port="49155" priority="2130706430" protocol="udp" type="host"/></transport></content></jingle></iq>
+CFrmVideo::stateChanged:1
+CFrmVideo::connected
+周日 三月 30 21:19:40 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Request (1)
+ id 293dd7897166fcbc0c7a7b56
+ * USERNAME NweB:GLzy
+ * PRIORITY 1862270975
+ * ICE-CONTROLLING 0000000000000000
+CFrmVideo::audioModeChanged:3
+周日 三月 30 21:19:40 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Response (257)
+ id 293dd7897166fcbc0c7a7b56
+ * USERNAME NweB:GLzy
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49154
+周日 三月 30 21:19:40 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:40 2014 SENT Sent to 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+ type Binding Request (1)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270975
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:40 2014 INFO ICE pair selected 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154) (priority: 9151314442783293438)
+周日 三月 30 21:19:40 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Request (1)
+ id 638a505a18c7b12ed6af98a8
+ * USERNAME NweB:GLzy
+ * PRIORITY 1862270974
+ * ICE-CONTROLLING 0000000000000000
+周日 三月 30 21:19:40 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Response (257)
+ id 638a505a18c7b12ed6af98a8
+ * USERNAME NweB:GLzy
+ * XOR-MAPPED-ADDRESS 192.168.10.2 49155
+周日 三月 30 21:19:40 2014 DEBUG ICE reverse check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:40 2014 SENT Sent to 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+ type Binding Request (1)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * PRIORITY 1862270974
+ * ICE-CONTROLLED 0000000000000000
+周日 三月 30 21:19:40 2014 INFO ICE pair selected 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155) (priority: 9151314438488326140)
+周日 三月 30 21:19:40 2014 INFO ICE negotiation completed
+周日 三月 30 21:19:40 2014 RECEIVED STUN packet from 192.168.10.2 port 49154
+ type Binding Response (257)
+ id 62dae8101b5062883d94f8ae
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49154
+周日 三月 30 21:19:40 2014 DEBUG ICE forward check complete 192.168.10.2 port 49154 (local 192.168.10.12 port 49154) (reflexive 192.168.10.12 port 49154)
+周日 三月 30 21:19:40 2014 RECEIVED STUN packet from 192.168.10.2 port 49155
+ type Binding Response (257)
+ id 2f7399f043b348df970a3b4a
+ * USERNAME GLzy:NweB
+ * XOR-MAPPED-ADDRESS 192.168.10.12 49155
+周日 三月 30 21:19:40 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
+周日 三月 30 21:19:40 2014 RECEIVED <iq id="qxmpp34" to="b@rabbitim.com/QXmpp" type="result" from="a@rabbitim.com/QXmpp"/>
+周日 三月 30 21:19:40 2014 DEBUG Received ACK for packet qxmpp34

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml
+QT       += core gui network xml multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -40,7 +40,8 @@ OTHER_FILES += README.md \
     .gitignore \
     translations/app_zh_CN.ts \
     docs/* \
-    docs/Books/*
+    docs/Books/* \
+    docs/QXmpp音视频呼叫流程.txt
 
 ANDROID_EXTRA_LIBS = 
 

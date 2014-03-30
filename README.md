@@ -72,5 +72,11 @@ docs
   |----TODO.txt   需要完成的事
 
 
+调试：
+xmpp服务配置域名（rabbitim.com），客户端如果没有域名，连接服务器时，则直接设置主机IP，同时设置域名。
+当然，也可以修改系统hosts文件配置域名解析。这个域名实质上是xmpp应用程序用于区别不同域。
+
 参考资料：
 Qt Model/View： http://blog.csdn.net/leo115/article/details/7532677
+
+

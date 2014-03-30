@@ -9,11 +9,15 @@ CGlobal::CGlobal(QObject *parent) :
     m_UserColor = QColor(255, 0, 0);
     m_RosterColor = QColor(0, 0, 255);
 
-    m_szXmppServer = "183.62.225.76";
-    m_szStunServer = "183.62.225.76";
-    m_szTurnServer = "183.62.225.76";
+    m_szXmppServerHost = "183.62.225.76";
+    //m_szXmppServerHost = "192.168.10.12";
+    m_szXmppServer = "rabbitim.com";
+    m_szStunServer = "rabbitim.com";
+    m_szTurnServer = "rabbitim.com";
     m_nStunServerPort = 3478;
     m_nTurnServerPort = 13478;
+    m_szTurnUser = "foo";
+    m_szTurnPassword = "bar";
 }
 
 CGlobal::~CGlobal()
@@ -68,6 +72,17 @@ int CGlobal::SetRosterColor(QColor &color)
     return 0;
 }
 
+QString CGlobal::GetXmppServerHost()
+{
+    return m_szXmppServerHost;
+}
+
+int CGlobal::SetXmppServerHost(QString &host)
+{
+    m_szXmppServerHost = host;
+    return 0;
+}
+
 QString CGlobal::GetXmppServer()
 {
     return m_szXmppServer;
@@ -90,12 +105,12 @@ int CGlobal::SetTurnServer(QString &server)
     return 0;
 }
 
-int CGlobal::GetTurnServerPort()
+qint16 CGlobal::GetTurnServerPort()
 {
     return m_nTurnServerPort;
 }
 
-int CGlobal::SetTurnServerPort(int &port)
+int CGlobal::SetTurnServerPort(qint16 &port)
 {
     m_nTurnServerPort = port;
     return 0;
@@ -112,13 +127,35 @@ int CGlobal::SetStunServer(QString &server)
     return 0;
 }
 
-int CGlobal::GetStunServerPort()
+qint16 CGlobal::GetStunServerPort()
 {
     return m_nStunServerPort;
 }
 
-int CGlobal::SetStunServerPort(int &port)
+int CGlobal::SetStunServerPort(qint16 &port)
 {
     m_nStunServerPort = port;
+    return 0;
+}
+
+QString CGlobal::GetTurnServerUser()
+{
+    return m_szTurnUser;
+}
+
+int CGlobal::SetTurnServerUser(QString &user)
+{
+    m_szTurnUser = user;
+    return 0;
+}
+
+QString CGlobal::GetTurnServerPassword()
+{
+    return m_szTurnPassword;
+}
+
+int CGlobal::SetTurnServerPassword(QString &password)
+{
+    m_szTurnPassword = password;
     return 0;
 }

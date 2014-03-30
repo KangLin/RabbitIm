@@ -12,7 +12,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     m_pRegister = new CFrmRegister();
 
     //TODO:发行时删除下面行---------------
-    ui->lnServer->setText(g_Global.GetXmppServer());
+    ui->lnServer->setText(g_Global.GetXmppServerHost());
     //ui->lnServer->setVisible(false);
     ui->lnUser->setText("a");
     ui->lnPassword->setText("a");
@@ -41,13 +41,17 @@ void CFrmLogin::on_pbOk_clicked()
     QXmppConfiguration config;
     //TODO:设置为非sasl验证
     config.setUseSASLAuthentication(false);
+    //config.setUseNonSASLAuthentication(false);
     config.setHost(ui->lnServer->text());
+    config.setDomain(g_Global.GetXmppServer());
     config.setUser(ui->lnUser->text());
     config.setPassword(ui->lnPassword->text());
     g_Global.SetJid(config.jid());
     g_Global.SetXmppServer(ui->lnServer->text());
 
-    qDebug("Local jid:%s", qPrintable(g_Global.GetBareJid()));
+    qDebug("Local jid:%s;config.jidBare():%s",
+           qPrintable(g_Global.GetBareJid()),
+           qPrintable(config.jidBare()));
     ((MainWindow*)(this->parent()))->m_pClient->connectToServer(config);
 }
 

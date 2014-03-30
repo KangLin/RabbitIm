@@ -48,6 +48,11 @@ QString CRoster::BareJid()
     return QXmppUtils::jidToBareJid(m_szJid);
 }
 
+QString CRoster::Jid()
+{
+    return m_szJid;
+}
+
 QString CRoster::Domain()
 {
     return QXmppUtils::jidToDomain(m_szJid);
