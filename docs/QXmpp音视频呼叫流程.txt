@@ -6,6 +6,11 @@ CFrmVideo::connected
 CFrmVideo::ringing
 CFrmVideo::audioModeChanged:3
 
+connected：是信令通道建立连接后触发
+audioModeChanged:是ICE数据通道建立连接后触发
+由于信令通道的建立连接与ICE数据通道建立连接是异步的，所以不能判断这两信号的先后顺序。
+因为QXmpp在call时就建立好了音频通道，所以在connected时就可以打开AudioInput和AudioOutput。
+
 被叫方：
 CFrmVideo::callReceived:14257708
 CFrmVideo::callStarted:14257708

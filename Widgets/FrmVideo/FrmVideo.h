@@ -36,15 +36,16 @@ protected slots:
     //呼叫状态改变时触发
     void stateChanged(QXmppCall::State state);
 
-    //呼叫已链接时触发,此时数据通道已建立连接时触发。
+    //呼叫会话建立时触发，这个是信令通道
     //当这个信号触发后,可以边接QAudioOutput和QAudioInput到呼叫
     //你可以调用通道的payloadType()来决定音频的参数（时钟、通道数等）
+    //这时可以调用QXmppCall::startVideo开始视频
     void connected();
 
-    //音频信道有改变时触发
+    //ICE连接建立后，音频信道有改变时触发，这个是数据通道
     void audioModeChanged(QIODevice::OpenMode mode);
 
-    //视频信道有改变时触发
+    //ICE连接建立后，视频信道有改变时触发，这个是数据通道
     void videoModeChanged(QIODevice::OpenMode mode);
 
     //当呼叫结束时触摸发

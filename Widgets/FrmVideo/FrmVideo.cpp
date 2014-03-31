@@ -217,7 +217,7 @@ void ShowAudioDeviceSupportCodec(QAudioDeviceInfo &info)
     qDebug("audio device support codec:%s", qPrintable(szCodecs));
 }
 
-//通道建立连接
+//会话建立后触发
 void CFrmVideo::connected()
 {
     qDebug("CFrmVideo::connected");
@@ -259,11 +259,21 @@ void CFrmVideo::connected()
 
         if(m_pAudioOutput && m_pCall)
         {
+            qDebug("m_pAudioInput->start");
             m_pAudioInput->start(m_pCall->audioChannel());
         }
 
         if(m_pAudioOutput && m_pCall)
-            m_pAudioOutput->start(m_pCall->audioChannel());//*/
+        {
+            qDebug("m_pAudioOutput->start");
+            m_pAudioOutput->start(m_pCall->audioChannel());
+        }//*/
+    }
+
+    QXmppRtpVideoChannel *pVideoChannel = m_pCall->videoChannel();
+    if(NULL == pVideoChannel)
+    {
+        m_pCall->startVideo();
     }
 }
 
@@ -297,8 +307,10 @@ void CFrmVideo::finished()
     {
         QString szMsg = tr("Close the connection with ") + QXmppUtils::jidToBareJid(m_pCall->jid());
 
+        m_pCall->stopVideo();
+
         m_pCall->disconnect(this);//删除所有连接
-        m_pCall->deleteLater();//TODO:是否需要应用程序释放内存？到QXmppCall析构函数中打日志
+        m_pCall->deleteLater();//TODO:需要应用程序释放内存，但是会引起core
         m_pCall = NULL;
 
         this->setWindowTitle(szMsg);
