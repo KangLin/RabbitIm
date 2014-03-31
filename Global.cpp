@@ -12,8 +12,8 @@ CGlobal::CGlobal(QObject *parent) :
     m_szXmppServerHost = "183.62.225.76";
     //m_szXmppServerHost = "192.168.10.12";
     m_szXmppServer = "rabbitim.com";
-    m_szStunServer = "rabbitim.com";
-    m_szTurnServer = "rabbitim.com";
+    m_szStunServer = "183.62.225.76";
+    m_szTurnServer = "183.62.225.76";
     m_nStunServerPort = 3478;
     m_nTurnServerPort = 13478;
     m_szTurnUser = "foo";
@@ -175,6 +175,8 @@ QString CGlobal::GetStatusText(QXmppPresence::Status status)
         return tr("Invisible");
     else if(QXmppPresence::Status::XA == status.type())
         return tr("Away for an extended period");
+    else
+        return tr("Invisible");
 }
 
 QColor CGlobal::GetStatusColor(QXmppPresence::Status status)
@@ -191,4 +193,6 @@ QColor CGlobal::GetStatusColor(QXmppPresence::Status status)
         return QColor(255, 255, 255);
     else if(QXmppPresence::Status::XA == status.type())
         return QColor(255, 0, 255);
+    else
+        return QColor(255, 255, 255);
 }
