@@ -88,7 +88,9 @@ int CFrmVideo::Call(QString jid)
             return -1;
     }
 
-    this->setWindowTitle(tr("Be ringing ") + QXmppUtils::jidToBareJid(jid));
+    QString szText = tr("Be ringing ") + QXmppUtils::jidToBareJid(jid);
+    this->setWindowTitle(szText);
+    ui->lbPrompt->setText(szText);
 
     m_pClient->m_CallManager.setStunServer(
                 QHostAddress(g_Global.GetStunServer()),
@@ -140,8 +142,10 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
                     QMessageBox::Yes | QMessageBox::No);
     if(QMessageBox::Yes == msg.exec())
     {
+        QString szText = tr("Be connecting ") + QXmppUtils::jidToBareJid(m_pCall->jid());
+        this->setWindowTitle(szText);
+        ui->lbPrompt->setText(szText);
         pCall->accept();
-        this->setWindowTitle(tr("Be connecting ") + QXmppUtils::jidToBareJid(m_pCall->jid()));
     }
     else
         pCall->hangup();
@@ -187,7 +191,11 @@ void CFrmVideo::ringing()
 {
     qDebug("CFrmVideo::ringing");
     if(m_pCall)
-        this->setWindowTitle(tr("Be ringing ") + QXmppUtils::jidToBareJid(m_pCall->jid()));
+    {
+        QString szText = tr("Be ringing ") + QXmppUtils::jidToBareJid(m_pCall->jid());
+        this->setWindowTitle(szText);
+        ui->lbPrompt->setText(szText);
+    }
 }
 
 //呼叫状态发生改变
@@ -214,7 +222,9 @@ void CFrmVideo::connected()
 {
     qDebug("CFrmVideo::connected");
 
-    this->setWindowTitle(tr("Be talking ") + QXmppUtils::jidToBareJid(m_pCall->jid()));
+    QString szText = tr("Be talking ") + QXmppUtils::jidToBareJid(m_pCall->jid());
+    this->setWindowTitle(szText);
+    ui->lbPrompt->setText(szText);
 
     QXmppRtpAudioChannel* pAudioChannel = m_pCall->audioChannel();
     if(pAudioChannel)
@@ -284,6 +294,7 @@ void CFrmVideo::finished()
         m_pCall = NULL;
 
         this->setWindowTitle(szMsg);
+        ui->lbPrompt->setText(szMsg);
         QMessageBox msg(QMessageBox::Question,
                         tr("Call"),
                         szMsg,

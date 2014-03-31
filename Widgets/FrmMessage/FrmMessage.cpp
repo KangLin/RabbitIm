@@ -60,11 +60,13 @@ void CFrmMessage::showEvent(QShowEvent *)
 {
     qDebug("CFrmMessage::showEvent");
     //TODO:重读数据
-    ui->lbRosterName->setText(m_pRoster->Name()
+    if(m_pRoster)
+    {
+        ui->lbRosterName->setText(m_pRoster->Name()
                               + "["
                               + g_Global.GetStatusText(m_pRoster->GetStatus())
                               + "]");
-
+    }
 }
 
 void CFrmMessage::on_pbBack_clicked()
