@@ -60,6 +60,8 @@ QXMPP编译：
 8、当前版本有BUG，需要打下面补丁
 ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch
 
+开发：
+本工程编码字符集为UTF-8
 
 翻译文件部署：
 1、工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。

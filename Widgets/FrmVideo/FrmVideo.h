@@ -36,7 +36,7 @@ protected slots:
     //呼叫状态改变时触发
     void stateChanged(QXmppCall::State state);
 
-    //呼叫已链接时触发
+    //呼叫已链接时触发,此时数据通道已建立连接时触发。
     //当这个信号触发后,可以边接QAudioOutput和QAudioInput到呼叫
     //你可以调用通道的payloadType()来决定音频的参数（时钟、通道数等）
     void connected();
@@ -52,6 +52,10 @@ protected slots:
     //注意：在这个函数中不能直接删除呼叫(call)
     //用deleteLater()代替。
     void finished();
+
+private:
+    int StopDevice();
+    void closeEvent(QCloseEvent *e);
 
 private:
     Ui::CFrmVideo *ui;
