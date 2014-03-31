@@ -25,32 +25,32 @@ public:
     int Call(QString jid);
 
 protected slots:
+    //有被呼叫时触发（只有被叫方才有）
     void callReceived(QXmppCall* pCall);
+    //调用开始时触发
     void callStarted(QXmppCall *pCall);
 
-    /// \brief This signal is emitted when the remote party is ringing.
+    //对方正在响铃时触发（只有呼叫方才有）
     void ringing();
 
-    /// \brief This signal is emitted when the call state changes.
+    //呼叫状态改变时触发
     void stateChanged(QXmppCall::State state);
 
-    /// \brief This signal is emitted when a call is connected.
-    ///
-    /// Once this signal is emitted, you can connect a QAudioOutput and
-    /// QAudioInput to the call. You can determine the appropriate clockrate
-    /// and the number of channels by calling payloadType().
+    //呼叫已链接时触发
+    //当这个信号触发后,可以边接QAudioOutput和QAudioInput到呼叫
+    //你可以调用通道的payloadType()来决定音频的参数（时钟、通道数等）
     void connected();
 
-    /// \brief This signal is emitted when the audio channel changes.
+    //音频信道有改变时触发
     void audioModeChanged(QIODevice::OpenMode mode);
 
-    /// \brief This signal is emitted when the video channel changes.
+    //视频信道有改变时触发
     void videoModeChanged(QIODevice::OpenMode mode);
 
-    /// \brief This signal is emitted when a call is finished.
+    //当呼叫结束时触摸发
     ///
-    /// Note: Do not delete the call in the slot connected to this signal,
-    /// instead use deleteLater().
+    //注意：在这个函数中不能直接删除呼叫(call)
+    //用deleteLater()代替。
     void finished();
 
 private:
