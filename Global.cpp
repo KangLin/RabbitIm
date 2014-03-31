@@ -159,3 +159,36 @@ int CGlobal::SetTurnServerPassword(QString &password)
     m_szTurnPassword = password;
     return 0;
 }
+
+
+QString CGlobal::GetStatusText(QXmppPresence::Status status)
+{
+    if(QXmppPresence::Status::Online == status.type())
+        return tr("OnLine");
+    else if(QXmppPresence::Status::Away == status.type())
+        return tr("Temporarily away");
+    else if(QXmppPresence::Status::Chat == status.type())
+        return tr("Chat");
+    else if(QXmppPresence::Status::DND == status.type())
+        return tr("Do not disturb");
+    else if(QXmppPresence::Status::Invisible == status.type())
+        return tr("Invisible");
+    else if(QXmppPresence::Status::XA == status.type())
+        return tr("Away for an extended period");
+}
+
+QColor CGlobal::GetStatusColor(QXmppPresence::Status status)
+{
+    if(QXmppPresence::Status::Online == status.type())
+        return QColor(0, 255, 0);
+    else if(QXmppPresence::Status::Away == status.type())
+        return QColor(255, 0, 255);
+    else if(QXmppPresence::Status::Chat == status.type())
+        return QColor(0, 255, 0);
+    else if(QXmppPresence::Status::DND == status.type())
+        return QColor(255, 0, 0);
+    else if(QXmppPresence::Status::Invisible == status.type())
+        return QColor(255, 255, 255);
+    else if(QXmppPresence::Status::XA == status.type())
+        return QColor(255, 0, 255);
+}

@@ -27,6 +27,7 @@ CFrmVideo::~CFrmVideo()
     if(m_pClient)
     {
         m_pClient->m_CallManager.disconnect(this);
+        m_pClient->disconnect(this);
     }//*/
 
     delete ui;
@@ -46,7 +47,17 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
                     SIGNAL(callStarted(QXmppCall*)),
                     SLOT(callStarted(QXmppCall*)));
     Q_ASSERT(check);
+
+    check = connect(m_pClient, SIGNAL(iqReceived(QXmppIq)),
+                    SLOT(clientIqReceived(QXmppIq)));
+    Q_ASSERT(check);
+
     return 0;
+}
+
+void CFrmVideo::clientIqReceived(const QXmppIq &iq)
+{
+    qDebug("CFrmVideo::clientIqReceived:%d", iq.error().condition());
 }
 
 void CFrmVideo::closeEvent(QCloseEvent *e)

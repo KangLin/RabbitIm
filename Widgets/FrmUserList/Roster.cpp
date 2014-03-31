@@ -32,6 +32,7 @@ int CRoster::Init(MainWindow *parent)
 {
     m_nNewMessageNumber = 0;
     m_pMainWindow = parent;
+
     m_Message.SetRoster(this, m_pMainWindow);
     //TODO:
     m_Video.SetClient(m_pMainWindow->m_pClient);
@@ -103,48 +104,28 @@ QList<QStandardItem*> CRoster::GetItem()
     return lstItems;
 }
 
-QString CRoster::GetStatusText(QXmppPresence::Status status)
-{
-    if(QXmppPresence::Status::Online == status.type())
-        return tr("OnLine");
-    else if(QXmppPresence::Status::Away == status.type())
-        return tr("Temporarily away");
-    else if(QXmppPresence::Status::Chat == status.type())
-        return tr("Chat");
-    else if(QXmppPresence::Status::DND == status.type())
-        return tr("Do not disturb");
-    else if(QXmppPresence::Status::Invisible == status.type())
-        return tr("Invisible");
-    else if(QXmppPresence::Status::XA == status.type())
-        return tr("Away for an extended period");
-}
-
-QColor CRoster::GetStatusColor(QXmppPresence::Status status)
-{
-    if(QXmppPresence::Status::Online == status.type())
-        return QColor(0, 255, 0);
-    else if(QXmppPresence::Status::Away == status.type())
-        return QColor(255, 0, 255);
-    else if(QXmppPresence::Status::Chat == status.type())
-        return QColor(0, 255, 0);
-    else if(QXmppPresence::Status::DND == status.type())
-        return QColor(255, 0, 0);
-    else if(QXmppPresence::Status::Invisible == status.type())
-        return QColor(255, 255, 255);
-    else if(QXmppPresence::Status::XA == status.type())
-        return QColor(255, 0, 255);
-}
-
 //TODO:修改成图片表示
 int CRoster::ChangedPresence(QXmppPresence::Status::Type status)
 {
+    m_Status = status;
+
     std::list<QStandardItem*>::iterator it;
     for(it = m_lstUserListItem.begin(); it != m_lstUserListItem.end(); it++)
     {
         QStandardItem* p = *it;
-        p->setData(GetStatusColor(status), Qt::BackgroundRole);
+        p->setData(g_Global.GetStatusColor(status), Qt::BackgroundRole);
+        QString szText = this->Name() + "[" + g_Global.GetStatusText(status) + "]";
+        p->setData(szText, Qt::DisplayRole);
     }
+
+    emit sigChangedPresence(status);
+
     return 0;
+}
+
+QXmppPresence::Status::Type CRoster::GetStatus()
+{
+    return m_Status;
 }
 
 int CRoster::ShowMessageDialog()

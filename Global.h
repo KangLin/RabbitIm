@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QColor>
+#include "qxmpp/QXmppPresence.h"
 
 class CGlobal : public QObject
 {
@@ -39,6 +40,10 @@ public:
     QString GetTurnServerPassword();
     int SetTurnServerPassword(QString &password);
 
+    //好友状态文本表示
+    QString GetStatusText(QXmppPresence::Status status);
+    //好友状态颜色表示
+    QColor GetStatusColor(QXmppPresence::Status status);
 signals:
 
 public slots:

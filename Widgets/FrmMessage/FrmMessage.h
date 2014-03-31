@@ -3,6 +3,8 @@
 
 #include <QFrame>
 #include <QStandardItemModel>
+#include "qxmpp/QXmppUtils.h"
+#include "qxmpp/QXmppPresence.h"
 #include "../../Global.h"
 
 extern CGlobal g_Global;
@@ -22,6 +24,7 @@ public:
     explicit CFrmMessage(QWidget *parent = 0);
     ~CFrmMessage();
 
+    //注意：只在对话框初始化后调用一次,必须最先调用一次
     int SetRoster(CRoster* pRoster, MainWindow* pMainWindow);
     int AppendMessage(const QString &szMessage);
     int AppendMessageToList(const QString &szMessage, const QString &name = g_Global.GetName(), bool bRemote = false);
@@ -39,6 +42,8 @@ private slots:
     void on_tbMore_clicked();
 
     void on_pbVideo_clicked();
+
+    void ChangedPresence(QXmppPresence::Status::Type status);
 
 private:
     Ui::CFrmMessage *ui;

@@ -25,11 +25,25 @@ CFrmMessage::~CFrmMessage()
     delete ui;
 }
 
+//注意：只在对话框初始化后调用一次,必须最先调用一次
 int CFrmMessage::SetRoster(CRoster* pRoster, MainWindow *pMainWindow)
 {
     m_pRoster = pRoster;
     m_pMainWindow = pMainWindow;
+
+    bool check = connect(m_pRoster, SIGNAL(sigChangedPresence(QXmppPresence::Status::Type)),
+                         SLOT(ChangedPresence(QXmppPresence::Status::Type)));
+    Q_ASSERT(check);
+
     return 0;
+}
+
+void CFrmMessage::ChangedPresence(QXmppPresence::Status::Type status)
+{
+    ui->lbRosterName->setText(m_pRoster->Name()
+                              + "["
+                              + g_Global.GetStatusText(status)
+                              + "]");
 }
 
 void CFrmMessage::hideEvent(QHideEvent *)
@@ -46,7 +60,10 @@ void CFrmMessage::showEvent(QShowEvent *)
 {
     qDebug("CFrmMessage::showEvent");
     //TODO:重读数据
-    ui->lbRosterName->setText(m_pRoster->Name());
+    ui->lbRosterName->setText(m_pRoster->Name()
+                              + "["
+                              + g_Global.GetStatusText(m_pRoster->GetStatus())
+                              + "]");
 
 }
 

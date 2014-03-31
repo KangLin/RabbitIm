@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
         /*check = connect(m_pClient, SIGNAL(iqReceived(QXmppIq)),
                         SLOT(clientIqReceived(QXmppIq)));
-        Q_ASSERT(check);*/
+        Q_ASSERT(check);//*/
 
         check = connect(m_pClient, SIGNAL(stateChanged(QXmppClient::State)),
                         SLOT(stateChanged(QXmppClient::State)));
@@ -133,7 +133,7 @@ void MainWindow::clientError(QXmppClient::Error e)
 
 void MainWindow::clientIqReceived(const QXmppIq &iq)
 {
-    qDebug("MainWindow:: iq Received:%d", iq.type());
+    qDebug("MainWindow:: iq Received:%d", iq.error().condition());
 }
 
 void MainWindow::stateChanged(QXmppClient::State state)

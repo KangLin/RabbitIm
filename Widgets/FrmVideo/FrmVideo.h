@@ -53,6 +53,8 @@ protected slots:
     //用deleteLater()代替。
     void finished();
 
+    void clientIqReceived(const QXmppIq &iq);
+
 private:
     int StopDevice();
     void closeEvent(QCloseEvent *e);
