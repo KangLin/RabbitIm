@@ -256,6 +256,14 @@ void CFrmVideo::connected()
 
         m_pAudioInput = new QAudioInput(info, format, this);
         m_pAudioOutput = new QAudioOutput(QAudioDeviceInfo::defaultOutputDevice(), format, this);
+
+        if(m_pAudioOutput && m_pCall)
+        {
+            m_pAudioInput->start(m_pCall->audioChannel());
+        }
+
+        if(m_pAudioOutput && m_pCall)
+            m_pAudioOutput->start(m_pCall->audioChannel());//*/
     }
 }
 
@@ -263,13 +271,13 @@ void CFrmVideo::connected()
 void CFrmVideo::audioModeChanged(QIODevice::OpenMode mode)
 {
     qDebug("CFrmVideo::audioModeChanged:%x", mode);
-    if((QIODevice::ReadOnly & mode) && m_pAudioOutput && m_pCall)
+    /*if((QIODevice::ReadOnly & mode) && m_pAudioOutput && m_pCall)
     {
         m_pAudioInput->start(m_pCall->audioChannel());
     }
 
     if((QIODevice::WriteOnly & mode) && m_pAudioOutput && m_pCall)
-        m_pAudioOutput->start(m_pCall->audioChannel());
+        m_pAudioOutput->start(m_pCall->audioChannel());//*/
 }
 
 //视频模式改变
