@@ -36,7 +36,7 @@ void CFrmLogin::on_pbOk_clicked()
                          SLOT(clientConnected()));
     Q_ASSERT(check);
 
-    ui->lbePrompt->setText("");
+    ui->lbePrompt->setText(tr("Being Login..."));
 
     QXmppConfiguration config;
     //TODO:设置为非sasl验证
