@@ -1,6 +1,6 @@
 玉兔即时通信
 
-作者：康林（email:kl222@126.com、QQ:16614119)
+作者：康林（msn、email:kl222@126.com；QQ:16614119)
 博客：blog.csdn.net/kl222
 项目位置：https://code.csdn.net/kl222/rabbitim
 
@@ -10,6 +10,7 @@
 UI：QT
 即时通信协议（XMPP）：QXMPP
 视频通信：webrtc
+编解码库：ffmpeg、x264、libvpx
 
 下载工具和依赖：
 QT：
@@ -19,14 +20,14 @@ QT：
 QT开发工具参考：
   http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 
-XMPP协议：
+XMPP协议（QXMPP）：
 主页：http://code.google.com/p/qxmpp
 下载：git clone  https://code.google.com/p/qxmpp/
 当前使用版本：
-  git库版本——a4c3f19e874cace34af4476a06cc4b530b46c516
+  git库版本 —— b385036ceea623a1feded664026e5c6450508d8e
 编译方法参考源码根目录下的README文件。
 
-webrtc：
+webrtc库：
 主页：http://www.webrtc.org/
 下载：
   gclient config http://webrtc.googlecode.com/svn/trunk
@@ -35,14 +36,55 @@ webrtc：
 编译参考：
   http://blog.csdn.net/kl222/article/details/17198873
 
+编解码库（ffmpeg）：
+主页：http://www.ffmpeg.org/
+下载：
+  git clone git://source.ffmpeg.org/ffmpeg.git
+当前使用版本：
+  git库版本 —— 16509d3a286c55f9149c0a98e3d7200ed6d2ee16
+
+编解码库(x264)
+下载：
+  git clone git://git.videolan.org/x264.git
+当前使用版本：
+  git库版本 —— d6b4e63d2ed8d444b77c11b36c1d646ee5549276
+
+编解码库(libvpx)
+下载：
+  git clone https://chromium.googlesource.com/webm/libvpx libvpx
+当前使用版本：
+  git库版本 —— 3b39d7503f4ce75dce962445dddfbfb18f6babf0
+
 编译：
 在源码根目录下建立第三方库目录：ThirdLibary
 把第三方依赖库编译成功后，放到ThirdLibary目录下,ThirdLibary目录结构如下：
 ThirdLibary
     ｜
-    ｜-----include
-    ｜-----lib
-    ｜-----share
+    ｜-----patch
+    ｜-----windows
+    ｜       ｜-----include
+    ｜       ｜-----lib
+    ｜       ｜-----share
+    ｜-----android
+    ｜       ｜-----include
+    ｜       ｜-----lib
+    ｜------linux
+    ｜       ｜-----include
+    ｜       ｜-----lib
+    ｜------ios
+             ｜------include
+             ｜------lib
+
+编解码库(libvpx)编译：
+libvpx在windows下编译需要cygwin
+./configure --prefix=$(RabbitImRoot)/ThirdLiabary/windows --enable-static-msvcrt --disable-examples --disable-docs --disable-unit-tests
+make install
+
+ffmpeg编译：
+详见《ffmpeg教程》
+
+webrtc编译：
+详见《webrtc教程》
 
 QXMPP编译：
 这里只说明如何用 Qt Creator 进行编译。其它方式编译，请详见源码根目录下的README文件。
@@ -50,14 +92,18 @@ QXMPP编译：
 2、打开“文件->打开文件或项目”。
 3、在弹出的对话框中选中qxmpp.pro，打开qxmpp工程。
 4、点左边工具栏中的“项目”，选择qxmpp标签，在相应平台“构建套件”中修改“构建步骤”参数，在“构建步骤”中的“额外参数”中，
-加入 “PREFIX=$(RabbitImRoot)/ThirdLiabary”，其中$(RabbitImRoot)是本项目源码的根目录，在下面的
-“构建环境”变量中添加这个环境变量。当然，也可以直接在“额外参数”中替换成本项目源码根目录路径。
-5、选择相应平台“构建套件”中的“运行”标签，部署->详情->Make参数中加上"install"。
-6、在“项目”->本项目中的“依赖关系”标签中选中qxmpp。
-6、在项目浏览器中选中qxmpp项目，右键点击“执行qmake”；再右键点击“构建”；再右键点击“部署”。
-7、在部署时会出现":-1: error: [install_htmldocs] Error 4 (ignored)"错误。
-这是由于没有安装doxygen，所以不能产生帮助文档。可以忽略。
-8、当前版本有BUG，需要打下面补丁
+   加入 “PREFIX=$(RabbitImRoot)/ThirdLiabary/${Platform}”，其中$(RabbitImRoot)是本项目源码的根目录，在下面的
+   “构建环境”变量中添加这个环境变量。当然，也可以直接在“额外参数”中把$(RabbitImRoot)替换成本项目源码根目录路径。
+   ${Platform}为相应的平台，可以为windows、android、linux、ios
+5、设置编解码器：现在QXMPP支持vpx、THEORA视频编解码器；SPEEX音频编解码器。以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
+   并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLiabary/${Platform}/include
+   LIBS+=-L$(RabbitImRoot)/ThirdLiabary/${Platform}/lib
+6、选择相应平台“构建套件”中的“运行”标签，部署->详情->部署->添加部署步骤->选择make命令->Make参数中加上"install"。
+7、在“项目”->本项目中的“依赖关系”标签中选中qxmpp。
+8、在项目浏览器中选中qxmpp项目，右键点击“执行qmake”；再右键点击“构建”；再右键点击“部署”。
+   在部署时会出现":-1: error: [install_htmldocs] Error 4 (ignored)"错误。
+   这是由于没有安装doxygen，所以不能产生帮助文档。可以忽略。
+9、当前版本有BUG，需要打下面补丁
 ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch
 
 开发：
@@ -73,12 +119,9 @@ docs
   |----Books      开发相关的资料
   |----TODO.txt   需要完成的事
 
-
 调试：
 xmpp服务配置域名（rabbitim.com），客户端如果没有域名，连接服务器时，则直接设置主机IP，同时设置域名。
 当然，也可以修改系统hosts文件配置域名解析。这个域名实质上是xmpp应用程序用于区别不同域。
 
 参考资料：
 Qt Model/View： http://blog.csdn.net/leo115/article/details/7532677
-
-

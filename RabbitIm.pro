@@ -18,12 +18,25 @@ CONFIG(debug, debug|release) {
     QXMPP_LIBRARY_NAME = qxmpp
 }
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/ThirdLibary/lib/ -l$$QXMPP_LIBRARY_NAME
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/ThirdLibary/lib/ -l$${QXMPP_LIBRARY_NAME}0
-else:unix: LIBS += -L$$PWD/ThirdLibary/lib/ -l$$QXMPP_LIBRARY_NAME
+FFMPEG_LIBRARY= -lavcodec -lavformat -lavutil -lswscale -lswresample -lpostproc -lavfilter
 
-INCLUDEPATH += $$PWD/ThirdLibary/include
-DEPENDPATH += $$PWD/ThirdLibary/include
+android {
+    INCLUDEPATH += $$PWD/ThirdLibary/android/include
+    DEPENDPATH += $$PWD/ThirdLibary/android/include
+} else:win32 {
+    INCLUDEPATH += $$PWD/ThirdLibary/windows/include
+    DEPENDPATH += $$PWD/ThirdLibary/windows/include
+} else:unix {
+    INCLUDEPATH += $$PWD/ThirdLibary/linux/include
+    DEPENDPATH += $$PWD/ThirdLibary/linux/include
+}
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/ThirdLibary/windows/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$FFMPEG_LIBRARY
+else:unix: LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
+else:android: LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
+
+DEFINES += __STDC_CONSTANT_MACROS
 
 include(RabbitIm.pri)
 
@@ -44,5 +57,3 @@ OTHER_FILES += README.md \
     docs/QXmpp音视频呼叫流程.txt
 
 ANDROID_EXTRA_LIBS = 
-
-
