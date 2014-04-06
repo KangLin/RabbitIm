@@ -31,8 +31,8 @@ int CFrmMessage::SetRoster(CRoster* pRoster, MainWindow *pMainWindow)
     m_pRoster = pRoster;
     m_pMainWindow = pMainWindow;
 
-    bool check = connect(m_pRoster, SIGNAL(sigChangedPresence(QXmppPresence::Status::Type)),
-                         SLOT(ChangedPresence(QXmppPresence::Status::Type)));
+    bool check = connect(m_pRoster, SIGNAL(sigChangedPresence(QXmppPresence::AvailableStatusType)),
+                         SLOT(ChangedPresence(QXmppPresence::AvailableStatusType)));
     Q_ASSERT(check);
 
     return 0;
