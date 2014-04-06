@@ -192,7 +192,7 @@ void CFrmUserList::ChangedPresence(const QXmppPresence &presence)
     QMap<QString, CRoster*>::iterator it = m_Rosters.find(jid);
     if(m_Rosters.end() != it)
     {
-        it.value()->ChangedPresence(presence.status().type());
+        it.value()->ChangedPresence(presence.availableStatusType());
     }
 }
 

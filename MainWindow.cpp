@@ -138,6 +138,7 @@ void MainWindow::clientIqReceived(const QXmppIq &iq)
 
 void MainWindow::stateChanged(QXmppClient::State state)
 {
+    Q_UNUSED(state);
     qDebug("MainWindow::stateChanged");
 
     //TODO:同一账户在不同地方登录。QXMPP没有提供错误状态

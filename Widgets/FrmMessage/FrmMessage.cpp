@@ -38,7 +38,7 @@ int CFrmMessage::SetRoster(CRoster* pRoster, MainWindow *pMainWindow)
     return 0;
 }
 
-void CFrmMessage::ChangedPresence(QXmppPresence::Status::Type status)
+void CFrmMessage::ChangedPresence(QXmppPresence::AvailableStatusType status)
 {
     ui->lbRosterName->setText(m_pRoster->Name()
                               + "["
@@ -53,6 +53,7 @@ void CFrmMessage::hideEvent(QHideEvent *)
 }
 void CFrmMessage::closeEvent(QCloseEvent *e)
 {
+    Q_UNUSED(e);
     qDebug("CFrmMessage::closeEvent");
 }
 
@@ -91,6 +92,7 @@ int CFrmMessage::AppendMessageToList(const QString &szMessage, const QString &na
     //列表自动定位到最后一行
     QModelIndex index = m_pModel->index(m_pModel->rowCount() - 1, 0);
     ui->listView->setCurrentIndex(index);
+    return 0;
 }
 
 int CFrmMessage::AppendMessage(const QString &szMessage)

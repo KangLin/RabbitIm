@@ -80,6 +80,7 @@ void CFrmRegister::clientIqReceived(const QXmppIq &iq)
 
 void CFrmRegister::clientError(QXmppClient::Error e)
 {
+    Q_UNUSED(e);
     qDebug("CFrmRegister::clientError");
 }
 

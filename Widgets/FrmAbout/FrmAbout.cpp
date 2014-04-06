@@ -21,5 +21,6 @@ void CFrmAbout::closeEvent(QCloseEvent *)
 
 void CFrmAbout::on_btbButtons_clicked(QAbstractButton *button)
 {
+    Q_UNUSED(button);
     deleteLater();
 }

@@ -105,7 +105,7 @@ QList<QStandardItem*> CRoster::GetItem()
 }
 
 //TODO:修改成图片表示
-int CRoster::ChangedPresence(QXmppPresence::Status::Type status)
+int CRoster::ChangedPresence(QXmppPresence::AvailableStatusType status)
 {
     m_Status = status;
 
@@ -123,7 +123,7 @@ int CRoster::ChangedPresence(QXmppPresence::Status::Type status)
     return 0;
 }
 
-QXmppPresence::Status::Type CRoster::GetStatus()
+QXmppPresence::AvailableStatusType CRoster::GetStatus()
 {
     return m_Status;
 }

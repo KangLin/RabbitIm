@@ -41,9 +41,9 @@ public:
     int SetTurnServerPassword(QString &password);
 
     //好友状态文本表示
-    QString GetStatusText(QXmppPresence::Status status);
+    QString GetStatusText(QXmppPresence::AvailableStatusType status);
     //好友状态颜色表示
-    QColor GetStatusColor(QXmppPresence::Status status);
+    QColor GetStatusColor(QXmppPresence::AvailableStatusType status);
 signals:
 
 public slots:

@@ -9,11 +9,11 @@ CGlobal::CGlobal(QObject *parent) :
     m_UserColor = QColor(255, 0, 0);
     m_RosterColor = QColor(0, 0, 255);
 
-    m_szXmppServerHost = "183.62.225.76";
-    //m_szXmppServerHost = "192.168.10.12";
+    //m_szXmppServerHost = "183.62.225.76";
+    m_szXmppServerHost = "192.168.10.12";
     m_szXmppServer = "rabbitim.com";
-    m_szStunServer = "183.62.225.76";
-    m_szTurnServer = "183.62.225.76";
+    m_szStunServer = m_szXmppServerHost;
+    m_szTurnServer = m_szXmppServerHost;
     m_nStunServerPort = 3478;
     m_nTurnServerPort = 13478;
     m_szTurnUser = "foo";
@@ -161,37 +161,37 @@ int CGlobal::SetTurnServerPassword(QString &password)
 }
 
 
-QString CGlobal::GetStatusText(QXmppPresence::Status status)
+QString CGlobal::GetStatusText(QXmppPresence::AvailableStatusType status)
 {
-    if(QXmppPresence::Status::Online == status.type())
+    if(QXmppPresence::Online == status)
         return tr("OnLine");
-    else if(QXmppPresence::Status::Away == status.type())
+    else if(QXmppPresence::Away == status)
         return tr("Temporarily away");
-    else if(QXmppPresence::Status::Chat == status.type())
+    else if(QXmppPresence::Chat == status)
         return tr("Chat");
-    else if(QXmppPresence::Status::DND == status.type())
+    else if(QXmppPresence::DND == status)
         return tr("Do not disturb");
-    else if(QXmppPresence::Status::Invisible == status.type())
+    else if(QXmppPresence::Invisible == status)
         return tr("Invisible");
-    else if(QXmppPresence::Status::XA == status.type())
+    else if(QXmppPresence::XA == status)
         return tr("Away for an extended period");
     else
         return tr("Invisible");
 }
 
-QColor CGlobal::GetStatusColor(QXmppPresence::Status status)
+QColor CGlobal::GetStatusColor(QXmppPresence::AvailableStatusType status)
 {
-    if(QXmppPresence::Status::Online == status.type())
+    if(QXmppPresence::Online == status)
         return QColor(0, 255, 0);
-    else if(QXmppPresence::Status::Away == status.type())
+    else if(QXmppPresence::Away == status)
         return QColor(255, 0, 255);
-    else if(QXmppPresence::Status::Chat == status.type())
+    else if(QXmppPresence::Chat == status)
         return QColor(0, 255, 0);
-    else if(QXmppPresence::Status::DND == status.type())
+    else if(QXmppPresence::DND == status)
         return QColor(255, 0, 0);
-    else if(QXmppPresence::Status::Invisible == status.type())
+    else if(QXmppPresence::Invisible == status)
         return QColor(255, 255, 255);
-    else if(QXmppPresence::Status::XA == status.type())
+    else if(QXmppPresence::XA == status)
         return QColor(255, 0, 255);
     else
         return QColor(255, 255, 255);

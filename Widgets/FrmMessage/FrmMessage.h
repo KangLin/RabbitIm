@@ -43,7 +43,7 @@ private slots:
 
     void on_pbVideo_clicked();
 
-    void ChangedPresence(QXmppPresence::Status::Type status);
+    void ChangedPresence(QXmppPresence::AvailableStatusType status);
 
 private:
     Ui::CFrmMessage *ui;

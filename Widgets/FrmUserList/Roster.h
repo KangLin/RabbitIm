@@ -33,9 +33,9 @@ public:
 
     QList<QStandardItem *> GetItem(); //得到条目对象
 
-    QXmppPresence::Status::Type GetStatus();
+    QXmppPresence::AvailableStatusType GetStatus();
     //状态改变
-    int ChangedPresence(QXmppPresence::Status::Type status);
+    int ChangedPresence(QXmppPresence::AvailableStatusType status);
     //显示消息对话框
     int ShowMessageDialog();
     //增加消息
@@ -50,13 +50,13 @@ private:
 signals:
     void ReciveMessage(CRoster* pRoster);
     //好友状态改变时触发
-    void sigChangedPresence(QXmppPresence::Status::Type status);
+    void sigChangedPresence(QXmppPresence::AvailableStatusType status);
 
 public slots:
 
 private:
     QString m_szJid;
-    QXmppPresence::Status::Type m_Status;
+    QXmppPresence::AvailableStatusType m_Status;
 
     MainWindow* m_pMainWindow;
     std::list<QStandardItem*> m_lstUserListItem; //这个要交给控件释放
