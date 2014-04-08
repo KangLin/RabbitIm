@@ -11,7 +11,10 @@ SOURCES += main.cpp\
     Global.cpp \
     Widgets/FrmRegister/FrmRegister.cpp \
     Widgets/FrmAbout/FrmAbout.cpp \
-    Widgets/FrmVideo/FrmVideo.cpp
+    Widgets/FrmVideo/FrmVideo.cpp \
+    Widgets/FrmVideo/CaptureVideoFrame.cpp \
+    Widgets/FrmVideo/FrmPlayer.cpp \
+    Tool.cpp
 
 HEADERS  += MainWindow.h \
     Widgets/DlgLogin/DlgLogin.h \
@@ -25,7 +28,10 @@ HEADERS  += MainWindow.h \
     Global.h \
     Widgets/FrmRegister/FrmRegister.h \
     Widgets/FrmAbout/FrmAbout.h \
-    Widgets/FrmVideo/FrmVideo.h
+    Widgets/FrmVideo/FrmVideo.h \
+    Widgets/FrmVideo/CaptureVideoFrame.h \
+    Widgets/FrmVideo/FrmPlayer.h \
+    Tool.h
 
 FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \

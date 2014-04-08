@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml multimedia
+QT       += core gui network xml multimedia multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,11 +18,12 @@ CONFIG(debug, debug|release) {
     QXMPP_LIBRARY_NAME = qxmpp
 }
 
-FFMPEG_LIBRARY= -lavcodec -lavformat -lavutil -lswscale -lswresample -lpostproc -lavfilter
+FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lswresample -lpostproc -lavfilter  -lavutil
 
 android {
     INCLUDEPATH += $$PWD/ThirdLibary/android/include
     DEPENDPATH += $$PWD/ThirdLibary/android/include
+    DEFINES += ANDROID
 } else:win32 {
     INCLUDEPATH += $$PWD/ThirdLibary/windows/include
     DEPENDPATH += $$PWD/ThirdLibary/windows/include
@@ -36,7 +37,25 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/ThirdLibary/windows/lib
 else:unix: LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
 else:android: LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
 
-DEFINES += __STDC_CONSTANT_MACROS
+!isEmpty(QXMPP_USE_SPEEX) {
+    DEFINES += QXMPP_USE_SPEEX
+    LIBS += -lspeex
+}
+
+!isEmpty(QXMPP_USE_THEORA) {
+    DEFINES += QXMPP_USE_THEORA
+    LIBS += -ltheoradec -ltheoraenc
+}
+
+!isEmpty(QXMPP_USE_VPX) {
+    DEFINES += QXMPP_USE_VPX
+    LIBS += -lvpx
+    android {
+        LIBS+= -lcpu-features
+    }
+}
+
+DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
 
 include(RabbitIm.pri)
 

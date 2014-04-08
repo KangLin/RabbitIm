@@ -1,9 +1,10 @@
+#include "../../Tool.h"
 #include "FrmPlayer.h"
 #include <QPainter>
 #include <QImage>
 
-CFrmPlayer::CFrmPlayer(QWidget *parent) :
-    QWidget(parent)
+CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
+    QWidget(parent, f)
 {
     m_pVideoFrame = NULL;
 }
@@ -30,29 +31,36 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
 
 void CFrmPlayer::present(const QVideoFrame &frame)
 {
-    if(QVideoFrame::Format_RGB32 != frame.pixelFormat())
-    {
-        qDebug("CFrmPlayer::ShowFrame:frame pixel format is not Format_RGB32");
-        return;
-    }
-
     QVideoFrame f(frame);
 
+    //QVideoFrame使用bits前一定要先map，bits才会生效
     if(!f.map(QAbstractVideoBuffer::ReadOnly))
         return;
 
-    if(NULL == m_pVideoFrame)
+    do
     {
-        m_pVideoFrame = new QXmppVideoFrame(f.mappedBytes(),
-                                            f.size(),
-                                            f.bytesPerLine(),
-                                            QXmppVideoFrame::Format_RGB32);
-    }
+        //图片格式转换
+        AVPicture pic;
+        int nRet = CTool::ConvertFormat(f, &pic, AV_PIX_FMT_RGB32);
+        if(nRet)
+            break;
 
-    if(m_pVideoFrame)
-    {
-        memcpy(m_pVideoFrame->bits(), f.bits(), m_pVideoFrame->mappedBytes());
-    }
+        int size = avpicture_get_size(AV_PIX_FMT_RGB32, f.width(), f.height());
+        if(NULL == m_pVideoFrame)
+        {
+            m_pVideoFrame = new QXmppVideoFrame(size,
+                                                f.size(),
+                                                size / f.height(),
+                                                QXmppVideoFrame::Format_RGB32);
+        }
+
+        if(m_pVideoFrame)
+        {
+            avpicture_layout(&pic, AV_PIX_FMT_RGB32, f.width(), f.height(), m_pVideoFrame->bits(), size);
+        }
+
+        avpicture_free(&pic);
+    }while(0);
 
     f.unmap();
 
