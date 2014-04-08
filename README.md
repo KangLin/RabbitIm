@@ -76,9 +76,7 @@ ThirdLibary
              ｜------lib
 
 编解码库(libvpx)编译：
-libvpx在windows下编译需要cygwin
-./configure --prefix=$(RabbitImRoot)/ThirdLiabary/windows --enable-static-msvcrt --disable-examples --disable-docs --disable-unit-tests
-make install
+详见：http://blog.csdn.net/kl222/article/details/23101115
 
 ffmpeg编译：
 详见《ffmpeg教程》

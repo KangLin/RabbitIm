@@ -1,10 +1,18 @@
 #include "MainWindow.h"
 #include <QApplication>
 #include <QTranslator>
+#include <QCamera>
+#include "Widgets/FrmVideo/CaptureVideoFrame.h"
+#include "Widgets/FrmVideo/FrmPlayer.h"
+#include <QCameraViewfinder>
+#include <QVideoProbe>
+#include "Tool.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    CTool::SetFFmpegLog();
 
     QString locale = QLocale::system().name();
 
@@ -18,7 +26,30 @@ int main(int argc, char *argv[])
     myappTranslator.load("app_" + QLocale::system().name(), a.applicationDirPath());
     a.installTranslator(&myappTranslator);
 
-    MainWindow w;
-    w.show();
+    //MainWindow w;
+    //w.show();
+
+    QList<QByteArray> device = QCamera::availableDevices();
+    QList<QByteArray>::iterator it;
+    for(it = device.begin(); it != device.end(); it++)
+    {
+        qDebug("Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+    }
+
+    QCamera camera;
+    CCaptureVideoFrame captureVideoFrame;
+    camera.setCaptureMode(QCamera::CaptureVideo);
+    CFrmPlayer player;
+    if(captureVideoFrame.setSource(&camera))
+    {
+        qDebug("probe.setSource is ok");
+        player.connect(&captureVideoFrame, SIGNAL(CaptureFrame(QVideoFrame)),
+                       SLOT(present(QVideoFrame)));
+    }
+
+    player.show();
+    player.activateWindow();//*/
+    camera.start();
+
     return a.exec();
 }
