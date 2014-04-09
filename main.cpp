@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     a.installTranslator(&qtTranslator);
     //本地化程序资源
     QTranslator myappTranslator;
-    myappTranslator.load("app_" + QLocale::system().name(), a.applicationDirPath());
+    myappTranslator.load("app_" + locale, a.applicationDirPath());
     a.installTranslator(&myappTranslator);
 
     MainWindow w;

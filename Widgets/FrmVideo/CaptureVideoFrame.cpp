@@ -21,7 +21,7 @@ QList<QVideoFrame::PixelFormat> CCaptureVideoFrame::supportedPixelFormats(QAbstr
 //捕获视频帧。windows下格式是RGB32；android下是NV21
 bool CCaptureVideoFrame::present(const QVideoFrame &frame)
 {
-    qDebug("CCaptureVideoFrame::present format:%d", frame.pixelFormat());
+    //qDebug("CCaptureVideoFrame::present format:%d", frame.pixelFormat());
     emit CaptureFrame(frame);
 
     return true;
