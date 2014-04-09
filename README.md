@@ -41,7 +41,7 @@ webrtc库：
 下载：
   git clone git://source.ffmpeg.org/ffmpeg.git
 当前使用版本：
-  git库版本 —— 16509d3a286c55f9149c0a98e3d7200ed6d2ee16
+  git库版本 —— 44841528c197435be44f0c3598098e6c52f0df26
 
 编解码库(x264)
 下载：

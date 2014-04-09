@@ -1,6 +1,7 @@
 #ifndef FRMPLAYER_H
 #define FRMPLAYER_H
 
+#include "../../Tool.h"
 #include <QWidget>
 #include <QVideoFrame>
 #include "qxmpp/QXmppRtpChannel.h"
@@ -17,12 +18,15 @@ public:
 public slots:
     //捕获视频槽
     virtual void present(const QVideoFrame &frame);
+    virtual void present(const QXmppVideoFrame &frame);
 
 protected:
     virtual void paintEvent(QPaintEvent *);
 
 private:
     QXmppVideoFrame *m_pVideoFrame;
+
+    void present(AVPicture &pic);
 };
 
 #endif // FRMPLAYER_H

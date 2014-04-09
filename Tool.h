@@ -10,6 +10,7 @@ extern "C" {
 
 #include <QObject>
 #include <QVideoFrame>
+#include "qxmpp/QXmppRtpChannel.h"
 
 class CTool : public QObject
 {
@@ -23,14 +24,27 @@ public:
     static int SetFFmpegLog();
 
     //格式转换
-    //如果转换成功，则调用者使用完 pOutFrame 后，需要调用 avpicture_free(pOutFrame) 释放内存
+    //如果转换成功，则调用者使用完 outFrame 后，需要调用 avpicture_free(&outFrame) 释放内存
     //成功返回0，不成功返回非0
     static int ConvertFormat(/*[in]*/const QVideoFrame &inFrame,
-                             /*[out]*/AVPicture *pOutFrame,
+                             /*[out]*/AVPicture &outFrame,
+                             /*[in]*/int nWidth,
+                             /*[in]*/int nHeight,
                              AVPixelFormat pixelFormat = AV_PIX_FMT_RGB32);
-
+    static int ConvertFormat(/*[in]*/const QXmppVideoFrame &inFrame,
+                             /*[out]*/AVPicture &outFrame,
+                             /*[in]*/int nWidth,
+                             /*[in]*/int nHeight,
+                             AVPixelFormat pixelFormat = AV_PIX_FMT_RGB32);
+    static int ConvertFormat(const AVPicture &inFrame,
+                             int nInWidth, int nInHeight,
+                             AVPixelFormat inPixelFormat,
+                             AVPicture &outFrame,
+                             int nOutWidth, int nOutHeight,
+                             AVPixelFormat outPixelFormat);
     //格式映射
     static AVPixelFormat QVideoFrameFormatToFFMpegPixFormat(const QVideoFrame::PixelFormat format);
+    static AVPixelFormat QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFrame::PixelFormat format);
 
 signals:
 

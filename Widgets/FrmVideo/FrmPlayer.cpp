@@ -1,4 +1,4 @@
-#include "../../Tool.h"
+
 #include "FrmPlayer.h"
 #include <QPainter>
 #include <QImage>
@@ -39,25 +39,14 @@ void CFrmPlayer::present(const QVideoFrame &frame)
 
     do
     {
+        QRect rect = this->rect();
         //图片格式转换
         AVPicture pic;
-        int nRet = CTool::ConvertFormat(f, &pic, AV_PIX_FMT_RGB32);
+        int nRet = CTool::ConvertFormat(f, pic, rect.width(), rect.height(), AV_PIX_FMT_RGB32);
         if(nRet)
             break;
 
-        int size = avpicture_get_size(AV_PIX_FMT_RGB32, f.width(), f.height());
-        if(NULL == m_pVideoFrame)
-        {
-            m_pVideoFrame = new QXmppVideoFrame(size,
-                                                f.size(),
-                                                size / f.height(),
-                                                QXmppVideoFrame::Format_RGB32);
-        }
-
-        if(m_pVideoFrame)
-        {
-            avpicture_layout(&pic, AV_PIX_FMT_RGB32, f.width(), f.height(), m_pVideoFrame->bits(), size);
-        }
+        present(pic);
 
         avpicture_free(&pic);
     }while(0);
@@ -67,4 +56,44 @@ void CFrmPlayer::present(const QVideoFrame &frame)
     this->update();
 
     return;
+}
+
+void CFrmPlayer::present(const QXmppVideoFrame &frame)
+{
+    QRect rect = this->rect();
+    //图片格式转换
+    AVPicture pic;
+    int nRet = CTool::ConvertFormat(frame, pic, rect.width(), rect.height(), AV_PIX_FMT_RGB32);
+    if(nRet)
+        return;
+
+    present(pic);
+    avpicture_free(&pic);
+
+
+    this->update();
+
+    return;
+}
+
+void CFrmPlayer::present(AVPicture &pic)
+{
+    QRect rect = this->rect();
+    int size = avpicture_get_size(AV_PIX_FMT_RGB32, rect.width(), rect.height());
+    if(NULL == m_pVideoFrame)
+    {
+        QSize frameSize(rect.width(), rect.height());
+        m_pVideoFrame = new QXmppVideoFrame(size,
+                                            frameSize,
+                                            size / rect.height(),
+                                            QXmppVideoFrame::Format_RGB32);
+    }
+
+    if(m_pVideoFrame)
+    {
+        avpicture_layout(&pic, AV_PIX_FMT_RGB32,
+                         rect.width(), rect.height(),
+                         m_pVideoFrame->bits(), size);
+    }
+
 }
