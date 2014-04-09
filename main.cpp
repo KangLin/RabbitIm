@@ -1,11 +1,6 @@
 #include "MainWindow.h"
 #include <QApplication>
 #include <QTranslator>
-#include <QCamera>
-#include "Widgets/FrmVideo/CaptureVideoFrame.h"
-#include "Widgets/FrmVideo/FrmPlayer.h"
-#include <QCameraViewfinder>
-#include <QVideoProbe>
 #include "Tool.h"
 
 int main(int argc, char *argv[])

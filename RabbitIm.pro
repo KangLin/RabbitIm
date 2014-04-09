@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml multimedia multimediawidgets
+QT       += core gui network xml multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,6 +20,7 @@ CONFIG(debug, debug|release) {
 
 FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lswresample -lpostproc -lavfilter  -lavutil
 
+#android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android {
     INCLUDEPATH += $$PWD/ThirdLibary/android/include
     DEPENDPATH += $$PWD/ThirdLibary/android/include
@@ -28,14 +29,14 @@ android {
     INCLUDEPATH += $$PWD/ThirdLibary/windows/include
     DEPENDPATH += $$PWD/ThirdLibary/windows/include
 } else:unix {
-    INCLUDEPATH += $$PWD/ThirdLibary/linux/include
-    DEPENDPATH += $$PWD/ThirdLibary/linux/include
+    INCLUDEPATH += $$PWD/ThirdLibary/unix/include
+    DEPENDPATH += $$PWD/ThirdLibary/unix/include
 }
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/ThirdLibary/windows/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$FFMPEG_LIBRARY
-else:unix: LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
 else:android: LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
+else:unix: LIBS += -L$$PWD/ThirdLibary/unix/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
 
 !isEmpty(QXMPP_USE_SPEEX) {
     DEFINES += QXMPP_USE_SPEEX
