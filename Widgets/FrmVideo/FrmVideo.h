@@ -2,10 +2,13 @@
 #define FRMVIDEO_H
 
 #include <QFrame>
+#include <QCamera>
 #include "../../XmppClient.h"
 #include <QAudioOutput>
 #include <QAudioInput>
 #include <QBuffer>
+#include "CaptureVideoFrame.h"
+#include "FrmPlayer.h"
 
 class CRoster;
 
@@ -27,7 +30,7 @@ public:
 protected slots:
     //有被呼叫时触发（只有被叫方才有）
     void callReceived(QXmppCall* pCall);
-    //调用开始时触发
+    //呼叫开始时触发
     void callStarted(QXmppCall *pCall);
 
     //对方正在响铃时触发（只有呼叫方才有）
@@ -49,7 +52,6 @@ protected slots:
     void videoModeChanged(QIODevice::OpenMode mode);
 
     //当呼叫结束时触摸发
-    ///
     //注意：在这个函数中不能直接删除呼叫(call)
     //用deleteLater()代替。
     void finished();
@@ -59,15 +61,26 @@ protected slots:
 private:
     int StopDevice();
     void closeEvent(QCloseEvent *e);
+    void resizeEvent(QResizeEvent *);
+    void paintEvent(QPaintEvent *event);
 
 private:
     Ui::CFrmVideo *ui;
 
+    bool m_bCall;//是否是主叫方，用于开始视频m_pCall->startVideo
     QXmppCall* m_pCall;
     CXmppClient *m_pClient;
 
     QAudioInput*        m_pAudioInput;
     QAudioOutput*       m_pAudioOutput;
+
+    QCamera m_Camera;
+    CCaptureVideoFrame m_CaptureVideoFrame;
+    CFrmPlayer m_LocalePlayer;//本地视频播放窗口
+    CFrmPlayer m_RemotePlayer;//远程视频播放窗口
+
+private slots:
+    void CaptureFrame(const QVideoFrame &frame);
 };
 
 #endif // FRMVIDEO_H
