@@ -74,6 +74,10 @@ OTHER_FILES += README.md \
     translations/app_zh_CN.ts \
     docs/* \
     docs/Books/* \
-    docs/QXmpp音视频呼叫流程.txt
+    docs/QXmpp音视频呼叫流程.txt \
+    ThirdLibary/build/build_android_ffmpeg.sh \
+    ThirdLibary/build/build_android_x264.sh \
+    ThirdLibary/build/build_windows_libvpx.sh
+
 
 ANDROID_EXTRA_LIBS = 
