@@ -29,6 +29,7 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
     painter.drawImage(this->rect(), image);
 }
 
+//从摄像头捕获的帧
 void CFrmPlayer::present(const QVideoFrame &frame)
 {
     QVideoFrame f(frame);
@@ -58,6 +59,7 @@ void CFrmPlayer::present(const QVideoFrame &frame)
     return;
 }
 
+//从网络上接收的帧
 void CFrmPlayer::present(const QXmppVideoFrame &frame)
 {
     QRect rect = this->rect();
