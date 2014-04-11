@@ -55,6 +55,12 @@ webrtc库：
 当前使用版本：
   git库版本 —— 3b39d7503f4ce75dce962445dddfbfb18f6babf0
 
+图像处理库(opencv)
+下载：
+  git clone git://github.com/Itseez/opencv.git
+当前使用版本:
+  git库版本 —— 7b366df8226fd692b1d5995d4b434c837924fa83
+
 编译：
 在源码根目录下建立第三方库目录：ThirdLibary
 把第三方依赖库编译成功后，放到ThirdLibary目录下,ThirdLibary目录结构如下：

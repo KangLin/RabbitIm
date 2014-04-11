@@ -18,8 +18,6 @@ CONFIG(debug, debug|release) {
     QXMPP_LIBRARY_NAME = qxmpp
 }
 
-FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lswresample -lpostproc -lavfilter  -lavutil
-
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android {
     INCLUDEPATH += $$PWD/ThirdLibary/android/include
@@ -28,15 +26,28 @@ android {
 } else:win32 {
     INCLUDEPATH += $$PWD/ThirdLibary/windows/include
     DEPENDPATH += $$PWD/ThirdLibary/windows/include
+    OPENCV_VERSION=300
 } else:unix {
     INCLUDEPATH += $$PWD/ThirdLibary/unix/include
     DEPENDPATH += $$PWD/ThirdLibary/unix/include
 }
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/ThirdLibary/windows/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$FFMPEG_LIBRARY
-else:android: LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
-else:unix: LIBS += -L$$PWD/ThirdLibary/unix/lib -l$$QXMPP_LIBRARY_NAME $$FFMPEG_LIBRARY
+FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lswresample -lpostproc -lavfilter  -lavutil
+
+OPENCV_LIBRARY=-lopencv_core$$OPENCV_VERSION \
+    -lopencv_highgui$$OPENCV_VERSION \
+    -lopencv_imgproc$$OPENCV_VERSION \
+    -lopencv_cudaimgproc$$OPENCV_VERSION
+
+android{
+} else {
+    OPENCV_LIBRARY += -llibjpeg  -llibwebp -llibtiff -llibpng -llibjasper -lIlmImf -lzlib
+}
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/ThirdLibary/windows/lib -l$$QXMPP_LIBRARY_NAME $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
+else:android: LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME  $$OPENCV_LIBRARY  $$FFMPEG_LIBRARY
+else:unix: LIBS += -L$$PWD/ThirdLibary/unix/lib -l$$QXMPP_LIBRARY_NAME $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
 
 !isEmpty(QXMPP_USE_SPEEX) {
     DEFINES += QXMPP_USE_SPEEX
