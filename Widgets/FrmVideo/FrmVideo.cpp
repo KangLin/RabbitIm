@@ -60,11 +60,14 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
                     SLOT(clientIqReceived(QXmppIq)));
     Q_ASSERT(check);
 
+#ifndef ANDROID
     //关联本地视频头捕获视频帧信号到本地播放视频窗口
     check = connect(&m_CaptureVideoFrame, SIGNAL(CaptureFrame(QVideoFrame)),
                     &m_LocalePlayer, SLOT(present(QVideoFrame)));
     Q_ASSERT(check);
+#endif
 
+    //关联到网络发送
     check = connect(&m_CaptureVideoFrame, SIGNAL(CaptureFrame(QVideoFrame)),
                     SLOT(CaptureFrame(QVideoFrame)));
     Q_ASSERT(check);
@@ -314,10 +317,11 @@ void CFrmVideo::connected()
     m_CaptureVideoFrame.setSource(&m_Camera);
 
     m_Camera.start();
+#ifndef ANDROID
     m_LocalePlayer.show();
     m_LocalePlayer.activateWindow();
     m_LocalePlayer.setWindowTitle(g_Global.GetName());
-
+#endif
 }
 
 //音频模式改变
