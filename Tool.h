@@ -46,6 +46,7 @@ public:
     static AVPixelFormat QVideoFrameFormatToFFMpegPixFormat(const QVideoFrame::PixelFormat format);
     static AVPixelFormat QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFrame::PixelFormat format);
 
+    static void YUV420spRotate90(uchar *des, uchar *src, int width, int height);
 signals:
 
 public slots:

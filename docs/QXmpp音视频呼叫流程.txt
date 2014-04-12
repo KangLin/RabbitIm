@@ -931,3 +931,7 @@ CFrmVideo::audioModeChanged:3
 周日 三月 30 21:19:40 2014 DEBUG ICE forward check complete 192.168.10.2 port 49155 (local 192.168.10.12 port 49155) (reflexive 192.168.10.12 port 49155)
 周日 三月 30 21:19:40 2014 RECEIVED <iq id="qxmpp34" to="b@rabbitim.com/QXmpp" type="result" from="a@rabbitim.com/QXmpp"/>
 周日 三月 30 21:19:40 2014 DEBUG Received ACK for packet qxmpp34
+
+
+视频呼叫流程：
+视频呼叫开始，只能由呼叫方在connected事件中调用一次startVideo。目前视频的参数是在QXmpp中写死的。

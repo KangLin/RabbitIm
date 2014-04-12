@@ -14,7 +14,8 @@ SOURCES += main.cpp\
     Widgets/FrmVideo/FrmVideo.cpp \
     Widgets/FrmVideo/CaptureVideoFrame.cpp \
     Widgets/FrmVideo/FrmPlayer.cpp \
-    Tool.cpp
+    Tool.cpp \
+    Widgets/FrmVideo/DataVideoBuffer.cpp
 
 HEADERS  += MainWindow.h \
     Widgets/DlgLogin/DlgLogin.h \
@@ -31,7 +32,8 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/FrmVideo.h \
     Widgets/FrmVideo/CaptureVideoFrame.h \
     Widgets/FrmVideo/FrmPlayer.h \
-    Tool.h
+    Tool.h \
+    Widgets/FrmVideo/DataVideoBuffer.h
 
 FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \

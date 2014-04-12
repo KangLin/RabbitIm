@@ -57,11 +57,11 @@ AVPixelFormat CTool::QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFram
 
 //如果转换成功，则调用者使用完 pOutFrame 后，需要调用 avpicture_free(pOutFrame) 释放内存
 //成功返回0，不成功返回非0
-int CTool::ConvertFormat(/*[in]*/const QVideoFrame &inFrame,
-                              /*[out]*/AVPicture &outFrame,
-                              /*[in]*/int nWidth,
-                              /*[in]*/int nHeight,
-                              AVPixelFormat pixelFormat)
+int CTool::ConvertFormat(/*[in]*/ const QVideoFrame &inFrame,
+                         /*[out]*/AVPicture &outFrame,
+                         /*[in]*/ int nWidth,
+                         /*[in]*/ int nHeight,
+                         /*[in]*/ AVPixelFormat pixelFormat)
 {
     int nRet = 0;
 
@@ -83,7 +83,11 @@ int CTool::ConvertFormat(/*[in]*/const QVideoFrame &inFrame,
     return nRet;
 }
 
-int CTool::ConvertFormat(const QXmppVideoFrame &inFrame, AVPicture &outFrame, int nWidth, int nHeight, AVPixelFormat pixelFormat)
+int CTool::ConvertFormat(/*[in]*/ const QXmppVideoFrame &inFrame,
+                         /*[out]*/AVPicture &outFrame,
+                         /*[in]*/ int nWidth,
+                         /*[in]*/ int nHeight,
+                         /*[in]*/ AVPixelFormat pixelFormat)
 {
     int nRet = 0;
 
@@ -106,12 +110,14 @@ int CTool::ConvertFormat(const QXmppVideoFrame &inFrame, AVPicture &outFrame, in
     return nRet;
 }
 
-int CTool::ConvertFormat(const AVPicture &inFrame,
-                         int nInWidth, int nInHeight,
-                         AVPixelFormat inPixelFormat,
-                         AVPicture &outFrame,
-                         int nOutWidth, int nOutHeight,
-                         AVPixelFormat outPixelFormat)
+int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
+                         /*[in]*/ int nInWidth,
+                         /*[in]*/ int nInHeight,
+                         /*[in]*/ AVPixelFormat inPixelFormat,
+                         /*[out]*/AVPicture &outFrame,
+                         /*[in]*/ int nOutWidth,
+                         /*[in]*/ int nOutHeight,
+                         /*[in]*/ AVPixelFormat outPixelFormat)
 {
     int nRet = 0;
     struct SwsContext* pSwsCtx = NULL;
@@ -167,4 +173,27 @@ int CTool::ConvertFormat(const AVPicture &inFrame,
 
     sws_freeContext(pSwsCtx);
     return nRet;
+}
+
+void CTool::YUV420spRotate90(uchar *des, uchar *src,int width,int height)
+{
+    int wh = width * height;
+    //旋转Y
+    int k = 0;
+    for(int i = 0; i < width; i++) {
+        for(int j = 0; j < height; j++)
+        {
+            des[k] = src[width * j + i];
+            k++;
+        }
+    }
+
+    for(int i = 0; i < width; i += 2) {
+        for(int j = 0; j < height / 2; j++)
+        {
+            des[k] = src[wh+ width * j + i];
+            des[k+1] = src[wh + width * j + i + 1];
+            k+=2;
+        }
+    }
 }
