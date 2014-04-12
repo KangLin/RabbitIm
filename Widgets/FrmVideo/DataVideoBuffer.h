@@ -11,7 +11,8 @@ class CDataVideoBuffer : public QAbstractVideoBuffer
 {
 public:
     CDataVideoBuffer(uchar* data, int nLength, int nWidth, int nHeight);
-
+    virtual ~CDataVideoBuffer();
+    virtual void release();
     virtual MapMode mapMode() const;
 
     virtual uchar *map(MapMode mode, int *numBytes, int *bytesPerLine);

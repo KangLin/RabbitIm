@@ -10,6 +10,12 @@ CDataVideoBuffer::CDataVideoBuffer(uchar* data, int nLength, int nWidth, int nHe
     m_nHeight = nHeight;
 }
 
+CDataVideoBuffer::~CDataVideoBuffer()
+{}
+
+void CDataVideoBuffer::release()
+{}
+
 QAbstractVideoBuffer::MapMode CDataVideoBuffer::mapMode() const
 {
     return m_Mode;

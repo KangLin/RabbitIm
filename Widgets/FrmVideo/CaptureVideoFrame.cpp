@@ -37,7 +37,47 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
     do{
         //windows下要镜像，android下要旋转90度
 #ifdef ANDROID
-        emit CaptureFrame(frame);
+        int nRet = 0;
+        AVPicture pic;
+        int nWidth = inFrame.width(), nHeight = inFrame.height();
+        AVPixelFormat pixFormat = AV_PIX_FMT_YUYV422;
+        nRet = CTool::ConvertFormat(inFrame, pic, nWidth, nHeight, pixFormat);
+        if(nRet)
+        {
+            qDebug("CTool::ConvertFormat error nRet:%d", nRet);
+            break;
+        }
+
+        int nSize = avpicture_get_size(pixFormat, nWidth, nHeight);
+        uchar *pBuffer = new uchar[nSize];
+        if(NULL == pBuffer)
+        {
+            qDebug("CCaptureVideoFrame::present:new buffer fail");
+            break;
+        }
+
+        do
+        {
+            nRet = avpicture_layout(&pic, pixFormat, nWidth, nHeight, pBuffer, nSize);
+            if(nRet <= 0)
+            {
+                qDebug("CCaptureVideoFrame::present:avpicture_layout error.nRet:%d", nRet);
+                break;
+            }
+
+            cv::Mat src(nHeight, nWidth, CV_8UC2, pBuffer), dst;
+            cv::transpose(src, dst);
+            cv::flip(dst, src, 1);
+            CDataVideoBuffer buffer(src.data,
+                                    src.total() * src.channels(),
+                                    src.cols,
+                                    src.rows);
+            QVideoFrame outFrame(&buffer, QSize(src.cols, src.rows), QVideoFrame::Format_YUYV);
+            emit CaptureFrame(outFrame);
+        }while(0);
+
+        delete pBuffer;
+
 #else
         if(inFrame.pixelFormat() != QVideoFrame::Format_RGB32)
         {
