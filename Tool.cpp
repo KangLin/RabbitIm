@@ -179,7 +179,6 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     return nRet;
 }
 
-
 cv::Mat CTool::ImageRotate(cv::Mat & src, const CvPoint &_center, double angle)
 {
     CvPoint2D32f center;
@@ -195,38 +194,114 @@ cv::Mat CTool::ImageRotate(cv::Mat & src, const CvPoint &_center, double angle)
     return dst;
 }
 
-void CTool::YUV420spRotate90(uchar *des, uchar *src,int width,int height)
+void CTool::YUV420spRotate90(uchar *dst, uchar *src,int width,int height)
 {
-    int wh = width * height;
+    static int nWidth = 0, nHeight = 0;
+    static int wh = 0;
+    static int uvHeight = 0;
+    if(width != nWidth || height != nHeight)
+    {
+        nWidth = width;
+        nHeight = height;
+        wh = width * height;
+        uvHeight = height >> 1;//uvHeight = height / 2
+    }
+
     //旋转Y
     int k = 0;
     for(int i = 0; i < width; i++) {
-        for(int j = 0; j < height; j++)
-        {
-            des[k] = src[width * j + i];
+        int nPos = 0;
+        for(int j = 0; j < height; j++) {
+            dst[k] = src[nPos + i];
             k++;
+            nPos += width;
         }
     }
 
-    for(int i = 0; i < width; i += 2) {
-        for(int j = 0; j < height / 2; j++)
-        {
-            des[k] = src[wh+ width * j + i];
-            des[k+1] = src[wh + width * j + i + 1];
-            k+=2;
+    for(int i = 0; i < width; i+=2){
+        int nPos = wh;
+        for(int j = 0; j < uvHeight; j++) {
+            dst[k] = src[nPos + i];
+            dst[k + 1] = src[nPos + i + 1];
+            k += 2;
+            nPos += width;
         }
     }
+    return;
+}
+
+void CTool::YUV420spRotateNegative90(uchar *dst, uchar *src, int width, int height)
+{
+    static int nWidth = 0, nHeight = 0;
+    static int wh = 0;
+    static int uvHeight = 0;
+    if(width != nWidth || height != nHeight)
+    {
+        nWidth = width;
+        nHeight = height;
+        wh = width * height;
+        uvHeight = height >> 1;//uvHeight = height / 2
+    }
+
+    //旋转Y
+    int k = 0;
+    for(int i = 0; i < width; i++){
+        int nPos = width - 1;
+        for(int j = 0; j < height; j++)
+        {
+            dst[k] = src[nPos - i];
+            k++;
+            nPos += width;
+        }
+    }
+
+    for(int i = 0; i < width; i+=2){
+        int nPos = wh + width - 1;
+        for(int j = 0; j < uvHeight; j++) {
+            dst[k] = src[nPos - i - 1];
+            dst[k + 1] = src[nPos - i];
+            k += 2;
+            nPos += width;
+        }
+    }
+
+    return;
+}
+
+void CTool::YUV420spRotate90(uchar *dst, uchar *src, int width, int height, int mode)
+{
+    switch (mode) {
+    case 1:
+        YUV420spRotate90(dst, src, width, height);
+        break;
+    case -1:
+        YUV420spRotateNegative90(dst, src, width, height);
+        break;
+    default:
+        break;
+    }
+    return;
 }
 
 //以Y轴做镜像
 void YUV420spMirrorY(uchar *dst, uchar *src, int width, int height)
 {
-    int wh = width * height;
+    static int nWidth = 0, nHeight = 0;
+    static int wh = 0;
+    static int uvHeight = 0;
+    if(width != nWidth || height != nHeight)
+    {
+        wh = width * height;
+        uvHeight = height >> 1; // uvHeight = height / 2
+        nWidth = width;
+        nHeight = height;
+    }
+
     //镜像Y
     int k = 0;
-
+    int nPos = -1;
     for(int j = 0; j < height; j++) {
-        int nPos = (j + 1) * width;
+        nPos += width;
         for(int i = 0; i < width; i++)
         {
             dst[k] = src[nPos - i];
@@ -234,26 +309,80 @@ void YUV420spMirrorY(uchar *dst, uchar *src, int width, int height)
         }
     }
 
-    for(int j = 0; j < height / 2; j ++) {
-        int nPos = wh + (j + 1) * width;
+    for(int j = 0; j < uvHeight; j ++) {
+        nPos += width;
         for(int i = 0; i < width; i += 2)
         {
-            dst[k] = src[nPos - i];
-            dst[k+1] = src[nPos - i - 1];
+            dst[k] = src[nPos - i - 1];
+            dst[k+1] = src[nPos - i];
             k+=2;
         }
+    }
+}
+
+//以XY轴做镜像
+void YUV420spMirrorXY(uchar *dst, uchar *src, int width, int height)
+{
+    static int nWidth = 0, nHeight = 0;
+    static int wh = 0;
+    static int nUVPos = 0;
+    static int uvHeight = 0;
+    if(width != nWidth || height != nHeight)
+    {
+        nWidth = width;
+        nHeight = height;
+
+        wh = width * height;
+        uvHeight = height >> 1; //uvHeight = height / 2
+        nUVPos = wh + uvHeight * width - 1;
+    }
+
+    //镜像Y
+    int k = 0;
+    int nPos = wh - 1;
+    for(int j = 0; j < height; j++) {
+        for(int i = 0; i < width; i++)
+        {
+            dst[k] = src[nPos - i];
+            k++;
+        }
+        nPos -= width;
+    }
+
+    nPos = nUVPos;
+    for(int j = 0; j < uvHeight; j ++) {
+        for(int i = 0; i < width; i += 2)
+        {
+            dst[k] = src[nPos - i - 1];
+            dst[k + 1] = src[nPos - i];
+            k += 2;
+        }
+        nPos -= width;
     }
 }
 
 //以X轴做镜像
 void YUV420spMirrorX(uchar *dst, uchar *src, int width, int height)
 {
-    int wh = width * height;
+    static int nWidth = 0, nHeight = 0;
+    static int wh = 0;
+    static int nUVPos = 0;
+    static int uvHeight = 0;
+    if(width != nWidth || height != nHeight)
+    {
+        nWidth = width;
+        nHeight = height;
+
+        wh = width * height;
+        uvHeight = height >> 1; //uvHeight = height / 2
+        nUVPos = wh + uvHeight * width;
+    }
+
     //镜像Y
     int k = 0;
-
+    int nPos = wh - 1;
     for(int j = 0; j < height; j++) {
-        int nPos = (height - j) * width;
+        nPos -= width;
         for(int i = 0; i < width; i++)
         {
             dst[k] = src[nPos + i];
@@ -261,8 +390,9 @@ void YUV420spMirrorX(uchar *dst, uchar *src, int width, int height)
         }
     }
 
-    for(int j = 0; j < height / 2; j ++) {
-        int nPos = wh + (height / 2 - j) * width;
+    nPos = nUVPos;
+    for(int j = 0; j < uvHeight; j ++) {
+        nPos -= width;
         for(int i = 0; i < width; i += 2)
         {
             dst[k] = src[nPos + i];
@@ -280,6 +410,8 @@ void CTool::YUV420spMirror(uchar *dst, uchar *src, int width, int height, int mo
         break;
     case 1:
         return YUV420spMirrorX(dst, src, width, height);
+    case -1:
+        return YUV420spMirrorXY(dst, src, width, height);
     default:
         break;
     }
