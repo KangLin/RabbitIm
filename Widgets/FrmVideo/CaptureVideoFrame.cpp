@@ -37,11 +37,14 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
         int nHeight = inFrame.height();
         int nSize = inFrame.mappedBytes();
         uchar *pBuf = new uchar[nSize];
-        if(NULL == pBuf)
+        uchar *pRotate = new uchar[nSize];
+        if(NULL == pBuf || NULL == pRotate)
             break;
         do
         {
-            CTool::YUV420spRotate90(pBuf, inFrame.bits(), nWidth, nHeight);
+            CTool::YUV420spRotate90(pRotate, inFrame.bits(), nWidth, nHeight);
+            CTool::YUV420spMirror(pBuf, pRotate, nHeight, nWidth, 0);
+
             CDataVideoBuffer buffer(pBuf,
                                     nSize,
                                     nHeight,
@@ -50,6 +53,7 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
             emit CaptureFrame(outFrame);
         }while(0);
         delete pBuf;
+        delete pRotate;
 
 #else
         if(inFrame.pixelFormat() != QVideoFrame::Format_RGB32)
