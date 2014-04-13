@@ -35,6 +35,8 @@ AVPixelFormat CTool::QVideoFrameFormatToFFMpegPixFormat(const QVideoFrame::Pixel
         return AV_PIX_FMT_RGB24;
     else if(QVideoFrame::Format_YUYV == format)
         return AV_PIX_FMT_YUYV422;
+    else if(QVideoFrame::Format_UYVY == format)
+        return AV_PIX_FMT_UYVY422;
     else if(QVideoFrame::Format_NV21 == format)
         return AV_PIX_FMT_NV21;
     else
@@ -49,6 +51,8 @@ AVPixelFormat CTool::QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFram
         return AV_PIX_FMT_RGB24;
     else if(QXmppVideoFrame::Format_YUYV == format)
         return AV_PIX_FMT_YUYV422;
+    else if(QXmppVideoFrame::Format_UYVY == format)
+        return AV_PIX_FMT_UYVY422;
     else if(QXmppVideoFrame::Format_YUV420P == format)
         return AV_PIX_FMT_YUV420P;
     else
@@ -175,25 +179,18 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     return nRet;
 }
 
-void CTool::YUV420spRotate90(uchar *des, uchar *src,int width,int height)
-{
-    int wh = width * height;
-    //旋转Y
-    int k = 0;
-    for(int i = 0; i < width; i++) {
-        for(int j = 0; j < height; j++)
-        {
-            des[k] = src[width * j + i];
-            k++;
-        }
-    }
 
-    for(int i = 0; i < width; i += 2) {
-        for(int j = 0; j < height / 2; j++)
-        {
-            des[k] = src[wh+ width * j + i];
-            des[k+1] = src[wh + width * j + i + 1];
-            k+=2;
-        }
-    }
+cv::Mat CTool::ImageRotate(cv::Mat & src, const CvPoint &_center, double angle)
+{
+    CvPoint2D32f center;
+    center.x = float(_center.x);
+    center.y = float(_center.y);
+
+    //计算二维旋转的仿射变换矩阵
+    cv::Mat M = cv::getRotationMatrix2D(center, angle, 1);
+
+    // rotate
+    cv::Mat dst;
+    cv::warpAffine(src, dst, M, cvSize(src.cols, src.rows), cv::INTER_LINEAR);
+    return dst;
 }

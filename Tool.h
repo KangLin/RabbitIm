@@ -11,6 +11,7 @@ extern "C" {
 #include <QObject>
 #include <QVideoFrame>
 #include "qxmpp/QXmppRtpChannel.h"
+#include "opencv2/opencv.hpp"
 
 class CTool : public QObject
 {
@@ -46,7 +47,14 @@ public:
     static AVPixelFormat QVideoFrameFormatToFFMpegPixFormat(const QVideoFrame::PixelFormat format);
     static AVPixelFormat QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFrame::PixelFormat format);
 
-    static void YUV420spRotate90(uchar *des, uchar *src, int width, int height);
+    //对图像进行旋转
+    //参数:
+    //   src:源图像
+    //   _cneter:旋转中心
+    //   angle:角度
+    //返回值:旋转后的图像
+    static cv::Mat ImageRotate(cv::Mat & src, const CvPoint &_center, double angle);
+
 signals:
 
 public slots:
