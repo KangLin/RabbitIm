@@ -54,6 +54,8 @@ public:
     //   angle:角度
     //返回值:旋转后的图像
     static cv::Mat ImageRotate(cv::Mat & src, const CvPoint &_center, double angle);
+    //对YUV420sp(NV12、NV21)存储格式的图像旋转90
+    static void YUV420spRotate90(uchar *des, uchar *src,int width,int height);
 
 signals:
 

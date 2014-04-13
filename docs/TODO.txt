@@ -1,8 +1,10 @@
-﻿1、android平台捕获视频时，帧需旋转90。但是有偏色。
-2、windows平台捕获视频时，做垂直镜像。
-3、andriod平台只显示对方视频窗口，windows平台显示双方窗口。
-
+﻿
 视频还可以优化，格式转换，内存复制
+andriod视频优化思路：
+android摄像头捕获的视频格式是NV21，libvpx的输入格式是YUV420P，
+QXmppVpxEncoder::handleFrame中进行了一次// YUYV -> YUV420P
+
+格式转换，这个没必要，可以去掉。
 
 Qt播放窗体做为子窗体时不能播放，即没有paintEvent事件
 音频消除回音，音频延迟严重。

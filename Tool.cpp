@@ -194,3 +194,27 @@ cv::Mat CTool::ImageRotate(cv::Mat & src, const CvPoint &_center, double angle)
     cv::warpAffine(src, dst, M, cvSize(src.cols, src.rows), cv::INTER_LINEAR);
     return dst;
 }
+
+void CTool::YUV420spRotate90(uchar *des, uchar *src,int width,int height)
+{
+    int wh = width * height;
+    //旋转Y
+    int k = 0;
+    for(int i = 0; i < width; i++) {
+        for(int j = 0; j < height; j++)
+        {
+            des[k] = src[width * j + i];
+            k++;
+        }
+    }
+
+    for(int i = 0; i < width; i += 2) {
+        for(int j = 0; j < height / 2; j++)
+        {
+            des[k] = src[wh+ width * j + i];
+            des[k+1] = src[wh + width * j + i + 1];
+            k+=2;
+        }
+    }
+}
+
