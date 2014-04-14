@@ -13,8 +13,8 @@ extern CGlobal g_Global;
 
 CFrmVideo::CFrmVideo(QWidget *parent) :
     QFrame(parent),
-    //m_LocalePlayer(this),
-    //m_RemotePlayer(this),
+    m_RemotePlayer(this),
+    m_LocalePlayer(this),
     ui(new Ui::CFrmVideo)
 {
     qDebug("CFrmVideo::CFrmVideo");
@@ -60,12 +60,12 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
                     SLOT(clientIqReceived(QXmppIq)));
     Q_ASSERT(check);
 
-#ifndef ANDROID
+
     //关联本地视频头捕获视频帧信号到本地播放视频窗口
     check = connect(&m_CaptureVideoFrame, SIGNAL(CaptureFrame(QVideoFrame)),
                     &m_LocalePlayer, SLOT(present(QVideoFrame)));
     Q_ASSERT(check);
-#endif
+
 
     //关联到网络发送
     check = connect(&m_CaptureVideoFrame, SIGNAL(CaptureFrame(QVideoFrame)),
@@ -90,8 +90,13 @@ void CFrmVideo::closeEvent(QCloseEvent *e)
 
 void CFrmVideo::resizeEvent(QResizeEvent *)
 {
-   m_LocalePlayer.setGeometry(this->geometry());
-   m_RemotePlayer.setGeometry(geometry());
+    QRect rect = this->rect();
+    m_RemotePlayer.setGeometry(rect);
+    QPoint point(rect.topLeft());
+    point.setX(point.x() + (rect.width() - (rect.width() >> 2)));
+    point.setY(point.y() + (rect.height() - (rect.height() >> 2)));
+    QRect localeRect(point, rect.bottomRight());
+    m_LocalePlayer.setGeometry(localeRect);
 }
 
 void CFrmVideo::paintEvent(QPaintEvent *event)
@@ -303,25 +308,7 @@ void CFrmVideo::connected()
         }
     }
 
-    if(m_bCall)
-        m_pCall->startVideo();
-
-    QList<QByteArray> device = QCamera::availableDevices();
-    QList<QByteArray>::iterator it;
-    for(it = device.begin(); it != device.end(); it++)
-    {
-        qDebug("Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
-    }
-
-    m_Camera.setCaptureMode(QCamera::CaptureVideo);
-    m_CaptureVideoFrame.setSource(&m_Camera);
-
-    m_Camera.start();
-#ifndef ANDROID
-    m_LocalePlayer.show();
-    m_LocalePlayer.activateWindow();
-    m_LocalePlayer.setWindowTitle(g_Global.GetName());
-#endif
+    StartVideo();
 }
 
 //音频模式改变
@@ -341,11 +328,12 @@ void CFrmVideo::audioModeChanged(QIODevice::OpenMode mode)
 void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
 {
     qDebug("CFrmVideo::videoModeChanged:%x", mode);
-    if(QIODevice::ReadOnly & mode && m_pCall)
-    {
-        m_RemotePlayer.show();
-        m_RemotePlayer.setWindowTitle(QXmppUtils::jidToUser(m_pCall->jid()));
-    }
+//    if(QIODevice::ReadOnly & mode && m_pCall)
+//    {
+//        resizeEvent(NULL);
+//        m_RemotePlayer.show();
+//        m_RemotePlayer.setWindowTitle(QXmppUtils::jidToUser(m_pCall->jid()));
+//    }
 }
 
 //呼叫结束时触发
@@ -360,10 +348,7 @@ void CFrmVideo::finished()
     {
         QString szMsg = tr("Close the connection with ") + QXmppUtils::jidToBareJid(m_pCall->jid());
 
-        m_Camera.stop();
-        m_LocalePlayer.close();
-        m_RemotePlayer.close();
-        m_pCall->stopVideo();
+        StopVideo();
 
         m_pCall->disconnect(this);//删除所有连接
         m_pCall->deleteLater();//需要应用程序释放内存
@@ -378,6 +363,45 @@ void CFrmVideo::finished()
         msg.exec();
     }
 }
+
+int CFrmVideo::StopVideo()
+{
+    m_Camera.stop();
+    m_LocalePlayer.close();
+    m_RemotePlayer.close();
+    m_pCall->stopVideo();
+    ui->lbPrompt->show();
+    return 0;
+}
+
+int CFrmVideo::StartVideo()
+{
+    if(m_bCall)
+        m_pCall->startVideo();
+
+    QList<QByteArray> device = QCamera::availableDevices();
+    QList<QByteArray>::iterator it;
+    for(it = device.begin(); it != device.end(); it++)
+    {
+        qDebug("Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+    }
+
+    m_Camera.setCaptureMode(QCamera::CaptureVideo);
+    m_CaptureVideoFrame.setSource(&m_Camera);
+
+    m_Camera.start();
+
+    ui->lbPrompt->hide();
+    resizeEvent(NULL);
+    m_RemotePlayer.show();
+    m_RemotePlayer.setWindowTitle(QXmppUtils::jidToUser(m_pCall->jid()));
+
+    m_LocalePlayer.setWindowTitle(g_Global.GetName());
+    m_LocalePlayer.show();
+    m_LocalePlayer.activateWindow();
+    return 0;
+}
+
 
 //停止设备，并删除对象
 int CFrmVideo::StopDevice()

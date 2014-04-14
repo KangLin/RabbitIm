@@ -75,9 +75,11 @@ private:
     QAudioOutput*       m_pAudioOutput;
 
     QCamera m_Camera;
-    CCaptureVideoFrame m_CaptureVideoFrame;
-    CFrmPlayer m_LocalePlayer;//本地视频播放窗口
+    CCaptureVideoFrame m_CaptureVideoFrame;    
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口
+    CFrmPlayer m_LocalePlayer;//本地视频播放窗口
+    int StartVideo();
+    int StopVideo();
 
 private slots:
     void CaptureFrame(const QVideoFrame &frame);
