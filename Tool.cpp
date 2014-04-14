@@ -286,17 +286,6 @@ void CTool::YUV420spRotate90(uchar *dst, uchar *src, int width, int height, int 
 //以Y轴做镜像
 void YUV420spMirrorY(uchar *dst, uchar *src, int width, int height)
 {
-    static int nWidth = 0, nHeight = 0;
-    static int wh = 0;
-    static int uvHeight = 0;
-    if(width != nWidth || height != nHeight)
-    {
-        wh = width * height;
-        uvHeight = height >> 1; // uvHeight = height / 2
-        nWidth = width;
-        nHeight = height;
-    }
-
     //镜像Y
     int k = 0;
     int nPos = -1;
@@ -309,6 +298,7 @@ void YUV420spMirrorY(uchar *dst, uchar *src, int width, int height)
         }
     }
 
+    int uvHeight = height >> 1; // uvHeight = height / 2
     for(int j = 0; j < uvHeight; j ++) {
         nPos += width;
         for(int i = 0; i < width; i += 2)
