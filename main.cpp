@@ -25,11 +25,11 @@ int main(int argc, char *argv[])
     myappTranslator.load("app_" + locale, a.applicationDirPath());
     a.installTranslator(&myappTranslator);
 
-    /*
+    //*
     MainWindow w;
     w.show();//*/
 
-    //*以下为视频捕获、显示测试代码
+    /*以下为视频捕获、显示测试代码
     QList<QByteArray> device = QCamera::availableDevices();
     QList<QByteArray>::iterator it;
     for(it = device.begin(); it != device.end(); it++)
