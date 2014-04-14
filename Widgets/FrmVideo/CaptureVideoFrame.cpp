@@ -2,6 +2,7 @@
 #include <QCamera>
 #include "DataVideoBuffer.h"
 #include "../../Tool.h"
+#include <QThread>
 
 CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
     QAbstractVideoSurface(parent)
@@ -44,34 +45,19 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
         //前景摄像头要逆时针旋转90度
         int nWidth = inFrame.width();
         int nHeight = inFrame.height();
-        static int nSize = 0;
-        static uchar *pBuf = NULL;
-        static uchar *pRotate = NULL;
-        if(inFrame.mappedBytes() != nSize
-                || NULL == pBuf
-                || NULL == pRotate)
-        {
-            nSize = inFrame.mappedBytes();
-            if(pBuf) delete pBuf;
-            if(pRotate) delete pRotate;
-            pBuf = new uchar[nSize];
-            pRotate = new uchar[nSize];
-        }
+        QByteArray mirror, rotate;
+        mirror.resize(inFrame.mappedBytes());
+        rotate.resize(inFrame.mappedBytes());
 
-        if(NULL == pBuf || NULL == pRotate)
-        {
-            qDebug("CCaptureVideoFrame::present null pointer");
-            break;
-        }
+        CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, 1);
+        CTool::YUV420spMirror(reinterpret_cast<uchar *> (mirror.data()),
+                              reinterpret_cast<uchar *>(rotate.data()),
+                              nHeight, nWidth, 0);
 
-        CTool::YUV420spRotate90(pRotate, inFrame.bits(), nWidth, nHeight, 1);
-        CTool::YUV420spMirror(pBuf, pRotate, nHeight, nWidth, 0);
-
-        CDataVideoBuffer buffer(pBuf,
-                                nSize,
+        CDataVideoBuffer *pBuffer = new CDataVideoBuffer(mirror,
                                 nHeight,
                                 nWidth);
-        QVideoFrame outFrame(&buffer, QSize( nHeight, nWidth), QVideoFrame::Format_NV21);
+        QVideoFrame outFrame(pBuffer, QSize( nHeight, nWidth), QVideoFrame::Format_NV21);
         emit CaptureFrame(outFrame);
 
     }while(0);
@@ -105,18 +91,21 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
             QVideoFrame outFrame(img);//*/
 
             //*用opencv库做图像镜像
+            QByteArray outData;
+            outData.resize(inFrame.mappedBytes());//dst.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()
             cv::Mat src(inFrame.height(), inFrame.width(), CV_8UC4, inFrame.bits());
-            cv::Mat dst;
+            cv::Mat dst(inFrame.height(), inFrame.width(), CV_8UC4, outData.data());
             cv::flip(src, dst, 1); //最后一个参数>0为x轴镜像，=0为y轴镜像，，<0x,y轴都镜像。
-            CDataVideoBuffer buffer(dst.data,
-                                    dst.total() * dst.channels(), //dst.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()
+
+            //由QVideoFrame进行释放
+            CDataVideoBuffer* pBuffer = new CDataVideoBuffer(outData,
                                     dst.cols,
                                     dst.rows);
-            QVideoFrame outFrame(&buffer,
+            QVideoFrame outFrame(pBuffer,
                                  QSize(dst.cols,
                                        dst.rows),
                                  inFrame.pixelFormat());//*/
-            emit CaptureFrame(outFrame);//*/
+            emit CaptureFrame(outFrame);
         }
 
     }while(0);

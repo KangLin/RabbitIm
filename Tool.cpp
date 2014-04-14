@@ -194,7 +194,7 @@ cv::Mat CTool::ImageRotate(cv::Mat & src, const CvPoint &_center, double angle)
     return dst;
 }
 
-void CTool::YUV420spRotate90(uchar *dst, uchar *src,int width,int height)
+void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int width, int height)
 {
     static int nWidth = 0, nHeight = 0;
     static int wh = 0;
@@ -230,7 +230,7 @@ void CTool::YUV420spRotate90(uchar *dst, uchar *src,int width,int height)
     return;
 }
 
-void CTool::YUV420spRotateNegative90(uchar *dst, uchar *src, int width, int height)
+void CTool::YUV420spRotateNegative90(uchar *dst, const uchar *src, int width, int height)
 {
     static int nWidth = 0, nHeight = 0;
     static int wh = 0;
@@ -268,7 +268,7 @@ void CTool::YUV420spRotateNegative90(uchar *dst, uchar *src, int width, int heig
     return;
 }
 
-void CTool::YUV420spRotate90(uchar *dst, uchar *src, int width, int height, int mode)
+void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int width, int height, int mode)
 {
     switch (mode) {
     case 1:
@@ -284,7 +284,7 @@ void CTool::YUV420spRotate90(uchar *dst, uchar *src, int width, int height, int 
 }
 
 //以Y轴做镜像
-void YUV420spMirrorY(uchar *dst, uchar *src, int width, int height)
+void CTool::YUV420spMirrorY(uchar *dst, const uchar *src, int width, int height)
 {
     //镜像Y
     int k = 0;
@@ -311,7 +311,7 @@ void YUV420spMirrorY(uchar *dst, uchar *src, int width, int height)
 }
 
 //以XY轴做镜像
-void YUV420spMirrorXY(uchar *dst, uchar *src, int width, int height)
+void CTool::YUV420spMirrorXY(uchar *dst, const uchar *src, int width, int height)
 {
     static int nWidth = 0, nHeight = 0;
     static int wh = 0;
@@ -352,7 +352,7 @@ void YUV420spMirrorXY(uchar *dst, uchar *src, int width, int height)
 }
 
 //以X轴做镜像
-void YUV420spMirrorX(uchar *dst, uchar *src, int width, int height)
+void CTool::YUV420spMirrorX(uchar *dst, const uchar *src, int width, int height)
 {
     static int nWidth = 0, nHeight = 0;
     static int wh = 0;
@@ -392,7 +392,7 @@ void YUV420spMirrorX(uchar *dst, uchar *src, int width, int height)
     }
 }
 
-void CTool::YUV420spMirror(uchar *dst, uchar *src, int width, int height, int mode)
+void CTool::YUV420spMirror(uchar *dst, const uchar *src, int width, int height, int mode)
 {
     switch (mode) {
     case 0:

@@ -1,19 +1,15 @@
 #include "DataVideoBuffer.h"
 
-CDataVideoBuffer::CDataVideoBuffer(uchar* data, int nLength, int nWidth, int nHeight)
+CDataVideoBuffer::CDataVideoBuffer(const QByteArray &data, int nWidth, int nHeight)
      : QAbstractVideoBuffer(NoHandle)
+      ,m_Data(data)
       ,m_Mode(NotMapped)
 {
-    m_pData = data;
-    m_nLength = nLength;
     m_nWidth = nWidth;
     m_nHeight = nHeight;
 }
 
 CDataVideoBuffer::~CDataVideoBuffer()
-{}
-
-void CDataVideoBuffer::release()
 {}
 
 QAbstractVideoBuffer::MapMode CDataVideoBuffer::mapMode() const
@@ -29,12 +25,12 @@ uchar* CDataVideoBuffer::map(MapMode mode, int *numBytes, int *bytesPerLine)
     m_Mode = mode;
 
     if (numBytes)
-        *numBytes = m_nLength;
+        *numBytes = m_Data.size();
 
     if (bytesPerLine)
-        *bytesPerLine = m_nLength / m_nHeight;
+        *bytesPerLine =  m_Data.size() / m_nHeight;
 
-    return m_pData;
+    return reinterpret_cast<uchar *>(m_Data.data());
 }
 
 void CDataVideoBuffer::unmap()
