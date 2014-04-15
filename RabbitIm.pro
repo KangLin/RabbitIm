@@ -49,6 +49,8 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/ThirdLibary/windows/lib
 else:android: LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME  $$OPENCV_LIBRARY  $$FFMPEG_LIBRARY
 else:unix: LIBS += -L$$PWD/ThirdLibary/unix/lib -l$$QXMPP_LIBRARY_NAME $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
 
+QXMPP_USE_VPX=1
+
 !isEmpty(QXMPP_USE_SPEEX) {
     DEFINES += QXMPP_USE_SPEEX
     LIBS += -lspeex

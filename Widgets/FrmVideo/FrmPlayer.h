@@ -13,7 +13,7 @@ class CFrmPlayer : public QWidget
 
 public:
     explicit CFrmPlayer(QWidget *parent = 0, Qt::WindowFlags f = 0);
-    ~CFrmPlayer();
+    virtual ~CFrmPlayer();
 
 public slots:
     //捕获视频槽

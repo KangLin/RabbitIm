@@ -22,7 +22,7 @@ class CFrmVideo : public QFrame
 
 public:
     explicit CFrmVideo(QWidget *parent = 0);
-    ~CFrmVideo();
+    virtual ~CFrmVideo();
 
     int SetClient(CXmppClient *pClient);
     int Call(QString jid);

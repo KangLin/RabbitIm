@@ -25,6 +25,17 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     m_pClient = NULL;
     m_pAudioInput = NULL;
     m_pAudioOutput = NULL;
+
+    QList<QByteArray> device = QCamera::availableDevices();
+    QList<QByteArray>::iterator it;
+    for(it = device.begin(); it != device.end(); it++)
+    {
+        qDebug("Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+    }
+
+    m_Camera.setCaptureMode(QCamera::CaptureVideo);
+    m_CaptureVideoFrame.setSource(&m_Camera);
+
 }
 
 CFrmVideo::~CFrmVideo()
@@ -364,30 +375,10 @@ void CFrmVideo::finished()
     }
 }
 
-int CFrmVideo::StopVideo()
-{
-    m_Camera.stop();
-    m_LocalePlayer.close();
-    m_RemotePlayer.close();
-    m_pCall->stopVideo();
-    ui->lbPrompt->show();
-    return 0;
-}
-
 int CFrmVideo::StartVideo()
 {
     if(m_bCall)
         m_pCall->startVideo();
-
-    QList<QByteArray> device = QCamera::availableDevices();
-    QList<QByteArray>::iterator it;
-    for(it = device.begin(); it != device.end(); it++)
-    {
-        qDebug("Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
-    }
-
-    m_Camera.setCaptureMode(QCamera::CaptureVideo);
-    m_CaptureVideoFrame.setSource(&m_Camera);
 
     m_Camera.start();
 
@@ -402,6 +393,15 @@ int CFrmVideo::StartVideo()
     return 0;
 }
 
+int CFrmVideo::StopVideo()
+{
+    m_Camera.stop();
+    m_LocalePlayer.close();
+    m_RemotePlayer.close();
+    m_pCall->stopVideo();
+    ui->lbPrompt->show();
+    return 0;
+}
 
 //停止设备，并删除对象
 int CFrmVideo::StopDevice()
