@@ -1,39 +1,41 @@
 SOURCES += main.cpp\
-        MainWindow.cpp \
+    MainWindow.cpp \
+    XmppClient.cpp \
+    Global.cpp \
+    Tool.cpp \
     Widgets/DlgLogin/DlgLogin.cpp \
     Widgets/DlgLogin/FrmLogin.cpp \
-    XmppClient.cpp \
     Widgets/FrmUserList/FrmUserList.cpp \
     Widgets/FrmUserList/Roster.cpp \
     Widgets/FrmUserList/GroupItem.cpp \
     Widgets/FrmMessage/FrmMessage.cpp \
     Widgets/FrmMessage/Message.cpp \
-    Global.cpp \
     Widgets/FrmRegister/FrmRegister.cpp \
     Widgets/FrmAbout/FrmAbout.cpp \
     Widgets/FrmVideo/FrmVideo.cpp \
     Widgets/FrmVideo/CaptureVideoFrame.cpp \
     Widgets/FrmVideo/FrmPlayer.cpp \
-    Tool.cpp \
-    Widgets/FrmVideo/DataVideoBuffer.cpp
+    Widgets/FrmVideo/DataVideoBuffer.cpp \
+    Widgets/FrmVideo/CaptureFrameProcess.cpp
 
 HEADERS  += MainWindow.h \
+    XmppClient.h \
+    Global.h \
+    Tool.h \
     Widgets/DlgLogin/DlgLogin.h \
     Widgets/DlgLogin/FrmLogin.h \
-    XmppClient.h \
     Widgets/FrmUserList/FrmUserList.h \
     Widgets/FrmUserList/Roster.h \
     Widgets/FrmUserList/GroupItem.h \
     Widgets/FrmMessage/FrmMessage.h \
     Widgets/FrmMessage/Message.h \
-    Global.h \
     Widgets/FrmRegister/FrmRegister.h \
     Widgets/FrmAbout/FrmAbout.h \
     Widgets/FrmVideo/FrmVideo.h \
     Widgets/FrmVideo/CaptureVideoFrame.h \
-    Widgets/FrmVideo/FrmPlayer.h \
-    Tool.h \
-    Widgets/FrmVideo/DataVideoBuffer.h
+    Widgets/FrmVideo/FrmPlayer.h \    
+    Widgets/FrmVideo/DataVideoBuffer.h \
+    Widgets/FrmVideo/CaptureFrameProcess.h
 
 FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \

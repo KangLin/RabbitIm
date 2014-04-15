@@ -33,7 +33,6 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
 //从摄像头捕获的帧
 void CFrmPlayer::slotPresent(const QVideoFrame &frame)
 {
-    qDebug("CFrmPlayer::present thread id:%d", QThread::currentThreadId());
     QVideoFrame f(frame);
 
     //QVideoFrame使用bits前一定要先map，bits才会生效

@@ -43,12 +43,15 @@
 #include <QAbstractVideoSurface>
 #include <QVideoProbe>
 #include <QCamera>
+#include <QThread>
+#include "CaptureFrameProcess.h"
 
 class CCaptureVideoFrame : public QAbstractVideoSurface
 {
     Q_OBJECT
 public:
     explicit CCaptureVideoFrame(QObject *parent = 0);
+    virtual ~CCaptureVideoFrame();
 
     virtual QList<QVideoFrame::PixelFormat> supportedPixelFormats(
             QAbstractVideoBuffer::HandleType handleType = QAbstractVideoBuffer::NoHandle) const;
@@ -56,14 +59,21 @@ public:
     bool setSource(QCamera *pCamera);
 
 signals:
-    //视频帧捕获信号
+    //不同平台处理过后的视频帧捕获信号
     void sigCaptureFrame(const QVideoFrame &frame);
+private:
+signals:
+    //从摄像头捕获的原始帧
+    void sigRawCaptureFrame(const QVideoFrame &frame);
 
 private slots:
     virtual bool present(const QVideoFrame &frame);
+    void slotCaptureFrame(const QVideoFrame &frame);
 
 private:
      QVideoProbe m_Probe;//android下,目前只能用probe捕获视频
+     CCaptureFrameProcess m_CaptureFrameProcess;
+     QThread m_Thread;
 
 };
 
