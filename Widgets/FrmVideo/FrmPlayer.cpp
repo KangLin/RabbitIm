@@ -2,6 +2,7 @@
 #include "FrmPlayer.h"
 #include <QPainter>
 #include <QImage>
+#include <QThread>
 
 CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f)
@@ -30,8 +31,9 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
 }
 
 //从摄像头捕获的帧
-void CFrmPlayer::present(const QVideoFrame &frame)
+void CFrmPlayer::slotPresent(const QVideoFrame &frame)
 {
+    qDebug("CFrmPlayer::present thread id:%d", QThread::currentThreadId());
     QVideoFrame f(frame);
 
     //QVideoFrame使用bits前一定要先map，bits才会生效
@@ -60,7 +62,7 @@ void CFrmPlayer::present(const QVideoFrame &frame)
 }
 
 //从网络上接收的帧
-void CFrmPlayer::present(const QXmppVideoFrame &frame)
+void CFrmPlayer::slotPresent(const QXmppVideoFrame &frame)
 {
     QRect rect = this->rect();
     //图片格式转换

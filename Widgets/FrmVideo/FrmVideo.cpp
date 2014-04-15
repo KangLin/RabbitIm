@@ -73,14 +73,14 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
 
 
     //关联本地视频头捕获视频帧信号到本地播放视频窗口
-    check = connect(&m_CaptureVideoFrame, SIGNAL(CaptureFrame(QVideoFrame)),
-                    &m_LocalePlayer, SLOT(present(QVideoFrame)));
+    check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(QVideoFrame)),
+                    &m_LocalePlayer, SLOT(slotPresent(QVideoFrame)));
     Q_ASSERT(check);
 
 
     //关联到网络发送
-    check = connect(&m_CaptureVideoFrame, SIGNAL(CaptureFrame(QVideoFrame)),
-                    SLOT(CaptureFrame(QVideoFrame)));
+    check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(QVideoFrame)),
+                    SLOT(slotCaptureFrame(QVideoFrame)));
     Q_ASSERT(check);
 
     return 0;
@@ -423,7 +423,7 @@ int CFrmVideo::StopDevice()
     return 0;
 }
 
-void CFrmVideo::CaptureFrame(const QVideoFrame &frame)
+void CFrmVideo::slotCaptureFrame(const QVideoFrame &frame)
 {
     if(!m_pCall)
         return;
@@ -436,7 +436,7 @@ void CFrmVideo::CaptureFrame(const QVideoFrame &frame)
     QList<QXmppVideoFrame> inFrames = pChannel->readFrames();
     if(!inFrames.isEmpty() && inFrames.begin() != inFrames.end())
     {
-        m_RemotePlayer.present(*inFrames.begin());
+        m_RemotePlayer.slotPresent(*inFrames.begin());
     }
 
     QVideoFrame inFrame(frame);

@@ -29,7 +29,7 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
     if(frame.pixelFormat() != QVideoFrame::Format_NV21)
     {
         qDebug("CCaptureVideoFrame::present:don't Format_NV21");
-        emit CaptureFrame(frame);
+        emit sigCaptureFrame(frame);
         return 0;
     }
 
@@ -58,7 +58,7 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
                                 nHeight,
                                 nWidth);
         QVideoFrame outFrame(pBuffer, QSize( nHeight, nWidth), QVideoFrame::Format_NV21);
-        emit CaptureFrame(outFrame);
+        emit sigCaptureFrame(outFrame);
 
     }while(0);
 
@@ -81,7 +81,7 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
         //windows下要镜像，android下要旋转90度
         if(inFrame.pixelFormat() != QVideoFrame::Format_RGB32)
         {
-            emit CaptureFrame(frame);
+            emit sigCaptureFrame(frame);
         }
         else
         {
@@ -105,7 +105,7 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
                                  QSize(dst.cols,
                                        dst.rows),
                                  inFrame.pixelFormat());//*/
-            emit CaptureFrame(outFrame);
+            emit sigCaptureFrame(outFrame);
         }
 
     }while(0);

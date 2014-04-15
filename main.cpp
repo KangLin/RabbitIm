@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
     CFrmPlayer player;
     if(captureVideoFrame.setSource(&camera))
     {
-        player.connect(&captureVideoFrame, SIGNAL(CaptureFrame(QVideoFrame)),
-                       SLOT(present(QVideoFrame)));
+        player.connect(&captureVideoFrame, SIGNAL(sigCaptureFrame(QVideoFrame)),
+                       SLOT(slotPresent(QVideoFrame)));
     }
 
     player.show();

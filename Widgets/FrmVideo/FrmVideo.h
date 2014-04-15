@@ -82,7 +82,7 @@ private:
     int StopVideo();
 
 private slots:
-    void CaptureFrame(const QVideoFrame &frame);
+    void slotCaptureFrame(const QVideoFrame &frame);
 };
 
 #endif // FRMVIDEO_H

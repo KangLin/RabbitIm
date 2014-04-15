@@ -57,7 +57,7 @@ public:
 
 signals:
     //视频帧捕获信号
-    void CaptureFrame(const QVideoFrame &frame);
+    void sigCaptureFrame(const QVideoFrame &frame);
 
 private slots:
     virtual bool present(const QVideoFrame &frame);

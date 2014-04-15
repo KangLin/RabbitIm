@@ -17,8 +17,8 @@ public:
 
 public slots:
     //捕获视频槽
-    virtual void present(const QVideoFrame &frame);
-    virtual void present(const QXmppVideoFrame &frame);
+    virtual void slotPresent(const QVideoFrame &frame);
+    virtual void slotPresent(const QXmppVideoFrame &frame);
 
 protected:
     virtual void paintEvent(QPaintEvent *);
