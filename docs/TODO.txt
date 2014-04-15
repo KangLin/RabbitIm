@@ -11,8 +11,6 @@ android平台需要优化视频性能。从视频大小、帧率进行优化
 翻译
 添加好友
 
-android国际化
-
 CRoster中CFrmMessage对话框要改成动态生成，当显示时生成对话框，隐藏时消废，
 目的节约内存
 消息记录保存到文件中
@@ -24,6 +22,8 @@ QT开发环境配置
 好友信息显示
 
 BUG:
+视频窗口放大时core，原因是转换格式时出错。
+
 对方退出，openfire服务器发送下面命令：
 周四 三月 20 16:46:57 2014 RECEIVED <presence type="unavailable" from="admin@127.0.0.1/QXmpp" to="a@127.0.0.1"/>
 这个时候 QXmpp能接收到状态改变，但状为在线：
@@ -37,3 +37,5 @@ qxmpp能接收到网络断连错误，但没有解析冲突错误。
 
 呼叫错误处理,QXMPP没有解析iq错误包：
 周一 三月 31 14:39:47 2014 RECEIVED <iq type="error" id="qxmpp8" from="b@rabbitim.com/QXmpp" to="a@rabbitim.com/QXmpp"><jingle xmlns="urn:xmpp:jingle:1" action="session-initiate" initiator="a@rabbitim.com/QXmpp" sid="TEDsrpqO4zKjSfX4hM1L4sY1piaeAyjd"><content creator="initiator" name="voice" senders="both"><description xmlns="urn:xmpp:jingle:apps:rtp:1" media="audio"><payload-type id="0" name="PCMU" clockrate="8000"/><payload-type id="8" name="PCMA" clockrate="8000"/><payload-type id="101" name="telephone-event" clockrate="8000"><parameter name="events" value="0-15"/></payload-type></description><transport xmlns="urn:xmpp:jingle:transports:ice-udp:1" ufrag="ZcWj" pwd="teDQhpnSuOgrulOT8ubjYo"><candidate component="1" foundation="0" generation="0" id="1FrklXxQjM" ip="192.168.10.12" network="0" port="49152" priority="2130706431" protocol="udp" type="host"/><candidate component="1" foundation="1" generation="0" id="23ioDA08YC" ip="2001:0:9d38:6ab8:24b2:3ca1:3f57:f5f3" network="0" port="49152" priority="2130706431" protocol="udp" type="host"/><candidate component="2" foundation="0" generation="0" id="oiaAfRSRy2" ip="192.168.10.12" network="0" port="49153" priority="2130706430" protocol="udp" type="host"/><candidate component="2" foundation="1" generation="0" id="OJhNG6c4Wh" ip="2001:0:9d38:6ab8:24b2:3ca1:3f57:f5f3" network="0" port="49153" priority="2130706430" protocol="udp" type="host"/></transport></content></jingle><error code="503" type="cancel"><service-unavailable xmlns="urn:ietf:params:xml:ns:xmpp-stanzas"/></error></iq>
+
+

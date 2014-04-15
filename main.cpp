@@ -22,7 +22,8 @@ int main(int argc, char *argv[])
     a.installTranslator(&qtTranslator);
     //本地化程序资源
     QTranslator myappTranslator;
-    myappTranslator.load("app_" + locale, a.applicationDirPath());
+    //myappTranslator.load("app_" + locale, a.applicationDirPath());
+    myappTranslator.load(":/translations/" + locale);
     a.installTranslator(&myappTranslator);
 
     //*

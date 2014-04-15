@@ -67,7 +67,7 @@
         </font>
        </property>
        <property name="text">
-        <string notr="true">Rabbit Immediate Communicate</string>
+        <string>Rabbit Immediate Communicate</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -89,7 +89,7 @@
    <item row="1" column="0">
     <widget class="QLabel" name="lblVersion">
      <property name="text">
-      <string notr="true">Version: 1.0.0.0 Revision: 0000</string>
+      <string>Version: 1.0.0.0 Revision: 0000</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>

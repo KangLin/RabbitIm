@@ -123,9 +123,7 @@ int CFrmVideo::Call(QString jid)
     {
         QMessageBox msg(QMessageBox::Question,
                         tr("Call"),
-                        tr("User ")
-                        + QXmppUtils::jidToBareJid(m_pCall->jid())
-                        + tr(" is calling, Do you stop it?"),
+                        tr("%1 is talking, Do you stop it?").arg(QXmppUtils::jidToUser(m_pCall->jid())),
                         QMessageBox::Yes | QMessageBox::No);
         if(QMessageBox::Yes == msg.exec())
         {
@@ -135,7 +133,7 @@ int CFrmVideo::Call(QString jid)
             return -1;
     }
 
-    QString szText = tr("Be ringing ") + QXmppUtils::jidToBareJid(jid);
+    QString szText = tr("%1 is ringing").arg(QXmppUtils::jidToUser(jid));
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
 
@@ -185,13 +183,11 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
 
     QMessageBox msg(QMessageBox::Question,
                     tr("Call"),
-                    tr("User ")
-                    + QXmppUtils::jidToBareJid(pCall->jid())
-                    + tr(" calling"),
+                    tr("%1 is calling ").arg(QXmppUtils::jidToUser(pCall->jid())),
                     QMessageBox::Yes | QMessageBox::No);
     if(QMessageBox::Yes == msg.exec())
     {
-        QString szText = tr("Be connecting ") + QXmppUtils::jidToBareJid(m_pCall->jid());
+        QString szText = tr("Be connecting %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
         this->setWindowTitle(szText);
         ui->lbPrompt->setText(szText);
         pCall->accept();
@@ -241,7 +237,7 @@ void CFrmVideo::ringing()
     qDebug("CFrmVideo::ringing");
     if(m_pCall)
     {
-        QString szText = tr("Be ringing ") + QXmppUtils::jidToBareJid(m_pCall->jid());
+        QString szText = tr("%1 is ringing").arg(QXmppUtils::jidToUser(m_pCall->jid()));
         this->setWindowTitle(szText);
         ui->lbPrompt->setText(szText);
     }
@@ -271,7 +267,7 @@ void CFrmVideo::connected()
 {
     qDebug("CFrmVideo::connected");
 
-    QString szText = tr("Be talking ") + QXmppUtils::jidToBareJid(m_pCall->jid());
+    QString szText = tr("Be talking %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
 
@@ -357,7 +353,7 @@ void CFrmVideo::finished()
 
     if(m_pCall)
     {
-        QString szMsg = tr("Close the connection with ") + QXmppUtils::jidToBareJid(m_pCall->jid());
+        QString szMsg = tr("Close the connection with %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
 
         StopVideo();
 
@@ -367,11 +363,11 @@ void CFrmVideo::finished()
 
         this->setWindowTitle(szMsg);
         ui->lbPrompt->setText(szMsg);
-        QMessageBox msg(QMessageBox::Question,
+        /*QMessageBox msg(QMessageBox::Question,
                         tr("Call"),
                         szMsg,
                         QMessageBox::Yes);
-        msg.exec();
+        msg.exec();*/
     }
 }
 

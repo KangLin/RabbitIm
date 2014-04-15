@@ -80,11 +80,11 @@ MOBILITY =
 CONFIG += localize_deployment #本地语言部署
 
 TRANSLATIONS += \
-    translations/app_zh_CN.ts
+    Resource/translations/app_zh_CN.ts
 
 OTHER_FILES += README.md \
     .gitignore \
-    translations/app_zh_CN.ts \
+    Resource/translations/app_zh_CN.ts \
     docs/* \
     docs/Books/* \
     docs/QXmpp音视频呼叫流程.txt \
