@@ -64,6 +64,9 @@ private:
     void resizeEvent(QResizeEvent *);
     void paintEvent(QPaintEvent *event);
 
+    //调整显示窗体大小
+    void AdjustPlayer(const QRect &rect);
+
 private:
     Ui::CFrmVideo *ui;
 
@@ -75,13 +78,14 @@ private:
     QAudioOutput*       m_pAudioOutput;
 
     QCamera m_Camera;
-    CCaptureVideoFrame m_CaptureVideoFrame;    
+    CCaptureVideoFrame m_CaptureVideoFrame;  //实现捕获视频帧
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口
     CFrmPlayer m_LocalePlayer;//本地视频播放窗口
     int StartVideo();
     int StopVideo();
 
 private slots:
+    //用于向qxmpp输出视频幀
     void slotCaptureFrame(const QVideoFrame &frame);
 };
 

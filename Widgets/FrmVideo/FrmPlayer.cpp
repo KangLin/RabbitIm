@@ -48,7 +48,7 @@ void CFrmPlayer::slotPresent(const QVideoFrame &frame)
         if(nRet)
             break;
 
-        present(pic);
+        present(pic, rect);
 
         avpicture_free(&pic);
     }while(0);
@@ -70,7 +70,7 @@ void CFrmPlayer::slotPresent(const QXmppVideoFrame &frame)
     if(nRet)
         return;
 
-    present(pic);
+    present(pic, rect);
     avpicture_free(&pic);
 
 
@@ -79,12 +79,16 @@ void CFrmPlayer::slotPresent(const QXmppVideoFrame &frame)
     return;
 }
 
-void CFrmPlayer::present(AVPicture &pic)
+void CFrmPlayer::present(AVPicture &pic, QRect &rect)
 {
-    QRect rect = this->rect();
     int size = avpicture_get_size(AV_PIX_FMT_RGB32, rect.width(), rect.height());
-    if(NULL == m_pVideoFrame)
+    if(NULL == m_pVideoFrame
+       || rect.width() != m_pVideoFrame->width()
+       || rect.height() != m_pVideoFrame->height())
     {
+        if(m_pVideoFrame)
+            delete m_pVideoFrame;
+
         QSize frameSize(rect.width(), rect.height());
         m_pVideoFrame = new QXmppVideoFrame(size,
                                             frameSize,

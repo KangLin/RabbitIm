@@ -20,6 +20,10 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     qDebug("CFrmVideo::CFrmVideo");
     ui->setupUi(this);
 
+    QPalette pe;
+    pe.setColor(QPalette::WindowText,Qt::white);
+    ui->lbPrompt->setPalette(pe);
+
     m_bCall = false;
     m_pCall = NULL;
     m_pClient = NULL;
@@ -99,9 +103,8 @@ void CFrmVideo::closeEvent(QCloseEvent *e)
         m_pCall->hangup();
 }
 
-void CFrmVideo::resizeEvent(QResizeEvent *)
+void CFrmVideo::AdjustPlayer(const QRect &rect)
 {
-    QRect rect = this->rect();
     m_RemotePlayer.setGeometry(rect);
     QPoint point(rect.topLeft());
     point.setX(point.x() + (rect.width() - (rect.width() >> 2)));
@@ -110,9 +113,54 @@ void CFrmVideo::resizeEvent(QResizeEvent *)
     m_LocalePlayer.setGeometry(localeRect);
 }
 
+void CFrmVideo::resizeEvent(QResizeEvent *)
+{
+    //得到视频的高宽
+    double nWidth = 320;
+    double nHeight = 240;
+    if(m_pCall)
+    {
+        QXmppRtpVideoChannel * pChannel = m_pCall->videoChannel();
+        if(pChannel)
+        {
+            nHeight = pChannel->decoderFormat().frameHeight();
+            nWidth = pChannel->decoderFormat().frameWidth();
+            qDebug("nHeight:%d, nWidth:%d", nHeight, nWidth);
+        }
+    }
+
+    QRect rect = this->rect();
+    QRect rectAdjust = this->rect();
+
+    //计算宽度
+    double frameAspectRatio = nWidth / nHeight;
+    double frmAspectRatio = (double)rect.width() / (double)rect.height();
+    if(frameAspectRatio < frmAspectRatio)
+    {
+        //以窗体高度为基准计算宽度
+        int nW = rect.height() * frameAspectRatio;
+        rectAdjust.setLeft(rect.left() + ((rect.width() - nW) >> 1));
+        rectAdjust.setRight(rect.right() - ((rect.width() - nW) >> 1));
+    }
+    else
+    {
+        //以宽度为基准计算高度
+        double ratio = nHeight / nWidth;
+        int nH = rect.width() * ratio;
+        rectAdjust.setTop(rect.top() + ((rect.height() - nH) >> 1));
+        rectAdjust.setBottom(rect.bottom() - ((rect.height() - nH) >> 1));
+    }
+
+    AdjustPlayer(rectAdjust);
+}
+
 void CFrmVideo::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
+    QPainter painter(this);
+    QBrush bg(QColor(0, 0, 0));
+    painter.setBrush(bg);
+    painter.drawRect(rect());
 }
 
 //主动发起呼叫

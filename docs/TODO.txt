@@ -22,8 +22,6 @@ QT开发环境配置
 好友信息显示
 
 BUG:
-视频窗口放大时core，原因是转换格式时出错。
-
 对方退出，openfire服务器发送下面命令：
 周四 三月 20 16:46:57 2014 RECEIVED <presence type="unavailable" from="admin@127.0.0.1/QXmpp" to="a@127.0.0.1"/>
 这个时候 QXmpp能接收到状态改变，但状为在线：

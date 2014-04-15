@@ -26,7 +26,7 @@ protected:
 private:
     QXmppVideoFrame *m_pVideoFrame;
 
-    void present(AVPicture &pic);
+    void present(AVPicture &pic, QRect &rect);
 };
 
 #endif // FRMPLAYER_H
