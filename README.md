@@ -55,6 +55,12 @@ webrtc库：
 当前使用版本：
   git库版本 —— 3b39d7503f4ce75dce962445dddfbfb18f6babf0
 
+编解码库（libspeex）
+下载：
+  git clone http://git.xiph.org/speex.git
+当前使用版本：
+  git库版本 —— 78cce679a0f2d376b97e64a6d7763bce82dd06cc
+
 图像处理库(opencv)
 下载：
   git clone git://github.com/Itseez/opencv.git

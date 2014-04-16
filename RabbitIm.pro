@@ -50,6 +50,7 @@ else:android: LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME  $$
 else:unix: LIBS += -L$$PWD/ThirdLibary/unix/lib -l$$QXMPP_LIBRARY_NAME $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
 
 QXMPP_USE_VPX=1
+QXMPP_USE_SPEEX=1
 
 !isEmpty(QXMPP_USE_SPEEX) {
     DEFINES += QXMPP_USE_SPEEX
@@ -89,6 +90,7 @@ OTHER_FILES += README.md \
     docs/Books/* \
     docs/QXmpp音视频呼叫流程.txt \
     ThirdLibary/build/build_android_ffmpeg.sh \
+    ThirdLibary/build/build_android_speex.sh \
     ThirdLibary/build/build_android_x264.sh \
     ThirdLibary/build/build_windows_libvpx.sh
 

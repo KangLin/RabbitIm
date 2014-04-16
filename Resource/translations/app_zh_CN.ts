@@ -110,7 +110,7 @@
     <message>
         <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="278"/>
         <source>Login(&amp;L)</source>
-        <translation>登录</translation>
+        <translation>登录(&amp;L)</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="336"/>
