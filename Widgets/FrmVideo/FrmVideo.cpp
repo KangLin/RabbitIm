@@ -87,6 +87,10 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
                     SLOT(slotCaptureFrame(QVideoFrame)));
     Q_ASSERT(check);
 
+    check = connect(&m_Timer, SIGNAL(timeout()),
+                    SLOT(slotUpdateReciverVideo()));
+    Q_ASSERT(check);
+
     return 0;
 }
 
@@ -383,12 +387,10 @@ void CFrmVideo::audioModeChanged(QIODevice::OpenMode mode)
 void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
 {
     qDebug("CFrmVideo::videoModeChanged:%x", mode);
-//    if(QIODevice::ReadOnly & mode && m_pCall)
-//    {
-//        resizeEvent(NULL);
-//        m_RemotePlayer.show();
-//        m_RemotePlayer.setWindowTitle(QXmppUtils::jidToUser(m_pCall->jid()));
-//    }
+    if(QIODevice::ReadOnly & mode && m_pCall)
+    {
+        m_Timer.start(1000 / m_pCall->videoChannel()->decoderFormat().frameRate());
+    }
 }
 
 //呼叫结束时触发
@@ -404,6 +406,7 @@ void CFrmVideo::finished()
         QString szMsg = tr("Close the connection with %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
 
         StopVideo();
+        m_Timer.stop();
 
         m_pCall->disconnect(this);//删除所有连接
         m_pCall->deleteLater();//需要应用程序释放内存
@@ -476,13 +479,6 @@ void CFrmVideo::slotCaptureFrame(const QVideoFrame &frame)
     if(!pChannel)
         return;
 
-    //TODO:删除,需要重新做一个接收播放线程或定时器
-    QList<QXmppVideoFrame> inFrames = pChannel->readFrames();
-    if(!inFrames.isEmpty() && inFrames.begin() != inFrames.end())
-    {
-        m_RemotePlayer.slotPresent(*inFrames.begin());
-    }
-
     QVideoFrame inFrame(frame);
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
         return;
@@ -512,4 +508,21 @@ void CFrmVideo::slotCaptureFrame(const QVideoFrame &frame)
     }while(0);
 
     inFrame.unmap();
+}
+
+void CFrmVideo::slotUpdateReciverVideo()
+{
+    if(!m_pCall)
+        return;
+
+    QXmppRtpVideoChannel *pChannel = m_pCall->videoChannel();
+    if(!pChannel)
+        return;
+
+    //需要重新做一个接收播放线程或定时器
+    QList<QXmppVideoFrame> inFrames = pChannel->readFrames();
+    foreach(QXmppVideoFrame frame, inFrames)
+    {
+        m_RemotePlayer.slotPresent(frame);
+    }
 }

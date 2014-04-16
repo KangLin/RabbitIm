@@ -3,12 +3,13 @@
 
 #include <QFrame>
 #include <QCamera>
-#include "../../XmppClient.h"
 #include <QAudioOutput>
 #include <QAudioInput>
 #include <QBuffer>
+#include <QTimer>
 #include "CaptureVideoFrame.h"
 #include "FrmPlayer.h"
+#include "../../XmppClient.h"
 
 class CRoster;
 
@@ -81,12 +82,15 @@ private:
     CCaptureVideoFrame m_CaptureVideoFrame;  //实现捕获视频帧
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口
     CFrmPlayer m_LocalePlayer;//本地视频播放窗口
+    QTimer m_Timer;
     int StartVideo();
     int StopVideo();
+
 
 private slots:
     //用于向qxmpp输出视频幀
     void slotCaptureFrame(const QVideoFrame &frame);
+    void slotUpdateReciverVideo();
 };
 
 #endif // FRMVIDEO_H
