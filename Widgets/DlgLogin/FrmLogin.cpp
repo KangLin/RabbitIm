@@ -14,8 +14,13 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     //TODO:发行时删除下面行---------------
     ui->lnServer->setText(g_Global.GetXmppServerHost());
     //ui->lnServer->setVisible(false);
+#ifdef ANDROID
     ui->lnUser->setText("a");
     ui->lnPassword->setText("a");
+#else
+    ui->lnUser->setText("b");
+    ui->lnPassword->setText("b");
+#endif
     ui->lbePrompt->setText("");
     //---------------------------------
 }
