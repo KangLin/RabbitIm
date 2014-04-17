@@ -61,14 +61,17 @@ public:
 signals:
     //不同平台处理过后的视频帧捕获信号
     void sigCaptureFrame(const QVideoFrame &frame);
+    //转换视频帧格式后触发的信号，用于视频压缩发送
+    void sigConvertedToYUYVFrame(const QXmppVideoFrame &frame);
+
 private:
+
 signals:
     //从摄像头捕获的原始帧
     void sigRawCaptureFrame(const QVideoFrame &frame);
 
 private slots:
     virtual bool present(const QVideoFrame &frame);
-    void slotCaptureFrame(const QVideoFrame &frame);
 
 private:
      QVideoProbe m_Probe;//android下,目前只能用probe捕获视频

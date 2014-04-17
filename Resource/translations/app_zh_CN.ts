@@ -295,49 +295,44 @@
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="44"/>
-        <source>TextLabel</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="125"/>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="185"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="177"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="237"/>
         <source>Call</source>
         <translation>呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="136"/>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="240"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="188"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="292"/>
         <source>%1 is ringing</source>
         <translation>%1 正在响铃</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="126"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="178"/>
         <source>%1 is talking, Do you stop it?</source>
         <translation>正在与 %1 通话，是否停止它？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="186"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="238"/>
         <source>%1 is calling </source>
         <translation>%1 正在呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="190"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="242"/>
         <source>Be connecting %1</source>
         <translation>正在与 %1 连接</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="270"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="322"/>
         <source>Be talking %1</source>
         <translation>正在与 %1 通话</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="356"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="409"/>
         <source>Close the connection with %1</source>
         <translation>关闭与 %1 的连接</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="166"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="218"/>
         <source>Is calling </source>
         <translation></translation>
     </message>

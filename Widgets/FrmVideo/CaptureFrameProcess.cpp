@@ -51,6 +51,8 @@ void CCaptureFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
         QVideoFrame outFrame(pBuffer, QSize( nHeight, nWidth), QVideoFrame::Format_NV21);
         emit sigCaptureFrame(outFrame);
 
+        slotFrameConvertedToYUYV(outFrame, 320,240);
+
     }while(0);
 
     inFrame.unmap();
@@ -97,6 +99,8 @@ void CCaptureFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
                                        dst.rows),
                                  inFrame.pixelFormat());//*/
             emit sigCaptureFrame(outFrame);
+
+            slotFrameConvertedToYUYV(outFrame, 320,240);
         }
 
     }while(0);
@@ -106,3 +110,35 @@ void CCaptureFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
     return;
 }
 #endif
+
+void CCaptureFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidth, int nHeight)
+{
+    QVideoFrame inFrame(frame);
+    if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
+        return;
+
+    do{
+        //转换图片格式
+        AVPicture pic;
+        int nRet = 0;
+        nRet = CTool::ConvertFormat(inFrame, pic, nWidth, nHeight, AV_PIX_FMT_YUYV422);
+        if(nRet)
+        {
+            qDebug("CTool::ConvertFormat fail");
+            break;
+        }
+
+        int size = avpicture_get_size(AV_PIX_FMT_YUYV422, nWidth, nHeight);
+        QSize sizeFrame(nWidth, nHeight);
+        QXmppVideoFrame f(size, sizeFrame, size / nHeight, QXmppVideoFrame::Format_YUYV);
+        nRet = avpicture_layout(&pic, AV_PIX_FMT_YUYV422, nWidth, nHeight, f.bits(), size);
+        if(nRet > 0)
+        {
+            emit sigConvertedToYUYVFrame(f);
+        }
+
+        avpicture_free(&pic);
+    }while(0);
+
+    inFrame.unmap();
+}

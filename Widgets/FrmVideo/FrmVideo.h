@@ -89,8 +89,9 @@ private:
 
 private slots:
     //用于向qxmpp输出视频幀
-    void slotCaptureFrame(const QVideoFrame &frame);
+    void slotCaptureFrame(const QXmppVideoFrame &frame);
     void slotUpdateReciverVideo();
+
 };
 
 #endif // FRMVIDEO_H

@@ -91,6 +91,7 @@ OTHER_FILES += README.md \
     docs/QXmpp音视频呼叫流程.txt \
     ThirdLibary/build/build_android_ffmpeg.sh \
     ThirdLibary/build/build_android_speex.sh \
+    ThirdLibary/build/build_andriod_speexdsp.sh \
     ThirdLibary/build/build_android_x264.sh \
     ThirdLibary/build/build_windows_libvpx.sh
 

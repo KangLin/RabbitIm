@@ -75,16 +75,14 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
                     SLOT(clientIqReceived(QXmppIq)));
     Q_ASSERT(check);
 
-
     //关联本地视频头捕获视频帧信号到本地播放视频窗口
     check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(QVideoFrame)),
                     &m_LocalePlayer, SLOT(slotPresent(QVideoFrame)));
     Q_ASSERT(check);
 
-
     //关联到网络发送
-    check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(QVideoFrame)),
-                    SLOT(slotCaptureFrame(QVideoFrame)));
+    check = connect(&m_CaptureVideoFrame, SIGNAL(sigConvertedToYUYVFrame(QXmppVideoFrame)),
+                    SLOT(slotCaptureFrame(QXmppVideoFrame)));
     Q_ASSERT(check);
 
     check = connect(&m_Timer, SIGNAL(timeout()),
@@ -470,7 +468,7 @@ int CFrmVideo::StopDevice()
     return 0;
 }
 
-void CFrmVideo::slotCaptureFrame(const QVideoFrame &frame)
+void CFrmVideo::slotCaptureFrame(const QXmppVideoFrame &frame)
 {
     if(!m_pCall)
         return;
@@ -479,35 +477,7 @@ void CFrmVideo::slotCaptureFrame(const QVideoFrame &frame)
     if(!pChannel)
         return;
 
-    QVideoFrame inFrame(frame);
-    if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
-        return;
-
-    do{
-        //转换图片格式
-        AVPicture pic;
-        int nRet = 0;
-        int nWidth = 320, nHeight = 240;
-        nRet = CTool::ConvertFormat(inFrame, pic, nWidth, nHeight, AV_PIX_FMT_YUYV422);
-        if(nRet)
-        {
-            qDebug("CTool::ConvertFormat fail");
-            break;
-        }
-
-        int size = avpicture_get_size(AV_PIX_FMT_YUYV422, nWidth, nHeight);
-        QSize sizeFrame(nWidth, nHeight);
-        QXmppVideoFrame f(size, sizeFrame, size / nHeight, QXmppVideoFrame::Format_YUYV);
-        nRet = avpicture_layout(&pic, AV_PIX_FMT_YUYV422, nWidth, nHeight, f.bits(), size);
-        if(nRet > 0)
-        {
-            pChannel->writeFrame(f);
-        }
-
-        avpicture_free(&pic);
-    }while(0);
-
-    inFrame.unmap();
+    pChannel->writeFrame(frame);
 }
 
 void CFrmVideo::slotUpdateReciverVideo()

@@ -1,5 +1,9 @@
 #include "Global.h"
+
+#include <QMetaType>
+
 #include "qxmpp/QXmppUtils.h"
+#include "qxmpp/QXmppRtpChannel.h"
 
 CGlobal g_Global;
 
@@ -12,12 +16,16 @@ CGlobal::CGlobal(QObject *parent) :
     //m_szXmppServerHost = "183.62.225.76";
     m_szXmppServerHost = "192.168.10.12";
     m_szXmppServer = "rabbitim.com";
-    m_szStunServer = m_szXmppServerHost;
-    m_szTurnServer = m_szXmppServerHost;
-    m_nStunServerPort = 3478;
-    m_nTurnServerPort = 13478;
-    m_szTurnUser = "foo";
-    m_szTurnPassword = "bar";
+    m_szStunServer = "stun:stun.l.google.com";
+    m_szTurnServer = "";//m_szXmppServerHost;
+    m_nStunServerPort = 19302;
+    m_nTurnServerPort = 0;//13478;
+    m_szTurnUser = "";//foo";
+    m_szTurnPassword = "";// "bar";
+
+    //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用
+    qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
+
 }
 
 CGlobal::~CGlobal()

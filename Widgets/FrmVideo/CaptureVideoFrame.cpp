@@ -8,13 +8,18 @@ CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
     m_CaptureFrameProcess.moveToThread(&m_Thread);
     bool check = true;
     check = m_CaptureFrameProcess.connect(this,
-                      SIGNAL(sigRawCaptureFrame(QVideoFrame)),
-                      SLOT(slotCaptureFrame(QVideoFrame)));
+                      SIGNAL(sigRawCaptureFrame(const QVideoFrame&)),
+                      SLOT(slotCaptureFrame(const QVideoFrame&)));
     Q_ASSERT(check);
     check = connect(&m_CaptureFrameProcess,
-                    SIGNAL(sigCaptureFrame(QVideoFrame)),
-                    SLOT(slotCaptureFrame(QVideoFrame)));
+                    SIGNAL(sigCaptureFrame(const QVideoFrame&)),
+                    this, SIGNAL(sigCaptureFrame(const QVideoFrame&)));
     Q_ASSERT(check);
+    check = connect(&m_CaptureFrameProcess,
+                    SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
+                    this, SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)));
+    Q_ASSERT(check);
+
     m_Thread.start();
 }
 
@@ -34,11 +39,6 @@ QList<QVideoFrame::PixelFormat> CCaptureVideoFrame::supportedPixelFormats(QAbstr
     lst.push_back(QVideoFrame::Format_BGR32);
 
     return lst;
-}
-
-void CCaptureVideoFrame::slotCaptureFrame(const QVideoFrame &frame)
-{
-    emit sigCaptureFrame(frame);
 }
 
 //捕获视频帧。android下是图像格式是NV21,背景摄像头要顺时针旋转90度,再做Y轴镜像

@@ -44,6 +44,7 @@ public:
     QString GetStatusText(QXmppPresence::AvailableStatusType status);
     //好友状态颜色表示
     QColor GetStatusColor(QXmppPresence::AvailableStatusType status);
+
 signals:
 
 public slots:
@@ -63,4 +64,5 @@ private:
     int m_nStunServerPort;
 };
 
+extern CGlobal g_Global;
 #endif // GLOBAL_H
