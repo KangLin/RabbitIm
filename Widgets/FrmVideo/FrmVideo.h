@@ -60,7 +60,8 @@ protected slots:
     void clientIqReceived(const QXmppIq &iq);
 
 private:
-    int StopDevice();
+    int StartAudioDevice();
+    int StopAudioDevice();
     void closeEvent(QCloseEvent *e);
     void resizeEvent(QResizeEvent *);
     void paintEvent(QPaintEvent *event);
@@ -77,7 +78,6 @@ private:
 
     QAudioInput*        m_pAudioInput;
     QAudioOutput*       m_pAudioOutput;
-
     QCamera m_Camera;
     CCaptureVideoFrame m_CaptureVideoFrame;  //实现捕获视频帧
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口

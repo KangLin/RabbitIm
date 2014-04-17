@@ -40,7 +40,6 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
 
     m_Camera.setCaptureMode(QCamera::CaptureVideo);
     m_CaptureVideoFrame.setSource(&m_Camera);
-
 }
 
 CFrmVideo::~CFrmVideo()
@@ -350,58 +349,7 @@ void CFrmVideo::connected()
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
 
-    QXmppRtpAudioChannel* pAudioChannel = m_pCall->audioChannel();
-    if(pAudioChannel)
-    {
-        QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
-        qDebug("CFrmVideo::connected:audio name:%s;id:%d;channels:%d, clockrate:%d",
-               qPrintable(AudioPlayLoadType.name()),
-               AudioPlayLoadType.id(),
-               AudioPlayLoadType.channels(),
-               AudioPlayLoadType.clockrate());
-
-        QAudioFormat inFormat, outFormat;
-        inFormat.setSampleRate(AudioPlayLoadType.clockrate());
-        inFormat.setChannelCount(AudioPlayLoadType.channels());
-        inFormat.setSampleSize(16);
-        inFormat.setSampleType(QAudioFormat::SignedInt);
-        inFormat.setByteOrder(QAudioFormat::LittleEndian);
-        inFormat.setCodec("audio/pcm");
-
-        outFormat = inFormat;
-
-        QAudioDeviceInfo infoAudioInput(QAudioDeviceInfo::defaultInputDevice());
-        if (!infoAudioInput.isFormatSupported(inFormat)) {
-            qWarning() << "Default audio input format not supported - trying to use nearest";
-            inFormat = infoAudioInput.nearestFormat(inFormat);
-        }
-        ShowAudioDeviceSupportCodec(infoAudioInput);
-
-        QAudioDeviceInfo infoAudioOutput(QAudioDeviceInfo::defaultOutputDevice());
-        if (!infoAudioOutput.isFormatSupported(outFormat)) {
-            qWarning() << "Default audio output format not supported - trying to use nearest";
-            outFormat = infoAudioOutput.nearestFormat(outFormat);
-        }
-        ShowAudioDeviceSupportCodec(infoAudioOutput);
-
-        StopDevice();
-
-        m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
-        m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
-
-        if(m_pAudioOutput && m_pCall)
-        {
-            qDebug("m_pAudioInput->start");
-            m_pAudioInput->start(m_pCall->audioChannel());
-        }
-
-        if(m_pAudioOutput && m_pCall)
-        {
-            qDebug("m_pAudioOutput->start");
-            m_pAudioOutput->start(m_pCall->audioChannel());
-        }
-    }
-
+    StartAudioDevice();
     StartVideo();
 }
 
@@ -434,7 +382,7 @@ void CFrmVideo::finished()
     qDebug("CFrmVideo::finished");
 
     m_bCall = false;
-    StopDevice();
+    StopAudioDevice();
 
     if(m_pCall)
     {
@@ -485,8 +433,65 @@ int CFrmVideo::StopVideo()
     return 0;
 }
 
+int CFrmVideo::StartAudioDevice()
+{
+    int nRet = 0;
+    QXmppRtpAudioChannel* pAudioChannel = m_pCall->audioChannel();
+    if(pAudioChannel)
+    {
+        QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
+        qDebug("CFrmVideo::connected:audio name:%s;id:%d;channels:%d, clockrate:%d",
+               qPrintable(AudioPlayLoadType.name()),
+               AudioPlayLoadType.id(),
+               AudioPlayLoadType.channels(),
+               AudioPlayLoadType.clockrate());
+
+        QAudioFormat inFormat, outFormat;
+        inFormat.setSampleRate(AudioPlayLoadType.clockrate());
+        inFormat.setChannelCount(AudioPlayLoadType.channels());
+        inFormat.setSampleSize(16);
+        inFormat.setSampleType(QAudioFormat::SignedInt);
+        inFormat.setByteOrder(QAudioFormat::LittleEndian);
+        inFormat.setCodec("audio/pcm");
+
+        outFormat = inFormat;
+
+        QAudioDeviceInfo infoAudioInput(QAudioDeviceInfo::defaultInputDevice());
+        if (!infoAudioInput.isFormatSupported(inFormat)) {
+            qWarning() << "Default audio input format not supported - trying to use nearest";
+            inFormat = infoAudioInput.nearestFormat(inFormat);
+        }
+        ShowAudioDeviceSupportCodec(infoAudioInput);
+
+        QAudioDeviceInfo infoAudioOutput(QAudioDeviceInfo::defaultOutputDevice());
+        if (!infoAudioOutput.isFormatSupported(outFormat)) {
+            qWarning() << "Default audio output format not supported - trying to use nearest";
+            outFormat = infoAudioOutput.nearestFormat(outFormat);
+        }
+        ShowAudioDeviceSupportCodec(infoAudioOutput);
+
+        StopAudioDevice();
+
+        m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
+        m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
+
+        if(m_pAudioInput && m_pCall)
+        {
+            qDebug("m_pAudioInput->start");
+            m_pAudioInput->start(m_pCall->audioChannel());
+        }
+
+        if(m_pAudioOutput && m_pCall)
+        {
+            qDebug("m_pAudioOutput->start");
+            m_pAudioOutput->start(m_pCall->audioChannel());
+        }
+    }
+    return nRet;
+}
+
 //停止设备，并删除对象
-int CFrmVideo::StopDevice()
+int CFrmVideo::StopAudioDevice()
 {
     if(m_pAudioInput)
     {
