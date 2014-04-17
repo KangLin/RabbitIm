@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QPainter>
 #include <QAbstractVideoBuffer>
+#include <QMetaType>
 #include "../FrmUserList/Roster.h"
 #include "../../Global.h"
 #include "qxmpp/QXmppRtpChannel.h"
@@ -301,15 +302,43 @@ void CFrmVideo::stateChanged(QXmppCall::State state)
 
 void ShowAudioDeviceSupportCodec(QAudioDeviceInfo &info)
 {
-    QStringList codec = info.supportedCodecs();
-    QStringList::iterator it;
-    QString szCodecs;
-    for(it = codec.begin(); it != codec.end(); it++)
-    {
-        QString s = *it;
-        szCodecs += s;
+    qDebug("============================================");
+    QString szTemp;
+    foreach(QString codec, info.supportedCodecs())
+    {        
+        szTemp += codec;
     }
-    qDebug("audio device support codec:%s", qPrintable(szCodecs));
+    qDebug("audio device support codec:%s, ", qPrintable(szTemp));
+    szTemp.clear();
+    foreach (int sampleRate, info.supportedSampleRates()) {
+        szTemp = szTemp + QString::number(sampleRate) + ", ";
+    }
+    qDebug("audio device support sample rate:%s", qPrintable(szTemp));
+    szTemp.clear();
+    foreach (int channel, info.supportedChannelCounts()) {
+        szTemp = szTemp + QString::number(channel) + ", ";
+    }
+    qDebug("audio device support channel:%s", qPrintable(szTemp));
+    szTemp.clear();
+    foreach(int size, info.supportedSampleSizes())
+    {
+        szTemp = szTemp + QString::number(size) + ", ";
+    }
+    qDebug("audio device support sample size:%s", qPrintable(szTemp));
+    szTemp.clear();
+    foreach(QAudioFormat::SampleType type, info.supportedSampleTypes())
+    {
+        szTemp = szTemp + QString::number(type) + ", ";
+    }
+    qDebug("audio device support sample type:%s", qPrintable(szTemp));
+    szTemp.clear();
+    foreach(int order, info.supportedByteOrders())
+    {
+        szTemp = szTemp + QString::number(order) + ", ";
+    }
+    qDebug("audio device support byte order:%s", qPrintable(szTemp));
+
+    qDebug("============================================");
 }
 
 //会话建立后触发
@@ -331,26 +360,34 @@ void CFrmVideo::connected()
                AudioPlayLoadType.channels(),
                AudioPlayLoadType.clockrate());
 
-        QAudioFormat format;
-        format.setSampleRate(AudioPlayLoadType.clockrate());
-        format.setChannelCount(AudioPlayLoadType.channels());
-        format.setSampleSize(16);
-        format.setSampleType(QAudioFormat::SignedInt);
-        format.setByteOrder(QAudioFormat::LittleEndian);
-        format.setCodec("audio/pcm");
+        QAudioFormat inFormat, outFormat;
+        inFormat.setSampleRate(AudioPlayLoadType.clockrate());
+        inFormat.setChannelCount(AudioPlayLoadType.channels());
+        inFormat.setSampleSize(16);
+        inFormat.setSampleType(QAudioFormat::SignedInt);
+        inFormat.setByteOrder(QAudioFormat::LittleEndian);
+        inFormat.setCodec("audio/pcm");
 
-        QAudioDeviceInfo info(QAudioDeviceInfo::defaultInputDevice());
-        if (!info.isFormatSupported(format)) {
-            qWarning() << "Default format not supported - trying to use nearest";
-            format = info.nearestFormat(format);
+        outFormat = inFormat;
+
+        QAudioDeviceInfo infoAudioInput(QAudioDeviceInfo::defaultInputDevice());
+        if (!infoAudioInput.isFormatSupported(inFormat)) {
+            qWarning() << "Default audio input format not supported - trying to use nearest";
+            inFormat = infoAudioInput.nearestFormat(inFormat);
         }
+        ShowAudioDeviceSupportCodec(infoAudioInput);
 
-        ShowAudioDeviceSupportCodec(info);
+        QAudioDeviceInfo infoAudioOutput(QAudioDeviceInfo::defaultOutputDevice());
+        if (!infoAudioOutput.isFormatSupported(outFormat)) {
+            qWarning() << "Default audio output format not supported - trying to use nearest";
+            outFormat = infoAudioOutput.nearestFormat(outFormat);
+        }
+        ShowAudioDeviceSupportCodec(infoAudioOutput);
 
         StopDevice();
 
-        m_pAudioInput = new QAudioInput(info, format, this);
-        m_pAudioOutput = new QAudioOutput(QAudioDeviceInfo::defaultOutputDevice(), format, this);
+        m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
+        m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
 
         if(m_pAudioOutput && m_pCall)
         {
