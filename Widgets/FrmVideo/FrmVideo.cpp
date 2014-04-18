@@ -57,6 +57,17 @@ CFrmVideo::~CFrmVideo()
     qDebug("CFrmVideo::~CFrmVideo end");
 }
 
+CFrmVideo* CFrmVideo::instance(CXmppClient *pClient)
+{
+    static CFrmVideo *pVideo = NULL;
+    if(NULL == pVideo)
+    {
+        pVideo = new CFrmVideo();
+        pVideo->SetClient(pClient);
+    }
+    return pVideo;
+}
+
 int CFrmVideo::SetClient(CXmppClient *pClient)
 {
     m_pClient = pClient;

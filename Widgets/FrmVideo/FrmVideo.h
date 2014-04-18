@@ -21,11 +21,14 @@ class CFrmVideo : public QFrame
 {
     Q_OBJECT
 
-public:
+private:
     explicit CFrmVideo(QWidget *parent = 0);
     virtual ~CFrmVideo();
-
     int SetClient(CXmppClient *pClient);
+
+public:
+    static CFrmVideo *instance(CXmppClient *pClient);
+
     int Call(QString jid);
 
 protected slots:

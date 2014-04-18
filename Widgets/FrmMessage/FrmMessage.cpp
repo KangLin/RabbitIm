@@ -3,6 +3,7 @@
 #include "../FrmUserList/Roster.h"
 #include "qxmpp/QXmppMessage.h"
 #include "../../MainWindow.h"
+#include "../FrmVideo/FrmVideo.h"
 
 CFrmMessage::CFrmMessage(QWidget *parent) :
     QFrame(parent),
@@ -118,7 +119,10 @@ void CFrmMessage::on_tbMore_clicked()
 
 void CFrmMessage::on_pbVideo_clicked()
 {
-    m_pRoster->m_Video.show();
-    m_pRoster->m_Video.activateWindow();
-    m_pRoster->m_Video.Call(m_pRoster->BareJid() + "/QXmpp");
+    CFrmVideo *pVideo = CFrmVideo::instance(m_pMainWindow->m_pClient);
+    if(NULL == pVideo)
+        return;
+    pVideo->show();
+    pVideo->activateWindow();
+    pVideo->Call(m_pRoster->BareJid() + "/QXmpp");
 }

@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include "Widgets/FrmUserList/FrmUserList.h"
 #include "Widgets/DlgLogin/FrmLogin.h"
+#include "Global.h"
+#include "Widgets/FrmVideo/FrmVideo.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -44,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
         check = connect(m_pClient, SIGNAL(stateChanged(QXmppClient::State)),
                         SLOT(stateChanged(QXmppClient::State)));
         Q_ASSERT(check);
+
+        CFrmVideo::instance(m_pClient);
     }
 }
 

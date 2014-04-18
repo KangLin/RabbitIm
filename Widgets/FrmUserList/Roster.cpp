@@ -34,8 +34,7 @@ int CRoster::Init(MainWindow *parent)
     m_pMainWindow = parent;
 
     m_Message.SetRoster(this, m_pMainWindow);
-    //TODO:
-    m_Video.SetClient(m_pMainWindow->m_pClient);
+
     return 0;
 }
 
