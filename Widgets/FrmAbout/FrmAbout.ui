@@ -114,7 +114,7 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Email:kl222@126.com</string>
+        <string>MSN、Email:kl222@126.com</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

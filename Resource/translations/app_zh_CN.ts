@@ -71,8 +71,8 @@
     </message>
     <message>
         <location filename="../../Widgets/FrmAbout/FrmAbout.ui" line="117"/>
-        <source>Email:kl222@126.com</source>
-        <translation>电子邮箱：kl222@126.com</translation>
+        <source>MSN、Email:kl222@126.com</source>        
+        <translation>MSN、电子邮箱：kl222@126.com</translation>
     </message>
 </context>
 <context>
@@ -123,7 +123,7 @@
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="39"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="44"/>
         <source>Being Login...</source>
         <translation>正在登录……</translation>
     </message>
@@ -295,44 +295,44 @@
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="177"/>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="237"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="175"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="235"/>
         <source>Call</source>
         <translation>呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="188"/>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="292"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="186"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="290"/>
         <source>%1 is ringing</source>
         <translation>%1 正在响铃</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="178"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="176"/>
         <source>%1 is talking, Do you stop it?</source>
         <translation>正在与 %1 通话，是否停止它？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="238"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="236"/>
         <source>%1 is calling </source>
         <translation>%1 正在呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="242"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="240"/>
         <source>Be connecting %1</source>
         <translation>正在与 %1 连接</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="322"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="348"/>
         <source>Be talking %1</source>
         <translation>正在与 %1 通话</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="409"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="389"/>
         <source>Close the connection with %1</source>
         <translation>关闭与 %1 的连接</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="218"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="216"/>
         <source>Is calling </source>
         <translation></translation>
     </message>
@@ -340,33 +340,33 @@
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global.cpp" line="168"/>
+        <location filename="../../Global.cpp" line="175"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="170"/>
+        <location filename="../../Global.cpp" line="177"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="172"/>
+        <location filename="../../Global.cpp" line="179"/>
         <source>Chat</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="174"/>
+        <location filename="../../Global.cpp" line="181"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="176"/>
-        <location filename="../../Global.cpp" line="180"/>
+        <location filename="../../Global.cpp" line="183"/>
+        <location filename="../../Global.cpp" line="187"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="178"/>
+        <location filename="../../Global.cpp" line="185"/>
         <source>Away for an extended period</source>
         <translation>离开</translation>
     </message>
