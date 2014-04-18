@@ -1,6 +1,8 @@
 #include "CaptureVideoFrame.h"
 #include <QCamera>
 #include <QThread>
+#include <QTime>
+#include <QtDebug>
 
 CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
     QAbstractVideoSurface(parent)
@@ -46,6 +48,15 @@ QList<QVideoFrame::PixelFormat> CCaptureVideoFrame::supportedPixelFormats(QAbstr
 //windows下格式是RGB32,做Y轴镜像
 bool CCaptureVideoFrame::present(const QVideoFrame &frame)
 {
+#ifdef DEBUG
+    static QTime preTime = QTime::currentTime();
+    QTime curTime = QTime::currentTime();
+    qDebug("preTime:%s, currTime:%s, space:%d",
+           qPrintable(preTime.toString()),
+           qPrintable(curTime.toString()),
+           preTime.msecsTo(curTime));
+    preTime = curTime;
+#endif
     emit sigRawCaptureFrame(frame);
     return true;
 }

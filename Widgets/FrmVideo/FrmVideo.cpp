@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QAbstractVideoBuffer>
 #include <QMetaType>
+#include <QTime>
 #include "../FrmUserList/Roster.h"
 #include "../../Global.h"
 #include "qxmpp/QXmppRtpChannel.h"
@@ -383,7 +384,7 @@ void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
     qDebug("CFrmVideo::videoModeChanged:%x", mode);
     if(QIODevice::ReadOnly & mode && m_pCall)
     {
-        m_Timer.start(1000 / m_pCall->videoChannel()->decoderFormat().frameRate());
+        m_Timer.start((double)1000 / m_pCall->videoChannel()->decoderFormat().frameRate());
     }
 }
 
@@ -535,6 +536,16 @@ void CFrmVideo::slotCaptureFrame(const QXmppVideoFrame &frame)
 
 void CFrmVideo::slotUpdateReciverVideo()
 {
+#ifdef DEBUG
+    static QTime preTime = QTime::currentTime();
+    QTime curTime = QTime::currentTime();
+    qDebug("preTime:%s, currTime:%s, space:%d",
+           qPrintable(preTime.toString()),
+           qPrintable(curTime.toString()),
+           preTime.msecsTo(curTime));
+    preTime = curTime;
+#endif
+
     if(!m_pCall)
         return;
 
@@ -544,8 +555,14 @@ void CFrmVideo::slotUpdateReciverVideo()
 
     //需要重新做一个接收播放线程或定时器
     QList<QXmppVideoFrame> inFrames = pChannel->readFrames();
-    foreach(QXmppVideoFrame frame, inFrames)
+    qDebug("recive video frames:%d", inFrames.size());
+    if(!inFrames.isEmpty())
     {
-        m_RemotePlayer.slotPresent(frame);
+        m_RemotePlayer.slotPresent(*inFrames.begin());
+        inFrames.pop_front();
     }
+//    foreach(QXmppVideoFrame frame, inFrames)
+//    {
+//        m_RemotePlayer.slotPresent(frame);
+//    }
 }
