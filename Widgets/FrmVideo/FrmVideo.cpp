@@ -536,15 +536,15 @@ void CFrmVideo::slotCaptureFrame(const QXmppVideoFrame &frame)
 
 void CFrmVideo::slotUpdateReciverVideo()
 {
-#ifdef DEBUG
-    static QTime preTime = QTime::currentTime();
-    QTime curTime = QTime::currentTime();
-    qDebug("preTime:%s, currTime:%s, space:%d",
-           qPrintable(preTime.toString()),
-           qPrintable(curTime.toString()),
-           preTime.msecsTo(curTime));
-    preTime = curTime;
-#endif
+//#ifdef DEBUG
+//    static QTime preTime = QTime::currentTime();
+//    QTime curTime = QTime::currentTime();
+//    qDebug("preTime:%s, currTime:%s, space:%d",
+//           qPrintable(preTime.toString("hh:mm:ss.zzz")),
+//           qPrintable(curTime.toString("hh:mm:ss.zzz")),
+//           preTime.msecsTo(curTime));
+//    preTime = curTime;
+//#endif
 
     if(!m_pCall)
         return;
