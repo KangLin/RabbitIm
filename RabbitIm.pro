@@ -18,7 +18,7 @@ CONFIG(debug, debug|release) {
     QXMPP_LIBRARY_NAME = qxmpp
 }
 
-#android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
+#android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件�?
 android {
     INCLUDEPATH += $$PWD/ThirdLibary/android/include
     DEPENDPATH += $$PWD/ThirdLibary/android/include
@@ -77,7 +77,7 @@ QXMPP_USE_SPEEX=1
     }
 }
 
-DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
+DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需�?
 
 include(RabbitIm.pri)
 
@@ -95,12 +95,17 @@ OTHER_FILES += README.md \
     Resource/translations/app_zh_CN.ts \
     docs/* \
     docs/Books/* \
-    docs/QXmpp音视频呼叫流程.txt \
+    docs/QXmpp音视频呼叫流�?.txt \
     ThirdLibary/build/build_android_ffmpeg.sh \
     ThirdLibary/build/build_android_speex.sh \
     ThirdLibary/build/build_andriod_speexdsp.sh \
     ThirdLibary/build/build_android_x264.sh \
-    ThirdLibary/build/build_windows_libvpx.sh
+    ThirdLibary/build/build_windows_libvpx.sh \
+    ThirdLibary/build/build_windows_ffmpeg.sh \
+    ThirdLibary/build/build_windows_speex.sh \
+    ThirdLibary/build/build_windows_speexdsp.sh \
+    ThirdLibary/build/build_android_speexdsp.sh \
+    ThirdLibary/build/build_windows_x264.sh
 
 
 ANDROID_EXTRA_LIBS = 

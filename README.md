@@ -41,7 +41,7 @@ webrtc库：
 下载：
   git clone git://source.ffmpeg.org/ffmpeg.git
 当前使用版本：
-  git库版本 —— 44841528c197435be44f0c3598098e6c52f0df26
+  git库版本 —— 3b06208a57b4954b50d6dcfc1be53b1b3af3dd4c
 
 编解码库(x264)
 下载：
@@ -53,13 +53,19 @@ webrtc库：
 下载：
   git clone https://chromium.googlesource.com/webm/libvpx libvpx
 当前使用版本：
-  git库版本 —— 3b39d7503f4ce75dce962445dddfbfb18f6babf0
+  git库版本 —— 6962ea665dc968ce32dd1c03b6c162a35cf43c73
 
 编解码库（libspeex）
 下载：
   git clone http://git.xiph.org/speex.git
 当前使用版本：
   git库版本 —— 78cce679a0f2d376b97e64a6d7763bce82dd06cc
+
+音频处理库(libspeexdsp)
+下载：
+  git clone http://git.xiph.org/speexdsp.git
+当前使用版本：
+  git库版本 —— af768302c12f231e14076faac79b6313e49613a2
 
 图像处理库(opencv)
 下载：
