@@ -32,22 +32,26 @@ void CCaptureFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
     }
 
     do{
-        //背景摄像头要顺时针旋转90度,再做Y轴镜像
-        //前景摄像头要逆时针旋转90度
         int nWidth = inFrame.width();
         int nHeight = inFrame.height();
         QByteArray mirror, rotate;
         mirror.resize(inFrame.mappedBytes());
         rotate.resize(inFrame.mappedBytes());
 
+        /*背景摄像头要顺时针旋转90度,再做Y轴镜像
         CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, 1);
         CTool::YUV420spMirror(reinterpret_cast<uchar *> (mirror.data()),
                               reinterpret_cast<uchar *>(rotate.data()),
                               nHeight, nWidth, 0);
-
         CDataVideoBuffer *pBuffer = new CDataVideoBuffer(mirror,
                                 nHeight,
-                                nWidth);
+                                nWidth);//*/
+
+        //*前景摄像头要逆时针旋转90度
+        CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, -1);
+        CDataVideoBuffer *pBuffer = new CDataVideoBuffer(rotate,
+                                nHeight,
+                                nWidth);//*/
         QVideoFrame outFrame(pBuffer, QSize( nHeight, nWidth), QVideoFrame::Format_NV21);
         emit sigCaptureFrame(outFrame);
 

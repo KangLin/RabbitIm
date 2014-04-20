@@ -33,16 +33,7 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     m_pAudioInput = NULL;
     m_pAudioOutput = NULL;
     m_pCallSound = NULL;
-
-    QList<QByteArray> device = QCamera::availableDevices();
-    QList<QByteArray>::iterator it;
-    for(it = device.begin(); it != device.end(); it++)
-    {
-        qDebug("Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
-    }
-
-    m_Camera.setCaptureMode(QCamera::CaptureVideo);
-    m_CaptureVideoFrame.setSource(&m_Camera);
+    m_pCamera = NULL;
 }
 
 CFrmVideo::~CFrmVideo()
@@ -126,6 +117,7 @@ void CFrmVideo::closeEvent(QCloseEvent *e)
     {
         m_pCall->hangup();
     }
+    //立即停止播放声音
     StopCallSound();
 }
 
@@ -335,6 +327,7 @@ void CFrmVideo::stateChanged(QXmppCall::State state)
 void ShowAudioDeviceSupportCodec(QAudioDeviceInfo &info)
 {
     qDebug("============================================");
+    qDebug("device name:%s", qPrintable(info.deviceName()));
     QString szTemp;
     foreach(QString codec, info.supportedCodecs())
     {        
@@ -451,7 +444,40 @@ int CFrmVideo::StartVideo()
     if(m_bCall)
         m_pCall->startVideo();
 
-    m_Camera.start();
+    QList<QByteArray> device = QCamera::availableDevices();
+    QList<QByteArray>::iterator it;
+    for(it = device.begin(); it != device.end(); it++)
+    {
+        qDebug("Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+    }
+    if(m_pCamera)
+    {
+        m_pCamera->stop();
+        delete m_pCamera;
+    }
+#ifdef ANDROID
+    if(device.size() == 2)
+    {
+        m_pCamera = new QCamera(QCamera::availableDevices().at(1));
+    }
+    else
+        m_pCamera = new QCamera;
+#else
+    m_pCamera = new QCamera;
+#endif
+    if(!m_pCamera)
+    {
+        QMessageBox msg(QMessageBox::Warning,
+                        tr("Call"),
+                        tr("Hasn't camera"),
+                        QMessageBox::Yes);
+        msg.exec();
+        return -1;
+    }
+
+    m_pCamera->setCaptureMode(QCamera::CaptureVideo);
+    m_CaptureVideoFrame.setSource(m_pCamera);
+    m_pCamera->start();
 
     ui->lbPrompt->hide();
     resizeEvent(NULL);
@@ -459,14 +485,22 @@ int CFrmVideo::StartVideo()
     m_RemotePlayer.setWindowTitle(QXmppUtils::jidToUser(m_pCall->jid()));
 
     m_LocalePlayer.setWindowTitle(g_Global.GetName());
+    m_LocalePlayer.raise();//提升到父窗口中栈的顶部
     m_LocalePlayer.show();
-    m_LocalePlayer.activateWindow();
+    //m_LocalePlayer.activateWindow();
+
     return 0;
 }
 
 int CFrmVideo::StopVideo()
 {
-    m_Camera.stop();
+    if(m_pCamera)
+    {
+        m_pCamera->stop();
+        delete m_pCamera;
+        m_pCamera = NULL;
+    }
+
     m_LocalePlayer.close();
     m_RemotePlayer.close();
     m_pCall->stopVideo();
@@ -583,15 +617,15 @@ void CFrmVideo::slotUpdateReciverVideo()
            preTime.msecsTo(curTime));
     preTime = curTime;
 #endif
-    if(!inFrames.isEmpty())
-    {
-        m_RemotePlayer.slotPresent(*inFrames.begin());
-        inFrames.pop_front();
-    }
-//    foreach(QXmppVideoFrame frame, inFrames)
+//    if(!inFrames.isEmpty())
 //    {
-//        m_RemotePlayer.slotPresent(frame);
+//        m_RemotePlayer.slotPresent(*inFrames.begin());
+//        inFrames.pop_front();
 //    }
+    foreach(QXmppVideoFrame frame, inFrames)
+    {
+        m_RemotePlayer.slotPresent(frame);
+    }
 }
 
 void CFrmVideo::PlayCallSound()

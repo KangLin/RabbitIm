@@ -85,7 +85,7 @@ private:
 
     QAudioInput*        m_pAudioInput;
     QAudioOutput*       m_pAudioOutput;
-    QCamera m_Camera;
+    QCamera *m_pCamera;
     CCaptureVideoFrame m_CaptureVideoFrame;  //实现捕获视频帧
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口
     CFrmPlayer m_LocalePlayer;//本地视频播放窗口
