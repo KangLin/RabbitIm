@@ -45,7 +45,7 @@ android{
 }
 
 win32:CONFIG(release, debug|release){
-    LIBS += -L$$PWD/ThirdLibary/windows/lib -l$$QXMPP_LIBRARY_NAME $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
+    LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
 } else:win32:CONFIG(debug, debug|release){
     DEFINES += DEBUG
     LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
