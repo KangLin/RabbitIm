@@ -2,4 +2,8 @@
     <qresource prefix="/translations">
         <file alias="zh_CN">translations/app_zh_CN.qm</file>
     </qresource>
+    <qresource prefix="/sound">
+        <file alias="Call">sound/Call.wav</file>
+        <file alias="Receive">sound/Receive.wav</file>
+    </qresource>
 </RCC>

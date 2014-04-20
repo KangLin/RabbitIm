@@ -7,6 +7,7 @@
 #include <QAbstractVideoBuffer>
 #include <QMetaType>
 #include <QTime>
+#include <QSound>
 #include "../FrmUserList/Roster.h"
 #include "../../Global.h"
 #include "qxmpp/QXmppRtpChannel.h"
@@ -31,6 +32,7 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     m_pClient = NULL;
     m_pAudioInput = NULL;
     m_pAudioOutput = NULL;
+    m_pCallSound = NULL;
 
     QList<QByteArray> device = QCamera::availableDevices();
     QList<QByteArray>::iterator it;
@@ -46,6 +48,13 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
 CFrmVideo::~CFrmVideo()
 {
     qDebug("CFrmVideo::~CFrmVideo");
+
+    if(m_pCallSound)
+    {
+        m_pCallSound->stop();
+        delete m_pCallSound;
+        m_pCallSound = NULL;
+    }
 
     if(m_pClient)
     {
@@ -97,7 +106,7 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
                     SLOT(slotCaptureFrame(QXmppVideoFrame)));
     Q_ASSERT(check);
 
-    check = connect(&m_Timer, SIGNAL(timeout()),
+    check = connect(&m_VideoPlayTimer, SIGNAL(timeout()),
                     SLOT(slotUpdateReciverVideo()));
     Q_ASSERT(check);
 
@@ -114,7 +123,10 @@ void CFrmVideo::closeEvent(QCloseEvent *e)
     Q_UNUSED(e);
     qDebug("CFrmVideo::closeEvent");
     if(m_pCall)
+    {
         m_pCall->hangup();
+    }
+    StopCallSound();
 }
 
 void CFrmVideo::AdjustPlayer(const QRect &rect)
@@ -217,6 +229,9 @@ int CFrmVideo::Call(QString jid)
 
     m_bCall = true;
 
+    //播放铃音
+    PlayCallSound();
+
     return 0;
 }
 
@@ -243,6 +258,9 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
                 g_Global.GetTurnServerPassword()
                 );
 
+    //播放铃音
+    PlayCallSound();
+
     QMessageBox msg(QMessageBox::Question,
                     tr("Call"),
                     tr("%1 is calling ").arg(QXmppUtils::jidToUser(pCall->jid())),
@@ -256,6 +274,9 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
     }
     else
         pCall->hangup();
+
+    //停止播放铃音
+    StopCallSound();
 }
 
 //呼叫开始
@@ -361,6 +382,9 @@ void CFrmVideo::connected()
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
 
+    //停止铃音
+    StopCallSound();
+
     StartAudioDevice();
     StartVideo();
 }
@@ -384,7 +408,11 @@ void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
     qDebug("CFrmVideo::videoModeChanged:%x", mode);
     if(QIODevice::ReadOnly & mode && m_pCall)
     {
-        m_Timer.start((double)1000 / m_pCall->videoChannel()->decoderFormat().frameRate());
+        int nInterval = (double)1000 / m_pCall->videoChannel()->decoderFormat().frameRate();
+        m_VideoPlayTimer.start(nInterval);
+#ifdef DEBUG
+        qDebug("Interval:%d", nInterval);
+#endif
     }
 }
 
@@ -393,6 +421,7 @@ void CFrmVideo::finished()
 {
     qDebug("CFrmVideo::finished");
 
+    StopCallSound();
     m_bCall = false;
     StopAudioDevice();
 
@@ -401,7 +430,7 @@ void CFrmVideo::finished()
         QString szMsg = tr("Close the connection with %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
 
         StopVideo();
-        m_Timer.stop();
+        m_VideoPlayTimer.stop();
 
         m_pCall->disconnect(this);//删除所有连接
         m_pCall->deleteLater();//需要应用程序释放内存
@@ -536,16 +565,6 @@ void CFrmVideo::slotCaptureFrame(const QXmppVideoFrame &frame)
 
 void CFrmVideo::slotUpdateReciverVideo()
 {
-//#ifdef DEBUG
-//    static QTime preTime = QTime::currentTime();
-//    QTime curTime = QTime::currentTime();
-//    qDebug("preTime:%s, currTime:%s, space:%d",
-//           qPrintable(preTime.toString("hh:mm:ss.zzz")),
-//           qPrintable(curTime.toString("hh:mm:ss.zzz")),
-//           preTime.msecsTo(curTime));
-//    preTime = curTime;
-//#endif
-
     if(!m_pCall)
         return;
 
@@ -553,9 +572,17 @@ void CFrmVideo::slotUpdateReciverVideo()
     if(!pChannel)
         return;
 
-    //需要重新做一个接收播放线程或定时器
     QList<QXmppVideoFrame> inFrames = pChannel->readFrames();
+#ifdef DEBUG
     qDebug("recive video frames:%d", inFrames.size());
+    static QTime preTime = QTime::currentTime();
+    QTime curTime = QTime::currentTime();
+    qDebug("preTime:%s, currTime:%s, space:%d",
+           qPrintable(preTime.toString("hh:mm:ss.zzz")),
+           qPrintable(curTime.toString("hh:mm:ss.zzz")),
+           preTime.msecsTo(curTime));
+    preTime = curTime;
+#endif
     if(!inFrames.isEmpty())
     {
         m_RemotePlayer.slotPresent(*inFrames.begin());
@@ -565,4 +592,35 @@ void CFrmVideo::slotUpdateReciverVideo()
 //    {
 //        m_RemotePlayer.slotPresent(frame);
 //    }
+}
+
+void CFrmVideo::PlayCallSound()
+{
+    QString file;
+    if(m_bCall)
+        file = ":/sound/Call";
+    else
+        file = ":/sound/Receive";
+
+    if(m_pCallSound)
+    {
+        m_pCallSound->stop();
+        delete m_pCallSound;
+    }
+    m_pCallSound = new QSound(file);
+    if(m_pCallSound)
+    {
+        m_pCallSound->setLoops(100);
+        m_pCallSound->play();
+    }
+}
+
+void CFrmVideo::StopCallSound()
+{
+    if(m_pCallSound)
+    {
+        m_pCallSound->stop();
+        delete m_pCallSound;
+        m_pCallSound = NULL;
+    }
 }

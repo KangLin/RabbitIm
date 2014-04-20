@@ -7,6 +7,7 @@
 #include <QAudioInput>
 #include <QBuffer>
 #include <QTimer>
+#include <QSound>
 #include "CaptureVideoFrame.h"
 #include "FrmPlayer.h"
 #include "../../XmppClient.h"
@@ -72,6 +73,9 @@ private:
     //调整显示窗体大小
     void AdjustPlayer(const QRect &rect);
 
+    void PlayCallSound();
+    void StopCallSound();
+
 private:
     Ui::CFrmVideo *ui;
 
@@ -85,7 +89,8 @@ private:
     CCaptureVideoFrame m_CaptureVideoFrame;  //实现捕获视频帧
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口
     CFrmPlayer m_LocalePlayer;//本地视频播放窗口
-    QTimer m_Timer;
+    QTimer m_VideoPlayTimer;//显示对方视频定时器
+    QSound *m_pCallSound;//播放铃音
     int StartVideo();
     int StopVideo();
 
@@ -93,6 +98,7 @@ private:
 private slots:
     //用于向qxmpp输出视频幀
     void slotCaptureFrame(const QXmppVideoFrame &frame);
+    //定时显示对方视频
     void slotUpdateReciverVideo();
 
 };
