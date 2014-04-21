@@ -44,8 +44,8 @@ int main(int argc, char *argv[])
     CFrmPlayer player;
     if(captureVideoFrame.setSource(&camera))
     {
-        player.connect(&captureVideoFrame, SIGNAL(sigCaptureFrame(QVideoFrame)),
-                       SLOT(slotPresent(QVideoFrame)));
+        player.connect(&captureVideoFrame, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
+                       SLOT(slotPresent(const QVideoFrame&)));
     }
 
     player.show();

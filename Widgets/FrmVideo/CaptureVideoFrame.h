@@ -44,7 +44,7 @@
 #include <QVideoProbe>
 #include <QCamera>
 #include <QThread>
-#include "CaptureFrameProcess.h"
+#include "FrameProcess.h"
 
 class CCaptureVideoFrame : public QAbstractVideoSurface
 {
@@ -75,7 +75,7 @@ private slots:
 
 private:
      QVideoProbe m_Probe;//android下,目前只能用probe捕获视频
-     CCaptureFrameProcess m_CaptureFrameProcess;
+     CFrameProcess m_CaptureFrameProcess;
      QThread m_Thread;
 
 };

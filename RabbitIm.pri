@@ -16,7 +16,7 @@ SOURCES += main.cpp\
     Widgets/FrmVideo/CaptureVideoFrame.cpp \
     Widgets/FrmVideo/FrmPlayer.cpp \
     Widgets/FrmVideo/DataVideoBuffer.cpp \
-    Widgets/FrmVideo/CaptureFrameProcess.cpp
+    Widgets/FrmVideo/FrameProcess.cpp
 
 HEADERS  += MainWindow.h \
     XmppClient.h \
@@ -35,7 +35,7 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/CaptureVideoFrame.h \
     Widgets/FrmVideo/FrmPlayer.h \    
     Widgets/FrmVideo/DataVideoBuffer.h \
-    Widgets/FrmVideo/CaptureFrameProcess.h
+    Widgets/FrmVideo/FrameProcess.h
 
 FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \

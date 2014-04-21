@@ -1,21 +1,20 @@
-#include "CaptureFrameProcess.h"
-#include <QThread>
+#include "FrameProcess.h"
 #include "../../Tool.h"
 #include "DataVideoBuffer.h"
 
-CCaptureFrameProcess::CCaptureFrameProcess(QObject *parent) :
+CFrameProcess::CFrameProcess(QObject *parent) :
     QObject(parent)
 {
 }
 
-CCaptureFrameProcess::~CCaptureFrameProcess()
+CFrameProcess::~CFrameProcess()
 {
 }
 
 #ifdef ANDROID
 //捕获视频帧。android下是图像格式是NV21,背景摄像头要顺时针旋转90度,再做Y轴镜像
 //前景摄像头要逆时针旋转90度
-void CCaptureFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
+void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 {
     if(frame.pixelFormat() != QVideoFrame::Format_NV21)
     {
@@ -65,7 +64,7 @@ void CCaptureFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 }
 #else
 //捕获视频帧。windows下格式是RGB32,做Y轴镜像
-void CCaptureFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
+void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 {
     QVideoFrame inFrame(frame);
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
@@ -115,7 +114,7 @@ void CCaptureFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 }
 #endif
 
-void CCaptureFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidth, int nHeight)
+void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidth, int nHeight)
 {
     QVideoFrame inFrame(frame);
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
@@ -145,4 +144,67 @@ void CCaptureFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, in
     }while(0);
 
     inFrame.unmap();
+}
+
+void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame, const QRect &rect)
+{
+    QVideoFrame outFrame;
+    QVideoFrame f(inFrame);
+
+    //QVideoFrame使用bits前一定要先map，bits才会生效
+    if(!f.map(QAbstractVideoBuffer::ReadOnly))
+        return;
+
+    do
+    {
+        //图片格式转换
+        AVPicture pic;
+        int nRet = CTool::ConvertFormat(f, pic, rect.width(), rect.height(), AV_PIX_FMT_RGB32);
+        if(nRet)
+            break;
+
+        FillFrame(pic, rect, outFrame);
+
+        avpicture_free(&pic);
+    }while(0);
+
+    f.unmap();
+
+    emit sigConvertedToRGB32Frame(outFrame);
+}
+
+void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, const QRect &rect)
+{
+    //图片格式转换
+    AVPicture pic;
+    int nRet = CTool::ConvertFormat(frame, pic, rect.width(), rect.height(), AV_PIX_FMT_RGB32);
+    if(nRet)
+        return;
+
+    QVideoFrame outFrame;
+    FillFrame(pic, rect, outFrame);
+    avpicture_free(&pic);
+    emit sigConvertedToRGB32Frame(outFrame);
+}
+
+int CFrameProcess::FillFrame(const AVPicture &pic, const QRect &rect, QVideoFrame &frame)
+{
+    int nRet = 0;
+    int size = avpicture_get_size(AV_PIX_FMT_RGB32, rect.width(), rect.height());
+
+    QByteArray outFrame;
+    outFrame.resize(size);
+    CDataVideoBuffer *pBuf = new CDataVideoBuffer(outFrame, rect.width(), rect.height());
+    QVideoFrame f(pBuf, QSize(rect.width(), rect.height()), QVideoFrame::Format_RGB32);
+    frame = f;
+    if(frame.map(QAbstractVideoBuffer::WriteOnly))
+    {
+        avpicture_layout(&pic, AV_PIX_FMT_RGB32,
+                         rect.width(), rect.height(),
+                         frame.bits(), frame.mappedBytes());
+        frame.unmap();
+    }
+    else
+        return -1;
+    return nRet;
 }
