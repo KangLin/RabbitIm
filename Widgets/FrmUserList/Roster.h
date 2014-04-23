@@ -1,11 +1,12 @@
 #ifndef ROSTER_H
 #define ROSTER_H
 
+#include <QSet>
 #include <QObject>
 #include <QStandardItemModel>
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppPresence.h"
-#include <QSet>
+#include "qxmpp/QXmppRosterIq.h"
 #include "../FrmMessage/FrmMessage.h"
 
 class MainWindow;
@@ -15,9 +16,9 @@ class CRoster : public QObject
     Q_OBJECT
 public:
     //参数 parent 必须为 MainWindow
-    explicit CRoster(QObject *parent = 0);
+    explicit CRoster(QObject *parent = NULL);
     //parent 必须为 MainWindow
-    explicit CRoster(QString jid, QSet<QString> groups, MainWindow* parent = 0);
+    explicit CRoster(QXmppRosterIq::Item item, MainWindow* parent = NULL);
     ~CRoster();
 
     QString Name();
@@ -25,14 +26,16 @@ public:
     QString Resouce();
     QString BareJid();
     QString Jid();
-    int SetJid(QString jid);
+    //int SetJid(QString jid);
 
     QSet<QString> Groups();
-    int SetGroups(const QSet<QString> &groups);
 
     QList<QStandardItem *> GetItem(); //得到条目对象
+    int UpdateItems(QXmppRosterIq::Item item);//更新与此好友相关条目对象内容
 
     QXmppPresence::AvailableStatusType GetStatus();
+    QXmppRosterIq::Item::SubscriptionType GetSubScriptionType();
+
     //状态改变
     int ChangedPresence(QXmppPresence::AvailableStatusType status);
     //显示消息对话框
@@ -43,6 +46,11 @@ public:
 
 private:
     int Init(MainWindow *parent = 0);
+    QString GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType type) const;
+    //更新条目的显示内容
+    int UpdateItemDisplay();
+    //删除与本好友相关的所有条目
+    int DeleteItems();
 
 signals:
     void ReciveMessage(CRoster* pRoster);
@@ -52,12 +60,13 @@ signals:
 public slots:
 
 private:
-    QString m_szJid;
-    QXmppPresence::AvailableStatusType m_Status;
+    //QString m_szJid;
+    QXmppRosterIq::Item m_RosterItem;
+    QXmppPresence::AvailableStatusType m_Status;//好友出席状态
 
     MainWindow* m_pMainWindow;
     std::list<QStandardItem*> m_lstUserListItem; //这个要交给控件释放
-    QSet<QString> m_Groups;
+
     //TODO:改成动态产生
     CFrmMessage m_Message;
     int m_nNewMessageNumber;//新消息数

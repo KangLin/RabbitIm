@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QVideoFrame>
-#include <QThread>
 #include "qxmpp/QXmppRtpChannel.h"
 #include "qxmpp/QXmppRtpChannel.h"
 #include "FrameProcess.h"
@@ -35,7 +34,6 @@ protected:
 
 private:
     QVideoFrame m_VideoFrame;
-    QThread m_Thread;//转换格式的线程
     CFrameProcess m_FrameProcess;//格式转换实例
 };
 

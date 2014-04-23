@@ -6,27 +6,46 @@
 #include "../../MainWindow.h"
 #include <iostream>
 #include <QKeyEvent>
+#include <QMessageBox>
+#include <QDebug>
 #include "Roster.h"
 
 CFrmUserList::CFrmUserList(QWidget *parent) :
     QFrame(parent),
+    m_UserList(parent),
     ui(new Ui::CFrmUserList)
 {
     ui->setupUi(this);
 
     m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。
-    ui->tvUsers->setModel(m_pModel);
-    ui->tvUsers->setHeaderHidden(true);
-    ui->tvUsers->setExpandsOnDoubleClick(true);
-    ui->tvUsers->setItemsExpandable(true);
-    //ui->tvUsers->installEventFilter(this);
+    m_UserList.setModel(m_pModel);
+    m_UserList.setHeaderHidden(true);
+    m_UserList.setExpandsOnDoubleClick(true);
+    m_UserList.setItemsExpandable(true);
+    m_UserList.show();
 
-    bool check = connect(ui->tvUsers, SIGNAL(clicked(QModelIndex)),
+    bool check = connect(&m_UserList, SIGNAL(clicked(QModelIndex)),
                          SLOT(clicked(QModelIndex)));
     Q_ASSERT(check);
 
-    check = connect(ui->tvUsers, SIGNAL(doubleClicked(QModelIndex)),
+    check = connect(&m_UserList, SIGNAL(doubleClicked(QModelIndex)),
                          SLOT(doubleClicked(QModelIndex)));
+    Q_ASSERT(check);
+
+    check = connect(&m_UserList, SIGNAL(customContextMenuRequested(QPoint)),
+                    SLOT(on_tvUsers_customContextMenuRequested(QPoint)));
+    Q_ASSERT(check);
+
+    check = connect(ui->actionAddRoster_A, SIGNAL(triggered()),
+                    SLOT(slotAddRoster()));
+    Q_ASSERT(check);
+
+    check = connect(ui->actionRemoveRoster_R, SIGNAL(triggered()),
+                    SLOT(slotRemoveRoster()));
+    Q_ASSERT(check);
+
+    check = connect(ui->actionAgreeAddRoster, SIGNAL(triggered()),
+                    SLOT(slotAgreeAddRoster()));
     Q_ASSERT(check);
 
     m_pMainWindow = (MainWindow*)parent;
@@ -40,6 +59,10 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
 
     check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(rosterReceived()),
                     SLOT(rosterReceived()));
+    Q_ASSERT(check);
+
+    check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(subscriptionReceived(QString)),
+                    SLOT(subscriptionReceived(QString)));
     Q_ASSERT(check);
 
     check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(itemAdded(QString)),
@@ -73,7 +96,7 @@ CFrmUserList::~CFrmUserList()
         delete it.value();
     }
 
-    //TODO:删除组 m_Groups
+    //删除组 m_Groups，不需要删，列表控件析构时会自己删除
 }
 
 void CFrmUserList::clientMessageReceived(const QXmppMessage &message)
@@ -96,24 +119,8 @@ void CFrmUserList::clientMessageReceived(const QXmppMessage &message)
     }
 }
 
-int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
+int CFrmUserList::UpdateGroup(CRoster* pRoster, QSet<QString> groups)
 {
-    int nRet = 0;
-    CRoster* pRoster = NULL;
-    QMap<QString, CRoster*>::iterator itRosters;
-    itRosters = m_Rosters.find(rosterItem.bareJid());
-    if(m_Rosters.end() == itRosters)
-    {
-        pRoster = new CRoster(rosterItem.bareJid(), rosterItem.groups(), this->m_pMainWindow);
-        m_Rosters.insert(pRoster->BareJid(), pRoster);
-    }
-    else
-    {
-        qCritical(qPrintable("Error:User had existed"));
-        return -1;
-    }
-
-    QSet<QString> groups = rosterItem.groups();
     if(groups.isEmpty())
     {
         QString szDefaulGroup(tr("My friends"));
@@ -128,6 +135,7 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
         it = m_Groups.find(szGroup);
         if(m_Groups.end() == it)
         {
+            //新建立组条目
             lstGroup = new QStandardItem(szGroup);
             lstGroup->setEditable(false);  //禁止双击编辑
             m_pModel->appendRow(lstGroup);
@@ -138,21 +146,65 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
 
         lstGroup->appendRow(pRoster->GetItem());
         qDebug("CFrmUserList::InsertUser:%s (%s)",
-               qPrintable(rosterItem.bareJid()),
+               qPrintable(pRoster->BareJid()),
                qPrintable(szGroup));
     }
 
+    return 0;
+}
+
+int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
+{
+    int nRet = 0;
+    CRoster* pRoster = NULL;
+    QMap<QString, CRoster*>::iterator itRosters;
+    itRosters = m_Rosters.find(rosterItem.bareJid());
+    if(m_Rosters.end() == itRosters)
+    {
+        //新建好友对象实例
+        pRoster = new CRoster(rosterItem,
+                              this->m_pMainWindow);
+        m_Rosters.insert(pRoster->BareJid(), pRoster);
+    }
+    else
+    {
+        qCritical(qPrintable("Error:User had existed"));
+        return -1;
+    }
+
+    nRet = UpdateGroup(pRoster, rosterItem.groups());
+
     return nRet;
+}
+
+void CFrmUserList::subscriptionReceived(const QString &bareJid)
+{
+    qDebug("CFrmUserList::subscriptionReceived:%s", qPrintable(bareJid));
+    m_frmAddRoster.Init(m_pMainWindow->m_pClient, GetGroupsName(), bareJid);
+    m_frmAddRoster.show();
+    m_frmAddRoster.activateWindow();
 }
 
 void CFrmUserList::itemAdded(const QString &bareJid)
 {
     qDebug("CFrmUserList::itemAdded jid:%s", qPrintable(bareJid));
+    QXmppRosterIq::Item item = m_pMainWindow->m_pClient->rosterManager().getRosterEntry(bareJid);
+    InsertUser(item);
 }
 
 void CFrmUserList::itemChanged(const QString &bareJid)
 {
     qDebug("CFrmUserList::itemChanged jid:%s", qPrintable(bareJid));
+    QMap<QString, CRoster*>::iterator it;
+    it = m_Rosters.find(QXmppUtils::jidToBareJid(bareJid));
+    if(m_Rosters.end() != it)
+    {
+        CRoster* pRoster = it.value();
+
+        QXmppRosterIq::Item item = m_pMainWindow->m_pClient->rosterManager().getRosterEntry(bareJid);
+        pRoster->UpdateItems(item);
+        UpdateGroup(pRoster, item.groups());
+    }
 }
 
 void CFrmUserList::itemRemoved(const QString &bareJid)
@@ -174,13 +226,14 @@ void CFrmUserList::rosterReceived()
 
     foreach (const QString &bareJid, m_pMainWindow->m_pClient->rosterManager().getRosterBareJids())
     {
-        InsertUser(m_pMainWindow->m_pClient->rosterManager().getRosterEntry(bareJid));
+        QXmppRosterIq::Item item = m_pMainWindow->m_pClient->rosterManager().getRosterEntry(bareJid);
+        InsertUser(item);
         // TODOS:得到好友头像图片
         //m_pMainWindow->m_pClient->vCardManager().requestVCard(bareJid);
     }
 }
 
-//好友状态改变
+//好友出席状态改变
 void CFrmUserList::ChangedPresence(const QXmppPresence &presence)
 {
     qDebug("CFrmUserList::ChangedPresence jid:%s;status:%s",
@@ -237,13 +290,16 @@ void CFrmUserList::clicked(const QModelIndex &index)
     qDebug("CFrmUserList::clicked, row:%d; column:%d",
            index.row(), index.column());
 
-    if(ui->tvUsers->isExpanded(index))
-       ui->tvUsers->collapse(index);
+    if(m_UserList.isExpanded(index))
+       m_UserList.collapse(index);
     else
-       ui->tvUsers->expand(index);
+       m_UserList.expand(index);
 
-   const QAbstractItemModel *m = index.model();
-   //TODO:暂时根据是否有根节点来判断是组还是好友
+    const QAbstractItemModel *m = index.model();
+    if(!m)
+        return;
+
+    //TODO:暂时根据是否有根节点来判断是组还是好友
     if(m->parent(index).isValid())
     {
         //是用户结点，打开消息对话框
@@ -264,23 +320,104 @@ void CFrmUserList::doubleClicked(const QModelIndex &index)
 
 void CFrmUserList::resizeEvent(QResizeEvent *)
 {
-    //ui->tvUsers->move(0, 0);
-    //ui->tvUsers->setGeometry(this->geometry());
+    m_UserList.setGeometry(this->geometry());
 }
 
-bool CFrmUserList::eventFilter(QObject *obj, QEvent *event)
+QSet<QString> CFrmUserList::GetGroupsName()
 {
-    if(obj == ui->tvUsers)
+    QSet<QString> groups;
+    QMap<QString, QStandardItem*>::iterator it;
+    for(it = m_Groups.begin(); it != m_Groups.end(); it++)
+        groups << it.key();
+    return groups;
+}
+
+CRoster* CFrmUserList::GetCurrentRoster()
+{
+    QModelIndex index = m_UserList.currentIndex();
+    const QAbstractItemModel *m = index.model();
+    if(!m)
+        return NULL;
+
+    //TODO:暂时根据是否有根节点来判断是组还是好友
+    if(m->parent(index).isValid())
     {
-        if(event->type() == QEvent::MouseButtonPress)
+        //是用户结点，删除它
+        QVariant v = m->data(index, Qt::UserRole + 1);
+        if(v.canConvert<CRoster*>())
         {
-            qDebug("Users lists mouse button double chick");
-        }
-        else if(event->type() == QEvent::KeyPress)
-        {
-            QKeyEvent* key = (QKeyEvent*) event;
-            qDebug("Users lists key press:%d", key->key());
+            return v.value<CRoster*>();
         }
     }
-    return false;
+    return NULL;
 }
+
+void CFrmUserList::mousePressEvent(QMouseEvent *event)
+{
+    qDebug() << "CFrmUserList::mousePressEvent";
+}
+
+void CFrmUserList::mouseReleaseEvent(QMouseEvent *event)
+{
+    qDebug() << "CFrmUserList::mouseReleaseEvent";
+}
+
+void CFrmUserList::contextMenuEvent(QContextMenuEvent *)
+{
+    qDebug() << "CFrmUserList::contextMenuEvent";
+    on_tvUsers_customContextMenuRequested(QCursor::pos());
+}
+
+void CFrmUserList::on_tvUsers_customContextMenuRequested(const QPoint &pos)
+{
+    QMenu menu(tr("Operator(&O)"), this);
+
+    //判断是在组上还是在好友上:
+    CRoster* p = GetCurrentRoster();
+    if(!p)
+    {
+        //如果是组上,显示增加好友
+        menu.addAction(ui->actionAddRoster_A);
+    }
+    else
+    {
+        //增加订阅
+        if(QXmppRosterIq::Item::None == p->GetSubScriptionType()
+             || QXmppRosterIq::Item::From == p->GetSubScriptionType())
+            menu.addAction(ui->actionAgreeAddRoster);
+
+        //如果是好友上,显示删除好友
+        menu.addAction(ui->actionRemoveRoster_R);
+
+        //TODO: 查看好友信息
+        //TODO: 移动到组
+
+    }
+    menu.exec(QCursor::pos());
+    qDebug() << "CFrmUserList::on_tvUsers_customContextMenuRequested end";
+}
+
+void CFrmUserList::slotAddRoster()
+{
+    QSet<QString> groups;
+    groups = GetGroupsName();
+
+    m_frmAddRoster.Init(m_pMainWindow->m_pClient, groups);
+    m_frmAddRoster.show();
+}
+
+void CFrmUserList::slotAgreeAddRoster()
+{
+    CRoster* p = GetCurrentRoster();
+    if(p)
+        m_pMainWindow->m_pClient->rosterManager().subscribe(p->BareJid());
+}
+
+void CFrmUserList::slotRemoveRoster()
+{
+    CRoster* p = GetCurrentRoster();
+    if(p)
+        m_pMainWindow->m_pClient->rosterManager().removeItem(p->BareJid());
+}
+
+

@@ -57,7 +57,7 @@
     <message>
         <location filename="../../Widgets/FrmAbout/FrmAbout.ui" line="70"/>
         <source>Rabbit Immediate Communicate</source>
-        <translation type="unfinished">玉兔即时通信</translation>
+        <translation>玉兔即时通信</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmAbout/FrmAbout.ui" line="92"/>
@@ -71,8 +71,58 @@
     </message>
     <message>
         <location filename="../../Widgets/FrmAbout/FrmAbout.ui" line="117"/>
-        <source>MSN、Email:kl222@126.com</source>        
+        <source>MSN、Email:kl222@126.com</source>
         <translation>MSN、电子邮箱：kl222@126.com</translation>
+    </message>
+</context>
+<context>
+    <name>CFrmAddRoster</name>
+    <message>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.ui" line="26"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="39"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="40"/>
+        <source>Add Roster</source>
+        <translation>增加好友</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.ui" line="107"/>
+        <source>Roster JID:</source>
+        <translation>好友 JID：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.ui" line="152"/>
+        <source>Roster Nick:</source>
+        <translation>好友呢称：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.ui" line="197"/>
+        <source>Group:</source>
+        <translation>组：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.ui" line="230"/>
+        <source>OK(&amp;O)</source>
+        <translation>确定(&amp;O)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.ui" line="249"/>
+        <source>Cancel(&amp;C)</source>
+        <translation>取消（&amp;C）</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="30"/>
+        <source>Request add roster</source>
+        <translation>请求增加好友</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="31"/>
+        <source>%1 request add roster</source>
+        <translation>%1 请求增加为好友</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="46"/>
+        <source>My friends</source>
+        <translation>我的好友</translation>
     </message>
 </context>
 <context>
@@ -272,19 +322,49 @@
 <context>
     <name>CFrmUserList</name>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="112"/>
-        <source>Error:User had existed</source>
-        <translation>错误：用户已存在</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="119"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="126"/>
         <source>My friends</source>
         <translation>我的好友</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="373"/>
+        <source>Operator(&amp;O)</source>
+        <translation>操作(&amp;O)</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="14"/>
         <source>Roster list</source>
         <translation>好友列表</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="25"/>
+        <source>AddRoster(&amp;A)</source>
+        <translation>增加好友(&amp;A)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="28"/>
+        <source>AddRoster</source>
+        <translation>增加好友</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="33"/>
+        <source>RemoveRoster(R)</source>
+        <translation>删除好友</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="36"/>
+        <source>RemoveRoster</source>
+        <translation>删除好友</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="41"/>
+        <source>Agree Add Roster(&amp;A)</source>
+        <translation>同意增加为好友(&amp;A)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="44"/>
+        <source>Agree Add Roster</source>
+        <translation>同意增加为好友</translation>
     </message>
 </context>
 <context>
@@ -295,44 +375,50 @@
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="175"/>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="235"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="191"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="258"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="472"/>
         <source>Call</source>
         <translation>呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="186"/>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="290"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="202"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="316"/>
         <source>%1 is ringing</source>
         <translation>%1 正在响铃</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="176"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="192"/>
         <source>%1 is talking, Do you stop it?</source>
         <translation>正在与 %1 通话，是否停止它？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="236"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="259"/>
         <source>%1 is calling </source>
         <translation>%1 正在呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="240"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="263"/>
         <source>Be connecting %1</source>
         <translation>正在与 %1 连接</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="348"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="375"/>
         <source>Be talking %1</source>
         <translation>正在与 %1 通话</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="389"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="424"/>
         <source>Close the connection with %1</source>
         <translation>关闭与 %1 的连接</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="216"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="473"/>
+        <source>Hasn&apos;t camera</source>
+        <translation>没有摄像头</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="235"/>
         <source>Is calling </source>
         <translation></translation>
     </message>
@@ -352,7 +438,7 @@
     <message>
         <location filename="../../Global.cpp" line="179"/>
         <source>Chat</source>
-        <translation></translation>
+        <translation>空闲</translation>
     </message>
     <message>
         <location filename="../../Global.cpp" line="181"/>
@@ -372,6 +458,24 @@
     </message>
 </context>
 <context>
+    <name>CRoster</name>
+    <message>
+        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="88"/>
+        <source>[none]</source>
+        <translation>[未知]</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="92"/>
+        <source>[From]</source>
+        <translation>[挂起]</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="96"/>
+        <source>[remove]</source>
+        <translation>[删除]</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="14"/>
@@ -384,52 +488,52 @@
         <translation>操作(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="35"/>
+        <location filename="../../MainWindow.ui" line="36"/>
         <source>Help(&amp;H)</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="44"/>
+        <location filename="../../MainWindow.ui" line="45"/>
         <source>Exit(&amp;O)</source>
         <translation>退出(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="49"/>
+        <location filename="../../MainWindow.ui" line="53"/>
         <source>Add Roster(&amp;A)</source>
         <translation>添加好友(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="54"/>
+        <location filename="../../MainWindow.ui" line="61"/>
         <source>About(&amp;A)</source>
         <translation>关于(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="73"/>
+        <location filename="../../MainWindow.cpp" line="79"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="74"/>
+        <location filename="../../MainWindow.cpp" line="80"/>
         <source>Is close the programe?</source>
         <translation>是否关闭程序？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="120"/>
+        <location filename="../../MainWindow.cpp" line="134"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="124"/>
+        <location filename="../../MainWindow.cpp" line="138"/>
         <source>User name or password error</source>
         <translation>用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="128"/>
+        <location filename="../../MainWindow.cpp" line="142"/>
         <source>Keep Alive error</source>
         <translation>与服务器失去联系</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="130"/>
+        <location filename="../../MainWindow.cpp" line="144"/>
         <source>Login success</source>
         <translation>登录成功</translation>
     </message>

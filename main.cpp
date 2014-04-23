@@ -10,6 +10,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    //设置插件路径
+    a.addLibraryPath(QCoreApplication::applicationDirPath() + "/plugins");
+    a.addLibraryPath(QCoreApplication::applicationDirPath());
 
     CTool::SetFFmpegLog();
 
@@ -23,6 +26,7 @@ int main(int argc, char *argv[])
     //本地化程序资源
     QTranslator myappTranslator;
     //myappTranslator.load("app_" + locale, a.applicationDirPath());
+    //把翻译文件放在了程序资源中
     myappTranslator.load(":/translations/" + locale);
     a.installTranslator(&myappTranslator);
 

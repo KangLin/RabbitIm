@@ -4,10 +4,11 @@
 #include <QThread>
 #include "DataVideoBuffer.h"
 
+QThread g_CFrmPlayer_Thread;//转换格式的线程
 CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f)
 {
-    m_FrameProcess.moveToThread(&m_Thread);
+    m_FrameProcess.moveToThread(&g_CFrmPlayer_Thread);
     bool check = true;
     check = connect(this, SIGNAL(sigConverteToRGB32Frame(const QVideoFrame&, const QRect&)),
                     &m_FrameProcess, SLOT(slotFrameConvertedToRGB32(const QVideoFrame&, const QRect&)));
@@ -18,13 +19,14 @@ CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
     check = connect(&m_FrameProcess, SIGNAL(sigConvertedToRGB32Frame(const QVideoFrame&)),
                         SLOT(slotPaint(const QVideoFrame&)));
     Q_ASSERT(check);
-    m_Thread.start();
+    g_CFrmPlayer_Thread.start();
 }
 
 CFrmPlayer::~CFrmPlayer()
 {
-    m_Thread.quit();
-    m_Thread.wait();
+    g_CFrmPlayer_Thread.quit();
+    g_CFrmPlayer_Thread.wait();
+    qDebug("CFrmPlayer::~CFrmPlayer");
 }
 
 void CFrmPlayer::paintEvent(QPaintEvent *)

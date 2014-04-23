@@ -88,13 +88,13 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
     Q_ASSERT(check);
 
     //关联本地视频头捕获视频帧信号到本地播放视频窗口
-    check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(QVideoFrame)),
-                    &m_LocalePlayer, SLOT(slotPresent(QVideoFrame)));
+    check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
+                    &m_LocalePlayer, SLOT(slotPresent(const QVideoFrame&)));
     Q_ASSERT(check);
 
     //关联到网络发送
-    check = connect(&m_CaptureVideoFrame, SIGNAL(sigConvertedToYUYVFrame(QXmppVideoFrame)),
-                    SLOT(slotCaptureFrame(QXmppVideoFrame)));
+    check = connect(&m_CaptureVideoFrame, SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
+                    SLOT(slotCaptureFrame(const QXmppVideoFrame&)));
     Q_ASSERT(check);
 
     check = connect(&m_VideoPlayTimer, SIGNAL(timeout()),
@@ -253,6 +253,7 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
     //播放铃音
     PlayCallSound();
 
+    //TODO:增加判断自动接收呼叫用户
     QMessageBox msg(QMessageBox::Question,
                     tr("Call"),
                     tr("%1 is calling ").arg(QXmppUtils::jidToUser(pCall->jid())),
@@ -487,7 +488,7 @@ int CFrmVideo::StartVideo()
     m_LocalePlayer.setWindowTitle(g_Global.GetName());
     m_LocalePlayer.raise();//提升到父窗口中栈的顶部
     m_LocalePlayer.show();
-    //m_LocalePlayer.activateWindow();
+    m_LocalePlayer.activateWindow();
 
     return 0;
 }
@@ -607,16 +608,16 @@ void CFrmVideo::slotUpdateReciverVideo()
         return;
 
     QList<QXmppVideoFrame> inFrames = pChannel->readFrames();
-#ifdef DEBUG
-    qDebug("recive video frames:%d", inFrames.size());
-    static QTime preTime = QTime::currentTime();
-    QTime curTime = QTime::currentTime();
-    qDebug("preTime:%s, currTime:%s, space:%d",
-           qPrintable(preTime.toString("hh:mm:ss.zzz")),
-           qPrintable(curTime.toString("hh:mm:ss.zzz")),
-           preTime.msecsTo(curTime));
-    preTime = curTime;
-#endif
+//#ifdef DEBUG
+//    qDebug("recive video frames:%d", inFrames.size());
+//    static QTime preTime = QTime::currentTime();
+//    QTime curTime = QTime::currentTime();
+//    qDebug("preTime:%s, currTime:%s, space:%d",
+//           qPrintable(preTime.toString("hh:mm:ss.zzz")),
+//           qPrintable(curTime.toString("hh:mm:ss.zzz")),
+//           preTime.msecsTo(curTime));
+//    preTime = curTime;
+//#endif
 //    if(!inFrames.isEmpty())
 //    {
 //        m_RemotePlayer.slotPresent(*inFrames.begin());

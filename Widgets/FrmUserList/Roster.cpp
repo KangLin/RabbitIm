@@ -7,25 +7,16 @@ CRoster::CRoster(QObject *parent) :
     Init((MainWindow*)parent);
 }
 
-CRoster::CRoster(QString jid, QSet<QString> groups, MainWindow *parent) : QObject((QObject*)parent)
+CRoster::CRoster(QXmppRosterIq::Item item, MainWindow *parent) : QObject(parent)
 {
     Init(parent);
-    SetJid(jid);
-    SetGroups(groups);
+    m_RosterItem = item;
 }
 
 CRoster::~CRoster()
 {
     qDebug("CRoster::~CRoster");
-    std::list<QStandardItem*>::iterator it;
-    for(it = m_lstUserListItem.begin(); it != m_lstUserListItem.end(); it++)
-    {
-        QStandardItem* p = *it;
-        if(p->parent())
-        {
-            p->parent()->removeRow(p->row()); //控件会自己释放 QStandardItem 内存
-        }
-    }
+    DeleteItems();
 }
 
 int CRoster::Init(MainWindow *parent)
@@ -40,49 +31,81 @@ int CRoster::Init(MainWindow *parent)
 
 QString CRoster::Name()
 {
-    return QXmppUtils::jidToUser(m_szJid);
+    QString n = m_RosterItem.name();
+    if(n.isEmpty())
+        n = QXmppUtils::jidToUser(BareJid());
+    return n;
 }
 
 QString CRoster::BareJid()
 {
-    return QXmppUtils::jidToBareJid(m_szJid);
+    return m_RosterItem.bareJid();
 }
 
 QString CRoster::Jid()
 {
-    return m_szJid;
+    return m_RosterItem.bareJid();
 }
 
 QString CRoster::Domain()
 {
-    return QXmppUtils::jidToDomain(m_szJid);
+    return QXmppUtils::jidToDomain(BareJid());
 }
 
 QString CRoster::Resouce()
 {
-    return QXmppUtils::jidToResource(m_szJid);
+    return QXmppUtils::jidToResource(BareJid());
 }
 
-int CRoster::SetJid(QString jid)
-{
-    m_szJid = jid;
-    return 0;
-}
+//int CRoster::SetJid(QString jid)
+//{
+//    m_szJid = jid;
+//    return 0;
+//}
 
 QSet<QString> CRoster::Groups()
 {
-    return m_Groups;
+    return m_RosterItem.groups();
 }
 
-int CRoster::SetGroups(const QSet<QString> &groups)
+QXmppPresence::AvailableStatusType CRoster::GetStatus()
 {
-    m_Groups = groups;
+    return m_Status;
+}
+
+QXmppRosterIq::Item::SubscriptionType CRoster::GetSubScriptionType()
+{
+    return m_RosterItem.subscriptionType();
+}
+
+QString CRoster::GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType type) const
+{
+    switch(type)
+    {
+    case QXmppRosterIq::Item::NotSet:
+        return "";
+    case QXmppRosterIq::Item::None:
+        return tr("[none]");
+    case QXmppRosterIq::Item::Both:
+        return "";
+    case QXmppRosterIq::Item::From:
+        return tr("[From]");
+    case QXmppRosterIq::Item::To:
+        return "";
+    case QXmppRosterIq::Item::Remove:
+        return tr("[remove]");
+    default:
+        {
+            qWarning("QXmppRosterIq::Item::getTypeStr(): invalid type");
+            return "";
+        }
+    }
 }
 
 QList<QStandardItem*> CRoster::GetItem()
 {
     //呢称条目
-    QStandardItem* pItem = new QStandardItem(Name());
+    QStandardItem* pItem = new QStandardItem(Name() + GetSubscriptionTypeStr(GetSubScriptionType()));
     QVariant v;
     v.setValue(this);
     pItem->setData(v);
@@ -100,7 +123,46 @@ QList<QStandardItem*> CRoster::GetItem()
     lstItems.push_back(pItem);
     lstItems.push_back(pMessageCountItem);
 
+    //更新条目显示内容
+    UpdateItemDisplay();
+
     return lstItems;
+}
+
+int CRoster::DeleteItems()
+{
+    std::list<QStandardItem*>::iterator it;
+    for(it = m_lstUserListItem.begin(); it != m_lstUserListItem.end(); it++)
+    {
+        QStandardItem* p = *it;
+        if(p->parent())
+        {
+            p->parent()->removeRow(p->row()); //控件会自己释放 QStandardItem 内存
+        }
+    }
+    m_lstUserListItem.clear();
+    return 0;
+}
+
+int CRoster::UpdateItems(QXmppRosterIq::Item item)
+{
+    m_RosterItem = item;
+    DeleteItems();
+}
+
+int CRoster::UpdateItemDisplay()
+{
+    std::list<QStandardItem*>::iterator it;
+    for(it = m_lstUserListItem.begin(); it != m_lstUserListItem.end(); it++)
+    {
+        QStandardItem* p = *it;
+        p->setData(g_Global.GetStatusColor(m_Status), Qt::BackgroundRole);
+        QString szText = this->Name()
+                + "[" + g_Global.GetStatusText(m_Status) + "]"
+                +  GetSubscriptionTypeStr(GetSubScriptionType());
+        p->setData(szText, Qt::DisplayRole);
+    }
+    return 0;
 }
 
 //TODO:修改成图片表示
@@ -108,23 +170,11 @@ int CRoster::ChangedPresence(QXmppPresence::AvailableStatusType status)
 {
     m_Status = status;
 
-    std::list<QStandardItem*>::iterator it;
-    for(it = m_lstUserListItem.begin(); it != m_lstUserListItem.end(); it++)
-    {
-        QStandardItem* p = *it;
-        p->setData(g_Global.GetStatusColor(status), Qt::BackgroundRole);
-        QString szText = this->Name() + "[" + g_Global.GetStatusText(status) + "]";
-        p->setData(szText, Qt::DisplayRole);
-    }
+    UpdateItemDisplay();
 
     emit sigChangedPresence(status);
 
     return 0;
-}
-
-QXmppPresence::AvailableStatusType CRoster::GetStatus()
-{
-    return m_Status;
 }
 
 int CRoster::ShowMessageDialog()
