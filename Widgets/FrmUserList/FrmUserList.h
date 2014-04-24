@@ -28,20 +28,31 @@ public:
     explicit CFrmUserList(QWidget *parent = 0);
     ~CFrmUserList();
 
+public:
+    //把好友列表菜单加到主菜单中,调用者不需要用此菜单时，负责调用DeleteFromMainMenu释放
+    int AddToMainMenu(QMenu* pMenu, QAction *pAction);
+    //把好友列表菜单从主菜单中移除
+    int DeleteFromMainMenu(QMenu *pMenu);
+private slots:
+    //显示上下文件菜单(右键菜单)
+    //控件contextMenuPolicy属性要设置为CustomContextMenu，才能触这个槽
+    //如果设置为DefaultContextMenu，则触发右键菜单事件contextMenuEvent()
+    void slotCustomContextMenuRequested(const QPoint &pos);
+    void slotUpdateMenu();//更新菜单
+private:
+    int InitMenu();//初始化菜单
+    int EnableAllActioins(bool bEnable = true);
+    int EnableAction(QAction* pAction, bool bEnable = true);
+    QMenu* m_pMenu;      //好友列表操作菜单
+    QAction* m_pMenuAction;//用于存储m_Menu位于主菜单中的位置
+
 private:
     //向用户列表中插入用户
     int InsertUser(QXmppRosterIq::Item rosterItem);
+    //更新组中用户
     int UpdateGroup(CRoster* pRoster, QSet<QString> groups);
 
     void resizeEvent(QResizeEvent *);
-
-    //显示上下文件菜单(右键菜单)
-    //控件contextMenuPolicy属性要设置为DefaultContextMenu，才能触这个事件
-    //如果设置为CustomContextMenu，触发槽on_tvUsers_customContextMenuRequested
-    void contextMenuEvent(QContextMenuEvent *);
-
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent * event);
 
     //得到树形控件当前选中的好友指针
     //如果为空,则为组
@@ -71,15 +82,11 @@ protected slots:
     //接收好友消息
     void clientMessageReceived(const QXmppMessage &message);
 
-    //控件
+    //树形列表控件响应事件
     void clicked(const QModelIndex & index);
     void doubleClicked(const QModelIndex & index);
 
 private slots:
-    //显示上下文件菜单(右键菜单)
-    //控件contextMenuPolicy属性要设置为CustomContextMenu，才能触这个槽
-    //如果设置为DefaultContextMenu，则触发右键菜单事件contextMenuEvent()
-    void on_tvUsers_customContextMenuRequested(const QPoint &pos);
     //增加好友订阅
     void slotAddRoster();
     //从好友列表中同间增加此好友订阅
@@ -97,6 +104,7 @@ private:
     QMap<QString, QStandardItem*> m_Groups; //组列表
 
     CFrmAddRoster m_frmAddRoster;           //增加好友对话框
+
 };
 
 #endif // FRMUSERLIST_H

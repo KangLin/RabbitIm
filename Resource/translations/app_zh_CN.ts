@@ -254,10 +254,6 @@
         <translation>注册成功</translation>
     </message>
     <message>
-        <source>Unknow error</source>
-        <translation type="vanished">未知错误</translation>
-    </message>
-    <message>
         <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="61"/>
         <source>Unknow error:</source>
         <translation>未知错误：</translation>
@@ -322,14 +318,14 @@
 <context>
     <name>CFrmUserList</name>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="126"/>
-        <source>My friends</source>
-        <translation>我的好友</translation>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="99"/>
+        <source>Operator roster(&amp;O)</source>
+        <translation type="unfinished">操作好友(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="373"/>
-        <source>Operator(&amp;O)</source>
-        <translation>操作(&amp;O)</translation>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="237"/>
+        <source>My friends</source>
+        <translation>我的好友</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="14"/>
@@ -488,52 +484,47 @@
         <translation>操作(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="36"/>
+        <location filename="../../MainWindow.ui" line="35"/>
         <source>Help(&amp;H)</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="45"/>
+        <location filename="../../MainWindow.ui" line="44"/>
         <source>Exit(&amp;O)</source>
         <translation>退出(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="53"/>
-        <source>Add Roster(&amp;A)</source>
-        <translation>添加好友(&amp;A)</translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.ui" line="61"/>
+        <location filename="../../MainWindow.ui" line="49"/>
         <source>About(&amp;A)</source>
         <translation>关于(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="79"/>
+        <location filename="../../MainWindow.cpp" line="83"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="80"/>
+        <location filename="../../MainWindow.cpp" line="84"/>
         <source>Is close the programe?</source>
         <translation>是否关闭程序？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="134"/>
+        <location filename="../../MainWindow.cpp" line="138"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="138"/>
+        <location filename="../../MainWindow.cpp" line="142"/>
         <source>User name or password error</source>
         <translation>用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="142"/>
+        <location filename="../../MainWindow.cpp" line="146"/>
         <source>Keep Alive error</source>
         <translation>与服务器失去联系</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="144"/>
+        <location filename="../../MainWindow.cpp" line="148"/>
         <source>Login success</source>
         <translation>登录成功</translation>
     </message>

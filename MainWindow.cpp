@@ -59,6 +59,12 @@ MainWindow::~MainWindow()
     if(m_pClient)
         delete m_pClient;
 
+    if(m_pUserList)
+    {
+        m_pUserList->DeleteFromMainMenu(ui->menuOperator_O);
+        delete m_pUserList;
+    }
+
     delete ui;
 }
 
@@ -100,11 +106,19 @@ void MainWindow::clientConnected()
 
     //显示好友列表
     if(NULL == m_pUserList)
+    {
         m_pUserList = new CFrmUserList(this);
+        if(m_pUserList)
+        {    //注册菜单
+            m_pUserList->AddToMainMenu(ui->menuOperator_O, ui->actionExit_O);
+        }
+    }
 
     if(m_pUserList)
     {
+        //把UserList设置到主窗口中心
         this->setCentralWidget(m_pUserList);
+
     }
 }
 

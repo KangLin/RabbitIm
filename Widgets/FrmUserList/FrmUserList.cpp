@@ -17,6 +17,8 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    InitMenu();
+
     m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。
     m_UserList.setModel(m_pModel);
     m_UserList.setHeaderHidden(true);
@@ -33,20 +35,9 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     Q_ASSERT(check);
 
     check = connect(&m_UserList, SIGNAL(customContextMenuRequested(QPoint)),
-                    SLOT(on_tvUsers_customContextMenuRequested(QPoint)));
+                    SLOT(slotCustomContextMenuRequested(QPoint)));
     Q_ASSERT(check);
 
-    check = connect(ui->actionAddRoster_A, SIGNAL(triggered()),
-                    SLOT(slotAddRoster()));
-    Q_ASSERT(check);
-
-    check = connect(ui->actionRemoveRoster_R, SIGNAL(triggered()),
-                    SLOT(slotRemoveRoster()));
-    Q_ASSERT(check);
-
-    check = connect(ui->actionAgreeAddRoster, SIGNAL(triggered()),
-                    SLOT(slotAgreeAddRoster()));
-    Q_ASSERT(check);
 
     m_pMainWindow = (MainWindow*)parent;
     if(NULL == m_pMainWindow->m_pClient)
@@ -88,8 +79,6 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
 
 CFrmUserList::~CFrmUserList()
 {
-    delete ui;
-
     QMap<QString, CRoster*>::iterator it;
     for(it = m_Rosters.begin(); it != m_Rosters.end(); it++)
     {
@@ -97,6 +86,128 @@ CFrmUserList::~CFrmUserList()
     }
 
     //删除组 m_Groups，不需要删，列表控件析构时会自己删除
+
+    if(m_pMenu)
+        delete m_pMenu;
+
+    delete ui;   
+}
+
+int CFrmUserList::InitMenu()
+{
+    bool check = true;
+    m_pMenu = new QMenu(tr("Operator roster(&O)"), this);
+    if(!m_pMenu)
+    {
+        qWarning() << "CFrmUserList::InitMenu new QMenu fail";
+        return -1;
+    }
+
+    check = connect(m_pMenu, SIGNAL(aboutToShow()),
+                    SLOT(slotUpdateMenu()));
+    Q_ASSERT(check);
+
+    //菜单设置
+    m_pMenuAction = NULL;
+    m_pMenu->addAction(ui->actionAddRoster_A);
+    check = connect(ui->actionAddRoster_A, SIGNAL(triggered()),
+                    SLOT(slotAddRoster()));
+    Q_ASSERT(check);
+
+    m_pMenu->addAction(ui->actionRemoveRoster_R);
+    check = connect(ui->actionRemoveRoster_R, SIGNAL(triggered()),
+                    SLOT(slotRemoveRoster()));
+    Q_ASSERT(check);
+
+    m_pMenu->addAction(ui->actionAgreeAddRoster);
+    check = connect(ui->actionAgreeAddRoster, SIGNAL(triggered()),
+                    SLOT(slotAgreeAddRoster()));
+    Q_ASSERT(check);
+    return 0;
+}
+
+int CFrmUserList::EnableAllActioins(bool bEnable)
+{
+    EnableAction(ui->actionAddRoster_A, bEnable);
+    EnableAction(ui->actionAgreeAddRoster, bEnable);
+    EnableAction(ui->actionRemoveRoster_R, bEnable);
+    return 0;
+}
+
+int CFrmUserList::EnableAction(QAction *pAction, bool bEnable)
+{
+    pAction->setEnabled(bEnable);
+    pAction->setVisible(bEnable);
+    return 0;
+}
+
+int CFrmUserList::AddToMainMenu(QMenu *pMenu, QAction* pAction)
+{
+    m_pMenuAction = pMenu->insertMenu(pAction, m_pMenu);
+    return 0;
+}
+
+int CFrmUserList::DeleteFromMainMenu(QMenu *pMenu)
+{
+    pMenu->removeAction(m_pMenuAction);
+    return 0;
+}
+
+void CFrmUserList::slotUpdateMenu()
+{
+    EnableAllActioins(false);
+    //如果是组上,显示增加好友
+    EnableAction(ui->actionAddRoster_A);
+
+    //判断是在组上还是在好友上:
+    CRoster* p = GetCurrentRoster();
+    if(p)
+    {
+        //增加订阅
+        if(QXmppRosterIq::Item::None == p->GetSubScriptionType()
+             || QXmppRosterIq::Item::From == p->GetSubScriptionType())
+            EnableAction(ui->actionAgreeAddRoster);
+
+        //如果是好友上,显示删除好友
+        EnableAction(ui->actionRemoveRoster_R);
+
+        //TODO: 查看好友信息
+        //TODO: 移动到组
+
+    }
+    else
+    {
+        //TODO:新建组
+    }
+    return;
+}
+
+void CFrmUserList::slotCustomContextMenuRequested(const QPoint &pos)
+{
+    m_pMenu->exec(QCursor::pos());
+}
+
+void CFrmUserList::slotAddRoster()
+{
+    QSet<QString> groups;
+    groups = GetGroupsName();
+
+    m_frmAddRoster.Init(m_pMainWindow->m_pClient, groups);
+    m_frmAddRoster.show();
+}
+
+void CFrmUserList::slotAgreeAddRoster()
+{
+    CRoster* p = GetCurrentRoster();
+    if(p)
+        m_pMainWindow->m_pClient->rosterManager().subscribe(p->BareJid());
+}
+
+void CFrmUserList::slotRemoveRoster()
+{
+    CRoster* p = GetCurrentRoster();
+    if(p)
+        m_pMainWindow->m_pClient->rosterManager().removeItem(p->BareJid());
 }
 
 void CFrmUserList::clientMessageReceived(const QXmppMessage &message)
@@ -351,73 +462,3 @@ CRoster* CFrmUserList::GetCurrentRoster()
     }
     return NULL;
 }
-
-void CFrmUserList::mousePressEvent(QMouseEvent *event)
-{
-    qDebug() << "CFrmUserList::mousePressEvent";
-}
-
-void CFrmUserList::mouseReleaseEvent(QMouseEvent *event)
-{
-    qDebug() << "CFrmUserList::mouseReleaseEvent";
-}
-
-void CFrmUserList::contextMenuEvent(QContextMenuEvent *)
-{
-    qDebug() << "CFrmUserList::contextMenuEvent";
-    on_tvUsers_customContextMenuRequested(QCursor::pos());
-}
-
-void CFrmUserList::on_tvUsers_customContextMenuRequested(const QPoint &pos)
-{
-    QMenu menu(tr("Operator(&O)"), this);
-
-    //判断是在组上还是在好友上:
-    CRoster* p = GetCurrentRoster();
-    if(!p)
-    {
-        //如果是组上,显示增加好友
-        menu.addAction(ui->actionAddRoster_A);
-    }
-    else
-    {
-        //增加订阅
-        if(QXmppRosterIq::Item::None == p->GetSubScriptionType()
-             || QXmppRosterIq::Item::From == p->GetSubScriptionType())
-            menu.addAction(ui->actionAgreeAddRoster);
-
-        //如果是好友上,显示删除好友
-        menu.addAction(ui->actionRemoveRoster_R);
-
-        //TODO: 查看好友信息
-        //TODO: 移动到组
-
-    }
-    menu.exec(QCursor::pos());
-    qDebug() << "CFrmUserList::on_tvUsers_customContextMenuRequested end";
-}
-
-void CFrmUserList::slotAddRoster()
-{
-    QSet<QString> groups;
-    groups = GetGroupsName();
-
-    m_frmAddRoster.Init(m_pMainWindow->m_pClient, groups);
-    m_frmAddRoster.show();
-}
-
-void CFrmUserList::slotAgreeAddRoster()
-{
-    CRoster* p = GetCurrentRoster();
-    if(p)
-        m_pMainWindow->m_pClient->rosterManager().subscribe(p->BareJid());
-}
-
-void CFrmUserList::slotRemoveRoster()
-{
-    CRoster* p = GetCurrentRoster();
-    if(p)
-        m_pMainWindow->m_pClient->rosterManager().removeItem(p->BareJid());
-}
-
-
