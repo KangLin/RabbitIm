@@ -68,7 +68,7 @@ public:
     //src:要操作的图像
     //srcWidth:要操作图像的宽度
     //srcHeight:要操作图像的高度
-    static void YUV420spRotate90(uchar *dst, const uchar *src,int srcWidth,int srcHeight);
+    static void YUV420spRotate90(uchar *dst, const uchar *src, int srcWidth, int srcHeight);
     //对YUV420sp(NV12、NV21)存储格式的图像旋转-90度
     //dst:操作后的图像
     //src:要操作的图像

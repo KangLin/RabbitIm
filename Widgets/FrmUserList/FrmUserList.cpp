@@ -256,9 +256,9 @@ int CFrmUserList::UpdateGroup(CRoster* pRoster, QSet<QString> groups)
             lstGroup = it.value();
 
         lstGroup->appendRow(pRoster->GetItem());
-        qDebug("CFrmUserList::InsertUser:%s (%s)",
-               qPrintable(pRoster->BareJid()),
-               qPrintable(szGroup));
+        qDebug() << "CFrmUserList::UpdateGroup"
+               << pRoster->BareJid()
+               << "(" << szGroup << ")";
     }
 
     return 0;

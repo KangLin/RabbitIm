@@ -48,6 +48,7 @@ void CFrmLogin::on_pbOk_clicked()
     config.setUseSASLAuthentication(false);
     //config.setUseNonSASLAuthentication(false);
     config.setHost(ui->lnServer->text());
+    config.setPort(g_Global.GetXmppServerPort());
     config.setDomain(g_Global.GetXmppServer());
     config.setUser(ui->lnUser->text());
     config.setPassword(ui->lnPassword->text());

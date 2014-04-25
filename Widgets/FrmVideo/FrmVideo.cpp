@@ -8,6 +8,8 @@
 #include <QMetaType>
 #include <QTime>
 #include <QSound>
+#include <QLinearGradient>
+#include <QRadialGradient>
 #include "../FrmUserList/Roster.h"
 #include "../../Global.h"
 #include "qxmpp/QXmppRtpChannel.h"
@@ -176,7 +178,18 @@ void CFrmVideo::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter painter(this);
-    QBrush bg(QColor(0, 0, 0));
+    //QLinearGradient gradient(0, rect().height() >> 2, rect().right(), this->rect().height() >> 2);
+    /*
+    QRadialGradient gradient(rect().width() >> 2, rect().height() >> 2,
+                             rect().height() >> 2,
+                             rect().width() >> 2, rect().height() >> 2);//*/
+    /*
+    gradient.setColorAt(0, Qt::blue);
+    gradient.setColorAt(0.5, Qt::green);
+    gradient.setColorAt(1, Qt::blue);
+
+    QBrush bg(gradient);//*/
+    QBrush bg(Qt::darkBlue);
     painter.setBrush(bg);
     painter.drawRect(rect());
 }
