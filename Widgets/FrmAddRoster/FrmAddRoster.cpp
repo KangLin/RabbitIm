@@ -2,6 +2,7 @@
 #include "ui_FrmAddRoster.h"
 #include "../../XmppClient.h"
 #include "qxmpp/QXmppRosterManager.h"
+#include "qxmpp/QXmppUtils.h"
 #include "../../Global.h"
 #include <string>
 #include <QDebug>
@@ -28,7 +29,7 @@ int CFrmAddRoster::Init(CXmppClient *pClient, QSet<QString> groups, QString bare
     if(!bareJid.isEmpty())
     {
         this->setWindowTitle(tr("Request add roster"));
-        ui->lbPrompt->setText(tr("%1 request add roster").arg(bareJid));
+        ui->lbPrompt->setText(tr("%1 request add roster").arg(QXmppUtils::jidToUser(bareJid)));
         ui->txtJID->setEnabled(false);
         ui->txtJID->setText(bareJid);
         on_txtJID_editingFinished();
@@ -60,7 +61,7 @@ void CFrmAddRoster::on_pbOk_clicked()
 {
     QString szJid = ui->txtJID->text();
     if(-1 == szJid.indexOf("@"))
-        szJid += "@rabbitim.com";
+        szJid = szJid + "@" + g_Global.GetDomain();
     QString szNick = ui->txtNick->text();
     QSet<QString> groups;
     groups << ui->txtGroup->currentText();
