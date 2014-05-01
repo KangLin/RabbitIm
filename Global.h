@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QColor>
 #include "qxmpp/QXmppPresence.h"
+#include "qxmpp/QXmppClient.h"
 
 class CGlobal : public QObject
 {
@@ -25,6 +26,8 @@ public:
 
     QString GetXmppServerHost();
     int SetXmppServerHost(QString &host);
+    int SetXmppServerPort(qint16 port);
+    qint16 GetXmppServerPort();
     QString GetXmppServer();
     int SetXmppServer(QString server);
     QString GetStunServer();
@@ -45,6 +48,13 @@ public:
     //好友状态颜色表示
     QColor GetStatusColor(QXmppPresence::AvailableStatusType status);
 
+    //用户数据存放目录
+    QString GetDirUserData(const QString bareJid = QString());
+    //应用程序目录
+    QString GetDirApplication();
+    //应用程序配置目录
+    QString GetDirApplicationConfigure();
+
 signals:
 
 public slots:
@@ -55,6 +65,7 @@ private:
     QColor m_RosterColor; //好友颜色
 
     QString m_szXmppServerHost; //Xmpp服务器IP地址
+    int m_szXmppServerPort;
     QString m_szXmppServer; //Xmpp服务器地址
     QString m_szTurnServer; //Turn服务器地址
     int m_nTurnServerPort;

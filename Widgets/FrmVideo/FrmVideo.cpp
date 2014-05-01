@@ -36,18 +36,15 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     m_pAudioOutput = NULL;
     m_pCallSound = NULL;
     m_pCamera = NULL;
+    m_pRecordAudioInput = NULL;
+    m_pRecordAudioOutput = NULL;
 }
 
 CFrmVideo::~CFrmVideo()
 {
     qDebug("CFrmVideo::~CFrmVideo");
 
-    if(m_pCallSound)
-    {
-        m_pCallSound->stop();
-        delete m_pCallSound;
-        m_pCallSound = NULL;
-    }
+    //其它资源释放在closeEvent中进行
 
     if(m_pClient)
     {
@@ -400,13 +397,17 @@ void CFrmVideo::connected()
 void CFrmVideo::audioModeChanged(QIODevice::OpenMode mode)
 {
     qDebug("CFrmVideo::audioModeChanged:%x", mode);
-    /*if((QIODevice::ReadOnly & mode) && m_pAudioOutput && m_pCall)
+    /*if((QIODevice::WriteOnly & mode) && m_pAudioInput && m_pCall)
     {
+        qDebug() << "CFrmVideo::audioModeChanged m_pAudioInput->start";
         m_pAudioInput->start(m_pCall->audioChannel());
     }
 
-    if((QIODevice::WriteOnly & mode) && m_pAudioOutput && m_pCall)
-        m_pAudioOutput->start(m_pCall->audioChannel());//*/
+    if((QIODevice::ReadOnly & mode) && m_pAudioOutput && m_pCall)
+    {
+        qDebug() << "CFrmVideo::audioModeChanged m_pAudioOutput->start";
+        m_pAudioOutput->start(m_pCall->audioChannel());
+    }//*/
 }
 
 //视频模式改变
@@ -526,62 +527,90 @@ int CFrmVideo::StartAudioDevice()
 {
     int nRet = 0;
     QXmppRtpAudioChannel* pAudioChannel = m_pCall->audioChannel();
-    if(pAudioChannel)
+    if(!pAudioChannel)
     {
-        QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
-        qDebug("CFrmVideo::connected:audio name:%s;id:%d;channels:%d, clockrate:%d",
-               qPrintable(AudioPlayLoadType.name()),
-               AudioPlayLoadType.id(),
-               AudioPlayLoadType.channels(),
-               AudioPlayLoadType.clockrate());
-
-        QAudioFormat inFormat, outFormat;
-        inFormat.setSampleRate(AudioPlayLoadType.clockrate());
-        inFormat.setChannelCount(AudioPlayLoadType.channels());
-        inFormat.setSampleSize(16);
-        inFormat.setSampleType(QAudioFormat::SignedInt);
-        inFormat.setByteOrder(QAudioFormat::LittleEndian);
-        inFormat.setCodec("audio/pcm");
-
-        outFormat = inFormat;
-
-        QAudioDeviceInfo infoAudioInput(QAudioDeviceInfo::defaultInputDevice());
-        if (!infoAudioInput.isFormatSupported(inFormat)) {
-            qWarning() << "Default audio input format not supported - trying to use nearest";
-            inFormat = infoAudioInput.nearestFormat(inFormat);
-        }
-        ShowAudioDeviceSupportCodec(infoAudioInput);
-
-        QAudioDeviceInfo infoAudioOutput(QAudioDeviceInfo::defaultOutputDevice());
-        if (!infoAudioOutput.isFormatSupported(outFormat)) {
-            qWarning() << "Default audio output format not supported - trying to use nearest";
-            outFormat = infoAudioOutput.nearestFormat(outFormat);
-        }
-        ShowAudioDeviceSupportCodec(infoAudioOutput);
-
-        StopAudioDevice();
-
-        m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
-        m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
-
-        if(m_pAudioInput && m_pCall)
-        {
-            qDebug("m_pAudioInput->start");
-            m_pAudioInput->start(m_pCall->audioChannel());
-        }
-
-        if(m_pAudioOutput && m_pCall)
-        {
-            qDebug("m_pAudioOutput->start");
-            m_pAudioOutput->start(m_pCall->audioChannel());
-        }
+        qWarning() << "CFrmVideo::StartAudioDevice:don't get audio channel";
+        return -1;
     }
+
+    QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
+    qDebug("CFrmVideo::connected:audio name:%s;id:%d;channels:%d, clockrate:%d, packet time:%d",
+           qPrintable(AudioPlayLoadType.name()),
+           AudioPlayLoadType.id(),
+           AudioPlayLoadType.channels(),
+           AudioPlayLoadType.clockrate(),
+           AudioPlayLoadType.ptime());
+
+    QAudioFormat inFormat, outFormat;
+    inFormat.setSampleRate(AudioPlayLoadType.clockrate());
+    inFormat.setChannelCount(AudioPlayLoadType.channels());
+    inFormat.setSampleSize(16);
+    inFormat.setSampleType(QAudioFormat::SignedInt);
+    inFormat.setByteOrder(QAudioFormat::LittleEndian);
+    inFormat.setCodec("audio/pcm");
+
+    outFormat = inFormat;
+
+    QAudioDeviceInfo infoAudioInput(QAudioDeviceInfo::defaultInputDevice());
+    if (!infoAudioInput.isFormatSupported(inFormat)) {
+        qWarning() << "Default audio input format not supported - trying to use nearest";
+        inFormat = infoAudioInput.nearestFormat(inFormat);
+    }
+    ShowAudioDeviceSupportCodec(infoAudioInput);
+
+    QAudioDeviceInfo infoAudioOutput(QAudioDeviceInfo::defaultOutputDevice());
+    if (!infoAudioOutput.isFormatSupported(outFormat)) {
+        qWarning() << "Default audio output format not supported - trying to use nearest";
+        outFormat = infoAudioOutput.nearestFormat(outFormat);
+    }
+    ShowAudioDeviceSupportCodec(infoAudioOutput);
+
+    StopAudioDevice();
+
+    m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
+    m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
+
+    //*
+    if(m_pAudioInput && m_pCall
+       && (pAudioChannel->openMode() & QIODevice::WriteOnly))
+    {
+        qDebug("m_pAudioInput->start");
+
+        //m_pAudioInput->start(m_pCall->audioChannel());
+        m_pRecordAudioInput = new CRecordAudio(pAudioChannel, g_Global.GetDirUserData() + "/savain.raw");
+        m_pRecordAudioInput->open(QIODevice::WriteOnly);
+        m_pAudioInput->start(m_pRecordAudioInput);
+    }
+
+    if(m_pAudioOutput && m_pCall
+        && (pAudioChannel->openMode() & QIODevice::ReadOnly))
+    {
+        qDebug("m_pAudioOutput->start");
+        m_pRecordAudioOutput = new CRecordAudio(pAudioChannel, g_Global.GetDirUserData() + "/savaout.raw");
+        m_pRecordAudioOutput->open(QIODevice::ReadWrite);
+        m_pAudioOutput->start(m_pRecordAudioOutput);
+    }//*/
+
     return nRet;
 }
 
 //停止设备，并删除对象
 int CFrmVideo::StopAudioDevice()
 {
+    if(m_pRecordAudioInput)
+    {
+        m_pRecordAudioInput->close();
+        delete m_pRecordAudioInput;
+        m_pRecordAudioInput = NULL;
+    }
+
+    if(m_pRecordAudioOutput)
+    {
+        m_pRecordAudioOutput->close();
+        delete m_pRecordAudioOutput;
+        m_pRecordAudioOutput = NULL;
+    }
+
     if(m_pAudioInput)
     {
         m_pAudioInput->stop();

@@ -11,6 +11,7 @@
 #include "CaptureVideoFrame.h"
 #include "FrmPlayer.h"
 #include "../../XmppClient.h"
+#include "RecordAudio.h"
 
 class CRoster;
 
@@ -81,10 +82,12 @@ private:
 
     bool m_bCall;//是否是主叫方，用于开始视频m_pCall->startVideo
     QXmppCall* m_pCall;
-    CXmppClient *m_pClient;
+    CXmppClient* m_pClient;
 
-    QAudioInput*        m_pAudioInput;
-    QAudioOutput*       m_pAudioOutput;
+    CRecordAudio* m_pRecordAudioInput;
+    CRecordAudio* m_pRecordAudioOutput;
+    QAudioInput*  m_pAudioInput;
+    QAudioOutput* m_pAudioOutput;
     QCamera *m_pCamera;
     CCaptureVideoFrame m_CaptureVideoFrame;  //实现捕获视频帧
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口

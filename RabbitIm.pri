@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     Widgets/FrmVideo/DataVideoBuffer.cpp \
     Widgets/FrmVideo/FrameProcess.cpp \
     Widgets/FrmAddRoster/FrmAddRoster.cpp \
-    Widgets/FrmUserList/TreeUserList.cpp
+    Widgets/FrmUserList/TreeUserList.cpp \
+    Widgets/FrmVideo/RecordAudio.cpp
 
 HEADERS  += MainWindow.h \
     XmppClient.h \
@@ -39,7 +40,8 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/DataVideoBuffer.h \
     Widgets/FrmVideo/FrameProcess.h \
     Widgets/FrmAddRoster/FrmAddRoster.h \
-    Widgets/FrmUserList/TreeUserList.h
+    Widgets/FrmUserList/TreeUserList.h \
+    Widgets/FrmVideo/RecordAudio.h
 
 FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \

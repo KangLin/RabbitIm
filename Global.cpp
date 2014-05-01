@@ -4,6 +4,8 @@
 
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppRtpChannel.h"
+#include <QApplication>
+#include <QDir>
 
 CGlobal g_Global;
 
@@ -14,14 +16,16 @@ CGlobal::CGlobal(QObject *parent) :
     m_RosterColor = QColor(0, 0, 255);
 
     //m_szXmppServerHost = "183.62.225.76";
-    m_szXmppServerHost = "192.168.10.12";
-    m_szXmppServer = "rabbitim.com";
-    m_szStunServer = "stun:stun.l.google.com";
-    m_szTurnServer = "";//m_szXmppServerHost;
-    m_nStunServerPort = 19302;
-    m_nTurnServerPort = 0;//13478;
-    m_szTurnUser = "";//foo";
-    m_szTurnPassword = "";// "bar";
+    m_szXmppServer = "chat.itv168.com";
+    m_szXmppServerHost = "183.233.149.120";
+    m_szXmppServerPort = 5222;
+    //m_szXmppServer = rabbitim.com";
+    m_szStunServer = m_szXmppServerHost;//"stun.l.google.com";
+    m_szTurnServer = m_szXmppServerHost;
+    m_nStunServerPort = 3478;
+    m_nTurnServerPort = 3478;
+    m_szTurnUser = "1";
+    m_szTurnPassword = "1";
 
     //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
@@ -88,6 +92,17 @@ QString CGlobal::GetXmppServerHost()
 int CGlobal::SetXmppServerHost(QString &host)
 {
     m_szXmppServerHost = host;
+    return 0;
+}
+
+qint16 CGlobal::GetXmppServerPort()
+{
+    return m_szXmppServerPort;
+}
+
+int CGlobal::SetXmppServerPort(qint16 port)
+{
+    m_szXmppServerPort = port;
     return 0;
 }
 
@@ -203,4 +218,30 @@ QColor CGlobal::GetStatusColor(QXmppPresence::AvailableStatusType status)
         return QColor(255, 0, 255);
     else
         return QColor(255, 255, 255);
+}
+
+QString CGlobal::GetDirApplication()
+{
+    return qApp->applicationDirPath();
+}
+
+QString CGlobal::GetDirApplicationConfigure()
+{
+    return GetDirApplication() + "/conf";
+}
+
+QString CGlobal::GetDirUserData(const QString bareJid)
+{
+    QString jid = GetBareJid();
+    if(!bareJid.isEmpty())
+        jid = QXmppUtils::jidToBareJid(bareJid);
+    jid = jid.replace("@", ".");
+    QString path = GetDirApplicationConfigure() + "/Users/" + jid;
+    QDir d;
+    if(!d.exists(path))
+    {
+        if(!d.mkdir(path))
+            qDebug() << "mkdir path fail:" << path;
+    }
+    return path;
 }
