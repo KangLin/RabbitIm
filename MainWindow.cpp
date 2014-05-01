@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     if(m_pClient)
     {
         //初始化qxmpp log
-        m_pClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
+        //m_pClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
 
         check = connect(m_pClient, SIGNAL(disconnected()),
                         SLOT(clientDisconnected()));

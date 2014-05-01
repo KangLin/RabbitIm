@@ -22,9 +22,9 @@ QT开发工具参考：
 
 XMPP协议（QXMPP）：
 主页：http://code.google.com/p/qxmpp
-下载：git clone  https://code.google.com/p/qxmpp/
+下载：git clone  https://github.com/qxmpp-project/qxmpp.git
 当前使用版本：
-  git库版本 —— b385036ceea623a1feded664026e5c6450508d8e
+  git库版本 —— b54ccca40a16b3171cfbe4693c8970f8ca902d4f
 编译方法参考源码根目录下的README文件。
 
 webrtc库：
