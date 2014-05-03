@@ -3,11 +3,14 @@
 #include <QThread>
 #include <QTime>
 #include <QtDebug>
+#include "FrmVideo.h"
 
 CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
     QAbstractVideoSurface(parent)
 {
-    m_CaptureFrameProcess.moveToThread(&m_Thread);
+    CFrmVideo* pFrmVideo = (CFrmVideo*)parent;
+    m_CaptureFrameProcess.moveToThread(pFrmVideo->GetVideoThread());
+
     bool check = true;
     check = m_CaptureFrameProcess.connect(this,
                       SIGNAL(sigRawCaptureFrame(const QVideoFrame&)),
@@ -21,14 +24,10 @@ CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
                     SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
                     this, SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)));
     Q_ASSERT(check);
-
-    m_Thread.start();
 }
 
 CCaptureVideoFrame::~CCaptureVideoFrame()
 {
-    m_Thread.quit();
-    m_Thread.wait();
 }
 
 QList<QVideoFrame::PixelFormat> CCaptureVideoFrame::supportedPixelFormats(QAbstractVideoBuffer::HandleType handleType) const

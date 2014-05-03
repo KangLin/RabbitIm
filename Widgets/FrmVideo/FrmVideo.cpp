@@ -20,13 +20,15 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     QFrame(parent),
     m_RemotePlayer(this),
     m_LocalePlayer(this),
+    m_CaptureVideoFrame(this),
     ui(new Ui::CFrmVideo)
 {
     qDebug("CFrmVideo::CFrmVideo");
     ui->setupUi(this);
 
+    //设置提示文本颜色
     QPalette pe;
-    pe.setColor(QPalette::WindowText,Qt::white);
+    pe.setColor(QPalette::WindowText, Qt::white);
     ui->lbPrompt->setPalette(pe);
 
     m_bCall = false;
@@ -36,13 +38,20 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     m_pAudioOutput = NULL;
     m_pCallSound = NULL;
     m_pCamera = NULL;
-    m_pRecordAudioInput = NULL;
-    m_pRecordAudioOutput = NULL;
+
+    m_VideoThread.start();
+    //m_AudioRecordInput.moveToThread(&m_AudioThread);
+    //m_AudioRecordOutput.moveToThread(&m_AudioThread);
+    //m_AudioThread.start();
 }
 
 CFrmVideo::~CFrmVideo()
 {
     qDebug("CFrmVideo::~CFrmVideo");
+    m_VideoThread.quit();
+    m_VideoThread.wait();
+    m_AudioThread.quit();
+    m_AudioThread.wait();
 
     //其它资源释放在closeEvent中进行
 
@@ -55,6 +64,11 @@ CFrmVideo::~CFrmVideo()
     delete ui;
 
     qDebug("CFrmVideo::~CFrmVideo end");
+}
+
+QThread* CFrmVideo::GetVideoThread()
+{
+    return &m_VideoThread;
 }
 
 CFrmVideo* CFrmVideo::instance(CXmppClient *pClient)
@@ -576,22 +590,22 @@ int CFrmVideo::StartAudioDevice()
     m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
     m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
 
-    //*
+    //*TODO:录音功能
     QString szRecordFile;
 #ifndef ANDROID
     szRecordFile = g_Global.GetDirUserData();
 #else
     szRecordFile = "/sdcard";
 #endif
+
     if(m_pAudioInput && m_pCall
        && (pAudioChannel->openMode() & QIODevice::WriteOnly))
     {
-        qDebug("m_pAudioInput->start");
+        qDebug() << "m_pAudioInput->start;threadid:" << QThread::currentThreadId();
 
         //m_pAudioInput->start(pAudioChannel);
-        m_pRecordAudioInput = new CRecordAudio(pAudioChannel, NULL, szRecordFile + "/savain.raw");
-        m_pRecordAudioInput->open(QIODevice::WriteOnly);
-        m_pAudioInput->start(m_pRecordAudioInput);
+        m_AudioRecordInput.open(QIODevice::WriteOnly, pAudioChannel, NULL, szRecordFile);
+        m_pAudioInput->start(&m_AudioRecordInput);
     }
 
     if(m_pAudioOutput && m_pCall
@@ -599,9 +613,10 @@ int CFrmVideo::StartAudioDevice()
     {
         qDebug("m_pAudioOutput->start");
         //m_pAudioOutput->start(pAudioChannel);
-        QIODevice* pOut = m_pAudioOutput->start();
-        m_pRecordAudioOutput = new CRecordAudio(pAudioChannel, pOut, szRecordFile + "/savaout.raw");
-        m_pRecordAudioOutput->open(QIODevice::ReadWrite);
+        //QIODevice* pOut = m_pAudioOutput->start();
+        //m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, pOut, szRecordFile);
+        m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, NULL, szRecordFile);
+        m_pAudioOutput->start(&m_AudioRecordOutput);
     }//*/
 
     return nRet;
@@ -624,19 +639,8 @@ int CFrmVideo::StopAudioDevice()
         m_pAudioOutput = NULL;
     }
 
-    if(m_pRecordAudioInput)
-    {
-        m_pRecordAudioInput->close();
-        delete m_pRecordAudioInput;
-        m_pRecordAudioInput = NULL;
-    }
-
-    if(m_pRecordAudioOutput)
-    {
-        m_pRecordAudioOutput->close();
-        delete m_pRecordAudioOutput;
-        m_pRecordAudioOutput = NULL;
-    }
+    m_AudioRecordInput.close();
+    m_AudioRecordOutput.close();
 
     return 0;
 }

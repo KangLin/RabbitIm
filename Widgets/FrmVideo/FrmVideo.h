@@ -8,6 +8,7 @@
 #include <QBuffer>
 #include <QTimer>
 #include <QSound>
+#include <QThread>
 #include "CaptureVideoFrame.h"
 #include "FrmPlayer.h"
 #include "../../XmppClient.h"
@@ -30,6 +31,7 @@ private:
 
 public:
     static CFrmVideo *instance(CXmppClient *pClient);
+    QThread* GetVideoThread();
 
     int Call(QString jid);
 
@@ -84,10 +86,14 @@ private:
     QXmppCall* m_pCall;
     CXmppClient* m_pClient;
 
-    CRecordAudio* m_pRecordAudioInput;
-    CRecordAudio* m_pRecordAudioOutput;
+    QThread m_VideoThread;
+    QThread m_AudioThread;
+
+    CRecordAudio  m_AudioRecordInput;//录音处理对象
+    CRecordAudio  m_AudioRecordOutput;
     QAudioInput*  m_pAudioInput;
     QAudioOutput* m_pAudioOutput;
+
     QCamera *m_pCamera;
     CCaptureVideoFrame m_CaptureVideoFrame;  //实现捕获视频帧
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口

@@ -1,17 +1,21 @@
 #include "RecordAudio.h"
 #include <QDebug>
 #include <QTime>
+#include <QThread>
 
-CRecordAudio::CRecordAudio(QIODevice *pChannel, QIODevice *pOutDevice, QString szRecordFile, QObject *parent) :
+CRecordAudio::CRecordAudio(QObject *parent) :
     QIODevice(parent),
-    m_pChannel(pChannel),
-    m_pOutDevice(pOutDevice),
-    m_RecordFile(szRecordFile)
+    m_pChannel(NULL),
+    m_pOutDevice(NULL)
 {
 }
 
-bool CRecordAudio::open(OpenMode mode)
+bool CRecordAudio::open(OpenMode mode, QIODevice *pChannel, QIODevice *pOutDevice, QString szRecordFile)
 {
+    m_RecordFile.setFileName(szRecordFile);
+    m_pChannel = pChannel;
+    m_pOutDevice = pOutDevice;
+
     if(!m_RecordFile.fileName().isEmpty())
     {
         if(!m_RecordFile.open(mode))
@@ -36,20 +40,33 @@ void CRecordAudio::close()
     {
         m_pChannel->disconnect(this);
     }
+
+    m_RecordFile.setFileName("");
+    m_pChannel = NULL;
+    m_pOutDevice = NULL;
+
     return QIODevice::close();
 }
 
 void CRecordAudio::slotReadyRead()
 {
-    qDebug() << "CRecordAudio::slotReadyRead" << QTime::currentTime().toString("hh:mm:ss.zzz");
+    qDebug() << "CRecordAudio::slotReadyRead threadid:" << QThread::currentThreadId()
+             << "CRecordAudio::slotReadyRead" << QTime::currentTime().toString("hh:mm:ss.zzz");
     if(!m_pChannel || !m_pOutDevice)
     {
         return;
     }
 
     qint64 size = m_pChannel->bytesAvailable();
+    qDebug() << "bytesAvailable:" << size;
+    if(0 >= size)
+    {
+        qDebug() << "bytesAvailable is 0";
+        return;
+    }
+
     char* pBuf = new char[size];
-    if(!pBuf)
+    if(NULL == pBuf)
     {
         qDebug() << "don't has memory";
         return;
@@ -66,13 +83,14 @@ void CRecordAudio::slotReadyRead()
     else
         qDebug() << "CRecordAudio::slotReadyRead is 0";
 
-    delete []pBuf;
+    delete[] pBuf;
 }
 
 qint64 CRecordAudio::readData(char *data, qint64 maxlen)
 {
     int nRet = 0;
-    qDebug() << "CRecordAudio::readData" << QTime::currentTime().toString("hh:mm:ss.zzz");
+    qDebug()  << "thread:" << QThread::currentThreadId()
+              << "CRecordAudio::readData" << QTime::currentTime().toString("hh:mm:ss.zzz");
 
     if(!m_pChannel)
         return -1;
@@ -88,7 +106,9 @@ qint64 CRecordAudio::readData(char *data, qint64 maxlen)
 qint64 CRecordAudio::writeData(const char *data, qint64 len)
 {
     int nRet = 0;
-    //qDebug() << "CRecordAudio::writeData";
+    qDebug() << "thread:" << QThread::currentThreadId()
+             << "CRecordAudio::writeData:len:" << len
+             << ";data:" << QTime::currentTime().toString("hh:mm:ss.zzz");
     if(!m_pChannel)
         return -1;
 

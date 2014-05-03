@@ -20,6 +20,7 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
     {
         qDebug("CCaptureVideoFrame::present:don't Format_NV21");
         emit sigCaptureFrame(frame);
+        slotFrameConvertedToYUYV(frame, 320,240);
         return;
     }
 

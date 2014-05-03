@@ -8,9 +8,9 @@ class CRecordAudio : public QIODevice
 {
     Q_OBJECT
 public:
-    explicit CRecordAudio(QIODevice *pChannel, QIODevice* pOutDevice = NULL, QString szRecordFile = QString(), QObject *parent = 0);
+    explicit CRecordAudio(QObject *parent = 0);
 
-    virtual bool open(OpenMode mode);
+    virtual bool open(OpenMode mode, QIODevice* pChannel, QIODevice *pOutDevice = NULL, QString szRecordFile = QString());
     virtual void close();
 
 signals:
