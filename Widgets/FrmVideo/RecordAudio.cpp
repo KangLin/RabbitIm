@@ -50,8 +50,16 @@ void CRecordAudio::close()
 
 void CRecordAudio::slotReadyRead()
 {
-    qDebug() << "CRecordAudio::slotReadyRead threadid:" << QThread::currentThreadId()
-             << "CRecordAudio::slotReadyRead" << QTime::currentTime().toString("hh:mm:ss.zzz");
+#ifdef DEBUG_VIDEO_TIME
+    static QTime preTime = QTime::currentTime();
+    QTime curTime = QTime::currentTime();
+    qDebug("CRecordAudio::slotReadyRead:threadid:%d, preTime:%s, currTime:%s, space:%d",
+           QThread::currentThreadId(),
+           qPrintable(preTime.toString("hh:mm:ss.zzz")),
+           qPrintable(curTime.toString("hh:mm:ss.zzz")),
+           preTime.msecsTo(curTime));
+    preTime = curTime;
+#endif
     if(!m_pChannel || !m_pOutDevice)
     {
         return;
@@ -89,9 +97,16 @@ void CRecordAudio::slotReadyRead()
 qint64 CRecordAudio::readData(char *data, qint64 maxlen)
 {
     int nRet = 0;
-    qDebug()  << "thread:" << QThread::currentThreadId()
-              << "CRecordAudio::readData" << QTime::currentTime().toString("hh:mm:ss.zzz");
-
+#ifdef DEBUG_VIDEO_TIME
+    static QTime preTime = QTime::currentTime();
+    QTime curTime = QTime::currentTime();
+    qDebug("CRecordAudio::readData:threadid:%d, preTime:%s, currTime:%s, space:%d",
+           QThread::currentThreadId(),
+           qPrintable(preTime.toString("hh:mm:ss.zzz")),
+           qPrintable(curTime.toString("hh:mm:ss.zzz")),
+           preTime.msecsTo(curTime));
+    preTime = curTime;
+#endif
     if(!m_pChannel)
         return -1;
 
@@ -106,9 +121,16 @@ qint64 CRecordAudio::readData(char *data, qint64 maxlen)
 qint64 CRecordAudio::writeData(const char *data, qint64 len)
 {
     int nRet = 0;
-    qDebug() << "thread:" << QThread::currentThreadId()
-             << "CRecordAudio::writeData:len:" << len
-             << ";data:" << QTime::currentTime().toString("hh:mm:ss.zzz");
+#ifdef DEBUG_VIDEO_TIME
+    static QTime preTime = QTime::currentTime();
+    QTime curTime = QTime::currentTime();
+    qDebug("CRecordAudio::writeData:threadid:%d, preTime:%s, currTime:%s, space:%d",
+           QThread::currentThreadId(),
+           qPrintable(preTime.toString("hh:mm:ss.zzz")),
+           qPrintable(curTime.toString("hh:mm:ss.zzz")),
+           preTime.msecsTo(curTime));
+    preTime = curTime;
+#endif
     if(!m_pChannel)
         return -1;
 

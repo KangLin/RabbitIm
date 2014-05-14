@@ -434,7 +434,8 @@ void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
         int nInterval = (double)1000 / m_pCall->videoChannel()->decoderFormat().frameRate();
         m_VideoPlayTimer.start(nInterval);
 #ifdef DEBUG
-        qDebug("Interval:%d", nInterval);
+        qDebug() << "Interval:" << nInterval
+                 << ";frameRate:" << m_pCall->videoChannel()->decoderFormat().frameRate();
 #endif
     }
 }
@@ -604,7 +605,7 @@ int CFrmVideo::StartAudioDevice()
         qDebug() << "m_pAudioInput->start;threadid:" << QThread::currentThreadId();
 
         //m_pAudioInput->start(pAudioChannel);
-        m_AudioRecordInput.open(QIODevice::WriteOnly, pAudioChannel, NULL, szRecordFile);
+        m_AudioRecordInput.open(QIODevice::WriteOnly, pAudioChannel, NULL, szRecordFile + "/savein.raw");
         m_pAudioInput->start(&m_AudioRecordInput);
     }
 
@@ -612,11 +613,12 @@ int CFrmVideo::StartAudioDevice()
         && (pAudioChannel->openMode() & QIODevice::ReadOnly))
     {
         qDebug("m_pAudioOutput->start");
+
         //m_pAudioOutput->start(pAudioChannel);
-        //QIODevice* pOut = m_pAudioOutput->start();
-        //m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, pOut, szRecordFile);
-        m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, NULL, szRecordFile);
-        m_pAudioOutput->start(&m_AudioRecordOutput);
+        QIODevice* pOut = m_pAudioOutput->start();
+        m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, pOut, szRecordFile + "/saveout.raw");
+        //m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, NULL, szRecordFile + "/saveout.raw");
+        //m_pAudioOutput->start(&m_AudioRecordOutput);
     }//*/
 
     return nRet;
@@ -666,7 +668,7 @@ void CFrmVideo::slotUpdateReciverVideo()
     if(!pChannel)
         return;
 
-    QList<QXmppVideoFrame> inFrames = pChannel->readFrames();
+    m_inFrames << pChannel->readFrames();
 //#ifdef DEBUG
 //    qDebug("recive video frames:%d", inFrames.size());
 //    static QTime preTime = QTime::currentTime();
@@ -677,15 +679,15 @@ void CFrmVideo::slotUpdateReciverVideo()
 //           preTime.msecsTo(curTime));
 //    preTime = curTime;
 //#endif
-//    if(!inFrames.isEmpty())
-//    {
-//        m_RemotePlayer.slotPresent(*inFrames.begin());
-//        inFrames.pop_front();
-//    }
-    foreach(QXmppVideoFrame frame, inFrames)
+    if(!m_inFrames.isEmpty())
     {
-        m_RemotePlayer.slotPresent(frame);
+        m_RemotePlayer.slotPresent(*m_inFrames.begin());
+        m_inFrames.clear();
     }
+//    foreach(QXmppVideoFrame frame, m_inFrames)
+//    {
+//        m_RemotePlayer.slotPresent(frame);
+//    }
 }
 
 void CFrmVideo::PlayCallSound()

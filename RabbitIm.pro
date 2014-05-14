@@ -47,17 +47,17 @@ android{
 win32:CONFIG(release, debug|release){
     LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
 } else:win32:CONFIG(debug, debug|release){
-    DEFINES += DEBUG
+    DEFINES += DEBUG DEBUG_VIDEO_TIME
     LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
 } else:android:CONFIG(release, debug|release){
     LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME  $$OPENCV_LIBRARY  $$FFMPEG_LIBRARY
 } else:android:CONFIG(debug, debug|release){
-    DEFINES += DEBUG
+    DEFINES += DEBUG DEBUG_VIDEO_TIME
     LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME  $$OPENCV_LIBRARY  $$FFMPEG_LIBRARY
 } else:unix: LIBS += -L$$PWD/ThirdLibary/unix/lib -l$$QXMPP_LIBRARY_NAME $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
 
 QXMPP_USE_VPX=1
-QXMPP_USE_SPEEX=1
+#QXMPP_USE_SPEEX=1
 
 !isEmpty(QXMPP_USE_SPEEX) {
     DEFINES += QXMPP_USE_SPEEX

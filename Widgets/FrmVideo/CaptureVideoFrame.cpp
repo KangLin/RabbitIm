@@ -47,15 +47,16 @@ QList<QVideoFrame::PixelFormat> CCaptureVideoFrame::supportedPixelFormats(QAbstr
 //windows下格式是RGB32,做Y轴镜像
 bool CCaptureVideoFrame::present(const QVideoFrame &frame)
 {
-//#ifdef DEBUG
-//    static QTime preTime = QTime::currentTime();
-//    QTime curTime = QTime::currentTime();
-//    qDebug("preTime:%s, currTime:%s, space:%d",
-//           qPrintable(preTime.toString("hh:mm:ss.zzz")),
-//           qPrintable(curTime.toString("hh:mm:ss.zzz")),
-//           preTime.msecsTo(curTime));
-//    preTime = curTime;
-//#endif
+#ifdef DEBUG_VIDEO_TIME
+    static QTime preTime = QTime::currentTime();
+    QTime curTime = QTime::currentTime();
+    qDebug("CCaptureVideoFrame::present:threadid:%d, preTime:%s, currTime:%s, space:%d",
+           QThread::currentThreadId(),
+           qPrintable(preTime.toString("hh:mm:ss.zzz")),
+           qPrintable(curTime.toString("hh:mm:ss.zzz")),
+           preTime.msecsTo(curTime));
+    preTime = curTime;
+#endif
     emit sigRawCaptureFrame(frame);
     return true;
 }

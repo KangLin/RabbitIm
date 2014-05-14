@@ -99,6 +99,7 @@ private:
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口
     CFrmPlayer m_LocalePlayer;//本地视频播放窗口
     QTimer m_VideoPlayTimer;//显示对方视频定时器
+    QList<QXmppVideoFrame> m_inFrames;
     QSound *m_pCallSound;//播放铃音
     int StartVideo();
     int StopVideo();
