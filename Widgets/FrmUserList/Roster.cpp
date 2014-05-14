@@ -148,6 +148,7 @@ int CRoster::UpdateItems(QXmppRosterIq::Item item)
 {
     m_RosterItem = item;
     DeleteItems();
+    return 0;
 }
 
 int CRoster::UpdateItemDisplay()
