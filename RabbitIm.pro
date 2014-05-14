@@ -20,18 +20,19 @@ CONFIG(debug, debug|release) {
 
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android {
-    INCLUDEPATH += $$PWD/ThirdLibary/android/include
-    DEPENDPATH += $$PWD/ThirdLibary/android/include
+    INCLUDEPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
+    DEPENDPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
     DEFINES += ANDROID
 } else:win32 {
-    INCLUDEPATH += $$PWD/ThirdLibary/windows/include
-    DEPENDPATH += $$PWD/ThirdLibary/windows/include
+    INCLUDEPATH += $$PWD/ThirdLibary/windows/include $$WEBRTC_ROOT
+    DEPENDPATH += $$PWD/ThirdLibary/windows/include $$WEBRTC_ROOT
     OPENCV_VERSION=300
 } else:unix {
-    INCLUDEPATH += $$PWD/ThirdLibary/unix/include
-    DEPENDPATH += $$PWD/ThirdLibary/unix/include
+    INCLUDEPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
+    DEPENDPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
 }
 
+WEBRTC_LIBRARY = -L$$WEBRTC_LIBRARY_DIR -ljingle
 FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lswresample -lpostproc -lavfilter  -lavutil
 
 OPENCV_LIBRARY=-lopencv_core$$OPENCV_VERSION \
@@ -45,19 +46,19 @@ android{
 }
 
 win32:CONFIG(release, debug|release){
-    LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
+    LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
 } else:win32:CONFIG(debug, debug|release){
-    DEFINES += DEBUG
-    LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
+    DEFINES += DEBUG DEBUG_VIDEO_TIME
+    LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
 } else:android:CONFIG(release, debug|release){
-    LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME  $$OPENCV_LIBRARY  $$FFMPEG_LIBRARY
+    LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY  $$FFMPEG_LIBRARY
 } else:android:CONFIG(debug, debug|release){
-    DEFINES += DEBUG
-    LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME  $$OPENCV_LIBRARY  $$FFMPEG_LIBRARY
-} else:unix: LIBS += -L$$PWD/ThirdLibary/unix/lib -l$$QXMPP_LIBRARY_NAME $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
+    DEFINES += DEBUG DEBUG_VIDEO_TIME
+    LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY  $$FFMPEG_LIBRARY
+} else:unix: LIBS += -L$$PWD/ThirdLibary/unix/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
 
 QXMPP_USE_VPX=1
-QXMPP_USE_SPEEX=1
+#QXMPP_USE_SPEEX=1
 
 !isEmpty(QXMPP_USE_SPEEX) {
     DEFINES += QXMPP_USE_SPEEX
