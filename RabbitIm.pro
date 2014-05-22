@@ -22,13 +22,13 @@ QXMPP_USE_VPX=1
 #QXMPP_USE_SPEEX=1
 
 !isEmpty(QXMPP_USE_SPEEX) {
-    LIBS += -lspeex
+    CODEC_LIBRARY += -lspeex
 }
 
 !isEmpty(QXMPP_USE_VPX) {
-    LIBS += -lvpx
+    CODEC_LIBRARY += -lvpx
     android {
-        LIBS+= -lcpu-features
+        CODEC_LIBRARY += -lcpu-features
     }
 }
 
@@ -49,10 +49,10 @@ android{
     DEFINES += ANDROID
 
     CONFIG(release, debug|release){
-        LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY  $$FFMPEG_LIBRARY
+        LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$CODEC_LIBRARY $$FFMPEG_LIBRARY
     } else:CONFIG(debug, debug|release){
         DEFINES += DEBUG DEBUG_VIDEO_TIME
-        LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY  $$FFMPEG_LIBRARY
+        LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$CODEC_LIBRARY $$FFMPEG_LIBRARY
     }
 } else:win32{
     INCLUDEPATH += $$PWD/ThirdLibary/windows/include $$WEBRTC_ROOT

@@ -31,12 +31,12 @@ public:
                              /*[out]*/AVPicture &outFrame,      //转换后的帧
                              /*[in]*/int nOutWidth,             //转换后的帧的宽度
                              /*[in]*/int nOutHeight,            //转换后的帧的高度
-                             AVPixelFormat pixelFormat = AV_PIX_FMT_RGB32);
+                             /*[in]*/AVPixelFormat pixelFormat = AV_PIX_FMT_RGB32);
     static int ConvertFormat(/*[in]*/const QXmppVideoFrame &inFrame,//要转换的帧
                              /*[out]*/AVPicture &outFrame,          //转换后的帧
                              /*[in]*/int nOutWidth,                 //转换后的帧的宽度
                              /*[in]*/int nOutHeight,                //转换后的帧的高度
-                             AVPixelFormat pixelFormat = AV_PIX_FMT_RGB32);
+                             /*[in]*/AVPixelFormat pixelFormat = AV_PIX_FMT_RGB32);
     static int ConvertFormat(const AVPicture &inFrame,              //要转换的帧
                              int nInWidth,                          //要转换的帧的宽度
                              int nInHeight,                         //要转换的帧的高度
