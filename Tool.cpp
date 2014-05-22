@@ -406,4 +406,3 @@ void CTool::YUV420spMirror(uchar *dst, const uchar *src, int srcWidth, int srcHe
         break;
     }
 }
-
