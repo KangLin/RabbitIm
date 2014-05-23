@@ -90,7 +90,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
         QCoreApplication::exit(0);
     }
     else
-        e->ignore(); //忽略退出事件
+        e->ignore(); //忽略退出事件 
 }
 
 void MainWindow::clientConnected()
@@ -159,7 +159,8 @@ void MainWindow::stateChanged(QXmppClient::State state)
     Q_UNUSED(state);
     qDebug("MainWindow::stateChanged");
 
-    //TODO:同一账户在不同地方登录。QXMPP没有提供错误状态
+    //TODO:同一账户在不同地方登录。QXMPP没有提供错误状态 
+
     /*if(e.xmppStreamError().condition()
             == QXmppStanza::Error::Conflict)
     {
