@@ -118,7 +118,7 @@ QList<QStandardItem*> CRoster::GetItem()
     pMessageCountItem->setData(v);
     pMessageCountItem->setEditable(false);//禁止双击编辑
 
-    //TODO:未读新消息数目树形控件中未显示
+    /* TODO:未读新消息数目树形控件中未显示 */
     QList<QStandardItem *> lstItems;
     lstItems.push_back(pItem);
     lstItems.push_back(pMessageCountItem);
@@ -148,6 +148,7 @@ int CRoster::UpdateItems(QXmppRosterIq::Item item)
 {
     m_RosterItem = item;
     DeleteItems();
+    return 0;
 }
 
 int CRoster::UpdateItemDisplay()
@@ -165,7 +166,7 @@ int CRoster::UpdateItemDisplay()
     return 0;
 }
 
-//TODO:修改成图片表示
+//TODO: 修改成图片表示 
 int CRoster::ChangedPresence(QXmppPresence::AvailableStatusType status)
 {
     m_Status = status;
