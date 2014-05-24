@@ -95,6 +95,7 @@ TRANSLATIONS += \
 
 OTHER_FILES += README.md \
     .gitignore \
+    AppIcon.rc \
     Resource/translations/app_zh_CN.ts \
     docs/* \
     docs/Books/* \
@@ -110,5 +111,8 @@ OTHER_FILES += README.md \
     ThirdLibary/build/build_windows_speexdsp.sh \
     ThirdLibary/build/build_android_speexdsp.sh \
     ThirdLibary/build/build_windows_x264.sh
+
+#应用程序图标
+RC_FILE = AppIcon.rc
 
 ANDROID_EXTRA_LIBS = 

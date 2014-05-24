@@ -6,4 +6,5 @@
         <file alias="Call">sound/Call.wav</file>
         <file alias="Receive">sound/Receive.wav</file>
     </qresource>
+    <qresource prefix="/icon"/>
 </RCC>

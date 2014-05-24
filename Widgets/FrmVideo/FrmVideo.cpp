@@ -110,6 +110,7 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
                     SLOT(slotCaptureFrame(const QXmppVideoFrame&)));
     Q_ASSERT(check);
 
+    //关联从网络接收视频播放定时器
     check = connect(&m_VideoPlayTimer, SIGNAL(timeout()),
                     SLOT(slotUpdateReciverVideo()));
     Q_ASSERT(check);
@@ -591,7 +592,7 @@ int CFrmVideo::StartAudioDevice()
     m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
     m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
 
-    //*TODO:录音功能
+    //TODO:录音功能 
     QString szRecordFile;
 #ifndef ANDROID
     szRecordFile = g_Global.GetDirUserData();
@@ -647,18 +648,26 @@ int CFrmVideo::StopAudioDevice()
     return 0;
 }
 
+//发送捕获的视频帧 
 void CFrmVideo::slotCaptureFrame(const QXmppVideoFrame &frame)
 {
     if(!m_pCall)
+    {
+        qDebug() << "m_pCall is NULL";
         return;
+    }
 
     QXmppRtpVideoChannel *pChannel = m_pCall->videoChannel();
     if(!pChannel)
+    {
+        qDebug() << "m_pCall->videoChannel() is null";
         return;
+    }
 
     pChannel->writeFrame(frame);
 }
 
+//接收网络视频帧 
 void CFrmVideo::slotUpdateReciverVideo()
 {
     if(!m_pCall)
@@ -669,16 +678,16 @@ void CFrmVideo::slotUpdateReciverVideo()
         return;
 
     m_inFrames << pChannel->readFrames();
-//#ifdef DEBUG
-//    qDebug("recive video frames:%d", inFrames.size());
-//    static QTime preTime = QTime::currentTime();
-//    QTime curTime = QTime::currentTime();
-//    qDebug("preTime:%s, currTime:%s, space:%d",
-//           qPrintable(preTime.toString("hh:mm:ss.zzz")),
-//           qPrintable(curTime.toString("hh:mm:ss.zzz")),
-//           preTime.msecsTo(curTime));
-//    preTime = curTime;
-//#endif
+#ifdef DEBUG_VIDEO_TIME
+    qDebug("recive video frames:%d", m_inFrames.size());
+    static QTime preTime = QTime::currentTime();
+    QTime curTime = QTime::currentTime();
+    qDebug("preTime:%s, currTime:%s, space:%d",
+           qPrintable(preTime.toString("hh:mm:ss.zzz")),
+           qPrintable(curTime.toString("hh:mm:ss.zzz")),
+           preTime.msecsTo(curTime));
+    preTime = curTime;
+#endif
     if(!m_inFrames.isEmpty())
     {
         m_RemotePlayer.slotPresent(*m_inFrames.begin());
