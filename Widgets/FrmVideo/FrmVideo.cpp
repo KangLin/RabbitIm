@@ -411,7 +411,8 @@ void CFrmVideo::connected()
     //停止铃音
     StopCallSound();
 
-    StartAudioDevice();
+    //StopAudioDevice();
+    //StartAudioDevice();
 
     StartVideo();
 }
@@ -420,17 +421,18 @@ void CFrmVideo::connected()
 void CFrmVideo::audioModeChanged(QIODevice::OpenMode mode)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::audioModeChanged:%x", mode);
-    /*if((QIODevice::WriteOnly & mode) && m_pAudioInput && m_pCall)
+
+    if(QIODevice::WriteOnly & mode)
     {
-        qDebug() << "CFrmVideo::audioModeChanged m_pAudioInput->start";
-        m_pAudioInput->start(m_pCall->audioChannel());
+        LOG_MODEL_DEBUG("Video", "OpenAudioInput CFrmVideo::audioModeChanged:%x", mode);
+        OpenAudioInput();
     }
 
-    if((QIODevice::ReadOnly & mode) && m_pAudioOutput && m_pCall)
+    if(QIODevice::ReadOnly & mode)
     {
-        qDebug() << "CFrmVideo::audioModeChanged m_pAudioOutput->start";
-        m_pAudioOutput->start(m_pCall->audioChannel());
-    }//*/
+        LOG_MODEL_DEBUG("Video", "OpenAudioOutput CFrmVideo::audioModeChanged:%x", mode);
+        OpenAudioOutput();
+    }
 }
 
 //视频模式改变
@@ -548,6 +550,158 @@ int CFrmVideo::StopVideo()
     return 0;
 }
 
+int CFrmVideo::OpenAudioInput()
+{
+    if(!m_pCall)
+    {
+        LOG_MODEL_WARNING("Video", "m_pCall is null");
+        return -1;
+    }
+    
+    QXmppRtpAudioChannel* pAudioChannel = m_pCall->audioChannel();
+    if(!pAudioChannel)
+    {
+        LOG_MODEL_WARNING("Video", "CFrmVideo::StartAudioDevice:don't get audio channel");
+        return -2;
+    }
+
+    QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::connected:audio name:%s;id:%d;channels:%d, clockrate:%d, packet time:%d",
+           qPrintable(AudioPlayLoadType.name()),
+           AudioPlayLoadType.id(),
+           AudioPlayLoadType.channels(),
+           AudioPlayLoadType.clockrate(),
+           AudioPlayLoadType.ptime());
+    QMap<QString, QString>::iterator it;
+    for(it = AudioPlayLoadType.parameters().begin(); it != AudioPlayLoadType.parameters().end(); it++)
+    {
+         LOG_MODEL_DEBUG("Video", "parameter:%s;value:%s" , qPrintable(it.key()),qPrintable(it.value()));
+    }
+
+    QAudioFormat format;
+    format.setSampleRate(AudioPlayLoadType.clockrate());
+    format.setChannelCount(AudioPlayLoadType.channels());
+    format.setSampleSize(16);
+    format.setSampleType(QAudioFormat::SignedInt);
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setCodec("audio/pcm");
+
+    QAudioDeviceInfo deviceInfo(QAudioDeviceInfo::defaultInputDevice());
+    if (!deviceInfo.isFormatSupported(format)) {
+        LOG_MODEL_WARNING("Video", "Default audio input format not supported - trying to use nearest");
+        format = deviceInfo.nearestFormat(format);
+    }
+    ShowAudioDeviceSupportCodec(deviceInfo, "input device");
+
+    m_pAudioInput = new QAudioInput(deviceInfo, format, this);
+    if(!m_pAudioInput)
+    {
+        LOG_MODEL_ERROR("Video", "new QAudioInput fail");
+        return -3;
+    }
+
+    //TODO:录音功能 
+    QString szRecordFile;
+#ifndef ANDROID
+    szRecordFile = g_Global.GetDirUserData();
+#else
+    szRecordFile = "/sdcard";
+#endif
+
+    //*
+    if(m_pAudioInput
+       && (pAudioChannel->openMode() & QIODevice::WriteOnly))
+    {
+        LOG_MODEL_DEBUG("Video", "m_pAudioInput->start;threadid:0x%x", QThread::currentThreadId());
+
+        //m_pAudioInput->start(pAudioChannel);
+        m_AudioRecordInput.open(QIODevice::WriteOnly, pAudioChannel, NULL, szRecordFile + "/savein.raw");
+        m_pAudioInput->start(&m_AudioRecordInput);
+    }//*/
+    
+    return 0;
+}
+
+int CFrmVideo::OpenAudioOutput()
+{
+    if(!m_pCall)
+    {
+        LOG_MODEL_WARNING("Video", "m_pCall is null");
+        return -1;
+    }
+    
+    QXmppRtpAudioChannel* pAudioChannel = m_pCall->audioChannel();
+    if(!pAudioChannel)
+    {
+        LOG_MODEL_WARNING("Video", "CFrmVideo::StartAudioDevice:don't get audio channel");
+        return -2;
+    }
+
+    QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::connected:audio name:%s;id:%d;channels:%d, clockrate:%d, packet time:%d",
+           qPrintable(AudioPlayLoadType.name()),
+           AudioPlayLoadType.id(),
+           AudioPlayLoadType.channels(),
+           AudioPlayLoadType.clockrate(),
+           AudioPlayLoadType.ptime());
+    QMap<QString, QString>::iterator it;
+    for(it = AudioPlayLoadType.parameters().begin(); it != AudioPlayLoadType.parameters().end(); it++)
+    {
+        LOG_MODEL_DEBUG("Video", "parameter:%s;value:%s" , qPrintable(it.key()),qPrintable(it.value()));
+    }
+
+    QAudioFormat format;
+    format.setSampleRate(AudioPlayLoadType.clockrate());
+    format.setChannelCount(AudioPlayLoadType.channels());
+    format.setSampleSize(16);
+    format.setSampleType(QAudioFormat::SignedInt);
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setCodec("audio/pcm");
+
+    QAudioDeviceInfo deviceInfo(QAudioDeviceInfo::defaultOutputDevice());
+    if (!deviceInfo.isFormatSupported(format)) {
+        LOG_MODEL_WARNING("Video", "Default audio input format not supported - trying to use nearest");
+        format = deviceInfo.nearestFormat(format);
+    }
+    ShowAudioDeviceSupportCodec(deviceInfo, "output device");
+
+    m_pAudioOutput = new QAudioOutput(deviceInfo, format, this);
+    if(!m_pAudioOutput)
+    {
+        LOG_MODEL_ERROR("Video", "new QAudioInput fail");
+        return -3;
+    }
+
+    //TODO:录音功能 
+    QString szRecordFile;
+#ifndef ANDROID
+    szRecordFile = g_Global.GetDirUserData();
+#else
+    szRecordFile = "/sdcard";
+#endif
+
+    //*
+    if(m_pAudioOutput && m_pCall
+        && (pAudioChannel->openMode() & QIODevice::ReadOnly))
+    {
+        LOG_MODEL_DEBUG("Video", "m_pAudioOutput->start");
+
+        //push模式
+        //m_pAudioOutput->start(pAudioChannel);
+        
+        //push模式
+        //m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, NULL, szRecordFile + "/saveout.raw");
+        //m_pAudioOutput->start(&m_AudioRecordOutput);
+        
+        //pull模式
+        QIODevice* pOut = m_pAudioOutput->start();
+        m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, pOut, szRecordFile + "/saveout.raw");
+        
+    }//*/
+    
+    return 0;
+}
+
 int CFrmVideo::StartAudioDevice()
 {
     int nRet = 0;
@@ -568,7 +722,7 @@ int CFrmVideo::StartAudioDevice()
     QMap<QString, QString>::iterator it;
     for(it = AudioPlayLoadType.parameters().begin(); it != AudioPlayLoadType.parameters().end(); it++)
     {
-        LOG_MODEL_DEBUG("Video", "parameter:%s;value:%s" ,it.key() ,it.value());
+        LOG_MODEL_DEBUG("Video", "parameter:%s;value:%s" , qPrintable(it.key()),qPrintable(it.value()));
     }
 
     QAudioFormat inFormat, outFormat;
@@ -595,8 +749,6 @@ int CFrmVideo::StartAudioDevice()
     }
     ShowAudioDeviceSupportCodec(infoAudioOutput, "output device");
 
-    StopAudioDevice();
-
     m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
     m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
 
@@ -608,6 +760,7 @@ int CFrmVideo::StartAudioDevice()
     szRecordFile = "/sdcard";
 #endif
 
+    //*
     if(m_pAudioInput && m_pCall
        && (pAudioChannel->openMode() & QIODevice::WriteOnly))
     {
@@ -621,7 +774,7 @@ int CFrmVideo::StartAudioDevice()
     if(m_pAudioOutput && m_pCall
         && (pAudioChannel->openMode() & QIODevice::ReadOnly))
     {
-        qDebug("m_pAudioOutput->start");
+        LOG_MODEL_DEBUG("Video", "m_pAudioOutput->start");
 
         //push模式
         //m_pAudioOutput->start(pAudioChannel);

@@ -21,10 +21,9 @@ void CTreeUserList::mouseReleaseEvent(QMouseEvent *event)
     QTime cur = QTime::currentTime();
     int sec = m_MousePressTime.secsTo(cur);
     LOG_MODEL_DEBUG("Roster", "m_MousePressTime:%s;currentTime:%s;sect:%d",
-                    m_MousePressTime.toString("hh:mm:ss.zzz"),
-                    cur.toString("hh:mm:ss.zzz"),
+                    qPrintable(m_MousePressTime.toString("hh:mm:ss.zzz")),
+                    qPrintable(cur.toString("hh:mm:ss.zzz")),
                     sec);
-
     if(sec >= 2)
     {
         emit customContextMenuRequested(QCursor::pos());

@@ -76,6 +76,8 @@ private:
 
     int StartAudioDevice();
     int StopAudioDevice();
+    int OpenAudioInput();
+    int OpenAudioOutput();
     
     int StartVideo();
     int StopVideo();
