@@ -340,20 +340,33 @@
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>Component</td><td>{F064C359-DF6C-4078-B5A9-D4656506E2D4}</td><td>INSTALLDIR</td><td>2</td><td/><td>File</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Component1</td><td>{2D64E071-A465-44E2-83AB-5A9B3DD84B81}</td><td>INSTALLDIR</td><td>2</td><td/><td>File</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT</td><td>{8AB65CFA-7DEC-40E6-9FA0-D04C760473F4}</td><td>BEARER</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{3824C71C-0469-4B69-82F6-C72AE2859D2B}</td><td>MEDIASERVICE</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{567194D7-6E44-4276-BC40-C4C9C766D0C5}</td><td>PLATFORMS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td>{B9DE5D44-3D5C-4076-B399-3A441B5BEE6A}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NewComponent1</td><td>{68D53B8C-D5F5-4C92-9B2C-45351DA70621}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Qt5Cored.dll</td><td>{75277E71-968A-49DE-9CCB-8BFEF201F11C}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5cored.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Qt5Guid.dll</td><td>{25BB1CC4-8BE4-4678-BD85-0894235DADB7}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5guid.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Qt5Multimediad.dll</td><td>{625F2331-2C04-44ED-AAA0-DC89A42C75F4}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5multimediad.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Qt5Networkd.dll</td><td>{8DFF73D9-A328-4B74-A8C2-1BC41BC56CD0}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5networkd.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Qt5OpenGLd.dll</td><td>{838D5052-774B-41B3-810E-B9DDF3CB2A49}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5opengld.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Qt5Widgetsd.dll</td><td>{6C152E65-601D-4DEE-B657-F77167F1D13E}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5widgetsd.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Qt5Xmld.dll</td><td>{AD8DD3CC-B199-4E92-95E8-73CE3CE1BB2B}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5xmld.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Qt5Core.dll</td><td>{CC067E72-CEFE-4A68-977A-D3606FD79D07}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5core.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Qt5Gui.dll</td><td>{4B6B3A4C-1F6B-4801-8025-702BA0B27569}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5gui.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Qt5Multimedia.dll</td><td>{D2494CC2-6B5C-418B-B1E7-12519C409AB9}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5multimedia.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Qt5Network.dll</td><td>{5ACEBFCD-C05F-4137-88F2-8C01E22EFEA1}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5network.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Qt5OpenGL.dll</td><td>{41E4B389-DB04-4554-98CB-066893D9111B}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5opengl.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Qt5Widgets.dll</td><td>{E4B3D8EB-5937-46BE-8CDF-AD7C1C2B8212}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5widgets.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Qt5Xml.dll</td><td>{7EC1F7A5-F822-4238-B37A-71A625D51596}</td><td>INSTALLDIR</td><td>2</td><td/><td>qt5xml.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>dsengine.dll</td><td>{65C62976-B953-43C0-8504-E73B598A901D}</td><td>MEDIASERVICE</td><td>2</td><td/><td>dsengine.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>icudt52.dll</td><td>{827ECBA8-9EEC-4137-A1ED-DB1B98DB826D}</td><td>INSTALLDIR</td><td>2</td><td/><td>icudt52.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>icuin52.dll</td><td>{05584DEA-1383-4903-AE8F-EE1144493180}</td><td>INSTALLDIR</td><td>2</td><td/><td>icuin52.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>icuuc52.dll</td><td>{DD0451CD-F4D1-4996-9296-DD35B0256AC0}</td><td>INSTALLDIR</td><td>2</td><td/><td>icuuc52.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>opencv_core300d.dll</td><td>{F6B7E99F-309B-4FC4-B7C3-2BA89B58F43E}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_core300d.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>opencv_imgproc300d.dll</td><td>{B8D5F764-6BA1-4DBC-AA57-D9C9B73910B8}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_imgproc300d.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>qxmpp_d0.dll</td><td>{98EF89DE-084D-48BA-96B4-4E098C3CF6B9}</td><td>INSTALLDIR</td><td>2</td><td/><td>qxmpp_d0.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>opencv_core300.dll</td><td>{A85CC7CA-BB2D-4088-9E9E-6B4F3AEE3945}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_core300.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>opencv_imgproc300.dll</td><td>{BB718721-AC95-43D8-9DF2-0D7C48EDFDB2}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_imgproc300.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>qgenericbearer.dll</td><td>{53E46F65-7073-4D08-89D7-D1EAF106B10C}</td><td>BEARER</td><td>2</td><td/><td>qgenericbearer.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>qminimal.dll</td><td>{1D3E2090-9A99-43C4-BD0C-B70C3CFDCA56}</td><td>PLATFORMS</td><td>2</td><td/><td>qminimal.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>qnativewifibearer.dll</td><td>{688C7F5B-DF33-419B-A99A-2EC522B1FB82}</td><td>BEARER</td><td>2</td><td/><td>qnativewifibearer.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>qoffscreen.dll</td><td>{94C1A3F6-AD85-46C5-8A2E-5B2EF227CB6D}</td><td>PLATFORMS</td><td>2</td><td/><td>qoffscreen.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>qtmedia_audioengine.dll</td><td>{5FB64D63-7060-4637-BDDE-DBEF4A28B40A}</td><td>MEDIASERVICE</td><td>2</td><td/><td>qtmedia_audioengine.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>qwindows.dll</td><td>{BB68B3E3-5531-4E13-A615-DC67E9651940}</td><td>PLATFORMS</td><td>2</td><td/><td>qwindows.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>qxmpp0.dll</td><td>{900FDF5F-E328-4050-A22C-8801CA833F7E}</td><td>INSTALLDIR</td><td>2</td><td/><td>qxmpp0.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>wmfengine.dll</td><td>{0D302BC2-4E17-4DAA-9A29-3919397E2C55}</td><td>MEDIASERVICE</td><td>2</td><td/><td>wmfengine.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1062,7 +1075,10 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
+		<row><td>BEARER</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>INSTALLDIR</td><td>NewComponent1</td></row>
+		<row><td>MEDIASERVICE</td><td>ISX_DEFAULTCOMPONENT1</td></row>
+		<row><td>PLATFORMS</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -1144,6 +1160,7 @@
 		<row><td>ALLUSERSPROFILE</td><td>TARGETDIR</td><td>.:ALLUSE~1|All Users</td><td/><td>0</td><td/></row>
 		<row><td>AdminToolsFolder</td><td>TARGETDIR</td><td>.:Admint~1|AdminTools</td><td/><td>0</td><td/></row>
 		<row><td>AppDataFolder</td><td>TARGETDIR</td><td>.:APPLIC~1|Application Data</td><td/><td>0</td><td/></row>
+		<row><td>BEARER</td><td>INSTALLDIR</td><td>bearer</td><td/><td>0</td><td/></row>
 		<row><td>CommonAppDataFolder</td><td>TARGETDIR</td><td>.:Common~1|CommonAppData</td><td/><td>0</td><td/></row>
 		<row><td>CommonFiles64Folder</td><td>TARGETDIR</td><td>.:Common64</td><td/><td>0</td><td/></row>
 		<row><td>CommonFilesFolder</td><td>TARGETDIR</td><td>.:Common</td><td/><td>0</td><td/></row>
@@ -1160,10 +1177,12 @@
 		<row><td>KANGLIN_STUDIO</td><td>ProgramFilesFolder</td><td>KANGLI~1|KangLin Studio</td><td/><td>0</td><td/></row>
 		<row><td>LENOVO</td><td>ProgramFilesFolder</td><td>Lenovo</td><td/><td>0</td><td/></row>
 		<row><td>LocalAppDataFolder</td><td>TARGETDIR</td><td>.:LocalA~1|LocalAppData</td><td/><td>0</td><td/></row>
+		<row><td>MEDIASERVICE</td><td>INSTALLDIR</td><td>MEDIAS~1|mediaservice</td><td/><td>0</td><td/></row>
 		<row><td>MY_PRODUCT_NAME</td><td>LENOVO</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
 		<row><td>MY_PRODUCT_NAME1</td><td>KANGLIN_STUDIO</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
 		<row><td>MyPicturesFolder</td><td>TARGETDIR</td><td>.:MyPict~1|MyPictures</td><td/><td>0</td><td/></row>
 		<row><td>NetHoodFolder</td><td>TARGETDIR</td><td>.:NetHood</td><td/><td>0</td><td/></row>
+		<row><td>PLATFORMS</td><td>INSTALLDIR</td><td>PLATFO~1|platforms</td><td/><td>0</td><td/></row>
 		<row><td>PersonalFolder</td><td>TARGETDIR</td><td>.:Personal</td><td/><td>0</td><td/></row>
 		<row><td>PrimaryVolumePath</td><td>TARGETDIR</td><td>.:Primar~1|PrimaryVolumePath</td><td/><td>0</td><td/></row>
 		<row><td>PrintHoodFolder</td><td>TARGETDIR</td><td>.:PRINTH~1|PrintHood</td><td/><td>0</td><td/></row>
@@ -1878,20 +1897,33 @@
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>Component</td></row>
+		<row><td>AlwaysInstall</td><td>Component1</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT3</td></row>
 		<row><td>AlwaysInstall</td><td>NewComponent1</td></row>
-		<row><td>AlwaysInstall</td><td>Qt5Cored.dll</td></row>
-		<row><td>AlwaysInstall</td><td>Qt5Guid.dll</td></row>
-		<row><td>AlwaysInstall</td><td>Qt5Multimediad.dll</td></row>
-		<row><td>AlwaysInstall</td><td>Qt5Networkd.dll</td></row>
-		<row><td>AlwaysInstall</td><td>Qt5OpenGLd.dll</td></row>
-		<row><td>AlwaysInstall</td><td>Qt5Widgetsd.dll</td></row>
-		<row><td>AlwaysInstall</td><td>Qt5Xmld.dll</td></row>
+		<row><td>AlwaysInstall</td><td>Qt5Core.dll</td></row>
+		<row><td>AlwaysInstall</td><td>Qt5Gui.dll</td></row>
+		<row><td>AlwaysInstall</td><td>Qt5Multimedia.dll</td></row>
+		<row><td>AlwaysInstall</td><td>Qt5Network.dll</td></row>
+		<row><td>AlwaysInstall</td><td>Qt5OpenGL.dll</td></row>
+		<row><td>AlwaysInstall</td><td>Qt5Widgets.dll</td></row>
+		<row><td>AlwaysInstall</td><td>Qt5Xml.dll</td></row>
+		<row><td>AlwaysInstall</td><td>dsengine.dll</td></row>
 		<row><td>AlwaysInstall</td><td>icudt52.dll</td></row>
 		<row><td>AlwaysInstall</td><td>icuin52.dll</td></row>
 		<row><td>AlwaysInstall</td><td>icuuc52.dll</td></row>
-		<row><td>AlwaysInstall</td><td>opencv_core300d.dll</td></row>
-		<row><td>AlwaysInstall</td><td>opencv_imgproc300d.dll</td></row>
-		<row><td>AlwaysInstall</td><td>qxmpp_d0.dll</td></row>
+		<row><td>AlwaysInstall</td><td>opencv_core300.dll</td></row>
+		<row><td>AlwaysInstall</td><td>opencv_imgproc300.dll</td></row>
+		<row><td>AlwaysInstall</td><td>qgenericbearer.dll</td></row>
+		<row><td>AlwaysInstall</td><td>qminimal.dll</td></row>
+		<row><td>AlwaysInstall</td><td>qnativewifibearer.dll</td></row>
+		<row><td>AlwaysInstall</td><td>qoffscreen.dll</td></row>
+		<row><td>AlwaysInstall</td><td>qtmedia_audioengine.dll</td></row>
+		<row><td>AlwaysInstall</td><td>qwindows.dll</td></row>
+		<row><td>AlwaysInstall</td><td>qxmpp0.dll</td></row>
+		<row><td>AlwaysInstall</td><td>wmfengine.dll</td></row>
 	</table>
 
 	<table name="File">
@@ -1906,20 +1938,29 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>File</td><td>Component</td><td>RabbitIm.主输出</td><td>0</td><td/><td/><td>0</td><td>1</td><td>&lt;RabbitIm&gt;|Built</td><td>3</td><td/></row>
+		<row><td>File</td><td>Component1</td><td>RabbitIm.主输出</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;RabbitIm&gt;|Built</td><td>3</td><td/></row>
+		<row><td>dsengine.dll</td><td>dsengine.dll</td><td>dsengine.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\mediaservice\dsengine.dll</td><td>1</td><td/></row>
 		<row><td>icudt52.dll</td><td>icudt52.dll</td><td>icudt52.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\icudt52.dll</td><td>1</td><td/></row>
 		<row><td>icuin52.dll</td><td>icuin52.dll</td><td>icuin52.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\icuin52.dll</td><td>1</td><td/></row>
 		<row><td>icuuc52.dll</td><td>icuuc52.dll</td><td>icuuc52.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\icuuc52.dll</td><td>1</td><td/></row>
-		<row><td>opencv_core300d.dll</td><td>opencv_core300d.dll</td><td>OPENCV~1.DLL|opencv_core300d.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\source\im\client\RabbitIm\ThirdLibary\windows\bin\opencv_core300d.dll</td><td>1</td><td/></row>
-		<row><td>opencv_imgproc300d.dll</td><td>opencv_imgproc300d.dll</td><td>OPENCV~1.DLL|opencv_imgproc300d.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\source\im\client\RabbitIm\ThirdLibary\windows\bin\opencv_imgproc300d.dll</td><td>1</td><td/></row>
-		<row><td>qt5cored.dll</td><td>Qt5Cored.dll</td><td>Qt5Cored.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Cored.dll</td><td>1</td><td/></row>
-		<row><td>qt5guid.dll</td><td>Qt5Guid.dll</td><td>Qt5Guid.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Guid.dll</td><td>1</td><td/></row>
-		<row><td>qt5multimediad.dll</td><td>Qt5Multimediad.dll</td><td>QT5MUL~1.DLL|Qt5Multimediad.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Multimediad.dll</td><td>1</td><td/></row>
-		<row><td>qt5networkd.dll</td><td>Qt5Networkd.dll</td><td>QT5NET~1.DLL|Qt5Networkd.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Networkd.dll</td><td>1</td><td/></row>
-		<row><td>qt5opengld.dll</td><td>Qt5OpenGLd.dll</td><td>QT5OPE~1.DLL|Qt5OpenGLd.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5OpenGLd.dll</td><td>1</td><td/></row>
-		<row><td>qt5widgetsd.dll</td><td>Qt5Widgetsd.dll</td><td>QT5WID~1.DLL|Qt5Widgetsd.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Widgetsd.dll</td><td>1</td><td/></row>
-		<row><td>qt5xmld.dll</td><td>Qt5Xmld.dll</td><td>Qt5Xmld.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Xmld.dll</td><td>1</td><td/></row>
-		<row><td>qxmpp_d0.dll</td><td>qxmpp_d0.dll</td><td>qxmpp_d0.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\source\im\client\RabbitIm\ThirdLibary\windows\lib\qxmpp_d0.dll</td><td>1</td><td/></row>
+		<row><td>opencv_core300.dll</td><td>opencv_core300.dll</td><td>OPENCV~1.DLL|opencv_core300.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\source\im\client\RabbitIm\ThirdLibary\windows\bin\opencv_core300.dll</td><td>1</td><td/></row>
+		<row><td>opencv_imgproc300.dll</td><td>opencv_imgproc300.dll</td><td>OPENCV~1.DLL|opencv_imgproc300.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\source\im\client\RabbitIm\ThirdLibary\windows\bin\opencv_imgproc300.dll</td><td>1</td><td/></row>
+		<row><td>qgenericbearer.dll</td><td>qgenericbearer.dll</td><td>QGENER~1.DLL|qgenericbearer.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\bearer\qgenericbearer.dll</td><td>1</td><td/></row>
+		<row><td>qminimal.dll</td><td>qminimal.dll</td><td>qminimal.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\platforms\qminimal.dll</td><td>1</td><td/></row>
+		<row><td>qnativewifibearer.dll</td><td>qnativewifibearer.dll</td><td>QNATIV~1.DLL|qnativewifibearer.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\bearer\qnativewifibearer.dll</td><td>1</td><td/></row>
+		<row><td>qoffscreen.dll</td><td>qoffscreen.dll</td><td>QOFFSC~1.DLL|qoffscreen.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\platforms\qoffscreen.dll</td><td>1</td><td/></row>
+		<row><td>qt5core.dll</td><td>Qt5Core.dll</td><td>Qt5Core.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Core.dll</td><td>1</td><td/></row>
+		<row><td>qt5gui.dll</td><td>Qt5Gui.dll</td><td>Qt5Gui.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Gui.dll</td><td>1</td><td/></row>
+		<row><td>qt5multimedia.dll</td><td>Qt5Multimedia.dll</td><td>QT5MUL~1.DLL|Qt5Multimedia.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Multimedia.dll</td><td>1</td><td/></row>
+		<row><td>qt5network.dll</td><td>Qt5Network.dll</td><td>QT5NET~1.DLL|Qt5Network.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Network.dll</td><td>1</td><td/></row>
+		<row><td>qt5opengl.dll</td><td>Qt5OpenGL.dll</td><td>QT5OPE~1.DLL|Qt5OpenGL.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5OpenGL.dll</td><td>1</td><td/></row>
+		<row><td>qt5widgets.dll</td><td>Qt5Widgets.dll</td><td>QT5WID~1.DLL|Qt5Widgets.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Widgets.dll</td><td>1</td><td/></row>
+		<row><td>qt5xml.dll</td><td>Qt5Xml.dll</td><td>Qt5Xml.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\Qt5Xml.dll</td><td>1</td><td/></row>
+		<row><td>qt_zh_cn.qm</td><td>ISX_DEFAULTCOMPONENT3</td><td>qt_zh_CN.qm</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\translations\qt_zh_CN.qm</td><td>1</td><td/></row>
+		<row><td>qtmedia_audioengine.dll</td><td>qtmedia_audioengine.dll</td><td>QTMEDI~1.DLL|qtmedia_audioengine.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\mediaservice\qtmedia_audioengine.dll</td><td>1</td><td/></row>
+		<row><td>qwindows.dll</td><td>qwindows.dll</td><td>qwindows.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\platforms\qwindows.dll</td><td>1</td><td/></row>
+		<row><td>qxmpp0.dll</td><td>qxmpp0.dll</td><td>qxmpp0.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\source\im\client\RabbitIm\ThirdLibary\windows\lib\qxmpp0.dll</td><td>1</td><td/></row>
+		<row><td>wmfengine.dll</td><td>wmfengine.dll</td><td>WMFENG~1.DLL|wmfengine.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\mediaservice\wmfengine.dll</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2064,20 +2105,33 @@
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
 		<row><td>Component</td><td/><td/><td>_4908DB10_FF97_4AF3_A199_87DC90090572_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Component1</td><td/><td/><td>_4CAA137A_3740_4CA5_BD4B_750BDFB85D88_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_9704D88E_1145_4A82_AC3E_F799AEDDA6D6_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_BB18DFF4_D251_46FF_A76E_C4A2E57D7D72_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_14B55437_639A_4530_BC87_9466A5A3A12E_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td/><td/><td>_67971381_FE49_47B8_BF7B_E1126B97B654_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NewComponent1</td><td/><td/><td>_CD40B6D3_155C_452B_96F1_89E66BA5BE23_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Qt5Cored.dll</td><td/><td/><td>_2ECA7634_6290_4D24_9435_43B5AA69634B_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Qt5Guid.dll</td><td/><td/><td>_2BA238B6_B4C8_4D9A_A819_B0A1461F06E2_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Qt5Multimediad.dll</td><td/><td/><td>_9F0FA620_F72B_4E03_ADA0_FE63FFF45976_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Qt5Networkd.dll</td><td/><td/><td>_8EDB35FF_F3B2_488E_B338_FF1C61DEAE43_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Qt5OpenGLd.dll</td><td/><td/><td>_4B5BE951_8E2E_41E7_B733_8D42365905B5_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Qt5Widgetsd.dll</td><td/><td/><td>_D1B058BC_3E8F_4846_AFE6_CE851A14A57B_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Qt5Xmld.dll</td><td/><td/><td>_8E3161B3_FFDE_4A71_B19A_688E170BC8E5_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Qt5Core.dll</td><td/><td/><td>_197F6F5A_AC31_4EC8_BD54_69E72705EF69_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Qt5Gui.dll</td><td/><td/><td>_79B31638_31AC_4122_85FE_140A465CB573_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Qt5Multimedia.dll</td><td/><td/><td>_F829BE69_1B1A_4656_A2CA_98A8CB4786E2_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Qt5Network.dll</td><td/><td/><td>_A4BFBC75_FAC7_4B37_8E46_2840A2B80575_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Qt5OpenGL.dll</td><td/><td/><td>_F0F4F146_5964_4AC3_8516_1159CD45AA25_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Qt5Widgets.dll</td><td/><td/><td>_ECB5808D_D4AA_4AC4_BE37_71AEE455378A_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Qt5Xml.dll</td><td/><td/><td>_6DC5A800_C3DB_45E5_9FFC_A6163E90C12E_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>dsengine.dll</td><td/><td/><td>_AEA17475_CCFE_43B2_A095_3613F644DCE5_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>icudt52.dll</td><td/><td/><td>_8CAF6549_0414_4C28_BC31_15E0A3F6BF5B_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>icuin52.dll</td><td/><td/><td>_8956FE02_84DD_47CD_9A7E_2347130F26AA_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>icuuc52.dll</td><td/><td/><td>_D0D9891B_6973_4008_AFD8_9C6314ABC12A_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>opencv_core300d.dll</td><td/><td/><td>_16E860C8_CEF9_43EC_B36F_46E5A2E415CF_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>opencv_imgproc300d.dll</td><td/><td/><td>_1718B8A6_78AD_47A0_A7D1_A3C98B4970E6_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>qxmpp_d0.dll</td><td/><td/><td>_7C8E8FB8_2F03_49CD_AF3A_DC2718F53C68_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>opencv_core300.dll</td><td/><td/><td>_E4B3FEE1_0774_4487_9BE0_F3847541FBF3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>opencv_imgproc300.dll</td><td/><td/><td>_0E48C873_F63F_40F2_AF77_23DE88EE733E_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>qgenericbearer.dll</td><td/><td/><td>_07CD90DE_DDF2_40B2_AEF4_117E4B53FA89_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>qminimal.dll</td><td/><td/><td>_0B66BAFC_3932_4C08_88AA_934148092A2D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>qnativewifibearer.dll</td><td/><td/><td>_A925D1BC_C6A9_4FEC_BE8D_EBC3271233BE_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>qoffscreen.dll</td><td/><td/><td>_EBE2CB00_73C7_483D_A9AA_3204D00C7898_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>qtmedia_audioengine.dll</td><td/><td/><td>_92A68663_A48A_4E66_9C44_565A01EF2D6A_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>qwindows.dll</td><td/><td/><td>_98EAF5C1_F9D3_48D0_8FB0_73B83A6155AE_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>qxmpp0.dll</td><td/><td/><td>_2FEFBFD2_657B_41C9_A7B8_BBE7380EBAF8_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>wmfengine.dll</td><td/><td/><td>_E1BCBFA1_2B42_4C27_AF61_965919842D15_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -2179,6 +2233,7 @@
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s255">ISMergeModule_</col>
 		<col key="yes" def="i2">Language_</col>
+		<row><td>AlwaysInstall</td><td>Microsoft_VC120_CRT_x86.194841A2_D0F2_3B96_9F71_05BA91BEA0FA</td><td>0</td></row>
 	</table>
 
 	<table name="ISFeatureSetupPrerequisites">
@@ -2302,6 +2357,7 @@
 		<col def="s255">Name</col>
 		<col def="S255">Destination</col>
 		<col def="I4">ISAttributes</col>
+		<row><td>Microsoft_VC120_CRT_x86.194841A2_D0F2_3B96_9F71_05BA91BEA0FA</td><td>0</td><td>Visual C++ 12.0 CRT (x86)</td><td/><td/></row>
 	</table>
 
 	<table name="ISMergeModuleCfgValues">
@@ -2696,7 +2752,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>-1029547284</td></row>
+		<row><td>COMPANY_NAME</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>-895329621</td></row>
 		<row><td>DN_AlwaysInstall</td><td>2052</td><td>始终安装</td><td>0</td><td/><td>-1029518900</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>2052</td><td>系统颜色设置不足以运行 [ProductName]。</td><td>0</td><td/><td>-1029518900</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>2052</td><td>操作系统不足以运行 [ProductName]。</td><td>0</td><td/><td>-1029518900</td></row>
@@ -3796,17 +3852,19 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>2052</td><td>对于运行 [ProductName] 处理器不足。</td><td>0</td><td/><td>-1029518900</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>2052</td><td>对于运行 [ProductName] 内存量不足。</td><td>0</td><td/><td>-1029518900</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>2052</td><td>对于运行 [ProductName] 屏幕分辨率不足。</td><td>0</td><td/><td>-1029518900</td></row>
-		<row><td>ID_STRING1</td><td>2052</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029524756</td></row>
-		<row><td>ID_STRING2</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>-1029547284</td></row>
+		<row><td>ID_STRING1</td><td>2052</td><td>http://www.康林工作室.com</td><td>0</td><td/><td>-895329621</td></row>
+		<row><td>ID_STRING2</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>-895329621</td></row>
 		<row><td>ID_STRING3</td><td>2052</td><td>NEWSHO~1|NewShortcut1</td><td>0</td><td/><td>-1029525493</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>NEWSHO~1|NewShortcut1</td><td>0</td><td/><td>-1029537300</td></row>
 		<row><td>ID_STRING4</td><td>2052</td><td>RabbitIm</td><td>0</td><td/><td>-1029531156</td></row>
 		<row><td>ID_STRING5</td><td>1033</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029569844</td></row>
 		<row><td>ID_STRING5</td><td>2052</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029569844</td></row>
 		<row><td>ID_STRING6</td><td>1033</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029565748</td></row>
-		<row><td>ID_STRING6</td><td>2052</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029524756</td></row>
+		<row><td>ID_STRING6</td><td>2052</td><td>http://www.康林工作室.com</td><td>0</td><td/><td>-895329621</td></row>
 		<row><td>ID_STRING7</td><td>1033</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029530932</td></row>
 		<row><td>ID_STRING7</td><td>2052</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029530932</td></row>
+		<row><td>ID_STRING8</td><td>1033</td><td>13034802883</td><td>0</td><td/><td>-895346005</td></row>
+		<row><td>ID_STRING8</td><td>2052</td><td>13034802883</td><td>0</td><td/><td>-895346005</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>2052</td><td>系统将不安装此功能。</td><td>0</td><td/><td>-1029518900</td></row>
 	</table>
 
@@ -4356,6 +4414,7 @@ RABWAEQALQA1AAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ALLUSERS</td><td>1</td><td/></row>
 		<row><td>ARPCONTACT</td><td>##ID_STRING5##</td><td/></row>
 		<row><td>ARPHELPLINK</td><td>##ID_STRING6##</td><td/></row>
+		<row><td>ARPHELPTELEPHONE</td><td>##ID_STRING8##</td><td/></row>
 		<row><td>ARPINSTALLLOCATION</td><td/><td/></row>
 		<row><td>ARPPRODUCTICON</td><td>ARPPRODUCTICON.exe</td><td/></row>
 		<row><td>ARPSIZE</td><td/><td/></row>
