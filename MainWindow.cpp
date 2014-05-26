@@ -8,6 +8,7 @@
 #include "Widgets/DlgLogin/FrmLogin.h"
 #include "Global.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
+#include "Global.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -78,7 +79,7 @@ void MainWindow::showEvent(QShowEvent *)
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    qDebug("MainWindow::closeEvent");
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent");
     QMessageBox msg(QMessageBox::Question,
                     tr("Close"),
                     tr("Is close the programe?"),
@@ -95,7 +96,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::clientConnected()
 {
-    qDebug("MainWindow:: CONNECTED");
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: CONNECTED");
     //关闭登录对话框
     if(m_pLogin)
     {
@@ -124,12 +125,12 @@ void MainWindow::clientConnected()
 
 void MainWindow::clientDisconnected()
 {
-    qDebug("MainWindow:: DISCONNECTED");
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: DISCONNECTED");
 }
 
 void MainWindow::clientError(QXmppClient::Error e)
 {
-    qDebug("MainWindow:: Error:%d", e);
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: Error:%d", e);
     if(!m_pLogin)
         return;
 
@@ -151,13 +152,13 @@ void MainWindow::clientError(QXmppClient::Error e)
 
 void MainWindow::clientIqReceived(const QXmppIq &iq)
 {
-    qDebug("MainWindow:: iq Received:%d", iq.error().condition());
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: iq Received:%d", iq.error().condition());
 }
 
 void MainWindow::stateChanged(QXmppClient::State state)
 {
     Q_UNUSED(state);
-    qDebug("MainWindow::stateChanged");
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::stateChanged");
 
     //TODO:同一账户在不同地方登录。QXMPP没有提供错误状态 
 
@@ -187,7 +188,7 @@ void MainWindow::stateChanged(QXmppClient::State state)
 
 void MainWindow::About()
 {
-    qDebug("MainWindow::About");
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
     CFrmAbout* pAbout = new CFrmAbout;
     if(pAbout)
     {

@@ -4,6 +4,7 @@
 #include <QThread>
 #include "DataVideoBuffer.h"
 #include "FrmVideo.h"
+#include "../../Global.h"
 
 CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f)
@@ -24,7 +25,7 @@ CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
 
 CFrmPlayer::~CFrmPlayer()
 {
-    qDebug("CFrmPlayer::~CFrmPlayer");
+    LOG_MODEL_DEBUG("Video", "CFrmPlayer::~CFrmPlayer");
 }
 
 void CFrmPlayer::paintEvent(QPaintEvent *)

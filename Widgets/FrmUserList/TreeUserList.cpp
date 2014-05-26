@@ -1,5 +1,5 @@
 #include "TreeUserList.h"
-#include <QDebug>
+#include "../../Global.h"
 
 CTreeUserList::CTreeUserList(QWidget *parent) :
     QTreeView(parent)
@@ -9,20 +9,21 @@ CTreeUserList::CTreeUserList(QWidget *parent) :
 
 void CTreeUserList::mousePressEvent(QMouseEvent *event)
 {
-    qDebug() << "CTreeUserList::mousePressEvent";
+    LOG_MODEL_DEBUG("Roster", "CTreeUserList::mousePressEvent");
     m_MousePressTime = QTime::currentTime();
     QTreeView::mousePressEvent(event);
 }
 
 void CTreeUserList::mouseReleaseEvent(QMouseEvent *event)
 {
-    qDebug() << "CTreeUserList::mouseReleaseEvent";
+    LOG_MODEL_DEBUG("Roster", "CTreeUserList::mouseReleaseEvent");
 #ifdef ANDROID
     QTime cur = QTime::currentTime();
     int sec = m_MousePressTime.secsTo(cur);
-    qDebug() << "m_MousePressTime:" << m_MousePressTime.toString("hh:mm:ss.zzz")
-                << ";currentTime:" << cur.toString("hh:mm:ss.zzz")
-                   << ";sect:" << sec;
+    LOG_MODEL_DEBUG("Roster", "m_MousePressTime:%s;currentTime:%s;sect:%d",
+                    m_MousePressTime.toString("hh:mm:ss.zzz"),
+                    cur.toString("hh:mm:ss.zzz"),
+                    sec);
 
     if(sec >= 2)
     {
@@ -35,6 +36,6 @@ void CTreeUserList::mouseReleaseEvent(QMouseEvent *event)
 
 void CTreeUserList::contextMenuEvent(QContextMenuEvent *event)
 {
-    qDebug() << "CTreeUserList::mouseReleaseEvent";
+    LOG_MODEL_DEBUG("Roster", "CTreeUserList::mouseReleaseEvent");
     QTreeView::contextMenuEvent(event);
 }

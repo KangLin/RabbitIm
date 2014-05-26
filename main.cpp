@@ -7,6 +7,7 @@
 #include <QVideoProbe>
 #include "Tool.h"
 #include <QDebug>
+#include "Global.h"
 
 int main(int argc, char *argv[])
 {
@@ -46,7 +47,7 @@ int main(int argc, char *argv[])
     QList<QByteArray>::iterator it;
     for(it = device.begin(); it != device.end(); it++)
     {
-        qDebug("Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+        LOG_DEBUG("Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
     }
 
     QCamera camera;

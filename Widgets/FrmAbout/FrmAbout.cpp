@@ -1,5 +1,6 @@
 #include "FrmAbout.h"
 #include "ui_FrmAbout.h"
+#include "../../Global.h"
 
 CFrmAbout::CFrmAbout(QWidget *parent) :
     QFrame(parent),
@@ -10,7 +11,7 @@ CFrmAbout::CFrmAbout(QWidget *parent) :
 
 CFrmAbout::~CFrmAbout()
 {
-    qDebug("CFrmAbout::~CFrmAbout");
+    LOG_MODEL_DEBUG("About", "CFrmAbout::~CFrmAbout");
     delete ui;
 }
 

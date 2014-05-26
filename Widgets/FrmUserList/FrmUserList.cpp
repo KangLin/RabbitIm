@@ -99,7 +99,7 @@ int CFrmUserList::InitMenu()
     m_pMenu = new QMenu(tr("Operator roster(&O)"), this);
     if(!m_pMenu)
     {
-        qWarning() << "CFrmUserList::InitMenu new QMenu fail";
+        LOG_MODEL_WARNING("Roster",  "CFrmUserList::InitMenu new QMenu fail");
         return -1;
     }
 
@@ -212,7 +212,7 @@ void CFrmUserList::slotRemoveRoster()
 
 void CFrmUserList::clientMessageReceived(const QXmppMessage &message)
 {
-    qDebug("MainWindow:: message Received:type:%d;state:%d;from:%s;to:%s;body:%s",
+    LOG_MODEL_DEBUG("Roster", "MainWindow:: message Received:type:%d;state:%d;from:%s;to:%s;body:%s",
            message.type(),
            message.state(), //消息的状态 0:消息内容，其它值表示这个消息的状态
            qPrintable(message.from()),
@@ -256,9 +256,9 @@ int CFrmUserList::UpdateGroup(CRoster* pRoster, QSet<QString> groups)
             lstGroup = it.value();
 
         lstGroup->appendRow(pRoster->GetItem());
-        qDebug() << "CFrmUserList::UpdateGroup"
-               << pRoster->BareJid()
-               << "(" << szGroup << ")";
+        LOG_MODEL_DEBUG("Roster", "CFrmUserList::UpdateGroup:%s,(%s)",
+                qPrintable(pRoster->BareJid()),
+                qPrintable(szGroup));
     }
 
     return 0;
@@ -279,7 +279,7 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
     }
     else
     {
-        qCritical(qPrintable("Error:User had existed"));
+        LOG_MODEL_ERROR("Roster", qPrintable("Error:User had existed"));
         return -1;
     }
 
@@ -290,7 +290,7 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
 
 void CFrmUserList::subscriptionReceived(const QString &bareJid)
 {
-    qDebug("CFrmUserList::subscriptionReceived:%s", qPrintable(bareJid));
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(bareJid));
     m_frmAddRoster.Init(m_pMainWindow->m_pClient, GetGroupsName(), bareJid);
     m_frmAddRoster.show();
     m_frmAddRoster.activateWindow();
@@ -298,14 +298,14 @@ void CFrmUserList::subscriptionReceived(const QString &bareJid)
 
 void CFrmUserList::itemAdded(const QString &bareJid)
 {
-    qDebug("CFrmUserList::itemAdded jid:%s", qPrintable(bareJid));
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemAdded jid:%s", qPrintable(bareJid));
     QXmppRosterIq::Item item = m_pMainWindow->m_pClient->rosterManager().getRosterEntry(bareJid);
     InsertUser(item);
 }
 
 void CFrmUserList::itemChanged(const QString &bareJid)
 {
-    qDebug("CFrmUserList::itemChanged jid:%s", qPrintable(bareJid));
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemChanged jid:%s", qPrintable(bareJid));
     QMap<QString, CRoster*>::iterator it;
     it = m_Rosters.find(QXmppUtils::jidToBareJid(bareJid));
     if(m_Rosters.end() != it)
@@ -320,7 +320,7 @@ void CFrmUserList::itemChanged(const QString &bareJid)
 
 void CFrmUserList::itemRemoved(const QString &bareJid)
 {
-    qDebug("CFrmUserList::itemRemoved jid:%s", qPrintable(bareJid));
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemRemoved jid:%s", qPrintable(bareJid));
     QMap<QString, CRoster*>::iterator it;
     it = m_Rosters.find(QXmppUtils::jidToBareJid(bareJid));
     if(m_Rosters.end() != it)
@@ -333,7 +333,7 @@ void CFrmUserList::itemRemoved(const QString &bareJid)
 //得到好友列表
 void CFrmUserList::rosterReceived()
 {
-    qDebug("CFrmUserList:: Roster received");
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList:: Roster received");
 
     foreach (const QString &bareJid, m_pMainWindow->m_pClient->rosterManager().getRosterBareJids())
     {
@@ -347,7 +347,7 @@ void CFrmUserList::rosterReceived()
 //好友出席状态改变
 void CFrmUserList::ChangedPresence(const QXmppPresence &presence)
 {
-    qDebug("CFrmUserList::ChangedPresence jid:%s;status:%s",
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList::ChangedPresence jid:%s;status:%s",
            qPrintable(presence.from()),
            qPrintable(presence.statusText())
            );
@@ -398,7 +398,7 @@ void CFrmUserList::vCardReceived(const QXmppVCardIq& vCard)
 
 void CFrmUserList::clicked(const QModelIndex &index)
 {
-    qDebug("CFrmUserList::clicked, row:%d; column:%d",
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList::clicked, row:%d; column:%d",
            index.row(), index.column());
 
     if(m_UserList.isExpanded(index))
@@ -425,7 +425,7 @@ void CFrmUserList::clicked(const QModelIndex &index)
 
 void CFrmUserList::doubleClicked(const QModelIndex &index)
 {
-    qDebug("CFrmUserList::doubleClicked, row:%d; column:%d",
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList::doubleClicked, row:%d; column:%d",
            index.row(), index.column());
 }
 

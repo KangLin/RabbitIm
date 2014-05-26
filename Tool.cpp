@@ -1,4 +1,5 @@
 #include "Tool.h"
+#include "Global.h"
 
 CTool::CTool(QObject *parent) :
     QObject(parent)
@@ -13,9 +14,7 @@ CTool::~CTool()
 //设置日志的回调函数
 void Log(void*, int, const char* fmt, va_list vl)
 {
-    static char buf[1024];
-    vsprintf(buf, fmt, vl);
-    qDebug(buf);
+    LOG_MODEL_DEBUG("ffmpeg", fmt, vl);
 }
 
 int CTool::SetFFmpegLog()
@@ -76,7 +75,7 @@ int CTool::ConvertFormat(/*[in]*/ const QVideoFrame &inFrame,
                    inFrame.height());
     if(nRet < 0)
     {
-        qDebug(("avpicture_fill fail:%x"), nRet);
+        LOG_MODEL_DEBUG("Tool", "avpicture_fill fail:%x", nRet);
         return nRet;
     }
 
@@ -102,7 +101,7 @@ int CTool::ConvertFormat(/*[in]*/ const QXmppVideoFrame &inFrame,
                    inFrame.height());
     if(nRet < 0)
     {
-        qDebug(("avpicture_fill fail:%x"), nRet);
+        LOG_MODEL_ERROR("Tool", "avpicture_fill fail:%x", nRet);
         return nRet;
     }
 
@@ -130,7 +129,7 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     nRet = avpicture_alloc(&outFrame, outPixelFormat, nOutWidth, nOutHeight);
     if(nRet)
     {
-        qDebug(("avpicture_alloc fail:%x"), nRet);
+        LOG_MODEL_ERROR("Tool", "avpicture_alloc fail:%x", nRet);
         return nRet;
     }
 
@@ -146,15 +145,15 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     pSwsCtx = sws_getCachedContext (NULL,
                                     nInWidth,                //源宽度
                                     nInHeight,               //源高度
-                                    inPixelFormat,  //源格式
-                                    nOutWidth,                         //目标宽度
-                                    nOutHeight,                        //目标高度
-                                    outPixelFormat,                    //目的格式
-                                    SWS_FAST_BILINEAR,              //转换算法
+                                    inPixelFormat,           //源格式
+                                    nOutWidth,               //目标宽度
+                                    nOutHeight,              //目标高度
+                                    outPixelFormat,          //目的格式
+                                    SWS_FAST_BILINEAR,       //转换算法
                                     NULL, NULL, NULL);
     if(NULL == pSwsCtx)
     {
-        qDebug("sws_getContext false");
+        LOG_MODEL_ERROR("Tool", "sws_getContext false");
         avpicture_free(&outFrame);
         return -3;
     }
@@ -166,7 +165,7 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
                      outFrame.data, outFrame.linesize);
     if(nRet < 0)
     {
-        qDebug("sws_scale fail:%x", nRet);
+        LOG_MODEL_ERROR("Tool", "sws_scale fail:%x", nRet);
         avpicture_free(&outFrame);
     }
     else

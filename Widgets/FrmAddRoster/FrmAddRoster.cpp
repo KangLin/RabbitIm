@@ -83,7 +83,7 @@ void CFrmAddRoster::on_pushButton_clicked()
 
 void CFrmAddRoster::on_txtJID_editingFinished()
 {
-    qDebug() << "CFrmAddRoster::on_txtJID_editingFinished";
+    LOG_MODEL_DEBUG("Roster", "CFrmAddRoster::on_txtJID_editingFinished");
     if(ui->txtNick->text().isEmpty())
     {
         QString szJid = ui->txtJID->text();

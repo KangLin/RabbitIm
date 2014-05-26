@@ -1,6 +1,7 @@
 #include "FrameProcess.h"
 #include "../../Tool.h"
 #include "DataVideoBuffer.h"
+#include "../../Global.h"
 
 CFrameProcess::CFrameProcess(QObject *parent) :
     QObject(parent)
@@ -18,7 +19,7 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 {
     if(frame.pixelFormat() != QVideoFrame::Format_NV21)
     {
-        qDebug("CCaptureVideoFrame::present:don't Format_NV21");
+        LOG_MODEL_WARNING("Video", "CCaptureVideoFrame::present:don't Format_NV21");
         emit sigCaptureFrame(frame);
         slotFrameConvertedToYUYV(frame, 320,240);
         return;
@@ -27,7 +28,7 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
     QVideoFrame inFrame(frame);
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
     {
-        qDebug("CCaptureVideoFrame::present map error");
+        LOG_MODEL_ERROR("Video", "CCaptureVideoFrame::present map error");
         return;
     }
 
@@ -70,7 +71,7 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
     QVideoFrame inFrame(frame);
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
     {
-        qDebug("CCaptureVideoFrame::present map error");
+        LOG_MODEL_ERROR("Video", "CCaptureVideoFrame::present map error");
         return;
     }
 
@@ -129,7 +130,7 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
         nRet = CTool::ConvertFormat(inFrame, pic, nWidth, nHeight, AV_PIX_FMT_YUYV422);
         if(nRet)
         {
-            qDebug("CTool::ConvertFormat fail");
+            LOG_MODEL_ERROR("Video", "CTool::ConvertFormat fail");
             break;
         }
 

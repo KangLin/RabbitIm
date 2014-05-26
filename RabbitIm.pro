@@ -67,12 +67,16 @@ android{
     }
 
     CONFIG(release, debug|release){
+        msvc{
+            LDFLAGS += /NODEFAULTLIB:libcmt
+        }
+
         LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$LDFLAGS
     } else:CONFIG(debug, debug|release){
         DEFINES += DEBUG DEBUG_VIDEO_TIME
 
         msvc{
-            LDFLAGS += /NODEFAULTLIB:libcmt
+            LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
         }
 
         LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$LDFLAGS

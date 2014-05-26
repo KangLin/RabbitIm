@@ -23,7 +23,7 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     m_CaptureVideoFrame(this),
     ui(new Ui::CFrmVideo)
 {
-    qDebug("CFrmVideo::CFrmVideo");
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::CFrmVideo");
     ui->setupUi(this);
 
     //设置提示文本颜色
@@ -47,7 +47,7 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
 
 CFrmVideo::~CFrmVideo()
 {
-    qDebug("CFrmVideo::~CFrmVideo");
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::~CFrmVideo");
     m_VideoThread.quit();
     m_VideoThread.wait();
     m_AudioThread.quit();
@@ -63,7 +63,7 @@ CFrmVideo::~CFrmVideo()
 
     delete ui;
 
-    qDebug("CFrmVideo::~CFrmVideo end");
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::~CFrmVideo end");
 }
 
 QThread* CFrmVideo::GetVideoThread()
@@ -120,13 +120,13 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
 
 void CFrmVideo::clientIqReceived(const QXmppIq &iq)
 {
-    qDebug("CFrmVideo::clientIqReceived:%d", iq.error().condition());
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::clientIqReceived:%d", iq.error().condition());
 }
 
 void CFrmVideo::closeEvent(QCloseEvent *e)
 {
     Q_UNUSED(e);
-    qDebug("CFrmVideo::closeEvent");
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::closeEvent");
     if(m_pCall)
     {
         m_pCall->hangup();
@@ -246,7 +246,7 @@ int CFrmVideo::Call(QString jid)
     m_pCall = m_pClient->m_CallManager.call(jid);
     if(NULL == m_pCall)
     {
-        qDebug() << "call fail";
+        LOG_MODEL_ERROR("Video",  "call fail");
         return -2;
     }
 
@@ -261,9 +261,9 @@ int CFrmVideo::Call(QString jid)
 //接收呼叫
 void CFrmVideo::callReceived(QXmppCall *pCall)
 {
-    qDebug("CFrmVideo::callReceived:%x", pCall);
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::callReceived:%x", pCall);
     if(m_pCall)
-        qCritical(qPrintable(tr("Is calling ") + QXmppUtils::jidToBareJid(m_pCall->jid())));
+        LOG_MODEL_WARNING("Video", qPrintable(tr("Is calling ") + QXmppUtils::jidToBareJid(m_pCall->jid())));
 
     m_pCall = pCall;//这里可以不需要，因为用户可能拒绝接收呼叫，在callStarted才是真正呼叫开始
     m_pClient->m_CallManager.setStunServer(
@@ -306,9 +306,9 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
 //呼叫开始
 void CFrmVideo::callStarted(QXmppCall *pCall)
 {
-    qDebug("CFrmVideo::callStarted:%x", pCall);
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::callStarted:%x", pCall);
     if(m_pCall != pCall)
-        qCritical("CFrmVideo::callStarted m_pCall != pCall");
+        LOG_MODEL_WARNING("Video", "CFrmVideo::callStarted m_pCall != pCall");
 
     m_pCall = pCall;
     bool check = connect(pCall, SIGNAL(connected()),
@@ -342,7 +342,7 @@ void CFrmVideo::callStarted(QXmppCall *pCall)
 //被叫正在响铃(只有主叫方才有)
 void CFrmVideo::ringing()
 {
-    qDebug("CFrmVideo::ringing");
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::ringing");
     if(m_pCall)
     {
         QString szText = tr("%1 is ringing").arg(QXmppUtils::jidToUser(m_pCall->jid()));
@@ -354,7 +354,7 @@ void CFrmVideo::ringing()
 //呼叫状态发生改变
 void CFrmVideo::stateChanged(QXmppCall::State state)
 {
-    qDebug("CFrmVideo::stateChanged:%d", state);
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::stateChanged:%d", state);
 }
 
 void ShowAudioDeviceSupportCodec(QAudioDeviceInfo &info, QString szPropmt)
@@ -402,7 +402,7 @@ void ShowAudioDeviceSupportCodec(QAudioDeviceInfo &info, QString szPropmt)
 //会话建立后触发
 void CFrmVideo::connected()
 {
-    qDebug("CFrmVideo::connected");
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::connected");
 
     QString szText = tr("Be talking %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
     this->setWindowTitle(szText);
@@ -419,7 +419,7 @@ void CFrmVideo::connected()
 //音频模式改变
 void CFrmVideo::audioModeChanged(QIODevice::OpenMode mode)
 {
-    qDebug("CFrmVideo::audioModeChanged:%x", mode);
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::audioModeChanged:%x", mode);
     /*if((QIODevice::WriteOnly & mode) && m_pAudioInput && m_pCall)
     {
         qDebug() << "CFrmVideo::audioModeChanged m_pAudioInput->start";
@@ -436,14 +436,14 @@ void CFrmVideo::audioModeChanged(QIODevice::OpenMode mode)
 //视频模式改变
 void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
 {
-    qDebug("CFrmVideo::videoModeChanged:%x", mode);
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::videoModeChanged:%x", mode);
     if(QIODevice::ReadOnly & mode && m_pCall)
     {
         int nInterval = (double)1000 / m_pCall->videoChannel()->decoderFormat().frameRate();
         m_VideoPlayTimer.start(nInterval);
 #ifdef DEBUG_VIDEO_TIME
-        qDebug() << "Interval:" << nInterval
-                 << ";frameRate:" << m_pCall->videoChannel()->decoderFormat().frameRate();
+        LOG_MODEL_DEBUG("Video", "Interval:%d;frameRate:%d", nInterval,
+                  m_pCall->videoChannel()->decoderFormat().frameRate());
 #endif
     }
 }
@@ -451,7 +451,7 @@ void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
 //呼叫结束时触发
 void CFrmVideo::finished()
 {
-    qDebug("CFrmVideo::finished");
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::finished");
 
     StopCallSound();
     m_bCall = false;
@@ -488,7 +488,7 @@ int CFrmVideo::StartVideo()
     QList<QByteArray>::iterator it;
     for(it = device.begin(); it != device.end(); it++)
     {
-        qDebug("Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+        LOG_MODEL_DEBUG("Video", "Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
     }
     if(m_pCamera)
     {
@@ -554,12 +554,12 @@ int CFrmVideo::StartAudioDevice()
     QXmppRtpAudioChannel* pAudioChannel = m_pCall->audioChannel();
     if(!pAudioChannel)
     {
-        qWarning() << "CFrmVideo::StartAudioDevice:don't get audio channel";
+        LOG_MODEL_WARNING("Video", "CFrmVideo::StartAudioDevice:don't get audio channel");
         return -1;
     }
 
     QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
-    qDebug("CFrmVideo::connected:audio name:%s;id:%d;channels:%d, clockrate:%d, packet time:%d",
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::connected:audio name:%s;id:%d;channels:%d, clockrate:%d, packet time:%d",
            qPrintable(AudioPlayLoadType.name()),
            AudioPlayLoadType.id(),
            AudioPlayLoadType.channels(),
@@ -568,7 +568,7 @@ int CFrmVideo::StartAudioDevice()
     QMap<QString, QString>::iterator it;
     for(it = AudioPlayLoadType.parameters().begin(); it != AudioPlayLoadType.parameters().end(); it++)
     {
-        qDebug() << "parameter:" << it.key() << ";value:" << it.value();
+        LOG_MODEL_DEBUG("Video", "parameter:%s;value:%s" ,it.key() ,it.value());
     }
 
     QAudioFormat inFormat, outFormat;
@@ -583,14 +583,14 @@ int CFrmVideo::StartAudioDevice()
 
     QAudioDeviceInfo infoAudioInput(QAudioDeviceInfo::defaultInputDevice());
     if (!infoAudioInput.isFormatSupported(inFormat)) {
-        qWarning() << "Default audio input format not supported - trying to use nearest";
+        LOG_MODEL_WARNING("Video", "Default audio input format not supported - trying to use nearest");
         inFormat = infoAudioInput.nearestFormat(inFormat);
     }
     ShowAudioDeviceSupportCodec(infoAudioInput, "input device");
 
     QAudioDeviceInfo infoAudioOutput(QAudioDeviceInfo::defaultOutputDevice());
     if (!infoAudioOutput.isFormatSupported(outFormat)) {
-        qWarning() << "Default audio output format not supported - trying to use nearest";
+        LOG_MODEL_WARNING("Video", "Default audio output format not supported - trying to use nearest");
         outFormat = infoAudioOutput.nearestFormat(outFormat);
     }
     ShowAudioDeviceSupportCodec(infoAudioOutput, "output device");
@@ -611,7 +611,7 @@ int CFrmVideo::StartAudioDevice()
     if(m_pAudioInput && m_pCall
        && (pAudioChannel->openMode() & QIODevice::WriteOnly))
     {
-        qDebug() << "m_pAudioInput->start;threadid:" << QThread::currentThreadId();
+        LOG_MODEL_DEBUG("Video", "m_pAudioInput->start;threadid:0x%x", QThread::currentThreadId());
 
         //m_pAudioInput->start(pAudioChannel);
         m_AudioRecordInput.open(QIODevice::WriteOnly, pAudioChannel, NULL, szRecordFile + "/savein.raw");
@@ -667,14 +667,14 @@ void CFrmVideo::slotCaptureFrame(const QXmppVideoFrame &frame)
 {
     if(!m_pCall)
     {
-        qDebug() << "m_pCall is NULL";
+        LOG_MODEL_DEBUG("Video", "m_pCall is NULL");
         return;
     }
 
     QXmppRtpVideoChannel *pChannel = m_pCall->videoChannel();
     if(!pChannel || !(pChannel->openMode() & QIODevice::WriteOnly))
     {
-        qDebug() << "m_pCall->videoChannel() is null or openMode isn't write mode";
+        LOG_MODEL_DEBUG("Video", "m_pCall->videoChannel() is null or openMode isn't write mode");
         return;
     }
 
@@ -693,10 +693,10 @@ void CFrmVideo::slotUpdateReciverVideo()
 
     m_inFrames << pChannel->readFrames();
 #ifdef DEBUG_VIDEO_TIME
-    qDebug("recive video frames:%d", m_inFrames.size());
+    LOG_MODEL_DEBUG("Video", "recive video frames:%d", m_inFrames.size());
     static QTime preTime = QTime::currentTime();
     QTime curTime = QTime::currentTime();
-    qDebug("preTime:%s, currTime:%s, space:%d",
+    LOG_MODEL_DEBUG("Video", "preTime:%s, currTime:%s, space:%d",
            qPrintable(preTime.toString("hh:mm:ss.zzz")),
            qPrintable(curTime.toString("hh:mm:ss.zzz")),
            preTime.msecsTo(curTime));

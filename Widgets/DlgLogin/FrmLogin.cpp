@@ -55,7 +55,7 @@ void CFrmLogin::on_pbOk_clicked()
     g_Global.SetJid(config.jid());
     g_Global.SetXmppServer(ui->lnServer->text());
 
-    qDebug("Local jid:%s;config.jidBare():%s",
+    LOG_MODEL_DEBUG("Login", "Local jid:%s;config.jidBare():%s",
            qPrintable(g_Global.GetBareJid()),
            qPrintable(config.jidBare()));
     ((MainWindow*)(this->parent()))->m_pClient->connectToServer(config);

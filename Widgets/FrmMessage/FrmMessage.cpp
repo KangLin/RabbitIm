@@ -22,7 +22,7 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
 
 CFrmMessage::~CFrmMessage()
 {
-    qDebug("CFrmMessage::~CFrmMessage");
+    LOG_MODEL_DEBUG("Message", "CFrmMessage::~CFrmMessage");
     delete ui;
 }
 
@@ -49,18 +49,18 @@ void CFrmMessage::ChangedPresence(QXmppPresence::AvailableStatusType status)
 
 void CFrmMessage::hideEvent(QHideEvent *)
 {
-    qDebug("CFrmMessage::hideEvent");
+    LOG_MODEL_DEBUG("Message", "CFrmMessage::hideEvent");
     m_pRoster->CleanNewMessageNumber();
 }
 void CFrmMessage::closeEvent(QCloseEvent *e)
 {
     Q_UNUSED(e);
-    qDebug("CFrmMessage::closeEvent");
+    LOG_MODEL_DEBUG("Message", "CFrmMessage::closeEvent");
 }
 
 void CFrmMessage::showEvent(QShowEvent *)
 {
-    qDebug("CFrmMessage::showEvent");
+    LOG_MODEL_DEBUG("Message", "CFrmMessage::showEvent");
     //TODO:重读数据
     if(m_pRoster)
     {

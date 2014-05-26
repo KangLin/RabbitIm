@@ -6,6 +6,8 @@
 #include "qxmpp/QXmppRtpChannel.h"
 #include <QApplication>
 #include <QDir>
+#include <QDebug>
+#include <string>
 
 CGlobal g_Global;
 
@@ -34,6 +36,30 @@ CGlobal::CGlobal(QObject *parent) :
 
 CGlobal::~CGlobal()
 {
+}
+
+int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...)
+{
+    char buf[1024];
+    std::string szTemp = pszFile;
+    szTemp += "[";
+    sprintf(buf, "%d", nLine);
+    szTemp += buf;
+    szTemp += "]:";
+    szTemp += pszModelName;
+    szTemp += ":";
+    
+    va_list args;
+    va_start (args, pFormatString);
+    vsprintf(buf, pFormatString, args);
+    va_end (args);
+    szTemp += buf;
+    
+    Q_UNUSED(nLevel);
+    
+    qDebug() << qPrintable(szTemp.c_str());
+
+    return 0;
 }
 
 int CGlobal::SetJid(QString jid)
@@ -241,7 +267,7 @@ QString CGlobal::GetDirUserData(const QString bareJid)
     if(!d.exists(path))
     {
         if(!d.mkdir(path))
-            qDebug() << "mkdir path fail:" << path;
+            LOG_ERROR("mkdir path fail:%s", qPrintable(path));
     }
     return path;
 }

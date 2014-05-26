@@ -13,6 +13,14 @@ public:
     explicit CGlobal(QObject *parent = 0);
     virtual ~CGlobal();
 
+    //日志
+    //参数： 
+    //    pszFile:打印日志处文件名 
+    //    nLine:打印日志处行号 
+    //    nLevel:打印日志错误级别 
+    //....pszModelName:打印日志的模块范围 
+    int Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...);
+    
     //得到本地用户住息
     int SetJid(QString jid);
     QString GetName();
@@ -76,4 +84,32 @@ private:
 };
 
 extern CGlobal g_Global;
+
+#define LM_DEBUG 0
+#define LM_INFO 1
+#define LM_WARNING 2
+#define LM_ERROR 3
+
+#ifdef _DEBUG
+#define LOG_ERROR(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_ERROR, "", fmt, __VA_ARGS__)
+#define LOG_WARNING(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_WARNING, "", fmt, __VA_ARGS__)
+#define LOG_DEBUG(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_DEBUG, "", fmt, __VA_ARGS__)
+#define LOG_INFO(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_INFO, "", fmt, __VA_ARGS__)
+
+#define LOG_MODEL_ERROR(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_ERROR, model, fmt, __VA_ARGS__)
+#define LOG_MODEL_WARNING(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_WARNING, model, fmt, __VA_ARGS__)
+#define LOG_MODEL_DEBUG(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_DEBUG, model, fmt, __VA_ARGS__)
+#define LOG_MODEL_INFO(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_INFO, model, fmt, __VA_ARGS__)
+#else
+#define LOG_ERROR(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_ERROR, "", fmt, __VA_ARGS__)
+#define LOG_DEBUG(...)
+#define LOG_WARNING(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_WARNING, "", fmt, __VA_ARGS__)
+#define LOG_INFO(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_INFO, "", fmt, __VA_ARGS__)
+
+#define LOG_MODEL_ERROR(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_ERROR, model, fmt, __VA_ARGS__)
+#define LOG_MODEL_WARNING(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_WARNING, model, fmt, __VA_ARGS__)
+#define LOG_MODEL_DEBUG(model, fmt, ...)
+#define LOG_MODEL_INFO(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_INFO, model, fmt, __VA_ARGS__)
+#endif
+
 #endif // GLOBAL_H

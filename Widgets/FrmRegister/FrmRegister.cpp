@@ -16,7 +16,7 @@ CFrmRegister::CFrmRegister(QWidget *parent) :
     m_pClient = new CXmppClient(this);
     if(NULL == m_pClient)
     {
-        qCritical("CFrmRegister::CFrmRegister: create CXmppClient fail");
+        LOG_MODEL_ERROR("Register", "CFrmRegister::CFrmRegister: create CXmppClient fail");
         return;
     }
 
@@ -44,7 +44,7 @@ CFrmRegister::~CFrmRegister()
 
 void CFrmRegister::clientIqReceived(const QXmppIq &iq)
 {
-    qDebug("CFrmRegister::clientIqReceived");
+    LOG_MODEL_DEBUG("Register", "CFrmRegister::clientIqReceived");
     if(iq.type() == QXmppIq::Result)
     {
         ((CFrmLogin*)m_pLogin)->SetLoginInformation(ui->txtUser->text(), ui->txtPassword->text());
@@ -57,7 +57,7 @@ void CFrmRegister::clientIqReceived(const QXmppIq &iq)
     }
     else if(iq.type() == QXmppIq::Error)
     {
-        qDebug("CFrmRegister::clientIqReceived:%d", iq.error().code());
+        LOG_MODEL_DEBUG("Register", "CFrmRegister::clientIqReceived:%d", iq.error().code());
         QString szReason(tr("Unknow error:") + iq.error().code());
         if(iq.error().condition() == QXmppIq::Error::Conflict)
         {
@@ -81,12 +81,12 @@ void CFrmRegister::clientIqReceived(const QXmppIq &iq)
 void CFrmRegister::clientError(QXmppClient::Error e)
 {
     Q_UNUSED(e);
-    qDebug("CFrmRegister::clientError");
+    LOG_MODEL_DEBUG("Register", "CFrmRegister::clientError");
 }
 
 void CFrmRegister::connected()
 {
-    qDebug("CFrmRegister::connected");
+    LOG_MODEL_DEBUG("Register", "CFrmRegister::connected");
 
     QXmppRegisterIq registerIq;
     registerIq.setType(QXmppIq::Set);
@@ -211,7 +211,7 @@ void CFrmRegister::on_pbCancel_clicked()
 
 void CFrmRegister::hideEvent(QHideEvent *)
 {
-    qDebug("CFrmRegister::hideEvent");
+    LOG_MODEL_DEBUG("Register", "CFrmRegister::hideEvent");
     if(m_pLogin)
         m_pLogin->setEnabled(true);
 

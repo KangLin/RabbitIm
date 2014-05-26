@@ -1,5 +1,6 @@
 #include "Roster.h"
 #include "../../MainWindow.h"
+#include "../../Global.h"
 
 CRoster::CRoster(QObject *parent) :
     QObject(parent)
@@ -15,7 +16,7 @@ CRoster::CRoster(QXmppRosterIq::Item item, MainWindow *parent) : QObject(parent)
 
 CRoster::~CRoster()
 {
-    qDebug("CRoster::~CRoster");
+    LOG_MODEL_DEBUG("Roster", "CRoster::~CRoster");
     DeleteItems();
 }
 
@@ -96,7 +97,7 @@ QString CRoster::GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType ty
         return tr("[remove]");
     default:
         {
-            qWarning("QXmppRosterIq::Item::getTypeStr(): invalid type");
+            LOG_MODEL_WARNING("Roster", "QXmppRosterIq::Item::getTypeStr(): invalid type");
             return "";
         }
     }

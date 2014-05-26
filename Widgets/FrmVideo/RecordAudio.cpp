@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QTime>
 #include <QThread>
+#include "../../Global.h"
 
 CRecordAudio::CRecordAudio(QObject *parent) :
     QIODevice(parent),
@@ -19,7 +20,7 @@ bool CRecordAudio::open(OpenMode mode, QIODevice *pChannel, QIODevice *pOutDevic
     if(!m_RecordFile.fileName().isEmpty())
     {
         if(!m_RecordFile.open(mode))
-            qDebug() << "fail:CRecordAudio::open file:" << m_RecordFile.fileName();
+            LOG_MODEL_ERROR("RecordAudio", "fail:CRecordAudio::open file:%s\n" , qPrintable(m_RecordFile.fileName()));
     }
 
     if(m_pChannel && m_pOutDevice)
@@ -53,7 +54,7 @@ void CRecordAudio::slotReadyRead()
 #ifdef DEBUG_VIDEO_TIME
     static QTime preTime = QTime::currentTime();
     QTime curTime = QTime::currentTime();
-    qDebug("CRecordAudio::slotReadyRead:threadid:%d, preTime:%s, currTime:%s, space:%d",
+    LOG_MODEL_DEBUG("RecordAudio", "CRecordAudio::slotReadyRead:threadid:%d, preTime:%s, currTime:%s, space:%d",
            QThread::currentThreadId(),
            qPrintable(preTime.toString("hh:mm:ss.zzz")),
            qPrintable(curTime.toString("hh:mm:ss.zzz")),
@@ -66,17 +67,17 @@ void CRecordAudio::slotReadyRead()
     }
 
     qint64 size = m_pChannel->bytesAvailable();
-    qDebug() << "bytesAvailable:" << size;
+    LOG_MODEL_DEBUG("RecordAudio", "bytesAvailable:%d", size);
     if(0 >= size)
     {
-        qDebug() << "bytesAvailable is 0";
+        LOG_MODEL_ERROR("RecordAudio", "bytesAvailable is 0");
         return;
     }
 
     char* pBuf = new char[size];
     if(NULL == pBuf)
     {
-        qDebug() << "don't has memory";
+        LOG_MODEL_ERROR("RecordAudio", "don't has memory");
         return;
     }
 
@@ -89,7 +90,7 @@ void CRecordAudio::slotReadyRead()
             m_RecordFile.write(pBuf, nLen);
     }
     else
-        qDebug() << "CRecordAudio::slotReadyRead is 0";
+       LOG_MODEL_DEBUG("RecordAudio", "CRecordAudio::slotReadyRead is 0");
 
     delete[] pBuf;
 }
@@ -100,7 +101,7 @@ qint64 CRecordAudio::readData(char *data, qint64 maxlen)
 #ifdef DEBUG_VIDEO_TIME
     static QTime preTime = QTime::currentTime();
     QTime curTime = QTime::currentTime();
-    qDebug("CRecordAudio::readData:threadid:%d, preTime:%s, currTime:%s, space:%d",
+    LOG_MODEL_DEBUG("RecordAudio", "CRecordAudio::readData:threadid:%d, preTime:%s, currTime:%s, space:%d",
            QThread::currentThreadId(),
            qPrintable(preTime.toString("hh:mm:ss.zzz")),
            qPrintable(curTime.toString("hh:mm:ss.zzz")),
@@ -124,7 +125,7 @@ qint64 CRecordAudio::writeData(const char *data, qint64 len)
 #ifdef DEBUG_VIDEO_TIME
     static QTime preTime = QTime::currentTime();
     QTime curTime = QTime::currentTime();
-    qDebug("CRecordAudio::writeData:threadid:%d, preTime:%s, currTime:%s, space:%d",
+    LOG_MODEL_DEBUG("RecordAudio", "CRecordAudio::writeData:threadid:%d, preTime:%s, currTime:%s, space:%d",
            QThread::currentThreadId(),
            qPrintable(preTime.toString("hh:mm:ss.zzz")),
            qPrintable(curTime.toString("hh:mm:ss.zzz")),

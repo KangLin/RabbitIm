@@ -4,6 +4,7 @@
 #include <QTime>
 #include <QtDebug>
 #include "FrmVideo.h"
+#include "../../Global.h"
 
 CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
     QAbstractVideoSurface(parent)
@@ -50,7 +51,7 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
 #ifdef DEBUG_VIDEO_TIME
     static QTime preTime = QTime::currentTime();
     QTime curTime = QTime::currentTime();
-    qDebug("CCaptureVideoFrame::present:threadid:%d, preTime:%s, currTime:%s, space:%d",
+    LOG_MODEL_DEBUG("Video", "CCaptureVideoFrame::present:threadid:%d, preTime:%s, currTime:%s, space:%d",
            QThread::currentThreadId(),
            qPrintable(preTime.toString("hh:mm:ss.zzz")),
            qPrintable(curTime.toString("hh:mm:ss.zzz")),
