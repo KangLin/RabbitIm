@@ -100,17 +100,17 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
                     SLOT(clientIqReceived(QXmppIq)));
     Q_ASSERT(check);
 
-    //关联本地视频头捕获视频帧信号到本地播放视频窗口
+    //连接本地视频头捕获视频帧信号到本地播放视频窗口
     check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
                     &m_LocalePlayer, SLOT(slotPresent(const QVideoFrame&)));
     Q_ASSERT(check);
 
-    //关联到网络发送
+    //连接到网络发送
     check = connect(&m_CaptureVideoFrame, SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
                     SLOT(slotCaptureFrame(const QXmppVideoFrame&)));
     Q_ASSERT(check);
 
-    //关联从网络接收视频播放定时器
+    //连接从网络接收视频播放定时器
     check = connect(&m_VideoPlayTimer, SIGNAL(timeout()),
                     SLOT(slotUpdateReciverVideo()));
     Q_ASSERT(check);
@@ -135,6 +135,7 @@ void CFrmVideo::closeEvent(QCloseEvent *e)
     StopCallSound();
 }
 
+//调整视频播放窗口的位置
 void CFrmVideo::AdjustPlayer(const QRect &rect)
 {
     m_RemotePlayer.setGeometry(rect);
@@ -243,6 +244,11 @@ int CFrmVideo::Call(QString jid)
                 g_Global.GetTurnServerPassword()
                 );
     m_pCall = m_pClient->m_CallManager.call(jid);
+    if(NULL == m_pCall)
+    {
+        qDebug() << "call fail";
+        return -2;
+    }
 
     m_bCall = true;
 
@@ -329,6 +335,7 @@ void CFrmVideo::callStarted(QXmppCall *pCall)
                     SLOT(videoModeChanged(QIODevice::OpenMode)));
     Q_ASSERT(check);
 
+    //显示本窗口
     show();
 }
 
@@ -434,7 +441,7 @@ void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
     {
         int nInterval = (double)1000 / m_pCall->videoChannel()->decoderFormat().frameRate();
         m_VideoPlayTimer.start(nInterval);
-#ifdef DEBUG
+#ifdef DEBUG_VIDEO_TIME
         qDebug() << "Interval:" << nInterval
                  << ";frameRate:" << m_pCall->videoChannel()->decoderFormat().frameRate();
 #endif
@@ -473,6 +480,7 @@ void CFrmVideo::finished()
 
 int CFrmVideo::StartVideo()
 {
+    //开始视频
     if(m_bCall)
         m_pCall->startVideo();
 
@@ -615,11 +623,17 @@ int CFrmVideo::StartAudioDevice()
     {
         qDebug("m_pAudioOutput->start");
 
+        //push模式
         //m_pAudioOutput->start(pAudioChannel);
-        QIODevice* pOut = m_pAudioOutput->start();
-        m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, pOut, szRecordFile + "/saveout.raw");
+        
+        //push模式
         //m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, NULL, szRecordFile + "/saveout.raw");
         //m_pAudioOutput->start(&m_AudioRecordOutput);
+        
+        //pull模式
+        QIODevice* pOut = m_pAudioOutput->start();
+        m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, pOut, szRecordFile + "/saveout.raw");
+        
     }//*/
 
     return nRet;
@@ -658,9 +672,9 @@ void CFrmVideo::slotCaptureFrame(const QXmppVideoFrame &frame)
     }
 
     QXmppRtpVideoChannel *pChannel = m_pCall->videoChannel();
-    if(!pChannel)
+    if(!pChannel || !(pChannel->openMode() & QIODevice::WriteOnly))
     {
-        qDebug() << "m_pCall->videoChannel() is null";
+        qDebug() << "m_pCall->videoChannel() is null or openMode isn't write mode";
         return;
     }
 

@@ -67,8 +67,6 @@ protected slots:
     void clientIqReceived(const QXmppIq &iq);
 
 private:
-    int StartAudioDevice();
-    int StopAudioDevice();
     void closeEvent(QCloseEvent *e);
     void resizeEvent(QResizeEvent *);
     void paintEvent(QPaintEvent *event);
@@ -76,6 +74,13 @@ private:
     //调整显示窗体大小
     void AdjustPlayer(const QRect &rect);
 
+    int StartAudioDevice();
+    int StopAudioDevice();
+    
+    int StartVideo();
+    int StopVideo();
+    
+    //播放拨号提示音
     void PlayCallSound();
     void StopCallSound();
 
@@ -101,9 +106,6 @@ private:
     QTimer m_VideoPlayTimer;//显示对方视频定时器
     QList<QXmppVideoFrame> m_inFrames;
     QSound *m_pCallSound;//播放铃音
-    int StartVideo();
-    int StopVideo();
-
 
 private slots:
     //用于向qxmpp输出视频幀

@@ -4,7 +4,7 @@
 博客：blog.csdn.net/kl222
 项目位置：https://code.csdn.net/kl222/rabbitim
 
-玉兔即时通信是一款跨操作系统平台（Windows、Linux、Android、MacOs、IOS）的文本、语音、视频的即时通信软件。
+玉兔即时通信是一款跨操作系统平台（Windows、Linux、Android、MacOs、IOS、windows phone）的文本、语音、视频的即时通信软件。
 
 ===============================================================================================
 依赖：
@@ -118,10 +118,13 @@ QXMPP编译：
    加入 “PREFIX=$(RabbitImRoot)/ThirdLiabary/${Platform}”，其中$(RabbitImRoot)是本项目源码的根目录，在下面的
    “构建环境”变量中添加这个环境变量。当然，也可以直接在“额外参数”中把$(RabbitImRoot)替换成本项目源码根目录路径。
    ${Platform}为相应的平台，可以为windows、android、linux、ios
-5、设置编解码器：现在QXMPP支持vpx、THEORA视频编解码器；SPEEX音频编解码器。以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
+5、设置编解码器：现在QXMPP支持vpx、THEORA视频编解码器；G711u、SPEEX音频编解码器。音频默认为G711u。
+   视频无默认编解码器，所以如果需要视频，必须指定第三方视频编解码器。以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
    并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLiabary/${Platform}/include
    LIBS+=-L$(RabbitImRoot)/ThirdLiabary/${Platform}/lib
-6、选择相应平台“构建套件”中的“运行”标签，部署->详情->部署->添加部署步骤->选择make命令->Make参数中加上"install"。
+6、选择windows平台，在相应平台“构建套件”中的“运行”标签，部署->详情->部署->添加部署步骤->选择make命令->Make参数中加上"install"。
+   其它平台可能会有平台自己的部署步骤，所以不能在部署这里安装。可以用下面方法：
+   在相应平台“构建套件”中的“构建”标签，“构建步骤”->“make”->“make参数”中加上install。如果修改了代码，这种方法需要重编译。
 7、在“项目”->本项目中的“依赖关系”标签中选中qxmpp。
 8、在项目浏览器中选中qxmpp项目，右键点击“执行qmake”；再右键点击“构建”；再右键点击“部署”。
    在部署时会出现":-1: error: [install_htmldocs] Error 4 (ignored)"错误。

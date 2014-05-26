@@ -6,6 +6,7 @@
 #include "Widgets/FrmVideo/FrmPlayer.h"
 #include <QVideoProbe>
 #include "Tool.h"
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -16,18 +17,24 @@ int main(int argc, char *argv[])
 
     CTool::SetFFmpegLog();
 
-    QString locale = QLocale::system().name();
+    QString szLocale = QLocale::system().name();
 
     //本地化QT资源
     QTranslator qtTranslator;
-    qtTranslator.load("qt_" + QLocale::system().name(),
+#ifdef DEBUG
+    qtTranslator.load("qt_" + szLocale,
                       QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+#else
+    qtTranslator.load("qt_" + szLocale,
+                      QCoreApplication::applicationDirPath());
+#endif
     a.installTranslator(&qtTranslator);
     //本地化程序资源
     QTranslator myappTranslator;
+    //把翻译文件放在了应用程序目录下
     //myappTranslator.load("app_" + locale, a.applicationDirPath());
     //把翻译文件放在了程序资源中
-    myappTranslator.load(":/translations/" + locale);
+    myappTranslator.load(":/translations/" + szLocale);
     a.installTranslator(&myappTranslator);
 
     //*

@@ -32,8 +32,12 @@ QXMPP_USE_VPX=1
     }
 }
 
-win32:CONFIG(debug, debug|release){
-    OPENCV_VERSION=300d
+win32{
+    CONFIG(debug, debug|release){
+        OPENCV_VERSION=300d
+    } else {
+        OPENCV_VERSION=300
+    }
 }
 OPENCV_LIBRARY=-lopencv_core$$OPENCV_VERSION \
     -lopencv_imgproc$$OPENCV_VERSION
@@ -88,10 +92,16 @@ CONFIG += mobility
 
 MOBILITY = 
 
+#应用程序图标
+RC_FILE = AppIcon.rc
+
 CONFIG += localize_deployment  #本地语言部署
 
 TRANSLATIONS += \
     Resource/translations/app_zh_CN.ts
+
+#安装
+INSTALLS=target
 
 OTHER_FILES += README.md \
     .gitignore \
@@ -107,12 +117,10 @@ OTHER_FILES += README.md \
     ThirdLibary/build/build_android_libvpx.sh \
     ThirdLibary/build/build_windows_ffmpeg_mingw.sh \
     ThirdLibary/build/build_windows_ffmpeg_msvc.sh \
+    ThirdLibary/build/build_windows_libvpx_msvc.sh \
     ThirdLibary/build/build_windows_speex.sh \
     ThirdLibary/build/build_windows_speexdsp.sh \
     ThirdLibary/build/build_android_speexdsp.sh \
     ThirdLibary/build/build_windows_x264.sh
-
-#应用程序图标
-RC_FILE = AppIcon.rc
 
 ANDROID_EXTRA_LIBS = 
