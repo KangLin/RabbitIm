@@ -845,6 +845,7 @@ void CFrmVideo::slotUpdateReciverVideo()
         return;
 
     m_inFrames << pChannel->readFrames();
+    
 #ifdef DEBUG_VIDEO_TIME
     LOG_MODEL_DEBUG("Video", "recive video frames:%d", m_inFrames.size());
     static QTime preTime = QTime::currentTime();
@@ -855,10 +856,12 @@ void CFrmVideo::slotUpdateReciverVideo()
            preTime.msecsTo(curTime));
     preTime = curTime;
 #endif
+    
     if(!m_inFrames.isEmpty())
     {
         m_RemotePlayer.slotPresent(*m_inFrames.begin());
-        m_inFrames.clear();
+        m_inFrames.pop_front();
+        //m_inFrames.clear();
     }
 //    foreach(QXmppVideoFrame frame, m_inFrames)
 //    {
