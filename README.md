@@ -73,7 +73,7 @@ webrtc库：
 下载：
   git clone git://github.com/Itseez/opencv.git
 当前使用版本:
-  git库版本 —— 7b366df8226fd692b1d5995d4b434c837924fa83
+  git库版本 —— c9db91ace508b39af513d04412b3c62399e7ee1b
 
 ===============================================================================================
 编译：
@@ -108,6 +108,9 @@ ffmpeg编译：
 
 webrtc编译：
 详见《webrtc教程》
+
+opencv编译：
+http://blog.csdn.net/kl222/article/details/27223791
 
 QXMPP编译：
 这里只说明如何用 Qt Creator 进行编译。其它方式编译，请详见源码根目录下的README文件。
