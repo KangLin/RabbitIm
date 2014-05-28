@@ -42,8 +42,6 @@ win32{
 OPENCV_LIBRARY=-lopencv_core$$OPENCV_VERSION \
     -lopencv_imgproc$$OPENCV_VERSION
 
-#WEBRTC_LIBRARY = -L$$WEBRTC_LIBRARY_DIR -ljingle
-
 FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lswresample -lavfilter  -lavutil
 
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
@@ -52,12 +50,10 @@ android{
     DEPENDPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
     DEFINES += ANDROID
 
-    CONFIG(release, debug|release){
-        LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$CODEC_LIBRARY $$FFMPEG_LIBRARY
-    } else:CONFIG(debug, debug|release){
+    CONFIG(debug, debug|release){
         DEFINES += DEBUG DEBUG_VIDEO_TIME
-        LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$CODEC_LIBRARY $$FFMPEG_LIBRARY
     }
+    LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$CODEC_LIBRARY $$FFMPEG_LIBRARY
 } else:win32{
     INCLUDEPATH += $$PWD/ThirdLibary/windows/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/windows/include $$WEBRTC_ROOT
@@ -69,18 +65,22 @@ android{
     CONFIG(release, debug|release){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmt
-        }
-
-        LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$LDFLAGS
+        }        
     } else:CONFIG(debug, debug|release){
         DEFINES += DEBUG DEBUG_VIDEO_TIME
 
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
         }
-
-        LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$LDFLAGS
     }
+
+    WEBRTC_LIBRARY_DIR = .
+    #WEBRTC_LIBRARY = -L$$WEBRTC_LIBRARY_DIR -llibjingle -llibjingle_media -llibjingle_p2p -lwebrtc
+
+    LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 \
+            -L$$WEBRTC_LIBRARY_DIR $$WEBRTC_LIBRARY \
+            $$OPENCV_LIBRARY \
+            $$FFMPEG_LIBRARY $$LDFLAGS
 } else:unix {
     INCLUDEPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
