@@ -21,6 +21,13 @@
 
 - - -
 
+许可协议:
+-------
+1. 本软件允许个人或50人以下的企业、集体、单位免费使用。
+2. 50人以上的企事业、集体、单位使用需要得到本人书面许可。
+3. 未经本人书面许可，任何人不得利用本软件从事商业活动。
+4. 其它未尽事宜遵守《GPL协议》
+
 依赖：
 -----
 
@@ -123,6 +130,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 
 
 ### mingw工具链编译：
+第三库编译脚本参见：$(RabbitImRoot)/ThirdLibary/build
 
 1. 编解码库(libvpx)编译：  
 详见：http://blog.csdn.net/kl222/article/details/23101115  
@@ -133,13 +141,10 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 2. ffmpeg编译：  
 详见《ffmpeg教程》
         
-3. webrtc编译：  
-详见《webrtc教程》
-        
-4. opencv编译：  
+3. opencv编译：
 详见:http://blog.csdn.net/kl222/article/details/27223791
         
-5. QXMPP编译：  
+4. QXMPP编译：
 这里只说明如何用 Qt Creator 进行编译。其它方式编译，请详见源码根目录下的README文件。
 
 * 用 Qt Creator 打开本工程。
@@ -163,12 +168,38 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 * 当前版本有BUG，需要打下面补丁
         ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch
 
+5. webrtc编译：
+详见《webrtc教程》
+
 ### msvs工具链：
 
 
-### unix 或 linux （ubuntu）编译：
+### unix 或 linux 编译（以ubuntu为例）：
 
 * 从源码编译参见 [mingw工具链编译] ("mingw工具链编译")
+
+* ubuntu中直接安装相关的库
+1. 编解码库(libvpx)安装：
+
+    sudo apt-get install libvpx-dev
+
+2. ffmpeg安装：
+
+    sudo apt-get install libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavfilter-dev
+
+3. opencv安装：
+
+    sudo apt-get install libopencv-dev
+
+安装opencv时，会自动安装ffmpeg库
+
+4. QXMPP安装：
+
+    sudo apt-get install libqxmpp-dev
+
+5. webrtc编译：
+
+    详见《webrtc教程》
 
 开发：
 --------------------
@@ -202,5 +233,4 @@ xmpp服务配置域名（rabbitim.com），客户端如果没有域名，连接�
 -------------------
 
 * Qt Model/View： http://blog.csdn.net/leo115/article/details/7532677
-
 * README.md语法格式参见:https://github.com/LearnShare/Learning-Markdown/blob/master/README.md
