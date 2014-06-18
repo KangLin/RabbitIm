@@ -14,6 +14,8 @@ TEMPLATE = app
 # qxmpp 库名
 CONFIG(debug, debug|release) {
     QXMPP_LIBRARY_NAME = qxmpp_d
+    #调试宏
+     DEFINES += DEBUG DEBUG_VIDEO_TIME 
 } else {
     QXMPP_LIBRARY_NAME = qxmpp
 }
@@ -54,9 +56,6 @@ android{
     DEPENDPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
     DEFINES += ANDROID
 
-    CONFIG(debug, debug|release){
-        DEFINES += DEBUG DEBUG_VIDEO_TIME
-    }
     LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY 
 } else:win32{
     INCLUDEPATH += $$PWD/ThirdLibary/windows/include $$WEBRTC_ROOT

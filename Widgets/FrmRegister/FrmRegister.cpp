@@ -34,7 +34,7 @@ CFrmRegister::CFrmRegister(QWidget *parent) :
 
 CFrmRegister::~CFrmRegister()
 {
-    qDebug("CFrmRegister::~CFrmRegister");
+     LOG_MODEL_DEBUG("Register",  "CFrmRegister::~CFrmRegister");
 
     if(m_pClient)
         delete m_pClient;
