@@ -179,6 +179,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 * 从源码编译参见 [mingw工具链编译] ("mingw工具链编译")
 
 * ubuntu中直接安装相关的库
+
 1. 编解码库(libvpx)安装：
 
     sudo apt-get install libvpx-dev
