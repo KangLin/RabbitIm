@@ -177,9 +177,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 ### unix 或 linux 编译（以ubuntu为例）：
 
 * 从源码编译参见 [mingw工具链编译] ("mingw工具链编译")
-
-* ubuntu中直接安装相关的库
-
+* ubuntu中直接安装相关的库  
 1. 编解码库(libvpx)安装：
 
     sudo apt-get install libvpx-dev
@@ -192,7 +190,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 
     sudo apt-get install libopencv-dev
 
-安装opencv时，会自动安装ffmpeg库
+    安装opencv时，会自动安装ffmpeg库
 
 4. QXMPP安装：
 
