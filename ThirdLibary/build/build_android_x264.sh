@@ -9,6 +9,7 @@ CROSS_PREFIX=$PREBUILT/windows/bin/arm-linux-androideabi-
     --enable-static \
     --enable-pic \
     --disable-cli \
+    --disable-opencl \
     --host=arm-linux \
     --cross-prefix=$CROSS_PREFIX \
     --sysroot=$PLATFORM \
