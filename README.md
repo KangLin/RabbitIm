@@ -148,7 +148,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 * 点左边工具栏中的“项目”，选择qxmpp标签，在相应平台“构建套件”中修改“构建步骤”参数，在“构建步骤”中的“额外参数”中，
            加入 “PREFIX=$(RabbitImRoot)/ThirdLiabary/${Platform}”，其中$(RabbitImRoot)是本项目源码的根目录，在下面的
            “构建环境”变量中添加这个环境变量。当然，也可以直接在“额外参数”中把$(RabbitImRoot)替换成本项目源码根目录路径。
-           ${Platform}为相应的平台，可以为windows、android、linux、ios
+           ${Platform}为相应的平台，可以为windows、android、unix、ios
 * 设置编解码器：现在QXMPP支持vpx、THEORA视频编解码器；G711u、SPEEX音频编解码器。音频默认为G711u。
            视频无默认编解码器，所以如果需要视频，必须指定第三方视频编解码器。以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
            并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLiabary/${Platform}/include
@@ -164,6 +164,11 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
         ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch
 
 ### msvs工具链：
+
+
+### unix 或 linux （ubuntu）编译：
+
+* 从源码编译参见 [mingw工具链编译] (mingw工具链编译)
 
 开发：
 --------------------
