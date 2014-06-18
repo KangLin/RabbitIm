@@ -178,6 +178,7 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     return nRet;
 }
 
+#ifdef RABBITIM_USER_OPENCV
 cv::Mat CTool::ImageRotate(cv::Mat & src, const CvPoint &_center, double angle)
 {
     CvPoint2D32f center;
@@ -192,6 +193,7 @@ cv::Mat CTool::ImageRotate(cv::Mat & src, const CvPoint &_center, double angle)
     cv::warpAffine(src, dst, M, cvSize(src.cols, src.rows), cv::INTER_LINEAR);
     return dst;
 }
+#endif
 
 void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int srcWidth, int srcHeight)
 {

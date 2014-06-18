@@ -15,7 +15,10 @@ extern "C" {
 #include <QObject>
 #include <QVideoFrame>
 #include "qxmpp/QXmppRtpChannel.h"
+
+#ifdef RABBITIM_USER_OPENCV
 #include "opencv2/opencv.hpp"
+#endif
 
 class CTool : public QObject
 {
@@ -54,6 +57,7 @@ public:
     static AVPixelFormat QVideoFrameFormatToFFMpegPixFormat(const QVideoFrame::PixelFormat format);
     static AVPixelFormat QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFrame::PixelFormat format);
 
+#ifdef RABBITIM_USER_OPENCV
     /* 对图像进行旋转
      * 参数:
      *   src:源图像
@@ -61,7 +65,8 @@ public:
      *   angle:角度
      * 返回值:旋转后的图像 */
     static cv::Mat ImageRotate(cv::Mat & src, const CvPoint &_center, double angle);
-
+#endif
+    
     /* 对YUV420sp(NV12、NV21)存储格式的图像旋转+-90度
      * dst:操作后的图像
      * src:要操作的图像
