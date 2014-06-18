@@ -108,6 +108,8 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 编译：
 -----
 
+### 第三方依赖库编译
+
 在源码根目录下建立第三方库目录：ThirdLibary  
 把第三方依赖库编译成功后，放到ThirdLibary目录下,ThirdLibary目录结构如下：
 
@@ -129,7 +131,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
                  ｜------lib
 
 
-### mingw工具链编译：
+#### mingw工具链编译：
 第三库编译脚本参见：$(RabbitImRoot)/ThirdLibary/build
 
 1. 编解码库(libvpx)编译：  
@@ -171,14 +173,14 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 5. webrtc编译：
 详见《webrtc教程》
 
-### msvs工具链：
+#### msvs工具链：
 
 
-### unix 或 linux 编译（以ubuntu为例）：
+#### unix 或 linux 编译（以ubuntu为例）：
 
-#### 从源码编译参见 [mingw工具链编译] ("mingw工具链编译")
+##### 从源码编译参见 [mingw工具链编译] ("mingw工具链编译")
 
-#### ubuntu中直接安装相关的库  
+##### ubuntu中直接安装相关的库  
 
 1. 编解码库(libvpx)安装：
 
@@ -201,6 +203,14 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 5. webrtc编译：
 
     详见《webrtc教程》
+
+### 本工程编译
+
+#### Qt Creator 编译
+
+用 Qt Creator 打开本工程根目录下的 Rabbitim.pro 文件。
+
+#### 用命令行编译
 
 开发：
 --------------------
