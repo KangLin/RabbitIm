@@ -18,7 +18,7 @@ CONFIG(debug, debug|release) {
     QXMPP_LIBRARY_NAME = qxmpp
 }
 
-QXMPP_USE_VPX=1
+QXMPP_USE_VPX = 1
 #QXMPP_USE_SPEEX=1
 
 !isEmpty(QXMPP_USE_SPEEX) {
@@ -39,8 +39,12 @@ win32{
         OPENCV_VERSION=300
     }
 }
-OPENCV_LIBRARY=-lopencv_core$$OPENCV_VERSION \
-    -lopencv_imgproc$$OPENCV_VERSION
+
+!isEmpty(RABBITIM_USER_OPENCV) {
+    DEFINES += RABBITIM_USER_OPENCV
+    OPENCV_LIBRARY=-lopencv_core$$OPENCV_VERSION \
+                                    -lopencv_imgproc$$OPENCV_VERSION
+}
 
 FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lswresample -lavfilter  -lavutil
 
@@ -53,7 +57,7 @@ android{
     CONFIG(debug, debug|release){
         DEFINES += DEBUG DEBUG_VIDEO_TIME
     }
-    LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$CODEC_LIBRARY $$FFMPEG_LIBRARY
+    LIBS += -L$$PWD/ThirdLibary/android/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY 
 } else:win32{
     INCLUDEPATH += $$PWD/ThirdLibary/windows/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/windows/include $$WEBRTC_ROOT
@@ -80,12 +84,12 @@ android{
     LIBS += -L$$PWD/ThirdLibary/windows/lib -l$${QXMPP_LIBRARY_NAME}0 \
             -L$$WEBRTC_LIBRARY_DIR $$WEBRTC_LIBRARY \
             $$OPENCV_LIBRARY \
-            $$FFMPEG_LIBRARY $$LDFLAGS
+            $$FFMPEG_LIBRARY $$CODEC_LIBRARY  $$LDFLAGS
 } else:unix {
     INCLUDEPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
 
-    LIBS += -L$$PWD/ThirdLibary/unix/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY
+    LIBS += -L$$PWD/ThirdLibary/unix/lib -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY
 }
 
 DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
@@ -125,6 +129,8 @@ OTHER_FILES += README.md \
     ThirdLibary/build/build_windows_speex.sh \
     ThirdLibary/build/build_windows_speexdsp.sh \
     ThirdLibary/build/build_android_speexdsp.sh \
-    ThirdLibary/build/build_windows_x264.sh
+    ThirdLibary/build/build_windows_x264.sh \
+    ThirdLibary/build/build_unix_x264.sh \
+    ThirdLibary/build/build_unix_ffmpeg.sh
 
 ANDROID_EXTRA_LIBS = 

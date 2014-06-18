@@ -83,12 +83,8 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
         }
         else
         {
-            //*用QImage做图像镜像
-            QImage img(inFrame.bits(), inFrame.width(), inFrame.height(), QImage::Format_RGB32);
-            img = img.mirrored(true, false);
-            QVideoFrame outFrame(img);//*/
-
-            /*用opencv库做图像镜像
+#ifdef RABBITIM_USER_OPENCV
+           //*用opencv库做图像镜像
             QByteArray outData;
             outData.resize(inFrame.mappedBytes());//dst.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()
             cv::Mat src(inFrame.height(), inFrame.width(), CV_8UC4, inFrame.bits());
@@ -103,6 +99,12 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
                                  QSize(dst.cols,
                                        dst.rows),
                                  inFrame.pixelFormat());//*/
+#else
+            //*用QImage做图像镜像
+            QImage img(inFrame.bits(), inFrame.width(), inFrame.height(), QImage::Format_RGB32);
+            img = img.mirrored(true, false);
+            QVideoFrame outFrame(img);//*/
+#endif
             emit sigCaptureFrame(outFrame);
 
             //TODO:宽、高要在外面设置
