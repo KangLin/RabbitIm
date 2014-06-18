@@ -168,7 +168,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 
 ### unix 或 linux （ubuntu）编译：
 
-* 从源码编译参见 [mingw工具链编译] (. mingw工具链编译)
+* 从源码编译参见 [mingw工具链编译] ("mingw工具链编译")
 
 开发：
 --------------------
