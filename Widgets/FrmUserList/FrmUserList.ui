@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Roster list</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../Resource/Resource.qrc">
+    <normaloff>:/icon/AppIcon</normaloff>:/icon/AppIcon</iconset>
+  </property>
   <property name="frameShape">
    <enum>QFrame::StyledPanel</enum>
   </property>
@@ -45,6 +49,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../Resource/Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

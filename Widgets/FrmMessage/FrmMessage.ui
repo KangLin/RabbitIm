@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Chat</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../Resource/Resource.qrc">
+    <normaloff>:/icon/AppIcon</normaloff>:/icon/AppIcon</iconset>
+  </property>
   <property name="frameShape">
    <enum>QFrame::StyledPanel</enum>
   </property>
@@ -115,7 +119,13 @@
        <property name="text">
         <string>Send(&amp;S)</string>
        </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
        <property name="default">
+        <bool>true</bool>
+       </property>
+       <property name="flat">
         <bool>true</bool>
        </property>
       </widget>
@@ -124,6 +134,16 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <tabstops>
+  <tabstop>pbSend</tabstop>
+  <tabstop>pbVideo</tabstop>
+  <tabstop>pbBack</tabstop>
+  <tabstop>tbMore</tabstop>
+  <tabstop>listView</tabstop>
+  <tabstop>textEdit</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../Resource/Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
