@@ -1,4 +1,4 @@
-NDK=$(ANDROID_ROOT)
+NDK=$(ANDROID_NDK_ROOT)
 PREFIX=`pwd`/../android
 
 ./configure --target=armv7-android-gcc \
