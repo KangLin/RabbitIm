@@ -38,7 +38,7 @@ QList<QVideoFrame::PixelFormat> CCaptureVideoFrame::supportedPixelFormats(QAbstr
 
     //lst.push_back(QVideoFrame::Format_YUYV);//Qt现在不支持此格式，因为Qt内部用了QImage来处理视频帧。
     lst.push_back(QVideoFrame::Format_RGB32);
-    lst.push_back(QVideoFrame::Format_BGR32);
+   // lst.push_back(QVideoFrame::Format_BGR32);
 
     return lst;
 }
