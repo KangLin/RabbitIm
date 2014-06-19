@@ -20,12 +20,16 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     InitMenu();
 
     m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。
+    //设置背景
+    //m_UserList.setStyleSheet(g_Global.GetStyleSheet());
     m_UserList.setModel(m_pModel);
     m_UserList.setHeaderHidden(true);
     m_UserList.setExpandsOnDoubleClick(true);
     m_UserList.setItemsExpandable(true);
     m_UserList.show();
 
+    InsertGroup(tr("My friends"));
+    
     bool check = connect(&m_UserList, SIGNAL(clicked(QModelIndex)),
                          SLOT(clicked(QModelIndex)));
     Q_ASSERT(check);
@@ -230,6 +234,16 @@ void CFrmUserList::clientMessageReceived(const QXmppMessage &message)
     }
 }
 
+QStandardItem*  CFrmUserList::InsertGroup(QString szGroup)
+{
+     QStandardItem* lstGroup = NULL;
+    lstGroup = new QStandardItem(szGroup);
+    lstGroup->setEditable(false);  //禁止双击编辑
+    m_pModel->appendRow(lstGroup);
+    m_Groups.insert(szGroup, lstGroup);
+    return lstGroup;
+}
+
 int CFrmUserList::UpdateGroup(CRoster* pRoster, QSet<QString> groups)
 {
     if(groups.isEmpty())
@@ -247,10 +261,11 @@ int CFrmUserList::UpdateGroup(CRoster* pRoster, QSet<QString> groups)
         if(m_Groups.end() == it)
         {
             //新建立组条目
-            lstGroup = new QStandardItem(szGroup);
+            /*lstGroup = new QStandardItem(szGroup);
             lstGroup->setEditable(false);  //禁止双击编辑
             m_pModel->appendRow(lstGroup);
-            m_Groups.insert(szGroup, lstGroup);
+            m_Groups.insert(szGroup, lstGroup);//*/
+            lstGroup = InsertGroup(szGroup);
         }
         else
             lstGroup = it.value();

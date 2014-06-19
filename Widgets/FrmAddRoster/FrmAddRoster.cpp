@@ -13,6 +13,10 @@ CFrmAddRoster::CFrmAddRoster(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->txtGroup->setEditable(true);
+    
+    //设置背景
+    g_Global.SetStyleSheet(this);
+    
     m_bRequest = false;
 }
 

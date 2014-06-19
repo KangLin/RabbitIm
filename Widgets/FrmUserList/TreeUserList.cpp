@@ -1,10 +1,12 @@
 #include "TreeUserList.h"
 #include "../../Global.h"
+#include "../../Tool.h"
 
 CTreeUserList::CTreeUserList(QWidget *parent) :
     QTreeView(parent)
 {
     this->setContextMenuPolicy(Qt::CustomContextMenu);
+    CTool::SetAllChildrenTransparent(this);
 }
 
 void CTreeUserList::mousePressEvent(QMouseEvent *event)
@@ -18,6 +20,7 @@ void CTreeUserList::mouseReleaseEvent(QMouseEvent *event)
 {
     LOG_MODEL_DEBUG("Roster", "CTreeUserList::mouseReleaseEvent");
 #ifdef ANDROID
+    //模拟右键菜单
     QTime cur = QTime::currentTime();
     int sec = m_MousePressTime.secsTo(cur);
     LOG_MODEL_DEBUG("Roster", "m_MousePressTime:%s;currentTime:%s;sect:%d",

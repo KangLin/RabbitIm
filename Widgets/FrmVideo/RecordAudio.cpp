@@ -67,7 +67,8 @@ void CRecordAudio::slotReadyRead()
     }
 
     qint64 size = m_pChannel->bytesAvailable();
-    LOG_MODEL_DEBUG("RecordAudio", "bytesAvailable:%d", size);
+    
+    //LOG_MODEL_DEBUG("RecordAudio", "bytesAvailable:%d", size);
     if(0 >= size)
     {
         LOG_MODEL_ERROR("RecordAudio", "bytesAvailable is 0");

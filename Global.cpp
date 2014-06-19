@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QDebug>
 #include <string>
+#include "Tool.h"
 
 CGlobal g_Global;
 
@@ -17,12 +18,12 @@ CGlobal::CGlobal(QObject *parent) :
     m_UserColor = QColor(255, 0, 0);
     m_RosterColor = QColor(0, 0, 255);
 
-    //m_szXmppServerHost = "183.62.225.76";
-    m_szXmppServer = "chat.itv168.com";
-    m_szXmppServerHost = "183.233.149.120";
+    m_szXmppServerHost = "192.168.10.5";
+    m_szXmppServer = "rabbitim.com";
+    //m_szXmppServerHost = "183.233.149.120";
     m_szXmppServerPort = 5222;
-    //m_szXmppServer = rabbitim.com";
-    m_szStunServer = m_szXmppServerHost;//"stun.l.google.com";
+    //m_szXmppServer = "talk.renren.com";
+    m_szStunServer ="stun.l.google.com";
     m_szTurnServer = m_szXmppServerHost;
     m_nStunServerPort = 3478;
     m_nTurnServerPort = 3478;
@@ -31,6 +32,9 @@ CGlobal::CGlobal(QObject *parent) :
 
     //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
+    
+    //窗体背景
+    m_szFormBackGroundStyleSheet  = QString("background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,stop: 0 rgba(255, 255, 255, 100%),stop: 1 rgba(10, 144, 255, 100%));");
 
 }
 
@@ -93,18 +97,18 @@ QColor CGlobal::GetUserColor()
     return m_UserColor;
 }
 
-int CGlobal::SetUserColor(QColor &color)
+int CGlobal::SetUserColor(const QColor &color)
 {
     m_UserColor = color;
     return 0;
 }
 
-QColor CGlobal::GetRosterColor()
+QColor CGlobal::GetRosterColor() 
 {
     return m_RosterColor;
 }
 
-int CGlobal::SetRosterColor(QColor &color)
+int CGlobal::SetRosterColor(const QColor &color)
 {
     m_RosterColor = color;
     return 0;
@@ -270,4 +274,49 @@ QString CGlobal::GetDirUserData(const QString bareJid)
             LOG_ERROR("mkdir path fail:%s", qPrintable(path));
     }
     return path;
+}
+
+//得到默认样式
+QString CGlobal::GetStyleSheet(const __STYLE_SHEET_TYPE t)
+{
+    switch(t)
+    {
+    case STYPLE_SHEET_FORM_BACKGROUND:
+        return m_szFormBackGroundStyleSheet;
+    default:
+        LOG_MODEL_ERROR("global", "don't style sheet:%d", t);
+        break;
+    };
+    return "";
+}
+
+//设置窗口样式,返回原来窗口样式
+QString CGlobal::SetStyleSheet(const QString szStyleSheet, const __STYLE_SHEET_TYPE t)
+{
+    QString szOld = GetStyleSheet(t);
+    switch (t) {
+    case STYPLE_SHEET_FORM_BACKGROUND:
+        m_szFormBackGroundStyleSheet = szStyleSheet;
+        break;
+    default:
+        LOG_MODEL_ERROR("global", "don't style sheet:%d", t);
+        break;
+    }
+    return szOld;
+}
+
+ //设置窗口样式,返回原来窗口样式
+QString CGlobal::SetStyleSheet(QWidget *pWidget, const __STYLE_SHEET_TYPE t)
+{
+    switch(t)
+    {
+    case STYPLE_SHEET_FORM_BACKGROUND:
+    {        
+        QString szStyle = GetStyleSheet(t);
+        QString szRet = pWidget->styleSheet();
+        pWidget->setStyleSheet(szStyle);
+        CTool::SetAllChildrenTransparent(pWidget);
+        return szRet;
+    }
+    };
 }

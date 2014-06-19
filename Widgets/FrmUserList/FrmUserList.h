@@ -49,8 +49,11 @@ private:
 private:
     //向用户列表中插入用户
     int InsertUser(QXmppRosterIq::Item rosterItem);
+    //在组队列中插入组
+    QStandardItem*  InsertGroup(QString szGroup);
     //更新组中用户
     int UpdateGroup(CRoster* pRoster, QSet<QString> groups);
+    
 
     void resizeEvent(QResizeEvent *);
 
@@ -98,12 +101,12 @@ private:
     Ui::CFrmUserList *ui;
 
     CTreeUserList m_UserList;
-    QStandardItemModel *m_pModel;           //好友列表树型控件
+    QStandardItemModel *m_pModel;                   //好友列表树型控件
     MainWindow *m_pMainWindow;
-    QMap<QString, CRoster*> m_Rosters;      //好友列表
+    QMap<QString, CRoster*> m_Rosters;              //好友列表
     QMap<QString, QStandardItem*> m_Groups; //组列表
 
-    CFrmAddRoster m_frmAddRoster;           //增加好友对话框
+    CFrmAddRoster m_frmAddRoster;                     //增加好友对话框
 
 };
 
