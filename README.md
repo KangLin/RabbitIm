@@ -2,7 +2,7 @@
 ============
 
 作者：康林（msn、email:kl222@126.com；QQ:16614119)  
-博客：blog.csdn.net/kl222  
+博客：http://blog.csdn.net/kl222  
 项目位置：https://code.csdn.net/kl222/rabbitim
 
 - - -
@@ -11,7 +11,8 @@
 -----
 
 1. 跨平台  
-玉兔即时通信是一款跨操作系统平台（Windows、Linux、Android、MacOs、IOS、windows phone）的文本、语音、视频的即时通信软件。
+    玉兔即时通信是一款跨操作系统平台（Windows、Linux、Android、MacOs、IOS、windows phone）
+的文本、语音、视频的即时通信软件。
 2. xmpp协议的即时通信软件
 3. 支持语音、视频（p2p）
 4. 支持会议室功能；语音、视频会议
@@ -31,10 +32,14 @@
 依赖：
 -----
 
+* 开发工具：git、svn、autoconf、automake、make、cmake
+* android 开发工具：android ndk、android sdk、jdk、ant
 * UI：QT
 * 即时通信协议（XMPP）：QXMPP
 * 视频通信：webrtc
-* 编解码库：ffmpeg、x264、libvpx
+* 编解码库：ffmpeg、x264（可选）、libvpx、libyuv（可选）、libspeexdsp（可选）、
+                      libspeex（可选）
+* 图形处理库：opencv（可选）
 
 下载工具和依赖：
 --------------------
@@ -87,23 +92,26 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 当前使用版本:
 * git库版本 —— 6962ea665dc968ce32dd1c03b6c162a35cf43c73
         
-### 6.编解码库（libspeex）
-
-下载：`git clone http://git.xiph.org/speex.git`  
-当前使用版本：
-* git库版本 —— 78cce679a0f2d376b97e64a6d7763bce82dd06cc
-        
-### 7.音频处理库(libspeexdsp)
+### 6.音频处理库(libspeexdsp)
 
 下载：`git clone http://git.xiph.org/speexdsp.git`  
 当前使用版本:
 * git库版本 —— af768302c12f231e14076faac79b6313e49613a2
-        
+
+### 7.音频编解码库（libspeex）
+
+下载：`git clone http://git.xiph.org/speex.git`  
+当前使用版本：
+* git库版本 —— 78cce679a0f2d376b97e64a6d7763bce82dd06cc
+              
 ### 8. 图像处理库(opencv)
 
 下载：`git clone git://github.com/Itseez/opencv.git`  
 当前使用版本:
 * git库版本 —— c9db91ace508b39af513d04412b3c62399e7ee1b
+
+### 9.libyuv
+下载:`svn checkout http://libyuv.googlecode.com/svn/trunk libyuv`
 
 编译：
 -----
@@ -115,7 +123,9 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 
     ThirdLibary
         ｜
-        ｜-----patch
+        ｜-----patch               #补丁包目录
+        ｜-----build_script     #第三方库编译脚本目录
+        ｜-----src                    #源码目录
         ｜-----windows
         ｜       ｜-----include
         ｜       ｜-----lib
@@ -126,44 +136,79 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
         ｜------unix
         ｜       ｜-----include
         ｜       ｜-----lib
-        ｜------ios
-                 ｜------include
-                 ｜------lib
+        ｜------ ios
+                    ｜------include
+                    ｜------lib
 
 
 #### mingw工具链编译：
-第三库编译脚本参见：$(RabbitImRoot)/ThirdLibary/build
+第三库编译脚本参见：${RabbitImRoot}/ThirdLibary/build_script  
+设置环境变量：
+
+    export RabbitImRoot=/home/rabbitim    #本工程源码根目录
+
+如果要编译 android 平台的库,还需要下面环境变量:
+
+    export ANDROID_NDK_ROOT=     #android ndk 根目录
+    export ANDROID_NDK=$ANDROID_NDK_ROOT
+    export ANDROID_SDK=    #android sdk 根目录
+    export ANDROID_SDK_ROOT=$ANDROID_SDK    
+    export JAVA_HOME=         #jdk根目录
+
+可以把上面环境变量保存到  ~/.profile 文件中。  
+如果编译 android 平台的库，也可以把上面环境变量保存在：
+${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
+可以运行 ${RabbitImRoot}/ThirdLibary/build_script/build_android.sh 进行第三方依赖库编译。
 
 1. 编解码库(libvpx)编译：  
 详见：http://blog.csdn.net/kl222/article/details/23101115  
 安装装到：
 
-        make PREFIX=$(RabbitImRoot)/ThirdLiabary/${Platform}
+        make PREFIX=${RabbitImRoot}/ThirdLiabary/${Platform}
         
 2. ffmpeg编译：  
 详见《ffmpeg教程》
         
-3. opencv编译：
-详见:http://blog.csdn.net/kl222/article/details/27223791
+3. opencv编译：  
+详见:http://blog.csdn.net/kl222/article/details/27223791  
+编译完成后,安装到:${RabbitImRoot}/ThirdLiabary/${Platform}  
         
-4. QXMPP编译：
+4. libspeex、libspeexdsp编译:
+
+       ./autogen.sh
+       configure --prefix=${RabbitImRoot}/ThirdLiabary/${Platform}
+       make install
+
+6. webrtc编译：
+详见《webrtc教程》
+
+7. libyuv 编译：
+详见：https://code.google.com/p/libyuv/wiki/GettingStarted  
+或者： ${RabbitImRoot}/docs/Books/libyuv编译.txt
+
+8. QXMPP编译：
 这里只说明如何用 Qt Creator 进行编译。其它方式编译，请详见源码根目录下的README文件。
 
 * 用 Qt Creator 打开本工程。
 * 打开“文件->打开文件或项目”。
 * 在弹出的对话框中选中qxmpp.pro，打开qxmpp工程。
-* 点左边工具栏中的“项目”，选择qxmpp标签，在相应平台“构建套件”中修改“构建步骤”参数，在“构建步骤”中的“额外参数”中，
-           加入 “PREFIX=$(RabbitImRoot)/ThirdLiabary/${Platform}”，其中$(RabbitImRoot)是本项目源码的根目录，在下面的
-           “构建环境”变量中添加这个环境变量。当然，也可以直接在“额外参数”中把$(RabbitImRoot)替换成本项目源码根目录路径。
-           ${Platform}为相应的平台，可以为windows、android、unix、ios。如果需要编译成静态库，需要在额外参数中加入：
+* 点左边工具栏中的“项目”，选择qxmpp标签，在相应平台“构建套件”中修改“构建步骤”参数，
+           在“构建步骤”中的“额外参数”中，加入 “PREFIX=$(RabbitImRoot)/ThirdLiabary/${Platform}”，
+           其中$(RabbitImRoot)是本项目源码的根目录，在下面的“构建环境”变量中添加这个环境变量。
+           当然，也可以直接在“额外参数”中把$(RabbitImRoot)替换成本项目源码根目录路径。
+           ${Platform}为相应的平台，可以为windows、android、unix、ios。
+           如果需要编译成静态库，需要在额外参数中加入：
            QXMPP_LIBRARY_TYPE=staticlib  
 * 设置编解码器：现在QXMPP支持vpx、THEORA视频编解码器；G711u、SPEEX音频编解码器。音频默认为G711u。
-           视频无默认编解码器，所以如果需要视频，必须指定第三方视频编解码器。以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
+           视频无默认编解码器，所以如果需要视频，必须指定第三方视频编解码器。
+           以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
            并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLiabary/${Platform}/include
            LIBS+=-L$(RabbitImRoot)/ThirdLiabary/${Platform}/lib
-* 选择windows平台，在相应平台“构建套件”中的“运行”标签，部署->详情->部署->添加部署步骤->选择make命令->Make参数中加上"install"。
+* 选择windows或linux平台，在相应平台“构建套件”中的“运行”标签，
+           部署->详情->部署->添加部署步骤->选择make命令->Make参数中加上"install"。
            其它平台可能会有平台自己的部署步骤，所以不能在部署这里安装。可以用下面方法：
-           在相应平台“构建套件”中的“构建”标签，“构建步骤”->“make”->“make参数”中加上install。如果修改了代码，这种方法需要重编译。
+           在相应平台“构建套件”中的“构建”标签，“构建步骤”->“make”->“make参数”中加上install。
+           如果修改了代码，这种方法需要重编译。
 * 在“项目”->本项目中的“依赖关系”标签中选中qxmpp。
 * 在项目浏览器中选中qxmpp项目，右键点击“执行qmake”；再右键点击“构建”；再右键点击“部署”。
            在部署时会出现":-1: error: [install_htmldocs] Error 4 (ignored)"错误。
@@ -171,11 +216,19 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 * 当前版本有BUG，需要打下面补丁
         ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch
 
-5. webrtc编译：
-详见《webrtc教程》
-
 #### msvs工具链：
 
+##### 依赖:
+
+* msvs
+* sh环境(msys或cygwin)
+
+先从菜单栏中起动vs2013编译命令行工具：  
+C:\Program Files\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts  
+VS2013 x86 本机工具命令提示  
+在命令行下，启动msys。 
+`c:\MinGW\msys\1.0\bin\sh.exe --login -i`  
+注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。
 
 #### unix 或 linux 编译（以ubuntu为例）：
 
@@ -196,12 +249,16 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
     sudo apt-get install libopencv-dev
 
     安装opencv时，会自动安装ffmpeg库
+    
+4. libspeex 安装:
 
-4. QXMPP安装：
+    sudo apt-get install libspeex-dev libspeexdsp-dev 
+
+5. QXMPP安装：
 
     sudo apt-get install libqxmpp-dev
 
-5. webrtc编译：
+6. webrtc编译：
 
     详见《webrtc教程》
 
