@@ -26,10 +26,13 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     LOG_MODEL_DEBUG("Video", "CFrmVideo::CFrmVideo");
     ui->setupUi(this);
 
-    //设置提示文本颜色
+    //设置背景
+    g_Global.SetStyleSheet(this);  
+    
+    /*设置提示文本颜色
     QPalette pe;
     pe.setColor(QPalette::WindowText, Qt::white);
-    ui->lbPrompt->setPalette(pe);
+    ui->lbPrompt->setPalette(pe);//*/
 
     m_bCall = false;
     m_pCall = NULL;
@@ -202,9 +205,9 @@ void CFrmVideo::paintEvent(QPaintEvent *event)
     gradient.setColorAt(1, Qt::blue);
 
     QBrush bg(gradient);//*/
-    QBrush bg(Qt::darkBlue);
+    /*QBrush bg(Qt::darkBlue);
     painter.setBrush(bg);
-    painter.drawRect(rect());
+    painter.drawRect(rect());//*/
 }
 
 //主动发起呼叫
@@ -217,6 +220,7 @@ int CFrmVideo::Call(QString jid)
                         tr("Call"),
                         tr("%1 is talking, Do you stop it?").arg(QXmppUtils::jidToUser(m_pCall->jid())),
                         QMessageBox::Yes | QMessageBox::No);
+        g_Global.SetStyleSheet(&msg);
         if(QMessageBox::Yes == msg.exec())
         {
             m_pCall->hangup();
@@ -289,6 +293,7 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
                     tr("Call"),
                     tr("%1 is calling ").arg(QXmppUtils::jidToUser(pCall->jid())),
                     QMessageBox::Yes | QMessageBox::No);
+    g_Global.SetStyleSheet(&msg);
     if(QMessageBox::Yes == msg.exec())
     {
         QString szText = tr("Be connecting %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
@@ -513,6 +518,7 @@ int CFrmVideo::StartVideo()
                         tr("Call"),
                         tr("Hasn't camera"),
                         QMessageBox::Yes);
+        g_Global.SetStyleSheet(&msg);
         msg.exec();
         return -1;
     }

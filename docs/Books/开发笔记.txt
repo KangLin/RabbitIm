@@ -1,0 +1,1 @@
+QMessageBox 背景设置:http://blog.csdn.net/addfourliu/article/details/6763127

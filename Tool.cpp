@@ -407,3 +407,19 @@ void CTool::YUV420spMirror(uchar *dst, const uchar *src, int srcWidth, int srcHe
         break;
     }
 }
+
+//设置窗口中的所有子窗体背景为透明
+int CTool::SetAllChildrenTransparent(QWidget *pWin)
+{
+    QObjectList objChildList = pWin->children();
+    for (int i = 0; i < objChildList.size(); i++)
+    {
+        QObject *pObj= objChildList.at(i);
+        if (pObj->inherits("QWidget"))
+        {
+            QWidget *pWidget = (QWidget*)pObj;
+            pWidget->setStyleSheet("background-color: transparent");
+        }
+    }
+    return 0;
+}

@@ -16,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //设置背景
+    g_Global.SetStyleSheet(this);  
+    
     bool check;
     Q_UNUSED(check);
     check = connect(ui->actionAbout_A, SIGNAL(triggered()),
@@ -84,6 +87,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
                     tr("Close"),
                     tr("Is close the programe?"),
                     QMessageBox::Ok | QMessageBox::Cancel);
+    g_Global.SetStyleSheet(&msg);
     if(QMessageBox::Ok == msg.exec())
     {
         //退出程序
@@ -119,7 +123,6 @@ void MainWindow::clientConnected()
     {
         //把UserList设置到主窗口中心
         this->setCentralWidget(m_pUserList);
-
     }
 }
 
@@ -157,8 +160,7 @@ void MainWindow::clientIqReceived(const QXmppIq &iq)
 
 void MainWindow::stateChanged(QXmppClient::State state)
 {
-    Q_UNUSED(state);
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::stateChanged");
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::stateChanged, state:%d", state);
 
     //TODO:同一账户在不同地方登录。QXMPP没有提供错误状态 
 

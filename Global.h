@@ -29,8 +29,8 @@ public:
     QString GetResource();
     QColor GetUserColor();
     QColor GetRosterColor();
-    int SetUserColor(QColor &color);
-    int SetRosterColor(QColor &color);
+    int SetUserColor(const QColor &color);
+    int SetRosterColor(const QColor &color);
 
     QString GetXmppServerHost();
     int SetXmppServerHost(QString &host);
@@ -63,6 +63,16 @@ public:
     //应用程序配置目录
     QString GetDirApplicationConfigure();
 
+    enum __STYLE_SHEET_TYPE
+    {
+        STYPLE_SHEET_FORM_BACKGROUND  //窗体背景样式
+    };
+    //得到默认样式
+    QString GetStyleSheet(const __STYLE_SHEET_TYPE t = CGlobal::STYPLE_SHEET_FORM_BACKGROUND);
+    //设置窗口样式,返回原来窗口样式
+    QString SetStyleSheet(const QString szStyleSheet, const __STYLE_SHEET_TYPE t =CGlobal::STYPLE_SHEET_FORM_BACKGROUND);
+    QString SetStyleSheet(QWidget *pWidget, const __STYLE_SHEET_TYPE t = STYPLE_SHEET_FORM_BACKGROUND);
+    
 signals:
 
 public slots:
@@ -81,6 +91,8 @@ private:
     QString m_szTurnPassword;
     QString m_szStunServer; //Stun服务器地址
     int m_nStunServerPort;
+    
+    QString m_szFormBackGroundStyleSheet; //样式
 };
 
 extern CGlobal g_Global;

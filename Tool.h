@@ -12,7 +12,7 @@ extern "C" {
 #include "libswresample/swresample.h"
 }
 
-#include <QObject>
+#include <QWidget>
 #include <QVideoFrame>
 #include "qxmpp/QXmppRtpChannel.h"
 
@@ -118,6 +118,9 @@ public:
      * srcHeight:要操作图像的高度 */
     static void YUV420spMirrorX(uchar *dst, const uchar *src, int srcWidth, int srcHeight);
 
+    //设置窗口中的所有子窗体背景为透明
+    static int SetAllChildrenTransparent(QWidget *pWin);
+    
 signals:
 
 public slots:
