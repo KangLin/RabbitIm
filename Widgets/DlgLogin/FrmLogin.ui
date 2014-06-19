@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>239</width>
+    <width>278</width>
     <height>359</height>
    </rect>
   </property>
@@ -18,6 +18,10 @@
   </property>
   <property name="windowTitle">
    <string>Login</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../Resource/Resource.qrc">
+    <normaloff>:/icon/AppIcon</normaloff>:/icon/AppIcon</iconset>
   </property>
   <property name="frameShape">
    <enum>QFrame::StyledPanel</enum>
@@ -348,6 +352,18 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <tabstops>
+  <tabstop>lnUser</tabstop>
+  <tabstop>lnPassword</tabstop>
+  <tabstop>lnServer</tabstop>
+  <tabstop>chkSave</tabstop>
+  <tabstop>chkLogin</tabstop>
+  <tabstop>pbOk</tabstop>
+  <tabstop>pbClose</tabstop>
+  <tabstop>pbRegitster</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../Resource/Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
