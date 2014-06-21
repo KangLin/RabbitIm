@@ -2,7 +2,8 @@
 #    $1:源码的位置 
 
 #运行本脚本前,先运行 build_android_envsetup.sh 进行环境变量设置,需要先设置下面变量:
-#   ANDROID_NDK_ROOT=       #指定android ndk根目录
+#   ANDROID_NDK_ROOT=     #指定android ndk根目录
+#   HOST                  #主机平台
 #   TOOLCHAIN_VERSION=4.8 #工具链版本号
 #   PLATFORMS_VERSION=18  #android api (平台)版本号
 #   PREBUILT=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-${TOOLCHAIN_VERSION}/prebuilt
@@ -44,12 +45,17 @@ echo ""
 mkdir -p build_android
 cd build_android
 
+rm -fr *
+
 echo "configure ..."
-../configure --target=armv7-android-gcc \
+../configure \
+    --target=armv7-android-gcc \
     --sdk-path=${ANDROID_NDK_ROOT} \
     --prefix=${PREFIX} \
     --disable-examples  \
     --disable-install-docs \
+    --disable-install-bins \
+    --enable-install-libs \
     --disable-unit-tests \
     --extra-cflags="-mfloat-abi=softfp -mfpu=neon " \
     --disable-debug  \
@@ -58,7 +64,10 @@ echo "configure ..."
     --enable-static 
 
 echo "make install"
-make clean; make install
+if [ "0" != "`make install`" ]; then
+    cp libvpx_g.a libvpx.a && make install
+fi
+
 
 #编译 cpufeatures
 ${CROSS_PREFIX}gcc  -I${PLATFORM}/usr/include -c ${ANDROID_NDK_ROOT}/sources/android/cpufeatures/cpu-features.c

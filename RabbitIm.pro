@@ -117,6 +117,6 @@ OTHER_FILES += README.md \
     docs/* \
     docs/Books/* \
     docs/QXmpp音视频呼叫流程.txt \
-    ThirdLibary/build_script/*
+    ThirdLibary/build_script/*.sh
 
 ANDROID_EXTRA_LIBS = 

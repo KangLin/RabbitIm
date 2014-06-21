@@ -39,15 +39,17 @@ echo "PREFIX:$PREFIX"
 echo "PREBUILT:$PREBUILT"
 echo "PLATFORM:$PLATFORM"
 echo "CROSS_PREFIX:$CROSS_PREFIX"
+echo "PATH:$PATH"
 echo ""
 
 if [ ! -f configure ]; then
-    echo "./autogen.sh"
-    ./autogen.sh 
+    echo "source autogen.sh"
+    source autogen.sh 
 fi
 
 mkdir -p build_android
 cd build_android
+rm -fr *
 
 echo "configure ..."
 export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
@@ -55,11 +57,14 @@ export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
     CC=${CROSS_PREFIX}gcc \
     --disable-shared \
     --enable-static \
+    --with-gnu-ld \
+    --with-sysroot="${PLATFORM}" \
     CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${PLATFORM}" \
     CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${PLATFORM}" \
-    --host=arm-linux-androideabi 
+    --host=arm-linux-androideabi
 
 echo "make install"
-make clean; make install
+make
+make install
 
 cd $CUR_DIR
