@@ -21,4 +21,5 @@ else
     source build_windows_msvc_libvpx.sh
     source build_windows_msvc_opencv.sh
     source build_windows_msvc_ffmpeg.sh
+    source build_qxmpp.sh windows_msvc
 fi

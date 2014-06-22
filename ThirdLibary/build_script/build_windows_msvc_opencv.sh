@@ -38,6 +38,7 @@ cmake \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DBUILD_SHARED_LIBS=OFF \
     -DBUILD_DOCS=OFF \
+    -DBUILD_opencv_apps=OFF \
     -DBUILD_EXAMPLES=OFF \
     -DBUILD_ANDROID_EXAMPLES=OFF \
     -DBUILD_TESTS=OFF \
@@ -64,7 +65,9 @@ cmake \
     -DWITH_WIN32UI=OFF \
     -DWITH_FFMPEG=OFF \
     -DWITH_1394=OFF \
-    .. 
+    -DWITH_VTK=OFF \
+    -DWITH_VFW=OFF \
+    ..
 
 cmake --build . --config Release --target install #编译并安装
 

@@ -17,4 +17,5 @@ else
     source build_android_libvpx.sh
     source build_android_opencv.sh 
     source build_android_ffmpeg.sh
+    source build_qxmpp.sh android
 fi

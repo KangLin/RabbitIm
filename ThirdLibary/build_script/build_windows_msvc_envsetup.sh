@@ -8,6 +8,10 @@
 #   注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。  
 #   然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibary/build_script`。再运行你想运行的编译脚本。例如： `./build_windows_mscv.sh` 
 
+#需要设置下面变量：
+#QMAKE=/c/QT/Qt5.3.0_msvc/5.3/msvc2013_opengl/bin/qmake.exe   #设置用于 mingw 平台编译的 QMAKE
+#JOM=/c/Qt/Qt5.3.0_android/Tools/QtCreator/bin/jom.exe                 #设置 QT make 工具 JOM
+
 if [ -n "${RabbitImRoot}" ]; then
     PREFIX=${RabbitImRoot}/ThirdLibary/windows
 else
@@ -18,6 +22,13 @@ if [ ! -d ${PREFIX} ]; then
     mkdir -p ${PREFIX}
 fi
 
+#自动判断主机类型，目前只做了linux、windows判断
+TARGET_OS=`uname -s`
+
+MAKE="nmake"
+
 echo ""
 echo "PREFIX:$PREFIX"
+echo "QMAKE:$QMAKE"
+echo "JOM:$JOM"
 echo ""

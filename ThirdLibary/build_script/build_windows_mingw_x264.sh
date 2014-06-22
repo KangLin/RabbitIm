@@ -12,13 +12,13 @@ fi
 if [ -n "$1" ]; then
     SOURCE_CODE=$1
 else
-    SOURCE_CODE=${PREFIX}/../src/speexdsp
+    SOURCE_CODE=${PREFIX}/../src/x264
 fi
 
 #下载源码:
 if [ ! -d ${SOURCE_CODE} ]; then
-    echo "git clone http://git.xiph.org/speexdsp.git  ${SOURCE_CODE}"
-    git clone http://git.xiph.org/speexdsp.git  ${SOURCE_CODE}
+    echo "git clone git://git.videolan.org/x264.git ${SOURCE_CODE}"
+    git clone git://git.videolan.org/x264.git ${SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`
@@ -30,22 +30,14 @@ echo "CUR_DIR:$CUR_DIR"
 echo "PREFIX:$PREFIX"
 echo ""
 
-if [ ! -f configure ]; then
-    echo "source autogen.sh"
-    source autogen.sh 
-fi
-
-mkdir -p build_windows_mingw
-cd build_windows_mingw
-rm -fr *
-
+make clean
 echo "configure ..."
-../configure --prefix=$PREFIX  \
-    --disable-shared \
-    --enable-static 
-    
-echo "make install"
-make
+./configure --prefix=$PREFIX \
+    --enable-static \
+    --disable-cli \
+    --disable-opencl 
+
+echo "make install ..."
 make install
 
 cd $CUR_DIR

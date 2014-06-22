@@ -1,8 +1,11 @@
+#需要设置下面变量：
 #ANDROID_NDK_ROOT=/e/source/android/android-ndk-r9               #指定 android ndk 根目录 
-ANDROID_NDK=$ANDROID_NDK_ROOT  #指定 android ndk 根目录 
+#ANDROID_NDK=$ANDROID_NDK_ROOT  #指定 android ndk 根目录 
 #ANDROID_SDK=/e/source/android/android-sdk-windows                   #指定 android sdk 根目录
-ANDROID_SDK_ROOT=$ANDROID_SDK   
+#ANDROID_SDK_ROOT=$ANDROID_SDK   
 #JAVA_HOME=                      #指定 jdk 根目录 
+#QMAKE=/c/Qt/Qt5.3.0_android/5.3/android_armv7/bin/qmake.exe   #设置用于 mingw 平台编译的 QMAKE
+#JOM=/c/Qt/Qt5.3.0_android/Tools/QtCreator/bin/jom.exe                 #设置 QT make 工具 JOM
 
 if [ -n "${RabbitImRoot}" ]; then
     PREFIX=${RabbitImRoot}/ThirdLibary/android
@@ -21,10 +24,11 @@ case $TARGET_OS in
         HOST="windows"
         ;;
     Linux* | Unix*)
-        HOST="linux-`uname -m`"    #windows、linux-x86_64 
+        HOST="linux-`uname -m`"    #windows、linux-x86_64
         ;;
     *)
     echo "Please set HOST. see build_android_envsetup.sh"
+    return 2
     ;;
 esac
 
@@ -39,6 +43,8 @@ echo ""
 echo "ANDROID_NDK_ROOT:$ANDROID_NDK_ROOT"
 echo "ANDROID_NDK:$ANDROID_NDK_ROOT"
 echo "JAVA_HOME:$JAVA_HOME"
+echo "QMAKE:$QMAKE"
+echo "JOM:$JOM"
 echo "PREFIX:$PREFIX"
 echo "PREBUILT:$PREBUILT"
 echo "PLATFORM:$PLATFORM"
