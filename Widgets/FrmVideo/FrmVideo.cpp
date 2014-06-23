@@ -254,6 +254,8 @@ int CFrmVideo::Call(QString jid)
         return -2;
     }
 
+    ConnectionCallSlot(m_pCall);
+    
     m_bCall = true;
 
     //播放铃音
@@ -299,6 +301,7 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
         QString szText = tr("Be connecting %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
         this->setWindowTitle(szText);
         ui->lbPrompt->setText(szText);
+        ConnectionCallSlot(pCall);
         pCall->accept();
     }
     else
@@ -308,14 +311,8 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
     StopCallSound();
 }
 
-//呼叫开始
-void CFrmVideo::callStarted(QXmppCall *pCall)
+int CFrmVideo::ConnectionCallSlot(QXmppCall *pCall)
 {
-    LOG_MODEL_DEBUG("Video", "CFrmVideo::callStarted:%x", pCall);
-    if(m_pCall != pCall)
-        LOG_MODEL_WARNING("Video", "CFrmVideo::callStarted m_pCall != pCall");
-
-    m_pCall = pCall;
     bool check = connect(pCall, SIGNAL(connected()),
                          SLOT(connected()));
     Q_ASSERT(check);
@@ -339,7 +336,21 @@ void CFrmVideo::callStarted(QXmppCall *pCall)
     check = connect(pCall, SIGNAL(videoModeChanged(QIODevice::OpenMode)),
                     SLOT(videoModeChanged(QIODevice::OpenMode)));
     Q_ASSERT(check);
+    if(check)
+        return 0;
+    
+    return -1;        
+}
 
+//呼叫开始
+void CFrmVideo::callStarted(QXmppCall *pCall)
+{
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::callStarted:%x", pCall);
+    if(m_pCall != pCall)
+        LOG_MODEL_WARNING("Video", "CFrmVideo::callStarted m_pCall != pCall");
+
+    m_pCall = pCall;
+    
     //显示本窗口
     show();
 }
@@ -419,6 +430,7 @@ void CFrmVideo::connected()
     //StopAudioDevice();
     //StartAudioDevice();
 
+    //开始视频
     StartVideo();
 }
 
@@ -488,7 +500,7 @@ void CFrmVideo::finished()
 int CFrmVideo::StartVideo()
 {
     //开始视频
-    if(m_bCall)
+    if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->startVideo();
 
     QList<QByteArray> device = QCamera::availableDevices();
@@ -551,7 +563,8 @@ int CFrmVideo::StopVideo()
 
     m_LocalePlayer.close();
     m_RemotePlayer.close();
-    m_pCall->stopVideo();
+    if(m_pCall->direction() == QXmppCall::OutgoingDirection)
+        m_pCall->stopVideo();
     ui->lbPrompt->show();
     return 0;
 }
@@ -620,9 +633,11 @@ int CFrmVideo::OpenAudioInput()
     {
         LOG_MODEL_DEBUG("Video", "m_pAudioInput->start;threadid:0x%x", QThread::currentThreadId());
 
-        //m_pAudioInput->start(pAudioChannel);
-        m_AudioRecordInput.open(QIODevice::WriteOnly, pAudioChannel, NULL, szRecordFile + "/savein.raw");
-        m_pAudioInput->start(&m_AudioRecordInput);
+        //int size = format.sampleRate() / 1000 * (format.sampleSize() / 8) * format.channelCount() * 160;
+       // m_pAudioInput->setBufferSize(size);
+        m_pAudioInput->start(pAudioChannel);
+        //m_AudioRecordInput.open(QIODevice::WriteOnly, pAudioChannel, NULL, szRecordFile + "/savein.raw");
+        //m_pAudioInput->start(&m_AudioRecordInput);
     }//*/
     
     return 0;
@@ -644,6 +659,7 @@ int CFrmVideo::OpenAudioOutput()
     }
 
     QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
+#ifdef DEBUG
     LOG_MODEL_DEBUG("Video", "CFrmVideo::connected:audio name:%s;id:%d;channels:%d, clockrate:%d, packet time:%d",
            qPrintable(AudioPlayLoadType.name()),
            AudioPlayLoadType.id(),
@@ -655,7 +671,8 @@ int CFrmVideo::OpenAudioOutput()
     {
         LOG_MODEL_DEBUG("Video", "parameter:%s;value:%s" , qPrintable(it.key()),qPrintable(it.value()));
     }
-
+#endif
+    
     QAudioFormat format;
     format.setSampleRate(AudioPlayLoadType.clockrate());
     format.setChannelCount(AudioPlayLoadType.channels());
@@ -669,8 +686,10 @@ int CFrmVideo::OpenAudioOutput()
         LOG_MODEL_WARNING("Video", "Default audio input format not supported - trying to use nearest");
         format = deviceInfo.nearestFormat(format);
     }
+#ifdef DEBUG
     ShowAudioDeviceSupportCodec(deviceInfo, "output device");
-
+#endif
+    
     m_pAudioOutput = new QAudioOutput(deviceInfo, format, this);
     if(!m_pAudioOutput)
     {
@@ -693,15 +712,17 @@ int CFrmVideo::OpenAudioOutput()
         LOG_MODEL_DEBUG("Video", "m_pAudioOutput->start");
 
         //push模式
-        //m_pAudioOutput->start(pAudioChannel);
+        //int size = format.sampleRate() / 1000 * (format.sampleSize() / 8) * format.channelCount() * 160;
+        //m_pAudioOutput->setBufferSize(size);
+        m_pAudioOutput->start(pAudioChannel);
         
         //push模式
         //m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, NULL, szRecordFile + "/saveout.raw");
         //m_pAudioOutput->start(&m_AudioRecordOutput);
         
         //pull模式
-        QIODevice* pOut = m_pAudioOutput->start();
-        m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, pOut, szRecordFile + "/saveout.raw");
+        //QIODevice* pOut = m_pAudioOutput->start();
+        //m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, pOut, szRecordFile + "/saveout.raw");
         
     }//*/
     
@@ -867,7 +888,7 @@ void CFrmVideo::slotUpdateReciverVideo()
     {
         m_RemotePlayer.slotPresent(*m_inFrames.begin());
         m_inFrames.pop_front();
-        //m_inFrames.clear();
+        m_inFrames.clear();
     }
 //    foreach(QXmppVideoFrame frame, m_inFrames)
 //    {

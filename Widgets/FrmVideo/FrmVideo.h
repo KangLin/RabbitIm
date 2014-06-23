@@ -48,7 +48,7 @@ protected slots:
     void stateChanged(QXmppCall::State state);
 
     //呼叫会话建立时触发，这个是信令通道
-    //当这个信号触发后,可以边接QAudioOutput和QAudioInput到呼叫
+    //当这个信号触发后,可以连接QAudioOutput和QAudioInput到呼叫
     //你可以调用通道的payloadType()来决定音频的参数（时钟、通道数等）
     //这时可以调用QXmppCall::startVideo开始视频
     void connected();
@@ -71,6 +71,9 @@ private:
     void resizeEvent(QResizeEvent *);
     void paintEvent(QPaintEvent *event);
 
+    //连接与 call 相关的信号
+    int ConnectionCallSlot(QXmppCall *pCall);
+    
     //调整显示窗体大小
     void AdjustPlayer(const QRect &rect);
 
