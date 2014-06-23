@@ -47,7 +47,6 @@
 -------------
 
 1. QT：
-
 主页：http://qt-project.org/  
 下载：http://qt-project.org/downloads  
 当前使用版本：5.3.0  
@@ -56,72 +55,60 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 2. msvc：
 主页：http://msdn.microsoft.com/zh-cn/vstudio
 
-3.mingw（或者cygwin）：
+3. mingw（或者cygwin）：
 mingw主页：http://www.mingw.org/  
 cygwin主页：http://www.cygwin.org/  
 当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
 
-3. XMPP协议（QXMPP）：
-
+4. XMPP协议（QXMPP）：
 主页：http://code.google.com/p/qxmpp  
 下载：
 `git clone  https://github.com/qxmpp-project/qxmpp.git`  
 当前使用版本：  
-* git库版本 —— b54ccca40a16b3171cfbe4693c8970f8ca902d4f  
-
+    git库版本 —— b54ccca40a16b3171cfbe4693c8970f8ca902d4f  
 编译方法参考源码根目录下的README文件。
-        
-4. webrtc库：
-    
+
+5. webrtc库：
 主页：http://www.webrtc.org/  
-下载：
-
-    gclient config http://webrtc.googlecode.com/svn/trunk
-    gclient sync --force
-
+下载：  
+        gclient config http://webrtc.googlecode.com/svn/trunk  
+        gclient sync --force  
 当前使用版本：svn库版本——r5663  
 编译参考：http://blog.csdn.net/kl222/article/details/17198873
 
-5. 编解码库（ffmpeg）：  
+6. 编解码库（ffmpeg）：  
 主页：http://www.ffmpeg.org/  
 下载：
-
-    git clone git://source.ffmpeg.org/ffmpeg.git
-
-当前使用版本：
-* git库版本 —— 3b06208a57b4954b50d6dcfc1be53b1b3af3dd4c  
-        
-6. 编解码库(x264)
-
+        git clone git://source.ffmpeg.org/ffmpeg.git
+当前使用版本：  
+    git库版本 —— 3b06208a57b4954b50d6dcfc1be53b1b3af3dd4c  
+    
+7. 编解码库(x264)
 下载：`git clone git://git.videolan.org/x264.git`  
-当前使用版本：
-* git库版本 —— d6b4e63d2ed8d444b77c11b36c1d646ee5549276
-        
-7. 解码库(libvpx)
+当前使用版本：  
+    git库版本 —— d6b4e63d2ed8d444b77c11b36c1d646ee5549276
 
+8. 解码库(libvpx)
 下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
-当前使用版本:
-* git库版本 —— 6962ea665dc968ce32dd1c03b6c162a35cf43c73
-        
-8. 音频处理库(libspeexdsp)
+当前使用版本:  
+    git库版本 —— 6962ea665dc968ce32dd1c03b6c162a35cf43c73
 
+9. 音频处理库(libspeexdsp)
 下载：`git clone http://git.xiph.org/speexdsp.git`  
-当前使用版本:
-* git库版本 —— af768302c12f231e14076faac79b6313e49613a2
+当前使用版本:  
+    git库版本 —— af768302c12f231e14076faac79b6313e49613a2
 
-9. 音频编解码库（libspeex）
-
+10. 音频编解码库（libspeex）
 下载：`git clone http://git.xiph.org/speex.git`  
-当前使用版本：
-* git库版本 —— 78cce679a0f2d376b97e64a6d7763bce82dd06cc
-              
-10. 图像处理库(opencv)
+当前使用版本：  
+    git库版本 —— 78cce679a0f2d376b97e64a6d7763bce82dd06cc
 
+11. 图像处理库(opencv)
 下载：`git clone git://github.com/Itseez/opencv.git`  
-当前使用版本:
-* git库版本 —— c9db91ace508b39af513d04412b3c62399e7ee1b
+当前使用版本:  
+    git库版本 —— c9db91ace508b39af513d04412b3c62399e7ee1b
 
-11. libyuv
+12. libyuv
 下载:`svn checkout http://libyuv.googlecode.com/svn/trunk libyuv`
 
 编译：
@@ -246,18 +233,18 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 4. libspeex、libspeexdsp编译:
 
-       ./autogen.sh
-       configure --prefix=${RabbitImRoot}/ThirdLiabary/${Platform}
-       make install
+       ./autogen.sh  
+       configure --prefix=${RabbitImRoot}/ThirdLiabary/${Platform}  
+       make install  
 
-6. webrtc编译：
+5. webrtc编译：
 详见《webrtc教程》
 
-7. libyuv 编译：
+6. libyuv 编译：
 详见：https://code.google.com/p/libyuv/wiki/GettingStarted  
 或者： ${RabbitImRoot}/docs/Books/libyuv编译.txt
 
-8. QXMPP编译：  
+7. QXMPP编译：  
     1)用 Qt Creator 进行编译（详见源码根目录下的README文件）：
     * 用 Qt Creator 打开本工程。
     * 打开“文件->打开文件或项目”。
@@ -268,7 +255,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
            当然，也可以直接在“额外参数”中把$(RabbitImRoot)替换成本项目源码根目录路径。
            ${Platform}为相应的平台，可以为windows、android、unix、ios。
            如果需要编译成静态库，需要在额外参数中加入：
-           QXMPP_LIBRARY_TYPE=staticlib  
+           QXMPP_LIBRARY_TYPE=staticlib 。在本项目编译时连接静态 qxmpp 库需要增加 -DQXMPP_STATIC 。
     * 设置编解码器：现在QXMPP支持vpx、THEORA视频编解码器；G711u、SPEEX音频编解码器。音频默认为G711u。
            视频无默认编解码器，所以如果需要视频，必须指定第三方视频编解码器。
            以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
@@ -341,12 +328,12 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     详见《webrtc教程》
 
 ### 本工程编译
-
-#### Qt Creator 编译
+如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。
+#### 1、用Qt Creator 编译
 
 用 Qt Creator 打开本工程根目录下的 Rabbitim.pro 文件。
 
-#### 用命令行编译
+#### 2、用命令行编译
 
 设置 qmake 路径到环境变量 PATH 中：`export PATH=$PATH:$QMAKE_PATH`
 

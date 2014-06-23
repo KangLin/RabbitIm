@@ -17,13 +17,15 @@ TEMPLATE = app
 #    CONFIG += staticlib #生成静态库
 #}
 
+#连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
+DEFINES += QXMPP_STATIC
 # qxmpp 库名
 CONFIG(debug, debug|release) {
-    QXMPP_LIBRARY_NAME = qxmpp_d
+    QXMPP_LIBRARY_NAME = -lqxmpp_d
     #调试宏
      DEFINES += DEBUG DEBUG_VIDEO_TIME 
 } else {
-    QXMPP_LIBRARY_NAME = qxmpp
+    QXMPP_LIBRARY_NAME = -lqxmpp
 }
 
 QXMPP_USE_VPX = 1
@@ -62,6 +64,7 @@ android{
     CONFIG(release, debug|release){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmt
+            QXMPP_LIBRARY_NAME = qxmpp.lib
         }
 
         OPENCV_VERSION=300
@@ -70,6 +73,7 @@ android{
 
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
+            QXMPP_LIBRARY_NAME = qxmpp_d.lib
         }
 
         OPENCV_VERSION=300d
@@ -92,7 +96,7 @@ android{
     -lopencv_imgproc$$OPENCV_VERSION
 }
 
-LIBS += -l$$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY
+LIBS += $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY
 
 DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
 
