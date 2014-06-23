@@ -620,9 +620,11 @@ int CFrmVideo::OpenAudioInput()
     {
         LOG_MODEL_DEBUG("Video", "m_pAudioInput->start;threadid:0x%x", QThread::currentThreadId());
 
-        //m_pAudioInput->start(pAudioChannel);
-        m_AudioRecordInput.open(QIODevice::WriteOnly, pAudioChannel, NULL, szRecordFile + "/savein.raw");
-        m_pAudioInput->start(&m_AudioRecordInput);
+        int size = format.sampleRate() / 1000 * (format.sampleSize() / 8) * format.channelCount() * 160;
+        m_pAudioInput->setBufferSize(size);
+        m_pAudioInput->start(pAudioChannel);
+        //m_AudioRecordInput.open(QIODevice::WriteOnly, pAudioChannel, NULL, szRecordFile + "/savein.raw");
+        //m_pAudioInput->start(&m_AudioRecordInput);
     }//*/
     
     return 0;
@@ -693,15 +695,17 @@ int CFrmVideo::OpenAudioOutput()
         LOG_MODEL_DEBUG("Video", "m_pAudioOutput->start");
 
         //push模式
-        //m_pAudioOutput->start(pAudioChannel);
+        int size = format.sampleRate() / 1000 * (format.sampleSize() / 8) * format.channelCount() * 160;
+        m_pAudioOutput->setBufferSize(size);
+        m_pAudioOutput->start(pAudioChannel);
         
         //push模式
         //m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, NULL, szRecordFile + "/saveout.raw");
         //m_pAudioOutput->start(&m_AudioRecordOutput);
         
         //pull模式
-        QIODevice* pOut = m_pAudioOutput->start();
-        m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, pOut, szRecordFile + "/saveout.raw");
+        //QIODevice* pOut = m_pAudioOutput->start();
+        //m_AudioRecordOutput.open(QIODevice::ReadWrite, pAudioChannel, pOut, szRecordFile + "/saveout.raw");
         
     }//*/
     
@@ -867,7 +871,7 @@ void CFrmVideo::slotUpdateReciverVideo()
     {
         m_RemotePlayer.slotPresent(*m_inFrames.begin());
         m_inFrames.pop_front();
-        //m_inFrames.clear();
+        m_inFrames.clear();
     }
 //    foreach(QXmppVideoFrame frame, m_inFrames)
 //    {
