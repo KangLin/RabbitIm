@@ -55,6 +55,8 @@ android{
 
     msvc {
         LDFLAGS += -ladvapi32
+        #msvc 下直接用库文名查找依赖库
+        FFMPEG_LIBRARY= libavcodec.a libavformat.a libswscale.a libswresample.a libavfilter.a libavutil.a
     }
 
     CONFIG(release, debug|release){
