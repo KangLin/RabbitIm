@@ -54,6 +54,8 @@ echo "configure ..."
     --extra-asflags="-march=armv7-a -mfpu=neon"
 
 echo "make install ..."
-make clean; make install
+make clean
+make
+make install
 
 cd $CUR_DIR

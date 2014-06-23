@@ -39,15 +39,17 @@ echo "PREFIX:$PREFIX"
 echo "PREBUILT:$PREBUILT"
 echo "PLATFORM:$PLATFORM"
 echo "CROSS_PREFIX:$CROSS_PREFIX"
+echo "PATH:$PATH"
 echo ""
 
 if [ ! -f configure ]; then
-    echo "./autogen.sh"
-    ./autogen.sh 
+    echo "sourc autogen.sh"
+    source autogen.sh 
 fi
 
 mkdir -p build_android
 cd build_android
+rm -fr *
 
 echo "configure ..."
 
@@ -63,6 +65,7 @@ echo "configure ..."
     SPEEXDSP_CFLAGS=-I$PREFIX/include SPEEXDSP_LIBS=-L$PREFIX/lib
 
 echo "make install"
-make clean; make install
+make
+make install
 
 cd $CUR_DIR

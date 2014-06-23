@@ -1,3 +1,4 @@
+*.autosave
 *.qm
 *.user
 test.xml

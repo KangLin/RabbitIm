@@ -42,7 +42,9 @@ echo "CROSS_PREFIX:$CROSS_PREFIX"
 echo ""
 
 echo "configure ffmpeg ..."
-./configure  --target-os=linux --prefix=$PREFIX \
+./configure  \
+    --target-os=linux \
+    --prefix=$PREFIX \
     --enable-cross-compile \
     --enable-runtime-cpudetect \
     --disable-doc \
@@ -63,10 +65,12 @@ echo "configure ffmpeg ..."
     --sysroot=$PLATFORM \
     --disable-doc \
     --extra-cflags="-march=armv7-a -mfpu=neon -I$PREFIX/include " \
-    --extra-ldflags="-L$PREFIX/lib -lx264 -lvpx -lspeex" \
+    --extra-ldflags="-L$PREFIX/lib -lcpu-features" \
     --enable-gpl --enable-neon --enable-libx264 --enable-libvpx --enable-libspeex 
 
 echo "make install"
-make clean; make install
+make clean
+make
+make install
 
 cd ${CUR_DIR}
