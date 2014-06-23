@@ -26,7 +26,7 @@ CONFIG(debug, debug|release) {
     QXMPP_LIBRARY_NAME = qxmpp
 }
 
-#QXMPP_USE_VPX = 1
+QXMPP_USE_VPX = 1
 #QXMPP_USE_SPEEX=1
 
 !isEmpty(QXMPP_USE_SPEEX) {
