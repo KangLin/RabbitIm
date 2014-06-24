@@ -1,10 +1,64 @@
 QXMPP音视频呼叫流程：
-呼叫方：
-CFrmVideo::callStarted:13f277e0
-CFrmVideo::stateChanged:1
-CFrmVideo::connected
-CFrmVideo::ringing
-CFrmVideo::audioModeChanged:3
+
+主动呼叫，主动关闭
+QXmppCallManager::call()
+callStarted
+ringing
+stateChanged:Active Call
+connected
+audioModeChanged:3
+videoModeChanged:3
+
+QXmppCallManager::hangup()
+audioModeChanged:0
+videoModeChanged:0
+stateChanged:Disconnecting Call
+stateChanged:Finished Call
+finished
+
+
+被动呼叫，被动关闭
+callReceived
+callStarted
+stateChanged:Active Call
+connected
+audioModeChanged:3
+videoModeChanged:1
+
+audioModeChanged:0
+videoModeChanged:0
+stateChanged:Finished Call
+finished
+
+
+主动呼叫，被动关闭
+QXmppCallManager::call()
+callStarted
+ringing
+stateChanged:Active Call
+connected
+audioModeChanged:3
+videoModeChanged:3
+
+audioModeChanged:0
+videoModeChanged:0
+stateChanged:Finished Call
+finished
+
+被动呼叫，主动关闭
+callReceived
+callStarted
+stateChanged:Active Call
+connected
+audioModeChanged:3
+videoModeChanged:1
+
+QXmppCallManager::hangup()
+audioModeChanged:0
+videoModeChanged:0
+stateChanged:Disconnecting Call
+stateChanged:Finished Call
+finishe
 
 connected：是信令通道建立连接后触发
 audioModeChanged:是ICE数据通道建立连接后触发

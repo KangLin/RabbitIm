@@ -23,7 +23,7 @@ DEFINES += QXMPP_STATIC
 CONFIG(debug, debug|release) {
     QXMPP_LIBRARY_NAME = -lqxmpp_d
     #调试宏
-     DEFINES += DEBUG DEBUG_VIDEO_TIME 
+     DEFINES += DEBUG #DEBUG_VIDEO_TIME 
 } else {
     QXMPP_LIBRARY_NAME = -lqxmpp
 }
@@ -69,7 +69,7 @@ android{
 
         OPENCV_VERSION=300
     } else:CONFIG(debug, debug|release){
-        DEFINES += DEBUG DEBUG_VIDEO_TIME
+        DEFINES += DEBUG
 
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt

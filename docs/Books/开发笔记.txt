@@ -1,2 +1,5 @@
 QMessageBox 背景设置:http://blog.csdn.net/addfourliu/article/details/6763127
 编写Qt Designer自定义控件（一）——如何创建并使用Qt自定义控件:http://blog.csdn.net/giselite/article/details/12622429
+
+QtThread线程介绍:http://blog.csdn.net/liuhongwei123888/article/details/6072320
+每个线程要用 setObjectName 设置名称，便于调试。

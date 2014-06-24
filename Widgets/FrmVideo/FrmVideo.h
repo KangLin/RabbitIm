@@ -33,18 +33,21 @@ public:
     static CFrmVideo *instance(CXmppClient *pClient);
     QThread* GetVideoThread();
 
+    //主动发起呼叫
     int Call(QString jid);
 
 protected slots:
+    void clientIqReceived(const QXmppIq &iq);
+
     //有被呼叫时触发（只有被叫方才有）
     void callReceived(QXmppCall* pCall);
-    //呼叫开始时触发
+    //呼叫开始时触发(主叫方与被叫方都有)
     void callStarted(QXmppCall *pCall);
 
     //对方正在响铃时触发（只有呼叫方才有）
     void ringing();
 
-    //呼叫状态改变时触发
+    //呼叫状态改变时触发(主叫方与被叫方都有)
     void stateChanged(QXmppCall::State state);
 
     //呼叫会话建立时触发，这个是信令通道
@@ -60,11 +63,8 @@ protected slots:
     void videoModeChanged(QIODevice::OpenMode mode);
 
     //当呼叫结束时触摸发
-    //注意：在这个函数中不能直接删除呼叫(call)
-    //用deleteLater()代替。
+    //注意：在这个函数中不能要直接删除呼叫(call)，call由qxmpp管理
     void finished();
-
-    void clientIqReceived(const QXmppIq &iq);
 
 private:
     void closeEvent(QCloseEvent *e);
@@ -86,26 +86,23 @@ private:
     int StopVideo();
     
     //播放拨号提示音
-    void PlayCallSound();
+    void PlayCallSound(QXmppCall *pCall);
     void StopCallSound();
 
 private:
     Ui::CFrmVideo *ui;
 
-    bool m_bCall;//是否是主叫方，用于开始视频m_pCall->startVideo
     QXmppCall* m_pCall;
     CXmppClient* m_pClient;
 
     QThread m_VideoThread;
     QThread m_AudioThread;
 
-    CRecordAudio  m_AudioRecordInput;//录音处理对象
-    CRecordAudio  m_AudioRecordOutput;
-    QAudioInput*  m_pAudioInput;
-    QAudioOutput* m_pAudioOutput;
+    QAudioInput*  m_pAudioInput; //音频输入设备
+    QAudioOutput* m_pAudioOutput;//音频输出设备
 
     QCamera *m_pCamera;
-    CCaptureVideoFrame m_CaptureVideoFrame;  //实现捕获视频帧
+    CCaptureVideoFrame m_CaptureVideoFrame;//实现捕获视频帧
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口
     CFrmPlayer m_LocalePlayer;//本地视频播放窗口
     QTimer m_VideoPlayTimer;//显示对方视频定时器
