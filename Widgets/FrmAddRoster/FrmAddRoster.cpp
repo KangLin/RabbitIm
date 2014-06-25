@@ -6,6 +6,7 @@
 #include "../../Global.h"
 #include <string>
 #include <QDebug>
+#include <QMessageBox>
 
 CFrmAddRoster::CFrmAddRoster(QWidget *parent) :
     QFrame(parent),
@@ -64,9 +65,16 @@ int CFrmAddRoster::Init(CXmppClient *pClient, QSet<QString> groups, QString bare
 void CFrmAddRoster::on_pbOk_clicked()
 {
     QString szJid = ui->txtJID->text();
+    if(szJid.isEmpty())
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Isn't fill JID"));
+        return;
+    }
     if(-1 == szJid.indexOf("@"))
         szJid = szJid + "@" + g_Global.GetDomain();
     QString szNick = ui->txtNick->text();
+    if(szNick.isEmpty())
+        szNick = szJid.left(szJid.indexOf("@"));
     QSet<QString> groups;
     groups << ui->txtGroup->currentText();
     if(m_bRequest)
@@ -78,7 +86,7 @@ void CFrmAddRoster::on_pbOk_clicked()
     this->close();
 }
 
-void CFrmAddRoster::on_pushButton_clicked()
+void CFrmAddRoster::on_pbCancel_clicked()
 {
     if(m_bRequest)
         m_pClient->rosterManager().refuseSubscription(ui->txtJID->text());

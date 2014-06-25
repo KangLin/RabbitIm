@@ -2,6 +2,7 @@
 #include "../../Tool.h"
 #include "DataVideoBuffer.h"
 #include "../../Global.h"
+#include "FrmVideo.h"
 
 CFrameProcess::CFrameProcess(QObject *parent) :
     QObject(parent)
@@ -36,24 +37,28 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
         int nWidth = inFrame.width();
         int nHeight = inFrame.height();
         QByteArray mirror, rotate;
+        CDataVideoBuffer *pBuffer = NULL;
         mirror.resize(inFrame.mappedBytes());
         rotate.resize(inFrame.mappedBytes());
+        CFrmVideo *pFrmVideo = CFrmVideo::instance(NULL);
+        if(pFrmVideo->GetCameraPostion() == QCamera::BackFace)
+        {
+            //*背景摄像头要顺时针旋转90度,再做Y轴镜像
+            CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, 1);
+            CTool::YUV420spMirror(reinterpret_cast<uchar *> (mirror.data()),
+                                  reinterpret_cast<uchar *>(rotate.data()),
+                                  nHeight, nWidth, 0);
+            pBuffer = new CDataVideoBuffer(mirror, nHeight, nWidth);//*/
+        }
+        else
+        {
+            //*前景摄像头要逆时针旋转90度
+            CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, -1);
+            pBuffer = new CDataVideoBuffer(rotate, nHeight, nWidth);//*/
+        }
 
-        /*背景摄像头要顺时针旋转90度,再做Y轴镜像
-        CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, 1);
-        CTool::YUV420spMirror(reinterpret_cast<uchar *> (mirror.data()),
-                              reinterpret_cast<uchar *>(rotate.data()),
-                              nHeight, nWidth, 0);
-        CDataVideoBuffer *pBuffer = new CDataVideoBuffer(mirror,
-                                nHeight,
-                                nWidth);//*/
-
-        //*前景摄像头要逆时针旋转90度
-        CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, -1);
-        CDataVideoBuffer *pBuffer = new CDataVideoBuffer(rotate,
-                                nHeight,
-                                nWidth);//*/
         QVideoFrame outFrame(pBuffer, QSize( nHeight, nWidth), QVideoFrame::Format_NV21);
+        
         emit sigCaptureFrame(outFrame);
 
         slotFrameConvertedToYUYV(outFrame, 320,240);

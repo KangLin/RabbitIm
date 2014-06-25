@@ -20,7 +20,7 @@ public:
 
 private slots:
     void on_pbOk_clicked();
-    void on_pushButton_clicked();
+    void on_pbCancel_clicked();
 
     void on_txtJID_editingFinished();
 

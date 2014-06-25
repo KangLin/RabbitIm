@@ -1,3 +1,10 @@
+/*
+ * 视频显示窗体
+ * 作者：康林
+ * 
+ * 注意：本对象是一个单例对象
+ */
+
 #include "../../Tool.h"
 #include "FrmVideo.h"
 #include "ui_FrmVideo.h"
@@ -10,6 +17,7 @@
 #include <QSound>
 #include <QLinearGradient>
 #include <QRadialGradient>
+#include <QCameraInfo>
 #include "../FrmUserList/Roster.h"
 #include "../../Global.h"
 #include "qxmpp/QXmppRtpChannel.h"
@@ -26,10 +34,10 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     LOG_MODEL_DEBUG("Video", "CFrmVideo::CFrmVideo");
     ui->setupUi(this);
 
-    //设置背景
-    g_Global.SetStyleSheet(this);  
+    //设置背景 
+    g_Global.SetStyleSheet(this);
     
-    /*设置提示文本颜色
+    /*设置提示文本颜色 
     QPalette pe;
     pe.setColor(QPalette::WindowText, Qt::white);
     ui->lbPrompt->setPalette(pe);//*/
@@ -41,9 +49,17 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     m_pCallSound = NULL;
     m_pCamera = NULL;
 
+    InitCamera();
+    m_CameraPostition = *QCamera::availableDevices().begin();
+
+    ShowWdgInfo(false);
+    //当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。
+    //当tracking为on时，没鼠标键按下，也会有mouseEvent事件 
+    this->setMouseTracking(true);
+
     m_VideoThread.setObjectName("VideoThread");
     m_VideoThread.start();
-    
+
     //m_AudioRecordInput.moveToThread(&m_AudioThread);
     //m_AudioRecordOutput.moveToThread(&m_AudioThread);
     //m_AudioThread.start();
@@ -81,7 +97,8 @@ CFrmVideo* CFrmVideo::instance(CXmppClient *pClient)
     if(NULL == pVideo)
     {
         pVideo = new CFrmVideo();
-        pVideo->SetClient(pClient);
+        if(pClient)
+            pVideo->SetClient(pClient);
     }
     return pVideo;
 }
@@ -211,6 +228,47 @@ void CFrmVideo::paintEvent(QPaintEvent *event)
     painter.drawRect(rect());//*/
 }
 
+//当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。
+//当tracking为on时，没鼠标键按下，也会有mouseEvent事件
+void CFrmVideo::mouseMoveEvent(QMouseEvent *event)
+{
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::mouseMoveEvent");
+    Q_UNUSED(event);
+    //ShowToolBar(true);
+}
+
+int CFrmVideo::ShowWdgInfo(bool bShow)
+{
+    if(bShow)
+    {
+        ui->ToolBar->show();
+        ui->wdgInfo->show();
+        ui->pbOK->setEnabled(true);
+    }
+    else
+    {
+        ui->ToolBar->hide();
+        ui->wdgInfo->hide();
+        ui->pbOK->setEnabled(false);
+    }
+    return 0;
+}
+
+int CFrmVideo::ShowToolBar(bool bShow)
+{
+    if(bShow)
+    {
+        ui->ToolBar->show();
+        ui->wdgInfo->show();
+    }
+    else
+    {
+        ui->wdgInfo->hide();
+        ui->ToolBar->hide();        
+    }
+    return 0;
+}
+
 int CFrmVideo::ConnectionCallSlot(QXmppCall *pCall)
 {
     //只有主叫方才有的事件
@@ -253,7 +311,7 @@ int CFrmVideo::Call(QString jid)
     {
         QMessageBox msg(QMessageBox::Question,
                         tr("Call"),
-                        tr("%1 is talking, Do you stop it?").arg(QXmppUtils::jidToUser(m_pCall->jid())),
+                        tr("Working with %1 call, Do you stop it?").arg(QXmppUtils::jidToUser(m_pCall->jid())),
                         QMessageBox::Yes | QMessageBox::No);
         g_Global.SetStyleSheet(&msg);
         if(QMessageBox::Yes == msg.exec())
@@ -263,6 +321,8 @@ int CFrmVideo::Call(QString jid)
         //不能同时有两个呼叫，因为呼叫挂断需要时间，所以直接返加，然后再由用户重新发起呼叫。
         return -1;
     }
+
+    m_szRemoteJID = jid;//保存被叫用户jid
 
     QString szText = tr("%1 is ringing").arg(QXmppUtils::jidToUser(jid));
     this->setWindowTitle(szText);
@@ -284,18 +344,20 @@ int CFrmVideo::Call(QString jid)
                 );
     
     //返回QXmppCall的引用,这个会由QXmppCallManager管理.用户层不要释放此指针
-    QXmppCall* pCall = m_pClient->m_CallManager.call(jid);
-    if(NULL == pCall)
+    QXmppCall* m_pCall = m_pClient->m_CallManager.call(jid);
+    if(NULL == m_pCall)
     {
         LOG_MODEL_ERROR("Video",  "call %s fail", qPrintable(jid));
         return -2;
     }
 
-    ConnectionCallSlot(pCall);
+    ConnectionCallSlot(m_pCall);
 
     //播放铃音,非阻塞式播放
-    PlayCallSound(pCall);
+    PlayCallSound(m_pCall);
     
+    ShowWdgInfo(true);
+    ui->pbOK->setEnabled(false);
     //显示本窗口
     this->show();
 
@@ -310,15 +372,17 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
     {
         LOG_MODEL_ERROR("Video", 
                         qPrintable(g_Global.GetBareJid() 
-                         + " is talking with " 
+                         + " Working with " 
                          + QXmppUtils::jidToBareJid(m_pCall->jid())
-                         + "don't accpect new call."));
-        pCall->hangup();//TODO：一个用户不能同时与两个用户建立呼叫,所以自动挂断，是否要加一个忙参数，否则呼叫方不知道原因。
-        //TODO:是否提示给用户
+                         + "call, don't accpect new call."));
+        pCall->hangup();//TODO：一个用户不能同时与两个用户建立呼叫,所以自动挂断新的呼叫，是否要加一个忙参数，否则呼叫方不知道原因。
+        //TODO:是否需要提示给用户
         return;
     }
 
-    //m_pCall = pCall;//这里可以不需要，因为用户可能拒绝接收呼叫，在 callStarted 才是真正呼叫开始,在 callStarted 中设置
+    m_pCall = pCall;
+    ConnectionCallSlot(pCall);
+    m_szRemoteJID = pCall->jid();
     m_pClient->m_CallManager.setStunServer(
                 QHostAddress(g_Global.GetStunServer()),
                 g_Global.GetStunServerPort()
@@ -337,41 +401,21 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
     //播放铃音,非阻塞式播放
     PlayCallSound(pCall);
 
+    QString szMsg = tr("%1 is calling ").arg(QXmppUtils::jidToUser(pCall->jid()));
+    ui->lbPrompt->setText(szMsg);
+    this->setWindowTitle(szMsg);
     //TODO:增加判断自动接收呼叫用户
-    //TODO:改为非模式对话框,超时自动挂机
-    QMessageBox msg(QMessageBox::Question,
-                    tr("Call"),
-                    tr("%1 is calling ").arg(QXmppUtils::jidToUser(pCall->jid())),
-                    QMessageBox::Yes | QMessageBox::No);
-    g_Global.SetStyleSheet(&msg);
-    if(QMessageBox::Yes == msg.exec())
-    {
-        QString szText = tr("Be connecting %1").arg(QXmppUtils::jidToUser(pCall->jid()));
-        this->setWindowTitle(szText);
-        ui->lbPrompt->setText(szText);
-        ConnectionCallSlot(pCall);
-        pCall->accept();
-        //显示本窗口
-        this->show();
-    }
-    else
-        pCall->hangup();
-
-    //停止播放铃音
-    StopCallSound();
+    //非模式对话框,超时自动挂机
+    ShowWdgInfo(true);
+    this->show();
+    return;
+    //接收或挂机放在按钮响应事件(on_pbOk_clicked、on_pbCancel_clicked)中处理
 }
 
 //呼叫开始(主叫与被叫都有）
 void CFrmVideo::callStarted(QXmppCall *pCall)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::callStarted:%x", pCall);
-    if(m_pCall)
-    {
-        LOG_MODEL_ERROR("Video", "CFrmVideo::callStarted m_pCall != NULL, ");
-        pCall->hangup();
-        return;
-    }
-
     //保存当前call指针
     m_pCall = pCall;
 }
@@ -391,23 +435,27 @@ void CFrmVideo::ringing()
 //呼叫状态发生改变
 void CFrmVideo::stateChanged(QXmppCall::State state)
 {
+    QString szState;
     switch (state)
     {
     case QXmppCall::ConnectingState:
-        LOG_MODEL_DEBUG("Video", "CFrmVideo::stateChanged:%s", "Connecting Call");
+        szState = tr("State: Connecting Call");
         break;
     case QXmppCall::ActiveState:
-        LOG_MODEL_DEBUG("Video", "CFrmVideo::stateChanged:%s", "Active Call");
+        szState = tr("State: Active Call");
         break;
     case QXmppCall::DisconnectingState:
-        LOG_MODEL_DEBUG("Video", "CFrmVideo::stateChanged:%s", "Disconnecting Call");
+        szState = tr("State: Disconnecting Call");
         break;
     case QXmppCall::FinishedState:
-        LOG_MODEL_DEBUG("Video", "CFrmVideo::stateChanged:%s", "Finished Call");
+        szState = tr("State: Finished Call");
         break;
     default:
         break;
     }
+
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::stateChanged:%s", qPrintable(szState));
+    ui->lbPrompt->setText(szState);
 }
 
 //会话建立后触发
@@ -417,8 +465,9 @@ void CFrmVideo::connected()
 
     //停止铃音
     StopCallSound();
+    ShowWdgInfo(false);
     
-    QString szText = tr("Be talking %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
+    QString szText = tr("I am working with %1 call").arg(QXmppUtils::jidToUser(m_pCall->jid()));
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
 
@@ -487,7 +536,7 @@ void CFrmVideo::finished()
 
     if(m_pCall)
     {
-        QString szMsg = tr("Close the connection with %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
+        QString szMsg = tr("Do you call %1 ?").arg(QXmppUtils::jidToUser(m_pCall->jid()));
 
         StopVideo();
         m_VideoPlayTimer.stop();
@@ -496,17 +545,14 @@ void CFrmVideo::finished()
         m_pCall = NULL;//m_pCall只是个引用，对象由QXmppCallManager管理.用户层不要释放此指针
         this->setWindowTitle(szMsg);
         ui->lbPrompt->setText(szMsg);
-        /*QMessageBox msg(QMessageBox::Question,
-                        tr("Call"),
-                        szMsg,
-                        QMessageBox::Yes);
-        msg.exec();*/
     }
+    ShowWdgInfo(true);
 }
 
 //播放铃音,系统会启用单独的线程进行播放
 void CFrmVideo::PlayCallSound(QXmppCall* pCall)
 {
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::PlayCallSound");
     QString file;
     if(pCall->direction() == QXmppCall::Direction::OutgoingDirection)
         file = ":/sound/Call";
@@ -528,6 +574,7 @@ void CFrmVideo::PlayCallSound(QXmppCall* pCall)
 
 void CFrmVideo::StopCallSound()
 {
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::StopCallSound");
     if(m_pCallSound)
     {
         m_pCallSound->stop();
@@ -658,34 +705,40 @@ int CFrmVideo::StopAudioDevice()
     return 0;
 }
 
-int CFrmVideo::StartVideo()
+#ifdef ANDROID
+QCamera::Position CFrmVideo::GetCameraPostion()
 {
-#ifdef DEBUG
+    QCameraInfo info(m_CameraPostition);
+    return info.position();
+}
+#endif
+
+int CFrmVideo::InitCamera()
+{
     QList<QByteArray> device = QCamera::availableDevices();
     QList<QByteArray>::iterator it;
     for(it = device.begin(); it != device.end(); it++)
     {
         LOG_MODEL_DEBUG("Video", "Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+        ui->cmbCamera->addItem(QCamera::deviceDescription(*it));
     }
-#endif
-    
-    if(m_pCamera)
+    return 0;
+}
+
+int CFrmVideo::OpenCamera()
+{
+    if(!m_pCall)
     {
-        m_pCamera->stop();
-        delete m_pCamera;
+        LOG_MODEL_ERROR("Video", "CFrmVideo::OpenCamera m_pCall is null");
+        return -1;
     }
 
-#ifdef ANDROID
-    //TODO:提供可配置前后置攝像头界面
-    if(device.size() == 2)
+    if(m_pCamera)
     {
-        m_pCamera = new QCamera(QCamera::availableDevices().at(1));
+        CloseCamera();
     }
-    else
-        m_pCamera = new QCamera;
-#else
-    m_pCamera = new QCamera;
-#endif
+
+    m_pCamera = new QCamera(m_CameraPostition);
     if(!m_pCamera)
     {
         LOG_MODEL_WARNING("Video", "Open carmera fail");
@@ -695,16 +748,41 @@ int CFrmVideo::StartVideo()
     m_pCamera->setCaptureMode(QCamera::CaptureVideo);
     m_CaptureVideoFrame.setSource(m_pCamera);
 
+    //m_pCamera->load();
+    m_pCamera->start();
+    return 0;
+}
+
+int CFrmVideo::CloseCamera()
+{
+    if(m_pCamera)
+    {
+        m_pCamera->stop();
+        //m_pCamera->unload();
+        delete m_pCamera;
+        m_pCamera = NULL;
+    }
+    return 0;
+}
+
+int CFrmVideo::StartVideo()
+{
+    if(!m_pCall)
+    {
+        LOG_MODEL_ERROR("Video", "CFrmVideo::OpenCamera m_pCall is null");
+        return -1;
+    }
+    
+    OpenCamera();
+
     // 改变默认的视频编码格式
     //m_pCall->videoChannel()->setEncoderFormat(videoFormat);
     //开始视频
     if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->startVideo();
 
-    m_pCamera->start();
-
     ui->lbPrompt->hide();
-    //resizeEvent(NULL);
+    resizeEvent(NULL); //通知窗体按视频大小调整显示区域
     m_RemotePlayer.show();
     m_RemotePlayer.setWindowTitle(QXmppUtils::jidToUser(m_pCall->jid()));
 
@@ -718,12 +796,7 @@ int CFrmVideo::StartVideo()
 
 int CFrmVideo::StopVideo()
 {
-    if(m_pCamera)
-    {
-        m_pCamera->stop();
-        delete m_pCamera;
-        m_pCamera = NULL;
-    }
+    CloseCamera();
 
     m_LocalePlayer.close();
     m_RemotePlayer.close();
@@ -766,7 +839,7 @@ void CFrmVideo::slotUpdateReciverVideo()
         return;
 
     m_inFrames << pChannel->readFrames();
-    
+
 #ifdef DEBUG_VIDEO_TIME
     LOG_MODEL_DEBUG("Video", "recive video frames:%d", m_inFrames.size());
     static QTime preTime = QTime::currentTime();
@@ -777,7 +850,7 @@ void CFrmVideo::slotUpdateReciverVideo()
            preTime.msecsTo(curTime));
     preTime = curTime;
 #endif
-    
+
     /*if(!m_inFrames.isEmpty())
     {
         m_RemotePlayer.slotPresent(*m_inFrames.begin());
@@ -789,4 +862,50 @@ void CFrmVideo::slotUpdateReciverVideo()
         m_RemotePlayer.slotPresent(frame);
     }
     m_inFrames.clear();
+}
+
+void CFrmVideo::on_pbOK_clicked()
+{
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::on_pbOK_clicked");
+    if(!m_pCall)
+    {
+        LOG_MODEL_DEBUG("Video", "CFrmVideo::on_pbOK_clicked m_pCall is null, Recall %s", qPrintable(m_szRemoteJID));
+        Call(m_szRemoteJID);
+        return;
+    }
+
+    QString szText = tr("Be connecting %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
+    this->setWindowTitle(szText);
+    ui->lbPrompt->setText(szText);
+    ui->ToolBar->hide();
+
+    if(m_pCall->direction() == QXmppCall::IncomingDirection)
+    {
+        m_pCall->accept();
+    }
+}
+
+void CFrmVideo::on_pbCancel_clicked()
+{
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::on_pbCancel_clicked");
+    //停止播放铃音
+    StopCallSound();
+
+    if(!m_pCall)
+    {
+        LOG_MODEL_DEBUG("Video", "Close windows");
+        this->close();
+        return;
+    }
+    //LOG_MODEL_DEBUG("Video", "m_pCall->direction():%d", m_pCall->direction());
+    m_pCall->hangup();
+}
+
+void CFrmVideo::on_cmbCamera_currentIndexChanged(int index)
+{
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::on_cmbCamera_currentIndexChanged");
+
+    m_CameraPostition = QCamera::availableDevices().at(index);
+
+    OpenCamera();
 }

@@ -1,5 +1,25 @@
-QMessageBox 背景设置:http://blog.csdn.net/addfourliu/article/details/6763127
+* 环境配置：
+Qt on Android Episode： http://blog.csdn.net/foruok/article/details/18697377
+
+* 设置应用程序图标：
+应用程序图标是与平台相关的。
+android 应用程序图标是在 android 配置清单文件(AndroidManifest.xml) 中设置。
+windows 应用程序图标 需要单独在根目录下写一个资源文件。参考：http://blog.sina.com.cn/s/blog_71fa0df501011xrk.html
+1. 通过qmake生成makefile实现过程：
+(1) 找到一张图片.ico，名字改为myappico.ico；
+(2) 创建一个新的文本文档，内部添加  IDI_ICON1 ICON  DISCARDABLE "myappico.ico"，并将文件重命名为AppIcon.rc；
+(3) 在RabbitIm.pro文件最后加上RC_FILE = AppIcon.rc，重新生成之后，就修改成功了
+2.不用qmake生成makefile实现过程：
+前面两步骤一样，最后一步改为，将.rc文件加载至工程中，通过右键工程——添加——已存在文件，添加后右键.rc文件编译，重新生成可执行文件后就修改成功了
+
+* QMessageBox 背景设置:http://blog.csdn.net/addfourliu/article/details/6763127
 编写Qt Designer自定义控件（一）——如何创建并使用Qt自定义控件:http://blog.csdn.net/giselite/article/details/12622429
 
+* Qt 线程
 QtThread线程介绍:http://blog.csdn.net/liuhongwei123888/article/details/6072320
 每个线程要用 setObjectName 设置名称，便于调试。
+
+* QWidget 鼠标移事件：
+当mousetracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。
+当mousetracking为on时，没鼠标键按下，也会有mouseEvent事件
+用QWidget::setMouseTracking进行设置。

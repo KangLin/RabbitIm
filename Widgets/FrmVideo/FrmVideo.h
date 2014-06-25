@@ -1,3 +1,10 @@
+/*
+ * 视频显示窗体
+ * 作者：康林
+ * 
+ * 注意：本对象是一个单例对象
+ */
+
 #ifndef FRMVIDEO_H
 #define FRMVIDEO_H
 
@@ -9,6 +16,7 @@
 #include <QTimer>
 #include <QSound>
 #include <QThread>
+#include <QByteArray>
 #include "CaptureVideoFrame.h"
 #include "FrmPlayer.h"
 #include "../../XmppClient.h"
@@ -32,6 +40,8 @@ private:
 public:
     static CFrmVideo *instance(CXmppClient *pClient);
     QThread* GetVideoThread();
+    
+    QCamera::Position GetCameraPostion();
 
     //主动发起呼叫
     int Call(QString jid);
@@ -70,27 +80,37 @@ private:
     void closeEvent(QCloseEvent *e);
     void resizeEvent(QResizeEvent *);
     void paintEvent(QPaintEvent *event);
+    void mouseMoveEvent(QMouseEvent * event);
 
     //连接与 call 相关的信号
     int ConnectionCallSlot(QXmppCall *pCall);
-    
+
     //调整显示窗体大小
     void AdjustPlayer(const QRect &rect);
+    //显示/关闭呼叫提示与按钮
+    int ShowWdgInfo(bool bShow);
+    //显示/关闭工具栏
+    int ShowToolBar(bool bShow);
 
     int StartAudioDevice();
     int StopAudioDevice();
     int OpenAudioInput();
     int OpenAudioOutput();
-    
+
     int StartVideo();
     int StopVideo();
-    
+    int InitCamera();
+    int OpenCamera();
+    int CloseCamera();
+
     //播放拨号提示音
     void PlayCallSound(QXmppCall *pCall);
     void StopCallSound();
 
 private:
     Ui::CFrmVideo *ui;
+    
+    QString m_szRemoteJID;
 
     QXmppCall* m_pCall;
     CXmppClient* m_pClient;
@@ -102,6 +122,9 @@ private:
     QAudioOutput* m_pAudioOutput;//音频输出设备
 
     QCamera *m_pCamera;
+    
+    //摄像头位置
+    QByteArray m_CameraPostition;
     CCaptureVideoFrame m_CaptureVideoFrame;//实现捕获视频帧
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口
     CFrmPlayer m_LocalePlayer;//本地视频播放窗口
@@ -115,6 +138,9 @@ private slots:
     //定时显示对方视频
     void slotUpdateReciverVideo();
 
+    void on_pbOK_clicked();
+    void on_pbCancel_clicked();
+    void on_cmbCamera_currentIndexChanged(int index);
 };
 
 #endif // FRMVIDEO_H

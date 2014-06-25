@@ -23,7 +23,7 @@ signals:
     void sigConvertedToRGB32Frame(const QVideoFrame &frame);
 
 public slots:
-    //处理帧的槽
+    //处理帧的槽，因为不同的平台，捕获的帧方向不一样，需要做转换
     void slotCaptureFrame(const QVideoFrame &frame);
     //转换到YUYV格式
     void slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidth = 320, int nHeight = 240);

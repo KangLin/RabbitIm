@@ -20,7 +20,7 @@ public:
     //    nLevel:打印日志错误级别 
     //....pszModelName:打印日志的模块范围 
     int Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...);
-    
+
     //得到本地用户住息
     int SetJid(QString jid);
     QString GetName();
@@ -65,6 +65,7 @@ public:
 
     enum __STYLE_SHEET_TYPE
     {
+        STYPLE_SHEET_DEFAULT,
         STYPLE_SHEET_FORM_BACKGROUND  //窗体背景样式
     };
     //得到默认样式
@@ -72,7 +73,7 @@ public:
     //设置窗口样式,返回原来窗口样式
     QString SetStyleSheet(const QString szStyleSheet, const __STYLE_SHEET_TYPE t =CGlobal::STYPLE_SHEET_FORM_BACKGROUND);
     QString SetStyleSheet(QWidget *pWidget, const __STYLE_SHEET_TYPE t = STYPLE_SHEET_FORM_BACKGROUND);
-    
+
 signals:
 
 public slots:

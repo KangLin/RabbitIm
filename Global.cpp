@@ -283,6 +283,7 @@ QString CGlobal::GetStyleSheet(const __STYLE_SHEET_TYPE t)
     {
     case STYPLE_SHEET_FORM_BACKGROUND:
         return m_szFormBackGroundStyleSheet;
+    case STYPLE_SHEET_DEFAULT:
     default:
         LOG_MODEL_ERROR("global", "don't style sheet:%d", t);
         break;
@@ -315,7 +316,7 @@ QString CGlobal::SetStyleSheet(QWidget *pWidget, const __STYLE_SHEET_TYPE t)
         QString szStyle = GetStyleSheet(t);
         QString szRet = pWidget->styleSheet();
         pWidget->setStyleSheet(szStyle);
-        CTool::SetAllChildrenTransparent(pWidget);
+        //CTool::SetAllChildrenTransparent(pWidget);
         return szRet;
     }
     };

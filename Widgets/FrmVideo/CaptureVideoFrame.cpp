@@ -17,10 +17,13 @@ CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
                       SIGNAL(sigRawCaptureFrame(const QVideoFrame&)),
                       SLOT(slotCaptureFrame(const QVideoFrame&)));
     Q_ASSERT(check);
+    
     check = connect(&m_CaptureFrameProcess,
                     SIGNAL(sigCaptureFrame(const QVideoFrame&)),
                     this, SIGNAL(sigCaptureFrame(const QVideoFrame&)));
     Q_ASSERT(check);
+    
+    //捕获的帧转换成了YUV4:2:0格式
     check = connect(&m_CaptureFrameProcess,
                     SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
                     this, SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)));
@@ -31,12 +34,14 @@ CCaptureVideoFrame::~CCaptureVideoFrame()
 {
 }
 
+//选择需要捕获视频帧的格式
 QList<QVideoFrame::PixelFormat> CCaptureVideoFrame::supportedPixelFormats(QAbstractVideoBuffer::HandleType handleType) const
 {
     Q_UNUSED(handleType);
     QList<QVideoFrame::PixelFormat> lst;
 
     //lst.push_back(QVideoFrame::Format_YUYV);//Qt现在不支持此格式，因为Qt内部用了QImage来处理视频帧。
+    //windows 平台、linux 平台默认都支持 RGB32 格式
     lst.push_back(QVideoFrame::Format_RGB32);
    // lst.push_back(QVideoFrame::Format_BGR32);
 
