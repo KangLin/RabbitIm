@@ -41,8 +41,9 @@ public:
     static CFrmVideo *instance(CXmppClient *pClient);
     QThread* GetVideoThread();
     
+#ifdef ANDROID
     QCamera::Position GetCameraPostion();
-
+#endif
     //主动发起呼叫
     int Call(QString jid);
 
@@ -121,10 +122,6 @@ private:
     QAudioInput*  m_pAudioInput; //音频输入设备
     QAudioOutput* m_pAudioOutput;//音频输出设备
 
-    QCamera *m_pCamera;
-    
-    //摄像头位置
-    QByteArray m_CameraPostition;
     CCaptureVideoFrame m_CaptureVideoFrame;//实现捕获视频帧
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口
     CFrmPlayer m_LocalePlayer;//本地视频播放窗口

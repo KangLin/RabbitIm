@@ -3,14 +3,19 @@
 #include <QThread>
 #include <QTime>
 #include <QtDebug>
+#include <QCameraInfo>
 #include "FrmVideo.h"
 #include "../../Global.h"
 
 CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
     QAbstractVideoSurface(parent)
 {
+    if(!parent)
+        LOG_MODEL_ERROR("Video", "CCaptureVideoFrame::CCaptureVideoFrame parent is null");
+    
     CFrmVideo* pFrmVideo = (CFrmVideo*)parent;
-    m_CaptureFrameProcess.moveToThread(pFrmVideo->GetVideoThread());
+    if(pFrmVideo)
+        m_CaptureFrameProcess.moveToThread(pFrmVideo->GetVideoThread());
 
     bool check = true;
     check = m_CaptureFrameProcess.connect(this,
@@ -28,10 +33,28 @@ CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
                     SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
                     this, SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)));
     Q_ASSERT(check);
+    
+    m_pCamera = NULL;
+#ifdef ANDROID
+    QList<QByteArray> device = QCamera::availableDevices();
+    QList<QByteArray>::iterator it;
+    for(it = device.begin(); it != device.end(); it++)
+    {
+        QCameraInfo info(*it);
+        if(info.position() == QCamera::FrontFace)
+        {
+            m_CameraPosition = *it;
+            break;
+        }
+    }
+#else
+    m_CameraPosition = *QCamera::availableDevices().begin();
+#endif
 }
 
 CCaptureVideoFrame::~CCaptureVideoFrame()
 {
+    StopCapture();
 }
 
 //选择需要捕获视频帧的格式
@@ -76,12 +99,101 @@ bool CCaptureVideoFrame::setSource(QCamera *pCamera)
     ret = m_Probe.setSource(pCamera);
     if(ret)
     {
-        connect(&m_Probe, SIGNAL(videoFrameProbed(QVideoFrame)),
-                          SLOT(present(QVideoFrame)));
+        connect(&m_Probe, 
+                SIGNAL(videoFrameProbed(QVideoFrame)),
+                SLOT(present(QVideoFrame)));
     }
 #else
     //windows下,只能用下面方式捕获视频
     pCamera->setViewfinder(this);
 #endif
     return ret;
+}
+
+int CCaptureVideoFrame::StartCapture()
+{
+    if(m_pCamera)
+    {
+        StopCapture();
+    }
+
+    m_pCamera = new QCamera(m_CameraPosition);
+    if(!m_pCamera)
+    {
+        LOG_MODEL_WARNING("Video", "Open carmera fail");
+        return -1;
+    }
+
+    m_pCamera->setCaptureMode(QCamera::CaptureVideo);
+    setSource(m_pCamera);
+
+    //m_pCamera->load();
+    
+    m_pCamera->start();
+    return 0;
+}
+
+int CCaptureVideoFrame::StopCapture()
+{
+    if(m_pCamera)
+    {
+        m_pCamera->stop();
+        //m_pCamera->unload();
+        delete m_pCamera;
+        m_pCamera = NULL;
+    }
+    return 0;
+}
+
+QList<QString> CCaptureVideoFrame::GetAvailableDevices()
+{
+    QList<QString> ret; 
+    QList<QByteArray> device = QCamera::availableDevices();
+    QList<QByteArray>::iterator it;
+    for(it = device.begin(); it != device.end(); it++)
+    {
+        LOG_MODEL_DEBUG("Video", "Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+        ret << QCamera::deviceDescription(*it);
+    }
+    return ret;
+}
+
+#ifdef ANDROID
+QCamera::Position CCaptureVideoFrame::GetCameraPoistion()
+{
+    QCameraInfo info(m_CameraPosition);
+    return info.position();
+}
+#endif
+
+int CCaptureVideoFrame::SetDeviceIndex(int index)
+{
+    if(QCamera::availableDevices().isEmpty())
+    {
+        LOG_MODEL_ERROR("Video", "There isn't Camera");
+        return -1;
+    }
+
+    if(!(QCamera::availableDevices().length() > index))
+    {
+        LOG_MODEL_ERROR("Video", "QCamera.availableDevices().length() > index");
+        return -2;
+    }
+    m_CameraPosition = QCamera::availableDevices().at(index);
+    return 0;
+}
+
+int CCaptureVideoFrame::GetDeviceIndex()
+{
+    QList<QByteArray> device = QCamera::availableDevices();
+    QList<QByteArray>::iterator it;
+    int i = 0;
+    for(it = device.begin(); it != device.end(); it++)
+    {
+        LOG_MODEL_DEBUG("Video", "Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+        if(*it == m_CameraPosition)
+            return i;
+        i++;
+    }
+    return -1;
 }

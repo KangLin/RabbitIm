@@ -55,8 +55,15 @@ public:
     virtual QList<QVideoFrame::PixelFormat> supportedPixelFormats(
             QAbstractVideoBuffer::HandleType handleType = QAbstractVideoBuffer::NoHandle) const;
 
+    int StartCapture();
+    int StopCapture();
+    QList<QString> GetAvailableDevices();
+#ifdef ANDROID
+    QCamera::Position GetCameraPoistion();
+#endif
+    int SetDeviceIndex(int index);
+    int GetDeviceIndex();
     bool setSource(QCamera *pCamera);
-
 signals:
     //不同平台处理过后的视频帧捕获信号
     void sigCaptureFrame(const QVideoFrame &frame);
@@ -64,6 +71,7 @@ signals:
     void sigConvertedToYUYVFrame(const QXmppVideoFrame &frame);
 
 private:
+    QCamera *m_pCamera;
 
 signals:
     //从摄像头捕获的原始帧
@@ -75,6 +83,8 @@ private slots:
 private:
      QVideoProbe m_Probe;//android下,目前只能用probe捕获视频
      CFrameProcess m_CaptureFrameProcess;
+     //摄像头位置
+     QByteArray m_CameraPosition;
 };
 
 #endif // CAPTUREVIDEOFRAME_H

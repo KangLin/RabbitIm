@@ -47,10 +47,8 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     m_pAudioInput = NULL;
     m_pAudioOutput = NULL;
     m_pCallSound = NULL;
-    m_pCamera = NULL;
-
+    
     InitCamera();
-    m_CameraPostition = *QCamera::availableDevices().begin();
 
     ShowWdgInfo(false);
     //当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。
@@ -512,7 +510,7 @@ void CFrmVideo::audioModeChanged(QIODevice::OpenMode mode)
 //视频模式改变
 void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
 {
-    if(!(m_pCall && m_pCamera))
+    if(!(m_pCall))
         return;
     
     LOG_MODEL_DEBUG("Video", "CFrmVideo::videoModeChanged:%x", mode);
@@ -708,60 +706,19 @@ int CFrmVideo::StopAudioDevice()
 #ifdef ANDROID
 QCamera::Position CFrmVideo::GetCameraPostion()
 {
-    QCameraInfo info(m_CameraPostition);
-    return info.position();
+    return m_CaptureVideoFrame.GetCameraPoistion();
 }
 #endif
 
 int CFrmVideo::InitCamera()
 {
-    QList<QByteArray> device = QCamera::availableDevices();
-    QList<QByteArray>::iterator it;
-    for(it = device.begin(); it != device.end(); it++)
+    QList<QString> dev = m_CaptureVideoFrame.GetAvailableDevices();
+    QList<QString>::iterator it;
+    for (it = dev.begin(); it != dev.end(); it++)
     {
-        LOG_MODEL_DEBUG("Video", "Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
-        ui->cmbCamera->addItem(QCamera::deviceDescription(*it));
+        ui->cmbCamera->addItem(*it);
     }
-    return 0;
-}
-
-int CFrmVideo::OpenCamera()
-{
-    if(!m_pCall)
-    {
-        LOG_MODEL_ERROR("Video", "CFrmVideo::OpenCamera m_pCall is null");
-        return -1;
-    }
-
-    if(m_pCamera)
-    {
-        CloseCamera();
-    }
-
-    m_pCamera = new QCamera(m_CameraPostition);
-    if(!m_pCamera)
-    {
-        LOG_MODEL_WARNING("Video", "Open carmera fail");
-        return -1;
-    }
-
-    m_pCamera->setCaptureMode(QCamera::CaptureVideo);
-    m_CaptureVideoFrame.setSource(m_pCamera);
-
-    //m_pCamera->load();
-    m_pCamera->start();
-    return 0;
-}
-
-int CFrmVideo::CloseCamera()
-{
-    if(m_pCamera)
-    {
-        m_pCamera->stop();
-        //m_pCamera->unload();
-        delete m_pCamera;
-        m_pCamera = NULL;
-    }
+    ui->cmbCamera->setCurrentIndex(m_CaptureVideoFrame.GetDeviceIndex());
     return 0;
 }
 
@@ -773,7 +730,7 @@ int CFrmVideo::StartVideo()
         return -1;
     }
     
-    OpenCamera();
+    m_CaptureVideoFrame.StartCapture();
 
     // 改变默认的视频编码格式
     //m_pCall->videoChannel()->setEncoderFormat(videoFormat);
@@ -796,7 +753,7 @@ int CFrmVideo::StartVideo()
 
 int CFrmVideo::StopVideo()
 {
-    CloseCamera();
+    m_CaptureVideoFrame.StopCapture();
 
     m_LocalePlayer.close();
     m_RemotePlayer.close();
@@ -905,7 +862,5 @@ void CFrmVideo::on_cmbCamera_currentIndexChanged(int index)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::on_cmbCamera_currentIndexChanged");
 
-    m_CameraPostition = QCamera::availableDevices().at(index);
-
-    OpenCamera();
+    m_CaptureVideoFrame.SetDeviceIndex(index);
 }

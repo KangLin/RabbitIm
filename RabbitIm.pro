@@ -17,12 +17,12 @@ TEMPLATE = app
 #    CONFIG += staticlib #生成静态库
 #}
 
-#连接静态QXMPP库时，必须加�?-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加�? QXMPP_LIBRARY_TYPE=staticlib 参数
+#连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 DEFINES += QXMPP_STATIC
 # qxmpp 库名
 CONFIG(debug, debug|release) {
     QXMPP_LIBRARY_NAME = -lqxmpp_d
-    #调试�?
+    #调试宏
      DEFINES += DEBUG #DEBUG_VIDEO_TIME 
 } else {
     QXMPP_LIBRARY_NAME = -lqxmpp
@@ -44,7 +44,7 @@ QXMPP_USE_VPX = 1
 
 FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lswresample -lavfilter  -lavutil
 
-#android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件�?
+#android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android{
     INCLUDEPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
@@ -98,7 +98,7 @@ android{
 
 LIBS += $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY
 
-DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需�?
+DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
 
 include(RabbitIm.pri)
 
@@ -123,10 +123,8 @@ OTHER_FILES += README.md \
     Resource/translations/app_zh_CN.ts \
     docs/* \
     docs/Books/* \
-    docs/QXmpp音视频呼叫流�?.txt \
+    docs/QXmpp音视频呼叫流程.txt \
     ThirdLibary/build_script/*.sh \
     android/AndroidManifest.xml
 
 ANDROID_EXTRA_LIBS = 
-
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

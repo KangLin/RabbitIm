@@ -31,10 +31,15 @@ private slots:
 
 protected:
     virtual void paintEvent(QPaintEvent *);
+    virtual void mouseReleaseEvent(QMouseEvent *);
 
 private:
     QVideoFrame m_VideoFrame;
     CFrameProcess m_FrameProcess;//格式转换实例
+    
+#ifdef DEBUG
+    int TestCamera();
+#endif
 };
 
 #endif // FRMPLAYER_H
