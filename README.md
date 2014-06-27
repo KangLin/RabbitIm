@@ -124,9 +124,12 @@ cygwin主页：http://www.cygwin.org/
         ｜-----patch            #补丁包目录
         ｜-----build_script     #第三方库编译脚本目录
         ｜-----src              #源码目录
-        ｜-----windows          # Windows 平台的第三方库
+        ｜-----windows_msvc     # Windows 平台 msvc 编译器的第三方库
         ｜       ｜-----include #头文件
         ｜       ｜-----lib     #库文
+        ｜-----windows_mingw    # Windows 平台 mingw 编译器的第三方库
+        ｜       ｜-----include
+        ｜       ｜-----lib
         ｜------windows_phone   #Windows Phone 平台的第三方库
         ｜       ｜------include
         ｜       ｜------lib
@@ -371,6 +374,13 @@ MAKE在不同的环境下有不同的命令：
 
 开发约定:
 --------
+* 本项目鼓励使用跨平台的开源第三方库。  
+  但在使用过程中需要遵守：
+  1. 非强制使用此第三方库（即如果用户在没有此的第三方，不能影响本项目原有功能）。  
+     目前采用的是定义相关宏来隔离代码（即如果用户用此第三方库，申明此宏即可，如果用户不需要此第三方库，不申明此宏即可）。
+  2. 提供此第三方库必要的开发文档。
+  3. 提供此第三方库各平台自动编译的脚本。并放到 ${RabbitImRoot}/ThirdLibary/build_script 目录下。
+
 * 线程要用setObjectName设置名称，便于调试。
 
 调试：

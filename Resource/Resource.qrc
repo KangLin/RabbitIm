@@ -7,6 +7,6 @@
         <file alias="Receive">sound/Receive.wav</file>
     </qresource>
     <qresource prefix="/icon">
-        <file alias="AppIcon">icon/AppIcon.ico</file>
+        <file alias="AppIcon">png/AppIcon.png</file>
     </qresource>
 </RCC>

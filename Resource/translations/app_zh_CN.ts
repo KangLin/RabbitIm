@@ -79,8 +79,8 @@
     <name>CFrmAddRoster</name>
     <message>
         <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.ui" line="26"/>
-        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="44"/>
         <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="45"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="46"/>
         <source>Add Roster</source>
         <translation>增加好友</translation>
     </message>
@@ -110,19 +110,29 @@
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="35"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="36"/>
         <source>Request add roster</source>
         <translation>请求增加好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="36"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="37"/>
         <source>%1 request add roster</source>
         <translation>%1 请求增加为好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="51"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="52"/>
         <source>My friends</source>
         <translation>我的好友</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="70"/>
+        <source>Error</source>
+        <translation>错误</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="70"/>
+        <source>Isn&apos;t fill JID. Please fill it.</source>
+        <translation>没有填 JID,请重新填写。</translation>
     </message>
 </context>
 <context>
@@ -320,7 +330,7 @@
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="103"/>
         <source>Operator roster(&amp;O)</source>
-        <translation type="unfinished">操作好友(&amp;O)</translation>
+        <translation>操作好友(&amp;O)</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="31"/>
@@ -372,41 +382,80 @@
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="255"/>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="343"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="71"/>
+        <source>PromptTable</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="104"/>
+        <source>Select Camera</source>
+        <translation>选择摄像头</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="129"/>
+        <source>OK(&amp;O)</source>
+        <translation>确定(&amp;O)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="154"/>
+        <source>Cancel(&amp;C)</source>
+        <translation>取消（&amp;C）</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="311"/>
         <source>Call</source>
         <translation>呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="267"/>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="385"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="312"/>
+        <source>Working with %1 call, Do you stop it?</source>
+        <translation>正在与 %1 通话，是否停止？</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="325"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="427"/>
         <source>%1 is ringing</source>
         <translation>%1 正在响铃</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="256"/>
-        <source>%1 is talking, Do you stop it?</source>
-        <translation>正在与 %1 通话，是否停止它？</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="344"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="402"/>
         <source>%1 is calling </source>
         <translation>%1 正在呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="349"/>
-        <source>Be connecting %1</source>
-        <translation>正在与 %1 连接</translation>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="440"/>
+        <source>State: Connecting Call</source>
+        <translation>状态：呼叫连接中</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="421"/>
-        <source>Be talking %1</source>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="443"/>
+        <source>State: Active Call</source>
+        <translation>状态：呼叫激活</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="446"/>
+        <source>State: Disconnecting Call</source>
+        <translation>状态：呼叫断连</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="449"/>
+        <source>State: Finished Call</source>
+        <translation>状态：呼叫完成</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="468"/>
+        <source>I am working with %1 call</source>
         <translation>正在与 %1 通话</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="490"/>
-        <source>Close the connection with %1</source>
-        <translation>关闭与 %1 的连接</translation>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="537"/>
+        <source>Do you call %1 ?</source>
+        <translation>是否呼叫 %1 ？</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="834"/>
+        <source>Be connecting %1</source>
+        <translation>正在与 %1 连接</translation>
     </message>
 </context>
 <context>

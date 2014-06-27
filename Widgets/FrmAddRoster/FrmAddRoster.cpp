@@ -67,7 +67,7 @@ void CFrmAddRoster::on_pbOk_clicked()
     QString szJid = ui->txtJID->text();
     if(szJid.isEmpty())
     {
-        QMessageBox::critical(this, tr("Error"), tr("Isn't fill JID"));
+        QMessageBox::critical(this, tr("Error"), tr("Isn't fill JID. Please fill it."));
         return;
     }
     if(-1 == szJid.indexOf("@"))

@@ -52,13 +52,21 @@ android{
 
     LIBS += -L$$PWD/ThirdLibary/android/lib  
 } else:win32{
-    INCLUDEPATH += $$PWD/ThirdLibary/windows/include $$WEBRTC_ROOT
-    DEPENDPATH += $$PWD/ThirdLibary/windows/include $$WEBRTC_ROOT
-
     msvc {
         LDFLAGS += -ladvapi32
+
+        INCLUDEPATH += $$PWD/ThirdLibary/windows_msvc/include $$WEBRTC_ROOT
+        DEPENDPATH += $$PWD/ThirdLibary/windows_msvc/include $$WEBRTC_ROOT
+        LIBS += -L$$PWD/ThirdLibary/windows_msvc/lib
+
         #msvc 下直接用库文名查找依赖库
         FFMPEG_LIBRARY= libavcodec.a libavformat.a libswscale.a libswresample.a libavfilter.a libavutil.a
+    }
+    else
+    {
+        INCLUDEPATH += $$PWD/ThirdLibary/windows_mingw/include $$WEBRTC_ROOT
+        DEPENDPATH += $$PWD/ThirdLibary/windows_mingw/include $$WEBRTC_ROOT
+        LIBS += -L$$PWD/ThirdLibary/windows_mingw/lib
     }
 
     CONFIG(release, debug|release){
@@ -81,8 +89,6 @@ android{
 
     WEBRTC_LIBRARY_DIR = .
     #WEBRTC_LIBRARY = -L$$WEBRTC_LIBRARY_DIR -llibjingle -llibjingle_media -llibjingle_p2p -lwebrtc
-
-    LIBS += -L$$PWD/ThirdLibary/windows/lib $$LDFLAGS
 } else:unix {
     INCLUDEPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
@@ -96,7 +102,7 @@ android{
     -lopencv_imgproc$$OPENCV_VERSION
 }
 
-LIBS += $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY
+LIBS += $$LDFLAGS $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY
 
 DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
 

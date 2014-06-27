@@ -3,7 +3,7 @@
 #JOM=/c/Qt/Qt5.3.0_android/Tools/QtCreator/bin/jom.exe                 #设置 QT make 工具 JOM
 
 if [ -n "${RabbitImRoot}" ]; then
-    PREFIX=${RabbitImRoot}/ThirdLibary/windows
+    PREFIX=${RabbitImRoot}/ThirdLibary/windows_mingw
 else
     PREFIX=`pwd`/../windows    #修改这里为安装前缀 
 fi
