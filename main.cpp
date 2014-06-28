@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();//*/
 
-    /*以下为视频捕获、显示测试代码
+    /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())
     CFrmPlayer player;
     player.show();//*/
 

@@ -782,6 +782,16 @@ void CFrmVideo::slotCaptureFrame(const QXmppVideoFrame &frame)
         return;
     }
 
+//    static int nWidth = 0, nHeight = 0;
+//    if(frame.width() != nWidth || frame.height() != frame.height())
+//    {
+//        nWidth = frame.width();
+//        nHeight = frame.height();
+//        QXmppVideoFormat format = pChannel->decoderFormat();
+//        format.setFrameSize(QSize(nWidth, nHeight));
+//        pChannel->setEncoderFormat(format);
+//    }
+    
     pChannel->writeFrame(frame);
 }
 
