@@ -58,6 +58,7 @@ echo "configure ..."
     --disable-shared \
     --enable-static \
     --disable-oggtest \
+    --without-ogg \
     --enable-vbr \
     CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${PLATFORM}" \
     CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${PLATFORM}" \
