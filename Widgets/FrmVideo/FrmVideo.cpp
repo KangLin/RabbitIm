@@ -552,7 +552,7 @@ void CFrmVideo::PlayCallSound(QXmppCall* pCall)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::PlayCallSound");
     QString file;
-    if(pCall->direction() == QXmppCall::Direction::OutgoingDirection)
+    if(pCall->direction() == QXmppCall::OutgoingDirection)
         file = ":/sound/Call";
     else
         file = ":/sound/Receive";

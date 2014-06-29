@@ -71,10 +71,10 @@ int CFrmPlayer::TestCamera()
         camera->unload();
         delete camera;
         QThread::msleep(1000);
-        if(pos == QCamera::Position::FrontFace)
+        if(pos == QCamera::FrontFace)
             pos = QCamera::BackFace;
         else
-            pos = QCamera::Position::FrontFace;
+            pos = QCamera::FrontFace;
         camera = new QCamera(pos);
         if(!camera)
         {
