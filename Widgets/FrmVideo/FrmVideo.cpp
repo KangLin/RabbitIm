@@ -34,9 +34,6 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     LOG_MODEL_DEBUG("Video", "CFrmVideo::CFrmVideo");
     ui->setupUi(this);
 
-    //设置背景 
-    g_Global.SetStyleSheet(this);
-    
     /*设置提示文本颜色 
     QPalette pe;
     pe.setColor(QPalette::WindowText, Qt::white);
@@ -311,7 +308,6 @@ int CFrmVideo::Call(QString jid)
                         tr("Call"),
                         tr("Working with %1 call, Do you stop it?").arg(QXmppUtils::jidToUser(m_pCall->jid())),
                         QMessageBox::Yes | QMessageBox::No);
-        g_Global.SetStyleSheet(&msg);
         if(QMessageBox::Yes == msg.exec())
         {
             m_pCall->hangup();

@@ -20,8 +20,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     InitMenu();
 
     m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。
-    //设置背景
-    //m_UserList.setStyleSheet(g_Global.GetStyleSheet());
+
     m_UserList.setModel(m_pModel);
     m_UserList.setHeaderHidden(true);
     m_UserList.setExpandsOnDoubleClick(true);

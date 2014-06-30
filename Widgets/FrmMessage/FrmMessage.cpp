@@ -18,9 +18,6 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
     //禁止编辑条目
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->listView->setAutoScroll(true);
-    
-    //设置背景
-    g_Global.SetStyleSheet(this);
 }
 
 CFrmMessage::~CFrmMessage()

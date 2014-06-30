@@ -23,9 +23,6 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
 #endif
     ui->lbePrompt->setText("");
     //---------------------------------
-    
-    //设置背景
-    g_Global.SetStyleSheet(this);
 }
 
 CFrmLogin::~CFrmLogin()

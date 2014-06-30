@@ -7,9 +7,6 @@ CFrmAbout::CFrmAbout(QWidget *parent) :
     ui(new Ui::CFrmAbout)
 {
     ui->setupUi(this);
-    
-    //设置背景
-    g_Global.SetStyleSheet(this);
 }
 
 CFrmAbout::~CFrmAbout()

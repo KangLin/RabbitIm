@@ -16,9 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //设置背景
-    g_Global.SetStyleSheet(this);  
-    
     bool check;
     Q_UNUSED(check);
     check = connect(ui->actionAbout_A, SIGNAL(triggered()),
@@ -87,7 +84,6 @@ void MainWindow::closeEvent(QCloseEvent *e)
                     tr("Close"),
                     tr("Is close the programe?"),
                     QMessageBox::Ok | QMessageBox::Cancel);
-    g_Global.SetStyleSheet(&msg);
     if(QMessageBox::Ok == msg.exec())
     {
         //退出程序
