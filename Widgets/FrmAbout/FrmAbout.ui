@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>About the program</string>
+   <string>About Rabbit Immediate Communicate</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../Resource/Resource.qrc">

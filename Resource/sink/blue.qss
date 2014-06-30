@@ -1,6 +1,6 @@
 QMainWindow, QWidget {
-	background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
-		stop: 0 rgba(255, 255, 255, 100%),
-		stop: 1 rgba(10, 144, 255, 100%));
+    background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
+        stop: 0 rgba(255, 255, 255, 100%),
+        stop: 1 rgba(10, 144, 255, 100%));
+    border-radius: 5px;
 }
-

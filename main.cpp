@@ -31,19 +31,19 @@ int main(int argc, char *argv[])
                       QCoreApplication::applicationDirPath());
 #endif
     a.installTranslator(&qtTranslator);
-    //本地化程序资源
+    //本地化程序资源 
     QTranslator myappTranslator;
-    //把翻译文件放在了应用程序目录下,这样可以结约内存,适用于很多语言版本
+    //把翻译文件放在了应用程序目录下,这样可以结约内存,适用于很多语言版本 
     //myappTranslator.load("app_" + locale, a.applicationDirPath());
-    //把翻译文件放在了程序资源中
+    //把翻译文件放在了程序资源中 
     myappTranslator.load(":/translations/" + szLocale);
     a.installTranslator(&myappTranslator);
 
-    QString szFile(":/sink/blue");
+    QString szFile(":/sink/Blue"); //从资源中加载
+    //QString szFile("E:/source/im/client/RabbitIm/Resource/sink/blue.qss");//从文件中加载 
     QFile file(szFile);//从资源文件中加载
     if(file.open(QFile::ReadOnly))
     {
-        //QTextStream filetext(&file);
         QString stylesheet= file.readAll();
         a.setStyleSheet(stylesheet);
         file.close();

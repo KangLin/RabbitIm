@@ -10,6 +10,9 @@
         <file alias="AppIcon">png/AppIcon.png</file>
     </qresource>
     <qresource prefix="/sink">
-        <file alias="blue">sink/blue.qss</file>
+        <file alias="Blue">sink/blue.qss</file>
+    </qresource>
+    <qresource prefix="/image">
+        <file alias="Transparent">png/Transparent.png</file>
     </qresource>
 </RCC>
