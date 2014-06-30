@@ -10,6 +10,7 @@ if [ -n "$1" ]; then
     source build_android_libvpx.sh $1/libvpx
     source build_android_opencv.sh $1/opencv
     source build_android_ffmpeg.sh $1/ffmpeg
+    source build_qxmpp.sh android $1/qxmpp
 else
     source build_android_speexdsp.sh
     source build_android_speex.sh
