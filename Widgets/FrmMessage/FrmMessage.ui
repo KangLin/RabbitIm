@@ -80,12 +80,10 @@
     </layout>
    </item>
    <item row="1" column="0">
-    <widget class="QTextEdit" name="listView">
-    
-    </widget>
+    <widget class="QTextEdit" name="txtView"/>
    </item>
    <item row="2" column="0">
-    <widget class="QTextEdit" name="textEdit">
+    <widget class="QTextEdit" name="txtInput">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -108,6 +106,34 @@
    </item>
    <item row="3" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pbSend">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>77</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Send(&amp;S)</string>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QPushButton" name="pbVideo">
        <property name="sizePolicy">
@@ -158,45 +184,17 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="pbSend">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>77</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Send(&amp;S)</string>
-       </property>
-       <property name="autoDefault">
-        <bool>true</bool>
-       </property>
-       <property name="default">
-        <bool>true</bool>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>
  </widget>
  <tabstops>
+  <tabstop>tbMore</tabstop>
+  <tabstop>txtView</tabstop>
+  <tabstop>txtInput</tabstop>
   <tabstop>pbSend</tabstop>
   <tabstop>pbVideo</tabstop>
   <tabstop>pbBack</tabstop>
-  <tabstop>tbMore</tabstop>
-  <tabstop>listView</tabstop>
-  <tabstop>textEdit</tabstop>
  </tabstops>
  <resources>
   <include location="../../Resource/Resource.qrc"/>

@@ -55,7 +55,9 @@ int main(int argc, char *argv[])
     }
 
     //*
+    QDesktopWidget *pDesk = QApplication::desktop();    
     MainWindow w;
+    w.move((pDesk->width() - w.width()) / 2, (pDesk->height() - w.height()) / 2);
     w.show();//*/
 
     /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())
