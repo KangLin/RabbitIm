@@ -100,6 +100,7 @@ void MainWindow::clientConnected()
     //关闭登录对话框
     if(m_pLogin)
     {
+        m_pLogin->SaveConf();        
         m_pLogin->close();
         delete m_pLogin;
         m_pLogin = NULL;

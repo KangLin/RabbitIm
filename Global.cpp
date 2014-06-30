@@ -260,6 +260,11 @@ QString CGlobal::GetDirApplicationConfigure()
     return GetDirApplication() + "/conf";
 }
 
+QString CGlobal::GetApplicationConfigureFile()
+{
+    return GetDirApplicationConfigure() + "/app.conf";
+}
+
 QString CGlobal::GetDirUserData(const QString bareJid)
 {
     QString jid = GetBareJid();

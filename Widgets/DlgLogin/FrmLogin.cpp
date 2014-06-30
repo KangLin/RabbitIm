@@ -9,20 +9,32 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     ui(new Ui::CFrmLogin)
 {
     ui->setupUi(this);
+
+    ui->lbePrompt->setText("");
+
     m_pRegister = new CFrmRegister();
 
-    //TODO:发行时删除下面行---------------
-    ui->lnServer->setText(g_Global.GetXmppServerHost());
-    //ui->lnServer->setVisible(false);
-#ifdef ANDROID
-    ui->lnUser->setText("a");
-    ui->lnPassword->setText("a");
-#else
-    ui->lnUser->setText("b");
-    ui->lnPassword->setText("b");
-#endif
-    ui->lbePrompt->setText("");
-    //---------------------------------
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    //加载所有用户
+    int userTotal = conf.value("Login/UserTotal", 0).toInt();
+    for(int i = 0; i < userTotal; i++)
+    {
+        ui->cmbUser->addItem(conf.value(QString("Login/UserName") + QString::number(i +1) ).toString());        
+    }
+
+    //最后一次登录用户
+    int nIndex = conf.value("Login/LastUserNameIndex").toInt();
+    ui->cmbUser->setCurrentIndex(nIndex);
+    
+    ui->lnPassword->setText(conf.value("Login/Password" + QString::number(nIndex + 1)).toString());
+    if(ui->lnPassword->text() != "")
+        ui->chkSave->setChecked(true);
+    else
+        ui->chkSave->setChecked(false);
+    
+    ui->chkLogin->setChecked(conf.value("Login/AutoLogin").toBool());
+    
+    ui->lnServer->setText(conf.value("Login/ServerHost", g_Global.GetXmppServerHost()).toString());
 }
 
 CFrmLogin::~CFrmLogin()
@@ -50,7 +62,7 @@ void CFrmLogin::on_pbOk_clicked()
     config.setHost(ui->lnServer->text());
     config.setPort(g_Global.GetXmppServerPort());
     config.setDomain(g_Global.GetXmppServer());
-    config.setUser(ui->lnUser->text());
+    config.setUser(ui->cmbUser->currentText());
     config.setPassword(ui->lnPassword->text());
     g_Global.SetJid(config.jid());
     g_Global.SetXmppServer(ui->lnServer->text());
@@ -87,7 +99,61 @@ int CFrmLogin::SetPrompt(QString szPrompt)
 
 int CFrmLogin::SetLoginInformation(QString szName, QString szPassword)
 {
-    ui->lnUser->setText(szName);
+    ui->cmbUser->setCurrentText(szName);
     ui->lnPassword->setText(szPassword);
     return 0;
+}
+
+int CFrmLogin::SaveConf()
+{
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    int total = conf.value("Login/UserTotal", 0).toInt();
+    int i = 0;
+    for(i = 0; i < total; i++)
+    {
+        if(conf.value("Login/UserName" + QString::number(i +1) ) == ui->cmbUser->currentText())
+        {
+            conf.setValue("Login/LastUserNameIndex",  i);//设置最后一次登录用户的索引
+            if(ui->chkLogin->isChecked() || ui->chkSave->isChecked())
+            {
+                conf.setValue("Login/Password" + QString::number(i +1), EncryptPassword(ui->lnPassword->text()));
+            }
+            else
+                conf.setValue("Login/Password" + QString::number(i +1), "");
+            return 0;
+        }
+    }
+    
+    if(i >= total)
+    {
+        conf.setValue("Login/UserTotal", total + 1);
+        conf.setValue("Login/UserName" + QString::number(total +1), ui->cmbUser->currentText());
+        if(ui->chkLogin->isChecked() || ui->chkSave->isChecked())
+        {
+            conf.setValue("Login/Password" + QString::number(total +1), EncryptPassword(ui->lnPassword->text()));
+        }
+        else
+            conf.setValue("Login/Password" + QString::number(total +1), "");
+    }
+    return 0;
+}
+
+QString CFrmLogin::EncryptPassword(QString szPassword)
+{
+    return szPassword;
+}
+
+QString CFrmLogin::DecryptPassword(QString szPassword)
+{
+    return szPassword;
+}
+void CFrmLogin::on_chkLogin_stateChanged(int state)
+{
+     QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    if(Qt::Unchecked == state)
+    {
+        conf.setValue("Login/AutoLogin", false);
+    }
+    if(Qt::Checked == state)
+            conf.setValue("Login/AutoLogin", true);
 }

@@ -62,6 +62,8 @@ public:
     QString GetDirApplication();
     //应用程序配置目录
     QString GetDirApplicationConfigure();
+    //应用程序配置文件
+    QString GetApplicationConfigureFile();
 
     enum __STYLE_SHEET_TYPE
     {
