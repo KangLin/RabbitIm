@@ -3,6 +3,7 @@
 
 #include <QFrame>
 #include <QMessageBox>
+#include <QTimer>
 #include "../../MainWindow.h"
 #include "../FrmRegister/FrmRegister.h"
 
@@ -28,13 +29,14 @@ private slots:
     void on_pbOk_clicked();
     void on_pbClose_clicked();
     void on_pbRegitster_clicked();
-    
+
     void on_chkLogin_stateChanged(int state);
-    
+
 private:
     Ui::CFrmLogin *ui;
     CFrmRegister *m_pRegister;
-    
+    QTimer m_tmAutoLogin;//用于自动登录
+
     QString EncryptPassword(QString szPassword);
     QString DecryptPassword(QString szPassword);
 };

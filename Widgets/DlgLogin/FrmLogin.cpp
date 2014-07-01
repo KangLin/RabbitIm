@@ -25,16 +25,22 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     //最后一次登录用户
     int nIndex = conf.value("Login/LastUserNameIndex").toInt();
     ui->cmbUser->setCurrentIndex(nIndex);
-    
-    ui->lnPassword->setText(conf.value("Login/Password" + QString::number(nIndex + 1)).toString());
-    if(ui->lnPassword->text() != "")
+
+    ui->lnPassword->setText(conf.value("Login/Password" + QString::number(nIndex + 1), "").toString());
+    if(ui->lnPassword->text() != "" || !ui->lnPassword->text().isEmpty())
         ui->chkSave->setChecked(true);
     else
         ui->chkSave->setChecked(false);
-    
-    ui->chkLogin->setChecked(conf.value("Login/AutoLogin").toBool());
-    
+
+    ui->chkLogin->setChecked(conf.value("Login/AutoLogin", false).toBool());
+
     ui->lnServer->setText(conf.value("Login/ServerHost", g_Global.GetXmppServerHost()).toString());
+    if(ui->chkLogin->checkState() == Qt::Checked)
+    {
+        m_tmAutoLogin.start(1000);
+        bool check = connect(&m_tmAutoLogin, SIGNAL(timeout()), SLOT(on_pbOk_clicked()));
+        Q_ASSERT(check);
+    }
 }
 
 CFrmLogin::~CFrmLogin()
@@ -47,6 +53,9 @@ CFrmLogin::~CFrmLogin()
 
 void CFrmLogin::on_pbOk_clicked()
 {
+    if(m_tmAutoLogin.isActive())
+        m_tmAutoLogin.stop();
+
     bool check = connect(((MainWindow*)(this->parent()))->m_pClient,
                          SIGNAL(connected()),
                          (MainWindow*)(this->parent()),
@@ -123,7 +132,7 @@ int CFrmLogin::SaveConf()
             return 0;
         }
     }
-    
+
     if(i >= total)
     {
         conf.setValue("Login/UserTotal", total + 1);
