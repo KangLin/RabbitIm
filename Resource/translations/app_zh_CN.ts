@@ -148,44 +148,79 @@
         <translation>用户名：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="153"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="156"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="197"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="200"/>
         <source>Server:</source>
         <translation>服务器：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="240"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="243"/>
         <source>Save password</source>
         <translation>保存密码</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="265"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="268"/>
         <source>Auto login</source>
         <translation>自动登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="319"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="293"/>
+        <source>State</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="356"/>
         <source>Login(&amp;L)</source>
         <translation>登录(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="377"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="414"/>
         <source>Register(&amp;R)</source>
         <translation>注册(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="344"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="381"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="44"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="68"/>
         <source>Being Login...</source>
         <translation>正在登录……</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="177"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="218"/>
+        <source>OnLine</source>
+        <translation>在线</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="181"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="210"/>
+        <source>Chat</source>
+        <translation>空闲</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="185"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="242"/>
+        <source>Temporarily away</source>
+        <translation>临时离开</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="189"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="226"/>
+        <source>Do not disturb</source>
+        <translation>请勿打扰</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="193"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="234"/>
+        <source>Invisible</source>
+        <translation>离线</translation>
     </message>
 </context>
 <context>
@@ -201,12 +236,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="128"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="162"/>
         <source>Video(&amp;V)</source>
         <translation>视频(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="153"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="187"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
@@ -216,7 +251,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="178"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="134"/>
         <source>Send(&amp;S)</source>
         <translation>发送(&amp;S)</translation>
     </message>
@@ -387,27 +422,27 @@
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="69"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="109"/>
         <source>PromptTable</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="112"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="158"/>
         <source>Select Camera:</source>
         <translation>选择摄像头:</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="128"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="174"/>
         <source>Select Camera</source>
         <translation>选择摄像头</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="155"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="201"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="180"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="226"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
@@ -558,22 +593,22 @@
         <translation>是否关闭程序？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="138"/>
+        <location filename="../../MainWindow.cpp" line="139"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="142"/>
+        <location filename="../../MainWindow.cpp" line="143"/>
         <source>User name or password error</source>
         <translation>用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="146"/>
+        <location filename="../../MainWindow.cpp" line="147"/>
         <source>Keep Alive error</source>
         <translation>与服务器失去联系</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="148"/>
+        <location filename="../../MainWindow.cpp" line="149"/>
         <source>Login success</source>
         <translation>登录成功</translation>
     </message>

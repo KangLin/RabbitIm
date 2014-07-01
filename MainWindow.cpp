@@ -188,7 +188,7 @@ void MainWindow::stateChanged(QXmppClient::State state)
 void MainWindow::About()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
-    CFrmAbout* pAbout = new CFrmAbout;
+    CFrmAbout* pAbout = new CFrmAbout;//CFrmAbout 会在关闭时自动释放内存
     if(pAbout)
     {
         pAbout->show();

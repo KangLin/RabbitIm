@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
+    <width>329</width>
     <height>478</height>
    </rect>
   </property>
@@ -229,7 +229,7 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>0</width>
+            <width>90</width>
             <height>30</height>
            </size>
           </property>
@@ -254,7 +254,7 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>0</width>
+            <width>90</width>
             <height>30</height>
            </size>
           </property>
@@ -266,6 +266,40 @@
           </property>
           <property name="text">
            <string>Auto login</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pbState">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>State</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="default">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
