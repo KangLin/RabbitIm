@@ -199,12 +199,12 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>tbMore</tabstop>
-  <tabstop>txtView</tabstop>
-  <tabstop>txtInput</tabstop>
   <tabstop>pbSend</tabstop>
   <tabstop>pbVideo</tabstop>
   <tabstop>pbBack</tabstop>
+  <tabstop>tbMore</tabstop>
+  <tabstop>txtView</tabstop>
+  <tabstop>txtInput</tabstop>
  </tabstops>
  <resources>
   <include location="../../Resource/Resource.qrc"/>

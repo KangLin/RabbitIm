@@ -10,6 +10,7 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
     ui(new Ui::CFrmMessage)
 {
     ui->setupUi(this);
+    ui->txtInput->setFocus();//设置焦点
     m_pRoster = NULL;
     m_pMainWindow = NULL;
 }
