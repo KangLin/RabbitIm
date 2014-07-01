@@ -1943,6 +1943,7 @@
 		<row><td>icudt52.dll</td><td>icudt52.dll</td><td>icudt52.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\icudt52.dll</td><td>1</td><td/></row>
 		<row><td>icuin52.dll</td><td>icuin52.dll</td><td>icuin52.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\icuin52.dll</td><td>1</td><td/></row>
 		<row><td>icuuc52.dll</td><td>icuuc52.dll</td><td>icuuc52.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\bin\icuuc52.dll</td><td>1</td><td/></row>
+		<row><td>license.html</td><td>ISX_DEFAULTCOMPONENT3</td><td>LICENS~1.HTM|License.html</td><td>0</td><td/><td/><td/><td>1</td><td>E:\source\im\client\RabbitIm\License.html</td><td>1</td><td/></row>
 		<row><td>opencv_core300.dll</td><td>opencv_core300.dll</td><td>OPENCV~1.DLL|opencv_core300.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\source\im\client\RabbitIm\ThirdLibary\windows\bin\opencv_core300.dll</td><td>1</td><td/></row>
 		<row><td>opencv_imgproc300.dll</td><td>opencv_imgproc300.dll</td><td>OPENCV~1.DLL|opencv_imgproc300.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\source\im\client\RabbitIm\ThirdLibary\windows\bin\opencv_imgproc300.dll</td><td>1</td><td/></row>
 		<row><td>qgenericbearer.dll</td><td>qgenericbearer.dll</td><td>QGENER~1.DLL|qgenericbearer.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\bearer\qgenericbearer.dll</td><td>1</td><td/></row>
@@ -1960,6 +1961,7 @@
 		<row><td>qtmedia_audioengine.dll</td><td>qtmedia_audioengine.dll</td><td>QTMEDI~1.DLL|qtmedia_audioengine.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\mediaservice\qtmedia_audioengine.dll</td><td>1</td><td/></row>
 		<row><td>qwindows.dll</td><td>qwindows.dll</td><td>qwindows.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\platforms\qwindows.dll</td><td>1</td><td/></row>
 		<row><td>qxmpp0.dll</td><td>qxmpp0.dll</td><td>qxmpp0.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\source\im\client\RabbitIm\ThirdLibary\windows\lib\qxmpp0.dll</td><td>1</td><td/></row>
+		<row><td>readme.md</td><td>ISX_DEFAULTCOMPONENT3</td><td>README.md</td><td>0</td><td/><td/><td/><td>1</td><td>E:\source\im\client\RabbitIm\README.md</td><td>1</td><td/></row>
 		<row><td>wmfengine.dll</td><td>wmfengine.dll</td><td>WMFENG~1.DLL|wmfengine.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Qt\Qt5.3.0_msvc\5.3\msvc2013_opengl\plugins\mediaservice\wmfengine.dll</td><td>1</td><td/></row>
 	</table>
 
@@ -2752,7 +2754,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>-895329621</td></row>
+		<row><td>COMPANY_NAME</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>195186097</td></row>
 		<row><td>DN_AlwaysInstall</td><td>2052</td><td>始终安装</td><td>0</td><td/><td>-1029518900</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>2052</td><td>系统颜色设置不足以运行 [ProductName]。</td><td>0</td><td/><td>-1029518900</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>2052</td><td>操作系统不足以运行 [ProductName]。</td><td>0</td><td/><td>-1029518900</td></row>
@@ -3852,15 +3854,15 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>2052</td><td>对于运行 [ProductName] 处理器不足。</td><td>0</td><td/><td>-1029518900</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>2052</td><td>对于运行 [ProductName] 内存量不足。</td><td>0</td><td/><td>-1029518900</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>2052</td><td>对于运行 [ProductName] 屏幕分辨率不足。</td><td>0</td><td/><td>-1029518900</td></row>
-		<row><td>ID_STRING1</td><td>2052</td><td>http://www.康林工作室.com</td><td>0</td><td/><td>-895329621</td></row>
-		<row><td>ID_STRING2</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>-895329621</td></row>
+		<row><td>ID_STRING1</td><td>2052</td><td>http://www.康林工作室.com</td><td>0</td><td/><td>195186097</td></row>
+		<row><td>ID_STRING2</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>195186097</td></row>
 		<row><td>ID_STRING3</td><td>2052</td><td>NEWSHO~1|NewShortcut1</td><td>0</td><td/><td>-1029525493</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>NEWSHO~1|NewShortcut1</td><td>0</td><td/><td>-1029537300</td></row>
 		<row><td>ID_STRING4</td><td>2052</td><td>RabbitIm</td><td>0</td><td/><td>-1029531156</td></row>
 		<row><td>ID_STRING5</td><td>1033</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029569844</td></row>
 		<row><td>ID_STRING5</td><td>2052</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029569844</td></row>
 		<row><td>ID_STRING6</td><td>1033</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029565748</td></row>
-		<row><td>ID_STRING6</td><td>2052</td><td>http://www.康林工作室.com</td><td>0</td><td/><td>-895329621</td></row>
+		<row><td>ID_STRING6</td><td>2052</td><td>http://www.康林工作室.com</td><td>0</td><td/><td>195186097</td></row>
 		<row><td>ID_STRING7</td><td>1033</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029530932</td></row>
 		<row><td>ID_STRING7</td><td>2052</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1029530932</td></row>
 		<row><td>ID_STRING8</td><td>1033</td><td>13034802883</td><td>0</td><td/><td>-895346005</td></row>

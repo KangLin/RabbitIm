@@ -128,7 +128,10 @@ TRANSLATIONS += \
     Resource/translations/app_zh_CN.ts
 
 #安装
-#INSTALLS=target
+other.files = License.html README.md
+other.path = $$PREFIX
+target.path = $$PREFIX
+INSTALLS += other target
 
 OTHER_FILES += README.md \
     .gitignore \
@@ -138,6 +141,7 @@ OTHER_FILES += README.md \
     docs/Books/* \
     docs/QXmpp音视频呼叫流程.txt \
     ThirdLibary/build_script/*.sh \
-    android/AndroidManifest.xml
+    android/AndroidManifest.xml \
+    License.html
 
 ANDROID_EXTRA_LIBS = 
