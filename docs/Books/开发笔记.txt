@@ -14,6 +14,7 @@ windows 应用程序图标 需要单独在根目录下写一个资源文件。�
 
 * QMessageBox 背景设置:http://blog.csdn.net/addfourliu/article/details/6763127
 编写Qt Designer自定义控件（一）——如何创建并使用Qt自定义控件:http://blog.csdn.net/giselite/article/details/12622429
+Qt的皮肤设计:http://blog.csdn.net/lastsoup/article/details/7043124
 
 * Qt 线程
 QtThread线程介绍:http://blog.csdn.net/liuhongwei123888/article/details/6072320

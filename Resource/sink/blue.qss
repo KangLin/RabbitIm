@@ -1,6 +1,67 @@
-QMainWindow, QWidget {
-    background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
+QMainWindow, QFrame, QMessageBox, QMenu {
+    background: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
         stop: 0 rgba(255, 255, 255, 100%),
         stop: 1 rgba(10, 144, 255, 100%));
+    border-radius: 5px
+}
+
+QLabel {
+    background-color: transparent
+}
+
+QPushButton {
+    background-color: transparent;
+    border-width: 2px;
+    border-style: outset;
+    border-color: rgba(255, 255, 255, 80%);
+    border-radius: 5px;
+    min-width: 80px;
+}
+
+QPushButton::hover{
+    background-color: transparent;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 80%);
+    border-radius: 5px;
+    min-width: 80px;
+}
+QPushButton::pressed{
+    background-color: transparent;
+    border-width: 2px;
+    border-style: inset;
+    border-color: rgba(255, 255, 255, 80%);
+    border-radius: 5px;
+    min-width: 80px;
+}
+
+QTreeView::item {
+    border: 0px solid #d9d9d9;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+QTreeView::item:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1);
+    border: 0px solid #bfcde4;
+}
+
+QTreeView::item:selected {
+    border: 0px solid #567dbc;
+}
+
+QTreeView::item:selected:active{
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6ea1f1, stop: 1 #567dbc);
+}
+
+QTreeView::item:selected:!active {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6b9be8, stop: 1 #577fbf);
+}
+
+QTextEdit, QListView {
+    background-color: transparent;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 80%);
     border-radius: 5px;
 }
