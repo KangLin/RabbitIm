@@ -14,6 +14,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    m_pAppTranslator = NULL;
+    m_pQtTranslator = NULL;
+
     ui->setupUi(this);
 
     bool check;
@@ -67,6 +70,11 @@ MainWindow::~MainWindow()
     }
 
     delete ui;
+
+    if(m_pAppTranslator)
+        delete m_pAppTranslator;
+    if(m_pQtTranslator)
+        delete m_pQtTranslator;
 }
 
 void MainWindow::resizeEvent(QResizeEvent *)
@@ -96,29 +104,29 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::clientConnected()
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: CONNECTED");
-    //关闭登录对话框
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: CONNECTED， m_pLogin=0x%X", m_pLogin);
+    //关闭登录对话框  
     if(m_pLogin)
     {
-        m_pLogin->SaveConf();        
+        m_pLogin->SaveConf();
         m_pLogin->close();
         delete m_pLogin;
         m_pLogin = NULL;
     }
 
-    //显示好友列表
+    //显示好友列表  
     if(NULL == m_pUserList)
     {
         m_pUserList = new CFrmUserList(this);
         if(m_pUserList)
-        {    //注册菜单
+        {    //注册菜单  
             m_pUserList->AddToMainMenu(ui->menuOperator_O, ui->actionExit_O);
         }
     }
 
     if(m_pUserList)
     {
-        //把UserList设置到主窗口中心
+        //把UserList设置到主窗口中心  
         this->setCentralWidget(m_pUserList);
     }
 }
@@ -194,4 +202,69 @@ void MainWindow::About()
         pAbout->show();
         pAbout->activateWindow();
     }
+}
+
+void MainWindow::on_actionChange_Style_Sheet_S_triggered()
+{
+    //*从资源中加载应用程序样式 
+    QString szFile = QFileDialog::getOpenFileName(this, tr("Open File"), QString(), "*.qss");
+    if(szFile.isEmpty())
+        return;
+
+    QFile file(szFile);//从资源文件中加载 
+    if(file.open(QFile::ReadOnly))
+    {
+        QString stylesheet= file.readAll();
+        qApp->setStyleSheet(stylesheet);
+        file.close();
+        QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+        conf.setValue("UI/StyleSheet", szFile);
+    }
+    else
+    {
+        LOG_MODEL_ERROR("app", "file open file [%s] fail:%d", 
+                        szFile.toStdString().c_str(), file.error());
+    }//*/
+}
+
+//TODO:语言动态切换不对 
+void MainWindow::on_actionEnglish_E_triggered()
+{
+    qApp->removeTranslator(m_pQtTranslator);
+    qApp->removeTranslator(m_pAppTranslator);
+}
+
+//TODO:语言动态切换不对 
+void MainWindow::on_actionChinese_C_triggered()
+{
+    qApp->removeTranslator(m_pQtTranslator);
+    qApp->removeTranslator(m_pAppTranslator);
+
+    if(m_pQtTranslator)
+        delete m_pQtTranslator;
+    m_pQtTranslator = new QTranslator;
+    
+    if(m_pQtTranslator)
+        delete m_pQtTranslator;
+    m_pQtTranslator = new QTranslator;
+    
+    //本地化QT资源
+    QString szLocale = "zh_CN";
+#ifdef DEBUG
+    m_pQtTranslator->load("qt_" + szLocale,
+                      QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    LOG_MODEL_DEBUG("main", 
+                    QLibraryInfo::location(QLibraryInfo::TranslationsPath).toStdString().c_str());
+#else
+    m_pQtTranslator->load("qt_" + szLocale,
+                      QCoreApplication::applicationDirPath());
+#endif
+    qApp->installTranslator(m_pQtTranslator);
+
+    //本地化程序资源 
+    //把翻译文件放在了应用程序目录下,这样可以结约内存,适用于很多语言版本 
+    //myappTranslator.load("app_" + locale, a.applicationDirPath());
+    //把翻译文件放在了程序资源中 
+    m_pAppTranslator->load(":/translations/" + szLocale);
+    qApp->installTranslator(m_pAppTranslator);
 }

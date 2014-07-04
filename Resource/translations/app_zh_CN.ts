@@ -78,7 +78,7 @@ p, li { white-space: pre-wrap; }
         <translation>版本：1.0.0.0 次版本：0000</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmAbout/FrmAbout.ui" line="209"/>
+        <location filename="../../Widgets/FrmAbout/FrmAbout.ui" line="215"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -100,7 +100,7 @@ p, li { white-space: pre-wrap; }
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;50人以上的企事业、集体、单位使用需要得到本人书面许可。&lt;/li&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;未经本人书面许可，任何人不得利用本软件从事商业活动。&lt;/li&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;其它未尽事宜遵守《GPL协议》&lt;/li&gt;&lt;/ol&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation ></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmAbout/FrmAbout.ui" line="176"/>
@@ -110,7 +110,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmAbout/FrmAbout.cpp" line="12"/>
         <source>Version:%1</source>
-        <translation >版本：%1</translation>
+        <translation>版本：%1</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmAbout/FrmAbout.cpp" line="14"/>
@@ -231,37 +231,37 @@ p, li { white-space: pre-wrap; }
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="68"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="71"/>
         <source>Being Login...</source>
         <translation>正在登录……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="177"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="218"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="180"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="221"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="181"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="210"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="184"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="213"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="185"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="242"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="188"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="245"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="189"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="226"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="192"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="229"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="193"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="234"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="196"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="237"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
@@ -549,33 +549,33 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global.cpp" line="220"/>
+        <location filename="../../Global.cpp" line="225"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="222"/>
+        <location filename="../../Global.cpp" line="227"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="224"/>
+        <location filename="../../Global.cpp" line="229"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="226"/>
+        <location filename="../../Global.cpp" line="231"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="228"/>
-        <location filename="../../Global.cpp" line="232"/>
+        <location filename="../../Global.cpp" line="233"/>
+        <location filename="../../Global.cpp" line="237"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="230"/>
+        <location filename="../../Global.cpp" line="235"/>
         <source>Away for an extended period</source>
         <translation>离开</translation>
     </message>
@@ -611,49 +611,74 @@ p, li { white-space: pre-wrap; }
         <translation>操作(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="35"/>
+        <location filename="../../MainWindow.ui" line="32"/>
+        <source>Change Language(&amp;C)</source>
+        <translation>改变语言(&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="45"/>
         <source>Help(&amp;H)</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="44"/>
+        <location filename="../../MainWindow.ui" line="54"/>
         <source>Exit(&amp;O)</source>
         <translation>退出(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="49"/>
+        <location filename="../../MainWindow.ui" line="59"/>
         <source>About(&amp;A)</source>
         <translation>关于(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="84"/>
+        <location filename="../../MainWindow.ui" line="64"/>
+        <source>English(&amp;E)</source>
+        <translation>英文(&amp;E)</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="69"/>
+        <source>Chinese(&amp;C)</source>
+        <translation>中文(&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.ui" line="74"/>
+        <source>Change Style Sheet(&amp;S)</source>
+        <translation >改变样式(&amp;S)</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="92"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="85"/>
+        <location filename="../../MainWindow.cpp" line="93"/>
         <source>Is close the programe?</source>
         <translation>是否关闭程序？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="139"/>
+        <location filename="../../MainWindow.cpp" line="147"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="143"/>
+        <location filename="../../MainWindow.cpp" line="151"/>
         <source>User name or password error</source>
         <translation>用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="147"/>
+        <location filename="../../MainWindow.cpp" line="155"/>
         <source>Keep Alive error</source>
         <translation>与服务器失去联系</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="149"/>
+        <location filename="../../MainWindow.cpp" line="157"/>
         <source>Login success</source>
         <translation>登录成功</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="210"/>
+        <source>Open File</source>
+        <translation>打开文件</translation>
     </message>
 </context>
 </TS>

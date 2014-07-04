@@ -26,3 +26,5 @@ QtThread线程介绍:http://blog.csdn.net/liuhongwei123888/article/details/60723
 用QWidget::setMouseTracking进行设置。
 
 * Qt 处理摄像头：http://blog.csdn.net/kl222/article/details/23187693
+
+* Qt 处理配置文件：参考代码中的CFrmLogin::SaveConf

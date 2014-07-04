@@ -32,6 +32,10 @@ protected slots:
     void clientIqReceived(const QXmppIq &iq);
     void stateChanged(QXmppClient::State state);
 
+    void on_actionChange_Style_Sheet_S_triggered();
+    void on_actionEnglish_E_triggered();
+    void on_actionChinese_C_triggered();
+
 protected:
     void resizeEvent(QResizeEvent *);
     void showEvent(QShowEvent *);
@@ -41,6 +45,9 @@ private:
     Ui::MainWindow *ui;
     CFrmLogin *m_pLogin;
     CFrmUserList* m_pUserList;
+
+    QTranslator *m_pAppTranslator;
+    QTranslator *m_pQtTranslator;
 };
 
 #endif // MAINWINDOW_H

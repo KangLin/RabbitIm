@@ -8,6 +8,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmLogin)
 {
+    LOG_MODEL_DEBUG("Login", "CFrmLogin::CFrmLogin");
     ui->setupUi(this);
 
     ui->lbePrompt->setText("");
@@ -52,6 +53,8 @@ CFrmLogin::~CFrmLogin()
 
     if(m_pRegister)
         delete m_pRegister;
+    
+    LOG_MODEL_DEBUG("Login", "CFrmLogin::~CFrmLogin");
 }
 
 void CFrmLogin::on_pbOk_clicked()
@@ -120,6 +123,7 @@ int CFrmLogin::SetLoginInformation(QString szName, QString szPassword)
 
 int CFrmLogin::SaveConf()
 {
+    LOG_MODEL_DEBUG("Login", "CFrmLogin::SaveConf");
     QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
     int total = conf.value("Login/UserTotal", 0).toInt();
     int i = 0;

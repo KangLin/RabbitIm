@@ -30,29 +30,31 @@ int main(int argc, char *argv[])
     qtTranslator.load("qt_" + szLocale,
                       QCoreApplication::applicationDirPath());
 #endif
-    a.installTranslator(&qtTranslator);
+    qApp->installTranslator(&qtTranslator);
     //本地化程序资源 
     QTranslator myappTranslator;
     //把翻译文件放在了应用程序目录下,这样可以结约内存,适用于很多语言版本 
     //myappTranslator.load("app_" + locale, a.applicationDirPath());
     //把翻译文件放在了程序资源中 
     myappTranslator.load(":/translations/" + szLocale);
-    a.installTranslator(&myappTranslator);
+    qApp->installTranslator(&myappTranslator);
 
-    QString szFile(":/sink/Blue"); //从资源中加载
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    //*从资源中加载应用程序样式
+    QString szFile(conf.value("UI/StyleSheet", ":/sink/Blue").toString()); 
     //QString szFile("E:/source/im/client/RabbitIm/Resource/sink/blue.qss");//从文件中加载 
     QFile file(szFile);//从资源文件中加载
     if(file.open(QFile::ReadOnly))
     {
         QString stylesheet= file.readAll();
-        a.setStyleSheet(stylesheet);
+        qApp->setStyleSheet(stylesheet);
         file.close();
     }
     else
     {
         LOG_MODEL_ERROR("app", "file open file [%s] fail:%d", 
                         szFile.toStdString().c_str(), file.error());
-    }
+    }//*/
 
     //*
     QDesktopWidget *pDesk = QApplication::desktop();    
