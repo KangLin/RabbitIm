@@ -16,9 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //设置背景
-    g_Global.SetStyleSheet(this);  
-    
     bool check;
     Q_UNUSED(check);
     check = connect(ui->actionAbout_A, SIGNAL(triggered()),
@@ -87,7 +84,6 @@ void MainWindow::closeEvent(QCloseEvent *e)
                     tr("Close"),
                     tr("Is close the programe?"),
                     QMessageBox::Ok | QMessageBox::Cancel);
-    g_Global.SetStyleSheet(&msg);
     if(QMessageBox::Ok == msg.exec())
     {
         //退出程序
@@ -104,6 +100,7 @@ void MainWindow::clientConnected()
     //关闭登录对话框
     if(m_pLogin)
     {
+        m_pLogin->SaveConf();        
         m_pLogin->close();
         delete m_pLogin;
         m_pLogin = NULL;
@@ -191,7 +188,7 @@ void MainWindow::stateChanged(QXmppClient::State state)
 void MainWindow::About()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
-    CFrmAbout* pAbout = new CFrmAbout;
+    CFrmAbout* pAbout = new CFrmAbout;//CFrmAbout 会在关闭时自动释放内存
     if(pAbout)
     {
         pAbout->show();

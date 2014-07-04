@@ -79,6 +79,8 @@ signals:
 
 private slots:
     virtual bool present(const QVideoFrame &frame);
+    void updateCameraState(QCamera::State state);
+    void displayCameraError(QCamera::Error e);
 
 private:
      QVideoProbe m_Probe;//android下,目前只能用probe捕获视频

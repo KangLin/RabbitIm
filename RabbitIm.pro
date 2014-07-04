@@ -19,14 +19,11 @@ TEMPLATE = app
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 DEFINES += QXMPP_STATIC
-# qxmpp 库名
+
 CONFIG(debug, debug|release) {
-    QXMPP_LIBRARY_NAME = -lqxmpp_d
     #调试宏
      DEFINES += DEBUG #DEBUG_VIDEO_TIME 
-} else {
-    QXMPP_LIBRARY_NAME = -lqxmpp
-}
+} 
 
 QXMPP_USE_VPX = 1
 #QXMPP_USE_SPEEX=1
@@ -49,7 +46,7 @@ android{
     INCLUDEPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
     DEFINES += ANDROID
-
+    QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
     LIBS += -L$$PWD/ThirdLibary/android/lib  
 } else:win32{
     msvc {
@@ -72,16 +69,24 @@ android{
     CONFIG(release, debug|release){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmt
-            QXMPP_LIBRARY_NAME = qxmpp.lib
+            QXMPP_LIBRARY_NAME = qxmpp.lib# qxmpp 库名
+        }
+        else{
+             QXMPP_LIBRARY_NAME = -lqxmpp# qxmpp 库名
         }
 
+
         OPENCV_VERSION=300
+
     } else:CONFIG(debug, debug|release){
         DEFINES += DEBUG
 
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
-            QXMPP_LIBRARY_NAME = qxmpp_d.lib
+            QXMPP_LIBRARY_NAME = qxmpp_d.lib# qxmpp 库名
+        }
+        else{
+             QXMPP_LIBRARY_NAME = -lqxmpp_d# qxmpp 库名
         }
 
         OPENCV_VERSION=300d
@@ -93,7 +98,9 @@ android{
     INCLUDEPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
 
-    LIBS += -L$$PWD/ThirdLibary/unix/lib 
+    QXMPP_LIBRARY_NAME = -lqxmpp# qxmpp 库名
+
+    LIBS += -L$$PWD/ThirdLibary/unix/lib
 }
 
 !isEmpty(RABBITIM_USER_OPENCV) {
@@ -121,7 +128,10 @@ TRANSLATIONS += \
     Resource/translations/app_zh_CN.ts
 
 #安装
-#INSTALLS=target
+other.files = License.html README.md
+other.path = $$PREFIX
+target.path = $$PREFIX
+INSTALLS += other target
 
 OTHER_FILES += README.md \
     .gitignore \
@@ -131,6 +141,7 @@ OTHER_FILES += README.md \
     docs/Books/* \
     docs/QXmpp音视频呼叫流程.txt \
     ThirdLibary/build_script/*.sh \
-    android/AndroidManifest.xml
+    android/AndroidManifest.xml \
+    License.html
 
 ANDROID_EXTRA_LIBS = 

@@ -67,6 +67,12 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>102</width>
+            <height>30</height>
+           </size>
+          </property>
           <property name="text">
            <string>User:</string>
           </property>
@@ -102,6 +108,12 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>102</width>
+            <height>30</height>
+           </size>
+          </property>
           <property name="text">
            <string>Password:</string>
           </property>
@@ -130,6 +142,12 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>102</width>
+            <height>30</height>
+           </size>
           </property>
           <property name="text">
            <string>Confirm password:</string>
@@ -160,6 +178,12 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>102</width>
+            <height>30</height>
+           </size>
+          </property>
           <property name="text">
            <string>Email:</string>
           </property>
@@ -188,6 +212,12 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>102</width>
+            <height>30</height>
+           </size>
           </property>
           <property name="text">
            <string>Instructions:</string>

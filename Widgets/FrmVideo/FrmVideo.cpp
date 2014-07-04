@@ -34,9 +34,6 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     LOG_MODEL_DEBUG("Video", "CFrmVideo::CFrmVideo");
     ui->setupUi(this);
 
-    //设置背景 
-    g_Global.SetStyleSheet(this);
-    
     /*设置提示文本颜色 
     QPalette pe;
     pe.setColor(QPalette::WindowText, Qt::white);
@@ -311,7 +308,6 @@ int CFrmVideo::Call(QString jid)
                         tr("Call"),
                         tr("Working with %1 call, Do you stop it?").arg(QXmppUtils::jidToUser(m_pCall->jid())),
                         QMessageBox::Yes | QMessageBox::No);
-        g_Global.SetStyleSheet(&msg);
         if(QMessageBox::Yes == msg.exec())
         {
             m_pCall->hangup();
@@ -552,7 +548,7 @@ void CFrmVideo::PlayCallSound(QXmppCall* pCall)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::PlayCallSound");
     QString file;
-    if(pCall->direction() == QXmppCall::Direction::OutgoingDirection)
+    if(pCall->direction() == QXmppCall::OutgoingDirection)
         file = ":/sound/Call";
     else
         file = ":/sound/Receive";
@@ -782,6 +778,16 @@ void CFrmVideo::slotCaptureFrame(const QXmppVideoFrame &frame)
         return;
     }
 
+//    static int nWidth = 0, nHeight = 0;
+//    if(frame.width() != nWidth || frame.height() != frame.height())
+//    {
+//        nWidth = frame.width();
+//        nHeight = frame.height();
+//        QXmppVideoFormat format = pChannel->decoderFormat();
+//        format.setFrameSize(QSize(nWidth, nHeight));
+//        pChannel->setEncoderFormat(format);
+//    }
+    
     pChannel->writeFrame(frame);
 }
 

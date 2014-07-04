@@ -36,11 +36,8 @@ protected:
 
 private slots:
     void on_pbBack_clicked();
-
     void on_pbSend_clicked();
-
     void on_tbMore_clicked();
-
     void on_pbVideo_clicked();
 
     void ChangedPresence(QXmppPresence::AvailableStatusType status);
@@ -51,7 +48,6 @@ private:
     CRoster *m_pRoster;
     MainWindow* m_pMainWindow;
 
-    QStandardItemModel *m_pModel;
     QStringList m_szMessages;
 };
 

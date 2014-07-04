@@ -41,7 +41,8 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/FrameProcess.h \
     Widgets/FrmAddRoster/FrmAddRoster.h \
     Widgets/FrmUserList/TreeUserList.h \
-    Widgets/FrmVideo/RecordAudio.h
+    Widgets/FrmVideo/RecordAudio.h \
+    Widgets/FrmAbout/Version.h
 
 FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \

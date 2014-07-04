@@ -127,6 +127,8 @@ int CCaptureVideoFrame::StartCapture()
     m_pCamera->setCaptureMode(QCamera::CaptureVideo);
     setSource(m_pCamera);
 
+    connect(m_pCamera, SIGNAL(stateChanged(QCamera::State)), this, SLOT(updateCameraState(QCamera::State)));
+    connect(m_pCamera, SIGNAL(error(QCamera::Error)), this, SLOT(displayCameraError(QCamera::Error)));
     //m_pCamera->load();
     
     m_pCamera->start();
@@ -138,11 +140,22 @@ int CCaptureVideoFrame::StopCapture()
     if(m_pCamera)
     {
         m_pCamera->stop();
+        m_pCamera->disconnect(this);
         //m_pCamera->unload();
         delete m_pCamera;
         m_pCamera = NULL;
     }
     return 0;
+}
+
+void CCaptureVideoFrame::updateCameraState(QCamera::State state)
+{
+    LOG_MODEL_DEBUG("CaptureVideo", "CCaptureVideoFrame::updateCameraState:%d", state);
+}
+
+void CCaptureVideoFrame::displayCameraError(QCamera::Error e)
+{
+    LOG_MODEL_DEBUG("CaptureVideo", "CCaptureVideoFrame::updateCameraState:%d", e);
 }
 
 QList<QString> CCaptureVideoFrame::GetAvailableDevices()

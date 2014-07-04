@@ -183,6 +183,8 @@ int CRoster::ShowMessageDialog()
 {
     int nRet = 0;
 
+    QDesktopWidget *pDesk = QApplication::desktop();    
+    m_Message.move((pDesk->width() - m_Message.width()) / 2, (pDesk->height() - m_Message.height()) / 2);
     m_Message.show();
     m_Message.activateWindow();//激活窗口，置顶
 

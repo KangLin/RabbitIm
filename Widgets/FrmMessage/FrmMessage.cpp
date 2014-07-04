@@ -10,17 +10,9 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
     ui(new Ui::CFrmMessage)
 {
     ui->setupUi(this);
+    ui->txtInput->setFocus();//设置焦点
     m_pRoster = NULL;
     m_pMainWindow = NULL;
-
-    m_pModel = new QStandardItemModel();
-    ui->listView->setModel(m_pModel);
-    //禁止编辑条目
-    ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->listView->setAutoScroll(true);
-    
-    //设置背景
-    g_Global.SetStyleSheet(this);
 }
 
 CFrmMessage::~CFrmMessage()
@@ -81,21 +73,16 @@ void CFrmMessage::on_pbBack_clicked()
 
 int CFrmMessage::AppendMessageToList(const QString &szMessage, const QString &name, bool bRemote)
 {
-    QStandardItem* pRosterName = new QStandardItem(
-                "[" + QTime::currentTime().toString() + "]"
-                + name + ":");
-    m_pModel->appendRow(pRosterName);
+    QString recMsg = szMessage;
+    QString msg("<font color='");
     if(bRemote)
-        pRosterName->setData(g_Global.GetRosterColor(), Qt::ForegroundRole);
-    else
-        pRosterName->setData(g_Global.GetUserColor(), Qt::ForegroundRole);
-
-    QStandardItem* pMessage = new QStandardItem(szMessage);
-    m_pModel->appendRow(pMessage);
-
-    //列表自动定位到最后一行
-    QModelIndex index = m_pModel->index(m_pModel->rowCount() - 1, 0);
-    ui->listView->setCurrentIndex(index);
+        msg += g_Global.GetRosterColor().name();
+     else
+         msg += g_Global.GetUserColor().name();
+    msg += "'>[";
+    msg += QTime::currentTime().toString()  +  "]" + name +  ":</font><br /><font color='black'>";
+    msg += recMsg.replace(QString("\n"), QString("<br />")) +  "</font><p />";
+    ui->txtView->append(msg);
     return 0;
 }
 
@@ -107,13 +94,16 @@ int CFrmMessage::AppendMessage(const QString &szMessage)
 
 void CFrmMessage::on_pbSend_clicked()
 {
-    AppendMessageToList(ui->textEdit->toPlainText());
+    //QString message=ui->txtInput->toHtml();
+    //LOG_MODEL_DEBUG("FrmMessage", "message:%s", message.toStdString().c_str());
+    
+    AppendMessageToList(ui->txtInput->toPlainText());
 
     //发送
-    QXmppMessage msg("", m_pRoster->BareJid(), ui->textEdit->toPlainText());
+    QXmppMessage msg("", m_pRoster->BareJid(), ui->txtInput->toPlainText());
     m_pMainWindow->m_pClient->sendPacket(msg);
 
-    ui->textEdit->clear();//清空输入框中的内容
+    ui->txtInput->clear();//清空输入框中的内容
 }
 
 void CFrmMessage::on_tbMore_clicked()
@@ -125,6 +115,9 @@ void CFrmMessage::on_pbVideo_clicked()
     CFrmVideo *pVideo = CFrmVideo::instance(m_pMainWindow->m_pClient);
     if(NULL == pVideo)
         return;
+    
+    QDesktopWidget *pDesk = QApplication::desktop();
+    pVideo->move((pDesk->width() - pVideo->width()) / 2, (pDesk->height() - pVideo->height()) / 2);
     pVideo->show();
     pVideo->activateWindow();
     pVideo->Call(m_pRoster->BareJid() + "/QXmpp");
