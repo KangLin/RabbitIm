@@ -55,13 +55,18 @@ int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszMode
     
     va_list args;
     va_start (args, pFormatString);
-    vsprintf(buf, pFormatString, args);
+    int nRet = vsnprintf(buf, 1024, pFormatString, args);
     va_end (args);
+    if(nRet < 0 || nRet >= 1024)
+    {
+        LOG_MODEL_ERROR("Global", "vsprintf is fail:%d", nRet);
+        return nRet;
+    }
     szTemp += buf;
     
     Q_UNUSED(nLevel);
     
-    qDebug() << qPrintable(szTemp.c_str());
+    qDebug() << szTemp.c_str();
 
     return 0;
 }
