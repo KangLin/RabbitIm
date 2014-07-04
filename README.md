@@ -3,8 +3,8 @@
 
 作者：康林（msn、email:kl222@126.com；QQ:16614119)  
 博客：http://blog.csdn.net/kl222  
-项目位置：https://code.csdn.net/kl222/rabbitim
-
+项目位置：https://code.csdn.net/kl222/rabbitim  
+讨论组: https://code.csdn.net/groups/822560
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 功能:
