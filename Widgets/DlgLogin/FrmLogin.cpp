@@ -245,3 +245,13 @@ void CFrmLogin::slotTemporarilyawayTriggered()
     conf.setValue("Login/LoginState", m_Status);
     ui->pbState->setText(tr("Temporarily away"));
 }
+
+void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
+{
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    ui->lnPassword->setText(conf.value("Login/Password" + QString::number(index + 1), "").toString());
+    if(ui->lnPassword->text() == "" || ui->lnPassword->text().isEmpty())
+        ui->chkSave->setChecked(false);
+    else
+        ui->chkSave->setChecked(true);
+}

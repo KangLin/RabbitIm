@@ -37,6 +37,8 @@ private slots:
     void slotDoNotDisturbTriggered();
     void slotInvisibleTriggered();
 
+    void on_cmbUser_currentIndexChanged(int index);
+    
 private:
     Ui::CFrmLogin *ui;
     CFrmRegister *m_pRegister;
