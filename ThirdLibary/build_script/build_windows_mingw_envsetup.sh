@@ -5,7 +5,7 @@
 if [ -n "${RabbitImRoot}" ]; then
     PREFIX=${RabbitImRoot}/ThirdLibary/windows_mingw
 else
-    PREFIX=`pwd`/../windows    #修改这里为安装前缀 
+    PREFIX=`pwd`/../windows_mingw    #修改这里为安装前缀 
 fi
 
 if [ ! -d ${PREFIX} ]; then
