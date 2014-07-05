@@ -257,7 +257,13 @@ QColor CGlobal::GetStatusColor(QXmppPresence::AvailableStatusType status)
 
 QString CGlobal::GetDirApplication()
 {
+#ifdef ANDROID
+    LOG_MODEL_DEBUG("global", "GetDirApplication:%s", qApp->applicationDirPath().toStdString().c_str());
+    return qApp->applicationDirPath() + "/..";
+#else
+    LOG_MODEL_DEBUG("global", "GetDirApplication:%s", qApp->applicationDirPath().toStdString().c_str());
     return qApp->applicationDirPath();
+#endif
 }
 
 QString CGlobal::GetDirApplicationConfigure()
@@ -265,6 +271,7 @@ QString CGlobal::GetDirApplicationConfigure()
     return GetDirApplication() + "/conf";
 }
 
+//应用程序的配置文件
 QString CGlobal::GetApplicationConfigureFile()
 {
     return GetDirApplicationConfigure() + "/app.conf";

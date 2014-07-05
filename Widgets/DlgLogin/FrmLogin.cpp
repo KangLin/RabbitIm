@@ -53,7 +53,7 @@ CFrmLogin::~CFrmLogin()
 
     if(m_pRegister)
         delete m_pRegister;
-    
+
     LOG_MODEL_DEBUG("Login", "CFrmLogin::~CFrmLogin");
 }
 
@@ -129,7 +129,7 @@ int CFrmLogin::SaveConf()
     int i = 0;
     for(i = 0; i < total; i++)
     {
-        if(conf.value("Login/UserName" + QString::number(i +1) ) == ui->cmbUser->currentText())
+        if(conf.value("Login/UserName" + QString::number(i + 1)) == ui->cmbUser->currentText())
         {
             conf.setValue("Login/LastUserNameIndex",  i);//设置最后一次登录用户的索引
             if(ui->chkLogin->isChecked() || ui->chkSave->isChecked())
@@ -165,6 +165,7 @@ QString CFrmLogin::DecryptPassword(QString szPassword)
 {
     return szPassword;
 }
+
 void CFrmLogin::on_chkLogin_stateChanged(int state)
 {
      QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);

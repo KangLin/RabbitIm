@@ -135,4 +135,6 @@ OTHER_FILES += README.md \
     android/AndroidManifest.xml \
     License.html
 
-ANDROID_EXTRA_LIBS = 
+#ANDROID 平台相关内容  
+ANDROID_EXTRA_LIBS =   #ANDROID 平台的扩展库
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android  #ANDROID包的源码目录

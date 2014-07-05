@@ -28,3 +28,8 @@ QtThread线程介绍:http://blog.csdn.net/liuhongwei123888/article/details/60723
 * Qt 处理摄像头：http://blog.csdn.net/kl222/article/details/23187693
 
 * Qt 处理配置文件：参考代码中的CFrmLogin::SaveConf
+
+* Qt android 平台写配置文件权限：
+android平台编译出来的是一个动态库，它安装后，位于安装目录的lib目录下。此目录只有读权限。只有system用户才有写权限。
+而安装目录除了lib目录外，对应用程序的用户有读写权限。
+qApp->applicationDirPath()得到的是安装目录下lib的位置。所以向上一级，到安装目录，就可以有读写权限。
