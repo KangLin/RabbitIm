@@ -19,6 +19,7 @@ TEMPLATE = app
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 DEFINES += QXMPP_STATIC
+QXMPP_LIBRARY_NAME = -lqxmpp# qxmpp 库名
 
 CONFIG(debug, debug|release) {
     #调试宏
@@ -46,7 +47,6 @@ android{
     INCLUDEPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
     DEFINES += ANDROID
-    QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
     LIBS += -L$$PWD/ThirdLibary/android/lib  
 } else:win32{
     msvc {
@@ -55,6 +55,8 @@ android{
         INCLUDEPATH += $$PWD/ThirdLibary/windows_msvc/include $$WEBRTC_ROOT
         DEPENDPATH += $$PWD/ThirdLibary/windows_msvc/include $$WEBRTC_ROOT
         LIBS += -L$$PWD/ThirdLibary/windows_msvc/lib
+
+        QXMPP_LIBRARY_NAME = qxmpp.lib# qxmpp 库名
 
         #msvc 下直接用库文名查找依赖库
         FFMPEG_LIBRARY= libavcodec.a libavformat.a libswscale.a libswresample.a libavfilter.a libavutil.a
@@ -69,12 +71,7 @@ android{
     CONFIG(release, debug|release){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmt
-            QXMPP_LIBRARY_NAME = qxmpp.lib# qxmpp 库名
         }
-        else{
-             QXMPP_LIBRARY_NAME = -lqxmpp# qxmpp 库名
-        }
-
 
         OPENCV_VERSION=300
 
@@ -83,10 +80,6 @@ android{
 
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
-            QXMPP_LIBRARY_NAME = qxmpp_d.lib# qxmpp 库名
-        }
-        else{
-             QXMPP_LIBRARY_NAME = -lqxmpp_d# qxmpp 库名
         }
 
         OPENCV_VERSION=300d
@@ -97,8 +90,6 @@ android{
 } else:unix {
     INCLUDEPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
-
-    QXMPP_LIBRARY_NAME = -lqxmpp# qxmpp 库名
 
     LIBS += -L$$PWD/ThirdLibary/unix/lib
 }
