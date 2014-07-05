@@ -10,12 +10,12 @@
 
 #需要设置下面变量：
 #QMAKE=/c/QT/Qt5.3.0_msvc/5.3/msvc2013_opengl/bin/qmake.exe   #设置用于 mingw 平台编译的 QMAKE
-#JOM=/c/Qt/Qt5.3.0_android/Tools/QtCreator/bin/jom.exe                 #设置 QT make 工具 JOM
+#JOM=/c/Qt/Qt5.3.0_msvc/Tools/QtCreator/bin/jom.exe           #设置 QT make 工具 JOM
 
 if [ -n "${RabbitImRoot}" ]; then
     PREFIX=${RabbitImRoot}/ThirdLibary/windows_msvc
 else
-    PREFIX=`pwd`/../windows    #修改这里为安装前缀 
+    PREFIX=`pwd`/../windows_msvc    #修改这里为安装前缀 
 fi
 
 if [ ! -d ${PREFIX} ]; then
