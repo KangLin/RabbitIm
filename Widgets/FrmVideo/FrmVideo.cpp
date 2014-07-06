@@ -28,7 +28,7 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     QFrame(parent),
     m_RemotePlayer(this),
     m_LocalePlayer(this),
-    m_CaptureVideoFrame(this),
+    m_Camera(this),
     ui(new Ui::CFrmVideo)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::CFrmVideo");
@@ -117,12 +117,12 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
     Q_ASSERT(check);
 
     //连接本地视频头捕获视频帧信号到本地播放视频窗口
-    check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
+    check = connect(&m_Camera, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
                     &m_LocalePlayer, SLOT(slotPresent(const QVideoFrame&)));
     Q_ASSERT(check);
 
     //连接到网络发送
-    check = connect(&m_CaptureVideoFrame, SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
+    check = connect(&m_Camera, SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
                     SLOT(slotCaptureFrame(const QXmppVideoFrame&)));
     Q_ASSERT(check);
 
@@ -702,19 +702,19 @@ int CFrmVideo::StopAudioDevice()
 #ifdef ANDROID
 QCamera::Position CFrmVideo::GetCameraPostion()
 {
-    return m_CaptureVideoFrame.GetCameraPoistion();
+    return m_Camera.GetCameraPoistion();
 }
 #endif
 
 int CFrmVideo::InitCamera()
 {
-    QList<QString> dev = m_CaptureVideoFrame.GetAvailableDevices();
+    QList<QString> dev = m_Camera.GetAvailableDevices();
     QList<QString>::iterator it;
     for (it = dev.begin(); it != dev.end(); it++)
     {
         ui->cmbCamera->addItem(*it);
     }
-    ui->cmbCamera->setCurrentIndex(m_CaptureVideoFrame.GetDeviceIndex());
+    ui->cmbCamera->setCurrentIndex(m_Camera.GetDeviceIndex());
     return 0;
 }
 
@@ -725,8 +725,8 @@ int CFrmVideo::StartVideo()
         LOG_MODEL_ERROR("Video", "CFrmVideo::OpenCamera m_pCall is null");
         return -1;
     }
-    
-    m_CaptureVideoFrame.StartCapture();
+
+    m_Camera.Start();
 
     // 改变默认的视频编码格式
     //m_pCall->videoChannel()->setEncoderFormat(videoFormat);
@@ -749,7 +749,7 @@ int CFrmVideo::StartVideo()
 
 int CFrmVideo::StopVideo()
 {
-    m_CaptureVideoFrame.StopCapture();
+    m_Camera.Stop();
 
     m_LocalePlayer.close();
     m_RemotePlayer.close();
@@ -868,5 +868,5 @@ void CFrmVideo::on_cmbCamera_currentIndexChanged(int index)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::on_cmbCamera_currentIndexChanged");
 
-    m_CaptureVideoFrame.SetDeviceIndex(index);
+    m_Camera.SetDeviceIndex(index);
 }

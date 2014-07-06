@@ -10,55 +10,15 @@
 CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
     QAbstractVideoSurface(parent)
 {
-    if(!parent)
-        LOG_MODEL_ERROR("Video", "CCaptureVideoFrame::CCaptureVideoFrame parent is null");
-    
-    CFrmVideo* pFrmVideo = (CFrmVideo*)parent;
-    if(pFrmVideo)
-        m_CaptureFrameProcess.moveToThread(pFrmVideo->GetVideoThread());
-
-    bool check = true;
-    check = m_CaptureFrameProcess.connect(this,
-                      SIGNAL(sigRawCaptureFrame(const QVideoFrame&)),
-                      SLOT(slotCaptureFrame(const QVideoFrame&)));
-    Q_ASSERT(check);
-    
-    check = connect(&m_CaptureFrameProcess,
-                    SIGNAL(sigCaptureFrame(const QVideoFrame&)),
-                    this, SIGNAL(sigCaptureFrame(const QVideoFrame&)));
-    Q_ASSERT(check);
-    
-    //捕获的帧转换成了YUV4:2:0格式  
-    check = connect(&m_CaptureFrameProcess,
-                    SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
-                    this, SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)));
-    Q_ASSERT(check);
-    
-    m_pCamera = NULL;
-#ifdef ANDROID
-    QList<QByteArray> device = QCamera::availableDevices();
-    QList<QByteArray>::iterator it;
-    for(it = device.begin(); it != device.end(); it++)
-    {
-        QCameraInfo info(*it);
-        if(info.position() == QCamera::FrontFace)
-        {
-            m_CameraPosition = *it;
-            break;
-        }
-    }
-#else
-    m_CameraPosition = *QCamera::availableDevices().begin();
-#endif
 }
 
 CCaptureVideoFrame::~CCaptureVideoFrame()
 {
-    StopCapture();
 }
 
 //选择需要捕获视频帧的格式  
-QList<QVideoFrame::PixelFormat> CCaptureVideoFrame::supportedPixelFormats(QAbstractVideoBuffer::HandleType handleType) const
+QList<QVideoFrame::PixelFormat> 
+CCaptureVideoFrame::supportedPixelFormats(QAbstractVideoBuffer::HandleType handleType) const
 {
     Q_UNUSED(handleType);
     QList<QVideoFrame::PixelFormat> lst;
@@ -76,6 +36,8 @@ QList<QVideoFrame::PixelFormat> CCaptureVideoFrame::supportedPixelFormats(QAbstr
 //windows下格式是RGB32,做Y轴镜像  
 bool CCaptureVideoFrame::present(const QVideoFrame &frame)
 {
+    LOG_MODEL_DEBUG("Video", "CCaptureVideoFrame::present");
+
 #ifdef DEBUG_VIDEO_TIME
     static QTime preTime = QTime::currentTime();
     QTime curTime = QTime::currentTime();
@@ -103,110 +65,11 @@ bool CCaptureVideoFrame::setSource(QCamera *pCamera)
                 SIGNAL(videoFrameProbed(QVideoFrame)),
                 SLOT(present(QVideoFrame)));
     }
+    else
+        LOG_MODEL_ERROR("CaptureVideo", "m_Probe.setSource fail");
 #else
     //windows下,只能用下面方式捕获视频  
     pCamera->setViewfinder(this);
 #endif
     return ret;
-}
-
-int CCaptureVideoFrame::StartCapture()
-{
-    if(m_pCamera)
-    {
-        StopCapture();
-    }
-
-    m_pCamera = new QCamera(m_CameraPosition);
-    if(!m_pCamera)
-    {
-        LOG_MODEL_WARNING("Video", "Open carmera fail");
-        return -1;
-    }
-
-    m_pCamera->setCaptureMode(QCamera::CaptureVideo);
-    setSource(m_pCamera);
-
-    connect(m_pCamera, SIGNAL(stateChanged(QCamera::State)), this, SLOT(updateCameraState(QCamera::State)));
-    connect(m_pCamera, SIGNAL(error(QCamera::Error)), this, SLOT(displayCameraError(QCamera::Error)));
-    //m_pCamera->load();
-    
-    m_pCamera->start();
-    return 0;
-}
-
-int CCaptureVideoFrame::StopCapture()
-{
-    if(m_pCamera)
-    {
-        m_pCamera->stop();
-        m_pCamera->disconnect(this);
-        //m_pCamera->unload();
-        delete m_pCamera;
-        m_pCamera = NULL;
-    }
-    return 0;
-}
-
-void CCaptureVideoFrame::updateCameraState(QCamera::State state)
-{
-    LOG_MODEL_DEBUG("CaptureVideo", "CCaptureVideoFrame::updateCameraState:%d", state);
-}
-
-void CCaptureVideoFrame::displayCameraError(QCamera::Error e)
-{
-    LOG_MODEL_DEBUG("CaptureVideo", "CCaptureVideoFrame::updateCameraState:%d", e);
-}
-
-QList<QString> CCaptureVideoFrame::GetAvailableDevices()
-{
-    QList<QString> ret; 
-    QList<QByteArray> device = QCamera::availableDevices();
-    QList<QByteArray>::iterator it;
-    for(it = device.begin(); it != device.end(); it++)
-    {
-        LOG_MODEL_DEBUG("Video", "Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
-        ret << QCamera::deviceDescription(*it);
-    }
-    return ret;
-}
-
-#ifdef ANDROID
-QCamera::Position CCaptureVideoFrame::GetCameraPoistion()
-{
-    QCameraInfo info(m_CameraPosition);
-    return info.position();
-}
-#endif
-
-int CCaptureVideoFrame::SetDeviceIndex(int index)
-{
-    if(QCamera::availableDevices().isEmpty())
-    {
-        LOG_MODEL_ERROR("Video", "There isn't Camera");
-        return -1;
-    }
-
-    if(!(QCamera::availableDevices().length() > index))
-    {
-        LOG_MODEL_ERROR("Video", "QCamera.availableDevices().length() > index");
-        return -2;
-    }
-    m_CameraPosition = QCamera::availableDevices().at(index);
-    return 0;
-}
-
-int CCaptureVideoFrame::GetDeviceIndex()
-{
-    QList<QByteArray> device = QCamera::availableDevices();
-    QList<QByteArray>::iterator it;
-    int i = 0;
-    for(it = device.begin(); it != device.end(); it++)
-    {
-        LOG_MODEL_DEBUG("Video", "Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
-        if(*it == m_CameraPosition)
-            return i;
-        i++;
-    }
-    return -1;
 }

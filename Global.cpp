@@ -46,10 +46,10 @@ int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszMode
 {
     char buf[1024];
     std::string szTemp = pszFile;
-    szTemp += "[";
+    szTemp += "(";
     sprintf(buf, "%d", nLine);
     szTemp += buf;
-    szTemp += "]:";
+    szTemp += "):";
     szTemp += pszModelName;
     szTemp += ":";
     

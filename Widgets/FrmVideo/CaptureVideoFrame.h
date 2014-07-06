@@ -9,7 +9,7 @@
  *      CCaptureVideoFrame videoFrame;
  *      videoFrame.setSource(&m_Camera);
  * 注册SLOT：
- *      connect(&videoFrame, SIGNAL(CaptureFrame(const QVideoFrame&)),
+ *      connect(&videoFrame, SIGNAL(sigRawCaptureFrame(const QVideoFrame&)),
  *           SLOT(CaptureVideoFrame(const QVideoFrame&)));
  * 在SLOT 中 CaptureVideoFrame(const QVideoFrame&) 处理捕获到的视频帧。
  *
@@ -43,7 +43,6 @@
 #include <QAbstractVideoSurface>
 #include <QVideoProbe>
 #include <QCamera>
-#include "FrameProcess.h"
 
 class CCaptureVideoFrame : public QAbstractVideoSurface
 {
@@ -52,41 +51,21 @@ public:
     explicit CCaptureVideoFrame(QObject *parent = 0);
     virtual ~CCaptureVideoFrame();
 
+    //设置捕获源
+    bool setSource(QCamera *pCamera);
+    //设置支持的捕获格式
     virtual QList<QVideoFrame::PixelFormat> supportedPixelFormats(
             QAbstractVideoBuffer::HandleType handleType = QAbstractVideoBuffer::NoHandle) const;
 
-    int StartCapture();
-    int StopCapture();
-    QList<QString> GetAvailableDevices();
-#ifdef ANDROID
-    QCamera::Position GetCameraPoistion();
-#endif
-    int SetDeviceIndex(int index);
-    int GetDeviceIndex();
-    bool setSource(QCamera *pCamera);
 signals:
-    //不同平台处理过后的视频帧捕获信号
-    void sigCaptureFrame(const QVideoFrame &frame);
-    //转换视频帧格式后触发的信号，用于视频压缩发送
-    void sigConvertedToYUYVFrame(const QXmppVideoFrame &frame);
-
-private:
-    QCamera *m_pCamera;
-
-signals:
-    //从摄像头捕获的原始帧
+    //从摄像头捕获的原始帧  
     void sigRawCaptureFrame(const QVideoFrame &frame);
 
 private slots:
     virtual bool present(const QVideoFrame &frame);
-    void updateCameraState(QCamera::State state);
-    void displayCameraError(QCamera::Error e);
 
 private:
-     QVideoProbe m_Probe;//android下,目前只能用probe捕获视频
-     CFrameProcess m_CaptureFrameProcess;
-     //摄像头位置
-     QByteArray m_CameraPosition;
+     QVideoProbe m_Probe;//android下,目前只能用probe捕获视频  
 };
 
 #endif // CAPTUREVIDEOFRAME_H

@@ -9,7 +9,6 @@
 #define FRMVIDEO_H
 
 #include <QFrame>
-#include <QCamera>
 #include <QAudioOutput>
 #include <QAudioInput>
 #include <QBuffer>
@@ -17,10 +16,10 @@
 #include <QSound>
 #include <QThread>
 #include <QByteArray>
-#include "CaptureVideoFrame.h"
 #include "FrmPlayer.h"
 #include "../../XmppClient.h"
 #include "RecordAudio.h"
+#include "CCamera.h"
 
 class CRoster;
 
@@ -122,7 +121,7 @@ private:
     QAudioInput*  m_pAudioInput; //音频输入设备
     QAudioOutput* m_pAudioOutput;//音频输出设备
 
-    CCaptureVideoFrame m_CaptureVideoFrame;//实现捕获视频帧
+    CCamera m_Camera;
     CFrmPlayer m_RemotePlayer;//远程视频播放窗口
     CFrmPlayer m_LocalePlayer;//本地视频播放窗口
     QTimer m_VideoPlayTimer;//显示对方视频定时器

@@ -29,7 +29,6 @@ android平台需要优化视频性能。从视频大小、帧率进行优化
 
 QT开发环境配置
 
-
 BUG:
 对方退出，openfire服务器发送下面命令：
 周四 三月 20 16:46:57 2014 RECEIVED <presence type="unavailable" from="admin@127.0.0.1/QXmpp" to="a@127.0.0.1"/>

@@ -104,7 +104,6 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::clientConnected()
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: CONNECTED， m_pLogin=0x%X", m_pLogin);
     //关闭登录对话框  
     if(m_pLogin)
     {
@@ -230,6 +229,8 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
 //TODO:语言动态切换不对 
 void MainWindow::on_actionEnglish_E_triggered()
 {
+    return;
+    
     qApp->removeTranslator(m_pQtTranslator);
     qApp->removeTranslator(m_pAppTranslator);
 }
@@ -237,6 +238,8 @@ void MainWindow::on_actionEnglish_E_triggered()
 //TODO:语言动态切换不对 
 void MainWindow::on_actionChinese_C_triggered()
 {
+    return;
+    
     qApp->removeTranslator(m_pQtTranslator);
     qApp->removeTranslator(m_pAppTranslator);
 

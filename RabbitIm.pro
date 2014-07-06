@@ -23,7 +23,7 @@ QXMPP_LIBRARY_NAME = -lqxmpp# qxmpp 库名
 
 CONFIG(debug, debug|release) {
     #调试宏
-     DEFINES += DEBUG #DEBUG_VIDEO_TIME 
+    DEFINES += DEBUG #DEBUG_VIDEO_TIME 
 } 
 
 QXMPP_USE_VPX = 1
@@ -80,6 +80,7 @@ android{
 
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
+            QXMPP_LIBRARY_NAME = qxmpp_d.lib# qxmpp 库名
         }
 
         OPENCV_VERSION=300d
@@ -119,7 +120,7 @@ TRANSLATIONS += \
     Resource/translations/app_zh_CN.ts
 
 #安装
-other.files = License.html README.md
+other.files = License.html README.md $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
 other.path = $$PREFIX
 target.path = $$PREFIX
 INSTALLS += other target
@@ -136,5 +137,5 @@ OTHER_FILES += README.md \
     License.html
 
 #ANDROID 平台相关内容  
-ANDROID_EXTRA_LIBS =   #ANDROID 平台的扩展库
+ANDROID_EXTRA_LIBS = #ANDROID 平台的扩展库
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android  #ANDROID包的源码目录
