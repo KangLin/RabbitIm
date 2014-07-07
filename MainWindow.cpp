@@ -206,7 +206,10 @@ void MainWindow::About()
 void MainWindow::on_actionChange_Style_Sheet_S_triggered()
 {
     //*从资源中加载应用程序样式 
-    QString szFile = QFileDialog::getOpenFileName(this, tr("Open File"), QString(), "*.qss");
+    QString szFile = QFileDialog::getOpenFileName(
+                this, tr("Open File"), 
+                QString(), "*.qss", 0,
+                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
     if(szFile.isEmpty())
         return;
 
@@ -230,7 +233,7 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
 void MainWindow::on_actionEnglish_E_triggered()
 {
     return;
-    
+
     qApp->removeTranslator(m_pQtTranslator);
     qApp->removeTranslator(m_pAppTranslator);
 }
@@ -239,7 +242,7 @@ void MainWindow::on_actionEnglish_E_triggered()
 void MainWindow::on_actionChinese_C_triggered()
 {
     return;
-    
+
     qApp->removeTranslator(m_pQtTranslator);
     qApp->removeTranslator(m_pAppTranslator);
 
