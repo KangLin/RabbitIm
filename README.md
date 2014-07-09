@@ -19,6 +19,7 @@
 5. 支持远程桌面
 6. 支持白板
 7. 支持文件传输
+8. 支持换肤功能
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -29,11 +30,35 @@
 3. 未经本人书面许可，任何人不得利用本软件从事商业活动。
 4. 其它未尽事宜遵守《GPL协议》
 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+程序截图：
+
+![启动窗口截图](http://img.blog.csdn.net/20140709202305447 "启动窗口截图")
+
+![对话窗口截图](http://img.blog.csdn.net/20140709202315775 "对话窗口截图")
+
+文档:
+----
+
+    ${RabbitImRoot}             #本工程源码目录
+         ｜
+         ｜---README.md         #说明文件
+         ｜---Authors.txt       #作者
+         ｜---ChangeLog.txt     #变更日志
+         ｜---docs              #开发文档目录
+         ｜    ｜
+         ｜    ｜----Books      #开发相关的资料
+         ｜    ｜      ｜
+         ｜    ｜      ｜---开发笔记.txt
+         ｜    ｜      ｜---libyuv编译.txt
+         ｜    ｜----TODO.txt   #需要完成的事
+         ｜---License.html      #协议文件
+
 依赖：
 -----
 
 * 开发工具：git、svn、autoconf、automake、make、cmake、python、perl、bash、
-* Windows 下开发环境:Mingw（或者cygwin）、msvc
+* Windows 下开发环境:Mingw、msys（或者cygwin）、msvc
 * android 开发工具：android ndk、android sdk、jdk、ant
 * 汇编工具：yasm
 * UI：QT
@@ -55,7 +80,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 2. msvc：
 主页：http://msdn.microsoft.com/zh-cn/vstudio
 
-3. mingw（或者cygwin）：
+3. mingw、msys（或者cygwin）：
 mingw主页：http://www.mingw.org/  
 cygwin主页：http://www.cygwin.org/  
 当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
@@ -142,6 +167,8 @@ cygwin主页：http://www.cygwin.org/
         ｜------ ios            # ios 平台的第三方库
         ｜       ｜------include
         ｜       ｜------lib
+
+可以在 http://pan.baidu.com/s/1ntA0t5n 中下载本项目依赖的预编译好的第三方库。
 
 #### 第三方库编译脚本说明
 第三库编译脚本是 bash 脚本。运行这些脚本时，需要有 bash 环境。linux、unix 默认安装了 bash 环境。
@@ -241,7 +268,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
        make install  
 
 5. webrtc编译：
-详见《webrtc教程》
+详见《webrtc教程》。编译参考：http://blog.csdn.net/kl222/article/details/17198873
 
 6. libyuv 编译：
 详见：https://code.google.com/p/libyuv/wiki/GettingStarted  
@@ -328,7 +355,8 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 6. webrtc编译：
 
-    详见《webrtc教程》
+    详见《webrtc教程》。  
+    编译参考：http://blog.csdn.net/kl222/article/details/17198873
 
 ### 本工程编译
 如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。
@@ -351,37 +379,44 @@ MAKE在不同的环境下有不同的命令：
     * mingw32-make：mingw 环境下用
     * msys-make：msys 环境下用
     
-开发：
------
-1. 本工程编码字符集为UTF-8
-2. 代码中不能包含中文，代码中包含英文，中文放在资源翻译文件中。
-3. 代码中的中文注释，在中文前后加一个空格(保证是双字节)，用于骗过vc编译器（因为vc工具链对UTF-8支持不全）。
-4. 如果你用qtcreator做编辑器，请在“工具->选项->文本编辑器->行为->保存时清理”中，取消清除空白
-
-翻译文件部署：
-------------
-1. 工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
-2. 在资源文件中指定 *.pm 文件，取别名
-3. 在main.cpp文件中加载需要的本地化资源
-
-文档:
-----
-
-    docs
-      |
-      |----Books      开发相关的资料
-      |----TODO.txt   需要完成的事
-
-开发约定:
+开发约定：
 --------
+* 本工程编码字符集为UTF-8
+
+* 代码中不能包含中文，代码中只能包含英文，需要翻译的文本用 tr 包含。中文放在资源翻译文件中。  
+  详见：http://blog.csdn.net/kl222/article/details/21086475
+
+* 代码中的中文注释，在中文前后加一个空格(保证是双字节)，用于骗过vc编译器（因为vc工具链对UTF-8支持不全）。
+
+* 如果你用qtcreator做编辑器，请在“工具->选项->文本编辑器->行为->保存时清理”中，取消清除空白。  
+  制表符和缩进尺寸都应设置为4
+
 * 本项目鼓励使用跨平台的开源第三方库。  
   但在使用过程中需要遵守：
   1. 非强制使用此第三方库（即如果用户在没有此的第三方，不能影响本项目原有功能）。  
      目前采用的是定义相关宏来隔离代码（即如果用户用此第三方库，申明此宏即可，如果用户不需要此第三方库，不申明此宏即可）。
   2. 提供此第三方库必要的开发文档。
   3. 提供此第三方库各平台自动编译的脚本。并放到 ${RabbitImRoot}/ThirdLibary/build_script 目录下。
+  4. 第三方库二进制文件不需要上传，每个人自己通过脚本自己编译。
+
+* 本程序使用下列日志功能宏打印日志：
+  1. LOG_MODEL_ERROR(model, fmt, ...)
+  2. LOG_MODEL_WARNING(model, fmt, ...)
+  3. LOG_MODEL_DEBUG(model, fmt, ...) 
+  4. LOG_MODEL_INFO(model, fmt, ...)
 
 * 线程要用setObjectName设置名称，便于调试。
+
+* 源码提交：  
+  提交的基本原则为：
+  1. 按每个小功能进行提交，写清楚提交注释，并保证能够编译通过。
+  2. 提交前需要作者完成单元测试。
+
+翻译文件部署：
+------------
+1. 工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
+2. 在资源文件中指定 *.pm 文件，取别名
+3. 在main.cpp文件中加载需要的本地化资源
 
 调试：
 -----

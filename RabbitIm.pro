@@ -134,7 +134,9 @@ OTHER_FILES += README.md \
     docs/QXmpp音视频呼叫流程.txt \
     ThirdLibary/build_script/*.sh \
     android/AndroidManifest.xml \
-    License.html
+    License.html \
+    ChangeLog.txt \
+    Authors.txt
 
 #ANDROID 平台相关内容  
 ANDROID_EXTRA_LIBS = #ANDROID 平台的扩展库
