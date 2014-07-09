@@ -191,79 +191,129 @@ p, li { white-space: pre-wrap; }
         <translation>用户名：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="156"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="317"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="200"/>
-        <source>Server:</source>
-        <translation>服务器：</translation>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="400"/>
+        <source>Set(&amp;S)</source>
+        <translation>设置(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="243"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="212"/>
         <source>Save password</source>
         <translation>保存密码</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="268"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="237"/>
         <source>Auto login</source>
         <translation>自动登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="293"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="262"/>
         <source>State</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="356"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="133"/>
         <source>Login(&amp;L)</source>
         <translation>登录(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="414"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="375"/>
         <source>Register(&amp;R)</source>
         <translation>注册(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="381"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="158"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="71"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="70"/>
         <source>Being Login...</source>
         <translation>正在登录……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="180"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="221"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="194"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="235"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="184"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="213"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="198"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="227"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="188"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="245"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="202"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="259"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="192"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="229"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="206"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="243"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="196"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="237"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="210"/>
+        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="251"/>
         <source>Invisible</source>
         <translation>离线</translation>
+    </message>
+</context>
+<context>
+    <name>CFrmLoginSettings</name>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="14"/>
+        <source>Server Settings</source>
+        <translation>服务器设置</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="46"/>
+        <source>XMPP Server:</source>
+        <translation>XMPP 服务器：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="93"/>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="191"/>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="289"/>
+        <source>Port:</source>
+        <translation>端口：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="144"/>
+        <source>Stun Server:</source>
+        <translation>Stun 服务器：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="242"/>
+        <source>Turn Server:</source>
+        <translation>Turn 服务器</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="340"/>
+        <source>Turn User:</source>
+        <translation>Turn 用户名：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="387"/>
+        <source>Password:</source>
+        <translation>密码：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="438"/>
+        <source>OK(&amp;O)</source>
+        <translation>确定(&amp;O)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="463"/>
+        <source>Cancel(&amp;C)</source>
+        <translation>取消（&amp;C）</translation>
     </message>
 </context>
 <context>
@@ -342,68 +392,68 @@ p, li { white-space: pre-wrap; }
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="51"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="53"/>
         <source>Register success</source>
         <translation>注册成功</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="61"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="63"/>
         <source>Unknow error:</source>
         <translation>未知错误：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="64"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="66"/>
         <source>User</source>
         <translation>用户</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="64"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="66"/>
         <source>had exist</source>
         <translation>已存在</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="68"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="70"/>
         <source>Sever internal error</source>
         <translation>服务器内部错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="72"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="74"/>
         <source>Register fail</source>
         <translation>注册失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="98"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="109"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="118"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="129"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="149"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="160"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="169"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="180"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="100"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="111"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="120"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="131"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="151"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="162"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="171"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="182"/>
         <source>Register error</source>
         <translation>注册错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="99"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="150"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="101"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="152"/>
         <source>Don&apos;t fill user name, Please refilling</source>
         <translation>忘记填写用户名，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="110"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="161"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="112"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="163"/>
         <source>Don&apos;t fill password, Please refilling</source>
         <translation>忘记填写密码，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="119"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="170"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="121"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="172"/>
         <source>Confirm password error, Please refilling</source>
         <translation>密码校验错误，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="130"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="181"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="132"/>
+        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="183"/>
         <source>Don&apos;t fill email, Please refilling</source>
         <translation>忘记填写电子邮箱，请重新填写</translation>
     </message>
@@ -549,33 +599,33 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global.cpp" line="225"/>
+        <location filename="../../Global.cpp" line="240"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="227"/>
+        <location filename="../../Global.cpp" line="242"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="229"/>
+        <location filename="../../Global.cpp" line="244"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="231"/>
+        <location filename="../../Global.cpp" line="246"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="233"/>
-        <location filename="../../Global.cpp" line="237"/>
+        <location filename="../../Global.cpp" line="248"/>
+        <location filename="../../Global.cpp" line="252"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="235"/>
+        <location filename="../../Global.cpp" line="250"/>
         <source>Away for an extended period</source>
         <translation>离开</translation>
     </message>
@@ -643,7 +693,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../MainWindow.ui" line="74"/>
         <source>Change Style Sheet(&amp;S)</source>
-        <translation >改变样式(&amp;S)</translation>
+        <translation>改变样式(&amp;S)</translation>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="92"/>
@@ -656,22 +706,22 @@ p, li { white-space: pre-wrap; }
         <translation>是否关闭程序？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="147"/>
+        <location filename="../../MainWindow.cpp" line="146"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="151"/>
+        <location filename="../../MainWindow.cpp" line="150"/>
         <source>User name or password error</source>
         <translation>用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="155"/>
+        <location filename="../../MainWindow.cpp" line="154"/>
         <source>Keep Alive error</source>
         <translation>与服务器失去联系</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="157"/>
+        <location filename="../../MainWindow.cpp" line="156"/>
         <source>Login success</source>
         <translation>登录成功</translation>
     </message>

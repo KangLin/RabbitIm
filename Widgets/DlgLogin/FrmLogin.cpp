@@ -1,6 +1,7 @@
 #include "FrmLogin.h"
 #include "ui_FrmLogin.h"
 #include "../../Global.h"
+#include "FrmLoginSettings.h"
 
 extern CGlobal g_Global;
 
@@ -16,14 +17,14 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     m_pRegister = new CFrmRegister();
 
     QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
-    //加载所有用户
+    //加载所有用户  
     int userTotal = conf.value("Login/UserTotal", 0).toInt();
     for(int i = 0; i < userTotal; i++)
     {
         ui->cmbUser->addItem(conf.value(QString("Login/UserName") + QString::number(i +1) ).toString());        
     }
 
-    //最后一次登录用户
+    //最后一次登录用户  
     int nIndex = conf.value("Login/LastUserNameIndex").toInt();
     ui->cmbUser->setCurrentIndex(nIndex);
 
@@ -34,8 +35,6 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
         ui->chkSave->setChecked(false);
 
     ui->chkLogin->setChecked(conf.value("Login/AutoLogin", false).toBool());
-
-    ui->lnServer->setText(conf.value("Login/ServerHost", g_Global.GetXmppServerHost()).toString());
 
     InitStateButton();
 
@@ -71,16 +70,15 @@ void CFrmLogin::on_pbOk_clicked()
     ui->lbePrompt->setText(tr("Being Login..."));
 
     QXmppConfiguration config;
-    //TODO:设置为非sasl验证
+    //TODO:设置为非sasl验证  
     config.setUseSASLAuthentication(false);
     //config.setUseNonSASLAuthentication(false);
-    config.setHost(ui->lnServer->text());
+    config.setHost(g_Global.GetXmppServerHost());
     config.setPort(g_Global.GetXmppServerPort());
     config.setDomain(g_Global.GetXmppServer());
     config.setUser(ui->cmbUser->currentText());
     config.setPassword(ui->lnPassword->text());
     g_Global.SetJid(config.jid());
-    g_Global.SetXmppServer(ui->lnServer->text());
 
     LOG_MODEL_DEBUG("Login", "Local jid:%s;config.jidBare():%s",
            qPrintable(g_Global.GetBareJid()),
@@ -92,7 +90,7 @@ void CFrmLogin::on_pbOk_clicked()
 
 void CFrmLogin::on_pbClose_clicked()
 {
-    //退出程序
+    //退出程序  
     ((QWidget*)this->parent())->close();
 }
 
@@ -105,6 +103,20 @@ void CFrmLogin::on_pbRegitster_clicked()
         m_pRegister->show();
         m_pRegister->activateWindow();
     }
+}
+
+void CFrmLogin::on_pbSet_clicked()
+{
+    CFrmLoginSettings* pSet = new CFrmLoginSettings();//窗口关闭时，会自动释放内存  
+    if(pSet)
+    {
+        this->setEnabled(false);
+        pSet->SetLogin(this);
+        pSet->show();
+        pSet->activateWindow();
+    }
+    else
+        LOG_MODEL_ERROR("Login", "new CFrmLoginSettings fail");
 }
 
 int CFrmLogin::SetPrompt(QString szPrompt)
@@ -131,7 +143,7 @@ int CFrmLogin::SaveConf()
     {
         if(conf.value("Login/UserName" + QString::number(i + 1)) == ui->cmbUser->currentText())
         {
-            conf.setValue("Login/LastUserNameIndex",  i);//设置最后一次登录用户的索引
+            conf.setValue("Login/LastUserNameIndex",  i);//设置最后一次登录用户的索引  
             if(ui->chkLogin->isChecked() || ui->chkSave->isChecked())
             {
                 conf.setValue("Login/Password" + QString::number(i +1), EncryptPassword(ui->lnPassword->text()));
@@ -168,7 +180,7 @@ QString CFrmLogin::DecryptPassword(QString szPassword)
 
 void CFrmLogin::on_chkLogin_stateChanged(int state)
 {
-     QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
     if(Qt::Unchecked == state)
     {
         conf.setValue("Login/AutoLogin", false);

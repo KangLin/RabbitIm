@@ -39,6 +39,8 @@ private slots:
 
     void on_cmbUser_currentIndexChanged(int index);
     
+    void on_pbSet_clicked();
+    
 private:
     Ui::CFrmLogin *ui;
     CFrmRegister *m_pRegister;

@@ -33,23 +33,23 @@ public:
     int SetRosterColor(const QColor &color);
 
     QString GetXmppServerHost();
-    int SetXmppServerHost(QString &host);
+    int SetXmppServerHost(QString host);
     int SetXmppServerPort(qint16 port);
     qint16 GetXmppServerPort();
     QString GetXmppServer();
     int SetXmppServer(QString server);
     QString GetStunServer();
-    int SetStunServer(QString &server);
+    int SetStunServer(QString server);
     qint16 GetStunServerPort();
-    int SetStunServerPort(qint16 &port);
+    int SetStunServerPort(qint16 port);
     QString GetTurnServer();
-    int SetTurnServer(QString &server);
+    int SetTurnServer(QString server);
     qint16 GetTurnServerPort();
-    int SetTurnServerPort(qint16 &port);
+    int SetTurnServerPort(qint16 port);
     QString GetTurnServerUser();
-    int SetTurnServerUser(QString &user);
+    int SetTurnServerUser(QString user);
     QString GetTurnServerPassword();
-    int SetTurnServerPassword(QString &password);
+    int SetTurnServerPassword(QString password);
 
     //好友状态文本表示
     QString GetStatusText(QXmppPresence::AvailableStatusType status);
@@ -64,17 +64,6 @@ public:
     QString GetDirApplicationConfigure();
     //应用程序配置文件
     QString GetApplicationConfigureFile();
-
-    enum __STYLE_SHEET_TYPE
-    {
-        STYPLE_SHEET_DEFAULT,
-        STYPLE_SHEET_FORM_BACKGROUND  //窗体背景样式
-    };
-    //得到默认样式
-    QString GetStyleSheet(const __STYLE_SHEET_TYPE t = CGlobal::STYPLE_SHEET_FORM_BACKGROUND);
-    //设置窗口样式,返回原来窗口样式
-    QString SetStyleSheet(const QString szStyleSheet, const __STYLE_SHEET_TYPE t =CGlobal::STYPLE_SHEET_FORM_BACKGROUND);
-    QString SetStyleSheet(QWidget *pWidget, const __STYLE_SHEET_TYPE t = STYPLE_SHEET_FORM_BACKGROUND);
 
 signals:
 
@@ -94,8 +83,6 @@ private:
     QString m_szTurnPassword;
     QString m_szStunServer; //Stun服务器地址
     int m_nStunServerPort;
-    
-    QString m_szFormBackGroundStyleSheet; //样式
 };
 
 extern CGlobal g_Global;

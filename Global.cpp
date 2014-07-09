@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QDebug>
 #include <string>
+#include <QSettings>
 #include "Tool.h"
 
 CGlobal g_Global;
@@ -18,24 +19,21 @@ CGlobal::CGlobal(QObject *parent) :
     m_UserColor = QColor(255, 0, 0);
     m_RosterColor = QColor(0, 0, 255);
 
-    m_szXmppServerHost = "192.168.10.5";
-    m_szXmppServer = "rabbitim.com";
-    //m_szXmppServerHost = "183.233.149.120";
-    m_szXmppServerPort = 5222;
-    //m_szXmppServer = "talk.renren.com";
-    m_szStunServer ="stun.l.google.com";
-    m_szTurnServer = m_szXmppServerHost;
-    m_nStunServerPort = 3478;
-    m_nTurnServerPort = 3478;
-    m_szTurnUser = "1";
-    m_szTurnPassword = "1";
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    m_szXmppServerHost = conf.value("Login/XmppServerHost", "183.233.149.120").toString();
+    m_szXmppServer = conf.value("Login/XmppServer", "rabbitim.com").toString();
+    m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
+    //m_szStunServer = conf.value("Login/StunServer", "stun.l.google.com").toString();
+    m_szStunServer = conf.value("Login/StunServer", "183.233.149.120").toString();
+    //m_szTurnServer = conf.value("Login/TurnServer", "turn.l.google.com").toString();
+    m_szTurnServer = conf.value("Login/TurnServer", "183.233.149.120").toString();
+    m_nStunServerPort = conf.value("Login/StunServerPort", 3478).toInt();
+    m_nTurnServerPort = conf.value("Login/TurnServerPort", 3478).toInt();
+    m_szTurnUser = conf.value("Login/TurnServerUser", "1").toString();
+    m_szTurnPassword = conf.value("Login/TurnServerPassword", "1").toString();
 
     //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
-    
-    //窗体背景
-    m_szFormBackGroundStyleSheet  = QString("background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,stop: 0 rgba(255, 255, 255, 100%),stop: 1 rgba(10, 144, 255, 100%));");
-
 }
 
 CGlobal::~CGlobal()
@@ -119,14 +117,29 @@ int CGlobal::SetRosterColor(const QColor &color)
     return 0;
 }
 
+QString CGlobal::GetXmppServer()
+{
+    return m_szXmppServer;
+}
+
+int CGlobal::SetXmppServer(QString server)
+{
+    m_szXmppServer = server;
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/XmppServer", server);
+    return 0;
+}
+
 QString CGlobal::GetXmppServerHost()
 {
     return m_szXmppServerHost;
 }
 
-int CGlobal::SetXmppServerHost(QString &host)
+int CGlobal::SetXmppServerHost(QString host)
 {
     m_szXmppServerHost = host;
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/XmppServerHost", host);
     return 0;
 }
 
@@ -138,39 +151,8 @@ qint16 CGlobal::GetXmppServerPort()
 int CGlobal::SetXmppServerPort(qint16 port)
 {
     m_szXmppServerPort = port;
-    return 0;
-}
-
-QString CGlobal::GetXmppServer()
-{
-    return m_szXmppServer;
-}
-
-int CGlobal::SetXmppServer(QString server)
-{
-    m_szXmppServer = server;
-    return 0;
-}
-
-QString CGlobal::GetTurnServer()
-{
-    return m_szTurnServer;
-}
-
-int CGlobal::SetTurnServer(QString &server)
-{
-    m_szTurnServer = server;
-    return 0;
-}
-
-qint16 CGlobal::GetTurnServerPort()
-{
-    return m_nTurnServerPort;
-}
-
-int CGlobal::SetTurnServerPort(qint16 &port)
-{
-    m_nTurnServerPort = port;
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/XmppServerPort", port);
     return 0;
 }
 
@@ -179,9 +161,11 @@ QString CGlobal::GetStunServer()
     return m_szStunServer;
 }
 
-int CGlobal::SetStunServer(QString &server)
+int CGlobal::SetStunServer(QString server)
 {
     m_szStunServer = server;
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/StunServer", server);
     return 0;
 }
 
@@ -190,9 +174,37 @@ qint16 CGlobal::GetStunServerPort()
     return m_nStunServerPort;
 }
 
-int CGlobal::SetStunServerPort(qint16 &port)
+int CGlobal::SetStunServerPort(qint16 port)
 {
     m_nStunServerPort = port;
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/StunServerPort", port);
+    return 0;
+}
+
+QString CGlobal::GetTurnServer()
+{
+    return m_szTurnServer;
+}
+
+int CGlobal::SetTurnServer(QString server)
+{
+    m_szTurnServer = server;
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/TurnServer", server);
+    return 0;
+}
+
+qint16 CGlobal::GetTurnServerPort()
+{
+    return m_nTurnServerPort;
+}
+
+int CGlobal::SetTurnServerPort(qint16 port)
+{
+    m_nTurnServerPort = port;
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/TurnServerPort", port);
     return 0;
 }
 
@@ -201,9 +213,11 @@ QString CGlobal::GetTurnServerUser()
     return m_szTurnUser;
 }
 
-int CGlobal::SetTurnServerUser(QString &user)
+int CGlobal::SetTurnServerUser(QString user)
 {
     m_szTurnUser = user;
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/TurnServerUser", user);
     return 0;
 }
 
@@ -212,12 +226,13 @@ QString CGlobal::GetTurnServerPassword()
     return m_szTurnPassword;
 }
 
-int CGlobal::SetTurnServerPassword(QString &password)
+int CGlobal::SetTurnServerPassword(QString password)
 {
     m_szTurnPassword = password;
+    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/TurnServerPassword", password);
     return 0;
 }
-
 
 QString CGlobal::GetStatusText(QXmppPresence::AvailableStatusType status)
 {
@@ -258,10 +273,10 @@ QColor CGlobal::GetStatusColor(QXmppPresence::AvailableStatusType status)
 QString CGlobal::GetDirApplication()
 {
 #ifdef ANDROID
-    LOG_MODEL_DEBUG("global", "GetDirApplication:%s", qApp->applicationDirPath().toStdString().c_str());
+    //LOG_MODEL_DEBUG("global", "GetDirApplication:%s", qApp->applicationDirPath().toStdString().c_str());
     return qApp->applicationDirPath() + "/..";
 #else
-    LOG_MODEL_DEBUG("global", "GetDirApplication:%s", qApp->applicationDirPath().toStdString().c_str());
+    //LOG_MODEL_DEBUG("global", "GetDirApplication:%s", qApp->applicationDirPath().toStdString().c_str());
     return qApp->applicationDirPath();
 #endif
 }
@@ -291,50 +306,4 @@ QString CGlobal::GetDirUserData(const QString bareJid)
             LOG_ERROR("mkdir path fail:%s", qPrintable(path));
     }
     return path;
-}
-
-//得到默认样式
-QString CGlobal::GetStyleSheet(const __STYLE_SHEET_TYPE t)
-{
-    switch(t)
-    {
-    case STYPLE_SHEET_FORM_BACKGROUND:
-        return m_szFormBackGroundStyleSheet;
-    case STYPLE_SHEET_DEFAULT:
-    default:
-        LOG_MODEL_ERROR("global", "don't style sheet:%d", t);
-        break;
-    };
-    return "";
-}
-
-//设置窗口样式,返回原来窗口样式
-QString CGlobal::SetStyleSheet(const QString szStyleSheet, const __STYLE_SHEET_TYPE t)
-{
-    QString szOld = GetStyleSheet(t);
-    switch (t) {
-    case STYPLE_SHEET_FORM_BACKGROUND:
-        m_szFormBackGroundStyleSheet = szStyleSheet;
-        break;
-    default:
-        LOG_MODEL_ERROR("global", "don't style sheet:%d", t);
-        break;
-    }
-    return szOld;
-}
-
- //设置窗口样式,返回原来窗口样式
-QString CGlobal::SetStyleSheet(QWidget *pWidget, const __STYLE_SHEET_TYPE t)
-{
-    switch(t)
-    {
-    case STYPLE_SHEET_FORM_BACKGROUND:
-    {        
-        QString szStyle = GetStyleSheet(t);
-        QString szRet = pWidget->styleSheet();
-        pWidget->setStyleSheet(szStyle);
-        //CTool::SetAllChildrenTransparent(pWidget);
-        return szRet;
-    }
-    };
 }

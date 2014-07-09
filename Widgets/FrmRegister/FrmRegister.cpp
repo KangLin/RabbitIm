@@ -4,8 +4,7 @@
 #include "qxmpp/QXmppRegisterIq.h"
 #include "../../MainWindow.h"
 #include "../../Global.h"
-
-extern CGlobal g_Global;
+#include <QDesktopWidget>
 
 CFrmRegister::CFrmRegister(QWidget *parent) :
     QFrame(parent),
@@ -30,6 +29,9 @@ CFrmRegister::CFrmRegister(QWidget *parent) :
     check = connect(m_pClient, SIGNAL(iqReceived(QXmppIq)),
                     SLOT(clientIqReceived(QXmppIq)));
     Q_ASSERT(check);
+
+    QDesktopWidget *pDesk = QApplication::desktop();    
+    move((pDesk->width() - width()) / 2, (pDesk->height() - height()) / 2);
 }
 
 CFrmRegister::~CFrmRegister()
