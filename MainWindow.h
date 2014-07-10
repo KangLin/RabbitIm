@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 #include <QMainWindow>
+#include <QSystemTrayIcon>
 #include "XmppClient.h"
 #include "qxmpp/QXmppVCardIq.h"
 #include "qxmpp/QXmppVCardManager.h"
@@ -32,6 +33,8 @@ protected slots:
     void clientIqReceived(const QXmppIq &iq);
     void stateChanged(QXmppClient::State state);
 
+    void TrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽
+
     void on_actionChange_Style_Sheet_S_triggered();
     void on_actionEnglish_E_triggered();
     void on_actionChinese_C_triggered();
@@ -48,6 +51,8 @@ private:
 
     QTranslator *m_pAppTranslator;
     QTranslator *m_pQtTranslator;
+    
+    QSystemTrayIcon m_TrayIcon;
 };
 
 #endif // MAINWINDOW_H

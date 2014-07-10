@@ -12,6 +12,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
+    m_TrayIcon(QIcon(":/icon/AppIcon"), this),
     ui(new Ui::MainWindow)
 {
     m_pAppTranslator = NULL;
@@ -52,6 +53,16 @@ MainWindow::MainWindow(QWidget *parent) :
         Q_ASSERT(check);
 
         CFrmVideo::instance(m_pClient);
+    }
+
+    if(QSystemTrayIcon::isSystemTrayAvailable())
+    {
+        check = connect(&m_TrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+                        SLOT(TrayIconActive(QSystemTrayIcon::ActivationReason)));
+        Q_ASSERT(check);
+
+        m_TrayIcon.setToolTip(tr("RabbitIm"));
+        m_TrayIcon.show();
     }
 }
 
@@ -190,6 +201,11 @@ void MainWindow::stateChanged(QXmppClient::State state)
             this->setCentralWidget(m_pLogin);
         }
     }*/
+}
+
+void MainWindow::TrayIconActive(QSystemTrayIcon::ActivationReason e)
+{
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::TrayIconActive:%d", e);
 }
 
 void MainWindow::About()
