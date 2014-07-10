@@ -363,6 +363,8 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 #### 1、用Qt Creator 编译
 
 用 Qt Creator 打开本工程根目录下的 Rabbitim.pro 文件。
+工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
+构建->构建项目"RabbitIm"。编译本项目。
 
 #### 2、用命令行编译
 

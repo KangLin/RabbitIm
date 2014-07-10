@@ -652,7 +652,7 @@ p, li { white-space: pre-wrap; }
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="14"/>
-        <source>MainWindow</source>
+        <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>
     </message>
     <message>
