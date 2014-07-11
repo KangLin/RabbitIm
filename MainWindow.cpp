@@ -14,6 +14,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     m_TrayIcon(QIcon(":/icon/AppIcon"), this),
+    m_TrayIconMenu(this),
     ui(new Ui::MainWindow)
 {
     m_pAppTranslator = NULL;
@@ -62,6 +63,11 @@ MainWindow::MainWindow(QWidget *parent) :
                         SLOT(TrayIconActive(QSystemTrayIcon::ActivationReason)));
         Q_ASSERT(check);
 
+        check = connect(&m_TrayIconMenu, SIGNAL(aboutToShow()),
+                        SLOT(TrayIconMenuUpdate()));
+        Q_ASSERT(check);
+
+        m_TrayIcon.setContextMenu(&m_TrayIconMenu);
         m_TrayIcon.setToolTip(tr("RabbitIm"));
         m_TrayIcon.show();
     }
@@ -215,6 +221,28 @@ int MainWindow::ShowToolTipMessage(QString szTitle, QString szMessage)
     if(g_Global.IsNotifiationBarShowMessage())
         m_TrayIcon.showMessage(szTitle, szMessage);
     return 0;
+}
+
+void MainWindow::TrayIconMenuUpdate()
+{
+    m_TrayIconMenu.clear();
+
+    QString szTitle;
+    if(this->isHidden())
+        szTitle = tr("Show Main Windows");
+    else
+        szTitle = tr("Hide Main Windows");
+
+    m_TrayIconMenu.addAction(szTitle, this, SLOT(on_actionNotifiation_show_main_windows_triggered()));
+    m_TrayIconMenu.addAction(tr("Exit"), this, SLOT(close()));
+}
+
+void MainWindow::on_actionNotifiation_show_main_windows_triggered()
+{
+    if(isHidden())
+        this->show();
+    else
+        this->hide();
 }
 
 void MainWindow::on_actionOptions_O_triggered()

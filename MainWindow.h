@@ -37,10 +37,13 @@ protected slots:
     void stateChanged(QXmppClient::State state);
 
     void TrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽
+    void TrayIconMenuUpdate();
 
     void on_actionChange_Style_Sheet_S_triggered();
     void on_actionEnglish_E_triggered();
     void on_actionChinese_C_triggered();
+    
+    void on_actionNotifiation_show_main_windows_triggered();
 
 protected:
     void resizeEvent(QResizeEvent *);
@@ -58,6 +61,7 @@ private:
     QTranslator *m_pAppTranslator;
     QTranslator *m_pQtTranslator;
 
+    QMenu m_TrayIconMenu;
     QSystemTrayIcon m_TrayIcon;
 };
 
