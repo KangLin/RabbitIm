@@ -230,7 +230,7 @@ void CFrmUserList::clientMessageReceived(const QXmppMessage &message)
         if(QXmppMessage::None == message.state())
         {
             it.value()->AppendMessage(message.body());
-            m_pMainWindow->ShowToolTipMessage(QXmppUtils::jidToUser(message.from()), message.body());
+            m_pMainWindow->ShowTrayIconMessage(QXmppUtils::jidToUser(message.from()), message.body());
         }
         //TODO:消息输入状态显示
     }

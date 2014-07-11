@@ -760,42 +760,47 @@ p, li { white-space: pre-wrap; }
         <translation>是否关闭程序？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="164"/>
+        <location filename="../../MainWindow.cpp" line="144"/>
+        <source>RabbitIm: %1</source>
+        <translation>玉兔即时通信：%1</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="166"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="168"/>
+        <location filename="../../MainWindow.cpp" line="170"/>
         <source>User name or password error</source>
         <translation>用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="172"/>
+        <location filename="../../MainWindow.cpp" line="174"/>
         <source>Keep Alive error</source>
         <translation>与服务器失去联系</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="174"/>
+        <location filename="../../MainWindow.cpp" line="176"/>
         <source>Login success</source>
         <translation>登录成功</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="232"/>
+        <location filename="../../MainWindow.cpp" line="234"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="234"/>
+        <location filename="../../MainWindow.cpp" line="236"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="237"/>
+        <location filename="../../MainWindow.cpp" line="239"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="273"/>
+        <location filename="../../MainWindow.cpp" line="275"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>

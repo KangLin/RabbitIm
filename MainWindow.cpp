@@ -140,6 +140,8 @@ void MainWindow::clientConnected()
             m_pUserList->AddToMainMenu(ui->menuOperator_O, ui->actionExit_O);
         }
     }
+    
+    m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(g_Global.GetName()));
 
     if(m_pUserList)
     {
@@ -216,7 +218,7 @@ void MainWindow::TrayIconActive(QSystemTrayIcon::ActivationReason e)
 }
 
 //在通知栏上显示消息  
-int MainWindow::ShowToolTipMessage(QString szTitle, QString szMessage)
+int MainWindow::ShowTrayIconMessage(QString &szTitle, QString &szMessage)
 {
     if(g_Global.IsNotifiationBarShowMessage())
         m_TrayIcon.showMessage(szTitle, szMessage);
