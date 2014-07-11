@@ -25,6 +25,9 @@ public:
 
     CXmppClient* m_pClient;
 
+    //在通知栏上显示消息  
+    int ShowToolTipMessage(QString szTitle, QString szMessage);
+
 protected slots:
     void About();
     void clientConnected();
@@ -44,6 +47,9 @@ protected:
     void showEvent(QShowEvent *);
     void closeEvent(QCloseEvent *e);
 
+private slots:
+    void on_actionOptions_O_triggered();
+    
 private:
     Ui::MainWindow *ui;
     CFrmLogin *m_pLogin;
@@ -51,7 +57,7 @@ private:
 
     QTranslator *m_pAppTranslator;
     QTranslator *m_pQtTranslator;
-    
+
     QSystemTrayIcon m_TrayIcon;
 };
 

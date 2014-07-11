@@ -46,7 +46,14 @@
     </property>
     <addaction name="actionAbout_A"/>
    </widget>
+   <widget class="QMenu" name="menuTool_T">
+    <property name="title">
+     <string>Tool(&amp;T)</string>
+    </property>
+    <addaction name="actionOptions_O"/>
+   </widget>
    <addaction name="menuOperator_O"/>
+   <addaction name="menuTool_T"/>
    <addaction name="menuHelp_H"/>
   </widget>
   <action name="actionExit_O">
@@ -72,6 +79,11 @@
   <action name="actionChange_Style_Sheet_S">
    <property name="text">
     <string>Change Style Sheet(&amp;S)</string>
+   </property>
+  </action>
+  <action name="actionOptions_O">
+   <property name="text">
+    <string>Options(&amp;O)</string>
    </property>
   </action>
  </widget>

@@ -22,6 +22,8 @@ CFrmLoginSettings::CFrmLoginSettings(QWidget *parent) :
     QDesktopWidget *pDesk = QApplication::desktop();
     move((pDesk->width() - width()) / 2,
          (pDesk->height() - height()) / 2);
+
+    m_pParent = parent;
 }
 
 CFrmLoginSettings::~CFrmLoginSettings()
@@ -36,6 +38,13 @@ void CFrmLoginSettings::closeEvent(QCloseEvent *)
         m_pParent->setEnabled(true);
 
     deleteLater();
+}
+
+void CFrmLoginSettings::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event);
+    if(m_pParent)
+        m_pParent->setEnabled(false);
 }
 
 int CFrmLoginSettings::SetLogin(QWidget *pLogin)

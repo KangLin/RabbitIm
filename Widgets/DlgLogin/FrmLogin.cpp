@@ -110,7 +110,6 @@ void CFrmLogin::on_pbSet_clicked()
     CFrmLoginSettings* pSet = new CFrmLoginSettings();//窗口关闭时，会自动释放内存  
     if(pSet)
     {
-        this->setEnabled(false);
         pSet->SetLogin(this);
         pSet->show();
         pSet->activateWindow();

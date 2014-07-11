@@ -8,6 +8,7 @@
 #include "Widgets/DlgLogin/FrmLogin.h"
 #include "Global.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
+#include "Widgets/FrmOptions/FrmOptions.h"
 #include "Global.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -208,6 +209,24 @@ void MainWindow::TrayIconActive(QSystemTrayIcon::ActivationReason e)
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::TrayIconActive:%d", e);
 }
 
+//在通知栏上显示消息  
+int MainWindow::ShowToolTipMessage(QString szTitle, QString szMessage)
+{
+    if(g_Global.IsNotifiationBarShowMessage())
+        m_TrayIcon.showMessage(szTitle, szMessage);
+    return 0;
+}
+
+void MainWindow::on_actionOptions_O_triggered()
+{
+    CFrmOptions* pFrm = CFrmOptions::Instance();//窗口关闭时，会自己释放内存
+    if(pFrm)
+    {
+        pFrm->show();
+        pFrm->activateWindow();
+    }
+}
+
 void MainWindow::About()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
@@ -290,3 +309,4 @@ void MainWindow::on_actionChinese_C_triggered()
     m_pAppTranslator->load(":/translations/" + szLocale);
     qApp->installTranslator(m_pAppTranslator);
 }
+

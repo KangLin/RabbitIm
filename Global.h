@@ -21,6 +21,15 @@ public:
     //....pszModelName:打印日志的模块范围 
     int Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...);
 
+    //用户数据存放目录
+    QString GetDirUserData(const QString bareJid = QString());
+    //应用程序目录
+    QString GetDirApplication();
+    //应用程序配置目录
+    QString GetDirApplicationConfigure();
+    //应用程序配置文件
+    QString GetApplicationConfigureFile();
+
     //得到本地用户住息
     int SetJid(QString jid);
     QString GetName();
@@ -31,7 +40,12 @@ public:
     QColor GetRosterColor();
     int SetUserColor(const QColor &color);
     int SetRosterColor(const QColor &color);
+private:
+    QString m_szLocalJid;
+    QColor m_UserColor;   //本地用户颜色
+    QColor m_RosterColor; //好友颜色
 
+public:
     QString GetXmppServerHost();
     int SetXmppServerHost(QString host);
     int SetXmppServerPort(qint16 port);
@@ -50,30 +64,7 @@ public:
     int SetTurnServerUser(QString user);
     QString GetTurnServerPassword();
     int SetTurnServerPassword(QString password);
-
-    //好友状态文本表示
-    QString GetStatusText(QXmppPresence::AvailableStatusType status);
-    //好友状态颜色表示
-    QColor GetStatusColor(QXmppPresence::AvailableStatusType status);
-
-    //用户数据存放目录
-    QString GetDirUserData(const QString bareJid = QString());
-    //应用程序目录
-    QString GetDirApplication();
-    //应用程序配置目录
-    QString GetDirApplicationConfigure();
-    //应用程序配置文件
-    QString GetApplicationConfigureFile();
-
-signals:
-
-public slots:
-
 private:
-    QString m_szLocalJid;
-    QColor m_UserColor;   //本地用户颜色
-    QColor m_RosterColor; //好友颜色
-
     QString m_szXmppServerHost; //Xmpp服务器IP地址
     int m_szXmppServerPort;
     QString m_szXmppServer; //Xmpp服务器地址
@@ -83,6 +74,26 @@ private:
     QString m_szTurnPassword;
     QString m_szStunServer; //Stun服务器地址
     int m_nStunServerPort;
+    
+public:
+    //好友状态文本表示
+    QString GetStatusText(QXmppPresence::AvailableStatusType status);
+    //好友状态颜色表示
+    QColor GetStatusColor(QXmppPresence::AvailableStatusType status);
+    
+    //配置选项
+public:
+    bool IsNotifiationBarShowMessage();
+    int SetNotifiationBarShowMessage(bool bShowMessage);
+    bool IsNotifiationFlashs();
+    int SetNotifiationFlashs(bool bFlashs);
+private:
+    bool m_bNotifiationBarShowMessage;
+    bool m_bNotifiationBarFlashs;
+
+signals:
+
+public slots:
 };
 
 extern CGlobal g_Global;

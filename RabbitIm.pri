@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     Widgets/FrmUserList/TreeUserList.cpp \
     Widgets/FrmVideo/RecordAudio.cpp \
     Widgets/FrmVideo/CCamera.cpp \
-    Widgets/DlgLogin/FrmLoginSettings.cpp
+    Widgets/DlgLogin/FrmLoginSettings.cpp \
+    Widgets/FrmOptions/FrmOptions.cpp
 
 HEADERS  += MainWindow.h \
     XmppClient.h \
@@ -46,7 +47,8 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/RecordAudio.h \
     Widgets/FrmAbout/Version.h \
     Widgets/FrmVideo/CCamera.h \
-    Widgets/DlgLogin/FrmLoginSettings.h
+    Widgets/DlgLogin/FrmLoginSettings.h \
+    Widgets/FrmOptions/FrmOptions.h
 
 FORMS    += MainWindow.ui \
     Widgets/DlgLogin/DlgLogin.ui \
@@ -57,7 +59,8 @@ FORMS    += MainWindow.ui \
     Widgets/FrmAbout/FrmAbout.ui \
     Widgets/FrmVideo/FrmVideo.ui \
     Widgets/FrmAddRoster/FrmAddRoster.ui \
-    Widgets/DlgLogin/FrmLoginSettings.ui
+    Widgets/DlgLogin/FrmLoginSettings.ui \
+    Widgets/FrmOptions/FrmOptions.ui
 
 RESOURCES += \
     Resource/Resource.qrc
