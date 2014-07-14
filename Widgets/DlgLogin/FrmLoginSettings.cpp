@@ -10,7 +10,8 @@ CFrmLoginSettings::CFrmLoginSettings(QWidget *parent) :
     LOG_MODEL_DEBUG("Login", "CFrmLoginSettings::CFrmLoginSettings");
     ui->setupUi(this);
 
-    ui->txtXmppServer->setText(g_Global.GetXmppServerHost());
+    ui->txtXmppDomain->setText(g_Global.GetXmppDomain());
+    ui->txtXmppServer->setText(g_Global.GetXmppServer());
     ui->txtXmppPort->setText(QString::number(g_Global.GetXmppServerPort()));
     ui->txtStunServer->setText(g_Global.GetStunServer());
     ui->txtStunPort->setText(QString::number(g_Global.GetStunServerPort()));
@@ -55,7 +56,8 @@ int CFrmLoginSettings::SetLogin(QWidget *pLogin)
 
 void CFrmLoginSettings::on_pbOK_clicked()
 {
-    g_Global.SetXmppServerHost(ui->txtXmppServer->text());
+    g_Global.SetXmppDomain(ui->txtXmppDomain->text());
+    g_Global.SetXmppServer(ui->txtXmppServer->text());
     g_Global.SetXmppServerPort(ui->txtXmppPort->text().toInt());
     g_Global.SetStunServer(ui->txtStunServer->text());
     g_Global.SetStunServerPort(ui->txtStunPort->text().toInt());

@@ -46,12 +46,12 @@ private:
     QColor m_RosterColor; //好友颜色
 
 public:
-    QString GetXmppServerHost();
-    int SetXmppServerHost(QString host);
-    int SetXmppServerPort(qint16 port);
-    qint16 GetXmppServerPort();
     QString GetXmppServer();
-    int SetXmppServer(QString server);
+    int SetXmppServer(QString host);
+    qint16 GetXmppServerPort();
+    int SetXmppServerPort(qint16 port);
+    QString GetXmppDomain();
+    int SetXmppDomain(QString server);
     QString GetStunServer();
     int SetStunServer(QString server);
     qint16 GetStunServerPort();
@@ -65,9 +65,9 @@ public:
     QString GetTurnServerPassword();
     int SetTurnServerPassword(QString password);
 private:
-    QString m_szXmppServerHost; //Xmpp服务器IP地址
+    QString m_szXmppServer; //Xmpp服务器IP地址
     int m_szXmppServerPort;
-    QString m_szXmppServer; //Xmpp服务器地址
+    QString m_szXmppDomain; //Xmpp服务器地址
     QString m_szTurnServer; //Turn服务器地址
     int m_nTurnServerPort;
     QString m_szTurnUser;
