@@ -10,15 +10,15 @@ CFrmLoginSettings::CFrmLoginSettings(QWidget *parent) :
     LOG_MODEL_DEBUG("Login", "CFrmLoginSettings::CFrmLoginSettings");
     ui->setupUi(this);
 
-    ui->txtXmppDomain->setText(g_Global.GetXmppDomain());
-    ui->txtXmppServer->setText(g_Global.GetXmppServer());
-    ui->txtXmppPort->setText(QString::number(g_Global.GetXmppServerPort()));
-    ui->txtStunServer->setText(g_Global.GetStunServer());
-    ui->txtStunPort->setText(QString::number(g_Global.GetStunServerPort()));
-    ui->txtTurnServer->setText(g_Global.GetTurnServer());
-    ui->txtTurnPort->setText(QString::number(g_Global.GetTurnServerPort()));
-    ui->txtUser->setText(g_Global.GetTurnServerUser());
-    ui->txtPassword->setText(g_Global.GetTurnServerPassword());
+    ui->txtXmppDomain->setText(CGlobal::Instance()->GetXmppDomain());
+    ui->txtXmppServer->setText(CGlobal::Instance()->GetXmppServer());
+    ui->txtXmppPort->setText(QString::number(CGlobal::Instance()->GetXmppServerPort()));
+    ui->txtStunServer->setText(CGlobal::Instance()->GetStunServer());
+    ui->txtStunPort->setText(QString::number(CGlobal::Instance()->GetStunServerPort()));
+    ui->txtTurnServer->setText(CGlobal::Instance()->GetTurnServer());
+    ui->txtTurnPort->setText(QString::number(CGlobal::Instance()->GetTurnServerPort()));
+    ui->txtUser->setText(CGlobal::Instance()->GetTurnServerUser());
+    ui->txtPassword->setText(CGlobal::Instance()->GetTurnServerPassword());
 
     QDesktopWidget *pDesk = QApplication::desktop();
     move((pDesk->width() - width()) / 2,
@@ -56,15 +56,15 @@ int CFrmLoginSettings::SetLogin(QWidget *pLogin)
 
 void CFrmLoginSettings::on_pbOK_clicked()
 {
-    g_Global.SetXmppDomain(ui->txtXmppDomain->text());
-    g_Global.SetXmppServer(ui->txtXmppServer->text());
-    g_Global.SetXmppServerPort(ui->txtXmppPort->text().toInt());
-    g_Global.SetStunServer(ui->txtStunServer->text());
-    g_Global.SetStunServerPort(ui->txtStunPort->text().toInt());
-    g_Global.SetTurnServer(ui->txtTurnServer->text());
-    g_Global.SetTurnServerPort(ui->txtTurnPort->text().toInt());
-    g_Global.SetTurnServerUser(ui->txtUser->text());
-    g_Global.SetTurnServerPassword(ui->txtPassword->text());
+    CGlobal::Instance()->SetXmppDomain(ui->txtXmppDomain->text());
+    CGlobal::Instance()->SetXmppServer(ui->txtXmppServer->text());
+    CGlobal::Instance()->SetXmppServerPort(ui->txtXmppPort->text().toInt());
+    CGlobal::Instance()->SetStunServer(ui->txtStunServer->text());
+    CGlobal::Instance()->SetStunServerPort(ui->txtStunPort->text().toInt());
+    CGlobal::Instance()->SetTurnServer(ui->txtTurnServer->text());
+    CGlobal::Instance()->SetTurnServerPort(ui->txtTurnPort->text().toInt());
+    CGlobal::Instance()->SetTurnServerUser(ui->txtUser->text());
+    CGlobal::Instance()->SetTurnServerPassword(ui->txtPassword->text());
 
     if(m_pParent)
         m_pParent->setEnabled(true);

@@ -158,9 +158,9 @@ int CRoster::UpdateItemDisplay()
     for(it = m_lstUserListItem.begin(); it != m_lstUserListItem.end(); it++)
     {
         QStandardItem* p = *it;
-        p->setData(g_Global.GetStatusColor(m_Status), Qt::BackgroundRole);
+        p->setData(CGlobal::Instance()->GetStatusColor(m_Status), Qt::BackgroundRole);
         QString szText = this->Name()
-                + "[" + g_Global.GetStatusText(m_Status) + "]"
+                + "[" + CGlobal::Instance()->GetStatusText(m_Status) + "]"
                 +  GetSubscriptionTypeStr(GetSubScriptionType());
         p->setData(szText, Qt::DisplayRole);
     }

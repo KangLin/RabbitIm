@@ -9,8 +9,8 @@ CFrmOptions::CFrmOptions(QWidget *parent) :
     ui->setupUi(this);
     m_pParent = parent;
     
-    ui->cbNotificationFlash->setChecked(g_Global.IsNotifiationFlashs());
-    ui->cbNotificationShowMessage->setChecked(g_Global.IsNotifiationBarShowMessage());
+    ui->cbNotificationFlash->setChecked(CGlobal::Instance()->IsNotifiationFlashs());
+    ui->cbNotificationShowMessage->setChecked(CGlobal::Instance()->IsNotifiationBarShowMessage());
 }
 
 CFrmOptions::~CFrmOptions()
@@ -34,8 +34,8 @@ void CFrmOptions::on_pbCancel_clicked()
 
 void CFrmOptions::on_pbOK_clicked()
 {
-    g_Global.SetNotifiationBarShowMessage(ui->cbNotificationShowMessage->isChecked());
-    g_Global.SetNotifiationFlashs(ui->cbNotificationFlash->isChecked());
+    CGlobal::Instance()->SetNotifiationBarShowMessage(ui->cbNotificationShowMessage->isChecked());
+    CGlobal::Instance()->SetNotifiationFlashs(ui->cbNotificationFlash->isChecked());
 
     close();
 }

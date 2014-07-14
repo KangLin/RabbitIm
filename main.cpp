@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     qApp->installTranslator(&myappTranslator);
 
     //*从配置文件中加载应用程序样式  
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     QString szFile(conf.value("UI/StyleSheet", ":/sink/Blue").toString());
     QFile file(szFile);//从资源文件中加载  
     if(file.open(QFile::ReadOnly))

@@ -38,7 +38,7 @@ void CFrmMessage::ChangedPresence(QXmppPresence::AvailableStatusType status)
 {
     ui->lbRosterName->setText(m_pRoster->Name()
                               + "["
-                              + g_Global.GetStatusText(status)
+                              + CGlobal::Instance()->GetStatusText(status)
                               + "]");
 }
 
@@ -61,7 +61,7 @@ void CFrmMessage::showEvent(QShowEvent *)
     {
         ui->lbRosterName->setText(m_pRoster->Name()
                               + "["
-                              + g_Global.GetStatusText(m_pRoster->GetStatus())
+                              + CGlobal::Instance()->GetStatusText(m_pRoster->GetStatus())
                               + "]");
     }
 }
@@ -76,9 +76,9 @@ int CFrmMessage::AppendMessageToList(const QString &szMessage, const QString &na
     QString recMsg = szMessage;
     QString msg("<font color='");
     if(bRemote)
-        msg += g_Global.GetRosterColor().name();
+        msg += CGlobal::Instance()->GetRosterColor().name();
      else
-         msg += g_Global.GetUserColor().name();
+         msg += CGlobal::Instance()->GetUserColor().name();
     msg += "'>[";
     msg += QTime::currentTime().toString()  +  "]" + name +  ":</font><br /><font color='black'>";
     msg += recMsg.replace(QString("\n"), QString("<br />")) +  "</font><p />";

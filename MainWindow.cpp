@@ -141,7 +141,7 @@ void MainWindow::clientConnected()
         }
     }
     
-    m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(g_Global.GetName()));
+    m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetName()));
 
     if(m_pUserList)
     {
@@ -220,7 +220,7 @@ void MainWindow::TrayIconActive(QSystemTrayIcon::ActivationReason e)
 //在通知栏上显示消息  
 int MainWindow::ShowTrayIconMessage(const QString &szTitle, const QString &szMessage)
 {
-    if(g_Global.IsNotifiationBarShowMessage())
+    if(CGlobal::Instance()->IsNotifiationBarShowMessage())
         m_TrayIcon.showMessage(szTitle, szMessage);
     return 0;
 }
@@ -284,7 +284,7 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
         QString stylesheet= file.readAll();
         qApp->setStyleSheet(stylesheet);
         file.close();
-        QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+        QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
         conf.setValue("UI/StyleSheet", szFile);
     }
     else

@@ -192,8 +192,8 @@ void CFrmRegister::on_pbCreate_clicked()
     config.setUseSASLAuthentication(false);
     config.setUseNonSASLAuthentication(false);
 
-    config.setHost(g_Global.GetXmppServer());
-    config.setDomain(g_Global.GetXmppDomain());
+    config.setHost(CGlobal::Instance()->GetXmppServer());
+    config.setDomain(CGlobal::Instance()->GetXmppDomain());
     m_pClient->connectToServer(config);
 }
 

@@ -9,9 +9,12 @@
 class CGlobal : public QObject
 {
     Q_OBJECT
-public:
+private:
     explicit CGlobal(QObject *parent = 0);
     virtual ~CGlobal();
+
+public:
+    static CGlobal* Instance();
 
     //日志
     //参数： 
@@ -96,33 +99,31 @@ signals:
 public slots:
 };
 
-extern CGlobal g_Global;
-
 #define LM_DEBUG 0
 #define LM_INFO 1
 #define LM_WARNING 2
 #define LM_ERROR 3
 
 #ifdef DEBUG
-#define LOG_ERROR(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_ERROR, "", fmt, ##__VA_ARGS__)
-#define LOG_WARNING(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_WARNING, "", fmt, ##__VA_ARGS__)
-#define LOG_DEBUG(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_DEBUG, "", fmt, ##__VA_ARGS__)
-#define LOG_INFO(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_INFO, "", fmt, ##__VA_ARGS__)
+#define LOG_ERROR(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, "", fmt, ##__VA_ARGS__)
+#define LOG_WARNING(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, "", fmt, ##__VA_ARGS__)
+#define LOG_DEBUG(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_DEBUG, "", fmt, ##__VA_ARGS__)
+#define LOG_INFO(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, "", fmt, ##__VA_ARGS__)
 
-#define LOG_MODEL_ERROR(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_ERROR, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_WARNING(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_WARNING, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_DEBUG(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_DEBUG, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_INFO(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_INFO, model, fmt, ##__VA_ARGS__)
+#define LOG_MODEL_ERROR(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, model, fmt, ##__VA_ARGS__)
+#define LOG_MODEL_WARNING(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, model, fmt, ##__VA_ARGS__)
+#define LOG_MODEL_DEBUG(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_DEBUG, model, fmt, ##__VA_ARGS__)
+#define LOG_MODEL_INFO(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, model, fmt, ##__VA_ARGS__)
 #else
-#define LOG_ERROR(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_ERROR, "", fmt, ##__VA_ARGS__)
+#define LOG_ERROR(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, "", fmt, ##__VA_ARGS__)
 #define LOG_DEBUG(...)
-#define LOG_WARNING(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_WARNING, "", fmt, ##__VA_ARGS__)
-#define LOG_INFO(fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_INFO, "", fmt, ##__VA_ARGS__)
+#define LOG_WARNING(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, "", fmt, ##__VA_ARGS__)
+#define LOG_INFO(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, "", fmt, ##__VA_ARGS__)
 
-#define LOG_MODEL_ERROR(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_ERROR, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_WARNING(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_WARNING, model, fmt, ##__VA_ARGS__)
+#define LOG_MODEL_ERROR(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, model, fmt, ##__VA_ARGS__)
+#define LOG_MODEL_WARNING(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, model, fmt, ##__VA_ARGS__)
 #define LOG_MODEL_DEBUG(model, fmt, ...)
-#define LOG_MODEL_INFO(model, fmt, ...) g_Global.Log(__FILE__, __LINE__, LM_INFO, model, fmt, ##__VA_ARGS__)
+#define LOG_MODEL_INFO(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, model, fmt, ##__VA_ARGS__)
 #endif
 
 #endif // GLOBAL_H
