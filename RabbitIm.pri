@@ -3,6 +3,8 @@ SOURCES += main.cpp\
     XmppClient.cpp \
     Global.cpp \
     Tool.cpp \
+    Widgets/FrmSendFile/DlgSendManage.cpp \
+    Widgets/FrmSendFile/FrmSendFile.cpp \
     Widgets/DlgLogin/DlgLogin.cpp \
     Widgets/DlgLogin/FrmLogin.cpp \
     Widgets/FrmUserList/FrmUserList.cpp \
@@ -28,6 +30,8 @@ HEADERS  += MainWindow.h \
     XmppClient.h \
     Global.h \
     Tool.h \
+    Widgets/FrmSendFile/DlgSendManage.h \
+    Widgets/FrmSendFile/FrmSendFile.h \
     Widgets/DlgLogin/DlgLogin.h \
     Widgets/DlgLogin/FrmLogin.h \
     Widgets/FrmUserList/FrmUserList.h \
@@ -51,6 +55,8 @@ HEADERS  += MainWindow.h \
     Widgets/FrmOptions/FrmOptions.h
 
 FORMS    += MainWindow.ui \
+    Widgets/FrmSendFile/DlgSendManage.ui \
+    Widgets/FrmSendFile/FrmSendFile.ui \
     Widgets/DlgLogin/DlgLogin.ui \
     Widgets/DlgLogin/FrmLogin.ui \
     Widgets/FrmUserList/FrmUserList.ui \

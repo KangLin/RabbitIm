@@ -3,6 +3,7 @@
 
 #include <QFrame>
 #include <QStandardItemModel>
+#include <QMenu>
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppPresence.h"
 #include "../../Global.h"
@@ -42,6 +43,8 @@ private slots:
 
     void ChangedPresence(QXmppPresence::AvailableStatusType status);
 
+    void slotSendFileTriggered();//20140712文件发送
+
 private:
     Ui::CFrmMessage *ui;
 
@@ -49,6 +52,7 @@ private:
     MainWindow* m_pMainWindow;
 
     QStringList m_szMessages;
+    QMenu m_MoreMenu;//功能按钮菜单
 };
 
 #endif // FRMMESSAGE_H

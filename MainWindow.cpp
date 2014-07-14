@@ -10,6 +10,7 @@
 #include "Widgets/FrmVideo/FrmVideo.h"
 #include "Widgets/FrmOptions/FrmOptions.h"
 #include "Global.h"
+#include "widgets/FrmSendFile/DlgSendManage.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -71,6 +72,10 @@ MainWindow::MainWindow(QWidget *parent) :
         m_TrayIcon.setToolTip(tr("RabbitIm"));
         m_TrayIcon.show();
     }
+    //0712文件发送管理窗口
+    m_pSendManageDlg = new CDlgSendManage(0);
+    //0712处理文件接收信号
+    connect(&(m_pClient->m_TransferManager),SIGNAL(fileReceived(QXmppTransferJob*)),this,SLOT(onReceiveFile(QXmppTransferJob*)));
 }
 
 MainWindow::~MainWindow()
@@ -225,6 +230,15 @@ int MainWindow::ShowTrayIconMessage(const QString &szTitle, const QString &szMes
     return 0;
 }
 
+void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindow::SendFileType type)
+{
+    QXmppTransferJob* job = m_pClient->m_TransferManager.sendFile(jid,fileName,QString::number(type));
+    if(job)
+    {
+        m_pSendManageDlg->addFileProcess(*job,true);
+    }
+}
+
 void MainWindow::TrayIconMenuUpdate()
 {
     m_TrayIconMenu.clear();
@@ -245,6 +259,14 @@ void MainWindow::on_actionNotifiation_show_main_windows_triggered()
         this->show();
     else
         this->hide();
+}
+
+void MainWindow::onReceiveFile(QXmppTransferJob *job)
+{
+    if(job)
+    {
+        m_pSendManageDlg->addFileProcess(*job,false);
+    }
 }
 
 void MainWindow::on_actionOptions_O_triggered()

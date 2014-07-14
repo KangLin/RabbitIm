@@ -20,8 +20,10 @@ CGlobal::CGlobal(QObject *parent) :
     m_RosterColor = QColor(0, 0, 255);
 
     QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
-    m_szXmppServerHost = conf.value("Login/XmppServerHost", "183.233.149.120").toString();
-    m_szXmppServer = conf.value("Login/XmppServer", "rabbitim.com").toString();
+    m_szXmppServerHost = conf.value("Login/XmppServerHost", "192.168.3.105").toString();
+    m_szXmppServer = conf.value("Login/XmppServer", "20140510-2305").toString();
+//    m_szXmppServerHost = conf.value("Login/XmppServerHost", "183.233.149.120").toString();
+//    m_szXmppServer = conf.value("Login/XmppServer", "rabbitim.com").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
     //m_szStunServer = conf.value("Login/StunServer", "stun.l.google.com").toString();
     m_szStunServer = conf.value("Login/StunServer", "183.233.149.120").toString();

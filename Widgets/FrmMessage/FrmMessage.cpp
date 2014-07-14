@@ -13,6 +13,14 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
     ui->txtInput->setFocus();//设置焦点
     m_pRoster = NULL;
     m_pMainWindow = NULL;
+
+    //发送文件信号连接20140710
+    {
+        QAction* pAction = m_MoreMenu.addAction(tr("send file"));
+        bool check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFileTriggered()));
+        Q_ASSERT(check);
+    }
+    ui->tbMore->setMenu(&m_MoreMenu);
 }
 
 CFrmMessage::~CFrmMessage()
@@ -40,6 +48,19 @@ void CFrmMessage::ChangedPresence(QXmppPresence::AvailableStatusType status)
                               + "["
                               + g_Global.GetStatusText(status)
                               + "]");
+}
+
+void CFrmMessage::slotSendFileTriggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                    "F:",
+                                                    tr("All (*.*)"));
+    if(fileName.isEmpty())
+    {
+        return;
+    }
+    QString jid = QString("%1/%2").arg(m_pRoster->Jid()).arg("QXmpp");//再定QXmpp,应该根据实际的resource
+    m_pMainWindow->sendFile(jid,fileName);
 }
 
 void CFrmMessage::hideEvent(QHideEvent *)
