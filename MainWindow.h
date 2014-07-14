@@ -26,7 +26,7 @@ public:
     CXmppClient* m_pClient;
 
     //在通知栏上显示消息  
-    int ShowTrayIconMessage(QString &szTitle, QString &szMessage);
+    int ShowTrayIconMessage(const QString &szTitle, const QString &szMessage);
 
 protected slots:
     void About();

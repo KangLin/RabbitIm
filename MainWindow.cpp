@@ -218,7 +218,7 @@ void MainWindow::TrayIconActive(QSystemTrayIcon::ActivationReason e)
 }
 
 //在通知栏上显示消息  
-int MainWindow::ShowTrayIconMessage(QString &szTitle, QString &szMessage)
+int MainWindow::ShowTrayIconMessage(const QString &szTitle, const QString &szMessage)
 {
     if(g_Global.IsNotifiationBarShowMessage())
         m_TrayIcon.showMessage(szTitle, szMessage);
