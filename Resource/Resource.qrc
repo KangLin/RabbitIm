@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/translations">
-        <file alias="zh_CN">translations/app_zh_CN.qm</file>
+        <file alias="zh_CN">translations/app_zh_CN.ts</file>
     </qresource>
     <qresource prefix="/sound">
         <file alias="Call">sound/Call.wav</file>
@@ -8,6 +8,12 @@
     </qresource>
     <qresource prefix="/icon">
         <file alias="AppIcon">png/AppIcon.png</file>
+        <file>png/cancel.png</file>
+        <file>png/complete.png</file>
+        <file>png/pen.png</file>
+        <file>png/saveas.png</file>
+        <file>png/shot.png</file>
+        <file>png/undo.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

@@ -5,6 +5,10 @@
 #include "../../MainWindow.h"
 #include "../FrmVideo/FrmVideo.h"
 
+#if WIN32
+#include "Widgets/DlgScreenShot/DlgScreenShot.h"
+#endif
+
 CFrmMessage::CFrmMessage(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmMessage)
@@ -20,6 +24,13 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
         bool check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFileTriggered()));
         Q_ASSERT(check);
     }
+#if WIN32
+    {
+        QAction* pAction = m_MoreMenu.addAction(tr("shot screen"));
+        bool check = connect(pAction, SIGNAL(triggered()), SLOT(slotShotScreenTriggered()));
+        Q_ASSERT(check);
+    }
+#endif
     ui->tbMore->setMenu(&m_MoreMenu);
 }
 
@@ -62,6 +73,30 @@ void CFrmMessage::slotSendFileTriggered()
     QString jid = QString("%1/%2").arg(m_pRoster->Jid()).arg("QXmpp");//再定QXmpp,应该根据实际的resource
     m_pMainWindow->sendFile(jid,fileName);
 }
+
+#if WIN32
+void CFrmMessage::slotShotScreenTriggered()
+{
+    CDlgScreenShot dlg;
+    if(dlg.exec() ==  QDialog::Accepted)
+    {
+        QImage image = dlg.getSelectedImg().toImage();
+        QString fileName = QDateTime::currentDateTime().toString("yyyyMMddhhmmss.png");
+        QString filePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) +QDir::separator() +  fileName;
+        LOG_MODEL_DEBUG("Message", QString("filePath = %1").arg(filePath).toLocal8Bit().data());
+        bool isOk = image.save(filePath);
+        if(isOk)
+        {
+            QString jid = QString("%1/%2").arg(m_pRoster->Jid()).arg("QXmpp");//再定QXmpp,应该根据实际的resource
+            m_pMainWindow->sendFile(jid,filePath,MainWindow::ImageType);
+        }
+        else
+        {
+            LOG_MODEL_ERROR("Message",QString("保存文件<%1>失败").arg(filePath).toLocal8Bit().data());
+        }
+    }
+}
+#endif
 
 void CFrmMessage::hideEvent(QHideEvent *)
 {

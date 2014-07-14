@@ -70,3 +70,8 @@ FORMS    += MainWindow.ui \
 
 RESOURCES += \
     Resource/Resource.qrc
+
+win32{
+SOURCES += Widgets/DlgScreenShot/DlgScreenShot.cpp
+HEADERS += Widgets/DlgScreenShot/DlgScreenShot.h
+}
