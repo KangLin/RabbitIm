@@ -280,38 +280,43 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="93"/>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="191"/>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="289"/>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="245"/>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="343"/>
         <source>Port:</source>
         <translation>端口：</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="144"/>
+        <source>XMPP Domain:</source>
+        <translation >XMPP 域名：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="198"/>
         <source>Stun Server:</source>
         <translation>Stun 服务器：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="242"/>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="296"/>
         <source>Turn Server:</source>
         <translation>Turn 服务器</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="340"/>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="394"/>
         <source>Turn User:</source>
         <translation>Turn 用户名：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="387"/>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="441"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="438"/>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="492"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="463"/>
+        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="517"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>

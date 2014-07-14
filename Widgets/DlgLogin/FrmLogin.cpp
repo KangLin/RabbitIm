@@ -73,9 +73,9 @@ void CFrmLogin::on_pbOk_clicked()
     //TODO:设置为非sasl验证  
     config.setUseSASLAuthentication(false);
     //config.setUseNonSASLAuthentication(false);
-    config.setHost(g_Global.GetXmppServerHost());
+    config.setHost(g_Global.GetXmppServer());
     config.setPort(g_Global.GetXmppServerPort());
-    config.setDomain(g_Global.GetXmppServer());
+    config.setDomain(g_Global.GetXmppDomain());
     config.setUser(ui->cmbUser->currentText());
     config.setPassword(ui->lnPassword->text());
     g_Global.SetJid(config.jid());
