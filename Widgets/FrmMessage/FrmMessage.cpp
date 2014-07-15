@@ -45,7 +45,6 @@ void CFrmMessage::ChangedPresence(QXmppPresence::AvailableStatusType status)
 void CFrmMessage::hideEvent(QHideEvent *)
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::hideEvent");
-    m_pRoster->CleanNewMessageNumber();
 }
 void CFrmMessage::closeEvent(QCloseEvent *e)
 {
@@ -64,6 +63,8 @@ void CFrmMessage::showEvent(QShowEvent *)
                               + CGlobal::Instance()->GetStatusText(m_pRoster->GetStatus())
                               + "]");
     }
+
+    m_pRoster->CleanNewMessageNumber();
 }
 
 void CFrmMessage::on_pbBack_clicked()
