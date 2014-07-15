@@ -16,7 +16,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
 
     m_pRegister = new CFrmRegister();
 
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     //加载所有用户  
     int userTotal = conf.value("Login/UserTotal", 0).toInt();
     for(int i = 0; i < userTotal; i++)
@@ -73,15 +73,15 @@ void CFrmLogin::on_pbOk_clicked()
     //TODO:设置为非sasl验证  
     config.setUseSASLAuthentication(false);
     //config.setUseNonSASLAuthentication(false);
-    config.setHost(g_Global.GetXmppServer());
-    config.setPort(g_Global.GetXmppServerPort());
-    config.setDomain(g_Global.GetXmppDomain());
+    config.setHost(CGlobal::Instance()->GetXmppServer());
+    config.setPort(CGlobal::Instance()->GetXmppServerPort());
+    config.setDomain(CGlobal::Instance()->GetXmppDomain());
     config.setUser(ui->cmbUser->currentText());
     config.setPassword(ui->lnPassword->text());
-    g_Global.SetJid(config.jid());
+    CGlobal::Instance()->SetJid(config.jid());
 
     LOG_MODEL_DEBUG("Login", "Local jid:%s;config.jidBare():%s",
-           qPrintable(g_Global.GetBareJid()),
+           qPrintable(CGlobal::Instance()->GetBareJid()),
            qPrintable(config.jidBare()));
     QXmppPresence presence;
     presence.setAvailableStatusType(m_Status);
@@ -135,7 +135,7 @@ int CFrmLogin::SetLoginInformation(QString szName, QString szPassword)
 int CFrmLogin::SaveConf()
 {
     LOG_MODEL_DEBUG("Login", "CFrmLogin::SaveConf");
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     int total = conf.value("Login/UserTotal", 0).toInt();
     int i = 0;
     for(i = 0; i < total; i++)
@@ -179,7 +179,7 @@ QString CFrmLogin::DecryptPassword(QString szPassword)
 
 void CFrmLogin::on_chkLogin_stateChanged(int state)
 {
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     if(Qt::Unchecked == state)
     {
         conf.setValue("Login/AutoLogin", false);
@@ -212,16 +212,16 @@ int CFrmLogin::InitStateButton()
 
     ui->pbState->setMenu(&m_StateMenu);
 
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     m_Status = (QXmppPresence::AvailableStatusType)conf.value("Login/LoginState", QXmppPresence::Online).toInt();
-    ui->pbState->setText(g_Global.GetStatusText(m_Status));
+    ui->pbState->setText(CGlobal::Instance()->GetStatusText(m_Status));
     return 0;
 }
 
 void CFrmLogin::slotChatTriggered()
 {
     m_Status = QXmppPresence::Chat;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/LoginState", m_Status);
     ui->pbState->setText(tr("Chat"));
 }
@@ -229,7 +229,7 @@ void CFrmLogin::slotChatTriggered()
 void CFrmLogin::slotOnLineTriggered()
 {
     m_Status = QXmppPresence::Online;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/LoginState", m_Status);
     ui->pbState->setText(tr("OnLine"));
 }
@@ -237,7 +237,7 @@ void CFrmLogin::slotOnLineTriggered()
 void CFrmLogin::slotDoNotDisturbTriggered()
 {
     m_Status = QXmppPresence::DND;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/LoginState", m_Status);
     ui->pbState->setText(tr("Do not disturb"));
 }
@@ -245,7 +245,7 @@ void CFrmLogin::slotDoNotDisturbTriggered()
 void CFrmLogin::slotInvisibleTriggered()
 {
     m_Status = QXmppPresence::Invisible;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/LoginState", m_Status);
     ui->pbState->setText(tr("Invisible"));
 }
@@ -253,14 +253,14 @@ void CFrmLogin::slotInvisibleTriggered()
 void CFrmLogin::slotTemporarilyawayTriggered()
 {
     m_Status = QXmppPresence::Away;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/LoginState", m_Status);
     ui->pbState->setText(tr("Temporarily away"));
 }
 
 void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
 {
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     ui->lnPassword->setText(conf.value("Login/Password" + QString::number(index + 1), "").toString());
     if(ui->lnPassword->text() == "" || ui->lnPassword->text().isEmpty())
         ui->chkSave->setChecked(false);

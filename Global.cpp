@@ -11,15 +11,13 @@
 #include <QSettings>
 #include "Tool.h"
 
-CGlobal g_Global;
-
 CGlobal::CGlobal(QObject *parent) :
     QObject(parent)
 {
     m_UserColor = QColor(255, 0, 0);
     m_RosterColor = QColor(0, 0, 255);
 
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
     m_szXmppServer = conf.value("Login/XmppServer", "183.233.149.120").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
@@ -41,6 +39,14 @@ CGlobal::CGlobal(QObject *parent) :
 
 CGlobal::~CGlobal()
 {
+}
+
+CGlobal* CGlobal::Instance()
+{
+    static CGlobal* p = NULL;
+    if(!p)
+        p = new CGlobal;
+    return p;
 }
 
 int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...)
@@ -128,7 +134,7 @@ QString CGlobal::GetXmppDomain()
 int CGlobal::SetXmppDomain(QString server)
 {
     m_szXmppDomain = server;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/XmppDomain", server);
     return 0;
 }
@@ -141,7 +147,7 @@ QString CGlobal::GetXmppServer()
 int CGlobal::SetXmppServer(QString host)
 {
     m_szXmppServer = host;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/XmppServer", host);
     return 0;
 }
@@ -154,7 +160,7 @@ qint16 CGlobal::GetXmppServerPort()
 int CGlobal::SetXmppServerPort(qint16 port)
 {
     m_szXmppServerPort = port;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/XmppServerPort", port);
     return 0;
 }
@@ -167,7 +173,7 @@ QString CGlobal::GetStunServer()
 int CGlobal::SetStunServer(QString server)
 {
     m_szStunServer = server;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/StunServer", server);
     return 0;
 }
@@ -180,7 +186,7 @@ qint16 CGlobal::GetStunServerPort()
 int CGlobal::SetStunServerPort(qint16 port)
 {
     m_nStunServerPort = port;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/StunServerPort", port);
     return 0;
 }
@@ -193,7 +199,7 @@ QString CGlobal::GetTurnServer()
 int CGlobal::SetTurnServer(QString server)
 {
     m_szTurnServer = server;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/TurnServer", server);
     return 0;
 }
@@ -206,7 +212,7 @@ qint16 CGlobal::GetTurnServerPort()
 int CGlobal::SetTurnServerPort(qint16 port)
 {
     m_nTurnServerPort = port;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/TurnServerPort", port);
     return 0;
 }
@@ -219,7 +225,7 @@ QString CGlobal::GetTurnServerUser()
 int CGlobal::SetTurnServerUser(QString user)
 {
     m_szTurnUser = user;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/TurnServerUser", user);
     return 0;
 }
@@ -232,7 +238,7 @@ QString CGlobal::GetTurnServerPassword()
 int CGlobal::SetTurnServerPassword(QString password)
 {
     m_szTurnPassword = password;
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/TurnServerPassword", password);
     return 0;
 }
@@ -313,7 +319,7 @@ QString CGlobal::GetDirUserData(const QString bareJid)
 
 int CGlobal::SetNotifiationBarShowMessage(bool bShowMessage)
 {
-     QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
      conf.setValue("Options/NotifiationBar/ShowMessage", bShowMessage);
      m_bNotifiationBarShowMessage = bShowMessage;
      return 0;
@@ -326,7 +332,7 @@ bool CGlobal::IsNotifiationBarShowMessage()
 
 int CGlobal::SetNotifiationFlashs(bool bFlashs)
 {
-    QSettings conf(g_Global.GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Options/NotifiationBar/Flashs", bFlashs);
     m_bNotifiationBarFlashs = bFlashs;
     return 0;

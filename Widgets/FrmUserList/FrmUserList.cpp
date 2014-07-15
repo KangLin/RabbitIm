@@ -27,6 +27,9 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     m_UserList.setItemsExpandable(true);
     m_UserList.show();
 
+    //增加头，只有增加了这个后，下面才会显示内容
+    m_pModel->setHorizontalHeaderLabels(QStringList() << tr("User")<< tr("Information"));
+ 
     InsertGroup(tr("My friends"));
     
     bool check = connect(&m_UserList, SIGNAL(clicked(QModelIndex)),

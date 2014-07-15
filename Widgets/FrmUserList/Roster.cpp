@@ -114,10 +114,11 @@ QList<QStandardItem*> CRoster::GetItem()
     m_lstUserListItem.push_back(pItem);
 
     //消息条目
-    QStandardItem* pMessageCountItem = new QStandardItem("0");
+    QStandardItem* pMessageCountItem = new QStandardItem("");
     v.setValue(this);
     pMessageCountItem->setData(v);
     pMessageCountItem->setEditable(false);//禁止双击编辑
+    m_lstMessageCountItem.push_back(pMessageCountItem);
 
     /* TODO:未读新消息数目树形控件中未显示 */
     QList<QStandardItem *> lstItems;
@@ -158,9 +159,9 @@ int CRoster::UpdateItemDisplay()
     for(it = m_lstUserListItem.begin(); it != m_lstUserListItem.end(); it++)
     {
         QStandardItem* p = *it;
-        p->setData(g_Global.GetStatusColor(m_Status), Qt::BackgroundRole);
+        p->setData(CGlobal::Instance()->GetStatusColor(m_Status), Qt::BackgroundRole);
         QString szText = this->Name()
-                + "[" + g_Global.GetStatusText(m_Status) + "]"
+                + "[" + CGlobal::Instance()->GetStatusText(m_Status) + "]"
                 +  GetSubscriptionTypeStr(GetSubScriptionType());
         p->setData(szText, Qt::DisplayRole);
     }
@@ -194,15 +195,28 @@ int CRoster::ShowMessageDialog()
 int CRoster::AppendMessage(const QString &szMessage)
 {
     m_nNewMessageNumber++;
-    //TODO:设置控件计数
-
+    //设置控件计数
+    std::list<QStandardItem*>::iterator it;
+    for(it = m_lstMessageCountItem.begin(); it != m_lstMessageCountItem.end(); it++)
+    {
+        QStandardItem* p = *it;
+        p->setData(CGlobal::Instance()->GetStatusColor(m_Status), Qt::BackgroundRole);
+        QString szText = QString::number(m_nNewMessageNumber);
+        p->setData(szText, Qt::DisplayRole);
+    }
     return m_Message.AppendMessage(szMessage);
 }
 
 int CRoster::CleanNewMessageNumber()
 {
     m_nNewMessageNumber = 0;
-    //TODO:清除控件计数
-
+    //清除控件计数
+    std::list<QStandardItem*>::iterator it;
+    for(it = m_lstMessageCountItem.begin(); it != m_lstMessageCountItem.end(); it++)
+    {
+        QStandardItem* p = *it;
+        p->setData(CGlobal::Instance()->GetStatusColor(m_Status), Qt::BackgroundRole);
+        p->setData("", Qt::DisplayRole);
+    }
     return 0;
 }

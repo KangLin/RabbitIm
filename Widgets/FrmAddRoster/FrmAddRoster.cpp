@@ -68,7 +68,7 @@ void CFrmAddRoster::on_pbOk_clicked()
         return;
     }
     if(-1 == szJid.indexOf("@"))
-        szJid = szJid + "@" + g_Global.GetDomain();
+        szJid = szJid + "@" + CGlobal::Instance()->GetDomain();
     QString szNick = ui->txtNick->text();
     if(szNick.isEmpty())
         szNick = szJid.left(szJid.indexOf("@"));

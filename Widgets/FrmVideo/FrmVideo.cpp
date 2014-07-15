@@ -323,18 +323,18 @@ int CFrmVideo::Call(QString jid)
     ui->lbPrompt->setText(szText);
 
     m_pClient->m_CallManager.setStunServer(
-                QHostAddress(g_Global.GetStunServer()),
-                g_Global.GetStunServerPort()
+                QHostAddress(CGlobal::Instance()->GetStunServer()),
+                CGlobal::Instance()->GetStunServerPort()
                 );
     m_pClient->m_CallManager.setTurnServer(
-                QHostAddress(g_Global.GetStunServer()),
-                g_Global.GetTurnServerPort()
+                QHostAddress(CGlobal::Instance()->GetStunServer()),
+                CGlobal::Instance()->GetTurnServerPort()
                 );
     m_pClient->m_CallManager.setTurnUser(
-                g_Global.GetTurnServerUser()
+                CGlobal::Instance()->GetTurnServerUser()
                 );
     m_pClient->m_CallManager.setTurnPassword(
-                g_Global.GetTurnServerPassword()
+                CGlobal::Instance()->GetTurnServerPassword()
                 );
     
     //返回QXmppCall的引用,这个会由QXmppCallManager管理.用户层不要释放此指针
@@ -365,7 +365,7 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
     if(m_pCall)
     {
         LOG_MODEL_ERROR("Video", 
-                        qPrintable(g_Global.GetBareJid() 
+                        qPrintable(CGlobal::Instance()->GetBareJid() 
                          + " Working with " 
                          + QXmppUtils::jidToBareJid(m_pCall->jid())
                          + "call, don't accpect new call."));
@@ -378,18 +378,18 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
     ConnectionCallSlot(pCall);
     m_szRemoteJID = pCall->jid();
     m_pClient->m_CallManager.setStunServer(
-                QHostAddress(g_Global.GetStunServer()),
-                g_Global.GetStunServerPort()
+                QHostAddress(CGlobal::Instance()->GetStunServer()),
+                CGlobal::Instance()->GetStunServerPort()
                 );
     m_pClient->m_CallManager.setTurnServer(
-                QHostAddress(g_Global.GetStunServer()),
-                g_Global.GetTurnServerPort()
+                QHostAddress(CGlobal::Instance()->GetStunServer()),
+                CGlobal::Instance()->GetTurnServerPort()
                 );
     m_pClient->m_CallManager.setTurnUser(
-                g_Global.GetTurnServerUser()
+                CGlobal::Instance()->GetTurnServerUser()
                 );
     m_pClient->m_CallManager.setTurnPassword(
-                g_Global.GetTurnServerPassword()
+                CGlobal::Instance()->GetTurnServerPassword()
                 );
 
     //播放铃音,非阻塞式播放
@@ -739,7 +739,7 @@ int CFrmVideo::StartVideo()
     m_RemotePlayer.show();
     m_RemotePlayer.setWindowTitle(QXmppUtils::jidToUser(m_pCall->jid()));
 
-    m_LocalePlayer.setWindowTitle(g_Global.GetName());
+    m_LocalePlayer.setWindowTitle(CGlobal::Instance()->GetName());
     m_LocalePlayer.raise();//提升到父窗口中栈的顶部
     m_LocalePlayer.show();
     m_LocalePlayer.activateWindow();

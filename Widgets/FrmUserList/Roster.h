@@ -70,6 +70,7 @@ private:
     //TODO:改成动态产生
     CFrmMessage m_Message;
     int m_nNewMessageNumber;//新消息数
+    std::list<QStandardItem*> m_lstMessageCountItem;
 
 };
 
