@@ -92,7 +92,7 @@ void CFrmMessage::slotShotScreenTriggered()
         }
         else
         {
-            LOG_MODEL_ERROR("Message",QString("保存文件<%1>失败").arg(filePath).toLocal8Bit().data());
+            LOG_MODEL_ERROR("Message",tr("save file <%1> is error").arg(filePath).toLocal8Bit().data());
         }
     }
 }
