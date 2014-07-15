@@ -194,15 +194,25 @@ int CRoster::ShowMessageDialog()
 
 int CRoster::AppendMessage(const QString &szMessage)
 {
-    m_nNewMessageNumber++;
-    //设置控件计数
-    std::list<QStandardItem*>::iterator it;
-    for(it = m_lstMessageCountItem.begin(); it != m_lstMessageCountItem.end(); it++)
+    if(m_Message.isHidden())
     {
-        QStandardItem* p = *it;
-        p->setData(CGlobal::Instance()->GetStatusColor(m_Status), Qt::BackgroundRole);
-        QString szText = QString::number(m_nNewMessageNumber);
-        p->setData(szText, Qt::DisplayRole);
+        m_nNewMessageNumber++;
+        //设置控件计数
+        std::list<QStandardItem*>::iterator it;
+        for(it = m_lstMessageCountItem.begin(); it != m_lstMessageCountItem.end(); it++)
+        {
+            QStandardItem* p = *it;
+            p->setData(CGlobal::Instance()->GetStatusColor(m_Status), Qt::BackgroundRole);
+            QString szText = QString::number(m_nNewMessageNumber);
+            p->setData(szText, Qt::DisplayRole);
+        }
+        
+        //通知栏提示
+        m_pMainWindow->ShowTrayIconMessage(this->Name(), szMessage);
+    }
+    else
+    {
+        CleanNewMessageNumber();
     }
     return m_Message.AppendMessage(szMessage);
 }

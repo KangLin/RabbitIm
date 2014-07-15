@@ -89,6 +89,9 @@ int CFrmMessage::AppendMessageToList(const QString &szMessage, const QString &na
 
 int CFrmMessage::AppendMessage(const QString &szMessage)
 {
+    if(!this->isHidden())
+        this->activateWindow();
+
     AppendMessageToList(szMessage, m_pRoster->Name(), true);
     return 0;
 }
