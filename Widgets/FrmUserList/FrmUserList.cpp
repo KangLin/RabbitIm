@@ -234,7 +234,7 @@ void CFrmUserList::clientMessageReceived(const QXmppMessage &message)
         {
             it.value()->AppendMessage(message.body());
         }
-        //TODO:消息输入状态显示
+        //TODO:消息输入状态显示 
     }
 }
 
@@ -242,7 +242,7 @@ QStandardItem*  CFrmUserList::InsertGroup(QString szGroup)
 {
      QStandardItem* lstGroup = NULL;
     lstGroup = new QStandardItem(szGroup);
-    lstGroup->setEditable(false);  //禁止双击编辑
+    lstGroup->setEditable(false);  //禁止双击编辑 
     m_pModel->appendRow(lstGroup);
     m_Groups.insert(szGroup, lstGroup);
     return lstGroup;
@@ -264,9 +264,9 @@ int CFrmUserList::UpdateGroup(CRoster* pRoster, QSet<QString> groups)
         it = m_Groups.find(szGroup);
         if(m_Groups.end() == it)
         {
-            //新建立组条目
+            //新建立组条目 
             /*lstGroup = new QStandardItem(szGroup);
-            lstGroup->setEditable(false);  //禁止双击编辑
+            lstGroup->setEditable(false);  //禁止双击编辑 
             m_pModel->appendRow(lstGroup);
             m_Groups.insert(szGroup, lstGroup);//*/
             lstGroup = InsertGroup(szGroup);
@@ -349,7 +349,7 @@ void CFrmUserList::itemRemoved(const QString &bareJid)
     }
 }
 
-//得到好友列表
+//得到好友列表 
 void CFrmUserList::rosterReceived()
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList:: Roster received");
@@ -358,12 +358,12 @@ void CFrmUserList::rosterReceived()
     {
         QXmppRosterIq::Item item = m_pMainWindow->m_pClient->rosterManager().getRosterEntry(bareJid);
         InsertUser(item);
-        // TODOS:得到好友头像图片
+        // TODOS:得到好友头像图片 
         //m_pMainWindow->m_pClient->vCardManager().requestVCard(bareJid);
     }
 }
 
-//好友出席状态改变
+//好友出席状态改变 
 void CFrmUserList::ChangedPresence(const QXmppPresence &presence)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::ChangedPresence jid:%s;status:%s",
@@ -429,10 +429,10 @@ void CFrmUserList::clicked(const QModelIndex &index)
     if(!m)
         return;
 
-    //TODO:暂时根据是否有根节点来判断是组还是好友
+    //TODO:暂时根据是否有根节点来判断是组还是好友 
     if(m->parent(index).isValid())
     {
-        //是用户结点，打开消息对话框
+        //是用户结点，打开消息对话框 
         QVariant v = m->data(index, Qt::UserRole + 1);
         if(v.canConvert<CRoster*>())
         {
@@ -469,10 +469,10 @@ CRoster* CFrmUserList::GetCurrentRoster()
     if(!m)
         return NULL;
 
-    //TODO:暂时根据是否有根节点来判断是组还是好友
+    //TODO:暂时根据是否有根节点来判断是组还是好友 
     if(m->parent(index).isValid())
     {
-        //是用户结点，删除它
+        //是用户结点，删除它 
         QVariant v = m->data(index, Qt::UserRole + 1);
         if(v.canConvert<CRoster*>())
         {

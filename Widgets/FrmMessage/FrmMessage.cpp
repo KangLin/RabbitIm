@@ -6,7 +6,7 @@
 #include "../FrmVideo/FrmVideo.h"
 
 #if WIN32
-#include "Widgets/DlgScreenShot/DlgScreenShot.h"
+#include "../DlgScreenShot/DlgScreenShot.h"
 #endif
 
 CFrmMessage::CFrmMessage(QWidget *parent) :
@@ -14,7 +14,7 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
     ui(new Ui::CFrmMessage)
 {
     ui->setupUi(this);
-    ui->txtInput->setFocus();//设置焦点
+    ui->txtInput->setFocus();//设置焦点 
     m_pRoster = NULL;
     m_pMainWindow = NULL;
 
@@ -40,7 +40,7 @@ CFrmMessage::~CFrmMessage()
     delete ui;
 }
 
-//注意：只在对话框初始化后调用一次,必须最先调用一次
+//注意：只在对话框初始化后调用一次,必须最先调用一次 
 int CFrmMessage::SetRoster(CRoster* pRoster, MainWindow *pMainWindow)
 {
     m_pRoster = pRoster;
@@ -92,7 +92,7 @@ void CFrmMessage::slotShotScreenTriggered()
         }
         else
         {
-            LOG_MODEL_ERROR("Message",tr("save file <%1> is error").arg(filePath).toLocal8Bit().data());
+            LOG_MODEL_ERROR("Message", "save file [%s] is error", filePath.toStdString().c_str());
         }
     }
 }
@@ -111,7 +111,7 @@ void CFrmMessage::closeEvent(QCloseEvent *e)
 void CFrmMessage::showEvent(QShowEvent *)
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::showEvent");
-    //TODO:重读数据
+    //TODO:重读数据 
     if(m_pRoster)
     {
         ui->lbRosterName->setText(m_pRoster->Name()
@@ -159,11 +159,11 @@ void CFrmMessage::on_pbSend_clicked()
     
     AppendMessageToList(ui->txtInput->toPlainText());
 
-    //发送
+    //发送 
     QXmppMessage msg("", m_pRoster->BareJid(), ui->txtInput->toPlainText());
     m_pMainWindow->m_pClient->sendPacket(msg);
 
-    ui->txtInput->clear();//清空输入框中的内容
+    ui->txtInput->clear();//清空输入框中的内容 
 }
 
 void CFrmMessage::on_tbMore_clicked()

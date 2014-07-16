@@ -68,7 +68,7 @@ void CDlgScreenShot::drawWindow()
     painter.setPen(pen);
     painter.fillRect(m_x,m_y,m_width,m_height,Qt::transparent);
     painter.drawRect(m_x - penWidth,m_y - penWidth,m_width + 2 * penWidth,m_height + 2 * penWidth);
-    repaint();//即时强制重绘
+    repaint();//即时强制重绘 
 }
 
 void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)

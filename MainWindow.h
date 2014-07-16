@@ -38,7 +38,7 @@ public:
     //在通知栏上显示消息  
     int ShowTrayIconMessage(const QString &szTitle, const QString &szMessage);
     
-    //文件发送
+    //文件发送 
     void sendFile(const QString& jid,const QString& fileName,SendFileType type = MainWindow::DefaultType);
         
 protected slots:
@@ -49,7 +49,7 @@ protected slots:
     void clientIqReceived(const QXmppIq &iq);
     void stateChanged(QXmppClient::State state);
 
-    void TrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽
+    void TrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽 
     void TrayIconMenuUpdate();
 
     void on_actionChange_Style_Sheet_S_triggered();
@@ -58,7 +58,7 @@ protected slots:
     
     void on_actionNotifiation_show_main_windows_triggered();
     
-    void onReceiveFile(QXmppTransferJob* job);//文件接收通知
+    void onReceiveFile(QXmppTransferJob* job);//文件接收通知 
 
 protected:
     void resizeEvent(QResizeEvent *);
@@ -78,7 +78,7 @@ private:
 
     QMenu m_TrayIconMenu;
     QSystemTrayIcon m_TrayIcon;
-    CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口
+    CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口 
 };
 
 #endif // MAINWINDOW_H

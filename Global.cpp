@@ -33,7 +33,7 @@ CGlobal::CGlobal(QObject *parent) :
     m_bNotifiationBarShowMessage = conf.value("Options/NotifiationBar/ShowMessage", true).toBool();
     m_bNotifiationBarFlashs =  conf.value("Options/NotifiationBar/Flashs", true).toBool();;
 
-    //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用
+    //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用 
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
 }
 
@@ -295,7 +295,7 @@ QString CGlobal::GetDirApplicationConfigure()
     return GetDirApplication() + "/conf";
 }
 
-//应用程序的配置文件
+//应用程序的配置文件 
 QString CGlobal::GetApplicationConfigureFile()
 {
     return GetDirApplicationConfigure() + "/app.conf";
