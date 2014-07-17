@@ -10,7 +10,7 @@
 #include "Widgets/FrmVideo/FrmVideo.h"
 #include "Widgets/FrmOptions/FrmOptions.h"
 #include "Global.h"
-#include "widgets/FrmSendFile/DlgSendManage.h"
+#include "Widgets/FrmSendFile/DlgSendManage.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

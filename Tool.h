@@ -9,7 +9,6 @@ extern "C" {
 #include "libswscale/swscale.h"
 #include "libavformat/avformat.h"
 #include "libswscale/swscale.h"
-#include "libswresample/swresample.h"
 }
 
 #include <QWidget>

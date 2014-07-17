@@ -69,7 +69,7 @@ int CTool::ConvertFormat(/*[in]*/ const QVideoFrame &inFrame,
     int nRet = 0;
 
     AVPicture pic;
-    nRet = avpicture_fill(&pic, inFrame.bits(),
+    nRet = avpicture_fill(&pic, (u_int8_t*) inFrame.bits(),
                    QVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
                    inFrame.width(),
                    inFrame.height());
@@ -95,7 +95,7 @@ int CTool::ConvertFormat(/*[in]*/ const QXmppVideoFrame &inFrame,
     int nRet = 0;
 
     AVPicture pic;
-    nRet = avpicture_fill(&pic, inFrame.bits(),
+    nRet = avpicture_fill(&pic, (u_int8_t*)inFrame.bits(),
                    QXmppVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
                    inFrame.width(),
                    inFrame.height());

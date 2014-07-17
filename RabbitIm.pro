@@ -40,7 +40,7 @@ QXMPP_USE_VPX = 1
     }
 }
 
-FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lswresample -lavfilter  -lavutil
+FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale  -lavfilter  -lavutil
 
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android{
