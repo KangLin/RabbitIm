@@ -11,7 +11,7 @@ CTool::~CTool()
 }
 
 
-//设置日志的回调函数
+//设置日志的回调函数  
 void Log(void*, int, const char* fmt, va_list vl)
 {
     LOG_MODEL_DEBUG("ffmpeg", fmt, vl);
@@ -19,7 +19,7 @@ void Log(void*, int, const char* fmt, va_list vl)
 
 int CTool::SetFFmpegLog()
 {
-    //在程序初始化时设置ffmpeg日志的回调函数
+    //在程序初始化时设置ffmpeg日志的回调函数  
     av_log_set_callback(Log);
     return 0;
 }
@@ -59,7 +59,7 @@ AVPixelFormat CTool::QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFram
 }
 
 //如果转换成功，则调用者使用完 pOutFrame 后，需要调用 avpicture_free(pOutFrame) 释放内存
-//成功返回0，不成功返回非0
+//成功返回0，不成功返回非0 
 int CTool::ConvertFormat(/*[in]*/ const QVideoFrame &inFrame,
                          /*[out]*/AVPicture &outFrame,
                          /*[in]*/ int nOutWidth,
@@ -69,7 +69,7 @@ int CTool::ConvertFormat(/*[in]*/ const QVideoFrame &inFrame,
     int nRet = 0;
 
     AVPicture pic;
-    nRet = avpicture_fill(&pic, (u_int8_t*) inFrame.bits(),
+    nRet = avpicture_fill(&pic, inFrame.bits(),
                    QVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
                    inFrame.width(),
                    inFrame.height());
@@ -95,7 +95,7 @@ int CTool::ConvertFormat(/*[in]*/ const QXmppVideoFrame &inFrame,
     int nRet = 0;
 
     AVPicture pic;
-    nRet = avpicture_fill(&pic, (u_int8_t*)inFrame.bits(),
+    nRet = avpicture_fill(&pic, inFrame.bits(),
                    QXmppVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
                    inFrame.width(),
                    inFrame.height());
@@ -141,15 +141,15 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
         return 0;
     }
 
-    //设置图像转换上下文
+    //设置图像转换上下文 
     pSwsCtx = sws_getCachedContext (NULL,
-                                    nInWidth,                //源宽度
-                                    nInHeight,               //源高度
-                                    inPixelFormat,           //源格式
-                                    nOutWidth,               //目标宽度
-                                    nOutHeight,              //目标高度
-                                    outPixelFormat,          //目的格式
-                                    SWS_FAST_BILINEAR,       //转换算法
+                                    nInWidth,                //源宽度 
+                                    nInHeight,               //源高度 
+                                    inPixelFormat,           //源格式 
+                                    nOutWidth,               //目标宽度 
+                                    nOutHeight,              //目标高度 
+                                    outPixelFormat,          //目的格式 
+                                    SWS_FAST_BILINEAR,       //转换算法 
                                     NULL, NULL, NULL);
     if(NULL == pSwsCtx)
     {
