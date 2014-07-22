@@ -48,7 +48,7 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     InitCamera();
 
     ShowWdgInfo(false);
-    //当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。
+    //当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。 
     //当tracking为on时，没鼠标键按下，也会有mouseEvent事件 
     this->setMouseTracking(true);
 
@@ -68,7 +68,7 @@ CFrmVideo::~CFrmVideo()
     m_AudioThread.quit();
     m_AudioThread.wait();
 
-    //其它资源释放在closeEvent中进行
+    //其它资源释放在closeEvent中进行 
 
     if(m_pClient)
     {
@@ -116,17 +116,17 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
                     SLOT(clientIqReceived(QXmppIq)));
     Q_ASSERT(check);
 
-    //连接本地视频头捕获视频帧信号到本地播放视频窗口
+    //连接本地视频头捕获视频帧信号到本地播放视频窗口 
     check = connect(&m_Camera, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
                     &m_LocalePlayer, SLOT(slotPresent(const QVideoFrame&)));
     Q_ASSERT(check);
 
-    //连接到网络发送
+    //连接到网络发送 
     check = connect(&m_Camera, SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
                     SLOT(slotCaptureFrame(const QXmppVideoFrame&)));
     Q_ASSERT(check);
 
-    //连接从网络接收视频播放定时器
+    //连接从网络接收视频播放定时器 
     check = connect(&m_VideoPlayTimer, SIGNAL(timeout()),
                     SLOT(slotUpdateReciverVideo()));
     Q_ASSERT(check);
@@ -147,11 +147,11 @@ void CFrmVideo::closeEvent(QCloseEvent *e)
     {
         m_pCall->hangup();
     }
-    //立即停止播放声音
+    //立即停止播放声音 
     StopCallSound();
 }
 
-//调整视频播放窗口的位置
+//调整视频播放窗口的位置 
 void CFrmVideo::AdjustPlayer(const QRect &rect)
 {
     m_RemotePlayer.setGeometry(rect);
@@ -164,7 +164,7 @@ void CFrmVideo::AdjustPlayer(const QRect &rect)
 
 void CFrmVideo::resizeEvent(QResizeEvent *)
 {
-    //得到视频的高宽
+    //得到视频的高宽 
     double nWidth = 320;
     double nHeight = 240;
     if(m_pCall)
@@ -181,19 +181,19 @@ void CFrmVideo::resizeEvent(QResizeEvent *)
     QRect rect = this->rect();
     QRect rectAdjust = this->rect();
 
-    //计算宽度
+    //计算宽度 
     double frameAspectRatio = nWidth / nHeight;
     double frmAspectRatio = (double)rect.width() / (double)rect.height();
     if(frameAspectRatio < frmAspectRatio)
     {
-        //以窗体高度为基准计算宽度
+        //以窗体高度为基准计算宽度 
         int nW = rect.height() * frameAspectRatio;
         rectAdjust.setLeft(rect.left() + ((rect.width() - nW) >> 1));
         rectAdjust.setRight(rect.right() - ((rect.width() - nW) >> 1));
     }
     else
     {
-        //以宽度为基准计算高度
+        //以宽度为基准计算高度 
         double ratio = nHeight / nWidth;
         int nH = rect.width() * ratio;
         rectAdjust.setTop(rect.top() + ((rect.height() - nH) >> 1));
@@ -223,8 +223,8 @@ void CFrmVideo::paintEvent(QPaintEvent *event)
     painter.drawRect(rect());//*/
 }
 
-//当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。
-//当tracking为on时，没鼠标键按下，也会有mouseEvent事件
+//当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。 
+//当tracking为on时，没鼠标键按下，也会有mouseEvent事件 
 void CFrmVideo::mouseMoveEvent(QMouseEvent *event)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::mouseMoveEvent");
@@ -266,12 +266,12 @@ int CFrmVideo::ShowToolBar(bool bShow)
 
 int CFrmVideo::ConnectionCallSlot(QXmppCall *pCall)
 {
-    //只有主叫方才有的事件
+    //只有主叫方才有的事件 
     bool check = connect(pCall, SIGNAL(ringing()),
                     SLOT(ringing()));
     Q_ASSERT(check);
     
-    //以下是双方都有的事件
+    //以下是双方都有的事件 
     check = connect(pCall, SIGNAL(connected()),
                          SLOT(connected()));
     Q_ASSERT(check);
@@ -298,10 +298,10 @@ int CFrmVideo::ConnectionCallSlot(QXmppCall *pCall)
     return -1;
 }
 
-//主动发起呼叫
+//主动发起呼叫 
 int CFrmVideo::Call(QString jid)
 {
-    //如果已经有调用，则停止并释放
+    //如果已经有调用，则停止并释放 
     if(m_pCall)
     {
         QMessageBox msg(QMessageBox::Question,
@@ -312,11 +312,11 @@ int CFrmVideo::Call(QString jid)
         {
             m_pCall->hangup();
         }
-        //不能同时有两个呼叫，因为呼叫挂断需要时间，所以直接返加，然后再由用户重新发起呼叫。
+        //不能同时有两个呼叫，因为呼叫挂断需要时间，所以直接返加，然后再由用户重新发起呼叫。 
         return -1;
     }
 
-    m_szRemoteJID = jid;//保存被叫用户jid
+    m_szRemoteJID = jid;//保存被叫用户jid 
 
     QString szText = tr("%1 is ringing").arg(QXmppUtils::jidToUser(jid));
     this->setWindowTitle(szText);
@@ -337,7 +337,7 @@ int CFrmVideo::Call(QString jid)
                 CGlobal::Instance()->GetTurnServerPassword()
                 );
     
-    //返回QXmppCall的引用,这个会由QXmppCallManager管理.用户层不要释放此指针
+    //返回QXmppCall的引用,这个会由QXmppCallManager管理.用户层不要释放此指针 
     QXmppCall* m_pCall = m_pClient->m_CallManager.call(jid);
     if(NULL == m_pCall)
     {
@@ -347,12 +347,12 @@ int CFrmVideo::Call(QString jid)
 
     ConnectionCallSlot(m_pCall);
 
-    //播放铃音,非阻塞式播放
+    //播放铃音,非阻塞式播放 
     PlayCallSound(m_pCall);
     
     ShowWdgInfo(true);
     ui->pbOK->setEnabled(false);
-    //显示本窗口
+    //显示本窗口 
     this->show();
 
     return 0;
@@ -369,8 +369,8 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
                          + " talking with "
                          + QXmppUtils::jidToBareJid(m_pCall->jid())
                          + "call, don't accpect new call."));
-        pCall->hangup();//TODO：一个用户不能同时与两个用户建立呼叫,所以自动挂断新的呼叫，是否要加一个忙参数，否则呼叫方不知道原因。
-        //TODO:是否需要提示给用户
+        pCall->hangup();//TODO：一个用户不能同时与两个用户建立呼叫,所以自动挂断新的呼叫，是否要加一个忙参数，否则呼叫方不知道原因。  
+        //TODO:是否需要提示给用户  
         return;
     }
 
@@ -392,21 +392,21 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
                 CGlobal::Instance()->GetTurnServerPassword()
                 );
 
-    //播放铃音,非阻塞式播放
+    //播放铃音,非阻塞式播放  
     PlayCallSound(pCall);
 
     QString szMsg = tr("%1 is calling ").arg(QXmppUtils::jidToUser(pCall->jid()));
     ui->lbPrompt->setText(szMsg);
     this->setWindowTitle(szMsg);
-    //TODO:增加判断自动接收呼叫用户
-    //非模式对话框,超时自动挂机
+    //TODO:增加判断自动接收呼叫用户  
+    //非模式对话框,超时自动挂机  
     ShowWdgInfo(true);
     this->show();
     return;
-    //接收或挂机放在按钮响应事件(on_pbOk_clicked、on_pbCancel_clicked)中处理
+    //接收或挂机放在按钮响应事件(on_pbOk_clicked、on_pbCancel_clicked)中处理  
 }
 
-//呼叫开始(主叫与被叫都有）
+//呼叫开始(主叫与被叫都有） 
 void CFrmVideo::callStarted(QXmppCall *pCall)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::callStarted:%x", pCall);
@@ -414,7 +414,7 @@ void CFrmVideo::callStarted(QXmppCall *pCall)
     m_pCall = pCall;
 }
 
-//被叫正在响铃(只有主叫方才有)
+//被叫正在响铃(只有主叫方才有) 
 void CFrmVideo::ringing()
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::ringing");
@@ -426,7 +426,7 @@ void CFrmVideo::ringing()
     }
 }
 
-//呼叫状态发生改变
+//呼叫状态发生改变  
 void CFrmVideo::stateChanged(QXmppCall::State state)
 {
     QString szState;
@@ -452,12 +452,12 @@ void CFrmVideo::stateChanged(QXmppCall::State state)
     ui->lbPrompt->setText(szState);
 }
 
-//会话建立后触发
+//会话建立后触发  
 void CFrmVideo::connected()
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::connected");
 
-    //停止铃音
+    //停止铃音  
     StopCallSound();
     ShowWdgInfo(false);
     
@@ -465,14 +465,14 @@ void CFrmVideo::connected()
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
 
-    //初始始化音频设备
+    //初始始化音频设备  
     StartAudioDevice();
 
-    //初始化视频设备，并开始视频
+    //初始化视频设备，并开始视频  
     StartVideo();
 }
 
-//音频模式改变
+//音频模式改变  
 void CFrmVideo::audioModeChanged(QIODevice::OpenMode mode)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::audioModeChanged:%x", mode);
@@ -503,7 +503,7 @@ void CFrmVideo::audioModeChanged(QIODevice::OpenMode mode)
     }
 }
 
-//视频模式改变
+//视频模式改变  
 void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
 {
     if(!(m_pCall))
@@ -513,18 +513,18 @@ void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
     if(QIODevice::ReadOnly & mode)
     {
         //int nInterval = (double)1000 / m_pCall->videoChannel()->decoderFormat().frameRate();
-        m_VideoPlayTimer.start(10); //按 10ms 取视频帧
+        m_VideoPlayTimer.start(10); //按 10ms 取视频帧  
     }
     else
         m_VideoPlayTimer.stop();
 }
 
-//呼叫结束时触发
+//呼叫结束时触发  
 void CFrmVideo::finished()
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::finished");
 
-    //停止播放铃音
+    //停止播放铃音  
     StopCallSound();
     StopAudioDevice();
 
@@ -535,15 +535,15 @@ void CFrmVideo::finished()
         StopVideo();
         m_VideoPlayTimer.stop();
 
-        m_pCall->disconnect(this);//删除所有连接
-        m_pCall = NULL;//m_pCall只是个引用，对象由QXmppCallManager管理.用户层不要释放此指针
+        m_pCall->disconnect(this);//删除所有连接  
+        m_pCall = NULL;//m_pCall只是个引用，对象由QXmppCallManager管理.用户层不要释放此指针  
         this->setWindowTitle(szMsg);
         ui->lbPrompt->setText(szMsg);
     }
     ShowWdgInfo(true);
 }
 
-//播放铃音,系统会启用单独的线程进行播放
+//播放铃音,系统会启用单独的线程进行播放  
 void CFrmVideo::PlayCallSound(QXmppCall* pCall)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::PlayCallSound");
@@ -679,7 +679,7 @@ int CFrmVideo::StartAudioDevice()
     return nRet;
 }
 
-//停止设备，并删除对象
+//停止设备，并删除对象  
 int CFrmVideo::StopAudioDevice()
 {
     if(m_pAudioInput)
@@ -728,19 +728,19 @@ int CFrmVideo::StartVideo()
 
     m_Camera.Start();
 
-    // 改变默认的视频编码格式
+    // 改变默认的视频编码格式  
     //m_pCall->videoChannel()->setEncoderFormat(videoFormat);
-    //开始视频
+    //开始视频  
     if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->startVideo();
 
     ui->lbPrompt->hide();
-    resizeEvent(NULL); //通知窗体按视频大小调整显示区域
+    resizeEvent(NULL); //通知窗体按视频大小调整显示区域  
     m_RemotePlayer.show();
     m_RemotePlayer.setWindowTitle(QXmppUtils::jidToUser(m_pCall->jid()));
 
     m_LocalePlayer.setWindowTitle(CGlobal::Instance()->GetName());
-    m_LocalePlayer.raise();//提升到父窗口中栈的顶部
+    m_LocalePlayer.raise();//提升到父窗口中栈的顶部  
     m_LocalePlayer.show();
     m_LocalePlayer.activateWindow();
 
@@ -762,7 +762,7 @@ int CFrmVideo::StopVideo()
     return 0;
 }
 
-//发送捕获的视频帧 
+//发送捕获的视频帧  
 void CFrmVideo::slotCaptureFrame(const QXmppVideoFrame &frame)
 {
     if(!m_pCall)
@@ -791,7 +791,7 @@ void CFrmVideo::slotCaptureFrame(const QXmppVideoFrame &frame)
     pChannel->writeFrame(frame);
 }
 
-//接收网络视频帧 
+//接收网络视频帧  
 void CFrmVideo::slotUpdateReciverVideo()
 {
     if(!m_pCall)
@@ -851,7 +851,7 @@ void CFrmVideo::on_pbOK_clicked()
 void CFrmVideo::on_pbCancel_clicked()
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::on_pbCancel_clicked");
-    //停止播放铃音
+    //停止播放铃音  
     StopCallSound();
 
     if(!m_pCall)
