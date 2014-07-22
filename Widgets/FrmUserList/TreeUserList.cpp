@@ -6,7 +6,6 @@ CTreeUserList::CTreeUserList(QWidget *parent) :
     QTreeView(parent)
 {
     this->setContextMenuPolicy(Qt::CustomContextMenu);
-    CTool::SetAllChildrenTransparent(this);
 }
 
 void CTreeUserList::mousePressEvent(QMouseEvent *event)
@@ -40,4 +39,13 @@ void CTreeUserList::contextMenuEvent(QContextMenuEvent *event)
 {
     LOG_MODEL_DEBUG("Roster", "CTreeUserList::mouseReleaseEvent");
     QTreeView::contextMenuEvent(event);
+}
+
+void CTreeUserList::resizeEvent(QResizeEvent *event)
+{
+    LOG_MODEL_DEBUG("Roster", "CTreeUserList::resizeEvent:width:%d", this->geometry().width());
+    Q_UNUSED(event);
+    //调整列的宽度
+    this->setColumnWidth(0, this->geometry().width() * 4/ 5);
+    this->setColumnWidth(1, this->geometry().width() / 5);
 }

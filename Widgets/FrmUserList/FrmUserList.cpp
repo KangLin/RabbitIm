@@ -20,15 +20,17 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     InitMenu();
 
     m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。
+    if(m_pModel)
+    {
+        //增加头，只有增加了这个后，下面才会显示内容
+        m_pModel->setHorizontalHeaderLabels(QStringList() << tr("User name or group")<< tr("Information"));
+    }
 
     m_UserList.setModel(m_pModel);
     m_UserList.setHeaderHidden(true);
     m_UserList.setExpandsOnDoubleClick(true);
     m_UserList.setItemsExpandable(true);
     m_UserList.show();
-
-    //增加头，只有增加了这个后，下面才会显示内容
-    m_pModel->setHorizontalHeaderLabels(QStringList() << tr("User")<< tr("Information"));
  
     InsertGroup(tr("My friends"));
     
