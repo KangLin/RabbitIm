@@ -48,6 +48,19 @@
     </message>
 </context>
 <context>
+    <name>CDlgSendManage</name>
+    <message>
+        <location filename="../../Widgets/FrmSendFile/DlgSendManage.ui" line="14"/>
+        <source>Dialog</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmSendFile/DlgSendManage.cpp" line="12"/>
+        <source>send file</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>CFrmAbout</name>
     <message>
         <location filename="../../Widgets/FrmAbout/FrmAbout.ui" line="14"/>
@@ -288,7 +301,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="144"/>
         <source>XMPP Domain:</source>
-        <translation >XMPP 域名：</translation>
+        <translation>XMPP 域名：</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="198"/>
@@ -352,6 +365,26 @@ p, li { white-space: pre-wrap; }
         <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="134"/>
         <source>Send(&amp;S)</source>
         <translation>发送(&amp;S)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="23"/>
+        <source>send file</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="29"/>
+        <source>shot screen</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="66"/>
+        <source>Open File</source>
+        <translation>打开文件</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="68"/>
+        <source>All (*.*)</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -507,15 +540,68 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>CFrmSendFile</name>
+    <message>
+        <location filename="../../Widgets/FrmSendFile/FrmSendFile.ui" line="14"/>
+        <source>Frame</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmSendFile/FrmSendFile.ui" line="26"/>
+        <source>file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmSendFile/FrmSendFile.ui" line="48"/>
+        <source>speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmSendFile/FrmSendFile.ui" line="67"/>
+        <source>accept</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmSendFile/FrmSendFile.ui" line="86"/>
+        <source>save as</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmSendFile/FrmSendFile.ui" line="105"/>
+        <source>abort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmSendFile/FrmSendFile.cpp" line="208"/>
+        <source>Save File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmSendFile/FrmSendFile.cpp" line="210"/>
+        <source>All (*.*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CFrmUserList</name>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="102"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="26"/>
+        <source>User name or group</source>
+        <translation type="unfinished">用户名或组名</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="26"/>
+        <source>Information</source>
+        <translation>未读信息数</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="107"/>
         <source>Operator roster(&amp;O)</source>
         <translation>操作好友(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="30"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="253"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="35"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="257"/>
         <source>My friends</source>
         <translation>我的好友</translation>
     </message>
@@ -594,7 +680,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="309"/>
-        <source>Working with %1 call, Do you stop it?</source>
+        <source>Being talk with %1 , Do you stop it?</source>
         <translation>正在与 %1 通话，是否停止？</translation>
     </message>
     <message>
@@ -630,7 +716,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="464"/>
-        <source>I am working with %1 call</source>
+        <source>I am talking with %1 call</source>
         <translation>正在与 %1 通话</translation>
     </message>
     <message>
@@ -647,33 +733,33 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global.cpp" line="243"/>
+        <location filename="../../Global.cpp" line="249"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="245"/>
+        <location filename="../../Global.cpp" line="251"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="247"/>
+        <location filename="../../Global.cpp" line="253"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="249"/>
+        <location filename="../../Global.cpp" line="255"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="251"/>
-        <location filename="../../Global.cpp" line="255"/>
+        <location filename="../../Global.cpp" line="257"/>
+        <location filename="../../Global.cpp" line="261"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="253"/>
+        <location filename="../../Global.cpp" line="259"/>
         <source>Away for an extended period</source>
         <translation>离开</translation>
     </message>
@@ -697,10 +783,63 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>CWdgScreenEditor</name>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="192"/>
+        <source>pen</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="207"/>
+        <source>ellipse tool</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="219"/>
+        <source>rect tool</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="228"/>
+        <source>undo</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="235"/>
+        <source>save as</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="245"/>
+        <source>cancel</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="251"/>
+        <source>ok</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="449"/>
+        <source>Save</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="452"/>
+        <source>failed to save</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="452"/>
+        <source>Sorry! Save failed!Please check savePath!</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="14"/>
-        <location filename="../../MainWindow.cpp" line="71"/>
+        <location filename="../../MainWindow.cpp" line="72"/>
         <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>
     </message>
@@ -755,57 +894,57 @@ p, li { white-space: pre-wrap; }
         <translation>选项(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="110"/>
+        <location filename="../../MainWindow.cpp" line="115"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="111"/>
+        <location filename="../../MainWindow.cpp" line="116"/>
         <source>Is close the programe?</source>
         <translation>是否关闭程序？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="144"/>
+        <location filename="../../MainWindow.cpp" line="149"/>
         <source>RabbitIm: %1</source>
         <translation>玉兔即时通信：%1</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="166"/>
+        <location filename="../../MainWindow.cpp" line="171"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="170"/>
+        <location filename="../../MainWindow.cpp" line="175"/>
         <source>User name or password error</source>
         <translation>用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="174"/>
+        <location filename="../../MainWindow.cpp" line="179"/>
         <source>Keep Alive error</source>
         <translation>与服务器失去联系</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="176"/>
+        <location filename="../../MainWindow.cpp" line="181"/>
         <source>Login success</source>
         <translation>登录成功</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="234"/>
+        <location filename="../../MainWindow.cpp" line="248"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="236"/>
+        <location filename="../../MainWindow.cpp" line="250"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="239"/>
+        <location filename="../../MainWindow.cpp" line="253"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="275"/>
+        <location filename="../../MainWindow.cpp" line="297"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>

@@ -1,6 +1,8 @@
 * 环境配置：
 Qt on Android Episode： http://blog.csdn.net/foruok/article/details/18697377
 
+* 关于qtcreator+vs2008+CDB调试太卡的有关问题研究 : http://www.myexception.cn/database/1629591.html
+
 * 设置应用程序图标：
 应用程序图标是与平台相关的。
 android 应用程序图标是在 android 配置清单文件(AndroidManifest.xml) 中设置。

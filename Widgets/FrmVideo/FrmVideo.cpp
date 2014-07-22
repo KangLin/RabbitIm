@@ -306,7 +306,7 @@ int CFrmVideo::Call(QString jid)
     {
         QMessageBox msg(QMessageBox::Question,
                         tr("Call"),
-                        tr("Working with %1 call, Do you stop it?").arg(QXmppUtils::jidToUser(m_pCall->jid())),
+                        tr("Being talk with %1 , Do you stop it?").arg(QXmppUtils::jidToUser(m_pCall->jid())),
                         QMessageBox::Yes | QMessageBox::No);
         if(QMessageBox::Yes == msg.exec())
         {
@@ -366,7 +366,7 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
     {
         LOG_MODEL_ERROR("Video", 
                         qPrintable(CGlobal::Instance()->GetBareJid() 
-                         + " Working with " 
+                         + " talking with "
                          + QXmppUtils::jidToBareJid(m_pCall->jid())
                          + "call, don't accpect new call."));
         pCall->hangup();//TODO：一个用户不能同时与两个用户建立呼叫,所以自动挂断新的呼叫，是否要加一个忙参数，否则呼叫方不知道原因。
@@ -461,7 +461,7 @@ void CFrmVideo::connected()
     StopCallSound();
     ShowWdgInfo(false);
     
-    QString szText = tr("I am working with %1 call").arg(QXmppUtils::jidToUser(m_pCall->jid()));
+    QString szText = tr("I am talking with %1 call").arg(QXmppUtils::jidToUser(m_pCall->jid()));
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
 
