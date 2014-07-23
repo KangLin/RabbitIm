@@ -174,7 +174,7 @@ void CFrmVideo::resizeEvent(QResizeEvent *)
         {
             nHeight = pChannel->decoderFormat().frameHeight();
             nWidth = pChannel->decoderFormat().frameWidth();
-            qDebug("nHeight:%d, nWidth:%d", nHeight, nWidth);
+            LOG_MODEL_DEBUG("nHeight:%d, nWidth:%d", nHeight, nWidth);
         }
     }
 
