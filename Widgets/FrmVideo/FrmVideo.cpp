@@ -508,12 +508,12 @@ void CFrmVideo::videoModeChanged(QIODevice::OpenMode mode)
 {
     if(!(m_pCall))
         return;
-    
+
     LOG_MODEL_DEBUG("Video", "CFrmVideo::videoModeChanged:%x", mode);
     if(QIODevice::ReadOnly & mode)
     {
         //int nInterval = (double)1000 / m_pCall->videoChannel()->decoderFormat().frameRate();
-        m_VideoPlayTimer.start(10); //按 10ms 取视频帧  
+        m_VideoPlayTimer.start(10); //TODO:按 10ms 取视频帧，目前没有做缓存抖动处理  
     }
     else
         m_VideoPlayTimer.stop();
@@ -526,19 +526,21 @@ void CFrmVideo::finished()
 
     //停止播放铃音  
     StopCallSound();
+
+    //停止播放设备  
     StopAudioDevice();
 
     if(m_pCall)
     {
         QString szMsg = tr("Do you call %1 ?").arg(QXmppUtils::jidToUser(m_pCall->jid()));
+        this->setWindowTitle(szMsg);
+        ui->lbPrompt->setText(szMsg);
 
         StopVideo();
         m_VideoPlayTimer.stop();
 
         m_pCall->disconnect(this);//删除所有连接  
         m_pCall = NULL;//m_pCall只是个引用，对象由QXmppCallManager管理.用户层不要释放此指针  
-        this->setWindowTitle(szMsg);
-        ui->lbPrompt->setText(szMsg);
     }
     ShowWdgInfo(true);
 }
@@ -730,7 +732,7 @@ int CFrmVideo::StartVideo()
 
     // 改变默认的视频编码格式  
     //m_pCall->videoChannel()->setEncoderFormat(videoFormat);
-    //开始视频  
+    //开始视频，只需要呼叫方调用startVideo  
     if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->startVideo();
 

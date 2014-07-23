@@ -27,7 +27,7 @@ public:
     ~CTool();
 
 public:
-    //设置ffmpeg日志输出
+    //设置ffmpeg日志输出  
     static int SetFFmpegLog();
 
     /* 格式转换
@@ -36,7 +36,7 @@ public:
     static int ConvertFormat(/*[in]*/const QVideoFrame &inFrame,     /* 要转换的帧 */
                              /*[out]*/AVPicture &outFrame,           /* 转换后的帧 */
                              /*[in]*/int nOutWidth,                  /* 转换后的帧的宽度 */
-                             /*[in]*/int nOutHeight,                 /*转换后的帧的高度 */
+                             /*[in]*/int nOutHeight,                 /* 转换后的帧的高度 */
                              /*[in]*/AVPixelFormat pixelFormat = AV_PIX_FMT_RGB32);
     static int ConvertFormat(/*[in]*/const QXmppVideoFrame &inFrame, /* 要转换的帧 */
                              /*[out]*/AVPicture &outFrame,           /* 转换后的帧 */
@@ -52,7 +52,7 @@ public:
                              int nOutHeight,                         /* 转换后的帧的高度 */
                              AVPixelFormat outPixelFormat);          /* 转换后的帧的格式 */
 
-    //格式映射
+    //格式映射  
     static AVPixelFormat QVideoFrameFormatToFFMpegPixFormat(const QVideoFrame::PixelFormat format);
     static AVPixelFormat QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFrame::PixelFormat format);
 
@@ -117,7 +117,7 @@ public:
      * srcHeight:要操作图像的高度 */
     static void YUV420spMirrorX(uchar *dst, const uchar *src, int srcWidth, int srcHeight);
 
-    //设置窗口中的所有子窗体背景为透明
+    //设置窗口中的所有子窗体背景为透明  
     static int SetAllChildrenTransparent(QWidget *pWin);
     
     /*获取字节数的大小文本,例如1024返回1B;20140711

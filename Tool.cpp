@@ -58,8 +58,8 @@ AVPixelFormat CTool::QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFram
         return AV_PIX_FMT_NONE;
 }
 
-//如果转换成功，则调用者使用完 pOutFrame 后，需要调用 avpicture_free(pOutFrame) 释放内存
-//成功返回0，不成功返回非0 
+//如果转换成功，则调用者使用完 pOutFrame 后，需要调用 avpicture_free(pOutFrame) 释放内存  
+//成功返回0，不成功返回非0  
 int CTool::ConvertFormat(/*[in]*/ const QVideoFrame &inFrame,
                          /*[out]*/AVPicture &outFrame,
                          /*[in]*/ int nOutWidth,
@@ -141,15 +141,15 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
         return 0;
     }
 
-    //设置图像转换上下文 
+    //设置图像转换上下文  
     pSwsCtx = sws_getCachedContext (NULL,
-                                    nInWidth,                //源宽度 
-                                    nInHeight,               //源高度 
-                                    inPixelFormat,           //源格式 
-                                    nOutWidth,               //目标宽度 
-                                    nOutHeight,              //目标高度 
-                                    outPixelFormat,          //目的格式 
-                                    SWS_FAST_BILINEAR,       //转换算法 
+                                    nInWidth,                //源宽度  
+                                    nInHeight,               //源高度  
+                                    inPixelFormat,           //源格式  
+                                    nOutWidth,               //目标宽度  
+                                    nOutHeight,              //目标高度  
+                                    outPixelFormat,          //目的格式  
+                                    SWS_FAST_BILINEAR,       //转换算法  
                                     NULL, NULL, NULL);
     if(NULL == pSwsCtx)
     {
@@ -158,7 +158,7 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
         return -3;
     }
 
-    //进行图片转换
+    //进行图片转换  
     nRet = sws_scale(pSwsCtx,
                      inFrame.data, inFrame.linesize,
                      0, nInHeight,
@@ -170,7 +170,6 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     }
     else
     {
-        //qDebug("sws_scale height:%d", nRet);
         nRet = 0;
     }
 
@@ -185,7 +184,7 @@ cv::Mat CTool::ImageRotate(cv::Mat & src, const CvPoint &_center, double angle)
     center.x = float(_center.x);
     center.y = float(_center.y);
 
-    //计算二维旋转的仿射变换矩阵
+    //计算二维旋转的仿射变换矩阵  
     cv::Mat M = cv::getRotationMatrix2D(center, angle, 1);
 
     // rotate
@@ -208,7 +207,7 @@ void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int srcWidth, int src
         uvHeight = srcHeight >> 1;//uvHeight = height / 2
     }
 
-    //旋转Y
+    //旋转Y  
     int k = 0;
     for(int i = 0; i < srcWidth; i++) {
         int nPos = 0;
@@ -244,7 +243,7 @@ void CTool::YUV420spRotateNegative90(uchar *dst, const uchar *src, int srcWidth,
         uvHeight = height >> 1;//uvHeight = height / 2
     }
 
-    //旋转Y
+    //旋转Y  
     int k = 0;
     for(int i = 0; i < srcWidth; i++){
         int nPos = srcWidth - 1;
@@ -284,10 +283,10 @@ void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int srcWidth, int hei
     return;
 }
 
-//以Y轴做镜像
+//以Y轴做镜像  
 void CTool::YUV420spMirrorY(uchar *dst, const uchar *src, int srcWidth, int srcHeight)
 {
-    //镜像Y
+    //镜像Y  
     int k = 0;
     int nPos = -1;
     for(int j = 0; j < srcHeight; j++) {
@@ -311,7 +310,7 @@ void CTool::YUV420spMirrorY(uchar *dst, const uchar *src, int srcWidth, int srcH
     }
 }
 
-//以XY轴做镜像
+//以XY轴做镜像  
 void CTool::YUV420spMirrorXY(uchar *dst, const uchar *src, int width, int srcHeight)
 {
     static int nWidth = 0, nHeight = 0;
@@ -328,7 +327,7 @@ void CTool::YUV420spMirrorXY(uchar *dst, const uchar *src, int width, int srcHei
         nUVPos = wh + uvHeight * width - 1;
     }
 
-    //镜像Y
+    //镜像Y  
     int k = 0;
     int nPos = wh - 1;
     for(int j = 0; j < srcHeight; j++) {
@@ -352,7 +351,7 @@ void CTool::YUV420spMirrorXY(uchar *dst, const uchar *src, int width, int srcHei
     }
 }
 
-//以X轴做镜像
+//以X轴做镜像  
 void CTool::YUV420spMirrorX(uchar *dst, const uchar *src, int width, int srcHeight)
 {
     static int nWidth = 0, nHeight = 0;
@@ -369,7 +368,7 @@ void CTool::YUV420spMirrorX(uchar *dst, const uchar *src, int width, int srcHeig
         nUVPos = wh + uvHeight * width;
     }
 
-    //镜像Y
+    //镜像Y  
     int k = 0;
     int nPos = wh - 1;
     for(int j = 0; j < srcHeight; j++) {
@@ -408,7 +407,7 @@ void CTool::YUV420spMirror(uchar *dst, const uchar *src, int srcWidth, int srcHe
     }
 }
 
-//设置窗口中的所有子窗体背景为透明
+//设置窗口中的所有子窗体背景为透明  
 int CTool::SetAllChildrenTransparent(QWidget *pWin)
 {
     QObjectList objChildList = pWin->children();
@@ -424,7 +423,7 @@ int CTool::SetAllChildrenTransparent(QWidget *pWin)
     return 0;
 }
 
-//获取字节数的大小文本
+//获取字节数的大小文本  
 QString CTool::GetSizeString(qint64 size, int prec)
 {
     int index = 0;
