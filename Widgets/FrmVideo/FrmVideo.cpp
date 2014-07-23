@@ -298,10 +298,10 @@ int CFrmVideo::ConnectionCallSlot(QXmppCall *pCall)
     return -1;
 }
 
-//主动发起呼叫 
+//主动发起呼叫  
 int CFrmVideo::Call(QString jid)
 {
-    //如果已经有调用，则停止并释放 
+    //如果已经有调用，则停止并释放  
     if(m_pCall)
     {
         QMessageBox msg(QMessageBox::Question,
@@ -312,11 +312,11 @@ int CFrmVideo::Call(QString jid)
         {
             m_pCall->hangup();
         }
-        //不能同时有两个呼叫，因为呼叫挂断需要时间，所以直接返加，然后再由用户重新发起呼叫。 
+        //不能同时有两个呼叫，因为呼叫挂断需要时间，所以直接返加，然后再由用户重新发起呼叫。  
         return -1;
     }
 
-    m_szRemoteJID = jid;//保存被叫用户jid 
+    m_szRemoteJID = jid;//保存被叫用户jid  
 
     QString szText = tr("%1 is ringing").arg(QXmppUtils::jidToUser(jid));
     this->setWindowTitle(szText);
@@ -337,7 +337,7 @@ int CFrmVideo::Call(QString jid)
                 CGlobal::Instance()->GetTurnServerPassword()
                 );
     
-    //返回QXmppCall的引用,这个会由QXmppCallManager管理.用户层不要释放此指针 
+    //返回QXmppCall的引用,这个会由QXmppCallManager管理.用户层不要释放此指针  
     QXmppCall* m_pCall = m_pClient->m_CallManager.call(jid);
     if(NULL == m_pCall)
     {
@@ -347,18 +347,18 @@ int CFrmVideo::Call(QString jid)
 
     ConnectionCallSlot(m_pCall);
 
-    //播放铃音,非阻塞式播放 
+    //播放铃音,非阻塞式播放  
     PlayCallSound(m_pCall);
     
     ShowWdgInfo(true);
     ui->pbOK->setEnabled(false);
-    //显示本窗口 
+    //显示本窗口  
     this->show();
 
     return 0;
 }
 
-//接收呼叫（只有被叫方才有）
+//接收呼叫（只有被叫方才有） 
 void CFrmVideo::callReceived(QXmppCall *pCall)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::callReceived:%x", pCall);
