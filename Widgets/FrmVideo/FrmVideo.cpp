@@ -382,7 +382,7 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
                 CGlobal::Instance()->GetStunServerPort()
                 );
     m_pClient->m_CallManager.setTurnServer(
-                QHostAddress(CGlobal::Instance()->GetStunServer()),
+                QHostAddress(CGlobal::Instance()->GetTurnServer()),
                 CGlobal::Instance()->GetTurnServerPort()
                 );
     m_pClient->m_CallManager.setTurnUser(
