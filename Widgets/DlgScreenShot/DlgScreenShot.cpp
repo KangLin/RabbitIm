@@ -106,6 +106,7 @@ void CDlgScreenShot::mousePressEvent(QMouseEvent *e)
         }
         else
         {
+            m_editor->hide();//改变右键方式  
             onSigReset();
         }
     }
@@ -130,7 +131,7 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         pix = QPixmap::grabWindow(id,rect.x(),rect.y(),rect.width(),rect.height());
 //        ImageEditor* editor = new ImageEditor(QPixmap(),this);
         m_editor->resetByImg(pix);
-        m_editor->move(m_x,m_y);
+        m_editor->move(rect.topLeft());//移动到当前选择的rect的左上角
         m_editor->show();
     }
 }
