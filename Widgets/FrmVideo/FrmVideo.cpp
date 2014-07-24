@@ -259,7 +259,7 @@ int CFrmVideo::ShowToolBar(bool bShow)
     else
     {
         ui->wdgInfo->hide();
-        ui->ToolBar->hide();        
+        ui->ToolBar->hide();
     }
     return 0;
 }
@@ -728,6 +728,8 @@ int CFrmVideo::StartVideo()
         return -1;
     }
 
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::StartVideo");
+
     m_Camera.Start();
 
     // 改变默认的视频编码格式  
@@ -751,6 +753,7 @@ int CFrmVideo::StartVideo()
 
 int CFrmVideo::StopVideo()
 {
+    LOG_MODEL_DEBUG("Video", "CFrmVideo::StopVideo");
     m_Camera.Stop();
 
     m_LocalePlayer.close();
