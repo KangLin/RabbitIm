@@ -716,6 +716,7 @@ int CFrmVideo::InitCamera()
     {
         ui->cmbCamera->addItem(*it);
     }
+    m_Camera.SetDefaultCamera();
     ui->cmbCamera->setCurrentIndex(m_Camera.GetDeviceIndex());
     return 0;
 }

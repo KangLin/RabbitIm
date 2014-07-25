@@ -36,8 +36,6 @@ CCaptureVideoFrame::supportedPixelFormats(QAbstractVideoBuffer::HandleType handl
 //windows下格式是RGB32,做Y轴镜像  
 bool CCaptureVideoFrame::present(const QVideoFrame &frame)
 {
-    LOG_MODEL_DEBUG("Video", "CCaptureVideoFrame::present");
-
 #ifdef DEBUG_VIDEO_TIME
     static QTime preTime = QTime::currentTime();
     QTime curTime = QTime::currentTime();
@@ -62,8 +60,8 @@ bool CCaptureVideoFrame::setSource(QCamera *pCamera)
     if(ret)
     {
         connect(&m_Probe, 
-                SIGNAL(videoFrameProbed(QVideoFrame)),
-                SLOT(present(QVideoFrame)));
+                SIGNAL(videoFrameProbed(const QVideoFrame&)),
+                SLOT(present(const QVideoFrame&)));
     }
     else
         LOG_MODEL_ERROR("CaptureVideo", "m_Probe.setSource fail");

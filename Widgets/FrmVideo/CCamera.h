@@ -24,6 +24,7 @@ public:
 #ifdef ANDROID
     QCamera::Position GetCameraPoistion();
 #endif
+    int SetDefaultCamera();
     int SetDeviceIndex(int index);
     int GetDeviceIndex();
 
@@ -40,7 +41,7 @@ private:
 
     CCaptureVideoFrame m_CaptureVideoFrame;//实现捕获视频帧
     CFrameProcess m_CaptureFrameProcess;
-    
+
 private slots:
     void updateCameraState(QCamera::State state);
     void displayCameraError(QCamera::Error e);

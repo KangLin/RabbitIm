@@ -14,22 +14,7 @@ CCamera::CCamera(QObject *parent) : QObject(parent)
 
     m_pCamera = NULL;
 
-#ifdef ANDROID
-    QList<QByteArray> device = QCamera::availableDevices();
-    QList<QByteArray>::iterator it;
-    for(it = device.begin(); it != device.end(); it++)
-    {
-        QCameraInfo info(*it);
-        if(info.position() == QCamera::FrontFace)
-        {
-            m_CameraPosition = *it;
-            break;
-        }
-    }
-#else
-    if (!QCamera::availableDevices().isEmpty())
-        m_CameraPosition = *(QCamera::availableDevices().begin());
-#endif
+    SetDefaultCamera();
 
     bool check = true;
     check = connect(&m_CaptureVideoFrame,
@@ -93,6 +78,28 @@ int CCamera::Stop()
     return 0;
 }
 
+int CCamera::SetDefaultCamera()
+{
+#ifdef ANDROID
+    QList<QByteArray> device = QCamera::availableDevices();
+    QList<QByteArray>::iterator it;
+    for(it = device.begin(); it != device.end(); it++)
+    {
+        LOG_MODEL_DEBUG("Video", "Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+        QCameraInfo info(*it);
+        if(info.position() == QCamera::FrontFace)
+        {
+            m_CameraPosition = *it;
+            break;
+        }
+    }
+#else
+    if (!QCamera::availableDevices().isEmpty())
+        m_CameraPosition = *(QCamera::availableDevices().begin());
+#endif
+    return 0;
+}
+
 void CCamera::updateCameraState(QCamera::State state)
 {
     LOG_MODEL_DEBUG("CaptureVideo", "CCamera::updateCameraState:%d", state);
@@ -126,6 +133,7 @@ QCamera::Position CCamera::GetCameraPoistion()
 
 int CCamera::SetDeviceIndex(int index)
 {
+    LOG_MODEL_DEBUG("Video", "CCamera::SetDeviceIndex:%d", index);
     if(QCamera::availableDevices().isEmpty())
     {
         LOG_MODEL_ERROR("Video", "There isn't Camera");
@@ -150,7 +158,9 @@ int CCamera::GetDeviceIndex()
     int i = 0;
     for(it = device.begin(); it != device.end(); it++)
     {
-        LOG_MODEL_DEBUG("Video", "Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+        LOG_MODEL_DEBUG("Video", "Camera:%s, m_CameraPosition:%s",
+                        qPrintable(QCamera::deviceDescription(*it)),
+                        qPrintable(QCamera::deviceDescription(m_CameraPosition)));
         if(*it == m_CameraPosition)
             return i;
         i++;
