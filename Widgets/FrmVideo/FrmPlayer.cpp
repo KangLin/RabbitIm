@@ -6,6 +6,7 @@
 #include "FrmVideo.h"
 #include "../../Global.h"
 #include "CaptureVideoFrame.h"
+#include "CCamera.h"
 
 CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f)
@@ -49,48 +50,26 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
 void CFrmPlayer::mouseReleaseEvent(QMouseEvent *)
 {
 #ifdef DEBUG
-    //TestCamera();
+    TestCamera();
 #endif
 }
+
 #ifdef DEBUG
 int CFrmPlayer::TestCamera()
 {
-    // 以下为视频捕获、显示测试代码
-    QList<QByteArray> device = QCamera::availableDevices();
-    QList<QByteArray>::iterator it;
-    for(it = device.begin(); it != device.end(); it++)
+    //以下为视频捕获、显示测试代码  
+    static CCamera *pCamera = NULL;
+    if(pCamera)
     {
-        LOG_DEBUG("Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+        pCamera->Stop();
+        delete pCamera;
+        pCamera = NULL;
     }
 
-    static QCamera::Position pos = QCamera::FrontFace;
-    static QCamera *camera = new QCamera(pos);
-    if(camera)
-    {
-        camera->stop();
-        camera->unload();
-        delete camera;
-        QThread::msleep(1000);
-        if(pos == QCamera::FrontFace)
-            pos = QCamera::BackFace;
-        else
-            pos = QCamera::FrontFace;
-        camera = new QCamera(pos);
-        if(!camera)
-        {
-            LOG_MODEL_DEBUG("Test", "camera is null");
-            return -1;
-        }
-    }
-    static CCaptureVideoFrame captureVideoFrame;
-    camera->setCaptureMode(QCamera::CaptureViewfinder);//QCamera::CaptureVideo);
-    if(captureVideoFrame.setSource(camera))
-    {
-        connect(&captureVideoFrame, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
-                       SLOT(slotPresent(const QVideoFrame&)));
-    }
-    camera->load();
-    camera->start();
+    pCamera = new CCamera;
+    connect(pCamera, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
+            SLOT(slotPresent(const QVideoFrame&)));
+    pCamera->Start();
     return 0;
 }
 #endif
@@ -101,7 +80,7 @@ void CFrmPlayer::slotPaint(const QVideoFrame &frame)
     update();
 }
 
-//从摄像头捕获的帧
+//从摄像头捕获的帧  
 void CFrmPlayer::slotPresent(const QVideoFrame &frame)
 {
 #ifdef ANDROID
@@ -112,7 +91,7 @@ void CFrmPlayer::slotPresent(const QVideoFrame &frame)
 #endif
 }
 
-//从网络上接收的帧
+//从网络上接收的帧  
 void CFrmPlayer::slotPresent(const QXmppVideoFrame &frame)
 {
     QRect rect = this->rect();

@@ -17,12 +17,12 @@ public:
 
 private:
 signals:
-    //需要转换格式信号，用于内部单独线进行图片格式转换
+    //需要转换格式信号，用于内部单独线进行图片格式转换  
     void sigConverteToRGB32Frame(const QVideoFrame &frame, const QRect &rect);
     void sigConverteToRGB32Frame(const QXmppVideoFrame &frame, const QRect &rect);
 
 public slots:
-    //捕获视频槽
+    //捕获视频槽  
     virtual void slotPresent(const QVideoFrame &frame);
     virtual void slotPresent(const QXmppVideoFrame &frame);
 
@@ -35,7 +35,7 @@ protected:
 
 private:
     QVideoFrame m_VideoFrame;
-    CFrameProcess m_FrameProcess;//格式转换实例
+    CFrameProcess m_FrameProcess;//格式转换实例  
     
 #ifdef DEBUG
     int TestCamera();

@@ -18,7 +18,7 @@ public:
     explicit CCamera(QObject *parent = 0);
     virtual ~CCamera();
 
-	int Start();
+    int Start();
     int Stop();
     QList<QString> GetAvailableDevices();
 #ifdef ANDROID
@@ -39,7 +39,7 @@ private:
     QByteArray m_CameraPosition;
     QCamera *m_pCamera;
 
-    CCaptureVideoFrame m_CaptureVideoFrame;//实现捕获视频帧
+    CCaptureVideoFrame m_CaptureVideoFrame;//实现捕获视频帧  
     CFrameProcess m_CaptureFrameProcess;
 
 private slots:
