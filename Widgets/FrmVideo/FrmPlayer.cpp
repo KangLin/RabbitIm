@@ -50,7 +50,7 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
 void CFrmPlayer::mouseReleaseEvent(QMouseEvent *)
 {
 #ifdef DEBUG
-    TestCamera();
+    //TestCamera();
 #endif
 }
 
