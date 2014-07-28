@@ -824,42 +824,42 @@ p, li { white-space: pre-wrap; }
         <translation>改变语言(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="45"/>
+        <location filename="../../MainWindow.ui" line="44"/>
         <source>Help(&amp;H)</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="51"/>
+        <location filename="../../MainWindow.ui" line="50"/>
         <source>Tool(&amp;T)</source>
         <translation>工具(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="61"/>
-        <source>Exit(&amp;O)</source>
-        <translation>退出(&amp;O)</translation>
+        <location filename="../../MainWindow.ui" line="60"/>
+        <source>Exit(&amp;Q)</source>
+        <translation >退出(&amp;Q)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="66"/>
+        <location filename="../../MainWindow.ui" line="65"/>
         <source>About(&amp;A)</source>
         <translation>关于(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="71"/>
+        <location filename="../../MainWindow.ui" line="70"/>
         <source>English(&amp;E)</source>
         <translation>英文(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="76"/>
+        <location filename="../../MainWindow.ui" line="75"/>
         <source>Chinese(&amp;C)</source>
         <translation>中文(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="81"/>
+        <location filename="../../MainWindow.ui" line="80"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation>改变样式(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="86"/>
+        <location filename="../../MainWindow.ui" line="85"/>
         <source>Options(&amp;O)</source>
         <translation>选项(&amp;O)</translation>
     </message>
@@ -901,8 +901,8 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../MainWindow.cpp" line="237"/>
         <location filename="../../MainWindow.cpp" line="291"/>
-        <source>Status</source>
-        <translation >状态</translation>
+        <source>Status(&amp;T)</source>
+        <translation type="unfinished">状态(&amp;T)</translation>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="282"/>

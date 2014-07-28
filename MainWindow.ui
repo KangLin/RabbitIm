@@ -57,7 +57,7 @@
   </widget>
   <action name="actionExit_O">
    <property name="text">
-    <string>Exit(&amp;O)</string>
+    <string>Exit(&amp;Q)</string>
    </property>
   </action>
   <action name="actionAbout_A">

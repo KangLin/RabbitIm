@@ -234,7 +234,7 @@ void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindo
 
 int MainWindow::InitLoginedMenu()
 {
-    QMenu* pMenu = ui->menuOperator_O->addMenu(tr("Status"));
+    QMenu* pMenu = ui->menuOperator_O->addMenu(tr("Status(&T)"));
     AddStatusMenu(pMenu);
     ui->menuOperator_O->insertMenu(ui->actionExit_O, pMenu);
     return 0;
@@ -288,7 +288,7 @@ void MainWindow::TrayIconMenuUpdate()
     //状态子菜单  
     if(m_bLogin)
     {
-        QMenu* pMenu = m_TrayIconMenu.addMenu(tr("Status"));
+        QMenu* pMenu = m_TrayIconMenu.addMenu(tr("Status(&T)"));
         AddStatusMenu(pMenu);        
     }
     m_TrayIconMenu.addSeparator();
