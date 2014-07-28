@@ -81,6 +81,8 @@ private:
 public:
     //好友状态文本表示 
     QString GetStatusText(QXmppPresence::AvailableStatusType status);
+    //好友状态图标资源字符串
+    QString GetStatusIcon(QXmppPresence::AvailableStatusType status);
     //好友状态颜色表示 
     QColor GetStatusColor(QXmppPresence::AvailableStatusType status);
     

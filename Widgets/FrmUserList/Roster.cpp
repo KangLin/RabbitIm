@@ -159,11 +159,14 @@ int CRoster::UpdateItemDisplay()
     for(it = m_lstUserListItem.begin(); it != m_lstUserListItem.end(); it++)
     {
         QStandardItem* p = *it;
+        //改变item背景颜色  
         p->setData(CGlobal::Instance()->GetStatusColor(m_Status), Qt::BackgroundRole);
         QString szText = this->Name()
                 + "[" + CGlobal::Instance()->GetStatusText(m_Status) + "]"
                 +  GetSubscriptionTypeStr(GetSubScriptionType());
-        p->setData(szText, Qt::DisplayRole);
+        p->setData(szText, Qt::DisplayRole); //改变item文本  
+        //改变item图标  
+        p->setData(QIcon(CGlobal::Instance()->GetStatusIcon(m_Status)), Qt::DecorationRole);
     }
     return 0;
 }

@@ -14,6 +14,17 @@
         <file>png/saveas.png</file>
         <file>png/shot.png</file>
         <file>png/undo.png</file>
+        <file alias="status_available">png/im_available.png</file>
+        <file alias="status_available_stale">png/im_available_stale.png</file>
+        <file alias="status_away">png/im_away.png</file>
+        <file alias="status_away_stale">png/im_away_stale.png</file>
+        <file alias="status_dnd">png/im_dnd.png</file>
+        <file alias="status_dnd_stale">png/im_dnd_stale.png</file>
+        <file alias="status_chat">png/im_chat.png</file>
+        <file alias="status_chat_stale">png/im_chat_stale.png</file>
+        <file alias="status_invisible">png/im_invisible.png</file>
+        <file alias="status_unavailable">png/im_unavailable.png</file>
+        <file alias="status_unavailable_stale">png/im_unavailable_stale.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

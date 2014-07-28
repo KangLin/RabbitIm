@@ -261,6 +261,24 @@ QString CGlobal::GetStatusText(QXmppPresence::AvailableStatusType status)
         return tr("Invisible");
 }
 
+QString CGlobal::GetStatusIcon(QXmppPresence::AvailableStatusType status)
+{
+    if(QXmppPresence::Online == status)
+        return ":/icon/status_available";
+    else if(QXmppPresence::Away == status)
+        return ":/icon/status_away";
+    else if(QXmppPresence::Chat == status)
+        return ":/icon/status_chat";
+    else if(QXmppPresence::DND == status)
+        return ":/icon/status_dnd";
+    else if(QXmppPresence::Invisible == status)
+        return ":/icon/status_invisible";
+    else if(QXmppPresence::XA == status)
+        return ":/icon/status_invisible";
+    else
+        return ":/icon/status_invisible";
+}
+
 QColor CGlobal::GetStatusColor(QXmppPresence::AvailableStatusType status)
 {
     if(QXmppPresence::Online == status)
