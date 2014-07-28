@@ -37,7 +37,6 @@
     <addaction name="separator"/>
     <addaction name="menuChange_Language_C"/>
     <addaction name="actionChange_Style_Sheet_S"/>
-    <addaction name="separator"/>
     <addaction name="actionExit_O"/>
    </widget>
    <widget class="QMenu" name="menuHelp_H">

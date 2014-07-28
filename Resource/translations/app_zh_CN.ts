@@ -248,36 +248,6 @@ p, li { white-space: pre-wrap; }
         <source>Being Login...</source>
         <translation>正在登录……</translation>
     </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="193"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="234"/>
-        <source>OnLine</source>
-        <translation>在线</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="197"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="226"/>
-        <source>Chat</source>
-        <translation>空闲</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="201"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="258"/>
-        <source>Temporarily away</source>
-        <translation>临时离开</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="205"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="242"/>
-        <source>Do not disturb</source>
-        <translation>请勿打扰</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="209"/>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="250"/>
-        <source>Invisible</source>
-        <translation>离线</translation>
-    </message>
 </context>
 <context>
     <name>CFrmLoginSettings</name>
@@ -347,22 +317,22 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="162"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="168"/>
         <source>Video(&amp;V)</source>
         <translation>视频(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="187"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="193"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="76"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="82"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="134"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="140"/>
         <source>Send(&amp;S)</source>
         <translation>发送(&amp;S)</translation>
     </message>
@@ -720,12 +690,12 @@ p, li { white-space: pre-wrap; }
         <translation>正在与 %1 通话</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="533"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="535"/>
         <source>Do you call %1 ?</source>
         <translation>是否呼叫 %1 ？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="840"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="846"/>
         <source>Be connecting %1</source>
         <translation>正在与 %1 连接</translation>
     </message>
@@ -785,52 +755,52 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CWdgScreenEditor</name>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="192"/>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="193"/>
         <source>pen</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="207"/>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="208"/>
         <source>ellipse tool</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="219"/>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="220"/>
         <source>rect tool</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="228"/>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="229"/>
         <source>undo</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="235"/>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="236"/>
         <source>save as</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="245"/>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="246"/>
         <source>cancel</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="251"/>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="252"/>
         <source>ok</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="449"/>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="450"/>
         <source>Save</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="452"/>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="453"/>
         <source>failed to save</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="452"/>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="453"/>
         <source>Sorry! Save failed!Please check savePath!</source>
         <translation></translation>
     </message>
@@ -839,7 +809,7 @@ p, li { white-space: pre-wrap; }
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="14"/>
-        <location filename="../../MainWindow.cpp" line="72"/>
+        <location filename="../../MainWindow.cpp" line="74"/>
         <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>
     </message>
@@ -894,57 +864,63 @@ p, li { white-space: pre-wrap; }
         <translation>选项(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="115"/>
+        <location filename="../../MainWindow.cpp" line="118"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="116"/>
+        <location filename="../../MainWindow.cpp" line="119"/>
         <source>Is close the programe?</source>
         <translation>是否关闭程序？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="149"/>
+        <location filename="../../MainWindow.cpp" line="152"/>
         <source>RabbitIm: %1</source>
         <translation>玉兔即时通信：%1</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="171"/>
+        <location filename="../../MainWindow.cpp" line="177"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="175"/>
+        <location filename="../../MainWindow.cpp" line="181"/>
         <source>User name or password error</source>
         <translation>用户名或密码错误</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="179"/>
+        <location filename="../../MainWindow.cpp" line="185"/>
         <source>Keep Alive error</source>
         <translation>与服务器失去联系</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="181"/>
+        <location filename="../../MainWindow.cpp" line="187"/>
         <source>Login success</source>
         <translation>登录成功</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="248"/>
+        <location filename="../../MainWindow.cpp" line="237"/>
+        <location filename="../../MainWindow.cpp" line="291"/>
+        <source>Status</source>
+        <translation >状态</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="282"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="250"/>
+        <location filename="../../MainWindow.cpp" line="284"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="253"/>
+        <location filename="../../MainWindow.cpp" line="295"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="297"/>
+        <location filename="../../MainWindow.cpp" line="374"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>

@@ -190,23 +190,28 @@ void CFrmLogin::on_chkLogin_stateChanged(int state)
 
 int CFrmLogin::InitStateButton()
 {
-    QAction* pAction = m_StateMenu.addAction(tr("OnLine"));
+    QAction* pAction = m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Online)),
+                                             CGlobal::Instance()->GetStatusText(QXmppPresence::Online));
     bool check = connect(pAction, SIGNAL(triggered()), SLOT(slotOnLineTriggered()));
     Q_ASSERT(check);
 
-    pAction = m_StateMenu.addAction(tr("Chat"));
+    pAction = m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Chat)),
+                                    CGlobal::Instance()->GetStatusText(QXmppPresence::Chat));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotChatTriggered()));
     Q_ASSERT(check);
 
-    pAction = m_StateMenu.addAction(tr("Temporarily away"));
+    pAction = m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Away)),
+                                    CGlobal::Instance()->GetStatusText(QXmppPresence::Away));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotTemporarilyawayTriggered()));
     Q_ASSERT(check);
 
-    pAction = m_StateMenu.addAction(tr("Do not disturb"));
+    pAction = m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::DND)),
+                                    CGlobal::Instance()->GetStatusText(QXmppPresence::DND));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotDoNotDisturbTriggered()));
     Q_ASSERT(check);
 
-    pAction = m_StateMenu.addAction(tr("Invisible"));
+    pAction = m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Invisible)),
+                                    CGlobal::Instance()->GetStatusText(QXmppPresence::Invisible));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotInvisibleTriggered()));
     Q_ASSERT(check);
 
@@ -215,6 +220,7 @@ int CFrmLogin::InitStateButton()
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     m_Status = (QXmppPresence::AvailableStatusType)conf.value("Login/LoginState", QXmppPresence::Online).toInt();
     ui->pbState->setText(CGlobal::Instance()->GetStatusText(m_Status));
+    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetStatusIcon(m_Status)));
     return 0;
 }
 
@@ -223,7 +229,8 @@ void CFrmLogin::slotChatTriggered()
     m_Status = QXmppPresence::Chat;
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/LoginState", m_Status);
-    ui->pbState->setText(tr("Chat"));
+    ui->pbState->setText(CGlobal::Instance()->GetStatusText(m_Status));
+    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetStatusIcon(m_Status)));
 }
 
 void CFrmLogin::slotOnLineTriggered()
@@ -231,7 +238,8 @@ void CFrmLogin::slotOnLineTriggered()
     m_Status = QXmppPresence::Online;
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/LoginState", m_Status);
-    ui->pbState->setText(tr("OnLine"));
+    ui->pbState->setText(CGlobal::Instance()->GetStatusText(m_Status));
+    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetStatusIcon(m_Status)));
 }
 
 void CFrmLogin::slotDoNotDisturbTriggered()
@@ -239,7 +247,8 @@ void CFrmLogin::slotDoNotDisturbTriggered()
     m_Status = QXmppPresence::DND;
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/LoginState", m_Status);
-    ui->pbState->setText(tr("Do not disturb"));
+    ui->pbState->setText(CGlobal::Instance()->GetStatusText(m_Status));
+    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetStatusIcon(m_Status)));
 }
 
 void CFrmLogin::slotInvisibleTriggered()
@@ -247,7 +256,8 @@ void CFrmLogin::slotInvisibleTriggered()
     m_Status = QXmppPresence::Invisible;
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/LoginState", m_Status);
-    ui->pbState->setText(tr("Invisible"));
+    ui->pbState->setText(CGlobal::Instance()->GetStatusText(m_Status));
+    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetStatusIcon(m_Status)));
 }
 
 void CFrmLogin::slotTemporarilyawayTriggered()
@@ -255,7 +265,8 @@ void CFrmLogin::slotTemporarilyawayTriggered()
     m_Status = QXmppPresence::Away;
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Login/LoginState", m_Status);
-    ui->pbState->setText(tr("Temporarily away"));
+    ui->pbState->setText(CGlobal::Instance()->GetStatusText(m_Status));
+    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetStatusIcon(m_Status)));
 }
 
 void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
