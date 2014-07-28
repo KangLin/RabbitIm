@@ -25,6 +25,10 @@
         <file alias="status_invisible">png/im_invisible.png</file>
         <file alias="status_unavailable">png/im_unavailable.png</file>
         <file alias="status_unavailable_stale">png/im_unavailable_stale.png</file>
+        <file alias="accept">png/accept.png</file>
+        <file alias="add">png/add.png</file>
+        <file alias="delete">png/delete.png</file>
+        <file alias="close">png/close.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

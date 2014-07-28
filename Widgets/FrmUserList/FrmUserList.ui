@@ -25,6 +25,10 @@
   </property>
   <layout class="QGridLayout" name="gridLayout"/>
   <action name="actionAddRoster_A">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/add</normaloff>:/icon/add</iconset>
+   </property>
    <property name="text">
     <string>AddRoster(&amp;A)</string>
    </property>
@@ -33,6 +37,10 @@
    </property>
   </action>
   <action name="actionRemoveRoster_R">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/delete</normaloff>:/icon/delete</iconset>
+   </property>
    <property name="text">
     <string>RemoveRoster(R)</string>
    </property>
