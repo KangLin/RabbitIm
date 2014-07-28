@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include <iostream>
+#include <QIcon>
 #include "qxmpp/QXmppRosterManager.h"
 #include "Widgets/FrmAbout/FrmAbout.h"
 #include <QMessageBox>
@@ -20,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     m_pAppTranslator = NULL;
     m_pQtTranslator = NULL;
+    m_bLogin = false;
 
     ui->setupUi(this);
 
@@ -70,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
         m_TrayIcon.setContextMenu(&m_TrayIconMenu);
         m_TrayIcon.setToolTip(tr("RabbitIm"));
+        m_TrayIcon.setIcon(QIcon(":/icon/AppIcon"));
         m_TrayIcon.show();
     }
     //0712文件发送管理窗口
@@ -153,6 +156,9 @@ void MainWindow::clientConnected()
         //把UserList设置到主窗口中心  
         this->setCentralWidget(m_pUserList);
     }
+
+    m_bLogin = true;
+    InitLoginedMenu();
 }
 
 void MainWindow::clientDisconnected()
@@ -217,6 +223,43 @@ void MainWindow::stateChanged(QXmppClient::State state)
     }*/
 }
 
+void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindow::SendFileType type)
+{
+    QXmppTransferJob* job = m_pClient->m_TransferManager.sendFile(jid,fileName,QString::number(type));
+    if(job)
+    {
+        m_pSendManageDlg->addFileProcess(*job,true);
+    }
+}
+
+int MainWindow::InitLoginedMenu()
+{
+    QMenu* pMenu = ui->menuOperator_O->addMenu(tr("Status"));
+    AddStatusMenu(pMenu);
+    ui->menuOperator_O->insertMenu(ui->actionExit_O, pMenu);
+    return 0;
+}
+
+int MainWindow::AddStatusMenu(QMenu *pMenu)
+{
+    pMenu->addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Online)),
+                     CGlobal::Instance()->GetStatusText(QXmppPresence::Online),
+                     this, SLOT(on_actionNotifiation_status_online_triggered()));
+    pMenu->addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Chat)),
+                     CGlobal::Instance()->GetStatusText(QXmppPresence::Chat),
+                     this, SLOT(on_actionNotifiation_status_chat_triggered()));
+    pMenu->addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Away)),
+                     CGlobal::Instance()->GetStatusText(QXmppPresence::Away),
+                     this, SLOT(on_actionNotifiation_status_away_triggered()));
+    pMenu->addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::DND)),
+                     CGlobal::Instance()->GetStatusText(QXmppPresence::DND),
+                     this, SLOT(on_actionNotifiation_status_dnd_triggered()));
+    pMenu->addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Invisible)),
+                     CGlobal::Instance()->GetStatusText(QXmppPresence::Invisible),
+                     this, SLOT(on_actionNotifiation_status_invisible_triggered()));
+    return 0;
+}
+
 void MainWindow::TrayIconActive(QSystemTrayIcon::ActivationReason e)
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::TrayIconActive:%d", e);
@@ -230,15 +273,6 @@ int MainWindow::ShowTrayIconMessage(const QString &szTitle, const QString &szMes
     return 0;
 }
 
-void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindow::SendFileType type)
-{
-    QXmppTransferJob* job = m_pClient->m_TransferManager.sendFile(jid,fileName,QString::number(type));
-    if(job)
-    {
-        m_pSendManageDlg->addFileProcess(*job,true);
-    }
-}
-
 void MainWindow::TrayIconMenuUpdate()
 {
     m_TrayIconMenu.clear();
@@ -248,8 +282,16 @@ void MainWindow::TrayIconMenuUpdate()
         szTitle = tr("Show Main Windows");
     else
         szTitle = tr("Hide Main Windows");
-
+    
     m_TrayIconMenu.addAction(szTitle, this, SLOT(on_actionNotifiation_show_main_windows_triggered()));
+
+    //状态子菜单  
+    if(m_bLogin)
+    {
+        QMenu* pMenu = m_TrayIconMenu.addMenu(tr("Status"));
+        AddStatusMenu(pMenu);        
+    }
+    m_TrayIconMenu.addSeparator();
     m_TrayIconMenu.addAction(tr("Exit"), this, SLOT(close()));
 }
 
@@ -259,6 +301,41 @@ void MainWindow::on_actionNotifiation_show_main_windows_triggered()
         this->show();
     else
         this->hide();
+}
+
+void MainWindow::on_actionNotifiation_status_away_triggered()
+{
+    QXmppPresence presence;
+    presence.setAvailableStatusType(QXmppPresence::Away);
+    m_pClient->setClientPresence(presence);
+}
+
+void MainWindow::on_actionNotifiation_status_chat_triggered()
+{
+    QXmppPresence presence;
+    presence.setAvailableStatusType(QXmppPresence::Chat);
+    m_pClient->setClientPresence(presence);
+}
+
+void MainWindow::on_actionNotifiation_status_dnd_triggered()
+{
+    QXmppPresence presence;
+    presence.setAvailableStatusType(QXmppPresence::DND);
+    m_pClient->setClientPresence(presence);
+}
+
+void MainWindow::on_actionNotifiation_status_online_triggered()
+{
+    QXmppPresence presence;
+    presence.setAvailableStatusType(QXmppPresence::Online);
+    m_pClient->setClientPresence(presence);
+}
+
+void MainWindow::on_actionNotifiation_status_invisible_triggered()
+{
+    QXmppPresence presence;
+    presence.setAvailableStatusType(QXmppPresence::Invisible);
+    m_pClient->setClientPresence(presence);
 }
 
 void MainWindow::onReceiveFile(QXmppTransferJob *job)
