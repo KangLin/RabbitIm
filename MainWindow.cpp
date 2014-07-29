@@ -63,11 +63,15 @@ MainWindow::MainWindow(QWidget *parent) :
     if(QSystemTrayIcon::isSystemTrayAvailable())
     {
         check = connect(&m_TrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-                        SLOT(TrayIconActive(QSystemTrayIcon::ActivationReason)));
+                        SLOT(slotTrayIconActive(QSystemTrayIcon::ActivationReason)));
+        Q_ASSERT(check);
+
+        check = connect(&m_TrayIcon, SIGNAL(messageClicked()),
+                        SLOT(slotMessageClicked()));
         Q_ASSERT(check);
 
         check = connect(&m_TrayIconMenu, SIGNAL(aboutToShow()),
-                        SLOT(TrayIconMenuUpdate()));
+                        SLOT(slotTrayIconMenuUpdate()));
         Q_ASSERT(check);
 
         m_TrayIcon.setContextMenu(&m_TrayIconMenu);
@@ -260,9 +264,15 @@ int MainWindow::AddStatusMenu(QMenu *pMenu)
     return 0;
 }
 
-void MainWindow::TrayIconActive(QSystemTrayIcon::ActivationReason e)
+void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::TrayIconActive:%d", e);
+}
+
+void MainWindow::slotMessageClicked()
+{
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotMessageClicked");
+    m_pUserList->ShowMessageDialog();
 }
 
 //在通知栏上显示消息  
@@ -273,7 +283,7 @@ int MainWindow::ShowTrayIconMessage(const QString &szTitle, const QString &szMes
     return 0;
 }
 
-void MainWindow::TrayIconMenuUpdate()
+void MainWindow::slotTrayIconMenuUpdate()
 {
     m_TrayIconMenu.clear();
 

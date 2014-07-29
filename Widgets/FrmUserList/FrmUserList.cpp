@@ -53,35 +53,35 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
 
     check = connect(m_pMainWindow->m_pClient,
                          SIGNAL(presenceReceived(const QXmppPresence)),
-                         SLOT(ChangedPresence(QXmppPresence)));
+                         SLOT(slotChangedPresence(QXmppPresence)));
     Q_ASSERT(check);
 
     check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(rosterReceived()),
-                    SLOT(rosterReceived()));
+                    SLOT(slotRosterReceived()));
     Q_ASSERT(check);
 
     check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(subscriptionReceived(QString)),
-                    SLOT(subscriptionReceived(QString)));
+                    SLOT(slotSubscriptionReceived(QString)));
     Q_ASSERT(check);
 
     check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(itemAdded(QString)),
-                    SLOT(itemAdded(QString)));
+                    SLOT(slotItemAdded(QString)));
     Q_ASSERT(check);
 
     check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(itemChanged(QString)),
-                    SLOT(itemChanged(QString)));
+                    SLOT(slotItemChanged(QString)));
     Q_ASSERT(check);
 
     check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(itemRemoved(QString)),
-                    SLOT(itemRemoved(QString)));
+                    SLOT(slotItemRemoved(QString)));
     Q_ASSERT(check);
 
     check = connect(&m_pMainWindow->m_pClient->vCardManager(), SIGNAL(vCardReceived(QXmppVCardIq)),
-                    SLOT(vCardReceived(QXmppVCardIq)));
+                    SLOT(slotvCardReceived(QXmppVCardIq)));
     Q_ASSERT(check);
 
     check = connect(m_pMainWindow->m_pClient, SIGNAL(messageReceived(QXmppMessage)),
-                    SLOT(clientMessageReceived(QXmppMessage)));
+                    SLOT(slotClientMessageReceived(QXmppMessage)));
     Q_ASSERT(check);
 }
 
@@ -218,16 +218,17 @@ void CFrmUserList::slotRemoveRoster()
         m_pMainWindow->m_pClient->rosterManager().removeItem(p->BareJid());
 }
 
-void CFrmUserList::clientMessageReceived(const QXmppMessage &message)
+void CFrmUserList::slotClientMessageReceived(const QXmppMessage &message)
 {
     LOG_MODEL_DEBUG("Roster", "MainWindow:: message Received:type:%d;state:%d;from:%s;to:%s;body:%s",
            message.type(),
-           message.state(), //消息的状态 0:消息内容，其它值表示这个消息的状态
+           message.state(), //消息的状态 0:消息内容，其它值表示这个消息的状态  
            qPrintable(message.from()),
            qPrintable(message.to()),
            qPrintable(message.body())
           );
 
+    m_LastUser = message.from();//保存接收到最后消息的用户  
     QMap<QString, CRoster*>::iterator it;
     it = m_Rosters.find(QXmppUtils::jidToBareJid(message.from()));
     if(m_Rosters.end() != it)
@@ -236,7 +237,7 @@ void CFrmUserList::clientMessageReceived(const QXmppMessage &message)
         {
             it.value()->AppendMessage(message.body());
         }
-        //TODO:消息输入状态显示 
+        //TODO:消息输入状态显示  
     }
 }
 
@@ -309,7 +310,7 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
     return nRet;
 }
 
-void CFrmUserList::subscriptionReceived(const QString &bareJid)
+void CFrmUserList::slotSubscriptionReceived(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(bareJid));
     m_frmAddRoster.Init(m_pMainWindow->m_pClient, GetGroupsName(), bareJid);
@@ -317,14 +318,14 @@ void CFrmUserList::subscriptionReceived(const QString &bareJid)
     m_frmAddRoster.activateWindow();
 }
 
-void CFrmUserList::itemAdded(const QString &bareJid)
+void CFrmUserList::slotItemAdded(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemAdded jid:%s", qPrintable(bareJid));
     QXmppRosterIq::Item item = m_pMainWindow->m_pClient->rosterManager().getRosterEntry(bareJid);
     InsertUser(item);
 }
 
-void CFrmUserList::itemChanged(const QString &bareJid)
+void CFrmUserList::slotItemChanged(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemChanged jid:%s", qPrintable(bareJid));
     QMap<QString, CRoster*>::iterator it;
@@ -339,7 +340,7 @@ void CFrmUserList::itemChanged(const QString &bareJid)
     }
 }
 
-void CFrmUserList::itemRemoved(const QString &bareJid)
+void CFrmUserList::slotItemRemoved(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemRemoved jid:%s", qPrintable(bareJid));
     QMap<QString, CRoster*>::iterator it;
@@ -352,7 +353,7 @@ void CFrmUserList::itemRemoved(const QString &bareJid)
 }
 
 //得到好友列表 
-void CFrmUserList::rosterReceived()
+void CFrmUserList::slotRosterReceived()
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList:: Roster received");
 
@@ -366,7 +367,7 @@ void CFrmUserList::rosterReceived()
 }
 
 //好友出席状态改变 
-void CFrmUserList::ChangedPresence(const QXmppPresence &presence)
+void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::ChangedPresence jid:%s;status:%s",
            qPrintable(presence.from()),
@@ -381,7 +382,7 @@ void CFrmUserList::ChangedPresence(const QXmppPresence &presence)
     }
 }
 
-void CFrmUserList::vCardReceived(const QXmppVCardIq& vCard)
+void CFrmUserList::slotvCardReceived(const QXmppVCardIq& vCard)
 {
     QString bareJid = vCard.from();
     std::cout<<"CFrmUserList::vCardReceived:: vCard Received:: " << qPrintable(bareJid) <<std::endl;
@@ -482,4 +483,15 @@ CRoster* CFrmUserList::GetCurrentRoster()
         }
     }
     return NULL;
+}
+
+int CFrmUserList::ShowMessageDialog()
+{
+    QMap<QString, CRoster*>::iterator it;
+    it = m_Rosters.find(QXmppUtils::jidToBareJid(m_LastUser));
+    if(m_Rosters.end() != it)
+    {
+        it.value()->ShowMessageDialog();
+    }
+    return 0;
 }

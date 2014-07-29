@@ -49,8 +49,9 @@ protected slots:
     void clientIqReceived(const QXmppIq &iq);
     void stateChanged(QXmppClient::State state);
 
-    void TrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽  
-    void TrayIconMenuUpdate();
+    void slotTrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽  
+    void slotMessageClicked();
+    void slotTrayIconMenuUpdate();
 
     void on_actionChange_Style_Sheet_S_triggered();
     void on_actionEnglish_E_triggered();

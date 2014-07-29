@@ -209,8 +209,8 @@ int CRoster::AppendMessage(const QString &szMessage)
             QString szText = QString::number(m_nNewMessageNumber);
             p->setData(szText, Qt::DisplayRole);
         }
-        
-        //通知栏提示
+
+        //通知栏提示  
         m_pMainWindow->ShowTrayIconMessage(this->Name(), szMessage);
     }
     else

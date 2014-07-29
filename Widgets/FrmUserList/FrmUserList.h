@@ -33,6 +33,9 @@ public:
     int AddToMainMenu(QMenu* pMenu, QAction *pAction);
     //把好友列表菜单从主菜单中移除 
     int DeleteFromMainMenu(QMenu *pMenu);
+    //显示最后一个消息窗口  
+    int ShowMessageDialog();
+
 private slots:
     //显示上下文件菜单(右键菜单)
     //控件contextMenuPolicy属性要设置为CustomContextMenu，才能触这个槽 
@@ -65,48 +68,48 @@ private:
 
 protected slots:
     //好友列表 
-    void rosterReceived();
+    void slotRosterReceived();
     //好友出席状态改变时触发 
-    void ChangedPresence(const QXmppPresence &presence);
+    void slotChangedPresence(const QXmppPresence &presence);
 
-    void vCardReceived(const QXmppVCardIq&);
+    void slotvCardReceived(const QXmppVCardIq&);
 
-    //当有好友请求订阅时触发，在这个函数中调用acceptSubscription()接受请求，
+    //当有好友请求订阅时触发，在这个函数中调用acceptSubscription()接受请求，  
     //请用refuseSubscription()拒绝请求 
     //如果设置QXmppConfiguration::autoAcceptSubscriptions(),则QXmpp直接接受请求,不触发本信号 
-    void subscriptionReceived(const QString& bareJid);
+    void slotSubscriptionReceived(const QString& bareJid);
     //当一个好友实体订阅时触发(即好友增加) 
-    void itemAdded(const QString& bareJid);
+    void slotItemAdded(const QString& bareJid);
     // 好友实体订阅发生改变时触发(即好友关系发生改变) 
-    void itemChanged(const QString& bareJid);
+    void slotItemChanged(const QString& bareJid);
     //删除订阅时触发(即删除好友) 
-    void itemRemoved(const QString& bareJid);
+    void slotItemRemoved(const QString& bareJid);
 
     //接收好友消息 
-    void clientMessageReceived(const QXmppMessage &message);
+    void slotClientMessageReceived(const QXmppMessage &message);
 
     //树形列表控件响应事件 
     void clicked(const QModelIndex & index);
     void doubleClicked(const QModelIndex & index);
 
 private slots:
-    //增加好友订阅 
+    //增加好友订阅  
     void slotAddRoster();
-    //从好友列表中同间增加此好友订阅 
+    //从好友列表中同间增加此好友订阅  
     void slotAgreeAddRoster();
-    //删掉好友订阅 
+    //删掉好友订阅  
     void slotRemoveRoster();
 
 private:
     Ui::CFrmUserList *ui;
 
     CTreeUserList m_UserList;
-    QStandardItemModel *m_pModel;                   //好友列表树型控件 
+    QStandardItemModel *m_pModel;           //好友列表树型控件   
     MainWindow *m_pMainWindow;
-    QMap<QString, CRoster*> m_Rosters;              //好友列表 
-    QMap<QString, QStandardItem*> m_Groups; //组列表 
-
-    CFrmAddRoster m_frmAddRoster;                     //增加好友对话框 
+    QMap<QString, CRoster*> m_Rosters;      //好友列表  
+    QMap<QString, QStandardItem*> m_Groups; //组列表  
+    QString m_LastUser;                   //接收的最后一个消息用户  
+    CFrmAddRoster m_frmAddRoster;           //增加好友对话框  
 
 };
 
