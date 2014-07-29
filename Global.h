@@ -6,6 +6,7 @@
 #include "qxmpp/QXmppPresence.h"
 #include "qxmpp/QXmppClient.h"
 
+class CRoster;
 class CGlobal : public QObject
 {
     Q_OBJECT
@@ -39,14 +40,17 @@ public:
     QString GetBareJid();
     QString GetDomain();
     QString GetResource();
+    CRoster* GetRoster(); //本地用户详细信息  
     QColor GetUserColor();
     QColor GetRosterColor();
     int SetUserColor(const QColor &color);
     int SetRosterColor(const QColor &color);
+
 private:
     QString m_szLocalJid;
     QColor m_UserColor;   //本地用户颜色  
     QColor m_RosterColor; //好友颜色  
+    CRoster *m_pRoster;     //存储本地用户的详细信息  
 
 public:
     QString GetXmppServer();

@@ -27,7 +27,7 @@
   <action name="actionAddRoster_A">
    <property name="icon">
     <iconset resource="../../Resource/Resource.qrc">
-     <normaloff>:/icon/add</normaloff>:/icon/add</iconset>
+     <normaloff>:/icon/Add</normaloff>:/icon/Add</iconset>
    </property>
    <property name="text">
     <string>AddRoster(&amp;A)</string>
@@ -39,7 +39,7 @@
   <action name="actionRemoveRoster_R">
    <property name="icon">
     <iconset resource="../../Resource/Resource.qrc">
-     <normaloff>:/icon/delete</normaloff>:/icon/delete</iconset>
+     <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
    </property>
    <property name="text">
     <string>RemoveRoster(R)</string>
@@ -49,11 +49,24 @@
    </property>
   </action>
   <action name="actionAgreeAddRoster">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Accept</normaloff>:/icon/Accept</iconset>
+   </property>
    <property name="text">
     <string>Agree Add Roster(&amp;A)</string>
    </property>
    <property name="toolTip">
     <string>Agree Add Roster</string>
+   </property>
+  </action>
+  <action name="actionInformation_I">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Information</normaloff>:/icon/Information</iconset>
+   </property>
+   <property name="text">
+    <string>Information(&amp;I)</string>
    </property>
   </action>
  </widget>

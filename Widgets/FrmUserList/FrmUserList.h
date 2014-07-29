@@ -29,63 +29,62 @@ public:
     ~CFrmUserList();
 
 public:
-    //把好友列表菜单加到主菜单中,调用者不需要用此菜单时，负责调用DeleteFromMainMenu释放 
+    //把好友列表菜单加到主菜单中,调用者不需要用此菜单时，负责调用DeleteFromMainMenu释放  
     int AddToMainMenu(QMenu* pMenu, QAction *pAction);
-    //把好友列表菜单从主菜单中移除 
+    //把好友列表菜单从主菜单中移除  
     int DeleteFromMainMenu(QMenu *pMenu);
     //显示最后一个消息窗口  
     int ShowMessageDialog();
 
 private slots:
-    //显示上下文件菜单(右键菜单)
+    //显示上下文件菜单(右键菜单)  
     //控件contextMenuPolicy属性要设置为CustomContextMenu，才能触这个槽 
-    //如果设置为DefaultContextMenu，则触发右键菜单事件contextMenuEvent()
+    //如果设置为DefaultContextMenu，则触发右键菜单事件contextMenuEvent() 
     void slotCustomContextMenuRequested(const QPoint &pos);
-    void slotUpdateMenu();//更新菜单 
+    void slotUpdateMenu();//更新菜单  
 private:
-    int InitMenu();//初始化菜单 
+    int InitMenu();//初始化菜单  
     int EnableAllActioins(bool bEnable = true);
     int EnableAction(QAction* pAction, bool bEnable = true);
-    QMenu* m_pMenu;      //好友列表操作菜单 
-    QAction* m_pMenuAction;//用于存储m_Menu位于主菜单中的位置 
+    QMenu* m_pMenu;      //好友列表操作菜单  
+    QAction* m_pMenuAction;//用于存储m_Menu位于主菜单中的位置  
 
 private:
-    //向用户列表中插入用户 
+    //向用户列表中插入用户  
     int InsertUser(QXmppRosterIq::Item rosterItem);
-    //在组队列中插入组 
+    //在组队列中插入组  
     QStandardItem*  InsertGroup(QString szGroup);
-    //更新组中用户
+    //更新组中用户  
     int UpdateGroup(CRoster* pRoster, QSet<QString> groups);
-    
 
     void resizeEvent(QResizeEvent *);
 
-    //得到树形控件当前选中的好友指针 
-    //如果为空,则为组 
+    //得到树形控件当前选中的好友指针  
+    //如果为空,则为组  
     CRoster *GetCurrentRoster();
 
     QSet<QString> GetGroupsName();
 
 protected slots:
-    //好友列表 
+    //好友列表  
     void slotRosterReceived();
-    //好友出席状态改变时触发 
+    //好友出席状态改变时触发  
     void slotChangedPresence(const QXmppPresence &presence);
-
+    //得到好友详细信息时触发  
     void slotvCardReceived(const QXmppVCardIq&);
 
     //当有好友请求订阅时触发，在这个函数中调用acceptSubscription()接受请求，  
-    //请用refuseSubscription()拒绝请求 
-    //如果设置QXmppConfiguration::autoAcceptSubscriptions(),则QXmpp直接接受请求,不触发本信号 
+    //请用refuseSubscription()拒绝请求  
+    //如果设置QXmppConfiguration::autoAcceptSubscriptions(),则QXmpp直接接受请求,不触发本信号  
     void slotSubscriptionReceived(const QString& bareJid);
-    //当一个好友实体订阅时触发(即好友增加) 
+    //当一个好友实体订阅时触发(即好友增加)  
     void slotItemAdded(const QString& bareJid);
-    // 好友实体订阅发生改变时触发(即好友关系发生改变) 
+    // 好友实体订阅发生改变时触发(即好友关系发生改变)  
     void slotItemChanged(const QString& bareJid);
-    //删除订阅时触发(即删除好友) 
+    //删除订阅时触发(即删除好友)  
     void slotItemRemoved(const QString& bareJid);
 
-    //接收好友消息 
+    //接收好友消息  
     void slotClientMessageReceived(const QXmppMessage &message);
 
     //树形列表控件响应事件 
@@ -99,6 +98,8 @@ private slots:
     void slotAgreeAddRoster();
     //删掉好友订阅  
     void slotRemoveRoster();
+    //显示好友详细信息  
+    void slotInformationRoster();
 
 private:
     Ui::CFrmUserList *ui;

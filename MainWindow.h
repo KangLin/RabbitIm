@@ -63,7 +63,11 @@ protected slots:
     void on_actionNotifiation_status_dnd_triggered();
     void on_actionNotifiation_status_chat_triggered();
     void on_actionNotifiation_status_invisible_triggered();
-    
+
+    //编辑本地用户详细信息  
+    void slotEditInformation();
+    void slotClientVCardReceived();
+
     void onReceiveFile(QXmppTransferJob* job);//文件接收通知  
 
 protected:

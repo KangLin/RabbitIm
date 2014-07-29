@@ -32,7 +32,10 @@ int CRoster::Init(MainWindow *parent)
 
 QString CRoster::Name()
 {
-    QString n = m_RosterItem.name();
+    
+    QString n = m_RosterVCard.fullName();
+    if(n.isEmpty())
+        n = m_RosterItem.name();
     if(n.isEmpty())
         n = QXmppUtils::jidToUser(BareJid());
     return n;
@@ -63,6 +66,44 @@ QString CRoster::Resouce()
 //    m_szJid = jid;
 //    return 0;
 //}
+
+QString CRoster::Nick()
+{
+    LOG_MODEL_DEBUG("Roster", "nick:%s", m_RosterVCard.nickName().toStdString().c_str());
+    return m_RosterVCard.nickName();
+}
+
+QDate CRoster::Birthday()
+{
+    return m_RosterVCard.birthday();
+}
+
+QString CRoster::Email()
+{
+    return m_RosterVCard.email();
+}
+
+QString CRoster::Description()
+{
+    return m_RosterVCard.description();
+}
+
+QImage CRoster::Photo()
+{
+    QByteArray photo = m_RosterVCard.photo();
+    QBuffer buffer;
+    buffer.setData(photo);
+    buffer.open(QIODevice::ReadOnly);
+    QImageReader imageReader(&buffer);
+    QImage image = imageReader.read();
+    return image;
+}
+
+int CRoster::SetVCard(const QXmppVCardIq &vCard)
+{
+    m_RosterVCard = vCard;
+    return 0;
+}
 
 QSet<QString> CRoster::Groups()
 {

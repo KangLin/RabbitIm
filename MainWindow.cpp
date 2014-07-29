@@ -12,6 +12,7 @@
 #include "Widgets/FrmOptions/FrmOptions.h"
 #include "Global.h"
 #include "Widgets/FrmSendFile/DlgSendManage.h"
+#include "Widgets/FrmUservCard/FrmUservCard.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -56,6 +57,9 @@ MainWindow::MainWindow(QWidget *parent) :
         check = connect(m_pClient, SIGNAL(stateChanged(QXmppClient::State)),
                         SLOT(stateChanged(QXmppClient::State)));
         Q_ASSERT(check);
+
+        check = connect(&m_pClient->vCardManager(), SIGNAL(clientVCardReceived()),
+                        SLOT(slotClientVCardReceived));
 
         CFrmVideo::instance(m_pClient);
     }
@@ -109,10 +113,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *)
 {
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::resizeEvent");
 }
 
 void MainWindow::showEvent(QShowEvent *)
 {
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::showEvent");
 }
 
 void MainWindow::closeEvent(QCloseEvent *e)
@@ -163,6 +169,9 @@ void MainWindow::clientConnected()
 
     m_bLogin = true;
     InitLoginedMenu();
+
+    //得到本地用户的详细信息  
+    m_pClient->vCardManager().requestClientVCard();
 }
 
 void MainWindow::clientDisconnected()
@@ -195,6 +204,11 @@ void MainWindow::clientError(QXmppClient::Error e)
 void MainWindow::clientIqReceived(const QXmppIq &iq)
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow:: iq Received:%d", iq.error().condition());
+}
+
+void MainWindow::slotClientVCardReceived()
+{
+    CGlobal::Instance()->GetRoster()->SetVCard(m_pClient->vCardManager().clientVCard());
 }
 
 void MainWindow::stateChanged(QXmppClient::State state)
@@ -241,6 +255,11 @@ int MainWindow::InitLoginedMenu()
     QMenu* pMenu = ui->menuOperator_O->addMenu(tr("Status(&T)"));
     AddStatusMenu(pMenu);
     ui->menuOperator_O->insertMenu(ui->actionExit_O, pMenu);
+
+    QAction* pAction = ui->menuOperator_O->addAction(
+                tr("Edit Locale User Infomation(&E)"),
+                this, SLOT(slotEditInformation()));
+
     return 0;
 }
 
@@ -346,6 +365,12 @@ void MainWindow::on_actionNotifiation_status_invisible_triggered()
     QXmppPresence presence;
     presence.setAvailableStatusType(QXmppPresence::Invisible);
     m_pClient->setClientPresence(presence);
+}
+
+void MainWindow::slotEditInformation()
+{
+    CFrmUservCard* pvCard = new CFrmUservCard(CGlobal::Instance()->GetRoster(), true);
+    pvCard->show();
 }
 
 void MainWindow::onReceiveFile(QXmppTransferJob *job)

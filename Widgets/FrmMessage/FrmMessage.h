@@ -8,8 +8,6 @@
 #include "qxmpp/QXmppPresence.h"
 #include "../../Global.h"
 
-extern CGlobal g_Global;
-
 class MainWindow;
 class CRoster;
 

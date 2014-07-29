@@ -182,3 +182,4 @@ void CFrmMessage::on_pbVideo_clicked()
     pVideo->activateWindow();
     pVideo->Call(m_pRoster->BareJid() + "/QXmpp");
 }
+

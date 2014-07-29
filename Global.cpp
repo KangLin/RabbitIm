@@ -10,10 +10,12 @@
 #include <string>
 #include <QSettings>
 #include "Tool.h"
+#include "Widgets/FrmUserList/Roster.h"
 
 CGlobal::CGlobal(QObject *parent) :
     QObject(parent)
 {
+    m_pRoster = new CRoster;
     m_UserColor = QColor(255, 0, 0);
     m_RosterColor = QColor(0, 0, 255);
 
@@ -39,6 +41,8 @@ CGlobal::CGlobal(QObject *parent) :
 
 CGlobal::~CGlobal()
 {
+    if(m_pRoster)
+        delete m_pRoster;
 }
 
 CGlobal* CGlobal::Instance()
@@ -102,6 +106,11 @@ QString CGlobal::GetDomain()
 QString CGlobal::GetResource()
 {
     return QXmppUtils::jidToResource(m_szLocalJid);
+}
+
+CRoster* CGlobal::GetRoster()
+{
+    return m_pRoster;
 }
 
 QColor CGlobal::GetUserColor()
@@ -264,19 +273,19 @@ QString CGlobal::GetStatusText(QXmppPresence::AvailableStatusType status)
 QString CGlobal::GetStatusIcon(QXmppPresence::AvailableStatusType status)
 {
     if(QXmppPresence::Online == status)
-        return ":/icon/status_available";
+        return ":/icon/Status_available";
     else if(QXmppPresence::Away == status)
-        return ":/icon/status_away";
+        return ":/icon/Status_away";
     else if(QXmppPresence::Chat == status)
-        return ":/icon/status_chat";
+        return ":/icon/Status_chat";
     else if(QXmppPresence::DND == status)
-        return ":/icon/status_dnd";
+        return ":/icon/Status_dnd";
     else if(QXmppPresence::Invisible == status)
-        return ":/icon/status_invisible";
+        return ":/icon/Status_invisible";
     else if(QXmppPresence::XA == status)
-        return ":/icon/status_invisible";
+        return ":/icon/Status_invisible";
     else
-        return ":/icon/status_invisible";
+        return ":/icon/Status_invisible";
 }
 
 QColor CGlobal::GetStatusColor(QXmppPresence::AvailableStatusType status)

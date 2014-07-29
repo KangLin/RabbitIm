@@ -4,6 +4,7 @@
 #include "qxmpp/QXmppRosterManager.h"
 #include "qxmpp/QXmppUtils.h"
 #include "../../MainWindow.h"
+#include "../FrmUservCard/FrmUservCard.h"
 #include <iostream>
 #include <QKeyEvent>
 #include <QMessageBox>
@@ -19,10 +20,10 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
 
     InitMenu();
 
-    m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。
+    m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。  
     if(m_pModel)
     {
-        //增加头，只有增加了这个后，下面才会显示内容
+        //增加头，只有增加了这个后，下面才会显示内容  
         m_pModel->setHorizontalHeaderLabels(QStringList() << tr("User name or group")<< tr("Information"));
     }
 
@@ -93,7 +94,7 @@ CFrmUserList::~CFrmUserList()
         delete it.value();
     }
 
-    //删除组 m_Groups，不需要删，列表控件析构时会自己删除
+    //删除组 m_Groups，不需要删，列表控件析构时会自己删除  
 
     if(m_pMenu)
         delete m_pMenu;
@@ -115,7 +116,7 @@ int CFrmUserList::InitMenu()
                     SLOT(slotUpdateMenu()));
     Q_ASSERT(check);
 
-    //菜单设置
+    //菜单设置  
     m_pMenuAction = NULL;
     m_pMenu->addAction(ui->actionAddRoster_A);
     check = connect(ui->actionAddRoster_A, SIGNAL(triggered()),
@@ -131,6 +132,12 @@ int CFrmUserList::InitMenu()
     check = connect(ui->actionAgreeAddRoster, SIGNAL(triggered()),
                     SLOT(slotAgreeAddRoster()));
     Q_ASSERT(check);
+
+    m_pMenu->addAction(ui->actionInformation_I);
+    check = connect(ui->actionInformation_I, SIGNAL(triggered()),
+                    SLOT(slotInformationRoster()));
+    Q_ASSERT(check);
+
     return 0;
 }
 
@@ -139,6 +146,7 @@ int CFrmUserList::EnableAllActioins(bool bEnable)
     EnableAction(ui->actionAddRoster_A, bEnable);
     EnableAction(ui->actionAgreeAddRoster, bEnable);
     EnableAction(ui->actionRemoveRoster_R, bEnable);
+    EnableAction(ui->actionInformation_I, bEnable);
     return 0;
 }
 
@@ -164,28 +172,29 @@ int CFrmUserList::DeleteFromMainMenu(QMenu *pMenu)
 void CFrmUserList::slotUpdateMenu()
 {
     EnableAllActioins(false);
-    //如果是组上,显示增加好友
+    //如果是组上,显示增加好友  
     EnableAction(ui->actionAddRoster_A);
 
-    //判断是在组上还是在好友上:
+    //判断是在组上还是在好友上  
     CRoster* p = GetCurrentRoster();
     if(p)
     {
-        //增加订阅
+        //增加订阅  
         if(QXmppRosterIq::Item::None == p->GetSubScriptionType()
              || QXmppRosterIq::Item::From == p->GetSubScriptionType())
             EnableAction(ui->actionAgreeAddRoster);
 
-        //如果是好友上,显示删除好友
+        //如果是好友上,显示删除好友  
         EnableAction(ui->actionRemoveRoster_R);
 
-        //TODO: 查看好友信息
-        //TODO: 移动到组
+        //查看好友信息  
+        EnableAction(ui->actionInformation_I);
+        //TODO: 移动到组  
 
     }
     else
     {
-        //TODO:新建组
+        //TODO:新建组  
     }
     return;
 }
@@ -216,6 +225,13 @@ void CFrmUserList::slotRemoveRoster()
     CRoster* p = GetCurrentRoster();
     if(p)
         m_pMainWindow->m_pClient->rosterManager().removeItem(p->BareJid());
+}
+
+void CFrmUserList::slotInformationRoster()
+{
+    CRoster* p = GetCurrentRoster();
+    CFrmUservCard* pvCard = new CFrmUservCard(p);
+    pvCard->show();
 }
 
 void CFrmUserList::slotClientMessageReceived(const QXmppMessage &message)
@@ -294,7 +310,7 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
     itRosters = m_Rosters.find(rosterItem.bareJid());
     if(m_Rosters.end() == itRosters)
     {
-        //新建好友对象实例
+        //新建好友对象实例  
         pRoster = new CRoster(rosterItem,
                               this->m_pMainWindow);
         m_Rosters.insert(pRoster->BareJid(), pRoster);
@@ -352,7 +368,7 @@ void CFrmUserList::slotItemRemoved(const QString &bareJid)
     }
 }
 
-//得到好友列表 
+//得到好友列表  
 void CFrmUserList::slotRosterReceived()
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList:: Roster received");
@@ -361,12 +377,12 @@ void CFrmUserList::slotRosterReceived()
     {
         QXmppRosterIq::Item item = m_pMainWindow->m_pClient->rosterManager().getRosterEntry(bareJid);
         InsertUser(item);
-        // TODOS:得到好友头像图片 
-        //m_pMainWindow->m_pClient->vCardManager().requestVCard(bareJid);
+        //得到好友信息（包括头像图片）  
+        m_pMainWindow->m_pClient->vCardManager().requestVCard(bareJid);
     }
 }
 
-//好友出席状态改变 
+//好友出席状态改变  
 void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::ChangedPresence jid:%s;status:%s",
@@ -384,37 +400,11 @@ void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
 
 void CFrmUserList::slotvCardReceived(const QXmppVCardIq& vCard)
 {
-    QString bareJid = vCard.from();
-    std::cout<<"CFrmUserList::vCardReceived:: vCard Received:: " << qPrintable(bareJid) <<std::endl;
-
-    QString out("FullName: %1\nNickName: %2\n");
-    std::cout<<qPrintable(out.arg(vCard.fullName()).arg(vCard.nickName())) <<std::endl;
-
-    QString vCardsDir("vCards/");
-
-    QDir dir;
-    if(!dir.exists(vCardsDir))
-        dir.mkdir(vCardsDir);
-
-    QFile file("vCards/" + bareJid + ".xml");
-    if(file.open(QIODevice::ReadWrite))
+    QString jid = QXmppUtils::jidToBareJid(vCard.from());
+    QMap<QString, CRoster*>::iterator it = m_Rosters.find(jid);
+    if(m_Rosters.end() != it)
     {
-        QXmlStreamWriter stream(&file);
-        vCard.toXml(&stream);
-        file.close();
-        std::cout<<"CFrmUserList::vCardReceived:: vCard written to the file:: " << qPrintable(bareJid) <<std::endl;
-    }
-
-    QString name("vCards/" + bareJid + ".png");
-    QByteArray photo = vCard.photo();
-    QBuffer buffer;
-    buffer.setData(photo);
-    buffer.open(QIODevice::ReadOnly);
-    QImageReader imageReader(&buffer);
-    QImage image = imageReader.read();
-    if(image.save(name))
-    {
-        std::cout<<"CFrmUserList::vCardReceived:: Avatar saved to file" <<std::endl<<std::endl;
+        it.value()->SetVCard(vCard);
     }
 }
 
@@ -432,10 +422,10 @@ void CFrmUserList::clicked(const QModelIndex &index)
     if(!m)
         return;
 
-    //TODO:暂时根据是否有根节点来判断是组还是好友 
+    //TODO:暂时根据是否有根节点来判断是组还是好友  
     if(m->parent(index).isValid())
     {
-        //是用户结点，打开消息对话框 
+        //是用户结点，打开消息对话框  
         QVariant v = m->data(index, Qt::UserRole + 1);
         if(v.canConvert<CRoster*>())
         {
@@ -472,10 +462,10 @@ CRoster* CFrmUserList::GetCurrentRoster()
     if(!m)
         return NULL;
 
-    //TODO:暂时根据是否有根节点来判断是组还是好友 
+    //TODO:暂时根据是否有根节点来判断是组还是好友  
     if(m->parent(index).isValid())
     {
-        //是用户结点，删除它 
+        //是用户结点，删除它  
         QVariant v = m->data(index, Qt::UserRole + 1);
         if(v.canConvert<CRoster*>())
         {

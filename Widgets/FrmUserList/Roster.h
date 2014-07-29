@@ -7,6 +7,7 @@
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppPresence.h"
 #include "qxmpp/QXmppRosterIq.h"
+#include "qxmpp/QXmppVCardIq.h"
 #include "../FrmMessage/FrmMessage.h"
 
 class MainWindow;
@@ -27,6 +28,13 @@ public:
     QString BareJid();
     QString Jid();
     //int SetJid(QString jid);
+    QString Nick();
+    QDate Birthday();
+    QString Email();
+    QString Description();
+    QImage Photo();
+
+    int SetVCard(const QXmppVCardIq &vCard);
 
     QSet<QString> Groups();
 
@@ -62,6 +70,7 @@ public slots:
 private:
     //QString m_szJid;
     QXmppRosterIq::Item m_RosterItem;
+    QXmppVCardIq m_RosterVCard;
     QXmppPresence::AvailableStatusType m_Status;//好友出席状态
 
     MainWindow* m_pMainWindow;
