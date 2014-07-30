@@ -339,7 +339,11 @@ void MainWindow::slotTrayIconMenuUpdate()
     if(m_bLogin)
     {
         QMenu* pMenu = m_TrayIconMenu.addMenu(tr("Status(&T)"));
-        AddStatusMenu(pMenu);        
+        AddStatusMenu(pMenu);
+        
+        m_TrayIconMenu.addAction(
+                    tr("Edit Locale User Infomation(&E)"),
+                    this, SLOT(slotEditInformation()));
     }
     m_TrayIconMenu.addSeparator();
     m_TrayIconMenu.addAction(tr("Exit"), this, SLOT(close()));
