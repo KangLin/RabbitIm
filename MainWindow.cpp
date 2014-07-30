@@ -124,6 +124,12 @@ void MainWindow::showEvent(QShowEvent *)
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+    if(!m_bLogin)
+    {
+        QApplication::quit();
+        return;
+    }
+
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent");
     QMessageBox msg(QMessageBox::Question,
                     tr("Close"),
@@ -133,7 +139,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     {
         //退出程序
         e->accept();
-        QCoreApplication::exit(0);
+        QApplication::closeAllWindows();
     }
     else
         e->ignore(); //忽略退出事件 
@@ -175,6 +181,7 @@ void MainWindow::clientConnected()
 void MainWindow::clientDisconnected()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow:: DISCONNECTED");
+    m_bLogin = false;
 }
 
 void MainWindow::clientError(QXmppClient::Error e)

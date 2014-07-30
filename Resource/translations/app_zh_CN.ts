@@ -281,7 +281,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="296"/>
         <source>Turn Server:</source>
-        <translation>Turn 服务器</translation>
+        <translation>Turn 服务器：</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="394"/>
