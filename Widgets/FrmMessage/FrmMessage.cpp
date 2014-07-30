@@ -19,8 +19,9 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
     m_pRoster = NULL;
     m_pMainWindow = NULL;
 
-    bool check = connect(ui->lbAvator, SIGNAL(clicked()), SLOT(on_lbAvator_clicked()));
-    Q_ASSERT(check);
+    bool check = false;
+    //check = connect(ui->lbAvator, SIGNAL(clicked()), SLOT(on_lbAvator_clicked()));
+    //Q_ASSERT(check);
 
     //发送文件信号连接20140710 
     QAction* pAction = m_MoreMenu.addAction(tr("send file"));

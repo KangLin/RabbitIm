@@ -38,9 +38,9 @@ private slots:
     void on_pbSend_clicked();
     void on_tbMore_clicked();
     void on_pbVideo_clicked();
+    void on_lbAvator_clicked();//点击头像显示用户详细信息对话框  
 
     void ChangedPresence(QXmppPresence::AvailableStatusType status);
-    void on_lbAvator_clicked();//点击头像显示用户详细信息对话框  
 
     void slotSendFileTriggered();//20140712文件发送  
 #if WIN32
