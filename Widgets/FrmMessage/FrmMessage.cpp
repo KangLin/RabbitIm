@@ -4,6 +4,7 @@
 #include "qxmpp/QXmppMessage.h"
 #include "../../MainWindow.h"
 #include "../FrmVideo/FrmVideo.h"
+#include "../FrmUservCard/FrmUservCard.h"
 
 #if WIN32
 #include "../DlgScreenShot/DlgScreenShot.h"
@@ -14,22 +15,22 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
     ui(new Ui::CFrmMessage)
 {
     ui->setupUi(this);
-    ui->txtInput->setFocus();//设置焦点 
+    ui->txtInput->setFocus();//设置焦点  
     m_pRoster = NULL;
     m_pMainWindow = NULL;
 
-    //发送文件信号连接20140710
-    {
-        QAction* pAction = m_MoreMenu.addAction(tr("send file"));
-        bool check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFileTriggered()));
-        Q_ASSERT(check);
-    }
+    bool check = connect(ui->lbAvator, SIGNAL(clicked()), SLOT(on_lbAvator_clicked()));
+    Q_ASSERT(check);
+
+    //发送文件信号连接20140710 
+    QAction* pAction = m_MoreMenu.addAction(tr("send file"));
+    check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFileTriggered()));
+    Q_ASSERT(check);
+
 #if WIN32
-    {
-        QAction* pAction = m_MoreMenu.addAction(tr("shot screen"));
-        bool check = connect(pAction, SIGNAL(triggered()), SLOT(slotShotScreenTriggered()));
-        Q_ASSERT(check);
-    }
+    pAction = m_MoreMenu.addAction(tr("shot screen"));
+    check = connect(pAction, SIGNAL(triggered()), SLOT(slotShotScreenTriggered()));
+    Q_ASSERT(check);
 #endif
     ui->tbMore->setMenu(&m_MoreMenu);
 }
@@ -40,7 +41,7 @@ CFrmMessage::~CFrmMessage()
     delete ui;
 }
 
-//注意：只在对话框初始化后调用一次,必须最先调用一次 
+//注意：只在对话框初始化后调用一次,必须最先调用一次  
 int CFrmMessage::SetRoster(CRoster* pRoster, MainWindow *pMainWindow)
 {
     m_pRoster = pRoster;
@@ -70,7 +71,7 @@ void CFrmMessage::slotSendFileTriggered()
     {
         return;
     }
-    QString jid = QString("%1/%2").arg(m_pRoster->Jid()).arg("QXmpp");//再定QXmpp,应该根据实际的resource
+    QString jid = QString("%1/%2").arg(m_pRoster->Jid()).arg("QXmpp");//再定QXmpp,应该根据实际的resource  
     m_pMainWindow->sendFile(jid,fileName);
 }
 
@@ -87,7 +88,7 @@ void CFrmMessage::slotShotScreenTriggered()
         bool isOk = image.save(filePath);
         if(isOk)
         {
-            QString jid = QString("%1/%2").arg(m_pRoster->Jid()).arg("QXmpp");//再定QXmpp,应该根据实际的resource
+            QString jid = QString("%1/%2").arg(m_pRoster->Jid()).arg("QXmpp");//再定QXmpp,应该根据实际的resource  
             m_pMainWindow->sendFile(jid,filePath,MainWindow::ImageType);
         }
         else
@@ -111,7 +112,7 @@ void CFrmMessage::closeEvent(QCloseEvent *e)
 void CFrmMessage::showEvent(QShowEvent *)
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::showEvent");
-    //TODO:重读数据 
+    //TODO:重读数据  
     if(m_pRoster)
     {
         ui->lbRosterName->setText(m_pRoster->Name()
@@ -159,11 +160,11 @@ void CFrmMessage::on_pbSend_clicked()
     
     AppendMessageToList(ui->txtInput->toPlainText());
 
-    //发送 
+    //发送  
     QXmppMessage msg("", m_pRoster->BareJid(), ui->txtInput->toPlainText());
     m_pMainWindow->m_pClient->sendPacket(msg);
 
-    ui->txtInput->clear();//清空输入框中的内容 
+    ui->txtInput->clear();//清空输入框中的内容  
 }
 
 void CFrmMessage::on_tbMore_clicked()
@@ -180,6 +181,15 @@ void CFrmMessage::on_pbVideo_clicked()
     pVideo->move((pDesk->width() - pVideo->width()) / 2, (pDesk->height() - pVideo->height()) / 2);
     pVideo->show();
     pVideo->activateWindow();
+    //TODO:改成m_pRoster->Jid()  
     pVideo->Call(m_pRoster->BareJid() + "/QXmpp");
 }
 
+void CFrmMessage::on_lbAvator_clicked()
+{
+    if(m_pRoster)
+    {
+        CFrmUservCard *pvCard = new CFrmUservCard(m_pRoster);
+        pvCard->show();
+    }
+}

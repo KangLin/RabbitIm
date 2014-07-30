@@ -27,7 +27,7 @@
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="lbAvator">
+      <widget class="CLabel" name="lbAvator">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -204,6 +204,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">Label.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>pbSend</tabstop>
   <tabstop>pbVideo</tabstop>

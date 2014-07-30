@@ -23,7 +23,7 @@ public:
     explicit CFrmMessage(QWidget *parent = 0);
     ~CFrmMessage();
 
-    //注意：只在对话框初始化后调用一次,必须最先调用一次
+    //注意：只在对话框初始化后调用一次,必须最先调用一次  
     int SetRoster(CRoster* pRoster, MainWindow* pMainWindow);
     int AppendMessage(const QString &szMessage);
     int AppendMessageToList(const QString &szMessage, const QString &name = CGlobal::Instance()->GetName(), bool bRemote = false);
@@ -40,10 +40,11 @@ private slots:
     void on_pbVideo_clicked();
 
     void ChangedPresence(QXmppPresence::AvailableStatusType status);
+    void on_lbAvator_clicked();//点击头像显示用户详细信息对话框  
 
-    void slotSendFileTriggered();//20140712文件发送
+    void slotSendFileTriggered();//20140712文件发送  
 #if WIN32
-    void slotShotScreenTriggered();//20140712截屏
+    void slotShotScreenTriggered();//20140712截屏  
 #endif
 
 private:
@@ -53,7 +54,7 @@ private:
     MainWindow* m_pMainWindow;
 
     QStringList m_szMessages;
-    QMenu m_MoreMenu;//功能按钮菜单
+    QMenu m_MoreMenu;//功能按钮菜单  
 };
 
 #endif // FRMMESSAGE_H
