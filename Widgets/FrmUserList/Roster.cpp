@@ -32,7 +32,6 @@ int CRoster::Init(MainWindow *parent)
 
 QString CRoster::Name()
 {
-    
     QString n = m_RosterVCard.fullName();
     if(n.isEmpty())
         n = m_RosterItem.name();
@@ -43,12 +42,15 @@ QString CRoster::Name()
 
 QString CRoster::BareJid()
 {
-    return m_RosterItem.bareJid();
+    return QXmppUtils::jidToBareJid(Jid());
 }
 
 QString CRoster::Jid()
 {
-    return m_RosterItem.bareJid();
+    QString s = m_RosterItem.bareJid();
+    if(s.isEmpty()) //得到本地用户 JID  
+        s = m_RosterVCard.to();
+    return s;
 }
 
 QString CRoster::Domain()
@@ -69,7 +71,6 @@ QString CRoster::Resouce()
 
 QString CRoster::Nick()
 {
-    LOG_MODEL_DEBUG("Roster", "nick:%s", m_RosterVCard.nickName().toStdString().c_str());
     return m_RosterVCard.nickName();
 }
 
@@ -96,6 +97,7 @@ QImage CRoster::Photo()
     buffer.open(QIODevice::ReadOnly);
     QImageReader imageReader(&buffer);
     QImage image = imageReader.read();
+    buffer.close();
     return image;
 }
 

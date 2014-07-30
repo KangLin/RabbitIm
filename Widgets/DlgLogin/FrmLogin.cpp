@@ -78,7 +78,7 @@ void CFrmLogin::on_pbOk_clicked()
     config.setDomain(CGlobal::Instance()->GetXmppDomain());
     config.setUser(ui->cmbUser->currentText());
     config.setPassword(ui->lnPassword->text());
-    CGlobal::Instance()->SetJid(config.jid());
+    //CGlobal::Instance()->SetJid(config.jid());
 
     LOG_MODEL_DEBUG("Login", "Local jid:%s;config.jidBare():%s",
            qPrintable(CGlobal::Instance()->GetBareJid()),

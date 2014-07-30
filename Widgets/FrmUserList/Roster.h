@@ -16,9 +16,9 @@ class CRoster : public QObject
 {
     Q_OBJECT
 public:
-    //参数 parent 必须为 MainWindow
+    //参数 parent 必须为 MainWindow  
     explicit CRoster(QObject *parent = NULL);
-    //parent 必须为 MainWindow
+    //parent 必须为 MainWindow  
     explicit CRoster(QXmppRosterIq::Item item, MainWindow* parent = NULL);
     ~CRoster();
 
@@ -27,7 +27,7 @@ public:
     QString Resouce();
     QString BareJid();
     QString Jid();
-    //int SetJid(QString jid);
+    //int SetJid(QString jid);//由SetVCard或UpdaeItems设置  
     QString Nick();
     QDate Birthday();
     QString Email();
@@ -38,31 +38,31 @@ public:
 
     QSet<QString> Groups();
 
-    QList<QStandardItem *> GetItem(); //得到条目对象
-    int UpdateItems(QXmppRosterIq::Item item);//更新与此好友相关条目对象内容
+    QList<QStandardItem *> GetItem(); //得到条目对象  
+    int UpdateItems(QXmppRosterIq::Item item);//更新与此好友相关条目对象内容  
 
     QXmppPresence::AvailableStatusType GetStatus();
     QXmppRosterIq::Item::SubscriptionType GetSubScriptionType();
 
-    //状态改变
+    //状态改变  
     int ChangedPresence(QXmppPresence::AvailableStatusType status);
-    //显示消息对话框
+    //显示消息对话框  
     int ShowMessageDialog();
-    //增加消息
+    //增加消息  
     int AppendMessage(const QString &szMessage);
     int CleanNewMessageNumber();
 
 private:
     int Init(MainWindow *parent = 0);
     QString GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType type) const;
-    //更新条目的显示内容
+    //更新条目的显示内容  
     int UpdateItemDisplay();
-    //删除与本好友相关的所有条目
+    //删除与本好友相关的所有条目  
     int DeleteItems();
 
 signals:
     void ReciveMessage(CRoster* pRoster);
-    //好友状态改变时触发
+    //好友状态改变时触发  
     void sigChangedPresence(QXmppPresence::AvailableStatusType status);
 
 public slots:
@@ -71,14 +71,14 @@ private:
     //QString m_szJid;
     QXmppRosterIq::Item m_RosterItem;
     QXmppVCardIq m_RosterVCard;
-    QXmppPresence::AvailableStatusType m_Status;//好友出席状态
+    QXmppPresence::AvailableStatusType m_Status;//好友出席状态  
 
     MainWindow* m_pMainWindow;
-    std::list<QStandardItem*> m_lstUserListItem; //这个要交给控件释放
+    std::list<QStandardItem*> m_lstUserListItem; //这个要交给控件释放 
 
-    //TODO:改成动态产生
+    //TODO:改成动态产生  
     CFrmMessage m_Message;
-    int m_nNewMessageNumber;//新消息数
+    int m_nNewMessageNumber;//新消息数  
     std::list<QStandardItem*> m_lstMessageCountItem;
 
 };

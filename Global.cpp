@@ -82,30 +82,32 @@ int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszMode
     return 0;
 }
 
-int CGlobal::SetJid(QString jid)
+QString CGlobal::GetJid()
 {
-    m_szLocalJid = jid;
-    return 0;
+    if(m_pRoster)
+        return m_pRoster->Jid();
+
+    return QString();
 }
 
 QString CGlobal::GetBareJid()
 {
-    return QXmppUtils::jidToBareJid(m_szLocalJid);
+    return QXmppUtils::jidToBareJid(GetJid());
 }
 
 QString CGlobal::GetName()
 {
-    return QXmppUtils::jidToUser(m_szLocalJid);
+    return QXmppUtils::jidToUser(GetJid());
 }
 
 QString CGlobal::GetDomain()
 {
-    return QXmppUtils::jidToDomain(m_szLocalJid);
+    return QXmppUtils::jidToDomain(GetJid());
 }
 
 QString CGlobal::GetResource()
 {
-    return QXmppUtils::jidToResource(m_szLocalJid);
+    return QXmppUtils::jidToResource(GetJid());
 }
 
 CRoster* CGlobal::GetRoster()

@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     check = connect(ui->actionAbout_A, SIGNAL(triggered()),
             SLOT(About()));
     Q_ASSERT(check);
+    InitMenu();
 
     //初始化子窗体
     m_pLogin = new CFrmLogin(this);
@@ -59,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
         Q_ASSERT(check);
 
         check = connect(&m_pClient->vCardManager(), SIGNAL(clientVCardReceived()),
-                        SLOT(slotClientVCardReceived));
+                        SLOT(slotClientVCardReceived()));
 
         CFrmVideo::instance(m_pClient);
     }
@@ -153,10 +154,6 @@ void MainWindow::clientConnected()
     if(NULL == m_pUserList)
     {
         m_pUserList = new CFrmUserList(this);
-        if(m_pUserList)
-        {    //注册菜单  
-            m_pUserList->AddToMainMenu(ui->menuOperator_O, ui->actionExit_O);
-        }
     }
     
     m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetName()));
@@ -167,11 +164,12 @@ void MainWindow::clientConnected()
         this->setCentralWidget(m_pUserList);
     }
 
-    m_bLogin = true;
     InitLoginedMenu();
 
     //得到本地用户的详细信息  
     m_pClient->vCardManager().requestClientVCard();
+
+    m_bLogin = true;
 }
 
 void MainWindow::clientDisconnected()
@@ -208,6 +206,7 @@ void MainWindow::clientIqReceived(const QXmppIq &iq)
 
 void MainWindow::slotClientVCardReceived()
 {
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotClientVCardReceived");
     CGlobal::Instance()->GetRoster()->SetVCard(m_pClient->vCardManager().clientVCard());
 }
 
@@ -250,16 +249,31 @@ void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindo
     }
 }
 
+int MainWindow::InitMenu()
+{
+    ui->menuOperator_O->addAction(tr("Change Style Sheet(&S)"), 
+                this, SLOT(on_actionChange_Style_Sheet_S_triggered()));
+    ui->menuOperator_O->addAction(QIcon(":/icon/Exit"), 
+                                  tr("Exit(&E)"),
+                                  this, SLOT(close()));
+    return 0;
+}
+
 int MainWindow::InitLoginedMenu()
 {
+    ui->menuOperator_O->clear();
     QMenu* pMenu = ui->menuOperator_O->addMenu(tr("Status(&T)"));
     AddStatusMenu(pMenu);
-    ui->menuOperator_O->insertMenu(ui->actionExit_O, pMenu);
-
-    QAction* pAction = ui->menuOperator_O->addAction(
+    ui->menuOperator_O->addAction(
                 tr("Edit Locale User Infomation(&E)"),
                 this, SLOT(slotEditInformation()));
 
+    if(m_pUserList)
+    {    //注册菜单  
+        m_pUserList->AddToMainMenu(ui->menuOperator_O);
+    }
+
+    InitMenu();
     return 0;
 }
 
@@ -369,7 +383,7 @@ void MainWindow::on_actionNotifiation_status_invisible_triggered()
 
 void MainWindow::slotEditInformation()
 {
-    CFrmUservCard* pvCard = new CFrmUservCard(CGlobal::Instance()->GetRoster(), true);
+    CFrmUservCard* pvCard = new CFrmUservCard(CGlobal::Instance()->GetRoster(), true, m_pClient);
     pvCard->show();
 }
 
@@ -383,7 +397,7 @@ void MainWindow::onReceiveFile(QXmppTransferJob *job)
 
 void MainWindow::on_actionOptions_O_triggered()
 {
-    CFrmOptions* pFrm = CFrmOptions::Instance();//窗口关闭时，会自己释放内存
+    CFrmOptions* pFrm = CFrmOptions::Instance();//窗口关闭时，会自己释放内存  
     if(pFrm)
     {
         pFrm->show();
@@ -394,7 +408,7 @@ void MainWindow::on_actionOptions_O_triggered()
 void MainWindow::About()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
-    CFrmAbout* pAbout = new CFrmAbout;//CFrmAbout 会在关闭时自动释放内存
+    CFrmAbout* pAbout = new CFrmAbout;//CFrmAbout 会在关闭时自动释放内存  
     if(pAbout)
     {
         pAbout->show();
@@ -404,7 +418,7 @@ void MainWindow::About()
 
 void MainWindow::on_actionChange_Style_Sheet_S_triggered()
 {
-    //*从资源中加载应用程序样式 
+    //*从资源中加载应用程序样式  
     QString szFile = QFileDialog::getOpenFileName(
                 this, tr("Open File"), 
                 QString(), "*.qss", 0,
@@ -412,7 +426,7 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
     if(szFile.isEmpty())
         return;
 
-    QFile file(szFile);//从资源文件中加载 
+    QFile file(szFile);//从资源文件中加载  
     if(file.open(QFile::ReadOnly))
     {
         QString stylesheet= file.readAll();
@@ -453,7 +467,7 @@ void MainWindow::on_actionChinese_C_triggered()
         delete m_pQtTranslator;
     m_pQtTranslator = new QTranslator;
     
-    //本地化QT资源
+    //本地化QT资源  
     QString szLocale = "zh_CN";
 #ifdef DEBUG
     m_pQtTranslator->load("qt_" + szLocale,
@@ -468,8 +482,8 @@ void MainWindow::on_actionChinese_C_triggered()
 
     //本地化程序资源 
     //把翻译文件放在了应用程序目录下,这样可以结约内存,适用于很多语言版本 
-    //myappTranslator.load("app_" + locale, a.applicationDirPath());
-    //把翻译文件放在了程序资源中 
+    //myappTranslator.load("app_" + locale, a.applicationDirPath()); 
+    //把翻译文件放在了程序资源中  
     m_pAppTranslator->load(":/translations/" + szLocale);
     qApp->installTranslator(m_pAppTranslator);
 }

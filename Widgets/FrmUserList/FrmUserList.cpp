@@ -157,9 +157,9 @@ int CFrmUserList::EnableAction(QAction *pAction, bool bEnable)
     return 0;
 }
 
-int CFrmUserList::AddToMainMenu(QMenu *pMenu, QAction* pAction)
+int CFrmUserList::AddToMainMenu(QMenu *pMenu)
 {
-    m_pMenuAction = pMenu->insertMenu(pAction, m_pMenu);
+    m_pMenuAction = pMenu->addMenu(m_pMenu);
     return 0;
 }
 

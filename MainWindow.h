@@ -38,7 +38,7 @@ public:
     //在通知栏上显示消息  
     int ShowTrayIconMessage(const QString &szTitle, const QString &szMessage);
     
-    //文件发送 
+    //文件发送  
     void sendFile(const QString& jid,const QString& fileName,SendFileType type = MainWindow::DefaultType);
         
 protected slots:
@@ -79,6 +79,7 @@ private slots:
     void on_actionOptions_O_triggered();
 
 private:
+    int InitMenu();       //初始化菜单  
     int InitLoginedMenu();//初始化登录后的相关菜单  
     int AddStatusMenu(QMenu* pMenu);
 

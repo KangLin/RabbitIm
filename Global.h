@@ -35,8 +35,8 @@ public:
     QString GetApplicationConfigureFile();
 
     //得到本地用户住息  
-    int SetJid(QString jid);
     QString GetName();
+    QString GetJid();
     QString GetBareJid();
     QString GetDomain();
     QString GetResource();
@@ -47,7 +47,6 @@ public:
     int SetRosterColor(const QColor &color);
 
 private:
-    QString m_szLocalJid;
     QColor m_UserColor;   //本地用户颜色  
     QColor m_RosterColor; //好友颜色  
     CRoster *m_pRoster;     //存储本地用户的详细信息  

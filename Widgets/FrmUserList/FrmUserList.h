@@ -30,7 +30,7 @@ public:
 
 public:
     //把好友列表菜单加到主菜单中,调用者不需要用此菜单时，负责调用DeleteFromMainMenu释放  
-    int AddToMainMenu(QMenu* pMenu, QAction *pAction);
+    int AddToMainMenu(QMenu* pMenu);
     //把好友列表菜单从主菜单中移除  
     int DeleteFromMainMenu(QMenu *pMenu);
     //显示最后一个消息窗口  
