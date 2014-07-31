@@ -485,3 +485,12 @@ int CFrmUserList::ShowMessageDialog()
     }
     return 0;
 }
+
+CRoster* CFrmUserList::GetRoster(QString szJid)
+{
+    QMap<QString, CRoster*>::iterator it;
+    it = m_Rosters.find(QXmppUtils::jidToBareJid(szJid));
+    if(m_Rosters.end() != it)
+        return *it;
+    return NULL;
+}

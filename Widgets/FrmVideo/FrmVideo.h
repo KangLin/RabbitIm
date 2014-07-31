@@ -22,7 +22,7 @@
 #include "CCamera.h"
 
 class CRoster;
-
+class MainWindow;
 namespace Ui {
 class CFrmVideo;
 }
@@ -34,10 +34,10 @@ class CFrmVideo : public QFrame
 private:
     explicit CFrmVideo(QWidget *parent = 0);
     virtual ~CFrmVideo();
-    int SetClient(CXmppClient *pClient);
+    int SetClient(MainWindow *pMainWindow);
 
 public:
-    static CFrmVideo *instance(CXmppClient *pClient);
+    static CFrmVideo *instance(MainWindow *pMainWindow);
     QThread* GetVideoThread();
     
 #ifdef ANDROID
@@ -107,13 +107,15 @@ private:
     void PlayCallSound(QXmppCall *pCall);
     void StopCallSound();
 
+    QString GetShowName(QString jid);//根据jid，得到显示名  
+
 private:
     Ui::CFrmVideo *ui;
-    
-    QString m_szRemoteJID;
 
     QXmppCall* m_pCall;
     CXmppClient* m_pClient;
+    MainWindow* m_pMainWindow;
+    QString m_szRemoteJID;
 
     QThread m_VideoThread;
     QThread m_AudioThread;

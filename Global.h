@@ -17,17 +17,17 @@ private:
 public:
     static CGlobal* Instance();
 
-    //日志
-    //参数： 
-    //    pszFile:打印日志处文件名 
-    //    nLine:打印日志处行号 
-    //    nLevel:打印日志错误级别 
-    //....pszModelName:打印日志的模块范围 
+    //日志  
+    //参数：  
+    //    pszFile:打印日志处文件名  
+    //    nLine:打印日志处行号  
+    //    nLevel:打印日志错误级别  
+    //....pszModelName:打印日志的模块范围  
     int Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...);
 
-    //用户数据存放目录 
+    //用户数据存放目录  
     QString GetDirUserData(const QString bareJid = QString());
-    //应用程序目录 
+    //应用程序目录  
     QString GetDirApplication();
     //应用程序配置目录  
     QString GetDirApplicationConfigure();
@@ -35,6 +35,7 @@ public:
     QString GetApplicationConfigureFile();
 
     //得到本地用户住息  
+    QString GetShowName();//根据配置显示用户名称  
     QString GetName();
     QString GetJid();
     QString GetBareJid();
@@ -71,25 +72,25 @@ public:
     QString GetTurnServerPassword();
     int SetTurnServerPassword(QString password);
 private:
-    QString m_szXmppServer; //Xmpp服务器IP地址 
+    QString m_szXmppServer; //Xmpp服务器IP地址   
     int m_szXmppServerPort;
-    QString m_szXmppDomain; //Xmpp服务器地址 
-    QString m_szTurnServer; //Turn服务器地址 
+    QString m_szXmppDomain; //Xmpp服务器地址  
+    QString m_szTurnServer; //Turn服务器地址  
     int m_nTurnServerPort;
     QString m_szTurnUser;
     QString m_szTurnPassword;
-    QString m_szStunServer; //Stun服务器地址 
+    QString m_szStunServer; //Stun服务器地址  
     int m_nStunServerPort;
     
 public:
-    //好友状态文本表示 
+    //好友状态文本表示  
     QString GetStatusText(QXmppPresence::AvailableStatusType status);
-    //好友状态图标资源字符串
+    //好友状态图标资源字符串  
     QString GetStatusIcon(QXmppPresence::AvailableStatusType status);
-    //好友状态颜色表示 
+    //好友状态颜色表示  
     QColor GetStatusColor(QXmppPresence::AvailableStatusType status);
     
-    //配置选项 
+    //配置选项  
 public:
     bool IsNotifiationBarShowMessage();
     int SetNotifiationBarShowMessage(bool bShowMessage);
@@ -98,6 +99,19 @@ public:
 private:
     bool m_bNotifiationBarShowMessage;
     bool m_bNotifiationBarFlashs;
+
+    //配置好友显示名称  
+public:
+    enum E_ROSTER_SHOW_TYPE
+    {
+        E_ROSTER_SHOW_JID,
+        E_ROSTER_SHOW_NAME,
+        E_ROSTER_SHOW_NICK
+    };
+    E_ROSTER_SHOW_TYPE GetRosterShowType();
+    int SetRosterShowType(E_ROSTER_SHOW_TYPE type);
+private:
+    E_ROSTER_SHOW_TYPE m_RosterShowType;
 
 signals:
 

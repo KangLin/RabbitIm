@@ -12,6 +12,7 @@
 class CFrmLogin;
 class CFrmUserList;
 class CDlgSendManage;
+class CRoster;
 
 namespace Ui {
 class MainWindow;
@@ -34,6 +35,9 @@ public:
     ~MainWindow();
 
     CXmppClient* m_pClient;
+
+    //得到好友 CRoster 对象  
+    CRoster* GetRoster(QString szJid);
 
     //在通知栏上显示消息  
     int ShowTrayIconMessage(const QString &szTitle, const QString &szMessage);

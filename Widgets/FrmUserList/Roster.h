@@ -22,13 +22,14 @@ public:
     explicit CRoster(QXmppRosterIq::Item item, MainWindow* parent = NULL);
     ~CRoster();
 
-    QString Name();
+    QString ShowName();//用于显示好友的名字,这个函数可以根据配置显示友好名称  
+    QString Name();//如果用于显示好友名字，请用ShowName  
+    QString Jid();
+    QString Nick();
     QString Domain();
     QString Resouce();
     QString BareJid();
-    QString Jid();
     //int SetJid(QString jid);//由SetVCard或UpdaeItems设置  
-    QString Nick();
     QDate Birthday();
     QString Email();
     QString Description();

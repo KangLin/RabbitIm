@@ -35,6 +35,8 @@ public:
     int DeleteFromMainMenu(QMenu *pMenu);
     //显示最后一个消息窗口  
     int ShowMessageDialog();
+    //根据好友jid，得到相应的 CRoster 对象  
+    CRoster* GetRoster(QString szJid);
 
 private slots:
     //显示上下文件菜单(右键菜单)  
@@ -107,9 +109,9 @@ private:
     CTreeUserList m_UserList;
     QStandardItemModel *m_pModel;           //好友列表树型控件   
     MainWindow *m_pMainWindow;
-    QMap<QString, CRoster*> m_Rosters;      //好友列表  
-    QMap<QString, QStandardItem*> m_Groups; //组列表  
-    QString m_LastUser;                   //接收的最后一个消息用户  
+    QMap<QString, CRoster*> m_Rosters;      //好友列表:<bareJic, CRoster>  
+    QMap<QString, QStandardItem*> m_Groups; //组列表:<组名,QStandardItem>  
+    QString m_LastUser;                     //接收的最后一个消息用户  
     CFrmAddRoster m_frmAddRoster;           //增加好友对话框  
 
 };

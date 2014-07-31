@@ -57,7 +57,7 @@ int CFrmMessage::SetRoster(CRoster* pRoster, MainWindow *pMainWindow)
 
 void CFrmMessage::ChangedPresence(QXmppPresence::AvailableStatusType status)
 {
-    ui->lbRosterName->setText(m_pRoster->Name()
+    ui->lbRosterName->setText(m_pRoster->ShowName()
                               + "["
                               + CGlobal::Instance()->GetStatusText(status)
                               + "]");
@@ -116,7 +116,7 @@ void CFrmMessage::showEvent(QShowEvent *)
     //TODO:重读数据  
     if(m_pRoster)
     {
-        ui->lbRosterName->setText(m_pRoster->Name()
+        ui->lbRosterName->setText(m_pRoster->ShowName()
                               + "["
                               + CGlobal::Instance()->GetStatusText(m_pRoster->GetStatus())
                               + "]");
@@ -150,7 +150,7 @@ int CFrmMessage::AppendMessage(const QString &szMessage)
     if(!this->isHidden())
         this->activateWindow();
 
-    AppendMessageToList(szMessage, m_pRoster->Name(), true);
+    AppendMessageToList(szMessage, m_pRoster->ShowName(), true);
     return 0;
 }
 
@@ -174,7 +174,7 @@ void CFrmMessage::on_tbMore_clicked()
 
 void CFrmMessage::on_pbVideo_clicked()
 {
-    CFrmVideo *pVideo = CFrmVideo::instance(m_pMainWindow->m_pClient);
+    CFrmVideo *pVideo = CFrmVideo::instance(m_pMainWindow);
     if(NULL == pVideo)
         return;
     
@@ -182,7 +182,7 @@ void CFrmMessage::on_pbVideo_clicked()
     pVideo->move((pDesk->width() - pVideo->width()) / 2, (pDesk->height() - pVideo->height()) / 2);
     pVideo->show();
     pVideo->activateWindow();
-    //TODO:改成m_pRoster->Jid()  
+   //TODO:改成m_pRoster->Jid()
     pVideo->Call(m_pRoster->BareJid() + "/QXmpp");
 }
 

@@ -21,6 +21,7 @@
 #include "../FrmUserList/Roster.h"
 #include "../../Global.h"
 #include "qxmpp/QXmppRtpChannel.h"
+#include "../../MainWindow.h"
 
 extern CGlobal g_Global;
 
@@ -34,13 +35,14 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     LOG_MODEL_DEBUG("Video", "CFrmVideo::CFrmVideo");
     ui->setupUi(this);
 
-    /*设置提示文本颜色 
+    /*设置提示文本颜色  
     QPalette pe;
     pe.setColor(QPalette::WindowText, Qt::white);
     ui->lbPrompt->setPalette(pe);//*/
 
     m_pCall = NULL;
     m_pClient = NULL;
+    m_pMainWindow = NULL;
     m_pAudioInput = NULL;
     m_pAudioOutput = NULL;
     m_pCallSound = NULL;
@@ -48,8 +50,8 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     InitCamera();
 
     ShowWdgInfo(false);
-    //当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。 
-    //当tracking为on时，没鼠标键按下，也会有mouseEvent事件 
+    //当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。  
+    //当tracking为on时，没鼠标键按下，也会有mouseEvent事件  
     this->setMouseTracking(true);
 
     m_VideoThread.setObjectName("VideoThread");
@@ -68,7 +70,7 @@ CFrmVideo::~CFrmVideo()
     m_AudioThread.quit();
     m_AudioThread.wait();
 
-    //其它资源释放在closeEvent中进行 
+    //其它资源释放在closeEvent中进行  
 
     if(m_pClient)
     {
@@ -86,21 +88,24 @@ QThread* CFrmVideo::GetVideoThread()
     return &m_VideoThread;
 }
 
-CFrmVideo* CFrmVideo::instance(CXmppClient *pClient)
+CFrmVideo* CFrmVideo::instance(MainWindow *pMainWindow)
 {
     static CFrmVideo *pVideo = NULL;
     if(NULL == pVideo)
     {
         pVideo = new CFrmVideo();
-        if(pClient)
-            pVideo->SetClient(pClient);
+        if(pMainWindow)
+        {
+            pVideo->SetClient(pMainWindow);
+        }
     }
     return pVideo;
 }
 
-int CFrmVideo::SetClient(CXmppClient *pClient)
+int CFrmVideo::SetClient(MainWindow* pMainWindow)
 {
-    m_pClient = pClient;
+    m_pMainWindow = pMainWindow;
+    m_pClient = m_pMainWindow->m_pClient;
 
     bool check = connect(&m_pClient->m_CallManager,
                          SIGNAL(callReceived(QXmppCall*)),
@@ -116,17 +121,17 @@ int CFrmVideo::SetClient(CXmppClient *pClient)
                     SLOT(clientIqReceived(QXmppIq)));
     Q_ASSERT(check);
 
-    //连接本地视频头捕获视频帧信号到本地播放视频窗口 
+    //连接本地视频头捕获视频帧信号到本地播放视频窗口  
     check = connect(&m_Camera, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
                     &m_LocalePlayer, SLOT(slotPresent(const QVideoFrame&)));
     Q_ASSERT(check);
 
-    //连接到网络发送 
+    //连接到网络发送  
     check = connect(&m_Camera, SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
                     SLOT(slotCaptureFrame(const QXmppVideoFrame&)));
     Q_ASSERT(check);
 
-    //连接从网络接收视频播放定时器 
+    //连接从网络接收视频播放定时器  
     check = connect(&m_VideoPlayTimer, SIGNAL(timeout()),
                     SLOT(slotUpdateReciverVideo()));
     Q_ASSERT(check);
@@ -147,11 +152,11 @@ void CFrmVideo::closeEvent(QCloseEvent *e)
     {
         m_pCall->hangup();
     }
-    //立即停止播放声音 
+    //立即停止播放声音  
     StopCallSound();
 }
 
-//调整视频播放窗口的位置 
+//调整视频播放窗口的位置  
 void CFrmVideo::AdjustPlayer(const QRect &rect)
 {
     m_RemotePlayer.setGeometry(rect);
@@ -164,7 +169,7 @@ void CFrmVideo::AdjustPlayer(const QRect &rect)
 
 void CFrmVideo::resizeEvent(QResizeEvent *)
 {
-    //得到视频的高宽 
+    //得到视频的高宽  
     double nWidth = 320;
     double nHeight = 240;
     if(m_pCall)
@@ -181,19 +186,19 @@ void CFrmVideo::resizeEvent(QResizeEvent *)
     QRect rect = this->rect();
     QRect rectAdjust = this->rect();
 
-    //计算宽度 
+    //计算宽度  
     double frameAspectRatio = nWidth / nHeight;
     double frmAspectRatio = (double)rect.width() / (double)rect.height();
     if(frameAspectRatio < frmAspectRatio)
     {
-        //以窗体高度为基准计算宽度 
+        //以窗体高度为基准计算宽度  
         int nW = rect.height() * frameAspectRatio;
         rectAdjust.setLeft(rect.left() + ((rect.width() - nW) >> 1));
         rectAdjust.setRight(rect.right() - ((rect.width() - nW) >> 1));
     }
     else
     {
-        //以宽度为基准计算高度 
+        //以宽度为基准计算高度  
         double ratio = nHeight / nWidth;
         int nH = rect.width() * ratio;
         rectAdjust.setTop(rect.top() + ((rect.height() - nH) >> 1));
@@ -223,8 +228,8 @@ void CFrmVideo::paintEvent(QPaintEvent *event)
     painter.drawRect(rect());//*/
 }
 
-//当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。 
-//当tracking为on时，没鼠标键按下，也会有mouseEvent事件 
+//当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。  
+//当tracking为on时，没鼠标键按下，也会有mouseEvent事件  
 void CFrmVideo::mouseMoveEvent(QMouseEvent *event)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::mouseMoveEvent");
@@ -266,12 +271,12 @@ int CFrmVideo::ShowToolBar(bool bShow)
 
 int CFrmVideo::ConnectionCallSlot(QXmppCall *pCall)
 {
-    //只有主叫方才有的事件 
+    //只有主叫方才有的事件  
     bool check = connect(pCall, SIGNAL(ringing()),
                     SLOT(ringing()));
     Q_ASSERT(check);
     
-    //以下是双方都有的事件 
+    //以下是双方都有的事件  
     check = connect(pCall, SIGNAL(connected()),
                          SLOT(connected()));
     Q_ASSERT(check);
@@ -306,7 +311,7 @@ int CFrmVideo::Call(QString jid)
     {
         QMessageBox msg(QMessageBox::Question,
                         tr("Call"),
-                        tr("Being talk with %1 , Do you stop it?").arg(QXmppUtils::jidToUser(m_pCall->jid())),
+                        tr("Being talk with %1 , Do you stop it?").arg(GetShowName(m_pCall->jid())),
                         QMessageBox::Yes | QMessageBox::No);
         if(QMessageBox::Yes == msg.exec())
         {
@@ -318,7 +323,7 @@ int CFrmVideo::Call(QString jid)
 
     m_szRemoteJID = jid;//保存被叫用户jid  
 
-    QString szText = tr("%1 is ringing").arg(QXmppUtils::jidToUser(jid));
+    QString szText = tr("%1 is ringing").arg(GetShowName(jid));
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
 
@@ -395,7 +400,7 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
     //播放铃音,非阻塞式播放  
     PlayCallSound(pCall);
 
-    QString szMsg = tr("%1 is calling ").arg(QXmppUtils::jidToUser(pCall->jid()));
+    QString szMsg = tr("%1 is calling ").arg(GetShowName(pCall->jid()));
     ui->lbPrompt->setText(szMsg);
     this->setWindowTitle(szMsg);
     //TODO:增加判断自动接收呼叫用户  
@@ -420,7 +425,7 @@ void CFrmVideo::ringing()
     LOG_MODEL_DEBUG("Video", "CFrmVideo::ringing");
     if(m_pCall)
     {
-        QString szText = tr("%1 is ringing").arg(QXmppUtils::jidToUser(m_pCall->jid()));
+        QString szText = tr("%1 is ringing").arg(GetShowName(m_pCall->jid()));
         this->setWindowTitle(szText);
         ui->lbPrompt->setText(szText);
     }
@@ -461,7 +466,7 @@ void CFrmVideo::connected()
     StopCallSound();
     ShowWdgInfo(false);
     
-    QString szText = tr("I am talking with %1 call").arg(QXmppUtils::jidToUser(m_pCall->jid()));
+    QString szText = tr("I am talking with %1 call").arg(GetShowName(m_pCall->jid()));
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
 
@@ -532,7 +537,7 @@ void CFrmVideo::finished()
 
     if(m_pCall)
     {
-        QString szMsg = tr("Do you call %1 ?").arg(QXmppUtils::jidToUser(m_pCall->jid()));
+        QString szMsg = tr("Do you call %1 ?").arg(GetShowName(m_pCall->jid()));
         this->setWindowTitle(szMsg);
         ui->lbPrompt->setText(szMsg);
 
@@ -742,9 +747,9 @@ int CFrmVideo::StartVideo()
     ui->lbPrompt->hide();
     resizeEvent(NULL); //通知窗体按视频大小调整显示区域  
     m_RemotePlayer.show();
-    m_RemotePlayer.setWindowTitle(QXmppUtils::jidToUser(m_pCall->jid()));
+    m_RemotePlayer.setWindowTitle(GetShowName(m_pCall->jid()));
 
-    m_LocalePlayer.setWindowTitle(CGlobal::Instance()->GetName());
+    m_LocalePlayer.setWindowTitle(CGlobal::Instance()->GetShowName());
     m_LocalePlayer.raise();//提升到父窗口中栈的顶部  
     m_LocalePlayer.show();
     m_LocalePlayer.activateWindow();
@@ -843,7 +848,7 @@ void CFrmVideo::on_pbOK_clicked()
         return;
     }
 
-    QString szText = tr("Be connecting %1").arg(QXmppUtils::jidToUser(m_pCall->jid()));
+    QString szText = tr("Be connecting %1").arg(GetShowName(m_pCall->jid()));
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
     ui->ToolBar->hide();
@@ -875,4 +880,22 @@ void CFrmVideo::on_cmbCamera_currentIndexChanged(int index)
     LOG_MODEL_DEBUG("Video", "CFrmVideo::on_cmbCamera_currentIndexChanged");
 
     m_Camera.SetDeviceIndex(index);
+}
+
+QString CFrmVideo::GetShowName(QString jid)
+{
+    QString szName;
+    if(m_pMainWindow)
+    {
+        CRoster* pRoster = m_pMainWindow->GetRoster(jid);
+        if(pRoster)
+            szName = pRoster->ShowName();
+        else if(QXmppUtils::jidToBareJid(jid) == CGlobal::Instance()->GetBareJid())//是否是本地用户  
+            szName = CGlobal::Instance()->GetShowName();
+    }
+    if(szName.isEmpty())
+    {
+        return QXmppUtils::jidToBareJid(jid);
+    }
+    return szName;
 }

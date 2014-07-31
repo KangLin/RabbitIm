@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
         check = connect(&m_pClient->vCardManager(), SIGNAL(clientVCardReceived()),
                         SLOT(slotClientVCardReceived()));
 
-        CFrmVideo::instance(m_pClient);
+        CFrmVideo::instance(this);
     }
 
     if(QSystemTrayIcon::isSystemTrayAvailable())
@@ -110,6 +110,13 @@ MainWindow::~MainWindow()
         delete m_pAppTranslator;
     if(m_pQtTranslator)
         delete m_pQtTranslator;
+}
+
+CRoster* MainWindow::GetRoster(QString szJid)
+{
+    if(m_pUserList)
+        return m_pUserList->GetRoster(szJid);
+    return NULL;
 }
 
 void MainWindow::resizeEvent(QResizeEvent *)

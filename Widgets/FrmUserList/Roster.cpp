@@ -30,6 +30,25 @@ int CRoster::Init(MainWindow *parent)
     return 0;
 }
 
+QString CRoster::ShowName()
+{
+    QString szText;
+    switch(CGlobal::Instance()->GetRosterShowType())
+    {
+    case CGlobal::E_ROSTER_SHOW_JID:
+        szText = this->BareJid();
+        break;
+    case CGlobal::E_ROSTER_SHOW_NAME:
+        szText = this->Name();
+        break;
+    case CGlobal::E_ROSTER_SHOW_NICK:
+    default:
+        szText = Nick();
+        break;
+    }
+    return szText;
+}
+
 QString CRoster::Name()
 {
     QString n = m_RosterVCard.fullName();
@@ -149,7 +168,7 @@ QString CRoster::GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType ty
 QList<QStandardItem*> CRoster::GetItem()
 {
     //呢称条目
-    QStandardItem* pItem = new QStandardItem(Name() + GetSubscriptionTypeStr(GetSubScriptionType()));
+    QStandardItem* pItem = new QStandardItem(ShowName() + GetSubscriptionTypeStr(GetSubScriptionType()));
     QVariant v;
     v.setValue(this);
     pItem->setData(v);
@@ -204,10 +223,13 @@ int CRoster::UpdateItemDisplay()
         QStandardItem* p = *it;
         //改变item背景颜色  
         p->setData(CGlobal::Instance()->GetStatusColor(m_Status), Qt::BackgroundRole);
-        QString szText = this->Name()
+        
+        QString szText;
+        szText = ShowName()
                 + "[" + CGlobal::Instance()->GetStatusText(m_Status) + "]"
                 +  GetSubscriptionTypeStr(GetSubScriptionType());
         p->setData(szText, Qt::DisplayRole); //改变item文本  
+
         //改变item图标  
         p->setData(QIcon(CGlobal::Instance()->GetStatusIcon(m_Status)), Qt::DecorationRole);
     }
@@ -254,7 +276,7 @@ int CRoster::AppendMessage(const QString &szMessage)
         }
 
         //通知栏提示  
-        m_pMainWindow->ShowTrayIconMessage(this->Name(), szMessage);
+        m_pMainWindow->ShowTrayIconMessage(this->ShowName(), szMessage);
     }
     else
     {

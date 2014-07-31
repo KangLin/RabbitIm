@@ -35,6 +35,8 @@ CGlobal::CGlobal(QObject *parent) :
     m_bNotifiationBarShowMessage = conf.value("Options/NotifiationBar/ShowMessage", true).toBool();
     m_bNotifiationBarFlashs =  conf.value("Options/NotifiationBar/Flashs", true).toBool();;
 
+    m_RosterShowType = (E_ROSTER_SHOW_TYPE)conf.value("Options/Roster/ShowType", E_ROSTER_SHOW_NICK).toInt();
+
     //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用 
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
 }
@@ -95,9 +97,33 @@ QString CGlobal::GetBareJid()
     return QXmppUtils::jidToBareJid(GetJid());
 }
 
+QString CGlobal::GetShowName()
+{
+    QString szText;
+    switch(CGlobal::Instance()->GetRosterShowType())
+    {
+    case CGlobal::E_ROSTER_SHOW_JID:
+        szText = GetBareJid();
+        break;
+    case CGlobal::E_ROSTER_SHOW_NAME:
+        szText = GetName();
+        break;
+    case CGlobal::E_ROSTER_SHOW_NICK:
+    default:
+        szText = GetRoster()->Nick();
+        break;
+    }
+    return szText;
+}
+
 QString CGlobal::GetName()
 {
-    return QXmppUtils::jidToUser(GetJid());
+    QString szName;
+    if(GetRoster())
+        szName = GetRoster()->Name();
+    if(szName.isEmpty())
+        return QXmppUtils::jidToUser(GetJid());
+    return szName;
 }
 
 QString CGlobal::GetDomain()
@@ -324,7 +350,7 @@ QString CGlobal::GetDirApplicationConfigure()
     return GetDirApplication() + "/conf";
 }
 
-//应用程序的配置文件 
+//应用程序的配置文件  
 QString CGlobal::GetApplicationConfigureFile()
 {
     return GetDirApplicationConfigure() + "/app.conf";
@@ -370,4 +396,17 @@ int CGlobal::SetNotifiationFlashs(bool bFlashs)
 bool CGlobal::IsNotifiationFlashs()
 {
     return m_bNotifiationBarFlashs;
+}
+
+int CGlobal::SetRosterShowType(E_ROSTER_SHOW_TYPE type)
+{
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Options/Roster/ShowType", type);
+    m_RosterShowType = type;
+    return 0;
+}
+
+CGlobal::E_ROSTER_SHOW_TYPE CGlobal::GetRosterShowType()
+{
+    return m_RosterShowType;
 }
