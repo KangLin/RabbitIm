@@ -57,6 +57,10 @@ int CFrmMessage::SetRoster(CRoster* pRoster, MainWindow *pMainWindow)
 
 void CFrmMessage::ChangedPresence(QXmppPresence::AvailableStatusType status)
 {
+    QPixmap pixmap;
+    pixmap.convertFromImage(m_pRoster->Photo());
+    ui->lbAvatar->setPixmap(pixmap);
+
     ui->lbRosterName->setText(m_pRoster->ShowName()
                               + "["
                               + CGlobal::Instance()->GetStatusText(status)
@@ -130,14 +134,17 @@ void CFrmMessage::on_pbBack_clicked()
     close();
 }
 
-int CFrmMessage::AppendMessageToList(const QString &szMessage, const QString &name, bool bRemote)
+int CFrmMessage::AppendMessageToList(const QString &szMessage, const QString &bareJid, const QString &name, bool bRemote)
 {
     QString recMsg = szMessage;
-    QString msg("<font color='");
+    QString msg;
+    msg = "<img src='";
+    msg += CGlobal::Instance()->GetFileUserAvatar(bareJid) + "' width='16' height='16'>";
+    msg += "<font color='";
     if(bRemote)
         msg += CGlobal::Instance()->GetRosterColor().name();
-     else
-         msg += CGlobal::Instance()->GetUserColor().name();
+    else
+        msg += CGlobal::Instance()->GetUserColor().name();
     msg += "'>[";
     msg += QTime::currentTime().toString()  +  "]" + name +  ":</font><br /><font color='black'>";
     msg += recMsg.replace(QString("\n"), QString("<br />")) +  "</font><p />";
@@ -150,7 +157,7 @@ int CFrmMessage::AppendMessage(const QString &szMessage)
     if(!this->isHidden())
         this->activateWindow();
 
-    AppendMessageToList(szMessage, m_pRoster->ShowName(), true);
+    AppendMessageToList(szMessage, m_pRoster->BareJid(), m_pRoster->ShowName(), true);
     return 0;
 }
 

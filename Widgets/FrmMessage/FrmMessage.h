@@ -26,7 +26,10 @@ public:
     //注意：只在对话框初始化后调用一次,必须最先调用一次  
     int SetRoster(CRoster* pRoster, MainWindow* pMainWindow);
     int AppendMessage(const QString &szMessage);
-    int AppendMessageToList(const QString &szMessage, const QString &name = CGlobal::Instance()->GetName(), bool bRemote = false);
+    int AppendMessageToList(const QString &szMessage, 
+                            const QString &bareJid = CGlobal::Instance()->GetBareJid(),
+                            const QString &name = CGlobal::Instance()->GetShowName(),
+                            bool bRemote = false);
 
 protected:
     virtual void hideEvent(QHideEvent *);

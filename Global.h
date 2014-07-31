@@ -27,6 +27,10 @@ public:
 
     //用户数据存放目录  
     QString GetDirUserData(const QString bareJid = QString());
+    //得到用户头像目录  
+    QString GetDirUserAvatar();
+    //得到指定用户的头像文件  
+    QString GetFileUserAvatar(QString bareJid);
     //应用程序目录  
     QString GetDirApplication();
     //应用程序配置目录  

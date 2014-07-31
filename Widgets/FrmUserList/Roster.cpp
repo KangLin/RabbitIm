@@ -1,6 +1,7 @@
 #include "Roster.h"
 #include "../../MainWindow.h"
 #include "../../Global.h"
+#include <QImageWriter>
 
 CRoster::CRoster(QObject *parent) :
     QObject(parent)
@@ -123,6 +124,12 @@ QImage CRoster::Photo()
 int CRoster::SetVCard(const QXmppVCardIq &vCard)
 {
     m_RosterVCard = vCard;
+
+    //保存头像到本地  
+    QImageWriter imageWriter(CGlobal::Instance()->GetFileUserAvatar(this->BareJid()), "png");
+    if(!imageWriter.write(Photo()))
+        LOG_MODEL_ERROR("CRoster", "Save avater error, %s", imageWriter.errorString().toStdString().c_str());
+
     slotRefresh();
     return 0;
 }

@@ -327,6 +327,8 @@ int CFrmVideo::Call(QString jid)
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
 
+    ui->lbAvatar->setPixmap(QPixmap(CGlobal::Instance()->GetFileUserAvatar(jid)));
+
     m_pClient->m_CallManager.setStunServer(
                 QHostAddress(CGlobal::Instance()->GetStunServer()),
                 CGlobal::Instance()->GetStunServerPort()
@@ -403,6 +405,7 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
     QString szMsg = tr("%1 is calling ").arg(GetShowName(pCall->jid()));
     ui->lbPrompt->setText(szMsg);
     this->setWindowTitle(szMsg);
+    ui->lbAvatar->setPixmap(QPixmap(CGlobal::Instance()->GetFileUserAvatar(m_pCall->jid())));
     //TODO:增加判断自动接收呼叫用户  
     //非模式对话框,超时自动挂机  
     ShowWdgInfo(true);

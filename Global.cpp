@@ -364,14 +364,40 @@ QString CGlobal::GetDirUserData(const QString bareJid)
     if(!bareJid.isEmpty())
         jid = QXmppUtils::jidToBareJid(bareJid);
     jid = jid.replace("@", ".");
-    QString path = GetDirApplicationConfigure() + "/Users/" + jid;
+    QString path = GetDirApplicationConfigure() + "/Users";
     QDir d;
     if(!d.exists(path))
     {
         if(!d.mkdir(path))
             LOG_ERROR("mkdir path fail:%s", qPrintable(path));
     }
+    path = path + "/" + jid;
+    if(!d.exists(path))
+    {
+        if(!d.mkdir(path))
+            LOG_ERROR("mkdir path fail:%s", qPrintable(path));
+    }
     return path;
+}
+
+QString CGlobal::GetDirUserAvatar()
+{
+    QString dirHeads = GetDirUserData() + "/Heads";
+    QDir d;
+    if(!d.exists(dirHeads))
+        if(!d.mkdir(dirHeads))
+            LOG_MODEL_ERROR("CGlobal", "mkdir GetUserDataAvatar error:%s", qPrintable(dirHeads));
+    return dirHeads;
+}
+
+QString CGlobal::GetFileUserAvatar(QString bareJid)
+{
+    QString jid;
+    if(!bareJid.isEmpty())
+        jid = QXmppUtils::jidToBareJid(bareJid);
+    jid = jid.replace("@", ".");
+
+    return GetDirUserAvatar() + "/" + jid + ".png";
 }
 
 int CGlobal::SetNotifiationBarShowMessage(bool bShowMessage)
