@@ -418,6 +418,11 @@ void MainWindow::on_actionOptions_O_triggered()
     CFrmOptions* pFrm = CFrmOptions::Instance();//窗口关闭时，会自己释放内存  
     if(pFrm)
     {
+        if(m_pUserList)
+        {
+            bool check = connect(pFrm, SIGNAL(sigRefresh()), m_pUserList, SLOT(slotRefresh()));
+            Q_ASSERT(check);
+        }
         pFrm->show();
         pFrm->activateWindow();
     }

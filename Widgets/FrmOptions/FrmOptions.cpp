@@ -60,5 +60,7 @@ void CFrmOptions::on_pbOK_clicked()
         type = CGlobal::E_ROSTER_SHOW_NICK;
     CGlobal::Instance()->SetRosterShowType(type);
 
+    emit sigRefresh();
+
     close();
 }

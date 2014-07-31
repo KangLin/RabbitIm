@@ -37,6 +37,9 @@ public:
     int ShowMessageDialog();
     //根据好友jid，得到相应的 CRoster 对象  
     CRoster* GetRoster(QString szJid);
+public slots:
+    //更新好友  
+    void slotRefresh();
 
 private slots:
     //显示上下文件菜单(右键菜单)  

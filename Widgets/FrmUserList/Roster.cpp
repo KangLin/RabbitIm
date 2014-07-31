@@ -123,6 +123,7 @@ QImage CRoster::Photo()
 int CRoster::SetVCard(const QXmppVCardIq &vCard)
 {
     m_RosterVCard = vCard;
+    slotRefresh();
     return 0;
 }
 
@@ -215,6 +216,11 @@ int CRoster::UpdateItems(QXmppRosterIq::Item item)
     return 0;
 }
 
+void CRoster::slotRefresh()
+{
+    ChangedPresence(m_Status);
+}
+
 int CRoster::UpdateItemDisplay()
 {
     std::list<QStandardItem*>::iterator it;
@@ -236,7 +242,6 @@ int CRoster::UpdateItemDisplay()
     return 0;
 }
 
-//TODO: 修改成图片表示 
 int CRoster::ChangedPresence(QXmppPresence::AvailableStatusType status)
 {
     m_Status = status;

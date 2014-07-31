@@ -53,6 +53,10 @@ public:
     int AppendMessage(const QString &szMessage);
     int CleanNewMessageNumber();
 
+public slots:
+    //刷新好友  
+    void slotRefresh();
+
 private:
     int Init(MainWindow *parent = 0);
     QString GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType type) const;

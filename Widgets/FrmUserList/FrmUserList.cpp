@@ -494,3 +494,12 @@ CRoster* CFrmUserList::GetRoster(QString szJid)
         return *it;
     return NULL;
 }
+
+void CFrmUserList::slotRefresh()
+{
+    QMap<QString, CRoster*>::iterator it;
+    for(it = m_Rosters.begin(); it != m_Rosters.end(); it++)
+    {
+        it.value()->slotRefresh();
+    }
+}

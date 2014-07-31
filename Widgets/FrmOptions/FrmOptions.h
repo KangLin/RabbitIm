@@ -14,6 +14,9 @@ class CFrmOptions : public QFrame
 public:
     static CFrmOptions * Instance();
 
+signals:
+    void sigRefresh();
+
 private slots:
     void on_pbOK_clicked();
     void on_pbCancel_clicked();
