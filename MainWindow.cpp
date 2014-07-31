@@ -337,13 +337,13 @@ int MainWindow::ShowTrayIconMessage(const QString &szTitle, const QString &szMes
 {
     if(CGlobal::Instance()->IsNotifiationBarShowMessage())
     {
-        if(CGlobal::Instance()->IsNotifiationFlashs())
-            slotTrayTimerStart();
         m_TrayIcon.showMessage(szTitle,
                                szMessage, 
                                QSystemTrayIcon::Information,
                                CGlobal::Instance()->GetNotifiationBarShowMessageDelay());
     }
+    if(CGlobal::Instance()->IsNotifiationFlashs())
+        slotTrayTimerStart();
     return 0;
 }
 
