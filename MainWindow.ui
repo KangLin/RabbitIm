@@ -54,6 +54,10 @@
    <addaction name="menuHelp_H"/>
   </widget>
   <action name="actionAbout_A">
+   <property name="icon">
+    <iconset resource="Resource/Resource.qrc">
+     <normaloff>:/icon/Information</normaloff>:/icon/Information</iconset>
+   </property>
    <property name="text">
     <string>About(&amp;A)</string>
    </property>
@@ -69,12 +73,18 @@
    </property>
   </action>
   <action name="actionOptions_O">
+   <property name="icon">
+    <iconset resource="Resource/Resource.qrc">
+     <normaloff>:/icon/Option</normaloff>:/icon/Option</iconset>
+   </property>
    <property name="text">
     <string>Options(&amp;O)</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="Resource/Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

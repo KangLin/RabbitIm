@@ -79,6 +79,11 @@ MainWindow::MainWindow(QWidget *parent) :
                         SLOT(slotTrayIconMenuUpdate()));
         Q_ASSERT(check);
 
+        check = connect(&m_TrayTimer, SIGNAL(timeout()),
+                        SLOT(slotTrayTimeOut()));
+        Q_ASSERT(check);
+
+        m_bTrayShow = true;
         m_TrayIcon.setContextMenu(&m_TrayIconMenu);
         m_TrayIcon.setToolTip(tr("RabbitIm"));
         m_TrayIcon.setIcon(QIcon(":/icon/AppIcon"));
@@ -168,8 +173,6 @@ void MainWindow::clientConnected()
     {
         m_pUserList = new CFrmUserList(this);
     }
-    
-    m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetName()));
 
     if(m_pUserList)
     {
@@ -222,6 +225,7 @@ void MainWindow::slotClientVCardReceived()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotClientVCardReceived");
     CGlobal::Instance()->GetRoster()->SetVCard(m_pClient->vCardManager().clientVCard());
+    m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetShowName()));
 }
 
 void MainWindow::stateChanged(QXmppClient::State state)
@@ -267,8 +271,8 @@ int MainWindow::InitMenu()
 {
     ui->menuOperator_O->addAction(tr("Change Style Sheet(&S)"), 
                 this, SLOT(on_actionChange_Style_Sheet_S_triggered()));
-    ui->menuOperator_O->addAction(QIcon(":/icon/Exit"), 
-                                  tr("Exit(&E)"),
+    ui->menuOperator_O->addAction(QIcon(":/icon/Close"), 
+                                  tr("Close(&E)"),
                                   this, SLOT(close()));
     return 0;
 }
@@ -278,7 +282,7 @@ int MainWindow::InitLoginedMenu()
     ui->menuOperator_O->clear();
     QMenu* pMenu = ui->menuOperator_O->addMenu(tr("Status(&T)"));
     AddStatusMenu(pMenu);
-    ui->menuOperator_O->addAction(
+    ui->menuOperator_O->addAction(QIcon(":/icon/AppIcon"),
                 tr("Edit Locale User Infomation(&E)"),
                 this, SLOT(slotEditInformation()));
 
@@ -314,19 +318,32 @@ int MainWindow::AddStatusMenu(QMenu *pMenu)
 void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::TrayIconActive:%d", e);
+    if(QSystemTrayIcon::Trigger == e)
+    {
+        slotMessageClicked();
+        slotTrayTimerStop();
+    }
 }
 
 void MainWindow::slotMessageClicked()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotMessageClicked");
     m_pUserList->ShowMessageDialog();
+    slotTrayTimerStop();
 }
 
 //在通知栏上显示消息  
 int MainWindow::ShowTrayIconMessage(const QString &szTitle, const QString &szMessage)
 {
     if(CGlobal::Instance()->IsNotifiationBarShowMessage())
-        m_TrayIcon.showMessage(szTitle, szMessage);
+    {
+        if(CGlobal::Instance()->IsNotifiationFlashs())
+            slotTrayTimerStart();
+        m_TrayIcon.showMessage(szTitle,
+                               szMessage, 
+                               QSystemTrayIcon::Information,
+                               CGlobal::Instance()->GetNotifiationBarShowMessageDelay());
+    }
     return 0;
 }
 
@@ -348,12 +365,33 @@ void MainWindow::slotTrayIconMenuUpdate()
         QMenu* pMenu = m_TrayIconMenu.addMenu(tr("Status(&T)"));
         AddStatusMenu(pMenu);
         
-        m_TrayIconMenu.addAction(
+        m_TrayIconMenu.addAction(QIcon(":/icon/AppIcon"),
                     tr("Edit Locale User Infomation(&E)"),
                     this, SLOT(slotEditInformation()));
     }
     m_TrayIconMenu.addSeparator();
-    m_TrayIconMenu.addAction(tr("Exit"), this, SLOT(close()));
+    m_TrayIconMenu.addAction(QIcon(":/icon/Close"), tr("Close"), this, SLOT(close()));
+}
+
+void MainWindow::slotTrayTimeOut()
+{
+    if(m_bTrayShow)
+        m_TrayIcon.setIcon(QIcon());
+    else
+        m_TrayIcon.setIcon(QIcon(":/icon/AppIcon"));
+    m_bTrayShow = !m_bTrayShow;
+}
+
+void MainWindow::slotTrayTimerStart()
+{
+    m_TrayTimer.start(CGlobal::Instance()->GetNotifiationFlashInterval());
+}
+
+void MainWindow::slotTrayTimerStop()
+{
+    m_TrayIcon.setIcon(QIcon(":/icon/AppIcon"));
+    m_TrayTimer.stop();
+    m_TrayIcon.show();
 }
 
 void MainWindow::on_actionNotifiation_show_main_windows_triggered()

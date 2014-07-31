@@ -94,11 +94,18 @@ public:
 public:
     bool IsNotifiationBarShowMessage();
     int SetNotifiationBarShowMessage(bool bShowMessage);
+    int SetNotifiationBarShowMessageDelay(int nMs);//单位：ms  
+    int GetNotifiationBarShowMessageDelay();//单位：ms  
     bool IsNotifiationFlashs();
     int SetNotifiationFlashs(bool bFlashs);
+    int GetNotifiationFlashInterval();//单位：ms  
+    int SetNotifiationFlashInterval(int nMs);//单位：ms  
+
 private:
     bool m_bNotifiationBarShowMessage;
+    int m_nShowMessageDelay;
     bool m_bNotifiationBarFlashs;
+    int m_nFlashInterval;
 
     //配置好友显示名称  
 public:

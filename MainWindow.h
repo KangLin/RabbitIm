@@ -56,6 +56,9 @@ protected slots:
     void slotTrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽  
     void slotMessageClicked();
     void slotTrayIconMenuUpdate();
+    void slotTrayTimeOut();
+    void slotTrayTimerStart();
+    void slotTrayTimerStop();
 
     void on_actionChange_Style_Sheet_S_triggered();
     void on_actionEnglish_E_triggered();
@@ -98,6 +101,9 @@ private:
 
     QMenu m_TrayIconMenu;
     QSystemTrayIcon m_TrayIcon;
+    bool m_bTrayShow;
+    QTimer m_TrayTimer;
+
     CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口  
 };
 
