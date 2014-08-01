@@ -237,16 +237,16 @@ int CRoster::UpdateItemDisplay()
     {
         QStandardItem* p = *it;
         //改变item背景颜色  
-        p->setData(CGlobal::Instance()->GetStatusColor(m_Status), Qt::BackgroundRole);
+        p->setData(CGlobal::Instance()->GetRosterStatusColor(m_Status), Qt::BackgroundRole);
         
         QString szText;
         szText = ShowName()
-                + "[" + CGlobal::Instance()->GetStatusText(m_Status) + "]"
+                + "[" + CGlobal::Instance()->GetRosterStatusText(m_Status) + "]"
                 +  GetSubscriptionTypeStr(GetSubScriptionType());
         p->setData(szText, Qt::DisplayRole); //改变item文本  
 
         //改变item图标  
-        p->setData(QIcon(CGlobal::Instance()->GetStatusIcon(m_Status)), Qt::DecorationRole);
+        p->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(m_Status)), Qt::DecorationRole);
     }
     return 0;
 }
@@ -285,7 +285,7 @@ int CRoster::AppendMessage(const QString &szMessage)
         for(it = m_lstMessageCountItem.begin(); it != m_lstMessageCountItem.end(); it++)
         {
             QStandardItem* p = *it;
-            p->setData(CGlobal::Instance()->GetStatusColor(m_Status), Qt::BackgroundRole);
+            p->setData(CGlobal::Instance()->GetRosterStatusColor(m_Status), Qt::BackgroundRole);
             QString szText = QString::number(m_nNewMessageNumber);
             p->setData(szText, Qt::DisplayRole);
         }
@@ -308,7 +308,7 @@ int CRoster::CleanNewMessageNumber()
     for(it = m_lstMessageCountItem.begin(); it != m_lstMessageCountItem.end(); it++)
     {
         QStandardItem* p = *it;
-        p->setData(CGlobal::Instance()->GetStatusColor(m_Status), Qt::BackgroundRole);
+        p->setData(CGlobal::Instance()->GetRosterStatusColor(m_Status), Qt::BackgroundRole);
         p->setData("", Qt::DisplayRole);
     }
     return 0;

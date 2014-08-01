@@ -327,7 +327,7 @@ int CGlobal::SetTurnServerPassword(QString password)
     return 0;
 }
 
-QString CGlobal::GetStatusText(QXmppPresence::AvailableStatusType status)
+QString CGlobal::GetRosterStatusText(QXmppPresence::AvailableStatusType status)
 {
     if(QXmppPresence::Online == status)
         return tr("OnLine");
@@ -345,7 +345,7 @@ QString CGlobal::GetStatusText(QXmppPresence::AvailableStatusType status)
         return tr("Invisible");
 }
 
-QString CGlobal::GetStatusIcon(QXmppPresence::AvailableStatusType status)
+QString CGlobal::GetRosterStatusIcon(QXmppPresence::AvailableStatusType status)
 {
     if(QXmppPresence::Online == status)
         return ":/icon/Status_available";
@@ -363,7 +363,7 @@ QString CGlobal::GetStatusIcon(QXmppPresence::AvailableStatusType status)
         return ":/icon/Status_invisible";
 }
 
-QColor CGlobal::GetStatusColor(QXmppPresence::AvailableStatusType status)
+QColor CGlobal::GetRosterStatusColor(QXmppPresence::AvailableStatusType status)
 {
     if(QXmppPresence::Online == status)
         return QColor(0, 255, 0);

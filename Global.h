@@ -66,6 +66,14 @@ private:
     CRoster *m_pRoster;     //存储本地用户的详细信息  
     QColor GetColorFormConf(const QString &Key, const QColor &def);
     int SetColorToConf(const QString &Key, const QColor &color);
+
+public:
+    //好友状态文本表示  
+    QString GetRosterStatusText(QXmppPresence::AvailableStatusType status);
+    //好友状态图标资源字符串  
+    QString GetRosterStatusIcon(QXmppPresence::AvailableStatusType status);
+    //好友状态颜色表示  
+    QColor GetRosterStatusColor(QXmppPresence::AvailableStatusType status);
     
 public:
     QString GetXmppServer();
@@ -96,15 +104,7 @@ private:
     QString m_szTurnPassword;
     QString m_szStunServer; //Stun服务器地址  
     int m_nStunServerPort;
-    
-public:
-    //好友状态文本表示  
-    QString GetStatusText(QXmppPresence::AvailableStatusType status);
-    //好友状态图标资源字符串  
-    QString GetStatusIcon(QXmppPresence::AvailableStatusType status);
-    //好友状态颜色表示  
-    QColor GetStatusColor(QXmppPresence::AvailableStatusType status);
-    
+
     //配置选项  
 public:
     bool IsNotifiationBarShowMessage();

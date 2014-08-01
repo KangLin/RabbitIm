@@ -385,8 +385,9 @@ void CFrmUserList::slotRosterReceived()
 //好友出席状态改变  
 void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
 {
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::ChangedPresence jid:%s;status:%s",
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList::ChangedPresence jid:%s;status:%d;status text:%s",
            qPrintable(presence.from()),
+           presence.availableStatusType(),
            qPrintable(presence.statusText())
            );
 

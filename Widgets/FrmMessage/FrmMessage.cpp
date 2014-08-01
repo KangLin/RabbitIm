@@ -63,7 +63,7 @@ void CFrmMessage::ChangedPresence(QXmppPresence::AvailableStatusType status)
 
     ui->lbRosterName->setText(m_pRoster->ShowName()
                               + "["
-                              + CGlobal::Instance()->GetStatusText(status)
+                              + CGlobal::Instance()->GetRosterStatusText(status)
                               + "]");
 }
 
@@ -130,7 +130,7 @@ void CFrmMessage::showEvent(QShowEvent *)
     {
         ui->lbRosterName->setText(m_pRoster->ShowName()
                               + "["
-                              + CGlobal::Instance()->GetStatusText(m_pRoster->GetStatus())
+                              + CGlobal::Instance()->GetRosterStatusText(m_pRoster->GetStatus())
                               + "]");
     }
 

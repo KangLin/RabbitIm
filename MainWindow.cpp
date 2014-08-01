@@ -297,20 +297,20 @@ int MainWindow::InitLoginedMenu()
 
 int MainWindow::AddStatusMenu(QMenu *pMenu)
 {
-    pMenu->addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Online)),
-                     CGlobal::Instance()->GetStatusText(QXmppPresence::Online),
+    pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Online)),
+                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Online),
                      this, SLOT(on_actionNotifiation_status_online_triggered()));
-    pMenu->addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Chat)),
-                     CGlobal::Instance()->GetStatusText(QXmppPresence::Chat),
+    pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Chat)),
+                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Chat),
                      this, SLOT(on_actionNotifiation_status_chat_triggered()));
-    pMenu->addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Away)),
-                     CGlobal::Instance()->GetStatusText(QXmppPresence::Away),
+    pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Away)),
+                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Away),
                      this, SLOT(on_actionNotifiation_status_away_triggered()));
-    pMenu->addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::DND)),
-                     CGlobal::Instance()->GetStatusText(QXmppPresence::DND),
+    pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::DND)),
+                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::DND),
                      this, SLOT(on_actionNotifiation_status_dnd_triggered()));
-    pMenu->addAction(QIcon(CGlobal::Instance()->GetStatusIcon(QXmppPresence::Invisible)),
-                     CGlobal::Instance()->GetStatusText(QXmppPresence::Invisible),
+    pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Invisible)),
+                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Invisible),
                      this, SLOT(on_actionNotifiation_status_invisible_triggered()));
     return 0;
 }
