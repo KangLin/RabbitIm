@@ -359,14 +359,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="81"/>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="102"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="194"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="200"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="81"/>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="102"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="194"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="200"/>
         <source>%1 isn&apos;t online.</source>
         <translation>%1 不在线。</translation>
     </message>
@@ -379,94 +379,99 @@ p, li { white-space: pre-wrap; }
         <translation>选项</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="27"/>
-        <source>Tab 1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="45"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="48"/>
         <source>Notification bar</source>
         <translation>通知栏</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="86"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="89"/>
         <source>Show message</source>
         <translation>显示消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="93"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="96"/>
         <source>Flashes</source>
         <translation>闪烁</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="116"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="119"/>
         <source>Flash Interval: </source>
         <translation>闪烁间隔：</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="186"/>
         <source></source>
-        <translation type="unfinished">用户颜色</translation>
+        <translation>用户颜色</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="75"/>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="126"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="78"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="129"/>
         <source>ms</source>
         <translation>毫秒</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="65"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="68"/>
         <source>Show Message Delay:</source>
         <translation>显示消息延时：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="150"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="30"/>
+        <source>Nomarl</source>
+        <translation >普通</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="142"/>
+        <source>Show</source>
+        <translation >显示</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="160"/>
         <source>Show User Name</source>
         <translation>显示用户名</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="156"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="166"/>
         <source>JID</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="163"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="173"/>
         <source>Name</source>
         <translation>名字</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="173"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="183"/>
         <source>Nick</source>
         <translation>呢称</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="194"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="214"/>
+        <source>User color</source>
+        <translation>用户颜色</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="222"/>
         <source>Roster color:</source>
         <translation>好友颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="201"/>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="219"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="229"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="247"/>
         <source>Select color(&amp;S)</source>
         <translation>选择颜色(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="212"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="240"/>
         <source>Locale user color:</source>
         <translation>本地用户颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="232"/>
-        <source>Tab 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="254"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="277"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="273"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="296"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
