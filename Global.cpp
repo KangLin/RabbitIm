@@ -17,12 +17,10 @@ CGlobal::CGlobal(QObject *parent) :
 {
     QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
     m_pRoster = new CRoster;
-    m_UserColor = QColor(conf.value("Options/User/LocalColorR", 255).toInt(),
-                         conf.value("Options/User/LocalColorG", 0).toInt(),
-                         conf.value("Options/User/LocalColorB", 0).toInt());
-    m_RosterColor = QColor(conf.value("Options/User/RosterColorR", 0).toInt(),
-                           conf.value("Options/User/RosterColorG", 0).toInt(),
-                           conf.value("Options/User/RosterColorB", 255).toInt());
+    m_UserColor = GetColorFormConf("Options/User/LocalColor", QColor(255, 0, 0));
+    m_RosterColor = GetColorFormConf("Options/User/RosterColor", QColor(0, 0, 255));
+    m_UserMessageColor = GetColorFormConf("Options/User/LocalMessageColor", QColor(0, 0, 0));
+    m_RosterMessageColor = GetColorFormConf("Options/User/RosterMessageColor", QColor(0, 0, 0));
     
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
     m_szXmppServer = conf.value("Login/XmppServer", "183.233.149.120").toString();
@@ -147,6 +145,23 @@ CRoster* CGlobal::GetRoster()
     return m_pRoster;
 }
 
+QColor CGlobal::GetColorFormConf(const QString &Key, const QColor &def)
+{
+    QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
+    return QColor(conf.value(Key + "R", def.red()).toInt(),
+           conf.value(Key + "G", def.green()).toInt(),
+           conf.value(Key + "B", def.blue()).toInt());
+}
+
+int CGlobal::SetColorToConf(const QString &Key, const QColor &color)
+{
+    QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue(Key + "R", color.red());
+    conf.setValue(Key + "G", color.green());
+    conf.setValue(Key + "B", color.blue());
+    return 0;
+}
+
 QColor CGlobal::GetUserColor()
 {
     return m_UserColor;
@@ -154,10 +169,7 @@ QColor CGlobal::GetUserColor()
 
 int CGlobal::SetUserColor(const QColor &color)
 {
-    QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
-    conf.setValue("Options/User/LocalColorR", color.red());
-    conf.setValue("Options/User/LocalColorG", color.green());
-    conf.setValue("Options/User/LocalColorB", color.blue());
+    SetColorToConf("Options/User/LocalColor", color);
     m_UserColor = color;
     return 0;
 }
@@ -169,11 +181,32 @@ QColor CGlobal::GetRosterColor()
 
 int CGlobal::SetRosterColor(const QColor &color)
 {
-    QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
-    conf.setValue("Options/User/RosterColorR", color.red());
-    conf.setValue("Options/User/RosterColorG", color.green());
-    conf.setValue("Options/User/RosterColorB", color.blue());
+    SetColorToConf("Options/User/RosterColor", color);
     m_RosterColor = color;
+    return 0;
+}
+
+QColor CGlobal::GetUserMessageColor()
+{
+    return m_UserMessageColor;
+}
+
+int CGlobal::SetUserMessageColor(const QColor &color)
+{
+    SetColorToConf("Options/User/LocalMessageColor", color);
+    m_UserMessageColor = color;
+    return 0;
+}
+
+QColor CGlobal::GetRosterMessageColor()
+{
+    return m_RosterMessageColor;
+}
+
+int CGlobal::SetRosterMessageColor(const QColor &color)
+{
+    SetColorToConf("Options/User/RosterMessageColor", color);
+    m_RosterMessageColor = color;
     return 0;
 }
 

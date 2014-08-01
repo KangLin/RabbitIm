@@ -34,6 +34,10 @@ CFrmOptions::CFrmOptions(QWidget *parent) :
     ui->lbLocalUserColor->setPalette(pa);
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetRosterColor());
     ui->lbRosterColor->setPalette(pa);
+    pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetRosterMessageColor());
+    ui->lbRosterMessageColor->setPalette(pa);
+    pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUserMessageColor());
+    ui->lbLocalUserMessageColor->setPalette(pa);
 }
 
 CFrmOptions::~CFrmOptions()
@@ -90,4 +94,20 @@ void CFrmOptions::on_pbRosterColor_clicked()
     QPalette pa;
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetRosterColor());
     ui->lbRosterColor->setPalette(pa);
+}
+
+void CFrmOptions::on_pbLocalUserMessageColor_clicked()
+{
+    CGlobal::Instance()->SetUserMessageColor(QColorDialog::getColor(CGlobal::Instance()->GetUserMessageColor()));
+    QPalette pa;
+    pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUserMessageColor());
+    ui->lbLocalUserMessageColor->setPalette(pa);
+}
+
+void CFrmOptions::on_pbRosterMessageColor_clicked()
+{
+    CGlobal::Instance()->SetRosterMessageColor(QColorDialog::getColor(CGlobal::Instance()->GetRosterMessageColor()));
+    QPalette pa;
+    pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetRosterMessageColor());
+    ui->lbRosterMessageColor->setPalette(pa);
 }

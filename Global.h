@@ -52,12 +52,21 @@ public:
     //设置好友的显示颜色  
     int SetRosterColor(const QColor &color);
     QColor GetRosterColor();
+    //设置消息字体颜色  
+    int SetUserMessageColor(const QColor &color);
+    QColor GetUserMessageColor();
+    int SetRosterMessageColor(const QColor &color);
+    QColor GetRosterMessageColor();
 
 private:
     QColor m_UserColor;   //本地用户颜色  
     QColor m_RosterColor; //好友颜色  
+    QColor m_UserMessageColor;
+    QColor m_RosterMessageColor;
     CRoster *m_pRoster;     //存储本地用户的详细信息  
-
+    QColor GetColorFormConf(const QString &Key, const QColor &def);
+    int SetColorToConf(const QString &Key, const QColor &color);
+    
 public:
     QString GetXmppServer();
     int SetXmppServer(QString host);

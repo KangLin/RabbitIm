@@ -146,7 +146,11 @@ int CFrmMessage::AppendMessageToList(const QString &szMessage, const QString &ba
 {
     QString recMsg = szMessage;
     QString msg;
-    msg = "<img src='";
+//    if(bRemote)
+//        msg += "<p align='left'>";
+//    else
+//        msg += "<p align='right'>";
+    msg += "<img src='";
     msg += CGlobal::Instance()->GetFileUserAvatar(bareJid) + "' width='16' height='16'>";
     msg += "<font color='";
     if(bRemote)
@@ -154,8 +158,14 @@ int CFrmMessage::AppendMessageToList(const QString &szMessage, const QString &ba
     else
         msg += CGlobal::Instance()->GetUserColor().name();
     msg += "'>[";
-    msg += QTime::currentTime().toString()  +  "]" + name +  ":</font><br /><font color='black'>";
-    msg += recMsg.replace(QString("\n"), QString("<br />")) +  "</font><p />";
+    msg += QTime::currentTime().toString()  +  "]" + name +  ":</font><br /><font color='";
+    if(bRemote)
+        msg += CGlobal::Instance()->GetRosterMessageColor().name();
+    else
+        msg += CGlobal::Instance()->GetUserMessageColor().name();
+    msg += "'>";
+    msg += recMsg.replace(QString("\n"), QString("<br />")) +  "</font>";
+    //LOG_MODEL_DEBUG("message", "html:%s", msg.toStdString().c_str());
     ui->txtView->append(msg);
     return 0;
 }

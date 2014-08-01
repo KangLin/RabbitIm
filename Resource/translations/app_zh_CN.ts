@@ -317,12 +317,21 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="168"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="103"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;SimSun&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="194"/>
         <source>Video(&amp;V)</source>
         <translation>视频(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="193"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="219"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
@@ -332,7 +341,7 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="140"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="166"/>
         <source>Send(&amp;S)</source>
         <translation>发送(&amp;S)</translation>
     </message>
@@ -359,14 +368,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="81"/>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="102"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="200"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="204"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="81"/>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="102"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="200"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="204"/>
         <source>%1 isn&apos;t online.</source>
         <translation>%1 不在线。</translation>
     </message>
@@ -417,12 +426,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="30"/>
         <source>Nomarl</source>
-        <translation >普通</translation>
+        <translation>普通</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="142"/>
         <source>Show</source>
-        <translation >显示</translation>
+        <translation>显示</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="160"/>
@@ -457,6 +466,8 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="229"/>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="247"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="292"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="310"/>
         <source>Select color(&amp;S)</source>
         <translation>选择颜色(&amp;S)</translation>
     </message>
@@ -467,11 +478,26 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="277"/>
+        <source>Message color</source>
+        <translation >消息颜色</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="285"/>
+        <source>Locale User Message color:</source>
+        <translation >本地用户消息颜色</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="303"/>
+        <source>Roster Message color:</source>
+        <translation >好友消息颜色</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="340"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="296"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="359"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
@@ -857,33 +883,33 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global.cpp" line="300"/>
+        <location filename="../../Global.cpp" line="333"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="302"/>
+        <location filename="../../Global.cpp" line="335"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="304"/>
+        <location filename="../../Global.cpp" line="337"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="306"/>
+        <location filename="../../Global.cpp" line="339"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="308"/>
-        <location filename="../../Global.cpp" line="312"/>
+        <location filename="../../Global.cpp" line="341"/>
+        <location filename="../../Global.cpp" line="345"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="310"/>
+        <location filename="../../Global.cpp" line="343"/>
         <source>Away for an extended period</source>
         <translation>离开</translation>
     </message>

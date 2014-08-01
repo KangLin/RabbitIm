@@ -25,6 +25,10 @@ private slots:
     
     void on_pbRosterColor_clicked();
     
+    void on_pbLocalUserMessageColor_clicked();
+    
+    void on_pbRosterMessageColor_clicked();
+    
 private:
     explicit CFrmOptions(QWidget *parent = 0);
     ~CFrmOptions();
