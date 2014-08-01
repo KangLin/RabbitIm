@@ -347,14 +347,28 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="68"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="72"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="70"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="74"/>
         <source>All (*.*)</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="81"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="102"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="194"/>
+        <source>Video</source>
+        <translation>视频</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="81"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="102"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="194"/>
+        <source>%1 isn&apos;t online.</source>
+        <translation>%1 不在线。</translation>
     </message>
 </context>
 <context>
@@ -375,35 +389,40 @@ p, li { white-space: pre-wrap; }
         <translation>通知栏</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="53"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="86"/>
         <source>Show message</source>
         <translation>显示消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="60"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="93"/>
         <source>Flashes</source>
         <translation>闪烁</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="83"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="116"/>
         <source>Flash Interval: </source>
-        <translation >闪烁间隔：</translation>
+        <translation>闪烁间隔：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="93"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="186"/>
+        <source></source>
+        <translation type="unfinished">用户颜色</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="75"/>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="126"/>
         <source>ms</source>
-        <translation >毫秒</translation>
+        <translation>毫秒</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="116"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="65"/>
         <source>Show Message Delay:</source>
         <translation>显示消息延时：</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="150"/>
         <source>Show User Name</source>
-        <translation >显示用户名</translation>
+        <translation>显示用户名</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="156"/>
@@ -421,17 +440,33 @@ p, li { white-space: pre-wrap; }
         <translation>呢称</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="187"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="194"/>
+        <source>Roster color:</source>
+        <translation>好友颜色：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="201"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="219"/>
+        <source>Select color(&amp;S)</source>
+        <translation>选择颜色(&amp;S)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="212"/>
+        <source>Locale user color:</source>
+        <translation>本地用户颜色：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="232"/>
         <source>Tab 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="209"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="254"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="228"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="273"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
@@ -769,47 +804,47 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="326"/>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="428"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="431"/>
         <source>%1 is ringing</source>
         <translation>%1 正在响铃</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="403"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="405"/>
         <source>%1 is calling </source>
         <translation>%1 正在呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="441"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="444"/>
         <source>State: Connecting Call</source>
         <translation>状态：呼叫连接中</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="444"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="447"/>
         <source>State: Active Call</source>
         <translation>状态：呼叫激活</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="447"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="450"/>
         <source>State: Disconnecting Call</source>
         <translation>状态：呼叫断连中</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="450"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="453"/>
         <source>State: Finished Call</source>
         <translation>状态：呼叫完成</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="469"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="472"/>
         <source>I am talking with %1 call</source>
         <translation>正在与 %1 通话</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="540"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="543"/>
         <source>Do you call %1 ?</source>
         <translation>是否呼叫 %1 ？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="851"/>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.cpp" line="854"/>
         <source>Be connecting %1</source>
         <translation>正在与 %1 连接</translation>
     </message>
@@ -817,33 +852,33 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global.cpp" line="288"/>
+        <location filename="../../Global.cpp" line="300"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="290"/>
+        <location filename="../../Global.cpp" line="302"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="292"/>
+        <location filename="../../Global.cpp" line="304"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="294"/>
+        <location filename="../../Global.cpp" line="306"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="296"/>
-        <location filename="../../Global.cpp" line="300"/>
+        <location filename="../../Global.cpp" line="308"/>
+        <location filename="../../Global.cpp" line="312"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="298"/>
+        <location filename="../../Global.cpp" line="310"/>
         <source>Away for an extended period</source>
         <translation>离开</translation>
     </message>
@@ -851,17 +886,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CRoster</name>
     <message>
-        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="152"/>
+        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="161"/>
         <source>[none]</source>
         <translation>[未知]</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="156"/>
+        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="165"/>
         <source>[From]</source>
         <translation>[挂起]</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="160"/>
+        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="169"/>
         <source>[remove]</source>
         <translation>[删除]</translation>
     </message>

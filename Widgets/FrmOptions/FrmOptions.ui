@@ -183,7 +183,7 @@
        <item row="2" column="0">
         <widget class="QGroupBox" name="groupBox_3">
          <property name="title">
-          <string>GroupBox</string>
+          <string>User color</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
           <item row="1" column="0">
