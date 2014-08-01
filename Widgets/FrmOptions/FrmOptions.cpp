@@ -9,7 +9,8 @@ CFrmOptions::CFrmOptions(QWidget *parent) :
 {
     ui->setupUi(this);
     m_pParent = parent;
-    
+
+    ui->cbAutoLogin->setChecked(CGlobal::Instance()->GetAutoLogin());
     ui->cbNotificationFlash->setChecked(CGlobal::Instance()->IsNotifiationFlashs());
     ui->cbNotificationShowMessage->setChecked(CGlobal::Instance()->IsNotifiationBarShowMessage());
     ui->txtFlashInterval->setText(QString::number(CGlobal::Instance()->GetNotifiationFlashInterval()));
@@ -61,6 +62,7 @@ void CFrmOptions::on_pbCancel_clicked()
 
 void CFrmOptions::on_pbOK_clicked()
 {
+    CGlobal::Instance()->SetAutoLogin(ui->cbAutoLogin->isChecked());
     CGlobal::Instance()->SetNotifiationBarShowMessage(ui->cbNotificationShowMessage->isChecked());
     CGlobal::Instance()->SetNotifiationFlashs(ui->cbNotificationFlash->isChecked());
     CGlobal::Instance()->SetNotifiationFlashInterval(ui->txtFlashInterval->text().toInt());

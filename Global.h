@@ -107,16 +107,25 @@ private:
 
     //配置选项  
 public:
-    bool IsNotifiationBarShowMessage();
+    //设置自动登录  
+    int SetAutoLogin(bool bAuto);
+    bool GetAutoLogin();
+    //设置是否在通知栏弹出消息  
     int SetNotifiationBarShowMessage(bool bShowMessage);
+    bool IsNotifiationBarShowMessage();
+    //设置通知栏弹出消息显示的时间  
     int SetNotifiationBarShowMessageDelay(int nMs);//单位：ms  
     int GetNotifiationBarShowMessageDelay();//单位：ms  
-    bool IsNotifiationFlashs();
+    //设置通知栏图标是否闪烁  
     int SetNotifiationFlashs(bool bFlashs);
-    int GetNotifiationFlashInterval();//单位：ms  
+    bool IsNotifiationFlashs();
+    //设置闪烁间隔时间  
     int SetNotifiationFlashInterval(int nMs);//单位：ms  
+    int GetNotifiationFlashInterval();//单位：ms  
+
 
 private:
+    bool m_AutoLogin;//自动登录  
     bool m_bNotifiationBarShowMessage;
     int m_nShowMessageDelay;
     bool m_bNotifiationBarFlashs;

@@ -34,6 +34,7 @@ CGlobal::CGlobal(QObject *parent) :
     m_szTurnUser = conf.value("Login/TurnServerUser", "1").toString();
     m_szTurnPassword = conf.value("Login/TurnServerPassword", "1").toString();
 
+    m_AutoLogin = conf.value("Login/AutoLogin", false).toBool();
     m_bNotifiationBarShowMessage = conf.value("Options/NotifiationBar/ShowMessage", true).toBool();
     m_nShowMessageDelay = conf.value("Options/NotifiationBar/ShowMessageDelay", 10000).toInt();
     m_bNotifiationBarFlashs =  conf.value("Options/NotifiationBar/Flashs", true).toBool();
@@ -443,6 +444,19 @@ QString CGlobal::GetFileUserAvatar(QString bareJid)
     jid = jid.replace("@", ".");
 
     return GetDirUserAvatar() + "/" + jid + ".png";
+}
+
+int CGlobal::SetAutoLogin(bool bAuto)
+{
+    m_AutoLogin = bAuto;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/AutoLogin", bAuto);
+    return 0;
+}
+
+bool CGlobal::GetAutoLogin()
+{
+    return m_AutoLogin;
 }
 
 int CGlobal::SetNotifiationBarShowMessage(bool bShowMessage)

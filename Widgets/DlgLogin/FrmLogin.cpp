@@ -34,7 +34,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     else
         ui->chkSave->setChecked(false);
 
-    ui->chkLogin->setChecked(conf.value("Login/AutoLogin", false).toBool());
+    ui->chkLogin->setChecked(CGlobal::Instance()->GetAutoLogin());
 
     InitStateButton();
 
@@ -177,13 +177,12 @@ QString CFrmLogin::DecryptPassword(QString szPassword)
 
 void CFrmLogin::on_chkLogin_stateChanged(int state)
 {
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     if(Qt::Unchecked == state)
     {
-        conf.setValue("Login/AutoLogin", false);
+        CGlobal::Instance()->SetAutoLogin(false);
     }
     if(Qt::Checked == state)
-            conf.setValue("Login/AutoLogin", true);
+        CGlobal::Instance()->SetAutoLogin(true);
 }
 
 int CFrmLogin::InitStateButton()
