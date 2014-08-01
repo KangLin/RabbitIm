@@ -76,8 +76,12 @@ void CFrmMessage::slotSendFileTriggered()
     {
         return;
     }
-    QString jid = QString("%1/%2").arg(m_pRoster->Jid()).arg("QXmpp");//再定QXmpp,应该根据实际的resource  
-    m_pMainWindow->sendFile(jid,fileName);
+    if(m_pRoster->Resouce().isEmpty())
+    {
+        QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
+        return;
+    }
+    m_pMainWindow->sendFile(m_pRoster->Jid(),fileName);
 }
 
 #if WIN32
@@ -93,8 +97,12 @@ void CFrmMessage::slotShotScreenTriggered()
         bool isOk = image.save(filePath);
         if(isOk)
         {
-            QString jid = QString("%1/%2").arg(m_pRoster->Jid()).arg("QXmpp");//再定QXmpp,应该根据实际的resource  
-            m_pMainWindow->sendFile(jid,filePath,MainWindow::ImageType);
+            if(m_pRoster->Resouce().isEmpty())
+            {
+                QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
+                return;
+            }
+            m_pMainWindow->sendFile(m_pRoster->Jid(), filePath, MainWindow::ImageType);
         }
         else
         {
@@ -165,7 +173,7 @@ void CFrmMessage::on_pbSend_clicked()
 {
     //QString message=ui->txtInput->toHtml();
     //LOG_MODEL_DEBUG("FrmMessage", "message:%s", message.toStdString().c_str());
-    
+
     AppendMessageToList(ui->txtInput->toPlainText());
 
     //发送  
@@ -181,16 +189,21 @@ void CFrmMessage::on_tbMore_clicked()
 
 void CFrmMessage::on_pbVideo_clicked()
 {
+    if(m_pRoster->Resouce().isEmpty())
+    {
+        QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
+        return;
+    }
     CFrmVideo *pVideo = CFrmVideo::instance(m_pMainWindow);
     if(NULL == pVideo)
         return;
-    
+
     QDesktopWidget *pDesk = QApplication::desktop();
     pVideo->move((pDesk->width() - pVideo->width()) / 2, (pDesk->height() - pVideo->height()) / 2);
     pVideo->show();
     pVideo->activateWindow();
-   //TODO:改成m_pRoster->Jid()
-    pVideo->Call(m_pRoster->BareJid() + "/QXmpp");
+
+    pVideo->Call(m_pRoster->Jid());
 }
 
 void CFrmMessage::on_lbAvator_clicked()

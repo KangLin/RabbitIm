@@ -46,7 +46,7 @@ public:
     QXmppRosterIq::Item::SubscriptionType GetSubScriptionType();
 
     //状态改变  
-    int ChangedPresence(QXmppPresence::AvailableStatusType status);
+    int ChangedPresence(const QString &jid, QXmppPresence::AvailableStatusType status);
     //显示消息对话框  
     int ShowMessageDialog();
     //增加消息  
@@ -73,7 +73,7 @@ signals:
 public slots:
 
 private:
-    //QString m_szJid;
+    QString m_szJid;
     QXmppRosterIq::Item m_RosterItem;
     QXmppVCardIq m_RosterVCard;
     QXmppPresence::AvailableStatusType m_Status;//好友出席状态  

@@ -390,11 +390,11 @@ void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
            qPrintable(presence.statusText())
            );
 
-    QString jid = QXmppUtils::jidToBareJid(presence.from());
-    QMap<QString, CRoster*>::iterator it = m_Rosters.find(jid);
+    QString bareJid = QXmppUtils::jidToBareJid(presence.from());
+    QMap<QString, CRoster*>::iterator it = m_Rosters.find(bareJid);
     if(m_Rosters.end() != it)
     {
-        it.value()->ChangedPresence(presence.availableStatusType());
+        it.value()->ChangedPresence(presence.from(), presence.availableStatusType());
     }
 }
 

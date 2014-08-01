@@ -80,9 +80,6 @@ void CFrmLogin::on_pbOk_clicked()
     config.setPassword(ui->lnPassword->text());
     //CGlobal::Instance()->SetJid(config.jid());
 
-    LOG_MODEL_DEBUG("Login", "Local jid:%s;config.jidBare():%s",
-           qPrintable(CGlobal::Instance()->GetBareJid()),
-           qPrintable(config.jidBare()));
     QXmppPresence presence;
     presence.setAvailableStatusType(m_Status);
     ((MainWindow*)(this->parent()))->m_pClient->connectToServer(config, presence);

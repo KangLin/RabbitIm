@@ -56,7 +56,7 @@ QString CRoster::Name()
     if(n.isEmpty())
         n = m_RosterItem.name();
     if(n.isEmpty())
-        n = QXmppUtils::jidToUser(BareJid());
+        n = QXmppUtils::jidToUser(Jid());
     return n;
 }
 
@@ -67,7 +67,9 @@ QString CRoster::BareJid()
 
 QString CRoster::Jid()
 {
-    QString s = m_RosterItem.bareJid();
+    QString s = m_szJid;
+    if(s.isEmpty())
+        s = m_RosterItem.bareJid();
     if(s.isEmpty()) //得到本地用户 JID  
         s = m_RosterVCard.to();
     return s;
@@ -75,12 +77,12 @@ QString CRoster::Jid()
 
 QString CRoster::Domain()
 {
-    return QXmppUtils::jidToDomain(BareJid());
+    return QXmppUtils::jidToDomain(Jid());
 }
 
 QString CRoster::Resouce()
 {
-    return QXmppUtils::jidToResource(BareJid());
+    return QXmppUtils::jidToResource(Jid());
 }
 
 //int CRoster::SetJid(QString jid)
@@ -225,7 +227,7 @@ int CRoster::UpdateItems(QXmppRosterIq::Item item)
 
 void CRoster::slotRefresh()
 {
-    ChangedPresence(m_Status);
+    ChangedPresence(m_szJid, m_Status);
 }
 
 int CRoster::UpdateItemDisplay()
@@ -249,8 +251,9 @@ int CRoster::UpdateItemDisplay()
     return 0;
 }
 
-int CRoster::ChangedPresence(QXmppPresence::AvailableStatusType status)
+int CRoster::ChangedPresence(const QString &jid, QXmppPresence::AvailableStatusType status)
 {
+    m_szJid = jid;
     m_Status = status;
 
     UpdateItemDisplay();
