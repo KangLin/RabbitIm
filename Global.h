@@ -46,10 +46,12 @@ public:
     QString GetDomain();
     QString GetResource();
     CRoster* GetRoster(); //本地用户详细信息  
-    QColor GetUserColor();
-    QColor GetRosterColor();
+    //设置本地用户的显示颜色  
     int SetUserColor(const QColor &color);
+    QColor GetUserColor();
+    //设置好友的显示颜色  
     int SetRosterColor(const QColor &color);
+    QColor GetRosterColor();
 
 private:
     QColor m_UserColor;   //本地用户颜色  

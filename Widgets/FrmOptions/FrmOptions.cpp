@@ -1,6 +1,7 @@
 #include "FrmOptions.h"
 #include "ui_FrmOptions.h"
 #include "../../Global.h"
+#include <QColorDialog>
 
 CFrmOptions::CFrmOptions(QWidget *parent) :
     QFrame(parent),
@@ -27,6 +28,12 @@ CFrmOptions::CFrmOptions(QWidget *parent) :
         ui->rbNick->setChecked(true);
         break;
     }
+    
+    QPalette pa;
+    pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUserColor());
+    ui->lbLocalUserColor->setPalette(pa);
+    pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetRosterColor());
+    ui->lbRosterColor->setPalette(pa);
 }
 
 CFrmOptions::~CFrmOptions()
@@ -67,4 +74,20 @@ void CFrmOptions::on_pbOK_clicked()
     emit sigRefresh();
 
     close();
+}
+
+void CFrmOptions::on_pbLocalUserColor_clicked()
+{
+    CGlobal::Instance()->SetUserColor(QColorDialog::getColor(CGlobal::Instance()->GetUserColor()));
+    QPalette pa;
+    pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUserColor());
+    ui->lbLocalUserColor->setPalette(pa);
+}
+
+void CFrmOptions::on_pbRosterColor_clicked()
+{
+    CGlobal::Instance()->SetRosterColor(QColorDialog::getColor(CGlobal::Instance()->GetRosterColor()));
+    QPalette pa;
+    pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetRosterColor());
+    ui->lbRosterColor->setPalette(pa);
 }

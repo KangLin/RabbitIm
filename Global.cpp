@@ -15,11 +15,15 @@
 CGlobal::CGlobal(QObject *parent) :
     QObject(parent)
 {
-    m_pRoster = new CRoster;
-    m_UserColor = QColor(255, 0, 0);
-    m_RosterColor = QColor(0, 0, 255);
-
     QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
+    m_pRoster = new CRoster;
+    m_UserColor = QColor(conf.value("Options/User/LocalColorR", 255).toInt(),
+                         conf.value("Options/User/LocalColorG", 0).toInt(),
+                         conf.value("Options/User/LocalColorB", 0).toInt());
+    m_RosterColor = QColor(conf.value("Options/User/RosterColorR", 0).toInt(),
+                           conf.value("Options/User/RosterColorG", 0).toInt(),
+                           conf.value("Options/User/RosterColorB", 255).toInt());
+    
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
     m_szXmppServer = conf.value("Login/XmppServer", "183.233.149.120").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
@@ -150,6 +154,10 @@ QColor CGlobal::GetUserColor()
 
 int CGlobal::SetUserColor(const QColor &color)
 {
+    QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Options/User/LocalColorR", color.red());
+    conf.setValue("Options/User/LocalColorG", color.green());
+    conf.setValue("Options/User/LocalColorB", color.blue());
     m_UserColor = color;
     return 0;
 }
@@ -161,6 +169,10 @@ QColor CGlobal::GetRosterColor()
 
 int CGlobal::SetRosterColor(const QColor &color)
 {
+    QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Options/User/RosterColorR", color.red());
+    conf.setValue("Options/User/RosterColorG", color.green());
+    conf.setValue("Options/User/RosterColorB", color.blue());
     m_RosterColor = color;
     return 0;
 }

@@ -21,6 +21,10 @@ private slots:
     void on_pbOK_clicked();
     void on_pbCancel_clicked();
 
+    void on_pbLocalUserColor_clicked();
+    
+    void on_pbRosterColor_clicked();
+    
 private:
     explicit CFrmOptions(QWidget *parent = 0);
     ~CFrmOptions();
