@@ -346,7 +346,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     * 打开“文件->打开文件或项目”。
     * 在弹出的对话框中选中qxmpp.pro，打开qxmpp工程。
     * 点左边工具栏中的“项目”，选择qxmpp标签，在相应平台“构建套件”中修改“构建步骤”参数，
-           在“构建步骤”中的“额外参数”中，加入 “PREFIX=$(RabbitImRoot)/ThirdLiabary/${Platform}”，
+           在“构建步骤”中的“额外参数”中，加入 “PREFIX=$(RabbitImRoot)/ThirdLibary/${Platform}”，
            其中$(RabbitImRoot)是本项目源码的根目录，在下面的“构建环境”变量中添加这个环境变量。
            当然，也可以直接在“额外参数”中把$(RabbitImRoot)替换成本项目源码根目录路径。
            ${Platform}为相应的平台，可以为windows、android、unix、ios。
@@ -355,8 +355,8 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     * 设置编解码器：现在QXMPP支持vpx、THEORA视频编解码器；G711u、SPEEX音频编解码器。音频默认为G711u。
            视频无默认编解码器，所以如果需要视频，必须指定第三方视频编解码器。
            以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
-           并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLiabary/${Platform}/include
-           LIBS+=-L$(RabbitImRoot)/ThirdLiabary/${Platform}/lib
+           并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${Platform}/include
+           LIBS+=-L$(RabbitImRoot)/ThirdLibary/${Platform}/lib
     * 选择windows或linux平台，在相应平台“构建套件”中的“运行”标签，
            部署->详情->部署->添加部署步骤->选择make命令->Make参数中加上"install"。
            其它平台可能会有平台自己的部署步骤，所以不能在部署这里安装。可以用下面方法：
