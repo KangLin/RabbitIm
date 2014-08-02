@@ -41,6 +41,7 @@ CGlobal::CGlobal(QObject *parent) :
     m_nFlashInterval = conf.value("Options/NotifiationBar/FlashsInterval", 1000).toInt();
 
     m_RosterShowType = (E_ROSTER_SHOW_TYPE)conf.value("Options/Roster/ShowType", E_ROSTER_SHOW_NICK).toInt();
+    m_ScreenShotToType = (E_SCREEN_SHOT_TO_TYPE)conf.value("Options/ScreenShot/ToType", E_TO_SEND).toInt();
 
     //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用 
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
@@ -516,6 +517,19 @@ int CGlobal::SetRosterShowType(E_ROSTER_SHOW_TYPE type)
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Options/Roster/ShowType", type);
     m_RosterShowType = type;
+    return 0;
+}
+
+CGlobal::E_SCREEN_SHOT_TO_TYPE CGlobal::GetScreenShotToType()
+{
+    return m_ScreenShotToType;
+}
+
+int CGlobal::SetScreenShotToType(CGlobal::E_SCREEN_SHOT_TO_TYPE type)
+{
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Options/ScreenShot/ToType", type);
+    m_ScreenShotToType = type;
     return 0;
 }
 
