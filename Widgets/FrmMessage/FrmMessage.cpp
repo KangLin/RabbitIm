@@ -91,22 +91,45 @@ void CFrmMessage::slotShotScreenTriggered()
     if(dlg.exec() ==  QDialog::Accepted)
     {
         QImage image = dlg.getSelectedImg().toImage();
-        QString fileName = QDateTime::currentDateTime().toString("yyyyMMddhhmmss.png");
-        QString filePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) +QDir::separator() +  fileName;
-        LOG_MODEL_DEBUG("Message", QString("filePath = %1").arg(filePath).toLocal8Bit().data());
-        bool isOk = image.save(filePath);
-        if(isOk)
+        CGlobal::E_SCREEN_SHOT_TO_TYPE type = CGlobal::Instance()->GetScreenShotToType();
+        if(type == CGlobal::E_TO_CLIPBOARD)
         {
-            if(m_pRoster->Resouce().isEmpty())
+            QClipboard* clipboard = QApplication::clipboard();
+            clipboard->setImage(image);//参数是否合适TODO  
+        }
+        else if(type == CGlobal::E_TO_SAVE)
+        {
+            QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                       "./untitled.png",
+                                       tr("Images (*.png *.xpm *.jpg)"));
+            if(!fileName.isEmpty())
             {
-                QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
-                return;
+                bool isOk = image.save(fileName);
+                if(!isOk)
+                {
+                    LOG_MODEL_ERROR("Message", "save file [%s] is error", fileName.toStdString().c_str());
+                }
             }
-            m_pMainWindow->sendFile(m_pRoster->Jid(), filePath, MainWindow::ImageType);
         }
         else
         {
-            LOG_MODEL_ERROR("Message", "save file [%s] is error", filePath.toStdString().c_str());
+            QString fileName = QDateTime::currentDateTime().toString("yyyyMMddhhmmss.png");
+            QString filePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) +QDir::separator() +  fileName;
+            LOG_MODEL_DEBUG("Message", QString("filePath = %1").arg(filePath).toLocal8Bit().data());
+            bool isOk = image.save(filePath);
+            if(isOk)
+            {
+                if(m_pRoster->Resouce().isEmpty())
+                {
+                    QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
+                    return;
+                }
+                m_pMainWindow->sendFile(m_pRoster->Jid(), filePath, MainWindow::ImageType);
+            }
+            else
+            {
+                LOG_MODEL_ERROR("Message", "save file [%s] is error", filePath.toStdString().c_str());
+            }
         }
     }
 }

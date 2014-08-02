@@ -130,6 +130,7 @@ private:
     int m_nShowMessageDelay;
     bool m_bNotifiationBarFlashs;
     int m_nFlashInterval;
+    
 
     //配置好友显示名称  
 public:
@@ -141,8 +142,20 @@ public:
     };
     E_ROSTER_SHOW_TYPE GetRosterShowType();
     int SetRosterShowType(E_ROSTER_SHOW_TYPE type);
+    
+    enum E_SCREEN_SHOT_TO_TYPE //20140802 截屏后文件处理  
+    {
+        E_TO_CLIPBOARD,
+        E_TO_SEND,
+        E_TO_SAVE
+    };
+    
+    E_SCREEN_SHOT_TO_TYPE GetScreenShotToType();
+    int SetScreenShotToType(E_SCREEN_SHOT_TO_TYPE type);
+    
 private:
     E_ROSTER_SHOW_TYPE m_RosterShowType;
+    E_SCREEN_SHOT_TO_TYPE m_ScreenShotToType;
 
 signals:
 

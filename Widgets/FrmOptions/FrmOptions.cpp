@@ -58,6 +58,22 @@ void CFrmOptions::showEvent(QShowEvent *)
     ui->lbRosterMessageColor->setPalette(pa);
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUserMessageColor());
     ui->lbLocalUserMessageColor->setPalette(pa);
+    
+    {
+        CGlobal::E_SCREEN_SHOT_TO_TYPE type = CGlobal::Instance()->GetScreenShotToType();
+        switch (type) {
+        case CGlobal::E_TO_CLIPBOARD:
+            ui->rBtn_clipboard->setChecked(true);
+            break;
+        case CGlobal::E_TO_SAVE:
+            ui->rBtn_save->setChecked(true);
+            break;
+        case CGlobal::E_TO_SEND:
+        default:
+            ui->rBtn_send->setChecked(true);
+            break;
+        }
+    }
 }
 
 void CFrmOptions::on_pbCancel_clicked()
@@ -81,6 +97,16 @@ void CFrmOptions::on_pbOK_clicked()
     else //if(ui->rbNick->isChecked())
         type = CGlobal::E_ROSTER_SHOW_NICK;
     CGlobal::Instance()->SetRosterShowType(type);
+    
+    CGlobal::E_SCREEN_SHOT_TO_TYPE screenShotToType = CGlobal::Instance()->GetScreenShotToType();
+    if(ui->rBtn_save->isChecked())
+        screenShotToType = CGlobal::E_TO_SAVE;
+    else if(ui->rBtn_clipboard->isChecked())
+        screenShotToType = CGlobal::E_TO_CLIPBOARD;
+    else
+        screenShotToType = CGlobal::E_TO_SEND;
+    
+    CGlobal::Instance()->SetScreenShotToType(screenShotToType);
 
     emit sigRefresh();
 
