@@ -20,6 +20,7 @@
 #include <QImageWriter>
 #include <QMessageBox>
 #include <QClipboard>
+#include <QColorDialog>
 
 #include "DlgScreenShot.h"
 
@@ -171,6 +172,7 @@ void CDlgScreenShot::onSigCancel()
 CWdgScreenEditor::CWdgScreenEditor(const QPixmap& img, QWidget *parent)
     :QWidget(parent),m_image(img)
 {
+    m_penColor = QColor(Qt::red);
     updateForImg(img);
     initToolBar();
     updateToolBar();
@@ -253,6 +255,15 @@ void CWdgScreenEditor::initToolBar(){
     completeBtn->setCursor(Qt::ArrowCursor);
     toolBar->addWidget(completeBtn);
     connect(completeBtn,SIGNAL(clicked()),this,SLOT(onCompleteBtnClicked()));
+    
+    colorBtn = new QToolButton;
+    icon = QIcon(":/icon/png/color.png");
+    colorBtn->setIcon(icon);
+    colorBtn->setToolTip(tr("color"));
+    colorBtn->setCursor(Qt::ArrowCursor);
+    toolBar->addWidget(colorBtn);
+    connect(colorBtn,SIGNAL(clicked()),this,SLOT(onSelectColor()));
+    
 }
 
 //void ZScreenEditor::moveEvent(QMoveEvent* e)
@@ -285,7 +296,7 @@ QPixmap CWdgScreenEditor::getSelectedImg()
 void CWdgScreenEditor::updateToolBar()
 {
     toolBar->move(0,m_image.height());
-    setMinimumSize(250,m_image.height() + toolBar->height());
+    setMinimumSize(300,m_image.height() + toolBar->height());
 }
 
 void CWdgScreenEditor::updateForImg(const QPixmap &img)
@@ -312,7 +323,7 @@ void CWdgScreenEditor::paint()
     painter.setRenderHint(QPainter::Antialiasing,true);
     QPen pen = painter.pen();
     pen.setWidth(2);
-    pen.setColor(Qt::red);
+    pen.setColor(m_penColor);
     painter.setPen(pen);
     switch(m_curOption){
     case NoOption:
@@ -468,4 +479,13 @@ void CWdgScreenEditor::onCompleteBtnClicked()
     QPixmap pix = getSelectedImg();
     emit sigSelectImg(pix);
     this->close();
+}
+
+void CWdgScreenEditor::onSelectColor()
+{
+     QColor color = QColorDialog::getColor(m_penColor, this, tr("select color"));
+     if(color.isValid())
+     {
+         m_penColor = color;
+     }
 }

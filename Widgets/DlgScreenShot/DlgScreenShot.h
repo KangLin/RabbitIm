@@ -80,6 +80,7 @@ private slots:
     void saveAs();
     void onCancelBtnClicked();
     void onCompleteBtnClicked();
+    void onSelectColor();
 
 signals:
     void sigReset();
@@ -96,6 +97,7 @@ private:
     QToolButton* undoBtn;
     QToolButton* textBtn;
     QToolButton* penBtn;
+    QToolButton* colorBtn;
 
     Option m_curOption;
     QPixmap m_image;
@@ -109,6 +111,8 @@ private:
     int m_h;
     QPoint m_curPos;
     QPoint m_oldPos;
+    
+    QColor m_penColor;
 };
 
 #endif // DLGSCREENSHOT_H

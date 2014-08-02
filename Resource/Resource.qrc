@@ -31,6 +31,7 @@
         <file alias="Close">png/close.png</file>
         <file alias="Information">png/information.png</file>
         <file alias="Option">png/option.png</file>
+        <file>png/color.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>
