@@ -58,22 +58,21 @@ void CFrmOptions::showEvent(QShowEvent *)
     ui->lbRosterMessageColor->setPalette(pa);
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUserMessageColor());
     ui->lbLocalUserMessageColor->setPalette(pa);
-    
-    {
-        CGlobal::E_SCREEN_SHOT_TO_TYPE type = CGlobal::Instance()->GetScreenShotToType();
-        switch (type) {
-        case CGlobal::E_TO_CLIPBOARD:
-            ui->rBtn_clipboard->setChecked(true);
-            break;
-        case CGlobal::E_TO_SAVE:
-            ui->rBtn_save->setChecked(true);
-            break;
-        case CGlobal::E_TO_SEND:
-        default:
-            ui->rBtn_send->setChecked(true);
-            break;
-        }
+
+    CGlobal::E_SCREEN_SHOT_TO_TYPE screenShotType = CGlobal::Instance()->GetScreenShotToType();
+    switch (screenShotType) {
+    case CGlobal::E_TO_CLIPBOARD:
+        ui->rBtn_clipboard->setChecked(true);
+        break;
+    case CGlobal::E_TO_SAVE:
+        ui->rBtn_save->setChecked(true);
+        break;
+    case CGlobal::E_TO_SEND:
+    default:
+        ui->rBtn_send->setChecked(true);
+        break;
     }
+    
 }
 
 void CFrmOptions::on_pbCancel_clicked()
