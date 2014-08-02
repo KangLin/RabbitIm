@@ -10,6 +10,25 @@ CFrmOptions::CFrmOptions(QWidget *parent) :
     ui->setupUi(this);
     m_pParent = parent;
 
+    //控件初始化工作放到showEvent中  
+}
+
+CFrmOptions::~CFrmOptions()
+{
+    delete ui;
+}
+
+CFrmOptions* CFrmOptions::Instance()
+{
+    static CFrmOptions* p = NULL;
+    if(!p)
+        p = new CFrmOptions;
+
+    return p;
+}
+
+void CFrmOptions::showEvent(QShowEvent *)
+{
     ui->cbAutoLogin->setChecked(CGlobal::Instance()->GetAutoLogin());
     ui->cbNotificationFlash->setChecked(CGlobal::Instance()->IsNotifiationFlashs());
     ui->cbNotificationShowMessage->setChecked(CGlobal::Instance()->IsNotifiationBarShowMessage());
@@ -39,20 +58,6 @@ CFrmOptions::CFrmOptions(QWidget *parent) :
     ui->lbRosterMessageColor->setPalette(pa);
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUserMessageColor());
     ui->lbLocalUserMessageColor->setPalette(pa);
-}
-
-CFrmOptions::~CFrmOptions()
-{
-    delete ui;
-}
-
-CFrmOptions* CFrmOptions::Instance()
-{
-    static CFrmOptions* p = NULL;
-    if(!p)
-        p = new CFrmOptions;
-
-    return p;
 }
 
 void CFrmOptions::on_pbCancel_clicked()

@@ -177,12 +177,8 @@ QString CFrmLogin::DecryptPassword(QString szPassword)
 
 void CFrmLogin::on_chkLogin_stateChanged(int state)
 {
-    if(Qt::Unchecked == state)
-    {
-        CGlobal::Instance()->SetAutoLogin(false);
-    }
-    if(Qt::Checked == state)
-        CGlobal::Instance()->SetAutoLogin(true);
+    Q_UNUSED(state);
+    CGlobal::Instance()->SetAutoLogin(ui->chkLogin->isChecked());
 }
 
 int CFrmLogin::InitStateButton()
