@@ -20,6 +20,7 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
     m_pMainWindow = NULL;
 
     bool check = false;
+
     //check = connect(ui->lbAvator, SIGNAL(clicked()), SLOT(on_lbAvator_clicked()));
     //Q_ASSERT(check);
 
@@ -239,7 +240,7 @@ void CFrmMessage::on_pbVideo_clicked()
     pVideo->Call(m_pRoster->Jid());
 }
 
-void CFrmMessage::on_lbAvator_clicked()
+void CFrmMessage::on_lbAvatar_clicked()
 {
     if(m_pRoster)
     {
