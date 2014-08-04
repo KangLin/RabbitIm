@@ -120,6 +120,9 @@ QImage CRoster::Photo()
     QImageReader imageReader(&buffer);
     QImage image = imageReader.read();
     buffer.close();
+    if(image.isNull())
+        return QImage(":/icon/AppIcon");
+
     return image;
 }
 
