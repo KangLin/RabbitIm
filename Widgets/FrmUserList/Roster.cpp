@@ -308,8 +308,11 @@ int CRoster::CleanNewMessageNumber()
     for(it = m_lstMessageCountItem.begin(); it != m_lstMessageCountItem.end(); it++)
     {
         QStandardItem* p = *it;
-        p->setData(CGlobal::Instance()->GetRosterStatusColor(m_Status), Qt::BackgroundRole);
-        p->setData("", Qt::DisplayRole);
+        if(p)
+        {
+            p->setData(CGlobal::Instance()->GetRosterStatusColor(m_Status), Qt::BackgroundRole);
+            p->setData("", Qt::DisplayRole);
+        }
     }
     return 0;
 }
