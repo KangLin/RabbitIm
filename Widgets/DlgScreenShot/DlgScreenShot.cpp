@@ -132,7 +132,7 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         pix = QPixmap::grabWindow(id,rect.x(),rect.y(),rect.width(),rect.height());
 //        ImageEditor* editor = new ImageEditor(QPixmap(),this);
         m_editor->resetByImg(pix);
-        m_editor->move(rect.topLeft());//移动到当前选择的rect的左上角
+        m_editor->move(rect.topLeft());//移动到当前选择的rect的左上角  
         m_editor->show();
     }
 }
@@ -248,6 +248,14 @@ void CWdgScreenEditor::initToolBar(){
     cancelBtn->setToolTip(tr("cancel"));
     connect(cancelBtn,SIGNAL(clicked()),this,SLOT(onCancelBtnClicked()));
 
+    colorBtn = new QToolButton;
+    icon = QIcon(":/icon/Color");
+    colorBtn->setIcon(icon);
+    colorBtn->setToolTip(tr("color"));
+    colorBtn->setCursor(Qt::ArrowCursor);
+    toolBar->addWidget(colorBtn);
+    connect(colorBtn,SIGNAL(clicked()),this,SLOT(onSelectColor()));
+
     completeBtn = new QToolButton;
     icon = QIcon(":/icon/png/complete.png");
     completeBtn->setIcon(icon);
@@ -255,15 +263,6 @@ void CWdgScreenEditor::initToolBar(){
     completeBtn->setCursor(Qt::ArrowCursor);
     toolBar->addWidget(completeBtn);
     connect(completeBtn,SIGNAL(clicked()),this,SLOT(onCompleteBtnClicked()));
-    
-    colorBtn = new QToolButton;
-    icon = QIcon(":/icon/png/color.png");
-    colorBtn->setIcon(icon);
-    colorBtn->setToolTip(tr("color"));
-    colorBtn->setCursor(Qt::ArrowCursor);
-    toolBar->addWidget(colorBtn);
-    connect(colorBtn,SIGNAL(clicked()),this,SLOT(onSelectColor()));
-    
 }
 
 //void ZScreenEditor::moveEvent(QMoveEvent* e)
