@@ -17,7 +17,6 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
     ui->setupUi(this);
     ui->txtInput->setFocus();//设置焦点  
     m_pRoster = NULL;
-    m_pMainWindow = NULL;
 
     bool check = false;
 
@@ -44,10 +43,9 @@ CFrmMessage::~CFrmMessage()
 }
 
 //注意：只在对话框初始化后调用一次,必须最先调用一次  
-int CFrmMessage::SetRoster(CRoster* pRoster, MainWindow *pMainWindow)
+int CFrmMessage::SetRoster(CRoster* pRoster)
 {
     m_pRoster = pRoster;
-    m_pMainWindow = pMainWindow;
 
     bool check = connect(m_pRoster, SIGNAL(sigChangedPresence(QXmppPresence::AvailableStatusType)),
                          SLOT(ChangedPresence(QXmppPresence::AvailableStatusType)));
@@ -82,7 +80,7 @@ void CFrmMessage::slotSendFileTriggered()
         QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
         return;
     }
-    m_pMainWindow->sendFile(m_pRoster->Jid(),fileName);
+    CGlobal::Instance()->GetMainWindow()->sendFile(m_pRoster->Jid(),fileName);
 }
 
 #if WIN32
@@ -125,7 +123,7 @@ void CFrmMessage::slotShotScreenTriggered()
                     QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
                     return;
                 }
-                m_pMainWindow->sendFile(m_pRoster->Jid(), filePath, MainWindow::ImageType);
+                CGlobal::Instance()->GetMainWindow()->sendFile(m_pRoster->Jid(), filePath, MainWindow::ImageType);
             }
             else
             {
@@ -212,7 +210,7 @@ void CFrmMessage::on_pbSend_clicked()
 
     //发送  
     QXmppMessage msg("", m_pRoster->BareJid(), ui->txtInput->toPlainText());
-    m_pMainWindow->m_pClient->sendPacket(msg);
+    CGlobal::Instance()->GetXmppClient()->sendPacket(msg);
 
     ui->txtInput->clear();//清空输入框中的内容  
 }
@@ -228,7 +226,7 @@ void CFrmMessage::on_pbVideo_clicked()
         QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
         return;
     }
-    CFrmVideo *pVideo = CFrmVideo::instance(m_pMainWindow);
+    CFrmVideo *pVideo = CFrmVideo::instance();
     if(NULL == pVideo)
         return;
 

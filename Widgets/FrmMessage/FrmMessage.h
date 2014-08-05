@@ -24,7 +24,7 @@ public:
     ~CFrmMessage();
 
     //注意：只在对话框初始化后调用一次,必须最先调用一次  
-    int SetRoster(CRoster* pRoster, MainWindow* pMainWindow);
+    int SetRoster(CRoster* pRoster);
     int AppendMessage(const QString &szMessage);
     int AppendMessageToList(const QString &szMessage, 
                             const QString &bareJid = CGlobal::Instance()->GetBareJid(),
@@ -54,7 +54,6 @@ private:
     Ui::CFrmMessage *ui;
 
     CRoster *m_pRoster;
-    MainWindow* m_pMainWindow;
 
     QStringList m_szMessages;
     QMenu m_MoreMenu;//功能按钮菜单  

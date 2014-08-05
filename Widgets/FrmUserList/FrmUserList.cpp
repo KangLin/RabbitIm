@@ -13,7 +13,7 @@
 
 CFrmUserList::CFrmUserList(QWidget *parent) :
     QFrame(parent),
-    m_UserList(parent),
+    m_UserList(this),
     ui(new Ui::CFrmUserList)
 {
     ui->setupUi(this);
@@ -28,9 +28,6 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     }
 
     m_UserList.setModel(m_pModel);
-    m_UserList.setHeaderHidden(true);
-    m_UserList.setExpandsOnDoubleClick(true);
-    m_UserList.setItemsExpandable(true);
     m_UserList.show();
  
     InsertGroup(tr("My friends"));
@@ -47,41 +44,50 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotCustomContextMenuRequested(QPoint)));
     Q_ASSERT(check);
 
+    m_pMainWindow = CGlobal::Instance()->GetMainWindow();
 
-    m_pMainWindow = (MainWindow*)parent;
-    if(NULL == m_pMainWindow->m_pClient)
-        return;
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigInitLoginedMenu(QMenu*)),
+                    SLOT(slotAddToMainMenu(QMenu*)));
+    Q_ASSERT(check);
+    
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
+                    SLOT(slotRefresh()));
+    Q_ASSERT(check);
 
-    check = connect(m_pMainWindow->m_pClient,
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRemoveMenu(QMenu*)),
+                    SLOT(slotDeleteFromMainMenu(QMenu*)));
+    Q_ASSERT(check);
+
+    check = connect(CGlobal::Instance()->GetXmppClient(),
                          SIGNAL(presenceReceived(const QXmppPresence)),
                          SLOT(slotChangedPresence(QXmppPresence)));
     Q_ASSERT(check);
 
-    check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(rosterReceived()),
+    check = connect(&CGlobal::Instance()->GetXmppClient()->rosterManager(), SIGNAL(rosterReceived()),
                     SLOT(slotRosterReceived()));
     Q_ASSERT(check);
 
-    check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(subscriptionReceived(QString)),
+    check = connect(&CGlobal::Instance()->GetXmppClient()->rosterManager(), SIGNAL(subscriptionReceived(QString)),
                     SLOT(slotSubscriptionReceived(QString)));
     Q_ASSERT(check);
 
-    check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(itemAdded(QString)),
+    check = connect(&CGlobal::Instance()->GetXmppClient()->rosterManager(), SIGNAL(itemAdded(QString)),
                     SLOT(slotItemAdded(QString)));
     Q_ASSERT(check);
 
-    check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(itemChanged(QString)),
+    check = connect(&CGlobal::Instance()->GetXmppClient()->rosterManager(), SIGNAL(itemChanged(QString)),
                     SLOT(slotItemChanged(QString)));
     Q_ASSERT(check);
 
-    check = connect(&m_pMainWindow->m_pClient->rosterManager(), SIGNAL(itemRemoved(QString)),
+    check = connect(&CGlobal::Instance()->GetXmppClient()->rosterManager(), SIGNAL(itemRemoved(QString)),
                     SLOT(slotItemRemoved(QString)));
     Q_ASSERT(check);
 
-    check = connect(&m_pMainWindow->m_pClient->vCardManager(), SIGNAL(vCardReceived(QXmppVCardIq)),
+    check = connect(&CGlobal::Instance()->GetXmppClient()->vCardManager(), SIGNAL(vCardReceived(QXmppVCardIq)),
                     SLOT(slotvCardReceived(QXmppVCardIq)));
     Q_ASSERT(check);
 
-    check = connect(m_pMainWindow->m_pClient, SIGNAL(messageReceived(QXmppMessage)),
+    check = connect(CGlobal::Instance()->GetXmppClient(), SIGNAL(messageReceived(QXmppMessage)),
                     SLOT(slotClientMessageReceived(QXmppMessage)));
     Q_ASSERT(check);
 }
@@ -157,13 +163,13 @@ int CFrmUserList::EnableAction(QAction *pAction, bool bEnable)
     return 0;
 }
 
-int CFrmUserList::AddToMainMenu(QMenu *pMenu)
+int CFrmUserList::slotAddToMainMenu(QMenu *pMenu)
 {
     m_pMenuAction = pMenu->addMenu(m_pMenu);
     return 0;
 }
 
-int CFrmUserList::DeleteFromMainMenu(QMenu *pMenu)
+int CFrmUserList::slotDeleteFromMainMenu(QMenu *pMenu)
 {
     pMenu->removeAction(m_pMenuAction);
     return 0;
@@ -209,7 +215,7 @@ void CFrmUserList::slotAddRoster()
     QSet<QString> groups;
     groups = GetGroupsName();
 
-    m_frmAddRoster.Init(m_pMainWindow->m_pClient, groups);
+    m_frmAddRoster.Init(CGlobal::Instance()->GetXmppClient(), groups);
     m_frmAddRoster.show();
 }
 
@@ -217,14 +223,14 @@ void CFrmUserList::slotAgreeAddRoster()
 {
     CRoster* p = GetCurrentRoster();
     if(p)
-        m_pMainWindow->m_pClient->rosterManager().subscribe(p->BareJid());
+       CGlobal::Instance()->GetXmppClient()->rosterManager().subscribe(p->BareJid());
 }
 
 void CFrmUserList::slotRemoveRoster()
 {
     CRoster* p = GetCurrentRoster();
     if(p)
-        m_pMainWindow->m_pClient->rosterManager().removeItem(p->BareJid());
+        CGlobal::Instance()->GetXmppClient()->rosterManager().removeItem(p->BareJid());
 }
 
 void CFrmUserList::slotInformationRoster()
@@ -236,7 +242,7 @@ void CFrmUserList::slotInformationRoster()
 
 void CFrmUserList::slotClientMessageReceived(const QXmppMessage &message)
 {
-    LOG_MODEL_DEBUG("Roster", "MainWindow:: message Received:type:%d;state:%d;from:%s;to:%s;body:%s",
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList::slotClientMessageReceived:type:%d;state:%d;from:%s;to:%s;body:%s",
            message.type(),
            message.state(), //消息的状态 0:消息内容，其它值表示这个消息的状态  
            qPrintable(message.from()),
@@ -329,7 +335,7 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
 void CFrmUserList::slotSubscriptionReceived(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(bareJid));
-    m_frmAddRoster.Init(m_pMainWindow->m_pClient, GetGroupsName(), bareJid);
+    m_frmAddRoster.Init(CGlobal::Instance()->GetXmppClient(), GetGroupsName(), bareJid);
     m_frmAddRoster.show();
     m_frmAddRoster.activateWindow();
 }
@@ -337,7 +343,7 @@ void CFrmUserList::slotSubscriptionReceived(const QString &bareJid)
 void CFrmUserList::slotItemAdded(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemAdded jid:%s", qPrintable(bareJid));
-    QXmppRosterIq::Item item = m_pMainWindow->m_pClient->rosterManager().getRosterEntry(bareJid);
+    QXmppRosterIq::Item item = CGlobal::Instance()->GetXmppClient()->rosterManager().getRosterEntry(bareJid);
     InsertUser(item);
 }
 
@@ -350,7 +356,7 @@ void CFrmUserList::slotItemChanged(const QString &bareJid)
     {
         CRoster* pRoster = it.value();
 
-        QXmppRosterIq::Item item = m_pMainWindow->m_pClient->rosterManager().getRosterEntry(bareJid);
+        QXmppRosterIq::Item item = CGlobal::Instance()->GetXmppClient()->rosterManager().getRosterEntry(bareJid);
         pRoster->UpdateItems(item);
         UpdateGroup(pRoster, item.groups());
     }
@@ -373,12 +379,12 @@ void CFrmUserList::slotRosterReceived()
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList:: Roster received");
 
-    foreach (const QString &bareJid, m_pMainWindow->m_pClient->rosterManager().getRosterBareJids())
+    foreach (const QString &bareJid, CGlobal::Instance()->GetXmppClient()->rosterManager().getRosterBareJids())
     {
-        QXmppRosterIq::Item item = m_pMainWindow->m_pClient->rosterManager().getRosterEntry(bareJid);
+        QXmppRosterIq::Item item = CGlobal::Instance()->GetXmppClient()->rosterManager().getRosterEntry(bareJid);
         InsertUser(item);
         //得到好友信息（包括头像图片）  
-        m_pMainWindow->m_pClient->vCardManager().requestVCard(bareJid);
+        CGlobal::Instance()->GetXmppClient()->vCardManager().requestVCard(bareJid);
     }
 }
 
@@ -414,6 +420,7 @@ void CFrmUserList::clicked(const QModelIndex &index)
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::clicked, row:%d; column:%d",
            index.row(), index.column());
 
+#ifdef ANDROID
     if(m_UserList.isExpanded(index))
        m_UserList.collapse(index);
     else
@@ -434,12 +441,36 @@ void CFrmUserList::clicked(const QModelIndex &index)
             p->ShowMessageDialog();
         }
     }
+#endif
 }
 
 void CFrmUserList::doubleClicked(const QModelIndex &index)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::doubleClicked, row:%d; column:%d",
            index.row(), index.column());
+
+#ifndef ANDROID
+    if(!m_UserList.isExpanded(index))
+       m_UserList.collapse(index);
+    else
+       m_UserList.expand(index);
+
+    const QAbstractItemModel *m = index.model();
+    if(!m)
+        return;
+
+    //TODO:暂时根据是否有根节点来判断是组还是好友  
+    if(m->parent(index).isValid())
+    {
+        //是用户结点，打开消息对话框  
+        QVariant v = m->data(index, Qt::UserRole + 1);
+        if(v.canConvert<CRoster*>())
+        {
+            CRoster* p = v.value<CRoster*>();
+            p->ShowMessageDialog();
+        }
+    }
+#endif
 }
 
 void CFrmUserList::resizeEvent(QResizeEvent *)

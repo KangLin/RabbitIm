@@ -61,7 +61,7 @@ void CFrmLogin::on_pbOk_clicked()
     if(m_tmAutoLogin.isActive())
         m_tmAutoLogin.stop();
 
-    bool check = connect(((MainWindow*)(this->parent()))->m_pClient,
+    bool check = connect(CGlobal::Instance()->GetXmppClient(),
                          SIGNAL(connected()),
                          (MainWindow*)(this->parent()),
                          SLOT(clientConnected()));
@@ -82,7 +82,7 @@ void CFrmLogin::on_pbOk_clicked()
 
     QXmppPresence presence;
     presence.setAvailableStatusType(m_Status);
-    ((MainWindow*)(this->parent()))->m_pClient->connectToServer(config, presence);
+    CGlobal::Instance()->GetXmppClient()->connectToServer(config, presence);
 }
 
 void CFrmLogin::on_pbClose_clicked()

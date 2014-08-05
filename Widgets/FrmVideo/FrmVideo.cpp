@@ -88,24 +88,24 @@ QThread* CFrmVideo::GetVideoThread()
     return &m_VideoThread;
 }
 
-CFrmVideo* CFrmVideo::instance(MainWindow *pMainWindow)
+CFrmVideo* CFrmVideo::instance()
 {
     static CFrmVideo *pVideo = NULL;
     if(NULL == pVideo)
     {
         pVideo = new CFrmVideo();
-        if(pMainWindow)
+        if(pVideo)
         {
-            pVideo->SetClient(pMainWindow);
+            pVideo->SetClient();
         }
     }
     return pVideo;
 }
 
-int CFrmVideo::SetClient(MainWindow* pMainWindow)
+int CFrmVideo::SetClient()
 {
-    m_pMainWindow = pMainWindow;
-    m_pClient = m_pMainWindow->m_pClient;
+    m_pMainWindow = CGlobal::Instance()->GetMainWindow();
+    m_pClient = CGlobal::Instance()->GetXmppClient();
 
     bool check = connect(&m_pClient->m_CallManager,
                          SIGNAL(callReceived(QXmppCall*)),

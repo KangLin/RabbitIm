@@ -8,6 +8,7 @@
 #include "qxmpp/QXmppVCardIq.h"
 #include "qxmpp/QXmppVCardManager.h"
 #include "qxmpp/QXmppTransferManager.h"
+#include "Widgets/WdgTableMain/WdgTableMain.h"
 
 class CFrmLogin;
 class CFrmUserList;
@@ -34,8 +35,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    CXmppClient* m_pClient;
-
     //得到好友 CRoster 对象  
     CRoster* GetRoster(QString szJid);
 
@@ -44,7 +43,14 @@ public:
     
     //文件发送  
     void sendFile(const QString& jid,const QString& fileName,SendFileType type = MainWindow::DefaultType);
-        
+
+signals:
+    //初始化菜单  
+    void sigInitLoginedMenu(QMenu* m);
+    //删除菜单  
+    void sigRemoveMenu(QMenu* m);
+    void sigRefresh();//选项窗体更新后，刷新内容  
+
 protected slots:
     void About();
     void clientConnected();
@@ -53,6 +59,11 @@ protected slots:
     void clientIqReceived(const QXmppIq &iq);
     void stateChanged(QXmppClient::State state);
 
+    /// This signal is emitted when an invitation to a chat room is received.
+    void slotInvitationReceived(const QString &roomJid, const QString &inviter, const QString &reason);
+    /// This signal is emitted when a new room is managed.
+    void slotRoomAdded(QXmppMucRoom *room);
+
     void slotTrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽  
     void slotMessageClicked();
     void slotTrayIconMenuUpdate();
@@ -60,16 +71,16 @@ protected slots:
     void slotTrayTimerStart();
     void slotTrayTimerStop();
 
-    void on_actionChange_Style_Sheet_S_triggered();
-    void on_actionEnglish_E_triggered();
-    void on_actionChinese_C_triggered();
-    
     void on_actionNotifiation_show_main_windows_triggered();
     void on_actionNotifiation_status_online_triggered();
     void on_actionNotifiation_status_away_triggered();
     void on_actionNotifiation_status_dnd_triggered();
     void on_actionNotifiation_status_chat_triggered();
     void on_actionNotifiation_status_invisible_triggered();
+
+    void on_actionChange_Style_Sheet_S_triggered();
+    void on_actionEnglish_E_triggered();
+    void on_actionChinese_C_triggered();
 
     //编辑本地用户详细信息  
     void slotEditInformation();
@@ -93,7 +104,7 @@ private:
 private:
     Ui::MainWindow *ui;
     CFrmLogin *m_pLogin;
-    CFrmUserList* m_pUserList;
+    CWdgTableMain *m_pTableMain;
     bool m_bLogin;
 
     QTranslator *m_pAppTranslator;

@@ -5,6 +5,7 @@
 #include "qxmpp/QXmppLogger.h"
 #include "qxmpp/QXmppCallManager.h"
 #include "qxmpp/QXmppTransferManager.h"
+#include "qxmpp/QXmppMucManager.h"
 
 class CXmppClient : public QXmppClient
 {
@@ -15,6 +16,7 @@ public:
     ~CXmppClient();
 
     QXmppCallManager m_CallManager;
+    QXmppMucManager m_MucManager;
     QXmppTransferManager m_TransferManager;
 };
 

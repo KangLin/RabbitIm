@@ -34,10 +34,10 @@ class CFrmVideo : public QFrame
 private:
     explicit CFrmVideo(QWidget *parent = 0);
     virtual ~CFrmVideo();
-    int SetClient(MainWindow *pMainWindow);
+    int SetClient();
 
 public:
-    static CFrmVideo *instance(MainWindow *pMainWindow);
+    static CFrmVideo *instance();
     QThread* GetVideoThread();
     
 #ifdef ANDROID

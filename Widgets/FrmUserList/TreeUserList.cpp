@@ -6,6 +6,10 @@ CTreeUserList::CTreeUserList(QWidget *parent) :
     QTreeView(parent)
 {
     this->setContextMenuPolicy(Qt::CustomContextMenu);
+    setHeaderHidden(true);//设置头隐藏  
+    setExpandsOnDoubleClick(true);//设置双击展开  
+    setItemsExpandable(true);//设置条目可以展开  
+    setFrameStyle(QFrame::NoFrame); //去掉边框  
 }
 
 void CTreeUserList::mousePressEvent(QMouseEvent *event)

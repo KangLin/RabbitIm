@@ -11,17 +11,20 @@
 #include <QSettings>
 #include "Tool.h"
 #include "Widgets/FrmUserList/Roster.h"
+#include "MainWindow.h"
 
 CGlobal::CGlobal(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    m_XmppClient(parent)
 {
+    m_pMainWindow = NULL;
     QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
     m_pRoster = new CRoster;
     m_UserColor = GetColorFormConf("Options/User/LocalColor", QColor(255, 0, 0));
     m_RosterColor = GetColorFormConf("Options/User/RosterColor", QColor(0, 0, 255));
     m_UserMessageColor = GetColorFormConf("Options/User/LocalMessageColor", QColor(0, 0, 0));
     m_RosterMessageColor = GetColorFormConf("Options/User/RosterMessageColor", QColor(0, 0, 0));
-    
+
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
     m_szXmppServer = conf.value("Login/XmppServer", "183.233.149.120").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
@@ -71,7 +74,7 @@ int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszMode
     szTemp += "):";
     szTemp += pszModelName;
     szTemp += ":";
-    
+
     va_list args;
     va_start (args, pFormatString);
     int nRet = vsnprintf(buf, 1024, pFormatString, args);
@@ -82,12 +85,29 @@ int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszMode
         return nRet;
     }
     szTemp += buf;
-    
+
     Q_UNUSED(nLevel);
-    
+
     qDebug() << szTemp.c_str();
 
     return 0;
+}
+
+MainWindow* CGlobal::GetMainWindow()
+{
+    Q_ASSERT(m_pMainWindow);
+    return m_pMainWindow;
+}
+
+int CGlobal::SetMainWindow(MainWindow *pWnd)
+{
+    m_pMainWindow = pWnd;
+    return 0;
+}
+
+CXmppClient* CGlobal::GetXmppClient()
+{
+    return &m_XmppClient;
 }
 
 QString CGlobal::GetJid()

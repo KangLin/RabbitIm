@@ -26,7 +26,7 @@ int CRoster::Init(MainWindow *parent)
     m_nNewMessageNumber = 0;
     m_pMainWindow = parent;
 
-    m_Message.SetRoster(this, m_pMainWindow);
+    m_Message.SetRoster(this);
 
     return 0;
 }

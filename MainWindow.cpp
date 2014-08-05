@@ -3,6 +3,7 @@
 #include <iostream>
 #include <QIcon>
 #include "qxmpp/QXmppRosterManager.h"
+#include "qxmpp/QXmppMucManager.h"
 #include "Widgets/FrmAbout/FrmAbout.h"
 #include <QMessageBox>
 #include "Widgets/FrmUserList/FrmUserList.h"
@@ -20,8 +21,11 @@ MainWindow::MainWindow(QWidget *parent) :
     m_TrayIconMenu(this),
     ui(new Ui::MainWindow)
 {
+    CGlobal::Instance()->SetMainWindow(this);
+
     m_pAppTranslator = NULL;
     m_pQtTranslator = NULL;
+    m_pTableMain = NULL;
     m_bLogin = false;
 
     ui->setupUi(this);
@@ -36,33 +40,44 @@ MainWindow::MainWindow(QWidget *parent) :
     //初始化子窗体
     m_pLogin = new CFrmLogin(this);
     this->setCentralWidget(m_pLogin);
-    m_pUserList = NULL;
-    m_pClient = new CXmppClient(this);
-    if(m_pClient)
+
+    CXmppClient* pClient = CGlobal::Instance()->GetXmppClient();
+    if(pClient)
     {
         //初始化qxmpp log
-        m_pClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
+        pClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
 
-        check = connect(m_pClient, SIGNAL(disconnected()),
+        check = connect(pClient, SIGNAL(disconnected()),
                         SLOT(clientDisconnected()));
         Q_ASSERT(check);
 
-        check = connect(m_pClient, SIGNAL(error(QXmppClient::Error)),
+        check = connect(pClient, SIGNAL(error(QXmppClient::Error)),
                         SLOT(clientError(QXmppClient::Error)));
         Q_ASSERT(check);
 
-        /*check = connect(m_pClient, SIGNAL(iqReceived(QXmppIq)),
+        /*check = connect(pClient, SIGNAL(iqReceived(QXmppIq)),
                         SLOT(clientIqReceived(QXmppIq)));
         Q_ASSERT(check);//*/
 
-        check = connect(m_pClient, SIGNAL(stateChanged(QXmppClient::State)),
+        check = connect(pClient, SIGNAL(stateChanged(QXmppClient::State)),
                         SLOT(stateChanged(QXmppClient::State)));
         Q_ASSERT(check);
 
-        check = connect(&m_pClient->vCardManager(), SIGNAL(clientVCardReceived()),
+        check = connect(&pClient->vCardManager(), SIGNAL(clientVCardReceived()),
                         SLOT(slotClientVCardReceived()));
+        Q_ASSERT(check);
 
-        CFrmVideo::instance(this);
+        check = connect(&pClient->m_MucManager, SIGNAL(invitationReceived(QString,QString,QString)),
+                        SLOT(slotInvitationReceived(QString,QString,QString)));
+        Q_ASSERT(check);
+
+        //0712文件发送管理窗口
+        //TODO:有内存泄漏
+        m_pSendManageDlg = new CDlgSendManage(0);
+        //0712处理文件接收信号
+        connect(&(pClient->m_TransferManager),SIGNAL(fileReceived(QXmppTransferJob*)),this,SLOT(onReceiveFile(QXmppTransferJob*)));
+
+        CFrmVideo::instance();
     }
 
     if(QSystemTrayIcon::isSystemTrayAvailable())
@@ -89,10 +104,6 @@ MainWindow::MainWindow(QWidget *parent) :
         m_TrayIcon.setIcon(QIcon(":/icon/AppIcon"));
         m_TrayIcon.show();
     }
-    //0712文件发送管理窗口
-    m_pSendManageDlg = new CDlgSendManage(0);
-    //0712处理文件接收信号
-    connect(&(m_pClient->m_TransferManager),SIGNAL(fileReceived(QXmppTransferJob*)),this,SLOT(onReceiveFile(QXmppTransferJob*)));
 }
 
 MainWindow::~MainWindow()
@@ -100,14 +111,10 @@ MainWindow::~MainWindow()
     if(m_pLogin)
         delete m_pLogin;
 
-    if(m_pClient)
-        delete m_pClient;
+    emit sigRemoveMenu(ui->menuOperator_O);
 
-    if(m_pUserList)
-    {
-        m_pUserList->DeleteFromMainMenu(ui->menuOperator_O);
-        delete m_pUserList;
-    }
+    if(m_pTableMain)
+        delete m_pTableMain;
 
     delete ui;
 
@@ -119,8 +126,8 @@ MainWindow::~MainWindow()
 
 CRoster* MainWindow::GetRoster(QString szJid)
 {
-    if(m_pUserList)
-        return m_pUserList->GetRoster(szJid);
+    if(m_pTableMain)
+        return m_pTableMain->GetRoster(szJid);
     return NULL;
 }
 
@@ -168,22 +175,17 @@ void MainWindow::clientConnected()
         m_pLogin = NULL;
     }
 
-    //显示好友列表  
-    if(NULL == m_pUserList)
-    {
-        m_pUserList = new CFrmUserList(this);
-    }
-
-    if(m_pUserList)
-    {
-        //把UserList设置到主窗口中心  
-        this->setCentralWidget(m_pUserList);
-    }
+    if(NULL == m_pTableMain)
+        m_pTableMain = new CWdgTableMain(this);
+    if(m_pTableMain)
+        this->setCentralWidget(m_pTableMain);
+    else
+        LOG_MODEL_ERROR("MainWindow", "new CWdgTableMain fail");
 
     InitLoginedMenu();
 
     //得到本地用户的详细信息  
-    m_pClient->vCardManager().requestClientVCard();
+    CGlobal::Instance()->GetXmppClient()->vCardManager().requestClientVCard();
 
     m_bLogin = true;
 }
@@ -224,7 +226,7 @@ void MainWindow::clientIqReceived(const QXmppIq &iq)
 void MainWindow::slotClientVCardReceived()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotClientVCardReceived");
-    CGlobal::Instance()->GetRoster()->SetVCard(m_pClient->vCardManager().clientVCard());
+    CGlobal::Instance()->GetRoster()->SetVCard(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard());
     m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetShowName()));
 }
 
@@ -241,12 +243,6 @@ void MainWindow::stateChanged(QXmppClient::State state)
                         tr("Error"),
                         tr("The user had logined in other place"),
                         QMessageBox::Ok);
-        if(m_pUserList)
-        {
-            m_pUserList->close();
-            delete m_pUserList;
-            m_pUserList = NULL;
-        }
 
         if(NULL == m_pLogin)
             m_pLogin = new CFrmLogin;
@@ -258,9 +254,26 @@ void MainWindow::stateChanged(QXmppClient::State state)
     }*/
 }
 
+void MainWindow::slotInvitationReceived(const QString &roomJid, const QString &inviter, const QString &reason)
+{
+    LOG_MODEL_DEBUG("MainWindow", "roomJid:%s, inviter:%s, reason:%s",
+                    roomJid.toStdString().c_str(), 
+                    inviter.toStdString().c_str(),
+                    reason.toStdString().c_str());
+}
+
+void MainWindow::slotRoomAdded(QXmppMucRoom *room)
+{
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotRoomAdded:jid:%s,name:%s,nick:%s,subject:%s",
+                    room->jid().toStdString().c_str(),
+                    room->name().toStdString().c_str(),
+                    room->nickName().toStdString().c_str(),
+                    room->subject().toStdString().c_str());
+}
+
 void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindow::SendFileType type)
 {
-    QXmppTransferJob* job = m_pClient->m_TransferManager.sendFile(jid,fileName,QString::number(type));
+    QXmppTransferJob* job = CGlobal::Instance()->GetXmppClient()->m_TransferManager.sendFile(jid,fileName,QString::number(type));
     if(job)
     {
         m_pSendManageDlg->addFileProcess(*job,true);
@@ -286,10 +299,8 @@ int MainWindow::InitLoginedMenu()
                 tr("Edit Locale User Infomation(&E)"),
                 this, SLOT(slotEditInformation()));
 
-    if(m_pUserList)
-    {    //注册菜单  
-        m_pUserList->AddToMainMenu(ui->menuOperator_O);
-    }
+    //注册菜单  
+    emit sigInitLoginedMenu(ui->menuOperator_O);
 
     InitMenu();
     return 0;
@@ -328,7 +339,8 @@ void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 void MainWindow::slotMessageClicked()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotMessageClicked");
-    m_pUserList->ShowMessageDialog();
+    //TODO:
+    //m_pUserList->ShowMessageDialog();
     slotTrayTimerStop();
 }
 
@@ -406,40 +418,42 @@ void MainWindow::on_actionNotifiation_status_away_triggered()
 {
     QXmppPresence presence;
     presence.setAvailableStatusType(QXmppPresence::Away);
-    m_pClient->setClientPresence(presence);
+    CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
 }
 
 void MainWindow::on_actionNotifiation_status_chat_triggered()
 {
     QXmppPresence presence;
     presence.setAvailableStatusType(QXmppPresence::Chat);
-    m_pClient->setClientPresence(presence);
+    CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
 }
 
 void MainWindow::on_actionNotifiation_status_dnd_triggered()
 {
     QXmppPresence presence;
     presence.setAvailableStatusType(QXmppPresence::DND);
-    m_pClient->setClientPresence(presence);
+    CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
 }
 
 void MainWindow::on_actionNotifiation_status_online_triggered()
 {
     QXmppPresence presence;
     presence.setAvailableStatusType(QXmppPresence::Online);
-    m_pClient->setClientPresence(presence);
+    CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
 }
 
 void MainWindow::on_actionNotifiation_status_invisible_triggered()
 {
     QXmppPresence presence;
     presence.setAvailableStatusType(QXmppPresence::Invisible);
-    m_pClient->setClientPresence(presence);
+    CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
 }
 
 void MainWindow::slotEditInformation()
 {
-    CFrmUservCard* pvCard = new CFrmUservCard(CGlobal::Instance()->GetRoster(), true, m_pClient);
+    CFrmUservCard* pvCard = 
+            new CFrmUservCard(CGlobal::Instance()->GetRoster(), 
+                              true, CGlobal::Instance()->GetXmppClient());
     pvCard->show();
 }
 
@@ -453,14 +467,12 @@ void MainWindow::onReceiveFile(QXmppTransferJob *job)
 
 void MainWindow::on_actionOptions_O_triggered()
 {
-    CFrmOptions* pFrm = CFrmOptions::Instance();//窗口关闭时，会自己释放内存  
+    CFrmOptions* pFrm = CFrmOptions::Instance();//是一个单例  
     if(pFrm)
     {
-        if(m_pUserList)
-        {
-            bool check = connect(pFrm, SIGNAL(sigRefresh()), m_pUserList, SLOT(slotRefresh()));
-            Q_ASSERT(check);
-        }
+        bool check = connect(pFrm, SIGNAL(sigRefresh()), SIGNAL(sigRefresh()));
+        Q_ASSERT(check);
+
         pFrm->show();
         pFrm->activateWindow();
     }

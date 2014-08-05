@@ -29,10 +29,6 @@ public:
     ~CFrmUserList();
 
 public:
-    //把好友列表菜单加到主菜单中,调用者不需要用此菜单时，负责调用DeleteFromMainMenu释放  
-    int AddToMainMenu(QMenu* pMenu);
-    //把好友列表菜单从主菜单中移除  
-    int DeleteFromMainMenu(QMenu *pMenu);
     //显示最后一个消息窗口  
     int ShowMessageDialog();
     //根据好友jid，得到相应的 CRoster 对象  
@@ -47,6 +43,11 @@ private slots:
     //如果设置为DefaultContextMenu，则触发右键菜单事件contextMenuEvent() 
     void slotCustomContextMenuRequested(const QPoint &pos);
     void slotUpdateMenu();//更新菜单  
+    //把好友列表菜单加到主菜单中,调用者不需要用此菜单时，负责调用DeleteFromMainMenu释放  
+    int slotAddToMainMenu(QMenu* pMenu);
+    //把好友列表菜单从主菜单中移除  
+    int slotDeleteFromMainMenu(QMenu *pMenu);
+
 private:
     int InitMenu();//初始化菜单  
     int EnableAllActioins(bool bEnable = true);

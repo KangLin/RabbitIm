@@ -5,8 +5,10 @@
 #include <QColor>
 #include "qxmpp/QXmppPresence.h"
 #include "qxmpp/QXmppClient.h"
+#include "XmppClient.h"
 
 class CRoster;
+class MainWindow;
 class CGlobal : public QObject
 {
     Q_OBJECT
@@ -25,6 +27,15 @@ public:
     //....pszModelName:打印日志的模块范围  
     int Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...);
 
+public:
+    MainWindow* GetMainWindow();
+    int SetMainWindow(MainWindow* pWnd);
+    CXmppClient* GetXmppClient();
+private:
+    MainWindow* m_pMainWindow;
+    CXmppClient m_XmppClient;
+
+public:
     //用户数据存放目录  
     QString GetDirUserData(const QString bareJid = QString());
     //得到用户头像目录  

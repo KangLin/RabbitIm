@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     Widgets/DlgLogin/FrmLoginSettings.cpp \
     Widgets/FrmOptions/FrmOptions.cpp \
     Widgets/FrmUservCard/FrmUservCard.cpp \
-    Widgets/FrmCustom/Label.cpp
+    Widgets/FrmCustom/Label.cpp \ 
+    Widgets/WdgTableMain/WdgTableMain.cpp
 
 HEADERS  += MainWindow.h \
     XmppClient.h \
@@ -56,7 +57,8 @@ HEADERS  += MainWindow.h \
     Widgets/DlgLogin/FrmLoginSettings.h \
     Widgets/FrmOptions/FrmOptions.h \
     Widgets/FrmUservCard/FrmUservCard.h \ 
-    Widgets/FrmCustom/Label.h
+    Widgets/FrmCustom/Label.h \ 
+    Widgets/WdgTableMain/WdgTableMain.h
 
 FORMS    += MainWindow.ui \
     Widgets/FrmSendFile/DlgSendManage.ui \
@@ -71,7 +73,8 @@ FORMS    += MainWindow.ui \
     Widgets/FrmAddRoster/FrmAddRoster.ui \
     Widgets/DlgLogin/FrmLoginSettings.ui \
     Widgets/FrmOptions/FrmOptions.ui \
-    Widgets/FrmUservCard/FrmUservCard.ui
+    Widgets/FrmUservCard/FrmUservCard.ui \ 
+    Widgets/WdgTableMain/WdgTableMain.ui
 
 RESOURCES += \
     Resource/Resource.qrc
