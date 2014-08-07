@@ -29,9 +29,9 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
 
     m_UserList.setModel(m_pModel);
     m_UserList.show();
- 
+
     InsertGroup(tr("My friends"));
-    
+
     bool check = connect(&m_UserList, SIGNAL(clicked(QModelIndex)),
                          SLOT(clicked(QModelIndex)));
     Q_ASSERT(check);
@@ -49,7 +49,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigInitLoginedMenu(QMenu*)),
                     SLOT(slotAddToMainMenu(QMenu*)));
     Q_ASSERT(check);
-    
+
     check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
                     SLOT(slotRefresh()));
     Q_ASSERT(check);
@@ -163,21 +163,22 @@ int CFrmUserList::EnableAction(QAction *pAction, bool bEnable)
     return 0;
 }
 
-int CFrmUserList::slotAddToMainMenu(QMenu *pMenu)
+void CFrmUserList::slotAddToMainMenu(QMenu *pMenu)
 {
     m_pMenuAction = pMenu->addMenu(m_pMenu);
-    return 0;
 }
 
-int CFrmUserList::slotDeleteFromMainMenu(QMenu *pMenu)
+void CFrmUserList::slotDeleteFromMainMenu(QMenu *pMenu)
 {
     pMenu->removeAction(m_pMenuAction);
-    return 0;
 }
 
 void CFrmUserList::slotUpdateMenu()
 {
     EnableAllActioins(false);
+    if(this->isHidden())
+        return;
+
     //如果是组上,显示增加好友  
     EnableAction(ui->actionAddRoster_A);
 

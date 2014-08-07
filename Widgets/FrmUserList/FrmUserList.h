@@ -44,9 +44,9 @@ private slots:
     void slotCustomContextMenuRequested(const QPoint &pos);
     void slotUpdateMenu();//更新菜单  
     //把好友列表菜单加到主菜单中,调用者不需要用此菜单时，负责调用DeleteFromMainMenu释放  
-    int slotAddToMainMenu(QMenu* pMenu);
+    void slotAddToMainMenu(QMenu* pMenu);
     //把好友列表菜单从主菜单中移除  
-    int slotDeleteFromMainMenu(QMenu *pMenu);
+    void slotDeleteFromMainMenu(QMenu *pMenu);
 
 private:
     int InitMenu();//初始化菜单  
