@@ -3,30 +3,38 @@
 #include "../../Global.h"
 #include "FrmGroupChatFind.h"
 #include "../../MainWindow.h"
+#include "../FrmUserList/Roster.h"
+
+#define ROLE_JID Qt::UserRole + 1
+#define ROLE_FORM_GROUPCHAT ROLE_JID + 1
 
 CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     QFrame(parent),
+    m_GroupList(this),
     ui(new Ui::CFrmGroupChatList)
 {
     ui->setupUi(this);
-
-    //setContextMenuPolicy(Qt::CustomContextMenu);
 
     bool check = false;
     m_pAction = NULL;
 
     InitMenu();
 
-    QList<QXmppMucRoom*> rooms = CGlobal::Instance()->GetXmppClient()->m_MucManager.rooms();
-    QList<QXmppMucRoom*>::iterator it;
-    for(it = rooms.begin(); it != rooms.end(); it++)
-    {
-        LOG_MODEL_DEBUG("GroupChat", "roomjid:%s", (*it)->jid().toStdString().c_str());
-    }
+    m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。  
+    m_GroupList.setModel(m_pModel);
+    m_GroupList.show();
 
+    check = connect(&m_GroupList, SIGNAL(customContextMenuRequested(QPoint)),
+                    SLOT(slotCustomContextMenuRequested(QPoint)));
+    Q_ASSERT(check);
+    
     check = connect(&CGlobal::Instance()->GetXmppClient()->m_MucManager, SIGNAL(invitationReceived(QString,QString,QString)),
                     SLOT(slotInvitationReceived(QString,QString,QString)));
     Q_ASSERT(check);
+
+    /*check = connect(&CGlobal::Instance()->GetXmppClient()->m_MucManager, SIGNAL(roomAdded(QXmppMucRoom*)),
+                    SLOT(slotRoomAdded(QXmppMucRoom*)));
+    Q_ASSERT(check);*/
 
     check = connect(&m_Menu, SIGNAL(aboutToShow()),
                     SLOT(slotUpdateMenu()));
@@ -36,12 +44,6 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
 CFrmGroupChatList::~CFrmGroupChatList()
 {
     delete ui;
-}
-
-void CFrmGroupChatList::contextMenuEvent(QContextMenuEvent * event)
-{
-    Q_UNUSED(event);
-    m_Menu.exec(QCursor::pos());
 }
 
 void CFrmGroupChatList::slotInvitationReceived(const QString &roomJid, const QString &inviter, const QString &reason)
@@ -59,6 +61,18 @@ void CFrmGroupChatList::slotRoomAdded(QXmppMucRoom *room)
                     room->name().toStdString().c_str(),
                     room->nickName().toStdString().c_str(),
                     room->subject().toStdString().c_str());
+
+    QMap<QString, QStandardItem*>::iterator it;
+    it = m_Group.find(room->jid());
+    if(m_Group.end() == it)
+    {
+        QStandardItem* pItem = new QStandardItem(QIcon(":/icon/Conference"), room->name());
+        pItem->setData(room->jid(), ROLE_JID);
+        m_pModel->appendRow(pItem);
+        m_Group[room->jid()] = pItem;
+    }
+    else
+        LOG_MODEL_DEBUG("group chat list", "group [%s] is existed", room->jid().toStdString().c_str());
 }
 
 int CFrmGroupChatList::InitMenu()
@@ -80,6 +94,17 @@ int CFrmGroupChatList::InitMenu()
     return 0;
 }
 
+void CFrmGroupChatList::resizeEvent(QResizeEvent*)
+{
+    m_GroupList.setGeometry(this->geometry());
+}
+
+void CFrmGroupChatList::slotCustomContextMenuRequested(const QPoint &pos)
+{
+    Q_UNUSED(pos);
+    m_Menu.exec(QCursor::pos());
+}
+
 void CFrmGroupChatList::slotAddToMainMenu(QMenu *pMenu)
 {
     m_pAction = pMenu->addMenu(&m_Menu);
@@ -90,9 +115,27 @@ void CFrmGroupChatList::slotRemoveFromMainMenu(QMenu *pMenu)
     pMenu->removeAction(m_pAction);
 }
 
+void CFrmGroupChatList::slotJoinGroup(const QString &jid)
+{
+    if(m_Group.find(jid) != m_Group.end())
+        return;
+
+    QXmppMucRoom* pRoom = CGlobal::Instance()->GetXmppClient()->m_MucManager.addRoom(jid);
+
+    CFrmGroupChat* pGroupChat = new CFrmGroupChat(pRoom);
+    QStandardItem* pItem = pGroupChat->GetItem();
+    m_pModel->appendRow(pItem);
+    m_Group[pRoom->jid()] = pItem;
+
+    pRoom->setNickName(CGlobal::Instance()->GetRoster()->Name());
+    pRoom->join();
+}
+
 void CFrmGroupChatList::slotFindGroup()
 {
     CFrmGroupChatFind * pFrm = new CFrmGroupChatFind();//窗体自己释放内存，不会泄漏  
+    connect(pFrm, SIGNAL(sigJoinGroup(QString)), 
+            SLOT(slotJoinGroup(QString)));
     pFrm->show();
 }
 

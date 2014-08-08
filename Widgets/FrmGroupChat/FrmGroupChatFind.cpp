@@ -2,6 +2,9 @@
 #include "ui_FrmGroupChatFind.h"
 #include "../../Global.h"
 #include "qxmpp/QXmppDiscoveryManager.h"
+#include "../FrmUserList/Roster.h"
+
+#define ROLE_JID Qt::UserRole + 1
 
 CFrmGroupChatFind::CFrmGroupChatFind(QWidget *parent) :
     QFrame(parent),
@@ -40,9 +43,14 @@ void CFrmGroupChatFind::closeEvent(QCloseEvent *)
     deleteLater();
 }
 
-
 void CFrmGroupChatFind::on_pbJoin_clicked()
 {
+    QModelIndex index = ui->listView->currentIndex();
+    if(!index.isValid())
+        return;
+    QVariant v = index.model()->data(index, ROLE_JID);
+    QString szJid = v.value<QString>();
+    emit sigJoinGroup(szJid);
     close();
 }
 
@@ -64,7 +72,7 @@ void CFrmGroupChatFind::on_treeView_doubleClicked(const QModelIndex &index)
         return;
 
     m_pListModel->clear();
-    QVariant v = m->data(index, Qt::UserRole + 1);
+    QVariant v = m->data(index, ROLE_JID);
     QString jid = v.value<QString>();
     m_Conference.Request(jid, CConference::REQUEST_TYPE_ROOMS);
 }
@@ -72,7 +80,8 @@ void CFrmGroupChatFind::on_treeView_doubleClicked(const QModelIndex &index)
 void CFrmGroupChatFind::slotFoundServer(const QString& jid, const QString& name)
 {
      QStandardItem* pItem = new QStandardItem(QIcon(":/icon/Server"), name);
-     pItem->setData(jid);
+     pItem->setData(jid, ROLE_JID);
+     pItem->setToolTip(jid);
      m_pModel->appendRow(pItem);
 }
 
@@ -82,7 +91,8 @@ void CFrmGroupChatFind::slotFoundRoom(const QList<QXmppDiscoveryIq::Item> &Rooms
     foreach(item, Rooms)
     {
         QStandardItem* pItem = new QStandardItem(QIcon(":/icon/Conference"), item.name());
-        pItem->setData(item.jid());
+        pItem->setData(item.jid(), ROLE_JID);
+        pItem->setToolTip(item.jid());
         m_pListModel->appendRow(pItem);
     }
 }

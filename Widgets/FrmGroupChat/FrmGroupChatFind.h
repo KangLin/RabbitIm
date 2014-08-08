@@ -31,6 +31,9 @@ private slots:
     void slotFoundServer(const QString& jid, const QString& name);
     void slotFoundRoom(const QList<QXmppDiscoveryIq::Item> &Rooms);
 
+signals:
+    void sigJoinGroup(const QString &jid);
+
 private:
     Ui::CFrmGroupChatFind *ui;
 

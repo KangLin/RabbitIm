@@ -32,7 +32,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>80</width>
+         <width>102</width>
          <height>30</height>
         </size>
        </property>
@@ -130,7 +130,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>80</width>
+         <width>102</width>
          <height>30</height>
         </size>
        </property>
@@ -151,7 +151,7 @@
      <item>
       <widget class="QLineEdit" name="txtXmppDomain">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
          <horstretch>4</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -184,7 +184,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>80</width>
+         <width>102</width>
          <height>30</height>
         </size>
        </property>
@@ -285,7 +285,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>80</width>
+         <width>102</width>
          <height>30</height>
         </size>
        </property>
@@ -386,7 +386,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>80</width>
+         <width>102</width>
          <height>30</height>
         </size>
        </property>
@@ -407,7 +407,7 @@
      <item>
       <widget class="QLineEdit" name="txtUser">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -454,7 +454,7 @@
      <item>
       <widget class="QLineEdit" name="txtPassword">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
