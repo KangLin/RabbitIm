@@ -4,11 +4,11 @@
 #include <QTreeView>
 #include <QTime>
 
-class CTreeUserList : public QTreeView
+class CCustomTreeView : public QTreeView
 {
     Q_OBJECT
 public:
-    explicit CTreeUserList(QWidget *parent = 0);
+    explicit CCustomTreeView(QWidget *parent = 0);
 
 protected:
     //显示上下文件菜单(右键菜单)

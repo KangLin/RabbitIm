@@ -75,7 +75,7 @@
   <action name="actionOptions_O">
    <property name="icon">
     <iconset resource="Resource/Resource.qrc">
-     <normaloff>:/icon/Option</normaloff>:/icon/Option</iconset>
+     <normaloff>:/icon/Options</normaloff>:/icon/Options</iconset>
    </property>
    <property name="text">
     <string>Options(&amp;O)</string>

@@ -3,6 +3,7 @@
 
 #include <QTabWidget>
 #include "../FrmUserList/FrmUserList.h"
+#include "../FrmGroupChat/FrmGroupChatList.h"
 
 namespace Ui {
 class CWdgTableMain;
@@ -21,6 +22,7 @@ public:
 private:
     Ui::CWdgTableMain *ui;
     CFrmUserList m_UserList;
+    CFrmGroupChatList m_GroupChatList;
 };
 
 #endif // WDGTABLEMAIN_H

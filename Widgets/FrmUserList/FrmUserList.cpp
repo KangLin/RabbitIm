@@ -208,6 +208,7 @@ void CFrmUserList::slotUpdateMenu()
 
 void CFrmUserList::slotCustomContextMenuRequested(const QPoint &pos)
 {
+    Q_UNUSED(pos);
     m_pMenu->exec(QCursor::pos());
 }
 

@@ -11,7 +11,7 @@
 #include "qxmpp/QXmppLogger.h"
 #include "qxmpp/QXmppMessage.h"
 #include "../FrmAddRoster/FrmAddRoster.h"
-#include "TreeUserList.h"
+#include "../FrmCustom/CustomTreeView.h"
 
 class CRoster;
 
@@ -39,8 +39,8 @@ public slots:
 
 private slots:
     //显示上下文件菜单(右键菜单)  
-    //控件contextMenuPolicy属性要设置为CustomContextMenu，才能触这个槽 
-    //如果设置为DefaultContextMenu，则触发右键菜单事件contextMenuEvent() 
+    //控件contextMenuPolicy属性要设置为CustomContextMenu，才能触customContextMenuRequested事件，再联接这个槽 
+    //如果设置为DefaultContextMenu，则触发右键菜单事件 void contextMenuEvent(QContextMenuEvent * event);  
     void slotCustomContextMenuRequested(const QPoint &pos);
     void slotUpdateMenu();//更新菜单  
     //把好友列表菜单加到主菜单中,调用者不需要用此菜单时，负责调用DeleteFromMainMenu释放  
@@ -110,7 +110,7 @@ private slots:
 private:
     Ui::CFrmUserList *ui;
 
-    CTreeUserList m_UserList;
+    CCustomTreeView m_UserList;
     QStandardItemModel *m_pModel;           //好友列表树型控件   
     MainWindow *m_pMainWindow;
     QMap<QString, CRoster*> m_Rosters;      //好友列表:<bareJic, CRoster>  

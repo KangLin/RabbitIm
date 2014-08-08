@@ -67,10 +67,6 @@ MainWindow::MainWindow(QWidget *parent) :
                         SLOT(slotClientVCardReceived()));
         Q_ASSERT(check);
 
-        check = connect(&pClient->m_MucManager, SIGNAL(invitationReceived(QString,QString,QString)),
-                        SLOT(slotInvitationReceived(QString,QString,QString)));
-        Q_ASSERT(check);
-
         //0712文件发送管理窗口
         //TODO:有内存泄漏
         m_pSendManageDlg = new CDlgSendManage(0);
@@ -111,7 +107,8 @@ MainWindow::~MainWindow()
     if(m_pLogin)
         delete m_pLogin;
 
-    emit sigRemoveMenu(ui->menuOperator_O);
+    //TODO:可能会引起程序core  
+    //emit sigRemoveMenu(ui->menuOperator_O);
 
     if(m_pTableMain)
         delete m_pTableMain;
@@ -252,23 +249,6 @@ void MainWindow::stateChanged(QXmppClient::State state)
             this->setCentralWidget(m_pLogin);
         }
     }*/
-}
-
-void MainWindow::slotInvitationReceived(const QString &roomJid, const QString &inviter, const QString &reason)
-{
-    LOG_MODEL_DEBUG("MainWindow", "roomJid:%s, inviter:%s, reason:%s",
-                    roomJid.toStdString().c_str(), 
-                    inviter.toStdString().c_str(),
-                    reason.toStdString().c_str());
-}
-
-void MainWindow::slotRoomAdded(QXmppMucRoom *room)
-{
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotRoomAdded:jid:%s,name:%s,nick:%s,subject:%s",
-                    room->jid().toStdString().c_str(),
-                    room->name().toStdString().c_str(),
-                    room->nickName().toStdString().c_str(),
-                    room->subject().toStdString().c_str());
 }
 
 void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindow::SendFileType type)

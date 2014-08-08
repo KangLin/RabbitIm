@@ -32,6 +32,12 @@
         <file alias="Information">png/information.png</file>
         <file alias="Option">png/option.png</file>
         <file alias="Color">png/color.png</file>
+        <file alias="Search">png/search.png</file>
+        <file alias="User">png/user.png</file>
+        <file alias="Users">png/users.png</file>
+        <file alias="Server">png/server.png</file>
+        <file alias="Conference">png/conference_16x16.png</file>
+        <file alias="Options">png/settings16x16.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

@@ -59,11 +59,6 @@ protected slots:
     void clientIqReceived(const QXmppIq &iq);
     void stateChanged(QXmppClient::State state);
 
-    /// This signal is emitted when an invitation to a chat room is received.
-    void slotInvitationReceived(const QString &roomJid, const QString &inviter, const QString &reason);
-    /// This signal is emitted when a new room is managed.
-    void slotRoomAdded(QXmppMucRoom *room);
-
     void slotTrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽  
     void slotMessageClicked();
     void slotTrayIconMenuUpdate();

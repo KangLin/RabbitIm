@@ -8,7 +8,8 @@ CWdgTableMain::CWdgTableMain(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->addTab(&m_UserList, tr("Rosters"));
+    this->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
+    addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
 }
 
 CWdgTableMain::~CWdgTableMain()

@@ -20,14 +20,17 @@ SOURCES += main.cpp\
     Widgets/FrmVideo/DataVideoBuffer.cpp \
     Widgets/FrmVideo/FrameProcess.cpp \
     Widgets/FrmAddRoster/FrmAddRoster.cpp \
-    Widgets/FrmUserList/TreeUserList.cpp \
+    Widgets/FrmCustom/CustomTreeView.cpp \
     Widgets/FrmVideo/RecordAudio.cpp \
     Widgets/FrmVideo/CCamera.cpp \
     Widgets/DlgLogin/FrmLoginSettings.cpp \
     Widgets/FrmOptions/FrmOptions.cpp \
     Widgets/FrmUservCard/FrmUservCard.cpp \
     Widgets/FrmCustom/Label.cpp \ 
-    Widgets/WdgTableMain/WdgTableMain.cpp
+    Widgets/WdgTableMain/WdgTableMain.cpp \
+    Widgets/FrmGroupChat/FrmGroupChatList.cpp \
+    Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
+    Widgets/FrmGroupChat/Conference.cpp
 
 HEADERS  += MainWindow.h \
     XmppClient.h \
@@ -50,7 +53,7 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/DataVideoBuffer.h \
     Widgets/FrmVideo/FrameProcess.h \
     Widgets/FrmAddRoster/FrmAddRoster.h \
-    Widgets/FrmUserList/TreeUserList.h \
+    Widgets/FrmCustom/CustomTreeView.h \
     Widgets/FrmVideo/RecordAudio.h \
     Widgets/FrmAbout/Version.h \
     Widgets/FrmVideo/CCamera.h \
@@ -58,7 +61,10 @@ HEADERS  += MainWindow.h \
     Widgets/FrmOptions/FrmOptions.h \
     Widgets/FrmUservCard/FrmUservCard.h \ 
     Widgets/FrmCustom/Label.h \ 
-    Widgets/WdgTableMain/WdgTableMain.h
+    Widgets/WdgTableMain/WdgTableMain.h \
+    Widgets/FrmGroupChat/FrmGroupChatList.h \
+    Widgets/FrmGroupChat/FrmGroupChatFind.h \
+    Widgets/FrmGroupChat/Conference.h
 
 FORMS    += MainWindow.ui \
     Widgets/FrmSendFile/DlgSendManage.ui \
@@ -74,7 +80,9 @@ FORMS    += MainWindow.ui \
     Widgets/DlgLogin/FrmLoginSettings.ui \
     Widgets/FrmOptions/FrmOptions.ui \
     Widgets/FrmUservCard/FrmUservCard.ui \ 
-    Widgets/WdgTableMain/WdgTableMain.ui
+    Widgets/WdgTableMain/WdgTableMain.ui \
+    Widgets/FrmGroupChat/FrmGroupChatList.ui \
+    Widgets/FrmGroupChat/FrmGroupChatFind.ui
 
 RESOURCES += \
     Resource/Resource.qrc

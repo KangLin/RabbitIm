@@ -37,3 +37,13 @@ QtThread线程介绍:http://blog.csdn.net/liuhongwei123888/article/details/60723
 android平台编译出来的是一个动态库，它安装后，位于安装目录的lib目录下。此目录只有读权限。只有system用户才有写权限。
 而安装目录除了lib目录外，对应用程序的用户有读写权限。
 qApp->applicationDirPath()得到的是安装目录下lib的位置。所以向上一级，到安装目录，就可以有读写权限。
+
+* xmpp 协议：
+  对xep-0030 服务发现的一点理解,目录查询：http://www.cnblogs.com/choday/p/3431725.html
+  多用户聊天协议：http://xmpp.org/extensions/xep-0045.html#intro
+  
+* 组聊天：
+1. 先查询指定域名的 muc 服务
+2. 查询指定 muc 服务中的房间
+2.1 查询房间信息（可选）
+3. 查询房间的item

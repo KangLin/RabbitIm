@@ -1,25 +1,26 @@
-#include "TreeUserList.h"
+#include "../FrmCustom/CustomTreeView.h"
 #include "../../Global.h"
 #include "../../Tool.h"
 
-CTreeUserList::CTreeUserList(QWidget *parent) :
+CCustomTreeView::CCustomTreeView(QWidget *parent) :
     QTreeView(parent)
 {
-    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    //设置上下文件菜单，自动触发void slotCustomContextMenuRequested(const QPoint &pos);  
+    setContextMenuPolicy(Qt::CustomContextMenu);
     setHeaderHidden(true);//设置头隐藏  
     setExpandsOnDoubleClick(true);//设置双击展开  
     setItemsExpandable(true);//设置条目可以展开  
     setFrameStyle(QFrame::NoFrame); //去掉边框  
 }
 
-void CTreeUserList::mousePressEvent(QMouseEvent *event)
+void CCustomTreeView::mousePressEvent(QMouseEvent *event)
 {
     LOG_MODEL_DEBUG("Roster", "CTreeUserList::mousePressEvent");
     m_MousePressTime = QTime::currentTime();
     QTreeView::mousePressEvent(event);
 }
 
-void CTreeUserList::mouseReleaseEvent(QMouseEvent *event)
+void CCustomTreeView::mouseReleaseEvent(QMouseEvent *event)
 {
     LOG_MODEL_DEBUG("Roster", "CTreeUserList::mouseReleaseEvent");
 #ifdef ANDROID
@@ -39,13 +40,13 @@ void CTreeUserList::mouseReleaseEvent(QMouseEvent *event)
     QTreeView::mouseReleaseEvent(event);
 }
 
-void CTreeUserList::contextMenuEvent(QContextMenuEvent *event)
+void CCustomTreeView::contextMenuEvent(QContextMenuEvent *event)
 {
     LOG_MODEL_DEBUG("Roster", "CTreeUserList::mouseReleaseEvent");
     QTreeView::contextMenuEvent(event);
 }
 
-void CTreeUserList::resizeEvent(QResizeEvent *event)
+void CCustomTreeView::resizeEvent(QResizeEvent *event)
 {
     LOG_MODEL_DEBUG("Roster", "CTreeUserList::resizeEvent:width:%d", this->geometry().width());
     Q_UNUSED(event);
