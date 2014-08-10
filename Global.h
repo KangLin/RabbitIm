@@ -121,6 +121,8 @@ public:
     //设置自动登录  
     int SetAutoLogin(bool bAuto);
     bool GetAutoLogin();
+    int SetAutoLoginDelayTime(int nTime);
+    int GetAutoLoginDelayTime();
     //设置是否在通知栏弹出消息  
     int SetNotifiationBarShowMessage(bool bShowMessage);
     bool IsNotifiationBarShowMessage();
@@ -137,6 +139,7 @@ public:
 
 private:
     bool m_AutoLogin;//自动登录  
+    int m_nAutoLoginDelayTime;
     bool m_bNotifiationBarShowMessage;
     int m_nShowMessageDelay;
     bool m_bNotifiationBarFlashs;

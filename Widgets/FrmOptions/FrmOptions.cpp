@@ -30,6 +30,7 @@ CFrmOptions* CFrmOptions::Instance()
 void CFrmOptions::showEvent(QShowEvent *)
 {
     ui->cbAutoLogin->setChecked(CGlobal::Instance()->GetAutoLogin());
+    ui->sbDelayTime->setValue(CGlobal::Instance()->GetAutoLoginDelayTime());
     ui->cbNotificationFlash->setChecked(CGlobal::Instance()->IsNotifiationFlashs());
     ui->cbNotificationShowMessage->setChecked(CGlobal::Instance()->IsNotifiationBarShowMessage());
     ui->txtFlashInterval->setText(QString::number(CGlobal::Instance()->GetNotifiationFlashInterval()));
@@ -83,6 +84,7 @@ void CFrmOptions::on_pbCancel_clicked()
 void CFrmOptions::on_pbOK_clicked()
 {
     CGlobal::Instance()->SetAutoLogin(ui->cbAutoLogin->isChecked());
+    CGlobal::Instance()->SetAutoLoginDelayTime(ui->sbDelayTime->value());
     CGlobal::Instance()->SetNotifiationBarShowMessage(ui->cbNotificationShowMessage->isChecked());
     CGlobal::Instance()->SetNotifiationFlashs(ui->cbNotificationFlash->isChecked());
     CGlobal::Instance()->SetNotifiationFlashInterval(ui->txtFlashInterval->text().toInt());

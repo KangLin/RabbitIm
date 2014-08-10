@@ -38,6 +38,7 @@ CGlobal::CGlobal(QObject *parent) :
     m_szTurnPassword = conf.value("Login/TurnServerPassword", "1").toString();
 
     m_AutoLogin = conf.value("Login/AutoLogin", false).toBool();
+    m_nAutoLoginDelayTime = conf.value("Login/AutoLoginDelayTime", "3").toInt();
     m_bNotifiationBarShowMessage = conf.value("Options/NotifiationBar/ShowMessage", true).toBool();
     m_nShowMessageDelay = conf.value("Options/NotifiationBar/ShowMessageDelay", 10000).toInt();
     m_bNotifiationBarFlashs =  conf.value("Options/NotifiationBar/Flashs", true).toBool();
@@ -478,6 +479,19 @@ int CGlobal::SetAutoLogin(bool bAuto)
 bool CGlobal::GetAutoLogin()
 {
     return m_AutoLogin;
+}
+
+int CGlobal::SetAutoLoginDelayTime(int nTime)
+{
+    m_nAutoLoginDelayTime = nTime;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/AutoLoginDelayTime", m_nAutoLoginDelayTime);
+    return 0;
+}
+
+int CGlobal::GetAutoLoginDelayTime()
+{
+    return m_nAutoLoginDelayTime;
 }
 
 int CGlobal::SetNotifiationBarShowMessage(bool bShowMessage)
