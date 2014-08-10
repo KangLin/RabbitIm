@@ -1,6 +1,6 @@
 #include "FrmRegister.h"
 #include "ui_FrmRegister.h"
-#include "../DlgLogin/FrmLogin.h"
+#include "../FrmLogin/FrmLogin.h"
 #include "qxmpp/QXmppRegisterIq.h"
 #include "../../MainWindow.h"
 #include "../../Global.h"

@@ -7,7 +7,7 @@
 #include "Widgets/FrmAbout/FrmAbout.h"
 #include <QMessageBox>
 #include "Widgets/FrmUserList/FrmUserList.h"
-#include "Widgets/DlgLogin/FrmLogin.h"
+#include "Widgets/FrmLogin/FrmLogin.h"
 #include "Global.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
 #include "Widgets/FrmOptions/FrmOptions.h"

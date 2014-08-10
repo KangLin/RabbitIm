@@ -5,8 +5,7 @@ SOURCES += main.cpp\
     Tool.cpp \
     Widgets/FrmSendFile/DlgSendManage.cpp \
     Widgets/FrmSendFile/FrmSendFile.cpp \
-    Widgets/DlgLogin/DlgLogin.cpp \
-    Widgets/DlgLogin/FrmLogin.cpp \
+    Widgets/FrmLogin/FrmLogin.cpp \
     Widgets/FrmUserList/FrmUserList.cpp \
     Widgets/FrmUserList/Roster.cpp \
     Widgets/FrmUserList/GroupItem.cpp \
@@ -23,7 +22,7 @@ SOURCES += main.cpp\
     Widgets/FrmCustom/CustomTreeView.cpp \
     Widgets/FrmVideo/RecordAudio.cpp \
     Widgets/FrmVideo/CCamera.cpp \
-    Widgets/DlgLogin/FrmLoginSettings.cpp \
+    Widgets/FrmLogin/FrmLoginSettings.cpp \
     Widgets/FrmOptions/FrmOptions.cpp \
     Widgets/FrmUservCard/FrmUservCard.cpp \
     Widgets/FrmCustom/Label.cpp \ 
@@ -39,8 +38,7 @@ HEADERS  += MainWindow.h \
     Tool.h \
     Widgets/FrmSendFile/DlgSendManage.h \
     Widgets/FrmSendFile/FrmSendFile.h \
-    Widgets/DlgLogin/DlgLogin.h \
-    Widgets/DlgLogin/FrmLogin.h \
+    Widgets/FrmLogin/FrmLogin.h \
     Widgets/FrmUserList/FrmUserList.h \
     Widgets/FrmUserList/Roster.h \
     Widgets/FrmUserList/GroupItem.h \
@@ -58,7 +56,7 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/RecordAudio.h \
     Widgets/FrmAbout/Version.h \
     Widgets/FrmVideo/CCamera.h \
-    Widgets/DlgLogin/FrmLoginSettings.h \
+    Widgets/FrmLogin/FrmLoginSettings.h \
     Widgets/FrmOptions/FrmOptions.h \
     Widgets/FrmUservCard/FrmUservCard.h \ 
     Widgets/FrmCustom/Label.h \ 
@@ -71,15 +69,14 @@ HEADERS  += MainWindow.h \
 FORMS    += MainWindow.ui \
     Widgets/FrmSendFile/DlgSendManage.ui \
     Widgets/FrmSendFile/FrmSendFile.ui \
-    Widgets/DlgLogin/DlgLogin.ui \
-    Widgets/DlgLogin/FrmLogin.ui \
+    Widgets/FrmLogin/FrmLogin.ui \
     Widgets/FrmUserList/FrmUserList.ui \
     Widgets/FrmMessage/FrmMessage.ui \
     Widgets/FrmRegister/FrmRegister.ui \
     Widgets/FrmAbout/FrmAbout.ui \
     Widgets/FrmVideo/FrmVideo.ui \
     Widgets/FrmAddRoster/FrmAddRoster.ui \
-    Widgets/DlgLogin/FrmLoginSettings.ui \
+    Widgets/FrmLogin/FrmLoginSettings.ui \
     Widgets/FrmOptions/FrmOptions.ui \
     Widgets/FrmUservCard/FrmUservCard.ui \ 
     Widgets/WdgTableMain/WdgTableMain.ui \
