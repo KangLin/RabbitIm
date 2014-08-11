@@ -4,6 +4,7 @@
 #include "qxmpp/QXmppDiscoveryManager.h"
 #include "../FrmUserList/Roster.h"
 #include <QMessageBox>
+#include "../../MainWindow.h"
 
 CFrmGroupChatFind::CFrmGroupChatFind(QWidget *parent) :
     QFrame(parent),
@@ -33,6 +34,10 @@ CFrmGroupChatFind::CFrmGroupChatFind(QWidget *parent) :
     check = connect(&m_Conference, SIGNAL(sigFoundRoom(QList<QXmppDiscoveryIq::Item>)),
                     SLOT(slotFoundRoom(QList<QXmppDiscoveryIq::Item>)));
     Q_ASSERT(check);
+
+    check = connect(&m_Conference, SIGNAL(sigFoundRoomInfo(QString,QXmppDataForm)),
+                    SLOT(slotFoundRoomInfo(QString,QXmppDataForm)));
+    Q_ASSERT(check);
 }
 
 CFrmGroupChatFind::~CFrmGroupChatFind()
@@ -40,8 +45,15 @@ CFrmGroupChatFind::~CFrmGroupChatFind()
     delete ui;
 }
 
+void CFrmGroupChatFind::showEvent(QShowEvent *)
+{
+    CGlobal::Instance()->GetMainWindow()->setEnabled(false);
+    on_pbRefresh_clicked();
+}
+
 void CFrmGroupChatFind::closeEvent(QCloseEvent *)
 {
+    CGlobal::Instance()->GetMainWindow()->setEnabled(true);
     deleteLater();
 }
 
@@ -100,5 +112,11 @@ void CFrmGroupChatFind::slotFoundRoom(const QList<QXmppDiscoveryIq::Item> &Rooms
         pItem->setData(item.jid(), ROLE_JID);
         pItem->setToolTip(item.jid());
         m_pListModel->appendRow(pItem);
+        m_Conference.Request(item.jid(), CConference::REQUEST_TYPE_ROOMS_INFO);
     }
+}
+
+void CFrmGroupChatFind::slotFoundRoomInfo(const QString &jid, const QXmppDataForm &form)
+{
+    
 }

@@ -18,6 +18,7 @@ public:
     ~CWdgTableMain();
 
     CRoster* GetRoster(QString jid);
+    int ShowMessageDialog();
 
 private:
     Ui::CWdgTableMain *ui;

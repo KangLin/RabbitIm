@@ -3,6 +3,7 @@
 #include "../../Global.h"
 #include "qxmpp/QXmppMessage.h"
 #include "qxmpp/QXmppUtils.h"
+#include <QMessageBox>
 
 CFrmGroupChat::CFrmGroupChat(QXmppMucRoom *room, QWidget *parent) :
     QFrame(parent),
@@ -48,6 +49,10 @@ CFrmGroupChat::CFrmGroupChat(QXmppMucRoom *room, QWidget *parent) :
     check = connect(m_pRoom, SIGNAL(participantRemoved(QString)),
                     SLOT(slotParticipantRemoved(QString)));
     Q_ASSERT(check);
+
+    check = connect(m_pRoom, SIGNAL(permissionsReceived(QList<QXmppMucItem>)),
+                    SLOT(slotPermissionsReceived(QList<QXmppMucItem>)));
+    Q_ASSERT(check);
 }
 
 CFrmGroupChat::~CFrmGroupChat()
@@ -62,7 +67,10 @@ QStandardItem* CFrmGroupChat::GetItem()
         m_pItem = new QStandardItem(QIcon(":/icon/Conference"), m_pRoom->name());//这个由QTreeView释放内存  
     }
     else
+    {
         LOG_MODEL_ERROR("Group chat", "m_pItem is exist");
+        return m_pItem;
+    }
 
     if(m_pItem)
     {
@@ -85,8 +93,19 @@ void CFrmGroupChat::slotNameChanged(const QString &name)
     ChangeTitle();
 }
 
+void CFrmGroupChat::slotAllowedActionsChanged(QXmppMucRoom::Actions actions) const
+{
+    LOG_MODEL_DEBUG("Group chat", "actions:%d", actions);
+}
+
+void CFrmGroupChat::slotConfigurationReceived(const QXmppDataForm &configuration)
+{
+    LOG_MODEL_DEBUG("Group chat", "CFrmGroupChat::slotConfigurationReceived");
+}
+
 void CFrmGroupChat::slotSubjectChanged(const QString &subject)
 {
+    Q_UNUSED(subject);
     ChangeTitle();
 }
 
@@ -105,6 +124,9 @@ void CFrmGroupChat::slotMessageReceived(const QXmppMessage &message)
         LOG_MODEL_DEBUG("Group chat", "the room is %s, from %s received", m_pRoom->jid(), message.from());
         return;
     }
+
+    if(message.body().isEmpty())
+        return;
 
     QString nick;
     nick = QXmppUtils::jidToResource(message.from());
@@ -134,10 +156,30 @@ void CFrmGroupChat::slotParticipantRemoved(const QString &jid)
     }
 }
 
+void CFrmGroupChat::slotPermissionsReceived(const QList<QXmppMucItem> &permissions)
+{
+    QXmppMucItem item;
+    foreach(item, permissions)
+    {
+        LOG_MODEL_DEBUG("Group chat", "jid:%s;nick:%s;actor:%s;affiliation:%s;role:%s",
+                        item.jid().toStdString().c_str(),
+                        item.nick().toStdString().c_str(),
+                        item.actor().toStdString().c_str(),
+                        QXmppMucItem::affiliationToString(item.affiliation()).toStdString().c_str(),
+                        QXmppMucItem::roleToString(item.role()).toStdString().c_str());
+    }
+}
+
 void CFrmGroupChat::on_pbSend_clicked()
 {
     QString msg = ui->txtInput->toPlainText();
-    //AppendMessageToList(msg, m_pRoom->nickName());
+    if(msg.isEmpty())
+    {
+        QMessageBox::warning(this, tr("Warning"), tr("There is empty, please input."));
+        return;
+    }
+
+    //AppendMessageToList(msg, m_pRoom->nickName());//服务器会转发，所以不需要  
     m_pRoom->sendMessage(msg);
     ui->txtInput->clear();//清空输入框中的内容  
 }
@@ -163,7 +205,7 @@ int CFrmGroupChat::AppendMessageToList(const QString &szMessage, const QString &
     else
         msg += CGlobal::Instance()->GetUserColor().name();
     msg += "'>[";
-    msg += QTime::currentTime().toString()  +  "]" + nick +  ":</font><br /><font color='";
+    msg += QTime::currentTime().toString() + "]" + nick + ":</font><br /><font color='";
     if(m_pRoom->nickName() != nick)
         msg += CGlobal::Instance()->GetRosterMessageColor().name();
     else

@@ -21,3 +21,8 @@ CRoster* CWdgTableMain::GetRoster(QString jid)
 {
     return m_UserList.GetRoster(jid);
 }
+
+int CWdgTableMain::ShowMessageDialog()
+{
+    return m_UserList.ShowMessageDialog();
+}

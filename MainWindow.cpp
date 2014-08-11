@@ -319,8 +319,7 @@ void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 void MainWindow::slotMessageClicked()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotMessageClicked");
-    //TODO:
-    //m_pUserList->ShowMessageDialog();
+    m_pTableMain->ShowMessageDialog();
     slotTrayTimerStop();
 }
 

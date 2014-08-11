@@ -43,6 +43,17 @@ void CConference::slotInfoReceived(const QXmppDiscoveryIq &iq)
                 emit sigFoundServer(iq.from(), id.name());
         }
         break;
+    case REQUEST_TYPE_ROOMS_INFO:
+        foreach(id, iq.identities())
+        {
+            LOG_MODEL_DEBUG("group chat", "REQUEST_TYPE_ROOMS_INFO:identity:category:%s;name:%s;type:%s;language:%s",
+                            id.category().toStdString().c_str(),
+                            id.name().toStdString().c_str(),
+                            id.type().toStdString().c_str(),
+                            id.language().toStdString().c_str());
+        }
+
+        break;
     default:
         break;
     }
@@ -76,20 +87,23 @@ void CConference::slotItemsReceived(const QXmppDiscoveryIq &iq)
 
 int CConference::Request(QString szJid, REQUEST_TYPE type)
 {
+    QXmppDiscoveryManager *dis = CGlobal::Instance()->GetXmppClient()->findExtension<QXmppDiscoveryManager>();
     m_type = type;
     switch(type)
     {
     case REQUEST_TYPE_SEVER:
         m_szJid = CGlobal::Instance()->GetDomain();
         break;
-    case REQUEST_TYPE_ROOMS:
     case REQUEST_TYPE_ROOMS_INFO:
+        m_szJid = szJid;
+        dis->requestInfo(m_szJid);
+        return 0;
+    case REQUEST_TYPE_ROOMS:
     case REQUEST_TYPE_Occupant:
     default:
         m_szJid = szJid;
     }
 
-    QXmppDiscoveryManager *dis = CGlobal::Instance()->GetXmppClient()->findExtension<QXmppDiscoveryManager>();
     dis->requestItems(m_szJid);
 
     return 0;

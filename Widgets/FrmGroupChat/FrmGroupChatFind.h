@@ -21,6 +21,7 @@ public:
     
 protected:
     void closeEvent(QCloseEvent *);
+    void showEvent(QShowEvent*);
 
 private slots:
     void on_pbJoin_clicked();
@@ -30,6 +31,7 @@ private slots:
     
     void slotFoundServer(const QString& jid, const QString& name);
     void slotFoundRoom(const QList<QXmppDiscoveryIq::Item> &Rooms);
+    void slotFoundRoomInfo(const QString& jid, const QXmppDataForm& form);
 
 signals:
     void sigJoinGroup(const QString &jid);

@@ -2,6 +2,7 @@
 #include "ui_FrmOptions.h"
 #include "../../Global.h"
 #include <QColorDialog>
+#include "../../MainWindow.h"
 
 CFrmOptions::CFrmOptions(QWidget *parent) :
     QFrame(parent),
@@ -29,6 +30,7 @@ CFrmOptions* CFrmOptions::Instance()
 
 void CFrmOptions::showEvent(QShowEvent *)
 {
+    CGlobal::Instance()->GetMainWindow()->setEnabled(false);
     ui->cbAutoLogin->setChecked(CGlobal::Instance()->GetAutoLogin());
     ui->sbDelayTime->setValue(CGlobal::Instance()->GetAutoLoginDelayTime());
     ui->cbNotificationFlash->setChecked(CGlobal::Instance()->IsNotifiationFlashs());
@@ -74,6 +76,11 @@ void CFrmOptions::showEvent(QShowEvent *)
         break;
     }
     
+}
+
+void CFrmOptions::closeEvent(QCloseEvent *)
+{
+    CGlobal::Instance()->GetMainWindow()->setEnabled(true);
 }
 
 void CFrmOptions::on_pbCancel_clicked()

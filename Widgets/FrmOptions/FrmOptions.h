@@ -27,6 +27,7 @@ private slots:
 
 protected:
     virtual void showEvent(QShowEvent* );
+    virtual void closeEvent(QCloseEvent*);
 
 private:
     explicit CFrmOptions(QWidget *parent = 0);

@@ -26,6 +26,10 @@ public:
 private slots:
     void slotJoined();
     void slotNameChanged(const QString &name);
+    /// 允许动作改变时触发这个信号  
+    void slotAllowedActionsChanged(QXmppMucRoom::Actions actions) const;
+    /// 当从房间接收到配置信息时触发  
+    void slotConfigurationReceived(const QXmppDataForm &configuration);
     /// 当房间的主题改变时触发  
     void slotSubjectChanged(const QString &subject);
     /// 当一个消息接收时触发  
@@ -36,6 +40,8 @@ private slots:
     void slotParticipantChanged(const QString &jid);
     /// 当一个参与者离开房间时触发  
     void slotParticipantRemoved(const QString &jid);
+    /// 当权限接收时触发  
+    void slotPermissionsReceived(const QList<QXmppMucItem> &permissions);
     
     void on_pbSend_clicked();
     

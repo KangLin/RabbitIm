@@ -24,6 +24,7 @@ public:
 signals:
     void sigFoundServer(const QString &szServerJid, const QString &szName);
     void sigFoundRoom(const QList<QXmppDiscoveryIq::Item> &Rooms);
+    void sigFoundRoomInfo(const QString& jid, const QXmppDataForm& form);
     void sigFoundOccupant(QString szOccupantJid);
 
 public slots:
