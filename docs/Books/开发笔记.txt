@@ -42,8 +42,10 @@ qApp->applicationDirPath()得到的是安装目录下lib的位置。所以向上
   对xep-0030 服务发现的一点理解,目录查询：http://www.cnblogs.com/choday/p/3431725.html
   多用户聊天协议：http://xmpp.org/extensions/xep-0045.html#intro
   
-* 组聊天：
+* 群聊天：
 1. 先查询指定域名的 muc 服务
 2. 查询指定 muc 服务中的房间
 2.1 查询房间信息（可选）
 3. 查询房间的item
+4. QXmppMucRoom 会自动查询房间信息，并触发相应事件。
+5. 当用户退出 IM 时，会自动退出房间。
