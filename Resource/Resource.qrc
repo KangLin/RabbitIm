@@ -38,6 +38,7 @@
         <file alias="Server">png/server.png</file>
         <file alias="Conference">png/conference_16x16.png</file>
         <file alias="Options">png/settings16x16.png</file>
+        <file alias="Refresh">png/refresh.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

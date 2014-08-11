@@ -120,3 +120,8 @@ void CFrmGroupChatFind::slotFoundRoomInfo(const QString &jid, const QXmppDataFor
 {
     
 }
+
+void CFrmGroupChatFind::on_listView_doubleClicked(const QModelIndex &index)
+{
+    on_pbJoin_clicked();
+}

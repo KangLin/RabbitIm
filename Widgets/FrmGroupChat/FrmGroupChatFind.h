@@ -33,6 +33,8 @@ private slots:
     void slotFoundRoom(const QList<QXmppDiscoveryIq::Item> &Rooms);
     void slotFoundRoomInfo(const QString& jid, const QXmppDataForm& form);
 
+    void on_listView_doubleClicked(const QModelIndex &index);
+    
 signals:
     void sigJoinGroup(const QString &jid);
 

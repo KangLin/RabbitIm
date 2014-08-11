@@ -55,6 +55,10 @@
        <property name="text">
         <string>Join(&amp;J)</string>
        </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Add</normaloff>:/icon/Add</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -62,12 +66,20 @@
        <property name="text">
         <string>Refresh(&amp;R)</string>
        </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Refresh</normaloff>:/icon/Refresh</iconset>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pbCancel">
        <property name="text">
         <string>Cancel(&amp;C)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
        </property>
       </widget>
      </item>
@@ -82,6 +94,8 @@
    <header location="global">CustomTreeView.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../Resource/Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
