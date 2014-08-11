@@ -17,16 +17,41 @@ public:
     explicit CFrmGroupChat(QXmppMucRoom *room, QWidget *parent = 0);
     ~CFrmGroupChat();
 
+    enum ENUM_ROLE{
+        ROLE_GROUPCHAT_JID = Qt::UserRole + 1,
+        ROLE_GROUPCHAT_OBJECT = ROLE_GROUPCHAT_JID + 1
+    };
     QStandardItem* GetItem();
 
 private slots:
     void slotJoined();
+    void slotNameChanged(const QString &name);
+    /// 当房间的主题改变时触发  
+    void slotSubjectChanged(const QString &subject);
+    /// 当一个消息接收时触发  
+    void slotMessageReceived(const QXmppMessage &message);
+    /// 当一个成员加入房间时触发  
+    void slotParticipantAdded(const QString &jid);
+    /// 当一个成员改变时触发  
+    void slotParticipantChanged(const QString &jid);
+    /// 当一个参与者离开房间时触发  
+    void slotParticipantRemoved(const QString &jid);
+    
+    void on_pbSend_clicked();
+    
+    void on_pbClose_clicked();
+
+private:
+    int AppendMessageToList(const QString &szMessage, const QString &nick);
+    int ChangeTitle();
 
 private:
     Ui::CFrmGroupChat *ui;
 
     QXmppMucRoom* m_pRoom;
     QStandardItem* m_pItem;
+
+    QStandardItemModel *m_pModel;  //好友列表控件  
 };
 
 #endif // FRMGROUPCHAT_H

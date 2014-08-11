@@ -35,6 +35,10 @@ signals:
     void sigJoinGroup(const QString &jid);
 
 private:
+    enum ENUM_ROLE{
+        ROLE_JID = Qt::UserRole + 1
+    };
+
     Ui::CFrmGroupChatFind *ui;
 
     QStandardItemModel *m_pModel;      //好友列表树型控件  

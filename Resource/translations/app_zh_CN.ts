@@ -2,52 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
-    <name>CDlgLogin</name>
-    <message>
-        <location filename="../../Widgets/DlgLogin/DlgLogin.ui" line="14"/>
-        <location filename="../../Widgets/DlgLogin/DlgLogin.ui" line="17"/>
-        <location filename="../../Widgets/DlgLogin/DlgLogin.ui" line="20"/>
-        <location filename="../../Widgets/DlgLogin/DlgLogin.ui" line="23"/>
-        <source>Login</source>
-        <translation>登录</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/DlgLogin.ui" line="259"/>
-        <source>Ok(&amp;O)</source>
-        <translation>确定（&amp;O）</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/DlgLogin.ui" line="278"/>
-        <source>Cancel(&amp;C)</source>
-        <translation>取消（&amp;C）</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/DlgLogin.ui" line="74"/>
-        <source>User:</source>
-        <translation>用户名：</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/DlgLogin.ui" line="121"/>
-        <source>Password:</source>
-        <translation>密码：</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/DlgLogin.ui" line="168"/>
-        <source>Server:</source>
-        <translation>服务器：</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/DlgLogin.ui" line="215"/>
-        <source>Save password</source>
-        <translation>保存密码</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgLogin/DlgLogin.ui" line="240"/>
-        <source>Auto login</source>
-        <translation>自动登录</translation>
-    </message>
-</context>
-<context>
     <name>CDlgSendManage</name>
     <message>
         <location filename="../../Widgets/FrmSendFile/DlgSendManage.ui" line="14"/>
@@ -196,7 +150,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.ui" line="14"/>
         <source>Group chat</source>
-        <translation >群聊</translation>
+        <translation>群聊</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.ui" line="60"/>
+        <source>Send(&amp;S)</source>
+        <translation>发送(&amp;S)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.ui" line="67"/>
+        <source>Close(&amp;C)</source>
+        <translation>关闭（&amp;C）</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="180"/>
+        <source>Group chat [%1]:%2</source>
+        <translation>群聊[%1]:%2</translation>
     </message>
 </context>
 <context>
@@ -207,30 +176,50 @@ p, li { white-space: pre-wrap; }
         <translation>查找群聊房间</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.ui" line="38"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.ui" line="28"/>
+        <source>Group chat servers:</source>
+        <translation>群聊服务：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.ui" line="42"/>
+        <source>Group chat rooms:</source>
+        <translation>群聊房间：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.ui" line="56"/>
         <source>Join(&amp;J)</source>
         <translation>加入(&amp;J)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.ui" line="45"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.ui" line="63"/>
         <source>Refresh(&amp;R)</source>
         <translation>刷新(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.ui" line="52"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.ui" line="70"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.cpp" line="53"/>
+        <source>Join room error</source>
+        <translation>加入房间错误</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.cpp" line="54"/>
+        <source>Don&apos;t select room, please select room.</source>
+        <translation>没有选择房间，请选择房间。</translation>
     </message>
 </context>
 <context>
     <name>CFrmGroupChatList</name>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="80"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="82"/>
         <source>Operator group chat(&amp;G)</source>
         <translation>操作群聊(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="81"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="83"/>
         <source>Search group chat rooms</source>
         <translation>查找群聊房间</translation>
     </message>
@@ -243,57 +232,57 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CFrmLogin</name>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="20"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="20"/>
         <source>Login</source>
         <translation>登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="112"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="112"/>
         <source>User:</source>
         <translation>用户名：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="317"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="317"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="400"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="400"/>
         <source>Set(&amp;S)</source>
         <translation>设置(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="212"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="212"/>
         <source>Save password</source>
         <translation>保存密码</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="237"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="237"/>
         <source>Auto login</source>
         <translation>自动登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="262"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="262"/>
         <source>State</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="133"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="133"/>
         <source>Login(&amp;L)</source>
         <translation>登录(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="375"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="375"/>
         <source>Register(&amp;R)</source>
         <translation>注册(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.ui" line="158"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="158"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLogin.cpp" line="70"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="70"/>
         <source>Being Login...</source>
         <translation>正在登录……</translation>
     </message>
@@ -301,54 +290,54 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CFrmLoginSettings</name>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="14"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="14"/>
         <source>Server Settings</source>
         <translation>服务器设置</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="46"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="46"/>
         <source>XMPP Server:</source>
         <translation>XMPP 服务器：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="93"/>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="248"/>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="349"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="93"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="248"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="349"/>
         <source>Port:</source>
         <translation>端口：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="144"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="144"/>
         <source>XMPP Domain:</source>
         <translation>XMPP 域名：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="198"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="198"/>
         <source>Stun Server:</source>
         <translation>Stun 服务器：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="299"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="299"/>
         <source>Turn Server:</source>
         <translation>Turn 服务器：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="400"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="400"/>
         <source>Turn User:</source>
         <translation>Turn 用户名：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="450"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="450"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="501"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="501"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgLogin/FrmLoginSettings.ui" line="526"/>
+        <location filename="../../Widgets/FrmLogin/FrmLoginSettings.ui" line="526"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
@@ -417,14 +406,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="80"/>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="123"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="226"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="227"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="80"/>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="123"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="226"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="227"/>
         <source>%1 isn&apos;t online.</source>
         <translation>%1 不在线。</translation>
     </message>
@@ -495,12 +484,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="47"/>
         <source>Delay:</source>
-        <translation >延时：</translation>
+        <translation>延时：</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="61"/>
         <source>secodes</source>
-        <translation >秒</translation>
+        <translation>秒</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="197"/>

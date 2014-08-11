@@ -186,7 +186,8 @@ int CFrmMessage::AppendMessageToList(const QString &szMessage, const QString &ba
     else
         msg += CGlobal::Instance()->GetUserMessageColor().name();
     msg += "'>";
-    msg += recMsg.replace(QString("\n"), QString("<br />")) +  "</font>";
+    msg += recMsg.replace(QString("\n"), QString("<br />"));
+    msg += "</font>";
     //LOG_MODEL_DEBUG("message", "html:%s", msg.toStdString().c_str());
     ui->txtView->append(msg);
     return 0;

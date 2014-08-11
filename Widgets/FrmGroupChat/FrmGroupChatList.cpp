@@ -39,10 +39,24 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     check = connect(&m_Menu, SIGNAL(aboutToShow()),
                     SLOT(slotUpdateMenu()));
     Q_ASSERT(check);
+
+    check = connect(&m_GroupList, SIGNAL(clicked(QModelIndex)),
+                    SLOT(slotClicked(QModelIndex)));
+    Q_ASSERT(check);
+
+    check = connect(&m_GroupList, SIGNAL(doubleClicked(QModelIndex)),
+                    SLOT(slotDoubleClicked(QModelIndex)));
+    Q_ASSERT(check);
 }
 
 CFrmGroupChatList::~CFrmGroupChatList()
 {
+    QMap<QString, CFrmGroupChat*>::iterator it;
+    for(it = m_Group.begin(); it != m_Group.end(); it++)
+    {
+        delete *it;
+    }
+
     delete ui;
 }
 
@@ -61,18 +75,6 @@ void CFrmGroupChatList::slotRoomAdded(QXmppMucRoom *room)
                     room->name().toStdString().c_str(),
                     room->nickName().toStdString().c_str(),
                     room->subject().toStdString().c_str());
-
-    QMap<QString, QStandardItem*>::iterator it;
-    it = m_Group.find(room->jid());
-    if(m_Group.end() == it)
-    {
-        QStandardItem* pItem = new QStandardItem(QIcon(":/icon/Conference"), room->name());
-        pItem->setData(room->jid(), ROLE_JID);
-        m_pModel->appendRow(pItem);
-        m_Group[room->jid()] = pItem;
-    }
-    else
-        LOG_MODEL_DEBUG("group chat list", "group [%s] is existed", room->jid().toStdString().c_str());
 }
 
 int CFrmGroupChatList::InitMenu()
@@ -118,14 +120,17 @@ void CFrmGroupChatList::slotRemoveFromMainMenu(QMenu *pMenu)
 void CFrmGroupChatList::slotJoinGroup(const QString &jid)
 {
     if(m_Group.find(jid) != m_Group.end())
+    {
+        LOG_MODEL_DEBUG("Group chat", "group chat [%s] is exist", jid.toStdString().c_str());
         return;
+    }
 
     QXmppMucRoom* pRoom = CGlobal::Instance()->GetXmppClient()->m_MucManager.addRoom(jid);
 
     CFrmGroupChat* pGroupChat = new CFrmGroupChat(pRoom);
     QStandardItem* pItem = pGroupChat->GetItem();
     m_pModel->appendRow(pItem);
-    m_Group[pRoom->jid()] = pItem;
+    m_Group[pRoom->jid()] = pGroupChat;
 
     pRoom->setNickName(CGlobal::Instance()->GetRoster()->Name());
     pRoom->join();
@@ -141,4 +146,17 @@ void CFrmGroupChatList::slotFindGroup()
 
 void CFrmGroupChatList::slotUpdateMenu()
 {
+}
+
+void CFrmGroupChatList::slotClicked(const QModelIndex &index)
+{
+    
+}
+
+void CFrmGroupChatList::slotDoubleClicked(const QModelIndex &index)
+{
+    const QAbstractItemModel* m = index.model();
+    QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
+    CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
+    chat->show();
 }

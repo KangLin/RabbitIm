@@ -3,8 +3,7 @@
 #include "../../Global.h"
 #include "qxmpp/QXmppDiscoveryManager.h"
 #include "../FrmUserList/Roster.h"
-
-#define ROLE_JID Qt::UserRole + 1
+#include <QMessageBox>
 
 CFrmGroupChatFind::CFrmGroupChatFind(QWidget *parent) :
     QFrame(parent),
@@ -14,6 +13,7 @@ CFrmGroupChatFind::CFrmGroupChatFind(QWidget *parent) :
 
     ui->treeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。  
     if(m_pModel)
     {
@@ -22,7 +22,9 @@ CFrmGroupChatFind::CFrmGroupChatFind(QWidget *parent) :
 
     m_pListModel = new QStandardItemModel(this);
     if(m_pListModel)
+    {
         ui->listView->setModel(m_pListModel);
+    }
 
     bool check = connect(&m_Conference, SIGNAL(sigFoundServer(QString,QString)), 
                          SLOT(slotFoundServer(QString,QString)));
@@ -47,7 +49,11 @@ void CFrmGroupChatFind::on_pbJoin_clicked()
 {
     QModelIndex index = ui->listView->currentIndex();
     if(!index.isValid())
+    {
+        QMessageBox::critical(this, tr("Join room error"),
+                              tr("Don't select room, please select room."));
         return;
+    }
     QVariant v = index.model()->data(index, ROLE_JID);
     QString szJid = v.value<QString>();
     emit sigJoinGroup(szJid);

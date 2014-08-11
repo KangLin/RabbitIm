@@ -32,6 +32,11 @@ private slots:
     void slotRemoveFromMainMenu(QMenu* pMenu);
     void slotUpdateMenu();
 
+    
+    //树形列表控件响应事件 
+    void slotClicked(const QModelIndex & index);
+    void slotDoubleClicked(const QModelIndex & index);
+
     //显示上下文件菜单(右键菜单)  
     //控件contextMenuPolicy属性要设置为CustomContextMenu，才能触customContextMenuRequested事件，再联接这个槽 
     //如果设置为DefaultContextMenu，则触发右键菜单事件 void contextMenuEvent(QContextMenuEvent * event);  
@@ -48,7 +53,7 @@ private:
 
     CCustomTreeView m_GroupList;
     QStandardItemModel *m_pModel;           //好友列表树型控件  
-    QMap<QString, QStandardItem*> m_Group;
+    QMap<QString, CFrmGroupChat*> m_Group;
 };
 
 #endif // FRMGROUPCHATLIST_H
