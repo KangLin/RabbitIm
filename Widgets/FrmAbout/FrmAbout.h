@@ -17,7 +17,8 @@ public:
     ~CFrmAbout();
 
 protected:
-    void closeEvent(QCloseEvent *);
+    virtual void closeEvent(QCloseEvent *);
+    virtual void showEvent(QShowEvent*);
 
 private slots:
     void on_btbButtons_clicked(QAbstractButton *button);

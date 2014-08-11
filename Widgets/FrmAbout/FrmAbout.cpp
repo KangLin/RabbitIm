@@ -3,6 +3,7 @@
 #include "../../Global.h"
 #include "Version.h"
 #include <QFile>
+#include "../../MainWindow.h"
 
 CFrmAbout::CFrmAbout(QWidget *parent) :
     QFrame(parent),
@@ -33,8 +34,14 @@ CFrmAbout::~CFrmAbout()
     delete ui;
 }
 
+void CFrmAbout::showEvent(QShowEvent *)
+{
+    CGlobal::Instance()->GetMainWindow()->setEnabled(false);
+}
+
 void CFrmAbout::closeEvent(QCloseEvent *)
 {
+    CGlobal::Instance()->GetMainWindow()->setEnabled(true);
     deleteLater();
 }
 

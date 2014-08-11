@@ -195,7 +195,7 @@ QList<QStandardItem*> CRoster::GetItem()
     pMessageCountItem->setEditable(false);//禁止双击编辑
     m_lstMessageCountItem.push_back(pMessageCountItem);
 
-    /* TODO:未读新消息数目树形控件中未显示 */
+    /* 未读新消息数目树形控件中显示 */
     QList<QStandardItem *> lstItems;
     lstItems.push_back(pItem);
     lstItems.push_back(pMessageCountItem);
@@ -288,7 +288,8 @@ int CRoster::AppendMessage(const QString &szMessage)
         for(it = m_lstMessageCountItem.begin(); it != m_lstMessageCountItem.end(); it++)
         {
             QStandardItem* p = *it;
-            p->setData(CGlobal::Instance()->GetRosterStatusColor(m_Status), Qt::BackgroundRole);
+            //p->setData(CGlobal::Instance()->GetRosterStatusColor(m_Status), Qt::BackgroundRole);
+            p->setData(QColor(255, 0, 0), Qt::TextColorRole);
             QString szText = QString::number(m_nNewMessageNumber);
             p->setData(szText, Qt::DisplayRole);
         }
@@ -313,7 +314,6 @@ int CRoster::CleanNewMessageNumber()
         QStandardItem* p = *it;
         if(p)
         {
-            p->setData(CGlobal::Instance()->GetRosterStatusColor(m_Status), Qt::BackgroundRole);
             p->setData("", Qt::DisplayRole);
         }
     }
