@@ -43,6 +43,7 @@ private slots:
     //如果设置为DefaultContextMenu，则触发右键菜单事件 void contextMenuEvent(QContextMenuEvent * event);  
     void slotCustomContextMenuRequested(const QPoint &pos);
     void slotUpdateMenu();//更新菜单  
+    void slotUpdateMainMenu();//主菜单更新  
     //把好友列表菜单加到主菜单中,调用者不需要用此菜单时，负责调用DeleteFromMainMenu释放  
     void slotAddToMainMenu(QMenu* pMenu);
     //把好友列表菜单从主菜单中移除  

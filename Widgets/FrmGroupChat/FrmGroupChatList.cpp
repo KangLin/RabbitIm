@@ -36,10 +36,6 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
                     SLOT(slotRoomAdded(QXmppMucRoom*)));
     Q_ASSERT(check);*/
 
-    check = connect(&m_Menu, SIGNAL(aboutToShow()),
-                    SLOT(slotUpdateMenu()));
-    Q_ASSERT(check);
-
     check = connect(&m_GroupList, SIGNAL(clicked(QModelIndex)),
                     SLOT(slotClicked(QModelIndex)));
     Q_ASSERT(check);
@@ -110,11 +106,27 @@ void CFrmGroupChatList::slotCustomContextMenuRequested(const QPoint &pos)
 void CFrmGroupChatList::slotAddToMainMenu(QMenu *pMenu)
 {
     m_pAction = pMenu->addMenu(&m_Menu);
+    bool check = connect(pMenu, SIGNAL(aboutToShow()),
+                    SLOT(slotUpdateMainMenu()));
+    Q_ASSERT(check);
+}
+
+void CFrmGroupChatList::slotUpdateMenu()
+{
+}
+
+void CFrmGroupChatList::slotUpdateMainMenu()
+{
+    if(this->isHidden())
+        m_Menu.setEnabled(false);
+    else
+        m_Menu.setEnabled(true);
 }
 
 void CFrmGroupChatList::slotRemoveFromMainMenu(QMenu *pMenu)
 {
     pMenu->removeAction(m_pAction);
+    pMenu->disconnect(this);
 }
 
 void CFrmGroupChatList::slotJoinGroup(const QString &jid)
@@ -142,10 +154,6 @@ void CFrmGroupChatList::slotFindGroup()
     connect(pFrm, SIGNAL(sigJoinGroup(QString)), 
             SLOT(slotJoinGroup(QString)));
     pFrm->show();
-}
-
-void CFrmGroupChatList::slotUpdateMenu()
-{
 }
 
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)

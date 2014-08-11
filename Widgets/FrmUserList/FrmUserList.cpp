@@ -166,11 +166,22 @@ int CFrmUserList::EnableAction(QAction *pAction, bool bEnable)
 void CFrmUserList::slotAddToMainMenu(QMenu *pMenu)
 {
     m_pMenuAction = pMenu->addMenu(m_pMenu);
+    bool check = connect(pMenu, SIGNAL(aboutToShow()),
+            SLOT(slotUpdateMainMenu()));
+    Q_ASSERT(check);
 }
 
 void CFrmUserList::slotDeleteFromMainMenu(QMenu *pMenu)
 {
     pMenu->removeAction(m_pMenuAction);
+}
+
+void CFrmUserList::slotUpdateMainMenu()
+{
+    if(isHidden())
+        m_pMenu->setEnabled(false);
+    else
+        m_pMenu->setEnabled(true);
 }
 
 void CFrmUserList::slotUpdateMenu()

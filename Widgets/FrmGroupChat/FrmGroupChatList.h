@@ -31,6 +31,7 @@ private slots:
     void slotAddToMainMenu(QMenu* pMenu);
     void slotRemoveFromMainMenu(QMenu* pMenu);
     void slotUpdateMenu();
+    void slotUpdateMainMenu();
 
     
     //树形列表控件响应事件 
