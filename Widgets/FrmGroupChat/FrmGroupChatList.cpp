@@ -113,10 +113,16 @@ void CFrmGroupChatList::slotAddToMainMenu(QMenu *pMenu)
 
 void CFrmGroupChatList::slotUpdateMenu()
 {
+    if(this->isHidden())
+        m_Menu.setEnabled(false);
+    else
+        m_Menu.setEnabled(true);
 }
 
 void CFrmGroupChatList::slotUpdateMainMenu()
 {
+    LOG_MODEL_DEBUG("Group chat", "CFrmGroupChatList isHidden:%s",
+                    qPrintable(QString::number(isHidden())));
     if(this->isHidden())
         m_Menu.setEnabled(false);
     else

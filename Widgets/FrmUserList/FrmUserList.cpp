@@ -186,6 +186,7 @@ void CFrmUserList::slotUpdateMainMenu()
 
 void CFrmUserList::slotUpdateMenu()
 {
+    m_pMenu->setEnabled(true);
     EnableAllActioins(false);
     if(this->isHidden())
         return;
