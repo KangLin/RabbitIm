@@ -5,6 +5,7 @@
 #include "../FrmUserList/Roster.h"
 #include <QMessageBox>
 #include "../../MainWindow.h"
+#include "FrmCreateGroupChatRoom.h"
 
 CFrmGroupChatFind::CFrmGroupChatFind(QWidget *parent) :
     QFrame(parent),
@@ -14,6 +15,8 @@ CFrmGroupChatFind::CFrmGroupChatFind(QWidget *parent) :
 
     ui->treeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    InitMenu();
 
     m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。  
     if(m_pModel)
@@ -80,7 +83,7 @@ void CFrmGroupChatFind::on_pbCancel_clicked()
 void CFrmGroupChatFind::on_pbRefresh_clicked()
 {
     m_pModel->clear();
-    m_Conference.Request();
+    m_Conference.Request(QString(), CConference::REQUEST_TYPE_SEVER);
 }
 
 void CFrmGroupChatFind::on_treeView_doubleClicked(const QModelIndex &index)
@@ -123,5 +126,42 @@ void CFrmGroupChatFind::slotFoundRoomInfo(const QString &jid, const QXmppDataFor
 
 void CFrmGroupChatFind::on_listView_doubleClicked(const QModelIndex &index)
 {
+    Q_UNUSED(index);
+    m_Conference.Request();
     on_pbJoin_clicked();
+}
+
+void CFrmGroupChatFind::on_treeView_customContextMenuRequested(const QPoint &pos)
+{
+    Q_UNUSED(pos);
+    QModelIndex index = ui->treeView->currentIndex();
+    if(index.isValid())
+    {
+        m_Menu.exec(QCursor::pos());
+    }
+}
+
+int CFrmGroupChatFind::InitMenu()
+{
+    m_Menu.addAction(QIcon(":/icon/Add"), tr("New room"), this, SLOT(slotNewRoom()));
+    return 0;
+}
+
+void CFrmGroupChatFind::slotUpdateMenu()
+{
+}
+
+void CFrmGroupChatFind::slotNewRoom()
+{
+    m_Conference.Request();
+    QModelIndex index = ui->treeView->currentIndex();
+    if(index.isValid())
+    {
+        QVariant v = index.model()->data(index, ROLE_JID);
+        QString szJid = v.value<QString>();
+        CFrmCreateGroupChatRoom* pRoom = CFrmCreateGroupChatRoom::Instance(szJid);
+        connect(pRoom, SIGNAL(sigJoinGroup(QString)),
+                SIGNAL(sigJoinGroup(QString)));
+        pRoom->show();
+    }
 }

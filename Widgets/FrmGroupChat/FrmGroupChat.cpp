@@ -4,15 +4,15 @@
 #include "qxmpp/QXmppMessage.h"
 #include "qxmpp/QXmppUtils.h"
 #include <QMessageBox>
+#include "../FrmUserList/Roster.h"
 
-CFrmGroupChat::CFrmGroupChat(QXmppMucRoom *room, QWidget *parent) :
+CFrmGroupChat::CFrmGroupChat(const QString &jid, QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmGroupChat)
 {
     ui->setupUi(this);
-    Q_ASSERT(room);
 
-    m_pRoom = room;
+    m_pRoom = CGlobal::Instance()->GetXmppClient()->m_MucManager.addRoom(jid);
     m_pItem = NULL;
 
     ui->lstMembers->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -21,13 +21,21 @@ CFrmGroupChat::CFrmGroupChat(QXmppMucRoom *room, QWidget *parent) :
     {
         ui->lstMembers->setModel(m_pModel);
     }
-    
+
     bool check = connect(m_pRoom, SIGNAL(joined()),
                          SLOT(slotJoined()));
     Q_ASSERT(check);
 
+    check = connect(m_pRoom, SIGNAL(left()),
+                    SLOT(slotLeft()));
+    Q_ASSERT(check);
+
     check = connect(m_pRoom, SIGNAL(nameChanged(QString)), 
                     SLOT(slotNameChanged(QString)));
+    Q_ASSERT(check);
+
+    check = connect(m_pRoom, SIGNAL(error(QXmppStanza::Error)),
+                    SLOT(slotError(QXmppStanza::Error)));
     Q_ASSERT(check);
 
     check = connect(m_pRoom, SIGNAL(subjectChanged(QString)),
@@ -53,6 +61,11 @@ CFrmGroupChat::CFrmGroupChat(QXmppMucRoom *room, QWidget *parent) :
     check = connect(m_pRoom, SIGNAL(permissionsReceived(QList<QXmppMucItem>)),
                     SLOT(slotPermissionsReceived(QList<QXmppMucItem>)));
     Q_ASSERT(check);
+
+    //设置昵称  
+    m_pRoom->setNickName(CGlobal::Instance()->GetRoster()->Name());
+    //加入房间  
+    m_pRoom->join();
 }
 
 CFrmGroupChat::~CFrmGroupChat()
@@ -68,7 +81,7 @@ QStandardItem* CFrmGroupChat::GetItem()
     }
     else
     {
-        LOG_MODEL_ERROR("Group chat", "m_pItem is exist");
+        LOG_MODEL_DEBUG("Group chat", "m_pItem is exist");
         return m_pItem;
     }
 
@@ -85,12 +98,42 @@ QStandardItem* CFrmGroupChat::GetItem()
 
 void CFrmGroupChat::slotJoined()
 {
+    emit sigJoined(m_pRoom->jid(), this);
+}
+
+void CFrmGroupChat::slotLeft()
+{
+    LOG_MODEL_DEBUG("Group chat", "CFrmGroupChat::slotLeft");
+    emit sigLeft(m_pRoom->jid(), this);
 }
 
 void CFrmGroupChat::slotNameChanged(const QString &name)
 {
-    m_pItem->setData(name, Qt::DisplayRole);
+    if(m_pItem)
+        m_pItem->setData(name, Qt::DisplayRole);
     ChangeTitle();
+}
+
+void CFrmGroupChat::slotError(const QXmppStanza::Error &error)
+{
+    LOG_MODEL_DEBUG("Group chat", "code:%d;type:%d;Condition:%d;error:%s", 
+                    error.code(),
+                    error.type(),
+                    error.condition(),
+                    qPrintable(error.text()));
+    QString szMsg;
+    switch(error.type())
+    {
+    case QXmppStanza::Error::Auth:
+        szMsg = tr("Don't join room");
+        break;
+    default:
+        szMsg = tr("Error code:") + QString::number(error.code())
+                + tr("type:") + QString::number(error.type())
+                + tr("condition:") + QString::number(error.condition())
+                + tr("text:") + error.text();
+    };
+    QMessageBox::critical(this, tr("Error"), szMsg);
 }
 
 void CFrmGroupChat::slotAllowedActionsChanged(QXmppMucRoom::Actions actions) const
@@ -100,6 +143,7 @@ void CFrmGroupChat::slotAllowedActionsChanged(QXmppMucRoom::Actions actions) con
 
 void CFrmGroupChat::slotConfigurationReceived(const QXmppDataForm &configuration)
 {
+    Q_UNUSED(configuration);
     LOG_MODEL_DEBUG("Group chat", "CFrmGroupChat::slotConfigurationReceived");
 }
 
@@ -121,7 +165,9 @@ void CFrmGroupChat::slotMessageReceived(const QXmppMessage &message)
 
     if(QXmppUtils::jidToBareJid(message.from()) != QXmppUtils::jidToBareJid(m_pRoom->jid()))
     {
-        LOG_MODEL_DEBUG("Group chat", "the room is %s, from %s received", m_pRoom->jid(), message.from());
+        LOG_MODEL_DEBUG("Group chat", "the room is %s, from %s received",
+                        m_pRoom->jid().toStdString().c_str(),
+                        message.from().toStdString().c_str());
         return;
     }
 

@@ -452,6 +452,10 @@
        <property name="text">
         <string>OK(&amp;O)</string>
        </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Accept</normaloff>:/icon/Accept</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -471,6 +475,10 @@
        <property name="text">
         <string>Cancel(&amp;C)</string>
        </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
+       </property>
       </widget>
      </item>
     </layout>
@@ -484,6 +492,8 @@
   <tabstop>pbOK</tabstop>
   <tabstop>pbCancel</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../Resource/Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

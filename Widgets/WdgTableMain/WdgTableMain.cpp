@@ -26,3 +26,9 @@ int CWdgTableMain::ShowMessageDialog()
 {
     return m_UserList.ShowMessageDialog();
 }
+
+void CWdgTableMain::resizeEvent(QResizeEvent *)
+{
+    m_UserList.setGeometry(this->geometry());
+    m_GroupChatList.setGeometry(geometry());
+}

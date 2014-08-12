@@ -14,7 +14,7 @@ class CFrmGroupChat : public QFrame
     Q_OBJECT
 
 public:
-    explicit CFrmGroupChat(QXmppMucRoom *room, QWidget *parent = 0);
+    explicit CFrmGroupChat(const QString &jid, QWidget *parent = 0);
     ~CFrmGroupChat();
 
     enum ENUM_ROLE{
@@ -23,9 +23,18 @@ public:
     };
     QStandardItem* GetItem();
 
+signals:
+    void sigJoined(const QString &jid, CFrmGroupChat* pChat);
+    void sigLeft(const QString &jid, CFrmGroupChat* pChat);
+
 private slots:
+    /// 当成功加入房间后会触发此消息  
     void slotJoined();
+    /// 当离开房间或加入房间失败时，会触发这个消息  
+    void slotLeft();
     void slotNameChanged(const QString &name);
+    /// This signal is emitted when an error is encountered.
+    void slotError(const QXmppStanza::Error &error);
     /// 允许动作改变时触发这个信号  
     void slotAllowedActionsChanged(QXmppMucRoom::Actions actions) const;
     /// 当从房间接收到配置信息时触发  

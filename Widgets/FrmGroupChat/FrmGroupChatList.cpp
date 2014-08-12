@@ -135,6 +135,14 @@ void CFrmGroupChatList::slotRemoveFromMainMenu(QMenu *pMenu)
     pMenu->disconnect(this);
 }
 
+void CFrmGroupChatList::slotFindGroup()
+{
+    CFrmGroupChatFind * pFrm = new CFrmGroupChatFind();//窗体自己释放内存，不会泄漏  
+    connect(pFrm, SIGNAL(sigJoinGroup(QString)), 
+            SLOT(slotJoinGroup(QString)));
+    pFrm->show();
+}
+
 void CFrmGroupChatList::slotJoinGroup(const QString &jid)
 {
     if(m_Group.find(jid) != m_Group.end())
@@ -143,23 +151,32 @@ void CFrmGroupChatList::slotJoinGroup(const QString &jid)
         return;
     }
 
-    QXmppMucRoom* pRoom = CGlobal::Instance()->GetXmppClient()->m_MucManager.addRoom(jid);
-
-    CFrmGroupChat* pGroupChat = new CFrmGroupChat(pRoom);
-    QStandardItem* pItem = pGroupChat->GetItem();
-    m_pModel->appendRow(pItem);
-    m_Group[pRoom->jid()] = pGroupChat;
-
-    pRoom->setNickName(CGlobal::Instance()->GetRoster()->Name());
-    pRoom->join();
+    CFrmGroupChat* pGroupChat = new CFrmGroupChat(jid);
+    bool check = connect(pGroupChat, SIGNAL(sigJoined(const QString&,CFrmGroupChat*)),
+            SLOT(slotJoinedGroup(const QString&,CFrmGroupChat*)));
+    Q_ASSERT(check);
+    check = connect(pGroupChat, SIGNAL(sigLeft(QString,CFrmGroupChat*)),
+            SLOT(slotLeft(QString,CFrmGroupChat*)));
+    Q_ASSERT(check);
 }
 
-void CFrmGroupChatList::slotFindGroup()
+void CFrmGroupChatList::slotJoinedGroup(const QString &jid, CFrmGroupChat *pChat)
 {
-    CFrmGroupChatFind * pFrm = new CFrmGroupChatFind();//窗体自己释放内存，不会泄漏  
-    connect(pFrm, SIGNAL(sigJoinGroup(QString)), 
-            SLOT(slotJoinGroup(QString)));
-    pFrm->show();
+    QStandardItem* pItem = pChat->GetItem();
+    m_pModel->appendRow(pItem);
+    m_Group[jid] = pChat;
+}
+
+void CFrmGroupChatList::slotLeft(const QString &jid, CFrmGroupChat *pChat)
+{
+    QStandardItem* pItem = pChat->GetItem();
+    if(pItem)
+        if(-1 != pItem->row())
+        {
+            m_pModel->removeRow(pItem->row());
+        }
+    m_Group.remove(jid);
+    delete pChat;
 }
 
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)

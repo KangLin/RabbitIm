@@ -21,6 +21,9 @@ public:
     int ShowMessageDialog();
 
 private:
+    void resizeEvent(QResizeEvent *);
+
+private:
     Ui::CWdgTableMain *ui;
     CFrmUserList m_UserList;
     CFrmGroupChatList m_GroupChatList;

@@ -19,7 +19,7 @@ public:
     explicit CConference(QObject *parent = 0);
     virtual ~CConference();
 
-    int Request(QString szJid = QString(), REQUEST_TYPE type = REQUEST_TYPE_SEVER);
+    int Request(QString szJid = QString(), REQUEST_TYPE type = REQUEST_TYPE_NO);
 
 signals:
     void sigFoundServer(const QString &szServerJid, const QString &szName);

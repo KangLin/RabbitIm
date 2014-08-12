@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     Widgets/FrmGroupChat/FrmGroupChatList.cpp \
     Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     Widgets/FrmGroupChat/Conference.cpp \
-    Widgets/FrmGroupChat/FrmGroupChat.cpp
+    Widgets/FrmGroupChat/FrmGroupChat.cpp \
+    Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp
 
 HEADERS  += MainWindow.h \
     XmppClient.h \
@@ -64,7 +65,8 @@ HEADERS  += MainWindow.h \
     Widgets/FrmGroupChat/FrmGroupChatList.h \
     Widgets/FrmGroupChat/FrmGroupChatFind.h \
     Widgets/FrmGroupChat/Conference.h \
-    Widgets/FrmGroupChat/FrmGroupChat.h
+    Widgets/FrmGroupChat/FrmGroupChat.h \
+    Widgets/FrmGroupChat/FrmCreateGroupChatRoom.h
 
 FORMS    += MainWindow.ui \
     Widgets/FrmSendFile/DlgSendManage.ui \
@@ -82,7 +84,8 @@ FORMS    += MainWindow.ui \
     Widgets/WdgTableMain/WdgTableMain.ui \
     Widgets/FrmGroupChat/FrmGroupChatList.ui \
     Widgets/FrmGroupChat/FrmGroupChatFind.ui \
-    Widgets/FrmGroupChat/FrmGroupChat.ui
+    Widgets/FrmGroupChat/FrmGroupChat.ui \
+    Widgets/FrmGroupChat/FrmCreateGroupChatRoom.ui
 
 RESOURCES += \
     Resource/Resource.qrc

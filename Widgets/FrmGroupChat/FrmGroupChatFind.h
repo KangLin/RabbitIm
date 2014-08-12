@@ -4,6 +4,7 @@
 #include <QFrame>
 #include <QStandardItemModel>
 #include <QList>
+#include <QMenu>
 #include "qxmpp/QXmppDiscoveryIq.h"
 #include "Conference.h"
 
@@ -35,6 +36,10 @@ private slots:
 
     void on_listView_doubleClicked(const QModelIndex &index);
     
+    void on_treeView_customContextMenuRequested(const QPoint &pos);
+    void slotUpdateMenu();
+    void slotNewRoom();
+
 signals:
     void sigJoinGroup(const QString &jid);
 
@@ -49,6 +54,9 @@ private:
     QStandardItemModel *m_pListModel;  //好友列表控件  
 
     CConference m_Conference;
+    
+    QMenu m_Menu;
+    int InitMenu();
 };
 
 #endif // FRMGROUPCHATFIND_H

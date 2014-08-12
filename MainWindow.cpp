@@ -131,6 +131,8 @@ CRoster* MainWindow::GetRoster(QString szJid)
 void MainWindow::resizeEvent(QResizeEvent *)
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::resizeEvent");
+    if(m_pTableMain)
+        m_pTableMain->setGeometry(this->geometry());
 }
 
 void MainWindow::showEvent(QShowEvent *)

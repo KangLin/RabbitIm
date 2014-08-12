@@ -197,6 +197,10 @@ p, li { white-space: pre-wrap; }
        <property name="text">
         <string>Video(&amp;V)</string>
        </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Video</normaloff>:/icon/Video</iconset>
+       </property>
        <property name="autoDefault">
         <bool>true</bool>
        </property>

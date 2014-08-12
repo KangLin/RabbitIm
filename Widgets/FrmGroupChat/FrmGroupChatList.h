@@ -27,6 +27,8 @@ private slots:
     void slotRoomAdded(QXmppMucRoom *room);
 
     void slotJoinGroup(const QString &jid);
+    void slotJoinedGroup(const QString &jid, CFrmGroupChat* pChat);
+    void slotLeft(const QString &jid, CFrmGroupChat* pChat);
     void slotFindGroup();
     void slotAddToMainMenu(QMenu* pMenu);
     void slotRemoveFromMainMenu(QMenu* pMenu);
