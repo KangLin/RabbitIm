@@ -43,6 +43,8 @@ private slots:
     void slotUpdateMenu();
     void slotNewRoom();
 
+    void on_pbNew_clicked();
+    
 protected:
     void closeEvent(QCloseEvent *);
     void showEvent(QShowEvent*);

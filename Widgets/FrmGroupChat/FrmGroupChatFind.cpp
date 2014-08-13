@@ -172,14 +172,22 @@ void CFrmGroupChatFind::slotNewRoom()
 {
     m_Conference.Request();
     QModelIndex index = ui->treeView->currentIndex();
-    if(index.isValid())
+    if(!index.isValid())
     {
-        QVariant v = index.model()->data(index, ROLE_JID);
-        QString szJid = v.value<QString>();
-        CFrmCreateGroupChatRoom* pRoom = CFrmCreateGroupChatRoom::Instance(szJid);
-        bool check = connect(pRoom, SIGNAL(sigJoinedGroup(const QString&,CFrmGroupChat*)),
-                    SIGNAL(sigJoinedGroup(const QString&,CFrmGroupChat*)));
-        Q_ASSERT(check);
-        pRoom->show();
+        QMessageBox::information(this, tr("Information"), tr("Please select group chat server"));
+        return;
     }
+
+    QVariant v = index.model()->data(index, ROLE_JID);
+    QString szJid = v.value<QString>();
+    CFrmCreateGroupChatRoom* pRoom = CFrmCreateGroupChatRoom::Instance(szJid);
+    bool check = connect(pRoom, SIGNAL(sigJoinedGroup(const QString&,CFrmGroupChat*)),
+                         SIGNAL(sigJoinedGroup(const QString&,CFrmGroupChat*)));
+    Q_ASSERT(check);
+    pRoom->show();
+}
+
+void CFrmGroupChatFind::on_pbNew_clicked()
+{
+    slotNewRoom();
 }

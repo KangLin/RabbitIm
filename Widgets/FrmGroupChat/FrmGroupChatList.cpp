@@ -76,7 +76,7 @@ void CFrmGroupChatList::slotRoomAdded(QXmppMucRoom *room)
 int CFrmGroupChatList::InitMenu()
 {
     m_Menu.setTitle(tr("Operator group chat(&G)"));
-    m_Menu.addAction(QIcon(":/icon/Search"), tr("Search group chat rooms"), this, SLOT(slotFindGroup()));
+    m_Menu.addAction(QIcon(":/icon/Search"), tr("New/Search group chat rooms"), this, SLOT(slotFindGroup()));
     m_Menu.addAction(QIcon(":/icon/Left"), tr("Leave room"), this, SLOT(slotLeave()));
 
     bool check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigInitLoginedMenu(QMenu*)),
@@ -149,6 +149,8 @@ void CFrmGroupChatList::slotFindGroup()
 void CFrmGroupChatList::slotLeave()
 {
     QModelIndex index = m_GroupList.currentIndex();
+    if(!index.isValid())
+        return;
     const QAbstractItemModel* m = index.model();
     QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
     CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
