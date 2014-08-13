@@ -11,6 +11,15 @@ CFrmGroupChat::CFrmGroupChat(QWidget *parent) :
     ui(new Ui::CFrmGroupChat)
 {
     ui->setupUi(this);
+
+#ifdef ANDROID
+    ui->lstMembers->setVisible(false);
+    ui->pbMember->setVisible(true);
+#else
+    ui->lstMembers->setVisible(true);
+    ui->pbMember->setVisible(false);
+#endif
+
     m_pRoom = NULL;
     m_pItem = NULL;
 
@@ -233,6 +242,8 @@ void CFrmGroupChat::slotMessageReceived(const QXmppMessage &message)
 
     QString nick;
     nick = QXmppUtils::jidToResource(message.from());
+    if(nick.isEmpty())
+        nick = tr("System");
     AppendMessageToList(message.body(), nick);
 }
 
@@ -322,6 +333,24 @@ int CFrmGroupChat::AppendMessageToList(const QString &szMessage, const QString &
 
 int CFrmGroupChat::ChangeTitle()
 {
-    this->setWindowTitle(tr("Group chat [%1]:%2").arg(m_pRoom->name(), m_pRoom->subject()));
+    QString szTitle = tr("Chat room [%1]:%2").arg(m_pRoom->name(), m_pRoom->subject());
+    this->setWindowTitle(szTitle);
+    ui->lbTitle->setText(szTitle);
     return 0;
+}
+
+void CFrmGroupChat::on_pbMember_clicked()
+{
+    if(ui->lstMembers->isVisible())
+    {
+        ui->pbMember->setText(tr("Members(&M)"));
+        ui->lstMembers->setVisible(false);
+        ui->wdgChat->setVisible(true);
+    }
+    else
+    {
+        ui->pbMember->setText(tr("Chat(&C)"));
+        ui->lstMembers->setVisible(true);
+        ui->wdgChat->setVisible(false);
+    }
 }

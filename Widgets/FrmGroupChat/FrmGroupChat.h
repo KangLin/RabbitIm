@@ -60,6 +60,8 @@ private slots:
     
     void on_pbClose_clicked();
 
+    void on_pbMember_clicked();
+    
 private:
     int AppendMessageToList(const QString &szMessage, const QString &nick);
     int ChangeTitle();

@@ -21,6 +21,7 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     InitMenu();
 
     m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。  
+    m_GroupList.setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_GroupList.setModel(m_pModel);
     m_GroupList.show();
 
