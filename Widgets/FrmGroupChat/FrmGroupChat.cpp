@@ -5,6 +5,7 @@
 #include "qxmpp/QXmppUtils.h"
 #include <QMessageBox>
 #include "../FrmUserList/Roster.h"
+#include "../../MainWindow.h"
 
 CFrmGroupChat::CFrmGroupChat(QWidget *parent) :
     QFrame(parent),
@@ -328,6 +329,9 @@ int CFrmGroupChat::AppendMessageToList(const QString &szMessage, const QString &
     msg += recMsg.replace(QString("\n"), QString("<br />"));
     msg += "</font>";
     ui->txtView->append(msg);
+    
+    if(this->isHidden())
+        CGlobal::Instance()->GetMainWindow()->ShowTrayIconMessage(nick, szMessage);
     return 0;
 }
 
