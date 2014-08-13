@@ -26,10 +26,10 @@ private slots:
     /// This signal is emitted when a new room is managed.
     void slotRoomAdded(QXmppMucRoom *room);
 
-    void slotJoinGroup(const QString &jid);
     void slotJoinedGroup(const QString &jid, CFrmGroupChat* pChat);
     void slotLeft(const QString &jid, CFrmGroupChat* pChat);
     void slotFindGroup();
+    void slotLeave();
     void slotAddToMainMenu(QMenu* pMenu);
     void slotRemoveFromMainMenu(QMenu* pMenu);
     void slotUpdateMenu();

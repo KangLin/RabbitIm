@@ -6,13 +6,12 @@
 #include <QMessageBox>
 #include "../FrmUserList/Roster.h"
 
-CFrmGroupChat::CFrmGroupChat(const QString &jid, QWidget *parent) :
+CFrmGroupChat::CFrmGroupChat(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmGroupChat)
 {
     ui->setupUi(this);
-
-    m_pRoom = CGlobal::Instance()->GetXmppClient()->m_MucManager.addRoom(jid);
+    m_pRoom = NULL;
     m_pItem = NULL;
 
     ui->lstMembers->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -21,56 +20,110 @@ CFrmGroupChat::CFrmGroupChat(const QString &jid, QWidget *parent) :
     {
         ui->lstMembers->setModel(m_pModel);
     }
-
-    bool check = connect(m_pRoom, SIGNAL(joined()),
-                         SLOT(slotJoined()));
-    Q_ASSERT(check);
-
-    check = connect(m_pRoom, SIGNAL(left()),
-                    SLOT(slotLeft()));
-    Q_ASSERT(check);
-
-    check = connect(m_pRoom, SIGNAL(nameChanged(QString)), 
-                    SLOT(slotNameChanged(QString)));
-    Q_ASSERT(check);
-
-    check = connect(m_pRoom, SIGNAL(error(QXmppStanza::Error)),
-                    SLOT(slotError(QXmppStanza::Error)));
-    Q_ASSERT(check);
-
-    check = connect(m_pRoom, SIGNAL(subjectChanged(QString)),
-                    SLOT(slotSubjectChanged(QString)));
-    Q_ASSERT(check);
-
-    check = connect(m_pRoom, SIGNAL(messageReceived(QXmppMessage)),
-                    SLOT(slotMessageReceived(QXmppMessage)));
-    Q_ASSERT(check);
-
-    check = connect(m_pRoom, SIGNAL(participantAdded(QString)),
-                    SLOT(slotParticipantAdded(QString)));
-    Q_ASSERT(check);
-
-    check = connect(m_pRoom, SIGNAL(participantChanged(QString)),
-                    SLOT(slotParticipantChanged(QString)));
-    Q_ASSERT(check);
-
-    check = connect(m_pRoom, SIGNAL(participantRemoved(QString)),
-                    SLOT(slotParticipantRemoved(QString)));
-    Q_ASSERT(check);
-
-    check = connect(m_pRoom, SIGNAL(permissionsReceived(QList<QXmppMucItem>)),
-                    SLOT(slotPermissionsReceived(QList<QXmppMucItem>)));
-    Q_ASSERT(check);
-
-    //设置昵称  
-    m_pRoom->setNickName(CGlobal::Instance()->GetRoster()->Name());
-    //加入房间  
-    m_pRoom->join();
 }
 
 CFrmGroupChat::~CFrmGroupChat()
 {
+    LOG_MODEL_DEBUG("Group chat", "CFrmGroupChat::~CFrmGroupChat");
+    if(m_pRoom)
+        delete m_pRoom;
+
     delete ui;
+}
+
+bool CFrmGroupChat::Join(const QString &jid)
+{
+    QList<QXmppMucRoom*> rooms = CGlobal::Instance()->GetXmppClient()->m_MucManager.rooms();
+    QXmppMucRoom* r;
+    foreach(r, rooms)
+    {
+        if(r->jid() == jid)
+        {
+            LOG_MODEL_DEBUG("Group chat", "had joined room[%s]", qPrintable(jid));
+            return false;
+        }
+    }
+
+    m_pRoom = CGlobal::Instance()->GetXmppClient()->m_MucManager.addRoom(jid);
+    if(m_pRoom)
+    {
+        bool check = connect(m_pRoom, SIGNAL(joined()),
+                             SLOT(slotJoined()));
+        Q_ASSERT(check);
+        
+        check = connect(m_pRoom, SIGNAL(left()),
+                        SLOT(slotLeft()));
+        Q_ASSERT(check);
+        
+        check = connect(m_pRoom, SIGNAL(nameChanged(QString)), 
+                        SLOT(slotNameChanged(QString)));
+        Q_ASSERT(check);
+        
+        check = connect(m_pRoom, SIGNAL(error(QXmppStanza::Error)),
+                        SLOT(slotError(QXmppStanza::Error)));
+        Q_ASSERT(check);
+        
+        check = connect(m_pRoom, SIGNAL(subjectChanged(QString)),
+                        SLOT(slotSubjectChanged(QString)));
+        Q_ASSERT(check);
+        
+        check = connect(m_pRoom, SIGNAL(messageReceived(QXmppMessage)),
+                        SLOT(slotMessageReceived(QXmppMessage)));
+        Q_ASSERT(check);
+        
+        check = connect(m_pRoom, SIGNAL(participantAdded(QString)),
+                        SLOT(slotParticipantAdded(QString)));
+        Q_ASSERT(check);
+        
+        check = connect(m_pRoom, SIGNAL(participantChanged(QString)),
+                        SLOT(slotParticipantChanged(QString)));
+        Q_ASSERT(check);
+        
+        check = connect(m_pRoom, SIGNAL(participantRemoved(QString)),
+                        SLOT(slotParticipantRemoved(QString)));
+        Q_ASSERT(check);
+        
+        check = connect(m_pRoom, SIGNAL(permissionsReceived(QList<QXmppMucItem>)),
+                        SLOT(slotPermissionsReceived(QList<QXmppMucItem>)));
+        Q_ASSERT(check);
+ 
+        check = connect(m_pRoom, SIGNAL(configurationReceived(QXmppDataForm)),
+                        SLOT(slotConfigurationReceived(QXmppDataForm)));
+        Q_ASSERT(check);
+
+        //设置昵称  
+        m_pRoom->setNickName(CGlobal::Instance()->GetRoster()->Name());
+        //加入房间  
+        return m_pRoom->join();
+    }
+    return false;
+}
+
+bool CFrmGroupChat::Create(const QString &jid)
+{
+    if(!this->Join(jid))
+        return false;
+    if(m_pRoom)
+    {
+        //m_pRoom->requestConfiguration();
+        //正常流程是先请求配置，然后在请求配置信号中处理配置  
+        //并发送设置配置  
+        return m_pRoom->setConfiguration(m_DataForm);
+    }
+    return false;
+}
+
+bool CFrmGroupChat::Leave(const QString &message)
+{
+    if(m_pRoom)
+        return m_pRoom->leave(message);
+    return false;
+}
+
+bool CFrmGroupChat::setConfiguration(const QXmppDataForm &form)
+{
+    m_DataForm = form;
+    return false;
 }
 
 QStandardItem* CFrmGroupChat::GetItem()
@@ -81,7 +134,6 @@ QStandardItem* CFrmGroupChat::GetItem()
     }
     else
     {
-        LOG_MODEL_DEBUG("Group chat", "m_pItem is exist");
         return m_pItem;
     }
 
@@ -98,13 +150,15 @@ QStandardItem* CFrmGroupChat::GetItem()
 
 void CFrmGroupChat::slotJoined()
 {
-    emit sigJoined(m_pRoom->jid(), this);
+    if(m_pRoom)
+        emit sigJoined(m_pRoom->jid(), this);
 }
 
 void CFrmGroupChat::slotLeft()
 {
     LOG_MODEL_DEBUG("Group chat", "CFrmGroupChat::slotLeft");
     emit sigLeft(m_pRoom->jid(), this);
+    this->deleteLater();
 }
 
 void CFrmGroupChat::slotNameChanged(const QString &name)
@@ -145,6 +199,9 @@ void CFrmGroupChat::slotConfigurationReceived(const QXmppDataForm &configuration
 {
     Q_UNUSED(configuration);
     LOG_MODEL_DEBUG("Group chat", "CFrmGroupChat::slotConfigurationReceived");
+    //正常流程是先请求配置，然后在请求配置信号中处理配置  
+    //并发送设置配置。但是join后直接设置配置在openfire中是可以的  
+    //m_pRoom->setConfiguration(m_DataForm);
 }
 
 void CFrmGroupChat::slotSubjectChanged(const QString &subject)

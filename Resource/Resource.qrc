@@ -40,6 +40,7 @@
         <file alias="Options">png/settings16x16.png</file>
         <file alias="Refresh">png/refresh.png</file>
         <file alias="Video">png/video.png</file>
+        <file alias="Leave">png/leave.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

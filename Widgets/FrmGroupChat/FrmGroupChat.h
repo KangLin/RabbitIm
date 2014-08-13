@@ -14,7 +14,7 @@ class CFrmGroupChat : public QFrame
     Q_OBJECT
 
 public:
-    explicit CFrmGroupChat(const QString &jid, QWidget *parent = 0);
+    explicit CFrmGroupChat(QWidget *parent = 0);
     ~CFrmGroupChat();
 
     enum ENUM_ROLE{
@@ -22,6 +22,10 @@ public:
         ROLE_GROUPCHAT_OBJECT = ROLE_GROUPCHAT_JID + 1
     };
     QStandardItem* GetItem();
+    bool Join(const QString &jid);
+    bool Create(const QString &jid);
+    bool Leave(const QString &message = QString());
+    bool setConfiguration(const QXmppDataForm &form);
 
 signals:
     void sigJoined(const QString &jid, CFrmGroupChat* pChat);
@@ -67,6 +71,7 @@ private:
     QStandardItem* m_pItem;
 
     QStandardItemModel *m_pModel;  //好友列表控件  
+    QXmppDataForm m_DataForm;
 };
 
 #endif // FRMGROUPCHAT_H

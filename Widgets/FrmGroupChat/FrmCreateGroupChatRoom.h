@@ -2,6 +2,7 @@
 #define FRMCREATEGROUPCHATROOM_H
 
 #include <QFrame>
+#include "FrmGroupChat.h"
 
 namespace Ui {
 class CFrmCreateGroupChatRoom;
@@ -19,7 +20,7 @@ private:
     ~CFrmCreateGroupChatRoom();
 
 signals:
-    void sigJoinGroup(const QString &jid);
+    void sigJoinedGroup(const QString &jid, CFrmGroupChat *pChat);
 
 protected:
     void closeEvent(QCloseEvent *);
@@ -27,7 +28,7 @@ protected:
 
 private slots:
     void on_pbOK_clicked();
-    
+
     void on_pbCancel_clicked();
 
 private:

@@ -7,6 +7,7 @@
 #include <QMenu>
 #include "qxmpp/QXmppDiscoveryIq.h"
 #include "Conference.h"
+#include "FrmGroupChat.h"
 
 namespace Ui {
 class CFrmGroupChatFind;
@@ -17,12 +18,14 @@ class CFrmGroupChatFind : public QFrame
     Q_OBJECT
     
 public:
+    static CFrmGroupChatFind* Instance();
+
+signals:
+    void sigJoinedGroup(const QString &jid, CFrmGroupChat *pChat);
+
+private:
     explicit CFrmGroupChatFind(QWidget *parent = 0);
     ~CFrmGroupChatFind();
-    
-protected:
-    void closeEvent(QCloseEvent *);
-    void showEvent(QShowEvent*);
 
 private slots:
     void on_pbJoin_clicked();
@@ -40,8 +43,9 @@ private slots:
     void slotUpdateMenu();
     void slotNewRoom();
 
-signals:
-    void sigJoinGroup(const QString &jid);
+protected:
+    void closeEvent(QCloseEvent *);
+    void showEvent(QShowEvent*);
 
 private:
     enum ENUM_ROLE{

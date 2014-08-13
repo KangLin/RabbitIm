@@ -48,6 +48,14 @@ CFrmGroupChatFind::~CFrmGroupChatFind()
     delete ui;
 }
 
+CFrmGroupChatFind* CFrmGroupChatFind::Instance()
+{
+    static CFrmGroupChatFind* pFind = NULL;
+    if(!pFind)
+        pFind = new CFrmGroupChatFind();
+    return pFind;
+}
+
 void CFrmGroupChatFind::showEvent(QShowEvent *)
 {
     CGlobal::Instance()->GetMainWindow()->setEnabled(false);
@@ -57,7 +65,6 @@ void CFrmGroupChatFind::showEvent(QShowEvent *)
 void CFrmGroupChatFind::closeEvent(QCloseEvent *)
 {
     CGlobal::Instance()->GetMainWindow()->setEnabled(true);
-    deleteLater();
 }
 
 void CFrmGroupChatFind::on_pbJoin_clicked()
@@ -71,7 +78,18 @@ void CFrmGroupChatFind::on_pbJoin_clicked()
     }
     QVariant v = index.model()->data(index, ROLE_JID);
     QString szJid = v.value<QString>();
-    emit sigJoinGroup(szJid);
+
+    CFrmGroupChat* pGroupChat = new CFrmGroupChat();
+    if(pGroupChat)
+    {
+        bool check = connect(pGroupChat, SIGNAL(sigJoined(const QString&,CFrmGroupChat*)),
+                             SIGNAL(sigJoinedGroup(const QString&,CFrmGroupChat*)));
+        Q_ASSERT(check);
+
+        if(!pGroupChat->Join(szJid))
+            delete pGroupChat;
+    }
+
     close();
 }
 
@@ -121,7 +139,6 @@ void CFrmGroupChatFind::slotFoundRoom(const QList<QXmppDiscoveryIq::Item> &Rooms
 
 void CFrmGroupChatFind::slotFoundRoomInfo(const QString &jid, const QXmppDataForm &form)
 {
-    
 }
 
 void CFrmGroupChatFind::on_listView_doubleClicked(const QModelIndex &index)
@@ -160,8 +177,9 @@ void CFrmGroupChatFind::slotNewRoom()
         QVariant v = index.model()->data(index, ROLE_JID);
         QString szJid = v.value<QString>();
         CFrmCreateGroupChatRoom* pRoom = CFrmCreateGroupChatRoom::Instance(szJid);
-        connect(pRoom, SIGNAL(sigJoinGroup(QString)),
-                SIGNAL(sigJoinGroup(QString)));
+        bool check = connect(pRoom, SIGNAL(sigJoinedGroup(const QString&,CFrmGroupChat*)),
+                    SIGNAL(sigJoinedGroup(const QString&,CFrmGroupChat*)));
+        Q_ASSERT(check);
         pRoom->show();
     }
 }

@@ -77,6 +77,7 @@ int CFrmGroupChatList::InitMenu()
 {
     m_Menu.setTitle(tr("Operator group chat(&G)"));
     m_Menu.addAction(QIcon(":/icon/Search"), tr("Search group chat rooms"), this, SLOT(slotFindGroup()));
+    m_Menu.addAction(QIcon(":/icon/Left"), tr("Leave room"), this, SLOT(slotLeave()));
 
     bool check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigInitLoginedMenu(QMenu*)),
                     SLOT(slotAddToMainMenu(QMenu*)));
@@ -137,13 +138,24 @@ void CFrmGroupChatList::slotRemoveFromMainMenu(QMenu *pMenu)
 
 void CFrmGroupChatList::slotFindGroup()
 {
-    CFrmGroupChatFind * pFrm = new CFrmGroupChatFind();//窗体自己释放内存，不会泄漏  
-    connect(pFrm, SIGNAL(sigJoinGroup(QString)), 
-            SLOT(slotJoinGroup(QString)));
+    CFrmGroupChatFind * pFrm = CFrmGroupChatFind::Instance();
+    bool check = connect(pFrm, SIGNAL(sigJoinedGroup(QString,CFrmGroupChat*)),
+                         SLOT(slotJoinedGroup(QString,CFrmGroupChat*)));
+    Q_ASSERT(check);
+
     pFrm->show();
 }
 
-void CFrmGroupChatList::slotJoinGroup(const QString &jid)
+void CFrmGroupChatList::slotLeave()
+{
+    QModelIndex index = m_GroupList.currentIndex();
+    const QAbstractItemModel* m = index.model();
+    QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
+    CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
+    chat->Leave();    
+}
+
+void CFrmGroupChatList::slotJoinedGroup(const QString &jid, CFrmGroupChat *pChat)
 {
     if(m_Group.find(jid) != m_Group.end())
     {
@@ -151,17 +163,10 @@ void CFrmGroupChatList::slotJoinGroup(const QString &jid)
         return;
     }
 
-    CFrmGroupChat* pGroupChat = new CFrmGroupChat(jid);
-    bool check = connect(pGroupChat, SIGNAL(sigJoined(const QString&,CFrmGroupChat*)),
-            SLOT(slotJoinedGroup(const QString&,CFrmGroupChat*)));
+    bool check = connect(pChat, SIGNAL(sigLeft(QString,CFrmGroupChat*)),
+                         SLOT(slotLeft(QString,CFrmGroupChat*)));
     Q_ASSERT(check);
-    check = connect(pGroupChat, SIGNAL(sigLeft(QString,CFrmGroupChat*)),
-            SLOT(slotLeft(QString,CFrmGroupChat*)));
-    Q_ASSERT(check);
-}
-
-void CFrmGroupChatList::slotJoinedGroup(const QString &jid, CFrmGroupChat *pChat)
-{
+    
     QStandardItem* pItem = pChat->GetItem();
     m_pModel->appendRow(pItem);
     m_Group[jid] = pChat;
@@ -176,7 +181,6 @@ void CFrmGroupChatList::slotLeft(const QString &jid, CFrmGroupChat *pChat)
             m_pModel->removeRow(pItem->row());
         }
     m_Group.remove(jid);
-    delete pChat;
 }
 
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)
