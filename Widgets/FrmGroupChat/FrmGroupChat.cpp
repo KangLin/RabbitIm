@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include "../FrmUserList/Roster.h"
 #include "../../MainWindow.h"
+#include "../FrmUservCard/FrmUservCard.h"
 
 CFrmGroupChat::CFrmGroupChat(QWidget *parent) :
     QFrame(parent),
@@ -255,9 +256,13 @@ void CFrmGroupChat::slotMessageReceived(const QXmppMessage &message)
 
 void CFrmGroupChat::slotParticipantAdded(const QString &jid)
 {
-    LOG_MODEL_DEBUG("Group chat", "CFrmGroupChat::slotParticipantAdded:jid:%s", qPrintable(jid));
     QStandardItem* pItem = new QStandardItem(QXmppUtils::jidToResource(jid));
-    pItem->setData(m_pRoom->participantFullJid(jid), Qt::ToolTipRole);
+    QString fullJid = QXmppUtils::jidToBareJid(m_pRoom->participantFullJid(jid));
+    LOG_MODEL_DEBUG("Group chat", "CFrmGroupChat::slotParticipantAdded:jid:%s,fullJid:%s,m_pRoom->participantFullJid(jid):%s", 
+                    qPrintable(jid), qPrintable(fullJid),
+                    qPrintable(m_pRoom->participantFullJid(jid)));
+    pItem->setData(fullJid, Qt::ToolTipRole);
+    pItem->setData(fullJid, ROLE_GROUPCHAT_JID);
     m_pModel->appendRow(pItem);
 }
 
@@ -383,4 +388,20 @@ void CFrmGroupChat::on_pbMember_clicked()
         ui->lstMembers->setVisible(true);
         ui->wdgChat->setVisible(false);
     }
+}
+
+void CFrmGroupChat::on_lstMembers_clicked(const QModelIndex &index)
+{
+#ifdef ANDROID
+    on_lstMembers_doubleClicked(index);
+#endif
+}
+
+void CFrmGroupChat::on_lstMembers_doubleClicked(const QModelIndex &index)
+{
+    const QAbstractItemModel* m = index.model();
+    QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_JID);
+    QString jid = v.value<QString>();
+    if(CGlobal::Instance()->GetBareJid() != QXmppUtils::jidToBareJid(jid))
+        CFrmUservCard* pvCard = new CFrmUservCard(jid);
 }

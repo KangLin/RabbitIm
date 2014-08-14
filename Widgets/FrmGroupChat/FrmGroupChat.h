@@ -61,6 +61,8 @@ private slots:
     void on_pbSend_clicked();
     void on_pbClose_clicked();
     void on_pbMember_clicked();
+    void on_lstMembers_clicked(const QModelIndex &index);
+    void on_lstMembers_doubleClicked(const QModelIndex &index);
     
 private:
     int AppendMessageToList(const QString &szMessage, const QString &nick);

@@ -437,7 +437,7 @@ void MainWindow::slotEditInformation()
 {
     CFrmUservCard* pvCard = 
             new CFrmUservCard(CGlobal::Instance()->GetRoster(), 
-                              true, CGlobal::Instance()->GetXmppClient());
+                              true);
     pvCard->show();
 }
 

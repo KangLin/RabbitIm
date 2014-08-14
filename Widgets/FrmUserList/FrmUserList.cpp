@@ -331,8 +331,7 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
     if(m_Rosters.end() == itRosters)
     {
         //新建好友对象实例  
-        pRoster = new CRoster(rosterItem,
-                              this->m_pMainWindow);
+        pRoster = new CRoster(rosterItem);
         m_Rosters.insert(pRoster->BareJid(), pRoster);
     }
     else

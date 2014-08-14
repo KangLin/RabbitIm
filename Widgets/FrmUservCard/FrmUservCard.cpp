@@ -1,6 +1,7 @@
 #include "FrmUservCard.h"
 #include "ui_FrmUservCard.h"
 #include "../../Global.h"
+#include "../../XmppClient.h"
 #include "qxmpp/QXmppVCardIq.h"
 #include "qxmpp/QXmppVCardManager.h"
 #include <QFileDialog>
@@ -13,16 +14,37 @@ CFrmUservCard::CFrmUservCard(QWidget *parent) :
     ui->setupUi(this);
 
     m_pRoster = NULL;
-    m_pClient = NULL;
     m_bModify = false;
 }
 
-CFrmUservCard::CFrmUservCard(CRoster *pRoster, bool bModify, CXmppClient *pClient, QWidget *parent) :
+CFrmUservCard::CFrmUservCard(const QString &jid, QWidget *parent) :
+    QFrame(parent),
+    ui(new Ui::CFrmUservCard)
+{
+    ui->setupUi(this);
+
+    QXmppRosterIq::Item item;
+    item.setBareJid(jid);
+    m_pRoster = new CRoster(item);
+    m_bModify = false;
+    m_szJid = jid;
+
+    bool check = connect(&CGlobal::Instance()->GetXmppClient()->vCardManager(), SIGNAL(vCardReceived(QXmppVCardIq)),
+                    SLOT(slotvCardReceived(QXmppVCardIq)));
+    Q_ASSERT(check);
+
+    check = connect(this, SIGNAL(destroyed()),
+                    m_pRoster, SLOT(deleteLater()));
+    Q_ASSERT(check);
+
+    CGlobal::Instance()->GetXmppClient()->vCardManager().requestVCard(jid);
+}
+
+CFrmUservCard::CFrmUservCard(CRoster *pRoster, bool bModify, QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmUservCard),
     m_pRoster(pRoster),
-    m_bModify(bModify),
-    m_pClient(pClient)
+    m_bModify(bModify)
 {
     ui->setupUi(this);
 }
@@ -92,7 +114,8 @@ void CFrmUservCard::on_pbClear_clicked()
 
 void CFrmUservCard::on_pbOK_clicked()
 {
-    if(m_pClient)
+    QXmppClient* pClient = CGlobal::Instance()->GetXmppClient();
+    if(pClient)
     {
         QXmppVCardIq vCard;
         vCard.setFullName(ui->txtName->text());
@@ -101,8 +124,8 @@ void CFrmUservCard::on_pbOK_clicked()
         vCard.setEmail(ui->txtEmail->text());
         vCard.setDescription(ui->txtDescription->text());
         vCard.setPhoto(m_Buffer.buffer());
-        m_pClient->vCardManager().setClientVCard(vCard);
-        m_pClient->vCardManager().requestClientVCard();
+        pClient->vCardManager().setClientVCard(vCard);
+        pClient->vCardManager().requestClientVCard();
     }
     close();
 }
@@ -110,4 +133,15 @@ void CFrmUservCard::on_pbOK_clicked()
 void CFrmUservCard::on_pbCancel_clicked()
 {
     close();
+}
+
+void CFrmUservCard::slotvCardReceived(const QXmppVCardIq& vCard)
+{
+    LOG_MODEL_DEBUG("Group chat", "CFrmUservCard::slotvCardReceived:from:%s;to:%s",
+                    qPrintable(vCard.from()),
+                    qPrintable(vCard.to()));
+    if(vCard.from() == m_szJid)
+        if(m_pRoster)
+            m_pRoster->SetVCard(vCard);
+    this->show();
 }

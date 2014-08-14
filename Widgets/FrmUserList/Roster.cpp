@@ -6,12 +6,12 @@
 CRoster::CRoster(QObject *parent) :
     QObject(parent)
 {
-    Init((MainWindow*)parent);
+    Init();
 }
 
-CRoster::CRoster(QXmppRosterIq::Item item, MainWindow *parent) : QObject(parent)
+CRoster::CRoster(QXmppRosterIq::Item item, QObject *parent) : QObject(parent)
 {
-    Init(parent);
+    Init();
     m_RosterItem = item;
 }
 
@@ -21,10 +21,9 @@ CRoster::~CRoster()
     DeleteItems();
 }
 
-int CRoster::Init(MainWindow *parent)
+int CRoster::Init()
 {
     m_nNewMessageNumber = 0;
-    m_pMainWindow = parent;
 
     m_Message.SetRoster(this);
 
@@ -295,7 +294,7 @@ int CRoster::AppendMessage(const QString &szMessage)
         }
 
         //通知栏提示  
-        m_pMainWindow->ShowTrayIconMessage(this->ShowName(), szMessage);
+        CGlobal::Instance()->GetMainWindow()->ShowTrayIconMessage(this->ShowName(), szMessage);
     }
     else
     {

@@ -19,7 +19,7 @@ public:
     //参数 parent 必须为 MainWindow  
     explicit CRoster(QObject *parent = NULL);
     //parent 必须为 MainWindow  
-    explicit CRoster(QXmppRosterIq::Item item, MainWindow* parent = NULL);
+    explicit CRoster(QXmppRosterIq::Item item, QObject* parent = NULL);
     ~CRoster();
 
     QString ShowName();//用于显示好友的名字,这个函数可以根据配置显示友好名称  
@@ -58,7 +58,7 @@ public slots:
     void slotRefresh();
 
 private:
-    int Init(MainWindow *parent = 0);
+    int Init();
     QString GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType type) const;
     //更新条目的显示内容  
     int UpdateItemDisplay();
@@ -78,7 +78,6 @@ private:
     QXmppVCardIq m_RosterVCard;
     QXmppPresence::AvailableStatusType m_Status;//好友出席状态  
 
-    MainWindow* m_pMainWindow;
     std::list<QStandardItem*> m_lstUserListItem; //这个要交给控件释放 
 
     //TODO:改成动态产生  
