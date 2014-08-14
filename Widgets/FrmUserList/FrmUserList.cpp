@@ -523,6 +523,8 @@ CRoster* CFrmUserList::GetCurrentRoster()
 
 int CFrmUserList::ShowMessageDialog()
 {
+    if(m_LastUser.isEmpty())
+        return -1;
     QMap<QString, CRoster*>::iterator it;
     it = m_Rosters.find(QXmppUtils::jidToBareJid(m_LastUser));
     if(m_Rosters.end() != it)
