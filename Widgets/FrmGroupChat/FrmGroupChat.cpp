@@ -402,6 +402,8 @@ void CFrmGroupChat::on_lstMembers_doubleClicked(const QModelIndex &index)
     const QAbstractItemModel* m = index.model();
     QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_JID);
     QString jid = v.value<QString>();
+    if(jid.isEmpty())
+        return;
     if(CGlobal::Instance()->GetBareJid() != QXmppUtils::jidToBareJid(jid))
         CFrmUservCard* pvCard = new CFrmUservCard(jid);
 }
