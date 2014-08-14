@@ -493,8 +493,9 @@ void CFrmUserList::resizeEvent(QResizeEvent *e)
                     geometry().size().width());
     m_UserList.resize(this->geometry().size());
     //调整列的宽度  
-    m_UserList.setColumnWidth(0, m_UserList.geometry().width() * 4/ 5);
-    m_UserList.setColumnWidth(1, m_UserList.geometry().width() / 5);
+    int nWidth = m_UserList.geometry().width() * 4/ 5;
+    m_UserList.setColumnWidth(0, nWidth);
+    m_UserList.setColumnWidth(1, m_UserList.geometry().width() - nWidth);
 }
 
 QSet<QString> CFrmUserList::GetGroupsName()

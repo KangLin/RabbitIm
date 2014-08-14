@@ -108,8 +108,9 @@ void CFrmGroupChatList::resizeEvent(QResizeEvent* e)
     m_GroupList.resize(this->geometry().size());
     
     //调整列的宽度  
-    m_GroupList.setColumnWidth(0, m_GroupList.geometry().width() * 4/ 5);
-    m_GroupList.setColumnWidth(1, m_GroupList.geometry().width() / 5);
+    int nWidth = m_GroupList.geometry().width() * 4/ 5;
+    m_GroupList.setColumnWidth(0, nWidth);
+    m_GroupList.setColumnWidth(1, m_GroupList.geometry().width() - nWidth);
 }
 
 void CFrmGroupChatList::slotCustomContextMenuRequested(const QPoint &pos)
