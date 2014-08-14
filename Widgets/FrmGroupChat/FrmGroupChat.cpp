@@ -252,6 +252,7 @@ void CFrmGroupChat::slotParticipantAdded(const QString &jid)
 {
     LOG_MODEL_DEBUG("Group chat", "CFrmGroupChat::slotParticipantAdded:jid:%s", qPrintable(jid));
     QStandardItem* pItem = new QStandardItem(QXmppUtils::jidToResource(jid));
+    pItem->setData(m_pRoom->participantFullJid(jid), Qt::ToolTipRole);
     m_pModel->appendRow(pItem);
 }
 

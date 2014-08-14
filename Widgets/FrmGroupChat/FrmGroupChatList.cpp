@@ -191,13 +191,20 @@ void CFrmGroupChatList::slotLeft(const QString &jid, CFrmGroupChat *pChat)
 
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)
 {
-    
-}
-
-void CFrmGroupChatList::slotDoubleClicked(const QModelIndex &index)
-{
+#ifdef ANDROID
     const QAbstractItemModel* m = index.model();
     QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
     CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
     chat->show();
+#endif
+}
+
+void CFrmGroupChatList::slotDoubleClicked(const QModelIndex &index)
+{
+#ifndef ANDROID
+    const QAbstractItemModel* m = index.model();
+    QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
+    CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
+    chat->show();
+#endif
 }
