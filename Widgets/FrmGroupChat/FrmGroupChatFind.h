@@ -38,13 +38,14 @@ private slots:
     void slotFoundRoomInfo(const QString& jid, const QXmppDataForm& form);
 
     void on_listView_doubleClicked(const QModelIndex &index);
-    
+
+    void on_treeView_clicked(const QModelIndex &index);
     void on_treeView_customContextMenuRequested(const QPoint &pos);
     void slotUpdateMenu();
     void slotNewRoom();
 
     void on_pbNew_clicked();
-    
+
 protected:
     void closeEvent(QCloseEvent *);
     void showEvent(QShowEvent*);

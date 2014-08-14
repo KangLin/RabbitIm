@@ -104,6 +104,13 @@ void CFrmGroupChatFind::on_pbRefresh_clicked()
     m_Conference.Request(QString(), CConference::REQUEST_TYPE_SEVER);
 }
 
+void CFrmGroupChatFind::on_treeView_clicked(const QModelIndex &index)
+{
+#ifdef ANDROID
+    on_treeView_doubleClicked(index);
+#endif
+}
+
 void CFrmGroupChatFind::on_treeView_doubleClicked(const QModelIndex &index)
 {
     const QAbstractItemModel *m = index.model();
