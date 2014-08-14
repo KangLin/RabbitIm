@@ -180,19 +180,19 @@ QString CRoster::GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType ty
 
 QList<QStandardItem*> CRoster::GetItem()
 {
-    //呢称条目
+    //呢称条目  
     QStandardItem* pItem = new QStandardItem(ShowName() + GetSubscriptionTypeStr(GetSubScriptionType()));
     QVariant v;
     v.setValue(this);
     pItem->setData(v);
-    pItem->setEditable(true);//允许双击编辑
+    pItem->setEditable(true);//允许双击编辑  
     m_lstUserListItem.push_back(pItem);
 
-    //消息条目
+    //消息条目  
     QStandardItem* pMessageCountItem = new QStandardItem("");
     v.setValue(this);
     pMessageCountItem->setData(v);
-    pMessageCountItem->setEditable(false);//禁止双击编辑
+    pMessageCountItem->setEditable(false);//禁止双击编辑  
     m_lstMessageCountItem.push_back(pMessageCountItem);
 
     /* 未读新消息数目树形控件中显示 */
@@ -200,7 +200,7 @@ QList<QStandardItem*> CRoster::GetItem()
     lstItems.push_back(pItem);
     lstItems.push_back(pMessageCountItem);
 
-    //更新条目显示内容
+    //更新条目显示内容  
     UpdateItemDisplay();
 
     return lstItems;
@@ -214,7 +214,7 @@ int CRoster::DeleteItems()
         QStandardItem* p = *it;
         if(p->parent())
         {
-            p->parent()->removeRow(p->row()); //控件会自己释放 QStandardItem 内存
+            p->parent()->removeRow(p->row()); //控件会自己释放 QStandardItem 内存  
         }
     }
     m_lstUserListItem.clear();
@@ -273,7 +273,7 @@ int CRoster::ShowMessageDialog()
     QDesktopWidget *pDesk = QApplication::desktop();    
     m_Message.move((pDesk->width() - m_Message.width()) / 2, (pDesk->height() - m_Message.height()) / 2);
     m_Message.show();
-    m_Message.activateWindow();//激活窗口，置顶
+    m_Message.activateWindow();//激活窗口，置顶  
 
     return nRet;
 }
@@ -283,13 +283,13 @@ int CRoster::AppendMessage(const QString &szMessage)
     if(m_Message.isHidden())
     {
         m_nNewMessageNumber++;
-        //设置控件计数
+        //设置控件计数  
         std::list<QStandardItem*>::iterator it;
         for(it = m_lstMessageCountItem.begin(); it != m_lstMessageCountItem.end(); it++)
         {
             QStandardItem* p = *it;
             //p->setData(CGlobal::Instance()->GetRosterStatusColor(m_Status), Qt::BackgroundRole);
-            p->setData(QColor(255, 0, 0), Qt::TextColorRole);
+            p->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
             QString szText = QString::number(m_nNewMessageNumber);
             p->setData(szText, Qt::DisplayRole);
         }
@@ -307,7 +307,7 @@ int CRoster::AppendMessage(const QString &szMessage)
 int CRoster::CleanNewMessageNumber()
 {
     m_nNewMessageNumber = 0;
-    //清除控件计数
+    //清除控件计数  
     std::list<QStandardItem*>::iterator it;
     for(it = m_lstMessageCountItem.begin(); it != m_lstMessageCountItem.end(); it++)
     {

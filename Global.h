@@ -66,14 +66,19 @@ public:
     //设置消息字体颜色  
     int SetUserMessageColor(const QColor &color);
     QColor GetUserMessageColor();
+    //设置好友消息字体颜色  
     int SetRosterMessageColor(const QColor &color);
     QColor GetRosterMessageColor();
+    //设置未读消息记数颜色  
+    int SetUnreadMessageCountColor(const QColor &color);
+    QColor GetUnreadMessageCountColor();
 
 private:
     QColor m_UserColor;   //本地用户颜色  
     QColor m_RosterColor; //好友颜色  
     QColor m_UserMessageColor;
     QColor m_RosterMessageColor;
+    QColor m_UnreadMessageCountColor;//未读消息记数颜色  
     CRoster *m_pRoster;     //存储本地用户的详细信息  
     QColor GetColorFormConf(const QString &Key, const QColor &def);
     int SetColorToConf(const QString &Key, const QColor &color);

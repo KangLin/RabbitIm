@@ -117,8 +117,14 @@
               <verstretch>3</verstretch>
              </sizepolicy>
             </property>
+            <property name="undoRedoEnabled">
+             <bool>true</bool>
+            </property>
             <property name="readOnly">
              <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string notr="true"/>
             </property>
            </widget>
           </item>

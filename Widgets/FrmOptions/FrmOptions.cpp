@@ -61,6 +61,8 @@ void CFrmOptions::showEvent(QShowEvent *)
     ui->lbRosterMessageColor->setPalette(pa);
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUserMessageColor());
     ui->lbLocalUserMessageColor->setPalette(pa);
+    pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUnreadMessageCountColor());
+    ui->lbUnreadMessageCountColor->setPalette(pa);
 
     CGlobal::E_SCREEN_SHOT_TO_TYPE screenShotType = CGlobal::Instance()->GetScreenShotToType();
     switch (screenShotType) {
@@ -151,4 +153,12 @@ void CFrmOptions::on_pbRosterMessageColor_clicked()
     QPalette pa;
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetRosterMessageColor());
     ui->lbRosterMessageColor->setPalette(pa);
+}
+
+void CFrmOptions::on_pbUnreadMessageCountColor_clicked()
+{
+    CGlobal::Instance()->SetUnreadMessageCountColor(QColorDialog::getColor(CGlobal::Instance()->GetUnreadMessageCountColor()));
+    QPalette pa;
+    pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUnreadMessageCountColor());
+    ui->lbUnreadMessageCountColor->setPalette(pa);
 }

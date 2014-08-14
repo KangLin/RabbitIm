@@ -24,6 +24,7 @@ CGlobal::CGlobal(QObject *parent) :
     m_RosterColor = GetColorFormConf("Options/User/RosterColor", QColor(0, 0, 255));
     m_UserMessageColor = GetColorFormConf("Options/User/LocalMessageColor", QColor(0, 0, 0));
     m_RosterMessageColor = GetColorFormConf("Options/User/RosterMessageColor", QColor(0, 0, 0));
+    m_UnreadMessageCountColor = GetColorFormConf("Options/User/UnreadMessageCountColor", QColor(255, 0, 0));
 
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
     m_szXmppServer = conf.value("Login/XmppServer", "183.233.149.120").toString();
@@ -230,6 +231,18 @@ int CGlobal::SetRosterMessageColor(const QColor &color)
 {
     SetColorToConf("Options/User/RosterMessageColor", color);
     m_RosterMessageColor = color;
+    return 0;
+}
+
+QColor CGlobal::GetUnreadMessageCountColor()
+{
+    return m_UnreadMessageCountColor;
+}
+
+int CGlobal::SetUnreadMessageCountColor(const QColor &color)
+{
+    SetColorToConf("Options/User/UnreadMessageCountColor", color);
+    m_UnreadMessageCountColor = color;
     return 0;
 }
 

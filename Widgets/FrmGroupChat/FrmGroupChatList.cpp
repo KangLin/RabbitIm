@@ -21,6 +21,12 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     InitMenu();
 
     m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。  
+    if(m_pModel)
+    {
+        //增加头，只有增加了这个后，下面才会显示内容  
+        m_pModel->setHorizontalHeaderLabels(QStringList() << tr("Rooms")<< tr("Information"));
+    }
+
     m_GroupList.setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_GroupList.setModel(m_pModel);
     m_GroupList.show();
@@ -100,6 +106,10 @@ void CFrmGroupChatList::resizeEvent(QResizeEvent* e)
                     e->size().width(),
                     geometry().size().width());
     m_GroupList.resize(this->geometry().size());
+    
+    //调整列的宽度  
+    m_GroupList.setColumnWidth(0, m_GroupList.geometry().width() * 4/ 5);
+    m_GroupList.setColumnWidth(1, m_GroupList.geometry().width() / 5);
 }
 
 void CFrmGroupChatList::slotCustomContextMenuRequested(const QPoint &pos)
@@ -173,19 +183,23 @@ void CFrmGroupChatList::slotJoinedGroup(const QString &jid, CFrmGroupChat *pChat
                          SLOT(slotLeft(QString,CFrmGroupChat*)));
     Q_ASSERT(check);
     
-    QStandardItem* pItem = pChat->GetItem();
+    QList<QStandardItem*> pItem = pChat->GetItem();
     m_pModel->appendRow(pItem);
     m_Group[jid] = pChat;
 }
 
 void CFrmGroupChatList::slotLeft(const QString &jid, CFrmGroupChat *pChat)
 {
-    QStandardItem* pItem = pChat->GetItem();
-    if(pItem)
-        if(-1 != pItem->row())
-        {
-            m_pModel->removeRow(pItem->row());
-        }
+    QList<QStandardItem* > item = pChat->GetItem();
+    if(!item.isEmpty())
+    {
+        QStandardItem* pItem = *item.begin();
+        if(pItem)
+            if(-1 != pItem->row())
+            {
+                m_pModel->removeRow(pItem->row());
+            }
+    }
     m_Group.remove(jid);
 }
 

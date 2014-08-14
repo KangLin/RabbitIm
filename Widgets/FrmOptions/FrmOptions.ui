@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>442</width>
-    <height>372</height>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -356,6 +356,12 @@
             </item>
             <item>
              <widget class="QPushButton" name="pbLocalUserColor">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -380,6 +386,12 @@
             </item>
             <item>
              <widget class="QPushButton" name="pbRosterColor">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -425,12 +437,18 @@
             <item>
              <widget class="QLabel" name="lbLocalUserMessageColor">
               <property name="text">
-               <string>Locale User Message color:</string>
+               <string>Locale user message color:</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="pbLocalUserMessageColor">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -449,12 +467,48 @@
             <item>
              <widget class="QLabel" name="lbRosterMessageColor">
               <property name="text">
-               <string>Roster Message color:</string>
+               <string>Roster message color:</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="pbRosterMessageColor">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Select color(&amp;S)</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <widget class="QLabel" name="lbUnreadMessageCountColor">
+              <property name="text">
+               <string>Unread message count color:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pbUnreadMessageCountColor">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>0</width>

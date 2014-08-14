@@ -21,14 +21,16 @@ public:
         ROLE_GROUPCHAT_JID = Qt::UserRole + 1,
         ROLE_GROUPCHAT_OBJECT = ROLE_GROUPCHAT_JID + 1
     };
-    QStandardItem* GetItem();
-    bool Join(const QString &jid);
-    bool Create(const QString &jid);
-    bool Leave(const QString &message = QString());
-    bool setConfiguration(const QXmppDataForm &form);
+    QList<QStandardItem *> GetItem();
+    bool Join(const QString &jid);//加入聊天室  
+    bool Create(const QString &jid);//新建聊天室  
+    bool Leave(const QString &message = QString());//离开聊天室  
+    bool setConfiguration(const QXmppDataForm &form);//设置聊天室配置  
 
 signals:
+    /// 当成功加入聊天室时触发  
     void sigJoined(const QString &jid, CFrmGroupChat* pChat);
+    /// 当未成功加入或离开聊天时触发  
     void sigLeft(const QString &jid, CFrmGroupChat* pChat);
 
 private slots:
@@ -57,22 +59,27 @@ private slots:
     void slotPermissionsReceived(const QList<QXmppMucItem> &permissions);
     
     void on_pbSend_clicked();
-    
     void on_pbClose_clicked();
-
     void on_pbMember_clicked();
     
 private:
     int AppendMessageToList(const QString &szMessage, const QString &nick);
     int ChangeTitle();
 
+    void showEvent(QShowEvent *);
+    void closeEvent(QCloseEvent *);
+    void resizeEvent(QResizeEvent *e);
+
 private:
     Ui::CFrmGroupChat *ui;
 
     QXmppMucRoom* m_pRoom;
-    QStandardItem* m_pItem;
-
     QStandardItemModel *m_pModel;  //好友列表控件  
+    QList<QStandardItem*> m_ItemList; //条目列表  
+    QStandardItem* m_pItem;            //聊天室条目  
+    QStandardItem* m_pItemMessageCount;//未读消息记数条目  
+    int m_MessageCount;//未读消息记数  
+
     QXmppDataForm m_DataForm;
 };
 

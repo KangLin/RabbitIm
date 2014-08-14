@@ -23,6 +23,7 @@ CFrmGroupChat::CFrmGroupChat(QWidget *parent) :
 
     m_pRoom = NULL;
     m_pItem = NULL;
+    m_MessageCount = 0;
 
     ui->lstMembers->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。  
@@ -136,17 +137,14 @@ bool CFrmGroupChat::setConfiguration(const QXmppDataForm &form)
     return false;
 }
 
-QStandardItem* CFrmGroupChat::GetItem()
+QList<QStandardItem*> CFrmGroupChat::GetItem()
 {
-    if(NULL == m_pItem)
+    if(!m_ItemList.isEmpty())
     {
-        m_pItem = new QStandardItem(QIcon(":/icon/Conference"), m_pRoom->name());//这个由QTreeView释放内存  
-    }
-    else
-    {
-        return m_pItem;
+        return m_ItemList;
     }
 
+    m_pItem = new QStandardItem(QIcon(":/icon/Conference"), m_pRoom->name());//这个由QTreeView释放内存  
     if(m_pItem)
     {
         m_pItem->setData(m_pRoom->jid(), ROLE_GROUPCHAT_JID);
@@ -155,7 +153,14 @@ QStandardItem* CFrmGroupChat::GetItem()
         m_pItem->setData(v, ROLE_GROUPCHAT_OBJECT);
         m_pItem->setToolTip(m_pRoom->jid());
     }
-    return m_pItem;
+
+    m_pItemMessageCount = new QStandardItem();//这个由QTreeView释放内存  
+
+    m_ItemList.append(m_pItem);
+    m_ItemList.append(m_pItemMessageCount);
+
+
+    return m_ItemList;
 }
 
 void CFrmGroupChat::slotJoined()
@@ -332,7 +337,13 @@ int CFrmGroupChat::AppendMessageToList(const QString &szMessage, const QString &
     ui->txtView->append(msg);
     
     if(this->isHidden())
+    {
+        m_MessageCount++;
+        m_pItemMessageCount->setData(QString::number(m_MessageCount), Qt::DisplayRole);
+        m_pItemMessageCount->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
         CGlobal::Instance()->GetMainWindow()->ShowTrayIconMessage(nick, szMessage);
+    }
+    
     return 0;
 }
 
@@ -344,6 +355,20 @@ int CFrmGroupChat::ChangeTitle()
     return 0;
 }
 
+void CFrmGroupChat::showEvent(QShowEvent *)
+{
+    m_MessageCount = 0;
+    m_pItemMessageCount->setData(QString(), Qt::DisplayRole);
+}
+
+void CFrmGroupChat::closeEvent(QCloseEvent *)
+{
+}
+
+void CFrmGroupChat::resizeEvent(QResizeEvent *e)
+{
+}
+        
 void CFrmGroupChat::on_pbMember_clicked()
 {
     if(ui->lstMembers->isVisible())
