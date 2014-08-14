@@ -18,7 +18,11 @@ windows 应用程序图标 需要单独在根目录下写一个资源文件。�
 编写Qt Designer自定义控件（一）——如何创建并使用Qt自定义控件:http://blog.csdn.net/giselite/article/details/12622429
 Qt的皮肤设计:http://blog.csdn.net/lastsoup/article/details/7043124
 
-*QTreeView 使用：http://www.tuicool.com/articles/ZFBZfm
+* QTreeView 使用：http://www.tuicool.com/articles/ZFBZfm
+
+* QT中MDI应用程序中更改子窗口大小或是全屏显示子窗口的方法:http://blog.163.com/w_fox/blog/static/62339536201171895348420/
+
+* 漫谈QWidget及其派生类(二) :http://blog.csdn.net/dbzhang800/article/details/6741344
 
 * Qt 线程
 QtThread线程介绍:http://blog.csdn.net/liuhongwei123888/article/details/6072320

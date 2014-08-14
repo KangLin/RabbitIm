@@ -11,9 +11,9 @@ public:
     explicit CCustomTreeView(QWidget *parent = 0);
 
 protected:
-    //显示上下文件菜单(右键菜单)
-    //控件contextMenuPolicy属性要设置为DefaultContextMenu，才能触这个事件
-    //如果设置为CustomContextMenu，触发槽on_tvUsers_customContextMenuRequested
+    //显示上下文件菜单(右键菜单)  
+    //控件contextMenuPolicy属性要设置为DefaultContextMenu，才能触这个事件  
+    //如果设置为CustomContextMenu，触发槽on_tvUsers_customContextMenuRequested  
     void contextMenuEvent(QContextMenuEvent *event);
 
     void mousePressEvent(QMouseEvent *event);

@@ -8,7 +8,7 @@
 #include "qxmpp/QXmppVCardIq.h"
 #include "qxmpp/QXmppVCardManager.h"
 #include "qxmpp/QXmppTransferManager.h"
-#include "Widgets/WdgTableMain/WdgTableMain.h"
+#include "Widgets/FrmMain/FrmMain.h"
 
 class CFrmLogin;
 class CFrmUserList;
@@ -84,7 +84,7 @@ protected slots:
     void onReceiveFile(QXmppTransferJob* job);//文件接收通知  
 
 protected:
-    void resizeEvent(QResizeEvent *);
+    void resizeEvent(QResizeEvent *e);
     void showEvent(QShowEvent *);
     void closeEvent(QCloseEvent *e);
 
@@ -99,7 +99,7 @@ private:
 private:
     Ui::MainWindow *ui;
     CFrmLogin *m_pLogin;
-    CWdgTableMain *m_pTableMain;
+    CFrmMain *m_pTableMain;
     bool m_bLogin;
 
     QTranslator *m_pAppTranslator;

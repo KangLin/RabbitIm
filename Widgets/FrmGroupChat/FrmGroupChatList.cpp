@@ -94,9 +94,12 @@ int CFrmGroupChatList::InitMenu()
     return 0;
 }
 
-void CFrmGroupChatList::resizeEvent(QResizeEvent*)
+void CFrmGroupChatList::resizeEvent(QResizeEvent* e)
 {
-    m_GroupList.setGeometry(this->geometry());
+    LOG_MODEL_DEBUG("CFrmGroupChatList", "CFrmGroupChatList::resizeEvent:e.size:%d;genmetry.size:%d",
+                    e->size().width(),
+                    geometry().size().width());
+    m_GroupList.resize(this->geometry().size());
 }
 
 void CFrmGroupChatList::slotCustomContextMenuRequested(const QPoint &pos)

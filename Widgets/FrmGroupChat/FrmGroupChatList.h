@@ -4,6 +4,7 @@
 #include <QFrame>
 #include <QMenu>
 #include <QStandardItemModel>
+#include <QResizeEvent>
 #include "../../XmppClient.h"
 #include "../FrmCustom/CustomTreeView.h"
 #include "FrmGroupChat.h"
@@ -47,7 +48,7 @@ private slots:
 private:
     int InitMenu();
 
-    void resizeEvent(QResizeEvent *);
+    void resizeEvent(QResizeEvent *e);
 
 private:
     Ui::CFrmGroupChatList *ui;

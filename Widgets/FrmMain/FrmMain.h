@@ -1,32 +1,33 @@
-#ifndef WDGTABLEMAIN_H
-#define WDGTABLEMAIN_H
+#ifndef FRMMAIN_H
+#define FRMMAIN_H
 
-#include <QTabWidget>
+#include <QFrame>
 #include "../FrmUserList/FrmUserList.h"
 #include "../FrmGroupChat/FrmGroupChatList.h"
 
 namespace Ui {
-class CWdgTableMain;
+class CFrmMain;
 }
 
-class CWdgTableMain : public QTabWidget
+class CFrmMain : public QFrame
 {
     Q_OBJECT
     
 public:
-    explicit CWdgTableMain(QWidget *parent = 0);
-    ~CWdgTableMain();
+    explicit CFrmMain(QWidget *parent = 0);
+    ~CFrmMain();
 
     CRoster* GetRoster(QString jid);
     int ShowMessageDialog();
 
 private:
-    void resizeEvent(QResizeEvent *);
+    void resizeEvent(QResizeEvent *e);
 
 private:
-    Ui::CWdgTableMain *ui;
+    Ui::CFrmMain *ui;
+    
     CFrmUserList m_UserList;
     CFrmGroupChatList m_GroupChatList;
 };
 
-#endif // WDGTABLEMAIN_H
+#endif // FRMMAIN_H

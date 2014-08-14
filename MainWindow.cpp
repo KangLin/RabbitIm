@@ -128,11 +128,14 @@ CRoster* MainWindow::GetRoster(QString szJid)
     return NULL;
 }
 
-void MainWindow::resizeEvent(QResizeEvent *)
+void MainWindow::resizeEvent(QResizeEvent * e)
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::resizeEvent");
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::resizeEvent:e.size:%d;genmetry.size:%d",
+                    e->size().width(),
+                    geometry().size().width());
+
     if(m_pTableMain)
-        m_pTableMain->setGeometry(this->geometry());
+        m_pTableMain->resize(this->geometry().size());
 }
 
 void MainWindow::showEvent(QShowEvent *)
@@ -175,7 +178,7 @@ void MainWindow::clientConnected()
     }
 
     if(NULL == m_pTableMain)
-        m_pTableMain = new CWdgTableMain(this);
+        m_pTableMain = new CFrmMain(this);
     if(m_pTableMain)
         this->setCentralWidget(m_pTableMain);
     else

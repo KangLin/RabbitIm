@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStandardItemModel>
 #include <QMap>
+#include <QResizeEvent>
 #include "qxmpp/QXmppRosterIq.h"
 #include "qxmpp/QXmppPresence.h"
 #include "qxmpp/QXmppVCardIq.h"
@@ -64,7 +65,7 @@ private:
     //更新组中用户  
     int UpdateGroup(CRoster* pRoster, QSet<QString> groups);
 
-    void resizeEvent(QResizeEvent *);
+    void resizeEvent(QResizeEvent *e);
 
     //得到树形控件当前选中的好友指针  
     //如果为空,则为组  

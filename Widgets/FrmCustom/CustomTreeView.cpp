@@ -1,6 +1,7 @@
 #include "../FrmCustom/CustomTreeView.h"
 #include "../../Global.h"
 #include "../../Tool.h"
+#include <QResizeEvent>
 
 CCustomTreeView::CCustomTreeView(QWidget *parent) :
     QTreeView(parent)
@@ -24,7 +25,7 @@ void CCustomTreeView::mouseReleaseEvent(QMouseEvent *event)
 {
     LOG_MODEL_DEBUG("Roster", "CTreeUserList::mouseReleaseEvent");
 #ifdef ANDROID
-    //模拟右键菜单
+    //模拟右键菜单  
     QTime cur = QTime::currentTime();
     int sec = m_MousePressTime.secsTo(cur);
     LOG_MODEL_DEBUG("Roster", "m_MousePressTime:%s;currentTime:%s;sect:%d",
@@ -48,9 +49,8 @@ void CCustomTreeView::contextMenuEvent(QContextMenuEvent *event)
 
 void CCustomTreeView::resizeEvent(QResizeEvent *event)
 {
-    LOG_MODEL_DEBUG("Roster", "CTreeUserList::resizeEvent:width:%d", this->geometry().width());
+    LOG_MODEL_DEBUG("Roster", "CTreeUserList::resizeEvent:width:%d,event size:%d", 
+                    this->geometry().width(),
+                    event->size().width());
     Q_UNUSED(event);
-    //调整列的宽度
-    this->setColumnWidth(0, this->geometry().width() * 4/ 5);
-    this->setColumnWidth(1, this->geometry().width() / 5);
 }

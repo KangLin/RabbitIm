@@ -487,9 +487,15 @@ void CFrmUserList::doubleClicked(const QModelIndex &index)
 #endif
 }
 
-void CFrmUserList::resizeEvent(QResizeEvent *)
+void CFrmUserList::resizeEvent(QResizeEvent *e)
 {
-    m_UserList.setGeometry(this->geometry());
+    LOG_MODEL_DEBUG("CFrmUserList", "CFrmUserList::resizeEvent:e.size:%d;genmetry.size:%d",
+                    e->size().width(),
+                    geometry().size().width());
+    m_UserList.resize(this->geometry().size());
+    //调整列的宽度  
+    m_UserList.setColumnWidth(0, m_UserList.geometry().width() * 4/ 5);
+    m_UserList.setColumnWidth(1, m_UserList.geometry().width() / 5);
 }
 
 QSet<QString> CFrmUserList::GetGroupsName()
