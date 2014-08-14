@@ -221,5 +221,6 @@ void CFrmGroupChatList::slotDoubleClicked(const QModelIndex &index)
     QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
     CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
     chat->show();
+    chat->activateWindow();
 #endif
 }
