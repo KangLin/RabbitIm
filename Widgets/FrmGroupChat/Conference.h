@@ -4,6 +4,9 @@
 #include <QObject>
 #include "qxmpp/QXmppDiscoveryIq.h"
 
+/* 
+ * 注意:此类非安全查询,使用者要保证同一时间只有一个查询存在  
+ */
 class CConference : public QObject
 {
     Q_OBJECT

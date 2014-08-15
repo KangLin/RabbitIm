@@ -14,6 +14,7 @@ CFrmGroupChat::CFrmGroupChat(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->txtInput->setFocus();//设置焦点  
+    //设置过滤器,用于过滤发送消息快捷键,在 eventFilter 中处理  
     ui->txtInput->installEventFilter(this);
 
 #ifdef MOBILE
@@ -30,10 +31,10 @@ CFrmGroupChat::CFrmGroupChat(QWidget *parent) :
     m_MessageCount = 0;
 
     ui->lstMembers->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。  
-    if(m_pModel)
+    m_pModelMembers = new QStandardItemModel(this);
+    if(m_pModelMembers)
     {
-        ui->lstMembers->setModel(m_pModel);
+        ui->lstMembers->setModel(m_pModelMembers);
     }
 }
 
@@ -44,10 +45,15 @@ CFrmGroupChat::~CFrmGroupChat()
         delete m_pRoom;
 
     delete ui;
+    if(m_pModelMembers)
+        delete m_pModelMembers;
 }
 
 bool CFrmGroupChat::Join(const QString &jid)
 {
+    if(jid.isEmpty())
+        return false;
+
     QList<QXmppMucRoom*> rooms = CGlobal::Instance()->GetXmppClient()->m_MucManager.rooms();
     QXmppMucRoom* r;
     foreach(r, rooms)
@@ -143,9 +149,9 @@ bool CFrmGroupChat::setConfiguration(const QXmppDataForm &form)
 
 QList<QStandardItem*> CFrmGroupChat::GetItem()
 {
-    if(!m_ItemList.isEmpty())
+    if(!m_ListItems.isEmpty())
     {
-        return m_ItemList;
+        return m_ListItems;
     }
 
     m_pItem = new QStandardItem(QIcon(":/icon/Conference"), m_pRoom->name());//这个由QTreeView释放内存  
@@ -160,11 +166,11 @@ QList<QStandardItem*> CFrmGroupChat::GetItem()
 
     m_pItemMessageCount = new QStandardItem();//这个由QTreeView释放内存  
 
-    m_ItemList.append(m_pItem);
-    m_ItemList.append(m_pItemMessageCount);
+    m_ListItems.append(m_pItem);
+    m_ListItems.append(m_pItemMessageCount);
 
 
-    return m_ItemList;
+    return m_ListItems;
 }
 
 void CFrmGroupChat::slotJoined()
@@ -266,7 +272,7 @@ void CFrmGroupChat::slotParticipantAdded(const QString &jid)
                     qPrintable(m_pRoom->participantFullJid(jid)));
     pItem->setData(fullJid, Qt::ToolTipRole);
     pItem->setData(fullJid, ROLE_GROUPCHAT_JID);
-    m_pModel->appendRow(pItem);
+    m_pModelMembers->appendRow(pItem);
 }
 
 void CFrmGroupChat::slotParticipantChanged(const QString &jid)
@@ -277,11 +283,11 @@ void CFrmGroupChat::slotParticipantChanged(const QString &jid)
 void CFrmGroupChat::slotParticipantRemoved(const QString &jid)
 {
     LOG_MODEL_DEBUG("Group chat", "CFrmGroupChat::slotParticipantRemoved:jid:%s", qPrintable(jid));
-    QList<QStandardItem*> items = m_pModel->findItems(QXmppUtils::jidToResource(jid));
+    QList<QStandardItem*> items = m_pModelMembers->findItems(QXmppUtils::jidToResource(jid));
     QStandardItem* item;
     foreach(item, items)
     {
-        m_pModel->removeRow(item->row());
+        m_pModelMembers->removeRow(item->row());
     }
 }
 
@@ -302,29 +308,29 @@ void CFrmGroupChat::slotPermissionsReceived(const QList<QXmppMucItem> &permissio
 bool CFrmGroupChat::eventFilter(QObject *target, QEvent *event)
 {
     if (target == ui->txtInput) { 
-            if (event->type() == QEvent::KeyPress) { 
-                QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event); 
-                CGlobal::E_MESSAGE_SEND_TYPE type = CGlobal::Instance()->GetMessageSendType();
-                if(CGlobal::E_MESSAGE_SEND_TYPE_CTRL_ENTER == type)
+        if (event->type() == QEvent::KeyPress) { 
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event); 
+            CGlobal::E_MESSAGE_SEND_TYPE type = CGlobal::Instance()->GetMessageSendType();
+            if(CGlobal::E_MESSAGE_SEND_TYPE_CTRL_ENTER == type)
+            {
+                if(keyEvent->key() == Qt::Key_Enter
+                        && (keyEvent->modifiers() & Qt::ControlModifier))
                 {
-                    if(keyEvent->key() == Qt::Key_Enter
-                            && (keyEvent->modifiers() & Qt::ControlModifier))
-                    {
-                        this->on_pbSend_clicked();
-                        return true;
-                    }
+                    this->on_pbSend_clicked();
+                    return true;
                 }
-                else
-                {
-                    if (keyEvent->key() == Qt::Key_Enter) { 
-                        this->on_pbSend_clicked();
-                        return true; 
-                    }
+            }
+            else
+            {
+                if (keyEvent->key() == Qt::Key_Enter) {
+                    this->on_pbSend_clicked();
+                    return true; 
                 }
-                
-            } 
-        } 
-        return QFrame::eventFilter(target, event); 
+            }
+            
+        }
+    }
+    return QFrame::eventFilter(target, event); 
 }
 
 void CFrmGroupChat::on_pbSend_clicked()
@@ -423,7 +429,7 @@ void CFrmGroupChat::on_pbMember_clicked()
 
 void CFrmGroupChat::on_lstMembers_clicked(const QModelIndex &index)
 {
-#ifdef ANDROID
+#ifdef MOBILE
     on_lstMembers_doubleClicked(index);
 #endif
 }

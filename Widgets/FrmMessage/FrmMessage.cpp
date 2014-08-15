@@ -153,29 +153,29 @@ void CFrmMessage::closeEvent(QCloseEvent *e)
 bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
 {
     if (target == ui->txtInput) { 
-            if (event->type() == QEvent::KeyPress) { 
-                QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event); 
-                CGlobal::E_MESSAGE_SEND_TYPE type = CGlobal::Instance()->GetMessageSendType();
-                if(CGlobal::E_MESSAGE_SEND_TYPE_CTRL_ENTER == type)
+        if (event->type() == QEvent::KeyPress) { 
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event); 
+            CGlobal::E_MESSAGE_SEND_TYPE type = CGlobal::Instance()->GetMessageSendType();
+            if(CGlobal::E_MESSAGE_SEND_TYPE_CTRL_ENTER == type)
+            {
+                if(keyEvent->key() == Qt::Key_Enter
+                        && (keyEvent->modifiers() & Qt::ControlModifier))
                 {
-                    if(keyEvent->key() == Qt::Key_Enter
-                            && (keyEvent->modifiers() & Qt::ControlModifier))
-                    {
-                        this->on_pbSend_clicked();
-                        return true;
-                    }
+                    this->on_pbSend_clicked();
+                    return true;
                 }
-                else
-                {
-                    if (keyEvent->key() == Qt::Key_Enter) { 
-                        this->on_pbSend_clicked();
-                        return true; 
-                    }
+            }
+            else
+            {
+                if (keyEvent->key() == Qt::Key_Enter) { 
+                    this->on_pbSend_clicked();
+                    return true; 
                 }
-                
-            } 
+            }
+            
         } 
-        return QFrame::eventFilter(target, event); 
+    } 
+    return QFrame::eventFilter(target, event); 
 }
 
 void CFrmMessage::showEvent(QShowEvent *)

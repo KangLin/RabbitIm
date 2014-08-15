@@ -1,3 +1,7 @@
+/* 
+ * 聊天室列表对话框  
+ */
+
 #ifndef FRMGROUPCHATLIST_H
 #define FRMGROUPCHATLIST_H
 
@@ -27,13 +31,22 @@ private slots:
     /// This signal is emitted when a new room is managed.
     void slotRoomAdded(QXmppMucRoom *room);
 
+    //成功加入聊天室时触发的消息  
     void slotJoinedGroup(const QString &jid, CFrmGroupChat* pChat);
+    //成功离开聊天室时触发的消息  
     void slotLeft(const QString &jid, CFrmGroupChat* pChat);
-    void slotFindGroup();
-    void slotLeave();
+    
+    //查找群组菜单  
+    void slotActionFindGroup();
+    //离开聊天室菜单  
+    void slotActionLeave();
+    //增加菜单到主菜单的操作菜单下  
     void slotAddToMainMenu(QMenu* pMenu);
+    //从主菜单中删除菜单  
     void slotRemoveFromMainMenu(QMenu* pMenu);
+    //菜单更新时触发  
     void slotUpdateMenu();
+    //主菜单更新进触发  
     void slotUpdateMainMenu();
 
     
@@ -52,11 +65,17 @@ private:
 
 private:
     Ui::CFrmGroupChatList *ui;
+
+    //菜单  
     QMenu m_Menu;
     QAction* m_pAction;
 
+    //列表控件  
     CCustomTreeView m_GroupList;
     QStandardItemModel *m_pModel;           //好友列表树型控件  
+
+    //聊天室列表<聊天室jid, CFrmGroupChat*>  
+    //CFmGroupChat* 在这里进行管理  
     QMap<QString, CFrmGroupChat*> m_Group;
 };
 

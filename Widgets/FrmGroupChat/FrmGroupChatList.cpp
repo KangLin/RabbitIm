@@ -20,13 +20,14 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
 
     InitMenu();
 
-    m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。  
+    m_pModel = new QStandardItemModel(this);
     if(m_pModel)
     {
         //增加头，只有增加了这个后，下面才会显示内容  
         m_pModel->setHorizontalHeaderLabels(QStringList() << tr("Rooms")<< tr("Information"));
     }
 
+    //禁止列表文本框编辑  
     m_GroupList.setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_GroupList.setModel(m_pModel);
     m_GroupList.show();
@@ -61,6 +62,8 @@ CFrmGroupChatList::~CFrmGroupChatList()
     }
 
     delete ui;
+    if(m_pModel)
+        delete m_pModel;
 }
 
 void CFrmGroupChatList::slotInvitationReceived(const QString &roomJid, const QString &inviter, const QString &reason)
@@ -83,8 +86,8 @@ void CFrmGroupChatList::slotRoomAdded(QXmppMucRoom *room)
 int CFrmGroupChatList::InitMenu()
 {
     m_Menu.setTitle(tr("Operator group chat(&G)"));
-    m_Menu.addAction(QIcon(":/icon/Search"), tr("New/Search group chat rooms"), this, SLOT(slotFindGroup()));
-    m_Menu.addAction(QIcon(":/icon/Left"), tr("Leave room"), this, SLOT(slotLeave()));
+    m_Menu.addAction(QIcon(":/icon/Search"), tr("New/Search group chat rooms"), this, SLOT(slotActionFindGroup()));
+    m_Menu.addAction(QIcon(":/icon/Left"), tr("Leave room"), this, SLOT(slotActionLeave()));
 
     bool check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigInitLoginedMenu(QMenu*)),
                     SLOT(slotAddToMainMenu(QMenu*)));
@@ -145,13 +148,14 @@ void CFrmGroupChatList::slotUpdateMainMenu()
         m_Menu.setEnabled(true);
 }
 
+//TODO:如果此对象析构,主菜单上的菜单如何删除?  
 void CFrmGroupChatList::slotRemoveFromMainMenu(QMenu *pMenu)
 {
     pMenu->removeAction(m_pAction);
     pMenu->disconnect(this);
 }
 
-void CFrmGroupChatList::slotFindGroup()
+void CFrmGroupChatList::slotActionFindGroup()
 {
     CFrmGroupChatFind * pFrm = CFrmGroupChatFind::Instance();
     bool check = connect(pFrm, SIGNAL(sigJoinedGroup(QString,CFrmGroupChat*)),
@@ -161,7 +165,7 @@ void CFrmGroupChatList::slotFindGroup()
     pFrm->show();
 }
 
-void CFrmGroupChatList::slotLeave()
+void CFrmGroupChatList::slotActionLeave()
 {
     QModelIndex index = m_GroupList.currentIndex();
     if(!index.isValid())
@@ -169,7 +173,7 @@ void CFrmGroupChatList::slotLeave()
     const QAbstractItemModel* m = index.model();
     QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
     CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
-    chat->Leave();    
+    chat->Leave();//当聊天室离开后,会触发 sigLeft 事件,然后在 slotLeft 中处理  
 }
 
 void CFrmGroupChatList::slotJoinedGroup(const QString &jid, CFrmGroupChat *pChat)
@@ -206,7 +210,7 @@ void CFrmGroupChatList::slotLeft(const QString &jid, CFrmGroupChat *pChat)
 
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)
 {
-#ifdef ANDROID
+#ifdef MOBILE
     const QAbstractItemModel* m = index.model();
     QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
     CFrmGroupChat* chat = v.value<CFrmGroupChat*>();

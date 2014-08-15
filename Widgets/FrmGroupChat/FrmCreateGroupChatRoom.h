@@ -28,7 +28,6 @@ protected:
 
 private slots:
     void on_pbOK_clicked();
-
     void on_pbCancel_clicked();
 
 private:

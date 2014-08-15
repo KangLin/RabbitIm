@@ -13,21 +13,23 @@ CFrmGroupChatFind::CFrmGroupChatFind(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //禁止文本框编辑  
     ui->treeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     InitMenu();
 
-    m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。  
-    if(m_pModel)
+    m_pTreeConferenceModel = new QStandardItemModel(this);
+    if(m_pTreeConferenceModel)
     {
-        ui->treeView->setModel(m_pModel);
+        QItemSelectionModel *m = ui->treeView->selectionModel();
+        ui->treeView->setModel(m_pTreeConferenceModel);
     }
 
-    m_pListModel = new QStandardItemModel(this);
-    if(m_pListModel)
+    m_pListRoomModel = new QStandardItemModel(this);
+    if(m_pListRoomModel)
     {
-        ui->listView->setModel(m_pListModel);
+        ui->listView->setModel(m_pListRoomModel);
     }
 
     bool check = connect(&m_Conference, SIGNAL(sigFoundServer(QString,QString)), 
@@ -46,6 +48,10 @@ CFrmGroupChatFind::CFrmGroupChatFind(QWidget *parent) :
 CFrmGroupChatFind::~CFrmGroupChatFind()
 {
     delete ui;
+    if(m_pTreeConferenceModel)
+        delete m_pTreeConferenceModel;
+    if(m_pListRoomModel)
+        delete m_pListRoomModel;
 }
 
 CFrmGroupChatFind* CFrmGroupChatFind::Instance()
@@ -100,13 +106,13 @@ void CFrmGroupChatFind::on_pbCancel_clicked()
 
 void CFrmGroupChatFind::on_pbRefresh_clicked()
 {
-    m_pModel->clear();
+    m_pTreeConferenceModel->clear();
     m_Conference.Request(QString(), CConference::REQUEST_TYPE_SEVER);
 }
 
 void CFrmGroupChatFind::on_treeView_clicked(const QModelIndex &index)
 {
-#ifdef ANDROID
+#ifdef MOBILE
     on_treeView_doubleClicked(index);
 #endif
 }
@@ -117,7 +123,7 @@ void CFrmGroupChatFind::on_treeView_doubleClicked(const QModelIndex &index)
     if(!m)
         return;
 
-    m_pListModel->clear();
+    m_pListRoomModel->clear();
     QVariant v = m->data(index, ROLE_JID);
     QString jid = v.value<QString>();
     m_Conference.Request(jid, CConference::REQUEST_TYPE_ROOMS);
@@ -128,7 +134,7 @@ void CFrmGroupChatFind::slotFoundServer(const QString& jid, const QString& name)
      QStandardItem* pItem = new QStandardItem(QIcon(":/icon/Server"), name);
      pItem->setData(jid, ROLE_JID);
      pItem->setToolTip(jid);
-     m_pModel->appendRow(pItem);
+     m_pTreeConferenceModel->appendRow(pItem);
 }
 
 void CFrmGroupChatFind::slotFoundRoom(const QList<QXmppDiscoveryIq::Item> &Rooms)
@@ -139,13 +145,15 @@ void CFrmGroupChatFind::slotFoundRoom(const QList<QXmppDiscoveryIq::Item> &Rooms
         QStandardItem* pItem = new QStandardItem(QIcon(":/icon/Conference"), item.name());
         pItem->setData(item.jid(), ROLE_JID);
         pItem->setToolTip(item.jid());
-        m_pListModel->appendRow(pItem);
+        m_pListRoomModel->appendRow(pItem);
         m_Conference.Request(item.jid(), CConference::REQUEST_TYPE_ROOMS_INFO);
     }
 }
 
+//TODO:聊天室的信息显示  
 void CFrmGroupChatFind::slotFoundRoomInfo(const QString &jid, const QXmppDataForm &form)
 {
+    LOG_MODEL_DEBUG("Group chat", "CFrmGroupChatFind::slotFoundRoomInfo");
 }
 
 void CFrmGroupChatFind::on_listView_doubleClicked(const QModelIndex &index)
@@ -167,15 +175,11 @@ void CFrmGroupChatFind::on_treeView_customContextMenuRequested(const QPoint &pos
 
 int CFrmGroupChatFind::InitMenu()
 {
-    m_Menu.addAction(QIcon(":/icon/Add"), tr("New room"), this, SLOT(slotNewRoom()));
+    m_Menu.addAction(QIcon(":/icon/Add"), tr("New room"), this, SLOT(slotActionNewRoom()));
     return 0;
 }
 
-void CFrmGroupChatFind::slotUpdateMenu()
-{
-}
-
-void CFrmGroupChatFind::slotNewRoom()
+void CFrmGroupChatFind::slotActionNewRoom()
 {
     m_Conference.Request();
     QModelIndex index = ui->treeView->currentIndex();
@@ -196,5 +200,5 @@ void CFrmGroupChatFind::slotNewRoom()
 
 void CFrmGroupChatFind::on_pbNew_clicked()
 {
-    slotNewRoom();
+    slotActionNewRoom();
 }

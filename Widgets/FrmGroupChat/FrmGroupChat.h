@@ -23,7 +23,7 @@ public:
         ROLE_GROUPCHAT_OBJECT = ROLE_GROUPCHAT_JID + 1
     };
     QList<QStandardItem *> GetItem();
-    bool Join(const QString &jid);//加入聊天室  
+    bool Join(const QString &jid);  //加入聊天室  
     bool Create(const QString &jid);//新建聊天室  
     bool Leave(const QString &message = QString());//离开聊天室  
     bool setConfiguration(const QXmppDataForm &form);//设置聊天室配置  
@@ -66,27 +66,31 @@ private slots:
     void on_lstMembers_doubleClicked(const QModelIndex &index);
     
 private:
+    //消息加入到消息列表  
     int AppendMessageToList(const QString &szMessage, const QString &nick);
+    //改变标题  
     int ChangeTitle();
 
     void showEvent(QShowEvent *);
     void closeEvent(QCloseEvent *);
     void resizeEvent(QResizeEvent *e);
+    //用于过滤发送消息键盘事件  
     bool eventFilter(QObject *target, QEvent *event);
 
 private:
     Ui::CFrmGroupChat *ui;
 
     QXmppMucRoom* m_pRoom;
-    QStandardItemModel *m_pModel;  //好友列表控件  
-    QList<QStandardItem*> m_ItemList; //条目列表  
-    QStandardItem* m_pItem;            //聊天室条目  
-    QStandardItem* m_pItemMessageCount;//未读消息记数条目  
-    int m_MessageCount;//未读消息记数  
+    QStandardItemModel *m_pModelMembers; //聊天室成员列表控件  
 
-    QXmppDataForm m_DataForm;
+    QList<QStandardItem*> m_ListItems;   //聊天室条目列表  
+    QStandardItem* m_pItem;              //聊天室条目  
+    QStandardItem* m_pItemMessageCount;  //聊天室未读消息记数条目  
+    int m_MessageCount;                  //未读消息记数  
 
-    CMenuMessageSend m_MessageSendMenu;
+    QXmppDataForm m_DataForm;    //聊天室配置信息,用于新建聊天室  
+
+    CMenuMessageSend m_MessageSendMenu;//发送消息按键配置菜单  
 };
 
 #endif // FRMGROUPCHAT_H

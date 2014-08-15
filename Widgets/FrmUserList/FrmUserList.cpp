@@ -20,7 +20,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
 
     InitMenu();
 
-    m_pModel = new QStandardItemModel(this);//这里不会产生内在泄漏，控件在romve操作时会自己释放内存。  
+    m_pModel = new QStandardItemModel(this);
     if(m_pModel)
     {
         //增加头，只有增加了这个后，下面才会显示内容  
@@ -106,6 +106,9 @@ CFrmUserList::~CFrmUserList()
         delete m_pMenu;
 
     delete ui;   
+    
+    if(m_pModel)
+        delete m_pModel;
 }
 
 int CFrmUserList::InitMenu()
