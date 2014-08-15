@@ -25,7 +25,7 @@
      <item>
       <widget class="QLabel" name="label_7">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -39,18 +39,21 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
         <string>XMPP Server:</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="txtXmppServer">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>4</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -64,7 +67,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -72,7 +75,7 @@
      <item>
       <widget class="QLabel" name="label_8">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -86,18 +89,21 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
         <string>Port:</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="txtXmppPort">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -111,7 +117,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -123,7 +129,7 @@
      <item>
       <widget class="QLabel" name="label_11">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -137,21 +143,21 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
         <string>XMPP Domain:</string>
        </property>
        <property name="wordWrap">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="txtXmppDomain">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>4</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -165,7 +171,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -177,7 +183,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -191,21 +197,21 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
         <string>Stun Server:</string>
        </property>
        <property name="wordWrap">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="txtStunServer">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>4</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -219,7 +225,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -227,7 +233,7 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -241,18 +247,21 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
         <string>Port:</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="txtStunPort">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -266,7 +275,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -278,7 +287,7 @@
      <item>
       <widget class="QLabel" name="label_5">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -292,21 +301,21 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
         <string>Turn Server:</string>
        </property>
        <property name="wordWrap">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="txtTurnServer">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>4</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -320,7 +329,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -328,7 +337,7 @@
      <item>
       <widget class="QLabel" name="label_6">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -342,18 +351,21 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
         <string>Port:</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="txtTurnPort">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -367,7 +379,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -379,7 +391,7 @@
      <item>
       <widget class="QLabel" name="label_9">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -393,21 +405,21 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
         <string>Turn User:</string>
        </property>
        <property name="wordWrap">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="txtUser">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -421,7 +433,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -429,7 +441,7 @@
      <item>
       <widget class="QLabel" name="label_10">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -443,18 +455,21 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
         <string>Password:</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="txtPassword">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -468,7 +483,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -480,7 +495,7 @@
      <item>
       <widget class="QPushButton" name="pbOK">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -493,8 +508,8 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>120</width>
-         <height>40</height>
+         <width>16777215</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">
@@ -505,7 +520,7 @@
      <item>
       <widget class="QPushButton" name="pbCanecl">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -518,8 +533,8 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>120</width>
-         <height>40</height>
+         <width>16777215</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="text">

@@ -378,12 +378,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="27"/>
         <source>Rooms</source>
-        <translation >聊天室</translation>
+        <translation>聊天室</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="27"/>
         <source>Information</source>
-        <translation >消息</translation>
+        <translation>消息</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="85"/>
@@ -690,17 +690,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="90"/>
         <source>Send Message</source>
-        <translation >发送消息快捷键</translation>
+        <translation>发送消息快捷键</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="102"/>
         <source>CTRL+ENTER</source>
-        <translation ></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="118"/>
         <source>ENTER</source>
-        <translation ></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="283"/>
@@ -760,7 +760,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="508"/>
         <source>Locale user message color:</source>
-        <translation >本地用户消息颜色：</translation>
+        <translation>本地用户消息颜色：</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="541"/>
@@ -1224,12 +1224,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../Widgets/FrmCustom/MenuMessageSend.cpp" line="14"/>
         <source>Enter Send</source>
-        <translation >Enter 键发送</translation>
+        <translation>Enter 键发送</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmCustom/MenuMessageSend.cpp" line="15"/>
         <source>Ctrl + Enter Send</source>
-        <translation >Ctrl + Enter 键发送</translation>
+        <translation>Ctrl + Enter 键发送</translation>
     </message>
 </context>
 <context>
