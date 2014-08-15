@@ -157,7 +157,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QPushButton" name="pbSend">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -189,7 +189,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QPushButton" name="pbVideo">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -218,7 +218,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QPushButton" name="pbBack">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>

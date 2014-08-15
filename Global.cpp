@@ -26,6 +26,12 @@ CGlobal::CGlobal(QObject *parent) :
     m_RosterMessageColor = GetColorFormConf("Options/User/RosterMessageColor", QColor(0, 0, 0));
     m_UnreadMessageCountColor = GetColorFormConf("Options/User/UnreadMessageCountColor", QColor(255, 0, 0));
 
+#ifdef MOBILE
+    m_MessageSendType = (E_MESSAGE_SEND_TYPE)conf.value("Options/Message/SendType", E_MESSAGE_SEND_TYPE_ENTER).toInt();
+#else
+    m_MessageSendType = (E_MESSAGE_SEND_TYPE)conf.value("Options/Message/SendType", E_MESSAGE_SEND_TYPE_CTRL_ENTER).toInt();
+#endif
+
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
     m_szXmppServer = conf.value("Login/XmppServer", "183.233.149.120").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
@@ -415,6 +421,19 @@ QColor CGlobal::GetRosterStatusColor(QXmppPresence::AvailableStatusType status)
         return QColor(255, 0, 255);
     else
         return QColor(255, 255, 255);
+}
+
+int CGlobal::SetMessageSendType(E_MESSAGE_SEND_TYPE type)
+{
+    m_MessageSendType = type;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Options/Message/SendType", m_MessageSendType);
+    return 0;
+}
+
+CGlobal::E_MESSAGE_SEND_TYPE CGlobal::GetMessageSendType()
+{
+    return m_MessageSendType;
 }
 
 QString CGlobal::GetDirApplication()

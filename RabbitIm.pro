@@ -48,7 +48,7 @@ INCLUDEPATH += $$PWD/Widgets/FrmCustom
 android{
     INCLUDEPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
-    DEFINES += ANDROID
+    DEFINES += ANDROID MOBILE
     LIBS += -L$$PWD/ThirdLibary/android/lib  
 } else:win32{
     msvc {

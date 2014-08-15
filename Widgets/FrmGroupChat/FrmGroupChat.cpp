@@ -13,13 +13,16 @@ CFrmGroupChat::CFrmGroupChat(QWidget *parent) :
     ui(new Ui::CFrmGroupChat)
 {
     ui->setupUi(this);
+    ui->txtInput->setFocus();//设置焦点  
+    ui->txtInput->installEventFilter(this);
 
-#ifdef ANDROID
+#ifdef MOBILE
     ui->lstMembers->setVisible(false);
     ui->pbMember->setVisible(true);
 #else
     ui->lstMembers->setVisible(true);
     ui->pbMember->setVisible(false);
+    ui->pbSend->setMenu(&m_MessageSendMenu);
 #endif
 
     m_pRoom = NULL;
@@ -294,6 +297,34 @@ void CFrmGroupChat::slotPermissionsReceived(const QList<QXmppMucItem> &permissio
                         QXmppMucItem::affiliationToString(item.affiliation()).toStdString().c_str(),
                         QXmppMucItem::roleToString(item.role()).toStdString().c_str());
     }
+}
+
+bool CFrmGroupChat::eventFilter(QObject *target, QEvent *event)
+{
+    if (target == ui->txtInput) { 
+            if (event->type() == QEvent::KeyPress) { 
+                QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event); 
+                CGlobal::E_MESSAGE_SEND_TYPE type = CGlobal::Instance()->GetMessageSendType();
+                if(CGlobal::E_MESSAGE_SEND_TYPE_CTRL_ENTER == type)
+                {
+                    if(keyEvent->key() == Qt::Key_Enter
+                            && (keyEvent->modifiers() & Qt::ControlModifier))
+                    {
+                        this->on_pbSend_clicked();
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (keyEvent->key() == Qt::Key_Enter) { 
+                        this->on_pbSend_clicked();
+                        return true; 
+                    }
+                }
+                
+            } 
+        } 
+        return QFrame::eventFilter(target, event); 
 }
 
 void CFrmGroupChat::on_pbSend_clicked()

@@ -4,6 +4,7 @@
 #include <QFrame>
 #include <QStandardItem>
 #include "qxmpp/QXmppMucManager.h"
+#include "../FrmCustom/MenuMessageSend.h"
 
 namespace Ui {
 class CFrmGroupChat;
@@ -71,6 +72,7 @@ private:
     void showEvent(QShowEvent *);
     void closeEvent(QCloseEvent *);
     void resizeEvent(QResizeEvent *e);
+    bool eventFilter(QObject *target, QEvent *event);
 
 private:
     Ui::CFrmGroupChat *ui;
@@ -83,6 +85,8 @@ private:
     int m_MessageCount;//未读消息记数  
 
     QXmppDataForm m_DataForm;
+
+    CMenuMessageSend m_MessageSendMenu;
 };
 
 #endif // FRMGROUPCHAT_H

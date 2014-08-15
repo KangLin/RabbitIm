@@ -16,12 +16,17 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->txtInput->setFocus();//设置焦点  
+    ui->txtInput->installEventFilter(this);
     m_pRoster = NULL;
 
     bool check = false;
 
     //check = connect(ui->lbAvator, SIGNAL(clicked()), SLOT(on_lbAvator_clicked()));
     //Q_ASSERT(check);
+
+#ifndef MOBILE
+    ui->pbSend->setMenu(&m_MessageSendMenu);
+#endif
 
     //发送文件信号连接20140710 
     QAction* pAction = m_MoreMenu.addAction(tr("send file"));
@@ -138,10 +143,39 @@ void CFrmMessage::hideEvent(QHideEvent *)
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::hideEvent");
 }
+
 void CFrmMessage::closeEvent(QCloseEvent *e)
 {
     Q_UNUSED(e);
     LOG_MODEL_DEBUG("Message", "CFrmMessage::closeEvent");
+}
+
+bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
+{
+    if (target == ui->txtInput) { 
+            if (event->type() == QEvent::KeyPress) { 
+                QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event); 
+                CGlobal::E_MESSAGE_SEND_TYPE type = CGlobal::Instance()->GetMessageSendType();
+                if(CGlobal::E_MESSAGE_SEND_TYPE_CTRL_ENTER == type)
+                {
+                    if(keyEvent->key() == Qt::Key_Enter
+                            && (keyEvent->modifiers() & Qt::ControlModifier))
+                    {
+                        this->on_pbSend_clicked();
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (keyEvent->key() == Qt::Key_Enter) { 
+                        this->on_pbSend_clicked();
+                        return true; 
+                    }
+                }
+                
+            } 
+        } 
+        return QFrame::eventFilter(target, event); 
 }
 
 void CFrmMessage::showEvent(QShowEvent *)

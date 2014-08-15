@@ -28,6 +28,7 @@ public:
     int Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...);
 
 public:
+    //得到主窗口  
     MainWindow* GetMainWindow();
     int SetMainWindow(MainWindow* pWnd);
     CXmppClient* GetXmppClient();
@@ -57,6 +58,10 @@ public:
     QString GetDomain();
     QString GetResource();
     CRoster* GetRoster(); //本地用户详细信息  
+private:
+    CRoster *m_pRoster;     //存储本地用户的详细信息  
+
+public:
     //设置本地用户的显示颜色  
     int SetUserColor(const QColor &color);
     QColor GetUserColor();
@@ -72,14 +77,12 @@ public:
     //设置未读消息记数颜色  
     int SetUnreadMessageCountColor(const QColor &color);
     QColor GetUnreadMessageCountColor();
-
 private:
     QColor m_UserColor;   //本地用户颜色  
     QColor m_RosterColor; //好友颜色  
     QColor m_UserMessageColor;
     QColor m_RosterMessageColor;
     QColor m_UnreadMessageCountColor;//未读消息记数颜色  
-    CRoster *m_pRoster;     //存储本地用户的详细信息  
     QColor GetColorFormConf(const QString &Key, const QColor &def);
     int SetColorToConf(const QString &Key, const QColor &color);
 
@@ -90,7 +93,18 @@ public:
     QString GetRosterStatusIcon(QXmppPresence::AvailableStatusType status);
     //好友状态颜色表示  
     QColor GetRosterStatusColor(QXmppPresence::AvailableStatusType status);
-    
+
+public:
+    enum E_MESSAGE_SEND_TYPE
+    {
+        E_MESSAGE_SEND_TYPE_ENTER,
+        E_MESSAGE_SEND_TYPE_CTRL_ENTER
+    };
+    int SetMessageSendType(E_MESSAGE_SEND_TYPE type);
+    E_MESSAGE_SEND_TYPE GetMessageSendType();
+private:
+    E_MESSAGE_SEND_TYPE m_MessageSendType;
+
 public:
     QString GetXmppServer();
     int SetXmppServer(QString host);
@@ -149,10 +163,9 @@ private:
     int m_nShowMessageDelay;
     bool m_bNotifiationBarFlashs;
     int m_nFlashInterval;
-    
 
-    //配置好友显示名称  
 public:
+    //配置好友显示名称  
     enum E_ROSTER_SHOW_TYPE
     {
         E_ROSTER_SHOW_JID,

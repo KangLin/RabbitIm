@@ -11,6 +11,10 @@ CFrmOptions::CFrmOptions(QWidget *parent) :
     ui->setupUi(this);
     m_pParent = parent;
 
+#ifdef MOBILE
+    ui->gBSendMessage->setVisible(false);
+#endif
+
     //控件初始化工作放到showEvent中  
 }
 
@@ -52,6 +56,17 @@ void CFrmOptions::showEvent(QShowEvent *)
         break;
     }
     
+    CGlobal::E_MESSAGE_SEND_TYPE messageType = CGlobal::Instance()->GetMessageSendType();
+    switch(messageType){
+    case CGlobal::E_MESSAGE_SEND_TYPE_ENTER:
+        ui->rbtnENTER->setChecked(true);
+        break;
+    case CGlobal::E_MESSAGE_SEND_TYPE_CTRL_ENTER:
+    default:
+        ui->rBtnCTRLENTER->setChecked(true);
+        break;
+    }
+
     QPalette pa;
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUserColor());
     ui->lbLocalUserColor->setPalette(pa);
@@ -108,6 +123,13 @@ void CFrmOptions::on_pbOK_clicked()
         type = CGlobal::E_ROSTER_SHOW_NICK;
     CGlobal::Instance()->SetRosterShowType(type);
     
+    CGlobal::E_MESSAGE_SEND_TYPE messageType = CGlobal::Instance()->GetMessageSendType();
+    if(ui->rbtnENTER->isChecked())
+        messageType = CGlobal::E_MESSAGE_SEND_TYPE_ENTER;
+    else if(ui->rBtnCTRLENTER->isChecked())
+        messageType = CGlobal::E_MESSAGE_SEND_TYPE_CTRL_ENTER;
+    CGlobal::Instance()->SetMessageSendType(messageType);
+
     CGlobal::E_SCREEN_SHOT_TO_TYPE screenShotToType = CGlobal::Instance()->GetScreenShotToType();
     if(ui->rBtn_save->isChecked())
         screenShotToType = CGlobal::E_TO_SAVE;

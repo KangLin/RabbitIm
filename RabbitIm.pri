@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     Widgets/FrmGroupChat/Conference.cpp \
     Widgets/FrmGroupChat/FrmGroupChat.cpp \
     Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp \
-    Widgets/FrmMain/FrmMain.cpp
+    Widgets/FrmMain/FrmMain.cpp \
+    Widgets/FrmCustom/MenuMessageSend.cpp
 
 HEADERS  += MainWindow.h \
     XmppClient.h \
@@ -66,7 +67,8 @@ HEADERS  += MainWindow.h \
     Widgets/FrmGroupChat/Conference.h \
     Widgets/FrmGroupChat/FrmGroupChat.h \
     Widgets/FrmGroupChat/FrmCreateGroupChatRoom.h \
-    Widgets/FrmMain/FrmMain.h
+    Widgets/FrmMain/FrmMain.h \
+    Widgets/FrmCustom/MenuMessageSend.h
 
 FORMS    += MainWindow.ui \
     Widgets/FrmSendFile/DlgSendManage.ui \

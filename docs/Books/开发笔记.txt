@@ -33,6 +33,12 @@ QtThread线程介绍:http://blog.csdn.net/liuhongwei123888/article/details/60723
 当mousetracking为on时，没鼠标键按下，也会有mouseEvent事件
 用QWidget::setMouseTracking进行设置。
 
+* Qt 键盘事件：
+Qt获取组合键：http://cool.worm.blog.163.com/blog/static/643390062009614248349/  
+
+* Qt 事件过滤器：http://blog.csdn.net/yangyunfeizj/article/details/7403651  
+http://qtdocs.sourceforge.net/index.php/%E4%BA%8B%E4%BB%B6%E5%92%8C%E4%BA%8B%E4%BB%B6%E8%BF%87%E6%BB%A4%E5%99%A8
+
 * Qt 处理摄像头：http://blog.csdn.net/kl222/article/details/23187693
 
 * Qt 处理配置文件：参考代码中的CFrmLogin::SaveConf

@@ -7,6 +7,7 @@
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppPresence.h"
 #include "../../Global.h"
+#include "../FrmCustom/MenuMessageSend.h"
 
 class MainWindow;
 class CRoster;
@@ -35,6 +36,7 @@ protected:
     virtual void hideEvent(QHideEvent *);
     virtual void showEvent(QShowEvent* );
     void closeEvent(QCloseEvent *e);
+    bool eventFilter(QObject *target, QEvent *event);
 
 private slots:
     void on_pbBack_clicked();
@@ -57,6 +59,7 @@ private:
 
     QStringList m_szMessages;
     QMenu m_MoreMenu;//功能按钮菜单  
+    CMenuMessageSend m_MessageSendMenu;
 };
 
 #endif // FRMMESSAGE_H

@@ -240,72 +240,72 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.ui" line="81"/>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="350"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="412"/>
         <source>Members(&amp;M)</source>
         <translation>成员(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.ui" line="146"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.ui" line="152"/>
         <source>Send(&amp;S)</source>
         <translation>发送(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.ui" line="159"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.ui" line="165"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="192"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="201"/>
         <source>Don&apos;t join room</source>
         <translation>不能加入聊天室</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="195"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="204"/>
         <source>Error code:</source>
         <translation>错误代码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="196"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="205"/>
         <source>type:</source>
         <translation>类型：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="197"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="206"/>
         <source>condition:</source>
         <translation>条件：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="198"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="207"/>
         <source>text:</source>
         <translation>文本：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="200"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="209"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="247"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="256"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="293"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="335"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="293"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="335"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="340"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="388"/>
         <source>Chat room [%1]:%2</source>
         <translation>聊天室[%1]:%2</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="356"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="418"/>
         <source>Chat(&amp;C)</source>
         <translation>聊天(&amp;C)</translation>
     </message>
@@ -358,17 +358,17 @@ p, li { white-space: pre-wrap; }
         <translation>没有选择聊天室，请选择聊天室。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.cpp" line="163"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.cpp" line="170"/>
         <source>New room</source>
         <translation>新建聊天室</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.cpp" line="177"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.cpp" line="184"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.cpp" line="177"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatFind.cpp" line="184"/>
         <source>Please select group chat server</source>
         <translation>请选择群聊服务。</translation>
     </message>
@@ -376,17 +376,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CFrmGroupChatList</name>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="79"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="27"/>
+        <source>Rooms</source>
+        <translation >聊天室</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="27"/>
+        <source>Information</source>
+        <translation >消息</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="85"/>
         <source>Operator group chat(&amp;G)</source>
         <translation>操作群聊(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="80"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="86"/>
         <source>New/Search group chat rooms</source>
         <translation>新建/查找聊天室</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="81"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="87"/>
         <source>Leave room</source>
         <translation>离开聊天室</translation>
     </message>
@@ -517,24 +527,24 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="27"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="39"/>
         <source>Tab 1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="32"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="44"/>
         <source>Tab 2</source>
-        <translation ></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="14"/>
         <source>Rosters</source>
-        <translation >好友</translation>
+        <translation>好友</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="15"/>
         <source>Group Chat</source>
-        <translation >群聊</translation>
+        <translation>群聊</translation>
     </message>
 </context>
 <context>
@@ -550,21 +560,12 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="103"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;SimSun&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="198"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="204"/>
         <source>Video(&amp;V)</source>
         <translation>视频(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="227"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="233"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
@@ -574,51 +575,51 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="166"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="172"/>
         <source>Send(&amp;S)</source>
         <translation>发送(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="27"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="32"/>
         <source>send file</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="32"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="37"/>
         <source>shot screen</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="71"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="76"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="73"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="78"/>
         <source>All (*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="80"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="123"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="227"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="85"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="128"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="261"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="80"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="123"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="227"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="85"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="128"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="261"/>
         <source>%1 isn&apos;t online.</source>
         <translation>%1 不在线。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="101"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="106"/>
         <source>Save File</source>
         <translation>保存为文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="103"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="108"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -631,22 +632,22 @@ p, li { white-space: pre-wrap; }
         <translation>选项</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="96"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="143"/>
         <source>Notification bar</source>
         <translation>通知栏</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="110"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="157"/>
         <source>Show message</source>
         <translation>显示消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="123"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="170"/>
         <source>Flashes</source>
         <translation>闪烁</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="146"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="193"/>
         <source>Flash Interval: </source>
         <translation>闪烁间隔：</translation>
     </message>
@@ -656,13 +657,13 @@ p, li { white-space: pre-wrap; }
         <translation>用户颜色</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="163"/>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="203"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="216"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="262"/>
         <source>ms</source>
         <translation>毫秒</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="186"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="242"/>
         <source>Show Message Delay:</source>
         <translation>显示消息延时：</translation>
     </message>
@@ -682,100 +683,121 @@ p, li { white-space: pre-wrap; }
         <translation>延时：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="73"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="76"/>
         <source>secodes</source>
         <translation>秒</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="221"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="90"/>
+        <source>Send Message</source>
+        <translation >发送消息快捷键</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="102"/>
+        <source>CTRL+ENTER</source>
+        <translation ></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="118"/>
+        <source>ENTER</source>
+        <translation ></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="283"/>
         <source>Screen Shot to</source>
         <translation>截屏后操作</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="233"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="295"/>
         <source>Clipboard</source>
         <translation>保存到剪切板</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="246"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="308"/>
         <source>save</source>
         <translation>保存为文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="259"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="321"/>
         <source>send</source>
         <translation>发送</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="270"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="332"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="288"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="350"/>
         <source>Show User Name</source>
         <translation>显示用户名</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="294"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="356"/>
         <source>JID</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="301"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="363"/>
         <source>Name</source>
         <translation>名字</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="314"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="376"/>
         <source>Nick</source>
         <translation>呢称</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="345"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="407"/>
         <source>User color</source>
         <translation>用户颜色</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="377"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="448"/>
         <source>Roster color:</source>
         <translation>好友颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="366"/>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="390"/>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="441"/>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="465"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="508"/>
+        <source>Locale user message color:</source>
+        <translation >本地用户消息颜色：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="541"/>
+        <source>Roster message color:</source>
+        <translation>好友消息颜色：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="574"/>
+        <source>Unread message count color:</source>
+        <translation>未读消息数颜色：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="437"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="470"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="530"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="563"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="596"/>
         <source>Select color(&amp;S)</source>
         <translation>选择颜色(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="353"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="415"/>
         <source>Locale user color:</source>
         <translation>本地用户颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="420"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="500"/>
         <source>Message color</source>
         <translation>消息颜色</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="428"/>
-        <source>Locale User Message color:</source>
-        <translation>本地用户消息颜色:</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="452"/>
-        <source>Roster Message color:</source>
-        <translation>好友消息颜色:</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="501"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="632"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="530"/>
+        <location filename="../../Widgets/FrmOptions/FrmOptions.ui" line="661"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
@@ -1069,7 +1091,7 @@ p, li { white-space: pre-wrap; }
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUservCard/FrmUservCard.cpp" line="72"/>
+        <location filename="../../Widgets/FrmUservCard/FrmUservCard.cpp" line="94"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
@@ -1166,51 +1188,64 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global.cpp" line="356"/>
+        <location filename="../../Global.cpp" line="375"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="358"/>
+        <location filename="../../Global.cpp" line="377"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="360"/>
+        <location filename="../../Global.cpp" line="379"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="362"/>
+        <location filename="../../Global.cpp" line="381"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="364"/>
-        <location filename="../../Global.cpp" line="368"/>
+        <location filename="../../Global.cpp" line="383"/>
+        <location filename="../../Global.cpp" line="387"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global.cpp" line="366"/>
+        <location filename="../../Global.cpp" line="385"/>
         <source>Away for an extended period</source>
         <translation>离开</translation>
     </message>
 </context>
 <context>
+    <name>CMenuMessageSend</name>
+    <message>
+        <location filename="../../Widgets/FrmCustom/MenuMessageSend.cpp" line="14"/>
+        <source>Enter Send</source>
+        <translation >Enter 键发送</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmCustom/MenuMessageSend.cpp" line="15"/>
+        <source>Ctrl + Enter Send</source>
+        <translation >Ctrl + Enter 键发送</translation>
+    </message>
+</context>
+<context>
     <name>CRoster</name>
     <message>
-        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="164"/>
+        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="163"/>
         <source>[none]</source>
         <translation>[未知]</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="168"/>
+        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="167"/>
         <source>[From]</source>
         <translation>[挂起]</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="172"/>
+        <location filename="../../Widgets/FrmUserList/Roster.cpp" line="171"/>
         <source>[remove]</source>
         <translation>[删除]</translation>
     </message>
@@ -1276,24 +1311,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="485"/>
         <source>select color</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CWdgTableMain</name>
-    <message>
-        <location filename="../../Widgets/WdgTableMain/WdgTableMain.ui" line="14"/>
-        <source>TabWidget</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/WdgTableMain/WdgTableMain.cpp" line="13"/>
-        <source>Rosters</source>
-        <translation>好友</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/WdgTableMain/WdgTableMain.cpp" line="14"/>
-        <source>Group Chat</source>
-        <translation>群聊</translation>
     </message>
 </context>
 <context>

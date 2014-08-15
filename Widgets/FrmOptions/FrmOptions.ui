@@ -29,7 +29,7 @@
       <attribute name="title">
        <string>Nomarl</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_5">
+      <layout class="QGridLayout" name="gridLayout_8">
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_10">
          <item>
@@ -52,6 +52,9 @@
              <property name="text">
               <string>Delay:</string>
              </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -72,6 +75,9 @@
              <property name="text">
               <string>secodes</string>
              </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
           </layout>
@@ -79,6 +85,47 @@
         </layout>
        </item>
        <item row="1" column="0">
+        <widget class="QGroupBox" name="gBSendMessage">
+         <property name="title">
+          <string>Send Message</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="rBtnCTRLENTER">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>CTRL+ENTER</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QRadioButton" name="rbtnENTER">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>ENTER</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="0">
         <widget class="QGroupBox" name="groupBox">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -145,6 +192,12 @@
               <property name="text">
                <string>Flash Interval: </string>
               </property>
+              <property name="scaledContents">
+               <bool>false</bool>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -161,6 +214,9 @@
              <widget class="QLabel" name="label_2">
               <property name="text">
                <string>ms</string>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -185,6 +241,9 @@
               <property name="text">
                <string>Show Message Delay:</string>
               </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -202,6 +261,9 @@
               <property name="text">
                <string>ms</string>
               </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
            </layout>
@@ -209,7 +271,7 @@
          </layout>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QGroupBox" name="groupBox_5">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -352,6 +414,9 @@
               <property name="text">
                <string>Locale user color:</string>
               </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -381,6 +446,9 @@
              <widget class="QLabel" name="lbRosterColor">
               <property name="text">
                <string>Roster color:</string>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -439,6 +507,9 @@
               <property name="text">
                <string>Locale user message color:</string>
               </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -469,6 +540,9 @@
               <property name="text">
                <string>Roster message color:</string>
               </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -498,6 +572,9 @@
              <widget class="QLabel" name="lbUnreadMessageCountColor">
               <property name="text">
                <string>Unread message count color:</string>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -594,11 +671,28 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>tabWidget</tabstop>
-  <tabstop>cbNotificationShowMessage</tabstop>
-  <tabstop>cbNotificationFlash</tabstop>
+  <tabstop>rbJID</tabstop>
+  <tabstop>rbName</tabstop>
+  <tabstop>rbNick</tabstop>
+  <tabstop>pbLocalUserColor</tabstop>
+  <tabstop>pbRosterColor</tabstop>
+  <tabstop>pbLocalUserMessageColor</tabstop>
+  <tabstop>pbRosterMessageColor</tabstop>
+  <tabstop>pbUnreadMessageCountColor</tabstop>
   <tabstop>pbOK</tabstop>
   <tabstop>pbCancel</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>cbAutoLogin</tabstop>
+  <tabstop>sbDelayTime</tabstop>
+  <tabstop>rBtnCTRLENTER</tabstop>
+  <tabstop>rbtnENTER</tabstop>
+  <tabstop>cbNotificationShowMessage</tabstop>
+  <tabstop>cbNotificationFlash</tabstop>
+  <tabstop>txtFlashInterval</tabstop>
+  <tabstop>txtShowMessageDelay</tabstop>
+  <tabstop>rBtn_clipboard</tabstop>
+  <tabstop>rBtn_save</tabstop>
+  <tabstop>rBtn_send</tabstop>
  </tabstops>
  <resources>
   <include location="../../Resource/Resource.qrc"/>
