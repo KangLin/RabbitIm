@@ -5,12 +5,12 @@
 博客：http://blog.csdn.net/kl222  
      http://blog.csdn.net/kl222/article/details/37597807  
 项目位置：https://code.csdn.net/kl222/rabbitim  
-邮件组地址为：rabbitim@googlegroups.com  
+邮件组地址为：https://groups.yahoo.com/group/rabbitim  
 你可以做以下操作：  
-  1. 要在此论坛中发帖，请发送电子邮件至 rabbitim@googlegroups.com  
-  2. 订阅本邮件组，请发送邮件到：rabbitim+subscribe@googlegroups.com  
-  3. 取消订阅本邮件组，请发送邮件到：rabbitim+unsubscribe@googlegroups.com  
-  4. 通过以下网址访问此论坛：https://groups.google.com/d/forum/rabbitim
+  1. 要在此论坛中发帖，请发送电子邮件至 rabbitim@yahoogroups.com  
+  2. 订阅本邮件组，请发送邮件到：rabbitim-subscribe@yahoogroups.com  
+  3. 取消订阅本邮件组，请发送邮件到：rabbitim-unsubscribe@yahoogroups.com  
+  4. 通过以下网址访问此论坛：https://groups.yahoo.com/neo/groups/rabbitim/conversations/messages
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
