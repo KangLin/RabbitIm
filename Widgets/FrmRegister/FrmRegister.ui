@@ -81,7 +81,7 @@
         <item row="0" column="1">
          <widget class="QLineEdit" name="txtUser">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -247,7 +247,7 @@
         <item>
          <widget class="QPushButton" name="pbCreate">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -258,8 +258,15 @@
             <height>40</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Register new account</string>
+          </property>
           <property name="text">
            <string>Create(&amp;C)</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../Resource/Resource.qrc">
+            <normaloff>:/icon/Add</normaloff>:/icon/Add</iconset>
           </property>
           <property name="autoDefault">
            <bool>true</bool>
@@ -272,7 +279,7 @@
         <item>
          <widget class="QPushButton" name="pbCancel">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -285,12 +292,19 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>126</width>
-            <height>40</height>
+            <width>16777215</width>
+            <height>16777215</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Cancle</string>
           </property>
           <property name="text">
            <string>Cancel(&amp;C)</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../Resource/Resource.qrc">
+            <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
           </property>
           <property name="autoDefault">
            <bool>true</bool>

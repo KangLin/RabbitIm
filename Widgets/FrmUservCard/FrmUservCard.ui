@@ -68,6 +68,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>Clear Avatar</string>
+       </property>
        <property name="text">
         <string>Clear(&amp;L)</string>
        </property>
@@ -249,8 +252,15 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>OK</string>
+       </property>
        <property name="text">
         <string>OK(&amp;O)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Accept</normaloff>:/icon/Accept</iconset>
        </property>
       </widget>
      </item>
@@ -262,8 +272,15 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="toolTip">
+        <string>Cancel</string>
+       </property>
        <property name="text">
         <string>Cancel(&amp;C)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
        </property>
       </widget>
      </item>
@@ -271,6 +288,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../Resource/Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

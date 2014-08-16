@@ -24,6 +24,7 @@ CFrmGroupChat::CFrmGroupChat(QWidget *parent) :
     ui->lstMembers->setVisible(true);
     ui->pbMember->setVisible(false);
     ui->pbSend->setMenu(&m_MessageSendMenu);
+    ui->pbSend->setPopupMode(QToolButton::MenuButtonPopup);
 #endif
 
     m_pRoom = NULL;
@@ -313,7 +314,7 @@ bool CFrmGroupChat::eventFilter(QObject *target, QEvent *event)
             CGlobal::E_MESSAGE_SEND_TYPE type = CGlobal::Instance()->GetMessageSendType();
             if(CGlobal::E_MESSAGE_SEND_TYPE_CTRL_ENTER == type)
             {
-                if(keyEvent->key() == Qt::Key_Enter
+                if(keyEvent->key() == Qt::Key_Return
                         && (keyEvent->modifiers() & Qt::ControlModifier))
                 {
                     this->on_pbSend_clicked();
@@ -322,7 +323,7 @@ bool CFrmGroupChat::eventFilter(QObject *target, QEvent *event)
             }
             else
             {
-                if (keyEvent->key() == Qt::Key_Enter) {
+                if (keyEvent->key() == Qt::Key_Return) {
                     this->on_pbSend_clicked();
                     return true; 
                 }

@@ -512,8 +512,15 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>OK</string>
+       </property>
        <property name="text">
         <string>OK(&amp;O)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Accept</normaloff>:/icon/Accept</iconset>
        </property>
       </widget>
      </item>
@@ -537,8 +544,15 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Cancle</string>
+       </property>
        <property name="text">
         <string>Cancel(&amp;C)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
        </property>
       </widget>
      </item>
@@ -546,6 +560,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../Resource/Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -12,6 +12,33 @@ QLabel {
     background-color: transparent
 }
 
+QToolButton { /* all types of tool button */
+    border: 2px solid rgba(255, 255, 255, 80%);
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+QToolButton[popupMode="1"] { /* only for MenuButtonPopup */
+    padding-right: 20px; /* make way for the popup button */
+}
+
+QToolButton:pressed {
+    background-color: transparent;
+}
+
+/* the subcontrols below are used only in the MenuButtonPopup mode */
+QToolButton::menu-button {
+    border: 2px solid rgba(255, 255, 255, 80%);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    /* 16px width + 4px for border = 20px allocated above */
+    width: 16px;
+}
+
+QToolButton::menu-arrow:open {
+    top: 1px; left: 1px; /* shift it a bit */
+}
+
 QPushButton {
     background-color: transparent;
     border-width: 2px;
@@ -66,4 +93,42 @@ QTreeView::item:selected:active{
 
 QTreeView::item:selected:!active {
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6b9be8, stop: 1 #577fbf);
+}
+
+QComboBox {
+    border: 1px solid rgba(255, 255, 255, 80%);
+    border-radius: 0px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+}
+
+QComboBox:editable {
+    background: white;
+}
+
+QComboBox::drop-down {
+     background: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
+                  stop: 0 rgba(180, 255, 255, 100%),
+                  stop: 1 rgba(10, 144, 255, 100%));
+}
+
+QComboBox:on { /* shift the text when the popup opens */
+    padding-top: 3px;
+    padding-left: 4px;
+}
+
+QComboBox::down-arrow {
+    border: 2px solid black;
+        width: 3px;
+        height: 3px;
+        background: black;
+}
+
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    top: 1px;
+    left: 1px;
+    border: 2px solid grey;
+        width: 3px;
+        height: 3px;
+        background: white;
 }

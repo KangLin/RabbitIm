@@ -26,6 +26,7 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
 
 #ifndef MOBILE
     ui->pbSend->setMenu(&m_MessageSendMenu);
+    ui->pbSend->setPopupMode(QToolButton::MenuButtonPopup);
 #endif
 
     //发送文件信号连接20140710 
@@ -158,7 +159,7 @@ bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
             CGlobal::E_MESSAGE_SEND_TYPE type = CGlobal::Instance()->GetMessageSendType();
             if(CGlobal::E_MESSAGE_SEND_TYPE_CTRL_ENTER == type)
             {
-                if(keyEvent->key() == Qt::Key_Enter
+                if(keyEvent->key() == Qt::Key_Return
                         && (keyEvent->modifiers() & Qt::ControlModifier))
                 {
                     this->on_pbSend_clicked();
@@ -167,7 +168,7 @@ bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
             }
             else
             {
-                if (keyEvent->key() == Qt::Key_Enter) { 
+                if (keyEvent->key() == Qt::Key_Return) { 
                     this->on_pbSend_clicked();
                     return true; 
                 }
@@ -240,6 +241,12 @@ void CFrmMessage::on_pbSend_clicked()
 {
     //QString message=ui->txtInput->toHtml();
     //LOG_MODEL_DEBUG("FrmMessage", "message:%s", message.toStdString().c_str());
+    QString message = ui->txtInput->toPlainText();
+    if(message.isEmpty())
+    {
+        QMessageBox::warning(this, tr("Warning"), tr("There is empty, please input."));
+        return;
+    }
 
     AppendMessageToList(ui->txtInput->toPlainText());
 

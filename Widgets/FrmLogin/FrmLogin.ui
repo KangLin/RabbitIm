@@ -129,6 +129,9 @@
             <height>40</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Login</string>
+          </property>
           <property name="text">
            <string>Login(&amp;L)</string>
           </property>
@@ -154,8 +157,15 @@
             <height>40</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Close</string>
+          </property>
           <property name="text">
            <string>Close(&amp;C)</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../Resource/Resource.qrc">
+            <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
           </property>
           <property name="autoDefault">
            <bool>true</bool>
@@ -371,6 +381,9 @@
             <height>40</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Register new account</string>
+          </property>
           <property name="text">
            <string>Register(&amp;R)</string>
           </property>
@@ -396,8 +409,15 @@
             <height>40</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Set Server</string>
+          </property>
           <property name="text">
            <string>Set(&amp;S)</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../Resource/Resource.qrc">
+            <normaloff>:/icon/Options</normaloff>:/icon/Options</iconset>
           </property>
          </widget>
         </item>
