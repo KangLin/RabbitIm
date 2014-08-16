@@ -58,8 +58,19 @@ public:
     QString GetDomain();
     QString GetResource();
     CRoster* GetRoster(); //本地用户详细信息  
+    QXmppPresence::AvailableStatusType GetStatus();//得到本地用户状态  
+    int SetStatus(QXmppPresence::AvailableStatusType status);
 private:
     CRoster *m_pRoster;     //存储本地用户的详细信息  
+    QXmppPresence::AvailableStatusType m_LocalStatus;//本地用户的状态  
+
+public:
+    //好友状态文本表示  
+    QString GetRosterStatusText(QXmppPresence::AvailableStatusType status);
+    //好友状态图标资源字符串  
+    QString GetRosterStatusIcon(QXmppPresence::AvailableStatusType status);
+    //好友状态颜色表示  
+    QColor GetRosterStatusColor(QXmppPresence::AvailableStatusType status);
 
 public:
     //设置本地用户的显示颜色  
@@ -85,14 +96,6 @@ private:
     QColor m_UnreadMessageCountColor;//未读消息记数颜色  
     QColor GetColorFormConf(const QString &Key, const QColor &def);
     int SetColorToConf(const QString &Key, const QColor &color);
-
-public:
-    //好友状态文本表示  
-    QString GetRosterStatusText(QXmppPresence::AvailableStatusType status);
-    //好友状态图标资源字符串  
-    QString GetRosterStatusIcon(QXmppPresence::AvailableStatusType status);
-    //好友状态颜色表示  
-    QColor GetRosterStatusColor(QXmppPresence::AvailableStatusType status);
 
 public:
     enum E_MESSAGE_SEND_TYPE

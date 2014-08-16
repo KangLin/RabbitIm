@@ -67,11 +67,7 @@ protected slots:
     void slotTrayTimerStop();
 
     void on_actionNotifiation_show_main_windows_triggered();
-    void on_actionNotifiation_status_online_triggered();
-    void on_actionNotifiation_status_away_triggered();
-    void on_actionNotifiation_status_dnd_triggered();
-    void on_actionNotifiation_status_chat_triggered();
-    void on_actionNotifiation_status_invisible_triggered();
+    void slotActionGroupStatusTriggered(QAction* act);//状态菜单触发  
 
     void on_actionChange_Style_Sheet_S_triggered();
     void on_actionEnglish_E_triggered();
@@ -94,7 +90,7 @@ private slots:
 private:
     int InitMenu();       //初始化菜单  
     int InitLoginedMenu();//初始化登录后的相关菜单  
-    int AddStatusMenu(QMenu* pMenu);
+    int AddStatusMenu(QMenu* pMenu);//增加状态菜单  
 
 private:
     Ui::MainWindow *ui;
@@ -110,6 +106,13 @@ private:
     bool m_bTrayShow;
     QTimer m_TrayTimer;
 
+    QAction* m_ActionStatusOnline;
+    QAction* m_ActionStatusAway;
+    QAction* m_ActionStatusDnd;
+    QAction* m_ActionStatusChat;
+    QAction* m_ActionStatusInvisible;
+    QActionGroup m_ActionGroupStatus;
+    
     CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口  
 };
 

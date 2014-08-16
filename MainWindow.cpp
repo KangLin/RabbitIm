@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     m_TrayIcon(QIcon(":/icon/AppIcon"), this),
     m_TrayIconMenu(this),
+    m_ActionGroupStatus(this),
     ui(new Ui::MainWindow)
 {
     CGlobal::Instance()->SetMainWindow(this);
@@ -293,21 +294,51 @@ int MainWindow::InitLoginedMenu()
 
 int MainWindow::AddStatusMenu(QMenu *pMenu)
 {
-    pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Online)),
-                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Online),
-                     this, SLOT(on_actionNotifiation_status_online_triggered()));
-    pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Chat)),
-                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Chat),
-                     this, SLOT(on_actionNotifiation_status_chat_triggered()));
-    pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Away)),
-                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Away),
-                     this, SLOT(on_actionNotifiation_status_away_triggered()));
-    pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::DND)),
-                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::DND),
-                     this, SLOT(on_actionNotifiation_status_dnd_triggered()));
-    pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Invisible)),
-                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Invisible),
-                     this, SLOT(on_actionNotifiation_status_invisible_triggered()));
+    m_ActionStatusOnline = pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Online)),
+                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Online));
+    m_ActionStatusChat = pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Chat)),
+                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Chat));
+    m_ActionStatusAway = pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Away)),
+                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Away));
+    m_ActionStatusDnd = pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::DND)),
+                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::DND));
+    m_ActionStatusInvisible = pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Invisible)),
+                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Invisible));
+
+    m_ActionGroupStatus.addAction(m_ActionStatusOnline);
+    m_ActionGroupStatus.addAction(m_ActionStatusChat);
+    m_ActionGroupStatus.addAction(m_ActionStatusAway);
+    m_ActionGroupStatus.addAction(m_ActionStatusDnd);
+    m_ActionGroupStatus.addAction(m_ActionStatusInvisible);
+    bool check = connect(&m_ActionGroupStatus, SIGNAL(triggered(QAction*)),
+                         SLOT(slotActionGroupStatusTriggered(QAction*)));
+    Q_ASSERT(check);
+
+    QAction* pAct = NULL;
+    switch(CGlobal::Instance()->GetStatus())
+    {
+    case QXmppPresence::Online:
+        pAct = m_ActionStatusOnline;
+        break;
+    case QXmppPresence::Chat:
+        pAct = m_ActionStatusChat;
+        break;
+    case QXmppPresence::Away:
+        pAct = m_ActionStatusAway;
+        break;
+    case QXmppPresence::DND:
+        pAct = m_ActionStatusDnd;
+        break;
+    case QXmppPresence::Invisible:
+        pAct = m_ActionStatusInvisible;
+        break;
+    default:
+        pAct = m_ActionStatusOnline;
+    }
+
+    pAct->setCheckable(true);
+    pAct->setChecked(true);
+
     return 0;
 }
 
@@ -398,39 +429,26 @@ void MainWindow::on_actionNotifiation_show_main_windows_triggered()
         this->hide();
 }
 
-void MainWindow::on_actionNotifiation_status_away_triggered()
+void MainWindow::slotActionGroupStatusTriggered(QAction *act)
 {
     QXmppPresence presence;
-    presence.setAvailableStatusType(QXmppPresence::Away);
-    CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
-}
+    QXmppPresence::AvailableStatusType status;
 
-void MainWindow::on_actionNotifiation_status_chat_triggered()
-{
-    QXmppPresence presence;
-    presence.setAvailableStatusType(QXmppPresence::Chat);
+    if(m_ActionStatusAway == act)
+        status = QXmppPresence::Away;
+    else if(m_ActionStatusChat == act)
+        status = QXmppPresence::Chat;
+    else if(m_ActionStatusDnd == act)
+        status = QXmppPresence::DND;
+    else if(m_ActionStatusInvisible == act)
+        status = QXmppPresence::Invisible;
+    else if(m_ActionStatusOnline == act)
+        status = QXmppPresence::Online;
+    presence.setAvailableStatusType(status);
+    CGlobal::Instance()->SetStatus(status);
     CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
-}
-
-void MainWindow::on_actionNotifiation_status_dnd_triggered()
-{
-    QXmppPresence presence;
-    presence.setAvailableStatusType(QXmppPresence::DND);
-    CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
-}
-
-void MainWindow::on_actionNotifiation_status_online_triggered()
-{
-    QXmppPresence presence;
-    presence.setAvailableStatusType(QXmppPresence::Online);
-    CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
-}
-
-void MainWindow::on_actionNotifiation_status_invisible_triggered()
-{
-    QXmppPresence presence;
-    presence.setAvailableStatusType(QXmppPresence::Invisible);
-    CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
+    act->setCheckable(true);
+    act->setChecked(true);
 }
 
 void MainWindow::slotEditInformation()
@@ -439,6 +457,7 @@ void MainWindow::slotEditInformation()
             new CFrmUservCard(CGlobal::Instance()->GetRoster(), 
                               true);
     pvCard->show();
+    pvCard->activateWindow();
 }
 
 void MainWindow::onReceiveFile(QXmppTransferJob *job)

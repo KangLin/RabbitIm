@@ -20,6 +20,7 @@ CGlobal::CGlobal(QObject *parent) :
     m_pMainWindow = NULL;
     QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
     m_pRoster = new CRoster;
+    m_LocalStatus = (QXmppPresence::AvailableStatusType)conf.value("Login/LoginState", QXmppPresence::Online).toInt();
     m_UserColor = GetColorFormConf("Options/User/LocalColor", QColor(255, 0, 0));
     m_RosterColor = GetColorFormConf("Options/User/RosterColor", QColor(0, 0, 255));
     m_UserMessageColor = GetColorFormConf("Options/User/LocalMessageColor", QColor(0, 0, 0));
@@ -173,6 +174,19 @@ QString CGlobal::GetResource()
 CRoster* CGlobal::GetRoster()
 {
     return m_pRoster;
+}
+
+QXmppPresence::AvailableStatusType CGlobal::GetStatus()
+{
+    return m_LocalStatus;
+}
+
+int CGlobal::SetStatus(QXmppPresence::AvailableStatusType status)
+{
+    m_LocalStatus = status;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Login/LoginState", status);
+    return 0;
 }
 
 QColor CGlobal::GetColorFormConf(const QString &Key, const QColor &def)
