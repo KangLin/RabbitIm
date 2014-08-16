@@ -1,4 +1,4 @@
-QMainWindow, QFrame, QMessageBox,  QTabWidget, QMenu{
+QMainWindow, QFrame, QMessageBox,  QTabWidget, QMenu, QMenuBar, QToolTip, QTabBar::tab{
     background: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
         stop: 0 rgba(180, 255, 255, 100%),
         stop: 1 rgba(10, 144, 255, 100%));
@@ -16,6 +16,7 @@ QToolButton { /* all types of tool button */
     border: 2px solid rgba(255, 255, 255, 80%);
     border-radius: 5px;
     background-color: transparent;
+    text-align: center;
 }
 
 QToolButton[popupMode="1"] { /* only for MenuButtonPopup */
@@ -97,7 +98,6 @@ QTreeView::item:selected:!active {
 
 QComboBox {
     border: 1px solid rgba(255, 255, 255, 80%);
-    border-radius: 0px;
     padding: 1px 18px 1px 3px;
     min-width: 6em;
 }
@@ -117,18 +117,29 @@ QComboBox:on { /* shift the text when the popup opens */
     padding-left: 4px;
 }
 
-QComboBox::down-arrow {
-    border: 2px solid black;
-        width: 3px;
-        height: 3px;
-        background: black;
+QComboBox::down-arrow { /* 下拉箭头 */
+    image: url(":/icon/DownArrow");
 }
 
-QComboBox::down-arrow:on { /* shift the arrow when popup is open */
-    top: 1px;
-    left: 1px;
-    border: 2px solid grey;
-        width: 3px;
-        height: 3px;
-        background: white;
+QTabBar::tab {
+    border: 2px solid rgba(255, 255, 255, 80%);
+    border-bottom-color: #C2C7CB; /* same as the pane color */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-top-radius: 5px;
+    border-right-radius: 5px;
+    min-width: 8ex;
+    padding: 2px;
+}
+
+QTabBar::tab:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+QTabBar::tab:!selected {
+    margin-top: 2px; /* make non-selected tabs look smaller */
+    border-color: #9B9B9B;
+    border-bottom-color: #C2C7CB; /* same as pane color */
 }

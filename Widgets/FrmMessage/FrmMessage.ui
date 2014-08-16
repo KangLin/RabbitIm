@@ -171,6 +171,12 @@ p, li { white-space: pre-wrap; }
        <property name="toolTip">
         <string>Send Message</string>
        </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Send(&amp;S)</string>
        </property>

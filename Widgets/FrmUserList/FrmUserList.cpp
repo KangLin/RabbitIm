@@ -234,6 +234,7 @@ void CFrmUserList::slotAddRoster()
 
     m_frmAddRoster.Init(CGlobal::Instance()->GetXmppClient(), groups);
     m_frmAddRoster.show();
+    m_frmAddRoster.activateWindow();
 }
 
 void CFrmUserList::slotAgreeAddRoster()
