@@ -93,7 +93,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Message sound</string>
+          <string>Receiving a message alert tone</string>
          </property>
         </widget>
        </item>
