@@ -266,7 +266,7 @@
           </property>
           <property name="icon">
            <iconset resource="../../Resource/Resource.qrc">
-            <normaloff>:/icon/Add</normaloff>:/icon/Add</iconset>
+            <normaloff>:/icon/AddAccount</normaloff>:/icon/AddAccount</iconset>
           </property>
           <property name="autoDefault">
            <bool>true</bool>

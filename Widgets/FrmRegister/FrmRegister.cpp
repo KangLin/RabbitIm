@@ -174,6 +174,12 @@ void CFrmRegister::on_pbCreate_clicked()
         msg.exec();
         return;
     }
+    if(ui->txtPassword->text().indexOf(QRegExp("[^a-zA-Z0-9\`\~\!\@\#\$\%\^\&\*\(\)]")) != -1)
+    {
+        QMessageBox::critical(this, tr("Register error"), 
+                              tr("Password contains illegal characters. Only letters, numbers, `~!@#$%^&*() combinations"));
+        return;
+    }
     registerIq.setEmail(ui->txtemail->text());
     if(registerIq.email().isEmpty()
             || registerIq.email().isNull())
@@ -183,6 +189,12 @@ void CFrmRegister::on_pbCreate_clicked()
                         tr("Don't fill email, Please refilling"),
                         QMessageBox::Ok);
         msg.exec();
+        return;
+    }
+    if(registerIq.email().indexOf("@") == -1)
+    {
+        QMessageBox::critical(this, tr("Register error"),
+                              tr("Email format is wrong"));
         return;
     }
     registerIq.setInstructions(ui->txtInstructions->text());

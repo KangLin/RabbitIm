@@ -4,8 +4,14 @@ QMainWindow, QFrame, QMessageBox,  QTabWidget, QMenu, QMenuBar, QToolTip, QTabBa
         stop: 1 rgba(10, 144, 255, 100%));
 }
 
-QTabWidget {
-    border-width: 0px;
+QMenu::icon:checked { /* appearance of a 'checked' icon */
+    background: gray;
+    border: 1px inset gray;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
 }
 
 QLabel {
@@ -142,4 +148,8 @@ QTabBar::tab:!selected {
     margin-top: 2px; /* make non-selected tabs look smaller */
     border-color: #9B9B9B;
     border-bottom-color: #C2C7CB; /* same as pane color */
+}
+
+QTabWidget {
+    border-width: 0px;
 }

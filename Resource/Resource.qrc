@@ -42,6 +42,9 @@
         <file alias="Video">png/video.png</file>
         <file alias="DownArrow">png/down_arrow.gif</file>
         <file alias="Left">png/leave.gif</file>
+        <file alias="AddAccount">png/add_account.png</file>
+        <file alias="FindRoster">png/find_user.png</file>
+        <file alias="Login">png/login.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>
