@@ -85,6 +85,19 @@
         </layout>
        </item>
        <item row="1" column="0">
+        <widget class="QCheckBox" name="cbMessageSound">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Message sound</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
         <widget class="QGroupBox" name="gBSendMessage">
          <property name="title">
           <string>Send Message</string>
@@ -125,7 +138,7 @@
          </layout>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QGroupBox" name="groupBox">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -271,7 +284,7 @@
          </layout>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="0">
         <widget class="QGroupBox" name="groupBox_5">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">

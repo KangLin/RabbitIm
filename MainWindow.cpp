@@ -371,6 +371,10 @@ int MainWindow::ShowTrayIconMessage(const QString &szTitle, const QString &szMes
     }
     if(CGlobal::Instance()->IsNotifiationFlashs())
         slotTrayTimerStart();
+
+    if(CGlobal::Instance()->GetMessageSound())
+        QSound::play(":/sound/Message");
+
     return 0;
 }
 

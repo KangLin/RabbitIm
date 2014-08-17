@@ -157,8 +157,9 @@ public:
     //设置闪烁间隔时间  
     int SetNotifiationFlashInterval(int nMs);//单位：ms  
     int GetNotifiationFlashInterval();//单位：ms  
-
-
+    //是否提示接收消息提示音  
+    int SetMessageSound(bool bSound);
+    bool GetMessageSound();
 private:
     bool m_AutoLogin;//自动登录  
     int m_nAutoLoginDelayTime;
@@ -166,6 +167,7 @@ private:
     int m_nShowMessageDelay;
     bool m_bNotifiationBarFlashs;
     int m_nFlashInterval;
+    bool m_bMessageSound;//是否提示接收消息提示音  
 
 public:
     //配置好友显示名称  

@@ -5,6 +5,8 @@
     <qresource prefix="/sound">
         <file alias="Call">sound/Call.wav</file>
         <file alias="Receive">sound/Receive.wav</file>
+        <file alias="Message">sound/msg.wav</file>
+        <file alias="System">sound/system.wav</file>
     </qresource>
     <qresource prefix="/icon">
         <file alias="AppIcon">png/AppIcon.png</file>
