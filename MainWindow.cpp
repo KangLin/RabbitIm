@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     check = connect(ui->actionAbout_A, SIGNAL(triggered()),
             SLOT(About()));
     Q_ASSERT(check);
+
     InitMenu();
 
     //初始化子窗体
@@ -268,19 +269,18 @@ void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindo
 
 int MainWindow::InitMenu()
 {
-    ui->menuOperator_O->addAction(tr("Change Style Sheet(&S)"), 
-                this, SLOT(on_actionChange_Style_Sheet_S_triggered()));
-    ui->menuOperator_O->addAction(QIcon(":/icon/Close"), 
-                                  tr("Close(&E)"),
-                                  this, SLOT(close()));
+    m_MenuStatus.setTitle(tr("Status(&T)"));
+    AddStatusMenu(&m_MenuStatus);
+
+    InitOperatorMenu();
     return 0;
 }
 
 int MainWindow::InitLoginedMenu()
 {
     ui->menuOperator_O->clear();
-    QMenu* pMenu = ui->menuOperator_O->addMenu(tr("Status(&T)"));
-    AddStatusMenu(pMenu);
+
+    ui->menuOperator_O->addMenu(&m_MenuStatus);
     ui->menuOperator_O->addAction(QIcon(":/icon/AppIcon"),
                 tr("Edit Locale User Infomation(&E)"),
                 this, SLOT(slotEditInformation()));
@@ -288,7 +288,18 @@ int MainWindow::InitLoginedMenu()
     //注册菜单  
     emit sigInitLoginedMenu(ui->menuOperator_O);
 
-    InitMenu();
+    InitOperatorMenu();
+    return 0;
+}
+
+int MainWindow::InitOperatorMenu()
+{
+    ui->menuOperator_O->addAction(tr("Change Style Sheet(&S)"), 
+                this, SLOT(on_actionChange_Style_Sheet_S_triggered()));
+    ui->menuOperator_O->addSeparator();
+    ui->menuOperator_O->addAction(QIcon(":/icon/Close"), 
+                                  tr("Close(&E)"),
+                                  this, SLOT(close()));
     return 0;
 }
 
@@ -338,6 +349,7 @@ int MainWindow::AddStatusMenu(QMenu *pMenu)
 
     pAct->setCheckable(true);
     pAct->setChecked(true);
+    m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CGlobal::Instance()->GetStatus())));
 
     return 0;
 }
@@ -355,7 +367,8 @@ void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 void MainWindow::slotMessageClicked()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotMessageClicked");
-    m_pTableMain->ShowMessageDialog();
+    if(m_pTableMain)
+        m_pTableMain->ShowMessageDialog();
     slotTrayTimerStop();
 }
 
@@ -382,24 +395,26 @@ void MainWindow::slotTrayIconMenuUpdate()
 {
     m_TrayIconMenu.clear();
 
+    //状态子菜单  
+    if(m_bLogin)
+    {
+        m_TrayIconMenu.addMenu(&m_MenuStatus);
+
+        m_TrayIconMenu.addAction(QIcon(":/icon/AppIcon"),
+                    tr("Edit Locale User Infomation(&E)"),
+                    this, SLOT(slotEditInformation()));
+    }
+
+    m_TrayIconMenu.addAction(ui->actionOptions_O);
+
     QString szTitle;
     if(this->isHidden())
         szTitle = tr("Show Main Windows");
     else
         szTitle = tr("Hide Main Windows");
-    
+
     m_TrayIconMenu.addAction(szTitle, this, SLOT(on_actionNotifiation_show_main_windows_triggered()));
 
-    //状态子菜单  
-    if(m_bLogin)
-    {
-        QMenu* pMenu = m_TrayIconMenu.addMenu(tr("Status(&T)"));
-        AddStatusMenu(pMenu);
-        
-        m_TrayIconMenu.addAction(QIcon(":/icon/AppIcon"),
-                    tr("Edit Locale User Infomation(&E)"),
-                    this, SLOT(slotEditInformation()));
-    }
     m_TrayIconMenu.addSeparator();
     m_TrayIconMenu.addAction(QIcon(":/icon/Close"), tr("Close"), this, SLOT(close()));
 }
@@ -453,6 +468,7 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
     CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
     act->setCheckable(true);
     act->setChecked(true);
+    m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(status)));
 }
 
 void MainWindow::slotEditInformation()

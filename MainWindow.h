@@ -90,6 +90,7 @@ private slots:
 private:
     int InitMenu();       //初始化菜单  
     int InitLoginedMenu();//初始化登录后的相关菜单  
+    int InitOperatorMenu();//初始始化操作菜单  
     int AddStatusMenu(QMenu* pMenu);//增加状态菜单  
 
 private:
@@ -106,6 +107,7 @@ private:
     bool m_bTrayShow;
     QTimer m_TrayTimer;
 
+    QMenu m_MenuStatus;
     QAction* m_ActionStatusOnline;
     QAction* m_ActionStatusAway;
     QAction* m_ActionStatusDnd;
