@@ -2688,7 +2688,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>-1809662891</td></row>
+		<row><td>COMPANY_NAME</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>-1809692586</td></row>
 		<row><td>DN_AlwaysInstall</td><td>2052</td><td>始终安装</td><td>0</td><td/><td>-1943923374</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>2052</td><td>系统颜色设置不足以运行 [ProductName]。</td><td>0</td><td/><td>-1943923374</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_OS</td><td>2052</td><td>操作系统不足以运行 [ProductName]。</td><td>0</td><td/><td>-1943923374</td></row>
@@ -3791,10 +3791,10 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>2052</td><td>对于运行 [ProductName] 处理器不足。</td><td>0</td><td/><td>-1943923374</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>2052</td><td>对于运行 [ProductName] 内存量不足。</td><td>0</td><td/><td>-1943923374</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>2052</td><td>对于运行 [ProductName] 屏幕分辨率不足。</td><td>0</td><td/><td>-1943923374</td></row>
-		<row><td>ID_STRING1</td><td>2052</td><td>http://www.康林工作室.com</td><td>0</td><td/><td>-1809662891</td></row>
-		<row><td>ID_STRING2</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>-1809662891</td></row>
+		<row><td>ID_STRING1</td><td>2052</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1809684362</td></row>
+		<row><td>ID_STRING2</td><td>2052</td><td>康林工作室</td><td>0</td><td/><td>-1809692586</td></row>
 		<row><td>ID_STRING3</td><td>2052</td><td>玉兔即时通信</td><td>0</td><td/><td>-1943923374</td></row>
-		<row><td>ID_STRING4</td><td>2052</td><td>http://www.康林工作室.com</td><td>0</td><td/><td>-1809662891</td></row>
+		<row><td>ID_STRING4</td><td>2052</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1809684362</td></row>
 		<row><td>ID_STRING5</td><td>2052</td><td>https://code.csdn.net/kl222/rabbitim</td><td>0</td><td/><td>-1943923374</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>2052</td><td>系统将不安装此功能。</td><td>0</td><td/><td>-1943923374</td></row>
 	</table>
