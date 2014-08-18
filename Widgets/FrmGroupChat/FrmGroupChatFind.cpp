@@ -6,12 +6,17 @@
 #include <QMessageBox>
 #include "../../MainWindow.h"
 #include "FrmCreateGroupChatRoom.h"
+#include <QDesktopWidget>
 
 CFrmGroupChatFind::CFrmGroupChatFind(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmGroupChatFind)
 {
     ui->setupUi(this);
+
+    QDesktopWidget *pDesk = QApplication::desktop();
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
 
     //禁止文本框编辑  
     ui->treeView->setEditTriggers(QAbstractItemView::NoEditTriggers);

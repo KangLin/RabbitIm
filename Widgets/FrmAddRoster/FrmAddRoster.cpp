@@ -7,6 +7,7 @@
 #include <string>
 #include <QDebug>
 #include <QMessageBox>
+#include <QDesktopWidget>
 
 CFrmAddRoster::CFrmAddRoster(QWidget *parent) :
     QFrame(parent),
@@ -16,6 +17,10 @@ CFrmAddRoster::CFrmAddRoster(QWidget *parent) :
     ui->txtGroup->setEditable(true);
 
     m_bRequest = false;
+
+    QDesktopWidget *pDesk = QApplication::desktop();
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
 }
 
 CFrmAddRoster::~CFrmAddRoster()

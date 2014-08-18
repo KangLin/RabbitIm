@@ -4,6 +4,7 @@
 #include "FrmGroupChatFind.h"
 #include "../../MainWindow.h"
 #include "../FrmUserList/Roster.h"
+#include <QDesktopWidget>
 
 #define ROLE_JID Qt::UserRole + 1
 #define ROLE_FORM_GROUPCHAT ROLE_JID + 1
@@ -14,6 +15,10 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     ui(new Ui::CFrmGroupChatList)
 {
     ui->setupUi(this);
+
+    QDesktopWidget *pDesk = QApplication::desktop();
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
 
     bool check = false;
     m_pAction = NULL;

@@ -35,6 +35,10 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     LOG_MODEL_DEBUG("Video", "CFrmVideo::CFrmVideo");
     ui->setupUi(this);
 
+    QDesktopWidget *pDesk = QApplication::desktop();
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
+
     /*设置提示文本颜色  
     QPalette pe;
     pe.setColor(QPalette::WindowText, Qt::white);

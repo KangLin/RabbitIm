@@ -26,6 +26,10 @@ CFrmAbout::CFrmAbout(QWidget *parent) :
         ui->txtReadMe->append(fileReadMe.readAll());
         fileReadMe.close();
     }
+
+    QDesktopWidget *pDesk = QApplication::desktop();
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
 }
 
 CFrmAbout::~CFrmAbout()

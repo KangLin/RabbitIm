@@ -1,12 +1,16 @@
 #include "FrmCreateGroupChatRoom.h"
 #include "ui_FrmCreateGroupChatRoom.h"
 #include <QMessageBox>
+#include <QDesktopWidget>
 
 CFrmCreateGroupChatRoom::CFrmCreateGroupChatRoom(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmCreateGroupChatRoom)
 {
     ui->setupUi(this);
+    QDesktopWidget *pDesk = QApplication::desktop();
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
 }
 
 CFrmCreateGroupChatRoom::~CFrmCreateGroupChatRoom()

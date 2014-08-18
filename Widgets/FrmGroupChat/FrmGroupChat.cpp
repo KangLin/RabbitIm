@@ -7,6 +7,7 @@
 #include "../FrmUserList/Roster.h"
 #include "../../MainWindow.h"
 #include "../FrmUservCard/FrmUservCard.h"
+#include <QDesktopWidget>
 
 CFrmGroupChat::CFrmGroupChat(QWidget *parent) :
     QFrame(parent),
@@ -37,6 +38,10 @@ CFrmGroupChat::CFrmGroupChat(QWidget *parent) :
     {
         ui->lstMembers->setModel(m_pModelMembers);
     }
+
+    QDesktopWidget *pDesk = QApplication::desktop();
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
 }
 
 CFrmGroupChat::~CFrmGroupChat()

@@ -6,12 +6,17 @@
 #include "qxmpp/QXmppVCardManager.h"
 #include <QFileDialog>
 #include <QImageWriter>
+#include <QDesktopWidget>
 
 CFrmUservCard::CFrmUservCard(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmUservCard)
 {
     ui->setupUi(this);
+
+    QDesktopWidget *pDesk = QApplication::desktop();
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
 
     m_pRoster = NULL;
     m_bModify = false;

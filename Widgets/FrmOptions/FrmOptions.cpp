@@ -3,12 +3,18 @@
 #include "../../Global.h"
 #include <QColorDialog>
 #include "../../MainWindow.h"
+#include <QDesktopWidget>
 
 CFrmOptions::CFrmOptions(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmOptions)
 {
     ui->setupUi(this);
+
+    QDesktopWidget *pDesk = QApplication::desktop();
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
+
     m_pParent = parent;
 
 #ifdef MOBILE
