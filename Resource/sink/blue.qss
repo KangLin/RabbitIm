@@ -1,4 +1,4 @@
-QMainWindow, QFrame, QMessageBox,  QTabWidget, QMenu, QMenuBar, QToolTip, QTabBar::tab{
+QMainWindow, QFrame, QMessageBox,  QTabWidget, QMenu, QToolTip, QTabBar::tab{
     background: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
         stop: 0 rgba(180, 255, 255, 100%),
         stop: 1 rgba(10, 144, 255, 100%));
@@ -12,6 +12,29 @@ QMenu::icon:checked { /* appearance of a 'checked' icon */
     right: 1px;
     bottom: 1px;
     left: 1px;
+}
+
+QMenuBar {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 80%);
+}
+
+QMenuBar::item {
+    border: 2px solid rgba(255, 255, 255, 80%);
+    border-bottom: 0px solid white;
+    background: transparent;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+QMenuBar::item:selected { /* when selected using mouse or keyboard */
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                            stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                            stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+QMenuBar::item:pressed {
+
 }
 
 QLabel {
@@ -130,10 +153,8 @@ QComboBox::down-arrow { /* 下拉箭头 */
 QTabBar::tab {
     border: 2px solid rgba(255, 255, 255, 80%);
     border-bottom-color: #C2C7CB; /* same as the pane color */
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-top-radius: 5px;
-    border-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     min-width: 8ex;
     padding: 2px;
 }
