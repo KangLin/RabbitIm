@@ -35,7 +35,9 @@ public:
 protected:
     virtual void hideEvent(QHideEvent *);
     virtual void showEvent(QShowEvent* );
-    void closeEvent(QCloseEvent *e);
+    virtual void closeEvent(QCloseEvent *e);
+    virtual void changeEvent(QEvent*);
+    
     bool eventFilter(QObject *target, QEvent *event);
 
 private slots:

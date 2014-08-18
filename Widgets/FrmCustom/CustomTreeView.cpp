@@ -58,3 +58,12 @@ void CCustomTreeView::resizeEvent(QResizeEvent *event)
                     event->size().width());
     Q_UNUSED(event);
 }
+
+void CCustomTreeView::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        break;
+    }
+}

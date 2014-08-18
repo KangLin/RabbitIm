@@ -49,6 +49,16 @@ void CFrmAbout::closeEvent(QCloseEvent *)
     deleteLater();
 }
 
+void CFrmAbout::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}
+
 void CFrmAbout::on_btbButtons_clicked(QAbstractButton *button)
 {
     Q_UNUSED(button);

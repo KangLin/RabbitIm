@@ -46,7 +46,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
 
     m_pMainWindow = CGlobal::Instance()->GetMainWindow();
 
-    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigInitLoginedMenu(QMenu*)),
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuInitOperator(QMenu*)),
                     SLOT(slotAddToMainMenu(QMenu*)));
     Q_ASSERT(check);
 
@@ -54,7 +54,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotRefresh()));
     Q_ASSERT(check);
 
-    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRemoveMenu(QMenu*)),
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuRemoveOperator(QMenu*)),
                     SLOT(slotDeleteFromMainMenu(QMenu*)));
     Q_ASSERT(check);
 
@@ -177,6 +177,7 @@ void CFrmUserList::slotAddToMainMenu(QMenu *pMenu)
 void CFrmUserList::slotDeleteFromMainMenu(QMenu *pMenu)
 {
     pMenu->removeAction(m_pMenuAction);
+    pMenu->disconnect(this);
 }
 
 void CFrmUserList::slotUpdateMainMenu()
@@ -500,6 +501,16 @@ void CFrmUserList::resizeEvent(QResizeEvent *e)
     int nWidth = m_UserList.geometry().width() * 4/ 5;
     m_UserList.setColumnWidth(0, nWidth);
     m_UserList.setColumnWidth(1, m_UserList.geometry().width() - nWidth);
+}
+
+void CFrmUserList::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
 }
 
 QSet<QString> CFrmUserList::GetGroupsName()

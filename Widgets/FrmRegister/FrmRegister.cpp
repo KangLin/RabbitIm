@@ -231,3 +231,13 @@ void CFrmRegister::hideEvent(QHideEvent *)
 
     close();
 }
+
+void CFrmRegister::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}

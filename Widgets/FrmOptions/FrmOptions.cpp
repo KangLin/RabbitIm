@@ -107,6 +107,16 @@ void CFrmOptions::closeEvent(QCloseEvent *)
     CGlobal::Instance()->GetMainWindow()->setEnabled(true);
 }
 
+void CFrmOptions::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}
+
 void CFrmOptions::on_pbCancel_clicked()
 {
     close();

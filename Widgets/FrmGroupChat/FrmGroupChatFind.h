@@ -48,6 +48,7 @@ private slots:
 protected:
     void closeEvent(QCloseEvent *);
     void showEvent(QShowEvent*);
+    void changeEvent(QEvent *);
 
 private:
     enum ENUM_ROLE{

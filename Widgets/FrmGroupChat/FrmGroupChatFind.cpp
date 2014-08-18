@@ -78,6 +78,16 @@ void CFrmGroupChatFind::closeEvent(QCloseEvent *)
     CGlobal::Instance()->GetMainWindow()->setEnabled(true);
 }
 
+void CFrmGroupChatFind::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}
+
 void CFrmGroupChatFind::on_pbJoin_clicked()
 {
     QModelIndex index = ui->listView->currentIndex();

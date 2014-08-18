@@ -7,6 +7,8 @@ extern CGlobal g_Global;
 
 CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),
+    m_StateMenu(this),
+    m_ActionGroupStatus(this),
     ui(new Ui::CFrmLogin)
 {
     LOG_MODEL_DEBUG("Login", "CFrmLogin::CFrmLogin");
@@ -21,7 +23,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     int userTotal = conf.value("Login/UserTotal", 0).toInt();
     for(int i = 0; i < userTotal; i++)
     {
-        ui->cmbUser->addItem(conf.value(QString("Login/UserName") + QString::number(i +1) ).toString());        
+        ui->cmbUser->addItem(conf.value(QString("Login/UserName") + QString::number(i +1) ).toString());
     }
 
     //最后一次登录用户  
@@ -36,7 +38,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
 
     ui->chkLogin->setChecked(CGlobal::Instance()->GetAutoLogin());
 
-    InitStateButton();
+    ReinitStateButton();
 
     if(ui->chkLogin->checkState() == Qt::Checked)
     {
@@ -54,6 +56,18 @@ CFrmLogin::~CFrmLogin()
         delete m_pRegister;
 
     LOG_MODEL_DEBUG("Login", "CFrmLogin::~CFrmLogin");
+}
+
+void CFrmLogin::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        ui->pbState->setText(CGlobal::Instance()->GetRosterStatusText(m_Status));
+        this->ReinitStateButton();
+        break;
+    }
 }
 
 void CFrmLogin::on_pbOk_clicked()
@@ -180,31 +194,41 @@ void CFrmLogin::on_chkLogin_stateChanged(int state)
     CGlobal::Instance()->SetAutoLogin(ui->chkLogin->isChecked());
 }
 
-int CFrmLogin::InitStateButton()
+int CFrmLogin::ReinitStateButton()
 {
-    QAction* pAction = m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Online)),
-                                             CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Online));
-    bool check = connect(pAction, SIGNAL(triggered()), SLOT(slotOnLineTriggered()));
-    Q_ASSERT(check);
+    QMap<QXmppPresence::AvailableStatusType, QAction*>::iterator it;
+    for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
+    {
+        m_ActionGroupStatus.removeAction(it.value());
+    }    
+    m_ActionStatus.clear();
+    m_StateMenu.clear();
 
-    pAction = m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Chat)),
-                                    CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Chat));
-    check = connect(pAction, SIGNAL(triggered()), SLOT(slotChatTriggered()));
-    Q_ASSERT(check);
+    m_ActionStatus[QXmppPresence::Online] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Online)),
+                                  CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Online));
 
-    pAction = m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Away)),
-                                    CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Away));
-    check = connect(pAction, SIGNAL(triggered()), SLOT(slotTemporarilyawayTriggered()));
-    Q_ASSERT(check);
+    m_ActionStatus[QXmppPresence::Chat] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Chat)),
+                                  CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Chat));
 
-    pAction = m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::DND)),
-                                    CGlobal::Instance()->GetRosterStatusText(QXmppPresence::DND));
-    check = connect(pAction, SIGNAL(triggered()), SLOT(slotDoNotDisturbTriggered()));
-    Q_ASSERT(check);
+    m_ActionStatus[QXmppPresence::Away] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Away)),
+                                  CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Away));
 
-    pAction = m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Invisible)),
+    m_ActionStatus[QXmppPresence::DND] = 
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::DND)),
+                                  CGlobal::Instance()->GetRosterStatusText(QXmppPresence::DND));
+
+    m_ActionStatus[QXmppPresence::Invisible] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Invisible)),
                                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Invisible));
-    check = connect(pAction, SIGNAL(triggered()), SLOT(slotInvisibleTriggered()));
+
+    for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
+        m_ActionGroupStatus.addAction(it.value());
+
+    bool check = connect(&m_ActionGroupStatus, SIGNAL(triggered(QAction*)),
+                        SLOT(slotActionGroupStatusTriggered(QAction*)));
     Q_ASSERT(check);
 
     ui->pbState->setMenu(&m_StateMenu);
@@ -215,44 +239,19 @@ int CFrmLogin::InitStateButton()
     return 0;
 }
 
-void CFrmLogin::slotChatTriggered()
+void CFrmLogin::slotActionGroupStatusTriggered(QAction *pAct)
 {
-    m_Status = QXmppPresence::Chat;
-    CGlobal::Instance()->SetStatus(m_Status);
-    ui->pbState->setText(CGlobal::Instance()->GetRosterStatusText(m_Status));
-    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(m_Status)));
-}
-
-void CFrmLogin::slotOnLineTriggered()
-{
-    m_Status = QXmppPresence::Online;
-    CGlobal::Instance()->SetStatus(m_Status);
-    ui->pbState->setText(CGlobal::Instance()->GetRosterStatusText(m_Status));
-    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(m_Status)));
-}
-
-void CFrmLogin::slotDoNotDisturbTriggered()
-{
-    m_Status = QXmppPresence::DND;
-    CGlobal::Instance()->SetStatus(m_Status);
-    ui->pbState->setText(CGlobal::Instance()->GetRosterStatusText(m_Status));
-    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(m_Status)));
-}
-
-void CFrmLogin::slotInvisibleTriggered()
-{
-    m_Status = QXmppPresence::Invisible;
-    CGlobal::Instance()->SetStatus(m_Status);
-    ui->pbState->setText(CGlobal::Instance()->GetRosterStatusText(m_Status));
-    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(m_Status)));
-}
-
-void CFrmLogin::slotTemporarilyawayTriggered()
-{
-    m_Status = QXmppPresence::Away;
-    CGlobal::Instance()->SetStatus(m_Status);
-    ui->pbState->setText(CGlobal::Instance()->GetRosterStatusText(m_Status));
-    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(m_Status)));
+    QMap<QXmppPresence::AvailableStatusType, QAction*>::iterator it;
+    for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
+    {
+        if(it.value() == pAct)
+        {
+            m_Status = it.key();
+            CGlobal::Instance()->SetStatus(m_Status);
+            ui->pbState->setText(CGlobal::Instance()->GetRosterStatusText(m_Status));
+            ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(m_Status)));
+        }
+    }
 }
 
 void CFrmLogin::on_cmbUser_currentIndexChanged(int index)

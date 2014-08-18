@@ -416,7 +416,17 @@ void CFrmGroupChat::closeEvent(QCloseEvent *)
 void CFrmGroupChat::resizeEvent(QResizeEvent *e)
 {
 }
-        
+
+void CFrmGroupChat::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}
+
 void CFrmGroupChat::on_pbMember_clicked()
 {
     if(ui->lstMembers->isVisible())

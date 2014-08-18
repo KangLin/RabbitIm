@@ -49,6 +49,8 @@ public:
     QString GetDirApplicationConfigure();
     //应用程序配置文件  
     QString GetApplicationConfigureFile();
+    //翻译文件目录  
+    QString GetDirTranslate();
 
     //得到本地用户住息  
     QString GetShowName();//根据配置显示用户名称  

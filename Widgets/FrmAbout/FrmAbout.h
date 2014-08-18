@@ -19,6 +19,7 @@ public:
 protected:
     virtual void closeEvent(QCloseEvent *);
     virtual void showEvent(QShowEvent*);
+    virtual void changeEvent(QEvent *e);
 
 private slots:
     void on_btbButtons_clicked(QAbstractButton *button);

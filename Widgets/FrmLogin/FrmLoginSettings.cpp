@@ -48,6 +48,16 @@ void CFrmLoginSettings::showEvent(QShowEvent *event)
         m_pParent->setEnabled(false);
 }
 
+void CFrmLoginSettings::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}
+
 int CFrmLoginSettings::SetLogin(QWidget *pLogin)
 {
     m_pParent = pLogin;

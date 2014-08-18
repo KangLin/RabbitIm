@@ -50,6 +50,16 @@ void CFrmCreateGroupChatRoom::closeEvent(QCloseEvent *)
 {
 }
 
+void CFrmCreateGroupChatRoom::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}
+
 void CFrmCreateGroupChatRoom::on_pbOK_clicked()
 {
     QString szName = ui->txtName->text();

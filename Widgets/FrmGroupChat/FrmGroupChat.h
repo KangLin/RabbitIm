@@ -74,6 +74,7 @@ private:
     void showEvent(QShowEvent *);
     void closeEvent(QCloseEvent *);
     void resizeEvent(QResizeEvent *e);
+    void changeEvent(QEvent*);
     //用于过滤发送消息键盘事件  
     bool eventFilter(QObject *target, QEvent *event);
 

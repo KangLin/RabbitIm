@@ -22,6 +22,7 @@ public:
 
 private:
     void resizeEvent(QResizeEvent *e);
+    void changeEvent(QEvent*);
 
 private:
     Ui::CFrmMain *ui;

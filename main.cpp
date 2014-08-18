@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 
     CTool::SetFFmpegLog();
 
+    /*
     QString szLocale = QLocale::system().name();
     LOG_MODEL_DEBUG("main", "locale language:%s", szLocale.toStdString().c_str());
 
@@ -37,7 +38,7 @@ int main(int argc, char *argv[])
     //myappTranslator.load("app_" + locale, a.applicationDirPath());
     //把翻译文件放在了程序资源中  
     myappTranslator.load(":/translations/" + szLocale);
-    qApp->installTranslator(&myappTranslator);
+    qApp->installTranslator(&myappTranslator);//*/
 
     //*从配置文件中加载应用程序样式  
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);

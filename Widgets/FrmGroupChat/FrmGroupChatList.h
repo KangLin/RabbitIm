@@ -62,6 +62,7 @@ private:
     int InitMenu();
 
     void resizeEvent(QResizeEvent *e);
+    void changeEvent(QEvent*);
 
 private:
     Ui::CFrmGroupChatList *ui;

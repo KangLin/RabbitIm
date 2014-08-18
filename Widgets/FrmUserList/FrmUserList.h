@@ -66,6 +66,7 @@ private:
     int UpdateGroup(CRoster* pRoster, QSet<QString> groups);
 
     void resizeEvent(QResizeEvent *e);
+    void changeEvent(QEvent* e);
 
     //得到树形控件当前选中的好友指针  
     //如果为空,则为组  

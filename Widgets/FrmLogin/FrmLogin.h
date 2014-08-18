@@ -31,16 +31,15 @@ private slots:
     void on_pbRegitster_clicked();
 
     void on_chkLogin_stateChanged(int state);
-    void slotOnLineTriggered();
-    void slotChatTriggered();
-    void slotTemporarilyawayTriggered();
-    void slotDoNotDisturbTriggered();
-    void slotInvisibleTriggered();
+    void slotActionGroupStatusTriggered(QAction*pAct);
 
     void on_cmbUser_currentIndexChanged(int index);
     
     void on_pbSet_clicked();
-    
+
+private:
+    void changeEvent(QEvent *);
+
 private:
     Ui::CFrmLogin *ui;
     CFrmRegister *m_pRegister;
@@ -51,8 +50,10 @@ private:
     QString DecryptPassword(QString szPassword);
 
     //初始化状态按钮
-    int InitStateButton();
+    int ReinitStateButton();
     QMenu m_StateMenu;
+    QMap<QXmppPresence::AvailableStatusType, QAction*> m_ActionStatus;
+    QActionGroup m_ActionGroupStatus;
     QXmppPresence::AvailableStatusType m_Status;
 };
 

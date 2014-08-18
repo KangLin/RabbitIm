@@ -25,6 +25,7 @@ signals:
 protected:
     void closeEvent(QCloseEvent *);
     void showEvent(QShowEvent*);
+    void changeEvent(QEvent*);
 
 private slots:
     void on_pbOK_clicked();

@@ -46,9 +46,9 @@ public:
 
 signals:
     //初始化菜单  
-    void sigInitLoginedMenu(QMenu* m);
+    void sigMenuInitOperator(QMenu* m);
     //删除菜单  
-    void sigRemoveMenu(QMenu* m);
+    void sigMenuRemoveOperator(QMenu* m);
     void sigRefresh();//选项窗体更新后，刷新内容  
 
 protected slots:
@@ -59,6 +59,7 @@ protected slots:
     void clientIqReceived(const QXmppIq &iq);
     void stateChanged(QXmppClient::State state);
 
+    //通知栏
     void slotTrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽  
     void slotMessageClicked();
     void slotTrayIconMenuUpdate();
@@ -67,11 +68,11 @@ protected slots:
     void slotTrayTimerStop();
 
     void on_actionNotifiation_show_main_windows_triggered();
-    void slotActionGroupStatusTriggered(QAction* act);//状态菜单触发  
+
+    void slotActionGroupStatusTriggered(QAction* act);//状态菜单组点击触发  
+    void slotActionGroupTranslateTriggered(QAction* pAct);//翻译菜单组点击触发 
 
     void on_actionChange_Style_Sheet_S_triggered();
-    void on_actionEnglish_E_triggered();
-    void on_actionChinese_C_triggered();
 
     //编辑本地用户详细信息  
     void slotEditInformation();
@@ -80,18 +81,23 @@ protected slots:
     void onReceiveFile(QXmppTransferJob* job);//文件接收通知  
 
 protected:
-    void resizeEvent(QResizeEvent *e);
-    void showEvent(QShowEvent *);
-    void closeEvent(QCloseEvent *e);
+    virtual void resizeEvent(QResizeEvent *e);
+    virtual void showEvent(QShowEvent *);
+    virtual void closeEvent(QCloseEvent *e);
+    virtual void changeEvent(QEvent* e);
 
 private slots:
     void on_actionOptions_O_triggered();
 
 private:
-    int InitMenu();       //初始化菜单  
+    int ReInitMenuOperator();       //初始化菜单  
     int InitLoginedMenu();//初始化登录后的相关菜单  
     int InitOperatorMenu();//初始始化操作菜单  
-    int AddStatusMenu(QMenu* pMenu);//增加状态菜单  
+    int InitMenuStatus();//增加状态菜单  
+    int ClearMenuStatus();
+    int InitMenuTranslate();//增加翻译菜单  
+    int ClearMenuTranslate();
+    int LoadTranslate(QString szLocale = QString());
 
 private:
     Ui::MainWindow *ui;
@@ -99,22 +105,23 @@ private:
     CFrmMain *m_pTableMain;
     bool m_bLogin;
 
-    QTranslator *m_pAppTranslator;
-    QTranslator *m_pQtTranslator;
-
     QMenu m_TrayIconMenu;
     QSystemTrayIcon m_TrayIcon;
     bool m_bTrayShow;
     QTimer m_TrayTimer;
 
+    //状态菜单  
     QMenu m_MenuStatus;
-    QAction* m_ActionStatusOnline;
-    QAction* m_ActionStatusAway;
-    QAction* m_ActionStatusDnd;
-    QAction* m_ActionStatusChat;
-    QAction* m_ActionStatusInvisible;
     QActionGroup m_ActionGroupStatus;
-    
+    QMap<QXmppPresence::AvailableStatusType, QAction*> m_ActionStatus;
+
+    //翻译菜单  
+    QMenu m_MenuTranslate;
+    QMap<QString, QAction*> m_ActionTranslator;
+    QActionGroup m_ActionGroupTranslator;
+    QTranslator *m_pTranslatorQt;
+    QTranslator *m_pTranslatorApp;
+
     CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口  
 };
 

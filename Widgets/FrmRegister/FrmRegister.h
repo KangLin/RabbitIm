@@ -19,7 +19,8 @@ public:
     int SetLogin(QWidget *pLogin);
 
 protected:
-    void hideEvent(QHideEvent *);
+    virtual void hideEvent(QHideEvent *);
+    virtual void changeEvent(QEvent*);
 
 private slots:
     void connected();

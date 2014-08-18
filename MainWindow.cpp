@@ -20,12 +20,13 @@ MainWindow::MainWindow(QWidget *parent) :
     m_TrayIcon(QIcon(":/icon/AppIcon"), this),
     m_TrayIconMenu(this),
     m_ActionGroupStatus(this),
+    m_ActionGroupTranslator(this),
     ui(new Ui::MainWindow)
 {
     CGlobal::Instance()->SetMainWindow(this);
 
-    m_pAppTranslator = NULL;
-    m_pQtTranslator = NULL;
+    m_pTranslatorApp = NULL;
+    m_pTranslatorQt = NULL;
     m_pTableMain = NULL;
     m_bLogin = false;
 
@@ -37,7 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
             SLOT(About()));
     Q_ASSERT(check);
 
-    InitMenu();
+    LoadTranslate();
+    ReInitMenuOperator();
 
     //初始化子窗体
     m_pLogin = new CFrmLogin(this);
@@ -117,10 +119,10 @@ MainWindow::~MainWindow()
 
     delete ui;
 
-    if(m_pAppTranslator)
-        delete m_pAppTranslator;
-    if(m_pQtTranslator)
-        delete m_pQtTranslator;
+    if(m_pTranslatorApp)
+        delete m_pTranslatorApp;
+    if(m_pTranslatorQt)
+        delete m_pTranslatorQt;
 }
 
 CRoster* MainWindow::GetRoster(QString szJid)
@@ -166,6 +168,17 @@ void MainWindow::closeEvent(QCloseEvent *e)
     }
     else
         e->ignore(); //忽略退出事件 
+}
+
+void MainWindow::changeEvent(QEvent *e)
+{
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::changeEvent.e->type:%d", e->type());
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
 }
 
 void MainWindow::clientConnected()
@@ -267,10 +280,20 @@ void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindo
     }
 }
 
-int MainWindow::InitMenu()
+int MainWindow::ReInitMenuOperator()
 {
-    m_MenuStatus.setTitle(tr("Status(&T)"));
-    AddStatusMenu(&m_MenuStatus);
+    ui->menuOperator_O->clear();
+
+    //初始化状态菜单  
+    ClearMenuStatus();
+    InitMenuStatus();
+
+    //初始化翻译菜单  
+    ClearMenuTranslate();
+    InitMenuTranslate();
+
+    if(m_bLogin)
+        InitLoginedMenu();
 
     InitOperatorMenu();
     return 0;
@@ -279,6 +302,7 @@ int MainWindow::InitMenu()
 int MainWindow::InitLoginedMenu()
 {
     ui->menuOperator_O->clear();
+    //emit sigMenuRemoveOperator(ui->menuOperator_O);
 
     ui->menuOperator_O->addMenu(&m_MenuStatus);
     ui->menuOperator_O->addAction(QIcon(":/icon/AppIcon"),
@@ -286,7 +310,7 @@ int MainWindow::InitLoginedMenu()
                 this, SLOT(slotEditInformation()));
 
     //注册菜单  
-    emit sigInitLoginedMenu(ui->menuOperator_O);
+    emit sigMenuInitOperator(ui->menuOperator_O);
 
     InitOperatorMenu();
     return 0;
@@ -296,6 +320,7 @@ int MainWindow::InitOperatorMenu()
 {
     ui->menuOperator_O->addAction(tr("Change Style Sheet(&S)"), 
                 this, SLOT(on_actionChange_Style_Sheet_S_triggered()));
+    ui->menuOperator_O->addMenu(&m_MenuTranslate);
     ui->menuOperator_O->addSeparator();
     ui->menuOperator_O->addAction(QIcon(":/icon/Close"), 
                                   tr("Close(&E)"),
@@ -303,54 +328,133 @@ int MainWindow::InitOperatorMenu()
     return 0;
 }
 
-int MainWindow::AddStatusMenu(QMenu *pMenu)
+int MainWindow::InitMenuStatus()
 {
-    m_ActionStatusOnline = pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Online)),
-                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Online));
-    m_ActionStatusChat = pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Chat)),
-                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Chat));
-    m_ActionStatusAway = pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Away)),
-                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Away));
-    m_ActionStatusDnd = pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::DND)),
-                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::DND));
-    m_ActionStatusInvisible = pMenu->addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Invisible)),
-                     CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Invisible));
+    m_ActionStatus[QXmppPresence::Online] = 
+            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Online)),
+                             CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Online));
+    m_ActionStatus[QXmppPresence::Chat] = 
+            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Chat)),
+                             CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Chat));
+    m_ActionStatus[QXmppPresence::Away] = 
+            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Away)),
+                             CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Away));
+    m_ActionStatus[QXmppPresence::DND] = 
+            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::DND)),
+                             CGlobal::Instance()->GetRosterStatusText(QXmppPresence::DND));
+    m_ActionStatus[QXmppPresence::Invisible] = 
+            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Invisible)),
+                             CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Invisible));
 
-    m_ActionGroupStatus.addAction(m_ActionStatusOnline);
-    m_ActionGroupStatus.addAction(m_ActionStatusChat);
-    m_ActionGroupStatus.addAction(m_ActionStatusAway);
-    m_ActionGroupStatus.addAction(m_ActionStatusDnd);
-    m_ActionGroupStatus.addAction(m_ActionStatusInvisible);
+    QMap<QXmppPresence::AvailableStatusType, QAction*>::iterator it;
+    for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
+        m_ActionGroupStatus.addAction(it.value());
+
     bool check = connect(&m_ActionGroupStatus, SIGNAL(triggered(QAction*)),
                          SLOT(slotActionGroupStatusTriggered(QAction*)));
     Q_ASSERT(check);
 
-    QAction* pAct = NULL;
-    switch(CGlobal::Instance()->GetStatus())
+    QAction* pAct = m_ActionStatus[CGlobal::Instance()->GetStatus()];
+    if(pAct)
     {
-    case QXmppPresence::Online:
-        pAct = m_ActionStatusOnline;
-        break;
-    case QXmppPresence::Chat:
-        pAct = m_ActionStatusChat;
-        break;
-    case QXmppPresence::Away:
-        pAct = m_ActionStatusAway;
-        break;
-    case QXmppPresence::DND:
-        pAct = m_ActionStatusDnd;
-        break;
-    case QXmppPresence::Invisible:
-        pAct = m_ActionStatusInvisible;
-        break;
-    default:
-        pAct = m_ActionStatusOnline;
+        pAct->setCheckable(true);
+        pAct->setChecked(true);
     }
 
-    pAct->setCheckable(true);
-    pAct->setChecked(true);
+    m_MenuStatus.setTitle(tr("Status(&S)"));
     m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CGlobal::Instance()->GetStatus())));
 
+    return 0;
+}
+
+int MainWindow::ClearMenuStatus()
+{
+    QMap<QXmppPresence::AvailableStatusType, QAction*>::iterator it;
+    for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
+        m_ActionGroupStatus.removeAction(it.value());
+    m_ActionStatus.clear();
+    m_MenuStatus.clear();
+    return 0;
+}
+
+int MainWindow::InitMenuTranslate()
+{
+    m_MenuTranslate.setTitle(tr("Language(&L)"));
+    m_ActionTranslator["zh_CN"] = m_MenuTranslate.addAction(tr("Chinese"));
+    m_ActionTranslator["English"] = m_MenuTranslate.addAction(tr("English"));
+
+    QMap<QString, QAction*>::iterator it;
+    for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
+        m_ActionGroupTranslator.addAction(it.value());
+
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitMenuTranslate m_ActionTranslator size:%d", m_ActionTranslator.size());
+
+    bool check = connect(&m_ActionGroupTranslator, SIGNAL(triggered(QAction*)),
+                        SLOT(slotActionGroupTranslateTriggered(QAction*)));
+    Q_ASSERT(check);
+
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QString szLocale = conf.value("Global/Language", QLocale::system().name()).toString();
+    QAction* pAct = m_ActionTranslator[szLocale];
+    if(pAct)
+    {
+        LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitMenuTranslate setchecked locale:%s", szLocale.toStdString().c_str());
+        pAct->setCheckable(true);
+        pAct->setChecked(true);
+        LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitMenuTranslate setchecked end");
+    }
+
+    return 0;
+}
+
+int MainWindow::ClearMenuTranslate()
+{
+    QMap<QString, QAction*>::iterator it;
+    for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
+    {
+        m_ActionGroupTranslator.removeAction(it.value());
+    }
+    m_ActionTranslator.clear();
+    m_MenuTranslate.clear();
+
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::ClearMenuTranslate m_ActionTranslator size:%d", m_ActionTranslator.size());
+    
+    return 0;
+}
+
+int MainWindow::LoadTranslate(QString szLocale)
+{
+    //初始化翻译  
+    if(szLocale.isEmpty())
+    {
+        QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+        szLocale = conf.value("Global/Language", QLocale::system().name()).toString();
+    }
+
+    LOG_MODEL_DEBUG("main", "locale language:%s", szLocale.toStdString().c_str());
+
+    if(m_pTranslatorQt)
+    {
+        qApp->removeTranslator(m_pTranslatorQt);
+        delete m_pTranslatorQt;
+    }
+
+    LOG_MODEL_DEBUG("MainWindow", "Translate dir:%s", qPrintable(CGlobal::Instance()->GetDirTranslate()));
+
+    m_pTranslatorQt = new QTranslator(this);
+    m_pTranslatorQt->load("qt_" + szLocale, CGlobal::Instance()->GetDirTranslate());
+    qApp->installTranslator(m_pTranslatorQt);
+
+    if(m_pTranslatorApp)
+    {
+        qApp->removeTranslator(m_pTranslatorApp);
+        delete m_pTranslatorApp;
+    }
+    m_pTranslatorApp = new QTranslator(this);
+    m_pTranslatorApp->load("app_" + szLocale, CGlobal::Instance()->GetDirTranslate());
+    qApp->installTranslator(m_pTranslatorApp);
+
+    ui->retranslateUi(this);
     return 0;
 }
 
@@ -450,25 +554,40 @@ void MainWindow::on_actionNotifiation_show_main_windows_triggered()
 
 void MainWindow::slotActionGroupStatusTriggered(QAction *act)
 {
-    QXmppPresence presence;
-    QXmppPresence::AvailableStatusType status;
+    QMap<QXmppPresence::AvailableStatusType, QAction*>::iterator it;
+    for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
+    {
+        if(it.value() == act)
+        {
+            QXmppPresence presence;
+            QXmppPresence::AvailableStatusType status = it.key();
+            CGlobal::Instance()->SetStatus(status);
+            CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
+            act->setCheckable(true);
+            act->setChecked(true);
+            m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(status)));
+        }
+    }
+}
 
-    if(m_ActionStatusAway == act)
-        status = QXmppPresence::Away;
-    else if(m_ActionStatusChat == act)
-        status = QXmppPresence::Chat;
-    else if(m_ActionStatusDnd == act)
-        status = QXmppPresence::DND;
-    else if(m_ActionStatusInvisible == act)
-        status = QXmppPresence::Invisible;
-    else if(m_ActionStatusOnline == act)
-        status = QXmppPresence::Online;
-    presence.setAvailableStatusType(status);
-    CGlobal::Instance()->SetStatus(status);
-    CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
-    act->setCheckable(true);
-    act->setChecked(true);
-    m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(status)));
+void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
+{
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotActionGroupTranslateTriggered");
+    QMap<QString, QAction*>::iterator it;
+    for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
+    {
+        if(it.value() == pAct)
+        {
+            QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+            conf.setValue("Global/Language", it.key());
+            LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotActionGroupTranslateTriggered:%s", it.key().toStdString().c_str());
+            LoadTranslate(it.key());
+            //pAct->setCheckable(true);
+            //pAct->setChecked(true);
+            ReInitMenuOperator();
+            return;
+        }
+    }
 }
 
 void MainWindow::slotEditInformation()
@@ -537,50 +656,3 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
                         szFile.toStdString().c_str(), file.error());
     }//*/
 }
-
-//TODO:语言动态切换不对 
-void MainWindow::on_actionEnglish_E_triggered()
-{
-    return;
-
-    qApp->removeTranslator(m_pQtTranslator);
-    qApp->removeTranslator(m_pAppTranslator);
-}
-
-//TODO:语言动态切换不对 
-void MainWindow::on_actionChinese_C_triggered()
-{
-    return;
-
-    qApp->removeTranslator(m_pQtTranslator);
-    qApp->removeTranslator(m_pAppTranslator);
-
-    if(m_pQtTranslator)
-        delete m_pQtTranslator;
-    m_pQtTranslator = new QTranslator;
-    
-    if(m_pQtTranslator)
-        delete m_pQtTranslator;
-    m_pQtTranslator = new QTranslator;
-    
-    //本地化QT资源  
-    QString szLocale = "zh_CN";
-#ifdef DEBUG
-    m_pQtTranslator->load("qt_" + szLocale,
-                      QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    LOG_MODEL_DEBUG("main", 
-                    QLibraryInfo::location(QLibraryInfo::TranslationsPath).toStdString().c_str());
-#else
-    m_pQtTranslator->load("qt_" + szLocale,
-                      QCoreApplication::applicationDirPath());
-#endif
-    qApp->installTranslator(m_pQtTranslator);
-
-    //本地化程序资源 
-    //把翻译文件放在了应用程序目录下,这样可以结约内存,适用于很多语言版本 
-    //myappTranslator.load("app_" + locale, a.applicationDirPath()); 
-    //把翻译文件放在了程序资源中  
-    m_pAppTranslator->load(":/translations/" + szLocale);
-    qApp->installTranslator(m_pAppTranslator);
-}
-

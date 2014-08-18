@@ -77,9 +77,10 @@ protected slots:
     void finished();
 
 private:
-    void closeEvent(QCloseEvent *e);
-    void resizeEvent(QResizeEvent *);
-    void paintEvent(QPaintEvent *event);
+    virtual void closeEvent(QCloseEvent *e);
+    virtual void resizeEvent(QResizeEvent *);
+    virtual void paintEvent(QPaintEvent *event);
+    virtual void changeEvent(QEvent*);
     void mouseMoveEvent(QMouseEvent * event);
 
     //连接与 call 相关的信号  

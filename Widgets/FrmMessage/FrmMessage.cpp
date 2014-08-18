@@ -151,6 +151,16 @@ void CFrmMessage::closeEvent(QCloseEvent *e)
     LOG_MODEL_DEBUG("Message", "CFrmMessage::closeEvent");
 }
 
+void CFrmMessage::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}
+
 bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
 {
     if (target == ui->txtInput) { 

@@ -64,6 +64,16 @@ int CFrmAddRoster::Init(CXmppClient *pClient, QSet<QString> groups, QString bare
     return 0;
 }
 
+void CFrmAddRoster::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}
+
 void CFrmAddRoster::on_pbOk_clicked()
 {
     QString szJid = ui->txtJID->text();

@@ -39,3 +39,13 @@ void CFrmMain::resizeEvent(QResizeEvent *e)
     m_UserList.resize(ui->tabWidget->geometry().size());
     m_GroupChatList.resize(ui->tabWidget->geometry().size());
 }
+
+void CFrmMain::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}

@@ -473,6 +473,11 @@ QString CGlobal::GetApplicationConfigureFile()
     return GetDirApplicationConfigure() + "/app.conf";
 }
 
+QString CGlobal::GetDirTranslate()
+{
+    return GetDirApplication() + "/translate";
+}
+
 QString CGlobal::GetDirUserData(const QString bareJid)
 {
     QString jid = GetBareJid();

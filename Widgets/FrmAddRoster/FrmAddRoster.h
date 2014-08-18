@@ -25,6 +25,9 @@ private slots:
     void on_txtJID_editingFinished();
 
 private:
+    void changeEvent(QEvent *);
+
+private:
     Ui::CFrmAddRoster *ui;
     CXmppClient *m_pClient;
     bool m_bRequest;

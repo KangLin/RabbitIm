@@ -92,6 +92,16 @@ void CFrmUservCard::closeEvent(QCloseEvent *)
     deleteLater();
 }
 
+void CFrmUservCard::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}
+
 void CFrmUservCard::on_pbBrower_clicked()
 {
     //*从资源中加载应用程序样式 

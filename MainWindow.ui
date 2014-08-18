@@ -20,22 +20,14 @@
      <x>0</x>
      <y>0</y>
      <width>360</width>
-     <height>23</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOperator_O">
     <property name="title">
      <string>Operator(&amp;O)</string>
     </property>
-    <widget class="QMenu" name="menuChange_Language_C">
-     <property name="title">
-      <string>Change Language(&amp;C)</string>
-     </property>
-     <addaction name="actionEnglish_E"/>
-     <addaction name="actionChinese_C"/>
-    </widget>
     <addaction name="separator"/>
-    <addaction name="menuChange_Language_C"/>
    </widget>
    <widget class="QMenu" name="menuHelp_H">
     <property name="title">

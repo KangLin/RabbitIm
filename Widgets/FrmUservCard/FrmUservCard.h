@@ -24,8 +24,9 @@ public:
     ~CFrmUservCard();
 
 protected:
-    void showEvent(QShowEvent *);
-    void closeEvent(QCloseEvent *);
+    virtual void showEvent(QShowEvent *);
+    virtual void closeEvent(QCloseEvent *);
+    virtual void changeEvent(QEvent*);
 
 private slots:
     void on_pbBrower_clicked();    

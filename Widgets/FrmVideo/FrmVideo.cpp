@@ -232,6 +232,16 @@ void CFrmVideo::paintEvent(QPaintEvent *event)
     painter.drawRect(rect());//*/
 }
 
+void CFrmVideo::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
+}
+
 //当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。  
 //当tracking为on时，没鼠标键按下，也会有mouseEvent事件  
 void CFrmVideo::mouseMoveEvent(QMouseEvent *event)

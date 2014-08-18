@@ -32,6 +32,7 @@ private slots:
 protected:
     virtual void paintEvent(QPaintEvent *);
     virtual void mouseReleaseEvent(QMouseEvent *);
+    virtual void changeEvent(QEvent*);
 
 private:
     QVideoFrame m_VideoFrame;

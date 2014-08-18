@@ -25,6 +25,7 @@ public:
 protected:
     virtual void closeEvent(QCloseEvent *);
     virtual void showEvent (QShowEvent* event);
+    virtual void changeEvent(QEvent*);
 
 private slots:
     void on_pbOK_clicked();

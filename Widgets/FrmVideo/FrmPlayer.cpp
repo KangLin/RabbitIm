@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QImage>
 #include <QThread>
+#include <QEvent>
 #include "DataVideoBuffer.h"
 #include "FrmVideo.h"
 #include "../../Global.h"
@@ -52,6 +53,16 @@ void CFrmPlayer::mouseReleaseEvent(QMouseEvent *)
 #ifdef DEBUG
     //TestCamera();
 #endif
+}
+
+void CFrmPlayer::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        
+        break;
+    }
 }
 
 #ifdef DEBUG

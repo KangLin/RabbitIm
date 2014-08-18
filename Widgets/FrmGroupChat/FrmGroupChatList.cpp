@@ -94,11 +94,11 @@ int CFrmGroupChatList::InitMenu()
     m_Menu.addAction(QIcon(":/icon/Search"), tr("New/Search group chat rooms"), this, SLOT(slotActionFindGroup()));
     m_Menu.addAction(QIcon(":/icon/Left"), tr("Leave room"), this, SLOT(slotActionLeave()));
 
-    bool check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigInitLoginedMenu(QMenu*)),
+    bool check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuInitOperator(QMenu*)),
                     SLOT(slotAddToMainMenu(QMenu*)));
     Q_ASSERT(check);
 
-    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRemoveMenu(QMenu*)),
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuRemoveOperator(QMenu*)),
                     SLOT(slotRemoveFromMainMenu(QMenu*)));
     Q_ASSERT(check);
 
@@ -119,6 +119,16 @@ void CFrmGroupChatList::resizeEvent(QResizeEvent* e)
     int nWidth = m_GroupList.geometry().width() * 4/ 5;
     m_GroupList.setColumnWidth(0, nWidth);
     m_GroupList.setColumnWidth(1, m_GroupList.geometry().width() - nWidth);
+}
+
+void CFrmGroupChatList::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    }
 }
 
 void CFrmGroupChatList::slotCustomContextMenuRequested(const QPoint &pos)
