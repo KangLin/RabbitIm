@@ -59,7 +59,7 @@ protected slots:
     void clientIqReceived(const QXmppIq &iq);
     void stateChanged(QXmppClient::State state);
 
-    //通知栏
+    //通知栏  
     void slotTrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽  
     void slotMessageClicked();
     void slotTrayIconMenuUpdate();
