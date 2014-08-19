@@ -22,7 +22,39 @@
   <property name="frameShadow">
    <enum>QFrame::Raised</enum>
   </property>
+  <action name="actionNew_Search_group_chat_rooms">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Search</normaloff>:/icon/Search</iconset>
+   </property>
+   <property name="text">
+    <string>New/Search group chat rooms</string>
+   </property>
+   <property name="toolTip">
+    <string>New/Search group chat rooms</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+S</string>
+   </property>
+  </action>
+  <action name="actionLeave_room">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Left</normaloff>:/icon/Left</iconset>
+   </property>
+   <property name="text">
+    <string>Leave room</string>
+   </property>
+   <property name="toolTip">
+    <string>Leave room</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+L</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../Resource/Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

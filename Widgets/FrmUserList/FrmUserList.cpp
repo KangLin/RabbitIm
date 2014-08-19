@@ -102,9 +102,6 @@ CFrmUserList::~CFrmUserList()
 
     //删除组 m_Groups，不需要删，列表控件析构时会自己删除  
 
-    if(m_pMenu)
-        delete m_pMenu;
-
     delete ui;   
     
     if(m_pModel)
@@ -114,35 +111,30 @@ CFrmUserList::~CFrmUserList()
 int CFrmUserList::InitMenu()
 {
     bool check = true;
-    m_pMenu = new QMenu(tr("Operator roster(&O)"), this);
-    if(!m_pMenu)
-    {
-        LOG_MODEL_WARNING("Roster",  "CFrmUserList::InitMenu new QMenu fail");
-        return -1;
-    }
+    m_Menu.setTitle(tr("Operator roster(&O)"));
 
-    check = connect(m_pMenu, SIGNAL(aboutToShow()),
+    check = connect(&m_Menu, SIGNAL(aboutToShow()),
                     SLOT(slotUpdateMenu()));
     Q_ASSERT(check);
 
     //菜单设置  
     m_pMenuAction = NULL;
-    m_pMenu->addAction(ui->actionAddRoster_A);
+    m_Menu.addAction(ui->actionAddRoster_A);
     check = connect(ui->actionAddRoster_A, SIGNAL(triggered()),
                     SLOT(slotAddRoster()));
     Q_ASSERT(check);
 
-    m_pMenu->addAction(ui->actionRemoveRoster_R);
+    m_Menu.addAction(ui->actionRemoveRoster_R);
     check = connect(ui->actionRemoveRoster_R, SIGNAL(triggered()),
                     SLOT(slotRemoveRoster()));
     Q_ASSERT(check);
 
-    m_pMenu->addAction(ui->actionAgreeAddRoster);
+    m_Menu.addAction(ui->actionAgreeAddRoster);
     check = connect(ui->actionAgreeAddRoster, SIGNAL(triggered()),
                     SLOT(slotAgreeAddRoster()));
     Q_ASSERT(check);
 
-    m_pMenu->addAction(ui->actionInformation_I);
+    m_Menu.addAction(ui->actionInformation_I);
     check = connect(ui->actionInformation_I, SIGNAL(triggered()),
                     SLOT(slotInformationRoster()));
     Q_ASSERT(check);
@@ -168,7 +160,7 @@ int CFrmUserList::EnableAction(QAction *pAction, bool bEnable)
 
 void CFrmUserList::slotAddToMainMenu(QMenu *pMenu)
 {
-    m_pMenuAction = pMenu->addMenu(m_pMenu);
+    m_pMenuAction = pMenu->addMenu(&m_Menu);
     bool check = connect(pMenu, SIGNAL(aboutToShow()),
             SLOT(slotUpdateMainMenu()));
     Q_ASSERT(check);
@@ -182,15 +174,17 @@ void CFrmUserList::slotDeleteFromMainMenu(QMenu *pMenu)
 
 void CFrmUserList::slotUpdateMainMenu()
 {
+    m_Menu.setTitle(tr("Operator roster(&O)"));
     if(isHidden())
-        m_pMenu->setEnabled(false);
+        m_Menu.setEnabled(false);
     else
-        m_pMenu->setEnabled(true);
+        m_Menu.setEnabled(true);
 }
 
 void CFrmUserList::slotUpdateMenu()
 {
-    m_pMenu->setEnabled(true);
+    m_Menu.setTitle(tr("Operator roster(&O)"));
+    m_Menu.setEnabled(true);
     EnableAllActioins(false);
     if(this->isHidden())
         return;
@@ -225,7 +219,7 @@ void CFrmUserList::slotUpdateMenu()
 void CFrmUserList::slotCustomContextMenuRequested(const QPoint &pos)
 {
     Q_UNUSED(pos);
-    m_pMenu->exec(QCursor::pos());
+    m_Menu.exec(QCursor::pos());
 }
 
 void CFrmUserList::slotAddRoster()

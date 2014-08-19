@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStandardItemModel>
 #include <QMap>
+#include <QMenu>
 #include <QResizeEvent>
 #include "qxmpp/QXmppRosterIq.h"
 #include "qxmpp/QXmppPresence.h"
@@ -54,7 +55,7 @@ private:
     int InitMenu();//初始化菜单  
     int EnableAllActioins(bool bEnable = true);
     int EnableAction(QAction* pAction, bool bEnable = true);
-    QMenu* m_pMenu;      //好友列表操作菜单  
+    QMenu m_Menu;      //好友列表操作菜单  
     QAction* m_pMenuAction;//用于存储m_Menu位于主菜单中的位置  
 
 private:

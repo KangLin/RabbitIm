@@ -91,8 +91,10 @@ void CFrmGroupChatList::slotRoomAdded(QXmppMucRoom *room)
 int CFrmGroupChatList::InitMenu()
 {
     m_Menu.setTitle(tr("Operator group chat(&G)"));
-    m_Menu.addAction(QIcon(":/icon/Search"), tr("New/Search group chat rooms"), this, SLOT(slotActionFindGroup()));
-    m_Menu.addAction(QIcon(":/icon/Left"), tr("Leave room"), this, SLOT(slotActionLeave()));
+    m_Menu.addAction(ui->actionNew_Search_group_chat_rooms);
+    connect(ui->actionNew_Search_group_chat_rooms, SIGNAL(triggered()), this, SLOT(slotActionFindGroup()));
+    m_Menu.addAction(ui->actionLeave_room);
+    connect(ui->actionLeave_room, SIGNAL(triggered()), this, SLOT(slotActionLeave()));
 
     bool check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuInitOperator(QMenu*)),
                     SLOT(slotAddToMainMenu(QMenu*)));
@@ -145,6 +147,12 @@ void CFrmGroupChatList::slotAddToMainMenu(QMenu *pMenu)
     Q_ASSERT(check);
 }
 
+void CFrmGroupChatList::slotRemoveFromMainMenu(QMenu *pMenu)
+{
+    pMenu->removeAction(m_pAction);
+    pMenu->disconnect(this);
+}
+
 void CFrmGroupChatList::slotUpdateMenu()
 {
     if(this->isHidden())
@@ -155,19 +163,13 @@ void CFrmGroupChatList::slotUpdateMenu()
 
 void CFrmGroupChatList::slotUpdateMainMenu()
 {
+    m_Menu.setTitle(tr("Operator group chat(&G)"));
     LOG_MODEL_DEBUG("Group chat", "CFrmGroupChatList isHidden:%s",
                     qPrintable(QString::number(isHidden())));
     if(this->isHidden())
         m_Menu.setEnabled(false);
     else
         m_Menu.setEnabled(true);
-}
-
-//TODO:如果此对象析构,主菜单上的菜单如何删除?  
-void CFrmGroupChatList::slotRemoveFromMainMenu(QMenu *pMenu)
-{
-    pMenu->removeAction(m_pAction);
-    pMenu->disconnect(this);
 }
 
 void CFrmGroupChatList::slotActionFindGroup()

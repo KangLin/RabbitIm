@@ -251,7 +251,7 @@ void MainWindow::stateChanged(QXmppClient::State state)
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::stateChanged, state:%d", state);
 
-    //TODO:同一账户在不同地方登录。QXMPP没有提供错误状态 
+    //TODO:同一账户在不同地方登录。QXMPP没有提供错误状态  
 
     /*if(e.xmppStreamError().condition()
             == QXmppStanza::Error::Conflict)
@@ -294,8 +294,8 @@ int MainWindow::ReInitMenuOperator()
 
     if(m_bLogin)
         InitLoginedMenu();
-
-    InitOperatorMenu();
+    else
+        InitOperatorMenu();
     return 0;
 }
 
@@ -318,6 +318,7 @@ int MainWindow::InitLoginedMenu()
 
 int MainWindow::InitOperatorMenu()
 {
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitOperatorMenu");
     ui->menuOperator_O->addAction(tr("Change Style Sheet(&S)"), 
                 this, SLOT(on_actionChange_Style_Sheet_S_triggered()));
     ui->menuOperator_O->addMenu(&m_MenuTranslate);
@@ -481,7 +482,9 @@ void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
             LoadTranslate(it.key());
             pAct->setCheckable(true);
             pAct->setChecked(true);
-            ReInitMenuOperator();
+            QMessageBox::information(this, tr("Information"), tr("Change language must reset program."));
+            close();
+            //ReInitMenuOperator();
             return;
         }
     }
@@ -539,6 +542,7 @@ void MainWindow::slotTrayIconMenuUpdate()
     }
 
     m_TrayIconMenu.addAction(ui->actionOptions_O);
+    m_TrayIconMenu.addMenu(&m_MenuTranslate);
 
     QString szTitle;
     if(this->isHidden())
