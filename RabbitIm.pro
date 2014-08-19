@@ -4,9 +4,8 @@
 #
 #-------------------------------------------------
 
-QT += core gui network xml multimedia
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+# 注意：Qt 版本必须大于 5.0  
+QT += core gui network xml multimedia widgets
 
 TARGET = RabbitIm
 TEMPLATE = app

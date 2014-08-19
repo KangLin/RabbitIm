@@ -90,12 +90,12 @@ private slots:
     void on_actionOptions_O_triggered();
 
 private:
-    int ReInitMenuOperator();       //初始化菜单  
-    int InitLoginedMenu();//初始化登录后的相关菜单  
-    int InitOperatorMenu();//初始始化操作菜单  
-    int InitMenuStatus();//增加状态菜单  
+    int ReInitMenuOperator(); //初始化菜单  
+    int InitLoginedMenu();    //初始化登录后的相关菜单  
+    int InitOperatorMenu();   //初始始化操作菜单  
+    int InitMenuStatus();     //增加状态菜单  
     int ClearMenuStatus();
-    int InitMenuTranslate();//增加翻译菜单  
+    int InitMenuTranslate();  //增加翻译菜单  
     int ClearMenuTranslate();
     int LoadTranslate(QString szLocale = QString());
 

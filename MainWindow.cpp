@@ -302,7 +302,7 @@ int MainWindow::ReInitMenuOperator()
 int MainWindow::InitLoginedMenu()
 {
     ui->menuOperator_O->clear();
-    //emit sigMenuRemoveOperator(ui->menuOperator_O);
+    emit sigMenuRemoveOperator(ui->menuOperator_O);
 
     ui->menuOperator_O->addMenu(&m_MenuStatus);
     ui->menuOperator_O->addAction(QIcon(":/icon/AppIcon"),
@@ -372,6 +372,7 @@ int MainWindow::ClearMenuStatus()
     QMap<QXmppPresence::AvailableStatusType, QAction*>::iterator it;
     for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
         m_ActionGroupStatus.removeAction(it.value());
+    m_ActionGroupStatus.disconnect();
     m_ActionStatus.clear();
     m_MenuStatus.clear();
     return 0;
@@ -380,8 +381,9 @@ int MainWindow::ClearMenuStatus()
 int MainWindow::InitMenuTranslate()
 {
     m_MenuTranslate.setTitle(tr("Language(&L)"));
-    m_ActionTranslator["zh_CN"] = m_MenuTranslate.addAction(tr("Chinese"));
+    m_ActionTranslator["Default"] = m_MenuTranslate.addAction(tr("Default"));
     m_ActionTranslator["English"] = m_MenuTranslate.addAction(tr("English"));
+    m_ActionTranslator["zh_CN"] = m_MenuTranslate.addAction(tr("Chinese"));
 
     QMap<QString, QAction*>::iterator it;
     for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
@@ -414,8 +416,9 @@ int MainWindow::ClearMenuTranslate()
     {
         m_ActionGroupTranslator.removeAction(it.value());
     }
+    m_ActionGroupTranslator.disconnect();
     m_ActionTranslator.clear();
-    m_MenuTranslate.clear();
+    m_MenuTranslate.clear();    
 
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::ClearMenuTranslate m_ActionTranslator size:%d", m_ActionTranslator.size());
     
@@ -429,6 +432,11 @@ int MainWindow::LoadTranslate(QString szLocale)
     {
         QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
         szLocale = conf.value("Global/Language", QLocale::system().name()).toString();
+    }
+
+    if("Default" == szLocale)
+    {
+        szLocale = QLocale::system().name();
     }
 
     LOG_MODEL_DEBUG("main", "locale language:%s", szLocale.toStdString().c_str());
@@ -456,6 +464,27 @@ int MainWindow::LoadTranslate(QString szLocale)
 
     ui->retranslateUi(this);
     return 0;
+}
+
+void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
+{
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotActionGroupTranslateTriggered");
+    QMap<QString, QAction*>::iterator it;
+    for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
+    {
+        if(it.value() == pAct)
+        {
+            QString szLocale = it.key();
+            QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+            conf.setValue("Global/Language", szLocale);
+            LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotActionGroupTranslateTriggered:%s", it.key().toStdString().c_str());
+            LoadTranslate(it.key());
+            pAct->setCheckable(true);
+            pAct->setChecked(true);
+            ReInitMenuOperator();
+            return;
+        }
+    }
 }
 
 void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
@@ -566,26 +595,6 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
             act->setCheckable(true);
             act->setChecked(true);
             m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(status)));
-        }
-    }
-}
-
-void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
-{
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotActionGroupTranslateTriggered");
-    QMap<QString, QAction*>::iterator it;
-    for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
-    {
-        if(it.value() == pAct)
-        {
-            QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
-            conf.setValue("Global/Language", it.key());
-            LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotActionGroupTranslateTriggered:%s", it.key().toStdString().c_str());
-            LoadTranslate(it.key());
-            //pAct->setCheckable(true);
-            //pAct->setChecked(true);
-            ReInitMenuOperator();
-            return;
         }
     }
 }
