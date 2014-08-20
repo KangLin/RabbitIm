@@ -10,7 +10,8 @@
   1. 要在此论坛中发帖，请发送电子邮件至 rabbitim@yahoogroups.com  
   2. 订阅本邮件组，请发送邮件到：rabbitim-subscribe@yahoogroups.com  
   3. 取消订阅本邮件组，请发送邮件到：rabbitim-unsubscribe@yahoogroups.com  
-  4. 通过以下网址访问此论坛：https://groups.yahoo.com/neo/groups/rabbitim/conversations/messages
+  4. 通过以下网址访问此论坛：https://groups.yahoo.com/neo/groups/rabbitim/conversations/messages  
+QQ群：68046752
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
