@@ -95,7 +95,8 @@ ubuntu 下截图:
 * 本工程编码字符集为UTF-8
 
 * 代码中不能包含中文，代码中只能包含英文，需要翻译的文本用 tr 包含。中文放在资源翻译文件中。  
-  详见：http://blog.csdn.net/kl222/article/details/21086475
+  详见：http://blog.csdn.net/kl222/article/details/38681303  
+  + 在 MainWindow::InitMenuTranslate() 中加入你新加入的语言项。  
 
 * 代码中的中文注释，在中文前后加两个空格(保证是双字节)，用于骗过vc编译器（因为vc工具链对UTF-8支持不全）。
 
@@ -432,8 +433,10 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 #### 1、用Qt Creator 编译
 
 用 Qt Creator 打开本工程根目录下的 Rabbitim.pro 文件。
-工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
-构建->构建项目"RabbitIm"。编译本项目。
+  * 下载(http://pan.baidu.com/s/1ntA0t5n)或自己编译第三方库，并放到 $(RabbitImRoot)/ThirdLibary 目录下。
+  * 工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
+  * 把 pm 文件复制到安装目录的 translate 目录下。
+  * 构建->构建项目"RabbitIm"。编译本项目。
 
 #### 2、用命令行编译
 
@@ -453,8 +456,7 @@ MAKE在不同的环境下有不同的命令：
 翻译文件部署：
 ------------
 1. 工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
-2. 在资源文件中指定 *.pm 文件，取别名
-3. 在main.cpp文件中加载需要的本地化资源
+2. 把 pm 文件复制到安装目录的 translate 目录下。
 
 调试：
 -----
