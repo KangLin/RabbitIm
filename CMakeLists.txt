@@ -16,7 +16,7 @@ SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS") #ffmpeg需要
 
-#设置头文件包含位置  
+#设置头文件包含位置 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 IF(MSVC)
     set(TOOLCHAIN windows_msvc)
@@ -27,10 +27,24 @@ INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/Widgets/FrmCustom
     ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN}/include)
 
+LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN}/lib)
+
+SET(FFMPEG_LIBS avcodec avformat swscale avfilter avutil)
+SET(RABBITIM_LIBS 
+    ${FFMPEG_LIBS}
+    qxmpp
+    )
+
 #add_subdirectory(Widgets)
 
 set(RABBITIM_SOURCES
-    Widgets/FrmLogin/FrmLoginSettings.cpp
+    main.cpp
+    MainWindow.cpp 
+    XmppClient.cpp 
+    Global.cpp 
+    Tool.cpp 
+    Widgets/FrmSendFile/DlgSendManage.cpp 
+    Widgets/FrmSendFile/FrmSendFile.cpp 
     Widgets/FrmLogin/FrmLogin.cpp 
     Widgets/FrmUserList/FrmUserList.cpp 
     Widgets/FrmUserList/Roster.cpp 
@@ -47,7 +61,8 @@ set(RABBITIM_SOURCES
     Widgets/FrmAddRoster/FrmAddRoster.cpp 
     Widgets/FrmCustom/CustomTreeView.cpp 
     Widgets/FrmVideo/RecordAudio.cpp 
-    Widgets/FrmVideo/CCamera.cpp
+    Widgets/FrmVideo/CCamera.cpp 
+    Widgets/FrmLogin/FrmLoginSettings.cpp 
     Widgets/FrmOptions/FrmOptions.cpp 
     Widgets/FrmUservCard/FrmUservCard.cpp 
     Widgets/FrmCustom/Label.cpp  
@@ -58,14 +73,13 @@ set(RABBITIM_SOURCES
     Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp 
     Widgets/FrmMain/FrmMain.cpp 
     Widgets/FrmCustom/MenuMessageSend.cpp
-    Widgets/FrmSendFile/FrmSendFile.cpp 
-    Widgets/FrmSendFile/DlgSendManage.cpp
-    main.cpp
-    MainWindow.cpp
-    XmppClient.cpp
-    Global.cpp
-    Tool.cpp
 )
+
+if(WIN32)
+    set(RABBITIM_SOURCES 
+        ${RABBITIM_SOURCES}
+        Widgets/DlgScreenShot/DlgScreenShot.cpp)
+endif(WIN32)
 
 set(RABBITIM_RCC_FILES Resource/Resource.qrc)
 
@@ -74,6 +88,7 @@ add_executable(${PROJECT_NAME}
         ${RABBITIM_RCC_FILES}
         )
 target_link_libraries(${PROJECT_NAME} 
+        ${RABBITIM_LIBS}
         Qt5::Widgets
         Qt5::Network
         Qt5::Multimedia
