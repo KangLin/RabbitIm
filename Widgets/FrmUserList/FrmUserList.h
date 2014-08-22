@@ -21,6 +21,7 @@ namespace Ui {
 class CFrmUserList;
 }
 
+class CFrmMain;
 class MainWindow;
 class CFrmUserList : public QFrame
 {
@@ -30,11 +31,12 @@ public:
     explicit CFrmUserList(QWidget *parent = 0);
     ~CFrmUserList();
 
+    friend class CFrmMain;
 public:
+    //TODO:以后放在未读消息中维护  
     //显示最后一个消息窗口  
     int ShowMessageDialog();
-    //根据好友jid，得到相应的 CRoster 对象  
-    CRoster* GetRoster(QString szJid);
+
 public slots:
     //更新好友  
     void slotRefresh();
@@ -59,6 +61,9 @@ private:
     QAction* m_pMenuAction;//用于存储m_Menu位于主菜单中的位置  
 
 private:
+    //根据好友jid，得到相应的 CRoster 对象  
+    CRoster* GetRoster(QString szJid);
+
     //向用户列表中插入用户  
     int InsertUser(QXmppRosterIq::Item rosterItem);
     //在组队列中插入组  
