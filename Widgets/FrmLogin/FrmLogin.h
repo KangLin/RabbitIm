@@ -7,11 +7,11 @@
 #include "../../MainWindow.h"
 #include "../FrmRegister/FrmRegister.h"
 
+class MainWindow;
+
 namespace Ui {
 class CFrmLogin;
 }
-
-class MainWindow;
 
 class CFrmLogin : public QFrame
 {

@@ -7,8 +7,14 @@
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets
 
+lessThan(QT_MAJOR_VERSION, 5) : error("version is $$QT_MAJOR_VERSION, please qt is used greater then 5.0")
+
 TARGET = RabbitIm
 TEMPLATE = app
+
+#预编译
+#CONFIG += precompiled_header
+#PRECOMPILED_HEADER = pch.h
 
 #equals(RABBITIM_LIBRARY_TYPE, shared) {
 #    CONFIG += shared    #生成动态库
@@ -120,12 +126,6 @@ CONFIG += localize_deployment  #本地语言部署
 TRANSLATIONS += \
     Resource/translations/app_zh_CN.ts
 
-#安装
-other.files = License.html README.md $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
-other.path = $$PREFIX
-target.path = $$PREFIX
-INSTALLS += other target
-
 OTHER_FILES += README.md \
     .gitignore \
     AppIcon.rc \
@@ -138,6 +138,34 @@ OTHER_FILES += README.md \
     License.html \
     ChangeLog.txt \
     Authors.txt
+
+isEmpty(PREFIX)
+{
+    PREFIX = install
+}
+
+mytarnslat.commands = lrelease $${PWD}/RabbitIm.pro && \
+    cd $${PWD}/Resource/translations && \
+    $(COPY_DIR) app_zh_CN.qm $${OUT_PWD}/translations/app_zh_CN.qm
+
+QMAKE_EXTRA_TARGETS += mytarnslat
+
+#安装
+wince {
+    mytranslat.files =  Resource/translations/app_zh_CN.qm
+    mytranslat.path = $$PREFIX
+    DEPLOYMENT += mytranslat
+}
+else {
+    other.files = License.html README.md
+    other.path = $$PREFIX
+    other.CONFIG += directory no_check_exist 
+    target.path = $$PREFIX
+    mytranslat.files =  Resource/translations/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
+    mytranslat.path = $$PREFIX/translate
+    mytranslat.CONFIG += directory no_check_exist 
+    INSTALLS += target other mytranslat
+}
 
 #ANDROID 平台相关内容  
 ANDROID_EXTRA_LIBS = #ANDROID 平台的扩展库

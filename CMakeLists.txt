@@ -7,10 +7,14 @@ project(RabbitIm)
 
 FIND_PACKAGE(Qt5 CONFIG REQUIRED  core gui network xml multimedia widgets)
 
-#打开 qt 编译工具  
+#打开 qt 编译工具
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+
+SET(CMAKE_VERBOSE_MAKEFILE ON)
+
+ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS") #ffmpeg需要
 
 #设置头文件包含位置  
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -20,18 +24,13 @@ ELSEIF(MINGW)
     set(TOOLCHAIN windows_mingw)
 ENDIF()
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR} 
+    ${CMAKE_SOURCE_DIR}/Widgets/FrmCustom
     ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN}/include)
 
 #add_subdirectory(Widgets)
 
 set(RABBITIM_SOURCES
-    main.cpp
-    MainWindow.cpp 
-    XmppClient.cpp 
-    Global.cpp 
-    Tool.cpp 
-    Widgets/FrmSendFile/DlgSendManage.cpp 
-    Widgets/FrmSendFile/FrmSendFile.cpp 
+    Widgets/FrmLogin/FrmLoginSettings.cpp
     Widgets/FrmLogin/FrmLogin.cpp 
     Widgets/FrmUserList/FrmUserList.cpp 
     Widgets/FrmUserList/Roster.cpp 
@@ -48,8 +47,7 @@ set(RABBITIM_SOURCES
     Widgets/FrmAddRoster/FrmAddRoster.cpp 
     Widgets/FrmCustom/CustomTreeView.cpp 
     Widgets/FrmVideo/RecordAudio.cpp 
-    Widgets/FrmVideo/CCamera.cpp 
-    Widgets/FrmLogin/FrmLoginSettings.cpp 
+    Widgets/FrmVideo/CCamera.cpp
     Widgets/FrmOptions/FrmOptions.cpp 
     Widgets/FrmUservCard/FrmUservCard.cpp 
     Widgets/FrmCustom/Label.cpp  
@@ -60,8 +58,15 @@ set(RABBITIM_SOURCES
     Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp 
     Widgets/FrmMain/FrmMain.cpp 
     Widgets/FrmCustom/MenuMessageSend.cpp
+    Widgets/FrmSendFile/FrmSendFile.cpp 
+    Widgets/FrmSendFile/DlgSendManage.cpp
+    main.cpp
+    MainWindow.cpp
+    XmppClient.cpp
+    Global.cpp
+    Tool.cpp
 )
-        
+
 set(RABBITIM_RCC_FILES Resource/Resource.qrc)
 
 add_executable(${PROJECT_NAME}

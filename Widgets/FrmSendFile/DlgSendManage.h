@@ -1,8 +1,8 @@
 #ifndef DLGSENDMANAGE_H
 #define DLGSENDMANAGE_H
+
 #include <QDialog>
 #include "qxmpp/QXmppTransferManager.h"
-#include <QDialog>
 
 namespace Ui {
 class CDlgSendManage;

@@ -4,8 +4,8 @@
 
 CDlgSendManage::CDlgSendManage(QWidget *parent) :
     QDialog(parent),
+    m_SendCount(0),
     ui(new Ui::CDlgSendManage)
-  , m_SendCount(0)
 {
     ui->setupUi(this);
     this->setWindowFlags(this->windowFlags() | Qt::WindowMinMaxButtonsHint);
