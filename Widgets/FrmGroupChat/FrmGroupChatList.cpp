@@ -71,6 +71,15 @@ CFrmGroupChatList::~CFrmGroupChatList()
         delete m_pModel;
 }
 
+CFrmGroupChat* CFrmGroupChatList::GetGroupChat(const QString& jid)
+{
+    QMap<QString, CFrmGroupChat*>::iterator it;
+    it = m_Group.find(jid);
+    if(m_Group.end() == it)
+        return NULL;
+    return it.value();
+}
+
 void CFrmGroupChatList::slotInvitationReceived(const QString &roomJid, const QString &inviter, const QString &reason)
 {
     LOG_MODEL_DEBUG("CFrmGroupChatList", "roomJid:%s, inviter:%s, reason:%s",

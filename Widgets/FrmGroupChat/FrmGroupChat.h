@@ -18,6 +18,10 @@ public:
     explicit CFrmGroupChat(QWidget *parent = 0);
     ~CFrmGroupChat();
 
+    QString JID();
+    QString Name();
+    QString Nick();
+
     enum ENUM_ROLE{
         ROLE_GROUPCHAT_JID = Qt::UserRole + 1,
         ROLE_GROUPCHAT_OBJECT = ROLE_GROUPCHAT_JID + 1

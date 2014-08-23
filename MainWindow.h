@@ -35,8 +35,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    //得到好友 CRoster 对象  
+    //得到好友 CRoster 对象指针  
     CRoster* GetRoster(QString szJid);
+    //得到聊天室 CFrmGroupChat 对象指针  
+    CFrmGroupChat* GetGroupChat(const QString& jid);
 
     //在通知栏上显示消息  
     int ShowTrayIconMessage(const QString &szTitle, const QString &szMessage);

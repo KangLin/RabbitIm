@@ -55,6 +55,27 @@ CFrmGroupChat::~CFrmGroupChat()
         delete m_pModelMembers;
 }
 
+QString CFrmGroupChat::JID()
+{
+    if(m_pRoom)
+        return m_pRoom->jid();
+    return QString();
+}
+
+QString CFrmGroupChat::Name()
+{
+    if(m_pRoom)
+        return m_pRoom->name();
+    return QString();
+}
+
+QString CFrmGroupChat::Nick()
+{
+    if(m_pRoom)
+        return m_pRoom->nickName();
+    return QString();
+}
+
 bool CFrmGroupChat::Join(const QString &jid)
 {
     if(jid.isEmpty())

@@ -17,10 +17,12 @@ namespace Ui {
 class CFrmGroupChatList;
 }
 
+class CFrmMain;
 class CFrmGroupChatList : public QFrame
 {
     Q_OBJECT
 
+    friend class CFrmMain;
 public:
     explicit CFrmGroupChatList(QWidget *parent = 0);
     ~CFrmGroupChatList();
@@ -64,6 +66,7 @@ private:
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent*);
 
+    CFrmGroupChat* GetGroupChat(const QString& jid);
 private:
     Ui::CFrmGroupChatList *ui;
 

@@ -132,6 +132,13 @@ CRoster* MainWindow::GetRoster(QString szJid)
     return NULL;
 }
 
+CFrmGroupChat* MainWindow::GetGroupChat(const QString &jid)
+{
+    if(m_pTableMain)
+        return m_pTableMain->GetGroupChat(jid);
+    return NULL;
+}
+
 void MainWindow::resizeEvent(QResizeEvent * e)
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::resizeEvent:e.size:%d;genmetry.size:%d",

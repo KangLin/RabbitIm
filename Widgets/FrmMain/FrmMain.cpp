@@ -25,6 +25,11 @@ CRoster* CFrmMain::GetRoster(QString jid)
     return m_UserList.GetRoster(jid);
 }
 
+CFrmGroupChat* CFrmMain::GetGroupChat(const QString &jid)
+{
+    return m_GroupChatList.GetGroupChat(jid);
+}
+
 int CFrmMain::ShowMessageDialog()
 {
     return m_UserList.ShowMessageDialog();

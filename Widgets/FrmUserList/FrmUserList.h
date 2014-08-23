@@ -27,11 +27,12 @@ class CFrmUserList : public QFrame
 {
     Q_OBJECT
 
+    friend class CFrmMain;
+
 public:
     explicit CFrmUserList(QWidget *parent = 0);
     ~CFrmUserList();
 
-    friend class CFrmMain;
 public:
     //TODO:以后放在未读消息中维护  
     //显示最后一个消息窗口  
