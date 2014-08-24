@@ -5,23 +5,27 @@ project(RabbitIm)
 #增加pkgconfig模块
 #include(FindPkgConfig)
 
-FIND_PACKAGE(Qt5 CONFIG REQUIRED  core gui network xml multimedia widgets)
+FIND_PACKAGE(Qt5 CONFIG REQUIRED  Core Gui Network Xml Multimedia Widgets)
 
 #打开 qt 编译工具
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
+SET(CMAKE_AUTOUIC ON)
+SET(CMAKE_AUTOMOC ON)
+SET(CMAKE_AUTORCC ON)
 
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS") #ffmpeg需要
 
 #设置头文件包含位置 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 IF(MSVC)
-    set(TOOLCHAIN windows_msvc)
+    SET(TOOLCHAIN windows_msvc)
 ELSEIF(MINGW)
-    set(TOOLCHAIN windows_mingw)
+    SET(TOOLCHAIN windows_mingw)
+ELSEIF(ANDROID)
+    SET(TOOLCHAIN android)
+ELSE(LINUX OR UNIX)
+    SET(TOOLCHAIN unix)
 ENDIF()
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR} 
     ${CMAKE_SOURCE_DIR}/Widgets/FrmCustom
@@ -37,7 +41,7 @@ SET(RABBITIM_LIBS
 
 #add_subdirectory(Widgets)
 
-set(RABBITIM_SOURCES
+SET(RABBITIM_SOURCES
     main.cpp
     MainWindow.cpp 
     XmppClient.cpp 
@@ -76,12 +80,12 @@ set(RABBITIM_SOURCES
 )
 
 if(WIN32)
-    set(RABBITIM_SOURCES 
+    SET(RABBITIM_SOURCES 
         ${RABBITIM_SOURCES}
         Widgets/DlgScreenShot/DlgScreenShot.cpp)
 endif(WIN32)
 
-set(RABBITIM_RCC_FILES Resource/Resource.qrc)
+SET(RABBITIM_RCC_FILES Resource/Resource.qrc)
 
 add_executable(${PROJECT_NAME}
         ${RABBITIM_SOURCES}
