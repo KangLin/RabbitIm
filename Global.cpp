@@ -475,7 +475,7 @@ QString CGlobal::GetApplicationConfigureFile()
 
 QString CGlobal::GetDirTranslate()
 {
-    return GetDirApplication() + "/translate";
+    return GetDirApplication() + "/translations";
 }
 
 QString CGlobal::GetDirUserData(const QString bareJid)
