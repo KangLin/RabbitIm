@@ -472,6 +472,16 @@ MAKE在不同的环境下有不同的命令：
     make                  #执行编译
     ./RabbitIm            #启动程序
 
+android 平台:
+
+
+    mkdir rabbitim-build  #建立编译目录
+    cd rabbitim-build     #进入编译目录
+    cmake -DCMAKE_TOOLCHAIN_FILE=../rabbitim/android.toolchain.cmake ../rabbitim/. -DQt5_DIR=/home/l/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5 #执行 cmake
+    make           #执行编译
+
+
+
 翻译文件部署：
 ------------
 1. 工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
