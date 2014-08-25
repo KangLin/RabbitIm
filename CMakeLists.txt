@@ -2,8 +2,14 @@ cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 
 include(cmake/RabbitImUtils.cmake)
 
-ADD_CUSTOM_TARGET(uninstall 
-    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake") 
+CONFIGURE_FILE(
+    "${CMAKE_SOURCE_DIR}/cmake_uninstall.cmake.in"
+    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+ADD_CUSTOM_TARGET(uninstall
+    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
+
 
 #TODO:判断 qt 版本
 
@@ -178,13 +184,19 @@ if(WIN32)
         Widgets/DlgScreenShot/DlgScreenShot.cpp)
 endif(WIN32)
 
-SET(RABBITIM_RCC_FILES Resource/Resource.qrc)
+SET(RABBITIM_RCC_FILES Resource/Resource.qrc  AppIcon.rc)
 
-add_executable(${PROJECT_NAME}
+IF(WIN32)
+add_executable(${PROJECT_NAME} WIN32
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
         )
-
+ELSE()
+add_executable(${PROJECT_NAME} 
+        ${RABBITIM_SOURCES}
+        ${RABBITIM_RCC_FILES}
+        )
+ENDIF()
 target_link_libraries(${PROJECT_NAME} 
         ${RABBITIM_LIBS}
         Qt5::Widgets
