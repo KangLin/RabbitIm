@@ -162,7 +162,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
                     QMessageBox::Ok | QMessageBox::Cancel);
     if(QMessageBox::Ok == msg.exec())
     {
-        //退出程序
+        //退出程序  
         e->accept();
         QApplication::closeAllWindows();
     }
