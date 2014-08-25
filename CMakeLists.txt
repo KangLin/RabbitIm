@@ -38,7 +38,7 @@ project(RabbitIm)
 #增加pkgconfig模块
 #include(FindPkgConfig)
 
-FIND_PACKAGE(Qt5 CONFIG REQUIRED  Core Gui Network Xml Multimedia Widgets LinguistTools)
+FIND_PACKAGE(Qt5 CONFIG REQUIRED  Core Network Xml Multimedia Widgets LinguistTools)
 SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
 
 #打开 qt 编译工具
@@ -215,6 +215,7 @@ IF(REFRESH_TRANSLATIONS)
     ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
         qt5_add_translation(QM_FILES ${TS_FILES})
         ADD_CUSTOM_TARGET(translations ALL DEPENDS ${QM_FILES})
+        add_dependencies(${PROJECT_NAME}  translations)
         foreach(_file ${QM_FILES})
             add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E make_directory translations
@@ -227,7 +228,7 @@ ENDIF(REFRESH_TRANSLATIONS)
 #只发行版本才安装
 IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
     INSTALL(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}")
-    SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Xml Qt5::Gui)
+    SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Xml)
     INSTALL_QT_LIBRARYS(${QT_LIBS})
     IF(WIN32)
         INSTALL(FILES ${QT_INSTALL_DIR}/bin/icudt52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
