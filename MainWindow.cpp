@@ -132,6 +132,13 @@ CRoster* MainWindow::GetRoster(QString szJid)
     return NULL;
 }
 
+CFrmGroupChat* MainWindow::GetGroupChat(const QString &jid)
+{
+    if(m_pTableMain)
+        return m_pTableMain->GetGroupChat(jid);
+    return NULL;
+}
+
 void MainWindow::resizeEvent(QResizeEvent * e)
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::resizeEvent:e.size:%d;genmetry.size:%d",
@@ -397,7 +404,7 @@ int MainWindow::InitMenuTranslate()
     Q_ASSERT(check);
 
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
-    QString szLocale = conf.value("Global/Language", QLocale::system().name()).toString();
+    QString szLocale = conf.value("Global/Language", "Default").toString();
     QAction* pAct = m_ActionTranslator[szLocale];
     if(pAct)
     {

@@ -24,8 +24,11 @@ public:
 private:
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent*);
-    
+
+    //查找好友对象  
     CRoster* GetRoster(QString jid);
+    //查找聊天室对象  
+    CFrmGroupChat* GetGroupChat(const QString& jid);
 private:
     Ui::CFrmMain *ui;
     
