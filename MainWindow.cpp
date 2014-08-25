@@ -404,7 +404,7 @@ int MainWindow::InitMenuTranslate()
     Q_ASSERT(check);
 
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
-    QString szLocale = conf.value("Global/Language", QLocale::system().name()).toString();
+    QString szLocale = conf.value("Global/Language", "Default").toString();
     QAction* pAct = m_ActionTranslator[szLocale];
     if(pAct)
     {

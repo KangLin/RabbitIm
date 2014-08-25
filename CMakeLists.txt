@@ -33,6 +33,7 @@ project(RabbitIm)
 #include(FindPkgConfig)
 
 FIND_PACKAGE(Qt5 CONFIG REQUIRED  Core Gui Network Xml Multimedia Widgets LinguistTools)
+SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
 
 #打开 qt 编译工具
 SET(CMAKE_AUTOUIC ON)
@@ -133,8 +134,6 @@ SET(RABBITIM_LIBS
     ${SPEEX_LIBS}
     )
 
-#add_subdirectory(Widgets)
-
 SET(RABBITIM_SOURCES
     main.cpp
     MainWindow.cpp 
@@ -180,20 +179,6 @@ if(WIN32)
 endif(WIN32)
 
 SET(RABBITIM_RCC_FILES Resource/Resource.qrc)
-SET(TS_FILES Resource/translations/app_zh_CN.ts)
-
-#翻译
-OPTION(REFRESH_TRANSLATIONS "Refresh translations on compile" ON)
-MESSAGE("Refresh translations on compile: ${REFRESH_TRANSLATIONS}\n")
-IF(REFRESH_TRANSLATIONS)
-    IF(NOT Qt5_LRELEASE_EXECUTABLE)
-        MESSAGE(WARNING "Could not find lrelease. Your build won't contain translations.")
-    ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
-        qt5_add_translation(QM_FILES ${TS_FILES})
-        ADD_CUSTOM_TARGET(translations ALL DEPENDS ${QM_FILES})
-        FILE(COPY ${QM_FILES} DESTINATION "translations")
-    ENDIF(NOT Qt5_LRELEASE_EXECUTABLE)
-ENDIF(REFRESH_TRANSLATIONS)
 
 add_executable(${PROJECT_NAME}
         ${RABBITIM_SOURCES}
@@ -208,23 +193,39 @@ target_link_libraries(${PROJECT_NAME}
         Qt5::Xml
         Qt5::Core)
 
-SET(QT_INSTALL_DIR "${_qt5Core_install_prefix}")
+#翻译
+SET(TS_FILES Resource/translations/app_zh_CN.ts)
+OPTION(REFRESH_TRANSLATIONS "Refresh translations on compile" ON)
+MESSAGE("Refresh translations on compile: ${REFRESH_TRANSLATIONS}\n")
+IF(REFRESH_TRANSLATIONS)
+    IF(NOT Qt5_LRELEASE_EXECUTABLE)
+        MESSAGE(WARNING "Could not find lrelease. Your build won't contain translations.")
+    ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
+        qt5_add_translation(QM_FILES ${TS_FILES})
+        ADD_CUSTOM_TARGET(translations ALL DEPENDS ${QM_FILES})
+        foreach(_file ${QM_FILES})
+            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E make_directory translations
+                COMMAND ${CMAKE_COMMAND} -E copy ${_file} translations)
+        endforeach()
+        #FILE(COPY ${QM_FILES} DESTINATION "translations")
+    ENDIF(NOT Qt5_LRELEASE_EXECUTABLE)
+ENDIF(REFRESH_TRANSLATIONS)
 
-INSTALL(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}")
-INSTALL_QT_LIBRARY(Widgets)
-INSTALL_QT_LIBRARY(NetWork)
-INSTALL_QT_LIBRARY(Multimedia)
-INSTALL_QT_LIBRARY(Core)
-INSTALL_QT_LIBRARY(Xml)
-INSTALL_QT_LIBRARY(Gui)
-IF(WIN32)
-    INSTALL(FILES ${QT_INSTALL_DIR}/bin/icudt52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
-    INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuin52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
-    INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuuc52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
-ELSE()
-    INSTALL(FILES ${QT_INSTALL_DIR}/bin/icudt52.so DESTINATION "${CMAKE_INSTALL_PREFIX}")
-    INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuin52.so DESTINATION "${CMAKE_INSTALL_PREFIX}")
-    INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuuc52.so DESTINATION "${CMAKE_INSTALL_PREFIX}")
+#只发行版本才安装
+IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
+    INSTALL(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}")
+    SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Xml Qt5::Gui)
+    INSTALL_QT_LIBRARYS(${QT_LIBS})
+    IF(WIN32)
+        INSTALL(FILES ${QT_INSTALL_DIR}/bin/icudt52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
+        INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuin52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
+        INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuuc52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
+    ELSE()
+        INSTALL(FILES ${QT_INSTALL_DIR}/bin/icudt52.so DESTINATION "${CMAKE_INSTALL_PREFIX}")
+        INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuin52.so DESTINATION "${CMAKE_INSTALL_PREFIX}")
+        INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuuc52.so DESTINATION "${CMAKE_INSTALL_PREFIX}")
+    ENDIF()
+    INSTALL(FILES ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
+    INSTALL(FILES ${QM_FILES} DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
 ENDIF()
-INSTALL(FILES ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
-INSTALL(FILES ${QM_FILES} DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
