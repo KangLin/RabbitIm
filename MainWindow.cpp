@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
         pClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
 
         check = connect(pClient, SIGNAL(disconnected()),
-                        SLOT(clientDisconnected()));
+                        SLOT(slotClientDisconnected()));
         Q_ASSERT(check);
 
         check = connect(pClient, SIGNAL(error(QXmppClient::Error)),
@@ -188,7 +188,7 @@ void MainWindow::changeEvent(QEvent *e)
     }
 }
 
-void MainWindow::clientConnected()
+void MainWindow::slotClientConnected()
 {
     //关闭登录对话框  
     if(m_pLogin)
@@ -214,7 +214,7 @@ void MainWindow::clientConnected()
     m_bLogin = true;
 }
 
-void MainWindow::clientDisconnected()
+void MainWindow::slotClientDisconnected()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow:: DISCONNECTED");
     m_bLogin = false;
@@ -454,20 +454,20 @@ int MainWindow::LoadTranslate(QString szLocale)
         qApp->removeTranslator(m_pTranslatorQt);
         delete m_pTranslatorQt;
     }
-
-    LOG_MODEL_DEBUG("MainWindow", "Translate dir:%s", qPrintable(CGlobal::Instance()->GetDirTranslate()));
-
-    m_pTranslatorQt = new QTranslator(this);
-    m_pTranslatorQt->load("qt_" + szLocale, CGlobal::Instance()->GetDirTranslate());
-    qApp->installTranslator(m_pTranslatorQt);
-
+    
     if(m_pTranslatorApp)
     {
         qApp->removeTranslator(m_pTranslatorApp);
         delete m_pTranslatorApp;
     }
+    LOG_MODEL_DEBUG("MainWindow", "Translate dir:%s", qPrintable(CGlobal::Instance()->GetDirTranslate()));
+
+    m_pTranslatorQt = new QTranslator(this);
+    m_pTranslatorQt->load("qt_" + szLocale + ".qm", CGlobal::Instance()->GetDirTranslate());
+    qApp->installTranslator(m_pTranslatorQt);
+
     m_pTranslatorApp = new QTranslator(this);
-    m_pTranslatorApp->load("app_" + szLocale, CGlobal::Instance()->GetDirTranslate());
+    m_pTranslatorApp->load("app_" + szLocale + ".qm", CGlobal::Instance()->GetDirTranslate());
     qApp->installTranslator(m_pTranslatorApp);
 
     ui->retranslateUi(this);

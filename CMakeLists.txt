@@ -228,6 +228,7 @@ IF(REFRESH_TRANSLATIONS)
                 COMMAND ${CMAKE_COMMAND} -E make_directory translations
                 COMMAND ${CMAKE_COMMAND} -E copy ${_file} translations)
         endforeach()
+        FILE(COPY ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm DESTINATION "translations")
         #FILE(COPY ${QM_FILES} DESTINATION "translations")
     ENDIF(NOT Qt5_LRELEASE_EXECUTABLE)
 ENDIF(REFRESH_TRANSLATIONS)

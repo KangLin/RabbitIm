@@ -78,7 +78,7 @@ void CFrmLogin::on_pbOk_clicked()
     bool check = connect(CGlobal::Instance()->GetXmppClient(),
                          SIGNAL(connected()),
                          (MainWindow*)(this->parent()),
-                         SLOT(clientConnected()));
+                         SLOT(slotClientConnected()));
     Q_ASSERT(check);
 
     ui->lbePrompt->setText(tr("Being Login..."));

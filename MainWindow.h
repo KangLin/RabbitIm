@@ -55,8 +55,8 @@ signals:
 
 protected slots:
     void About();
-    void clientConnected();
-    void clientDisconnected();
+    void slotClientConnected();
+    void slotClientDisconnected();
     void clientError(QXmppClient::Error e);
     void clientIqReceived(const QXmppIq &iq);
     void stateChanged(QXmppClient::State state);
