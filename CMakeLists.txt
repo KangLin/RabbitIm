@@ -1,16 +1,17 @@
 cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 
+project(RabbitIm)
+
 include(cmake/RabbitImUtils.cmake)
 
+# 建立要删除的文件
 CONFIGURE_FILE(
     "${CMAKE_SOURCE_DIR}/cmake_uninstall.cmake.in"
     "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
     IMMEDIATE @ONLY)
-
+# 建立删除目标
 ADD_CUSTOM_TARGET(uninstall
     "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
-
-#TODO:判断 qt 版本
 
 # Find Git Version Patch
 FIND_PROGRAM(GIT git)
@@ -32,10 +33,10 @@ ENDIF(GIT)
 
 MESSAGE("\n")
 
-project(RabbitIm)
-
 #增加pkgconfig模块
 #include(FindPkgConfig)
+
+#TODO:判断 qt 版本
 
 FIND_PACKAGE(Qt5 CONFIG REQUIRED  Core Network Xml Multimedia Widgets LinguistTools)
 SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
@@ -56,37 +57,33 @@ ELSE(STATIC)
     ADD_DEFINITIONS(-DQT_SHARED)
 ENDIF(STATIC)
 
-IF(MINGW) 
+#设置头文件包含位置 
+SET(CMAKE_INCLUDE_CURRENT_DIR ON)
+IF(MSVC)
+    SET(TOOLCHAIN_NAME windows_msvc)
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt")
+ELSEIF(MINGW)
+    SET(TOOLCHAIN_NAME windows_mingw)
     # Windows compatibility
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
     # Statically link with libgcc
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static -static-libgcc -static-libstdc++ ")
-ELSEIF(MSVC)
-    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt")
-ENDIF(MINGW)
-
-IF(ANDROID)
-    ADD_DEFINITIONS(ANDROID MOBILE)
-ENDIF(ANDROID)
-
-#设置头文件包含位置 
-SET(CMAKE_INCLUDE_CURRENT_DIR ON)
-IF(MSVC)
-    SET(TOOLCHAIN windows_msvc)
-ELSEIF(MINGW)
-    SET(TOOLCHAIN windows_mingw)
 ELSEIF(ANDROID)
-    SET(TOOLCHAIN android)
+    SET(TOOLCHAIN_NAME android)
+    ADD_DEFINITIONS(-DMOBILE)
+    #SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -Wno-psabi -march=armv7-a -mfloat-abi=softfp -mfpu=vfp -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums  -Wa,--noexecstack -gdwarf-2 -marm -fno-omit-frame-pointer -Wall -Wno-psabi -W -fPIE)
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined -Wl,-z,noexecstack -shared")
 ELSE(LINUX OR UNIX)
-    SET(TOOLCHAIN unix)
+    SET(TOOLCHAIN_NAME unix)
 ENDIF()
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR} 
     ${CMAKE_SOURCE_DIR}/Widgets/FrmCustom
-    ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN}/include)
+    ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/include)
 
-SET(THIRD_LIB_DIR ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN}/lib)
+SET(THIRD_LIB_DIR ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/lib)
 LINK_DIRECTORIES(${THIRD_LIB_DIR})
 
+# 依赖的第三方库
 OPTION(USE_VPX "Use vpx library" ON)
 MESSAGE("Use vpx library:${USE_VPX}\n")
 IF(USE_VPX)
@@ -192,13 +189,17 @@ endif(WIN32)
 
 SET(RABBITIM_RCC_FILES Resource/Resource.qrc  AppIcon.rc)
 
-IF(WIN32)
-add_executable(${PROJECT_NAME} WIN32
+IF(ANDROID)
+    add_library(${PROJECT_NAME} SHARED 
+        ${RABBITIM_SOURCES}
+        ${RABBITIM_RCC_FILES})
+ELSEIF(WIN32)
+    add_executable(${PROJECT_NAME} WIN32
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
         )
 ELSE()
-add_executable(${PROJECT_NAME} 
+    add_executable(${PROJECT_NAME} 
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
         )
@@ -234,7 +235,11 @@ ENDIF(REFRESH_TRANSLATIONS)
 
 #只发行版本才安装
 IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
-    INSTALL(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}")
+    IF(ANDROID)
+        INSTALL(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}")
+    ELSE()
+        INSTALL(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}")
+    ENDIF()
     INSTALL(FILES ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
     INSTALL(FILES ${QM_FILES} DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
     SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Xml)
