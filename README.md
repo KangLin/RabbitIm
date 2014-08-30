@@ -149,6 +149,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 
 2. msvc：
 主页：http://msdn.microsoft.com/zh-cn/vstudio
+当前使用版本：vs 2013
 
 3. mingw、msys（或者cygwin）：
 mingw主页：http://www.mingw.org/  

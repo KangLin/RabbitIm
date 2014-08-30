@@ -28,10 +28,10 @@
 CDlgScreenShot::CDlgScreenShot(QWidget *parent)
     :QDialog(parent,
              Qt::FramelessWindowHint
-             | Qt::Tool
-             | Qt::WindowStaysOnTopHint
-             | Qt::CustomizeWindowHint
              | Qt::X11BypassWindowManagerHint  //这个标志是在x11下有用,查看帮助QWidget::showFullScreen()  
+             /*| Qt::Tool
+             | Qt::WindowStaysOnTopHint
+             | Qt::CustomizeWindowHint*/
              )
 {
     this->setFixedSize(qApp->desktop()->size());
@@ -60,6 +60,7 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
 
 CDlgScreenShot::~CDlgScreenShot()
 {
+    LOG_MODEL_DEBUG("screen shot", "CDlgScreenShot::~CDlgScreenShot");
     if(m_pEditor)
         delete m_pEditor;
 }
