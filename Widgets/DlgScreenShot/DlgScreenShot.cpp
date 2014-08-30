@@ -124,6 +124,7 @@ void CDlgScreenShot::mousePressEvent(QMouseEvent *e)
     }
     else if(e->button() == Qt::RightButton)
     {
+        setCursor(Qt::CrossCursor);
         if(m_pEditor->isHidden())
         {
             this->reject();
