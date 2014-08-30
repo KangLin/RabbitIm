@@ -14,6 +14,7 @@ class CDlgScreenShot : public QDialog
 
 public:
     CDlgScreenShot(QWidget* parent = 0);
+    virtual ~CDlgScreenShot();
     QPixmap getSelectedImg();
 
 protected:
@@ -41,7 +42,7 @@ private:
     int m_height;
     bool m_bGrabing;
     QImage m_bgImg;
-    CWdgScreenEditor* m_editor;
+    CWdgScreenEditor* m_pEditor;
     QPixmap m_selectImg;
 };
 

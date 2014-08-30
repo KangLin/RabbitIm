@@ -44,15 +44,24 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
     //===================================
     WId id = qApp->desktop()->winId();
     QRect rect = QRect(m_x,m_y,m_width,m_height).normalized();
-    LOG_MODEL_DEBUG("screen shot", rect.width());
+    LOG_MODEL_DEBUG("screen shot", "width:%d", rect.width());
     QPixmap pix = QPixmap();
     QScreen *pScreen = QGuiApplication::primaryScreen();
     pix = pScreen->grabWindow(id, rect.x(), rect.y(), rect.width(), rect.height());
-    m_editor = new CWdgScreenEditor(pix,this);//TODO:内存泄漏?  
-    m_editor->hide();
-    connect(m_editor,SIGNAL(sigReset()),this,SLOT(onSigReset()));
-    connect(m_editor,SIGNAL(sigSelectImg(QPixmap)),this,SLOT(onSigSelectedImg(QPixmap)));
-    connect(m_editor,SIGNAL(sigCancel()),this,SLOT(onSigCancel()));
+    m_pEditor = new CWdgScreenEditor(pix, this);
+    if(m_pEditor)
+    {
+        m_pEditor->hide();
+        connect(m_pEditor,SIGNAL(sigReset()),this,SLOT(onSigReset()));
+        connect(m_pEditor,SIGNAL(sigSelectImg(QPixmap)),this,SLOT(onSigSelectedImg(QPixmap)));
+        connect(m_pEditor,SIGNAL(sigCancel()),this,SLOT(onSigCancel()));
+    }
+}
+
+CDlgScreenShot::~CDlgScreenShot()
+{
+    if(m_pEditor)
+        delete m_pEditor;
 }
 
 QPixmap CDlgScreenShot::getSelectedImg()
@@ -115,13 +124,13 @@ void CDlgScreenShot::mousePressEvent(QMouseEvent *e)
     }
     else if(e->button() == Qt::RightButton)
     {
-        if(m_editor->isHidden())
+        if(m_pEditor->isHidden())
         {
             this->reject();
         }
         else
         {
-            m_editor->hide();//改变右键方式  
+            m_pEditor->hide();//改变右键方式  
             onSigReset();
         }
     }
@@ -145,10 +154,9 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         QPixmap pix = QPixmap();
         QScreen *pScreen = QGuiApplication::primaryScreen();
         pix = pScreen->grabWindow(id,rect.x(),rect.y(),rect.width(),rect.height());
-//        ImageEditor* editor = new ImageEditor(QPixmap(),this);
-        m_editor->resetByImg(pix);
-        m_editor->move(rect.topLeft());//移动到当前选择的rect的左上角  
-        m_editor->show();
+        m_pEditor->resetByImg(pix);
+        m_pEditor->move(rect.topLeft());//移动到当前选择的rect的左上角  
+        m_pEditor->show();
     }
 }
 
