@@ -21,25 +21,34 @@
 #include <QMessageBox>
 #include <QClipboard>
 #include <QColorDialog>
-
+#include <QScreen>
 #include "DlgScreenShot.h"
+#include "../../Global.h"
 
 CDlgScreenShot::CDlgScreenShot(QWidget *parent)
-    :QDialog(parent,Qt::FramelessWindowHint|Qt::Tool|Qt::WindowStaysOnTopHint)
+    :QDialog(parent,
+             Qt::FramelessWindowHint
+             | Qt::Tool
+             | Qt::WindowStaysOnTopHint
+             | Qt::CustomizeWindowHint
+             | Qt::X11BypassWindowManagerHint  //这个标志是在x11下有用,查看帮助QWidget::showFullScreen()  
+             )
 {
+    this->setFixedSize(qApp->desktop()->size());
     resize(qApp->desktop()->size());
     m_bgImg = QImage(size(),QImage::Format_ARGB32_Premultiplied);
     setAttribute(Qt::WA_TranslucentBackground,true);
     setCursor(Qt::CrossCursor);
-    drawWindow();
     initSelectParam();
+    drawWindow();
     //===================================
     WId id = qApp->desktop()->winId();
     QRect rect = QRect(m_x,m_y,m_width,m_height).normalized();
-    qDebug()<<rect.width();
+    LOG_MODEL_DEBUG("screen shot", rect.width());
     QPixmap pix = QPixmap();
-    pix = QPixmap::grabWindow(id,rect.x(),rect.y(),rect.width(),rect.height());
-    m_editor = new CWdgScreenEditor(pix,this);
+    QScreen *pScreen = QGuiApplication::primaryScreen();
+    pix = pScreen->grabWindow(id, rect.x(), rect.y(), rect.width(), rect.height());
+    m_editor = new CWdgScreenEditor(pix,this);//TODO:内存泄漏?  
     m_editor->hide();
     connect(m_editor,SIGNAL(sigReset()),this,SLOT(onSigReset()));
     connect(m_editor,SIGNAL(sigSelectImg(QPixmap)),this,SLOT(onSigSelectedImg(QPixmap)));
@@ -68,7 +77,9 @@ void CDlgScreenShot::drawWindow()
     pen.setWidth(penWidth);
     painter.setPen(pen);
     painter.fillRect(m_x,m_y,m_width,m_height,Qt::transparent);
-    painter.drawRect(m_x - penWidth,m_y - penWidth,m_width + 2 * penWidth,m_height + 2 * penWidth);
+    painter.drawRect(m_x - penWidth, m_y - penWidth, 
+                     m_width + 2 * penWidth, 
+                     m_height + 2 * penWidth);
     repaint();//即时强制重绘 
 }
 
@@ -80,7 +91,7 @@ void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)
     }
     if(e->buttons() & Qt::LeftButton)
     {
-        QPoint pos = e->pos();
+        QPoint pos = QCursor::pos();//e->pos();
         m_width = pos.x() - m_x;
         m_height = pos.y() - m_y;
         drawWindow();
@@ -89,15 +100,18 @@ void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)
 
 void CDlgScreenShot::mousePressEvent(QMouseEvent *e)
 {
+    LOG_MODEL_DEBUG("screen shot", "e->pos:x:%d;y:%d;QCursor::pos:x:%d;y",
+                    e->pos().x(), e->pos().y(),
+                    QCursor::pos().x(), QCursor::pos().y());
     if(e->button() == Qt::LeftButton)
     {
-        qDebug()<<e->pos();
         if(!m_bGrabing){
             QWidget::mousePressEvent(e);
             return;
         }
-        m_x = e->pos().x();
-        m_y = e->pos().y();
+        QPoint pos = QCursor::pos();
+        m_x = pos.x();
+        m_y = pos.y();
     }
     else if(e->button() == Qt::RightButton)
     {
@@ -129,7 +143,8 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         QRect rect = QRect(m_x,m_y,m_width,m_height).normalized();
         qDebug()<<rect.width();
         QPixmap pix = QPixmap();
-        pix = QPixmap::grabWindow(id,rect.x(),rect.y(),rect.width(),rect.height());
+        QScreen *pScreen = QGuiApplication::primaryScreen();
+        pix = pScreen->grabWindow(id,rect.x(),rect.y(),rect.width(),rect.height());
 //        ImageEditor* editor = new ImageEditor(QPixmap(),this);
         m_editor->resetByImg(pix);
         m_editor->move(rect.topLeft());//移动到当前选择的rect的左上角  

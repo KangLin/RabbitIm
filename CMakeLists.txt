@@ -179,13 +179,8 @@ SET(RABBITIM_SOURCES
     Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp 
     Widgets/FrmMain/FrmMain.cpp 
     Widgets/FrmCustom/MenuMessageSend.cpp
+    Widgets/DlgScreenShot/DlgScreenShot.cpp
 )
-
-if(WIN32)
-    SET(RABBITIM_SOURCES 
-        ${RABBITIM_SOURCES}
-        Widgets/DlgScreenShot/DlgScreenShot.cpp)
-endif(WIN32)
 
 SET(RABBITIM_RCC_FILES Resource/Resource.qrc  AppIcon.rc)
 

@@ -59,3 +59,7 @@ qApp->applicationDirPath()得到的是安装目录下lib的位置。所以向上
 3. 查询房间的item
 4. QXmppMucRoom 会自动查询房间信息，并触发相应事件。
 5. 当用户退出 IM 时，会自动退出房间。
+
+* 用Qt写一个截屏工具:http://blog.csdn.net/milujun/article/details/22595531
+
+* Qt中屏幕或窗口截图功能的实现:http://www.cnblogs.com/wowk/archive/2013/07/07/3176594.html

@@ -50,7 +50,7 @@ private slots:
     void ChangedPresence(QXmppPresence::AvailableStatusType status);
 
     void slotSendFileTriggered();//20140712文件发送  
-#if WIN32
+#ifndef MOBILE
     void slotShotScreenTriggered();//20140712截屏  
 #endif
 

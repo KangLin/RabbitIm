@@ -6,7 +6,7 @@
 #include "../FrmVideo/FrmVideo.h"
 #include "../FrmUservCard/FrmUservCard.h"
 
-#if WIN32
+#ifndef MOBILE
 #include "../DlgScreenShot/DlgScreenShot.h"
 #endif
 
@@ -34,7 +34,7 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFileTriggered()));
     Q_ASSERT(check);
 
-#if WIN32
+#ifndef MOBILE
     pAction = m_MoreMenu.addAction(tr("shot screen"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotShotScreenTriggered()));
     Q_ASSERT(check);
@@ -89,7 +89,7 @@ void CFrmMessage::slotSendFileTriggered()
     CGlobal::Instance()->GetMainWindow()->sendFile(m_pRoster->Jid(),fileName);
 }
 
-#if WIN32
+#ifndef MOBILE
 void CFrmMessage::slotShotScreenTriggered()
 {
     CDlgScreenShot dlg;
