@@ -85,7 +85,7 @@ void CDlgScreenShot::drawWindow()
     QPen pen = painter.pen();
     pen.setWidth(penWidth);
     painter.setPen(pen);
-    painter.fillRect(m_x,m_y,m_width,m_height,Qt::transparent);
+    painter.fillRect(m_x, m_y, m_width, m_height, Qt::transparent);
     painter.drawRect(m_x - penWidth, m_y - penWidth, 
                      m_width + 2 * penWidth, 
                      m_height + 2 * penWidth);
@@ -94,6 +94,9 @@ void CDlgScreenShot::drawWindow()
 
 void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)
 {
+    LOG_MODEL_DEBUG("screen shot", "mouseMoveEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
+                    e->pos().x(), e->pos().y(),
+                    QCursor::pos().x(), QCursor::pos().y());
     if(!m_bGrabing){
         QWidget::mouseMoveEvent(e);
         return;
@@ -109,7 +112,7 @@ void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)
 
 void CDlgScreenShot::mousePressEvent(QMouseEvent *e)
 {
-    LOG_MODEL_DEBUG("screen shot", "e->pos:x:%d;y:%d;QCursor::pos:x:%d;y",
+    LOG_MODEL_DEBUG("screen shot", "mousePressEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
                     e->pos().x(), e->pos().y(),
                     QCursor::pos().x(), QCursor::pos().y());
     if(e->button() == Qt::LeftButton)
@@ -137,9 +140,11 @@ void CDlgScreenShot::mousePressEvent(QMouseEvent *e)
     }
 }
 
-
 void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
 {
+    LOG_MODEL_DEBUG("screen shot", "mouseReleaseEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
+                    e->pos().x(), e->pos().y(),
+                    QCursor::pos().x(), QCursor::pos().y());
     if(!m_bGrabing)
     {
         QWidget::mouseReleaseEvent(e);
