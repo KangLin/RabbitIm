@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     //设置插件路径(msvc 下没有用）   
-    a.addLibraryPath(QCoreApplication::applicationDirPath() + "/plugins");
-    a.addLibraryPath(QCoreApplication::applicationDirPath());
+    a.addLibraryPath(a.applicationDirPath() + QDir::separator() + "plugins");
+    a.addLibraryPath(a.applicationDirPath());
 
     CTool::SetFFmpegLog();
 

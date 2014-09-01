@@ -1,8 +1,6 @@
-cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0.1 FATAL_ERROR)
 
 project(RabbitIm)
-
-include(cmake/RabbitImUtils.cmake)
 
 # 建立要删除的文件
 CONFIGURE_FILE(
@@ -38,8 +36,10 @@ MESSAGE("\n")
 
 #TODO:判断 qt 版本
 
-FIND_PACKAGE(Qt5 CONFIG REQUIRED  Core Network Xml Multimedia Widgets LinguistTools)
+FIND_PACKAGE(Qt5 CONFIG REQUIRED Gui Core Network Xml Multimedia Widgets LinguistTools)
 SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
+
+include(cmake/RabbitImUtils.cmake)
 
 #打开 qt 编译工具
 SET(CMAKE_AUTOUIC ON)
@@ -56,6 +56,10 @@ IF(STATIC)
 ELSE(STATIC)
     ADD_DEFINITIONS(-DQT_SHARED)
 ENDIF(STATIC)
+
+IF(CMAKE_BUILD_TYPE MATCHES Debug)
+    add_definitions(-DDEBUG)# -DDEBUG_VIDEO_TIME )
+ENDIF()
 
 #设置头文件包含位置 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -238,12 +242,15 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
     IF(ANDROID)
         INSTALL(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}")
     ELSE()
+        #设置安装目录
+        SET(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install")
         INSTALL(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}")
     ENDIF()
     INSTALL(FILES ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
     INSTALL(FILES ${QM_FILES} DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
-    SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Xml)
+    SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Gui Qt5::Xml)
     INSTALL_QT_LIBRARYS(${QT_LIBS})
+    INSTALL_QT_PLUGINS(Qt5Gui_PLUGINS Qt5Network_PLUGINS Qt5Widgets_PLUGINS Qt5Xml_PLUGINS)
     IF(WIN32)
         INSTALL(FILES ${QT_INSTALL_DIR}/bin/icudt52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
         INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuin52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")

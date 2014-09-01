@@ -455,7 +455,7 @@ QString CGlobal::GetDirApplication()
 {
 #ifdef ANDROID
     //LOG_MODEL_DEBUG("global", "GetDirApplication:%s", qApp->applicationDirPath().toStdString().c_str());
-    return qApp->applicationDirPath() + "/..";
+    return qApp->applicationDirPath() + QDir::separator() + "..";
 #else
     //LOG_MODEL_DEBUG("global", "GetDirApplication:%s", qApp->applicationDirPath().toStdString().c_str());
     return qApp->applicationDirPath();
@@ -464,18 +464,18 @@ QString CGlobal::GetDirApplication()
 
 QString CGlobal::GetDirApplicationConfigure()
 {
-    return GetDirApplication() + "/conf";
+    return GetDirApplication() + QDir::separator() + "conf";
 }
 
 //应用程序的配置文件  
 QString CGlobal::GetApplicationConfigureFile()
 {
-    return GetDirApplicationConfigure() + "/app.conf";
+    return GetDirApplicationConfigure() + QDir::separator() + "app.conf";
 }
 
 QString CGlobal::GetDirTranslate()
 {
-    return GetDirApplication() + "/translations";
+    return GetDirApplication() + QDir::separator() + "translations";
 }
 
 QString CGlobal::GetDirUserData(const QString bareJid)
@@ -484,14 +484,14 @@ QString CGlobal::GetDirUserData(const QString bareJid)
     if(!bareJid.isEmpty())
         jid = QXmppUtils::jidToBareJid(bareJid);
     jid = jid.replace("@", ".");
-    QString path = GetDirApplicationConfigure() + "/Users";
+    QString path = GetDirApplicationConfigure() + QDir::separator() + "Users";
     QDir d;
     if(!d.exists(path))
     {
         if(!d.mkdir(path))
             LOG_ERROR("mkdir path fail:%s", qPrintable(path));
     }
-    path = path + "/" + jid;
+    path = path + QDir::separator() + jid;
     if(!d.exists(path))
     {
         if(!d.mkdir(path))
@@ -502,7 +502,7 @@ QString CGlobal::GetDirUserData(const QString bareJid)
 
 QString CGlobal::GetDirUserAvatar()
 {
-    QString dirHeads = GetDirUserData() + "/Heads";
+    QString dirHeads = GetDirUserData() + QDir::separator() + "Heads";
     QDir d;
     if(!d.exists(dirHeads))
         if(!d.mkdir(dirHeads))
@@ -517,7 +517,7 @@ QString CGlobal::GetFileUserAvatar(QString bareJid)
         jid = QXmppUtils::jidToBareJid(bareJid);
     jid = jid.replace("@", ".");
 
-    return GetDirUserAvatar() + "/" + jid + ".png";
+    return GetDirUserAvatar() + QDir::separator() + jid + ".png";
 }
 
 int CGlobal::SetAutoLogin(bool bAuto)
