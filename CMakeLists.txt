@@ -188,6 +188,7 @@ SET(RABBITIM_SOURCES
 
 SET(RABBITIM_RCC_FILES Resource/Resource.qrc  AppIcon.rc)
 
+#生成目标
 IF(ANDROID)
     add_library(${PROJECT_NAME} SHARED 
         ${RABBITIM_SOURCES}
