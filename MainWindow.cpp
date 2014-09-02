@@ -17,7 +17,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    m_TrayIcon(QIcon(":/icon/AppIcon"), this),
+    m_TrayIcon( this),
     m_TrayIconMenu(this),
     m_ActionGroupStatus(this),
     m_ActionGroupTranslator(this),
@@ -80,6 +80,8 @@ MainWindow::MainWindow(QWidget *parent) :
         CFrmVideo::instance();
     }
 
+    //设置应用程序图标  
+    this->setWindowIcon(QIcon(":/icon/AppIcon"));
     if(QSystemTrayIcon::isSystemTrayAvailable())
     {
         check = connect(&m_TrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
