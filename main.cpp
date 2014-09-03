@@ -13,6 +13,8 @@ int main(int argc, char *argv[])
     //设置插件路径(msvc 下没有用）   
     a.addLibraryPath(a.applicationDirPath() + QDir::separator() + "plugins");
     a.addLibraryPath(a.applicationDirPath());
+    a.addLibraryPath(CGlobal::Instance()->GetDirApplication());
+    a.addLibraryPath(CGlobal::Instance()->GetDirApplication() + QDir::separator() + "plugins");
 
     CTool::SetFFmpegLog();
 
