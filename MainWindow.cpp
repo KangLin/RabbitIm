@@ -172,6 +172,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     if(QMessageBox::Ok == msg.exec())
     {
         //退出程序  
+        CGlobal::Instance()->GetXmppClient()->disconnectFromServer();
         e->accept();
         QApplication::closeAllWindows();
     }
@@ -604,6 +605,7 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
             QXmppPresence presence;
             QXmppPresence::AvailableStatusType status = it.key();
             CGlobal::Instance()->SetStatus(status);
+            presence.setAvailableStatusType(status);
             CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
             act->setCheckable(true);
             act->setChecked(true);
