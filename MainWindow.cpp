@@ -250,10 +250,12 @@ void MainWindow::clientIqReceived(const QXmppIq &iq)
     LOG_MODEL_DEBUG("MainWindow", "MainWindow:: iq Received:%d", iq.error().condition());
 }
 
+//得到本地用户形象信息  
 void MainWindow::slotClientVCardReceived()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotClientVCardReceived");
-    CGlobal::Instance()->GetRoster()->SetVCard(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard());
+    CGlobal::Instance()->GetRoster()->SetVCard(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
+                                               CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard().to());
     m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetShowName()));
 }
 

@@ -16,9 +16,7 @@ class CRoster : public QObject
 {
     Q_OBJECT
 public:
-    //参数 parent 必须为 MainWindow  
     explicit CRoster(QObject *parent = NULL);
-    //parent 必须为 MainWindow  
     explicit CRoster(QXmppRosterIq::Item item, QObject* parent = NULL);
     ~CRoster();
 
@@ -35,12 +33,12 @@ public:
     QString Description();
     QImage Photo();
 
-    int SetVCard(const QXmppVCardIq &vCard);
+    int SetVCard(const QXmppVCardIq &vCard, QString jid = QString());
 
     QSet<QString> Groups();
 
     QList<QStandardItem *> GetItem(); //得到条目对象  
-    int UpdateItems(QXmppRosterIq::Item item);//更新与此好友相关条目对象内容  
+    int UpdateItems(QXmppRosterIq::Item &item);//更新与此好友相关条目对象内容  
 
     QXmppPresence::AvailableStatusType GetStatus();
     QXmppRosterIq::Item::SubscriptionType GetSubScriptionType();
@@ -59,6 +57,7 @@ public slots:
 
 private:
     int Init();
+    int UpdateItemInfo(QXmppRosterIq::Item &item);
     QString GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType type) const;
     //更新条目的显示内容  
     int UpdateItemDisplay();
@@ -74,8 +73,15 @@ public slots:
 
 private:
     QString m_szJid;
-    QXmppRosterIq::Item m_RosterItem;
-    QXmppVCardIq m_RosterVCard;
+    QString m_szName;
+    QSet<QString> m_Groups;
+    QString m_szNick;
+    QDate m_Birthday;
+    QString m_szEmail;
+    QString m_szDescription;
+    QImage m_imgPhoto;
+    QXmppRosterIq::Item::SubscriptionType m_subscriptionType;
+
     QXmppPresence::AvailableStatusType m_Status;//好友出席状态  
 
     std::list<QStandardItem*> m_lstUserListItem; //这个要交给控件释放 

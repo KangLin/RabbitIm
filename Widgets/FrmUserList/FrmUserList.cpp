@@ -417,6 +417,7 @@ void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
     }
 }
 
+//得到好友形象信息  
 void CFrmUserList::slotvCardReceived(const QXmppVCardIq& vCard)
 {
     QString jid = QXmppUtils::jidToBareJid(vCard.from());

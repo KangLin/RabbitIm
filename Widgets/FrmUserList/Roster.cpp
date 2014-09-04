@@ -12,7 +12,7 @@ CRoster::CRoster(QObject *parent) :
 CRoster::CRoster(QXmppRosterIq::Item item, QObject *parent) : QObject(parent)
 {
     Init();
-    m_RosterItem = item;
+    UpdateItemInfo(item);
 }
 
 CRoster::~CRoster()
@@ -51,9 +51,7 @@ QString CRoster::ShowName()
 
 QString CRoster::Name()
 {
-    QString n = m_RosterVCard.fullName();
-    if(n.isEmpty())
-        n = m_RosterItem.name();
+    QString n = m_szName;
     if(n.isEmpty())
         n = QXmppUtils::jidToUser(Jid());
     return n;
@@ -66,12 +64,7 @@ QString CRoster::BareJid()
 
 QString CRoster::Jid()
 {
-    QString s = m_szJid;
-    if(s.isEmpty())
-        s = m_RosterItem.bareJid();
-    if(s.isEmpty()) //得到本地用户 JID  
-        s = m_RosterVCard.to();
-    return s;
+    return m_szJid;
 }
 
 QString CRoster::Domain()
@@ -92,45 +85,53 @@ QString CRoster::Resouce()
 
 QString CRoster::Nick()
 {
-    return m_RosterVCard.nickName();
+    return m_szNick;
 }
 
 QDate CRoster::Birthday()
 {
-    return m_RosterVCard.birthday();
+    return m_Birthday;
 }
 
 QString CRoster::Email()
 {
-    return m_RosterVCard.email();
+    return m_szEmail;
 }
 
 QString CRoster::Description()
 {
-    return m_RosterVCard.description();
+    return m_szDescription;
 }
 
 QImage CRoster::Photo()
 {
-    QByteArray photo = m_RosterVCard.photo();
+    if(m_imgPhoto.isNull())
+        return QImage(":/icon/AppIcon");
+
+    return m_imgPhoto;
+}
+
+int CRoster::SetVCard(const QXmppVCardIq &vCard, QString jid)
+{
+    if(!vCard.fullName().isEmpty())
+        m_szName = vCard.fullName();
+    m_szNick = vCard.nickName();
+    m_Birthday = vCard.birthday();
+    m_szEmail = vCard.email();
+    m_szDescription = vCard.description();
+    //保存头像  
+    QByteArray photo = vCard.photo();
     QBuffer buffer;
     buffer.setData(photo);
     buffer.open(QIODevice::ReadOnly);
     QImageReader imageReader(&buffer);
-    QImage image = imageReader.read();
+    m_imgPhoto = imageReader.read();
     buffer.close();
-    if(image.isNull())
-        return QImage(":/icon/AppIcon");
 
-    return image;
-}
-
-int CRoster::SetVCard(const QXmppVCardIq &vCard)
-{
-    m_RosterVCard = vCard;
-
+    if(!jid.isEmpty())
+        m_szJid = jid;
     //保存头像到本地  
-    QImageWriter imageWriter(CGlobal::Instance()->GetFileUserAvatar(this->BareJid()), "png");
+    QImageWriter imageWriter(CGlobal::Instance()->GetFileUserAvatar(BareJid()), "png");
     if(!imageWriter.write(Photo()))
         LOG_MODEL_ERROR("CRoster", "Save avater error, %s", imageWriter.errorString().toStdString().c_str());
 
@@ -140,7 +141,7 @@ int CRoster::SetVCard(const QXmppVCardIq &vCard)
 
 QSet<QString> CRoster::Groups()
 {
-    return m_RosterItem.groups();
+    return m_Groups;
 }
 
 QXmppPresence::AvailableStatusType CRoster::GetStatus()
@@ -150,7 +151,7 @@ QXmppPresence::AvailableStatusType CRoster::GetStatus()
 
 QXmppRosterIq::Item::SubscriptionType CRoster::GetSubScriptionType()
 {
-    return m_RosterItem.subscriptionType();
+    return m_subscriptionType;
 }
 
 QString CRoster::GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType type) const
@@ -220,10 +221,20 @@ int CRoster::DeleteItems()
     return 0;
 }
 
-int CRoster::UpdateItems(QXmppRosterIq::Item item)
+int CRoster::UpdateItems(QXmppRosterIq::Item &item)
 {
-    m_RosterItem = item;
+    UpdateItemInfo(item);
     DeleteItems();
+    return 0;
+}
+
+int CRoster::UpdateItemInfo(QXmppRosterIq::Item &item)
+{
+    m_szJid = item.bareJid();
+    if(!item.name().isEmpty())
+        m_szName = item.name();
+    m_Groups = item.groups();
+    m_subscriptionType = item.subscriptionType();
     return 0;
 }
 
