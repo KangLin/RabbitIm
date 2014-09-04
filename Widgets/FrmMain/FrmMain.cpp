@@ -20,6 +20,15 @@ CFrmMain::~CFrmMain()
     delete ui;
 }
 
+int CFrmMain::Init()
+{
+    //初始化  
+    m_UserList.Init();
+    //TODO:初始化最近接收消息列表  
+    
+    return 0;
+}
+
 CRoster* CFrmMain::GetRoster(QString jid)
 {
     return m_UserList.GetRoster(jid);

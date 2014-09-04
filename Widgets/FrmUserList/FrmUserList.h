@@ -65,7 +65,15 @@ private:
     //根据好友jid，得到相应的 CRoster 对象  
     CRoster* GetRoster(QString szJid);
 
+    int Init();
+    int Clean();
+
+    //从本地加载好友列表  
+    int LoadUserList();
+    //保存好友列表到本地· 
+    int SaveUserList();
     //向用户列表中插入用户  
+    int InsertUser(CRoster* pRoster);
     int InsertUser(QXmppRosterIq::Item rosterItem);
     //在组队列中插入组  
     QStandardItem*  InsertGroup(QString szGroup);
@@ -122,7 +130,7 @@ private:
 
     CCustomTreeView m_UserList;
     QStandardItemModel *m_pModel;           //好友列表树型控件   
-    MainWindow *m_pMainWindow;
+
     QMap<QString, CRoster*> m_Rosters;      //好友列表:<bareJic, CRoster>  
     QMap<QString, QStandardItem*> m_Groups; //组列表:<组名,QStandardItem>  
     QString m_LastUser;                     //接收的最后一个消息用户  

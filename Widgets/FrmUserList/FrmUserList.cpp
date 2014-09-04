@@ -10,6 +10,8 @@
 #include <QMessageBox>
 #include <QDebug>
 #include "Roster.h"
+#include <fstream>
+#include <memory> 
 
 CFrmUserList::CFrmUserList(QWidget *parent) :
     QFrame(parent),
@@ -43,8 +45,6 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     check = connect(&m_UserList, SIGNAL(customContextMenuRequested(QPoint)),
                     SLOT(slotCustomContextMenuRequested(QPoint)));
     Q_ASSERT(check);
-
-    m_pMainWindow = CGlobal::Instance()->GetMainWindow();
 
     check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuInitOperator(QMenu*)),
                     SLOT(slotAddToMainMenu(QMenu*)));
@@ -94,6 +94,8 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
 
 CFrmUserList::~CFrmUserList()
 {
+    Clean();
+
     QMap<QString, CRoster*>::iterator it;
     for(it = m_Rosters.begin(); it != m_Rosters.end(); it++)
     {
@@ -102,10 +104,77 @@ CFrmUserList::~CFrmUserList()
 
     //删除组 m_Groups，不需要删，列表控件析构时会自己删除  
 
-    delete ui;   
-    
+    delete ui;
+
     if(m_pModel)
         delete m_pModel;
+}
+
+int CFrmUserList::Init()
+{
+    //从本地加载好友列表  
+    LoadUserList();
+
+    return 0;
+}
+
+//从本地加载好友列表  
+int CFrmUserList::LoadUserList()
+{
+    QString szFile = CGlobal::Instance()->GetDirUserData(CGlobal::Instance()->GetBareJid()) 
+            + QDir::separator() + CGlobal::Instance()->GetBareJid() + ".txt";
+    
+    std::ifstream in(szFile.toStdString().c_str(), std::ios::binary);
+    if(!in.is_open())
+    {
+        LOG_MODEL_WARNING("CFrmUserList", "Don't open file:%s", szFile.toStdString().c_str());
+        return -1;
+    }
+    //版本号  
+    int nVersion = 0;
+    in >> nVersion;
+    LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
+    while(!in.eof())
+    {
+        std::shared_ptr<CRoster> roster(new CRoster());
+        *roster << in;
+    }
+    in.close();
+    return 0;
+}
+
+int CFrmUserList::SaveUserList()
+{
+    int nRet = 0;
+    QString szFile = CGlobal::Instance()->GetDirUserData(CGlobal::Instance()->GetBareJid()) 
+            + QDir::separator() + CGlobal::Instance()->GetBareJid() + ".txt";
+    
+    std::ofstream out(szFile.toStdString().c_str(), std::ios::binary);
+    if(!out.is_open())
+    {
+        LOG_MODEL_WARNING("CFrmUserList", "Don't open file:%s", szFile.toStdString().c_str());
+        return -1;
+    }
+    //版本号  
+    int nVersion = 1;
+    out << nVersion;
+    QMap<QString, CRoster*>::iterator it;
+    for(it = m_Rosters.begin(); it != m_Rosters.end(); it++)
+    {
+        *(*it) >> out;
+    }
+    out.close();
+    return nRet;
+}
+
+int CFrmUserList::Clean()
+{
+    CGlobal::Instance()->GetXmppClient()->rosterManager().disconnect(this);
+    CGlobal::Instance()->GetXmppClient()->vCardManager().disconnect(this);
+    CGlobal::Instance()->GetXmppClient()->disconnect(this);
+    CGlobal::Instance()->GetMainWindow()->disconnect(this);
+    SaveUserList();
+    return 0;
 }
 
 int CFrmUserList::InitMenu()
@@ -319,6 +388,32 @@ int CFrmUserList::UpdateGroup(CRoster* pRoster, QSet<QString> groups)
     }
 
     return 0;
+}
+
+int CFrmUserList::InsertUser(CRoster *pRoster)
+{
+    int nRet = 0;
+    if(NULL == pRoster)
+    {
+        LOG_MODEL_ERROR("CFrmUserList", "Don't memery");
+        return -1;
+    }
+    QMap<QString, CRoster*>::iterator itRosters;
+    itRosters = m_Rosters.find(pRoster->BareJid());
+    if(m_Rosters.end() == itRosters)
+    {
+        //新建好友对象实例  
+        m_Rosters.insert(pRoster->BareJid(), pRoster);
+    }
+    else
+    {
+        LOG_MODEL_ERROR("Roster", qPrintable("Error:User had existed"));
+        return -1;
+    }
+
+    nRet = UpdateGroup(pRoster, pRoster->Groups());
+
+    return nRet;
 }
 
 int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)

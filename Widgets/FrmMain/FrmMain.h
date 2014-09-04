@@ -25,6 +25,8 @@ private:
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent*);
 
+    int Init();
+
     //查找好友对象  
     CRoster* GetRoster(QString jid);
     //查找聊天室对象  

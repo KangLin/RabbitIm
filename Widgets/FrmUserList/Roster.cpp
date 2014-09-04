@@ -329,3 +329,35 @@ int CRoster::CleanNewMessageNumber()
     }
     return 0;
 }
+
+CRoster &CRoster::operator << (std::istream &input)
+{
+    std::string szIn;
+    input >> szIn;
+    m_szJid = szIn.c_str();
+    input >> szIn;
+    m_szName = szIn.c_str();
+    input >> szIn;
+    m_szNick = szIn.c_str();
+    input >> szIn;
+    m_szEmail = szIn.c_str();
+    input >> szIn;
+    m_szDescription = szIn.c_str();
+    input >> szIn;
+    int year = 0, month = 0, day = 0;
+    input >> year >> month >> day;
+    m_Birthday.setDate(year, month, day);
+    
+    return *this;
+}
+
+CRoster &CRoster::operator >>(std::ostream &output)
+{
+    output << m_szJid.toStdString().c_str();
+    output << m_szName.toStdString().c_str();
+    output << m_szNick.toStdString().c_str();
+    output << m_szEmail.toStdString().c_str();
+    output << m_szDescription.toStdString().c_str();
+    output << m_Birthday.year() << m_Birthday.month() << m_Birthday.day();
+    return *this;
+}

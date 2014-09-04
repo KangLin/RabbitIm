@@ -9,6 +9,7 @@
 #include "qxmpp/QXmppRosterIq.h"
 #include "qxmpp/QXmppVCardIq.h"
 #include "../FrmMessage/FrmMessage.h"
+#include <iostream>
 
 class MainWindow;
 
@@ -50,6 +51,9 @@ public:
     //增加消息  
     int AppendMessage(const QString &szMessage);
     int CleanNewMessageNumber();
+
+    CRoster& operator <<(std::istream &input);
+    CRoster& operator >>(std::ostream &output);
 
 public slots:
     //刷新好友  

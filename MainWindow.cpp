@@ -257,6 +257,7 @@ void MainWindow::slotClientVCardReceived()
     CGlobal::Instance()->GetRoster()->SetVCard(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
                                                CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard().to());
     m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetShowName()));
+    m_pTableMain->Init();
 }
 
 void MainWindow::stateChanged(QXmppClient::State state)
