@@ -670,12 +670,12 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
         return;
     if(fileNames.isEmpty())
         return;
-    szFile = *fileNames.begin();//*/
+    szFile = *fileNames.begin();
 #else
     QString szFile = QFileDialog::getOpenFileName(
                 this, tr("Open File"), 
                 QString(), "*.qss", 0,
-                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);//*/
+                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
 #endif
 
     if(szFile.isEmpty())
