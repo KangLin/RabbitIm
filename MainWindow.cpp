@@ -660,11 +660,27 @@ void MainWindow::About()
 
 void MainWindow::on_actionChange_Style_Sheet_S_triggered()
 {
-    //*从资源中加载应用程序样式  
+   //*从资源中加载应用程序样式  
+#ifdef MOBILE
+    QDesktopWidget *pDesk = QApplication::desktop();
+    QFileDialog dlg(NULL, tr("Open File"), QString(), "*.qss");
+    dlg.setGeometry(this->rect());
+    QString szFile;
+    QStringList fileNames;
+    if(dlg.exec())
+        fileNames = dlg.selectedFiles();
+    else
+        return;
+    if(fileNames.isEmpty())
+        return;
+    szFile = *fileNames.begin();
+#else
     QString szFile = QFileDialog::getOpenFileName(
                 this, tr("Open File"), 
                 QString(), "*.qss", 0,
                 QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
+#endif
+
     if(szFile.isEmpty())
         return;
 
@@ -681,5 +697,5 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
     {
         LOG_MODEL_ERROR("app", "file open file [%s] fail:%d", 
                         szFile.toStdString().c_str(), file.error());
-    }//*/
+    }
 }

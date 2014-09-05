@@ -32,7 +32,12 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
              /*| Qt::Tool
              | Qt::WindowStaysOnTopHint
              | Qt::CustomizeWindowHint*/
-             )
+             ),
+    m_x(0),
+    m_y(0),
+    m_width(0),
+    m_height(0),
+    m_pEditor(NULL)
 {
     this->setFixedSize(qApp->desktop()->size());
     resize(qApp->desktop()->size());
