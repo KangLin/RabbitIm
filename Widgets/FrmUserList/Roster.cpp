@@ -330,34 +330,44 @@ int CRoster::CleanNewMessageNumber()
     return 0;
 }
 
-CRoster &CRoster::operator << (std::istream &input)
+QDataStream &operator <<(QDataStream &output, const CRoster &roster)
 {
-    std::string szIn;
-    input >> szIn;
-    m_szJid = szIn.c_str();
-    input >> szIn;
-    m_szName = szIn.c_str();
-    input >> szIn;
-    m_szNick = szIn.c_str();
-    input >> szIn;
-    m_szEmail = szIn.c_str();
-    input >> szIn;
-    m_szDescription = szIn.c_str();
-    input >> szIn;
-    int year = 0, month = 0, day = 0;
-    input >> year >> month >> day;
-    m_Birthday.setDate(year, month, day);
-    
-    return *this;
+    output << roster.m_szJid
+           << roster.m_szName
+           << roster.m_szNick
+           << roster.m_szEmail
+           << roster.m_szDescription
+           << roster.m_Birthday
+           << roster.m_Groups.size();
+    QString szGroup;
+    foreach(szGroup, roster.m_Groups)
+    {
+        output << szGroup;
+    }
+
+    return output;
 }
 
-CRoster &CRoster::operator >>(std::ostream &output)
+QDataStream &operator >>(QDataStream &input, CRoster &roster)
 {
-    output << m_szJid.toStdString().c_str();
-    output << m_szName.toStdString().c_str();
-    output << m_szNick.toStdString().c_str();
-    output << m_szEmail.toStdString().c_str();
-    output << m_szDescription.toStdString().c_str();
-    output << m_Birthday.year() << m_Birthday.month() << m_Birthday.day();
-    return *this;
+    input >> roster.m_szJid 
+            >> roster.m_szName
+            >> roster.m_szName 
+            >> roster.m_szEmail
+            >> roster.m_szDescription 
+            >> roster.m_Birthday;
+    int nGroupSize;
+    input >> nGroupSize;
+    while(nGroupSize--)
+    {
+        QString szGroup;
+        input >> szGroup;
+        roster.m_Groups << szGroup;
+    }
+
+    QImageReader imgReader(CGlobal::Instance()->GetFileUserAvatar(roster.BareJid()), "png");
+    if(!imgReader.read(&roster.m_imgPhoto))
+        LOG_MODEL_ERROR("CRoster", "read avater error, %s", imgReader.errorString().toStdString().c_str());
+
+    return input;
 }

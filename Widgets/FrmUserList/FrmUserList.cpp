@@ -122,22 +122,28 @@ int CFrmUserList::Init()
 int CFrmUserList::LoadUserList()
 {
     QString szFile = CGlobal::Instance()->GetDirUserData(CGlobal::Instance()->GetBareJid()) 
-            + QDir::separator() + CGlobal::Instance()->GetBareJid() + ".txt";
-    
-    std::ifstream in(szFile.toStdString().c_str(), std::ios::binary);
-    if(!in.is_open())
+            + QDir::separator() + "RosterInfo.dat";
+
+    QFile in(szFile);
+    if(!in.open(QFile::ReadOnly))
     {
         LOG_MODEL_WARNING("CFrmUserList", "Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
+
+    QDataStream s(&in);
+
     //版本号  
     int nVersion = 0;
-    in >> nVersion;
+    s >> nVersion;
+
     LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
-    while(!in.eof())
+    while(!s.atEnd())
     {
-        std::shared_ptr<CRoster> roster(new CRoster());
-        *roster << in;
+        //QSharedPointer<CRoster > roster(new CRoster());
+        CRoster* pRoster = new CRoster();
+        s >> *pRoster;
+        this->InsertUser(pRoster);
     }
     in.close();
     return 0;
@@ -147,21 +153,23 @@ int CFrmUserList::SaveUserList()
 {
     int nRet = 0;
     QString szFile = CGlobal::Instance()->GetDirUserData(CGlobal::Instance()->GetBareJid()) 
-            + QDir::separator() + CGlobal::Instance()->GetBareJid() + ".txt";
+            + QDir::separator() + "RosterInfo.dat";
     
-    std::ofstream out(szFile.toStdString().c_str(), std::ios::binary);
-    if(!out.is_open())
+    QFile out(szFile);
+    if(!out.open(QFile::WriteOnly))
     {
         LOG_MODEL_WARNING("CFrmUserList", "Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
+    
+    QDataStream s(&out);
     //版本号  
     int nVersion = 1;
-    out << nVersion;
+    s << nVersion;
     QMap<QString, CRoster*>::iterator it;
     for(it = m_Rosters.begin(); it != m_Rosters.end(); it++)
     {
-        *(*it) >> out;
+        s << *(*it);
     }
     out.close();
     return nRet;

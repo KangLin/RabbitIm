@@ -34,8 +34,6 @@ public:
     QString Description();
     QImage Photo();
 
-    int SetVCard(const QXmppVCardIq &vCard, QString jid = QString());
-
     QSet<QString> Groups();
 
     QList<QStandardItem *> GetItem(); //得到条目对象  
@@ -44,6 +42,12 @@ public:
     QXmppPresence::AvailableStatusType GetStatus();
     QXmppRosterIq::Item::SubscriptionType GetSubScriptionType();
 
+    int SetVCard(const QXmppVCardIq &vCard, QString jid = QString());
+#ifndef QT_NO_DATASTREAM
+    friend QDataStream & operator <<(QDataStream &output, const CRoster &roster);
+    friend QDataStream & operator >>(QDataStream &input, CRoster &roster);
+#endif
+    
     //状态改变  
     int ChangedPresence(const QString &jid, QXmppPresence::AvailableStatusType status);
     //显示消息对话框  
@@ -51,9 +55,6 @@ public:
     //增加消息  
     int AppendMessage(const QString &szMessage);
     int CleanNewMessageNumber();
-
-    CRoster& operator <<(std::istream &input);
-    CRoster& operator >>(std::ostream &output);
 
 public slots:
     //刷新好友  
