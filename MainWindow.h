@@ -26,7 +26,7 @@ class MainWindow : public QMainWindow
 public:
     /* 发送文件类型
      * DefaultType:默认类型
-     * ImageType:图片*/
+     * ImageType:图片  */
     enum SendFileType{
         DefaultType,
         ImageType

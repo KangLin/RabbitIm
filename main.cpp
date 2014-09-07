@@ -61,7 +61,22 @@ int main(int argc, char *argv[])
     //*
     QDesktopWidget *pDesk = QApplication::desktop();    
     MainWindow w;
+#ifdef MOBILE
+    QScreen* pScreen = QApplication::primaryScreen();
+    LOG_MODEL_DEBUG("main", "DeskWidth:%d;height:%d;w:%d;h:%d;screenWidth:%d;height:%d;w%d;h%d", 
+                    pDesk->geometry().width(),
+                    pDesk->geometry().height(),
+                    pDesk->availableGeometry().width(),
+                    pDesk->availableGeometry().height(),
+                    pScreen->geometry().width(),
+                    pScreen->geometry().height(),
+                    pScreen->availableGeometry().width(),
+                    pScreen->availableGeometry().height()
+                    );
+    w.setGeometry(pDesk->geometry());
+#else
     w.move((pDesk->width() - w.width()) / 2, (pDesk->height() - w.height()) / 2);
+#endif
     w.show();//*/
 
     /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())  

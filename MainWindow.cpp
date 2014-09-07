@@ -663,8 +663,20 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
    //*从资源中加载应用程序样式  
 #ifdef MOBILE
     QDesktopWidget *pDesk = QApplication::desktop();
-    QFileDialog dlg(NULL, tr("Open File"), QString(), "*.qss");
-    dlg.setGeometry(this->rect());
+    QFileDialog dlg(pDesk, tr("Open File"), QString(), "*.qss");
+    //dlg.setGeometry(this->rect());
+    QScreen* pScreen = QApplication::primaryScreen();
+    LOG_MODEL_DEBUG("MainWindow", "DeskWidth:%d;height:%d;w:%d;h:%d;screenWidth:%d;height:%d;w%d;h%d", 
+                    pDesk->geometry().width(),
+                    pDesk->geometry().height(),
+                    pDesk->availableGeometry().width(),
+                    pDesk->availableGeometry().height(),
+                    pScreen->geometry().width(),
+                    pScreen->geometry().height(),
+                    pScreen->availableGeometry().width(),
+                    pScreen->availableGeometry().height()
+                    );
+    dlg.setGeometry(pScreen->availableGeometry());
     QString szFile;
     QStringList fileNames;
     if(dlg.exec())
