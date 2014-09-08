@@ -137,7 +137,8 @@ OTHER_FILES += README.md \
     android/AndroidManifest.xml \
     License.html \
     ChangeLog.txt \
-    Authors.txt
+    Authors.txt \
+    CMakeLists.txt
 
 isEmpty(PREFIX)
 {
