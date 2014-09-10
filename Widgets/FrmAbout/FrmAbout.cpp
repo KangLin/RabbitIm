@@ -1,6 +1,6 @@
 #include "FrmAbout.h"
 #include "ui_FrmAbout.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "Version.h"
 #include <QFile>
 #include "../../MainWindow.h"

@@ -23,7 +23,7 @@
 #include <QColorDialog>
 #include <QScreen>
 #include "DlgScreenShot.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 
 CDlgScreenShot::CDlgScreenShot(QWidget *parent)
     :QDialog(parent,

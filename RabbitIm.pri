@@ -1,8 +1,9 @@
 SOURCES += main.cpp\
     MainWindow.cpp \
     XmppClient.cpp \
-    Global.cpp \
     Tool.cpp \
+    Global/Global.cpp \
+    Global/GlobalUser.cpp \
     Widgets/FrmSendFile/DlgSendManage.cpp \
     Widgets/FrmSendFile/FrmSendFile.cpp \
     Widgets/FrmLogin/FrmLogin.cpp \
@@ -36,11 +37,12 @@ SOURCES += main.cpp\
     Widgets/DlgScreenShot/DlgScreenShot.cpp \
     UserInfo/UserInfo.cpp \
     UserInfo/UserInfoLocale.cpp \
-    UserInfo/UserInfoRoster.cpp
+    UserInfo/UserInfoRoster.cpp 
 
 HEADERS  += MainWindow.h \
     XmppClient.h \
-    Global.h \
+    Global/Global.h \
+    Global/GlobalUser.h \
     Tool.h \
     Widgets/FrmSendFile/DlgSendManage.h \
     Widgets/FrmSendFile/FrmSendFile.h \
@@ -76,7 +78,7 @@ HEADERS  += MainWindow.h \
     Widgets/DlgScreenShot/DlgScreenShot.h \
     UserInfo/UserInfo.h \
     UserInfo/UserInfoLocale.h \
-    UserInfo/UserInfoRoster.h
+    UserInfo/UserInfoRoster.h 
 
 FORMS    += MainWindow.ui \
     Widgets/FrmSendFile/DlgSendManage.ui \

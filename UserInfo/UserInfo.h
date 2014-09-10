@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDate>
 #include <QImage>
+#include <QDataStream>
 #include "qxmpp/QXmppPresence.h"
 
 class CUserInfo : public QObject
@@ -25,6 +26,11 @@ public:
     virtual QString GetEmail();
     virtual QString GetDescription();
     virtual QImage GetPhoto();
+
+#ifndef QT_NO_DATASTREAM
+    friend QDataStream & operator <<(QDataStream &output, const CUserInfo &roster);
+    friend QDataStream & operator >>(QDataStream &input, CUserInfo &roster);
+#endif
 
 protected:
     QString m_szJid;

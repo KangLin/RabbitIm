@@ -1,5 +1,5 @@
 #include "UserInfo.h"
-#include "Global.h"
+#include "Global/Global.h"
 #include <QSettings>
 #include "qxmpp/QXmppUtils.h"
 
@@ -88,4 +88,27 @@ int CUserInfo::SetStatus(QXmppPresence::AvailableStatusType status)
 {
     m_LocalStatus = status;
     return 0;
+}
+
+QDataStream & operator <<(QDataStream &output, const CUserInfo &roster)
+{
+    output << roster.m_szJid 
+                   << roster.m_szNick 
+                   << roster.m_szFullName 
+                   << roster.m_szEmail 
+                   << roster.m_szDescription
+                   << roster.m_Birthday;
+    return output;
+                 
+}
+
+QDataStream & operator >>(QDataStream &input, CUserInfo &roster)
+{
+    input >> roster.m_szJid
+               >> roster.m_szNick
+               >> roster.m_szFullName
+               >> roster.m_szEmail
+               >> roster.m_szDescription
+               >> roster.m_Birthday;
+    return input;
 }

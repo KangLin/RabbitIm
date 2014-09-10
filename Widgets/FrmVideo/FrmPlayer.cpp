@@ -5,7 +5,7 @@
 #include <QEvent>
 #include "DataVideoBuffer.h"
 #include "FrmVideo.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "CaptureVideoFrame.h"
 #include "CCamera.h"
 

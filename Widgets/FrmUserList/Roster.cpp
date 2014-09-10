@@ -1,6 +1,6 @@
 #include "Roster.h"
 #include "../../MainWindow.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include <QImageWriter>
 
 CRoster::CRoster(QObject *parent) :

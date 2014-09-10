@@ -1,5 +1,5 @@
 #include "CCamera.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "FrmVideo.h"
 #include <QCameraInfo>
 

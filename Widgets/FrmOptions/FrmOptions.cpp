@@ -1,6 +1,6 @@
 #include "FrmOptions.h"
 #include "ui_FrmOptions.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include <QColorDialog>
 #include "../../MainWindow.h"
 #include <QDesktopWidget>

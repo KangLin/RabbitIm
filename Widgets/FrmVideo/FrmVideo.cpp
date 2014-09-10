@@ -19,7 +19,7 @@
 #include <QRadialGradient>
 #include <QCameraInfo>
 #include "../FrmUserList/Roster.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "qxmpp/QXmppRtpChannel.h"
 #include "../../MainWindow.h"
 

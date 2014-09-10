@@ -1,6 +1,6 @@
 #include "FrmMain.h"
 #include "ui_FrmMain.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 
 CFrmMain::CFrmMain(QWidget *parent) :
     QFrame(parent),
@@ -22,8 +22,11 @@ CFrmMain::~CFrmMain()
 
 int CFrmMain::Init()
 {
+    int nRet = 0;
     //初始化  
-    m_UserList.Init();
+    nRet = m_UserList.Init();
+    if(nRet)
+        return nRet;
     //TODO:初始化最近接收消息列表  
     
     return 0;

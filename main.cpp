@@ -4,7 +4,7 @@
 #include "Widgets/FrmVideo/FrmPlayer.h"
 #include "Tool.h"
 #include <QDebug>
-#include "Global.h"
+#include "Global/Global.h"
 
 int main(int argc, char *argv[])
 {

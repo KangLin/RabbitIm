@@ -1,5 +1,5 @@
 #include "Tool.h"
-#include "Global.h"
+#include "Global/Global.h"
 
 CTool::CTool(QObject *parent) :
     QObject(parent)

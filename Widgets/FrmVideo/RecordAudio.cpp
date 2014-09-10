@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QTime>
 #include <QThread>
-#include "../../Global.h"
+#include "../../Global/Global.h"
 
 CRecordAudio::CRecordAudio(QObject *parent) :
     QIODevice(parent),

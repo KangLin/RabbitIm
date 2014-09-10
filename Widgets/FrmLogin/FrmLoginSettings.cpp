@@ -1,6 +1,6 @@
 #include "FrmLoginSettings.h"
 #include "ui_FrmLoginSettings.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include <QDesktopWidget>
 
 CFrmLoginSettings::CFrmLoginSettings(QWidget *parent) :

@@ -6,7 +6,7 @@
 #include <QMenu>
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppPresence.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "../FrmCustom/MenuMessageSend.h"
 
 class MainWindow;

@@ -1,6 +1,6 @@
 #include "FrmGroupChatFind.h"
 #include "ui_FrmGroupChatFind.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "qxmpp/QXmppDiscoveryManager.h"
 #include "../FrmUserList/Roster.h"
 #include <QMessageBox>

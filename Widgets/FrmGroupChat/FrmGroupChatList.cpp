@@ -1,6 +1,6 @@
 #include "FrmGroupChatList.h"
 #include "ui_FrmGroupChatList.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "FrmGroupChatFind.h"
 #include "../../MainWindow.h"
 #include "../FrmUserList/Roster.h"

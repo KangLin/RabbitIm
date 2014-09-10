@@ -3,7 +3,7 @@
 #include "../../XmppClient.h"
 #include "qxmpp/QXmppRosterManager.h"
 #include "qxmpp/QXmppUtils.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include <string>
 #include <QDebug>
 #include <QMessageBox>

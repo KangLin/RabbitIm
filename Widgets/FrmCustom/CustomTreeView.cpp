@@ -1,5 +1,5 @@
 #include "../FrmCustom/CustomTreeView.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "../../Tool.h"
 #include <QResizeEvent>
 

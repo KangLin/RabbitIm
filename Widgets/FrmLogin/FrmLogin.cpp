@@ -1,6 +1,6 @@
 #include "FrmLogin.h"
 #include "ui_FrmLogin.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "FrmLoginSettings.h"
 
 extern CGlobal g_Global;

@@ -1,7 +1,7 @@
 #include <QFileDialog>
 #include "FrmSendFile.h"
 #include "ui_FrmSendFile.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "../../Tool.h"
 
 CFrmSendFile::CFrmSendFile(QXmppTransferJob &job, bool isSend, QWidget *parent)

@@ -8,10 +8,9 @@
 #include <QMessageBox>
 #include "Widgets/FrmUserList/FrmUserList.h"
 #include "Widgets/FrmLogin/FrmLogin.h"
-#include "Global.h"
+#include "Global/Global.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
 #include "Widgets/FrmOptions/FrmOptions.h"
-#include "Global.h"
 #include "Widgets/FrmSendFile/DlgSendManage.h"
 #include "Widgets/FrmUservCard/FrmUservCard.h"
 
@@ -205,7 +204,10 @@ void MainWindow::slotClientConnected()
     if(NULL == m_pTableMain)
         m_pTableMain = new CFrmMain(this);
     if(m_pTableMain)
+     {
         this->setCentralWidget(m_pTableMain);
+        m_pTableMain->Init();
+    }
     else
         LOG_MODEL_ERROR("MainWindow", "new CWdgTableMain fail");
 
@@ -257,7 +259,6 @@ void MainWindow::slotClientVCardReceived()
     CGlobal::Instance()->GetRoster()->SetVCard(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
                                                CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard().to());
     m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetShowName()));
-    m_pTableMain->Init();
 }
 
 void MainWindow::stateChanged(QXmppClient::State state)

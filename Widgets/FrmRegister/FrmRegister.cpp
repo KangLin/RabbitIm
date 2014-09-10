@@ -3,7 +3,7 @@
 #include "../FrmLogin/FrmLogin.h"
 #include "qxmpp/QXmppRegisterIq.h"
 #include "../../MainWindow.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include <QDesktopWidget>
 
 CFrmRegister::CFrmRegister(QWidget *parent) :

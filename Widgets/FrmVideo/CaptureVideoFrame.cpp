@@ -5,7 +5,7 @@
 #include <QtDebug>
 #include <QCameraInfo>
 #include "FrmVideo.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 
 CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
     QAbstractVideoSurface(parent)

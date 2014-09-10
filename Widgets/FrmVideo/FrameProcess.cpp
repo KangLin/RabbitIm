@@ -1,7 +1,7 @@
 #include "FrameProcess.h"
 #include "../../Tool.h"
 #include "DataVideoBuffer.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "FrmVideo.h"
 
 CFrameProcess::CFrameProcess(QObject *parent) :

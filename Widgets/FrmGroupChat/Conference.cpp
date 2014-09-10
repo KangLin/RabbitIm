@@ -1,5 +1,5 @@
 #include "Conference.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "qxmpp/QXmppDiscoveryManager.h"
 
 CConference::CConference(QObject *parent) :

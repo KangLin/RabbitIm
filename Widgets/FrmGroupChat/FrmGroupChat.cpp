@@ -1,6 +1,6 @@
 #include "FrmGroupChat.h"
 #include "ui_FrmGroupChat.h"
-#include "../../Global.h"
+#include "../../Global/Global.h"
 #include "qxmpp/QXmppMessage.h"
 #include "qxmpp/QXmppUtils.h"
 #include <QMessageBox>
