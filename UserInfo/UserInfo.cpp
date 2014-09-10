@@ -1,6 +1,7 @@
 #include "UserInfo.h"
 #include "Global.h"
 #include <QSettings>
+#include "qxmpp/QXmppUtils.h"
 
 CUserInfo::CUserInfo(QObject *parent) :
     QObject(parent)
@@ -30,7 +31,7 @@ QString CUserInfo::GetShowName()
         break;
     case CGlobal::E_ROSTER_SHOW_NICK:
     default:
-        szText = Nick();
+        szText = GetNick();
         break;
     }
     return szText;
@@ -51,6 +52,31 @@ QString CUserInfo::GetDomain()
 QString CUserInfo::GetResource()
 {
     return QXmppUtils::jidToResource(GetJid());
+}
+
+QString CUserInfo::GetNick()
+{
+    return m_szNick;
+}
+
+QDate CUserInfo::GetBirthday()
+{
+    return m_Birthday;
+}
+
+QString CUserInfo::GetEmail()
+{
+    return m_szEmail;
+}
+
+QString CUserInfo::GetDescription()
+{
+    return m_szDescription;
+}
+
+QImage CUserInfo::GetPhoto()
+{
+    return m_imgPhoto;
 }
 
 QXmppPresence::AvailableStatusType CUserInfo::GetStatus()

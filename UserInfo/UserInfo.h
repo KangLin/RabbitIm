@@ -2,6 +2,8 @@
 #define USERINFO_H
 
 #include <QObject>
+#include <QDate>
+#include <QImage>
 #include "qxmpp/QXmppPresence.h"
 
 class CUserInfo : public QObject
@@ -29,8 +31,9 @@ protected:
     QString m_szFullName;
     QString m_szNick;
     QDate m_Birthday;
-    QString m_Email;
-    QString m_Description;
+    QString m_szEmail;
+    QString m_szDescription;
+    QImage m_imgPhoto;
     QXmppPresence::AvailableStatusType m_LocalStatus;//本地用户的状态  
     
 signals:

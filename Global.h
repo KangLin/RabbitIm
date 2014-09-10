@@ -51,6 +51,8 @@ public:
     QString GetDirUserAvatar();
     //得到指定用户的头像文件  
     QString GetFileUserAvatar(QString bareJid);
+    //得到用户的配置目录  
+    QString GetUserConfigureFile(QString jid);
 
     //得到本地用户住息  
     QString GetShowName();//根据配置显示用户名称  

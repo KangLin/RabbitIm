@@ -33,7 +33,10 @@ SOURCES += main.cpp\
     Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp \
     Widgets/FrmMain/FrmMain.cpp \
     Widgets/FrmCustom/MenuMessageSend.cpp \
-    Widgets/DlgScreenShot/DlgScreenShot.cpp
+    Widgets/DlgScreenShot/DlgScreenShot.cpp \
+    UserInfo/UserInfo.cpp \
+    UserInfo/UserInfoLocale.cpp \
+    UserInfo/UserInfoRoster.cpp
 
 HEADERS  += MainWindow.h \
     XmppClient.h \
@@ -70,7 +73,10 @@ HEADERS  += MainWindow.h \
     Widgets/FrmGroupChat/FrmCreateGroupChatRoom.h \
     Widgets/FrmMain/FrmMain.h \
     Widgets/FrmCustom/MenuMessageSend.h \
-    Widgets/DlgScreenShot/DlgScreenShot.h
+    Widgets/DlgScreenShot/DlgScreenShot.h \
+    UserInfo/UserInfo.h \
+    UserInfo/UserInfoLocale.h \
+    UserInfo/UserInfoRoster.h
 
 FORMS    += MainWindow.ui \
     Widgets/FrmSendFile/DlgSendManage.ui \
