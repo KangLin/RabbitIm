@@ -253,7 +253,7 @@ void CFrmMessage::on_pbSend_clicked()
         return;
     }
 
-    AppendMessageToList(ui->txtInput->toPlainText());
+    AppendMessageToList(ui->txtInput->toPlainText(), CGlobal::Instance()->GetBareJid(), CGlobal::Instance()->GetShowName(), false);
 
     //发送  
     QXmppMessage msg("", m_pRoster->BareJid(), ui->txtInput->toPlainText());

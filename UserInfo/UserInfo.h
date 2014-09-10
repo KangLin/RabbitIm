@@ -34,7 +34,7 @@ public:
 
 protected:
     QString m_szJid;
-    QString m_szFullName;
+    QString m_szName;
     QString m_szNick;
     QDate m_Birthday;
     QString m_szEmail;

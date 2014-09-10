@@ -39,9 +39,9 @@ QString CUserInfo::GetShowName()
 
 QString CUserInfo::GetName()
 {
-    if(m_szFullName.isEmpty())
+    if(m_szName.isEmpty())
         return QXmppUtils::jidToUser(GetJid());
-    return m_szFullName;
+    return m_szName;
 }
 
 QString CUserInfo::GetDomain()
@@ -76,6 +76,9 @@ QString CUserInfo::GetDescription()
 
 QImage CUserInfo::GetPhoto()
 {
+    if(m_imgPhoto.isNull())
+        return QImage(":/icon/AppIcon");
+
     return m_imgPhoto;
 }
 
@@ -94,7 +97,7 @@ QDataStream & operator <<(QDataStream &output, const CUserInfo &roster)
 {
     output << roster.m_szJid 
                    << roster.m_szNick 
-                   << roster.m_szFullName 
+                   << roster.m_szName 
                    << roster.m_szEmail 
                    << roster.m_szDescription
                    << roster.m_Birthday;
@@ -106,7 +109,7 @@ QDataStream & operator >>(QDataStream &input, CUserInfo &roster)
 {
     input >> roster.m_szJid
                >> roster.m_szNick
-               >> roster.m_szFullName
+               >> roster.m_szName
                >> roster.m_szEmail
                >> roster.m_szDescription
                >> roster.m_Birthday;

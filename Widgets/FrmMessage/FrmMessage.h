@@ -28,8 +28,8 @@ public:
     int SetRoster(CRoster* pRoster);
     int AppendMessage(const QString &szMessage);
     int AppendMessageToList(const QString &szMessage, 
-                            const QString &bareJid = CGlobal::Instance()->GetBareJid(),
-                            const QString &name = CGlobal::Instance()->GetShowName(),
+                            const QString &bareJid,
+                            const QString &name,
                             bool bRemote = false);
 
 protected:

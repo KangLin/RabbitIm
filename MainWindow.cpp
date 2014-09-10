@@ -201,6 +201,13 @@ void MainWindow::slotClientConnected()
         m_pLogin = NULL;
     }
 
+    int nRet = CGlobal::Instance()->GetGlobalUser()->Init(CGlobal::Instance()->GetXmppClient()->configuration().jidBare());
+    if(nRet)
+    {
+        LOG_MODEL_ERROR("MainWindow", "Init GlobalUser fail");
+        return;
+    }
+
     if(NULL == m_pTableMain)
         m_pTableMain = new CFrmMain(this);
     if(m_pTableMain)
@@ -214,7 +221,8 @@ void MainWindow::slotClientConnected()
     InitLoginedMenu();
 
     //得到本地用户的详细信息  
-    CGlobal::Instance()->GetXmppClient()->vCardManager().requestClientVCard();
+    if(CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale().isNull())
+        CGlobal::Instance()->GetXmppClient()->vCardManager().requestClientVCard();
 
     m_bLogin = true;
 }
@@ -223,6 +231,7 @@ void MainWindow::slotClientDisconnected()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow:: DISCONNECTED");
     m_bLogin = false;
+     CGlobal::Instance()->GetGlobalUser()->Clean();
 }
 
 void MainWindow::clientError(QXmppClient::Error e)
@@ -256,8 +265,11 @@ void MainWindow::clientIqReceived(const QXmppIq &iq)
 void MainWindow::slotClientVCardReceived()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotClientVCardReceived");
-    CGlobal::Instance()->GetRoster()->SetVCard(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
-                                               CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard().to());
+    /*CGlobal::Instance()->GetRoster()->SetVCard(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
+                                               CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard().to());*/
+    
+    CGlobal::Instance()->GetGlobalUser()->UpdateLocaleUserInfo(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
+                                                               CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard().to());
     m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetShowName()));
 }
 
