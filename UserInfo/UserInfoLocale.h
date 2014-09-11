@@ -20,6 +20,8 @@ public:
     friend QDataStream & operator >>(QDataStream &input, CUserInfoLocale &roster);
 #endif
 
+private:
+    QXmppPresence::AvailableStatusType m_LocalStatus;//本地用户的状态  
 };
 
 #endif // USERINFOLOCALE_H

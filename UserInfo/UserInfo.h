@@ -20,8 +20,6 @@ public:
     virtual QString GetBareJid();
     virtual QString GetDomain();
     virtual QString GetResource();
-    virtual QXmppPresence::AvailableStatusType GetStatus();//得到本地用户状态  
-    virtual int SetStatus(QXmppPresence::AvailableStatusType status);
     virtual QString GetNick();
     virtual QDate GetBirthday();
     virtual QString GetEmail();
@@ -43,8 +41,7 @@ protected:
     QString m_szEmail;
     QString m_szDescription;
     QImage m_imgPhoto;
-    QXmppPresence::AvailableStatusType m_LocalStatus;//本地用户的状态  
-    
+
 signals:
     
 public slots:

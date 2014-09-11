@@ -17,6 +17,8 @@ QXmppPresence::AvailableStatusType CUserInfoLocale::GetStatus()
 int CUserInfoLocale::SetStatus(QXmppPresence::AvailableStatusType status)
 {
     m_LocalStatus = status;
+    return 0;
+
     QSettings conf(CGlobal::Instance()->GetUserConfigureFile(this->GetBareJid()), QSettings::IniFormat);
     conf.setValue("Login/LoginState", status);
     return 0;
@@ -24,28 +26,15 @@ int CUserInfoLocale::SetStatus(QXmppPresence::AvailableStatusType status)
 
 int CUserInfoLocale::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
 {
-    if(!vCard.fullName().isEmpty())
-        m_szName = vCard.fullName();
-    m_szNick = vCard.nickName();
-    m_Birthday = vCard.birthday();
-    m_szEmail = vCard.email();
-    m_szDescription = vCard.description();
-    if(!jid.isEmpty())
-        m_szJid = jid;
-
-    //保存头像  
-    QByteArray photo = vCard.photo();
-    QBuffer buffer;
-    buffer.setData(photo);
-    buffer.open(QIODevice::ReadOnly);
-    QImageReader imageReader(&buffer);
-    m_imgPhoto = imageReader.read();
-    buffer.close();
+    int nRet = 0;
+    nRet = CUserInfo::UpdateUserInfo(vCard, jid);
+    if(nRet)
+        return nRet;
 
     //保存头像到本地  
     QImageWriter imageWriter(CGlobal::Instance()->GetFileUserAvatar(GetBareJid()), "png");
     if(!imageWriter.write(GetPhoto()))
-        LOG_MODEL_ERROR("CRoster", "Save avater error, %s", imageWriter.errorString().toStdString().c_str());
+        LOG_MODEL_ERROR("CUserInfo", "Save avater error, %s", imageWriter.errorString().toStdString().c_str());
     return 0;
 }
 

@@ -271,7 +271,7 @@ void MainWindow::slotClientVCardReceived()
     /*CGlobal::Instance()->GetRoster()->SetVCard(XMPP_CLIENT->vCardManager().clientVCard(),
                                                XMPP_CLIENT->vCardManager().clientVCard().to());*/
     
-    GLOBAL_UER->UpdateUserInfo(XMPP_CLIENT->vCardManager().clientVCard(),
+    GLOBAL_UER->UpdateUserInfoLocale(XMPP_CLIENT->vCardManager().clientVCard(),
                                                                XMPP_CLIENT->vCardManager().clientVCard().to());
     USER_INFO_LOCALE->SetStatus(XMPP_CLIENT->clientPresence().availableStatusType());
     m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(USER_INFO_LOCALE->GetShowName()));

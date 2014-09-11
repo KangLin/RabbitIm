@@ -58,36 +58,36 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotDeleteFromMainMenu(QMenu*)));
     Q_ASSERT(check);
 
-    check = connect(CGlobal::Instance()->GetXmppClient(),
+    check = connect(XMPP_CLIENT,
                          SIGNAL(presenceReceived(const QXmppPresence)),
                          SLOT(slotChangedPresence(QXmppPresence)));
     Q_ASSERT(check);
 
-    check = connect(&CGlobal::Instance()->GetXmppClient()->rosterManager(), SIGNAL(rosterReceived()),
+    check = connect(&XMPP_CLIENT->rosterManager(), SIGNAL(rosterReceived()),
                     SLOT(slotRosterReceived()));
     Q_ASSERT(check);
 
-    check = connect(&CGlobal::Instance()->GetXmppClient()->rosterManager(), SIGNAL(subscriptionReceived(QString)),
+    check = connect(&XMPP_CLIENT->rosterManager(), SIGNAL(subscriptionReceived(QString)),
                     SLOT(slotSubscriptionReceived(QString)));
     Q_ASSERT(check);
 
-    check = connect(&CGlobal::Instance()->GetXmppClient()->rosterManager(), SIGNAL(itemAdded(QString)),
+    check = connect(&XMPP_CLIENT->rosterManager(), SIGNAL(itemAdded(QString)),
                     SLOT(slotItemAdded(QString)));
     Q_ASSERT(check);
 
-    check = connect(&CGlobal::Instance()->GetXmppClient()->rosterManager(), SIGNAL(itemChanged(QString)),
+    check = connect(&XMPP_CLIENT->rosterManager(), SIGNAL(itemChanged(QString)),
                     SLOT(slotItemChanged(QString)));
     Q_ASSERT(check);
 
-    check = connect(&CGlobal::Instance()->GetXmppClient()->rosterManager(), SIGNAL(itemRemoved(QString)),
+    check = connect(&XMPP_CLIENT->rosterManager(), SIGNAL(itemRemoved(QString)),
                     SLOT(slotItemRemoved(QString)));
     Q_ASSERT(check);
 
-    check = connect(&CGlobal::Instance()->GetXmppClient()->vCardManager(), SIGNAL(vCardReceived(QXmppVCardIq)),
+    check = connect(&XMPP_CLIENT->vCardManager(), SIGNAL(vCardReceived(QXmppVCardIq)),
                     SLOT(slotvCardReceived(QXmppVCardIq)));
     Q_ASSERT(check);
 
-    check = connect(CGlobal::Instance()->GetXmppClient(), SIGNAL(messageReceived(QXmppMessage)),
+    check = connect(XMPP_CLIENT, SIGNAL(messageReceived(QXmppMessage)),
                     SLOT(slotClientMessageReceived(QXmppMessage)));
     Q_ASSERT(check);
 }
@@ -113,15 +113,15 @@ CFrmUserList::~CFrmUserList()
 int CFrmUserList::Init()
 {
     int nRet = 0;
-
+    
     return nRet;
 }
 
 int CFrmUserList::Clean()
 {
-    CGlobal::Instance()->GetXmppClient()->rosterManager().disconnect(this);
-    CGlobal::Instance()->GetXmppClient()->vCardManager().disconnect(this);
-    CGlobal::Instance()->GetXmppClient()->disconnect(this);
+    XMPP_CLIENT->rosterManager().disconnect(this);
+    XMPP_CLIENT->vCardManager().disconnect(this);
+    XMPP_CLIENT->disconnect(this);
     CGlobal::Instance()->GetMainWindow()->disconnect(this);
     return 0;
 }
@@ -245,7 +245,7 @@ void CFrmUserList::slotAddRoster()
     QSet<QString> groups;
     groups = GetGroupsName();
 
-    m_frmAddRoster.Init(CGlobal::Instance()->GetXmppClient(), groups);
+    m_frmAddRoster.Init(XMPP_CLIENT, groups);
     m_frmAddRoster.show();
     m_frmAddRoster.activateWindow();
 }
@@ -254,14 +254,14 @@ void CFrmUserList::slotAgreeAddRoster()
 {
     CRoster* p = GetCurrentRoster();
     if(p)
-       CGlobal::Instance()->GetXmppClient()->rosterManager().subscribe(p->BareJid());
+       XMPP_CLIENT->rosterManager().subscribe(p->BareJid());
 }
 
 void CFrmUserList::slotRemoveRoster()
 {
     CRoster* p = GetCurrentRoster();
     if(p)
-        CGlobal::Instance()->GetXmppClient()->rosterManager().removeItem(p->BareJid());
+        XMPP_CLIENT->rosterManager().removeItem(p->BareJid());
 }
 
 void CFrmUserList::slotInformationRoster()
@@ -369,6 +369,18 @@ int CFrmUserList::InsertUser(CRoster *pRoster)
 int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
 {
     int nRet = 0;
+    QSharedPointer<CUserInfoRoster> roster;
+    roster = GLOBAL_UER->GetUserInfoRoster(rosterItem.bareJid());
+    if(!roster.isNull())
+        return nRet;
+
+    GLOBAL_UER->UpdateUserInfoRoster(rosterItem);
+    //得到好友信息（包括头像图片）  
+    XMPP_CLIENT->vCardManager().requestVCard(rosterItem.bareJid());
+    //TODO:更新列表控件  
+
+    return nRet;
+
     CRoster* pRoster = NULL;
     QMap<QString, CRoster*>::iterator itRosters;
     itRosters = m_Rosters.find(rosterItem.bareJid());
@@ -392,7 +404,7 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
 void CFrmUserList::slotSubscriptionReceived(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(bareJid));
-    m_frmAddRoster.Init(CGlobal::Instance()->GetXmppClient(), GetGroupsName(), bareJid);
+    m_frmAddRoster.Init(XMPP_CLIENT, GetGroupsName(), bareJid);
     m_frmAddRoster.show();
     m_frmAddRoster.activateWindow();
 }
@@ -400,7 +412,7 @@ void CFrmUserList::slotSubscriptionReceived(const QString &bareJid)
 void CFrmUserList::slotItemAdded(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemAdded jid:%s", qPrintable(bareJid));
-    QXmppRosterIq::Item item = CGlobal::Instance()->GetXmppClient()->rosterManager().getRosterEntry(bareJid);
+    QXmppRosterIq::Item item = XMPP_CLIENT->rosterManager().getRosterEntry(bareJid);
     InsertUser(item);
 }
 
@@ -413,7 +425,7 @@ void CFrmUserList::slotItemChanged(const QString &bareJid)
     {
         CRoster* pRoster = it.value();
 
-        QXmppRosterIq::Item item = CGlobal::Instance()->GetXmppClient()->rosterManager().getRosterEntry(bareJid);
+        QXmppRosterIq::Item item = XMPP_CLIENT->rosterManager().getRosterEntry(bareJid);
         pRoster->UpdateItems(item);
         UpdateGroup(pRoster, item.groups());
     }
@@ -436,12 +448,10 @@ void CFrmUserList::slotRosterReceived()
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList:: Roster received");
 
-    foreach (const QString &bareJid, CGlobal::Instance()->GetXmppClient()->rosterManager().getRosterBareJids())
+    foreach (const QString &bareJid, XMPP_CLIENT->rosterManager().getRosterBareJids())
     {
-        QXmppRosterIq::Item item = CGlobal::Instance()->GetXmppClient()->rosterManager().getRosterEntry(bareJid);
+        QXmppRosterIq::Item item = XMPP_CLIENT->rosterManager().getRosterEntry(bareJid);
         InsertUser(item);
-        //得到好友信息（包括头像图片）  
-        CGlobal::Instance()->GetXmppClient()->vCardManager().requestVCard(bareJid);
     }
 }
 
@@ -455,6 +465,12 @@ void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
            );
 
     QString bareJid = QXmppUtils::jidToBareJid(presence.from());
+    QSharedPointer<CUserInfoRoster> roster = GLOBAL_UER->GetUserInfoRoster(bareJid);
+    if(!roster.isNull())
+        roster->SetStatus(presence.availableStatusType());
+
+    //TODO:更新列表控件状态  
+    return;
     QMap<QString, CRoster*>::iterator it = m_Rosters.find(bareJid);
     if(m_Rosters.end() != it)
     {
@@ -466,11 +482,10 @@ void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
 void CFrmUserList::slotvCardReceived(const QXmppVCardIq& vCard)
 {
     QString jid = QXmppUtils::jidToBareJid(vCard.from());
-    QMap<QString, CRoster*>::iterator it = m_Rosters.find(jid);
-    if(m_Rosters.end() != it)
-    {
-        it.value()->SetVCard(vCard);
-    }
+    GLOBAL_UER->UpdateUserInfoRoster(vCard, jid);
+    //TODO:更新列表控件  
+    
+    return;
 }
 
 void CFrmUserList::clicked(const QModelIndex &index)

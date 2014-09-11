@@ -84,17 +84,6 @@ QImage CUserInfo::GetPhoto()
     return m_imgPhoto;
 }
 
-QXmppPresence::AvailableStatusType CUserInfo::GetStatus()
-{
-    return m_LocalStatus;
-}
-
-int CUserInfo::SetStatus(QXmppPresence::AvailableStatusType status)
-{
-    m_LocalStatus = status;
-    return 0;
-}
-
 int CUserInfo::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
 {
     if(!vCard.fullName().isEmpty())
@@ -115,10 +104,6 @@ int CUserInfo::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
     m_imgPhoto = imageReader.read();
     buffer.close();
 
-    //保存头像到本地  
-    /*QImageWriter imageWriter(CGlobal::Instance()->GetFileUserAvatar(GetBareJid()), "png");
-    if(!imageWriter.write(GetPhoto()))
-        LOG_MODEL_ERROR("CRoster", "Save avater error, %s", imageWriter.errorString().toStdString().c_str());//*/
     return 0;
 }
 

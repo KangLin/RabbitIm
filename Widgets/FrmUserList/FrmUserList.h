@@ -68,10 +68,6 @@ private:
     int Init();
     int Clean();
 
-    //从本地加载好友列表  
-    int LoadUserList();
-    //保存好友列表到本地· 
-    int SaveUserList();
     //向用户列表中插入用户  
     int InsertUser(CRoster* pRoster);
     int InsertUser(QXmppRosterIq::Item rosterItem);

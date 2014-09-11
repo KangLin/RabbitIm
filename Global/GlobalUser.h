@@ -17,21 +17,28 @@ public:
     int Clean();
     
     //更新本地用户信息  
-    int UpdateUserInfo(const QXmppVCardIq &vCard, QString jid);
+    int UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString jid);
+    int UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem);
+    int UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString jid);
 
 private:
     int LoadFromFile(QString szLocaleJid);
     int SaveToFile();
     int LoadLocaleFromFile(QString szLocaleJid);
     int SaveLocaleToFile();
+    int LoadRosterFromFile(QString szLocaleJid);
+    int SaveRosterToFile();
 
 public:
     QSharedPointer<CUserInfoLocale> GetUserInfoLocale();
+    QMap<QString, QSharedPointer<CUserInfoRoster> > &GetUserInfoRosters();
     QSharedPointer<CUserInfoRoster> GetUserInfoRoster(QString szJid);
     
 private:
-    QSharedPointer<CUserInfoLocale> m_UserInforLocale;//本地用户信息  
-    //TODO:好友信息  
+    //本地用户信息  
+    QSharedPointer<CUserInfoLocale> m_UserInforLocale;
+    //好友信息  
+    QMap<QString, QSharedPointer<CUserInfoRoster> > m_UserInfoRoster;
     
     
 private:
