@@ -431,7 +431,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 ### 本工程编译
 如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。
-#### 1、用Qt Creator 编译
+#### 1. 用Qt Creator 编译
 
 用 Qt Creator 打开本工程根目录下的 Rabbitim.pro 文件。
   * 下载(http://pan.baidu.com/s/1ntA0t5n )或自己编译第三方库，并放到 $(RabbitImRoot)/ThirdLibary 目录下。
@@ -439,7 +439,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
   * 把 pm 文件复制到安装目录的 translate 目录下。
   * 构建->构建项目"RabbitIm"。编译本项目。
 
-##### 1.1、用 Qt Createor 和 CMake 编译 CMakeLists.txt
+##### 1.1. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
 
 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
   * 选择项目-> 相应平台的构建套件
@@ -449,7 +449,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
   * 选择相应的创建器
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功就会打开项目。
 
-#### 2、用命令行编译
+#### 2. 用命令行编译
 
 设置 qmake 路径到环境变量 PATH 中：`export PATH=$PATH:$QMAKE_PATH`
 
@@ -464,8 +464,8 @@ MAKE在不同的环境下有不同的命令：
     * mingw32-make：mingw 环境下用
     * msys-make：msys 环境下用
 
-##### 2.1、用 CMake 编译
-###### 2.1.1、windows、linux平台
+##### 2.1. 用 CMake 编译
+###### 2.1.1. windows、linux平台
 
 
     mkdir rabbitim-build  #建立编译目录
@@ -475,7 +475,7 @@ MAKE在不同的环境下有不同的命令：
     ./RabbitIm            #启动程序
 
 
-###### 2.1.2、android 平台:
+###### 2.1.2. android 平台:
 
 
     mkdir rabbitim-build  #建立编译目录
