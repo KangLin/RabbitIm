@@ -5,7 +5,7 @@
 #include <QColor>
 #include "qxmpp/QXmppPresence.h"
 #include "qxmpp/QXmppClient.h"
-#include "XmppClient.h"
+#include "../XmppClient.h"
 #include "GlobalUser.h"
 
 class CRoster;

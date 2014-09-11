@@ -34,6 +34,7 @@ int CGlobalUser::Clean()
 
     m_bModify = false;
     m_UserInforLocale.clear();
+    m_UserInfoRoster.clear();
     return nRet;
 }
 
@@ -227,6 +228,7 @@ int CGlobalUser::UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString jid)
         m_UserInforLocale = locale;
     }
     m_UserInforLocale->UpdateUserInfo(vCard, jid);
+    return 0;
 }
 
 int CGlobalUser::UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem)

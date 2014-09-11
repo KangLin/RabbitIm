@@ -1,5 +1,5 @@
 #include "UserInfoRoster.h"
-#include "Global/Global.h"
+#include "../Global/Global.h"
 #include <QSettings>
 #include <QBuffer>
 #include <QImageReader>
@@ -11,7 +11,9 @@ CUserInfoRoster::CUserInfoRoster(QObject *parent) : CUserInfo(parent)
 
 int CUserInfoRoster::UpdateUserInfo(const QXmppRosterIq::Item &rosterItem)
 {
+    m_szJid = rosterItem.bareJid();
     m_Group = rosterItem.groups();
+    return 0;
 }
 
 int CUserInfoRoster::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)

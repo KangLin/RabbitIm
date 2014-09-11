@@ -9,9 +9,9 @@
 #include <QDebug>
 #include <string>
 #include <QSettings>
-#include "Tool.h"
-#include "Widgets/FrmUserList/Roster.h"
-#include "MainWindow.h"
+#include "../Tool.h"
+#include "../Widgets/FrmUserList/Roster.h"
+#include "../MainWindow.h"
 
 CGlobal::CGlobal(QObject *parent) :
     QObject(parent),

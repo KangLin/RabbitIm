@@ -1,5 +1,5 @@
 #include "UserInfoLocale.h"
-#include "Global/Global.h"
+#include "../Global/Global.h"
 #include <QSettings>
 #include <QBuffer>
 #include <QImageReader>

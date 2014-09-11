@@ -39,8 +39,7 @@ private:
     QSharedPointer<CUserInfoLocale> m_UserInforLocale;
     //好友信息  
     QMap<QString, QSharedPointer<CUserInfoRoster> > m_UserInfoRoster;
-    
-    
+
 private:
     bool m_bModify;//
 signals:
