@@ -41,8 +41,16 @@ int CGlobalUser::Clean()
 int CGlobalUser::LoadFromFile(QString szLocaleJid)
 {
     int nRet = 0;
+    nRet = LoadLocaleFromFile(szLocaleJid);
+    
+    return nRet;
+}
+
+int CGlobalUser::LoadLocaleFromFile(QString szLocaleJid)
+{
+    int nRet = 0;
     QString szFile = CGlobal::Instance()->GetDirUserData(szLocaleJid) 
-            + QDir::separator() + "Info.dat";
+            + QDir::separator() + "LocaleInfo.dat";
 
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
@@ -64,9 +72,7 @@ int CGlobalUser::LoadFromFile(QString szLocaleJid)
             QSharedPointer<CUserInfoLocale> locale(new CUserInfoLocale);
             m_UserInforLocale = locale;
         }
-        s >> *m_UserInforLocale;
-        //TODO:好友用户信息  
-        
+        s >> *m_UserInforLocale;        
     }
     catch(...)
     {
@@ -81,8 +87,15 @@ int CGlobalUser::LoadFromFile(QString szLocaleJid)
 int CGlobalUser::SaveToFile()
 {
     int nRet = 0;
+    nRet = SaveLocaleToFile();
+    return nRet;
+}
+
+int CGlobalUser::SaveLocaleToFile()
+{
+    int nRet = 0;
     QString szFile = CGlobal::Instance()->GetDirUserData(CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale()->GetBareJid()) 
-            + QDir::separator() + "Info.dat";
+            + QDir::separator() + "LocaleInfo.dat";
     
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
@@ -98,9 +111,7 @@ int CGlobalUser::SaveToFile()
         int nVersion = 1;
         s << nVersion;
         //本地用户信息  
-        s << *m_UserInforLocale;
-        //TODO:好友信息  
-        
+        s << *m_UserInforLocale;     
     }
     catch(...)
     {

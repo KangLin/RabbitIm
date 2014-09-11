@@ -386,7 +386,7 @@ void CFrmVideo::callReceived(QXmppCall *pCall)
     if(m_pCall)
     {
         LOG_MODEL_ERROR("Video", 
-                        qPrintable(CGlobal::Instance()->GetBareJid() 
+                        qPrintable(USER_INFO_LOCALE->GetBareJid() 
                          + " talking with "
                          + QXmppUtils::jidToBareJid(m_pCall->jid())
                          + "call, don't accpect new call."));
@@ -766,7 +766,7 @@ int CFrmVideo::StartVideo()
     m_RemotePlayer.show();
     m_RemotePlayer.setWindowTitle(GetShowName(m_pCall->jid()));
 
-    m_LocalePlayer.setWindowTitle(CGlobal::Instance()->GetShowName());
+    m_LocalePlayer.setWindowTitle(USER_INFO_LOCALE->GetShowName());
     m_LocalePlayer.raise();//提升到父窗口中栈的顶部  
     m_LocalePlayer.show();
     m_LocalePlayer.activateWindow();
@@ -907,8 +907,8 @@ QString CFrmVideo::GetShowName(QString jid)
         CRoster* pRoster = m_pMainWindow->GetRoster(jid);
         if(pRoster)
             szName = pRoster->ShowName();
-        else if(QXmppUtils::jidToBareJid(jid) == CGlobal::Instance()->GetBareJid())//是否是本地用户  
-            szName = CGlobal::Instance()->GetShowName();
+        else if(QXmppUtils::jidToBareJid(jid) == USER_INFO_LOCALE->GetBareJid())//是否是本地用户  
+            szName = USER_INFO_LOCALE->GetShowName();
     }
     if(szName.isEmpty())
     {

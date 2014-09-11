@@ -5,7 +5,6 @@
 #include "../../MainWindow.h"
 #include "../FrmVideo/FrmVideo.h"
 #include "../FrmUservCard/FrmUservCard.h"
-
 #include "../DlgScreenShot/DlgScreenShot.h"
 
 CFrmMessage::CFrmMessage(QWidget *parent) :
@@ -253,7 +252,7 @@ void CFrmMessage::on_pbSend_clicked()
         return;
     }
 
-    AppendMessageToList(ui->txtInput->toPlainText(), CGlobal::Instance()->GetBareJid(), CGlobal::Instance()->GetShowName(), false);
+    AppendMessageToList(ui->txtInput->toPlainText(), USER_INFO_LOCALE->GetBareJid(), USER_INFO_LOCALE->GetShowName(), false);
 
     //发送  
     QXmppMessage msg("", m_pRoster->BareJid(), ui->txtInput->toPlainText());

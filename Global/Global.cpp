@@ -19,7 +19,6 @@ CGlobal::CGlobal(QObject *parent) :
 {
     m_pMainWindow = NULL;
     QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
-    m_pRoster = new CRoster;
     m_LocalStatus = (QXmppPresence::AvailableStatusType)conf.value("Login/LoginState", QXmppPresence::Online).toInt();
     m_UserColor = GetColorFormConf("Options/User/LocalColor", QColor(255, 0, 0));
     m_RosterColor = GetColorFormConf("Options/User/RosterColor", QColor(0, 0, 255));
@@ -64,8 +63,6 @@ CGlobal::CGlobal(QObject *parent) :
 
 CGlobal::~CGlobal()
 {
-    if(m_pRoster)
-        delete m_pRoster;
 }
 
 CGlobal* CGlobal::Instance()
@@ -130,63 +127,6 @@ QSharedPointer<CGlobalUser> CGlobal::GetGlobalUser()
         m_GlobalUser = d;
     }
     return m_GlobalUser;
-}
-
-QString CGlobal::GetJid()
-{
-    if(m_pRoster)
-        return m_pRoster->Jid();
-
-    return QString();
-}
-
-QString CGlobal::GetBareJid()
-{
-    return QXmppUtils::jidToBareJid(GetJid());
-}
-
-QString CGlobal::GetShowName()
-{
-    QString szText;
-    switch(CGlobal::Instance()->GetRosterShowType())
-    {
-    case CGlobal::E_ROSTER_SHOW_JID:
-        szText = GetBareJid();
-        break;
-    case CGlobal::E_ROSTER_SHOW_NAME:
-        szText = GetName();
-        break;
-    case CGlobal::E_ROSTER_SHOW_NICK:
-    default:
-        szText = GetRoster()->Nick();
-        break;
-    }
-    return szText;
-}
-
-QString CGlobal::GetName()
-{
-    QString szName;
-    if(GetRoster())
-        szName = GetRoster()->Name();
-    if(szName.isEmpty())
-        return QXmppUtils::jidToUser(GetJid());
-    return szName;
-}
-
-QString CGlobal::GetDomain()
-{
-    return QXmppUtils::jidToDomain(GetJid());
-}
-
-QString CGlobal::GetResource()
-{
-    return QXmppUtils::jidToResource(GetJid());
-}
-
-CRoster* CGlobal::GetRoster()
-{
-    return m_pRoster;
 }
 
 QXmppPresence::AvailableStatusType CGlobal::GetStatus()

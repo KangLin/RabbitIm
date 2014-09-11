@@ -59,19 +59,11 @@ public:
     QSharedPointer<CGlobalUser> GetGlobalUser();
 private:
     QSharedPointer<CGlobalUser> m_GlobalUser;
+
 public:
-    //得到本地用户住息  
-    QString GetShowName();//根据配置显示用户名称  
-    QString GetName();
-    QString GetJid();
-    QString GetBareJid();
-    QString GetDomain();
-    QString GetResource();
-    CRoster* GetRoster(); //本地用户详细信息  
     QXmppPresence::AvailableStatusType GetStatus();//得到本地用户状态  
     int SetStatus(QXmppPresence::AvailableStatusType status);
 private:
-    CRoster *m_pRoster;     //存储本地用户的详细信息  
     QXmppPresence::AvailableStatusType m_LocalStatus;//本地用户的状态  
 
 public:
@@ -208,6 +200,10 @@ signals:
 
 public slots:
 };
+
+#define XMPP_CLIENT CGlobal::Instance()->GetXmppClient()
+#define GLOBAL_UER CGlobal::Instance()->GetGlobalUser()
+#define USER_INFO_LOCALE CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale()
 
 #define LM_DEBUG 0
 #define LM_INFO 1

@@ -87,12 +87,12 @@ void CConference::slotItemsReceived(const QXmppDiscoveryIq &iq)
 
 int CConference::Request(QString szJid, REQUEST_TYPE type)
 {
-    QXmppDiscoveryManager *dis = CGlobal::Instance()->GetXmppClient()->findExtension<QXmppDiscoveryManager>();
+    QXmppDiscoveryManager *dis = XMPP_CLIENT->findExtension<QXmppDiscoveryManager>();
     m_type = type;
     switch(type)
     {
     case REQUEST_TYPE_SEVER:
-        m_szJid = CGlobal::Instance()->GetDomain();
+        m_szJid = USER_INFO_LOCALE->GetDomain();
         break;
     case REQUEST_TYPE_ROOMS_INFO:
         m_szJid = szJid;

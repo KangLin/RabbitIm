@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pLogin = new CFrmLogin(this);
     this->setCentralWidget(m_pLogin);
 
-    CXmppClient* pClient = CGlobal::Instance()->GetXmppClient();
+    CXmppClient* pClient = XMPP_CLIENT;
     if(pClient)
     {
         //初始化qxmpp log
@@ -171,7 +171,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     if(QMessageBox::Ok == msg.exec())
     {
         //退出程序  
-        CGlobal::Instance()->GetXmppClient()->disconnectFromServer();
+        XMPP_CLIENT->disconnectFromServer();
         e->accept();
         QApplication::closeAllWindows();
     }
@@ -201,12 +201,15 @@ void MainWindow::slotClientConnected()
         m_pLogin = NULL;
     }
 
-    int nRet = CGlobal::Instance()->GetGlobalUser()->Init(CGlobal::Instance()->GetXmppClient()->configuration().jidBare());
+    int nRet = GLOBAL_UER->Init(XMPP_CLIENT->configuration().jidBare());
     if(nRet)
     {
         LOG_MODEL_ERROR("MainWindow", "Init GlobalUser fail");
         return;
     }
+
+    if(!USER_INFO_LOCALE.isNull())
+        USER_INFO_LOCALE->SetStatus(XMPP_CLIENT->clientPresence().availableStatusType());
 
     if(NULL == m_pTableMain)
         m_pTableMain = new CFrmMain(this);
@@ -221,8 +224,8 @@ void MainWindow::slotClientConnected()
     InitLoginedMenu();
 
     //得到本地用户的详细信息  
-    if(CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale().isNull())
-        CGlobal::Instance()->GetXmppClient()->vCardManager().requestClientVCard();
+    if(USER_INFO_LOCALE.isNull())
+        XMPP_CLIENT->vCardManager().requestClientVCard();
 
     m_bLogin = true;
 }
@@ -231,7 +234,7 @@ void MainWindow::slotClientDisconnected()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow:: DISCONNECTED");
     m_bLogin = false;
-     CGlobal::Instance()->GetGlobalUser()->Clean();
+     GLOBAL_UER->Clean();
 }
 
 void MainWindow::clientError(QXmppClient::Error e)
@@ -265,12 +268,13 @@ void MainWindow::clientIqReceived(const QXmppIq &iq)
 void MainWindow::slotClientVCardReceived()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotClientVCardReceived");
-    /*CGlobal::Instance()->GetRoster()->SetVCard(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
-                                               CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard().to());*/
+    /*CGlobal::Instance()->GetRoster()->SetVCard(XMPP_CLIENT->vCardManager().clientVCard(),
+                                               XMPP_CLIENT->vCardManager().clientVCard().to());*/
     
-    CGlobal::Instance()->GetGlobalUser()->UpdateUserInfo(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
-                                                               CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard().to());
-    m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetShowName()));
+    GLOBAL_UER->UpdateUserInfo(XMPP_CLIENT->vCardManager().clientVCard(),
+                                                               XMPP_CLIENT->vCardManager().clientVCard().to());
+    USER_INFO_LOCALE->SetStatus(XMPP_CLIENT->clientPresence().availableStatusType());
+    m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(USER_INFO_LOCALE->GetShowName()));
 }
 
 void MainWindow::stateChanged(QXmppClient::State state)
@@ -299,7 +303,7 @@ void MainWindow::stateChanged(QXmppClient::State state)
 
 void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindow::SendFileType type)
 {
-    QXmppTransferJob* job = CGlobal::Instance()->GetXmppClient()->m_TransferManager.sendFile(jid,fileName,QString::number(type));
+    QXmppTransferJob* job = XMPP_CLIENT->m_TransferManager.sendFile(jid,fileName,QString::number(type));
     if(job)
     {
         m_pSendManageDlg->addFileProcess(*job,true);
@@ -389,7 +393,7 @@ int MainWindow::InitMenuStatus()
     }
 
     m_MenuStatus.setTitle(tr("Status(&S)"));
-    m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale()->GetStatus())));
+    m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CGlobal::Instance()->GetStatus())));
 
     return 0;
 }
@@ -620,9 +624,9 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
         {
             QXmppPresence presence;
             QXmppPresence::AvailableStatusType status = it.key();
-            CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale()->SetStatus(status);
+            USER_INFO_LOCALE->SetStatus(status);
             presence.setAvailableStatusType(status);
-            CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
+            XMPP_CLIENT->setClientPresence(presence);
             act->setCheckable(true);
             act->setChecked(true);
             m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(status)));
@@ -633,7 +637,7 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
 void MainWindow::slotEditInformation()
 {
     CFrmUservCard* pvCard = 
-            new CFrmUservCard(CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale(), true);
+            new CFrmUservCard(USER_INFO_LOCALE, true);
     pvCard->show();
     pvCard->activateWindow();
 }

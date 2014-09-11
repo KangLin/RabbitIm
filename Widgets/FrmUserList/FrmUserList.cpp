@@ -113,86 +113,7 @@ CFrmUserList::~CFrmUserList()
 int CFrmUserList::Init()
 {
     int nRet = 0;
-    //从本地加载好友列表  
-    nRet = LoadUserList();
-    if(nRet)
-        return nRet;
 
-    return nRet;
-}
-
-//从本地加载好友列表  
-int CFrmUserList::LoadUserList()
-{
-    int nRet = 0;
-    QString szFile = CGlobal::Instance()->GetDirUserData(CGlobal::Instance()->GetBareJid()) 
-            + QDir::separator() + "RosterInfo.dat";
-
-    QFile in(szFile);
-    if(!in.open(QFile::ReadOnly))
-    {
-        LOG_MODEL_WARNING("CFrmUserList", "Don't open file:%s", szFile.toStdString().c_str());
-        return -1;
-    }
-
-    try{
-        QDataStream s(&in);
-        
-        //版本号  
-        int nVersion = 0;
-        s >> nVersion;
-        
-        LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
-        while(!s.atEnd())
-        {
-            //QSharedPointer<CRoster > roster(new CRoster());
-            CRoster* pRoster = new CRoster();
-            s >> *pRoster;
-            this->InsertUser(pRoster);
-        }
-    }
-    catch(...)
-    {
-        LOG_MODEL_ERROR("UserList", "CFrmUserList::LoadUserList exception");
-        nRet = -1;
-    }
-
-    in.close();
-    return 0;
-}
-
-int CFrmUserList::SaveUserList()
-{
-    int nRet = 0;
-    QString szFile = CGlobal::Instance()->GetDirUserData(CGlobal::Instance()->GetBareJid()) 
-            + QDir::separator() + "RosterInfo.dat";
-    
-    QFile out(szFile);
-    if(!out.open(QFile::WriteOnly))
-    {
-        LOG_MODEL_WARNING("CFrmUserList", "Don't open file:%s", szFile.toStdString().c_str());
-        return -1;
-    }
-    
-    try
-    {
-        QDataStream s(&out);
-        //版本号  
-        int nVersion = 1;
-        s << nVersion;
-        QMap<QString, CRoster*>::iterator it;
-        for(it = m_Rosters.begin(); it != m_Rosters.end(); it++)
-        {
-            s << *(*it);
-        }
-    }
-    catch(...)
-    {
-        LOG_MODEL_ERROR("UserList", "CFrmUserList::SaveUserList exception");
-        return -1;
-    }
-    
-    out.close();
     return nRet;
 }
 
@@ -202,7 +123,6 @@ int CFrmUserList::Clean()
     CGlobal::Instance()->GetXmppClient()->vCardManager().disconnect(this);
     CGlobal::Instance()->GetXmppClient()->disconnect(this);
     CGlobal::Instance()->GetMainWindow()->disconnect(this);
-    SaveUserList();
     return 0;
 }
 

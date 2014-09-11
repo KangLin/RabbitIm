@@ -140,7 +140,7 @@ bool CFrmGroupChat::Join(const QString &jid)
         Q_ASSERT(check);
 
         //设置昵称  
-        m_pRoom->setNickName(CGlobal::Instance()->GetRoster()->Name());
+        m_pRoom->setNickName(USER_INFO_LOCALE->GetName());
         //加入房间  
         return m_pRoom->join();
     }
@@ -478,6 +478,6 @@ void CFrmGroupChat::on_lstMembers_doubleClicked(const QModelIndex &index)
     QString jid = v.value<QString>();
     if(jid.isEmpty())
         return;
-    if(CGlobal::Instance()->GetBareJid() != QXmppUtils::jidToBareJid(jid))
+    if(USER_INFO_LOCALE->GetBareJid() != QXmppUtils::jidToBareJid(jid))
         CFrmUservCard* pvCard = new CFrmUservCard(jid);
 }

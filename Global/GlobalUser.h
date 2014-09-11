@@ -22,6 +22,8 @@ public:
 private:
     int LoadFromFile(QString szLocaleJid);
     int SaveToFile();
+    int LoadLocaleFromFile(QString szLocaleJid);
+    int SaveLocaleToFile();
 
 public:
     QSharedPointer<CUserInfoLocale> GetUserInfoLocale();
