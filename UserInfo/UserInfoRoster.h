@@ -21,7 +21,7 @@ public:
     virtual int UpdateUserInfo(const QXmppVCardIq &vCard, QString jid);
 
     virtual QXmppPresence::AvailableStatusType GetStatus();//得到本地用户状态  
-    virtual int SetStatus(QXmppPresence::AvailableStatusType status);
+    virtual int SetStatus(const QString &jid, QXmppPresence::AvailableStatusType status);
 
 private:
     QSet<QString> m_Group;

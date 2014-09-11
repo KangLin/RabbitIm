@@ -2,6 +2,7 @@
 #include "Global.h"
 #include <QDir>
 #include <QFile>
+#include "qxmpp/QXmppUtils.h"
 
 CGlobalUser::CGlobalUser(QObject *parent) :
     QObject(parent)
@@ -209,11 +210,11 @@ QSharedPointer<CUserInfoLocale> CGlobalUser::GetUserInfoLocale()
     return m_UserInforLocale;
 }
 
-QSharedPointer< CUserInfoRoster > CGlobalUser::GetUserInfoRoster(QString szJid)
+QSharedPointer< CUserInfoRoster > CGlobalUser::GetUserInfoRoster(QString szBareJid)
 {
     QSharedPointer<CUserInfoRoster> roster;
     QMap<QString, QSharedPointer<CUserInfoRoster> >::iterator it;
-    it = m_UserInfoRoster.find(szJid);
+    it = m_UserInfoRoster.find(QXmppUtils::jidToBareJid(szBareJid));
     if(m_UserInfoRoster.end() == it)
         return roster;
     return it.value();
@@ -256,12 +257,13 @@ int CGlobalUser::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString jid)
 {
     int nRet = 0;
     m_bModify = true;
-    QSharedPointer<CUserInfoRoster> roster = GetUserInfoRoster(jid);
+    QString szBareJid = QXmppUtils::jidToBareJid(jid);
+    QSharedPointer<CUserInfoRoster> roster = GetUserInfoRoster(szBareJid);
     if(roster.isNull())
     {
         QSharedPointer<CUserInfoRoster> r(new CUserInfoRoster);
         roster = r;
-        m_UserInfoRoster.insert(jid, roster);
+        m_UserInfoRoster.insert(szBareJid, roster);
     }
     nRet = roster->UpdateUserInfo(vCard, jid);
     return nRet;

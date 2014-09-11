@@ -32,7 +32,7 @@ private:
 public:
     QSharedPointer<CUserInfoLocale> GetUserInfoLocale();
     QMap<QString, QSharedPointer<CUserInfoRoster> > &GetUserInfoRosters();
-    QSharedPointer<CUserInfoRoster> GetUserInfoRoster(QString szJid);
+    QSharedPointer<CUserInfoRoster> GetUserInfoRoster(QString szBareJid);
     
 private:
     //本地用户信息  

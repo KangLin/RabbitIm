@@ -369,6 +369,7 @@ int CFrmUserList::InsertUser(CRoster *pRoster)
 int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
 {
     int nRet = 0;
+    LOG_MODEL_DEBUG("FrmUserList", "jid:%s", qPrintable(rosterItem.bareJid()));
     QSharedPointer<CUserInfoRoster> roster;
     roster = GLOBAL_UER->GetUserInfoRoster(rosterItem.bareJid());
     if(!roster.isNull())
@@ -467,7 +468,7 @@ void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
     QString bareJid = QXmppUtils::jidToBareJid(presence.from());
     QSharedPointer<CUserInfoRoster> roster = GLOBAL_UER->GetUserInfoRoster(bareJid);
     if(!roster.isNull())
-        roster->SetStatus(presence.availableStatusType());
+        roster->SetStatus(presence.from(), presence.availableStatusType());
 
     //TODO:更新列表控件状态  
     return;
@@ -481,7 +482,12 @@ void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
 //得到好友形象信息  
 void CFrmUserList::slotvCardReceived(const QXmppVCardIq& vCard)
 {
-    QString jid = QXmppUtils::jidToBareJid(vCard.from());
+    QString jid = vCard.from();
+    if(jid.isEmpty())
+    {
+        LOG_MODEL_ERROR("FrmUserList", "jid is null");
+        Q_ASSERT(false);
+    }
     GLOBAL_UER->UpdateUserInfoRoster(vCard, jid);
     //TODO:更新列表控件  
     

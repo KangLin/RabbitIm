@@ -35,8 +35,14 @@ QXmppPresence::AvailableStatusType CUserInfoRoster::GetStatus()
     return m_LocalStatus;
 }
 
-int CUserInfoRoster::SetStatus(QXmppPresence::AvailableStatusType status)
+int CUserInfoRoster::SetStatus(const QString &jid, QXmppPresence::AvailableStatusType status)
 {
+    if(jid.isEmpty())
+    {
+        LOG_MODEL_ERROR("UserInfo", "jid is null");
+        Q_ASSERT(false);
+    }
+    m_szJid = jid;
     m_LocalStatus = status;
     return 0;
 }
