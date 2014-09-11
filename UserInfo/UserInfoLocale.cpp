@@ -22,7 +22,7 @@ int CUserInfoLocale::SetStatus(QXmppPresence::AvailableStatusType status)
     return 0;
 }
 
-int CUserInfoLocale::UpdateLocaleUserInfo(const QXmppVCardIq &vCard, QString jid)
+int CUserInfoLocale::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
 {
     if(!vCard.fullName().isEmpty())
         m_szName = vCard.fullName();

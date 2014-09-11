@@ -1,6 +1,8 @@
 #include "UserInfo.h"
 #include "Global/Global.h"
 #include <QSettings>
+#include <QBuffer>
+#include <QImageReader>
 #include "qxmpp/QXmppUtils.h"
 
 CUserInfo::CUserInfo(QObject *parent) :
@@ -90,6 +92,33 @@ QXmppPresence::AvailableStatusType CUserInfo::GetStatus()
 int CUserInfo::SetStatus(QXmppPresence::AvailableStatusType status)
 {
     m_LocalStatus = status;
+    return 0;
+}
+
+int CUserInfo::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
+{
+    if(!vCard.fullName().isEmpty())
+        m_szName = vCard.fullName();
+    m_szNick = vCard.nickName();
+    m_Birthday = vCard.birthday();
+    m_szEmail = vCard.email();
+    m_szDescription = vCard.description();
+    if(!jid.isEmpty())
+        m_szJid = jid;
+
+    //保存头像  
+    QByteArray photo = vCard.photo();
+    QBuffer buffer;
+    buffer.setData(photo);
+    buffer.open(QIODevice::ReadOnly);
+    QImageReader imageReader(&buffer);
+    m_imgPhoto = imageReader.read();
+    buffer.close();
+
+    //保存头像到本地  
+    /*QImageWriter imageWriter(CGlobal::Instance()->GetFileUserAvatar(GetBareJid()), "png");
+    if(!imageWriter.write(GetPhoto()))
+        LOG_MODEL_ERROR("CRoster", "Save avater error, %s", imageWriter.errorString().toStdString().c_str());//*/
     return 0;
 }
 

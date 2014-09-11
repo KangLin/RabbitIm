@@ -3,8 +3,10 @@
 
 #include <QFrame>
 #include <QBuffer>
+#include <QSharedPointer>
 #include "../FrmUserList/Roster.h"
 #include "../../XmppClient.h"
+#include "../../UserInfo/UserInfo.h"
 
 namespace Ui {
 class CFrmUservCard;
@@ -20,7 +22,7 @@ public:
     //用于查询组成员信息  
     explicit CFrmUservCard(const QString &jid, QWidget *parent = 0);
     //用于查询好友信息  
-    explicit CFrmUservCard(CRoster* pRoster, bool bModify = false, QWidget* parent = NULL);
+    explicit CFrmUservCard(QSharedPointer<CUserInfo> user, bool bModify = false, QWidget* parent = NULL);
     ~CFrmUservCard();
 
 protected:
@@ -36,13 +38,14 @@ private slots:
 
     //得到好友详细信息时触发  
     void slotvCardReceived(const QXmppVCardIq&);
+    int Init();
 
 private:
     Ui::CFrmUservCard *ui;
     QString m_szJid;
-    CRoster* m_pRoster;
+    QSharedPointer<CUserInfo> m_UserInfo;
     bool m_bModify;
-    CXmppClient* m_pClient;
+   // CXmppClient* m_pClient;
     QBuffer m_Buffer;
 };
 

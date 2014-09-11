@@ -117,7 +117,14 @@ QSharedPointer<CUserInfoLocale> CGlobalUser::GetUserInfoLocale()
     return m_UserInforLocale;
 }
 
-int CGlobalUser::UpdateLocaleUserInfo(const QXmppVCardIq &vCard, QString jid)
+QSharedPointer< CUserInfoRoster > CGlobalUser::GetUserInfoRoster(QString szJid)
+{
+    QSharedPointer<CUserInfoRoster> roster;
+    
+    return roster;
+}
+
+int CGlobalUser::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
 {
     m_bModify = true;
     if(m_UserInforLocale.isNull())
@@ -125,5 +132,5 @@ int CGlobalUser::UpdateLocaleUserInfo(const QXmppVCardIq &vCard, QString jid)
         QSharedPointer<CUserInfoLocale> locale(new CUserInfoLocale);
         m_UserInforLocale = locale;
     }
-    m_UserInforLocale->UpdateLocaleUserInfo(vCard, jid);
+    m_UserInforLocale->UpdateUserInfo(vCard, jid);
 }

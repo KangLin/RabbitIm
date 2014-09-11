@@ -268,7 +268,7 @@ void MainWindow::slotClientVCardReceived()
     /*CGlobal::Instance()->GetRoster()->SetVCard(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
                                                CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard().to());*/
     
-    CGlobal::Instance()->GetGlobalUser()->UpdateLocaleUserInfo(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
+    CGlobal::Instance()->GetGlobalUser()->UpdateUserInfo(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
                                                                CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard().to());
     m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetShowName()));
 }
@@ -310,10 +310,6 @@ int MainWindow::ReInitMenuOperator()
 {
     ui->menuOperator_O->clear();
 
-    //初始化状态菜单  
-    ClearMenuStatus();
-    InitMenuStatus();
-
     //初始化翻译菜单  
     ClearMenuTranslate();
     InitMenuTranslate();
@@ -329,6 +325,10 @@ int MainWindow::InitLoginedMenu()
 {
     ui->menuOperator_O->clear();
     emit sigMenuRemoveOperator(ui->menuOperator_O);
+
+    //初始化状态菜单  
+    ClearMenuStatus();
+    InitMenuStatus();
 
     ui->menuOperator_O->addMenu(&m_MenuStatus);
     ui->menuOperator_O->addAction(QIcon(":/icon/AppIcon"),
@@ -389,7 +389,7 @@ int MainWindow::InitMenuStatus()
     }
 
     m_MenuStatus.setTitle(tr("Status(&S)"));
-    m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CGlobal::Instance()->GetStatus())));
+    m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale()->GetStatus())));
 
     return 0;
 }
@@ -620,7 +620,7 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
         {
             QXmppPresence presence;
             QXmppPresence::AvailableStatusType status = it.key();
-            CGlobal::Instance()->SetStatus(status);
+            CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale()->SetStatus(status);
             presence.setAvailableStatusType(status);
             CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
             act->setCheckable(true);
@@ -633,8 +633,7 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
 void MainWindow::slotEditInformation()
 {
     CFrmUservCard* pvCard = 
-            new CFrmUservCard(CGlobal::Instance()->GetRoster(), 
-                              true);
+            new CFrmUservCard(CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale(), true);
     pvCard->show();
     pvCard->activateWindow();
 }

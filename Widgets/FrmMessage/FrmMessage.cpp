@@ -289,7 +289,8 @@ void CFrmMessage::on_lbAvatar_clicked()
 {
     if(m_pRoster)
     {
-        CFrmUservCard *pvCard = new CFrmUservCard(m_pRoster);
-        pvCard->show();
+        //MODIFY:
+       // CFrmUservCard *pvCard = new CFrmUservCard(m_pRoster);
+       // pvCard->show();
     }
 }

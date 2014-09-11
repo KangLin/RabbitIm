@@ -347,8 +347,9 @@ void CFrmUserList::slotRemoveRoster()
 void CFrmUserList::slotInformationRoster()
 {
     CRoster* p = GetCurrentRoster();
-    CFrmUservCard* pvCard = new CFrmUservCard(p);
-    pvCard->show();
+    //MODIFY:
+   // CFrmUservCard* pvCard = new CFrmUservCard(NULL);
+   // pvCard->show();
 }
 
 void CFrmUserList::slotClientMessageReceived(const QXmppMessage &message)
@@ -651,7 +652,7 @@ CRoster* CFrmUserList::GetCurrentRoster()
     //TODO:暂时根据是否有根节点来判断是组还是好友  
     if(m->parent(index).isValid())
     {
-        //是用户结点，删除它  
+        //是用户结点
         QVariant v = m->data(index, Qt::UserRole + 1);
         if(v.canConvert<CRoster*>())
         {

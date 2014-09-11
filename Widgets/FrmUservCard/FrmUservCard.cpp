@@ -13,12 +13,7 @@ CFrmUservCard::CFrmUservCard(QWidget *parent) :
     ui(new Ui::CFrmUservCard)
 {
     ui->setupUi(this);
-
-    QDesktopWidget *pDesk = QApplication::desktop();
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-
-    m_pRoster = NULL;
+    Init();
     m_bModify = false;
 }
 
@@ -28,30 +23,27 @@ CFrmUservCard::CFrmUservCard(const QString &jid, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QXmppRosterIq::Item item;
-    item.setBareJid(jid);
-    m_pRoster = new CRoster(item);
+    Init();
+
     m_bModify = false;
     m_szJid = jid;
 
-    bool check = connect(&CGlobal::Instance()->GetXmppClient()->vCardManager(), SIGNAL(vCardReceived(QXmppVCardIq)),
-                    SLOT(slotvCardReceived(QXmppVCardIq)));
-    Q_ASSERT(check);
-
-    check = connect(this, SIGNAL(destroyed()),
-                    m_pRoster, SLOT(deleteLater()));
+    bool check = connect(&CGlobal::Instance()->GetXmppClient()->vCardManager(),
+                         SIGNAL(vCardReceived(QXmppVCardIq)),
+                         SLOT(slotvCardReceived(QXmppVCardIq)));
     Q_ASSERT(check);
 
     CGlobal::Instance()->GetXmppClient()->vCardManager().requestVCard(jid);
 }
 
-CFrmUservCard::CFrmUservCard(CRoster *pRoster, bool bModify, QWidget *parent) :
+CFrmUservCard::CFrmUservCard(QSharedPointer<CUserInfo> user, bool bModify, QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmUservCard),
-    m_pRoster(pRoster),
+    m_UserInfo(user),
     m_bModify(bModify)
 {
     ui->setupUi(this);
+    Init();
 }
 
 CFrmUservCard::~CFrmUservCard()
@@ -60,25 +52,36 @@ CFrmUservCard::~CFrmUservCard()
     delete ui;
 }
 
+int CFrmUservCard::Init()
+{  
+    QDesktopWidget *pDesk = QApplication::desktop();
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
+    return 0;
+}
+
 void CFrmUservCard::showEvent(QShowEvent *)
 {
     LOG_MODEL_DEBUG("CFrmUservCard", "CFrmUservCard::showEvent");
 
-    ui->txtJID->setText(m_pRoster->BareJid());
-    ui->txtName->setText(m_pRoster->Name());
-    ui->txtNick->setText(m_pRoster->Nick());
-    ui->dateBirthday->setDate(m_pRoster->Birthday());
-    ui->txtEmail->setText(m_pRoster->Email());
-    ui->txtDescription->setText(m_pRoster->Description());
+    if(m_UserInfo.isNull())
+        return;
+
+    ui->txtJID->setText(m_UserInfo->GetBareJid());
+    ui->txtName->setText(m_UserInfo->GetName());
+    ui->txtNick->setText(m_UserInfo->GetNick());
+    ui->dateBirthday->setDate(m_UserInfo->GetBirthday());
+    ui->txtEmail->setText(m_UserInfo->GetEmail());
+    ui->txtDescription->setText(m_UserInfo->GetDescription());
 
     QImageWriter imageWriter(&m_Buffer, "png");
     m_Buffer.open(QIODevice::WriteOnly);
-    if(!imageWriter.write(m_pRoster->Photo()))
+    if(!imageWriter.write(m_UserInfo->GetPhoto()))
         LOG_MODEL_ERROR("CFrmUservCard", "error:%s", imageWriter.errorString().toStdString().c_str());
     m_Buffer.close();
 
     QPixmap pixmap;
-    pixmap.convertFromImage(m_pRoster->Photo());
+    pixmap.convertFromImage(m_UserInfo->GetPhoto());
     ui->lbPhoto->setPixmap(pixmap);
     ui->lbPhoto->setScaledContents(true);
 
@@ -156,7 +159,13 @@ void CFrmUservCard::slotvCardReceived(const QXmppVCardIq& vCard)
                     qPrintable(vCard.from()),
                     qPrintable(vCard.to()));
     if(vCard.from() == m_szJid)
-        if(m_pRoster)
-            m_pRoster->SetVCard(vCard);
-    this->show();
+    {
+        if(m_UserInfo.isNull())
+        {
+            QSharedPointer<CUserInfo> info(new CUserInfo);
+            m_UserInfo = info;
+        }
+        m_UserInfo->UpdateUserInfo(vCard, m_szJid);
+        this->show();
+    }
 }

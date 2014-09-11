@@ -492,8 +492,18 @@ QString CGlobal::GetDirTranslate()
 
 QString CGlobal::GetDirUserData(const QString bareJid)
 {
-    QString jid = GetBareJid();
-    if(!bareJid.isEmpty())
+    QString jid;
+    if(bareJid.isEmpty())
+    {
+        if(!GetGlobalUser().isNull() && !GetGlobalUser()->GetUserInfoLocale().isNull())
+            jid = GetGlobalUser()->GetUserInfoLocale()->GetBareJid();
+        else
+        {
+            LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
+            Q_ASSERT(false);
+        }
+    }
+    else
         jid = QXmppUtils::jidToBareJid(bareJid);
     jid = jid.replace("@", ".");
     QString path = GetDirApplicationConfigure() + QDir::separator() + "Users";

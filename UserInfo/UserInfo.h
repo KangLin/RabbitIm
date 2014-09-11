@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QDataStream>
 #include "qxmpp/QXmppPresence.h"
+#include "qxmpp/QXmppVCardIq.h"
 
 class CUserInfo : public QObject
 {
@@ -31,6 +32,8 @@ public:
     friend QDataStream & operator <<(QDataStream &output, const CUserInfo &roster);
     friend QDataStream & operator >>(QDataStream &input, CUserInfo &roster);
 #endif
+
+    virtual int UpdateUserInfo(const QXmppVCardIq &vCard, QString jid);
 
 protected:
     QString m_szJid;

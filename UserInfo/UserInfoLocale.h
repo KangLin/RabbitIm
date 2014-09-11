@@ -13,7 +13,7 @@ public:
     virtual QXmppPresence::AvailableStatusType GetStatus();//得到本地用户状态  
     virtual int SetStatus(QXmppPresence::AvailableStatusType status);
 
-    int UpdateLocaleUserInfo(const QXmppVCardIq &vCard, QString jid);
+    virtual int UpdateUserInfo(const QXmppVCardIq &vCard, QString jid);
 
 #ifndef QT_NO_DATASTREAM
     friend QDataStream & operator <<(QDataStream &output, const CUserInfoLocale &roster);

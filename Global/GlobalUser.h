@@ -17,7 +17,7 @@ public:
     int Clean();
     
     //更新本地用户信息  
-    int UpdateLocaleUserInfo(const QXmppVCardIq &vCard, QString jid);
+    int UpdateUserInfo(const QXmppVCardIq &vCard, QString jid);
 
 private:
     int LoadFromFile(QString szLocaleJid);
@@ -25,6 +25,7 @@ private:
 
 public:
     QSharedPointer<CUserInfoLocale> GetUserInfoLocale();
+    QSharedPointer<CUserInfoRoster> GetUserInfoRoster(QString szJid);
     
 private:
     QSharedPointer<CUserInfoLocale> m_UserInforLocale;//本地用户信息  
