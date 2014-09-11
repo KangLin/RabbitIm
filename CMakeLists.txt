@@ -147,44 +147,7 @@ SET(RABBITIM_LIBS
     ${SPEEX_LIBS}
     )
 
-SET(RABBITIM_SOURCES
-    main.cpp
-    MainWindow.cpp 
-    XmppClient.cpp 
-    Global.cpp 
-    Tool.cpp 
-    Widgets/FrmSendFile/DlgSendManage.cpp 
-    Widgets/FrmSendFile/FrmSendFile.cpp 
-    Widgets/FrmLogin/FrmLogin.cpp 
-    Widgets/FrmUserList/FrmUserList.cpp 
-    Widgets/FrmUserList/Roster.cpp 
-    Widgets/FrmUserList/GroupItem.cpp 
-    Widgets/FrmMessage/FrmMessage.cpp 
-    Widgets/FrmMessage/Message.cpp 
-    Widgets/FrmRegister/FrmRegister.cpp 
-    Widgets/FrmAbout/FrmAbout.cpp 
-    Widgets/FrmVideo/FrmVideo.cpp 
-    Widgets/FrmVideo/CaptureVideoFrame.cpp 
-    Widgets/FrmVideo/FrmPlayer.cpp 
-    Widgets/FrmVideo/DataVideoBuffer.cpp 
-    Widgets/FrmVideo/FrameProcess.cpp 
-    Widgets/FrmAddRoster/FrmAddRoster.cpp 
-    Widgets/FrmCustom/CustomTreeView.cpp 
-    Widgets/FrmVideo/RecordAudio.cpp 
-    Widgets/FrmVideo/CCamera.cpp 
-    Widgets/FrmLogin/FrmLoginSettings.cpp 
-    Widgets/FrmOptions/FrmOptions.cpp 
-    Widgets/FrmUservCard/FrmUservCard.cpp 
-    Widgets/FrmCustom/Label.cpp  
-    Widgets/FrmGroupChat/FrmGroupChatList.cpp 
-    Widgets/FrmGroupChat/FrmGroupChatFind.cpp 
-    Widgets/FrmGroupChat/Conference.cpp 
-    Widgets/FrmGroupChat/FrmGroupChat.cpp 
-    Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp 
-    Widgets/FrmMain/FrmMain.cpp 
-    Widgets/FrmCustom/MenuMessageSend.cpp
-    Widgets/DlgScreenShot/DlgScreenShot.cpp
-)
+include(cmake/cmake_build_file.cmake)
 
 SET(RABBITIM_RCC_FILES Resource/Resource.qrc  AppIcon.rc)
 
