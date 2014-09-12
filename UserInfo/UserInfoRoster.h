@@ -25,11 +25,14 @@ public:
 
     virtual QXmppRosterIq::Item::SubscriptionType GetSubScriptionType();
     QString GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType type) const;
+    
+    int GetUnReadMessageCount();
 
 private:
     QSet<QString> m_Groups;
     QXmppRosterIq::Item::SubscriptionType m_subscriptionType;
     QXmppPresence::AvailableStatusType m_LocalStatus;//本地用户的状态  
+    int m_UnReadMessageCount;
 };
 
 #endif // USERINFOROSTER_H

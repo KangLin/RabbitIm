@@ -463,6 +463,7 @@ void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
         }
         else if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
         {
+            pItem->setData(QString::number(roster->GetUnReadMessageCount()), Qt::DisplayRole);
             pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
             pItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
             pItem->setEditable(false);//禁止双击编辑  
