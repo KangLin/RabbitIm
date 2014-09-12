@@ -407,11 +407,13 @@ int CFrmUserList::UpdateRosterItem(const QString &bareJid)
                                                 USERLIST_ITEM_ROLE_JID, 
                                                 roster->GetBareJid(), 
                                                 -1,
-                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+                                                Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     QModelIndex index;
     foreach(index, lstIndexs)
     {
+        LOG_MODEL_DEBUG("FrmUserList", "index:row:%d;column:%d", index.row(), index.column());
         QStandardItem* pItem = m_pModel->itemFromIndex(index);
+        QStandardItem* pItemUnReadMessageCount = pItem->parent()->child(index.row(), index.column() + 1);
         if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ROSTER)
         {
             //pItem->setEditable(true);//允许双击编辑  
@@ -428,13 +430,16 @@ int CFrmUserList::UpdateRosterItem(const QString &bareJid)
             //改变item图标  
             pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetStatus())), Qt::DecorationRole);
         }
-        else if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
+        if(pItemUnReadMessageCount->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
         {
-            pItem->setData(QString::number(roster->GetUnReadMessageCount()), Qt::DisplayRole);
-            pItem->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
-            //pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
-            //pItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
-            //pItem->setEditable(false);//禁止双击编辑  
+            if(roster->GetUnReadMessageCount() == 0)
+                pItemUnReadMessageCount->setText("");
+            else
+                pItemUnReadMessageCount->setText(QString::number(roster->GetUnReadMessageCount()));//pItemUnReadMessageCount->setData(QString::number(roster->GetUnReadMessageCount()), Qt::DisplayRole);
+            pItemUnReadMessageCount->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
+            //pItemUnReadMessageCount->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+            //pItemUnReadMessageCount->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
+            //pItemUnReadMessageCount->setEditable(false);//禁止双击编辑  
         }
     }
     return 0;
