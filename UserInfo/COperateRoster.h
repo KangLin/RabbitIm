@@ -1,8 +1,9 @@
 /* 
  * 操作好友列表辅助类  
  * 作用：主要用于枚举操作好友列表中的成员  
- * 用法：派生此类，并在派生类中实现 Proecess 成员函数  
- * 
+ * 用法：派生此类，并在派生类中实现 ProcessRoster 成员函数  
+ *      如果派生类中有多种操作方式，可以把操作方式通过para参数传递到 ProcessRoster 中。
+ *      然后根据 para 参数进行操作。
  */
 
 #ifndef COPERATEROSTER_H

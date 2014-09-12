@@ -114,7 +114,8 @@ CFrmUserList::~CFrmUserList()
 int CFrmUserList::Init()
 {
     int nRet = 0;
-    GLOBAL_USER->ProcessRoster(this);
+    int para = OPERATE_TYPE_INSERT_ROSTER;
+    GLOBAL_USER->ProcessRoster(this, &para);
     return nRet;
 }
 
@@ -130,32 +131,21 @@ int CFrmUserList::Clean()
 int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfoRoster> roster, void *para)
 {
     int nRet = 0;
-    //呢称条目  
-    QStandardItem* pItem = new QStandardItem(roster->GetShowName() + roster->GetSubscriptionTypeStr(roster->GetSubScriptionType()));
-    pItem->setEditable(true);//允许双击编辑  
-    pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
-    pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
-    //改变item背景颜色  
-    pItem->setData(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus()), Qt::BackgroundRole);
-    QString szText;
-    szText = roster->GetShowName()
-            + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
-            +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType());
-    pItem->setData(szText, Qt::DisplayRole); //改变item文本,或者直接用 pItem->setText(szText);  
-
-    //改变item图标  
-    pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetStatus())), Qt::DecorationRole);
-
-    //消息条目  
-    QStandardItem* pMessageCountItem = new QStandardItem("");
-    pMessageCountItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
-    pMessageCountItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
-    pMessageCountItem->setEditable(false);//禁止双击编辑  
-
-    QList<QStandardItem *> lstItems;
-    lstItems << pItem << pMessageCountItem;
-
-    UpdateGroup(lstItems, roster->GetGroups());
+    int * p = (int*)para;
+    int type = *((int*)p);
+    switch(type)
+    {
+    case OPERATE_TYPE_INSERT_ROSTER:
+        nRet = InsertRosterItem(roster);
+        break;
+    case OPERATE_TYPE_UPDATE_ROSTER:
+        nRet = UpdateRosterItem(roster->GetBareJid());
+        break;
+    default:
+        LOG_MODEL_ERROR("FrmUserList", "Operate type is error");
+        nRet = -1;
+        break;
+    }
     return nRet;
 }
 
@@ -383,7 +373,42 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
     //更新列表控件  
     roster = GLOBAL_USER->GetUserInfoRoster(rosterItem.bareJid());
     if(!roster.isNull())
-        ProcessRoster(roster);
+    {
+        int type = OPERATE_TYPE_INSERT_ROSTER;
+        ProcessRoster(roster, &type);
+    }
+    return nRet;
+}
+
+int CFrmUserList::InsertRosterItem(QSharedPointer<CUserInfoRoster> roster)
+{
+    int nRet = 0;
+    //呢称条目  
+    QStandardItem* pItem = new QStandardItem(roster->GetShowName() + roster->GetSubscriptionTypeStr(roster->GetSubScriptionType()));
+    pItem->setEditable(true);//允许双击编辑  
+    pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+    pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
+    //改变item背景颜色  
+    pItem->setData(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus()), Qt::BackgroundRole);
+    QString szText;
+    szText = roster->GetShowName()
+            + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
+            +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType());
+    pItem->setData(szText, Qt::DisplayRole); //改变item文本,或者直接用 pItem->setText(szText);  
+
+    //改变item图标  
+    pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetStatus())), Qt::DecorationRole);
+
+    //消息条目  
+    QStandardItem* pMessageCountItem = new QStandardItem("");
+    pMessageCountItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+    pMessageCountItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
+    pMessageCountItem->setEditable(false);//禁止双击编辑  
+
+    QList<QStandardItem *> lstItems;
+    lstItems << pItem << pMessageCountItem;
+
+    UpdateGroup(lstItems, roster->GetGroups());
     return nRet;
 }
 
@@ -691,12 +716,8 @@ CRoster* CFrmUserList::GetRoster(QString szJid)
     return NULL;
 }
 
-//TODO:删除  
 void CFrmUserList::slotRefresh()
 {
-    QMap<QString, CRoster*>::iterator it;
-    for(it = m_Rosters.begin(); it != m_Rosters.end(); it++)
-    {
-        it.value()->slotRefresh();
-    }
+    int type = OPERATE_TYPE_UPDATE_ROSTER;
+    GLOBAL_USER->ProcessRoster(this, &type);
 }

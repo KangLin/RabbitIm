@@ -25,15 +25,17 @@ QString CUserInfo::GetShowName()
     QString szText;
     switch(CGlobal::Instance()->GetRosterShowType())
     {
-    case CGlobal::E_ROSTER_SHOW_JID:
-        szText = GetBareJid();
-        break;
+    case CGlobal::E_ROSTER_SHOW_NICK:
+        szText = GetNick();
+        if(!szText.isEmpty())
+            break;
     case CGlobal::E_ROSTER_SHOW_NAME:
         szText = GetName();
-        break;
-    case CGlobal::E_ROSTER_SHOW_NICK:
+        if(!szText.isEmpty())
+            break;
+    case CGlobal::E_ROSTER_SHOW_JID:
+        szText = GetBareJid();
     default:
-        szText = GetNick();
         break;
     }
     return szText;

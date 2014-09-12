@@ -76,6 +76,8 @@ private:
     QStandardItem*  InsertGroup(QString szGroup);
     //更新组中用户  
     int UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups);
+    //插入好友条目  
+    int InsertRosterItem(QSharedPointer<CUserInfoRoster> roster);
     //更新好友条目  
     int UpdateRosterItem(const QString &bareJid);
     //删除好友条目  
@@ -129,6 +131,12 @@ private slots:
 
 private:
     Ui::CFrmUserList *ui;
+    
+    enum _OPERATOR_TYPE
+    {
+        OPERATE_TYPE_INSERT_ROSTER,
+        OPERATE_TYPE_UPDATE_ROSTER,
+    };
 
     enum _USERLIST_ROLE
     {
