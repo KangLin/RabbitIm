@@ -12,8 +12,9 @@ CCustomTreeView::CCustomTreeView(QWidget *parent) :
     setExpandsOnDoubleClick(true);//设置双击展开  
     setItemsExpandable(true);//设置条目可以展开  
     setFrameStyle(QFrame::NoFrame); //去掉边框  
+
     //禁用水平滚动条，因为头的内容可能显示不完全，所以会自动显示水平滚动条  
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     //setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
 }

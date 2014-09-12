@@ -53,8 +53,8 @@ void CFrmMain::resizeEvent(QResizeEvent *e)
                     e->size().width(),
                     geometry().size().width());
 
-    m_UserList.resize(ui->tabWidget->geometry().size());
-    m_GroupChatList.resize(ui->tabWidget->geometry().size());
+    m_UserList.resize(ui->tabWidget->currentWidget()->geometry().size());
+    m_GroupChatList.resize(ui->tabWidget->currentWidget()->geometry().size());
 }
 
 void CFrmMain::changeEvent(QEvent *e)

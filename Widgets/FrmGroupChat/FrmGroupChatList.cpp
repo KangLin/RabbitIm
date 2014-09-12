@@ -129,7 +129,7 @@ void CFrmGroupChatList::resizeEvent(QResizeEvent* e)
     //调整列的宽度  
     int nWidth = m_GroupList.geometry().width() * 4/ 5;
     m_GroupList.setColumnWidth(0, nWidth);
-    m_GroupList.setColumnWidth(1, m_GroupList.geometry().width() - nWidth);
+    m_GroupList.setColumnWidth(1, m_GroupList.geometry().width() - nWidth - 5);
 }
 
 void CFrmGroupChatList::changeEvent(QEvent *e)
