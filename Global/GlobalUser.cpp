@@ -248,9 +248,17 @@ int CGlobalUser::UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem)
     return nRet;
 }
 
-QMap<QString, QSharedPointer<CUserInfoRoster> > &CGlobalUser::GetUserInfoRosters()
+int CGlobalUser::ProcessRoster(COperateRoster* pOperateRoster, void* para)
 {
-    return m_UserInfoRoster;
+    int nRet = 0;
+    QMap<QString, QSharedPointer<CUserInfoRoster> >::iterator it;
+    for(it = m_UserInfoRoster.begin(); it != m_UserInfoRoster.end(); it++)
+    {
+        nRet = pOperateRoster->ProcessRoster(it.value(), para);
+        if(nRet)
+            break;
+    }
+    return nRet;
 }
 
 int CGlobalUser::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString jid)

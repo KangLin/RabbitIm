@@ -5,6 +5,7 @@
 #include <QSharedPointer>
 #include "../UserInfo/UserInfoRoster.h"
 #include "../UserInfo/UserInfoLocale.h"
+#include "../UserInfo/COperateRoster.h"
 
 class CGlobalUser : public QObject
 {
@@ -15,7 +16,7 @@ public:
 
     int Init(QString szLocaleJid);
     int Clean();
-    
+
     //更新本地用户信息  
     int UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString jid);
     int UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem);
@@ -31,9 +32,9 @@ private:
 
 public:
     QSharedPointer<CUserInfoLocale> GetUserInfoLocale();
-    QMap<QString, QSharedPointer<CUserInfoRoster> > &GetUserInfoRosters();
+    int ProcessRoster(COperateRoster* pOperateRoster, void *para = NULL);
     QSharedPointer<CUserInfoRoster> GetUserInfoRoster(QString szBareJid);
-    
+
 private:
     //本地用户信息  
     QSharedPointer<CUserInfoLocale> m_UserInforLocale;
@@ -43,7 +44,7 @@ private:
 private:
     bool m_bModify;//
 signals:
-    
+
 public slots:
 
 };

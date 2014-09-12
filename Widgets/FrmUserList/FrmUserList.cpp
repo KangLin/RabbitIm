@@ -15,6 +15,7 @@
 
 CFrmUserList::CFrmUserList(QWidget *parent) :
     QFrame(parent),
+    COperateRoster(),
     m_UserList(this),
     ui(new Ui::CFrmUserList)
 {
@@ -113,7 +114,7 @@ CFrmUserList::~CFrmUserList()
 int CFrmUserList::Init()
 {
     int nRet = 0;
-    
+    GLOBAL_UER->ProcessRoster(this);
     return nRet;
 }
 
@@ -124,6 +125,29 @@ int CFrmUserList::Clean()
     XMPP_CLIENT->disconnect(this);
     CGlobal::Instance()->GetMainWindow()->disconnect(this);
     return 0;
+}
+
+int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfoRoster> roster, void *para)
+{
+    int nRet = 0;
+      //呢称条目  
+    QStandardItem* pItem = new QStandardItem(roster->GetShowName() + roster->GetSubscriptionTypeStr(roster->GetSubScriptionType()));
+    pItem->setEditable(true);//允许双击编辑  
+    pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+    pItem->setData(roster->GetShowName(), Qt::DisplayRole);
+    pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
+
+    //消息条目  
+    QStandardItem* pMessageCountItem = new QStandardItem("");
+    pMessageCountItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+    pMessageCountItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
+    pMessageCountItem->setEditable(false);//禁止双击编辑  
+
+    QList<QStandardItem *> lstItems;
+    lstItems << pItem << pMessageCountItem;
+
+    UpdateGroup(lstItems, roster->GetGroups());
+    return nRet;
 }
 
 int CFrmUserList::InitMenu()
@@ -300,12 +324,13 @@ QStandardItem*  CFrmUserList::InsertGroup(QString szGroup)
      QStandardItem* lstGroup = NULL;
     lstGroup = new QStandardItem(szGroup);
     lstGroup->setEditable(false);  //禁止双击编辑 
+    lstGroup->setData(PROPERTIES_GROUP, USERLIST_ITEM_ROLE_PROPERTIES);
     m_pModel->appendRow(lstGroup);
     m_Groups.insert(szGroup, lstGroup);
     return lstGroup;
 }
 
-int CFrmUserList::UpdateGroup(CRoster* pRoster, QSet<QString> groups)
+int CFrmUserList::UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups)
 {
     if(groups.isEmpty())
     {
@@ -322,48 +347,15 @@ int CFrmUserList::UpdateGroup(CRoster* pRoster, QSet<QString> groups)
         if(m_Groups.end() == it)
         {
             //新建立组条目 
-            /*lstGroup = new QStandardItem(szGroup);
-            lstGroup->setEditable(false);  //禁止双击编辑 
-            m_pModel->appendRow(lstGroup);
-            m_Groups.insert(szGroup, lstGroup);//*/
             lstGroup = InsertGroup(szGroup);
         }
         else
             lstGroup = it.value();
 
-        lstGroup->appendRow(pRoster->GetItem());
-        LOG_MODEL_DEBUG("Roster", "CFrmUserList::UpdateGroup:%s,(%s)",
-                qPrintable(pRoster->BareJid()),
-                qPrintable(szGroup));
+        lstGroup->appendRow(lstItems);
     }
 
     return 0;
-}
-
-int CFrmUserList::InsertUser(CRoster *pRoster)
-{
-    int nRet = 0;
-    if(NULL == pRoster)
-    {
-        LOG_MODEL_ERROR("CFrmUserList", "Don't memery");
-        return -1;
-    }
-    QMap<QString, CRoster*>::iterator itRosters;
-    itRosters = m_Rosters.find(pRoster->BareJid());
-    if(m_Rosters.end() == itRosters)
-    {
-        //新建好友对象实例  
-        m_Rosters.insert(pRoster->BareJid(), pRoster);
-    }
-    else
-    {
-        LOG_MODEL_ERROR("Roster", qPrintable("Error:User had existed"));
-        return -1;
-    }
-
-    nRet = UpdateGroup(pRoster, pRoster->Groups());
-
-    return nRet;
 }
 
 int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
@@ -376,29 +368,14 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
         return nRet;
 
     GLOBAL_UER->UpdateUserInfoRoster(rosterItem);
+
     //得到好友信息（包括头像图片）  
     XMPP_CLIENT->vCardManager().requestVCard(rosterItem.bareJid());
-    //TODO:更新列表控件  
 
-    return nRet;
-
-    CRoster* pRoster = NULL;
-    QMap<QString, CRoster*>::iterator itRosters;
-    itRosters = m_Rosters.find(rosterItem.bareJid());
-    if(m_Rosters.end() == itRosters)
-    {
-        //新建好友对象实例  
-        pRoster = new CRoster(rosterItem);
-        m_Rosters.insert(pRoster->BareJid(), pRoster);
-    }
-    else
-    {
-        LOG_MODEL_ERROR("Roster", qPrintable("Error:User had existed"));
-        return -1;
-    }
-
-    nRet = UpdateGroup(pRoster, rosterItem.groups());
-
+    //更新列表控件  
+    roster = GLOBAL_UER->GetUserInfoRoster(rosterItem.bareJid());
+    if(!roster.isNull())
+        ProcessRoster(roster);
     return nRet;
 }
 
@@ -420,16 +397,17 @@ void CFrmUserList::slotItemAdded(const QString &bareJid)
 void CFrmUserList::slotItemChanged(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemChanged jid:%s", qPrintable(bareJid));
-    QMap<QString, CRoster*>::iterator it;
-    it = m_Rosters.find(QXmppUtils::jidToBareJid(bareJid));
-    if(m_Rosters.end() != it)
+    QSharedPointer<CUserInfoRoster> roster = GLOBAL_UER->GetUserInfoRoster(bareJid);
+    if(roster.isNull())
     {
-        CRoster* pRoster = it.value();
-
-        QXmppRosterIq::Item item = XMPP_CLIENT->rosterManager().getRosterEntry(bareJid);
-        pRoster->UpdateItems(item);
-        UpdateGroup(pRoster, item.groups());
+        LOG_MODEL_ERROR("FrmUserList", "Isn't the roster:%s", qPrintable(bareJid));
+        return;
     }
+
+    QXmppRosterIq::Item item = XMPP_CLIENT->rosterManager().getRosterEntry(bareJid);
+    GLOBAL_UER->UpdateUserInfoRoster(item);
+    //TODO:
+    //UpdateGroup(lstItems, item.groups());
 }
 
 void CFrmUserList::slotItemRemoved(const QString &bareJid)
@@ -471,6 +449,26 @@ void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
         roster->SetStatus(presence.from(), presence.availableStatusType());
 
     //TODO:更新列表控件状态  
+    QModelIndexList lstIndex = m_pModel->match(QModelIndex(), USERLIST_ITEM_ROLE_JID, bareJid, -1);
+    QModelIndex index;
+    foreach(index, lstIndex)
+    {
+        QStandardItem* pItem = m_pModel->itemFromIndex(index);
+        if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ROSTER)
+        {
+            pItem->setEditable(true);//允许双击编辑  
+            pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+            pItem->setData(roster->GetShowName(), Qt::DisplayRole);
+            pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
+        }
+        else if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
+        {
+            pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+            pItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
+            pItem->setEditable(false);//禁止双击编辑  
+        }
+    }
+
     return;
     QMap<QString, CRoster*>::iterator it = m_Rosters.find(bareJid);
     if(m_Rosters.end() != it)

@@ -4,6 +4,7 @@ SOURCES += main.cpp\
     Tool.cpp \
     Global/Global.cpp \
     Global/GlobalUser.cpp \
+    UserInfo/COperateRoster.cpp \
     Widgets/FrmSendFile/DlgSendManage.cpp \
     Widgets/FrmSendFile/FrmSendFile.cpp \
     Widgets/FrmLogin/FrmLogin.cpp \
@@ -43,6 +44,7 @@ HEADERS  += MainWindow.h \
     XmppClient.h \
     Global/Global.h \
     Global/GlobalUser.h \
+    UserInfo/COperateRoster.h \
     Tool.h \
     Widgets/FrmSendFile/DlgSendManage.h \
     Widgets/FrmSendFile/FrmSendFile.h \

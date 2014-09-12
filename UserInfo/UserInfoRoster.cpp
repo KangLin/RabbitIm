@@ -9,10 +9,15 @@ CUserInfoRoster::CUserInfoRoster(QObject *parent) : CUserInfo(parent)
 {
 }
 
+QSet<QString> &CUserInfoRoster::GetGroups()
+{
+    return m_Groups;
+}
+
 int CUserInfoRoster::UpdateUserInfo(const QXmppRosterIq::Item &rosterItem)
 {
     m_szJid = rosterItem.bareJid();
-    m_Group = rosterItem.groups();
+    m_Groups = rosterItem.groups();
     return 0;
 }
 
@@ -47,12 +52,41 @@ int CUserInfoRoster::SetStatus(const QString &jid, QXmppPresence::AvailableStatu
     return 0;
 }
 
+QXmppRosterIq::Item::SubscriptionType CUserInfoRoster::GetSubScriptionType()
+{
+    return m_subscriptionType;
+}
+
+QString CUserInfoRoster::GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType type) const
+{
+    switch(type)
+    {
+    case QXmppRosterIq::Item::NotSet:
+        return "";
+    case QXmppRosterIq::Item::None:
+        return tr("[none]");
+    case QXmppRosterIq::Item::Both:
+        return "";
+    case QXmppRosterIq::Item::From:
+        return tr("[From]");
+    case QXmppRosterIq::Item::To:
+        return "";
+    case QXmppRosterIq::Item::Remove:
+        return tr("[remove]");
+    default:
+        {
+            LOG_MODEL_WARNING("Roster", "QXmppRosterIq::Item::getTypeStr(): invalid type");
+            return "";
+        }
+    }
+}
+
 QDataStream & operator <<(QDataStream &output, const CUserInfoRoster &roster)
 {
     output << (CUserInfo&)roster;
-    output << roster.m_Group.size();
+    output << roster.m_Groups.size();
     QString szGroup;
-    foreach(szGroup, roster.m_Group)
+    foreach(szGroup, roster.m_Groups)
     {
         output << szGroup;
     }
@@ -68,7 +102,7 @@ QDataStream & operator >>(QDataStream &input, CUserInfoRoster &roster)
     {
         QString szGroup;
         input >> szGroup;
-        roster.m_Group << szGroup;
+        roster.m_Groups << szGroup;
     }
     return input;
 }

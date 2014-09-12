@@ -6,6 +6,7 @@ SET(RABBITIM_SOURCES
     Tool.cpp
     Global/Global.cpp
     Global/GlobalUser.cpp 
+    UserInfo/COperateRoster.cpp
     Widgets/FrmSendFile/DlgSendManage.cpp 
     Widgets/FrmSendFile/FrmSendFile.cpp 
     Widgets/FrmLogin/FrmLogin.cpp 

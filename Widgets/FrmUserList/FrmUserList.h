@@ -14,6 +14,7 @@
 #include "qxmpp/QXmppMessage.h"
 #include "../FrmAddRoster/FrmAddRoster.h"
 #include "../FrmCustom/CustomTreeView.h"
+#include <UserInfo/COperateRoster.h>
 
 class CRoster;
 
@@ -23,7 +24,7 @@ class CFrmUserList;
 
 class CFrmMain;
 class MainWindow;
-class CFrmUserList : public QFrame
+class CFrmUserList : public QFrame, COperateRoster
 {
     Q_OBJECT
 
@@ -37,6 +38,7 @@ public:
     //TODO:以后放在未读消息中维护  
     //显示最后一个消息窗口  
     int ShowMessageDialog();
+    virtual int ProcessRoster(QSharedPointer<CUserInfoRoster> roster, void *para = NULL);
 
 public slots:
     //更新好友  
@@ -69,12 +71,11 @@ private:
     int Clean();
 
     //向用户列表中插入用户  
-    int InsertUser(CRoster* pRoster);
     int InsertUser(QXmppRosterIq::Item rosterItem);
     //在组队列中插入组  
     QStandardItem*  InsertGroup(QString szGroup);
     //更新组中用户  
-    int UpdateGroup(CRoster* pRoster, QSet<QString> groups);
+    int UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups);
 
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent* e);
@@ -123,6 +124,19 @@ private slots:
 
 private:
     Ui::CFrmUserList *ui;
+
+    enum _USERLIST_ROLE
+    {
+        USERLIST_ITEM_ROLE_JID = Qt::UserRole + 1,
+        USERLIST_ITEM_ROLE_PROPERTIES = USERLIST_ITEM_ROLE_JID + 1
+    };
+    
+    enum _PROPERTIES
+    {
+        PROPERTIES_GROUP,
+        PROPERTIES_ROSTER,
+        PROPERTIES_UNREAD_MESSAGE_COUNT
+    };
 
     CCustomTreeView m_UserList;
     QStandardItemModel *m_pModel;           //好友列表树型控件   
