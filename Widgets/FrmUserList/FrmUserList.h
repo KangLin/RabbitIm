@@ -76,15 +76,16 @@ private:
     QStandardItem*  InsertGroup(QString szGroup);
     //更新组中用户  
     int UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups);
+    //更新控件条目  
+    int UpdateRosterItem(QString &bareJid);
 
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent* e);
 
     //得到当前树型控件中选中的条目  
     //如果是好友，则返回好友的barejid  
-    //否则返回空QString
+    //否则返回空QString  
     QString GetCurrentRoster();
-    
 
     QSet<QString> GetGroupsName();
 

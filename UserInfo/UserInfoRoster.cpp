@@ -8,6 +8,8 @@
 CUserInfoRoster::CUserInfoRoster(QObject *parent) : CUserInfo(parent)
 {
     m_UnReadMessageCount = 0;
+    m_LocalStatus = QXmppPresence::Invisible;
+    m_subscriptionType = QXmppRosterIq::Item::None;
 }
 
 QSet<QString> &CUserInfoRoster::GetGroups()
@@ -19,6 +21,7 @@ int CUserInfoRoster::UpdateUserInfo(const QXmppRosterIq::Item &rosterItem)
 {
     m_szJid = rosterItem.bareJid();
     m_Groups = rosterItem.groups();
+    m_subscriptionType = rosterItem.subscriptionType();
     return 0;
 }
 
@@ -85,6 +88,12 @@ QString CUserInfoRoster::GetSubscriptionTypeStr(QXmppRosterIq::Item::Subscriptio
 int CUserInfoRoster::GetUnReadMessageCount()
 {
     return m_UnReadMessageCount;
+}
+
+int CUserInfoRoster::SetUnReadMessageCount(int nCount)
+{
+    m_UnReadMessageCount = nCount;
+    return 0;
 }
 
 QDataStream & operator <<(QDataStream &output, const CUserInfoRoster &roster)

@@ -114,7 +114,7 @@ CFrmUserList::~CFrmUserList()
 int CFrmUserList::Init()
 {
     int nRet = 0;
-    GLOBAL_UER->ProcessRoster(this);
+    GLOBAL_USER->ProcessRoster(this);
     return nRet;
 }
 
@@ -134,8 +134,17 @@ int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfoRoster> roster, void *pa
     QStandardItem* pItem = new QStandardItem(roster->GetShowName() + roster->GetSubscriptionTypeStr(roster->GetSubScriptionType()));
     pItem->setEditable(true);//允许双击编辑  
     pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
-    pItem->setData(roster->GetShowName(), Qt::DisplayRole);
     pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
+    //改变item背景颜色  
+    pItem->setData(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus()), Qt::BackgroundRole);
+    QString szText;
+    szText = roster->GetShowName()
+            + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
+            +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType());
+    pItem->setData(szText, Qt::DisplayRole); //改变item文本  
+
+    //改变item图标  
+    pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetStatus())), Qt::DecorationRole);
 
     //消息条目  
     QStandardItem* pMessageCountItem = new QStandardItem("");
@@ -243,8 +252,8 @@ void CFrmUserList::slotUpdateMenu()
     else
     {
         //增加订阅  
-        if(QXmppRosterIq::Item::None == GLOBAL_UER->GetUserInfoRoster(bareJid)->GetSubScriptionType()
-             || QXmppRosterIq::Item::From == GLOBAL_UER->GetUserInfoRoster(bareJid)->GetSubScriptionType())
+        if(QXmppRosterIq::Item::None == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetSubScriptionType()
+             || QXmppRosterIq::Item::From == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetSubScriptionType())
             EnableAction(ui->actionAgreeAddRoster);
 
         //如果是好友上,显示删除好友  
@@ -290,7 +299,7 @@ void CFrmUserList::slotRemoveRoster()
 void CFrmUserList::slotInformationRoster()
 {
     QString bareJid = GetCurrentRoster();
-    CFrmUservCard* pvCard = new CFrmUservCard(GLOBAL_UER->GetUserInfoRoster(bareJid));
+    CFrmUservCard* pvCard = new CFrmUservCard(GLOBAL_USER->GetUserInfoRoster(bareJid));
     pvCard->show();
 }
 
@@ -319,10 +328,11 @@ void CFrmUserList::slotClientMessageReceived(const QXmppMessage &message)
 
 QStandardItem*  CFrmUserList::InsertGroup(QString szGroup)
 {
-     QStandardItem* lstGroup = NULL;
+    QStandardItem* lstGroup = NULL;
     lstGroup = new QStandardItem(szGroup);
     lstGroup->setEditable(false);  //禁止双击编辑 
     lstGroup->setData(PROPERTIES_GROUP, USERLIST_ITEM_ROLE_PROPERTIES);
+    lstGroup->setData("", USERLIST_ITEM_ROLE_JID);
     m_pModel->appendRow(lstGroup);
     m_Groups.insert(szGroup, lstGroup);
     return lstGroup;
@@ -361,20 +371,66 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
     int nRet = 0;
     LOG_MODEL_DEBUG("FrmUserList", "jid:%s", qPrintable(rosterItem.bareJid()));
     QSharedPointer<CUserInfoRoster> roster;
-    roster = GLOBAL_UER->GetUserInfoRoster(rosterItem.bareJid());
+    roster = GLOBAL_USER->GetUserInfoRoster(rosterItem.bareJid());
     if(!roster.isNull())
         return nRet;
 
-    GLOBAL_UER->UpdateUserInfoRoster(rosterItem);
+    GLOBAL_USER->UpdateUserInfoRoster(rosterItem);
 
     //得到好友信息（包括头像图片）  
     XMPP_CLIENT->vCardManager().requestVCard(rosterItem.bareJid());
 
     //更新列表控件  
-    roster = GLOBAL_UER->GetUserInfoRoster(rosterItem.bareJid());
+    roster = GLOBAL_USER->GetUserInfoRoster(rosterItem.bareJid());
     if(!roster.isNull())
         ProcessRoster(roster);
     return nRet;
+}
+
+int CFrmUserList::UpdateRosterItem(QString &bareJid)
+{
+    QSharedPointer<CUserInfoRoster> roster = GLOBAL_USER->GetUserInfoRoster(bareJid);
+    if(roster.isNull())
+    {
+        LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(bareJid));
+        return -1;
+    }
+
+    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
+                                                USERLIST_ITEM_ROLE_JID, 
+                                                roster->GetBareJid(), 
+                                                -1,
+                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+    QModelIndex index;
+    foreach(index, lstIndexs)
+    {
+        QStandardItem* pItem = m_pModel->itemFromIndex(index);
+        if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ROSTER)
+        {
+            //pItem->setEditable(true);//允许双击编辑  
+            //pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+            //pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
+            //改变item背景颜色  
+            pItem->setData(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus()), Qt::BackgroundRole);
+            QString szText;
+            szText = roster->GetShowName()
+                    + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
+                    +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType());
+            pItem->setData(szText, Qt::DisplayRole); //改变item文本  
+    
+            //改变item图标  
+            pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetStatus())), Qt::DecorationRole);
+        }
+        else if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
+        {
+            pItem->setData(QString::number(roster->GetUnReadMessageCount()), Qt::DisplayRole);
+            pItem->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
+            //pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+            //pItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
+            //pItem->setEditable(false);//禁止双击编辑  
+        }
+    }
+    return 0;
 }
 
 void CFrmUserList::slotSubscriptionReceived(const QString &bareJid)
@@ -395,7 +451,7 @@ void CFrmUserList::slotItemAdded(const QString &bareJid)
 void CFrmUserList::slotItemChanged(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemChanged jid:%s", qPrintable(bareJid));
-    QSharedPointer<CUserInfoRoster> roster = GLOBAL_UER->GetUserInfoRoster(bareJid);
+    QSharedPointer<CUserInfoRoster> roster = GLOBAL_USER->GetUserInfoRoster(bareJid);
     if(roster.isNull())
     {
         LOG_MODEL_ERROR("FrmUserList", "Isn't the roster:%s", qPrintable(bareJid));
@@ -403,7 +459,7 @@ void CFrmUserList::slotItemChanged(const QString &bareJid)
     }
 
     QXmppRosterIq::Item item = XMPP_CLIENT->rosterManager().getRosterEntry(bareJid);
-    GLOBAL_UER->UpdateUserInfoRoster(item);
+    GLOBAL_USER->UpdateUserInfoRoster(item);
     //TODO:
     //UpdateGroup(lstItems, item.groups());
 }
@@ -428,6 +484,7 @@ void CFrmUserList::slotRosterReceived()
     foreach (const QString &bareJid, XMPP_CLIENT->rosterManager().getRosterBareJids())
     {
         QXmppRosterIq::Item item = XMPP_CLIENT->rosterManager().getRosterEntry(bareJid);
+        //这里只能得到 bareJid  
         InsertUser(item);
     }
 }
@@ -441,39 +498,15 @@ void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
            qPrintable(presence.statusText())
            );
 
+    //注意：这里的 barejid 是包含资源的  
     QString bareJid = QXmppUtils::jidToBareJid(presence.from());
-    QSharedPointer<CUserInfoRoster> roster = GLOBAL_UER->GetUserInfoRoster(bareJid);
+    QSharedPointer<CUserInfoRoster> roster = GLOBAL_USER->GetUserInfoRoster(bareJid);
     if(!roster.isNull())
         roster->SetStatus(presence.from(), presence.availableStatusType());
 
-    //TODO:更新列表控件状态  
-    QModelIndexList lstIndex = m_pModel->match(QModelIndex(), USERLIST_ITEM_ROLE_JID, bareJid, -1);
-    QModelIndex index;
-    foreach(index, lstIndex)
-    {
-        QStandardItem* pItem = m_pModel->itemFromIndex(index);
-        if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ROSTER)
-        {
-            pItem->setEditable(true);//允许双击编辑  
-            pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
-            pItem->setData(roster->GetShowName(), Qt::DisplayRole);
-            pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
-        }
-        else if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
-        {
-            pItem->setData(QString::number(roster->GetUnReadMessageCount()), Qt::DisplayRole);
-            pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
-            pItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
-            pItem->setEditable(false);//禁止双击编辑  
-        }
-    }
-
+    //更新列表控件状态  
+    UpdateRosterItem(bareJid);
     return;
-    QMap<QString, CRoster*>::iterator it = m_Rosters.find(bareJid);
-    if(m_Rosters.end() != it)
-    {
-        it.value()->ChangedPresence(presence.from(), presence.availableStatusType());
-    }
 }
 
 //得到好友形象信息  
@@ -486,7 +519,8 @@ void CFrmUserList::slotvCardReceived(const QXmppVCardIq& vCard)
         return;
         Q_ASSERT(false);
     }
-    GLOBAL_UER->UpdateUserInfoRoster(vCard, jid);
+    //这里是包含资源的 jid  
+    GLOBAL_USER->UpdateUserInfoRoster(vCard, jid);
     //TODO:更新列表控件  
     
     return;

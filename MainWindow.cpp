@@ -201,7 +201,7 @@ void MainWindow::slotClientConnected()
         m_pLogin = NULL;
     }
 
-    int nRet = GLOBAL_UER->Init(XMPP_CLIENT->configuration().jidBare());
+    int nRet = GLOBAL_USER->Init(XMPP_CLIENT->configuration().jidBare());
     if(nRet)
     {
         LOG_MODEL_ERROR("MainWindow", "Init GlobalUser fail");
@@ -234,7 +234,7 @@ void MainWindow::slotClientDisconnected()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow:: DISCONNECTED");
     m_bLogin = false;
-     GLOBAL_UER->Clean();
+     GLOBAL_USER->Clean();
 }
 
 void MainWindow::clientError(QXmppClient::Error e)
@@ -269,7 +269,7 @@ void MainWindow::slotClientVCardReceived()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotClientVCardReceived");
  
-    GLOBAL_UER->UpdateUserInfoLocale(XMPP_CLIENT->vCardManager().clientVCard(),
+    GLOBAL_USER->UpdateUserInfoLocale(XMPP_CLIENT->vCardManager().clientVCard(),
                                                                XMPP_CLIENT->vCardManager().clientVCard().to());
     USER_INFO_LOCALE->SetStatus(XMPP_CLIENT->clientPresence().availableStatusType());
     m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(USER_INFO_LOCALE->GetShowName()));

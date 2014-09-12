@@ -27,6 +27,7 @@ public:
     QString GetSubscriptionTypeStr(QXmppRosterIq::Item::SubscriptionType type) const;
     
     int GetUnReadMessageCount();
+    int SetUnReadMessageCount(int nCount);
 
 private:
     QSet<QString> m_Groups;
