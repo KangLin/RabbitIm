@@ -268,9 +268,7 @@ void MainWindow::clientIqReceived(const QXmppIq &iq)
 void MainWindow::slotClientVCardReceived()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotClientVCardReceived");
-    /*CGlobal::Instance()->GetRoster()->SetVCard(XMPP_CLIENT->vCardManager().clientVCard(),
-                                               XMPP_CLIENT->vCardManager().clientVCard().to());*/
-    
+ 
     GLOBAL_UER->UpdateUserInfoLocale(XMPP_CLIENT->vCardManager().clientVCard(),
                                                                XMPP_CLIENT->vCardManager().clientVCard().to());
     USER_INFO_LOCALE->SetStatus(XMPP_CLIENT->clientPresence().availableStatusType());

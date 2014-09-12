@@ -486,6 +486,7 @@ void CFrmUserList::slotvCardReceived(const QXmppVCardIq& vCard)
     if(jid.isEmpty())
     {
         LOG_MODEL_ERROR("FrmUserList", "jid is null");
+        return;
         Q_ASSERT(false);
     }
     GLOBAL_UER->UpdateUserInfoRoster(vCard, jid);
