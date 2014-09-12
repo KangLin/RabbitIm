@@ -17,10 +17,15 @@ public:
     int Init(QString szLocaleJid);
     int Clean();
 
+    QSharedPointer<CUserInfoLocale> GetUserInfoLocale();
     //更新本地用户信息  
     int UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString jid);
+
+    int ProcessRoster(COperateRoster* pOperateRoster, void *para = NULL);
+    QSharedPointer<CUserInfoRoster> GetUserInfoRoster(const QString &szBareJid);
     int UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem);
     int UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString jid);
+    int RemoveUserInfoRoster(const QString &bareJid);
 
 private:
     int LoadFromFile(QString szLocaleJid);
@@ -29,11 +34,6 @@ private:
     int SaveLocaleToFile();
     int LoadRosterFromFile(QString szLocaleJid);
     int SaveRosterToFile();
-
-public:
-    QSharedPointer<CUserInfoLocale> GetUserInfoLocale();
-    int ProcessRoster(COperateRoster* pOperateRoster, void *para = NULL);
-    QSharedPointer<CUserInfoRoster> GetUserInfoRoster(QString szBareJid);
 
 private:
     //本地用户信息  

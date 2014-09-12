@@ -210,8 +210,15 @@ QSharedPointer<CUserInfoLocale> CGlobalUser::GetUserInfoLocale()
     return m_UserInforLocale;
 }
 
-QSharedPointer< CUserInfoRoster > CGlobalUser::GetUserInfoRoster(QString szBareJid)
+QSharedPointer< CUserInfoRoster > CGlobalUser::GetUserInfoRoster(const QString &szBareJid)
 {
+#ifdef DEBUG
+    if(szBareJid != QXmppUtils::jidToBareJid(szBareJid))
+    {
+        LOG_MODEL_DEBUG("CFrmUserList", "The bareJid must bare jid");
+        Q_ASSERT(false);
+    }
+#endif
     QSharedPointer<CUserInfoRoster> roster;
     QMap<QString, QSharedPointer<CUserInfoRoster> >::iterator it;
     it = m_UserInfoRoster.find(QXmppUtils::jidToBareJid(szBareJid));
@@ -275,4 +282,16 @@ int CGlobalUser::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString jid)
     }
     nRet = roster->UpdateUserInfo(vCard, jid);
     return nRet;
+}
+
+int CGlobalUser::RemoveUserInfoRoster(const QString &bareJid)
+{
+#ifdef DEBUG
+    if(bareJid != QXmppUtils::jidToBareJid(bareJid))
+    {
+        LOG_MODEL_DEBUG("CFrmUserList", "The bareJid must bare jid");
+        Q_ASSERT(false);
+    }
+#endif
+    return !m_UserInfoRoster.remove(QXmppUtils::jidToBareJid(bareJid));
 }

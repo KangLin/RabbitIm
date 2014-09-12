@@ -76,8 +76,10 @@ private:
     QStandardItem*  InsertGroup(QString szGroup);
     //更新组中用户  
     int UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups);
-    //更新控件条目  
-    int UpdateRosterItem(QString &bareJid);
+    //更新好友条目  
+    int UpdateRosterItem(const QString &bareJid);
+    //删除好友条目  
+    int RemoveRosterItem(const QString &bareJid);
 
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent* e);

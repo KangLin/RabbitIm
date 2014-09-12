@@ -98,8 +98,9 @@ int CUserInfoRoster::SetUnReadMessageCount(int nCount)
 
 QDataStream & operator <<(QDataStream &output, const CUserInfoRoster &roster)
 {
-    output << (CUserInfo&)roster;
-    output << roster.m_Groups.size();
+    output << (CUserInfo&)roster
+           << roster.m_subscriptionType
+           << roster.m_Groups.size();
     QString szGroup;
     foreach(szGroup, roster.m_Groups)
     {
@@ -110,7 +111,8 @@ QDataStream & operator <<(QDataStream &output, const CUserInfoRoster &roster)
 
 QDataStream & operator >>(QDataStream &input, CUserInfoRoster &roster)
 {
-    input >> (CUserInfo&)roster;
+    input >> (CUserInfo&)roster
+          >> (int&)roster.m_subscriptionType;
     int nSize = 0;
     input >> nSize;
     while(nSize--)

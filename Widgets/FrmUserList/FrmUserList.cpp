@@ -130,7 +130,7 @@ int CFrmUserList::Clean()
 int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfoRoster> roster, void *para)
 {
     int nRet = 0;
-      //呢称条目  
+    //呢称条目  
     QStandardItem* pItem = new QStandardItem(roster->GetShowName() + roster->GetSubscriptionTypeStr(roster->GetSubScriptionType()));
     pItem->setEditable(true);//允许双击编辑  
     pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
@@ -141,7 +141,7 @@ int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfoRoster> roster, void *pa
     szText = roster->GetShowName()
             + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
             +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType());
-    pItem->setData(szText, Qt::DisplayRole); //改变item文本  
+    pItem->setData(szText, Qt::DisplayRole); //改变item文本,或者直接用 pItem->setText(szText);  
 
     //改变item图标  
     pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetStatus())), Qt::DecorationRole);
@@ -387,9 +387,16 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
     return nRet;
 }
 
-int CFrmUserList::UpdateRosterItem(QString &bareJid)
+int CFrmUserList::UpdateRosterItem(const QString &bareJid)
 {
-    QSharedPointer<CUserInfoRoster> roster = GLOBAL_USER->GetUserInfoRoster(bareJid);
+#ifdef DEBUG
+    if(bareJid != QXmppUtils::jidToBareJid(bareJid))
+    {
+        LOG_MODEL_DEBUG("CFrmUserList", "The bareJid must bare jid");
+        Q_ASSERT(false);
+    }
+#endif
+    QSharedPointer<CUserInfoRoster> roster = GLOBAL_USER->GetUserInfoRoster(QXmppUtils::jidToBareJid(bareJid));
     if(roster.isNull())
     {
         LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(bareJid));
@@ -433,6 +440,29 @@ int CFrmUserList::UpdateRosterItem(QString &bareJid)
     return 0;
 }
 
+int CFrmUserList::RemoveRosterItem(const QString &bareJid)
+{
+#ifdef DEBUG
+    if(bareJid != QXmppUtils::jidToBareJid(bareJid))
+    {
+        LOG_MODEL_DEBUG("CFrmUserList", "The bareJid must bare jid");
+        Q_ASSERT(false);
+    }
+#endif
+    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
+                                                USERLIST_ITEM_ROLE_JID, 
+                                                QXmppUtils::jidToBareJid(bareJid), 
+                                                -1,
+                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+    QModelIndex index;
+    foreach(index, lstIndexs)
+    {
+        QStandardItem* pItem = m_pModel->itemFromIndex(index);
+        pItem->parent()->removeRow(index.row());
+    }
+    return 0;
+}
+
 void CFrmUserList::slotSubscriptionReceived(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(bareJid));
@@ -460,20 +490,14 @@ void CFrmUserList::slotItemChanged(const QString &bareJid)
 
     QXmppRosterIq::Item item = XMPP_CLIENT->rosterManager().getRosterEntry(bareJid);
     GLOBAL_USER->UpdateUserInfoRoster(item);
-    //TODO:
-    //UpdateGroup(lstItems, item.groups());
+    UpdateRosterItem(bareJid);
 }
 
 void CFrmUserList::slotItemRemoved(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemRemoved jid:%s", qPrintable(bareJid));
-    QMap<QString, CRoster*>::iterator it;
-    it = m_Rosters.find(QXmppUtils::jidToBareJid(bareJid));
-    if(m_Rosters.end() != it)
-    {
-        delete it.value();
-        m_Rosters.remove(QXmppUtils::jidToBareJid(bareJid));
-    }
+    GLOBAL_USER->RemoveUserInfoRoster(bareJid);
+    RemoveRosterItem(bareJid);
 }
 
 //得到好友列表  
@@ -519,10 +543,11 @@ void CFrmUserList::slotvCardReceived(const QXmppVCardIq& vCard)
         return;
         Q_ASSERT(false);
     }
+    LOG_MODEL_DEBUG("FrmUserList", "CFrmUserList::slotvCardReceived jid:%s", jid.toStdString().c_str());
     //这里是包含资源的 jid  
     GLOBAL_USER->UpdateUserInfoRoster(vCard, jid);
-    //TODO:更新列表控件  
-    
+    //更新列表控件  
+    UpdateRosterItem(jid);
     return;
 }
 
@@ -649,6 +674,7 @@ int CFrmUserList::ShowMessageDialog()
     return 0;
 }
 
+//TODO:删除  
 CRoster* CFrmUserList::GetRoster(QString szJid)
 {
     QMap<QString, CRoster*>::iterator it;
@@ -658,6 +684,7 @@ CRoster* CFrmUserList::GetRoster(QString szJid)
     return NULL;
 }
 
+//TODO:删除  
 void CFrmUserList::slotRefresh()
 {
     QMap<QString, CRoster*>::iterator it;
