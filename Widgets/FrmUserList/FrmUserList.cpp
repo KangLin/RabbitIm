@@ -235,12 +235,16 @@ void CFrmUserList::slotUpdateMenu()
     EnableAction(ui->actionAddRoster_A);
 
     //判断是在组上还是在好友上  
-    CRoster* p = GetCurrentRoster();
-    if(p)
+    QString bareJid = GetCurrentRoster();
+    if(bareJid.isEmpty())
+    {
+        //TODO:新建组  
+    }
+    else
     {
         //增加订阅  
-        if(QXmppRosterIq::Item::None == p->GetSubScriptionType()
-             || QXmppRosterIq::Item::From == p->GetSubScriptionType())
+        if(QXmppRosterIq::Item::None == GLOBAL_UER->GetUserInfoRoster(bareJid)->GetSubScriptionType()
+             || QXmppRosterIq::Item::From == GLOBAL_UER->GetUserInfoRoster(bareJid)->GetSubScriptionType())
             EnableAction(ui->actionAgreeAddRoster);
 
         //如果是好友上,显示删除好友  
@@ -249,11 +253,6 @@ void CFrmUserList::slotUpdateMenu()
         //查看好友信息  
         EnableAction(ui->actionInformation_I);
         //TODO: 移动到组  
-
-    }
-    else
-    {
-        //TODO:新建组  
     }
     return;
 }
@@ -276,24 +275,23 @@ void CFrmUserList::slotAddRoster()
 
 void CFrmUserList::slotAgreeAddRoster()
 {
-    CRoster* p = GetCurrentRoster();
-    if(p)
-       XMPP_CLIENT->rosterManager().subscribe(p->BareJid());
+    QString bareJid = GetCurrentRoster();
+    if(!bareJid.isEmpty())
+       XMPP_CLIENT->rosterManager().subscribe(bareJid);
 }
 
 void CFrmUserList::slotRemoveRoster()
 {
-    CRoster* p = GetCurrentRoster();
-    if(p)
-        XMPP_CLIENT->rosterManager().removeItem(p->BareJid());
+    QString bareJid = GetCurrentRoster();
+    if(!bareJid.isEmpty())
+        XMPP_CLIENT->rosterManager().removeItem(bareJid);
 }
 
 void CFrmUserList::slotInformationRoster()
 {
-    CRoster* p = GetCurrentRoster();
-    //MODIFY:
-   // CFrmUservCard* pvCard = new CFrmUservCard(NULL);
-   // pvCard->show();
+    QString bareJid = GetCurrentRoster();
+    CFrmUservCard* pvCard = new CFrmUservCard(GLOBAL_UER->GetUserInfoRoster(bareJid));
+    pvCard->show();
 }
 
 void CFrmUserList::slotClientMessageReceived(const QXmppMessage &message)
@@ -583,24 +581,25 @@ QSet<QString> CFrmUserList::GetGroupsName()
     return groups;
 }
 
-CRoster* CFrmUserList::GetCurrentRoster()
+QString CFrmUserList::GetCurrentRoster()
 {
     QModelIndex index = m_UserList.currentIndex();
     const QAbstractItemModel *m = index.model();
     if(!m)
-        return NULL;
+        return QString();
 
-    //TODO:暂时根据是否有根节点来判断是组还是好友  
-    if(m->parent(index).isValid())
+    if(PROPERTIES_ROSTER != m->data(index, USERLIST_ITEM_ROLE_PROPERTIES))
     {
-        //是用户结点
-        QVariant v = m->data(index, Qt::UserRole + 1);
-        if(v.canConvert<CRoster*>())
-        {
-            return v.value<CRoster*>();
-        }
+        return QString();
     }
-    return NULL;
+
+    //是用户结点
+    QVariant v = m->data(index, USERLIST_ITEM_ROLE_JID);
+    if(v.canConvert<QString>())
+    {
+        return v.value<QString>();
+    }
+    return QString();
 }
 
 int CFrmUserList::ShowMessageDialog()

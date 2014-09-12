@@ -80,9 +80,11 @@ private:
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent* e);
 
-    //得到树形控件当前选中的好友指针  
-    //如果为空,则为组  
-    CRoster *GetCurrentRoster();
+    //得到当前树型控件中选中的条目  
+    //如果是好友，则返回好友的barejid  
+    //否则返回空QString
+    QString GetCurrentRoster();
+    
 
     QSet<QString> GetGroupsName();
 
