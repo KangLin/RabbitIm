@@ -17,7 +17,7 @@
 #include <QThread>
 #include <QByteArray>
 #include "FrmPlayer.h"
-#include "../../XmppClient.h"
+#include "Client/ClientXmpp.h"
 #include "RecordAudio.h"
 #include "CCamera.h"
 
@@ -114,7 +114,7 @@ private:
     Ui::CFrmVideo *ui;
 
     QXmppCall* m_pCall;
-    CXmppClient* m_pClient;
+    CClient* m_pClient;
     MainWindow* m_pMainWindow;
     QString m_szRemoteJID;
 

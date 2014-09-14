@@ -52,9 +52,9 @@ private:
     //初始化状态按钮
     int ReinitStateButton();
     QMenu m_StateMenu;
-    QMap<QXmppPresence::AvailableStatusType, QAction*> m_ActionStatus;
+    QMap<CUserInfo::USER_INFO_STATUS, QAction*> m_ActionStatus;
     QActionGroup m_ActionGroupStatus;
-    QXmppPresence::AvailableStatusType m_Status;
+    CUserInfo::USER_INFO_STATUS m_Status;
 };
 
 #endif // FRMLOGIN_H

@@ -1,25 +1,30 @@
 #include "Global.h"
+#include "../Tool.h"
+#include "../Widgets/FrmUserList/Roster.h"
+#include "../MainWindow.h"
 
 #include <QMetaType>
-
-#include "qxmpp/QXmppUtils.h"
-#include "qxmpp/QXmppRtpChannel.h"
 #include <QApplication>
 #include <QDir>
 #include <QDebug>
 #include <string>
 #include <QSettings>
-#include "../Tool.h"
-#include "../Widgets/FrmUserList/Roster.h"
-#include "../MainWindow.h"
+
+#ifdef QXMPP
+#include "qxmpp/QXmppUtils.h"
+#include "qxmpp/QXmppRtpChannel.h"
+#include "GlobalUserQXmpp.h"
+#endif
 
 CGlobal::CGlobal(QObject *parent) :
     QObject(parent),
-    m_XmppClient(parent)
+    #ifdef QXMPP
+    m_Client(new CClientXmpp)
+    #endif
 {
     m_pMainWindow = NULL;
     QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
-    m_LocalStatus = (QXmppPresence::AvailableStatusType)conf.value("Login/LoginState", QXmppPresence::Online).toInt();
+    m_LocalStatus = (CUserInfo::USER_INFO_STATUS)conf.value("Login/LoginState", CUserInfo::Online).toInt();
     m_UserColor = GetColorFormConf("Options/User/LocalColor", QColor(255, 0, 0));
     m_RosterColor = GetColorFormConf("Options/User/RosterColor", QColor(0, 0, 255));
     m_UserMessageColor = GetColorFormConf("Options/User/LocalMessageColor", QColor(0, 0, 0));
@@ -114,27 +119,31 @@ int CGlobal::SetMainWindow(MainWindow *pWnd)
     return 0;
 }
 
-CXmppClient* CGlobal::GetXmppClient()
+QSharedPointer<CClient> CGlobal::GetClient()
 {
-    return &m_XmppClient;
+    return m_Client;
 }
 
 QSharedPointer<CGlobalUser> CGlobal::GetGlobalUser()
 {
     if(m_GlobalUser.isNull())
     {
+#ifdef QXMPP
+        QSharedPointer<CGlobalUser> d(new CGlobalUserQXmpp);
+#else
         QSharedPointer<CGlobalUser> d(new CGlobalUser);
+#endif
         m_GlobalUser = d;
     }
     return m_GlobalUser;
 }
 
-QXmppPresence::AvailableStatusType CGlobal::GetStatus()
+CUserInfo::USER_INFO_STATUS CGlobal::GetStatus()
 {
     return m_LocalStatus;
 }
 
-int CGlobal::SetStatus(QXmppPresence::AvailableStatusType status)
+int CGlobal::SetStatus(CUserInfo::USER_INFO_STATUS status)
 {
     m_LocalStatus = status;
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
@@ -336,55 +345,55 @@ int CGlobal::SetTurnServerPassword(QString password)
     return 0;
 }
 
-QString CGlobal::GetRosterStatusText(QXmppPresence::AvailableStatusType status)
+QString CGlobal::GetRosterStatusText(CUserInfo::USER_INFO_STATUS status)
 {
-    if(QXmppPresence::Online == status)
+    if(CUserInfo::Online == status)
         return tr("OnLine");
-    else if(QXmppPresence::Away == status)
+    else if(CUserInfo::Away == status)
         return tr("Temporarily away");
-    else if(QXmppPresence::Chat == status)
+    else if(CUserInfo::Chat == status)
         return tr("Chat");
-    else if(QXmppPresence::DND == status)
+    else if(CUserInfo::DO_NOT_DISTURB == status)
         return tr("Do not disturb");
-    else if(QXmppPresence::Invisible == status)
+    else if(CUserInfo::Invisible == status)
         return tr("Invisible");
-    else if(QXmppPresence::XA == status)
+    else if(CUserInfo::XA == status)
         return tr("Away for an extended period");
     else
         return tr("Invisible");
 }
 
-QString CGlobal::GetRosterStatusIcon(QXmppPresence::AvailableStatusType status)
+QString CGlobal::GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS status)
 {
-    if(QXmppPresence::Online == status)
+    if(CUserInfo::Online == status)
         return ":/icon/Status_available";
-    else if(QXmppPresence::Away == status)
+    else if(CUserInfo::Away == status)
         return ":/icon/Status_away";
-    else if(QXmppPresence::Chat == status)
+    else if(CUserInfo::Chat == status)
         return ":/icon/Status_chat";
-    else if(QXmppPresence::DND == status)
+    else if(CUserInfo::DO_NOT_DISTURB == status)
         return ":/icon/Status_dnd";
-    else if(QXmppPresence::Invisible == status)
+    else if(CUserInfo::Invisible == status)
         return ":/icon/Status_invisible";
-    else if(QXmppPresence::XA == status)
+    else if(CUserInfo::XA == status)
         return ":/icon/Status_invisible";
     else
         return ":/icon/Status_invisible";
 }
 
-QColor CGlobal::GetRosterStatusColor(QXmppPresence::AvailableStatusType status)
+QColor CGlobal::GetRosterStatusColor(CUserInfo::USER_INFO_STATUS status)
 {
-    if(QXmppPresence::Online == status)
+    if(CUserInfo::Online == status)
         return QColor(0, 255, 0);
-    else if(QXmppPresence::Away == status)
+    else if(CUserInfo::Away == status)
         return QColor(255, 0, 255);
-    else if(QXmppPresence::Chat == status)
+    else if(CUserInfo::Chat == status)
         return QColor(0, 255, 0);
-    else if(QXmppPresence::DND == status)
+    else if(CUserInfo::DO_NOT_DISTURB == status)
         return QColor(255, 0, 0);
-    else if(QXmppPresence::Invisible == status)
+    else if(CUserInfo::Invisible == status)
         return QColor(255, 255, 255);
-    else if(QXmppPresence::XA == status)
+    else if(CUserInfo::XA == status)
         return QColor(255, 0, 255);
     else
         return QColor(255, 255, 255);
@@ -430,13 +439,13 @@ QString CGlobal::GetDirTranslate()
     return GetDirApplication() + QDir::separator() + "translations";
 }
 
-QString CGlobal::GetDirUserData(const QString bareJid)
+QString CGlobal::GetDirUserData(const QString &szId)
 {
     QString jid;
-    if(bareJid.isEmpty())
+    if(szId.isEmpty())
     {
         if(!GetGlobalUser().isNull() && !GetGlobalUser()->GetUserInfoLocale().isNull())
-            jid = GetGlobalUser()->GetUserInfoLocale()->GetBareJid();
+            jid = GetGlobalUser()->GetUserInfoLocale()->GetId();
         else
         {
             LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
@@ -444,7 +453,7 @@ QString CGlobal::GetDirUserData(const QString bareJid)
         }
     }
     else
-        jid = QXmppUtils::jidToBareJid(bareJid);
+        jid = QXmppUtils::jidToBareJid(szId);
     jid = jid.replace("@", ".");
     QString path = GetDirApplicationConfigure() + QDir::separator() + "Users";
     QDir d;

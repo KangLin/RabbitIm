@@ -9,7 +9,6 @@
 #include <QMenu>
 #include <QStandardItemModel>
 #include <QResizeEvent>
-#include "../../XmppClient.h"
 #include "../FrmCustom/CustomTreeView.h"
 #include "FrmGroupChat.h"
 

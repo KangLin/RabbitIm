@@ -28,12 +28,12 @@ CFrmUservCard::CFrmUservCard(const QString &jid, QWidget *parent) :
     m_bModify = false;
     m_szJid = jid;
 
-    bool check = connect(&CGlobal::Instance()->GetXmppClient()->vCardManager(),
+    bool check = connect(&XMPP_CLIENT->vCardManager(),
                          SIGNAL(vCardReceived(QXmppVCardIq)),
                          SLOT(slotvCardReceived(QXmppVCardIq)));
     Q_ASSERT(check);
 
-    CGlobal::Instance()->GetXmppClient()->vCardManager().requestVCard(jid);
+    XMPP_CLIENT->vCardManager().requestVCard(jid);
 }
 
 CFrmUservCard::CFrmUservCard(QSharedPointer<CUserInfo> user, bool bModify, QWidget *parent) :
@@ -132,7 +132,7 @@ void CFrmUservCard::on_pbClear_clicked()
 
 void CFrmUservCard::on_pbOK_clicked()
 {
-    QXmppClient* pClient = CGlobal::Instance()->GetXmppClient();
+    QXmppClient* pClient = XMPP_CLIENT;
     if(pClient)
     {
         QXmppVCardIq vCard;

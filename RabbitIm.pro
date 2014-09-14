@@ -23,7 +23,7 @@ TEMPLATE = app
 #}
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
-DEFINES += QXMPP_STATIC
+DEFINES += QXMPP QXMPP_STATIC
 QXMPP_LIBRARY_NAME = -lqxmpp# qxmpp 库名
 
 CONFIG(debug, debug|release) {
@@ -47,7 +47,7 @@ QXMPP_USE_VPX = 1
 
 FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale  -lavfilter  -lavutil
 
-INCLUDEPATH += $$PWD/Widgets/FrmCustom
+INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom 
 
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android{

@@ -81,7 +81,7 @@ bool CFrmGroupChat::Join(const QString &jid)
     if(jid.isEmpty())
         return false;
 
-    QList<QXmppMucRoom*> rooms = CGlobal::Instance()->GetXmppClient()->m_MucManager.rooms();
+    QList<QXmppMucRoom*> rooms = XMPP_CLIENT->m_MucManager.rooms();
     QXmppMucRoom* r;
     foreach(r, rooms)
     {
@@ -92,7 +92,7 @@ bool CFrmGroupChat::Join(const QString &jid)
         }
     }
 
-    m_pRoom = CGlobal::Instance()->GetXmppClient()->m_MucManager.addRoom(jid);
+    m_pRoom = XMPP_CLIENT->m_MucManager.addRoom(jid);
     if(m_pRoom)
     {
         bool check = connect(m_pRoom, SIGNAL(joined()),

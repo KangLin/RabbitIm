@@ -41,7 +41,7 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
                     SLOT(slotCustomContextMenuRequested(QPoint)));
     Q_ASSERT(check);
     
-    check = connect(&CGlobal::Instance()->GetXmppClient()->m_MucManager, SIGNAL(invitationReceived(QString,QString,QString)),
+    check = connect(&XMPP_CLIENT->m_MucManager, SIGNAL(invitationReceived(QString,QString,QString)),
                     SLOT(slotInvitationReceived(QString,QString,QString)));
     Q_ASSERT(check);
 

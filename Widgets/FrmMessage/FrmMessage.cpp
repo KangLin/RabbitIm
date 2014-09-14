@@ -256,7 +256,7 @@ void CFrmMessage::on_pbSend_clicked()
 
     //发送  
     QXmppMessage msg("", m_pRoster->BareJid(), ui->txtInput->toPlainText());
-    CGlobal::Instance()->GetXmppClient()->sendPacket(msg);
+    XMPP_CLIENT->sendPacket(msg);
 
     ui->txtInput->clear();//清空输入框中的内容  
 }

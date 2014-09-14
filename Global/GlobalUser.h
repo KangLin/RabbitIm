@@ -3,46 +3,60 @@
 
 #include <QObject>
 #include <QSharedPointer>
-#include "../UserInfo/UserInfoRoster.h"
-#include "../UserInfo/UserInfoLocale.h"
-#include "../UserInfo/COperateRoster.h"
+#include "UserInfo/UserInfo.h"
+#include "UserInfo/COperateRoster.h"
+#include "Client/Client.h"
 
 class CGlobalUser : public QObject
 {
     Q_OBJECT
 public:
     explicit CGlobalUser(QObject *parent = 0);
+
     virtual ~CGlobalUser();
 
-    int Init(QString szLocaleJid);
-    int Clean();
+    virtual int Init(QString szLocaleJid);
+    virtual int Clean();
+    //设置内容修改标志  
+    virtual int SetModify(bool bModify = true);
 
-    QSharedPointer<CUserInfoLocale> GetUserInfoLocale();
-    //更新本地用户信息  
-    int UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString jid);
+    //得到本地用户对象  
+    virtual QSharedPointer<CUserInfo> GetUserInfoLocale();
 
-    int ProcessRoster(COperateRoster* pOperateRoster, void *para = NULL);
-    QSharedPointer<CUserInfoRoster> GetUserInfoRoster(const QString &szBareJid);
-    int UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem);
-    int UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString jid);
-    int RemoveUserInfoRoster(const QString &bareJid);
+    //处理好友列表操作  
+    virtual int ProcessRoster(COperateRoster* pOperateRoster, void *para = NULL);
+    //得到好友对象  
+    //成功,返回好友对象指针.失败,返回空指针  
+    virtual QSharedPointer<CUserInfo> GetUserInfoRoster(const QString &szId);
+    //从好友列表中删除好友  
+    virtual int RemoveUserInfoRoster(const QString &szId);
 
 private:
     int LoadFromFile(QString szLocaleJid);
     int SaveToFile();
-    int LoadLocaleFromFile(QString szLocaleJid);
+    int LoadLocaleFromFile(const QString &szLocaleJid);
     int SaveLocaleToFile();
     int LoadRosterFromFile(QString szLocaleJid);
     int SaveRosterToFile();
 
-private:
-    //本地用户信息  
-    QSharedPointer<CUserInfoLocale> m_UserInforLocale;
-    //好友信息  
-    QMap<QString, QSharedPointer<CUserInfoRoster> > m_UserInfoRoster;
+    //得到保存本地用户信息的文件  
+    virtual QString GetLocaleFile(const QString &szLocaleJid);
+    //得到保存好友信息的文件  
+    virtual QString GetRosterFile(const QString &szLocaleJid);
+    //新建立一个空的用户信息对象  
+    virtual QSharedPointer<CUserInfo> NewUserInfo();
 
+protected:
+    //本地用户信息  
+    QSharedPointer<CUserInfo> m_UserInforLocale;
+    //好友信息列表  
+    QMap<QString, QSharedPointer<CUserInfo> > m_UserInfoRoster;
+
+protected:
+    bool m_bModify; //标志内容是否修改  
 private:
-    bool m_bModify;//
+    QSharedPointer<CClient> m_Client;//相应的客户端用相应的对象,私有变量,子类不继承  
+
 signals:
 
 public slots:

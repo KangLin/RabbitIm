@@ -2,7 +2,6 @@
 #include "Global.h"
 #include <QDir>
 #include <QFile>
-#include "qxmpp/QXmppUtils.h"
 
 CGlobalUser::CGlobalUser(QObject *parent) :
     QObject(parent)
@@ -21,6 +20,13 @@ int CGlobalUser::Init(QString szLocaleJid)
     m_bModify = false;
     //从配置文件中加载数据  
     LoadFromFile(szLocaleJid);
+    
+    if(m_UserInforLocale.isNull())
+    {
+        //调用客户端操作，得到本地用户信息  
+        m_Client->RequestUserInfoLocale();
+    }
+
     return nRet;
 }
 
@@ -37,6 +43,12 @@ int CGlobalUser::Clean()
     m_UserInforLocale.clear();
     m_UserInfoRoster.clear();
     return nRet;
+}
+
+int CGlobalUser::SetModify(bool bModify)
+{
+    m_bModify = bModify;
+    return 0;
 }
 
 int CGlobalUser::LoadFromFile(QString szLocaleJid)
@@ -59,11 +71,10 @@ int CGlobalUser::SaveToFile()
     return nRet;
 }
 
-int CGlobalUser::LoadLocaleFromFile(QString szLocaleJid)
+int CGlobalUser::LoadLocaleFromFile(const QString &szLocaleJid)
 {
     int nRet = 0;
-    QString szFile = CGlobal::Instance()->GetDirUserData(szLocaleJid) 
-            + QDir::separator() + "LocaleInfo.dat";
+    QString szFile = GetLocaleFile(szLocaleJid);
 
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
@@ -82,8 +93,7 @@ int CGlobalUser::LoadLocaleFromFile(QString szLocaleJid)
         LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
         if(m_UserInforLocale.isNull())
          {
-            QSharedPointer<CUserInfoLocale> locale(new CUserInfoLocale);
-            m_UserInforLocale = locale;
+            m_UserInforLocale = NewUserInfo();
         }
         s >> *m_UserInforLocale;        
     }
@@ -100,16 +110,15 @@ int CGlobalUser::LoadLocaleFromFile(QString szLocaleJid)
 int CGlobalUser::SaveLocaleToFile()
 {
     int nRet = 0;
-    QString szFile = CGlobal::Instance()->GetDirUserData(CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale()->GetBareJid()) 
-            + QDir::separator() + "LocaleInfo.dat";
-    
+    QString szFile = GetLocaleFile(GetUserInfoLocale()->GetId());
+
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
         LOG_MODEL_WARNING("CGlobalUser", "Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
-    
+
     try
     {
         QDataStream s(&out);
@@ -124,7 +133,7 @@ int CGlobalUser::SaveLocaleToFile()
         LOG_MODEL_ERROR("CGlobalUser", "CFrmUserList::SaveUserList exception");
         return -1;
     }
-    
+
     out.close();
     return nRet;
 }
@@ -132,9 +141,7 @@ int CGlobalUser::SaveLocaleToFile()
 int CGlobalUser::LoadRosterFromFile(QString szLocaleJid)
 {
     int nRet = 0;
-    QString szFile = CGlobal::Instance()->GetDirUserData(szLocaleJid) 
-            + QDir::separator() + "RosterInfo.dat";
-
+    QString szFile = GetRosterFile(szLocaleJid);
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
@@ -155,8 +162,9 @@ int CGlobalUser::LoadRosterFromFile(QString szLocaleJid)
         while(nSize--)
         {
             QString jid;
-            QSharedPointer<CUserInfoRoster> roster(new CUserInfoRoster);
+            QSharedPointer<CUserInfo> roster = NewUserInfo();
             s >> jid >> *roster;
+            m_UserInfoRoster.insert(jid, roster);
         }
     }
     catch(...)
@@ -172,8 +180,7 @@ int CGlobalUser::LoadRosterFromFile(QString szLocaleJid)
 int CGlobalUser::SaveRosterToFile()
 {
     int nRet = 0;
-    QString szFile = CGlobal::Instance()->GetDirUserData(CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale()->GetBareJid()) 
-            + QDir::separator() + "RosterInfo.dat";
+    QString szFile = GetRosterFile(GetUserInfoLocale()->GetId());
 
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
@@ -189,7 +196,7 @@ int CGlobalUser::SaveRosterToFile()
         int nVersion = 1;
         s << nVersion;
         s << m_UserInfoRoster.size();
-        QMap<QString, QSharedPointer<CUserInfoRoster> >::iterator it;
+        QMap<QString, QSharedPointer<CUserInfo> >::iterator it;
         for(it = m_UserInfoRoster.begin(); it != m_UserInfoRoster.end(); it++)
         {
             s << it.key() << *(it.value());
@@ -205,60 +212,27 @@ int CGlobalUser::SaveRosterToFile()
     return nRet;
 }
 
-QSharedPointer<CUserInfoLocale> CGlobalUser::GetUserInfoLocale()
+QSharedPointer<CUserInfo> CGlobalUser::GetUserInfoLocale()
 {
     return m_UserInforLocale;
 }
 
-QSharedPointer< CUserInfoRoster > CGlobalUser::GetUserInfoRoster(const QString &szBareJid)
+QSharedPointer<CUserInfo> CGlobalUser::GetUserInfoRoster(const QString &szId)
 {
-#ifdef DEBUG
-    if(szBareJid != QXmppUtils::jidToBareJid(szBareJid))
-    {
-        LOG_MODEL_DEBUG("CFrmUserList", "The bareJid must bare jid");
-        Q_ASSERT(false);
-    }
-#endif
-    QSharedPointer<CUserInfoRoster> roster;
-    QMap<QString, QSharedPointer<CUserInfoRoster> >::iterator it;
-    it = m_UserInfoRoster.find(QXmppUtils::jidToBareJid(szBareJid));
+    QSharedPointer<CUserInfo> roster;
+    QMap<QString, QSharedPointer<CUserInfo> >::iterator it;
+    it = m_UserInfoRoster.find(szId);
     if(m_UserInfoRoster.end() == it)
         return roster;
+    else
+        LOG_MODEL_WARNING("GlobalUser", "Don't find roster:%s", szId.toStdString().c_str());
     return it.value();
-}
-
-int CGlobalUser::UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString jid)
-{
-    m_bModify = true;
-    if(m_UserInforLocale.isNull())
-     {
-        QSharedPointer<CUserInfoLocale> locale(new CUserInfoLocale);
-        m_UserInforLocale = locale;
-    }
-    m_UserInforLocale->UpdateUserInfo(vCard, jid);
-    return 0;
-}
-
-int CGlobalUser::UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem)
-{
-    int nRet = 0;
-    m_bModify = true;
-    QString jid = rosterItem.bareJid();
-    QSharedPointer<CUserInfoRoster> roster = GetUserInfoRoster(jid);
-    if(roster.isNull())
-    {
-        QSharedPointer<CUserInfoRoster> r(new CUserInfoRoster);
-        roster = r;
-        m_UserInfoRoster.insert(jid, roster);
-    }
-    nRet = roster->UpdateUserInfo(rosterItem);
-    return nRet;
 }
 
 int CGlobalUser::ProcessRoster(COperateRoster* pOperateRoster, void* para)
 {
     int nRet = 0;
-    QMap<QString, QSharedPointer<CUserInfoRoster> >::iterator it;
+    QMap<QString, QSharedPointer<CUserInfo> >::iterator it;
     for(it = m_UserInfoRoster.begin(); it != m_UserInfoRoster.end(); it++)
     {
         nRet = pOperateRoster->ProcessRoster(it.value(), para);
@@ -268,30 +242,25 @@ int CGlobalUser::ProcessRoster(COperateRoster* pOperateRoster, void* para)
     return nRet;
 }
 
-int CGlobalUser::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString jid)
+int CGlobalUser::RemoveUserInfoRoster(const QString &szId)
 {
-    int nRet = 0;
-    m_bModify = true;
-    QString szBareJid = QXmppUtils::jidToBareJid(jid);
-    QSharedPointer<CUserInfoRoster> roster = GetUserInfoRoster(szBareJid);
-    if(roster.isNull())
-    {
-        QSharedPointer<CUserInfoRoster> r(new CUserInfoRoster);
-        roster = r;
-        m_UserInfoRoster.insert(szBareJid, roster);
-    }
-    nRet = roster->UpdateUserInfo(vCard, jid);
-    return nRet;
+    return !m_UserInfoRoster.remove(szId);
 }
 
-int CGlobalUser::RemoveUserInfoRoster(const QString &bareJid)
+QString CGlobalUser::GetLocaleFile(const QString &szLocaleJid)
 {
-#ifdef DEBUG
-    if(bareJid != QXmppUtils::jidToBareJid(bareJid))
-    {
-        LOG_MODEL_DEBUG("CFrmUserList", "The bareJid must bare jid");
-        Q_ASSERT(false);
-    }
-#endif
-    return !m_UserInfoRoster.remove(QXmppUtils::jidToBareJid(bareJid));
+    return CGlobal::Instance()->GetDirUserData(szLocaleJid) 
+            + QDir::separator() + "LocaleInfo.dat";
+}
+
+QString CGlobalUser::GetRosterFile(const QString &szLocaleJid)
+{
+    return CGlobal::Instance()->GetDirUserData(szLocaleJid) 
+            + QDir::separator() + "RosterInfo.dat";
+}
+
+QSharedPointer<CUserInfo> CGlobalUser::NewUserInfo()
+{
+    QSharedPointer<CUserInfo> user(new CUserInfo);
+    return user;
 }

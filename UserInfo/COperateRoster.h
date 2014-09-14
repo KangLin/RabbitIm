@@ -9,7 +9,7 @@
 #ifndef COPERATEROSTER_H
 #define COPERATEROSTER_H
 
-#include "UserInfoRoster.h"
+#include "UserInfo.h"
 
 class COperateRoster
 {
@@ -17,7 +17,7 @@ public:
     explicit COperateRoster();
     virtual ~COperateRoster();
     //返回值为0,继续操作.非0,停止操作  
-    virtual int ProcessRoster(QSharedPointer<CUserInfoRoster> roster, void *para = NULL);
+    virtual int ProcessRoster(QSharedPointer<CUserInfo> roster, void *para = NULL) = 0;
 private:
 };
 

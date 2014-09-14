@@ -12,7 +12,7 @@ CFrmRegister::CFrmRegister(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    m_pClient = new CXmppClient(this);
+    m_pClient = new CClientXmpp(this);
     if(NULL == m_pClient)
     {
         LOG_MODEL_ERROR("Register", "CFrmRegister::CFrmRegister: create CXmppClient fail");

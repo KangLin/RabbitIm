@@ -38,7 +38,7 @@ public:
     //TODO:以后放在未读消息中维护  
     //显示最后一个消息窗口  
     int ShowMessageDialog();
-    virtual int ProcessRoster(QSharedPointer<CUserInfoRoster> roster, void *para = NULL);
+    virtual int ProcessRoster(QSharedPointer<CUserInfo> roster, void *para = NULL);
 
 public slots:
     //更新好友  
@@ -77,7 +77,7 @@ private:
     //更新组中用户  
     int UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups);
     //插入好友条目  
-    int InsertRosterItem(QSharedPointer<CUserInfoRoster> roster);
+    int InsertRosterItem(QSharedPointer<CUserInfo> roster);
     //更新好友条目  
     int UpdateRosterItem(const QString &bareJid);
     //删除好友条目  

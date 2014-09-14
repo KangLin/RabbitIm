@@ -5,7 +5,7 @@
 #include <QColor>
 #include "qxmpp/QXmppPresence.h"
 #include "qxmpp/QXmppClient.h"
-#include "../XmppClient.h"
+#include "Client/ClientXmpp.h"
 #include "GlobalUser.h"
 
 class CRoster;
@@ -32,10 +32,10 @@ public:
     //得到主窗口  
     MainWindow* GetMainWindow();
     int SetMainWindow(MainWindow* pWnd);
-    CXmppClient* GetXmppClient();
+    QSharedPointer<CClient> GetClient();
 private:
     MainWindow* m_pMainWindow;
-    CXmppClient m_XmppClient;
+    QSharedPointer<CClient> m_Client;
 
 public:
     //应用程序目录  
@@ -47,7 +47,7 @@ public:
     //翻译文件目录  
     QString GetDirTranslate();
     //用户数据存放目录  
-    QString GetDirUserData(const QString bareJid = QString());
+    QString GetDirUserData(const QString &szId = QString());
     //得到用户头像目录  
     QString GetDirUserAvatar();
     //得到指定用户的头像文件  
@@ -61,18 +61,18 @@ private:
     QSharedPointer<CGlobalUser> m_GlobalUser;
 
 public:
-    QXmppPresence::AvailableStatusType GetStatus();//得到本地用户状态  
-    int SetStatus(QXmppPresence::AvailableStatusType status);
+    CUserInfo::USER_INFO_STATUS GetStatus();//得到本地用户状态  
+    int SetStatus(CUserInfo::USER_INFO_STATUS status);
 private:
-    QXmppPresence::AvailableStatusType m_LocalStatus;//本地用户的状态  
+    CUserInfo::USER_INFO_STATUS m_LocalStatus;//本地用户的状态  
 
 public:
     //好友状态文本表示  
-    QString GetRosterStatusText(QXmppPresence::AvailableStatusType status);
+    QString GetRosterStatusText(CUserInfo::USER_INFO_STATUS status);
     //好友状态图标资源字符串  
-    QString GetRosterStatusIcon(QXmppPresence::AvailableStatusType status);
+    QString GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS status);
     //好友状态颜色表示  
-    QColor GetRosterStatusColor(QXmppPresence::AvailableStatusType status);
+    QColor GetRosterStatusColor(CUserInfo::USER_INFO_STATUS status);
 
 public:
     //设置本地用户的显示颜色  
@@ -201,7 +201,8 @@ signals:
 public slots:
 };
 
-#define XMPP_CLIENT CGlobal::Instance()->GetXmppClient()
+#define GET_CLIENT CGlobal::Instance()->GetClient()
+#define XMPP_CLIENT GET_CLIENT
 #define GLOBAL_USER CGlobal::Instance()->GetGlobalUser()
 #define USER_INFO_LOCALE CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale()
 

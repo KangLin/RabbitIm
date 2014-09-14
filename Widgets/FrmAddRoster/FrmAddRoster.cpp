@@ -28,7 +28,7 @@ CFrmAddRoster::~CFrmAddRoster()
     delete ui;
 }
 
-int CFrmAddRoster::Init(CXmppClient *pClient, QSet<QString> groups, QString bareJid)
+int CFrmAddRoster::Init(CClientXmpp *pClient, QSet<QString> groups, QString bareJid)
 {
     ui->txtJID->clear();
     ui->txtNick->clear();

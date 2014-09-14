@@ -109,7 +109,7 @@ CFrmVideo* CFrmVideo::instance()
 int CFrmVideo::SetClient()
 {
     m_pMainWindow = CGlobal::Instance()->GetMainWindow();
-    m_pClient = CGlobal::Instance()->GetXmppClient();
+    m_pClient = XMPP_CLIENT;
 
     bool check = connect(&m_pClient->m_CallManager,
                          SIGNAL(callReceived(QXmppCall*)),

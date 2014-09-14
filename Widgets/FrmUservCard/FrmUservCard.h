@@ -5,7 +5,7 @@
 #include <QBuffer>
 #include <QSharedPointer>
 #include "../FrmUserList/Roster.h"
-#include "../../XmppClient.h"
+#include "Client/ClientXmpp.h"
 #include "../../UserInfo/UserInfo.h"
 
 namespace Ui {

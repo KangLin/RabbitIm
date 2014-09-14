@@ -44,37 +44,18 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pLogin = new CFrmLogin(this);
     this->setCentralWidget(m_pLogin);
 
-    CXmppClient* pClient = XMPP_CLIENT;
-    if(pClient)
+    QSharedPointer<CClient> client = XMPP_CLIENT;
+    if(!client.isNull())
     {
-        //初始化qxmpp log
-        pClient->logger()->setLoggingType(QXmppLogger::StdoutLogging);
-
-        check = connect(pClient, SIGNAL(disconnected()),
+        check = connect(&(*client), SIGNAL(sigClientDisconnected()),
                         SLOT(slotClientDisconnected()));
-        Q_ASSERT(check);
-
-        check = connect(pClient, SIGNAL(error(QXmppClient::Error)),
-                        SLOT(clientError(QXmppClient::Error)));
-        Q_ASSERT(check);
-
-        /*check = connect(pClient, SIGNAL(iqReceived(QXmppIq)),
-                        SLOT(clientIqReceived(QXmppIq)));
-        Q_ASSERT(check);//*/
-
-        check = connect(pClient, SIGNAL(stateChanged(QXmppClient::State)),
-                        SLOT(stateChanged(QXmppClient::State)));
-        Q_ASSERT(check);
-
-        check = connect(&pClient->vCardManager(), SIGNAL(clientVCardReceived()),
-                        SLOT(slotClientVCardReceived()));
         Q_ASSERT(check);
 
         //0712文件发送管理窗口
         //TODO:有内存泄漏
         m_pSendManageDlg = new CDlgSendManage(0);
         //0712处理文件接收信号
-        connect(&(pClient->m_TransferManager),SIGNAL(fileReceived(QXmppTransferJob*)),this,SLOT(onReceiveFile(QXmppTransferJob*)));
+        //connect(&(pClient->m_TransferManager),SIGNAL(fileReceived(QXmppTransferJob*)),this,SLOT(onReceiveFile(QXmppTransferJob*)));
 
         CFrmVideo::instance();
     }
@@ -171,7 +152,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     if(QMessageBox::Ok == msg.exec())
     {
         //退出程序  
-        XMPP_CLIENT->disconnectFromServer();
+        XMPP_CLIENT->Logout();
         e->accept();
         QApplication::closeAllWindows();
     }
@@ -201,15 +182,16 @@ void MainWindow::slotClientConnected()
         m_pLogin = NULL;
     }
 
-    int nRet = GLOBAL_USER->Init(XMPP_CLIENT->configuration().jidBare());
+    int nRet = GLOBAL_USER->Init(USER_INFO_LOCALE->GetId());
     if(nRet)
     {
         LOG_MODEL_ERROR("MainWindow", "Init GlobalUser fail");
         return;
     }
 
-    if(!USER_INFO_LOCALE.isNull())
-        USER_INFO_LOCALE->SetStatus(XMPP_CLIENT->clientPresence().availableStatusType());
+    //TODO:
+    //if(!USER_INFO_LOCALE.isNull())
+    //    USER_INFO_LOCALE->SetStatus(XMPP_CLIENT->clientPresence().availableStatusType());
 
     if(NULL == m_pTableMain)
         m_pTableMain = new CFrmMain(this);
@@ -223,10 +205,6 @@ void MainWindow::slotClientConnected()
 
     InitLoginedMenu();
 
-    //得到本地用户的详细信息  
-    if(USER_INFO_LOCALE.isNull())
-        XMPP_CLIENT->vCardManager().requestClientVCard();
-
     m_bLogin = true;
 }
 
@@ -237,75 +215,13 @@ void MainWindow::slotClientDisconnected()
      GLOBAL_USER->Clean();
 }
 
-void MainWindow::clientError(QXmppClient::Error e)
-{
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: Error:%d", e);
-    if(!m_pLogin)
-        return;
-
-    if(QXmppClient::SocketError == e)
-    {
-        m_pLogin->SetPrompt(tr("Network error"));
-    }
-    else if(QXmppClient::XmppStreamError == e)
-    {
-        m_pLogin->SetPrompt(tr("User name or password error"));
-
-    }
-    else if(QXmppClient::KeepAliveError == e)
-        m_pLogin->SetPrompt(tr("Keep Alive error"));
-    else
-        m_pLogin->SetPrompt(tr("Login success"));
-
-}
-
-void MainWindow::clientIqReceived(const QXmppIq &iq)
-{
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: iq Received:%d", iq.error().condition());
-}
-
-//得到本地用户形象信息  
-void MainWindow::slotClientVCardReceived()
-{
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotClientVCardReceived");
- 
-    GLOBAL_USER->UpdateUserInfoLocale(XMPP_CLIENT->vCardManager().clientVCard(),
-                                                               XMPP_CLIENT->vCardManager().clientVCard().to());
-    USER_INFO_LOCALE->SetStatus(XMPP_CLIENT->clientPresence().availableStatusType());
-    m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(USER_INFO_LOCALE->GetShowName()));
-}
-
-void MainWindow::stateChanged(QXmppClient::State state)
-{
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::stateChanged, state:%d", state);
-
-    //TODO:同一账户在不同地方登录。QXMPP没有提供错误状态  
-
-    /*if(e.xmppStreamError().condition()
-            == QXmppStanza::Error::Conflict)
-    {
-        QMessageBox msg(QMessageBox::QMessageBox::Critical,
-                        tr("Error"),
-                        tr("The user had logined in other place"),
-                        QMessageBox::Ok);
-
-        if(NULL == m_pLogin)
-            m_pLogin = new CFrmLogin;
-
-        if(m_pLogin)
-        {
-            this->setCentralWidget(m_pLogin);
-        }
-    }*/
-}
-
 void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindow::SendFileType type)
 {
-    QXmppTransferJob* job = XMPP_CLIENT->m_TransferManager.sendFile(jid,fileName,QString::number(type));
+    /*QXmppTransferJob* job = XMPP_CLIENT->m_TransferManager.sendFile(jid,fileName,QString::number(type));
     if(job)
     {
         m_pSendManageDlg->addFileProcess(*job,true);
-    }
+    }*/
 }
 
 int MainWindow::ReInitMenuOperator()
@@ -359,23 +275,23 @@ int MainWindow::InitOperatorMenu()
 
 int MainWindow::InitMenuStatus()
 {
-    m_ActionStatus[QXmppPresence::Online] = 
-            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Online)),
-                             CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Online));
-    m_ActionStatus[QXmppPresence::Chat] = 
-            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Chat)),
-                             CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Chat));
-    m_ActionStatus[QXmppPresence::Away] = 
-            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Away)),
-                             CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Away));
-    m_ActionStatus[QXmppPresence::DND] = 
-            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::DND)),
-                             CGlobal::Instance()->GetRosterStatusText(QXmppPresence::DND));
-    m_ActionStatus[QXmppPresence::Invisible] = 
-            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Invisible)),
-                             CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Invisible));
+    m_ActionStatus[CUserInfo::Online] = 
+            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::Online)),
+                             CGlobal::Instance()->GetRosterStatusText(CUserInfo::Online));
+    m_ActionStatus[CUserInfo::Chat] = 
+            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::Chat)),
+                             CGlobal::Instance()->GetRosterStatusText(CUserInfo::Chat));
+    m_ActionStatus[CUserInfo::Away] = 
+            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::Away)),
+                             CGlobal::Instance()->GetRosterStatusText(CUserInfo::Away));
+    m_ActionStatus[CUserInfo::DO_NOT_DISTURB] = 
+            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::DO_NOT_DISTURB)),
+                             CGlobal::Instance()->GetRosterStatusText(CUserInfo::DO_NOT_DISTURB));
+    m_ActionStatus[CUserInfo::Invisible] = 
+            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::Invisible)),
+                             CGlobal::Instance()->GetRosterStatusText(CUserInfo::Invisible));
 
-    QMap<QXmppPresence::AvailableStatusType, QAction*>::iterator it;
+    QMap<CUserInfo::USER_INFO_STATUS, QAction*>::iterator it;
     for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
         m_ActionGroupStatus.addAction(it.value());
 
@@ -398,7 +314,7 @@ int MainWindow::InitMenuStatus()
 
 int MainWindow::ClearMenuStatus()
 {
-    QMap<QXmppPresence::AvailableStatusType, QAction*>::iterator it;
+    QMap<CUserInfo::USER_INFO_STATUS, QAction*>::iterator it;
     for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
         m_ActionGroupStatus.removeAction(it.value());
     m_ActionGroupStatus.disconnect();
@@ -615,16 +531,14 @@ void MainWindow::on_actionNotifiation_show_main_windows_triggered()
 
 void MainWindow::slotActionGroupStatusTriggered(QAction *act)
 {
-    QMap<QXmppPresence::AvailableStatusType, QAction*>::iterator it;
+    QMap<CUserInfo::USER_INFO_STATUS, QAction*>::iterator it;
     for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
     {
         if(it.value() == act)
         {
-            QXmppPresence presence;
-            QXmppPresence::AvailableStatusType status = it.key();
+            CUserInfo::USER_INFO_STATUS status = it.key();
             USER_INFO_LOCALE->SetStatus(status);
-            presence.setAvailableStatusType(status);
-            XMPP_CLIENT->setClientPresence(presence);
+            XMPP_CLIENT->setClientStatus(status);
             act->setCheckable(true);
             act->setChecked(true);
             m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(status)));

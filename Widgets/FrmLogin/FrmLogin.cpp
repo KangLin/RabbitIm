@@ -75,27 +75,16 @@ void CFrmLogin::on_pbOk_clicked()
     if(m_tmAutoLogin.isActive())
         m_tmAutoLogin.stop();
 
-    bool check = connect(CGlobal::Instance()->GetXmppClient(),
-                         SIGNAL(connected()),
+    bool check = connect(CGlobal::Instance()->GetClient(),
+                         SIGNAL(sigClientConnected()),
                          (MainWindow*)(this->parent()),
                          SLOT(slotClientConnected()));
     Q_ASSERT(check);
 
     ui->lbePrompt->setText(tr("Being Login..."));
 
-    QXmppConfiguration config;
-    //TODO:设置为非sasl验证  
-    config.setUseSASLAuthentication(false);
-    //config.setUseNonSASLAuthentication(false);
-    config.setHost(CGlobal::Instance()->GetXmppServer());
-    config.setPort(CGlobal::Instance()->GetXmppServerPort());
-    config.setDomain(CGlobal::Instance()->GetXmppDomain());
-    config.setUser(ui->cmbUser->currentText());
-    config.setPassword(ui->lnPassword->text());
-
-    QXmppPresence presence;
-    presence.setAvailableStatusType(m_Status);
-    CGlobal::Instance()->GetXmppClient()->connectToServer(config, presence);
+    GET_CLIENT->Login(ui->cmbUser->currentIndex(), ui->lnPassword->text(), m_Status);
+    return;
 }
 
 void CFrmLogin::on_pbClose_clicked()
@@ -196,7 +185,7 @@ void CFrmLogin::on_chkLogin_stateChanged(int state)
 
 int CFrmLogin::ReinitStateButton()
 {
-    QMap<QXmppPresence::AvailableStatusType, QAction*>::iterator it;
+    QMap<CUserInfo::USER_INFO_STATUS, QAction*>::iterator it;
     for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
     {
         m_ActionGroupStatus.removeAction(it.value());
@@ -204,25 +193,25 @@ int CFrmLogin::ReinitStateButton()
     m_ActionStatus.clear();
     m_StateMenu.clear();
 
-    m_ActionStatus[QXmppPresence::Online] =
-            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Online)),
-                                  CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Online));
+    m_ActionStatus[CUserInfo::USER_INFO_STATUS::Online] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS::Online)),
+                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::USER_INFO_STATUS::Online));
 
-    m_ActionStatus[QXmppPresence::Chat] =
-            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Chat)),
-                                  CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Chat));
+    m_ActionStatus[CUserInfo::USER_INFO_STATUS::Chat] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS::Chat)),
+                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::USER_INFO_STATUS::Chat));
 
-    m_ActionStatus[QXmppPresence::Away] =
-            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Away)),
-                                  CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Away));
+    m_ActionStatus[CUserInfo::USER_INFO_STATUS::Away] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS::Away)),
+                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::USER_INFO_STATUS::Away));
 
-    m_ActionStatus[QXmppPresence::DND] = 
-            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::DND)),
-                                  CGlobal::Instance()->GetRosterStatusText(QXmppPresence::DND));
+    m_ActionStatus[CUserInfo::USER_INFO_STATUS::DO_NOT_DISTURB] = 
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS::DO_NOT_DISTURB)),
+                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::USER_INFO_STATUS::DO_NOT_DISTURB));
 
-    m_ActionStatus[QXmppPresence::Invisible] =
-            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(QXmppPresence::Invisible)),
-                                    CGlobal::Instance()->GetRosterStatusText(QXmppPresence::Invisible));
+    m_ActionStatus[CUserInfo::USER_INFO_STATUS::Invisible] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS::Invisible)),
+                                    CGlobal::Instance()->GetRosterStatusText(CUserInfo::USER_INFO_STATUS::Invisible));
 
     for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
         m_ActionGroupStatus.addAction(it.value());

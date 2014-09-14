@@ -7,7 +7,7 @@ CConference::CConference(QObject *parent) :
 {
     m_type = REQUEST_TYPE_NO;
     bool check = false;
-    QXmppDiscoveryManager* pDis = CGlobal::Instance()->GetXmppClient()->findExtension<QXmppDiscoveryManager>();
+    QXmppDiscoveryManager* pDis = XMPP_CLIENT->findExtension<QXmppDiscoveryManager>();
     check = connect(pDis, SIGNAL(infoReceived(QXmppDiscoveryIq)),
                     SLOT(slotInfoReceived(QXmppDiscoveryIq)));
     Q_ASSERT(check);
@@ -19,7 +19,7 @@ CConference::CConference(QObject *parent) :
 
 CConference::~CConference()
 {
-    QXmppDiscoveryManager* pDis = CGlobal::Instance()->GetXmppClient()->findExtension<QXmppDiscoveryManager>();
+    QXmppDiscoveryManager* pDis = XMPP_CLIENT->findExtension<QXmppDiscoveryManager>();
     pDis->disconnect(this);
 }
 
@@ -74,7 +74,7 @@ void CConference::slotItemsReceived(const QXmppDiscoveryIq &iq)
                             item.jid().toStdString().c_str(),
                             item.name().toStdString().c_str(), 
                             item.node().toStdString().c_str());
-            CGlobal::Instance()->GetXmppClient()->findExtension<QXmppDiscoveryManager>()->requestInfo(item.jid());
+            XMPP_CLIENT->findExtension<QXmppDiscoveryManager>()->requestInfo(item.jid());
         }
         break;
     case REQUEST_TYPE_ROOMS:

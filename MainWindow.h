@@ -4,7 +4,6 @@
 #include <QtWidgets>
 #include <QMainWindow>
 #include <QSystemTrayIcon>
-#include "XmppClient.h"
 #include "qxmpp/QXmppVCardIq.h"
 #include "qxmpp/QXmppVCardManager.h"
 #include "qxmpp/QXmppTransferManager.h"
@@ -57,9 +56,6 @@ protected slots:
     void About();
     void slotClientConnected();
     void slotClientDisconnected();
-    void clientError(QXmppClient::Error e);
-    void clientIqReceived(const QXmppIq &iq);
-    void stateChanged(QXmppClient::State state);
 
     //通知栏  
     void slotTrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽  
@@ -78,7 +74,6 @@ protected slots:
 
     //编辑本地用户详细信息  
     void slotEditInformation();
-    void slotClientVCardReceived();
 
     void onReceiveFile(QXmppTransferJob* job);//文件接收通知  
 
@@ -115,7 +110,7 @@ private:
     //状态菜单  
     QMenu m_MenuStatus;
     QActionGroup m_ActionGroupStatus;
-    QMap<QXmppPresence::AvailableStatusType, QAction*> m_ActionStatus;
+    QMap<CUserInfo::USER_INFO_STATUS, QAction*> m_ActionStatus;
 
     //翻译菜单  
     QMenu m_MenuTranslate;

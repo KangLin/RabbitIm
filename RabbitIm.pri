@@ -1,10 +1,14 @@
 SOURCES += main.cpp\
     MainWindow.cpp \
-    XmppClient.cpp \
     Tool.cpp \
-    Global/Global.cpp \
-    Global/GlobalUser.cpp \
+    Client/ClientXmpp.cpp \
+    Client/Client.cpp \
+    UserInfo/UserInfo.cpp \
+    UserInfo/UserInfoXmpp.cpp \
     UserInfo/COperateRoster.cpp \
+    Global/GlobalUser.cpp \
+    Global/GlobalUserQXmpp.cpp \
+    Global/Global.cpp \
     Widgets/FrmSendFile/DlgSendManage.cpp \
     Widgets/FrmSendFile/FrmSendFile.cpp \
     Widgets/FrmLogin/FrmLogin.cpp \
@@ -35,13 +39,9 @@ SOURCES += main.cpp\
     Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp \
     Widgets/FrmMain/FrmMain.cpp \
     Widgets/FrmCustom/MenuMessageSend.cpp \
-    Widgets/DlgScreenShot/DlgScreenShot.cpp \
-    UserInfo/UserInfo.cpp \
-    UserInfo/UserInfoLocale.cpp \
-    UserInfo/UserInfoRoster.cpp 
+    Widgets/DlgScreenShot/DlgScreenShot.cpp 
 
 HEADERS  += MainWindow.h \
-    XmppClient.h \
     Global/Global.h \
     Global/GlobalUser.h \
     UserInfo/COperateRoster.h \
@@ -79,8 +79,10 @@ HEADERS  += MainWindow.h \
     Widgets/FrmCustom/MenuMessageSend.h \
     Widgets/DlgScreenShot/DlgScreenShot.h \
     UserInfo/UserInfo.h \
-    UserInfo/UserInfoLocale.h \
-    UserInfo/UserInfoRoster.h 
+    Global/GlobalUserQXmpp.h \
+    Client/Client.h \
+    UserInfo/UserInfoXmpp.h \
+    Client/ClientXmpp.h
 
 FORMS    += MainWindow.ui \
     Widgets/FrmSendFile/DlgSendManage.ui \

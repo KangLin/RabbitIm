@@ -77,7 +77,7 @@ signals:
 public slots:
 
 private:
-    CUserInfoRoster m_UserInfo;
+    //CUserInfoRoster m_UserInfo;
     QString m_szJid;
     QString m_szName;
     QSet<QString> m_Groups;

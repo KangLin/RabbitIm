@@ -128,7 +128,7 @@ int CFrmUserList::Clean()
     return 0;
 }
 
-int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfoRoster> roster, void *para)
+int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfo> roster, void *para)
 {
     int nRet = 0;
     int * p = (int*)para;
@@ -139,7 +139,7 @@ int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfoRoster> roster, void *pa
         nRet = InsertRosterItem(roster);
         break;
     case OPERATE_TYPE_UPDATE_ROSTER:
-        nRet = UpdateRosterItem(roster->GetBareJid());
+        nRet = UpdateRosterItem(roster->GetId());
         break;
     default:
         LOG_MODEL_ERROR("FrmUserList", "Operate type is error");
@@ -380,7 +380,7 @@ int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
     return nRet;
 }
 
-int CFrmUserList::InsertRosterItem(QSharedPointer<CUserInfoRoster> roster)
+int CFrmUserList::InsertRosterItem(QSharedPointer<CUserInfo> roster)
 {
     int nRet = 0;
     //呢称条目  
