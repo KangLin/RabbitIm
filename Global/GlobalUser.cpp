@@ -20,7 +20,9 @@ int CGlobalUser::Init(QString szLocaleJid)
     m_bModify = false;
     //从配置文件中加载数据  
     LoadFromFile(szLocaleJid);
-    
+
+    emit m_Client->sigLoadRosterFromStorage();
+
     if(m_UserInforLocale.isNull())
     {
         //调用客户端操作，得到本地用户信息  

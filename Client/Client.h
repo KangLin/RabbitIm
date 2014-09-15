@@ -23,6 +23,10 @@ public:
     //设置用户状态· 
     virtual int setClientStatus(CUserInfo::USER_INFO_STATUS status);
 
+    //订阅  
+    virtual int RosterSubscribe(const QString& szId);
+    virtual int RosterAdd(const QString &szId, const QString &name = QString(), const QSet<QString> &groups = QSet<QString>());
+
     enum ERROR_TYPE
     {
         NoError,            ///< No error.
@@ -35,6 +39,20 @@ signals:
     void sigClientConnected();
     void sigClientDisconnected();
     void sigClientError(CClient::ERROR_TYPE e);
+
+    //好友状态改变时触发  
+    void sigChangedStatus(const QString& szId);
+    //从文件中加载好友完成后触发  
+    void sigLoadRosterFromStorage();
+    //新增好友  
+    void sigInsertRoster(const QString& szId);
+    //更新好友信息  
+    void sigUpdateRosterUserInfo(const QString &szId);
+    //更新本地用户信息  
+    void sigUpdateLocaleUserInfo();
+
+    //接收好友订阅请求时触发  
+    void sigSubscriptionReceived(const QString& szId);
 
 public slots:
 

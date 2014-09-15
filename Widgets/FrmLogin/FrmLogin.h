@@ -43,13 +43,13 @@ private:
 private:
     Ui::CFrmLogin *ui;
     CFrmRegister *m_pRegister;
-    QTimer m_tmAutoLogin;//用于自动登录
+    QTimer m_tmAutoLogin;//用于自动登录  
 
-    //密码加密函数
+    //密码加密函数  
     QString EncryptPassword(QString szPassword);
     QString DecryptPassword(QString szPassword);
 
-    //初始化状态按钮
+    //初始化状态按钮  
     int ReinitStateButton();
     QMenu m_StateMenu;
     QMap<CUserInfo::USER_INFO_STATUS, QAction*> m_ActionStatus;

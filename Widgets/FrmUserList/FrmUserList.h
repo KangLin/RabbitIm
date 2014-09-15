@@ -70,18 +70,16 @@ private:
     int Init();
     int Clean();
 
-    //向用户列表中插入用户  
-    int InsertUser(QXmppRosterIq::Item rosterItem);
     //在组队列中插入组  
     QStandardItem*  InsertGroup(QString szGroup);
     //更新组中用户  
     int UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups);
     //插入好友条目  
-    int InsertRosterItem(QSharedPointer<CUserInfo> roster);
+    int InsertRosterItem(const QString &szId);
     //更新好友条目  
-    int UpdateRosterItem(const QString &bareJid);
+    int UpdateRosterItem(const QString &szId);
     //删除好友条目  
-    int RemoveRosterItem(const QString &bareJid);
+    int RemoveRosterItem(const QString &szId);
 
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent* e);
@@ -94,12 +92,14 @@ private:
     QSet<QString> GetGroupsName();
 
 protected slots:
-    //好友列表  
-    void slotRosterReceived();
+    //好友列表从文件中加载完成  
+    void slotLoadRosterFromStorage();
+    //新增好友  
+    void slotInsertRoster(const QString& szJid);
+    //更新好友信息  
+    void slotUpdateRosterUserInfo(const QString &szJid);
     //好友出席状态改变时触发  
-    void slotChangedPresence(const QXmppPresence &presence);
-    //得到好友详细信息时触发  
-    void slotvCardReceived(const QXmppVCardIq&);
+    void SlotChangedStatus(const QString& szId);
 
     //当有好友请求订阅时触发，在这个函数中调用acceptSubscription()接受请求，  
     //请用refuseSubscription()拒绝请求  

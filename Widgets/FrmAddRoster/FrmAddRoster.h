@@ -16,7 +16,7 @@ public:
     explicit CFrmAddRoster(QWidget *parent = 0);
     ~CFrmAddRoster();
 
-    int Init(CClientXmpp* pClient, QSet<QString> groups, QString bareJid = QString());
+    int Init(QSet<QString> groups, QString szId = QString());
 
 private slots:
     void on_pbOk_clicked();
@@ -29,7 +29,6 @@ private:
 
 private:
     Ui::CFrmAddRoster *ui;
-    CClientXmpp *m_pClient;
     bool m_bRequest;
 };
 

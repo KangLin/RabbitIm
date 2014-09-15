@@ -59,16 +59,23 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotDeleteFromMainMenu(QMenu*)));
     Q_ASSERT(check);
 
-    check = connect(XMPP_CLIENT,
-                         SIGNAL(presenceReceived(const QXmppPresence)),
-                         SLOT(slotChangedPresence(QXmppPresence)));
+    check = connect(XMPP_CLIENT.data(), SIGNAL(sigChangedStatus(const QXmppPresence)),
+                    SLOT(SlotChangedStatus(QXmppPresence)));
     Q_ASSERT(check);
 
-    check = connect(&XMPP_CLIENT->rosterManager(), SIGNAL(rosterReceived()),
-                    SLOT(slotRosterReceived()));
+    check = connect(XMPP_CLIENT.data(), SIGNAL(sigLoadRosterFromStorage()),
+                    SLOT(slotLoadRosterFromStorage()));
     Q_ASSERT(check);
 
-    check = connect(&XMPP_CLIENT->rosterManager(), SIGNAL(subscriptionReceived(QString)),
+    check = connect(XMPP_CLIENT.data(), SIGNAL(sigInsertRoster(const QString&)),
+                    SLOT(slotInsertRoster(const QString&)));
+    Q_ASSERT(check);
+
+    check = connect(XMPP_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString)),
+                    SLOT(slotUpdateRosterUserInfo(QString)));
+    Q_ASSERT(check);
+
+    check = connect(XMPP_CLIENT.data(), SIGNAL(sigSubscriptionReceived(QString)),
                     SLOT(slotSubscriptionReceived(QString)));
     Q_ASSERT(check);
 
@@ -114,15 +121,11 @@ CFrmUserList::~CFrmUserList()
 int CFrmUserList::Init()
 {
     int nRet = 0;
-    int para = OPERATE_TYPE_INSERT_ROSTER;
-    GLOBAL_USER->ProcessRoster(this, &para);
     return nRet;
 }
 
 int CFrmUserList::Clean()
 {
-    XMPP_CLIENT->rosterManager().disconnect(this);
-    XMPP_CLIENT->vCardManager().disconnect(this);
     XMPP_CLIENT->disconnect(this);
     CGlobal::Instance()->GetMainWindow()->disconnect(this);
     return 0;
@@ -356,37 +359,20 @@ int CFrmUserList::UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> gr
     return 0;
 }
 
-int CFrmUserList::InsertUser(QXmppRosterIq::Item rosterItem)
+int CFrmUserList::InsertRosterItem(const QString& szId)
 {
     int nRet = 0;
-    LOG_MODEL_DEBUG("FrmUserList", "jid:%s", qPrintable(rosterItem.bareJid()));
-    QSharedPointer<CUserInfoRoster> roster;
-    roster = GLOBAL_USER->GetUserInfoRoster(rosterItem.bareJid());
-    if(!roster.isNull())
-        return nRet;
-
-    GLOBAL_USER->UpdateUserInfoRoster(rosterItem);
-
-    //得到好友信息（包括头像图片）  
-    XMPP_CLIENT->vCardManager().requestVCard(rosterItem.bareJid());
-
-    //更新列表控件  
-    roster = GLOBAL_USER->GetUserInfoRoster(rosterItem.bareJid());
-    if(!roster.isNull())
+    QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+    if(roster.isNull())
     {
-        int type = OPERATE_TYPE_INSERT_ROSTER;
-        ProcessRoster(roster, &type);
+        LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(szId));
+        return -1;
     }
-    return nRet;
-}
 
-int CFrmUserList::InsertRosterItem(QSharedPointer<CUserInfo> roster)
-{
-    int nRet = 0;
     //呢称条目  
     QStandardItem* pItem = new QStandardItem(roster->GetShowName() + roster->GetSubscriptionTypeStr(roster->GetSubScriptionType()));
     pItem->setEditable(true);//允许双击编辑  
-    pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+    pItem->setData(roster->GetId(), USERLIST_ITEM_ROLE_JID);
     pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
     //改变item背景颜色  
     pItem->setData(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus()), Qt::BackgroundRole);
@@ -401,7 +387,7 @@ int CFrmUserList::InsertRosterItem(QSharedPointer<CUserInfo> roster)
 
     //消息条目  
     QStandardItem* pMessageCountItem = new QStandardItem("");
-    pMessageCountItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+    pMessageCountItem->setData(roster->GetId(), USERLIST_ITEM_ROLE_JID);
     pMessageCountItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
     pMessageCountItem->setEditable(false);//禁止双击编辑  
 
@@ -412,25 +398,18 @@ int CFrmUserList::InsertRosterItem(QSharedPointer<CUserInfo> roster)
     return nRet;
 }
 
-int CFrmUserList::UpdateRosterItem(const QString &bareJid)
+int CFrmUserList::UpdateRosterItem(const QString &szId)
 {
-#ifdef DEBUG
-    if(bareJid != QXmppUtils::jidToBareJid(bareJid))
-    {
-        LOG_MODEL_DEBUG("CFrmUserList", "The bareJid must bare jid");
-        Q_ASSERT(false);
-    }
-#endif
-    QSharedPointer<CUserInfoRoster> roster = GLOBAL_USER->GetUserInfoRoster(QXmppUtils::jidToBareJid(bareJid));
+    QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(bareJid));
+        LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(szId));
         return -1;
     }
 
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                                 USERLIST_ITEM_ROLE_JID, 
-                                                roster->GetBareJid(), 
+                                                roster->GetId(), 
                                                 -1,
                                                 Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     QModelIndex index;
@@ -470,18 +449,11 @@ int CFrmUserList::UpdateRosterItem(const QString &bareJid)
     return 0;
 }
 
-int CFrmUserList::RemoveRosterItem(const QString &bareJid)
+int CFrmUserList::RemoveRosterItem(const QString &szId)
 {
-#ifdef DEBUG
-    if(bareJid != QXmppUtils::jidToBareJid(bareJid))
-    {
-        LOG_MODEL_DEBUG("CFrmUserList", "The bareJid must bare jid");
-        Q_ASSERT(false);
-    }
-#endif
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                                 USERLIST_ITEM_ROLE_JID, 
-                                                QXmppUtils::jidToBareJid(bareJid), 
+                                                szId, 
                                                 -1,
                                                 Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     QModelIndex index;
@@ -531,53 +503,29 @@ void CFrmUserList::slotItemRemoved(const QString &bareJid)
 }
 
 //得到好友列表  
-void CFrmUserList::slotRosterReceived()
+void CFrmUserList::slotLoadRosterFromStorage()
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList:: Roster received");
 
-    foreach (const QString &bareJid, XMPP_CLIENT->rosterManager().getRosterBareJids())
-    {
-        QXmppRosterIq::Item item = XMPP_CLIENT->rosterManager().getRosterEntry(bareJid);
-        //这里只能得到 bareJid  
-        InsertUser(item);
-    }
+    int type = OPERATE_TYPE_INSERT_ROSTER;
+    GLOBAL_USER->ProcessRoster(this, &type);
+}
+
+void CFrmUserList::slotInsertRoster(const QString& szJid)
+{
+    this->InsertRosterItem(szJid);
+}
+
+void CFrmUserList::slotUpdateRosterUserInfo(const QString &szJid)
+{
+    UpdateRosterItem(szJid);
 }
 
 //好友出席状态改变  
-void CFrmUserList::slotChangedPresence(const QXmppPresence &presence)
+void CFrmUserList::SlotChangedStatus(const QString &szId)
 {
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::ChangedPresence jid:%s;status:%d;status text:%s",
-           qPrintable(presence.from()),
-           presence.availableStatusType(),
-           qPrintable(presence.statusText())
-           );
-
-    //注意：这里的 barejid 是包含资源的  
-    QString bareJid = QXmppUtils::jidToBareJid(presence.from());
-    QSharedPointer<CUserInfoRoster> roster = GLOBAL_USER->GetUserInfoRoster(bareJid);
-    if(!roster.isNull())
-        roster->SetStatus(presence.from(), presence.availableStatusType());
-
     //更新列表控件状态  
-    UpdateRosterItem(bareJid);
-    return;
-}
-
-//得到好友形象信息  
-void CFrmUserList::slotvCardReceived(const QXmppVCardIq& vCard)
-{
-    QString jid = vCard.from();
-    if(jid.isEmpty())
-    {
-        LOG_MODEL_ERROR("FrmUserList", "jid is null");
-        return;
-        Q_ASSERT(false);
-    }
-    LOG_MODEL_DEBUG("FrmUserList", "CFrmUserList::slotvCardReceived jid:%s", jid.toStdString().c_str());
-    //这里是包含资源的 jid  
-    GLOBAL_USER->UpdateUserInfoRoster(vCard, jid);
-    //更新列表控件  
-    UpdateRosterItem(jid);
+    UpdateRosterItem(szId);
     return;
 }
 

@@ -46,3 +46,21 @@ int CClient::setClientStatus(CUserInfo::USER_INFO_STATUS status)
     Q_ASSERT(false);
     return 0;
 }
+
+int CClient::RosterSubscribe(const QString &szId)
+{
+    Q_UNUSED(szId);
+    LOG_MODEL_WARNING("CClient", "The CClient::RosterSubscribe function must be implemented by derived classes");
+    Q_ASSERT(false);
+    return 0;
+}
+
+int CClient::RosterAdd(const QString &szId, const QString &name, const QSet<QString> &groups)
+{
+    Q_UNUSED(szId);
+    Q_UNUSED(name);
+    Q_UNUSED(groups);
+    LOG_MODEL_WARNING("CClient", "The CClient::RosterAdd function must be implemented by derived classes");
+    Q_ASSERT(false);
+    return 0;
+}

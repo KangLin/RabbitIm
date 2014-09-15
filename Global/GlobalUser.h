@@ -54,8 +54,7 @@ protected:
 
 protected:
     bool m_bModify; //标志内容是否修改  
-private:
-    QSharedPointer<CClient> m_Client;//相应的客户端用相应的对象,私有变量,子类不继承  
+    QSharedPointer<CClient> m_Client; 
 
 signals:
 

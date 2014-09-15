@@ -47,8 +47,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QSharedPointer<CClient> client = XMPP_CLIENT;
     if(!client.isNull())
     {
-        check = connect(&(*client), SIGNAL(sigClientDisconnected()),
+        check = connect(client.data(), SIGNAL(sigClientDisconnected()),
                         SLOT(slotClientDisconnected()));
+        Q_ASSERT(check);
+
+        check = connect(client.data(), SIGNAL(sigUpdateLocaleUserInfo()),
+                        SLOT(slotUpdateLocaleUserInfo()));
         Q_ASSERT(check);
 
         //0712文件发送管理窗口
@@ -213,6 +217,11 @@ void MainWindow::slotClientDisconnected()
     LOG_MODEL_DEBUG("MainWindow", "MainWindow:: DISCONNECTED");
     m_bLogin = false;
      GLOBAL_USER->Clean();
+}
+
+void MainWindow::slotUpdateLocaleUserInfo()
+{
+    this->m_TrayIcon.setToolTip(QString("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetShowName()));
 }
 
 void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindow::SendFileType type)

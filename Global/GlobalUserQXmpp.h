@@ -25,8 +25,6 @@ private:
     virtual QString GetRosterFile(const QString &szLocaleJid);
     //新建立一个空的本地对象  
     virtual QSharedPointer<CUserInfo> NewUserInfo();
-
-    QSharedPointer<CClientXmpp> m_Client;
 };
 
 #endif // GLOBALUSERQXMPP_H

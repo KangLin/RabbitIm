@@ -56,6 +56,8 @@ protected slots:
     void About();
     void slotClientConnected();
     void slotClientDisconnected();
+    //更新本地用户信息  
+    void slotUpdateLocaleUserInfo();
 
     //通知栏  
     void slotTrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽  

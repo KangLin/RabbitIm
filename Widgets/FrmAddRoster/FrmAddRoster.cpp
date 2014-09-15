@@ -1,6 +1,5 @@
 #include "FrmAddRoster.h"
 #include "ui_FrmAddRoster.h"
-#include "../../XmppClient.h"
 #include "qxmpp/QXmppRosterManager.h"
 #include "qxmpp/QXmppUtils.h"
 #include "../../Global/Global.h"
@@ -28,17 +27,17 @@ CFrmAddRoster::~CFrmAddRoster()
     delete ui;
 }
 
-int CFrmAddRoster::Init(CClientXmpp *pClient, QSet<QString> groups, QString bareJid)
+int CFrmAddRoster::Init(QSet<QString> groups, QString szId)
 {
     ui->txtJID->clear();
     ui->txtNick->clear();
     ui->txtGroup->clear();
-    if(!bareJid.isEmpty())
+    if(!szId.isEmpty())
     {
         this->setWindowTitle(tr("Request add roster"));
-        ui->lbPrompt->setText(tr("%1 request add roster").arg(QXmppUtils::jidToUser(bareJid)));
+        ui->lbPrompt->setText(tr("%1 request add roster").arg(QXmppUtils::jidToUser(szId)));
         ui->txtJID->setEnabled(false);
-        ui->txtJID->setText(bareJid);
+        ui->txtJID->setText(szId);
         on_txtJID_editingFinished();
         m_bRequest = true;
     }
@@ -60,7 +59,6 @@ int CFrmAddRoster::Init(CClientXmpp *pClient, QSet<QString> groups, QString bare
             ui->txtGroup->addItem(g);
         }
     }
-    m_pClient = pClient;
     return 0;
 }
 
@@ -93,8 +91,8 @@ void CFrmAddRoster::on_pbOk_clicked()
     {
         m_pClient->rosterManager().acceptSubscription(szJid);
     }
-    m_pClient->rosterManager().subscribe(szJid);
-    m_pClient->rosterManager().addItem(szJid, szNick, groups);
+    GET_CLIENT->RosterSubscribe(szJid);
+    GET_CLIENT->RosterAdd(szJid, szNick, groups);
     this->close();
 }
 

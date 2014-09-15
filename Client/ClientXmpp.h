@@ -29,16 +29,22 @@ public:
     //设置用户状态· 
     virtual int setClientStatus(CUserInfo::USER_INFO_STATUS status);
 
+    //订阅  
+    virtual int RosterSubscribe(const QString& szId);
+
 private:
     QXmppPresence::AvailableStatusType StatusToPresence(CUserInfo::USER_INFO_STATUS status);
+    CUserInfo::USER_INFO_STATUS StatusFromPresence(QXmppPresence::AvailableStatusType status);
 
 private slots:
     void slotClientError(QXmppClient::Error e);
     void slotClientIqReceived(const QXmppIq &iq);
     void slotStateChanged(QXmppClient::State state);
+    void slotRosterReceived();
     void slotClientVCardReceived();
     //得到好友详细信息时触发  
     void slotvCardReceived(const QXmppVCardIq&);
+    void slotPresenceReceived(const QXmppPresence &presence);
 
 private:
     QXmppClient m_Client;

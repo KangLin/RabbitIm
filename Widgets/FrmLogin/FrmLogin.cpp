@@ -3,8 +3,6 @@
 #include "../../Global/Global.h"
 #include "FrmLoginSettings.h"
 
-extern CGlobal g_Global;
-
 CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),
     m_StateMenu(this),
@@ -75,15 +73,18 @@ void CFrmLogin::on_pbOk_clicked()
     if(m_tmAutoLogin.isActive())
         m_tmAutoLogin.stop();
 
-    bool check = connect(CGlobal::Instance()->GetClient(),
+    disconnect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
+               CGlobal::Instance()->GetMainWindow(),
+               SLOT(slotClientConnected()));
+    bool check = connect(GET_CLIENT.data(),
                          SIGNAL(sigClientConnected()),
-                         (MainWindow*)(this->parent()),
+                         CGlobal::Instance()->GetMainWindow(),
                          SLOT(slotClientConnected()));
     Q_ASSERT(check);
 
     ui->lbePrompt->setText(tr("Being Login..."));
 
-    GET_CLIENT->Login(ui->cmbUser->currentIndex(), ui->lnPassword->text(), m_Status);
+    GET_CLIENT->Login(ui->cmbUser->currentText(), ui->lnPassword->text(), m_Status);
     return;
 }
 
@@ -193,25 +194,25 @@ int CFrmLogin::ReinitStateButton()
     m_ActionStatus.clear();
     m_StateMenu.clear();
 
-    m_ActionStatus[CUserInfo::USER_INFO_STATUS::Online] =
-            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS::Online)),
-                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::USER_INFO_STATUS::Online));
+    m_ActionStatus[CUserInfo::Online] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::Online)),
+                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::Online));
 
-    m_ActionStatus[CUserInfo::USER_INFO_STATUS::Chat] =
-            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS::Chat)),
-                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::USER_INFO_STATUS::Chat));
+    m_ActionStatus[CUserInfo::Chat] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::Chat)),
+                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::Chat));
 
-    m_ActionStatus[CUserInfo::USER_INFO_STATUS::Away] =
-            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS::Away)),
-                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::USER_INFO_STATUS::Away));
+    m_ActionStatus[CUserInfo::Away] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::Away)),
+                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::Away));
 
-    m_ActionStatus[CUserInfo::USER_INFO_STATUS::DO_NOT_DISTURB] = 
-            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS::DO_NOT_DISTURB)),
-                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::USER_INFO_STATUS::DO_NOT_DISTURB));
+    m_ActionStatus[CUserInfo::DO_NOT_DISTURB] = 
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::DO_NOT_DISTURB)),
+                                  CGlobal::Instance()->GetRosterStatusText(CUserInfo::DO_NOT_DISTURB));
 
-    m_ActionStatus[CUserInfo::USER_INFO_STATUS::Invisible] =
-            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS::Invisible)),
-                                    CGlobal::Instance()->GetRosterStatusText(CUserInfo::USER_INFO_STATUS::Invisible));
+    m_ActionStatus[CUserInfo::Invisible] =
+            m_StateMenu.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::Invisible)),
+                                    CGlobal::Instance()->GetRosterStatusText(CUserInfo::Invisible));
 
     for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
         m_ActionGroupStatus.addAction(it.value());
@@ -230,7 +231,7 @@ int CFrmLogin::ReinitStateButton()
 
 void CFrmLogin::slotActionGroupStatusTriggered(QAction *pAct)
 {
-    QMap<QXmppPresence::AvailableStatusType, QAction*>::iterator it;
+    QMap<CUserInfo::USER_INFO_STATUS, QAction*>::iterator it;
     for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
     {
         if(it.value() == pAct)
