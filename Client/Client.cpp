@@ -47,11 +47,12 @@ int CClient::setClientStatus(CUserInfo::USER_INFO_STATUS status)
     return 0;
 }
 
-int CClient::RosterSubscribe(const QString &szId, const QString &szName, const QSet<QString> &groups)
+int CClient::RosterSubscribe(const QString &szId, const QString &szName, const QSet<QString> &groups, SUBSCRIBE_TYPE type)
 {
     Q_UNUSED(szId);
     Q_UNUSED(szName);
     Q_UNUSED(groups);
+    Q_UNUSED(type);
     LOG_MODEL_WARNING("CClient", "The CClient::RosterSubscribe function must be implemented by derived classes");
     Q_ASSERT(false);
     return 0;

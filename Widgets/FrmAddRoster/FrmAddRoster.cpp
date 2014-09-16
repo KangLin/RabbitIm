@@ -87,7 +87,7 @@ void CFrmAddRoster::on_pbOk_clicked()
         szNick = szJid.left(szJid.indexOf("@"));
     QSet<QString> groups;
     groups << ui->txtGroup->currentText();
-   GET_CLIENT->RosterSubscribe(szJid);
+    GET_CLIENT->RosterSubscribe(szJid);
     this->close();
 }
 

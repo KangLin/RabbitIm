@@ -104,9 +104,31 @@ int CClientXmpp::setClientStatus(CUserInfo::USER_INFO_STATUS status)
     m_Client.setClientPresence(presence);
 }
 
-int CClientXmpp::RosterSubscribe(const QString &szId)
+int CClientXmpp::RosterSubscribe(const QString &szId, const QString &szName, const QSet<QString> &groups, SUBSCRIBE_TYPE type)
 {
-    return !m_Client.rosterManager().subscribe(szId);
+    switch(type)
+    {
+    case SUBSCRIBE_REQUEST:
+        m_Client.rosterManager().addItem(szId, szName, groups);
+        m_Client.rosterManager().subscribe(szId);
+        break;
+    case SUBSCRIBE_ACCEPT:
+        m_Client.rosterManager().subscribe(szId);
+        m_Client.rosterManager().acceptSubscription(szId);
+        break;
+    case SUBSCRIBE_REFUSE:
+        m_Client.rosterManager().refuseSubscription(szId);
+        break;
+    default:
+        LOG_MODEL_ERROR("CClientXmpp", "Subscribe type is Invalid");
+        break;
+    }
+}
+
+int CClientXmpp::RosterUnsubscribe(const QString &szId)
+{
+    m_Client.rosterManager().unsubscribe(szId);
+    return !m_Client.rosterManager().removeItem(szId);    
 }
 
 QXmppPresence::AvailableStatusType CClientXmpp::StatusToPresence(CUserInfo::USER_INFO_STATUS status)
@@ -224,8 +246,7 @@ void CClientXmpp::slotRosterReceived()
         {
             QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(jid);
             m_User->UpdateUserInfoRoster(item);
-            emit sigInsertRoster(jid);
-            m_Client.vCardManager().requestVCard(jid);
+            RequestUserInfoRoster(jid);
         }
     }
 }

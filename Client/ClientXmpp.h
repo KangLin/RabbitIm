@@ -18,7 +18,14 @@ public:
     explicit CClientXmpp(QObject *parent = 0);
     virtual ~CClientXmpp();
 
-    //登录  
+    /**
+     * @brief 登录  
+     *
+     * @param szUserName：用户名  
+     * @param szPassword：登录密码  
+     * @param status：登录状态  
+     * @return int：成功返回0，失败返回非0  
+     */
     virtual int Login(const QString& szUserName, 
                       const QString &szPassword,
                       CUserInfo::USER_INFO_STATUS status = CUserInfo::Online);
@@ -29,8 +36,20 @@ public:
     //设置用户状态· 
     virtual int setClientStatus(CUserInfo::USER_INFO_STATUS status);
 
-    //订阅  
-    virtual int RosterSubscribe(const QString& szId);
+    /**
+     * @brief //增加好友  
+     *
+     * @param szId：好友id
+     * @return int：成功返回0，失败返回非0  
+     */
+    virtual int RosterSubscribe(const QString& szId, const QString &szName = QString(), const QSet<QString> &groups = QSet<QString>(), SUBSCRIBE_TYPE type = SUBSCRIBE_REQUEST);
+    /**
+     * @brief 删除好友  
+     *
+     * @param szId：好友Id
+     * @return int：成功返回0，失败返回非0  
+     */
+    virtual int RosterUnsubscribe(const QString& szId);
 
 private:
     QXmppPresence::AvailableStatusType StatusToPresence(CUserInfo::USER_INFO_STATUS status);

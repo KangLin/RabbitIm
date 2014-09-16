@@ -23,7 +23,7 @@ public:
      * @param status：登录状态  
      * @return int：成功返回0，失败返回非0  
      */
-    virtual int Login(const QString& szUserName, 
+    virtual int Login(const QString& szUserName,
                       const QString &szPassword,
                       CUserInfo::USER_INFO_STATUS status = CUserInfo::Online);
     virtual int Logout();
@@ -48,13 +48,26 @@ public:
      */
     virtual int setClientStatus(CUserInfo::USER_INFO_STATUS status);
 
+    /*
+     * A:请求订阅B  
+     * B:接收 A 订阅请求信号  
+     *   同意：  
+     *   不同意：  
+     */
+    enum SUBSCRIBE_TYPE
+    {
+        SUBSCRIBE_REQUEST,
+        SUBSCRIBE_ACCEPT,
+        SUBSCRIBE_REFUSE
+    };
+
     /**
      * @brief //增加好友  
      *
      * @param szId：好友id
      * @return int：成功返回0，失败返回非0  
      */
-    virtual int RosterSubscribe(const QString& szId, const QString &szName = QString(), const QSet<QString> &groups = QSet<QString>());
+    virtual int RosterSubscribe(const QString& szId, const QString &szName = QString(), const QSet<QString> &groups = QSet<QString>(), SUBSCRIBE_TYPE type = SUBSCRIBE_REQUEST);
     /**
      * @brief 删除好友  
      *
@@ -76,18 +89,13 @@ signals:
     void sigClientDisconnected();
     void sigClientError(CClient::ERROR_TYPE e);
 
-    //好友状态改变时触发  
-    void sigChangedStatus(const QString& szId);
-    //从文件中加载好友完成后触发  
+    /**
+     * @brief 从文件中加载好友完成后触发  
+     *
+     */
     void sigLoadRosterFromStorage();
     /**
-     * @brief 新增好友  
-     *
-     * @param szId：好友ID  
-     */
-    void sigInsertRoster(const QString& szId);
-    /**
-     * @brief 更新好友信息  
+     * @brief 更新好友信息.新增好友，或好友信息更新都会触发此消息  
      *
      * @param szId：更新好友信息  
      */
@@ -97,13 +105,19 @@ signals:
      *
      */
     void sigUpdateLocaleUserInfo();
+    /**
+     * @brief 好友状态改变时触发  
+     *
+     * @param szId:好友ID  
+     */
+    void sigChangedStatus(const QString& szId);
 
     /**
      * @brief 接收增加好友请求时触发  
      *
      * @param szId：请求者ID  
      */
-    void sigRosterSubscriptionReceived(const QString& szId);
+    void sigRosterSubscriptionReceived(const QString& szId, const SUBSCRIBE_TYPE &type);
     /**
      * @brief 删除好友请求时触发  
      *

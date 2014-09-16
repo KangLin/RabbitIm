@@ -67,10 +67,6 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotLoadRosterFromStorage()));
     Q_ASSERT(check);
 
-    check = connect(XMPP_CLIENT.data(), SIGNAL(sigInsertRoster(const QString&)),
-                    SLOT(slotInsertRoster(const QString&)));
-    Q_ASSERT(check);
-
     check = connect(XMPP_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString)),
                     SLOT(slotUpdateRosterUserInfo(QString)));
     Q_ASSERT(check);
@@ -412,6 +408,9 @@ int CFrmUserList::UpdateRosterItem(const QString &szId)
                                                 roster->GetId(), 
                                                 -1,
                                                 Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+    if(lstIndexs.isEmpty())
+        return InsertRosterItem(szId);
+
     QModelIndex index;
     foreach(index, lstIndexs)
     {
@@ -509,11 +508,6 @@ void CFrmUserList::slotLoadRosterFromStorage()
 
     int type = OPERATE_TYPE_INSERT_ROSTER;
     GLOBAL_USER->ProcessRoster(this, &type);
-}
-
-void CFrmUserList::slotInsertRoster(const QString& szJid)
-{
-    this->InsertRosterItem(szJid);
 }
 
 void CFrmUserList::slotUpdateRosterUserInfo(const QString &szJid)

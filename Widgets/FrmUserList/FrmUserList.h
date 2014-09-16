@@ -94,8 +94,6 @@ private:
 protected slots:
     //好友列表从文件中加载完成  
     void slotLoadRosterFromStorage();
-    //新增好友  
-    void slotInsertRoster(const QString& szJid);
     //更新好友信息  
     void slotUpdateRosterUserInfo(const QString &szJid);
     //好友出席状态改变时触发  
