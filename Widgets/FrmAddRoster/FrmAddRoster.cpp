@@ -87,19 +87,14 @@ void CFrmAddRoster::on_pbOk_clicked()
         szNick = szJid.left(szJid.indexOf("@"));
     QSet<QString> groups;
     groups << ui->txtGroup->currentText();
-    if(m_bRequest)
-    {
-        m_pClient->rosterManager().acceptSubscription(szJid);
-    }
-    GET_CLIENT->RosterSubscribe(szJid);
-    GET_CLIENT->RosterAdd(szJid, szNick, groups);
+   GET_CLIENT->RosterSubscribe(szJid);
     this->close();
 }
 
 void CFrmAddRoster::on_pbCancel_clicked()
 {
     if(m_bRequest)
-        m_pClient->rosterManager().refuseSubscription(ui->txtJID->text());
+        GET_CLIENT->RosterUnsubscribe(szJid);
     this->close();
 }
 

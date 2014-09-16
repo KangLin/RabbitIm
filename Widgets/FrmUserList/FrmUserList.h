@@ -104,7 +104,7 @@ protected slots:
     //当有好友请求订阅时触发，在这个函数中调用acceptSubscription()接受请求，  
     //请用refuseSubscription()拒绝请求  
     //如果设置QXmppConfiguration::autoAcceptSubscriptions(),则QXmpp直接接受请求,不触发本信号  
-    void slotSubscriptionReceived(const QString& bareJid);
+    void slotRosterSubscriptionReceived(const QString& bareJid);
     //当一个好友实体订阅时触发(即好友增加)  
     void slotItemAdded(const QString& bareJid);
     // 好友实体订阅发生改变时触发(即好友关系发生改变)  
