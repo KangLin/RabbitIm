@@ -25,8 +25,6 @@ int CRoster::Init()
 {
     m_nNewMessageNumber = 0;
 
-    m_Message.SetRoster(this);
-
     return 0;
 }
 
@@ -250,16 +248,16 @@ int CRoster::UpdateItemDisplay()
     {
         QStandardItem* p = *it;
         //改变item背景颜色  
-        p->setData(CGlobal::Instance()->GetRosterStatusColor(m_Status), Qt::BackgroundRole);
+        //p->setData(CGlobal::Instance()->GetRosterStatusColor(m_Status), Qt::BackgroundRole);
         
-        QString szText;
+       /* QString szText;
         szText = ShowName()
                 + "[" + CGlobal::Instance()->GetRosterStatusText(m_Status) + "]"
                 +  GetSubscriptionTypeStr(GetSubScriptionType());
         p->setData(szText, Qt::DisplayRole); //改变item文本  
 
         //改变item图标  
-        p->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(m_Status)), Qt::DecorationRole);
+        p->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(m_Status)), Qt::DecorationRole);*/
     }
     return 0;
 }

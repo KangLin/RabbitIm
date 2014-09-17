@@ -19,15 +19,8 @@ CFrmRegister::CFrmRegister(QWidget *parent) :
         return;
     }
 
-    bool check = connect(m_pClient, SIGNAL(connected()),
+    bool check = connect(GET_CLIENT.data(), SIGNAL(connected()),
                          SLOT(connected()));
-    Q_ASSERT(check);
-    check = connect(m_pClient, SIGNAL(error(QXmppClient::Error)),
-                    SLOT(clientError(QXmppClient::Error)));
-    Q_ASSERT(check);
-
-    check = connect(m_pClient, SIGNAL(iqReceived(QXmppIq)),
-                    SLOT(clientIqReceived(QXmppIq)));
     Q_ASSERT(check);
 
     QDesktopWidget *pDesk = QApplication::desktop();    
@@ -77,7 +70,7 @@ void CFrmRegister::clientIqReceived(const QXmppIq &iq)
         msg.exec();
     }
 
-    m_pClient->disconnectFromServer();
+    GET_CLIENT->Logout();
 }
 
 void CFrmRegister::clientError(QXmppClient::Error e)
@@ -88,55 +81,7 @@ void CFrmRegister::clientError(QXmppClient::Error e)
 
 void CFrmRegister::connected()
 {
-    LOG_MODEL_DEBUG("Register", "CFrmRegister::connected");
-
-    QXmppRegisterIq registerIq;
-    registerIq.setType(QXmppIq::Set);
-    registerIq.setUsername(ui->txtUser->text());
-    if(registerIq.username().isEmpty()
-            || registerIq.username().isNull())
-    {
-        QMessageBox msg(QMessageBox::Critical,
-                        tr("Register error"),
-                        tr("Don't fill user name, Please refilling"),
-                        QMessageBox::Ok);
-        msg.exec();
-        return;
-    }
-    registerIq.setPassword(ui->txtPassword->text());
-    if(registerIq.password().isEmpty()
-            || registerIq.password().isNull())
-    {
-        QMessageBox msg(QMessageBox::Critical,
-                        tr("Register error"),
-                        tr("Don't fill password, Please refilling"),
-                        QMessageBox::Ok);
-        msg.exec();
-        return;
-    }
-    if(registerIq.password() != ui->txtConfirmPassword->text())
-    {
-        QMessageBox msg(QMessageBox::Critical,
-                        tr("Register error"),
-                        tr("Confirm password error, Please refilling"),
-                        QMessageBox::Ok);
-        msg.exec();
-        return;
-    }
-    registerIq.setEmail(ui->txtemail->text());
-    if(registerIq.email().isEmpty()
-            || registerIq.email().isNull())
-    {
-        QMessageBox msg(QMessageBox::Critical,
-                        tr("Register error"),
-                        tr("Don't fill email, Please refilling"),
-                        QMessageBox::Ok);
-        msg.exec();
-        return;
-    }
-    registerIq.setInstructions(ui->txtInstructions->text());
-
-    m_pClient->sendPacket(registerIq);
+    GET_CLIENT->Register(ui->txtUser->text(), ui->txtPassword->text(), ui->txtemail->text(), ui->txtInstructions->text());
 }
 
 void CFrmRegister::on_pbCreate_clicked()
@@ -199,14 +144,7 @@ void CFrmRegister::on_pbCreate_clicked()
     }
     registerIq.setInstructions(ui->txtInstructions->text());
 
-    QXmppConfiguration config;
-    //TODO:设置为非sasl验证和服务器IP
-    config.setUseSASLAuthentication(false);
-    config.setUseNonSASLAuthentication(false);
-
-    config.setHost(CGlobal::Instance()->GetXmppServer());
-    config.setDomain(CGlobal::Instance()->GetXmppDomain());
-    m_pClient->connectToServer(config);
+    GET_CLIENT->Login();
 }
 
 int CFrmRegister::SetLogin(QWidget *pLogin)

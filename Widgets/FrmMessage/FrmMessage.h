@@ -4,8 +4,6 @@
 #include <QFrame>
 #include <QStandardItemModel>
 #include <QMenu>
-#include "qxmpp/QXmppUtils.h"
-#include "qxmpp/QXmppPresence.h"
 #include "../../Global/Global.h"
 #include "../FrmCustom/MenuMessageSend.h"
 
@@ -22,10 +20,9 @@ class CFrmMessage : public QFrame
 
 public:
     explicit CFrmMessage(QWidget *parent = 0);
+    explicit CFrmMessage(const QString &szId,  QWidget *parent = 0);
     ~CFrmMessage();
 
-    //注意：只在对话框初始化后调用一次,必须最先调用一次  
-    int SetRoster(CRoster* pRoster);
     int AppendMessage(const QString &szMessage);
     int AppendMessageToList(const QString &szMessage, 
                             const QString &bareJid,
@@ -47,17 +44,18 @@ private slots:
     void on_pbVideo_clicked();
     void on_lbAvatar_clicked();//点击头像显示用户详细信息对话框  
 
-    void ChangedPresence(QXmppPresence::AvailableStatusType status);
-
+    void ChangedPresence(CUserInfo::USER_INFO_STATUS status);
+/*
     void slotSendFileTriggered();//20140712文件发送  
     void slotShotScreenTriggered();//20140712截屏  
+    */
+private:
+    int Init(const QString &szId = QString());
 
 private:
     Ui::CFrmMessage *ui;
 
-    CRoster *m_pRoster;
-
-    QStringList m_szMessages;
+    QSharedPointer<CUserInfo> m_User;
     QMenu m_MoreMenu;//功能按钮菜单  
     CMenuMessageSend m_MessageSendMenu;
 };

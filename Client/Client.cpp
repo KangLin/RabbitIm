@@ -10,6 +10,18 @@ CClient::~CClient()
 {
 }
 
+int CClient::Register(const QString &szId, const QString &szName, const QString &szPassword, const QString &szEmail, const QString &szDescript)
+{
+    Q_UNUSED(szId);
+    Q_UNUSED(szName);
+    Q_UNUSED(szPassword);
+    Q_UNUSED(szEmail);
+    Q_UNUSED(szDescript);
+    LOG_MODEL_WARNING("CClient", "The CClient::Register function must be implemented by derived classes");
+    Q_ASSERT(false);
+    return 0;
+}
+
 int CClient::Login(const QString &szUserName, const QString &szPassword, CUserInfo::USER_INFO_STATUS status)
 {
     LOG_MODEL_WARNING("CClient", "The CClient::Login function must be implemented by derived classes");
@@ -47,21 +59,38 @@ int CClient::setClientStatus(CUserInfo::USER_INFO_STATUS status)
     return 0;
 }
 
-int CClient::RosterSubscribe(const QString &szId, const QString &szName, const QSet<QString> &groups, SUBSCRIBE_TYPE type)
+int CClient::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type, const QString &szName, const QSet<QString> &groups)
 {
     Q_UNUSED(szId);
     Q_UNUSED(szName);
     Q_UNUSED(groups);
     Q_UNUSED(type);
-    LOG_MODEL_WARNING("CClient", "The CClient::RosterSubscribe function must be implemented by derived classes");
+    LOG_MODEL_WARNING("CClient", "The CClient::RosterAdd function must be implemented by derived classes");
     Q_ASSERT(false);
     return 0;
 }
 
-int CClient::RosterUnsubscribe(const QString &szId)
+int CClient::RosterRemove(const QString &szId)
 {
     Q_UNUSED(szId);
-    LOG_MODEL_WARNING("CClient", "The CClient::RosterUnsubscribe function must be implemented by derived classes");
+    LOG_MODEL_WARNING("CClient", "The CClient::RosterRemove function must be implemented by derived classes");
+    Q_ASSERT(false);
+    return 0;
+}
+
+int CClient::RosterRename(const QString &szId, const QString &szName)
+{
+    Q_UNUSED(szId);
+    LOG_MODEL_WARNING("CClient", "The CClient::RosterRename function must be implemented by derived classes");
+    Q_ASSERT(false);
+    return 0;
+}
+
+int CClient::SendMessage(const QString &szId, const QString &szMsg)
+{
+    Q_UNUSED(szId);
+    Q_UNUSED(szMsg);
+    LOG_MODEL_WARNING("CClient", "The CClient::SendMessage function must be implemented by derived classes");
     Q_ASSERT(false);
     return 0;
 }

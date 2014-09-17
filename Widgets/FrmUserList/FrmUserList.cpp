@@ -1,15 +1,11 @@
 #include "FrmUserList.h"
 #include "ui_FrmUserList.h"
-#include "qxmpp/QXmppMessage.h"
-#include "qxmpp/QXmppRosterManager.h"
-#include "qxmpp/QXmppUtils.h"
 #include "../../MainWindow.h"
 #include "../FrmUservCard/FrmUservCard.h"
 #include <iostream>
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QDebug>
-#include "Roster.h"
 #include <fstream>
 #include <memory> 
 
@@ -33,7 +29,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     m_UserList.setModel(m_pModel);
     m_UserList.show();
 
-    InsertGroup(tr("My friends"));
+    ItemInsertGroup(tr("My friends"));
 
     bool check = connect(&m_UserList, SIGNAL(clicked(QModelIndex)),
                          SLOT(clicked(QModelIndex)));
@@ -71,40 +67,19 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotUpdateRosterUserInfo(QString)));
     Q_ASSERT(check);
 
-    check = connect(XMPP_CLIENT.data(), SIGNAL(sigRosterSubscriptionReceived(QString)),
-                    SLOT(slotRosterSubscriptionReceived(QString)));
+    check = connect(XMPP_CLIENT.data(), SIGNAL(sigRosterAddReceived(QString)),
+                    SLOT(slotRosterAddReceived(QString)));
     Q_ASSERT(check);
 
-    check = connect(&XMPP_CLIENT->rosterManager(), SIGNAL(itemAdded(QString)),
-                    SLOT(slotItemAdded(QString)));
-    Q_ASSERT(check);
-
-    check = connect(&XMPP_CLIENT->rosterManager(), SIGNAL(itemChanged(QString)),
-                    SLOT(slotItemChanged(QString)));
-    Q_ASSERT(check);
-
-    check = connect(&XMPP_CLIENT->rosterManager(), SIGNAL(itemRemoved(QString)),
-                    SLOT(slotItemRemoved(QString)));
-    Q_ASSERT(check);
-
-    check = connect(&XMPP_CLIENT->vCardManager(), SIGNAL(vCardReceived(QXmppVCardIq)),
-                    SLOT(slotvCardReceived(QXmppVCardIq)));
-    Q_ASSERT(check);
-
-    check = connect(XMPP_CLIENT, SIGNAL(messageReceived(QXmppMessage)),
-                    SLOT(slotClientMessageReceived(QXmppMessage)));
+    check = connect(XMPP_CLIENT.data(), SIGNAL(sigRemoveRosterUserInfo(QString)),
+                    SLOT(slotRemoveRosterUserInfo(QString)));
     Q_ASSERT(check);
 }
 
 CFrmUserList::~CFrmUserList()
 {
-    Clean();
-
-    QMap<QString, CRoster*>::iterator it;
-    for(it = m_Rosters.begin(); it != m_Rosters.end(); it++)
-    {
-        delete it.value();
-    }
+    XMPP_CLIENT->disconnect(this);
+    CGlobal::Instance()->GetMainWindow()->disconnect(this);
 
     //删除组 m_Groups，不需要删，列表控件析构时会自己删除  
 
@@ -112,19 +87,6 @@ CFrmUserList::~CFrmUserList()
 
     if(m_pModel)
         delete m_pModel;
-}
-
-int CFrmUserList::Init()
-{
-    int nRet = 0;
-    return nRet;
-}
-
-int CFrmUserList::Clean()
-{
-    XMPP_CLIENT->disconnect(this);
-    CGlobal::Instance()->GetMainWindow()->disconnect(this);
-    return 0;
 }
 
 int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfo> roster, void *para)
@@ -135,10 +97,10 @@ int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfo> roster, void *para)
     switch(type)
     {
     case OPERATE_TYPE_INSERT_ROSTER:
-        nRet = InsertRosterItem(roster);
+        nRet = ItemInsertRoster(roster->GetId());
         break;
     case OPERATE_TYPE_UPDATE_ROSTER:
-        nRet = UpdateRosterItem(roster->GetId());
+        nRet = ItemUpdateRoster(roster->GetId());
         break;
     default:
         LOG_MODEL_ERROR("FrmUserList", "Operate type is error");
@@ -241,8 +203,8 @@ void CFrmUserList::slotUpdateMenu()
     else
     {
         //增加订阅  
-        if(QXmppRosterIq::Item::None == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetSubScriptionType()
-             || QXmppRosterIq::Item::From == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetSubScriptionType())
+        if(CUserInfo::None == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetSubScriptionType()
+             || CUserInfo::From == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetSubScriptionType())
             EnableAction(ui->actionAgreeAddRoster);
 
         //如果是好友上,显示删除好友  
@@ -266,23 +228,17 @@ void CFrmUserList::slotAddRoster()
     QSet<QString> groups;
     groups = GetGroupsName();
 
-    m_frmAddRoster.Init(XMPP_CLIENT, groups);
+    m_frmAddRoster.Init(groups);
     m_frmAddRoster.show();
     m_frmAddRoster.activateWindow();
 }
 
-void CFrmUserList::slotAgreeAddRoster()
-{
-    QString bareJid = GetCurrentRoster();
-    if(!bareJid.isEmpty())
-       XMPP_CLIENT->rosterManager().subscribe(bareJid);
-}
-
 void CFrmUserList::slotRemoveRoster()
 {
-    QString bareJid = GetCurrentRoster();
-    if(!bareJid.isEmpty())
-        XMPP_CLIENT->rosterManager().removeItem(bareJid);
+    QString szId = GetCurrentRoster();
+    if(szId.isEmpty())
+        return;
+    XMPP_CLIENT->RosterRemove(szId);
 }
 
 void CFrmUserList::slotInformationRoster()
@@ -292,30 +248,7 @@ void CFrmUserList::slotInformationRoster()
     pvCard->show();
 }
 
-void CFrmUserList::slotClientMessageReceived(const QXmppMessage &message)
-{
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::slotClientMessageReceived:type:%d;state:%d;from:%s;to:%s;body:%s",
-           message.type(),
-           message.state(), //消息的状态 0:消息内容，其它值表示这个消息的状态  
-           qPrintable(message.from()),
-           qPrintable(message.to()),
-           qPrintable(message.body())
-          );
-
-    m_LastUser = message.from();//保存接收到最后消息的用户  
-    QMap<QString, CRoster*>::iterator it;
-    it = m_Rosters.find(QXmppUtils::jidToBareJid(message.from()));
-    if(m_Rosters.end() != it)
-    {
-        if(QXmppMessage::None == message.state())
-        {
-            it.value()->AppendMessage(message.body());
-        }
-        //TODO:消息输入状态显示  
-    }
-}
-
-QStandardItem*  CFrmUserList::InsertGroup(QString szGroup)
+QStandardItem*  CFrmUserList::ItemInsertGroup(QString szGroup)
 {
     QStandardItem* lstGroup = NULL;
     lstGroup = new QStandardItem(szGroup);
@@ -327,7 +260,7 @@ QStandardItem*  CFrmUserList::InsertGroup(QString szGroup)
     return lstGroup;
 }
 
-int CFrmUserList::UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups)
+int CFrmUserList::ItemUpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups)
 {
     if(groups.isEmpty())
     {
@@ -344,7 +277,7 @@ int CFrmUserList::UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> gr
         if(m_Groups.end() == it)
         {
             //新建立组条目 
-            lstGroup = InsertGroup(szGroup);
+            lstGroup = ItemInsertGroup(szGroup);
         }
         else
             lstGroup = it.value();
@@ -355,7 +288,7 @@ int CFrmUserList::UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> gr
     return 0;
 }
 
-int CFrmUserList::InsertRosterItem(const QString& szId)
+int CFrmUserList::ItemInsertRoster(const QString& szId)
 {
     int nRet = 0;
     QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
@@ -390,11 +323,11 @@ int CFrmUserList::InsertRosterItem(const QString& szId)
     QList<QStandardItem *> lstItems;
     lstItems << pItem << pMessageCountItem;
 
-    UpdateGroup(lstItems, roster->GetGroups());
+    ItemUpdateGroup(lstItems, roster->GetGroups());
     return nRet;
 }
 
-int CFrmUserList::UpdateRosterItem(const QString &szId)
+int CFrmUserList::ItemUpdateRoster(const QString &szId)
 {
     QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
@@ -409,7 +342,7 @@ int CFrmUserList::UpdateRosterItem(const QString &szId)
                                                 -1,
                                                 Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     if(lstIndexs.isEmpty())
-        return InsertRosterItem(szId);
+        return ItemInsertRoster(szId);
 
     QModelIndex index;
     foreach(index, lstIndexs)
@@ -448,7 +381,7 @@ int CFrmUserList::UpdateRosterItem(const QString &szId)
     return 0;
 }
 
-int CFrmUserList::RemoveRosterItem(const QString &szId)
+int CFrmUserList::ItemRemoveRoster(const QString &szId)
 {
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                                 USERLIST_ITEM_ROLE_JID, 
@@ -464,41 +397,12 @@ int CFrmUserList::RemoveRosterItem(const QString &szId)
     return 0;
 }
 
-void CFrmUserList::slotRosterSubscriptionReceived(const QString &bareJid)
+void CFrmUserList::slotRosterAddReceived(const QString &bareJid)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(bareJid));
     m_frmAddRoster.Init( GetGroupsName(), bareJid);
     m_frmAddRoster.show();
     m_frmAddRoster.activateWindow();
-}
-
-void CFrmUserList::slotItemAdded(const QString &bareJid)
-{
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemAdded jid:%s", qPrintable(bareJid));
-    QXmppRosterIq::Item item = XMPP_CLIENT->rosterManager().getRosterEntry(bareJid);
-    InsertUser(item);
-}
-
-void CFrmUserList::slotItemChanged(const QString &bareJid)
-{
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemChanged jid:%s", qPrintable(bareJid));
-    QSharedPointer<CUserInfoRoster> roster = GLOBAL_USER->GetUserInfoRoster(bareJid);
-    if(roster.isNull())
-    {
-        LOG_MODEL_ERROR("FrmUserList", "Isn't the roster:%s", qPrintable(bareJid));
-        return;
-    }
-
-    QXmppRosterIq::Item item = XMPP_CLIENT->rosterManager().getRosterEntry(bareJid);
-    GLOBAL_USER->UpdateUserInfoRoster(item);
-    UpdateRosterItem(bareJid);
-}
-
-void CFrmUserList::slotItemRemoved(const QString &bareJid)
-{
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::itemRemoved jid:%s", qPrintable(bareJid));
-    GLOBAL_USER->RemoveUserInfoRoster(bareJid);
-    RemoveRosterItem(bareJid);
 }
 
 //得到好友列表  
@@ -510,16 +414,21 @@ void CFrmUserList::slotLoadRosterFromStorage()
     GLOBAL_USER->ProcessRoster(this, &type);
 }
 
-void CFrmUserList::slotUpdateRosterUserInfo(const QString &szJid)
+void CFrmUserList::slotUpdateRosterUserInfo(const QString &szId)
 {
-    UpdateRosterItem(szJid);
+    ItemUpdateRoster(szId);
+}
+
+void CFrmUserList::slotRemoveRosterUserInfo(const QString &szId)
+{
+    ItemRemoveRoster(szId);
 }
 
 //好友出席状态改变  
 void CFrmUserList::SlotChangedStatus(const QString &szId)
 {
     //更新列表控件状态  
-    UpdateRosterItem(szId);
+    ItemUpdateRoster(szId);
     return;
 }
 
@@ -633,29 +542,6 @@ QString CFrmUserList::GetCurrentRoster()
         return v.value<QString>();
     }
     return QString();
-}
-
-int CFrmUserList::ShowMessageDialog()
-{
-    if(m_LastUser.isEmpty())
-        return -1;
-    QMap<QString, CRoster*>::iterator it;
-    it = m_Rosters.find(QXmppUtils::jidToBareJid(m_LastUser));
-    if(m_Rosters.end() != it)
-    {
-        it.value()->ShowMessageDialog();
-    }
-    return 0;
-}
-
-//TODO:删除  
-CRoster* CFrmUserList::GetRoster(QString szJid)
-{
-    QMap<QString, CRoster*>::iterator it;
-    it = m_Rosters.find(QXmppUtils::jidToBareJid(szJid));
-    if(m_Rosters.end() != it)
-        return *it;
-    return NULL;
 }
 
 void CFrmUserList::slotRefresh()

@@ -14,12 +14,12 @@ CGlobalUser::~CGlobalUser()
     Clean();
 }
 
-int CGlobalUser::Init(QString szLocaleJid)
+int CGlobalUser::Init(QString szId)
 {
     int nRet = 0;
     m_bModify = false;
     //从配置文件中加载数据  
-    LoadFromFile(szLocaleJid);
+    LoadFromFile(szId);
 
     emit m_Client->sigLoadRosterFromStorage();
 
@@ -53,13 +53,13 @@ int CGlobalUser::SetModify(bool bModify)
     return 0;
 }
 
-int CGlobalUser::LoadFromFile(QString szLocaleJid)
+int CGlobalUser::LoadFromFile(QString szId)
 {
     int nRet = 0;
-    nRet = LoadLocaleFromFile(szLocaleJid);
+    nRet = LoadLocaleFromFile(szId);
     if(nRet)
         return nRet;
-    nRet = LoadRosterFromFile(szLocaleJid);    
+    nRet = LoadRosterFromFile(szId);    
     return nRet;
 }
 
@@ -73,10 +73,10 @@ int CGlobalUser::SaveToFile()
     return nRet;
 }
 
-int CGlobalUser::LoadLocaleFromFile(const QString &szLocaleJid)
+int CGlobalUser::LoadLocaleFromFile(const QString &szId)
 {
     int nRet = 0;
-    QString szFile = GetLocaleFile(szLocaleJid);
+    QString szFile = GetLocaleFile(szId);
 
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
@@ -140,10 +140,10 @@ int CGlobalUser::SaveLocaleToFile()
     return nRet;
 }
 
-int CGlobalUser::LoadRosterFromFile(QString szLocaleJid)
+int CGlobalUser::LoadRosterFromFile(QString szId)
 {
     int nRet = 0;
-    QString szFile = GetRosterFile(szLocaleJid);
+    QString szFile = GetRosterFile(szId);
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
@@ -249,15 +249,15 @@ int CGlobalUser::RemoveUserInfoRoster(const QString &szId)
     return !m_UserInfoRoster.remove(szId);
 }
 
-QString CGlobalUser::GetLocaleFile(const QString &szLocaleJid)
+QString CGlobalUser::GetLocaleFile(const QString &szId)
 {
-    return CGlobal::Instance()->GetDirUserData(szLocaleJid) 
+    return CGlobal::Instance()->GetDirUserData(szId) 
             + QDir::separator() + "LocaleInfo.dat";
 }
 
-QString CGlobalUser::GetRosterFile(const QString &szLocaleJid)
+QString CGlobalUser::GetRosterFile(const QString &szId)
 {
-    return CGlobal::Instance()->GetDirUserData(szLocaleJid) 
+    return CGlobal::Instance()->GetDirUserData(szId) 
             + QDir::separator() + "RosterInfo.dat";
 }
 

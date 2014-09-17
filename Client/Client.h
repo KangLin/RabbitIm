@@ -16,6 +16,21 @@ public:
     virtual ~CClient();
 
     /**
+     * @brief 注册新用户  
+     *
+     * @param szId:用户id
+     * @param szName:用户名
+     * @param szPassword:密码
+     * @param szEmail:email
+     * @param szDescript:描述
+     * @return int
+     */
+    virtual int Register(const QString &szId,
+                         const QString &szName,
+                         const QString &szPassword, 
+                         const QString& szEmail = QString(),
+                         const QString& szDescript = QString());
+    /**
      * @brief 登录  
      *
      * @param szUserName：用户名  
@@ -23,8 +38,8 @@ public:
      * @param status：登录状态  
      * @return int：成功返回0，失败返回非0  
      */
-    virtual int Login(const QString& szUserName,
-                      const QString &szPassword,
+    virtual int Login(const QString& szUserName = QString(),
+                      const QString &szPassword = QString(),
                       CUserInfo::USER_INFO_STATUS status = CUserInfo::Online);
     virtual int Logout();
     /**
@@ -48,7 +63,7 @@ public:
      */
     virtual int setClientStatus(CUserInfo::USER_INFO_STATUS status);
 
-    /*
+    /**
      * A:请求订阅B  
      * B:接收 A 订阅请求信号  
      *   同意：  
@@ -67,14 +82,32 @@ public:
      * @param szId：好友id
      * @return int：成功返回0，失败返回非0  
      */
-    virtual int RosterSubscribe(const QString& szId, const QString &szName = QString(), const QSet<QString> &groups = QSet<QString>(), SUBSCRIBE_TYPE type = SUBSCRIBE_REQUEST);
+    virtual int RosterAdd(const QString& szId, SUBSCRIBE_TYPE type = SUBSCRIBE_REQUEST,
+                          const QString &szName = QString(), const QSet<QString> &groups = QSet<QString>());
     /**
      * @brief 删除好友  
      *
      * @param szId：好友Id
      * @return int：成功返回0，失败返回非0  
      */
-    virtual int RosterUnsubscribe(const QString& szId);
+    virtual int RosterRemove(const QString& szId);
+    /**
+     * @brief 重命名好友名称  
+     *
+     * @param szId:好友id  
+     * @param szName:好友名称  
+     * @return int
+     */
+    virtual int RosterRename(const QString& szId, const QString& szName);
+
+    /**
+     * @brief 向好友发送消息  
+     *
+     * @param szId:好友id  
+     * @param szMsg:消息内容  
+     * @return int
+     */
+    virtual int SendMessage(const QString& szId, const QString &szMsg);
 
     enum ERROR_TYPE
     {
@@ -85,7 +118,15 @@ public:
     };
 
 signals:
+    /**
+     * @brief 用户成功登录后触发  
+     *
+     */
     void sigClientConnected();
+    /**
+     * @brief 用户登出后触发  
+     *
+     */
     void sigClientDisconnected();
     void sigClientError(CClient::ERROR_TYPE e);
 
@@ -100,6 +141,7 @@ signals:
      * @param szId：更新好友信息  
      */
     void sigUpdateRosterUserInfo(const QString &szId);
+    void sigRemoveRosterUserInfo(const QString &szId);
     /**
      * @brief 更新本地用户信息  
      *
@@ -117,14 +159,21 @@ signals:
      *
      * @param szId：请求者ID  
      */
-    void sigRosterSubscriptionReceived(const QString& szId, const SUBSCRIBE_TYPE &type);
+    void sigRosterAddReceived(const QString& szId, const SUBSCRIBE_TYPE &type);
     /**
      * @brief 删除好友请求时触发  
      *
      * @param szId：删除好友的ID  
      */
-    void sigRosterUnsubscriptionReceived(const QString& szId);
+    void sigRosterRemoveReceived(const QString& szId);
 
+    /**
+     * @brief 接收消息时触发  
+     *
+     * @param szId：用户id  
+     * @param szMessage：接收到的消息  
+     */
+    void sigReceivedMessage(const QString &szId, const QString& szMessage);
 public slots:
 
 };

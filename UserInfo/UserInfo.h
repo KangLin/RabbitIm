@@ -58,7 +58,9 @@ public:
 
     int GetUnReadMessageCount();
     int SetUnReadMessageCount(int nCount);
-    
+
+    //TODO:增加消息日志  
+
 #ifndef QT_NO_DATASTREAM
     friend QDataStream & operator <<(QDataStream &output, const CUserInfo &roster);
     friend QDataStream & operator >>(QDataStream &input, CUserInfo &roster);

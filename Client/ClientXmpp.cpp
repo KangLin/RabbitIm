@@ -20,8 +20,17 @@ CClientXmpp::CClientXmpp(QObject *parent)
     m_Client.addExtension(&m_CallManager);
     m_Client.addExtension(&m_MucManager);
     m_Client.addExtension(&m_TransferManager);
+}
 
+CClientXmpp::~CClientXmpp()
+{
+}
+
+int CClientXmpp::InitConnect()
+{
     bool check = false;
+    m_Client.disconnect(this);
+
     check = connect(&m_Client, SIGNAL(error(QXmppClient::Error)),
                     SLOT(slotClientError(QXmppClient::Error)));
     Q_ASSERT(check);
@@ -32,10 +41,6 @@ CClientXmpp::CClientXmpp(QObject *parent)
 
     check = connect(&m_Client, SIGNAL(stateChanged(QXmppClient::State)),
                     SLOT(slotStateChanged(QXmppClient::State)));
-    Q_ASSERT(check);
-
-    check = connect(&m_Client, SIGNAL(connected()),
-                    SIGNAL(sigClientConnected()));
     Q_ASSERT(check);
 
     check = connect(&m_Client, SIGNAL(disconnected),
@@ -61,23 +66,54 @@ CClientXmpp::CClientXmpp(QObject *parent)
     check = connect(&m_Client.rosterManager(), SIGNAL(subscriptionReceived(const QString&)),
                     SIGNAL(sigSubscriptionReceived(const QString&)));
     Q_ASSERT(check);
+
+    check = connect(&m_Client.rosterManager(), SIGNAL(itemAdded(QString)),
+                    SLOT(slotItemAdded(QString)));
+    Q_ASSERT(check);
+
+    check = connect(&m_Client.rosterManager(), SIGNAL(itemChanged(QString)),
+                    SLOT(slotItemChanged(QString)));
+    Q_ASSERT(check);
+
+    check = connect(&m_Client.rosterManager(), SIGNAL(itemRemoved(QString)),
+                    SLOT(slotItemRemoved(QString)));
+    Q_ASSERT(check);
+
+    return 0;
 }
 
-CClientXmpp::~CClientXmpp()
+int CClientXmpp::Register(const QString &szId, const QString &szName, const QString &szPassword, const QString &szEmail, const QString &szDescript)
 {
+    disconnect(&m_Client, SIGNAL(connected()), this, SLOT(slotRegisterConnected()));
+    bool check = connect(&m_Client, SIGNAL(connected()), this, SLOT(slotRegisterConnected()));
+    Q_ASSERT(check);
+
+    QXmppConfiguration config;
+    //TODO:设置为非sasl验证和服务器IP
+    config.setUseSASLAuthentication(false);
+    config.setUseNonSASLAuthentication(false);
+
+    config.setHost(CGlobal::Instance()->GetXmppServer());
+    config.setDomain(CGlobal::Instance()->GetXmppDomain());
+    m_Client.connectToServer(config);
 }
 
 int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUserInfo::USER_INFO_STATUS status)
 {
+    InitConnect();
+
     QXmppConfiguration config;
     //TODO:设置为非sasl验证  
     config.setUseSASLAuthentication(false);
-    //config.setUseNonSASLAuthentication(false);
+    if(szUserName.isNull())
+        config.setUseNonSASLAuthentication(false);
     config.setHost(CGlobal::Instance()->GetXmppServer());
     config.setPort(CGlobal::Instance()->GetXmppServerPort());
     config.setDomain(CGlobal::Instance()->GetXmppDomain());
-    config.setUser(szUserName);
-    config.setPassword(szPassword);
+    if(!szUserName.isEmpty())
+        config.setUser(szUserName);
+    if(!szPassword.isEmpty())
+        config.setPassword(szPassword);
 
     QXmppPresence presence;
     presence.setAvailableStatusType(StatusToPresence(status));
@@ -104,7 +140,7 @@ int CClientXmpp::setClientStatus(CUserInfo::USER_INFO_STATUS status)
     m_Client.setClientPresence(presence);
 }
 
-int CClientXmpp::RosterSubscribe(const QString &szId, const QString &szName, const QSet<QString> &groups, SUBSCRIBE_TYPE type)
+int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type, const QString &szName, const QSet<QString> &groups)
 {
     switch(type)
     {
@@ -125,10 +161,16 @@ int CClientXmpp::RosterSubscribe(const QString &szId, const QString &szName, con
     }
 }
 
-int CClientXmpp::RosterUnsubscribe(const QString &szId)
+int CClientXmpp::RosterRemove(const QString &szId)
 {
     m_Client.rosterManager().unsubscribe(szId);
     return !m_Client.rosterManager().removeItem(szId);    
+}
+
+int CClientXmpp::SendMessage(const QString &szId, const QString &szMsg)
+{
+    m_Client.sendMessage(((CUserInfoXmpp*)m_User.data())->GetJid(), szMsg);
+    return 0;
 }
 
 QXmppPresence::AvailableStatusType CClientXmpp::StatusToPresence(CUserInfo::USER_INFO_STATUS status)
@@ -292,4 +334,45 @@ void CClientXmpp::slotPresenceReceived(const QXmppPresence &presence)
     //触发状态改变消息  
     emit sigChangedStatus(bareJid);
     return;
+}
+
+void CClientXmpp::slotItemAdded(const QString &szId)
+{
+    QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(szId);
+    if(r.isNull())
+    {
+        QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(szId);
+        m_User->UpdateUserInfoRoster(item);
+        RequestUserInfoRoster(szId);
+    }
+    else
+        LOG_MODEL_DEBUG("CClientXmpp", "roster [%s] is exist.", szId.toStdString().c_str());
+}
+
+void CClientXmpp::slotItemChanged(const QString &szId)
+{
+    
+    QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(szId);
+    if(r.isNull())
+    {
+        QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(szId);
+        m_User->UpdateUserInfoRoster(item);
+
+        //发信号  
+        emit sigUpdateRosterUserInfo(QXmppUtils::jidToBareJid(szId));
+    }
+    else
+        LOG_MODEL_DEBUG("CClientXmpp", "roster [%s] is exist.", szId.toStdString().c_str());
+}
+
+void CClientXmpp::slotItemRemoved(const QString &szId)
+{
+    int nRet = 0;
+    nRet = m_User->RemoveUserInfoRoster(szId);
+    if(nRet)
+    {
+        LOG_MODEL_ERROR("CClientXmpp", "remove user info roster:%s", qPrintable(szId));
+        return;
+    }
+    emit sigRemoveRosterUserInfo(szId);
 }

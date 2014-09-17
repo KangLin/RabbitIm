@@ -26,8 +26,8 @@ public:
      * @param status：登录状态  
      * @return int：成功返回0，失败返回非0  
      */
-    virtual int Login(const QString& szUserName, 
-                      const QString &szPassword,
+    virtual int Login(const QString& szUserName = QString(), 
+                      const QString &szPassword = QString(),
                       CUserInfo::USER_INFO_STATUS status = CUserInfo::Online);
     //请求本地用户信息  
     virtual int RequestUserInfoLocale();
@@ -42,20 +42,26 @@ public:
      * @param szId：好友id
      * @return int：成功返回0，失败返回非0  
      */
-    virtual int RosterSubscribe(const QString& szId, const QString &szName = QString(), const QSet<QString> &groups = QSet<QString>(), SUBSCRIBE_TYPE type = SUBSCRIBE_REQUEST);
+    virtual int RosterAdd(const QString& szId, SUBSCRIBE_TYPE type = SUBSCRIBE_REQUEST,
+                          const QString &szName = QString(), const QSet<QString> &groups = QSet<QString>());
     /**
      * @brief 删除好友  
      *
      * @param szId：好友Id
      * @return int：成功返回0，失败返回非0  
      */
-    virtual int RosterUnsubscribe(const QString& szId);
+    virtual int RosterRemove(const QString& szId);
+
+    virtual int SendMessage(const QString& szId, const QString &szMsg);
 
 private:
     QXmppPresence::AvailableStatusType StatusToPresence(CUserInfo::USER_INFO_STATUS status);
     CUserInfo::USER_INFO_STATUS StatusFromPresence(QXmppPresence::AvailableStatusType status);
 
+    int InitConnect();
+
 private slots:
+    void slotRegisterConnected();
     void slotClientError(QXmppClient::Error e);
     void slotClientIqReceived(const QXmppIq &iq);
     void slotStateChanged(QXmppClient::State state);
@@ -64,6 +70,9 @@ private slots:
     //得到好友详细信息时触发  
     void slotvCardReceived(const QXmppVCardIq&);
     void slotPresenceReceived(const QXmppPresence &presence);
+    void slotItemAdded(const QString &szId);
+    void slotItemChanged(const QString& szId);
+    void slotItemRemoved(const QString& szId);
 
 private:
     QXmppClient m_Client;

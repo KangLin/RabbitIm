@@ -7,11 +7,6 @@
 #include <QMap>
 #include <QMenu>
 #include <QResizeEvent>
-#include "qxmpp/QXmppRosterIq.h"
-#include "qxmpp/QXmppPresence.h"
-#include "qxmpp/QXmppVCardIq.h"
-#include "qxmpp/QXmppLogger.h"
-#include "qxmpp/QXmppMessage.h"
 #include "../FrmAddRoster/FrmAddRoster.h"
 #include "../FrmCustom/CustomTreeView.h"
 #include <UserInfo/COperateRoster.h>
@@ -28,16 +23,18 @@ class CFrmUserList : public QFrame, COperateRoster
 {
     Q_OBJECT
 
-    friend class CFrmMain;
-
 public:
     explicit CFrmUserList(QWidget *parent = 0);
     ~CFrmUserList();
 
 public:
-    //TODO:以后放在未读消息中维护  
-    //显示最后一个消息窗口  
-    int ShowMessageDialog();
+    /**
+     * @brief 处理好友，COperateRoster::ProcessRoster 重载函数  
+     *
+     * @param roster：要处理的好友  
+     * @param para：详见 enum _OPERATOR_TYPE  
+     * @return int：成功返回0，失败返回非0，枚举将停止。  
+     */
     virtual int ProcessRoster(QSharedPointer<CUserInfo> roster, void *para = NULL);
 
 public slots:
@@ -64,23 +61,18 @@ private:
     QAction* m_pMenuAction;//用于存储m_Menu位于主菜单中的位置  
 
 private:
-    //根据好友jid，得到相应的 CRoster 对象  
-    CRoster* GetRoster(QString szJid);
-
-    int Init();
-    int Clean();
-
     //在组队列中插入组  
-    QStandardItem*  InsertGroup(QString szGroup);
+    QStandardItem*  ItemInsertGroup(QString szGroup);
     //更新组中用户  
-    int UpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups);
+    int ItemUpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups);
     //插入好友条目  
-    int InsertRosterItem(const QString &szId);
+    int ItemInsertRoster(const QString &szId);
     //更新好友条目  
-    int UpdateRosterItem(const QString &szId);
+    int ItemUpdateRoster(const QString &szId);
     //删除好友条目  
-    int RemoveRosterItem(const QString &szId);
+    int ItemRemoveRoster(const QString &szId);
 
+    //事件  
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent* e);
 
@@ -91,49 +83,43 @@ private:
 
     QSet<QString> GetGroupsName();
 
-protected slots:
+private slots:
     //好友列表从文件中加载完成  
     void slotLoadRosterFromStorage();
     //更新好友信息  
-    void slotUpdateRosterUserInfo(const QString &szJid);
+    void slotUpdateRosterUserInfo(const QString &szId);
+    //删除好友信息  
+    void slotRemoveRosterUserInfo(const QString &szId);
     //好友出席状态改变时触发  
     void SlotChangedStatus(const QString& szId);
+
+    //菜单槽  
+    //增加好友菜单槽  
+    void slotAddRoster();
+    //删掉好友菜单槽  
+    void slotRemoveRoster();
+    //同意增加好友菜单槽  
+    void slotAgreeAddRoster();
+    //显示好友详细信息槽  
+    void slotInformationRoster();
 
     //当有好友请求订阅时触发，在这个函数中调用acceptSubscription()接受请求，  
     //请用refuseSubscription()拒绝请求  
     //如果设置QXmppConfiguration::autoAcceptSubscriptions(),则QXmpp直接接受请求,不触发本信号  
-    void slotRosterSubscriptionReceived(const QString& bareJid);
-    //当一个好友实体订阅时触发(即好友增加)  
-    void slotItemAdded(const QString& bareJid);
-    // 好友实体订阅发生改变时触发(即好友关系发生改变)  
-    void slotItemChanged(const QString& bareJid);
-    //删除订阅时触发(即删除好友)  
-    void slotItemRemoved(const QString& bareJid);
+    void slotRosterAddReceived(const QString& bareJid);
 
-    //接收好友消息  
-    void slotClientMessageReceived(const QXmppMessage &message);
-
-    //树形列表控件响应事件 
+    //树形列表控件点击事件 
     void clicked(const QModelIndex & index);
+    //树形列表控件双击事件  
     void doubleClicked(const QModelIndex & index);
-
-private slots:
-    //增加好友订阅  
-    void slotAddRoster();
-    //从好友列表中同间增加此好友订阅  
-    void slotAgreeAddRoster();
-    //删掉好友订阅  
-    void slotRemoveRoster();
-    //显示好友详细信息  
-    void slotInformationRoster();
 
 private:
     Ui::CFrmUserList *ui;
-    
+    //传给 ProcessRoster 中的参数类型  
     enum _OPERATOR_TYPE
     {
         OPERATE_TYPE_INSERT_ROSTER,
-        OPERATE_TYPE_UPDATE_ROSTER,
+        OPERATE_TYPE_UPDATE_ROSTER
     };
 
     enum _USERLIST_ROLE
@@ -141,7 +127,7 @@ private:
         USERLIST_ITEM_ROLE_JID = Qt::UserRole + 1,
         USERLIST_ITEM_ROLE_PROPERTIES = USERLIST_ITEM_ROLE_JID + 1
     };
-    
+
     enum _PROPERTIES
     {
         PROPERTIES_GROUP,

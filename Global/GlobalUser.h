@@ -15,35 +15,94 @@ public:
 
     virtual ~CGlobalUser();
 
-    virtual int Init(QString szLocaleJid);
+    /**
+     * @brief 用户登录成功后调用,用于初始化工作  
+     *
+     * @param szId:登录用户名  
+     * @return int
+     */
+    virtual int Init(QString szId);
+    /**
+     * @brief 用户登出时调用,用于清理工作   
+     *
+     * @return int
+     */
     virtual int Clean();
-    //设置内容修改标志  
+    /**
+     * @brief 设置内容修改标志  
+     *
+     * @param bModify
+     * @return int
+     */
     virtual int SetModify(bool bModify = true);
 
-    //得到本地用户对象  
+    /**
+     * @brief 得到登录用户对象  
+     *
+     * @return QSharedPointer<CUserInfo>:登录用户对象  
+     */
     virtual QSharedPointer<CUserInfo> GetUserInfoLocale();
-
-    //处理好友列表操作  
-    virtual int ProcessRoster(COperateRoster* pOperateRoster, void *para = NULL);
-    //得到好友对象  
-    //成功,返回好友对象指针.失败,返回空指针  
+    /**
+     * @brief 得到好友对象  
+     *
+     * @param szId:好友ID  
+     * @return QSharedPointer<CUserInfo>:成功,返回好友对象.失败,返回空  
+     */
     virtual QSharedPointer<CUserInfo> GetUserInfoRoster(const QString &szId);
-    //从好友列表中删除好友  
+    /**
+     * @brief 处理好友列表操作  
+     *
+     * @param pOperateRoster:操作类.派生于COperateRoster  
+     * @param para:传递给COperateRoster::ProcessRoster 
+     * @return int
+     */
+    virtual int ProcessRoster(COperateRoster* pOperateRoster, void *para = NULL);
+    /**
+     * @brief 从好友列表中删除好友  
+     *
+     * @param szId
+     * @return int
+     */
     virtual int RemoveUserInfoRoster(const QString &szId);
 
 private:
-    int LoadFromFile(QString szLocaleJid);
+    /**
+     * @brief 从存储中加载信息  
+     *
+     * @param szLocaleJid
+     * @return int
+     */
+    int LoadFromFile(QString szId);
+    /**
+     * @brief 保存信息到存储  
+     *
+     * @return int
+     */
     int SaveToFile();
-    int LoadLocaleFromFile(const QString &szLocaleJid);
+    int LoadLocaleFromFile(const QString &szId);
     int SaveLocaleToFile();
-    int LoadRosterFromFile(QString szLocaleJid);
+    int LoadRosterFromFile(QString szId);
     int SaveRosterToFile();
 
-    //得到保存本地用户信息的文件  
-    virtual QString GetLocaleFile(const QString &szLocaleJid);
-    //得到保存好友信息的文件  
-    virtual QString GetRosterFile(const QString &szLocaleJid);
-    //新建立一个空的用户信息对象  
+    /**
+     * @brief 得到登录用户信息保存的文件,不同协议用不同的文件.需要实现类实现.  
+     *
+     * @param szId:登录用户id  
+     * @return QString:保存信息的文件名  
+     */
+    virtual QString GetLocaleFile(const QString &szId);
+    /**
+     * @brief 得到保存好友信息的文件,不同协议用不同的文件.需要实现类实现.    
+     *
+     * @param szId:登录用户id  
+     * @return QString:保存信息的文件名  
+     */
+    virtual QString GetRosterFile(const QString &szId);
+    /**
+     * @brief 新建立一个空的用户信息对象.由实现类实现.  
+     *
+     * @return QSharedPointer<CUserInfo>:用户信息对象  
+     */
     virtual QSharedPointer<CUserInfo> NewUserInfo();
 
 protected:

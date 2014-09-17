@@ -1,25 +1,42 @@
 #include "FrmMessage.h"
 #include "ui_FrmMessage.h"
-#include "../FrmUserList/Roster.h"
-#include "qxmpp/QXmppMessage.h"
 #include "../../MainWindow.h"
 #include "../FrmVideo/FrmVideo.h"
-#include "../FrmUservCard/FrmUservCard.h"
 #include "../DlgScreenShot/DlgScreenShot.h"
+#include "../FrmUservCard/FrmUservCard.h"
 
 CFrmMessage::CFrmMessage(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmMessage)
 {
+    Init();
+}
+
+CFrmMessage::CFrmMessage(const QString &szId, QWidget *parent)
+{
+    Init(szId);
+}
+
+CFrmMessage::~CFrmMessage()
+{
+    LOG_MODEL_DEBUG("Message", "CFrmMessage::~CFrmMessage");
+    delete ui;
+}
+
+int CFrmMessage::Init(const QString &szId)
+{
     ui->setupUi(this);
     ui->txtInput->setFocus();//设置焦点  
     ui->txtInput->installEventFilter(this);
-    m_pRoster = NULL;
 
     bool check = false;
 
-    //check = connect(ui->lbAvator, SIGNAL(clicked()), SLOT(on_lbAvator_clicked()));
-    //Q_ASSERT(check);
+    m_User = GLOBAL_USER->GetUserInfoRoster(szId);
+    if(m_User.isNull())
+    {
+        LOG_MODEL_ERROR("CFrmMessage", "roster[%s] isn't exist.", szId.toStdString().c_str());
+        return -1;
+    }
 
 #ifndef MOBILE
     ui->pbSend->setMenu(&m_MessageSendMenu);
@@ -36,38 +53,22 @@ CFrmMessage::CFrmMessage(QWidget *parent) :
     Q_ASSERT(check);
 
     ui->tbMore->setMenu(&m_MoreMenu);
-}
-
-CFrmMessage::~CFrmMessage()
-{
-    LOG_MODEL_DEBUG("Message", "CFrmMessage::~CFrmMessage");
-    delete ui;
-}
-
-//注意：只在对话框初始化后调用一次,必须最先调用一次  
-int CFrmMessage::SetRoster(CRoster* pRoster)
-{
-    m_pRoster = pRoster;
-
-    bool check = connect(m_pRoster, SIGNAL(sigChangedPresence(QXmppPresence::AvailableStatusType)),
-                         SLOT(ChangedPresence(QXmppPresence::AvailableStatusType)));
-    Q_ASSERT(check);
-
     return 0;
 }
 
-void CFrmMessage::ChangedPresence(QXmppPresence::AvailableStatusType status)
+void CFrmMessage::ChangedPresence(CUserInfo::USER_INFO_STATUS status)
 {
     QPixmap pixmap;
-    pixmap.convertFromImage(m_pRoster->Photo());
+    pixmap.convertFromImage(m_User->GetPhoto());
     ui->lbAvatar->setPixmap(pixmap);
 
-    ui->lbRosterName->setText(m_pRoster->ShowName()
+    ui->lbRosterName->setText(m_User->GetShowName()
                               + "["
                               + CGlobal::Instance()->GetRosterStatusText(status)
                               + "]");
 }
 
+/*
 void CFrmMessage::slotSendFileTriggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
@@ -133,7 +134,7 @@ void CFrmMessage::slotShotScreenTriggered()
         }
     }
 }
-
+*/
 void CFrmMessage::hideEvent(QHideEvent *)
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::hideEvent");
@@ -187,15 +188,17 @@ void CFrmMessage::showEvent(QShowEvent *)
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::showEvent");
     //TODO:重读数据  
-    if(m_pRoster)
+    if(!m_User.isNull())
     {
-        ui->lbRosterName->setText(m_pRoster->ShowName()
-                              + "["
-                              + CGlobal::Instance()->GetRosterStatusText(m_pRoster->GetStatus())
-                              + "]");
+        return;
     }
 
-    m_pRoster->CleanNewMessageNumber();
+    ui->lbRosterName->setText(m_User->GetShowName()
+                              + "["
+                              + CGlobal::Instance()->GetRosterStatusText(m_User->GetStatus())
+                              + "]");
+
+    m_User->SetUnReadMessageCount(0);
 }
 
 void CFrmMessage::on_pbBack_clicked()
@@ -237,7 +240,7 @@ int CFrmMessage::AppendMessage(const QString &szMessage)
     if(!this->isHidden())
         this->activateWindow();
 
-    AppendMessageToList(szMessage, m_pRoster->BareJid(), m_pRoster->ShowName(), true);
+    AppendMessageToList(szMessage, m_User->GetId(), m_User->GetShowName(), true);
     return 0;
 }
 
@@ -252,11 +255,10 @@ void CFrmMessage::on_pbSend_clicked()
         return;
     }
 
-    AppendMessageToList(ui->txtInput->toPlainText(), USER_INFO_LOCALE->GetBareJid(), USER_INFO_LOCALE->GetShowName(), false);
+    AppendMessageToList(ui->txtInput->toPlainText(), USER_INFO_LOCALE->GetId(), USER_INFO_LOCALE->GetShowName(), false);
 
     //发送  
-    QXmppMessage msg("", m_pRoster->BareJid(), ui->txtInput->toPlainText());
-    XMPP_CLIENT->sendPacket(msg);
+    XMPP_CLIENT->SendMessage(m_User->GetId(), ui->txtInput->toPlainText());
 
     ui->txtInput->clear();//清空输入框中的内容  
 }
@@ -267,7 +269,7 @@ void CFrmMessage::on_tbMore_clicked()
 
 void CFrmMessage::on_pbVideo_clicked()
 {
-    if(m_pRoster->Resouce().isEmpty())
+/*    if(m_pRoster->Resouce().isEmpty())
     {
         QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
         return;
@@ -281,15 +283,14 @@ void CFrmMessage::on_pbVideo_clicked()
     pVideo->show();
     pVideo->activateWindow();
 
-    pVideo->Call(m_pRoster->Jid());
+    pVideo->Call(m_pRoster->Jid());*/
 }
 
 void CFrmMessage::on_lbAvatar_clicked()
 {
-    if(m_pRoster)
+    if(!m_User.isNull())
     {
-        //MODIFY:
-       // CFrmUservCard *pvCard = new CFrmUservCard(m_pRoster);
-       // pvCard->show();
+        CFrmUservCard *pvCard = new CFrmUservCard(m_User);
+        pvCard->show();
     }
 }
