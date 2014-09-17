@@ -4,8 +4,7 @@
 #include <QFrame>
 #include <QBuffer>
 #include <QSharedPointer>
-#include "../FrmUserList/Roster.h"
-#include "Client/ClientXmpp.h"
+#include "Client/Client.h"
 #include "../../UserInfo/UserInfo.h"
 
 namespace Ui {
@@ -45,7 +44,6 @@ private:
     QString m_szJid;
     QSharedPointer<CUserInfo> m_UserInfo;
     bool m_bModify;
-   // CXmppClient* m_pClient;
     QBuffer m_Buffer;
 };
 
