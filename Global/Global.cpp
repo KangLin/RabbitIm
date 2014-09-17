@@ -1,6 +1,5 @@
 #include "Global.h"
 #include "../Tool.h"
-#include "../Widgets/FrmUserList/Roster.h"
 #include "../MainWindow.h"
 
 #include <QMetaType>
@@ -14,6 +13,7 @@
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppRtpChannel.h"
 #include "GlobalUserQXmpp.h"
+#include "../Client/ClientXmpp.h"
 #endif
 
 CGlobal::CGlobal(QObject *parent) :
@@ -38,7 +38,6 @@ CGlobal::CGlobal(QObject *parent) :
 #endif
 
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
-    //m_szXmppDomain = conf.value("Login/XmppDomain", "p1234.vicp.net").toString();
     //m_szXmppServer = conf.value("Login/XmppServer", "183.233.149.120").toString();
     m_szXmppServer = conf.value("Login/XmppServer", "182.254.185.29").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();

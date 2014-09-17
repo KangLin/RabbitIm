@@ -80,8 +80,6 @@ void CFrmAddRoster::on_pbOk_clicked()
         QMessageBox::critical(this, tr("Error"), tr("Isn't fill JID. Please fill it."));
         return;
     }
-    if(-1 == szJid.indexOf("@"))
-        szJid = szJid + "@" + USER_INFO_LOCALE->GetDomain();
     QString szNick = ui->txtNick->text();
     if(szNick.isEmpty())
         szNick = szJid.left(szJid.indexOf("@"));
@@ -92,14 +90,14 @@ void CFrmAddRoster::on_pbOk_clicked()
         type = CClient::SUBSCRIBE_ACCEPT;
     else
         type = CClient::SUBSCRIBE_REQUEST;
-    GET_CLIENT->RosterAdd(szJid, type, ui->txtNick, groups);
+    GET_CLIENT->RosterAdd(szJid, type, ui->txtNick->text(), groups);
     this->close();
 }
 
 void CFrmAddRoster::on_pbCancel_clicked()
 {
     if(m_bRequest)
-        GET_CLIENT->RosterAdd(szJid, CClient::SUBSCRIBE_REFUSE);
+        GET_CLIENT->RosterAdd(ui->txtJID->text(), CClient::SUBSCRIBE_REFUSE);
     this->close();
 }
 

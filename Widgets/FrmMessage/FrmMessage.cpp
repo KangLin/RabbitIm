@@ -1,9 +1,10 @@
 #include "FrmMessage.h"
 #include "ui_FrmMessage.h"
-#include "../../MainWindow.h"
 #include "../FrmVideo/FrmVideo.h"
-#include "../DlgScreenShot/DlgScreenShot.h"
 #include "../FrmUservCard/FrmUservCard.h"
+#include "../DlgScreenShot/DlgScreenShot.h"
+#include <QKeyEvent>
+#include <QMessageBox>
 
 CFrmMessage::CFrmMessage(QWidget *parent) :
     QFrame(parent),
@@ -165,7 +166,7 @@ bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
             if(CGlobal::E_MESSAGE_SEND_TYPE_CTRL_ENTER == type)
             {
                 if(keyEvent->key() == Qt::Key_Return
-                        && (keyEvent->modifiers() & Qt::ControlModifier))
+                   && (keyEvent->modifiers() & Qt::ControlModifier))
                 {
                     this->on_pbSend_clicked();
                     return true;
@@ -173,15 +174,14 @@ bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
             }
             else
             {
-                if (keyEvent->key() == Qt::Key_Return) { 
+                if (keyEvent->key() == Qt::Key_Return) {
                     this->on_pbSend_clicked();
                     return true; 
                 }
             }
-            
-        } 
-    } 
-    return QFrame::eventFilter(target, event); 
+        }
+    }
+    return QFrame::eventFilter(target, event);
 }
 
 void CFrmMessage::showEvent(QShowEvent *)
@@ -258,7 +258,7 @@ void CFrmMessage::on_pbSend_clicked()
     AppendMessageToList(ui->txtInput->toPlainText(), USER_INFO_LOCALE->GetId(), USER_INFO_LOCALE->GetShowName(), false);
 
     //发送  
-    XMPP_CLIENT->SendMessage(m_User->GetId(), ui->txtInput->toPlainText());
+    GET_CLIENT->SendMessage(m_User->GetId(), ui->txtInput->toPlainText());
 
     ui->txtInput->clear();//清空输入框中的内容  
 }

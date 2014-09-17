@@ -3,9 +3,7 @@
 
 #include <QObject>
 #include <QColor>
-#include "qxmpp/QXmppPresence.h"
-#include "qxmpp/QXmppClient.h"
-#include "Client/ClientXmpp.h"
+#include "Client/Client.h"
 #include "GlobalUser.h"
 
 class CRoster;

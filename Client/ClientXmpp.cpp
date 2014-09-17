@@ -96,6 +96,7 @@ int CClientXmpp::Register(const QString &szId, const QString &szName, const QStr
     config.setHost(CGlobal::Instance()->GetXmppServer());
     config.setDomain(CGlobal::Instance()->GetXmppDomain());
     m_Client.connectToServer(config);
+    return 0;
 }
 
 int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUserInfo::USER_INFO_STATUS status)
@@ -118,6 +119,13 @@ int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUs
     QXmppPresence presence;
     presence.setAvailableStatusType(StatusToPresence(status));
     m_Client.connectToServer(config, presence);
+    return 0;
+}
+
+int CClientXmpp::Logout()
+{
+    m_Client.disconnectFromServer();
+    return 0;
 }
 
 int CClientXmpp::RequestUserInfoLocale()
@@ -138,27 +146,33 @@ int CClientXmpp::setClientStatus(CUserInfo::USER_INFO_STATUS status)
     QXmppPresence presence;
     presence.setAvailableStatusType(StatusToPresence(status));
     m_Client.setClientPresence(presence);
+    return 0;
 }
 
 int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type, const QString &szName, const QSet<QString> &groups)
 {
+    QString id;
+    if(-1 == szId.indexOf("@"))
+        id = szId + "@" + ((CUserInfoXmpp*)USER_INFO_LOCALE.data())->GetDomain();
+    
     switch(type)
     {
     case SUBSCRIBE_REQUEST:
-        m_Client.rosterManager().addItem(szId, szName, groups);
-        m_Client.rosterManager().subscribe(szId);
+        m_Client.rosterManager().addItem(id, szName, groups);
+        m_Client.rosterManager().subscribe(id);
         break;
     case SUBSCRIBE_ACCEPT:
-        m_Client.rosterManager().subscribe(szId);
-        m_Client.rosterManager().acceptSubscription(szId);
+        m_Client.rosterManager().subscribe(id);
+        m_Client.rosterManager().acceptSubscription(id);
         break;
     case SUBSCRIBE_REFUSE:
-        m_Client.rosterManager().refuseSubscription(szId);
+        m_Client.rosterManager().refuseSubscription(id);
         break;
     default:
         LOG_MODEL_ERROR("CClientXmpp", "Subscribe type is Invalid");
         break;
     }
+    return 0;
 }
 
 int CClientXmpp::RosterRemove(const QString &szId)

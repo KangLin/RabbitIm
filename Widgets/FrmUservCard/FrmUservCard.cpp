@@ -1,9 +1,6 @@
 #include "FrmUservCard.h"
 #include "ui_FrmUservCard.h"
 #include "../../Global/Global.h"
-#include "../../XmppClient.h"
-#include "qxmpp/QXmppVCardIq.h"
-#include "qxmpp/QXmppVCardManager.h"
 #include <QFileDialog>
 #include <QImageWriter>
 #include <QDesktopWidget>

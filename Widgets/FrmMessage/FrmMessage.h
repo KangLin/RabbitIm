@@ -4,7 +4,7 @@
 #include <QFrame>
 #include <QStandardItemModel>
 #include <QMenu>
-#include "../../Global/Global.h"
+#include "Global/Global.h"
 #include "../FrmCustom/MenuMessageSend.h"
 
 class MainWindow;

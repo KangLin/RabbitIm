@@ -19,7 +19,6 @@ SOURCES += main.cpp\
     Widgets/FrmMessage/Message.cpp \
     Widgets/FrmRegister/FrmRegister.cpp \
     Widgets/FrmAbout/FrmAbout.cpp \
-    Widgets/FrmVideo/FrmVideo.cpp \
     Widgets/FrmVideo/CaptureVideoFrame.cpp \
     Widgets/FrmVideo/FrmPlayer.cpp \
     Widgets/FrmVideo/DataVideoBuffer.cpp \
@@ -32,14 +31,15 @@ SOURCES += main.cpp\
     Widgets/FrmOptions/FrmOptions.cpp \
     Widgets/FrmUservCard/FrmUservCard.cpp \
     Widgets/FrmCustom/Label.cpp \ 
-    Widgets/FrmGroupChat/FrmGroupChatList.cpp \
-    Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
-    Widgets/FrmGroupChat/Conference.cpp \
-    Widgets/FrmGroupChat/FrmGroupChat.cpp \
-    Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp \
     Widgets/FrmMain/FrmMain.cpp \
-    Widgets/FrmCustom/MenuMessageSend.cpp \
-    Widgets/DlgScreenShot/DlgScreenShot.cpp 
+    Widgets/FrmCustom/MenuMessageSend.cpp 
+    #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
+    #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
+    #Widgets/FrmGroupChat/Conference.cpp \
+    #Widgets/FrmGroupChat/FrmGroupChat.cpp \
+    #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp \
+    #Widgets/DlgScreenShot/DlgScreenShot.cpp \
+    #Widgets/FrmVideo/FrmVideo.cpp 
 
 HEADERS  += MainWindow.h \
     Global/Global.h \

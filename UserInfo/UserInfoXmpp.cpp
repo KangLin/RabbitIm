@@ -119,6 +119,7 @@ CUserInfo::SUBSCRIPTION_TYPE CUserInfoXmpp::FromQxmppSubscriptionType(QXmppRoste
         t = CUserInfo::None;
         break;
     }
+    return t;
 }
 
 QDataStream & operator <<(QDataStream &output, const CUserInfoXmpp &roster)

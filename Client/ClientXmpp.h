@@ -19,6 +19,21 @@ public:
     virtual ~CClientXmpp();
 
     /**
+     * @brief 注册新用户  
+     *
+     * @param szId:用户id
+     * @param szName:用户名
+     * @param szPassword:密码
+     * @param szEmail:email
+     * @param szDescript:描述
+     * @return int
+     */
+    virtual int Register(const QString &szId,
+                         const QString &szName,
+                         const QString &szPassword, 
+                         const QString& szEmail = QString(),
+                         const QString& szDescript = QString());
+    /**
      * @brief 登录  
      *
      * @param szUserName：用户名  
@@ -29,6 +44,7 @@ public:
     virtual int Login(const QString& szUserName = QString(), 
                       const QString &szPassword = QString(),
                       CUserInfo::USER_INFO_STATUS status = CUserInfo::Online);
+    virtual int Logout();
     //请求本地用户信息  
     virtual int RequestUserInfoLocale();
     //请求指定好友的信息  
@@ -52,6 +68,13 @@ public:
      */
     virtual int RosterRemove(const QString& szId);
 
+    /**
+     * @brief 向好友发送消息  
+     *
+     * @param szId:好友id  
+     * @param szMsg:消息内容  
+     * @return int
+     */
     virtual int SendMessage(const QString& szId, const QString &szMsg);
 
 private:
