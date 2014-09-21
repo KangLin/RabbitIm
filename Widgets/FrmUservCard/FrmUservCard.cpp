@@ -25,12 +25,12 @@ CFrmUservCard::CFrmUservCard(const QString &jid, QWidget *parent) :
     m_bModify = false;
     m_szJid = jid;
 
-    bool check = connect(&XMPP_CLIENT->vCardManager(),
-                         SIGNAL(vCardReceived(QXmppVCardIq)),
-                         SLOT(slotvCardReceived(QXmppVCardIq)));
+    bool check = connect(GET_CLIENT.data(),
+                         SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUserInfo>)),
+                         SLOT(slotUpdateRoster(QString, QSharedPointer<CUserInfo>)));
     Q_ASSERT(check);
 
-    XMPP_CLIENT->vCardManager().requestVCard(jid);
+    XMPP_CLIENT->RequestUserInfoRoster(jid);
 }
 
 CFrmUservCard::CFrmUservCard(QSharedPointer<CUserInfo> user, bool bModify, QWidget *parent) :
@@ -64,7 +64,7 @@ void CFrmUservCard::showEvent(QShowEvent *)
     if(m_UserInfo.isNull())
         return;
 
-    ui->txtJID->setText(m_UserInfo->GetBareJid());
+    ui->txtJID->setText(m_UserInfo->GetId());
     ui->txtName->setText(m_UserInfo->GetName());
     ui->txtNick->setText(m_UserInfo->GetNick());
     ui->dateBirthday->setDate(m_UserInfo->GetBirthday());
@@ -129,19 +129,14 @@ void CFrmUservCard::on_pbClear_clicked()
 
 void CFrmUservCard::on_pbOK_clicked()
 {
-    QXmppClient* pClient = XMPP_CLIENT;
-    if(pClient)
-    {
-        QXmppVCardIq vCard;
-        vCard.setFullName(ui->txtName->text());
-        vCard.setNickName(ui->txtNick->text());
-        vCard.setBirthday(ui->dateBirthday->date());
-        vCard.setEmail(ui->txtEmail->text());
-        vCard.setDescription(ui->txtDescription->text());
-        vCard.setPhoto(m_Buffer.buffer());
-        pClient->vCardManager().setClientVCard(vCard);
-        pClient->vCardManager().requestClientVCard();
-    }
+    QSharedPointer<CUserInfo> userInfo = USER_INFO_LOCALE;
+    userInfo->SetName(ui->txtName->text());
+    userInfo->SetNick(ui->txtNick->text());
+    userInfo->SetBirthday(ui->dateBirthday->date());
+    userInfo->SetEmail(ui->txtEmail->text());
+    userInfo->SetDescription(ui->txtDescription->text());
+    userInfo->SetPhoto(m_Buffer.buffer());
+    GET_CLIENT->setlocaleUserInfo(userInfo);
     close();
 }
 
@@ -150,19 +145,14 @@ void CFrmUservCard::on_pbCancel_clicked()
     close();
 }
 
-void CFrmUservCard::slotvCardReceived(const QXmppVCardIq& vCard)
+void CFrmUservCard::slotUpdateRoster(const QString& szId, QSharedPointer<CUserInfo> userInfo)
 {
-    LOG_MODEL_DEBUG("Group chat", "CFrmUservCard::slotvCardReceived:from:%s;to:%s",
-                    qPrintable(vCard.from()),
-                    qPrintable(vCard.to()));
-    if(vCard.from() == m_szJid)
+    if(szId == m_szJid)
     {
         if(m_UserInfo.isNull())
         {
-            QSharedPointer<CUserInfo> info(new CUserInfo);
-            m_UserInfo = info;
+            m_UserInfo = userInfo;
         }
-        m_UserInfo->UpdateUserInfo(vCard, m_szJid);
         this->show();
     }
 }

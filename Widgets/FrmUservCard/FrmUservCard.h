@@ -35,8 +35,8 @@ private slots:
     void on_pbOK_clicked();
     void on_pbCancel_clicked();
 
-    //得到好友详细信息时触发  
-    void slotvCardReceived(const QXmppVCardIq&);
+    //用于查询组成员信息,得到好友详细信息时触发  
+    void slotUpdateRoster(const QString& szId, QSharedPointer<CUserInfo> userInfo);
     int Init();
 
 private:

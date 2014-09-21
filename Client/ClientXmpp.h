@@ -7,6 +7,7 @@
 #include "qxmpp/QXmppCallManager.h"
 #include "qxmpp/QXmppTransferManager.h"
 #include "qxmpp/QXmppMucManager.h"
+#include "qxmpp/QXmppVCardIq.h"
 #include "Client.h"
 
 class CGlobalUserQXmpp;
@@ -21,11 +22,11 @@ public:
     /**
      * @brief 注册新用户  
      *
-     * @param szId:用户id
-     * @param szName:用户名
-     * @param szPassword:密码
-     * @param szEmail:email
-     * @param szDescript:描述
+     * @param szId:用户id  
+     * @param szName:用户名  
+     * @param szPassword:密码  
+     * @param szEmail:email  
+     * @param szDescript:描述  
      * @return int
      */
     virtual int Register(const QString &szId,
@@ -77,6 +78,7 @@ public:
      */
     virtual int SendMessage(const QString& szId, const QString &szMsg);
 
+    virtual int setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo);
 private:
     QXmppPresence::AvailableStatusType StatusToPresence(CUserInfo::USER_INFO_STATUS status);
     CUserInfo::USER_INFO_STATUS StatusFromPresence(QXmppPresence::AvailableStatusType status);

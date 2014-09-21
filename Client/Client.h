@@ -108,6 +108,13 @@ public:
      * @return int
      */
     virtual int SendMessage(const QString& szId, const QString &szMsg);
+    /**
+     * @brief 设置登录用户信息  
+     *
+     * @param userInfo
+     * @return int
+     */
+    virtual int setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo);
 
     enum ERROR_TYPE
     {
@@ -136,11 +143,16 @@ signals:
      */
     void sigLoadRosterFromStorage();
     /**
-     * @brief 更新好友信息.新增好友，或好友信息更新都会触发此消息  
+     * @brief 更新好友信息.新增好友会触发此消息.好友列表显示控件，根据好友列表中是否有此好友来决定是否插入或更新好友  
      *
      * @param szId：更新好友信息  
      */
-    void sigUpdateRosterUserInfo(const QString &szId);
+    void sigUpdateRosterUserInfo(const QString &szId, QSharedPointer<CUserInfo> userInfo);
+    /**
+     * @brief 删除好友时触发  
+     *
+     * @param szId：好友ID  
+     */
     void sigRemoveRosterUserInfo(const QString &szId);
     /**
      * @brief 更新本地用户信息  

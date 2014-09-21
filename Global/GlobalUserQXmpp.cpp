@@ -18,6 +18,19 @@ QSharedPointer<CUserInfo> CGlobalUserQXmpp::NewUserInfo()
     return user;
 }
 
+/**
+ * @brief 新增加一个空的好友对象，并把此好友对象插入到好友列表中  
+ *
+ * @param szId：新增加好的ID  
+ * @return QSharedPointer<CUserInfo>:成功,返回好友对象.失败,返回空  
+ */
+QSharedPointer<CUserInfo> CGlobalUserQXmpp::AddUserInfoRoster(const QString &szId)
+{
+    QSharedPointer<CUserInfo> user = NewUserInfo();
+    ((CUserInfoXmpp*)user.data())->SetId(szId);
+    return user;
+}
+
 int CGlobalUserQXmpp::UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString jid)
 {
     m_bModify = true;
@@ -38,8 +51,8 @@ int CGlobalUserQXmpp::UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem
     QSharedPointer<CUserInfo> roster = GetUserInfoRoster(jid);
     if(roster.isNull())
     {
-        roster = NewUserInfo();
-        m_UserInfoRoster.insert(jid, roster);
+        LOG_MODEL_ERROR("CGlobalUserQXmpp", "There are not the roster:%s", jid.toStdString().c_str());
+        return -1;
     }
     nRet = ((CUserInfoXmpp*)roster.data())->UpdateUserInfo(rosterItem);
     return nRet;
@@ -53,8 +66,8 @@ int CGlobalUserQXmpp::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString ji
     QSharedPointer<CUserInfo> roster = GetUserInfoRoster(szBareJid);
     if(roster.isNull())
     {
-        roster = NewUserInfo();
-        m_UserInfoRoster.insert(szBareJid, roster);
+        LOG_MODEL_ERROR("CGlobalUserQXmpp", "There are not the roster:%s", jid.toStdString().c_str());
+        return -1;
     }
     nRet = ((CUserInfoXmpp*)roster.data())->UpdateUserInfo(vCard, jid);
     return nRet;

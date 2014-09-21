@@ -6,8 +6,6 @@
 #include <QImage>
 #include <QDataStream>
 #include <QSet>
-#include "qxmpp/QXmppPresence.h"
-#include "qxmpp/QXmppVCardIq.h"
 
 class CUserInfo : public QObject
 {
@@ -29,11 +27,19 @@ public:
 
     virtual QString GetShowName(); //根据配置显示用户名称  
     virtual QString GetId();       //用户ID，由具体协议实现  
-    virtual QString GetNick();
+    virtual QString GetName();     //好友的名称，由本地用户设置  
+    virtual int SetName(const QString& szName);
+    virtual QString GetNick();     //好友呢称，由好友设置  
+    virtual int SetNick(const QString& szNick);
     virtual QDate GetBirthday();
+    virtual int SetBirthday(const QDate &d);
     virtual QString GetEmail();
+    virtual int SetEmail(const QString& szEmail);
     virtual QString GetDescription();
+    virtual int SetDescription(const QString& szDescription);
     virtual QImage GetPhoto();
+    virtual int SetPhoto(QImage img);
+    virtual int SetPhoto(QByteArray img);
     virtual USER_INFO_STATUS GetStatus();//用户状态  
     virtual int SetStatus(USER_INFO_STATUS status);
 
@@ -67,12 +73,14 @@ public:
 #endif
 
 protected:
+    QString m_szName;
     QString m_szNick;
     QDate m_Birthday;
     QString m_szEmail;
     QString m_szDescription;
     QImage m_imgPhoto;
 
+    USER_INFO_STATUS m_Status;
     QSet<QString> m_Groups;
     SUBSCRIPTION_TYPE m_subscriptionType;
     int m_UnReadMessageCount;

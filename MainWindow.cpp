@@ -61,7 +61,8 @@ MainWindow::MainWindow(QWidget *parent) :
         //0712处理文件接收信号
         //connect(&(pClient->m_TransferManager),SIGNAL(fileReceived(QXmppTransferJob*)),this,SLOT(onReceiveFile(QXmppTransferJob*)));
 
-        CFrmVideo::instance();
+        //TODO:
+        //CFrmVideo::instance();
     }
 
     //设置应用程序图标  
@@ -109,20 +110,6 @@ MainWindow::~MainWindow()
         delete m_pTranslatorApp;
     if(m_pTranslatorQt)
         delete m_pTranslatorQt;
-}
-
-CRoster* MainWindow::GetRoster(QString szJid)
-{
-    if(m_pTableMain)
-        return m_pTableMain->GetRoster(szJid);
-    return NULL;
-}
-
-CFrmGroupChat* MainWindow::GetGroupChat(const QString &jid)
-{
-    if(m_pTableMain)
-        return m_pTableMain->GetGroupChat(jid);
-    return NULL;
 }
 
 void MainWindow::resizeEvent(QResizeEvent * e)
@@ -456,8 +443,8 @@ void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 void MainWindow::slotMessageClicked()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotMessageClicked");
-    if(m_pTableMain)
-        m_pTableMain->ShowMessageDialog();
+    //TODO:
+    
     slotTrayTimerStop();
 }
 

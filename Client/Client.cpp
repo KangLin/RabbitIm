@@ -94,3 +94,11 @@ int CClient::SendMessage(const QString &szId, const QString &szMsg)
     Q_ASSERT(false);
     return 0;
 }
+
+int CClient::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)
+{
+    Q_UNUSED(userInfo);
+    LOG_MODEL_WARNING("CClient", "The CClient::setlocaleUserInfo function must be implemented by derived classes");
+    Q_ASSERT(false);
+    return 0;
+}

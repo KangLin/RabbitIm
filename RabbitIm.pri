@@ -19,20 +19,20 @@ SOURCES += main.cpp\
     Widgets/FrmMessage/Message.cpp \
     Widgets/FrmRegister/FrmRegister.cpp \
     Widgets/FrmAbout/FrmAbout.cpp \
-    Widgets/FrmVideo/CaptureVideoFrame.cpp \
-    Widgets/FrmVideo/FrmPlayer.cpp \
     Widgets/FrmVideo/DataVideoBuffer.cpp \
     Widgets/FrmVideo/FrameProcess.cpp \
     Widgets/FrmAddRoster/FrmAddRoster.cpp \
     Widgets/FrmCustom/CustomTreeView.cpp \
     Widgets/FrmVideo/RecordAudio.cpp \
-    Widgets/FrmVideo/CCamera.cpp \
     Widgets/FrmLogin/FrmLoginSettings.cpp \
     Widgets/FrmOptions/FrmOptions.cpp \
     Widgets/FrmUservCard/FrmUservCard.cpp \
     Widgets/FrmCustom/Label.cpp \ 
     Widgets/FrmMain/FrmMain.cpp \
     Widgets/FrmCustom/MenuMessageSend.cpp 
+    #Widgets/FrmVideo/CaptureVideoFrame.cpp \
+    #Widgets/FrmVideo/FrmPlayer.cpp \
+    #Widgets/FrmVideo/CCamera.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     #Widgets/FrmGroupChat/Conference.cpp \

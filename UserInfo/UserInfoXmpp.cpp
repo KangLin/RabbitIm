@@ -48,6 +48,12 @@ QString CUserInfoXmpp::ID()
     return QXmppUtils::jidToBareJid(GetJid());
 }
 
+int CUserInfoXmpp::SetId(QString szId)
+{
+    m_szJid = szId;
+    return 0;
+}
+
 QString CUserInfoXmpp::GetDomain()
 {
     return QXmppUtils::jidToDomain(GetJid());

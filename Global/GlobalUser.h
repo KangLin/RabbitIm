@@ -2,6 +2,7 @@
 #define GLOBALUSER_H
 
 #include <QObject>
+#include <QMap>
 #include <QSharedPointer>
 #include "UserInfo/UserInfo.h"
 #include "UserInfo/COperateRoster.h"
@@ -49,19 +50,28 @@ public:
      * @return QSharedPointer<CUserInfo>:成功,返回好友对象.失败,返回空  
      */
     virtual QSharedPointer<CUserInfo> GetUserInfoRoster(const QString &szId);
+
+    /**
+     * @brief 新增加一个空的好友对象，并把此好友对象插入到好友列表中  
+     *
+     * @param szId：新增加好的ID  
+     * @return QSharedPointer<CUserInfo>:成功,返回好友对象.失败,返回空  
+     */
+    virtual QSharedPointer<CUserInfo> AddUserInfoRoster(const QString &szId);
+
     /**
      * @brief 处理好友列表操作  
      *
      * @param pOperateRoster:操作类.派生于COperateRoster  
-     * @param para:传递给COperateRoster::ProcessRoster 
-     * @return int
+     * @param para:传递给COperateRoster::ProcessRoster  
+     * @return int  
      */
     virtual int ProcessRoster(COperateRoster* pOperateRoster, void *para = NULL);
     /**
      * @brief 从好友列表中删除好友  
      *
-     * @param szId
-     * @return int
+     * @param szId  
+     * @return int  
      */
     virtual int RemoveUserInfoRoster(const QString &szId);
 
@@ -69,14 +79,14 @@ private:
     /**
      * @brief 从存储中加载信息  
      *
-     * @param szLocaleJid
-     * @return int
+     * @param szLocaleJid  
+     * @return int  
      */
     int LoadFromFile(QString szId);
     /**
      * @brief 保存信息到存储  
      *
-     * @return int
+     * @return int  
      */
     int SaveToFile();
     int LoadLocaleFromFile(const QString &szId);
@@ -98,6 +108,7 @@ private:
      * @return QString:保存信息的文件名  
      */
     virtual QString GetRosterFile(const QString &szId);
+
     /**
      * @brief 新建立一个空的用户信息对象.由实现类实现.  
      *

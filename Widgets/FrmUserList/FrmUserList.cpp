@@ -2,6 +2,8 @@
 #include "ui_FrmUserList.h"
 #include "../../MainWindow.h"
 #include "../FrmUservCard/FrmUservCard.h"
+#include "Client/Client.h"
+#include "Global/Global.h"
 #include <iostream>
 #include <QKeyEvent>
 #include <QMessageBox>
@@ -63,7 +65,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotLoadRosterFromStorage()));
     Q_ASSERT(check);
 
-    check = connect(XMPP_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString)),
+    check = connect(XMPP_CLIENT.data(), SIGNAL(),
                     SLOT(slotUpdateRosterUserInfo(QString)));
     Q_ASSERT(check);
 
@@ -239,6 +241,11 @@ void CFrmUserList::slotRemoveRoster()
     if(szId.isEmpty())
         return;
     XMPP_CLIENT->RosterRemove(szId);
+}
+
+void CFrmUserList::slotAgreeAddRoster()
+{
+    GET_CLIENT->RosterAdd(GetCurrentRoster());
 }
 
 void CFrmUserList::slotInformationRoster()
@@ -476,17 +483,8 @@ void CFrmUserList::doubleClicked(const QModelIndex &index)
     if(!m)
         return;
 
-    //TODO:暂时根据是否有根节点来判断是组还是好友  
-    if(m->parent(index).isValid())
-    {
-        //是用户结点，打开消息对话框  
-        QVariant v = m->data(index, Qt::UserRole + 1);
-        if(v.canConvert<CRoster*>())
-        {
-            CRoster* p = v.value<CRoster*>();
-            p->ShowMessageDialog();
-        }
-    }
+    //TODO:是用户结点，打开消息对话框  
+    
 #endif
 }
 

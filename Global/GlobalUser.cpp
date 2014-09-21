@@ -231,6 +231,14 @@ QSharedPointer<CUserInfo> CGlobalUser::GetUserInfoRoster(const QString &szId)
     return it.value();
 }
 
+QSharedPointer<CUserInfo> CGlobalUser::AddUserInfoRoster(const QString &szId)
+{
+    Q_UNUSED(szId);
+    LOG_MODEL_ERROR("CGlobalUser", "The CGlobalUser::AddUserInfoRoster function must be implemented by derived classes");
+    QSharedPointer<CUserInfo> user;
+    return user;
+}
+
 int CGlobalUser::ProcessRoster(COperateRoster* pOperateRoster, void* para)
 {
     int nRet = 0;

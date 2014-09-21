@@ -9,6 +9,8 @@
 #include "UserInfo/UserInfoXmpp.h"
 #include "Global/GlobalUserQXmpp.h"
 #include "Global/Global.h"
+#include <QImageWriter>
+#include <QBuffer>
 
 CClientXmpp::CClientXmpp(QObject *parent)
     : CClient(parent),
@@ -187,6 +189,25 @@ int CClientXmpp::SendMessage(const QString &szId, const QString &szMsg)
     return 0;
 }
 
+int CClientXmpp::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)
+{
+    QXmppVCardIq vCard;
+    vCard.setFullName(userInfo->GetName());
+    vCard.setNickName(userInfo->GetNick());
+    vCard.setBirthday(userInfo->GetBirthday());
+    vCard.setEmail(userInfo->GetEmail());
+    vCard.setDescription(userInfo->GetDescription());
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    QImageWriter imgWriter(&buffer, "png");
+    imgWriter.write(userInfo->GetPhoto());
+    buffer.close();
+    vCard.setPhoto(byteArray);
+    m_Client.vCardManager().setClientVCard(vCard);
+    RequestUserInfoLocale();
+    return 0;
+}
+
 QXmppPresence::AvailableStatusType CClientXmpp::StatusToPresence(CUserInfo::USER_INFO_STATUS status)
 {
     QXmppPresence::AvailableStatusType s;
@@ -300,10 +321,12 @@ void CClientXmpp::slotRosterReceived()
         QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(jid);
         if(r.isNull())
         {
-            QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(jid);
-            m_User->UpdateUserInfoRoster(item);
-            RequestUserInfoRoster(jid);
+            r = m_User->AddUserInfoRoster(jid);
         }
+
+        QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(jid);
+        m_User->UpdateUserInfoRoster(item);
+        RequestUserInfoRoster(jid);
     }
 }
 
@@ -318,15 +341,24 @@ void CClientXmpp::slotClientVCardReceived()
     emit sigUpdateLocaleUserInfo();
 }
 
+//得到好友详细信息时触发  
 void CClientXmpp::slotvCardReceived(const QXmppVCardIq&)
 {
     QString szJid = m_Client.vCardManager().clientVCard().to();
     if(szJid.isEmpty())
         return;
-    m_User->UpdateUserInfoRoster(m_Client.vCardManager().clientVCard(),
+    QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(szJid);
+    if(r.isNull())
+    {
+        QSharedPointer<CUserInfo> user(new CUserInfoXmpp);
+        ((CUserInfoXmpp*)user.data())->UpdateUserInfo(m_Client.vCardManager().clientVCard(), szJid);
+        r = user;
+    }
+    else
+        m_User->UpdateUserInfoRoster(m_Client.vCardManager().clientVCard(),
                                szJid);
     //发信号  
-    emit sigUpdateRosterUserInfo(QXmppUtils::jidToBareJid(szJid));
+    emit sigUpdateRosterUserInfo(QXmppUtils::jidToBareJid(szJid), r);
 }
 
 void CClientXmpp::slotPresenceReceived(const QXmppPresence &presence)
@@ -343,10 +375,10 @@ void CClientXmpp::slotPresenceReceived(const QXmppPresence &presence)
     if(!roster.isNull())
     {
         roster->SetStatus(StatusFromPresence(presence.availableStatusType()));
+        //触发状态改变消息  
+        emit sigChangedStatus(bareJid);
     }
 
-    //触发状态改变消息  
-    emit sigChangedStatus(bareJid);
     return;
 }
 
@@ -355,6 +387,7 @@ void CClientXmpp::slotItemAdded(const QString &szId)
     QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(szId);
     if(r.isNull())
     {
+        m_User->AddUserInfoRoster(szId);
         QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(szId);
         m_User->UpdateUserInfoRoster(item);
         RequestUserInfoRoster(szId);
@@ -373,7 +406,7 @@ void CClientXmpp::slotItemChanged(const QString &szId)
         m_User->UpdateUserInfoRoster(item);
 
         //发信号  
-        emit sigUpdateRosterUserInfo(QXmppUtils::jidToBareJid(szId));
+        emit sigUpdateRosterUserInfo(QXmppUtils::jidToBareJid(szId), r);
     }
     else
         LOG_MODEL_DEBUG("CClientXmpp", "roster [%s] is exist.", szId.toStdString().c_str());

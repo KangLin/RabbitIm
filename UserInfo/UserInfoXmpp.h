@@ -14,6 +14,7 @@ public:
 
     virtual QString GetShowName();
     virtual QString ID();//就是 bareJid  
+    virtual int SetId(QString szId);
 
     virtual QString GetName();
     virtual QString GetJid();

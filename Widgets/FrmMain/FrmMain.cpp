@@ -5,14 +5,14 @@
 CFrmMain::CFrmMain(QWidget *parent) :
     QFrame(parent),
     m_UserList(parent),
-    m_GroupChatList(parent),
+    //m_GroupChatList(parent),
     ui(new Ui::CFrmMain)
 {
     ui->setupUi(this);
     ui->tabWidget->clear();
     
     ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
-    ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
+    //ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
 }
 
 CFrmMain::~CFrmMain()
@@ -23,28 +23,8 @@ CFrmMain::~CFrmMain()
 int CFrmMain::Init()
 {
     int nRet = 0;
-    //初始化  
-    nRet = m_UserList.Init();
-    if(nRet)
-        return nRet;
-    //TODO:初始化最近接收消息列表  
-    
+  
     return 0;
-}
-
-CRoster* CFrmMain::GetRoster(QString jid)
-{
-    return m_UserList.GetRoster(jid);
-}
-
-CFrmGroupChat* CFrmMain::GetGroupChat(const QString &jid)
-{
-    return m_GroupChatList.GetGroupChat(jid);
-}
-
-int CFrmMain::ShowMessageDialog()
-{
-    return m_UserList.ShowMessageDialog();
 }
 
 void CFrmMain::resizeEvent(QResizeEvent *e)
@@ -54,7 +34,7 @@ void CFrmMain::resizeEvent(QResizeEvent *e)
                     geometry().size().width());
 
     m_UserList.resize(ui->tabWidget->currentWidget()->geometry().size());
-    m_GroupChatList.resize(ui->tabWidget->currentWidget()->geometry().size());
+    //m_GroupChatList.resize(ui->tabWidget->currentWidget()->geometry().size());
 }
 
 void CFrmMain::changeEvent(QEvent *e)
@@ -64,7 +44,7 @@ void CFrmMain::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_UserList), tr("Rosters"));
-        ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_GroupChatList), tr("Group Chat"));
+        //ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_GroupChatList), tr("Group Chat"));
         break;
     }
 }
