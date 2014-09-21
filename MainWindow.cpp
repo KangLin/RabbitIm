@@ -552,10 +552,10 @@ void MainWindow::slotEditInformation()
 
 void MainWindow::onReceiveFile(QXmppTransferJob *job)
 {
-    if(job)
+    /*if(job)
     {
         m_pSendManageDlg->addFileProcess(*job,false);
-    }
+    }*/
 }
 
 void MainWindow::on_actionOptions_O_triggered()

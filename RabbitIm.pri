@@ -9,18 +9,13 @@ SOURCES += main.cpp\
     Global/GlobalUser.cpp \
     Global/GlobalUserQXmpp.cpp \
     Global/Global.cpp \
-    Widgets/FrmSendFile/DlgSendManage.cpp \
-    Widgets/FrmSendFile/FrmSendFile.cpp \
     Widgets/FrmLogin/FrmLogin.cpp \
     Widgets/FrmUserList/FrmUserList.cpp \
-    Widgets/FrmUserList/Roster.cpp \
     Widgets/FrmUserList/GroupItem.cpp \
     Widgets/FrmMessage/FrmMessage.cpp \
     Widgets/FrmMessage/Message.cpp \
     Widgets/FrmRegister/FrmRegister.cpp \
     Widgets/FrmAbout/FrmAbout.cpp \
-    Widgets/FrmVideo/DataVideoBuffer.cpp \
-    Widgets/FrmVideo/FrameProcess.cpp \
     Widgets/FrmAddRoster/FrmAddRoster.cpp \
     Widgets/FrmCustom/CustomTreeView.cpp \
     Widgets/FrmVideo/RecordAudio.cpp \
@@ -30,6 +25,10 @@ SOURCES += main.cpp\
     Widgets/FrmCustom/Label.cpp \ 
     Widgets/FrmMain/FrmMain.cpp \
     Widgets/FrmCustom/MenuMessageSend.cpp 
+    #Widgets/FrmSendFile/DlgSendManage.cpp \
+    #Widgets/FrmSendFile/FrmSendFile.cpp \
+    #Widgets/FrmVideo/DataVideoBuffer.cpp \
+    #Widgets/FrmVideo/FrameProcess.cpp \
     #Widgets/FrmVideo/CaptureVideoFrame.cpp \
     #Widgets/FrmVideo/FrmPlayer.cpp \
     #Widgets/FrmVideo/CCamera.cpp \
@@ -39,7 +38,8 @@ SOURCES += main.cpp\
     #Widgets/FrmGroupChat/FrmGroupChat.cpp \
     #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp \
     #Widgets/DlgScreenShot/DlgScreenShot.cpp \
-    #Widgets/FrmVideo/FrmVideo.cpp 
+    #Widgets/FrmVideo/FrmVideo.cpp \
+    #Widgets/FrmUserList/Roster.cpp \
 
 HEADERS  += MainWindow.h \
     Global/Global.h \
@@ -85,23 +85,23 @@ HEADERS  += MainWindow.h \
     Client/ClientXmpp.h
 
 FORMS    += MainWindow.ui \
-    Widgets/FrmSendFile/DlgSendManage.ui \
-    Widgets/FrmSendFile/FrmSendFile.ui \
     Widgets/FrmLogin/FrmLogin.ui \
     Widgets/FrmUserList/FrmUserList.ui \
     Widgets/FrmMessage/FrmMessage.ui \
     Widgets/FrmRegister/FrmRegister.ui \
     Widgets/FrmAbout/FrmAbout.ui \
-    Widgets/FrmVideo/FrmVideo.ui \
+    Widgets/FrmMain/FrmMain.ui \
     Widgets/FrmAddRoster/FrmAddRoster.ui \
     Widgets/FrmLogin/FrmLoginSettings.ui \
     Widgets/FrmOptions/FrmOptions.ui \
-    Widgets/FrmUservCard/FrmUservCard.ui \ 
-    Widgets/FrmGroupChat/FrmGroupChatList.ui \
-    Widgets/FrmGroupChat/FrmGroupChatFind.ui \
-    Widgets/FrmGroupChat/FrmGroupChat.ui \
-    Widgets/FrmGroupChat/FrmCreateGroupChatRoom.ui \
-    Widgets/FrmMain/FrmMain.ui
+    Widgets/FrmUservCard/FrmUservCard.ui
+    #Widgets/FrmGroupChat/FrmGroupChatList.ui \
+    #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
+    #Widgets/FrmGroupChat/FrmGroupChat.ui \
+    #Widgets/FrmSendFile/DlgSendManage.ui \
+    #Widgets/FrmSendFile/FrmSendFile.ui \
+    #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.ui \
+    #Widgets/FrmVideo/FrmVideo.ui 
 
 RESOURCES += \
     Resource/Resource.qrc
