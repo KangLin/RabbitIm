@@ -100,7 +100,7 @@ private:
 
 private:
     Ui::MainWindow *ui;
-    CFrmLogin *m_pLogin;
+    QSharedPointer<CFrmLogin> m_Login;
     CFrmMain *m_pTableMain;
     bool m_bLogin;
 

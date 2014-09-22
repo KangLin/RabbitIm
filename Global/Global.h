@@ -5,6 +5,7 @@
 #include <QColor>
 #include "Client/Client.h"
 #include "GlobalUser.h"
+#include "Manager/Manager.h"
 
 class CRoster;
 class MainWindow;
@@ -31,9 +32,10 @@ public:
     MainWindow* GetMainWindow();
     int SetMainWindow(MainWindow* pWnd);
     QSharedPointer<CClient> GetClient();
+    QSharedPointer<CGlobalUser> GetGlobalUser();
 private:
     MainWindow* m_pMainWindow;
-    QSharedPointer<CClient> m_Client;
+    QSharedPointer<CManager> m_Mangaer;
 
 public:
     //应用程序目录  
@@ -52,11 +54,6 @@ public:
     QString GetFileUserAvatar(QString bareJid);
     //得到用户的配置目录  
     QString GetUserConfigureFile(QString jid);
-
-public:
-    QSharedPointer<CGlobalUser> GetGlobalUser();
-private:
-    QSharedPointer<CGlobalUser> m_GlobalUser;
 
 public:
     CUserInfo::USER_INFO_STATUS GetStatus();//得到本地用户状态  

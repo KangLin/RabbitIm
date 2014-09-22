@@ -13,7 +13,6 @@ class CGlobalUser : public QObject
     Q_OBJECT
 public:
     explicit CGlobalUser(QObject *parent = 0);
-
     virtual ~CGlobalUser();
 
     /**
@@ -75,6 +74,8 @@ public:
      */
     virtual int RemoveUserInfoRoster(const QString &szId);
 
+    int SetClient(QSharedPointer<CClient> client);
+
 private:
     /**
      * @brief 从存储中加载信息  
@@ -124,8 +125,9 @@ protected:
 
 protected:
     bool m_bModify; //标志内容是否修改  
-    QSharedPointer<CClient> m_Client; 
 
+private:
+    QSharedPointer<CClient> m_Client;
 signals:
 
 public slots:

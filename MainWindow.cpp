@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_TrayIconMenu(this),
     m_ActionGroupStatus(this),
     m_ActionGroupTranslator(this),
+    m_Login(new CFrmLogin(this)),
     ui(new Ui::MainWindow)
 {
     CGlobal::Instance()->SetMainWindow(this);
@@ -41,10 +42,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ReInitMenuOperator();
 
     //初始化子窗体
-    m_pLogin = new CFrmLogin(this);
-    this->setCentralWidget(m_pLogin);
+    if(!m_Login.isNull())
+        this->setCentralWidget(m_Login.data());
 
-    QSharedPointer<CClient> client = XMPP_CLIENT;
+    QSharedPointer<CClient> client = GET_CLIENT;
     if(!client.isNull())
     {
         check = connect(client.data(), SIGNAL(sigClientDisconnected()),
@@ -95,9 +96,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    if(m_pLogin)
-        delete m_pLogin;
-
     //TODO:可能会引起程序core  
     //emit sigRemoveMenu(ui->menuOperator_O);
 
@@ -165,12 +163,11 @@ void MainWindow::changeEvent(QEvent *e)
 void MainWindow::slotClientConnected()
 {
     //关闭登录对话框  
-    if(m_pLogin)
+    if(!m_Login.isNull())
     {
-        m_pLogin->SaveConf();
-        m_pLogin->close();
-        delete m_pLogin;
-        m_pLogin = NULL;
+        m_Login->SaveConf();
+        m_Login->close();
+        m_Login.clear();
     }
 
     int nRet = GLOBAL_USER->Init(USER_INFO_LOCALE->GetId());

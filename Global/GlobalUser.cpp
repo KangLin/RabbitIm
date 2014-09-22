@@ -21,12 +21,12 @@ int CGlobalUser::Init(QString szId)
     //从配置文件中加载数据  
     LoadFromFile(szId);
 
-    emit m_Client->sigLoadRosterFromStorage();
+    emit GET_CLIENT->sigLoadRosterFromStorage();
 
     if(m_UserInforLocale.isNull())
     {
         //调用客户端操作，得到本地用户信息  
-        m_Client->RequestUserInfoLocale();
+        GET_CLIENT->RequestUserInfoLocale();
     }
 
     return nRet;
@@ -273,4 +273,10 @@ QSharedPointer<CUserInfo> CGlobalUser::NewUserInfo()
 {
     QSharedPointer<CUserInfo> user(new CUserInfo);
     return user;
+}
+
+int CGlobalUser::SetClient(QSharedPointer<CClient> client)
+{
+    m_Client = client;
+    return 0;
 }

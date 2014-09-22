@@ -15,7 +15,7 @@
 
 CClientXmpp::CClientXmpp(QObject *parent)
     : CClient(parent),
-    m_User(NULL)
+      m_User(NULL)
 {
     //初始化qxmpp log
     m_Client.logger()->setLoggingType(QXmppLogger::StdoutLogging);
@@ -201,6 +201,12 @@ int CClientXmpp::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)
     vCard.setPhoto(byteArray);
     m_Client.vCardManager().setClientVCard(vCard);
     RequestUserInfoLocale();
+    return 0;
+}
+
+int CClientXmpp::SetUser(QSharedPointer<CGlobalUserQXmpp> user)
+{
+    m_User = user;
     return 0;
 }
 

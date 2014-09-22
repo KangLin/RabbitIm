@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     Widgets/FrmOptions/FrmOptions.cpp \
     Widgets/FrmUservCard/FrmUservCard.cpp \
     Widgets/FrmCustom/Label.cpp \ 
-    Widgets/FrmMain/FrmMain.cpp 
+    Widgets/FrmMain/FrmMain.cpp \ 
+    Manager/Manager.cpp \
+    Manager/ManagerXmpp.cpp
     #Widgets/FrmCustom/MenuMessageSend.cpp 
     #Widgets/FrmMessage/FrmMessage.cpp \
     #Widgets/FrmMessage/Message.cpp \
@@ -63,7 +65,9 @@ HEADERS  += MainWindow.h \
     Widgets/FrmLogin/FrmLoginSettings.h \
     Widgets/FrmOptions/FrmOptions.h \
     Widgets/FrmUservCard/FrmUservCard.h \ 
-    Widgets/FrmCustom/Label.h 
+    Widgets/FrmCustom/Label.h \ 
+    Manager/Manager.h \
+    Manager/ManagerXmpp.h
     #Widgets/FrmUserList/Roster.h \
     #Widgets/FrmSendFile/DlgSendManage.h \
     #Widgets/FrmSendFile/FrmSendFile.h \

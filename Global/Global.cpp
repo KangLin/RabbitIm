@@ -13,13 +13,13 @@
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppRtpChannel.h"
 #include "GlobalUserQXmpp.h"
-#include "../Client/ClientXmpp.h"
+#include "Manager/ManagerXmpp.h"
 #endif
 
 CGlobal::CGlobal(QObject *parent) :
     QObject(parent),
     #ifdef QXMPP
-    m_Client(new CClientXmpp)
+    m_Mangaer((CManager*)new CManagerXmpp)
     #endif
 {
     m_pMainWindow = NULL;
@@ -121,21 +121,12 @@ int CGlobal::SetMainWindow(MainWindow *pWnd)
 
 QSharedPointer<CClient> CGlobal::GetClient()
 {
-    return m_Client;
+    return m_Mangaer->GetClient();
 }
 
 QSharedPointer<CGlobalUser> CGlobal::GetGlobalUser()
 {
-    if(m_GlobalUser.isNull())
-    {
-#ifdef QXMPP
-        QSharedPointer<CGlobalUser> d(new CGlobalUserQXmpp);
-#else
-        QSharedPointer<CGlobalUser> d(new CGlobalUser);
-#endif
-        m_GlobalUser = d;
-    }
-    return m_GlobalUser;
+    return m_Mangaer->GetGlobalUser();
 }
 
 CUserInfo::USER_INFO_STATUS CGlobal::GetStatus()

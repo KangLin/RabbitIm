@@ -78,7 +78,16 @@ public:
      */
     virtual int SendMessage(const QString& szId, const QString &szMsg);
 
+    /**
+     * @brief 设置登录用户信息  
+     *
+     * @param userInfo
+     * @return int
+     */
     virtual int setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo);
+
+    int SetUser(QSharedPointer<CGlobalUserQXmpp> user);
+
 private:
     QXmppPresence::AvailableStatusType StatusToPresence(CUserInfo::USER_INFO_STATUS status);
     CUserInfo::USER_INFO_STATUS StatusFromPresence(QXmppPresence::AvailableStatusType status);
