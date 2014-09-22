@@ -38,6 +38,12 @@ QString CUserInfoXmpp::GetName()
     return m_szName;
 }
 
+int CUserInfoXmpp::SetName(const QString &szName)
+{
+    m_szName = szName;
+    return 0;
+}
+
 QString CUserInfoXmpp::GetJid()
 {
     return m_szJid;

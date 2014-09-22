@@ -17,6 +17,7 @@ public:
     virtual int SetId(QString szId);
 
     virtual QString GetName();
+    int SetName(const QString &szName);
     virtual QString GetJid();
     virtual QString GetDomain();
     virtual QString GetResource();

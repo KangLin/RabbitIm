@@ -409,7 +409,7 @@ int MainWindow::LoadTranslate(QString szLocale)
         qApp->removeTranslator(m_TranslatorQt.data());
         m_TranslatorQt.clear();
     }
-    
+
     if(m_TranslatorApp.isNull())
     {
         qApp->removeTranslator(m_TranslatorApp.data());
