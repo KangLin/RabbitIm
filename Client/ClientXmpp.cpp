@@ -282,7 +282,9 @@ void CClientXmpp::slotClientConnected()
         return;
     }
 
-    if(USER_INFO_LOCALE.isNull())
+    //因为openfire当用户信息改变时，不会广播改变通知，所以当程序启动时要查询所有信息。这里会影响性能  
+    //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
+    //if(USER_INFO_LOCALE.isNull())
     {
         //调用客户端操作，得到本地用户信息  
         GET_CLIENT->RequestUserInfoLocale();
@@ -359,17 +361,18 @@ void CClientXmpp::slotRosterReceived()
     foreach(QString jid, rosters)
     {
         QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(jid);
-        if(!r.isNull())
+        if(r.isNull())
         {
-            continue;
+            LOG_MODEL_DEBUG("CClientXmpp", "slotRosterReceived:roster[%s] is not exist", jid.toStdString().c_str());
+            r = m_User->AddUserInfoRoster(jid);
+            QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(jid);
+            m_User->UpdateUserInfoRoster(item);
         }
-
-        LOG_MODEL_DEBUG("CClientXmpp", "slotRosterReceived:roster[%s] is not exist", jid.toStdString().c_str());
-        r = m_User->AddUserInfoRoster(jid);
-        QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(jid);
-        m_User->UpdateUserInfoRoster(item);
+        //因为openfire当用户信息改变时，不会广播改变通知，所以当程序启动时要查询所有信息。这里会影响性能  
+        //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
         RequestUserInfoRoster(jid);
     }
+    
 }
 
 //得到本地用户形象信息  
