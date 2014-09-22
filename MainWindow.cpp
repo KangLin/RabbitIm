@@ -27,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_pTranslatorApp = NULL;
     m_pTranslatorQt = NULL;
-    m_pTableMain = NULL;
     m_bLogin = false;
 
     ui->setupUi(this);
@@ -99,9 +98,6 @@ MainWindow::~MainWindow()
     //TODO:可能会引起程序core  
     //emit sigRemoveMenu(ui->menuOperator_O);
 
-    if(m_pTableMain)
-        delete m_pTableMain;
-
     delete ui;
 
     if(m_pTranslatorApp)
@@ -116,8 +112,8 @@ void MainWindow::resizeEvent(QResizeEvent * e)
                     e->size().width(),
                     geometry().size().width());
 
-    if(m_pTableMain)
-        m_pTableMain->resize(this->geometry().size());
+    if(!m_TableMain.isNull())
+        m_TableMain->resize(this->geometry().size());
 }
 
 void MainWindow::showEvent(QShowEvent *)
@@ -133,20 +129,50 @@ void MainWindow::closeEvent(QCloseEvent *e)
         return;
     }
 
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent");
-    QMessageBox msg(QMessageBox::Question,
-                    tr("Close"),
-                    tr("Is close the programe?"),
-                    QMessageBox::Ok | QMessageBox::Cancel);
-    if(QMessageBox::Ok == msg.exec())
+    int type = CGlobal::Instance()->GetCloseType();
+    switch (type) {
+    case 0:
     {
+        QMessageBox msg(QMessageBox::Question,
+                        tr("Close"),
+                        tr("Is close the programe or logout?"),
+                        QMessageBox::Ok | QMessageBox::Yes | QMessageBox::Cancel);
+        msg.setButtonText(QMessageBox::Ok , tr("close"));
+        msg.setButtonText(QMessageBox::Yes, tr("logout"));
+        msg.setDefaultButton(QMessageBox::Ok);
+        int nRet = msg.exec();
+        if(QMessageBox::Ok == nRet)
+        {
+            CGlobal::Instance()->SetCloseType(CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME);
+            //退出程序  
+            GET_CLIENT->Logout();
+            e->accept();
+            QApplication::closeAllWindows();
+        }
+        else if(QMessageBox::Yes == nRet)
+        {
+            CGlobal::Instance()->SetCloseType(CGlobal::E_CLOSE_TYPE_LOGOUT);
+            e->ignore();
+            slotLogout();
+        }
+        else
+            e->ignore(); //忽略退出事件 
+    }
+        break;
+    case 1:
         //退出程序  
         GET_CLIENT->Logout();
         e->accept();
         QApplication::closeAllWindows();
-    }
-    else
+        break;
+    case 2:
+        slotLogout();
+        e->ignore();
+        break;
+    default:
         e->ignore(); //忽略退出事件 
+        break;
+    }
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -174,25 +200,37 @@ void MainWindow::slotClientConnected()
     //if(!USER_INFO_LOCALE.isNull())
     //    USER_INFO_LOCALE->SetStatus(XMPP_CLIENT->clientPresence().availableStatusType());
 
-    if(NULL == m_pTableMain)
-        m_pTableMain = new CFrmMain(this);
-    if(m_pTableMain)
+    if(m_TableMain.isNull())
+    {
+        QSharedPointer<CFrmMain> main(new CFrmMain);
+        m_TableMain = main;
+    }
+    if(!m_TableMain.isNull())
      {
-        this->setCentralWidget(m_pTableMain);
+        this->setCentralWidget(m_TableMain.data());
     }
     else
         LOG_MODEL_ERROR("MainWindow", "new CWdgTableMain fail");
 
-    InitLoginedMenu();
-
     m_bLogin = true;
+    ReInitMenuOperator();
 }
 
 void MainWindow::slotClientDisconnected()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow:: DISCONNECTED");
     m_bLogin = false;
-     GLOBAL_USER->Clean();
+    if(m_Login.isNull())
+    {
+        QSharedPointer<CFrmLogin> f(new CFrmLogin(this));
+        m_Login = f;
+    }
+    if(!m_Login.isNull())
+        this->setCentralWidget(m_Login.data());
+
+    m_TableMain.clear();
+
+    ReInitMenuOperator();
 }
 
 void MainWindow::slotUpdateLocaleUserInfo()
@@ -252,6 +290,10 @@ int MainWindow::InitOperatorMenu()
                 this, SLOT(on_actionChange_Style_Sheet_S_triggered()));
     ui->menuOperator_O->addMenu(&m_MenuTranslate);
     ui->menuOperator_O->addSeparator();
+    if(m_bLogin)
+        ui->menuOperator_O->addAction(QIcon(":/icon/Logout"), 
+                                      tr("Logout"),
+                                      this, SLOT(slotLogout()));
     ui->menuOperator_O->addAction(QIcon(":/icon/Close"), 
                                   tr("Close(&E)"),
                                   this, SLOT(close()));
@@ -537,6 +579,11 @@ void MainWindow::slotEditInformation()
             new CFrmUservCard(USER_INFO_LOCALE, true);
     pvCard->show();
     pvCard->activateWindow();
+}
+
+void MainWindow::slotLogout()
+{
+    GET_CLIENT->Logout();
 }
 
 void MainWindow::onReceiveFile(QXmppTransferJob *job)

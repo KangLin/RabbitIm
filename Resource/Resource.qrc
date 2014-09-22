@@ -7,7 +7,7 @@
     </qresource>
     <qresource prefix="/icon">
         <file alias="AppIcon">png/AppIcon.png</file>
-        <file>png/cancel.png</file>
+        <file alias="Cancel">png/cancel.png</file>
         <file>png/complete.png</file>
         <file>png/pen.png</file>
         <file>png/saveas.png</file>
@@ -44,6 +44,7 @@
         <file alias="AddAccount">png/add_account.png</file>
         <file alias="FindRoster">png/find_user.png</file>
         <file alias="Login">png/login.png</file>
+        <file alias="Logout">png/logout.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

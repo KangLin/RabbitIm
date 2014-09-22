@@ -74,9 +74,10 @@ protected slots:
 
     void on_actionChange_Style_Sheet_S_triggered();//改变样式菜单触发  
 
-    //编辑本地用户详细信息  
+    //编辑登录用户详细信息  
     void slotEditInformation();
-
+    //登录用户登出  
+    void slotLogout();
     void onReceiveFile(QXmppTransferJob* job);//文件接收通知  
 
 protected:
@@ -101,7 +102,7 @@ private:
 private:
     Ui::MainWindow *ui;
     QSharedPointer<CFrmLogin> m_Login;
-    CFrmMain *m_pTableMain;
+    QSharedPointer<CFrmMain> m_TableMain;
     bool m_bLogin;
 
     QMenu m_TrayIconMenu;

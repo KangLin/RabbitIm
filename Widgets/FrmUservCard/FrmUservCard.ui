@@ -280,7 +280,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../Resource/Resource.qrc">
-         <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
+         <normaloff>:/icon/Cancel</normaloff>:/icon/Cancel</iconset>
        </property>
       </widget>
      </item>

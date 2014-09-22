@@ -48,7 +48,7 @@ void CFrmOptions::showEvent(QShowEvent *)
     ui->txtFlashInterval->setText(QString::number(CGlobal::Instance()->GetNotifiationFlashInterval()));
     ui->txtShowMessageDelay->setText(QString::number(CGlobal::Instance()->GetNotifiationBarShowMessageDelay()));
     ui->cbMessageSound->setChecked(CGlobal::Instance()->GetMessageSound());
-    
+
     CGlobal::E_ROSTER_SHOW_TYPE type = CGlobal::Instance()->GetRosterShowType();
     switch (type) {
     case CGlobal::E_ROSTER_SHOW_JID:
@@ -63,6 +63,20 @@ void CFrmOptions::showEvent(QShowEvent *)
         break;
     }
     
+    CGlobal::E_CLOSE_TYPE closeType = CGlobal::Instance()->GetCloseType();
+    switch(closeType)
+    {
+    case CGlobal::E_CLOSE_TYPE_NO:
+        ui->tBtnPrompt->setChecked(true);
+        break;
+    case CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME:
+        ui->rBtnClosePrograme->setChecked(true);
+        break;
+    case CGlobal::E_CLOSE_TYPE_LOGOUT:
+        ui->rBtnLogout->setChecked(true);
+        break;
+    }
+
     CGlobal::E_MESSAGE_SEND_TYPE messageType = CGlobal::Instance()->GetMessageSendType();
     switch(messageType){
     case CGlobal::E_MESSAGE_SEND_TYPE_ENTER:
@@ -141,6 +155,15 @@ void CFrmOptions::on_pbOK_clicked()
         type = CGlobal::E_ROSTER_SHOW_NICK;
     CGlobal::Instance()->SetRosterShowType(type);
     
+    CGlobal::E_CLOSE_TYPE closeType = CGlobal::Instance()->GetCloseType();
+    if(ui->rBtnClosePrograme->isChecked())
+        closeType = CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME;
+    else if(ui->rBtnLogout->isChecked())
+        closeType = CGlobal::E_CLOSE_TYPE_LOGOUT;
+    else if(ui->tBtnPrompt->isChecked())
+        closeType = CGlobal::E_CLOSE_TYPE_NO;
+    CGlobal::Instance()->SetCloseType(closeType);
+
     CGlobal::E_MESSAGE_SEND_TYPE messageType = CGlobal::Instance()->GetMessageSendType();
     if(ui->rbtnENTER->isChecked())
         messageType = CGlobal::E_MESSAGE_SEND_TYPE_ENTER;

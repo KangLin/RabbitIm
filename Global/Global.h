@@ -7,7 +7,6 @@
 #include "GlobalUser.h"
 #include "Manager/Manager.h"
 
-class CRoster;
 class MainWindow;
 class CGlobal : public QObject
 {
@@ -93,6 +92,18 @@ private:
     QColor m_UnreadMessageCountColor;//未读消息记数颜色  
     QColor GetColorFormConf(const QString &Key, const QColor &def);
     int SetColorToConf(const QString &Key, const QColor &color);
+
+public:
+    enum E_CLOSE_TYPE
+    {
+        E_CLOSE_TYPE_NO,
+        E_CLOSE_TYPE_CLOSE_PROGRAME,
+        E_CLOSE_TYPE_LOGOUT
+    };
+    E_CLOSE_TYPE GetCloseType();
+    int SetCloseType(E_CLOSE_TYPE type);
+private:
+    E_CLOSE_TYPE m_CloseType;
 
 public:
     enum E_MESSAGE_SEND_TYPE

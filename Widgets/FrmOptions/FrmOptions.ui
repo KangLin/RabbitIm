@@ -21,7 +21,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTabWidget" name="tabWidget">
+    <widget class="QTabWidget" name="Message">
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -29,7 +29,7 @@
       <attribute name="title">
        <string>Nomarl</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_8">
+      <layout class="QGridLayout" name="gridLayout_9">
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_10">
          <item>
@@ -85,34 +85,15 @@
         </layout>
        </item>
        <item row="1" column="0">
-        <widget class="QCheckBox" name="cbMessageSound">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Receiving a message alert tone</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QGroupBox" name="gBSendMessage">
+        <widget class="QGroupBox" name="groupBox_6">
          <property name="title">
-          <string>Send Message</string>
+          <string>Close Operator</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_5">
+         <layout class="QGridLayout" name="gridLayout_8">
           <item row="0" column="0">
-           <widget class="QRadioButton" name="rBtnCTRLENTER">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+           <widget class="QRadioButton" name="rBtnClosePrograme">
             <property name="text">
-             <string>CTRL+ENTER</string>
+             <string>Close Programe</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -120,25 +101,23 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QRadioButton" name="rbtnENTER">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+           <widget class="QRadioButton" name="rBtnLogout">
             <property name="text">
-             <string>ENTER</string>
+             <string>Logout</string>
             </property>
-            <property name="checked">
-             <bool>false</bool>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QRadioButton" name="tBtnPrompt">
+            <property name="text">
+             <string>Prompt</string>
             </property>
            </widget>
           </item>
          </layout>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="2" column="0">
         <widget class="QGroupBox" name="groupBox">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -156,36 +135,6 @@
           <string>Notification bar</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0">
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="QCheckBox" name="cbNotificationShowMessage">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Show message</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="cbNotificationFlash">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Flashes</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
           <item row="1" column="0">
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
@@ -281,10 +230,40 @@
             </item>
            </layout>
           </item>
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QCheckBox" name="cbNotificationShowMessage">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Show message</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="cbNotificationFlash">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Flashes</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="3" column="0">
         <widget class="QGroupBox" name="groupBox_5">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -332,6 +311,67 @@
             </property>
             <property name="text">
              <string>send</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>Message</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_10">
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="cbMessageSound">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Receiving a message alert tone</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QGroupBox" name="gBSendMessage">
+         <property name="title">
+          <string>Send Message</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="rBtnCTRLENTER">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>CTRL+ENTER</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QRadioButton" name="rbtnENTER">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>ENTER</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -675,7 +715,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../Resource/Resource.qrc">
-         <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
+         <normaloff>:/icon/Cancel</normaloff>:/icon/Cancel</iconset>
        </property>
       </widget>
      </item>
@@ -694,11 +734,9 @@
   <tabstop>pbUnreadMessageCountColor</tabstop>
   <tabstop>pbOK</tabstop>
   <tabstop>pbCancel</tabstop>
-  <tabstop>tabWidget</tabstop>
+  <tabstop>Message</tabstop>
   <tabstop>cbAutoLogin</tabstop>
   <tabstop>sbDelayTime</tabstop>
-  <tabstop>rBtnCTRLENTER</tabstop>
-  <tabstop>rbtnENTER</tabstop>
   <tabstop>cbNotificationShowMessage</tabstop>
   <tabstop>cbNotificationFlash</tabstop>
   <tabstop>txtFlashInterval</tabstop>

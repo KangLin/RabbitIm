@@ -51,7 +51,7 @@ int CClientXmpp::InitConnect()
     Q_ASSERT(check);
 
     check = connect(&m_Client, SIGNAL(disconnected()),
-                    this, SIGNAL(sigClientDisconnected()));
+                    SLOT(slotClientDisConnected()));
     Q_ASSERT(check);
 
     check = connect(&m_Client.rosterManager(), SIGNAL(rosterReceived()),
@@ -273,7 +273,9 @@ void CClientXmpp::slotClientConnected()
 {
     QString szId = m_Client.configuration().jidBare();
     
-    int nRet = GLOBAL_USER->Init(szId);
+    int nRet = 0;
+    GLOBAL_USER->Clean();
+    nRet = GLOBAL_USER->Init(szId);
     if(nRet)
     {
         LOG_MODEL_ERROR("MainWindow", "Init GlobalUser fail");
@@ -288,6 +290,12 @@ void CClientXmpp::slotClientConnected()
 
     emit sigClientConnected();
     emit sigLoadRosterFromStorage();
+}
+
+void CClientXmpp::slotClientDisConnected()
+{
+    GLOBAL_USER->Clean();
+    emit sigClientDisconnected();
 }
 
 void CClientXmpp::slotClientError(QXmppClient::Error e)

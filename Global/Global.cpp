@@ -31,6 +31,7 @@ CGlobal::CGlobal(QObject *parent) :
     m_RosterMessageColor = GetColorFormConf("Options/User/RosterMessageColor", QColor(0, 0, 0));
     m_UnreadMessageCountColor = GetColorFormConf("Options/User/UnreadMessageCountColor", QColor(255, 0, 0));
 
+    m_CloseType =  (E_CLOSE_TYPE)conf.value("Logout/type", E_CLOSE_TYPE_NO).toInt();
 #ifdef MOBILE
     m_MessageSendType = (E_MESSAGE_SEND_TYPE)conf.value("Options/Message/SendType", E_MESSAGE_SEND_TYPE_ENTER).toInt();
 #else
@@ -387,6 +388,19 @@ QColor CGlobal::GetRosterStatusColor(CUserInfo::USER_INFO_STATUS status)
         return QColor(255, 0, 255);
     else
         return QColor(255, 255, 255);
+}
+
+CGlobal::E_CLOSE_TYPE CGlobal::GetCloseType()
+{
+    return m_CloseType;
+}
+
+int CGlobal::SetCloseType(E_CLOSE_TYPE type)
+{
+    m_CloseType = type;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Logout/type", type);
+    return 0;
 }
 
 int CGlobal::SetMessageSendType(E_MESSAGE_SEND_TYPE type)
