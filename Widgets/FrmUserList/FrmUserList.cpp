@@ -69,8 +69,8 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotUpdateRosterUserInfo(QString)));
     Q_ASSERT(check);
 
-    check = connect(XMPP_CLIENT.data(), SIGNAL(sigRosterAddReceived(QString)),
-                    SLOT(slotRosterAddReceived(QString)));
+    check = connect(XMPP_CLIENT.data(), SIGNAL(sigRosterAddReceived(const QString&, const CClient::SUBSCRIBE_TYPE &)),
+                    SLOT(slotRosterAddReceived(const QString&, const CClient::SUBSCRIBE_TYPE &)));
     Q_ASSERT(check);
 
     check = connect(XMPP_CLIENT.data(), SIGNAL(sigRemoveRosterUserInfo(QString)),
@@ -245,7 +245,7 @@ void CFrmUserList::slotRemoveRoster()
 
 void CFrmUserList::slotAgreeAddRoster()
 {
-    GET_CLIENT->RosterAdd(GetCurrentRoster());
+    GET_CLIENT->RosterAdd(GetCurrentRoster(), CClient::SUBSCRIBE_ACCEPT);
 }
 
 void CFrmUserList::slotInformationRoster()
@@ -404,10 +404,10 @@ int CFrmUserList::ItemRemoveRoster(const QString &szId)
     return 0;
 }
 
-void CFrmUserList::slotRosterAddReceived(const QString &bareJid)
+void CFrmUserList::slotRosterAddReceived(const QString &szId, const CClient::SUBSCRIBE_TYPE &type)
 {
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(bareJid));
-    m_frmAddRoster.Init( GetGroupsName(), bareJid);
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(szId));
+    m_frmAddRoster.Init( GetGroupsName(), szId);
     m_frmAddRoster.show();
     m_frmAddRoster.activateWindow();
 }

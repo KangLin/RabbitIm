@@ -19,9 +19,12 @@ CFrmRegister::CFrmRegister(QWidget *parent) :
         return;
     }
 
-    bool check = connect(GET_CLIENT.data(), SIGNAL(connected()),
+    bool check = connect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
                          SLOT(connected()));
     Q_ASSERT(check);
+
+    check = connect(GET_CLIENT.data(), SIGNAL(sigClientError(CClient::ERROR_TYPE)),
+                    SLOT(clientError(CClient::ERROR_TYPE)));
 
     QDesktopWidget *pDesk = QApplication::desktop();    
     move((pDesk->width() - width()) / 2, (pDesk->height() - height()) / 2);
@@ -73,7 +76,7 @@ void CFrmRegister::clientIqReceived(const QXmppIq &iq)
     GET_CLIENT->Logout();
 }
 
-void CFrmRegister::clientError(QXmppClient::Error e)
+void CFrmRegister::clientError(CClient::ERROR_TYPE e)
 {
     Q_UNUSED(e);
     LOG_MODEL_DEBUG("Register", "CFrmRegister::clientError");

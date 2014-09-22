@@ -12,8 +12,6 @@ SOURCES += main.cpp\
     Widgets/FrmLogin/FrmLogin.cpp \
     Widgets/FrmUserList/FrmUserList.cpp \
     Widgets/FrmUserList/GroupItem.cpp \
-    Widgets/FrmMessage/FrmMessage.cpp \
-    Widgets/FrmMessage/Message.cpp \
     Widgets/FrmRegister/FrmRegister.cpp \
     Widgets/FrmAbout/FrmAbout.cpp \
     Widgets/FrmAddRoster/FrmAddRoster.cpp \
@@ -23,8 +21,10 @@ SOURCES += main.cpp\
     Widgets/FrmOptions/FrmOptions.cpp \
     Widgets/FrmUservCard/FrmUservCard.cpp \
     Widgets/FrmCustom/Label.cpp \ 
-    Widgets/FrmMain/FrmMain.cpp \
-    Widgets/FrmCustom/MenuMessageSend.cpp 
+    Widgets/FrmMain/FrmMain.cpp 
+    #Widgets/FrmCustom/MenuMessageSend.cpp 
+    #Widgets/FrmMessage/FrmMessage.cpp \
+    #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmSendFile/DlgSendManage.cpp \
     #Widgets/FrmSendFile/FrmSendFile.cpp \
     #Widgets/FrmVideo/DataVideoBuffer.cpp \
@@ -44,50 +44,49 @@ SOURCES += main.cpp\
 HEADERS  += MainWindow.h \
     Global/Global.h \
     Global/GlobalUser.h \
-    UserInfo/COperateRoster.h \
-    Tool.h \
-    Widgets/FrmSendFile/DlgSendManage.h \
-    Widgets/FrmSendFile/FrmSendFile.h \
-    Widgets/FrmLogin/FrmLogin.h \
-    Widgets/FrmUserList/FrmUserList.h \
-    Widgets/FrmUserList/Roster.h \
-    Widgets/FrmUserList/GroupItem.h \
-    Widgets/FrmMessage/FrmMessage.h \
-    Widgets/FrmMessage/Message.h \
-    Widgets/FrmRegister/FrmRegister.h \
-    Widgets/FrmAbout/FrmAbout.h \
-    Widgets/FrmVideo/FrmVideo.h \
-    Widgets/FrmVideo/CaptureVideoFrame.h \
-    Widgets/FrmVideo/FrmPlayer.h \    
-    Widgets/FrmVideo/DataVideoBuffer.h \
-    Widgets/FrmVideo/FrameProcess.h \
-    Widgets/FrmAddRoster/FrmAddRoster.h \
-    Widgets/FrmCustom/CustomTreeView.h \
-    Widgets/FrmVideo/RecordAudio.h \
-    Widgets/FrmAbout/Version.h \
-    Widgets/FrmVideo/CCamera.h \
-    Widgets/FrmLogin/FrmLoginSettings.h \
-    Widgets/FrmOptions/FrmOptions.h \
-    Widgets/FrmUservCard/FrmUservCard.h \ 
-    Widgets/FrmCustom/Label.h \ 
-    Widgets/FrmGroupChat/FrmGroupChatList.h \
-    Widgets/FrmGroupChat/FrmGroupChatFind.h \
-    Widgets/FrmGroupChat/Conference.h \
-    Widgets/FrmGroupChat/FrmGroupChat.h \
-    Widgets/FrmGroupChat/FrmCreateGroupChatRoom.h \
-    Widgets/FrmMain/FrmMain.h \
-    Widgets/FrmCustom/MenuMessageSend.h \
-    Widgets/DlgScreenShot/DlgScreenShot.h \
     UserInfo/UserInfo.h \
     Global/GlobalUserQXmpp.h \
     Client/Client.h \
     UserInfo/UserInfoXmpp.h \
-    Client/ClientXmpp.h
+    Client/ClientXmpp.h \
+    UserInfo/COperateRoster.h \
+    Widgets/FrmMain/FrmMain.h \
+    Tool.h \
+    Widgets/FrmLogin/FrmLogin.h \
+    Widgets/FrmUserList/FrmUserList.h \
+    Widgets/FrmRegister/FrmRegister.h \
+    Widgets/FrmAbout/FrmAbout.h \
+    Widgets/FrmAddRoster/FrmAddRoster.h \
+    Widgets/FrmCustom/CustomTreeView.h \
+    Widgets/FrmVideo/RecordAudio.h \
+    Widgets/FrmAbout/Version.h \
+    Widgets/FrmLogin/FrmLoginSettings.h \
+    Widgets/FrmOptions/FrmOptions.h \
+    Widgets/FrmUservCard/FrmUservCard.h \ 
+    Widgets/FrmCustom/Label.h 
+    #Widgets/FrmUserList/Roster.h \
+    #Widgets/FrmSendFile/DlgSendManage.h \
+    #Widgets/FrmSendFile/FrmSendFile.h \
+    #Widgets/FrmUserList/GroupItem.h \
+    #Widgets/FrmMessage/FrmMessage.h \
+    #Widgets/FrmMessage/Message.h \
+    #Widgets/FrmVideo/FrmVideo.h \
+    #Widgets/FrmVideo/CaptureVideoFrame.h \
+    #Widgets/FrmVideo/FrmPlayer.h \    
+    #Widgets/FrmVideo/DataVideoBuffer.h \
+    #Widgets/FrmVideo/FrameProcess.h \
+    #Widgets/FrmVideo/CCamera.h \
+    #Widgets/FrmGroupChat/FrmGroupChatList.h \
+    #Widgets/FrmGroupChat/FrmGroupChatFind.h \
+    #Widgets/FrmGroupChat/Conference.h \
+    #Widgets/FrmGroupChat/FrmGroupChat.h \
+    #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.h \
+    #Widgets/FrmCustom/MenuMessageSend.h \
+    #Widgets/DlgScreenShot/DlgScreenShot.h \
 
 FORMS    += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
     Widgets/FrmUserList/FrmUserList.ui \
-    Widgets/FrmMessage/FrmMessage.ui \
     Widgets/FrmRegister/FrmRegister.ui \
     Widgets/FrmAbout/FrmAbout.ui \
     Widgets/FrmMain/FrmMain.ui \
@@ -95,6 +94,7 @@ FORMS    += MainWindow.ui \
     Widgets/FrmLogin/FrmLoginSettings.ui \
     Widgets/FrmOptions/FrmOptions.ui \
     Widgets/FrmUservCard/FrmUservCard.ui
+    #Widgets/FrmMessage/FrmMessage.ui \
     #Widgets/FrmGroupChat/FrmGroupChatList.ui \
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
     #Widgets/FrmGroupChat/FrmGroupChat.ui \

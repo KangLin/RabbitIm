@@ -86,10 +86,10 @@ private:
     int InitConnect();
 
 private slots:
-    void slotRegisterConnected();
     void slotClientError(QXmppClient::Error e);
     void slotClientIqReceived(const QXmppIq &iq);
     void slotStateChanged(QXmppClient::State state);
+    void slotSubscriptionReceived(const QString& szId);
     void slotRosterReceived();
     void slotClientVCardReceived();
     //得到好友详细信息时触发  

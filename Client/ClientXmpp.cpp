@@ -6,6 +6,7 @@
 #include "qxmpp/QXmppClient.h"
 #include "qxmpp/QXmppVCardManager.h"
 #include "qxmpp/QXmppUtils.h"
+#include "qxmpp/QXmppRegisterIq.h"
 #include "UserInfo/UserInfoXmpp.h"
 #include "Global/GlobalUserQXmpp.h"
 #include "Global/Global.h"
@@ -45,8 +46,8 @@ int CClientXmpp::InitConnect()
                     SLOT(slotStateChanged(QXmppClient::State)));
     Q_ASSERT(check);
 
-    check = connect(&m_Client, SIGNAL(disconnected),
-                    SIGNAL(sigClientDisconnected()));
+    check = connect(&m_Client, SIGNAL(disconnected()),
+                    this, SIGNAL(sigClientDisconnected()));
     Q_ASSERT(check);
 
     check = connect(&m_Client.rosterManager(), SIGNAL(rosterReceived()),
@@ -66,7 +67,7 @@ int CClientXmpp::InitConnect()
     Q_ASSERT(check);
 
     check = connect(&m_Client.rosterManager(), SIGNAL(subscriptionReceived(const QString&)),
-                    SIGNAL(sigSubscriptionReceived(const QString&)));
+                    SLOT(slotSubscriptionReceived(const QString&)));
     Q_ASSERT(check);
 
     check = connect(&m_Client.rosterManager(), SIGNAL(itemAdded(QString)),
@@ -86,18 +87,13 @@ int CClientXmpp::InitConnect()
 
 int CClientXmpp::Register(const QString &szId, const QString &szName, const QString &szPassword, const QString &szEmail, const QString &szDescript)
 {
-    disconnect(&m_Client, SIGNAL(connected()), this, SLOT(slotRegisterConnected()));
-    bool check = connect(&m_Client, SIGNAL(connected()), this, SLOT(slotRegisterConnected()));
-    Q_ASSERT(check);
-
-    QXmppConfiguration config;
-    //TODO:设置为非sasl验证和服务器IP
-    config.setUseSASLAuthentication(false);
-    config.setUseNonSASLAuthentication(false);
-
-    config.setHost(CGlobal::Instance()->GetXmppServer());
-    config.setDomain(CGlobal::Instance()->GetXmppDomain());
-    m_Client.connectToServer(config);
+    QXmppRegisterIq registerIq;
+    registerIq.setType(QXmppIq::Set);
+    registerIq.setUsername(szName);
+    registerIq.setPassword(szPassword);
+    registerIq.setEmail(szEmail);
+    registerIq.setInstructions(szDescript);
+    m_Client.sendPacket(registerIq);
     return 0;
 }
 
@@ -311,6 +307,11 @@ void CClientXmpp::slotStateChanged(QXmppClient::State state)
             this->setCentralWidget(m_pLogin);
         }
     }*/
+}
+
+void CClientXmpp::slotSubscriptionReceived(const QString &szId)
+{
+    emit sigRosterAddReceived(szId, SUBSCRIBE_REQUEST);
 }
 
 void CClientXmpp::slotRosterReceived()

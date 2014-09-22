@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
         //0712文件发送管理窗口
         //TODO:有内存泄漏
-        m_pSendManageDlg = new CDlgSendManage(0);
+        //m_pSendManageDlg = new CDlgSendManage(0);
         //0712处理文件接收信号
         //connect(&(pClient->m_TransferManager),SIGNAL(fileReceived(QXmppTransferJob*)),this,SLOT(onReceiveFile(QXmppTransferJob*)));
 

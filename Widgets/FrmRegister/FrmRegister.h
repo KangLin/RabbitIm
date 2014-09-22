@@ -24,7 +24,7 @@ protected:
 
 private slots:
     void connected();
-    void clientError(QXmppClient::Error e);
+    void clientError(CClient::ERROR_TYPE e);
     void clientIqReceived(const QXmppIq &iq);
     void on_pbCreate_clicked();
     void on_pbCancel_clicked();

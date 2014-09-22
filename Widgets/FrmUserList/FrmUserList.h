@@ -10,6 +10,7 @@
 #include "../FrmAddRoster/FrmAddRoster.h"
 #include "../FrmCustom/CustomTreeView.h"
 #include <UserInfo/COperateRoster.h>
+#include "Client/Client.h"
 
 class CRoster;
 
@@ -106,7 +107,7 @@ private slots:
     //当有好友请求订阅时触发，在这个函数中调用acceptSubscription()接受请求，  
     //请用refuseSubscription()拒绝请求  
     //如果设置QXmppConfiguration::autoAcceptSubscriptions(),则QXmpp直接接受请求,不触发本信号  
-    void slotRosterAddReceived(const QString& bareJid);
+    void slotRosterAddReceived(const QString& szId, const CClient::SUBSCRIBE_TYPE & type);
 
     //树形列表控件点击事件 
     void clicked(const QModelIndex & index);
