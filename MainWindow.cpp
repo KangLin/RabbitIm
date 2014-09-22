@@ -170,13 +170,6 @@ void MainWindow::slotClientConnected()
         m_Login.clear();
     }
 
-    int nRet = GLOBAL_USER->Init(USER_INFO_LOCALE->GetId());
-    if(nRet)
-    {
-        LOG_MODEL_ERROR("MainWindow", "Init GlobalUser fail");
-        return;
-    }
-
     //TODO:
     //if(!USER_INFO_LOCALE.isNull())
     //    USER_INFO_LOCALE->SetStatus(XMPP_CLIENT->clientPresence().availableStatusType());
@@ -186,7 +179,6 @@ void MainWindow::slotClientConnected()
     if(m_pTableMain)
      {
         this->setCentralWidget(m_pTableMain);
-        m_pTableMain->Init();
     }
     else
         LOG_MODEL_ERROR("MainWindow", "new CWdgTableMain fail");

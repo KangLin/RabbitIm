@@ -22,8 +22,6 @@ private:
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent*);
 
-    int Init();
-
 private:
     Ui::CFrmMain *ui;
     

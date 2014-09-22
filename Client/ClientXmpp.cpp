@@ -46,6 +46,10 @@ int CClientXmpp::InitConnect()
                     SLOT(slotStateChanged(QXmppClient::State)));
     Q_ASSERT(check);
 
+    check = connect(&m_Client, SIGNAL(connected()),
+                    SLOT(slotClientConnected()));
+    Q_ASSERT(check);
+
     check = connect(&m_Client, SIGNAL(disconnected()),
                     this, SIGNAL(sigClientDisconnected()));
     Q_ASSERT(check);
@@ -265,6 +269,28 @@ CUserInfo::USER_INFO_STATUS CClientXmpp::StatusFromPresence(QXmppPresence::Avail
     return s;
 }
 
+void CClientXmpp::slotClientConnected()
+{
+    QString szId;
+    if(USER_INFO_LOCALE.isNull())
+    {
+        //调用客户端操作，得到本地用户信息  
+        GET_CLIENT->RequestUserInfoLocale();
+        szId = m_Client.configuration().jidBare();
+    }
+    else
+        szId = USER_INFO_LOCALE->GetId();
+    
+    int nRet = GLOBAL_USER->Init(szId);
+    if(nRet)
+    {
+        LOG_MODEL_ERROR("MainWindow", "Init GlobalUser fail");
+        return;
+    }
+    emit sigClientConnected();
+    emit sigLoadRosterFromStorage();
+}
+
 void CClientXmpp::slotClientError(QXmppClient::Error e)
 {
     LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp:: Error:%d", e);
@@ -331,7 +357,7 @@ void CClientXmpp::slotRosterReceived()
             continue;
         }
 
-        LOG_MODEL_DEBUG("CClientXmpp", "roster[%s] is not exist", jid.toStdString().c_str());
+        LOG_MODEL_DEBUG("CClientXmpp", "slotRosterReceived:roster[%s] is not exist", jid.toStdString().c_str());
         r = m_User->AddUserInfoRoster(jid);
         QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(jid);
         m_User->UpdateUserInfoRoster(item);

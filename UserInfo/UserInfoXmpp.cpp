@@ -43,7 +43,7 @@ QString CUserInfoXmpp::GetJid()
     return m_szJid;
 }
 
-QString CUserInfoXmpp::ID()
+QString CUserInfoXmpp::GetId()
 {
     return QXmppUtils::jidToBareJid(GetJid());
 }
@@ -85,7 +85,7 @@ int CUserInfoXmpp::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
     buffer.close();
 
     //保存头像到本地  
-    QImageWriter imageWriter(CGlobal::Instance()->GetFileUserAvatar(ID()), "png");
+    QImageWriter imageWriter(CGlobal::Instance()->GetFileUserAvatar(GetId()), "png");
     if(!imageWriter.write(GetPhoto()))
         LOG_MODEL_ERROR("CUserInfo", "Save avater error, %s", imageWriter.errorString().toStdString().c_str());
 

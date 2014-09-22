@@ -171,7 +171,7 @@ signals:
      *
      * @param szId：请求者ID  
      */
-    void sigRosterAddReceived(const QString& szId, const SUBSCRIBE_TYPE &type);
+    void sigRosterAddReceived(const QString& szId, const CClient::SUBSCRIBE_TYPE &type);
     /**
      * @brief 删除好友请求时触发  
      *

@@ -95,6 +95,7 @@ private:
     int InitConnect();
 
 private slots:
+    void slotClientConnected();
     void slotClientError(QXmppClient::Error e);
     void slotClientIqReceived(const QXmppIq &iq);
     void slotStateChanged(QXmppClient::State state);

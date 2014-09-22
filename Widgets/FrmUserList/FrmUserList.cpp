@@ -57,8 +57,8 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotDeleteFromMainMenu(QMenu*)));
     Q_ASSERT(check);
 
-    check = connect(GET_CLIENT.data(), SIGNAL(sigChangedStatus(const QXmppPresence)),
-                    SLOT(SlotChangedStatus(QXmppPresence)));
+    check = connect(GET_CLIENT.data(), SIGNAL(sigChangedStatus(const QString&)),
+                    SLOT(SlotChangedStatus(const QString&)));
     Q_ASSERT(check);
 
     check = connect(GET_CLIENT.data(), SIGNAL(sigLoadRosterFromStorage()),
@@ -66,7 +66,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     Q_ASSERT(check);
 
     check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUserInfo>)),
-                    SLOT(slotUpdateRosterUserInfo(QString)));
+                    SLOT(slotUpdateRosterUserInfo(QString,QSharedPointer<CUserInfo>)));
     Q_ASSERT(check);
 
     check = connect(GET_CLIENT.data(), SIGNAL(sigRosterAddReceived(const QString&, const CClient::SUBSCRIBE_TYPE &)),

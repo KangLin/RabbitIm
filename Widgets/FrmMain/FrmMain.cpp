@@ -20,13 +20,6 @@ CFrmMain::~CFrmMain()
     delete ui;
 }
 
-int CFrmMain::Init()
-{
-    int nRet = 0;
-  
-    return 0;
-}
-
 void CFrmMain::resizeEvent(QResizeEvent *e)
 {
     LOG_MODEL_DEBUG("CWdgTableMain", "CWdgTableMain::resizeEvent:e.size:%d;genmetry.size:%d",

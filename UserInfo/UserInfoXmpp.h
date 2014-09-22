@@ -13,7 +13,7 @@ public:
     explicit CUserInfoXmpp(QObject *parent = 0);
 
     virtual QString GetShowName();
-    virtual QString ID();//就是 bareJid  
+    virtual QString GetId();//就是 bareJid  
     virtual int SetId(QString szId);
 
     virtual QString GetName();
