@@ -212,13 +212,15 @@ QSharedPointer<CUserInfo> CGlobalUser::GetUserInfoLocale()
 
 QSharedPointer<CUserInfo> CGlobalUser::GetUserInfoRoster(const QString &szId)
 {
-    QSharedPointer<CUserInfo> roster;
     QMap<QString, QSharedPointer<CUserInfo> >::iterator it;
     it = m_UserInfoRoster.find(szId);
     if(m_UserInfoRoster.end() == it)
-        return roster;
-    else
+    {
         LOG_MODEL_WARNING("GlobalUser", "Don't find roster:%s", szId.toStdString().c_str());
+        QSharedPointer<CUserInfo> roster;
+        return roster;
+    }
+
     return it.value();
 }
 

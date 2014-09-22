@@ -349,14 +349,24 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
                                                 -1,
                                                 Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     if(lstIndexs.isEmpty())
-        return ItemInsertRoster(szId);
+    {
+        int nRet = 0;
+        nRet = ItemInsertRoster(szId);
+        if(nRet)
+            return nRet;
+        lstIndexs = m_pModel->match(m_pModel->index(0, 0),
+                                                       USERLIST_ITEM_ROLE_JID, 
+                                                       roster->GetId(), 
+                                                       -1,
+                                                       Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+    }
 
     QModelIndex index;
     foreach(index, lstIndexs)
     {
         LOG_MODEL_DEBUG("FrmUserList", "index:row:%d;column:%d", index.row(), index.column());
         QStandardItem* pItem = m_pModel->itemFromIndex(index);
-        QStandardItem* pItemUnReadMessageCount = pItem->parent()->child(index.row(), index.column() + 1);
+        if(!pItem) continue;
         if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ROSTER)
         {
             //pItem->setEditable(true);//允许双击编辑  
@@ -373,6 +383,9 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
             //改变item图标  
             pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetStatus())), Qt::DecorationRole);
         }
+
+        if(NULL == pItem || NULL == pItem->parent()) continue;
+        QStandardItem* pItemUnReadMessageCount = pItem->parent()->child(index.row(), index.column() + 1);
         if(pItemUnReadMessageCount->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
         {
             if(roster->GetUnReadMessageCount() == 0)

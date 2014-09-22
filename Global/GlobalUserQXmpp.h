@@ -33,6 +33,10 @@ private:
     virtual QString GetRosterFile(const QString &szLocaleJid);
     //新建立一个空的本地对象  
     virtual QSharedPointer<CUserInfo> NewUserInfo();
+    virtual int LoadLocaleFromFile(const QString &szId);
+    virtual int SaveLocaleToFile();
+    virtual int LoadRosterFromFile(QString szId);
+    virtual int SaveRosterToFile();
 };
 
 #endif // GLOBALUSERQXMPP_H

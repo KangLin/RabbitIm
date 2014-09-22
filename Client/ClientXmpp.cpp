@@ -271,15 +271,7 @@ CUserInfo::USER_INFO_STATUS CClientXmpp::StatusFromPresence(QXmppPresence::Avail
 
 void CClientXmpp::slotClientConnected()
 {
-    QString szId;
-    if(USER_INFO_LOCALE.isNull())
-    {
-        //调用客户端操作，得到本地用户信息  
-        GET_CLIENT->RequestUserInfoLocale();
-        szId = m_Client.configuration().jidBare();
-    }
-    else
-        szId = USER_INFO_LOCALE->GetId();
+    QString szId = m_Client.configuration().jidBare();
     
     int nRet = GLOBAL_USER->Init(szId);
     if(nRet)
@@ -287,6 +279,13 @@ void CClientXmpp::slotClientConnected()
         LOG_MODEL_ERROR("MainWindow", "Init GlobalUser fail");
         return;
     }
+
+    if(USER_INFO_LOCALE.isNull())
+    {
+        //调用客户端操作，得到本地用户信息  
+        GET_CLIENT->RequestUserInfoLocale();
+    }
+
     emit sigClientConnected();
     emit sigLoadRosterFromStorage();
 }
@@ -368,7 +367,9 @@ void CClientXmpp::slotRosterReceived()
 //得到本地用户形象信息  
 void CClientXmpp::slotClientVCardReceived()
 {
-    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotClientVCardReceived");
+    LOG_MODEL_DEBUG("CClientXmpp", 
+                    "CClientXmpp::slotClientVCardReceived:%s", 
+                     m_Client.vCardManager().clientVCard().to().toStdString().c_str());
 
     m_User->UpdateUserInfoLocale(m_Client.vCardManager().clientVCard(), 
                                m_Client.vCardManager().clientVCard().to());
@@ -377,20 +378,21 @@ void CClientXmpp::slotClientVCardReceived()
 }
 
 //得到好友详细信息时触发  
-void CClientXmpp::slotvCardReceived(const QXmppVCardIq&)
+void CClientXmpp::slotvCardReceived(const QXmppVCardIq& vCardIq)
 {
-    QString szJid = m_Client.vCardManager().clientVCard().to();
+    QString szJid = QXmppUtils::jidToBareJid(vCardIq.from());
     if(szJid.isEmpty())
         return;
+    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotvCardReceived:%s", szJid.toStdString().c_str());
     QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(szJid);
     if(r.isNull())
     {
         QSharedPointer<CUserInfo> user(new CUserInfoXmpp);
-        ((CUserInfoXmpp*)user.data())->UpdateUserInfo(m_Client.vCardManager().clientVCard(), szJid);
+        ((CUserInfoXmpp*)user.data())->UpdateUserInfo(vCardIq, szJid);
         r = user;
     }
     else
-        m_User->UpdateUserInfoRoster(m_Client.vCardManager().clientVCard(),
+        m_User->UpdateUserInfoRoster(vCardIq,
                                szJid);
     //发信号  
     emit sigUpdateRosterUserInfo(QXmppUtils::jidToBareJid(szJid), r);

@@ -92,3 +92,144 @@ QString CGlobalUserQXmpp::GetRosterFile(const QString &szLocaleJid)
     return CGlobal::Instance()->GetDirUserData(szLocaleJid) 
             + QDir::separator() + "XmppRosterInfo.dat";
 }
+
+int CGlobalUserQXmpp::LoadLocaleFromFile(const QString &szId)
+{
+    int nRet = 0;
+    QString szFile = GetLocaleFile(szId);
+
+    QFile in(szFile);
+    if(!in.open(QFile::ReadOnly))
+    {
+        LOG_MODEL_WARNING("CGlobalUser", "Don't open file:%s", szFile.toStdString().c_str());
+        return -1;
+    }
+
+    try{
+        QDataStream s(&in);
+        
+        //版本号  
+        int nVersion = 0;
+        s >> nVersion;
+        //本地用户信息  
+        LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
+        if(m_UserInforLocale.isNull())
+         {
+            m_UserInforLocale = NewUserInfo();
+        }
+        s >> (CUserInfoXmpp&)*m_UserInforLocale;        
+    }
+    catch(...)
+    {
+        LOG_MODEL_ERROR("CGlobalUser", "CFrmUserList::LoadUserList exception");
+        nRet = -1;
+    }
+
+    in.close();
+    return nRet;
+}
+
+int CGlobalUserQXmpp::SaveLocaleToFile()
+{
+    int nRet = 0;
+    QString szFile = GetLocaleFile(GetUserInfoLocale()->GetId());
+
+    QFile out(szFile);
+    if(!out.open(QFile::WriteOnly))
+    {
+        LOG_MODEL_WARNING("CGlobalUser", "Don't open file:%s", szFile.toStdString().c_str());
+        return -1;
+    }
+
+    try
+    {
+        QDataStream s(&out);
+        //版本号  
+        int nVersion = 1;
+        s << nVersion;
+        //本地用户信息  
+        s << (CUserInfoXmpp&)*m_UserInforLocale;     
+    }
+    catch(...)
+    {
+        LOG_MODEL_ERROR("CGlobalUser", "CFrmUserList::SaveUserList exception");
+        return -1;
+    }
+
+    out.close();
+    return nRet;
+}
+
+int CGlobalUserQXmpp::LoadRosterFromFile(QString szId)
+{
+    int nRet = 0;
+    QString szFile = GetRosterFile(szId);
+    QFile in(szFile);
+    if(!in.open(QFile::ReadOnly))
+    {
+        LOG_MODEL_WARNING("CGlobalUser", "Don't open file:%s", szFile.toStdString().c_str());
+        return -1;
+    }
+
+    try{
+        QDataStream s(&in);
+
+        //版本号  
+        int nVersion = 0;
+        s >> nVersion;
+        //本地用户信息  
+        LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
+        int nSize =0;
+        s >> nSize;
+        while(nSize--)
+        {
+            QString jid;
+            QSharedPointer<CUserInfo> roster = NewUserInfo();
+            s >> jid >> (CUserInfoXmpp&)*roster;
+            m_UserInfoRoster.insert(jid, roster);
+        }
+    }
+    catch(...)
+    {
+        LOG_MODEL_ERROR("CGlobalUser", "CFrmUserList::LoadUserList exception");
+        nRet = -1;
+    }
+
+    in.close();
+    return nRet;
+}
+
+int CGlobalUserQXmpp::SaveRosterToFile()
+{
+    int nRet = 0;
+    QString szFile = GetRosterFile(GetUserInfoLocale()->GetId());
+
+    QFile out(szFile);
+    if(!out.open(QFile::WriteOnly))
+    {
+        LOG_MODEL_WARNING("CGlobalUser", "Don't open file:%s", szFile.toStdString().c_str());
+        return -1;
+    }
+
+    try
+    {
+        QDataStream s(&out);
+        //版本号  
+        int nVersion = 1;
+        s << nVersion;
+        s << m_UserInfoRoster.size();
+        QMap<QString, QSharedPointer<CUserInfo> >::iterator it;
+        for(it = m_UserInfoRoster.begin(); it != m_UserInfoRoster.end(); it++)
+        {
+            s << it.key() << (CUserInfoXmpp&)*(it.value());
+        }
+    }
+    catch(...)
+    {
+        LOG_MODEL_ERROR("CGlobalUser", "CFrmUserList::SaveUserList exception");
+        return -1;
+    }
+
+    out.close();
+    return nRet;
+}

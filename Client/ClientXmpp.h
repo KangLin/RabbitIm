@@ -103,7 +103,7 @@ private slots:
     void slotRosterReceived();
     void slotClientVCardReceived();
     //得到好友详细信息时触发  
-    void slotvCardReceived(const QXmppVCardIq&);
+    void slotvCardReceived(const QXmppVCardIq&vCardIq);
     void slotPresenceReceived(const QXmppPresence &presence);
     void slotItemAdded(const QString &szId);
     void slotItemChanged(const QString& szId);
