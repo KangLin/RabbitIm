@@ -326,11 +326,13 @@ void CClientXmpp::slotRosterReceived()
     foreach(QString jid, rosters)
     {
         QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(jid);
-        if(r.isNull())
+        if(!r.isNull())
         {
-            r = m_User->AddUserInfoRoster(jid);
+            continue;
         }
 
+        LOG_MODEL_DEBUG("CClientXmpp", "roster[%s] is not exist", jid.toStdString().c_str());
+        r = m_User->AddUserInfoRoster(jid);
         QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(jid);
         m_User->UpdateUserInfoRoster(item);
         RequestUserInfoRoster(jid);

@@ -141,7 +141,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     if(QMessageBox::Ok == msg.exec())
     {
         //退出程序  
-        XMPP_CLIENT->Logout();
+        GET_CLIENT->Logout();
         e->accept();
         QApplication::closeAllWindows();
     }
@@ -531,7 +531,7 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
         {
             CUserInfo::USER_INFO_STATUS status = it.key();
             USER_INFO_LOCALE->SetStatus(status);
-            XMPP_CLIENT->setClientStatus(status);
+            GET_CLIENT->setClientStatus(status);
             act->setCheckable(true);
             act->setChecked(true);
             m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(status)));

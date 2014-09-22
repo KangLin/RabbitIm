@@ -57,30 +57,30 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotDeleteFromMainMenu(QMenu*)));
     Q_ASSERT(check);
 
-    check = connect(XMPP_CLIENT.data(), SIGNAL(sigChangedStatus(const QXmppPresence)),
+    check = connect(GET_CLIENT.data(), SIGNAL(sigChangedStatus(const QXmppPresence)),
                     SLOT(SlotChangedStatus(QXmppPresence)));
     Q_ASSERT(check);
 
-    check = connect(XMPP_CLIENT.data(), SIGNAL(sigLoadRosterFromStorage()),
+    check = connect(GET_CLIENT.data(), SIGNAL(sigLoadRosterFromStorage()),
                     SLOT(slotLoadRosterFromStorage()));
     Q_ASSERT(check);
 
-    check = connect(XMPP_CLIENT.data(), SIGNAL(),
+    check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUserInfo>)),
                     SLOT(slotUpdateRosterUserInfo(QString)));
     Q_ASSERT(check);
 
-    check = connect(XMPP_CLIENT.data(), SIGNAL(sigRosterAddReceived(const QString&, const CClient::SUBSCRIBE_TYPE &)),
+    check = connect(GET_CLIENT.data(), SIGNAL(sigRosterAddReceived(const QString&, const CClient::SUBSCRIBE_TYPE &)),
                     SLOT(slotRosterAddReceived(const QString&, const CClient::SUBSCRIBE_TYPE &)));
     Q_ASSERT(check);
 
-    check = connect(XMPP_CLIENT.data(), SIGNAL(sigRemoveRosterUserInfo(QString)),
+    check = connect(GET_CLIENT.data(), SIGNAL(sigRemoveRosterUserInfo(QString)),
                     SLOT(slotRemoveRosterUserInfo(QString)));
     Q_ASSERT(check);
 }
 
 CFrmUserList::~CFrmUserList()
 {
-    XMPP_CLIENT->disconnect(this);
+    GET_CLIENT->disconnect(this);
     CGlobal::Instance()->GetMainWindow()->disconnect(this);
 
     //删除组 m_Groups，不需要删，列表控件析构时会自己删除  
@@ -240,7 +240,7 @@ void CFrmUserList::slotRemoveRoster()
     QString szId = GetCurrentRoster();
     if(szId.isEmpty())
         return;
-    XMPP_CLIENT->RosterRemove(szId);
+    GET_CLIENT->RosterRemove(szId);
 }
 
 void CFrmUserList::slotAgreeAddRoster()
@@ -421,7 +421,7 @@ void CFrmUserList::slotLoadRosterFromStorage()
     GLOBAL_USER->ProcessRoster(this, &type);
 }
 
-void CFrmUserList::slotUpdateRosterUserInfo(const QString &szId)
+void CFrmUserList::slotUpdateRosterUserInfo(const QString &szId, QSharedPointer<CUserInfo> userInfo)
 {
     ItemUpdateRoster(szId);
 }

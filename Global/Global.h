@@ -197,7 +197,6 @@ public slots:
 };
 
 #define GET_CLIENT CGlobal::Instance()->GetClient()
-#define XMPP_CLIENT GET_CLIENT
 #define GLOBAL_USER CGlobal::Instance()->GetGlobalUser()
 #define USER_INFO_LOCALE CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale()
 

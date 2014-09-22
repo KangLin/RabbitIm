@@ -30,7 +30,7 @@ CFrmUservCard::CFrmUservCard(const QString &jid, QWidget *parent) :
                          SLOT(slotUpdateRoster(QString, QSharedPointer<CUserInfo>)));
     Q_ASSERT(check);
 
-    XMPP_CLIENT->RequestUserInfoRoster(jid);
+    GET_CLIENT->RequestUserInfoRoster(jid);
 }
 
 CFrmUservCard::CFrmUservCard(QSharedPointer<CUserInfo> user, bool bModify, QWidget *parent) :

@@ -26,8 +26,16 @@ QSharedPointer<CUserInfo> CGlobalUserQXmpp::NewUserInfo()
  */
 QSharedPointer<CUserInfo> CGlobalUserQXmpp::AddUserInfoRoster(const QString &szId)
 {
-    QSharedPointer<CUserInfo> user = NewUserInfo();
+    QSharedPointer<CUserInfo> user =this->GetUserInfoRoster(szId);
+    if(!user.isNull())
+    {
+        LOG_MODEL_ERROR("CGlobalUserQXmpp", "AddUserInfoRoster:roster is exist:%s", szId.toStdString().c_str());
+        return user;
+    }
+
+    user = NewUserInfo();
     ((CUserInfoXmpp*)user.data())->SetId(szId);
+    m_UserInfoRoster.insert(szId, user);
     return user;
 }
 
