@@ -2,8 +2,6 @@
 #include "ui_MainWindow.h"
 #include <iostream>
 #include <QIcon>
-#include "qxmpp/QXmppRosterManager.h"
-#include "qxmpp/QXmppMucManager.h"
 #include "Widgets/FrmAbout/FrmAbout.h"
 #include <QMessageBox>
 #include "Widgets/FrmUserList/FrmUserList.h"
@@ -25,8 +23,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     CGlobal::Instance()->SetMainWindow(this);
 
-    m_pTranslatorApp = NULL;
-    m_pTranslatorQt = NULL;
     m_bLogin = false;
 
     ui->setupUi(this);
@@ -99,11 +95,6 @@ MainWindow::~MainWindow()
     //emit sigRemoveMenu(ui->menuOperator_O);
 
     delete ui;
-
-    if(m_pTranslatorApp)
-        delete m_pTranslatorApp;
-    if(m_pTranslatorQt)
-        delete m_pTranslatorQt;
 }
 
 void MainWindow::resizeEvent(QResizeEvent * e)
@@ -413,26 +404,26 @@ int MainWindow::LoadTranslate(QString szLocale)
 
     LOG_MODEL_DEBUG("main", "locale language:%s", szLocale.toStdString().c_str());
 
-    if(m_pTranslatorQt)
+    if(!m_TranslatorQt.isNull())
     {
-        qApp->removeTranslator(m_pTranslatorQt);
-        delete m_pTranslatorQt;
+        qApp->removeTranslator(m_TranslatorQt.data());
+        m_TranslatorQt.clear();
     }
     
-    if(m_pTranslatorApp)
+    if(m_TranslatorApp.isNull())
     {
-        qApp->removeTranslator(m_pTranslatorApp);
-        delete m_pTranslatorApp;
+        qApp->removeTranslator(m_TranslatorApp.data());
+        m_TranslatorApp.clear();
     }
     LOG_MODEL_DEBUG("MainWindow", "Translate dir:%s", qPrintable(CGlobal::Instance()->GetDirTranslate()));
 
-    m_pTranslatorQt = new QTranslator(this);
-    m_pTranslatorQt->load("qt_" + szLocale + ".qm", CGlobal::Instance()->GetDirTranslate());
-    qApp->installTranslator(m_pTranslatorQt);
+    m_TranslatorQt = QSharedPointer<QTranslator>(new QTranslator(this));
+    m_TranslatorQt->load("qt_" + szLocale + ".qm", CGlobal::Instance()->GetDirTranslate());
+    qApp->installTranslator(m_TranslatorQt.data());
 
-    m_pTranslatorApp = new QTranslator(this);
-    m_pTranslatorApp->load("app_" + szLocale + ".qm", CGlobal::Instance()->GetDirTranslate());
-    qApp->installTranslator(m_pTranslatorApp);
+    m_TranslatorApp = QSharedPointer<QTranslator>(new QTranslator(this));
+    m_TranslatorApp->load("app_" + szLocale + ".qm", CGlobal::Instance()->GetDirTranslate());
+    qApp->installTranslator(m_TranslatorApp.data());
 
     ui->retranslateUi(this);
     return 0;
@@ -585,14 +576,14 @@ void MainWindow::slotLogout()
 {
     GET_CLIENT->Logout();
 }
-
+/*
 void MainWindow::onReceiveFile(QXmppTransferJob *job)
 {
-    /*if(job)
+    if(job)
     {
         m_pSendManageDlg->addFileProcess(*job,false);
-    }*/
-}
+    }
+}*/
 
 void MainWindow::on_actionOptions_O_triggered()
 {

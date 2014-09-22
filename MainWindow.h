@@ -4,9 +4,6 @@
 #include <QtWidgets>
 #include <QMainWindow>
 #include <QSystemTrayIcon>
-#include "qxmpp/QXmppVCardIq.h"
-#include "qxmpp/QXmppVCardManager.h"
-#include "qxmpp/QXmppTransferManager.h"
 #include "Widgets/FrmMain/FrmMain.h"
 
 class CFrmLogin;
@@ -78,7 +75,7 @@ protected slots:
     void slotEditInformation();
     //登录用户登出  
     void slotLogout();
-    void onReceiveFile(QXmppTransferJob* job);//文件接收通知  
+    //void onReceiveFile(QXmppTransferJob* job);//文件接收通知  
 
 protected:
     virtual void resizeEvent(QResizeEvent *e);
@@ -119,8 +116,8 @@ private:
     QMenu m_MenuTranslate;
     QMap<QString, QAction*> m_ActionTranslator;
     QActionGroup m_ActionGroupTranslator;
-    QTranslator *m_pTranslatorQt;
-    QTranslator *m_pTranslatorApp;
+    QSharedPointer<QTranslator> m_TranslatorQt;
+    QSharedPointer<QTranslator> m_TranslatorApp;
 
     CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口  
 };
