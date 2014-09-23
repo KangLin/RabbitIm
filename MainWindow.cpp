@@ -460,6 +460,8 @@ void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
     {
         slotMessageClicked();
         slotTrayTimerStop();
+        this->show();
+        this->activateWindow();
     }
 }
 
@@ -499,7 +501,7 @@ void MainWindow::slotTrayIconMenuUpdate()
     {
         m_TrayIconMenu.addMenu(&m_MenuStatus);
 
-        m_TrayIconMenu.addAction(QIcon(":/icon/AppIcon"),
+        m_TrayIconMenu.addAction(QIcon(":/icon/Information"),
                     tr("Edit Locale User Infomation(&E)"),
                     this, SLOT(slotEditInformation()));
     }
@@ -508,12 +510,12 @@ void MainWindow::slotTrayIconMenuUpdate()
     m_TrayIconMenu.addMenu(&m_MenuTranslate);
 
     QString szTitle;
-    if(this->isHidden())
+    if(this->isHidden() || this->isMinimized())
         szTitle = tr("Show Main Windows");
     else
         szTitle = tr("Hide Main Windows");
 
-    m_TrayIconMenu.addAction(szTitle, this, SLOT(on_actionNotifiation_show_main_windows_triggered()));
+    m_TrayIconMenu.addAction(QIcon(":/icon/AppIcon"), szTitle, this, SLOT(on_actionNotifiation_show_main_windows_triggered()));
 
     m_TrayIconMenu.addSeparator();
     m_TrayIconMenu.addAction(QIcon(":/icon/Close"), tr("Close"), this, SLOT(close()));
@@ -542,8 +544,11 @@ void MainWindow::slotTrayTimerStop()
 
 void MainWindow::on_actionNotifiation_show_main_windows_triggered()
 {
-    if(isHidden())
+    if(isHidden() || isMinimized())
+     {
         this->show();
+        this->activateWindow();
+    }
     else
         this->hide();
 }
