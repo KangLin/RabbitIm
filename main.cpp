@@ -9,6 +9,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setApplicationName(a.tr("RabbitIm"));
+    a.setOrganizationName(a.tr("RabbitIm"));
 
     //设置插件路径(msvc 下没有用）   
     a.addLibraryPath(a.applicationDirPath() + QDir::separator() + "plugins");
