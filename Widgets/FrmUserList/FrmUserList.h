@@ -96,6 +96,8 @@ private slots:
     //菜单槽  
     //增加好友菜单槽  
     void slotAddRoster();
+    //重命名好友名称  
+    void slotRenameRoster();
     //删掉好友菜单槽  
     void slotRemoveRoster();
     //同意增加好友菜单槽  

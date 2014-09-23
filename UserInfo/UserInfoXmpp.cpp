@@ -72,8 +72,8 @@ QString CUserInfoXmpp::GetResource()
 
 int CUserInfoXmpp::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
 {
-    if(!vCard.fullName().isEmpty())
-        m_szName = vCard.fullName();
+    //if(!vCard.fullName().isEmpty())
+    //    m_szName = vCard.fullName();
     m_szNick = vCard.nickName();
     m_Birthday = vCard.birthday();
     m_szEmail = vCard.email();
@@ -102,6 +102,7 @@ int CUserInfoXmpp::UpdateUserInfo(const QXmppRosterIq::Item &rosterItem)
 {
     m_szJid = rosterItem.bareJid();
     m_Groups = rosterItem.groups();
+    SetName(rosterItem.name());
     m_subscriptionType = FromQxmppSubscriptionType(rosterItem.subscriptionType());
     return 0;
 }

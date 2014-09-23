@@ -137,6 +137,10 @@ int CFrmUserList::InitMenu()
                     SLOT(slotAddRoster()));
     Q_ASSERT(check);
 
+    m_Menu.addAction(ui->actionRename);
+    check = connect(ui->actionRename, SIGNAL(triggered()),
+                     SLOT(slotRenameRoster()));
+    Q_ASSERT(check);
     m_Menu.addAction(ui->actionRemoveRoster_R);
     check = connect(ui->actionRemoveRoster_R, SIGNAL(triggered()),
                     SLOT(slotRemoveRoster()));
@@ -161,6 +165,7 @@ int CFrmUserList::EnableAllActioins(bool bEnable)
     EnableAction(ui->actionAgreeAddRoster, bEnable);
     EnableAction(ui->actionRemoveRoster_R, bEnable);
     EnableAction(ui->actionInformation_I, bEnable);
+    EnableAction(ui->actionRename, bEnable);
     return 0;
 }
 
@@ -217,6 +222,8 @@ void CFrmUserList::slotUpdateMenu()
         if(CUserInfo::From == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetSubScriptionType())
             EnableAction(ui->actionAgreeAddRoster);
 
+        //显示重命名菜单  
+        EnableAction(ui->actionRename);
         //如果是好友上,显示删除好友  
         EnableAction(ui->actionRemoveRoster_R);
 
@@ -244,6 +251,20 @@ void CFrmUserList::slotAddRoster()
         m_frmAddRoster.Init(groups);
     m_frmAddRoster.show();
     m_frmAddRoster.activateWindow();
+}
+
+void CFrmUserList::slotRenameRoster()
+{
+    QString szName;
+    if(GLOBAL_USER->GetUserInfoRoster(GetCurrentRoster()).isNull())
+        return;
+    szName = GLOBAL_USER->GetUserInfoRoster(GetCurrentRoster())->GetShowName();
+    bool ok;
+    QString text = QInputDialog::getText(this, tr("Roster[%1] rename").arg(szName),
+                                         tr("Roster[%1] rename:").arg(szName), QLineEdit::Normal,
+                                         szName, &ok);
+    if (ok && !text.isEmpty())
+        GET_CLIENT->RosterRename(GetCurrentRoster(), text);
 }
 
 void CFrmUserList::slotRemoveRoster()
@@ -331,15 +352,14 @@ int CFrmUserList::ItemInsertRoster(const QString& szId)
     //改变item背景颜色  
     pItem->setData(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus()), Qt::BackgroundRole);
     pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus())));
+    pItem->setEditable(false);
     QString szText;
     if(CGlobal::Instance()->GetRosterShowType() == CGlobal::E_ROSTER_SHOW_NAME)
     {
-        pItem->setEditable(true);//允许双击编辑  
         szText = roster->GetShowName();
     }
     else
     {
-        pItem->setEditable(false);
         szText = roster->GetShowName()
             + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
             +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType());
@@ -406,12 +426,10 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
             QString szText;
             if(CGlobal::Instance()->GetRosterShowType() == CGlobal::E_ROSTER_SHOW_NAME)
             {
-                pItem->setEditable(true);//允许双击编辑  
                 szText = roster->GetShowName();
             }
             else
             {
-                pItem->setEditable(false);
                 szText = roster->GetShowName()
                     + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
                     +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType());

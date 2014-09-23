@@ -69,6 +69,18 @@
     <string>Information(&amp;I)</string>
    </property>
   </action>
+  <action name="actionRename">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Modify</normaloff>:/icon/Modify</iconset>
+   </property>
+   <property name="text">
+    <string>Rename</string>
+   </property>
+   <property name="toolTip">
+    <string>Rename</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../../Resource/Resource.qrc"/>

@@ -188,6 +188,11 @@ int CClientXmpp::RosterRemove(const QString &szId)
     return !m_Client.rosterManager().removeItem(szId);    
 }
 
+int CClientXmpp::RosterRename(const QString &szId, const QString &szName)
+{
+    return !m_Client.rosterManager().renameItem(szId, szName);
+}
+
 int CClientXmpp::SendMessage(const QString &szId, const QString &szMsg)
 {
     m_Client.sendMessage(((CUserInfoXmpp*)m_User.data())->GetJid(), szMsg);

@@ -96,7 +96,7 @@ public:
      *
      * @param szId:好友id  
      * @param szName:好友名称  
-     * @return int
+     * @return int：成功返回0，失败返回非0  
      */
     virtual int RosterRename(const QString& szId, const QString& szName);
 
@@ -105,14 +105,14 @@ public:
      *
      * @param szId:好友id  
      * @param szMsg:消息内容  
-     * @return int
+     * @return int：成功返回0，失败返回非0  
      */
     virtual int SendMessage(const QString& szId, const QString &szMsg);
     /**
      * @brief 设置登录用户信息  
      *
      * @param userInfo
-     * @return int
+     * @return int：成功返回0，失败返回非0  
      */
     virtual int setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo);
 

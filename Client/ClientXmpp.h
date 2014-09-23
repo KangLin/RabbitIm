@@ -68,6 +68,14 @@ public:
      * @return int：成功返回0，失败返回非0  
      */
     virtual int RosterRemove(const QString& szId);
+    /**
+     * @brief 重命名好友名称  
+     *
+     * @param szId:好友id  
+     * @param szName:好友名称  
+     * @return int：成功返回0，失败返回非0  
+     */
+    virtual int RosterRename(const QString& szId, const QString& szName);
 
     /**
      * @brief 向好友发送消息  
