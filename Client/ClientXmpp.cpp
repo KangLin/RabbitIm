@@ -153,10 +153,11 @@ int CClientXmpp::setClientStatus(CUserInfo::USER_INFO_STATUS status)
 
 int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type, const QString &szName, const QSet<QString> &groups)
 {
-    QString id;
+    QString id = szId;
     if(-1 == szId.indexOf("@"))
         id = szId + "@" + ((CUserInfoXmpp*)USER_INFO_LOCALE.data())->GetDomain();
-    
+    else
+        id = szId;
     switch(type)
     {
     case SUBSCRIBE_REQUEST:
@@ -164,7 +165,11 @@ int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type, const QStri
         m_Client.rosterManager().subscribe(id);
         break;
     case SUBSCRIBE_ACCEPT:
-        m_Client.rosterManager().subscribe(id);
+        if(m_User->GetUserInfoRoster(id).isNull())
+        {
+            m_Client.rosterManager().addItem(id, szName, groups);
+            m_Client.rosterManager().subscribe(id);
+        }
         m_Client.rosterManager().acceptSubscription(id);
         break;
     case SUBSCRIBE_REFUSE:
@@ -446,18 +451,16 @@ void CClientXmpp::slotItemAdded(const QString &szId)
 
 void CClientXmpp::slotItemChanged(const QString &szId)
 {
-    
     QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(szId);
-    if(r.isNull())
+    if(!r.isNull())
     {
         QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(szId);
         m_User->UpdateUserInfoRoster(item);
-
         //发信号  
         emit sigUpdateRosterUserInfo(QXmppUtils::jidToBareJid(szId), r);
     }
     else
-        LOG_MODEL_DEBUG("CClientXmpp", "roster [%s] is exist.", szId.toStdString().c_str());
+        LOG_MODEL_DEBUG("CClientXmpp", "roster [%s] is not exist.", szId.toStdString().c_str());
 }
 
 void CClientXmpp::slotItemRemoved(const QString &szId)

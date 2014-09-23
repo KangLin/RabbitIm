@@ -27,27 +27,26 @@ CFrmAddRoster::~CFrmAddRoster()
     delete ui;
 }
 
-int CFrmAddRoster::Init(QSet<QString> groups, QString szId)
+int CFrmAddRoster::Init(QSet<QString> groups, QString szId, bool bRequest)
 {
     ui->txtJID->clear();
     ui->txtNick->clear();
     ui->txtGroup->clear();
-    if(!szId.isEmpty())
+    m_bRequest = bRequest;
+    if(bRequest)
     {
         this->setWindowTitle(tr("Request add roster"));
         ui->lbPrompt->setText(tr("%1 request add roster").arg(QXmppUtils::jidToUser(szId)));
         ui->txtJID->setEnabled(false);
-        ui->txtJID->setText(szId);
-        on_txtJID_editingFinished();
-        m_bRequest = true;
     }
     else
     {
         this->setWindowTitle(tr("Add Roster"));
         ui->lbPrompt->setText(tr("Add Roster"));
         ui->txtJID->setEnabled(true);
-        m_bRequest = false;
     }
+    ui->txtJID->setText(szId);
+    on_txtJID_editingFinished();
     if(groups.isEmpty())
     {
         ui->txtGroup->setCurrentText(tr("My friends"));

@@ -45,6 +45,14 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotCustomContextMenuRequested(QPoint)));
     Q_ASSERT(check);
 
+    check = connect(&m_UserList, SIGNAL(entered(QModelIndex)),
+                    SLOT(slotEntered(QModelIndex)));
+    Q_ASSERT(check);
+
+    check = connect(m_pModel, SIGNAL(itemChanged(QStandardItem*)),
+                    SLOT(slotItemChanged(QStandardItem*)));
+    Q_ASSERT(check);
+
     check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuInitOperator(QMenu*)),
                     SLOT(slotAddToMainMenu(QMenu*)));
     Q_ASSERT(check);
@@ -206,8 +214,7 @@ void CFrmUserList::slotUpdateMenu()
     else
     {
         //增加订阅  
-        if(CUserInfo::None == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetSubScriptionType()
-             || CUserInfo::From == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetSubScriptionType())
+        if(CUserInfo::From == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetSubScriptionType())
             EnableAction(ui->actionAgreeAddRoster);
 
         //如果是好友上,显示删除好友  
@@ -230,8 +237,11 @@ void CFrmUserList::slotAddRoster()
 {
     QSet<QString> groups;
     groups = GetGroupsName();
-
-    m_frmAddRoster.Init(groups);
+    QString szId = GetCurrentRoster();
+    if(!szId.isEmpty() && CUserInfo::None == GLOBAL_USER->GetUserInfoRoster(szId)->GetSubScriptionType())
+            m_frmAddRoster.Init(groups, szId);
+    else
+        m_frmAddRoster.Init(groups);
     m_frmAddRoster.show();
     m_frmAddRoster.activateWindow();
 }
@@ -246,7 +256,7 @@ void CFrmUserList::slotRemoveRoster()
 
 void CFrmUserList::slotAgreeAddRoster()
 {
-    GET_CLIENT->RosterAdd(GetCurrentRoster(), CClient::SUBSCRIBE_ACCEPT);
+    GET_CLIENT->RosterAdd(GetCurrentRoster(), CClient::SUBSCRIBE_REQUEST);
 }
 
 void CFrmUserList::slotInformationRoster()
@@ -254,6 +264,14 @@ void CFrmUserList::slotInformationRoster()
     QString bareJid = GetCurrentRoster();
     CFrmUservCard* pvCard = new CFrmUservCard(GLOBAL_USER->GetUserInfoRoster(bareJid));
     pvCard->show();
+}
+
+void CFrmUserList::slotRosterAddReceived(const QString &szId, const CClient::SUBSCRIBE_TYPE &type)
+{
+    LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(szId));
+    m_frmAddRoster.Init( GetGroupsName(), szId, true);
+    m_frmAddRoster.show();
+    m_frmAddRoster.activateWindow();
 }
 
 QStandardItem*  CFrmUserList::ItemInsertGroup(QString szGroup)
@@ -308,16 +326,26 @@ int CFrmUserList::ItemInsertRoster(const QString& szId)
 
     //呢称条目  
     QStandardItem* pItem = new QStandardItem(roster->GetShowName() + roster->GetSubscriptionTypeStr(roster->GetSubScriptionType()));
-    pItem->setEditable(true);//允许双击编辑  
     pItem->setData(roster->GetId(), USERLIST_ITEM_ROLE_JID);
     pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
     //改变item背景颜色  
     pItem->setData(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus()), Qt::BackgroundRole);
+    pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus())));
     QString szText;
-    szText = roster->GetShowName()
+    if(CGlobal::Instance()->GetRosterShowType() == CGlobal::E_ROSTER_SHOW_NAME)
+    {
+        pItem->setEditable(true);//允许双击编辑  
+        szText = roster->GetShowName();
+    }
+    else
+    {
+        pItem->setEditable(false);
+        szText = roster->GetShowName()
             + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
             +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType());
+    }
     pItem->setData(szText, Qt::DisplayRole); //改变item文本,或者直接用 pItem->setText(szText);  
+    pItem->setToolTip(szText);
 
     //改变item图标  
     pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetStatus())), Qt::DecorationRole);
@@ -370,17 +398,26 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
         if(!pItem) continue;
         if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ROSTER)
         {
-            //pItem->setEditable(true);//允许双击编辑  
             //pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
             //pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
             //改变item背景颜色  
             pItem->setData(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus()), Qt::BackgroundRole);
+            pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus())));
             QString szText;
-            szText = roster->GetShowName()
+            if(CGlobal::Instance()->GetRosterShowType() == CGlobal::E_ROSTER_SHOW_NAME)
+            {
+                pItem->setEditable(true);//允许双击编辑  
+                szText = roster->GetShowName();
+            }
+            else
+            {
+                pItem->setEditable(false);
+                szText = roster->GetShowName()
                     + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
                     +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType());
+            }
             pItem->setData(szText, Qt::DisplayRole); //改变item文本  
-    
+            pItem->setToolTip(szText);
             //改变item图标  
             pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetStatus())), Qt::DecorationRole);
         }
@@ -418,14 +455,6 @@ int CFrmUserList::ItemRemoveRoster(const QString &szId)
     return 0;
 }
 
-void CFrmUserList::slotRosterAddReceived(const QString &szId, const CClient::SUBSCRIBE_TYPE &type)
-{
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(szId));
-    m_frmAddRoster.Init( GetGroupsName(), szId);
-    m_frmAddRoster.show();
-    m_frmAddRoster.activateWindow();
-}
-
 //得到好友列表  
 void CFrmUserList::slotLoadRosterFromStorage()
 {
@@ -458,7 +487,7 @@ void CFrmUserList::clicked(const QModelIndex &index)
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::clicked, row:%d; column:%d",
            index.row(), index.column());
 
-#ifdef ANDROID
+#ifdef MOBILE
     if(m_UserList.isExpanded(index))
        m_UserList.collapse(index);
     else
@@ -468,16 +497,9 @@ void CFrmUserList::clicked(const QModelIndex &index)
     if(!m)
         return;
 
-    //TODO:暂时根据是否有根节点来判断是组还是好友  
-    if(m->parent(index).isValid())
+    if(!GetCurrentRoster().isEmpty())
     {
-        //是用户结点，打开消息对话框  
-        QVariant v = m->data(index, Qt::UserRole + 1);
-        if(v.canConvert<CRoster*>())
-        {
-            CRoster* p = v.value<CRoster*>();
-            p->ShowMessageDialog();
-        }
+        //TODO:是用户结点，打开消息对话框  
     }
 #endif
 }
@@ -487,7 +509,7 @@ void CFrmUserList::doubleClicked(const QModelIndex &index)
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::doubleClicked, row:%d; column:%d",
            index.row(), index.column());
 
-#ifndef ANDROID
+#ifndef MOBILE
     if(!m_UserList.isExpanded(index))
        m_UserList.collapse(index);
     else
@@ -497,8 +519,10 @@ void CFrmUserList::doubleClicked(const QModelIndex &index)
     if(!m)
         return;
 
-    //TODO:是用户结点，打开消息对话框  
-    
+    if(!GetCurrentRoster().isEmpty())
+    {
+        //TODO:是用户结点，打开消息对话框  
+    }
 #endif
 }
 
@@ -554,6 +578,18 @@ QString CFrmUserList::GetCurrentRoster()
         return v.value<QString>();
     }
     return QString();
+}
+
+void CFrmUserList::slotItemChanged(QStandardItem *item)
+{
+    Q_UNUSED(item);
+    LOG_MODEL_DEBUG("CFrmUserList", "CFrmUserList::slotItemChanged");
+}
+
+void CFrmUserList::slotEntered(const QModelIndex &index)
+{
+    Q_UNUSED(index);
+    LOG_MODEL_DEBUG("CFrmUserList", "CFrmUserList::slotEntered");
 }
 
 void CFrmUserList::slotRefresh()

@@ -33,6 +33,7 @@ QSharedPointer<CUserInfo> CGlobalUserQXmpp::AddUserInfoRoster(const QString &szI
         return user;
     }
 
+    SetModify(true);
     user = NewUserInfo();
     ((CUserInfoXmpp*)user.data())->SetId(szId);
     m_UserInfoRoster.insert(szId, user);
@@ -41,7 +42,7 @@ QSharedPointer<CUserInfo> CGlobalUserQXmpp::AddUserInfoRoster(const QString &szI
 
 int CGlobalUserQXmpp::UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString jid)
 {
-    m_bModify = true;
+    SetModify(true);
     if(m_UserInforLocale.isNull())
     {
         m_UserInforLocale = NewUserInfo();
@@ -54,7 +55,6 @@ int CGlobalUserQXmpp::UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString ji
 int CGlobalUserQXmpp::UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem)
 {
     int nRet = 0;
-    m_bModify = true;
     QString jid = rosterItem.bareJid();
     QSharedPointer<CUserInfo> roster = GetUserInfoRoster(jid);
     if(roster.isNull())
@@ -62,6 +62,7 @@ int CGlobalUserQXmpp::UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem
         LOG_MODEL_ERROR("CGlobalUserQXmpp", "There are not the roster:%s", jid.toStdString().c_str());
         return -1;
     }
+    SetModify(true);
     nRet = ((CUserInfoXmpp*)roster.data())->UpdateUserInfo(rosterItem);
     return nRet;
 }
@@ -69,7 +70,6 @@ int CGlobalUserQXmpp::UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem
 int CGlobalUserQXmpp::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString jid)
 {
     int nRet = 0;
-    m_bModify = true;
     QString szBareJid = QXmppUtils::jidToBareJid(jid);
     QSharedPointer<CUserInfo> roster = GetUserInfoRoster(szBareJid);
     if(roster.isNull())
@@ -77,6 +77,7 @@ int CGlobalUserQXmpp::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString ji
         LOG_MODEL_ERROR("CGlobalUserQXmpp", "There are not the roster:%s", jid.toStdString().c_str());
         return -1;
     }
+    SetModify(true);
     nRet = ((CUserInfoXmpp*)roster.data())->UpdateUserInfo(vCard, jid);
     return nRet;
 }

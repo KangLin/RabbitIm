@@ -16,7 +16,7 @@ public:
     explicit CFrmAddRoster(QWidget *parent = 0);
     ~CFrmAddRoster();
 
-    int Init(QSet<QString> groups, QString szId = QString());
+    int Init(QSet<QString> groups, QString szId = QString(), bool bRequest = false);
 
 private slots:
     void on_pbOk_clicked();

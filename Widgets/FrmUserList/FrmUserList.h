@@ -38,11 +38,10 @@ public:
      */
     virtual int ProcessRoster(QSharedPointer<CUserInfo> roster, void *para = NULL);
 
-public slots:
+private slots:
     //更新好友  
     void slotRefresh();
 
-private slots:
     //显示上下文件菜单(右键菜单)  
     //控件contextMenuPolicy属性要设置为CustomContextMenu，才能触customContextMenuRequested事件，再联接这个槽 
     //如果设置为DefaultContextMenu，则触发右键菜单事件 void contextMenuEvent(QContextMenuEvent * event);  
@@ -114,6 +113,8 @@ private slots:
     //树形列表控件双击事件  
     void doubleClicked(const QModelIndex & index);
 
+     void slotItemChanged(QStandardItem *item);
+     void slotEntered(const QModelIndex &index);
 private:
     Ui::CFrmUserList *ui;
     //传给 ProcessRoster 中的参数类型  
