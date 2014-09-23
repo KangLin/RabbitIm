@@ -263,7 +263,7 @@ int MainWindow::InitLoginedMenu()
     InitMenuStatus();
 
     ui->menuOperator_O->addMenu(&m_MenuStatus);
-    ui->menuOperator_O->addAction(QIcon(":/icon/AppIcon"),
+    ui->menuOperator_O->addAction(QIcon(":/icon/Information"),
                 tr("Edit Locale User Infomation(&E)"),
                 this, SLOT(slotEditInformation()));
 
@@ -277,7 +277,7 @@ int MainWindow::InitLoginedMenu()
 int MainWindow::InitOperatorMenu()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitOperatorMenu");
-    ui->menuOperator_O->addAction(tr("Change Style Sheet(&S)"), 
+    ui->menuOperator_O->addAction(QIcon(":/icon/Stype"), tr("Change Style Sheet(&S)"), 
                 this, SLOT(on_actionChange_Style_Sheet_S_triggered()));
     ui->menuOperator_O->addMenu(&m_MenuTranslate);
     ui->menuOperator_O->addSeparator();
@@ -344,9 +344,10 @@ int MainWindow::ClearMenuStatus()
 int MainWindow::InitMenuTranslate()
 {
     m_MenuTranslate.setTitle(tr("Language(&L)"));
-    m_ActionTranslator["Default"] = m_MenuTranslate.addAction(tr("Default"));
-    m_ActionTranslator["English"] = m_MenuTranslate.addAction(tr("English"));
-    m_ActionTranslator["zh_CN"] = m_MenuTranslate.addAction(tr("Chinese"));
+    m_MenuTranslate.setIcon(QIcon(":/icon/Language"));
+    m_ActionTranslator["Default"] = m_MenuTranslate.addAction(QIcon(":/icon/Language"), tr("Default"));
+    m_ActionTranslator["English"] = m_MenuTranslate.addAction(QIcon(":/icon/English"), tr("English"));
+    m_ActionTranslator["zh_CN"] = m_MenuTranslate.addAction(QIcon(":/icon/China"), tr("Chinese"));
 
     QMap<QString, QAction*>::iterator it;
     for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)

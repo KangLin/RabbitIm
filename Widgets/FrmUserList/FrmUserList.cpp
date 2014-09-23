@@ -116,6 +116,7 @@ int CFrmUserList::InitMenu()
 {
     bool check = true;
     m_Menu.setTitle(tr("Operator roster(&O)"));
+    m_Menu.setIcon(QIcon(":/icon/Operate"));
 
     check = connect(&m_Menu, SIGNAL(aboutToShow()),
                     SLOT(slotUpdateMenu()));
