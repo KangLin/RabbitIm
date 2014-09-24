@@ -1,9 +1,8 @@
 #include "FrmRegister.h"
 #include "ui_FrmRegister.h"
 #include "../FrmLogin/FrmLogin.h"
-#include "qxmpp/QXmppRegisterIq.h"
 #include "../../MainWindow.h"
-#include "../../Global/Global.h"
+#include "Global/Global.h"
 #include <QDesktopWidget>
 
 CFrmRegister::CFrmRegister(QWidget *parent) :
@@ -11,13 +10,6 @@ CFrmRegister::CFrmRegister(QWidget *parent) :
     ui(new Ui::CFrmRegister)
 {
     ui->setupUi(this);
-
-    m_pClient = new CClientXmpp(this);
-    if(NULL == m_pClient)
-    {
-        LOG_MODEL_ERROR("Register", "CFrmRegister::CFrmRegister: create CXmppClient fail");
-        return;
-    }
 
     bool check = connect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
                          SLOT(connected()));
@@ -32,14 +24,11 @@ CFrmRegister::CFrmRegister(QWidget *parent) :
 
 CFrmRegister::~CFrmRegister()
 {
-     LOG_MODEL_DEBUG("Register",  "CFrmRegister::~CFrmRegister");
-
-    if(m_pClient)
-        delete m_pClient;
+    LOG_MODEL_DEBUG("Register",  "CFrmRegister::~CFrmRegister");
 
     delete ui;
 }
-
+/*
 void CFrmRegister::clientIqReceived(const QXmppIq &iq)
 {
     LOG_MODEL_DEBUG("Register", "CFrmRegister::clientIqReceived");
@@ -74,7 +63,7 @@ void CFrmRegister::clientIqReceived(const QXmppIq &iq)
     }
 
     GET_CLIENT->Logout();
-}
+}*/
 
 void CFrmRegister::clientError(CClient::ERROR_TYPE e)
 {
@@ -89,11 +78,8 @@ void CFrmRegister::connected()
 
 void CFrmRegister::on_pbCreate_clicked()
 {
-    QXmppRegisterIq registerIq;
-
-    registerIq.setUsername(ui->txtUser->text());
-    if(registerIq.username().isEmpty()
-            || registerIq.username().isNull())
+    if(ui->txtUser->text().isEmpty()
+            || ui->txtUser->text().isNull())
     {
         QMessageBox msg(QMessageBox::Critical,
                         tr("Register error"),
@@ -102,9 +88,8 @@ void CFrmRegister::on_pbCreate_clicked()
         msg.exec();
         return;
     }
-    registerIq.setPassword(ui->txtPassword->text());
-    if(registerIq.password().isEmpty()
-            || registerIq.password().isNull())
+    if(ui->txtPassword->text().isEmpty()
+            || ui->txtPassword->text().isNull())
     {
         QMessageBox msg(QMessageBox::Critical,
                         tr("Register error"),
@@ -113,7 +98,7 @@ void CFrmRegister::on_pbCreate_clicked()
         msg.exec();
         return;
     }
-    if(registerIq.password() != ui->txtConfirmPassword->text())
+    if(ui->txtPassword->text() != ui->txtConfirmPassword->text())
     {
         QMessageBox msg(QMessageBox::Critical,
                         tr("Register error"),
@@ -128,9 +113,8 @@ void CFrmRegister::on_pbCreate_clicked()
                               tr("Password contains illegal characters. Only letters, numbers, `~!@#$%^&*() combinations"));
         return;
     }
-    registerIq.setEmail(ui->txtemail->text());
-    if(registerIq.email().isEmpty()
-            || registerIq.email().isNull())
+    if(ui->txtemail->text().isEmpty()
+            || ui->txtemail->text().isNull())
     {
         QMessageBox msg(QMessageBox::Critical,
                         tr("Register error"),
@@ -139,13 +123,12 @@ void CFrmRegister::on_pbCreate_clicked()
         msg.exec();
         return;
     }
-    if(registerIq.email().indexOf("@") == -1)
+    if(ui->txtemail->text().indexOf("@") == -1)
     {
         QMessageBox::critical(this, tr("Register error"),
                               tr("Email format is wrong"));
         return;
     }
-    registerIq.setInstructions(ui->txtInstructions->text());
 
     GET_CLIENT->Login();
 }

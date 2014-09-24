@@ -517,7 +517,8 @@ void CFrmUserList::clicked(const QModelIndex &index)
 
     if(!GetCurrentRoster().isEmpty())
     {
-        //TODO:是用户结点，打开消息对话框  
+        //是用户结点，打开消息对话框  
+        MANAGE_MESSAGE_DIALOG->ShowDialog(GetCurrentRoster()); 
     }
 #endif
 }
@@ -539,7 +540,8 @@ void CFrmUserList::doubleClicked(const QModelIndex &index)
 
     if(!GetCurrentRoster().isEmpty())
     {
-        //TODO:是用户结点，打开消息对话框  
+        //是用户结点，打开消息对话框  
+        MANAGE_MESSAGE_DIALOG->ShowDialog(GetCurrentRoster());
     }
 #endif
 }

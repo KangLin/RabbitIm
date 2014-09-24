@@ -19,7 +19,7 @@
 CGlobal::CGlobal(QObject *parent) :
     QObject(parent),
     #ifdef QXMPP
-    m_Mangaer((CManager*)new CManagerXmpp)
+    m_Manager((CManager*)new CManagerXmpp)
     #endif
 {
     m_pMainWindow = NULL;
@@ -119,14 +119,9 @@ int CGlobal::SetMainWindow(MainWindow *pWnd)
     return 0;
 }
 
-QSharedPointer<CClient> CGlobal::GetClient()
+QSharedPointer<CManager> CGlobal::GetManager()
 {
-    return m_Mangaer->GetClient();
-}
-
-QSharedPointer<CGlobalUser> CGlobal::GetGlobalUser()
-{
-    return m_Mangaer->GetGlobalUser();
+    return m_Manager;
 }
 
 CUserInfo::USER_INFO_STATUS CGlobal::GetStatus()
@@ -448,8 +443,11 @@ QString CGlobal::GetDirUserData(const QString &szId)
     QString jid;
     if(szId.isEmpty())
     {
-        if(!GetGlobalUser().isNull() && !GetGlobalUser()->GetUserInfoLocale().isNull())
-            jid = GetGlobalUser()->GetUserInfoLocale()->GetId();
+        if(!GetManager()->GetGlobalUser().isNull()
+                && !GetManager()->GetGlobalUser()->GetUserInfoLocale().isNull())
+        {
+            jid = GetManager()->GetGlobalUser()->GetUserInfoLocale()->GetId();
+        }
         else
         {
             LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");

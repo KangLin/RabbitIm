@@ -23,9 +23,10 @@ SOURCES += main.cpp\
     Widgets/FrmCustom/Label.cpp \ 
     Widgets/FrmMain/FrmMain.cpp \ 
     Manager/Manager.cpp \
-    Manager/ManagerXmpp.cpp
-    #Widgets/FrmCustom/MenuMessageSend.cpp 
-    #Widgets/FrmMessage/FrmMessage.cpp \
+    Manager/ManagerXmpp.cpp \
+    Manager/ManageMessageDialog.cpp \
+    Widgets/FrmMessage/FrmMessage.cpp \
+    Widgets/FrmCustom/MenuMessageSend.cpp 
     #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmSendFile/DlgSendManage.cpp \
     #Widgets/FrmSendFile/FrmSendFile.cpp \
@@ -67,12 +68,14 @@ HEADERS  += MainWindow.h \
     Widgets/FrmUservCard/FrmUservCard.h \ 
     Widgets/FrmCustom/Label.h \ 
     Manager/Manager.h \
-    Manager/ManagerXmpp.h
+    Manager/ManagerXmpp.h \
+    Manager/ManageMessageDialog.h \
+    Widgets/FrmCustom/MenuMessageSend.h \
+    Widgets/FrmMessage/FrmMessage.h
     #Widgets/FrmUserList/Roster.h \
     #Widgets/FrmSendFile/DlgSendManage.h \
     #Widgets/FrmSendFile/FrmSendFile.h \
     #Widgets/FrmUserList/GroupItem.h \
-    #Widgets/FrmMessage/FrmMessage.h \
     #Widgets/FrmMessage/Message.h \
     #Widgets/FrmVideo/FrmVideo.h \
     #Widgets/FrmVideo/CaptureVideoFrame.h \
@@ -85,7 +88,6 @@ HEADERS  += MainWindow.h \
     #Widgets/FrmGroupChat/Conference.h \
     #Widgets/FrmGroupChat/FrmGroupChat.h \
     #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.h \
-    #Widgets/FrmCustom/MenuMessageSend.h \
     #Widgets/DlgScreenShot/DlgScreenShot.h \
 
 FORMS    += MainWindow.ui \
@@ -97,8 +99,8 @@ FORMS    += MainWindow.ui \
     Widgets/FrmAddRoster/FrmAddRoster.ui \
     Widgets/FrmLogin/FrmLoginSettings.ui \
     Widgets/FrmOptions/FrmOptions.ui \
-    Widgets/FrmUservCard/FrmUservCard.ui
-    #Widgets/FrmMessage/FrmMessage.ui \
+    Widgets/FrmUservCard/FrmUservCard.ui \
+    Widgets/FrmMessage/FrmMessage.ui
     #Widgets/FrmGroupChat/FrmGroupChatList.ui \
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
     #Widgets/FrmGroupChat/FrmGroupChat.ui \

@@ -4,11 +4,10 @@
 #include <QFrame>
 #include <QStandardItemModel>
 #include <QMenu>
-#include "Global/Global.h"
 #include "../FrmCustom/MenuMessageSend.h"
+#include "UserInfo/UserInfo.h"
 
 class MainWindow;
-class CRoster;
 
 namespace Ui {
 class CFrmMessage;

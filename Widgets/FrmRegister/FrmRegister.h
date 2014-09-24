@@ -2,7 +2,7 @@
 #define FRMREGISTER_H
 
 #include <QFrame>
-#include "Client/ClientXmpp.h"
+#include "Client/Client.h"
 
 namespace Ui {
 class CFrmRegister;
@@ -25,14 +25,13 @@ protected:
 private slots:
     void connected();
     void clientError(CClient::ERROR_TYPE e);
-    void clientIqReceived(const QXmppIq &iq);
+    //void clientIqReceived(const QXmppIq &iq);
     void on_pbCreate_clicked();
     void on_pbCancel_clicked();
 
 private:
     Ui::CFrmRegister *ui;
     QWidget *m_pLogin;
-    CClientXmpp* m_pClient;
 };
 
 #endif // FRMREGISTER_H
