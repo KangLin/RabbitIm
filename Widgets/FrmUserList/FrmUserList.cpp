@@ -354,16 +354,14 @@ int CFrmUserList::ItemInsertRoster(const QString& szId)
     pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus())));
     pItem->setEditable(false);
     QString szText;
-    if(CGlobal::Instance()->GetRosterShowType() == CGlobal::E_ROSTER_SHOW_NAME)
-    {
-        szText = roster->GetShowName();
-    }
-    else
-    {
-        szText = roster->GetShowName()
+    
+    szText = roster->GetShowName()
+        #ifdef DEBUG
             + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
-            +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType());
-    }
+            +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType())
+        #endif
+            ;
+    
     pItem->setData(szText, Qt::DisplayRole); //改变item文本,或者直接用 pItem->setText(szText);  
     pItem->setToolTip(szText);
 
@@ -424,16 +422,14 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
             pItem->setData(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus()), Qt::BackgroundRole);
             pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus())));
             QString szText;
-            if(CGlobal::Instance()->GetRosterShowType() == CGlobal::E_ROSTER_SHOW_NAME)
-            {
-                szText = roster->GetShowName();
-            }
-            else
-            {
-                szText = roster->GetShowName()
+            
+            szText = roster->GetShowName()
+        #ifdef DEBUG
                     + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
-                    +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType());
-            }
+                    +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType())
+        #endif
+                    ;
+            
             pItem->setData(szText, Qt::DisplayRole); //改变item文本  
             pItem->setToolTip(szText);
             //改变item图标  

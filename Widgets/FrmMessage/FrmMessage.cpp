@@ -1,10 +1,12 @@
 #include "FrmMessage.h"
 #include "ui_FrmMessage.h"
 #include "../FrmUservCard/FrmUservCard.h"
-#include "Global/Global.h"
 #include <QKeyEvent>
 #include <QMessageBox>
+#include "MainWindow.h"
+#include "Global/Global.h"
 
+#undef SendMessage
 CFrmMessage::CFrmMessage(QWidget *parent, Qt::WindowFlags f) :
     QFrame(parent, f),
     m_MessageSendMenu(parent),
@@ -24,6 +26,7 @@ CFrmMessage::CFrmMessage(const QString &szId, QWidget *parent, Qt::WindowFlags f
 CFrmMessage::~CFrmMessage()
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::~CFrmMessage");
+    CGlobal::Instance()->GetMainWindow()->disconnect(this);
     delete ui;
 }
 
@@ -46,6 +49,10 @@ int CFrmMessage::Init(const QString &szId)
     ui->pbSend->setMenu(&m_MessageSendMenu);
     ui->pbSend->setPopupMode(QToolButton::MenuButtonPopup);
 #endif
+
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
+                    SLOT(slotRefresh()));
+    Q_ASSERT(check);
 
     /*/发送文件信号连接20140710 
     QAction* pAction = m_MoreMenu.addAction(tr("send file"));
@@ -197,15 +204,7 @@ void CFrmMessage::showEvent(QShowEvent *)
         return;
     }
 
-    ui->lbRosterName->setText(m_User->GetShowName()
-                              + "["
-                              + CGlobal::Instance()->GetRosterStatusText(m_User->GetStatus())
-                              + "]");
-
-   QPixmap pixmap;
-   pixmap.convertFromImage(m_User->GetPhoto());
-   ui->lbAvatar->setPixmap(pixmap);
-
+    slotRefresh();
     m_User->SetUnReadMessageCount(0);
     emit GET_CLIENT->sigUpdateRosterUserInfo(m_User->GetId(), m_User);
 }
@@ -266,7 +265,7 @@ void CFrmMessage::on_pbSend_clicked()
 
     AppendMessageToList(ui->txtInput->toPlainText(), USER_INFO_LOCALE->GetId(), USER_INFO_LOCALE->GetShowName(), false);
 
-    //发送  
+    //TODO:发送  
     GET_CLIENT->SendMessage(m_User->GetId(), ui->txtInput->toPlainText());
 
     ui->txtInput->clear();//清空输入框中的内容  
@@ -302,4 +301,21 @@ void CFrmMessage::on_lbAvatar_clicked()
         CFrmUservCard *pvCard = new CFrmUservCard(m_User);
         pvCard->show();
     }
+}
+
+void CFrmMessage::slotRefresh()
+{
+    if(m_User.isNull())
+    {
+        return;
+    }
+
+    ui->lbRosterName->setText(m_User->GetShowName()
+                              + "["
+                              + CGlobal::Instance()->GetRosterStatusText(m_User->GetStatus())
+                              + "]");
+
+   QPixmap pixmap;
+   pixmap.convertFromImage(m_User->GetPhoto());
+   ui->lbAvatar->setPixmap(pixmap);
 }

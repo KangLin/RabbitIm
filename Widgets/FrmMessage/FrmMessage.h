@@ -44,6 +44,8 @@ private slots:
     void on_lbAvatar_clicked();//点击头像显示用户详细信息对话框  
 
     void ChangedPresence(CUserInfo::USER_INFO_STATUS status);
+    //刷新控件  
+    void slotRefresh();
 /*
     void slotSendFileTriggered();//20140712文件发送  
     void slotShotScreenTriggered();//20140712截屏  

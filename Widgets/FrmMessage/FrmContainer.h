@@ -40,7 +40,8 @@ protected:
 
 private slots:
     void slotCloseTable(int nIndex);
-
+    //刷新控件  
+    void slotRefresh();
 private:
     Ui::CFrmContainer *ui;
     QMap<QString, QSharedPointer<QFrame> >m_Frame;

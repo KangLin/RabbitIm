@@ -2,6 +2,7 @@
 #include "ui_FrmContainer.h"
 #include "FrmMessage.h"
 #include "Global/Global.h"
+#include "MainWindow.h"
 
 CFrmContainer::CFrmContainer(QWidget *parent) :
     QFrame(parent),
@@ -11,15 +12,21 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
     ui->setupUi(this);
     m_tabWidget.clear();
     m_tabWidget.setTabsClosable(true);
+    m_nSize = 10;
+    
     bool check = connect(&m_tabWidget, SIGNAL(tabCloseRequested(int)),
                          SLOT(slotCloseTable(int)));
     Q_ASSERT(check);
-    m_nSize = 10;
+    
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
+                    SLOT(slotRefresh()));
+    Q_ASSERT(check);
 }
 
 CFrmContainer::~CFrmContainer()
 {
     LOG_MODEL_DEBUG("CFrmContainer", "CFrmContainer::~CFrmContainer()");
+    CGlobal::Instance()->GetMainWindow()->disconnect(this);
     m_tabWidget.clear();
     m_Frame.clear();
     delete ui;
@@ -110,4 +117,34 @@ void CFrmContainer::slotCloseTable(int nIndex)
             break;
         }
     }
+}
+
+void CFrmContainer::slotRefresh()
+{
+    int nIndex = m_tabWidget.currentIndex();
+    QMap<QString, QSharedPointer<QFrame> >::iterator it;
+    for(it = m_Frame.begin(); it != m_Frame.end(); it++)
+    {
+        QString szId = it.key();
+        //是好友消息对话框  
+        QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+        if(!roster.isNull())
+        {
+            m_tabWidget.setCurrentWidget(it.value().data());
+            int index = m_tabWidget.currentIndex();
+            if(-1 == index)
+            {
+                LOG_MODEL_ERROR("CFrmContainer", "There isn't the widget");
+                continue;
+            }
+            QPixmap pixmap;
+            pixmap.convertFromImage(roster->GetPhoto());
+            m_tabWidget.setTabIcon(index, QIcon(pixmap));
+            m_tabWidget.setTabText(index, roster->GetShowName());
+            continue;
+        }
+        //TODO:是组消息对话框  
+        
+    }
+    m_tabWidget.setCurrentIndex(nIndex);
 }

@@ -197,7 +197,7 @@ int CClientXmpp::RosterRename(const QString &szId, const QString &szName)
 
 int CClientXmpp::SendMessage(const QString &szId, const QString &szMsg)
 {
-    m_Client.sendMessage(((CUserInfoXmpp*)m_User.data())->GetJid(), szMsg);
+    m_Client.sendMessage(szId, szMsg);
     return 0;
 }
 
