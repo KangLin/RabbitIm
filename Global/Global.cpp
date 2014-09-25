@@ -348,8 +348,8 @@ QString CGlobal::GetRosterStatusText(CUserInfo::USER_INFO_STATUS status)
         return tr("Do not disturb");
     else if(CUserInfo::Invisible == status)
         return tr("Invisible");
-    else if(CUserInfo::XA == status)
-        return tr("Away for an extended period");
+    else if(CUserInfo::OffLine == status)
+        return tr("OffLine");
     else
         return tr("Invisible");
 }
@@ -366,7 +366,7 @@ QString CGlobal::GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS status)
         return ":/icon/Status_dnd";
     else if(CUserInfo::Invisible == status)
         return ":/icon/Status_invisible";
-    else if(CUserInfo::XA == status)
+    else if(CUserInfo::OffLine == status)
         return ":/icon/Status_invisible";
     else
         return ":/icon/Status_invisible";
@@ -384,7 +384,7 @@ QColor CGlobal::GetRosterStatusColor(CUserInfo::USER_INFO_STATUS status)
         return QColor(255, 0, 0);
     else if(CUserInfo::Invisible == status)
         return QColor(255, 255, 255);
-    else if(CUserInfo::XA == status)
+    else if(CUserInfo::OffLine == status)
         return QColor(255, 0, 255);
     else
         return QColor(255, 255, 255);

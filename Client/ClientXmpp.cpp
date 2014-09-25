@@ -126,9 +126,7 @@ int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUs
 
 int CClientXmpp::Logout()
 {
-    setClientStatus(CUserInfo::XA);
-    QXmppPresence presence;
-    presence.setType(QXmppPresence::Unavailable);
+    QXmppPresence presence(QXmppPresence::Unavailable);
     m_Client.setClientPresence(presence);
     m_Client.disconnectFromServer();
     return 0;
@@ -244,12 +242,12 @@ QXmppPresence::AvailableStatusType CClientXmpp::StatusToPresence(CUserInfo::USER
     case CUserInfo::DO_NOT_DISTURB:
         s = QXmppPresence::DND;
         break;
-    case CUserInfo::XA:
-        s = QXmppPresence::XA;
-        break;
     case CUserInfo::Invisible:
-    default:
         s = QXmppPresence::Invisible;
+        break;
+    case CUserInfo::OffLine:
+        s = QXmppPresence::XA;
+    default:
         break;
     }
     return s;
@@ -273,7 +271,7 @@ CUserInfo::USER_INFO_STATUS CClientXmpp::StatusFromPresence(QXmppPresence::Avail
         s = CUserInfo::DO_NOT_DISTURB;
         break;
     case QXmppPresence::XA:
-        s = CUserInfo::XA;
+        s = CUserInfo::OffLine;
         break;
     case QXmppPresence::Invisible:
     default:

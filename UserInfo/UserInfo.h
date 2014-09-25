@@ -16,13 +16,12 @@ public:
 
     enum USER_INFO_STATUS
     {
-        Online = 0,      ///< The entity or resource is online.
-        Away,            ///< The entity or resource is temporarily away.
-        XA,              ///< The entity or resource is away for an extended period.
+        Online = 0,      ///< 在线  
+        Away,               ///< 临时离开  
+        OffLine,          ///< 不在线，本程序增加的。 相当于qxmpp中的XA状态  
         DO_NOT_DISTURB,  ///< 别打扰  
-        Chat,            ///< The entity or resource is actively interested in chatting.
-        Invisible,       ///< obsolete XEP-0018: Invisible Presence
-        OffLine = XA          ///< 不在线，本程序增加的。  
+        Chat,               ///< 正在聊天  
+        Invisible        ///< obsolete XEP-0018: 隐形状态  
     };
 
     virtual QString GetShowName(); //根据配置显示用户名称  

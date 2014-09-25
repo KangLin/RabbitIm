@@ -9,7 +9,7 @@ CUserInfo::CUserInfo(QObject *parent) :
 {
     m_UnReadMessageCount = 0;
     m_subscriptionType = None;
-    m_Status = XA;
+    m_Status = OffLine;
 }
 
 CUserInfo::~CUserInfo()
