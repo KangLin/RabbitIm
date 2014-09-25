@@ -308,6 +308,9 @@ int MainWindow::InitMenuStatus()
     m_ActionStatus[CUserInfo::Invisible] = 
             m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::Invisible)),
                              CGlobal::Instance()->GetRosterStatusText(CUserInfo::Invisible));
+    m_ActionStatus[CUserInfo::OffLine] =
+            m_MenuStatus.addAction(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CUserInfo::OffLine)),
+                             CGlobal::Instance()->GetRosterStatusText(CUserInfo::OffLine));
 
     QMap<CUserInfo::USER_INFO_STATUS, QAction*>::iterator it;
     for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
