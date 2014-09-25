@@ -25,7 +25,7 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="Nomarl">
       <attribute name="title">
        <string>Nomarl</string>
       </attribute>
@@ -319,7 +319,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3">
+     <widget class="QWidget" name="Message">
       <attribute name="title">
        <string>Message</string>
       </attribute>
@@ -380,7 +380,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="Show">
       <attribute name="title">
        <string>Show</string>
       </attribute>

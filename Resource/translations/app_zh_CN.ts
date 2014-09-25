@@ -38,8 +38,8 @@
     <name>CFrmAddRoster</name>
     <message>
         <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.ui" line="26"/>
-        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="46"/>
-        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="47"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="44"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="45"/>
         <source>Add Roster</source>
         <translation>增加好友</translation>
     </message>
@@ -79,27 +79,27 @@
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="37"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="38"/>
         <source>Request add roster</source>
         <translation>请求增加好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="38"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="39"/>
         <source>%1 request add roster</source>
         <translation>%1 请求增加为好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="53"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="52"/>
         <source>My friends</source>
         <translation>我的好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="80"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="79"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="80"/>
+        <location filename="../../Widgets/FrmAddRoster/FrmAddRoster.cpp" line="79"/>
         <source>Isn&apos;t fill JID. Please fill it.</source>
         <translation>没有填 JID,请重新填写。</translation>
     </message>
@@ -925,15 +925,25 @@
         <translation>未读信息数</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="118"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="181"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="190"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="126"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="195"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="204"/>
         <source>Operator roster(&amp;O)</source>
         <translation>操作好友(&amp;O)</translation>
     </message>
     <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="263"/>
+        <source>Roster[%1] rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="264"/>
+        <source>Roster[%1] rename:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="34"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="274"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="314"/>
         <source>My friends</source>
         <translation>我的好友</translation>
     </message>
@@ -976,6 +986,12 @@
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="69"/>
         <source>Information(&amp;I)</source>
         <translation>查看用户信息(&amp;I)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="78"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="81"/>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1163,8 +1179,12 @@
     </message>
     <message>
         <location filename="../../Global/Global.cpp" line="352"/>
+        <source>OffLine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Away for an extended period</source>
-        <translation>离开</translation>
+        <translation type="vanished">离开</translation>
     </message>
 </context>
 <context>
@@ -1196,17 +1216,17 @@
 <context>
     <name>CUserInfo</name>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="142"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="143"/>
         <source>[none]</source>
         <translation>[未知]</translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="146"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="147"/>
         <source>[From]</source>
         <translation>[挂起]</translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="150"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="151"/>
         <source>[remove]</source>
         <translation>[删除]</translation>
     </message>
@@ -1272,7 +1292,7 @@
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="128"/>
-        <location filename="../../MainWindow.cpp" line="518"/>
+        <location filename="../../MainWindow.cpp" line="524"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
@@ -1307,32 +1327,32 @@
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="267"/>
-        <location filename="../../MainWindow.cpp" line="502"/>
+        <location filename="../../MainWindow.cpp" line="508"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation>编辑本地用户信息(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="327"/>
+        <location filename="../../MainWindow.cpp" line="330"/>
         <source>Status(&amp;S)</source>
         <translation>状态(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="346"/>
+        <location filename="../../MainWindow.cpp" line="349"/>
         <source>Language(&amp;L)</source>
         <translation>语言(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="347"/>
+        <location filename="../../MainWindow.cpp" line="351"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="349"/>
+        <location filename="../../MainWindow.cpp" line="353"/>
         <source>Chinese</source>
         <translation>简体中文</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="348"/>
+        <location filename="../../MainWindow.cpp" line="352"/>
         <source>English</source>
         <translation>英语</translation>
     </message>
@@ -1357,28 +1377,28 @@
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="447"/>
+        <location filename="../../MainWindow.cpp" line="451"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="447"/>
+        <location filename="../../MainWindow.cpp" line="451"/>
         <source>Change language must reset program.</source>
         <translation>改变语言设置，必须重启程序才能生效。</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="511"/>
+        <location filename="../../MainWindow.cpp" line="517"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="513"/>
+        <location filename="../../MainWindow.cpp" line="519"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="617"/>
-        <location filename="../../MainWindow.cpp" line="642"/>
+        <location filename="../../MainWindow.cpp" line="626"/>
+        <location filename="../../MainWindow.cpp" line="651"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
