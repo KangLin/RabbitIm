@@ -4,7 +4,7 @@
 #include "Client/ClientXmpp.h"
 #include "Global/GlobalUserQXmpp.h"
 
-class CManagerXmpp
+class CManagerXmpp : public CManager
 {
 public:
     CManagerXmpp();

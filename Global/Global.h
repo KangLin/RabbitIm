@@ -32,7 +32,6 @@ public:
     QSharedPointer<CManager> GetManager();
 private:
     MainWindow* m_pMainWindow;
-    QSharedPointer<CManager> m_Manager;
 
 public:
     //应用程序目录  

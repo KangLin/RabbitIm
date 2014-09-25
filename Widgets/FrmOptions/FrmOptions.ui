@@ -21,9 +21,9 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTabWidget" name="Message">
+    <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="Nomarl">
       <attribute name="title">
@@ -734,7 +734,7 @@
   <tabstop>pbUnreadMessageCountColor</tabstop>
   <tabstop>pbOK</tabstop>
   <tabstop>pbCancel</tabstop>
-  <tabstop>Message</tabstop>
+  <tabstop>tabWidget</tabstop>
   <tabstop>cbAutoLogin</tabstop>
   <tabstop>sbDelayTime</tabstop>
   <tabstop>cbNotificationShowMessage</tabstop>

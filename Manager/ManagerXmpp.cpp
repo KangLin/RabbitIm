@@ -1,6 +1,7 @@
 #include "ManagerXmpp.h"
 
 CManagerXmpp::CManagerXmpp() :
+    CManager(),
     m_Client(new CClientXmpp),
     m_User(new CGlobalUserQXmpp)
 {

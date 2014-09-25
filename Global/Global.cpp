@@ -17,10 +17,7 @@
 #endif
 
 CGlobal::CGlobal(QObject *parent) :
-    QObject(parent),
-    #ifdef QXMPP
-    m_Manager((CManager*)new CManagerXmpp)
-    #endif
+    QObject(parent)
 {
     m_pMainWindow = NULL;
     QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
@@ -121,7 +118,10 @@ int CGlobal::SetMainWindow(MainWindow *pWnd)
 
 QSharedPointer<CManager> CGlobal::GetManager()
 {
-    return m_Manager;
+    static QSharedPointer<CManager> manager((CManager*)new CManagerXmpp);
+    if(manager.isNull())
+        manager = QSharedPointer<CManager>((CManager*)new CManagerXmpp);
+    return manager;
 }
 
 CUserInfo::USER_INFO_STATUS CGlobal::GetStatus()
