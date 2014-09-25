@@ -12,8 +12,6 @@
 #include <UserInfo/COperateRoster.h>
 #include "Client/Client.h"
 
-class CRoster;
-
 namespace Ui {
 class CFrmUserList;
 }
@@ -142,9 +140,8 @@ private:
     CCustomTreeView m_UserList;
     QStandardItemModel *m_pModel;           //好友列表树型控件   
 
-    QMap<QString, CRoster*> m_Rosters;      //好友列表:<bareJic, CRoster>  
     QMap<QString, QStandardItem*> m_Groups; //组列表:<组名,QStandardItem>  
-    QString m_LastUser;                     //接收的最后一个消息用户  
+
     CFrmAddRoster m_frmAddRoster;           //增加好友对话框  
 
 };

@@ -5,15 +5,16 @@
 #include <QKeyEvent>
 #include <QMessageBox>
 
-CFrmMessage::CFrmMessage(QWidget *parent) :
-    QFrame(parent),
+CFrmMessage::CFrmMessage(QWidget *parent, Qt::WindowFlags f) :
+    QFrame(parent, f),
     m_MessageSendMenu(parent),
     ui(new Ui::CFrmMessage)
 {
     Init();
 }
 
-CFrmMessage::CFrmMessage(const QString &szId, QWidget *parent):
+CFrmMessage::CFrmMessage(const QString &szId, QWidget *parent, Qt::WindowFlags f):
+    QFrame(parent, f),
     m_MessageSendMenu(parent),
     ui(new Ui::CFrmMessage)
 {
@@ -147,6 +148,7 @@ void CFrmMessage::closeEvent(QCloseEvent *e)
 {
     Q_UNUSED(e);
     LOG_MODEL_DEBUG("Message", "CFrmMessage::closeEvent");
+    MANAGE_MESSAGE_DIALOG->CloaseDialog(m_User->GetId());
 }
 
 void CFrmMessage::changeEvent(QEvent *e)
@@ -190,7 +192,7 @@ void CFrmMessage::showEvent(QShowEvent *)
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::showEvent");
     //TODO:重读数据  
-    if(!m_User.isNull())
+    if(m_User.isNull())
     {
         return;
     }
@@ -200,7 +202,12 @@ void CFrmMessage::showEvent(QShowEvent *)
                               + CGlobal::Instance()->GetRosterStatusText(m_User->GetStatus())
                               + "]");
 
+   QPixmap pixmap;
+   pixmap.convertFromImage(m_User->GetPhoto());
+   ui->lbAvatar->setPixmap(pixmap);
+
     m_User->SetUnReadMessageCount(0);
+    emit GET_CLIENT->sigUpdateRosterUserInfo(m_User->GetId(), m_User);
 }
 
 void CFrmMessage::on_pbBack_clicked()

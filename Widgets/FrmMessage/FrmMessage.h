@@ -18,8 +18,8 @@ class CFrmMessage : public QFrame
     Q_OBJECT
 
 public:
-    explicit CFrmMessage(QWidget *parent = 0);
-    explicit CFrmMessage(const QString &szId,  QWidget *parent = 0);
+    explicit CFrmMessage(QWidget *parent = 0, Qt::WindowFlags f = 0);
+    explicit CFrmMessage(const QString &szId,  QWidget *parent = 0, Qt::WindowFlags f = 0);
     ~CFrmMessage();
 
     int AppendMessage(const QString &szMessage);

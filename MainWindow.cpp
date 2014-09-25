@@ -91,6 +91,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::~MainWindow()");
     //TODO:可能会引起程序core  
     //emit sigRemoveMenu(ui->menuOperator_O);
 
@@ -114,12 +115,15 @@ void MainWindow::showEvent(QShowEvent *)
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent");
     if(!m_bLogin)
     {
+        LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent QApplication::quit()");
         QApplication::quit();
         return;
     }
 
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent start");
     int type = CGlobal::Instance()->GetCloseType();
     switch (type) {
     case 0:
@@ -186,10 +190,6 @@ void MainWindow::slotClientConnected()
         m_Login->close();
         m_Login.clear();
     }
-
-    //TODO:
-    //if(!USER_INFO_LOCALE.isNull())
-    //    USER_INFO_LOCALE->SetStatus(XMPP_CLIENT->clientPresence().availableStatusType());
 
     if(m_TableMain.isNull())
     {

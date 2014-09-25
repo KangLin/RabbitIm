@@ -14,8 +14,14 @@ public:
     virtual QSharedPointer<CGlobalUser> GetGlobalUser() = 0;
     virtual QSharedPointer<CManageMessageDialog> GetManageMessageDialog();
 
-private:
-    QSharedPointer<CManageMessageDialog> m_ManageMessageDialog;
+    /**
+     * @brief 登录后初始化  
+     *
+     * @param szId
+     * @return int
+     */
+    virtual int Init(const QString& szId);
+    virtual int Clean();
 };
 
 #endif // MANAGER_H

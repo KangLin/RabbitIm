@@ -286,8 +286,8 @@ void CClientXmpp::slotClientConnected()
     QString szId = m_Client.configuration().jidBare();
     
     int nRet = 0;
-    GLOBAL_USER->Clean();
-    nRet = GLOBAL_USER->Init(szId);
+    CGlobal::Instance()->GetManager()->Clean();
+    nRet = CGlobal::Instance()->GetManager()->Init(szId);
     if(nRet)
     {
         LOG_MODEL_ERROR("MainWindow", "Init GlobalUser fail");
@@ -308,7 +308,7 @@ void CClientXmpp::slotClientConnected()
 
 void CClientXmpp::slotClientDisConnected()
 {
-    GLOBAL_USER->Clean();
+    CGlobal::Instance()->GetManager()->Clean();
     emit sigClientDisconnected();
 }
 
