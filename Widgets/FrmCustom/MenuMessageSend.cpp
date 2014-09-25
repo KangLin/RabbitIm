@@ -1,5 +1,5 @@
 #include "MenuMessageSend.h"
-#include "../../Global/Global.h"
+#include "Global/Global.h"
 
 CMenuMessageSend::CMenuMessageSend(QWidget *parent) :
     QMenu(parent)

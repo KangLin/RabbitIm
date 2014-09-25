@@ -1,19 +1,21 @@
 #include "FrmMessage.h"
 #include "ui_FrmMessage.h"
-#include "../FrmVideo/FrmVideo.h"
 #include "../FrmUservCard/FrmUservCard.h"
-#include "../DlgScreenShot/DlgScreenShot.h"
+#include "Global/Global.h"
 #include <QKeyEvent>
 #include <QMessageBox>
 
 CFrmMessage::CFrmMessage(QWidget *parent) :
     QFrame(parent),
+    m_MessageSendMenu(parent),
     ui(new Ui::CFrmMessage)
 {
     Init();
 }
 
-CFrmMessage::CFrmMessage(const QString &szId, QWidget *parent)
+CFrmMessage::CFrmMessage(const QString &szId, QWidget *parent):
+    m_MessageSendMenu(parent),
+    ui(new Ui::CFrmMessage)
 {
     Init(szId);
 }
@@ -44,7 +46,7 @@ int CFrmMessage::Init(const QString &szId)
     ui->pbSend->setPopupMode(QToolButton::MenuButtonPopup);
 #endif
 
-    //发送文件信号连接20140710 
+    /*/发送文件信号连接20140710 
     QAction* pAction = m_MoreMenu.addAction(tr("send file"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFileTriggered()));
     Q_ASSERT(check);
@@ -52,7 +54,7 @@ int CFrmMessage::Init(const QString &szId)
     pAction = m_MoreMenu.addAction(tr("shot screen"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotShotScreenTriggered()));
     Q_ASSERT(check);
-
+    */
     ui->tbMore->setMenu(&m_MoreMenu);
     return 0;
 }

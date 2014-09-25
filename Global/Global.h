@@ -3,8 +3,7 @@
 
 #include <QObject>
 #include <QColor>
-#include "Client/Client.h"
-#include "GlobalUser.h"
+#include <QSharedPointer>
 #include "Manager/Manager.h"
 
 class MainWindow;
@@ -30,11 +29,10 @@ public:
     //得到主窗口  
     MainWindow* GetMainWindow();
     int SetMainWindow(MainWindow* pWnd);
-    QSharedPointer<CClient> GetClient();
-    QSharedPointer<CGlobalUser> GetGlobalUser();
+    QSharedPointer<CManager> GetManager();
 private:
     MainWindow* m_pMainWindow;
-    QSharedPointer<CManager> m_Mangaer;
+    QSharedPointer<CManager> m_Manager;
 
 public:
     //应用程序目录  
@@ -207,9 +205,10 @@ signals:
 public slots:
 };
 
-#define GET_CLIENT CGlobal::Instance()->GetClient()
-#define GLOBAL_USER CGlobal::Instance()->GetGlobalUser()
-#define USER_INFO_LOCALE CGlobal::Instance()->GetGlobalUser()->GetUserInfoLocale()
+#define GET_CLIENT CGlobal::Instance()->GetManager()->GetClient()
+#define GLOBAL_USER CGlobal::Instance()->GetManager()->GetGlobalUser()
+#define USER_INFO_LOCALE GLOBAL_USER->GetUserInfoLocale()
+#define MANAGE_MESSAGE_DIALOG CGlobal::Instance()->GetManager()->GetManageMessageDialog()
 
 #define LM_DEBUG 0
 #define LM_INFO 1

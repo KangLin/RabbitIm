@@ -2,6 +2,7 @@
 #include "ui_FrmLogin.h"
 #include "../../Global/Global.h"
 #include "FrmLoginSettings.h"
+#include <QSettings>
 
 CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),
