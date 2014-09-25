@@ -117,6 +117,13 @@ void CFrmContainer::slotCloseTable(int nIndex)
             break;
         }
     }
+
+    if(!m_Frame.isEmpty())
+    {
+        return;
+    }
+    //TODO:如果没有子窗口了，要删除掉自己  
+    
 }
 
 void CFrmContainer::slotRefresh()
