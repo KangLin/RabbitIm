@@ -436,7 +436,10 @@ void CClientXmpp::slotPresenceReceived(const QXmppPresence &presence)
     QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(bareJid);
     if(!roster.isNull())
     {
-        roster->SetStatus(StatusFromPresence(presence.availableStatusType()));
+        if(presence.type() == QXmppPresence::Available)
+            roster->SetStatus(StatusFromPresence(presence.availableStatusType()));
+        else if(presence.type() == QXmppPresence::Unavailable)
+            roster->SetStatus(CUserInfo::OffLine);
         //触发状态改变消息  
         emit sigChangedStatus(bareJid);
     }
