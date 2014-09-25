@@ -27,7 +27,7 @@ int CManageMessageDialogBigScreen::Clean()
 int CManageMessageDialogBigScreen::ShowDialog(const QString &szId)
 {
     int nRet = 0;
-    std::list<QSharedPointer<CFrmContainer> >::iterator it;
+    QList<QSharedPointer<CFrmContainer> >::iterator it;
     for(it = m_Container.begin(); it != m_Container.end(); it++)
     {
         QSharedPointer<CFrmContainer> container = *it;
@@ -46,7 +46,7 @@ int CManageMessageDialogBigScreen::CloaseDialog(const QString &szId)
 {
     LOG_MODEL_DEBUG("CManageMessageDialogBigScreen", "CManageMessageDialogBigScreen::CloaseDialog:%s", qPrintable(szId));
     int nRet = 0;
-    std::list<QSharedPointer<CFrmContainer> >::iterator it;
+    QList<QSharedPointer<CFrmContainer> >::iterator it;
     for(it = m_Container.begin(); it != m_Container.end(); it++)
     {
         QSharedPointer<CFrmContainer> container = *it;

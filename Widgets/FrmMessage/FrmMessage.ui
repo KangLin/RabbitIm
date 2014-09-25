@@ -246,7 +246,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset resource="../../Resource/Resource.qrc">
-         <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
+         <normaloff>:/icon/Close</normaloff>:/icon/Close</iconset>
        </property>
        <property name="autoDefault">
         <bool>true</bool>

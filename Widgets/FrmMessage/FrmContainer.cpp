@@ -10,12 +10,18 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
 {
     ui->setupUi(this);
     m_tabWidget.clear();
+    m_tabWidget.setTabsClosable(true);
+    bool check = connect(&m_tabWidget, SIGNAL(tabCloseRequested(int)),
+                         SLOT(slotCloseTable(int)));
+    Q_ASSERT(check);
     m_nSize = 10;
 }
 
 CFrmContainer::~CFrmContainer()
 {
     LOG_MODEL_DEBUG("CFrmContainer", "CFrmContainer::~CFrmContainer()");
+    m_tabWidget.clear();
+    m_Frame.clear();
     delete ui;
 }
 
@@ -70,7 +76,15 @@ int CFrmContainer::ShowDialog(const QString &szId)
 
 int CFrmContainer::CloaseDialog(const QString &szId)
 {
-    return !m_Frame.remove(szId);
+    QMap<QString, QSharedPointer<QFrame> >::iterator it = m_Frame.find(szId);
+    if(m_Frame.end() != it)
+    {
+        m_tabWidget.setCurrentWidget(it.value().data());
+        m_tabWidget.removeTab(m_tabWidget.currentIndex());
+        m_Frame.erase(it);
+        return 0;
+    }
+    return -1;
 }
 
 void CFrmContainer::resizeEvent(QResizeEvent *e)
@@ -80,4 +94,20 @@ void CFrmContainer::resizeEvent(QResizeEvent *e)
 
 void CFrmContainer::closeEvent(QCloseEvent *)
 {
+    LOG_MODEL_DEBUG("CFrmContainer", "CFrmContainer::closeEvent");
+}
+
+void CFrmContainer::slotCloseTable(int nIndex)
+{
+    QFrame* frame = (QFrame*)m_tabWidget.widget(nIndex);
+    m_tabWidget.removeTab(nIndex);
+    QMap<QString, QSharedPointer<QFrame> >::iterator it;
+    for(it = m_Frame.begin(); it != m_Frame.end(); it++)
+    {
+        if(it.value() == frame)
+        {
+            m_Frame.erase(it);
+            break;
+        }
+    }
 }

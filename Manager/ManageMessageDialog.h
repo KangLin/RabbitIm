@@ -8,7 +8,7 @@
 
 class CManageMessageDialog : public QObject
 {
-        Q_OBJECT
+    Q_OBJECT
 public:
     CManageMessageDialog(QObject *parent = 0);
     virtual ~CManageMessageDialog();

@@ -17,7 +17,19 @@ public:
     explicit CFrmContainer(QWidget *parent = 0);
     ~CFrmContainer();
 
+    /**
+     * @brief 查找并显示对话,如果没找到，还有空间的话，就新建一个消息框对象  
+     *
+     * @param szId：好友ID  
+     * @return int：查找并显示对话框返回0，没找到返回-1，其它值为错误  
+     */
     int ShowDialog(const QString& szId);
+    /**
+     * @brief 关闭指定的消息框  
+     *
+     * @param szId：好友ID  
+     * @return int：关闭成功返回0，不在这个窗口中返回非0  
+     */
     int CloaseDialog(const QString& szId);
 
     int GetCount(){return m_Frame.size();}
@@ -25,6 +37,9 @@ public:
 protected:
     virtual void resizeEvent(QResizeEvent *e);
     virtual void closeEvent(QCloseEvent *);
+
+private slots:
+    void slotCloseTable(int nIndex);
 
 private:
     Ui::CFrmContainer *ui;
