@@ -5,6 +5,12 @@ CManageMessageDialogBigScreen::CManageMessageDialogBigScreen(QObject *parent) : 
 {
 }
 
+CManageMessageDialogBigScreen::~CManageMessageDialogBigScreen()
+{
+    LOG_MODEL_DEBUG("CManageMessageDialogBigScreen", "CManageMessageDialogBigScreen::~CManageMessageDialogBigScreen()");
+    Clean();
+}
+
 int CManageMessageDialogBigScreen::Init(const QString &szId)
 {
     Q_UNUSED(szId);

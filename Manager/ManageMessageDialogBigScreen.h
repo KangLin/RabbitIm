@@ -11,6 +11,7 @@ class CManageMessageDialogBigScreen : public CManageMessageDialog
     Q_OBJECT
 public:
     CManageMessageDialogBigScreen(QObject *parent = 0);
+    virtual ~CManageMessageDialogBigScreen();
     
     /**
      * @brief 用户登录成功后调用初始化  
