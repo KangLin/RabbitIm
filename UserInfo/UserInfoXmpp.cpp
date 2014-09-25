@@ -135,18 +135,19 @@ CUserInfo::SUBSCRIPTION_TYPE CUserInfoXmpp::FromQxmppSubscriptionType(QXmppRoste
     return t;
 }
 
-QDataStream & operator <<(QDataStream &output, const CUserInfoXmpp &roster)
+int CUserInfoXmpp::LoadFromStorage(QDataStream &input)
 {
-    output << (CUserInfo&)roster;
-    output << roster.m_szJid;
-    output << roster.m_szName;
-    return output;
+    int nRet = 0;
+    CUserInfo::LoadFromStorage(input);
+    input >> m_szJid;
+    input >> m_szName;
+    return nRet;
 }
 
-QDataStream & operator >>(QDataStream &input, CUserInfoXmpp &roster)
+int CUserInfoXmpp::SaveToStorage(QDataStream &output)
 {
-    input >> (CUserInfo&)roster;
-    input >> roster.m_szJid;
-    input >> roster.m_szName;
-    return input;
+    CUserInfo::SaveToStorage(output);
+    output << m_szJid;
+    output << m_szName;
+    return 0;
 }

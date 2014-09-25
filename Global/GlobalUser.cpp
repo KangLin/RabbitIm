@@ -29,7 +29,7 @@ int CGlobalUser::Clean()
     //保存数据到配置文件中  
     if(m_bModify)
     {
-        SaveToFile();
+        SaveToStorage();
     }
 
     m_bModify = false;
@@ -47,24 +47,24 @@ int CGlobalUser::SetModify(bool bModify)
 int CGlobalUser::LoadFromFile(QString szId)
 {
     int nRet = 0;
-    nRet = LoadLocaleFromFile(szId);
+    nRet = LoadLocaleFromStorage(szId);
     if(nRet)
         return nRet;
-    nRet = LoadRosterFromFile(szId);    
+    nRet = LoadRosterFromStorage(szId);    
     return nRet;
 }
 
-int CGlobalUser::SaveToFile()
+int CGlobalUser::SaveToStorage()
 {
     int nRet = 0;
-    nRet = SaveLocaleToFile();
+    nRet = SaveLocaleToStorage();
     if(nRet)
         return nRet;
-    nRet = SaveRosterToFile();
+    nRet = SaveRosterToStorage();
     return nRet;
 }
 
-int CGlobalUser::LoadLocaleFromFile(const QString &szId)
+int CGlobalUser::LoadLocaleFromStorage(const QString &szId)
 {
     int nRet = 0;
     QString szFile = GetLocaleFile(szId);
@@ -88,7 +88,8 @@ int CGlobalUser::LoadLocaleFromFile(const QString &szId)
          {
             m_UserInforLocale = NewUserInfo();
         }
-        s >> *m_UserInforLocale;        
+        //s >> *m_UserInforLocale;        
+        m_UserInforLocale->LoadFromStorage(s);
     }
     catch(...)
     {
@@ -100,7 +101,7 @@ int CGlobalUser::LoadLocaleFromFile(const QString &szId)
     return nRet;
 }
 
-int CGlobalUser::SaveLocaleToFile()
+int CGlobalUser::SaveLocaleToStorage()
 {
     int nRet = 0;
     QString szFile = GetLocaleFile(GetUserInfoLocale()->GetId());
@@ -119,7 +120,8 @@ int CGlobalUser::SaveLocaleToFile()
         int nVersion = 1;
         s << nVersion;
         //本地用户信息  
-        s << *m_UserInforLocale;     
+        //s << *m_UserInforLocale;     
+        m_UserInforLocale->SaveToStorage(s);
     }
     catch(...)
     {
@@ -131,7 +133,7 @@ int CGlobalUser::SaveLocaleToFile()
     return nRet;
 }
 
-int CGlobalUser::LoadRosterFromFile(QString szId)
+int CGlobalUser::LoadRosterFromStorage(QString szId)
 {
     int nRet = 0;
     QString szFile = GetRosterFile(szId);
@@ -156,7 +158,8 @@ int CGlobalUser::LoadRosterFromFile(QString szId)
         {
             QString jid;
             QSharedPointer<CUserInfo> roster = NewUserInfo();
-            s >> jid >> *roster;
+            s >> jid;
+            roster->LoadFromStorage(s);
             m_UserInfoRoster.insert(jid, roster);
         }
     }
@@ -170,7 +173,7 @@ int CGlobalUser::LoadRosterFromFile(QString szId)
     return nRet;
 }
 
-int CGlobalUser::SaveRosterToFile()
+int CGlobalUser::SaveRosterToStorage()
 {
     int nRet = 0;
     QString szFile = GetRosterFile(GetUserInfoLocale()->GetId());
@@ -192,7 +195,8 @@ int CGlobalUser::SaveRosterToFile()
         QMap<QString, QSharedPointer<CUserInfo> >::iterator it;
         for(it = m_UserInfoRoster.begin(); it != m_UserInfoRoster.end(); it++)
         {
-            s << it.key() << *(it.value());
+            s << it.key();
+            it.value()->SaveToStorage(s);
         }
     }
     catch(...)

@@ -87,11 +87,11 @@ private:
      *
      * @return int  
      */
-    int SaveToFile();
-    virtual int LoadLocaleFromFile(const QString &szId);
-    virtual int SaveLocaleToFile();
-    virtual int LoadRosterFromFile(QString szId);
-    virtual int SaveRosterToFile();
+    int SaveToStorage();
+    virtual int LoadLocaleFromStorage(const QString &szId);
+    virtual int SaveLocaleToStorage();
+    virtual int LoadRosterFromStorage(QString szId);
+    virtual int SaveRosterToStorage();
 
     /**
      * @brief 得到登录用户信息保存的文件,不同协议用不同的文件.需要实现类实现.  

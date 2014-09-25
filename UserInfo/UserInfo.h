@@ -22,7 +22,7 @@ public:
         DO_NOT_DISTURB,  ///< 别打扰  
         Chat,            ///< The entity or resource is actively interested in chatting.
         Invisible,       ///< obsolete XEP-0018: Invisible Presence
-        OffLine          ///< 不在线，本程序增加的。  
+        OffLine = XA          ///< 不在线，本程序增加的。  
     };
 
     virtual QString GetShowName(); //根据配置显示用户名称  
@@ -67,9 +67,9 @@ public:
 
     //TODO:增加消息日志  
 
-#ifndef QT_NO_DATASTREAM
-    friend QDataStream & operator <<(QDataStream &output, const CUserInfo &roster);
-    friend QDataStream & operator >>(QDataStream &input, CUserInfo &roster);
+ #ifndef QT_NO_DATASTREAM
+    virtual int LoadFromStorage(QDataStream &input);
+    virtual int SaveToStorage(QDataStream &output);
 #endif
 
 protected:

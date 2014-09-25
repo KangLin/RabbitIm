@@ -9,6 +9,7 @@ CUserInfo::CUserInfo(QObject *parent) :
 {
     m_UnReadMessageCount = 0;
     m_subscriptionType = None;
+    m_Status = XA;
 }
 
 CUserInfo::~CUserInfo()
@@ -167,37 +168,38 @@ int CUserInfo::SetUnReadMessageCount(int nCount)
     return 0;
 }
 
-QDataStream & operator <<(QDataStream &output, const CUserInfo &roster)
+int CUserInfo::LoadFromStorage(QDataStream &input)
 {
-    output << roster.m_szNick 
-           << roster.m_szEmail 
-           << roster.m_szDescription
-           << roster.m_Birthday
-           << roster.m_subscriptionType
-           << roster.m_UnReadMessageCount
-           << roster.m_Groups.size();
-    foreach(QString group, roster.m_Groups)
-    {
-        output << group;
-    }
-
-    return output;
-}
-
-QDataStream & operator >>(QDataStream &input, CUserInfo &roster)
-{
-    input >> roster.m_szNick
-          >> roster.m_szEmail
-          >> roster.m_szDescription
-          >> roster.m_Birthday
-          >> (int&)roster.m_subscriptionType
-          >> roster.m_UnReadMessageCount;
+    int nRet = 0;
+    input >> m_szNick
+          >> m_szEmail
+          >> m_szDescription
+          >> m_Birthday
+          >> (int&)m_subscriptionType
+          >> m_UnReadMessageCount;
     int nSize = 0;
     input >> nSize;
     while (nSize--) {
         QString group;
         input >> group;
-        roster.m_Groups << group;
+        m_Groups << group;
     }
-    return input;
+    return nRet;
+}
+
+int CUserInfo::SaveToStorage(QDataStream &output)
+{
+    int nRet = 0;
+    output << m_szNick 
+           << m_szEmail 
+           << m_szDescription
+           << m_Birthday
+           << m_subscriptionType
+           << m_UnReadMessageCount
+           << m_Groups.size();
+    foreach(QString group, m_Groups)
+    {
+        output << group;
+    }
+    return nRet;
 }

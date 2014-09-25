@@ -126,6 +126,10 @@ int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUs
 
 int CClientXmpp::Logout()
 {
+    setClientStatus(CUserInfo::XA);
+    QXmppPresence presence;
+    presence.setType(QXmppPresence::Unavailable);
+    m_Client.setClientPresence(presence);
     m_Client.disconnectFromServer();
     return 0;
 }

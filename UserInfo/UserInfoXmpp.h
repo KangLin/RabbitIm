@@ -26,8 +26,8 @@ public:
     virtual int UpdateUserInfo(const QXmppRosterIq::Item &rosterItem);
 
 #ifndef QT_NO_DATASTREAM
-    friend QDataStream & operator <<(QDataStream &output, const CUserInfoXmpp &roster);
-    friend QDataStream & operator >>(QDataStream &input, CUserInfoXmpp &roster);
+    virtual int LoadFromStorage(QDataStream &input);
+    virtual int SaveToStorage(QDataStream &output);
 #endif
 
 private:
