@@ -67,8 +67,10 @@ void CManageMessageDialog::slotDeleteFrmMessage(QFrame *obj)
     {
         if(it.value() == obj)
         {
-            delete it.value();
+            QFrame* pFrame = it.value();
             m_DlgMessage.remove(it.key());
+            delete pFrame;
+            return;
         }
     }
 }

@@ -20,6 +20,13 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
     check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
                     SLOT(slotRefresh()));
     Q_ASSERT(check);
+
+    QDesktopWidget *pDesk = QApplication::desktop();    
+#ifdef MOBILE
+    this->resize(pDesk->geometry().size());
+#else
+    move((pDesk->width() - width()) / 2, (pDesk->height() - height()) / 2);
+#endif 
 }
 
 CFrmContainer::~CFrmContainer()

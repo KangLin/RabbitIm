@@ -64,6 +64,13 @@ int CFrmMessage::Init(const QString &szId)
     Q_ASSERT(check);
     */
     ui->tbMore->setMenu(&m_MoreMenu);
+
+    QDesktopWidget *pDesk = QApplication::desktop();    
+#ifdef MOBILE
+    this->resize(pDesk->geometry().size());
+#else
+    move((pDesk->width() - width()) / 2, (pDesk->height() - height()) / 2);
+#endif 
     return 0;
 }
 
