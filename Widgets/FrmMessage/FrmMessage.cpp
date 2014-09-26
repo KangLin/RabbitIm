@@ -214,6 +214,8 @@ void CFrmMessage::showEvent(QShowEvent *)
     slotRefresh();
     m_User->SetUnReadMessageCount(0);
     emit GET_CLIENT->sigUpdateRosterUserInfo(m_User->GetId(), m_User);
+    //设置焦点  
+    ui->txtInput->setFocus();
 }
 
 void CFrmMessage::on_pbBack_clicked()

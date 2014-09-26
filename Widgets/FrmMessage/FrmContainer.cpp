@@ -51,7 +51,7 @@ int CFrmContainer::ShowDialog(const QString &szId)
     if(m_Frame.end() != it)
     {
         m_tabWidget.setCurrentWidget(it.value());
-        m_tabWidget.activateWindow();
+        //m_tabWidget.activateWindow();
         m_tabWidget.show();
         this->show();
         this->activateWindow();
@@ -79,7 +79,7 @@ int CFrmContainer::ShowDialog(const QString &szId)
         }
 
         m_tabWidget.setCurrentIndex(nIndex);
-        m_tabWidget.activateWindow();
+        //m_tabWidget.activateWindow();
         m_tabWidget.show();
         m_Frame.insert(szId, frame);
         this->show();
