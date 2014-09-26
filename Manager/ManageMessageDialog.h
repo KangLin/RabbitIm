@@ -34,10 +34,10 @@ public:
      */
     virtual int ShowDialog(const QString& szId);
 
-    virtual int CloaseDialog(const QString& szId);
-
+private slots:
+    void slotDeleteFrmMessage(QFrame *obj);
 private:
-    QMap<QString, QSharedPointer<QFrame> > m_DlgMessage;
+    QMap<QString, QFrame*> m_DlgMessage;
 };
 
 #endif // MANAGEMESSAGEDIALOG_H

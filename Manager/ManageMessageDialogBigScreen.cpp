@@ -20,6 +20,11 @@ int CManageMessageDialogBigScreen::Init(const QString &szId)
 int CManageMessageDialogBigScreen::Clean()
 {
     LOG_MODEL_DEBUG("CManageMessageDialogBigScreen", "CManageMessageDialogBigScreen::Clean()");
+    std::list<CFrmContainer*>::iterator it;
+    for(it = m_Container.begin(); it != m_Container.end(); it++)
+    {
+        delete *it;
+    }
     m_Container.clear();
     return 0;
 }
@@ -27,35 +32,34 @@ int CManageMessageDialogBigScreen::Clean()
 int CManageMessageDialogBigScreen::ShowDialog(const QString &szId)
 {
     int nRet = 0;
-    QList<QSharedPointer<CFrmContainer> >::iterator it;
+    std::list<CFrmContainer* >::iterator it;
     for(it = m_Container.begin(); it != m_Container.end(); it++)
     {
-        QSharedPointer<CFrmContainer> container = *it;
-        if(0 == container->ShowDialog(szId))//找到  
+        if(0 == (*it)->ShowDialog(szId))//找到  
             return 0;
     }
 
-    QSharedPointer<CFrmContainer> container(new CFrmContainer);
+    //新建容器窗口对象  
+    CFrmContainer* container = new CFrmContainer;
     m_Container.push_back(container);
+    bool check = connect(container, SIGNAL(sigClose(CFrmContainer*)), 
+                         SLOT(slotDeleteContainer(CFrmContainer*)));
+    Q_ASSERT(check);
 
     container->ShowDialog(szId);
     return nRet;
 }
 
-int CManageMessageDialogBigScreen::CloaseDialog(const QString &szId)
+void CManageMessageDialogBigScreen::slotDeleteContainer(CFrmContainer *obj)
 {
-    LOG_MODEL_DEBUG("CManageMessageDialogBigScreen", "CManageMessageDialogBigScreen::CloaseDialog:%s", qPrintable(szId));
-    int nRet = 0;
-    QList<QSharedPointer<CFrmContainer> >::iterator it;
+    std::list<CFrmContainer* >::iterator it;
     for(it = m_Container.begin(); it != m_Container.end(); it++)
     {
-        QSharedPointer<CFrmContainer> container = *it;
-        if(0 == container->CloaseDialog(szId))
-         {
-            if(container->GetCount() == 0)
-                m_Container.erase(it);
-            return 0;
+        if(*it == obj)
+        {
+            delete *it;
+            m_Container.erase(it);
+            return;
         }
     }
-    return nRet;
 }

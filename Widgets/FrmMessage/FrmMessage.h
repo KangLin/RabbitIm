@@ -27,6 +27,13 @@ public:
                             const QString &bareJid,
                             const QString &name,
                             bool bRemote = false);
+signals:
+    /**
+     * @brief 窗口关闭时通知父窗口删除自己  
+     *
+     * @param obj:些窗口对象指针  
+     */
+    void sigClose(QFrame* obj);
 
 protected:
     virtual void hideEvent(QHideEvent *);

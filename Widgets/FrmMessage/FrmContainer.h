@@ -32,7 +32,13 @@ public:
      */
     int CloaseDialog(const QString& szId);
 
-    int GetCount(){return m_Frame.size();}
+signals:
+    /**
+     * @brief 本窗口关闭,通知父容器删除自己  
+     *
+     * @param obj:此对象指针  
+     */
+    void sigClose(CFrmContainer* obj);
 
 protected:
     virtual void resizeEvent(QResizeEvent *e);
@@ -42,9 +48,10 @@ private slots:
     void slotCloseTable(int nIndex);
     //刷新控件  
     void slotRefresh();
+
 private:
     Ui::CFrmContainer *ui;
-    QMap<QString, QSharedPointer<QFrame> >m_Frame;
+    QMap<QString, QFrame* >m_Frame;
     QTabWidget m_tabWidget;
     int m_nSize;//容纳子窗口大小  
 };

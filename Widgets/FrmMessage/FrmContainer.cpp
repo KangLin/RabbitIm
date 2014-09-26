@@ -10,10 +10,9 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
     ui(new Ui::CFrmContainer)
 {
     ui->setupUi(this);
+    m_nSize = 10;
     m_tabWidget.clear();
     m_tabWidget.setTabsClosable(true);
-    m_nSize = 10;
-    
     bool check = connect(&m_tabWidget, SIGNAL(tabCloseRequested(int)),
                          SLOT(slotCloseTable(int)));
     Q_ASSERT(check);
@@ -28,6 +27,11 @@ CFrmContainer::~CFrmContainer()
     LOG_MODEL_DEBUG("CFrmContainer", "CFrmContainer::~CFrmContainer()");
     CGlobal::Instance()->GetMainWindow()->disconnect(this);
     m_tabWidget.clear();
+    QMap<QString, QFrame*>::iterator it;
+    for(it = m_Frame.begin(); it != m_Frame.end(); it++)
+    {
+        delete it.value();
+    }
     m_Frame.clear();
     delete ui;
 }
@@ -35,11 +39,11 @@ CFrmContainer::~CFrmContainer()
 int CFrmContainer::ShowDialog(const QString &szId)
 {
     int nRet = -1;
-    QMap<QString, QSharedPointer<QFrame> >::iterator it = m_Frame.find(szId);
+    QMap<QString, QFrame* >::iterator it = m_Frame.find(szId);
     //找到,显示对话框  
     if(m_Frame.end() != it)
     {
-        m_tabWidget.setCurrentWidget(it.value().data());
+        m_tabWidget.setCurrentWidget(it.value());
         m_tabWidget.activateWindow();
         m_tabWidget.show();
         this->show();
@@ -57,10 +61,10 @@ int CFrmContainer::ShowDialog(const QString &szId)
     QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(!roster.isNull())
     {
-        QSharedPointer<QFrame> frame(new CFrmMessage(szId, &m_tabWidget));
+        QFrame* frame = new CFrmMessage(szId, &m_tabWidget);
         QPixmap pixmap;
         pixmap.convertFromImage(roster->GetPhoto());
-        int nIndex = m_tabWidget.addTab(frame.data(), QIcon(pixmap), roster->GetShowName());
+        int nIndex = m_tabWidget.addTab(frame, QIcon(pixmap), roster->GetShowName());
         if(nIndex < 0)
         {
             LOG_MODEL_ERROR("CFrmContainer", "add tab fail");
@@ -83,12 +87,14 @@ int CFrmContainer::ShowDialog(const QString &szId)
 
 int CFrmContainer::CloaseDialog(const QString &szId)
 {
-    QMap<QString, QSharedPointer<QFrame> >::iterator it = m_Frame.find(szId);
+    int nIndex = m_tabWidget.currentIndex();
+    QMap<QString, QFrame* >::iterator it = m_Frame.find(szId);
     if(m_Frame.end() != it)
     {
-        m_tabWidget.setCurrentWidget(it.value().data());
-        m_tabWidget.removeTab(m_tabWidget.currentIndex());
-        m_Frame.erase(it);
+        m_tabWidget.setCurrentWidget(it.value());
+        int index =m_tabWidget.currentIndex();
+        m_tabWidget.setCurrentIndex(nIndex);
+        slotCloseTable(index);
         return 0;
     }
     return -1;
@@ -102,17 +108,19 @@ void CFrmContainer::resizeEvent(QResizeEvent *e)
 void CFrmContainer::closeEvent(QCloseEvent *)
 {
     LOG_MODEL_DEBUG("CFrmContainer", "CFrmContainer::closeEvent");
+    emit sigClose(this);
 }
 
 void CFrmContainer::slotCloseTable(int nIndex)
 {
     QFrame* frame = (QFrame*)m_tabWidget.widget(nIndex);
     m_tabWidget.removeTab(nIndex);
-    QMap<QString, QSharedPointer<QFrame> >::iterator it;
+    QMap<QString, QFrame* >::iterator it;
     for(it = m_Frame.begin(); it != m_Frame.end(); it++)
     {
         if(it.value() == frame)
         {
+            delete *it;
             m_Frame.erase(it);
             break;
         }
@@ -122,14 +130,14 @@ void CFrmContainer::slotCloseTable(int nIndex)
     {
         return;
     }
-    //TODO:如果没有子窗口了，要删除掉自己  
-    
+    //如果没有子窗口了，通知容器窗口删除掉自己  
+    emit sigClose(this);
 }
 
 void CFrmContainer::slotRefresh()
 {
     int nIndex = m_tabWidget.currentIndex();
-    QMap<QString, QSharedPointer<QFrame> >::iterator it;
+    QMap<QString, QFrame* >::iterator it;
     for(it = m_Frame.begin(); it != m_Frame.end(); it++)
     {
         QString szId = it.key();
@@ -137,7 +145,7 @@ void CFrmContainer::slotRefresh()
         QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
         if(!roster.isNull())
         {
-            m_tabWidget.setCurrentWidget(it.value().data());
+            m_tabWidget.setCurrentWidget(it.value());
             int index = m_tabWidget.currentIndex();
             if(-1 == index)
             {

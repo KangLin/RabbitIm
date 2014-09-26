@@ -20,20 +20,38 @@ int CManageMessageDialog::Init(const QString &szId)
 int CManageMessageDialog::Clean()
 {
     LOG_MODEL_DEBUG("CManageMessageDialog", "CManageMessageDialog::Clean()");
+    QMap<QString, QFrame*>::iterator it;
+    for(it = m_DlgMessage.begin(); it != m_DlgMessage.end(); it++)
+    {
+        delete it.value();
+    }
     m_DlgMessage.clear();
     return 0;
 }
 
 int CManageMessageDialog::ShowDialog(const QString &szId)
 {
-    QSharedPointer<QFrame> frmMessage;
-    QMap<QString, QSharedPointer<QFrame> >::iterator it;
+    QFrame* frmMessage;
+    QMap<QString, QFrame*>::iterator it;
     it = m_DlgMessage.find(szId);
     if(m_DlgMessage.end() == it)
     {
-        QSharedPointer<QFrame> frm(new CFrmMessage(szId));
-        frmMessage = frm;
-        m_DlgMessage.insert(szId, frm);
+        //是好友消息对话框  
+        QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+        if(!roster.isNull())
+        {
+            CFrmMessage* frm = new CFrmMessage(szId);
+            frmMessage = frm;
+            bool check = connect(frm, SIGNAL(sigClose(QFrame*)),
+                                 SLOT(slotDeleteFrmMessage(QFrame*)));
+            Q_ASSERT(check);
+            m_DlgMessage.insert(szId, frm);
+        }
+        else
+        {
+            //TODO:是组消息对话框  
+            
+        }
     }
     else
         frmMessage = it.value();
@@ -42,7 +60,15 @@ int CManageMessageDialog::ShowDialog(const QString &szId)
     return 0;
 }
 
-int CManageMessageDialog::CloaseDialog(const QString &szId)
+void CManageMessageDialog::slotDeleteFrmMessage(QFrame *obj)
 {
-    return !m_DlgMessage.remove(szId);
+    QMap<QString, QFrame*>::iterator it;
+    for(it = m_DlgMessage.begin(); it != m_DlgMessage.end(); it++)
+    {
+        if(it.value() == obj)
+        {
+            delete it.value();
+            m_DlgMessage.remove(it.key());
+        }
+    }
 }

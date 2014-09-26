@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "ManageMessageDialog.h"
-#include <QList>
+#include <list>
 #include "Widgets/FrmMessage/FrmContainer.h"
 
 class CManageMessageDialogBigScreen : public CManageMessageDialog
@@ -34,16 +34,10 @@ public:
      */
     virtual int ShowDialog(const QString& szId);
 
-    /**
-     * @brief 关闭好友对话框  
-     *
-     * @param szId:好友ID  
-     * @return int：成功返回0，失败返回非0  
-     */
-    virtual int CloaseDialog(const QString& szId);
-
+private slots:
+    void slotDeleteContainer(CFrmContainer* obj);
 private:
-    QList<QSharedPointer<CFrmContainer> > m_Container;
+    std::list<CFrmContainer* > m_Container;
 };
 
 #endif // MANAGEMESSAGEDIALOGBIGSCREEN_H

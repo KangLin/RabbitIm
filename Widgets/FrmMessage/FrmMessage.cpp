@@ -155,7 +155,7 @@ void CFrmMessage::closeEvent(QCloseEvent *e)
 {
     Q_UNUSED(e);
     LOG_MODEL_DEBUG("Message", "CFrmMessage::closeEvent");
-    MANAGE_MESSAGE_DIALOG->CloaseDialog(m_User->GetId());
+    emit sigClose(this);
 }
 
 void CFrmMessage::changeEvent(QEvent *e)
