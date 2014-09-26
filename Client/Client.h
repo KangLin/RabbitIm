@@ -186,6 +186,7 @@ signals:
      * @param szMessage：接收到的消息  
      */
     void sigReceivedMessage(const QString &szId, const QString& szMessage);
+    void sigReceivedGroupMessage(const QString &szId, const QString &nick, const QString &szMessage);
 public slots:
 
 };

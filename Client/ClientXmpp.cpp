@@ -86,6 +86,9 @@ int CClientXmpp::InitConnect()
                     SLOT(slotItemRemoved(QString)));
     Q_ASSERT(check);
 
+    check = connect(&m_Client, SIGNAL(messageReceived(const QXmppMessage&)),
+                    SLOT(slotMessageReceived(const QXmppMessage&)));
+    Q_ASSERT(check);
     return 0;
 }
 
@@ -483,4 +486,36 @@ void CClientXmpp::slotItemRemoved(const QString &szId)
         return;
     }
     emit sigRemoveRosterUserInfo(szId);
+}
+
+void CClientXmpp::slotMessageReceived(const QXmppMessage &message)
+{
+    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotMessageReceived:type:%d;state:%d;from:%s;to:%s;body:%s",
+                    message.type(),
+                    message.state(), //消息的状态 0:消息内容，其它值表示这个消息的状态
+                    qPrintable(message.from()),
+                    qPrintable(message.to()),
+                    qPrintable(message.body())
+                    );
+
+    //是聊天消息  
+    if(QXmppMessage::Chat == message.type() && QXmppMessage::None == message.state())
+    {
+        QString szId = QXmppUtils::jidToBareJid(message.from());
+        QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+        if(!roster.isNull())
+        {
+            roster->SetUnReadMessageCount(roster->GetUnReadMessageCount() + 1);
+        }
+        emit sigReceivedMessage(szId, message.body());
+    }
+    //是组消息  
+    if(QXmppMessage::GroupChat == message.type() && QXmppMessage::None == message.state())
+    {
+        QString szBareJid = QXmppUtils::jidToBareJid(message.from());
+        QString szNick = QXmppUtils::jidToResource(message.from());
+        emit sigReceivedGroupMessage(szBareJid, szNick, message.body());
+    }
+    //TODO:消息输入状态显示
+    
 }

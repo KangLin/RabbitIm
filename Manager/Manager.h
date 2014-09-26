@@ -4,6 +4,7 @@
 #include "Client/Client.h"
 #include "Global/GlobalUser.h"
 #include "ManageMessageDialog.h"
+#include "ManageMessage.h"
 #include <QSharedPointer>
 
 class CManager
@@ -11,9 +12,14 @@ class CManager
 public:
     CManager();
     virtual ~CManager();
+    ///< 协议客户端  
     virtual QSharedPointer<CClient> GetClient() = 0;
+    ///< 用户信息管理对象  
     virtual QSharedPointer<CGlobalUser> GetGlobalUser() = 0;
+    ///< 消息对话框管理对象  
     virtual QSharedPointer<CManageMessageDialog> GetManageMessageDialog();
+    ///< 消息管理对象  
+    virtual CManageMessage* GetManageMessage();
 
     /**
      * @brief 登录后初始化  

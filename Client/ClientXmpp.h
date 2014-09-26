@@ -117,6 +117,8 @@ private slots:
     void slotItemAdded(const QString &szId);
     void slotItemChanged(const QString& szId);
     void slotItemRemoved(const QString& szId);
+    //接收消息  
+    void slotMessageReceived(const QXmppMessage &message);
 
 private:
     QXmppClient m_Client;

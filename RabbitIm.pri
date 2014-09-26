@@ -28,7 +28,9 @@ SOURCES += main.cpp\
     Widgets/FrmMessage/FrmMessage.cpp \
     Widgets/FrmCustom/MenuMessageSend.cpp \ 
     Manager/ManageMessageDialogBigScreen.cpp \
-    Widgets/FrmMessage/FrmContainer.cpp
+    Widgets/FrmMessage/FrmContainer.cpp \
+    Manager/ManageMessage.cpp \
+    Message/Message.cpp
     #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmSendFile/DlgSendManage.cpp \
     #Widgets/FrmSendFile/FrmSendFile.cpp \
@@ -75,7 +77,9 @@ HEADERS  += MainWindow.h \
     Widgets/FrmCustom/MenuMessageSend.h \
     Widgets/FrmMessage/FrmMessage.h \
     Manager/ManageMessageDialogBigScreen.h \
-    Widgets/FrmMessage/FrmContainer.h
+    Widgets/FrmMessage/FrmContainer.h \
+    Manager/ManageMessage.h \
+    Message/Message.h
     #Widgets/FrmUserList/Roster.h \
     #Widgets/FrmSendFile/DlgSendManage.h \
     #Widgets/FrmSendFile/FrmSendFile.h \
