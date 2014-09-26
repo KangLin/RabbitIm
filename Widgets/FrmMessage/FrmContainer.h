@@ -24,13 +24,6 @@ public:
      * @return int：查找并显示对话框返回0，没找到返回-1，其它值为错误  
      */
     int ShowDialog(const QString& szId);
-    /**
-     * @brief 关闭指定的消息框  
-     *
-     * @param szId：好友ID  
-     * @return int：关闭成功返回0，不在这个窗口中返回非0  
-     */
-    int CloaseDialog(const QString& szId);
 
 signals:
     /**
@@ -48,6 +41,7 @@ private slots:
     void slotCloseTable(int nIndex);
     //刷新控件  
     void slotRefresh();
+    void slotDeleteFrame(QFrame *frame);
 
 private:
     Ui::CFrmContainer *ui;

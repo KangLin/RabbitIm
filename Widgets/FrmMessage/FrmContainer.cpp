@@ -69,7 +69,7 @@ int CFrmContainer::ShowDialog(const QString &szId)
     QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(!roster.isNull())
     {
-        QFrame* frame = new CFrmMessage(szId, &m_tabWidget);
+        CFrmMessage* frame = new CFrmMessage(szId, &m_tabWidget);
         QPixmap pixmap;
         pixmap.convertFromImage(roster->GetPhoto());
         int nIndex = m_tabWidget.addTab(frame, QIcon(pixmap), roster->GetShowName());
@@ -78,6 +78,10 @@ int CFrmContainer::ShowDialog(const QString &szId)
             LOG_MODEL_ERROR("CFrmContainer", "add tab fail");
             return -2;
         }
+
+        bool check = connect(frame, SIGNAL(sigClose(QFrame*)),
+                             SLOT(slotDeleteFrame(QFrame*)));
+        Q_ASSERT(check);
 
         m_tabWidget.setCurrentIndex(nIndex);
         //m_tabWidget.activateWindow();
@@ -93,21 +97,6 @@ int CFrmContainer::ShowDialog(const QString &szId)
     return nRet;
 }
 
-int CFrmContainer::CloaseDialog(const QString &szId)
-{
-    int nIndex = m_tabWidget.currentIndex();
-    QMap<QString, QFrame* >::iterator it = m_Frame.find(szId);
-    if(m_Frame.end() != it)
-    {
-        m_tabWidget.setCurrentWidget(it.value());
-        int index =m_tabWidget.currentIndex();
-        m_tabWidget.setCurrentIndex(nIndex);
-        slotCloseTable(index);
-        return 0;
-    }
-    return -1;
-}
-
 void CFrmContainer::resizeEvent(QResizeEvent *e)
 {
     m_tabWidget.resize(this->geometry().size());
@@ -117,6 +106,17 @@ void CFrmContainer::closeEvent(QCloseEvent *)
 {
     LOG_MODEL_DEBUG("CFrmContainer", "CFrmContainer::closeEvent");
     emit sigClose(this);
+}
+
+void CFrmContainer::slotDeleteFrame(QFrame *frame)
+{
+    int nOldIndex = m_tabWidget.currentIndex();
+    if(-1 == nOldIndex)
+        return;
+    m_tabWidget.setCurrentWidget(frame);
+    int nIndex = m_tabWidget.currentIndex();
+    m_tabWidget.setCurrentIndex(nOldIndex);
+    slotCloseTable(nIndex);
 }
 
 void CFrmContainer::slotCloseTable(int nIndex)
