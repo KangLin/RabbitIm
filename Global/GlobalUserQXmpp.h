@@ -6,12 +6,12 @@
 #include "qxmpp/QXmppRosterIq.h"
 
 class CClientXmpp;
-class CGlobalUserQXmpp : public CManageUserInfo
+class CManageUserInfoQXmpp : public CManageUserInfo
 {
     Q_OBJECT
 
 public:
-    CGlobalUserQXmpp(QObject *parent = 0);
+    CManageUserInfoQXmpp(QObject *parent = 0);
 
     /**
      * @brief 新增加一个空的好友对象，并把此好友对象插入到好友列表中  

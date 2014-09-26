@@ -3,7 +3,7 @@
 CManagerXmpp::CManagerXmpp() :
     CManager(),
     m_Client(new CClientXmpp),
-    m_User(new CGlobalUserQXmpp)
+    m_User(new CManageUserInfoQXmpp)
 {
     m_Client->SetUser(m_User);
 }

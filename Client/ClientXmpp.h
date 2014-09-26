@@ -10,7 +10,7 @@
 #include "qxmpp/QXmppVCardIq.h"
 #include "Client.h"
 
-class CGlobalUserQXmpp;
+class CManageUserInfoQXmpp;
 class CClientXmpp : public CClient
 {
     Q_OBJECT
@@ -94,7 +94,7 @@ public:
      */
     virtual int setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo);
 
-    int SetUser(QSharedPointer<CGlobalUserQXmpp> user);
+    int SetUser(QSharedPointer<CManageUserInfoQXmpp> user);
 
 private:
     QXmppPresence::AvailableStatusType StatusToPresence(CUserInfo::USER_INFO_STATUS status);
@@ -122,7 +122,7 @@ private slots:
 
 private:
     QXmppClient m_Client;
-    QSharedPointer<CGlobalUserQXmpp> m_User;
+    QSharedPointer<CManageUserInfoQXmpp> m_User;
     QXmppCallManager m_CallManager;
     QXmppMucManager m_MucManager;
     QXmppTransferManager m_TransferManager;

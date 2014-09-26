@@ -223,7 +223,7 @@ int CClientXmpp::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)
     return 0;
 }
 
-int CClientXmpp::SetUser(QSharedPointer<CGlobalUserQXmpp> user)
+int CClientXmpp::SetUser(QSharedPointer<CManageUserInfoQXmpp> user)
 {
     m_User = user;
     return 0;

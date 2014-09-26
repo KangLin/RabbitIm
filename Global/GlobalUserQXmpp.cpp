@@ -7,12 +7,12 @@
 #include "qxmpp/QXmppUtils.h"
 #include <QDir>
 
-CGlobalUserQXmpp::CGlobalUserQXmpp(QObject *parent) 
+CManageUserInfoQXmpp::CManageUserInfoQXmpp(QObject *parent) 
     : CManageUserInfo(parent)
 {
 }
 
-QSharedPointer<CUserInfo> CGlobalUserQXmpp::NewUserInfo()
+QSharedPointer<CUserInfo> CManageUserInfoQXmpp::NewUserInfo()
 {
     QSharedPointer<CUserInfo> user(new CUserInfoXmpp);
     return user;
@@ -24,7 +24,7 @@ QSharedPointer<CUserInfo> CGlobalUserQXmpp::NewUserInfo()
  * @param szId：新增加好的ID  
  * @return QSharedPointer<CUserInfo>:成功,返回好友对象.失败,返回空  
  */
-QSharedPointer<CUserInfo> CGlobalUserQXmpp::AddUserInfoRoster(const QString &szId)
+QSharedPointer<CUserInfo> CManageUserInfoQXmpp::AddUserInfoRoster(const QString &szId)
 {
     QSharedPointer<CUserInfo> user =this->GetUserInfoRoster(szId);
     if(!user.isNull())
@@ -40,7 +40,7 @@ QSharedPointer<CUserInfo> CGlobalUserQXmpp::AddUserInfoRoster(const QString &szI
     return user;
 }
 
-int CGlobalUserQXmpp::UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString jid)
+int CManageUserInfoQXmpp::UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString jid)
 {
     SetModify(true);
     if(m_UserInforLocale.isNull())
@@ -52,7 +52,7 @@ int CGlobalUserQXmpp::UpdateUserInfoLocale(const QXmppVCardIq &vCard, QString ji
     return 0;
 }
 
-int CGlobalUserQXmpp::UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem)
+int CManageUserInfoQXmpp::UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem)
 {
     int nRet = 0;
     QString jid = rosterItem.bareJid();
@@ -67,7 +67,7 @@ int CGlobalUserQXmpp::UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem
     return nRet;
 }
 
-int CGlobalUserQXmpp::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString jid)
+int CManageUserInfoQXmpp::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString jid)
 {
     int nRet = 0;
     QString szBareJid = QXmppUtils::jidToBareJid(jid);
@@ -82,13 +82,13 @@ int CGlobalUserQXmpp::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString ji
     return nRet;
 }
 
-QString CGlobalUserQXmpp::GetLocaleFile(const QString &szLocaleJid)
+QString CManageUserInfoQXmpp::GetLocaleFile(const QString &szLocaleJid)
 {
     return CGlobal::Instance()->GetDirUserData(szLocaleJid) 
             + QDir::separator() + "XmppLocaleInfo.dat";
 }
 
-QString CGlobalUserQXmpp::GetRosterFile(const QString &szLocaleJid)
+QString CManageUserInfoQXmpp::GetRosterFile(const QString &szLocaleJid)
 {
     return CGlobal::Instance()->GetDirUserData(szLocaleJid) 
             + QDir::separator() + "XmppRosterInfo.dat";

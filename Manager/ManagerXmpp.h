@@ -14,7 +14,7 @@ public:
     
 private:
     QSharedPointer<CClientXmpp> m_Client;
-    QSharedPointer<CGlobalUserQXmpp> m_User;
+    QSharedPointer<CManageUserInfoQXmpp> m_User;
 };
 
 #endif // MANAGERXMPP_H
