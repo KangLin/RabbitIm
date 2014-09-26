@@ -8,7 +8,7 @@
 #include <QDir>
 
 CGlobalUserQXmpp::CGlobalUserQXmpp(QObject *parent) 
-    : CGlobalUser(parent)
+    : CManageUserInfo(parent)
 {
 }
 

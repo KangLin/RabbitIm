@@ -15,7 +15,7 @@ public:
     ///< 协议客户端  
     virtual QSharedPointer<CClient> GetClient() = 0;
     ///< 用户信息管理对象  
-    virtual QSharedPointer<CGlobalUser> GetGlobalUser() = 0;
+    virtual QSharedPointer<CManageUserInfo> GetManageUserInfo() = 0;
     ///< 消息对话框管理对象  
     virtual QSharedPointer<CManageMessageDialog> GetManageMessageDialog();
     ///< 消息管理对象  

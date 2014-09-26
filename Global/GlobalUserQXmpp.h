@@ -6,7 +6,7 @@
 #include "qxmpp/QXmppRosterIq.h"
 
 class CClientXmpp;
-class CGlobalUserQXmpp : public CGlobalUser
+class CGlobalUserQXmpp : public CManageUserInfo
 {
     Q_OBJECT
 

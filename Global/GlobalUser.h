@@ -8,12 +8,12 @@
 #include "UserInfo/COperateRoster.h"
 #include "Client/Client.h"
 
-class CGlobalUser : public QObject
+class CManageUserInfo : public QObject
 {
     Q_OBJECT
 public:
-    explicit CGlobalUser(QObject *parent = 0);
-    virtual ~CGlobalUser();
+    explicit CManageUserInfo(QObject *parent = 0);
+    virtual ~CManageUserInfo();
 
     /**
      * @brief 用户登录成功后调用,用于初始化工作  

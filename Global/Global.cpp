@@ -443,10 +443,10 @@ QString CGlobal::GetDirUserData(const QString &szId)
     QString jid;
     if(szId.isEmpty())
     {
-        if(!GetManager()->GetGlobalUser().isNull()
-                && !GetManager()->GetGlobalUser()->GetUserInfoLocale().isNull())
+        if(!GetManager()->GetManageUserInfo().isNull()
+                && !GetManager()->GetManageUserInfo()->GetUserInfoLocale().isNull())
         {
-            jid = GetManager()->GetGlobalUser()->GetUserInfoLocale()->GetId();
+            jid = GetManager()->GetManageUserInfo()->GetUserInfoLocale()->GetId();
         }
         else
         {

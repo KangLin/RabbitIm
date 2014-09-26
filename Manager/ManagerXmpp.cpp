@@ -13,7 +13,7 @@ QSharedPointer<CClient> CManagerXmpp::GetClient()
     return m_Client;
 }
 
-QSharedPointer<CGlobalUser> CManagerXmpp::GetGlobalUser()
+QSharedPointer<CManageUserInfo> CManagerXmpp::GetManageUserInfo()
 {
     return m_User;
 }

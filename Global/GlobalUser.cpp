@@ -3,18 +3,18 @@
 #include <QDir>
 #include <QFile>
 
-CGlobalUser::CGlobalUser(QObject *parent) :
+CManageUserInfo::CManageUserInfo(QObject *parent) :
     QObject(parent)
 {
     m_bModify = false;
 }
 
-CGlobalUser::~CGlobalUser()
+CManageUserInfo::~CManageUserInfo()
 {
     Clean();
 }
 
-int CGlobalUser::Init(QString szId)
+int CManageUserInfo::Init(QString szId)
 {
     int nRet = 0;
     m_bModify = false;
@@ -23,7 +23,7 @@ int CGlobalUser::Init(QString szId)
     return nRet;
 }
 
-int CGlobalUser::Clean()
+int CManageUserInfo::Clean()
 {
     int nRet = 0;
     //保存数据到配置文件中  
@@ -38,13 +38,13 @@ int CGlobalUser::Clean()
     return nRet;
 }
 
-int CGlobalUser::SetModify(bool bModify)
+int CManageUserInfo::SetModify(bool bModify)
 {
     m_bModify = bModify;
     return 0;
 }
 
-int CGlobalUser::LoadFromFile(QString szId)
+int CManageUserInfo::LoadFromFile(QString szId)
 {
     int nRet = 0;
     nRet = LoadLocaleFromStorage(szId);
@@ -54,7 +54,7 @@ int CGlobalUser::LoadFromFile(QString szId)
     return nRet;
 }
 
-int CGlobalUser::SaveToStorage()
+int CManageUserInfo::SaveToStorage()
 {
     int nRet = 0;
     nRet = SaveLocaleToStorage();
@@ -64,7 +64,7 @@ int CGlobalUser::SaveToStorage()
     return nRet;
 }
 
-int CGlobalUser::LoadLocaleFromStorage(const QString &szId)
+int CManageUserInfo::LoadLocaleFromStorage(const QString &szId)
 {
     int nRet = 0;
     QString szFile = GetLocaleFile(szId);
@@ -101,7 +101,7 @@ int CGlobalUser::LoadLocaleFromStorage(const QString &szId)
     return nRet;
 }
 
-int CGlobalUser::SaveLocaleToStorage()
+int CManageUserInfo::SaveLocaleToStorage()
 {
     int nRet = 0;
     QString szFile = GetLocaleFile(GetUserInfoLocale()->GetId());
@@ -133,7 +133,7 @@ int CGlobalUser::SaveLocaleToStorage()
     return nRet;
 }
 
-int CGlobalUser::LoadRosterFromStorage(QString szId)
+int CManageUserInfo::LoadRosterFromStorage(QString szId)
 {
     int nRet = 0;
     QString szFile = GetRosterFile(szId);
@@ -173,7 +173,7 @@ int CGlobalUser::LoadRosterFromStorage(QString szId)
     return nRet;
 }
 
-int CGlobalUser::SaveRosterToStorage()
+int CManageUserInfo::SaveRosterToStorage()
 {
     int nRet = 0;
     QString szFile = GetRosterFile(GetUserInfoLocale()->GetId());
@@ -209,12 +209,12 @@ int CGlobalUser::SaveRosterToStorage()
     return nRet;
 }
 
-QSharedPointer<CUserInfo> CGlobalUser::GetUserInfoLocale()
+QSharedPointer<CUserInfo> CManageUserInfo::GetUserInfoLocale()
 {
     return m_UserInforLocale;
 }
 
-QSharedPointer<CUserInfo> CGlobalUser::GetUserInfoRoster(const QString &szId)
+QSharedPointer<CUserInfo> CManageUserInfo::GetUserInfoRoster(const QString &szId)
 {
     QMap<QString, QSharedPointer<CUserInfo> >::iterator it;
     it = m_UserInfoRoster.find(szId);
@@ -228,7 +228,7 @@ QSharedPointer<CUserInfo> CGlobalUser::GetUserInfoRoster(const QString &szId)
     return it.value();
 }
 
-QSharedPointer<CUserInfo> CGlobalUser::AddUserInfoRoster(const QString &szId)
+QSharedPointer<CUserInfo> CManageUserInfo::AddUserInfoRoster(const QString &szId)
 {
     Q_UNUSED(szId);
     LOG_MODEL_ERROR("CGlobalUser", "The CGlobalUser::AddUserInfoRoster function must be implemented by derived classes");
@@ -236,7 +236,7 @@ QSharedPointer<CUserInfo> CGlobalUser::AddUserInfoRoster(const QString &szId)
     return user;
 }
 
-int CGlobalUser::ProcessRoster(COperateRoster* pOperateRoster, void* para)
+int CManageUserInfo::ProcessRoster(COperateRoster* pOperateRoster, void* para)
 {
     int nRet = 0;
     QMap<QString, QSharedPointer<CUserInfo> >::iterator it;
@@ -249,24 +249,24 @@ int CGlobalUser::ProcessRoster(COperateRoster* pOperateRoster, void* para)
     return nRet;
 }
 
-int CGlobalUser::RemoveUserInfoRoster(const QString &szId)
+int CManageUserInfo::RemoveUserInfoRoster(const QString &szId)
 {
     return !m_UserInfoRoster.remove(szId);
 }
 
-QString CGlobalUser::GetLocaleFile(const QString &szId)
+QString CManageUserInfo::GetLocaleFile(const QString &szId)
 {
     return CGlobal::Instance()->GetDirUserData(szId) 
             + QDir::separator() + "LocaleInfo.dat";
 }
 
-QString CGlobalUser::GetRosterFile(const QString &szId)
+QString CManageUserInfo::GetRosterFile(const QString &szId)
 {
     return CGlobal::Instance()->GetDirUserData(szId) 
             + QDir::separator() + "RosterInfo.dat";
 }
 
-QSharedPointer<CUserInfo> CGlobalUser::NewUserInfo()
+QSharedPointer<CUserInfo> CManageUserInfo::NewUserInfo()
 {
     QSharedPointer<CUserInfo> user(new CUserInfo);
     return user;

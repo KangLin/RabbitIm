@@ -10,7 +10,7 @@ public:
     CManagerXmpp();
     
     virtual QSharedPointer<CClient> GetClient();
-    virtual QSharedPointer<CGlobalUser> GetGlobalUser();
+    virtual QSharedPointer<CManageUserInfo> GetManageUserInfo();
     
 private:
     QSharedPointer<CClientXmpp> m_Client;
