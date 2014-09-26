@@ -502,11 +502,14 @@ void CClientXmpp::slotMessageReceived(const QXmppMessage &message)
     if(QXmppMessage::Chat == message.type() && QXmppMessage::None == message.state())
     {
         QString szId = QXmppUtils::jidToBareJid(message.from());
-        QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
-        if(!roster.isNull())
+        CMessage* pMessage = MANAGE_MESSAGE->GetMessage(szId);
+        if(!pMessage)
         {
-            roster->SetUnReadMessageCount(roster->GetUnReadMessageCount() + 1);
+            LOG_MODEL_ERROR("CClientXmpp", "MANAGE_MESSAGE->GetMessage(szId) is empty");
+            return;
         }
+        //TODO:保存消息到CMessage  
+        
         emit sigReceivedMessage(szId, message.body());
     }
     //是组消息  

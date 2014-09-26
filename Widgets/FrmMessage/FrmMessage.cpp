@@ -248,7 +248,8 @@ int CFrmMessage::AppendMessageToList(const QString &szMessage, const QString &ba
     msg += recMsg.replace(QString("\n"), QString("<br />"));
     msg += "</font>";
     //LOG_MODEL_DEBUG("message", "html:%s", msg.toStdString().c_str());
-    ui->txtView->append(msg);
+    //ui->txtView->append(msg);
+    ui->txtView->insertHtml(msg);
     return 0;
 }
 

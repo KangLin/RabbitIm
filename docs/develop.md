@@ -1,5 +1,6 @@
 开发约定：
 --------
+
 * 本工程编码字符集为UTF-8
 
 * 代码中不能包含中文，代码中只能包含英文，需要翻译的文本用 tr 包含。中文放在资源翻译文件中。  
@@ -35,7 +36,10 @@
   2. 提交前需要作者完成单元测试。
 
 参考资料：
--------------------
+--------
 
-* Qt Model/View： http://blog.csdn.net/leo115/article/details/7532677
-* README.md语法格式参见:https://github.com/LearnShare/Learning-Markdown/blob/master/README.md
+* [Qt Model/View](http://blog.csdn.net/leo115/article/details/7532677)
+
+* [README.md语法格式](https://github.com/LearnShare/Learning-Markdown/blob/master/README.md)
+
+* [Qt之文本编辑](http://blog.chinaunix.net/uid-25806493-id-3346294.html)
