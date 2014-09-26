@@ -12,6 +12,7 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
     ui->setupUi(this);
     m_nSize = 10;
     m_tabWidget.clear();
+    //m_tabWidget.setTabPosition(QTabWidget::South);//设置标签位置  
     m_tabWidget.setTabsClosable(true);
     bool check = connect(&m_tabWidget, SIGNAL(tabCloseRequested(int)),
                          SLOT(slotCloseTable(int)));
