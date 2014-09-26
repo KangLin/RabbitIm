@@ -1,7 +1,7 @@
-#include "GlobalUser.h"
-#include "Global.h"
+#include "ManageUserInfo.h"
 #include <QDir>
 #include <QFile>
+#include "Global/Global.h"
 
 CManageUserInfo::CManageUserInfo(QObject *parent) :
     QObject(parent)

@@ -12,7 +12,7 @@
 #ifdef QXMPP
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppRtpChannel.h"
-#include "GlobalUserQXmpp.h"
+#include "Manager/ManageUserInfoQXmpp.h"
 #include "Manager/ManagerXmpp.h"
 #endif
 

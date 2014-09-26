@@ -2,7 +2,7 @@
 #define MANAGERXMPP_H
 #include "Manager.h"
 #include "Client/ClientXmpp.h"
-#include "Global/GlobalUserQXmpp.h"
+#include "ManageUserInfoQXmpp.h"
 
 class CManagerXmpp : public CManager
 {

@@ -6,8 +6,6 @@ SOURCES += main.cpp\
     UserInfo/UserInfo.cpp \
     UserInfo/UserInfoXmpp.cpp \
     UserInfo/COperateRoster.cpp \
-    Global/GlobalUser.cpp \
-    Global/GlobalUserQXmpp.cpp \
     Global/Global.cpp \
     Widgets/FrmLogin/FrmLogin.cpp \
     Widgets/FrmUserList/FrmUserList.cpp \
@@ -30,7 +28,9 @@ SOURCES += main.cpp\
     Manager/ManageMessageDialogBigScreen.cpp \
     Widgets/FrmMessage/FrmContainer.cpp \
     Manager/ManageMessage.cpp \
-    Message/Message.cpp
+    Message/Message.cpp \
+    Manager/ManageUserInfo.cpp \
+    Manager/ManageUserInfoQXmpp.cpp
     #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmSendFile/DlgSendManage.cpp \
     #Widgets/FrmSendFile/FrmSendFile.cpp \
@@ -50,9 +50,7 @@ SOURCES += main.cpp\
 
 HEADERS  += MainWindow.h \
     Global/Global.h \
-    Global/GlobalUser.h \
     UserInfo/UserInfo.h \
-    Global/GlobalUserQXmpp.h \
     Client/Client.h \
     UserInfo/UserInfoXmpp.h \
     Client/ClientXmpp.h \
@@ -79,7 +77,9 @@ HEADERS  += MainWindow.h \
     Manager/ManageMessageDialogBigScreen.h \
     Widgets/FrmMessage/FrmContainer.h \
     Manager/ManageMessage.h \
-    Message/Message.h
+    Message/Message.h \
+    Manager/ManageUserInfoQXmpp.h \
+    Manager/ManageUserInfo.h
     #Widgets/FrmUserList/Roster.h \
     #Widgets/FrmSendFile/DlgSendManage.h \
     #Widgets/FrmSendFile/FrmSendFile.h \

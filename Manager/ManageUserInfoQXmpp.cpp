@@ -1,5 +1,5 @@
-#include "GlobalUserQXmpp.h"
-#include "Global.h"
+#include "ManageUserInfoQXmpp.h"
+#include "Global/Global.h"
 #include "UserInfo/UserInfoXmpp.h"
 #include "Client/ClientXmpp.h"
 #include "qxmpp/QXmppVCardIq.h"

@@ -2,7 +2,7 @@
 #define MANAGER_H
 
 #include "Client/Client.h"
-#include "Global/GlobalUser.h"
+#include "ManageUserInfo.h"
 #include "ManageMessageDialog.h"
 #include "ManageMessage.h"
 #include <QSharedPointer>
