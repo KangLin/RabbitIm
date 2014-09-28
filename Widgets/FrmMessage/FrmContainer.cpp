@@ -17,7 +17,11 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
     bool check = connect(&m_tabWidget, SIGNAL(tabCloseRequested(int)),
                          SLOT(slotCloseTable(int)));
     Q_ASSERT(check);
-    
+
+    check = connect(&m_tabWidget, SIGNAL(currentChanged(int)),
+            SLOT(slotCurrentChanged(int)));
+    Q_ASSERT(check);
+
     check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
                     SLOT(slotRefresh()));
     Q_ASSERT(check);
@@ -141,6 +145,17 @@ void CFrmContainer::slotCloseTable(int nIndex)
     }
     //如果没有子窗口了，通知容器窗口删除掉自己  
     emit sigClose(this);
+}
+
+void CFrmContainer::slotCurrentChanged(int index)
+{
+    QFrame* frame = (QFrame*)m_tabWidget.widget(index);
+    if(!frame)
+    {
+        return;
+    }
+    this->setWindowIcon(m_tabWidget.tabIcon(index));
+    this->setWindowTitle(m_tabWidget.tabText(index));
 }
 
 void CFrmContainer::slotRefresh()

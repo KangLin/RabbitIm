@@ -39,6 +39,7 @@ protected:
 
 private slots:
     void slotCloseTable(int nIndex);
+    void slotCurrentChanged(int index);
     //刷新控件  
     void slotRefresh();
     void slotDeleteFrame(QFrame *frame);
