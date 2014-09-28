@@ -6,6 +6,7 @@
 #include <QMenu>
 #include "../FrmCustom/MenuMessageSend.h"
 #include "UserInfo/User.h"
+#include "Message/ChatActions/ChatAction.h"
 
 class MainWindow;
 
@@ -21,12 +22,9 @@ public:
     explicit CFrmMessage(QWidget *parent = 0, Qt::WindowFlags f = 0);
     explicit CFrmMessage(const QString &szId,  QWidget *parent = 0, Qt::WindowFlags f = 0);
     ~CFrmMessage();
-
+private:
     int AppendMessage(const QString &szMessage);
-    int AppendMessageToList(const QString &szMessage, 
-                            const QString &bareJid,
-                            const QString &name,
-                            bool bRemote = false);
+    int AppendMessageToOutputView(QSharedPointer<CChatAction> action);
 signals:
     /**
      * @brief 窗口关闭时通知父窗口删除自己  

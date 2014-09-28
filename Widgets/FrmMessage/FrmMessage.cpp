@@ -223,42 +223,9 @@ void CFrmMessage::on_pbBack_clicked()
     close();
 }
 
-int CFrmMessage::AppendMessageToList(const QString &szMessage, const QString &bareJid, const QString &name, bool bRemote)
+int CFrmMessage::AppendMessageToOutputView(QSharedPointer<CChatAction> action)
 {
-    QString recMsg = szMessage;
-    QString msg;
-//    if(bRemote)
-//        msg += "<p align='left'>";
-//    else
-//        msg += "<p align='right'>";
-    msg += "<img src='";
-    msg += CGlobal::Instance()->GetFileUserAvatar(bareJid) + "' width='16' height='16'>";
-    msg += "<font color='";
-    if(bRemote)
-        msg += CGlobal::Instance()->GetRosterColor().name();
-    else
-        msg += CGlobal::Instance()->GetUserColor().name();
-    msg += "'>[";
-    msg += QTime::currentTime().toString()  +  "]" + name +  ":</font><br /><font color='";
-    if(bRemote)
-        msg += CGlobal::Instance()->GetRosterMessageColor().name();
-    else
-        msg += CGlobal::Instance()->GetUserMessageColor().name();
-    msg += "'>";
-    msg += recMsg.replace(QString("\n"), QString("<br />"));
-    msg += "</font>";
-    //LOG_MODEL_DEBUG("message", "html:%s", msg.toStdString().c_str());
-    //ui->txtView->append(msg);
-    ui->txtView->insertHtml(msg);
-    return 0;
-}
-
-int CFrmMessage::AppendMessage(const QString &szMessage)
-{
-    if(!this->isHidden())
-        this->activateWindow();
-
-    AppendMessageToList(szMessage, m_User->GetInfo()->GetId(), m_User->GetInfo()->GetShowName(), true);
+    ui->txtView->append(action->getMessage());
     return 0;
 }
 
@@ -273,14 +240,10 @@ void CFrmMessage::on_pbSend_clicked()
         return;
     }
 
-    AppendMessageToList(ui->txtInput->toPlainText(), 
-                        USER_INFO_LOCALE->GetInfo()->GetId(),
-                        USER_INFO_LOCALE->GetInfo()->GetShowName(),
-                        false);
-
-    //TODO:发送  
-    GET_CLIENT->SendMessage(m_User->GetInfo()->GetId(),
-                            ui->txtInput->toPlainText());
+    //发送  
+    AppendMessageToOutputView(
+                GET_CLIENT->SendMessage(m_User->GetInfo()->GetId(),
+                            ui->txtInput->toPlainText()));
 
     ui->txtInput->clear();//清空输入框中的内容  
 }

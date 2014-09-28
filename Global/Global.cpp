@@ -493,6 +493,11 @@ QString CGlobal::GetFileUserAvatar(QString bareJid)
     return GetDirUserAvatar() + QDir::separator() + jid + ".png";
 }
 
+QString CGlobal::GetFileSmileyPack()
+{
+    return QString();
+}
+
 QString CGlobal::GetUserConfigureFile(QString jid)
 {
     return GetDirUserData(jid) + QDir::separator() + "user.conf";

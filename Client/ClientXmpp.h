@@ -82,9 +82,9 @@ public:
      *
      * @param szId:好友id  
      * @param szMsg:消息内容  
-     * @return int
+     * @return QSharedPointer<CChatAction> 
      */
-    virtual int SendMessage(const QString& szId, const QString &szMsg);
+    virtual QSharedPointer<CChatAction> SendMessage(const QString& szId, const QString &szMsg);
 
     /**
      * @brief 设置登录用户信息  

@@ -198,10 +198,11 @@ int CClientXmpp::RosterRename(const QString &szId, const QString &szName)
     return !m_Client.rosterManager().renameItem(szId, szName);
 }
 
-int CClientXmpp::SendMessage(const QString &szId, const QString &szMsg)
+QSharedPointer<CChatAction> CClientXmpp::SendMessage(const QString &szId, const QString &szMsg)
 {
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     m_Client.sendMessage(szId, szMsg);
-    return 0;
+    return roster->GetMessage()->AddMessage(szId, szMsg, QDate::currentDate(), true);
 }
 
 int CClientXmpp::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)

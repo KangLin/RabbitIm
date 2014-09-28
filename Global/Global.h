@@ -48,6 +48,8 @@ public:
     QString GetDirUserAvatar();
     //得到指定用户的头像文件  
     QString GetFileUserAvatar(QString bareJid);
+    //得到表情图片文件  
+    QString GetFileSmileyPack();
     //得到用户的配置目录  
     QString GetUserConfigureFile(QString jid);
 

@@ -86,13 +86,13 @@ int CClient::RosterRename(const QString &szId, const QString &szName)
     return 0;
 }
 
-int CClient::SendMessage(const QString &szId, const QString &szMsg)
+QSharedPointer<CChatAction>  CClient::SendMessage(const QString &szId, const QString &szMsg)
 {
     Q_UNUSED(szId);
     Q_UNUSED(szMsg);
     LOG_MODEL_WARNING("CClient", "The CClient::SendMessage function must be implemented by derived classes");
     Q_ASSERT(false);
-    return 0;
+    return QSharedPointer<CChatAction> ();
 }
 
 int CClient::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)

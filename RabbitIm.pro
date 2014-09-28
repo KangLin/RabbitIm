@@ -12,6 +12,8 @@ lessThan(QT_MAJOR_VERSION, 5) : error("version is $$QT_MAJOR_VERSION, please qt 
 TARGET = RabbitIm
 TEMPLATE = app
 
+CONFIG   += c++11
+
 #预编译
 #CONFIG += precompiled_header
 #PRECOMPILED_HEADER = pch.h

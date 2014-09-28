@@ -28,9 +28,12 @@ SOURCES += main.cpp\
     Manager/ManageMessageDialogBigScreen.cpp \
     Widgets/FrmMessage/FrmContainer.cpp \
     Message/Message.cpp \
+    Message/ChatActions/ChatAction.cpp \
+    Message/ChatActions/MessageAction.cpp \
     UserInfo/User.cpp \
     Manager/ManageUser.cpp \
-    Manager/ManageUserQXmpp.cpp
+    Manager/ManageUserQXmpp.cpp \
+    Message/SmileyPack.cpp
     #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmSendFile/DlgSendManage.cpp \
     #Widgets/FrmSendFile/FrmSendFile.cpp \
@@ -77,6 +80,9 @@ HEADERS  += MainWindow.h \
     Manager/ManageMessageDialogBigScreen.h \
     Widgets/FrmMessage/FrmContainer.h \
     Message/Message.h \
+    Message/SmileyPack.h \
+    Message/ChatActions/ChatAction.h \
+    Message/ChatActions/MessageAction.h \
     UserInfo/User.h \
     Manager/ManageUser.h \
     Manager/ManageUserQXmpp.h
