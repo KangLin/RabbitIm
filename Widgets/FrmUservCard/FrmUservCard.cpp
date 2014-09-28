@@ -26,8 +26,8 @@ CFrmUservCard::CFrmUservCard(const QString &jid, QWidget *parent) :
     m_szJid = jid;
 
     bool check = connect(GET_CLIENT.data(),
-                         SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUserInfo>)),
-                         SLOT(slotUpdateRoster(QString, QSharedPointer<CUserInfo>)));
+                         SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUser>)),
+                         SLOT(slotUpdateRoster(QString, QSharedPointer<CUser>)));
     Q_ASSERT(check);
 
     GET_CLIENT->RequestUserInfoRoster(jid);
@@ -129,7 +129,7 @@ void CFrmUservCard::on_pbClear_clicked()
 
 void CFrmUservCard::on_pbOK_clicked()
 {
-    QSharedPointer<CUserInfo> userInfo = USER_INFO_LOCALE;
+    QSharedPointer<CUserInfo> userInfo = USER_INFO_LOCALE->GetInfo();
     userInfo->SetName(ui->txtName->text());
     userInfo->SetNick(ui->txtNick->text());
     userInfo->SetBirthday(ui->dateBirthday->date());
@@ -145,13 +145,13 @@ void CFrmUservCard::on_pbCancel_clicked()
     close();
 }
 
-void CFrmUservCard::slotUpdateRoster(const QString& szId, QSharedPointer<CUserInfo> userInfo)
+void CFrmUservCard::slotUpdateRoster(const QString& szId, QSharedPointer<CUser> userInfo)
 {
     if(szId == m_szJid)
     {
         if(m_UserInfo.isNull())
         {
-            m_UserInfo = userInfo;
+            m_UserInfo = userInfo->GetInfo();
         }
         this->show();
     }

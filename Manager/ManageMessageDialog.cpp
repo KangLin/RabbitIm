@@ -37,7 +37,7 @@ int CManageMessageDialog::ShowDialog(const QString &szId)
     if(m_DlgMessage.end() == it)
     {
         //是好友消息对话框  
-        QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+        QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
         if(!roster.isNull())
         {
             CFrmMessage* frm = new CFrmMessage(szId);

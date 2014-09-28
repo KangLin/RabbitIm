@@ -12,7 +12,7 @@
 #ifdef QXMPP
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppRtpChannel.h"
-#include "Manager/ManageUserInfoQXmpp.h"
+#include "Manager/ManageUserQXmpp.h"
 #include "Manager/ManagerXmpp.h"
 #endif
 
@@ -443,10 +443,10 @@ QString CGlobal::GetDirUserData(const QString &szId)
     QString jid;
     if(szId.isEmpty())
     {
-        if(!GetManager()->GetManageUserInfo().isNull()
-                && !GetManager()->GetManageUserInfo()->GetUserInfoLocale().isNull())
+        if(!GetManager()->GetManageUser().isNull()
+                && !GetManager()->GetManageUser()->GetUserInfoLocale().isNull())
         {
-            jid = GetManager()->GetManageUserInfo()->GetUserInfoLocale()->GetId();
+            jid = GetManager()->GetManageUser()->GetUserInfoLocale()->GetInfo()->GetId();
         }
         else
         {
@@ -455,7 +455,7 @@ QString CGlobal::GetDirUserData(const QString &szId)
         }
     }
     else
-        jid = QXmppUtils::jidToBareJid(szId);
+        jid = szId;
     jid = jid.replace("@", ".");
     QString path = GetDirApplicationConfigure() + QDir::separator() + "Users";
     QDir d;

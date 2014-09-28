@@ -85,7 +85,7 @@ private slots:
     //好友列表从文件中加载完成  
     void slotLoadRosterFromStorage();
     //更新好友信息  
-    void slotUpdateRosterUserInfo(const QString &szId,  QSharedPointer<CUserInfo> userInfo);
+    void slotUpdateRosterUserInfo(const QString &szId,  QSharedPointer<CUser> userInfo);
     //删除好友信息  
     void slotRemoveRosterUserInfo(const QString &szId);
     //好友出席状态改变时触发  

@@ -205,10 +205,9 @@ public slots:
 };
 
 #define GET_CLIENT CGlobal::Instance()->GetManager()->GetClient()
-#define GLOBAL_USER CGlobal::Instance()->GetManager()->GetManageUserInfo()
+#define GLOBAL_USER CGlobal::Instance()->GetManager()->GetManageUser()
 #define USER_INFO_LOCALE GLOBAL_USER->GetUserInfoLocale()
 #define MANAGE_MESSAGE_DIALOG CGlobal::Instance()->GetManager()->GetManageMessageDialog()
-#define MANAGE_MESSAGE CGlobal::Instance()->GetManager()->GetManageMessage()
 
 #define LM_DEBUG 0
 #define LM_INFO 1

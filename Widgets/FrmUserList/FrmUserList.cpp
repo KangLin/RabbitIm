@@ -73,8 +73,8 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
                     SLOT(slotLoadRosterFromStorage()));
     Q_ASSERT(check);
 
-    check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUserInfo>)),
-                    SLOT(slotUpdateRosterUserInfo(QString,QSharedPointer<CUserInfo>)));
+    check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUser>)),
+                    SLOT(slotUpdateRosterUserInfo(QString,QSharedPointer<CUser>)));
     Q_ASSERT(check);
 
     check = connect(GET_CLIENT.data(), SIGNAL(sigRosterAddReceived(const QString&, const CClient::SUBSCRIBE_TYPE &)),
@@ -219,7 +219,7 @@ void CFrmUserList::slotUpdateMenu()
     else
     {
         //增加订阅  
-        if(CUserInfo::From == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetSubScriptionType())
+        if(CUserInfo::From == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetInfo()->GetSubScriptionType())
             EnableAction(ui->actionAgreeAddRoster);
 
         //显示重命名菜单  
@@ -245,7 +245,7 @@ void CFrmUserList::slotAddRoster()
     QSet<QString> groups;
     groups = GetGroupsName();
     QString szId = GetCurrentRoster();
-    if(!szId.isEmpty() && CUserInfo::None == GLOBAL_USER->GetUserInfoRoster(szId)->GetSubScriptionType())
+    if(!szId.isEmpty() && CUserInfo::None == GLOBAL_USER->GetUserInfoRoster(szId)->GetInfo()->GetSubScriptionType())
             m_frmAddRoster.Init(groups, szId);
     else
         m_frmAddRoster.Init(groups);
@@ -258,7 +258,7 @@ void CFrmUserList::slotRenameRoster()
     QString szName;
     if(GLOBAL_USER->GetUserInfoRoster(GetCurrentRoster()).isNull())
         return;
-    szName = GLOBAL_USER->GetUserInfoRoster(GetCurrentRoster())->GetShowName();
+    szName = GLOBAL_USER->GetUserInfoRoster(GetCurrentRoster())->GetInfo()->GetShowName();
     bool ok;
     QString text = QInputDialog::getText(this, tr("Roster[%1] rename").arg(szName),
                                          tr("Roster[%1] rename:").arg(szName), QLineEdit::Normal,
@@ -283,7 +283,7 @@ void CFrmUserList::slotAgreeAddRoster()
 void CFrmUserList::slotInformationRoster()
 {
     QString bareJid = GetCurrentRoster();
-    CFrmUservCard* pvCard = new CFrmUservCard(GLOBAL_USER->GetUserInfoRoster(bareJid));
+    CFrmUservCard* pvCard = new CFrmUservCard(GLOBAL_USER->GetUserInfoRoster(bareJid)->GetInfo());
     pvCard->show();
 }
 
@@ -338,61 +338,67 @@ int CFrmUserList::ItemUpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString
 int CFrmUserList::ItemInsertRoster(const QString& szId)
 {
     int nRet = 0;
-    QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
         LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(szId));
         return -1;
     }
 
+    QSharedPointer<CUserInfo> info = roster->GetInfo();
     //呢称条目  
-    QStandardItem* pItem = new QStandardItem(roster->GetShowName() + roster->GetSubscriptionTypeStr(roster->GetSubScriptionType()));
-    pItem->setData(roster->GetId(), USERLIST_ITEM_ROLE_JID);
+    QStandardItem* pItem = new QStandardItem(info->GetShowName() 
+                                             + info->GetSubscriptionTypeStr(info->GetSubScriptionType()));
+    pItem->setData(info->GetId(), USERLIST_ITEM_ROLE_JID);
     pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
     //改变item背景颜色  
-    pItem->setData(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus()), Qt::BackgroundRole);
-    pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus())));
+    pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
+    pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
     pItem->setEditable(false);
     QString szText;
     
-    szText = roster->GetShowName()
+    szText = info->GetShowName()
         #ifdef DEBUG
-            + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
-            +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType())
+            + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
+            +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
         #endif
             ;
     
     pItem->setData(szText, Qt::DisplayRole); //改变item文本,或者直接用 pItem->setText(szText);  
-    pItem->setToolTip(szText);
+#ifdef DEBUG
+            pItem->setToolTip(info->GetId());
+#endif 
 
     //改变item图标  
-    pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetStatus())), Qt::DecorationRole);
+    pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(info->GetStatus())), Qt::DecorationRole);
 
     //消息条目  
     QStandardItem* pMessageCountItem = new QStandardItem("");
-    pMessageCountItem->setData(roster->GetId(), USERLIST_ITEM_ROLE_JID);
+    pMessageCountItem->setData(info->GetId(), USERLIST_ITEM_ROLE_JID);
     pMessageCountItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
     pMessageCountItem->setEditable(false);//禁止双击编辑  
 
     QList<QStandardItem *> lstItems;
     lstItems << pItem << pMessageCountItem;
 
-    ItemUpdateGroup(lstItems, roster->GetGroups());
+    ItemUpdateGroup(lstItems, info->GetGroups());
     return nRet;
 }
 
 int CFrmUserList::ItemUpdateRoster(const QString &szId)
 {
-    QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
         LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(szId));
         return -1;
     }
 
+    QSharedPointer<CUserInfo> info = roster->GetInfo();
+
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                                 USERLIST_ITEM_ROLE_JID, 
-                                                roster->GetId(), 
+                                                info->GetId(), 
                                                 -1,
                                                 Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     if(lstIndexs.isEmpty())
@@ -403,7 +409,7 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
             return nRet;
         lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                                        USERLIST_ITEM_ROLE_JID, 
-                                                       roster->GetId(), 
+                                                       info->GetId(), 
                                                        -1,
                                                        Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     }
@@ -411,7 +417,7 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
     QModelIndex index;
     foreach(index, lstIndexs)
     {
-        LOG_MODEL_DEBUG("FrmUserList", "index:row:%d;column:%d", index.row(), index.column());
+        LOG_MODEL_DEBUG("FrmUserList", "index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(info->GetId()));
         QStandardItem* pItem = m_pModel->itemFromIndex(index);
         if(!pItem) continue;
         if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ROSTER)
@@ -419,31 +425,31 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
             //pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
             //pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
             //改变item背景颜色  
-            pItem->setData(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus()), Qt::BackgroundRole);
-            pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(roster->GetStatus())));
+            pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
+            pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
             QString szText;
             
-            szText = roster->GetShowName()
+            szText = info->GetShowName()
         #ifdef DEBUG
-                    + "[" + CGlobal::Instance()->GetRosterStatusText(roster->GetStatus()) + "]"
-                    +  roster->GetSubscriptionTypeStr(roster->GetSubScriptionType())
+                    + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
+                    +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
         #endif
                     ;
-            
+
             pItem->setData(szText, Qt::DisplayRole); //改变item文本  
-            pItem->setToolTip(szText);
+#ifdef DEBUG
+            pItem->setToolTip(info->GetId());
+#endif 
             //改变item图标  
-            pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetStatus())), Qt::DecorationRole);
+            pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(info->GetStatus())), Qt::DecorationRole);
         }
 
         if(NULL == pItem || NULL == pItem->parent()) continue;
         QStandardItem* pItemUnReadMessageCount = pItem->parent()->child(index.row(), index.column() + 1);
         if(pItemUnReadMessageCount->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
         {
-            if(roster->GetUnReadMessageCount() == 0)
-                pItemUnReadMessageCount->setText("");
-            else
-                pItemUnReadMessageCount->setText(QString::number(roster->GetUnReadMessageCount()));//pItemUnReadMessageCount->setData(QString::number(roster->GetUnReadMessageCount()), Qt::DisplayRole);
+            //TODO:设置未读消息数  
+            
             pItemUnReadMessageCount->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
             //pItemUnReadMessageCount->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
             //pItemUnReadMessageCount->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
@@ -478,7 +484,7 @@ void CFrmUserList::slotLoadRosterFromStorage()
     GLOBAL_USER->ProcessRoster(this, &type);
 }
 
-void CFrmUserList::slotUpdateRosterUserInfo(const QString &szId, QSharedPointer<CUserInfo> userInfo)
+void CFrmUserList::slotUpdateRosterUserInfo(const QString &szId, QSharedPointer<CUser> userInfo)
 {
     ItemUpdateRoster(szId);
 }

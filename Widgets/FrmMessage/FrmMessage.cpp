@@ -77,10 +77,10 @@ int CFrmMessage::Init(const QString &szId)
 void CFrmMessage::ChangedPresence(CUserInfo::USER_INFO_STATUS status)
 {
     QPixmap pixmap;
-    pixmap.convertFromImage(m_User->GetPhoto());
+    pixmap.convertFromImage(m_User->GetInfo()->GetPhoto());
     ui->lbAvatar->setPixmap(pixmap);
 
-    ui->lbRosterName->setText(m_User->GetShowName()
+    ui->lbRosterName->setText(m_User->GetInfo()->GetShowName()
                               + "["
                               + CGlobal::Instance()->GetRosterStatusText(status)
                               + "]");
@@ -212,8 +212,8 @@ void CFrmMessage::showEvent(QShowEvent *)
     }
 
     slotRefresh();
-    m_User->SetUnReadMessageCount(0);
-    emit GET_CLIENT->sigUpdateRosterUserInfo(m_User->GetId(), m_User);
+    //通知未读数改变  
+    emit GET_CLIENT->sigUpdateRosterUserInfo(m_User->GetInfo()->GetId(), m_User);
     //设置焦点  
     ui->txtInput->setFocus();
 }
@@ -258,7 +258,7 @@ int CFrmMessage::AppendMessage(const QString &szMessage)
     if(!this->isHidden())
         this->activateWindow();
 
-    AppendMessageToList(szMessage, m_User->GetId(), m_User->GetShowName(), true);
+    AppendMessageToList(szMessage, m_User->GetInfo()->GetId(), m_User->GetInfo()->GetShowName(), true);
     return 0;
 }
 
@@ -273,10 +273,14 @@ void CFrmMessage::on_pbSend_clicked()
         return;
     }
 
-    AppendMessageToList(ui->txtInput->toPlainText(), USER_INFO_LOCALE->GetId(), USER_INFO_LOCALE->GetShowName(), false);
+    AppendMessageToList(ui->txtInput->toPlainText(), 
+                        USER_INFO_LOCALE->GetInfo()->GetId(),
+                        USER_INFO_LOCALE->GetInfo()->GetShowName(),
+                        false);
 
     //TODO:发送  
-    GET_CLIENT->SendMessage(m_User->GetId(), ui->txtInput->toPlainText());
+    GET_CLIENT->SendMessage(m_User->GetInfo()->GetId(),
+                            ui->txtInput->toPlainText());
 
     ui->txtInput->clear();//清空输入框中的内容  
 }
@@ -308,7 +312,7 @@ void CFrmMessage::on_lbAvatar_clicked()
 {
     if(!m_User.isNull())
     {
-        CFrmUservCard *pvCard = new CFrmUservCard(m_User);
+        CFrmUservCard *pvCard = new CFrmUservCard(m_User->GetInfo());
         pvCard->show();
     }
 }
@@ -320,12 +324,12 @@ void CFrmMessage::slotRefresh()
         return;
     }
 
-    ui->lbRosterName->setText(m_User->GetShowName()
+    ui->lbRosterName->setText(m_User->GetInfo()->GetShowName()
                               + "["
-                              + CGlobal::Instance()->GetRosterStatusText(m_User->GetStatus())
+                              + CGlobal::Instance()->GetRosterStatusText(m_User->GetInfo()->GetStatus())
                               + "]");
 
    QPixmap pixmap;
-   pixmap.convertFromImage(m_User->GetPhoto());
+   pixmap.convertFromImage(m_User->GetInfo()->GetPhoto());
    ui->lbAvatar->setPixmap(pixmap);
 }

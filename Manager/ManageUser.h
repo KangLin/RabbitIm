@@ -7,13 +7,14 @@
 #include "UserInfo/UserInfo.h"
 #include "UserInfo/COperateRoster.h"
 #include "Client/Client.h"
+#include "UserInfo/User.h"
 
-class CManageUserInfo : public QObject
+class CManageUser : public QObject
 {
     Q_OBJECT
 public:
-    explicit CManageUserInfo(QObject *parent = 0);
-    virtual ~CManageUserInfo();
+    explicit CManageUser(QObject *parent = 0);
+    virtual ~CManageUser();
 
     /**
      * @brief 用户登录成功后调用,用于初始化工作  
@@ -41,14 +42,14 @@ public:
      *
      * @return QSharedPointer<CUserInfo>:登录用户对象  
      */
-    virtual QSharedPointer<CUserInfo> GetUserInfoLocale();
+    virtual QSharedPointer<CUser> GetUserInfoLocale();
     /**
      * @brief 得到好友对象  
      *
      * @param szId:好友ID  
      * @return QSharedPointer<CUserInfo>:成功,返回好友对象.失败,返回空  
      */
-    virtual QSharedPointer<CUserInfo> GetUserInfoRoster(const QString &szId);
+    virtual QSharedPointer<CUser> GetUserInfoRoster(const QString &szId);
 
     /**
      * @brief 新增加一个空的好友对象，并把此好友对象插入到好友列表中  
@@ -56,7 +57,7 @@ public:
      * @param szId：新增加好的ID  
      * @return QSharedPointer<CUserInfo>:成功,返回好友对象.失败,返回空  
      */
-    virtual QSharedPointer<CUserInfo> AddUserInfoRoster(const QString &szId);
+    virtual QSharedPointer<CUser> AddUserInfoRoster(const QString &szId);
 
     /**
      * @brief 处理好友列表操作  
@@ -113,13 +114,13 @@ private:
      *
      * @return QSharedPointer<CUserInfo>:用户信息对象  
      */
-    virtual QSharedPointer<CUserInfo> NewUserInfo();
+    virtual QSharedPointer<CUser> NewUser();
 
 protected:
     //本地用户信息  
-    QSharedPointer<CUserInfo> m_UserInforLocale;
+    QSharedPointer<CUser> m_UserLocale;
     //好友信息列表  
-    QMap<QString, QSharedPointer<CUserInfo> > m_UserInfoRoster;
+    QMap<QString, QSharedPointer<CUser> > m_UseRoster;
 
 protected:
     bool m_bModify; //标志内容是否修改  

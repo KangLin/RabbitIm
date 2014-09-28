@@ -7,7 +7,6 @@
 CUserInfo::CUserInfo(QObject *parent) :
     QObject(parent)
 {
-    m_UnReadMessageCount = 0;
     m_subscriptionType = None;
     m_Status = OffLine;
 }
@@ -157,15 +156,9 @@ QString CUserInfo::GetSubscriptionTypeStr(SUBSCRIPTION_TYPE type) const
     }
 }
 
-int CUserInfo::GetUnReadMessageCount()
+CMessage* CUserInfo::GetMessage()
 {
-    return m_UnReadMessageCount;
-}
-
-int CUserInfo::SetUnReadMessageCount(int nCount)
-{
-    m_UnReadMessageCount = nCount;
-    return 0;
+    return &m_Message;
 }
 
 int CUserInfo::LoadFromStorage(QDataStream &input)
@@ -175,8 +168,7 @@ int CUserInfo::LoadFromStorage(QDataStream &input)
           >> m_szEmail
           >> m_szDescription
           >> m_Birthday
-          >> (int&)m_subscriptionType
-          >> m_UnReadMessageCount;
+          >> (int&)m_subscriptionType;
     int nSize = 0;
     input >> nSize;
     while (nSize--) {
@@ -194,8 +186,7 @@ int CUserInfo::SaveToStorage(QDataStream &output)
            << m_szEmail 
            << m_szDescription
            << m_Birthday
-           << m_subscriptionType
-           << m_UnReadMessageCount
+           << (int&)m_subscriptionType
            << m_Groups.size();
     foreach(QString group, m_Groups)
     {

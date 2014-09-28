@@ -5,7 +5,7 @@
 #include <QStandardItemModel>
 #include <QMenu>
 #include "../FrmCustom/MenuMessageSend.h"
-#include "UserInfo/UserInfo.h"
+#include "UserInfo/User.h"
 
 class MainWindow;
 
@@ -63,7 +63,7 @@ private:
 private:
     Ui::CFrmMessage *ui;
 
-    QSharedPointer<CUserInfo> m_User;
+    QSharedPointer<CUser> m_User;
     QMenu m_MoreMenu;//功能按钮菜单  
     CMenuMessageSend m_MessageSendMenu;
 };

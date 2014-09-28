@@ -8,7 +8,7 @@
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppRegisterIq.h"
 #include "UserInfo/UserInfoXmpp.h"
-#include "Manager/ManageUserInfoQXmpp.h"
+#include "Manager/ManageUserQXmpp.h"
 #include "Global/Global.h"
 #include <QImageWriter>
 #include <QBuffer>
@@ -223,7 +223,7 @@ int CClientXmpp::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)
     return 0;
 }
 
-int CClientXmpp::SetUser(QSharedPointer<CManageUserInfoQXmpp> user)
+int CClientXmpp::SetUser(QSharedPointer<CManageUserQXmpp> user)
 {
     m_User = user;
     return 0;
@@ -293,7 +293,7 @@ void CClientXmpp::slotClientConnected()
     nRet = CGlobal::Instance()->GetManager()->Init(szId);
     if(nRet)
     {
-        LOG_MODEL_ERROR("MainWindow", "Init GlobalUser fail");
+        LOG_MODEL_ERROR("CClientXmpp", "Init GlobalUser fail");
         return;
     }
 
@@ -375,7 +375,7 @@ void CClientXmpp::slotRosterReceived()
     QStringList rosters = m_Client.rosterManager().getRosterBareJids();
     foreach(QString jid, rosters)
     {
-        QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(jid);
+        QSharedPointer<CUser> r = m_User->GetUserInfoRoster(jid);
         if(r.isNull())
         {
             LOG_MODEL_DEBUG("CClientXmpp", "slotRosterReceived:roster[%s] is not exist", jid.toStdString().c_str());
@@ -410,11 +410,11 @@ void CClientXmpp::slotvCardReceived(const QXmppVCardIq& vCardIq)
     if(szJid.isEmpty())
         return;
     LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotvCardReceived:%s", szJid.toStdString().c_str());
-    QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(szJid);
+    QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szJid);
     if(r.isNull())
     {
-        QSharedPointer<CUserInfo> user(new CUserInfoXmpp);
-        ((CUserInfoXmpp*)user.data())->UpdateUserInfo(vCardIq, szJid);
+        QSharedPointer<CUser> user(new CUser);
+        ((CUserInfoXmpp*)user->GetInfo().data())->UpdateUserInfo(vCardIq, szJid);
         r = user;
     }
     else
@@ -434,13 +434,13 @@ void CClientXmpp::slotPresenceReceived(const QXmppPresence &presence)
 
     //注意：这里的 barejid 是包含资源的  
     QString bareJid = QXmppUtils::jidToBareJid(presence.from());
-    QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(bareJid);
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(bareJid);
     if(!roster.isNull())
     {
         if(presence.type() == QXmppPresence::Available)
-            roster->SetStatus(StatusFromPresence(presence.availableStatusType()));
+            roster->GetInfo()->SetStatus(StatusFromPresence(presence.availableStatusType()));
         else if(presence.type() == QXmppPresence::Unavailable)
-            roster->SetStatus(CUserInfo::OffLine);
+            roster->GetInfo()->SetStatus(CUserInfo::OffLine);
         //触发状态改变消息  
         emit sigChangedStatus(bareJid);
     }
@@ -450,7 +450,7 @@ void CClientXmpp::slotPresenceReceived(const QXmppPresence &presence)
 
 void CClientXmpp::slotItemAdded(const QString &szId)
 {
-    QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(szId);
+    QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
     if(r.isNull())
     {
         m_User->AddUserInfoRoster(szId);
@@ -464,7 +464,7 @@ void CClientXmpp::slotItemAdded(const QString &szId)
 
 void CClientXmpp::slotItemChanged(const QString &szId)
 {
-    QSharedPointer<CUserInfo> r = m_User->GetUserInfoRoster(szId);
+    QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
     if(!r.isNull())
     {
         QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(szId);
@@ -502,22 +502,16 @@ void CClientXmpp::slotMessageReceived(const QXmppMessage &message)
     if(QXmppMessage::Chat == message.type() && QXmppMessage::None == message.state())
     {
         QString szId = QXmppUtils::jidToBareJid(message.from());
-        CMessage* pMessage = MANAGE_MESSAGE->GetMessage(szId);
-        if(!pMessage)
-        {
-            LOG_MODEL_ERROR("CClientXmpp", "MANAGE_MESSAGE->GetMessage(szId) is empty");
-            return;
-        }
-        //TODO:保存消息到CMessage  
+        QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
         
-        emit sigReceivedMessage(szId, message.body());
+        emit sigMessageUpdate(szId);
     }
     //是组消息  
     if(QXmppMessage::GroupChat == message.type() && QXmppMessage::None == message.state())
     {
         QString szBareJid = QXmppUtils::jidToBareJid(message.from());
         QString szNick = QXmppUtils::jidToResource(message.from());
-        emit sigReceivedGroupMessage(szBareJid, szNick, message.body());
+        //TODO:
     }
     //TODO:消息输入状态显示
     

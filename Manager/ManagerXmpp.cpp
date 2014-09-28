@@ -3,7 +3,7 @@
 CManagerXmpp::CManagerXmpp() :
     CManager(),
     m_Client(new CClientXmpp),
-    m_User(new CManageUserInfoQXmpp)
+    m_User(new CManageUserQXmpp)
 {
     m_Client->SetUser(m_User);
 }
@@ -13,7 +13,7 @@ QSharedPointer<CClient> CManagerXmpp::GetClient()
     return m_Client;
 }
 
-QSharedPointer<CManageUserInfo> CManagerXmpp::GetManageUserInfo()
+QSharedPointer<CManageUser> CManagerXmpp::GetManageUser()
 {
     return m_User;
 }

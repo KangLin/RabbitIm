@@ -12,6 +12,7 @@ public:
     ///< 得到未读消息数  
     int GetUnReadCount();
     ///< 增加消息  
+    int AddMessage(const QString& szMessage, const QString &szId, const bool bMe = false);
     ///< 读取消息  
     ///< 读取所有未读消息  
 

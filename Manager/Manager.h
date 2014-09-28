@@ -2,9 +2,8 @@
 #define MANAGER_H
 
 #include "Client/Client.h"
-#include "ManageUserInfo.h"
+#include "ManageUser.h"
 #include "ManageMessageDialog.h"
-#include "ManageMessage.h"
 #include <QSharedPointer>
 
 class CManager
@@ -15,11 +14,9 @@ public:
     ///< 协议客户端  
     virtual QSharedPointer<CClient> GetClient() = 0;
     ///< 用户信息管理对象  
-    virtual QSharedPointer<CManageUserInfo> GetManageUserInfo() = 0;
+    virtual QSharedPointer<CManageUser> GetManageUser() = 0;
     ///< 消息对话框管理对象  
     virtual QSharedPointer<CManageMessageDialog> GetManageMessageDialog();
-    ///< 消息管理对象  
-    virtual CManageMessage* GetManageMessage();
 
     /**
      * @brief 登录后初始化  

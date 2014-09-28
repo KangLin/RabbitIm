@@ -2,7 +2,7 @@
 #define CLIENT_H
 
 #include <QObject>
-#include "../UserInfo/UserInfo.h"
+#include "../UserInfo/User.h"
 
 /**
  * @brief 通信客户端抽象类  
@@ -147,7 +147,7 @@ signals:
      *
      * @param szId：更新好友信息  
      */
-    void sigUpdateRosterUserInfo(const QString &szId, QSharedPointer<CUserInfo> userInfo);
+    void sigUpdateRosterUserInfo(const QString &szId, QSharedPointer<CUser> user);
     /**
      * @brief 删除好友时触发  
      *
@@ -179,14 +179,8 @@ signals:
      */
     void sigRosterRemoveReceived(const QString& szId);
 
-    /**
-     * @brief 接收消息时触发  
-     *
-     * @param szId：用户id  
-     * @param szMessage：接收到的消息  
-     */
-    void sigReceivedMessage(const QString &szId, const QString& szMessage);
-    void sigReceivedGroupMessage(const QString &szId, const QString &nick, const QString &szMessage);
+    void sigMessageUpdate(const QString& szId);
+
 public slots:
 
 };

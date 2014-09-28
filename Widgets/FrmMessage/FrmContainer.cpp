@@ -66,13 +66,14 @@ int CFrmContainer::ShowDialog(const QString &szId)
     }
 
     //新建对话框,并添加到容器中  
-    QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(!roster.isNull())
     {
+        QSharedPointer<CUserInfo> info = roster->GetInfo();
         CFrmMessage* frame = new CFrmMessage(szId, &m_tabWidget);
         QPixmap pixmap;
-        pixmap.convertFromImage(roster->GetPhoto());
-        int nIndex = m_tabWidget.addTab(frame, QIcon(pixmap), roster->GetShowName());
+        pixmap.convertFromImage(info->GetPhoto());
+        int nIndex = m_tabWidget.addTab(frame, QIcon(pixmap), info->GetShowName());
         if(nIndex < 0)
         {
             LOG_MODEL_ERROR("CFrmContainer", "add tab fail");
@@ -150,7 +151,7 @@ void CFrmContainer::slotRefresh()
     {
         QString szId = it.key();
         //是好友消息对话框  
-        QSharedPointer<CUserInfo> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+        QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
         if(!roster.isNull())
         {
             m_tabWidget.setCurrentWidget(it.value());
@@ -160,10 +161,11 @@ void CFrmContainer::slotRefresh()
                 LOG_MODEL_ERROR("CFrmContainer", "There isn't the widget");
                 continue;
             }
+            QSharedPointer<CUserInfo> info = roster->GetInfo();
             QPixmap pixmap;
-            pixmap.convertFromImage(roster->GetPhoto());
+            pixmap.convertFromImage(info->GetPhoto());
             m_tabWidget.setTabIcon(index, QIcon(pixmap));
-            m_tabWidget.setTabText(index, roster->GetShowName());
+            m_tabWidget.setTabText(index, info->GetShowName());
             continue;
         }
         //TODO:是组消息对话框  

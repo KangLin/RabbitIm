@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QDataStream>
 #include <QSet>
+#include "Message/Message.h"
 
 class CUserInfo : public QObject
 {
@@ -61,10 +62,7 @@ public:
     virtual SUBSCRIPTION_TYPE GetSubScriptionType();
     virtual QString GetSubscriptionTypeStr(SUBSCRIPTION_TYPE type) const;
 
-    int GetUnReadMessageCount();
-    int SetUnReadMessageCount(int nCount);
-
-    //TODO:增加消息日志  
+    CMessage* GetMessage();
 
  #ifndef QT_NO_DATASTREAM
     virtual int LoadFromStorage(QDataStream &input);
@@ -82,7 +80,8 @@ protected:
     USER_INFO_STATUS m_Status;
     QSet<QString> m_Groups;
     SUBSCRIPTION_TYPE m_subscriptionType;
-    int m_UnReadMessageCount;
+
+    CMessage m_Message;
 
 signals:
 

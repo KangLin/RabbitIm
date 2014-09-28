@@ -21,22 +21,14 @@ QSharedPointer<CManageMessageDialog> CManager::GetManageMessageDialog()
 
 int CManager::Init(const QString &szId)
 {
-    GetManageUserInfo()->Init(szId);
+    GetManageUser()->Init(szId);
     GetManageMessageDialog()->Init(szId);
-    GetManageMessage()->Init(szId);
     return 0;
 }
 
 int CManager::Clean()
 {
-        GetManageUserInfo()->Clean();
+        GetManageUser()->Clean();
         GetManageMessageDialog()->Clean();
-        GetManageMessage()->Clean();
         return 0;
-}
-
-CManageMessage* CManager::GetManageMessage()
-{
-    CManageMessage message;
-    return &message;
 }

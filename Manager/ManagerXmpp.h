@@ -2,7 +2,7 @@
 #define MANAGERXMPP_H
 #include "Manager.h"
 #include "Client/ClientXmpp.h"
-#include "ManageUserInfoQXmpp.h"
+#include "ManageUserQXmpp.h"
 
 class CManagerXmpp : public CManager
 {
@@ -10,11 +10,11 @@ public:
     CManagerXmpp();
     
     virtual QSharedPointer<CClient> GetClient();
-    virtual QSharedPointer<CManageUserInfo> GetManageUserInfo();
+    virtual QSharedPointer<CManageUser> GetManageUser();
     
 private:
     QSharedPointer<CClientXmpp> m_Client;
-    QSharedPointer<CManageUserInfoQXmpp> m_User;
+    QSharedPointer<CManageUserQXmpp> m_User;
 };
 
 #endif // MANAGERXMPP_H

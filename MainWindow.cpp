@@ -226,7 +226,7 @@ void MainWindow::slotClientDisconnected()
 
 void MainWindow::slotUpdateLocaleUserInfo()
 {
-    this->m_TrayIcon.setToolTip(QString("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetShowName()));
+    this->m_TrayIcon.setToolTip(QString("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
 }
 
 void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindow::SendFileType type)
@@ -564,7 +564,7 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
         if(it.value() == act)
         {
             CUserInfo::USER_INFO_STATUS status = it.key();
-            USER_INFO_LOCALE->SetStatus(status);
+            USER_INFO_LOCALE->GetInfo()->SetStatus(status);
             GET_CLIENT->setClientStatus(status);
             act->setCheckable(true);
             act->setChecked(true);
@@ -576,7 +576,7 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
 void MainWindow::slotEditInformation()
 {
     CFrmUservCard* pvCard = 
-            new CFrmUservCard(USER_INFO_LOCALE, true);
+            new CFrmUservCard(USER_INFO_LOCALE->GetInfo(), true);
     pvCard->show();
     pvCard->activateWindow();
 }

@@ -1,20 +1,20 @@
-#include "ManageUserInfo.h"
+#include "ManageUser.h"
 #include <QDir>
 #include <QFile>
 #include "Global/Global.h"
 
-CManageUserInfo::CManageUserInfo(QObject *parent) :
+CManageUser::CManageUser(QObject *parent) :
     QObject(parent)
 {
     m_bModify = false;
 }
 
-CManageUserInfo::~CManageUserInfo()
+CManageUser::~CManageUser()
 {
     Clean();
 }
 
-int CManageUserInfo::Init(QString szId)
+int CManageUser::Init(QString szId)
 {
     int nRet = 0;
     m_bModify = false;
@@ -23,7 +23,7 @@ int CManageUserInfo::Init(QString szId)
     return nRet;
 }
 
-int CManageUserInfo::Clean()
+int CManageUser::Clean()
 {
     int nRet = 0;
     //保存数据到配置文件中  
@@ -33,18 +33,18 @@ int CManageUserInfo::Clean()
     }
 
     m_bModify = false;
-    m_UserInforLocale.clear();
-    m_UserInfoRoster.clear();
+    m_UserLocale.clear();
+    m_UseRoster.clear();
     return nRet;
 }
 
-int CManageUserInfo::SetModify(bool bModify)
+int CManageUser::SetModify(bool bModify)
 {
     m_bModify = bModify;
     return 0;
 }
 
-int CManageUserInfo::LoadFromFile(QString szId)
+int CManageUser::LoadFromFile(QString szId)
 {
     int nRet = 0;
     nRet = LoadLocaleFromStorage(szId);
@@ -54,7 +54,7 @@ int CManageUserInfo::LoadFromFile(QString szId)
     return nRet;
 }
 
-int CManageUserInfo::SaveToStorage()
+int CManageUser::SaveToStorage()
 {
     int nRet = 0;
     nRet = SaveLocaleToStorage();
@@ -64,7 +64,7 @@ int CManageUserInfo::SaveToStorage()
     return nRet;
 }
 
-int CManageUserInfo::LoadLocaleFromStorage(const QString &szId)
+int CManageUser::LoadLocaleFromStorage(const QString &szId)
 {
     int nRet = 0;
     QString szFile = GetLocaleFile(szId);
@@ -84,12 +84,12 @@ int CManageUserInfo::LoadLocaleFromStorage(const QString &szId)
         s >> nVersion;
         //本地用户信息  
         LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
-        if(m_UserInforLocale.isNull())
+        if(m_UserLocale.isNull())
          {
-            m_UserInforLocale = NewUserInfo();
+            m_UserLocale = NewUser();
         }
         //s >> *m_UserInforLocale;        
-        m_UserInforLocale->LoadFromStorage(s);
+        m_UserLocale->GetInfo()->LoadFromStorage(s);
     }
     catch(...)
     {
@@ -101,10 +101,10 @@ int CManageUserInfo::LoadLocaleFromStorage(const QString &szId)
     return nRet;
 }
 
-int CManageUserInfo::SaveLocaleToStorage()
+int CManageUser::SaveLocaleToStorage()
 {
     int nRet = 0;
-    QString szFile = GetLocaleFile(GetUserInfoLocale()->GetId());
+    QString szFile = GetLocaleFile(GetUserInfoLocale()->GetInfo()->GetId());
 
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
@@ -121,7 +121,7 @@ int CManageUserInfo::SaveLocaleToStorage()
         s << nVersion;
         //本地用户信息  
         //s << *m_UserInforLocale;     
-        m_UserInforLocale->SaveToStorage(s);
+        m_UserLocale->GetInfo()->SaveToStorage(s);
     }
     catch(...)
     {
@@ -133,7 +133,7 @@ int CManageUserInfo::SaveLocaleToStorage()
     return nRet;
 }
 
-int CManageUserInfo::LoadRosterFromStorage(QString szId)
+int CManageUser::LoadRosterFromStorage(QString szId)
 {
     int nRet = 0;
     QString szFile = GetRosterFile(szId);
@@ -156,11 +156,9 @@ int CManageUserInfo::LoadRosterFromStorage(QString szId)
         s >> nSize;
         while(nSize--)
         {
-            QString jid;
-            QSharedPointer<CUserInfo> roster = NewUserInfo();
-            s >> jid;
-            roster->LoadFromStorage(s);
-            m_UserInfoRoster.insert(jid, roster);
+            QSharedPointer<CUser> roster = NewUser();
+            roster->GetInfo()->LoadFromStorage(s);
+            m_UseRoster.insert(roster->GetInfo()->GetId(), roster);
         }
     }
     catch(...)
@@ -173,10 +171,10 @@ int CManageUserInfo::LoadRosterFromStorage(QString szId)
     return nRet;
 }
 
-int CManageUserInfo::SaveRosterToStorage()
+int CManageUser::SaveRosterToStorage()
 {
     int nRet = 0;
-    QString szFile = GetRosterFile(GetUserInfoLocale()->GetId());
+    QString szFile = GetRosterFile(GetUserInfoLocale()->GetInfo()->GetId());
 
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
@@ -191,12 +189,11 @@ int CManageUserInfo::SaveRosterToStorage()
         //版本号  
         int nVersion = 1;
         s << nVersion;
-        s << m_UserInfoRoster.size();
-        QMap<QString, QSharedPointer<CUserInfo> >::iterator it;
-        for(it = m_UserInfoRoster.begin(); it != m_UserInfoRoster.end(); it++)
+        s << m_UseRoster.size();
+        QMap<QString, QSharedPointer<CUser> >::iterator it;
+        for(it = m_UseRoster.begin(); it != m_UseRoster.end(); it++)
         {
-            s << it.key();
-            it.value()->SaveToStorage(s);
+            it.value()->GetInfo()->SaveToStorage(s);
         }
     }
     catch(...)
@@ -209,66 +206,66 @@ int CManageUserInfo::SaveRosterToStorage()
     return nRet;
 }
 
-QSharedPointer<CUserInfo> CManageUserInfo::GetUserInfoLocale()
+QSharedPointer<CUser> CManageUser::GetUserInfoLocale()
 {
-    return m_UserInforLocale;
+    return m_UserLocale;
 }
 
-QSharedPointer<CUserInfo> CManageUserInfo::GetUserInfoRoster(const QString &szId)
+QSharedPointer<CUser> CManageUser::GetUserInfoRoster(const QString &szId)
 {
-    QMap<QString, QSharedPointer<CUserInfo> >::iterator it;
-    it = m_UserInfoRoster.find(szId);
-    if(m_UserInfoRoster.end() == it)
+    QMap<QString, QSharedPointer<CUser> >::iterator it;
+    it = m_UseRoster.find(szId);
+    if(m_UseRoster.end() == it)
     {
         LOG_MODEL_WARNING("GlobalUser", "Don't find roster:%s", szId.toStdString().c_str());
-        QSharedPointer<CUserInfo> roster;
+        QSharedPointer<CUser> roster;
         return roster;
     }
 
     return it.value();
 }
 
-QSharedPointer<CUserInfo> CManageUserInfo::AddUserInfoRoster(const QString &szId)
+QSharedPointer<CUser> CManageUser::AddUserInfoRoster(const QString &szId)
 {
     Q_UNUSED(szId);
     LOG_MODEL_ERROR("CGlobalUser", "The CGlobalUser::AddUserInfoRoster function must be implemented by derived classes");
-    QSharedPointer<CUserInfo> user;
+    QSharedPointer<CUser> user;
     return user;
 }
 
-int CManageUserInfo::ProcessRoster(COperateRoster* pOperateRoster, void* para)
+int CManageUser::ProcessRoster(COperateRoster* pOperateRoster, void* para)
 {
     int nRet = 0;
-    QMap<QString, QSharedPointer<CUserInfo> >::iterator it;
-    for(it = m_UserInfoRoster.begin(); it != m_UserInfoRoster.end(); it++)
+    QMap<QString, QSharedPointer<CUser> >::iterator it;
+    for(it = m_UseRoster.begin(); it != m_UseRoster.end(); it++)
     {
-        nRet = pOperateRoster->ProcessRoster(it.value(), para);
+        nRet = pOperateRoster->ProcessRoster(it.value()->GetInfo(), para);
         if(nRet)
             break;
     }
     return nRet;
 }
 
-int CManageUserInfo::RemoveUserInfoRoster(const QString &szId)
+int CManageUser::RemoveUserInfoRoster(const QString &szId)
 {
-    return !m_UserInfoRoster.remove(szId);
+    return !m_UseRoster.remove(szId);
 }
 
-QString CManageUserInfo::GetLocaleFile(const QString &szId)
+QString CManageUser::GetLocaleFile(const QString &szId)
 {
     return CGlobal::Instance()->GetDirUserData(szId) 
             + QDir::separator() + "LocaleInfo.dat";
 }
 
-QString CManageUserInfo::GetRosterFile(const QString &szId)
+QString CManageUser::GetRosterFile(const QString &szId)
 {
     return CGlobal::Instance()->GetDirUserData(szId) 
             + QDir::separator() + "RosterInfo.dat";
 }
 
-QSharedPointer<CUserInfo> CManageUserInfo::NewUserInfo()
+QSharedPointer<CUser> CManageUser::NewUser()
 {
-    QSharedPointer<CUserInfo> user(new CUserInfo);
+    QSharedPointer<CUser> user(new CUser);
     return user;
 }
 
