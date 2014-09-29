@@ -32,11 +32,18 @@ CFrmMessage::~CFrmMessage()
 
 int CFrmMessage::Init(const QString &szId)
 {
+    bool check = false;
     ui->setupUi(this);
     ui->txtInput->setFocus();//设置焦点  
     ui->txtInput->installEventFilter(this);
+    ui->txtView->setUndoRedoEnabled(false);
+    ui->txtView->setAcceptRichText(false);
+    ui->txtView->setOpenExternalLinks(false);
+    ui->txtView->setOpenLinks(false);
 
-    bool check = false;
+    check = connect(ui->txtView, SIGNAL(anchorClicked(const QUrl &)),
+                    SLOT(slotAnchorClicked(const QUrl &)));
+    Q_ASSERT(check);
 
     m_User = GLOBAL_USER->GetUserInfoRoster(szId);
     if(m_User.isNull())
@@ -322,4 +329,10 @@ void CFrmMessage::slotUpdateRoster(const QString &szId, QSharedPointer<CUser> us
         return;
     Q_UNUSED(user);
     slotRefresh();
+}
+
+void CFrmMessage::slotAnchorClicked(const QUrl &url)
+{
+    LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::slotAnchorClicked");
+    QDesktopServices::openUrl(url);
 }

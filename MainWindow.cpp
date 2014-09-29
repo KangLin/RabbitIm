@@ -221,12 +221,17 @@ void MainWindow::slotClientDisconnected()
 
     m_TableMain.clear();
 
+    setWindowTitle("RabbitIm");
     ReInitMenuOperator();
 }
 
 void MainWindow::slotUpdateLocaleUserInfo()
 {
     this->m_TrayIcon.setToolTip(QString("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
+    this->setWindowTitle(QString("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
+    QPixmap pixmap;
+    pixmap.convertFromImage(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetPhoto());
+    setWindowIcon(QIcon(pixmap));
 }
 
 void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindow::SendFileType type)

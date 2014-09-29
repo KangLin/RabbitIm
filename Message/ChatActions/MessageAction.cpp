@@ -38,7 +38,7 @@ QString CMessageAction::getMessage()
         if (exp.cap(1) == "www.")
             url.prepend("http://");
 
-        QString htmledUrl = QString("<a color=#ff0000 href=\"%1\">%1</a>").arg(url);
+        QString htmledUrl = QString("<a href=\"%1\">%1</a>").arg(url);
         message_.replace(offset, exp.cap().length(), htmledUrl);
 
         offset += htmledUrl.length();
@@ -50,20 +50,30 @@ QString CMessageAction::getMessage()
     for (QString& s : messageLines)
     {
         if (QRegExp("^[ ]*&gt;.*").exactMatch(s))
-            message_ += "<span style=color:#6bc260;>" + s.right(s.length()-4) + "</span><br/>";
+            message_ += "<span class=quote>>" + s.right(s.length()-4) + "</span><br/>";
         else
             message_ += s + "<br/>";
     }
     message_ = message_.left(message_.length()-4);
 
-    return message;
+    QString msg;
+    msg = "<div> <font='";
+    if(isMe)
+        msg += CGlobal::Instance()->GetUserMessageColor().name();
+    else
+         msg += CGlobal::Instance()->GetRosterMessageColor().name();
+    msg+= ">";
+    msg += message_ + "</font></div>";
+    return msg;
 }
 
 QString CMessageAction::getContent()
 {
-    QString msg;
-   msg += "<img src='";
-   msg += CGlobal::Instance()->GetFileUserAvatar(szId) + "' width='16' height='16'>";
+   QString msg;
+
+   msg = "<div>";
+   msg = "<div> <img src='";
+   msg += CGlobal::Instance()->GetFileUserAvatar(szId) + "' width='16' height='16' />";
    msg += "<font color='";
    if(!this->isMe)
         msg += CGlobal::Instance()->GetRosterColor().name();
@@ -72,14 +82,8 @@ QString CMessageAction::getContent()
    msg += "'>[";
    msg += QTime::currentTime().toString() + "]"
            + GLOBAL_USER->GetUserInfoRoster(szId)->GetInfo()->GetShowName()
-           + ":</font><br /><font color='";
-   if(!isMe)
-        msg += CGlobal::Instance()->GetRosterMessageColor().name();
-   else
-        msg += CGlobal::Instance()->GetUserMessageColor().name();
-   msg += "'>";
-   msg += "</font>";
+           + ":</font></div>";
    msg += getMessage();
-
+   LOG_MODEL_DEBUG("CMessageAction", qPrintable(msg));
    return msg;
 }

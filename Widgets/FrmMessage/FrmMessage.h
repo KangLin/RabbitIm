@@ -53,6 +53,7 @@ private slots:
     void slotRefresh();
     void slotMessageUpdate(const QString& szId);
     void slotUpdateRoster(const QString& szId, QSharedPointer<CUser> user);
+    void slotAnchorClicked(const QUrl &url);
 /*
     void slotSendFileTriggered();//20140712文件发送  
     void slotShotScreenTriggered();//20140712截屏  
