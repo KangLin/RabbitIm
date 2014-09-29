@@ -22,9 +22,7 @@ public:
     explicit CFrmMessage(QWidget *parent = 0, Qt::WindowFlags f = 0);
     explicit CFrmMessage(const QString &szId,  QWidget *parent = 0, Qt::WindowFlags f = 0);
     ~CFrmMessage();
-private:
-    int AppendMessage(const QString &szMessage);
-    int AppendMessageToOutputView(QSharedPointer<CChatAction> action);
+
 signals:
     /**
      * @brief 窗口关闭时通知父窗口删除自己  
@@ -33,13 +31,15 @@ signals:
      */
     void sigClose(QFrame* obj);
 
-protected:
+private:
     virtual void hideEvent(QHideEvent *);
     virtual void showEvent(QShowEvent* );
     virtual void closeEvent(QCloseEvent *e);
     virtual void changeEvent(QEvent*);
-    
+
     bool eventFilter(QObject *target, QEvent *event);
+
+    int AppendMessageToOutputView(std::vector<QSharedPointer<CChatAction> > action);
 
 private slots:
     void on_pbBack_clicked();
@@ -51,6 +51,8 @@ private slots:
     void ChangedPresence(CUserInfo::USER_INFO_STATUS status);
     //刷新控件  
     void slotRefresh();
+    void slotMessageUpdate(const QString& szId);
+    void slotUpdateRoster(const QString& szId, QSharedPointer<CUser> user);
 /*
     void slotSendFileTriggered();//20140712文件发送  
     void slotShotScreenTriggered();//20140712截屏  

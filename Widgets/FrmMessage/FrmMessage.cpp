@@ -54,6 +54,13 @@ int CFrmMessage::Init(const QString &szId)
                     SLOT(slotRefresh()));
     Q_ASSERT(check);
 
+    check = connect(GET_CLIENT.data(), SIGNAL(sigMessageUpdate(QString)),
+                    SLOT(slotMessageUpdate(QString)));
+    Q_ASSERT(check);
+
+    check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUser>)),
+                    SLOT(slotUpdateRoster(QString,QSharedPointer<CUser>)));
+    Q_ASSERT(check);
     /*/发送文件信号连接20140710 
     QAction* pAction = m_MoreMenu.addAction(tr("send file"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFileTriggered()));
@@ -213,7 +220,7 @@ void CFrmMessage::showEvent(QShowEvent *)
 
     slotRefresh();
     //通知未读数改变  
-    emit GET_CLIENT->sigUpdateRosterUserInfo(m_User->GetInfo()->GetId(), m_User);
+    slotMessageUpdate(m_User->GetInfo()->GetId());
     //设置焦点  
     ui->txtInput->setFocus();
 }
@@ -223,9 +230,10 @@ void CFrmMessage::on_pbBack_clicked()
     close();
 }
 
-int CFrmMessage::AppendMessageToOutputView(QSharedPointer<CChatAction> action)
+int CFrmMessage::AppendMessageToOutputView(std::vector<QSharedPointer<CChatAction> > action)
 {
-    ui->txtView->append(action->getMessage());
+    for(auto it : action)
+        ui->txtView->append(it->getContent());
     return 0;
 }
 
@@ -241,9 +249,10 @@ void CFrmMessage::on_pbSend_clicked()
     }
 
     //发送  
-    AppendMessageToOutputView(
-                GET_CLIENT->SendMessage(m_User->GetInfo()->GetId(),
-                            ui->txtInput->toPlainText()));
+    std::vector<QSharedPointer<CChatAction> > msg;
+    msg.push_back(GET_CLIENT->SendMessage(m_User->GetInfo()->GetId(),
+                                          ui->txtInput->toPlainText()));
+    AppendMessageToOutputView(msg);
 
     ui->txtInput->clear();//清空输入框中的内容  
 }
@@ -295,4 +304,22 @@ void CFrmMessage::slotRefresh()
    QPixmap pixmap;
    pixmap.convertFromImage(m_User->GetInfo()->GetPhoto());
    ui->lbAvatar->setPixmap(pixmap);
+}
+
+void CFrmMessage::slotMessageUpdate(const QString &szId)
+{
+    if(m_User.isNull() || m_User->GetInfo()->GetId() != szId)
+        return;
+    //通知未读数改变  
+    std::vector<QSharedPointer<CChatAction> > msg = m_User->GetMessage()->GetUnreadMessage();
+    AppendMessageToOutputView(msg);
+    emit GET_CLIENT->sigUpdateRosterUserInfo(m_User->GetInfo()->GetId(), m_User);
+}
+
+void CFrmMessage::slotUpdateRoster(const QString &szId, QSharedPointer<CUser> user)
+{
+    if(m_User.isNull() || m_User->GetInfo()->GetId() != szId)
+        return;
+    Q_UNUSED(user);
+    slotRefresh();
 }

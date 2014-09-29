@@ -2,7 +2,8 @@
 #include "UserInfoXmpp.h"
 
 CUser::CUser(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    m_Message(new CMessage)
 {
 #ifdef QXMPP
     QSharedPointer<CUserInfo> Info = QSharedPointer<CUserInfo>(new CUserInfoXmpp);

@@ -12,6 +12,7 @@
 #include "Global/Global.h"
 #include <QImageWriter>
 #include <QBuffer>
+#include "MainWindow.h"
 
 CClientXmpp::CClientXmpp(QObject *parent)
     : CClient(parent),
@@ -202,7 +203,7 @@ QSharedPointer<CChatAction> CClientXmpp::SendMessage(const QString &szId, const 
 {
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     m_Client.sendMessage(szId, szMsg);
-    return roster->GetMessage()->AddMessage(szId, szMsg, QDate::currentDate(), true);
+    return roster->GetMessage()->AddMessage(szId, szMsg, true);
 }
 
 int CClientXmpp::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)
@@ -504,7 +505,8 @@ void CClientXmpp::slotMessageReceived(const QXmppMessage &message)
     {
         QString szId = QXmppUtils::jidToBareJid(message.from());
         QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
-        
+        roster->GetMessage()->AddMessage(szId, message.body());
+        GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName() + ":", message.body());
         emit sigMessageUpdate(szId);
     }
     //是组消息  

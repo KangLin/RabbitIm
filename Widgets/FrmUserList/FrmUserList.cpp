@@ -84,6 +84,10 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     check = connect(GET_CLIENT.data(), SIGNAL(sigRemoveRosterUserInfo(QString)),
                     SLOT(slotRemoveRosterUserInfo(QString)));
     Q_ASSERT(check);
+
+    check = connect(GET_CLIENT.data(), SIGNAL(sigMessageUpdate(QString)),
+                    SLOT(slotMessageUpdate(QString)));
+    Q_ASSERT(check);
 }
 
 CFrmUserList::~CFrmUserList()
@@ -448,8 +452,12 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
         QStandardItem* pItemUnReadMessageCount = pItem->parent()->child(index.row(), index.column() + 1);
         if(pItemUnReadMessageCount->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
         {
-            //TODO:设置未读消息数  
-            
+            //设置未读消息数  
+            int nCount = roster->GetMessage()->GetUnReadCount();
+            if(nCount)
+                pItemUnReadMessageCount->setText(QString::number(nCount));
+            else
+                pItemUnReadMessageCount->setText(QString(""));
             pItemUnReadMessageCount->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
             //pItemUnReadMessageCount->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
             //pItemUnReadMessageCount->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
@@ -492,6 +500,11 @@ void CFrmUserList::slotUpdateRosterUserInfo(const QString &szId, QSharedPointer<
 void CFrmUserList::slotRemoveRosterUserInfo(const QString &szId)
 {
     ItemRemoveRoster(szId);
+}
+
+void CFrmUserList::slotMessageUpdate(const QString &szId)
+{
+    ItemUpdateRoster(szId);
 }
 
 //好友出席状态改变  

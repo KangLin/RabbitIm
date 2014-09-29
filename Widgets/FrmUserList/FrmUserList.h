@@ -90,6 +90,8 @@ private slots:
     void slotRemoveRosterUserInfo(const QString &szId);
     //好友出席状态改变时触发  
     void SlotChangedStatus(const QString& szId);
+    //消息更新  
+    void slotMessageUpdate(const QString& szId);
 
     //菜单槽  
     //增加好友菜单槽  

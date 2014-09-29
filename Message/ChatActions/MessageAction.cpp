@@ -1,21 +1,6 @@
-/*
-    Copyright (C) 2014 by Project Tox <https://tox.im>
-
-    This file is part of qTox, a Qt-based graphical interface for Tox.
-
-    This program is libre software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-    See the COPYING file for more details.
-*/
-
 #include "MessageAction.h"
 #include "../SmileyPack.h"
+#include "Global/Global.h"
 
 CMessageAction::CMessageAction(const QString &author, const QString &message, const QString &date, const bool &me) :
     CChatAction(me, author, date),
@@ -32,8 +17,8 @@ void CMessageAction::setup(QTextCursor cursor, QTextEdit *)
     (void) cursor;
     message.clear();
     message.squeeze();
-    name.clear();
-    name.squeeze();
+    szId.clear();
+    szId.squeeze();
     date.clear();
     date.squeeze();
 }
@@ -53,7 +38,7 @@ QString CMessageAction::getMessage()
         if (exp.cap(1) == "www.")
             url.prepend("http://");
 
-        QString htmledUrl = QString("<a href=\"%1\">%1</a>").arg(url);
+        QString htmledUrl = QString("<a color=#ff0000 href=\"%1\">%1</a>").arg(url);
         message_.replace(offset, exp.cap().length(), htmledUrl);
 
         offset += htmledUrl.length();
@@ -65,11 +50,36 @@ QString CMessageAction::getMessage()
     for (QString& s : messageLines)
     {
         if (QRegExp("^[ ]*&gt;.*").exactMatch(s))
-            message_ += "<span class=quote>>" + s.right(s.length()-4) + "</span><br/>";
+            message_ += "<span style=color:#6bc260;>" + s.right(s.length()-4) + "</span><br/>";
         else
             message_ += s + "<br/>";
     }
     message_ = message_.left(message_.length()-4);
 
-    return getName() + QString("<div class=message>" + message_ + "</div>") + getDate();
+    return message;
+}
+
+QString CMessageAction::getContent()
+{
+    QString msg;
+   msg += "<img src='";
+   msg += CGlobal::Instance()->GetFileUserAvatar(szId) + "' width='16' height='16'>";
+   msg += "<font color='";
+   if(!this->isMe)
+        msg += CGlobal::Instance()->GetRosterColor().name();
+   else
+        msg += CGlobal::Instance()->GetUserColor().name();
+   msg += "'>[";
+   msg += QTime::currentTime().toString() + "]"
+           + GLOBAL_USER->GetUserInfoRoster(szId)->GetInfo()->GetShowName()
+           + ":</font><br /><font color='";
+   if(!isMe)
+        msg += CGlobal::Instance()->GetRosterMessageColor().name();
+   else
+        msg += CGlobal::Instance()->GetUserMessageColor().name();
+   msg += "'>";
+   msg += "</font>";
+   msg += getMessage();
+
+   return msg;
 }
