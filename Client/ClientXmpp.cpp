@@ -14,6 +14,11 @@
 #include <QBuffer>
 #include "MainWindow.h"
 
+#ifdef WIN32
+#undef GetMessage
+#undef SendMessage
+#endif
+
 CClientXmpp::CClientXmpp(QObject *parent)
     : CClient(parent),
       m_User(NULL)

@@ -495,7 +495,7 @@ QString CGlobal::GetFileUserAvatar(QString bareJid)
 
 QString CGlobal::GetFileSmileyPack()
 {
-    return QString();
+    return QString(":/smileys/smileys/emoticons.xml");
 }
 
 QString CGlobal::GetUserConfigureFile(QString jid)

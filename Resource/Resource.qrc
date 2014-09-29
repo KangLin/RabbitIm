@@ -60,4 +60,22 @@
     <qresource prefix="/image">
         <file alias="Transparent">png/Transparent.png</file>
     </qresource>
+    <qresource prefix="/smileys">
+        <file>smileys/angry.png</file>
+        <file>smileys/cool.png</file>
+        <file>smileys/crying.png</file>
+        <file alias="emoticons.xml">smileys/emoticons.xml</file>
+        <file>smileys/happy.png</file>
+        <file>smileys/laugh.png</file>
+        <file>smileys/laugh_closed_eyes.png</file>
+        <file>smileys/plain.png</file>
+        <file>smileys/raw.svg</file>
+        <file>smileys/sad.png</file>
+        <file>smileys/scared.png</file>
+        <file>smileys/smile.png</file>
+        <file>smileys/stunned.png</file>
+        <file>smileys/tongue.png</file>
+        <file>smileys/uncertain.png</file>
+        <file>smileys/wink.png</file>
+    </qresource>
 </RCC>

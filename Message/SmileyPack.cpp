@@ -79,8 +79,10 @@ bool CSmileyPack::load(const QString& filename)
     // open emoticons.xml
     QFile xmlFile(filename);
     if(!xmlFile.open(QIODevice::ReadOnly))
+    {
+        LOG_MODEL_ERROR("CSmileyPack", "Don't open file:%s", qPrintable(filename));
         return false; // cannot open file
-
+    }
     /* parse the cfg file
      * sample:
      * <?xml version='1.0'?>

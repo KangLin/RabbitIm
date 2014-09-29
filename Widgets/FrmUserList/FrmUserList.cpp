@@ -11,6 +11,10 @@
 #include <fstream>
 #include <memory> 
 
+#ifdef WIN32
+#undef GetMessage
+#endif
+
 CFrmUserList::CFrmUserList(QWidget *parent) :
     QFrame(parent),
     COperateRoster(),

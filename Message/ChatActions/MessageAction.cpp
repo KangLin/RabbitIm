@@ -62,7 +62,7 @@ QString CMessageAction::getMessage()
         msg += CGlobal::Instance()->GetUserMessageColor().name();
     else
          msg += CGlobal::Instance()->GetRosterMessageColor().name();
-    msg+= ">";
+    msg+= "'>";
     msg += message_ + "</font></div>";
     return msg;
 }
@@ -82,8 +82,8 @@ QString CMessageAction::getContent()
    msg += "'>[";
    msg += QTime::currentTime().toString() + "]"
            + GLOBAL_USER->GetUserInfoRoster(szId)->GetInfo()->GetShowName()
-           + ":</font></div>";
-   msg += getMessage();
+           + ":</font>";
+   msg += getMessage() + "</div>";
    LOG_MODEL_DEBUG("CMessageAction", qPrintable(msg));
    return msg;
 }

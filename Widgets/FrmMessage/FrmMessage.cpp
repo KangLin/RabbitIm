@@ -6,7 +6,11 @@
 #include "MainWindow.h"
 #include "Global/Global.h"
 
+#ifdef WIN32
 #undef SendMessage
+#undef GetMessage
+#endif
+
 CFrmMessage::CFrmMessage(QWidget *parent, Qt::WindowFlags f) :
     QFrame(parent, f),
     m_MessageSendMenu(parent),
