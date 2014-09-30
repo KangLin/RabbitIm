@@ -44,6 +44,7 @@ private:
 private slots:
     void on_pbBack_clicked();
     void on_pbSend_clicked();
+    void on_pbEmoticons_clicked();
     void on_tbMore_clicked();
     void on_pbVideo_clicked();
     void on_lbAvatar_clicked();//点击头像显示用户详细信息对话框  
@@ -54,10 +55,12 @@ private slots:
     void slotMessageUpdate(const QString& szId);
     void slotUpdateRoster(const QString& szId, QSharedPointer<CUser> user);
     void slotAnchorClicked(const QUrl &url);
+    void slotEmoteInsertRequested(const QString &s);
 /*
     void slotSendFileTriggered();//20140712文件发送  
     void slotShotScreenTriggered();//20140712截屏  
     */
+
 private:
     int Init(const QString &szId = QString());
 

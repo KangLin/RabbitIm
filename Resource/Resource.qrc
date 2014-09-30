@@ -60,22 +60,25 @@
     <qresource prefix="/image">
         <file alias="Transparent">png/Transparent.png</file>
     </qresource>
-    <qresource prefix="/smileys">
-        <file>smileys/angry.png</file>
-        <file>smileys/cool.png</file>
-        <file>smileys/crying.png</file>
-        <file alias="emoticons.xml">smileys/emoticons.xml</file>
-        <file>smileys/happy.png</file>
-        <file>smileys/laugh.png</file>
-        <file>smileys/laugh_closed_eyes.png</file>
-        <file>smileys/plain.png</file>
-        <file>smileys/raw.svg</file>
-        <file>smileys/sad.png</file>
-        <file>smileys/scared.png</file>
-        <file>smileys/smile.png</file>
-        <file>smileys/stunned.png</file>
-        <file>smileys/tongue.png</file>
-        <file>smileys/uncertain.png</file>
-        <file>smileys/wink.png</file>
+    <qresource prefix="/">
+        <file>ui/emoteButton/emoteButton.css</file>
+        <file>ui/emoteButton/emoteButton.png</file>
+        <file>ui/emoteButton/emoteButtonHover.png</file>
+        <file>ui/emoteButton/emoteButtonPressed.png</file>
+        <file>smileys/default/angry.png</file>
+        <file>smileys/default/cool.png</file>
+        <file>smileys/default/crying.png</file>
+        <file>smileys/default/emoticons.xml</file>
+        <file>smileys/default/happy.png</file>
+        <file>smileys/default/laugh.png</file>
+        <file>smileys/default/laugh_closed_eyes.png</file>
+        <file>smileys/default/plain.png</file>
+        <file>smileys/default/sad.png</file>
+        <file>smileys/default/scared.png</file>
+        <file>smileys/default/smile.png</file>
+        <file>smileys/default/stunned.png</file>
+        <file>smileys/default/tongue.png</file>
+        <file>smileys/default/uncertain.png</file>
+        <file>smileys/default/wink.png</file>
     </qresource>
 </RCC>

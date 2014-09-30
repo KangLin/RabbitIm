@@ -5,6 +5,9 @@
 #include <QMessageBox>
 #include "MainWindow.h"
 #include "Global/Global.h"
+#include "Message/style.h"
+#include "Message/SmileyPack.h"
+#include "Message/EmoticonsWidget.h"
 
 #ifdef WIN32
 #undef SendMessage
@@ -339,4 +342,25 @@ void CFrmMessage::slotAnchorClicked(const QUrl &url)
 {
     LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::slotAnchorClicked");
     QDesktopServices::openUrl(url);
+}
+
+void CFrmMessage::on_pbEmoticons_clicked()
+{
+    if (CSmileyPack::getInstance().getEmoticons().empty())
+        return;
+
+    CEmoticonsWidget widget;
+    connect(&widget, SIGNAL(insertEmoticon(QString)), this, SLOT(slotEmoteInsertRequested(QString)));
+
+    QWidget* sender = qobject_cast<QWidget*>(QObject::sender());
+    if (sender)
+    {
+        QPoint pos = -QPoint(widget.sizeHint().width() / 2, widget.sizeHint().height()) - QPoint(0, 10);
+        widget.exec(sender->mapToGlobal(pos));
+    }
+}
+
+void CFrmMessage::slotEmoteInsertRequested(const QString &s)
+{
+    ui->txtInput->append(s);
 }

@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<messaging-emoticon-map >
+
+<emoticon file="angry">
+	<string>:-@</string>
+	<string>:@</string>
+	<string>&gt;:-(</string>
+	<string>&gt;:(</string>
+</emoticon>
+
+<emoticon file="bat">
+	<string>:-[</string>
+	<string>:[</string>
+</emoticon>
+
+<emoticon file="beer">
+	<string>(B)</string>
+	<string>(b)</string>
+</emoticon>
+
+<emoticon file="cake">
+	<string>(^)</string>
+</emoticon>
+
+<emoticon file="camera">
+	<string>(P)</string>
+	<string>(p)</string>
+</emoticon>
+
+<emoticon file="cat">
+	<string>(@)</string>
+</emoticon>
+
+<emoticon file="clock">
+	<string>(O)</string>
+	<string>(o)</string>
+</emoticon>
+
+<emoticon file="cocktail">
+	<string>(D)</string>
+	<string>(d)</string>
+</emoticon>
+
+<emoticon file="confused">
+	<string>:-S</string>
+	<string>:S</string>
+	<string>:-s</string>
+	<string>:s</string>
+</emoticon>
+
+<emoticon file="cry">
+	<string>:'(</string>
+	<string>:'-(</string>
+	<string>;-(</string>
+	<string>;(</string>
+</emoticon>
+
+<emoticon file="cup">
+	<string>(C)</string>
+	<string>(c)</string>
+</emoticon>
+
+<emoticon file="dog">
+	<string>(&amp;)</string>
+</emoticon>
+
+<emoticon file="embarassed">
+	<string>:-$</string>
+	<string>:$</string>
+</emoticon>
+
+<emoticon file="email">
+	<string>(E)</string>
+	<string>(e)</string>
+</emoticon>
+
+<emoticon file="film">
+	<string>(~)</string>
+</emoticon>
+
+<emoticon file="kiss">
+	<string>(K)</string>
+	<string>(k)</string>
+	<string>:-X</string>
+	<string>:X</string>
+	<string>:-x</string>
+	<string>:x</string>
+</emoticon>
+
+<emoticon file="lightbulb">
+	<string>(I)</string>
+	<string>(i)</string>
+</emoticon>
+
+<emoticon file="love">
+	<string>(L)</string>
+	<string>(l)</string>
+</emoticon>
+
+<emoticon file="note">
+	<string>(8)</string>
+</emoticon>
+
+<emoticon file="omg">
+	<string>:-O</string>
+	<string>:O</string>
+	<string>:-o</string>
+	<string>:o</string>
+</emoticon>
+
+<emoticon file="phone">
+	<string>(T)</string>
+	<string>(t)</string>
+</emoticon>
+
+<emoticon file="present">
+	<string>(G)</string>
+	<string>(g)</string>
+</emoticon>
+
+<emoticon file="rose">
+	<string>(F)</string>
+	<string>(f)</string>
+</emoticon>
+
+<emoticon file="sad">
+	<string>:-(</string>
+	<string>:(</string>
+</emoticon>
+
+<emoticon file="shade">
+	<string>(H)</string>
+	<string>(h)</string>
+	<string>8-)</string>
+	<string>8)</string>
+</emoticon>
+
+<emoticon file="smile">
+	<string>:-)</string>
+	<string>:)</string>
+	<string>:o)</string>
+</emoticon>
+
+<emoticon file="star">
+	<string>(*)</string>
+</emoticon>
+
+<emoticon file="teeth">
+	<string>:-D</string>
+	<string>:D</string>
+</emoticon>
+
+<emoticon file="thumbs_down">
+	<string>(N)</string>
+	<string>(n)</string>
+</emoticon>
+
+<emoticon file="thumbs_up">
+	<string>(Y)</string>
+	<string>(y)</string>
+</emoticon>
+
+<emoticon file="tongue">
+	<string>:-P</string>
+	<string>:P</string>
+	<string>:-p</string>
+	<string>:p</string>
+</emoticon>
+
+<emoticon file="unlove">
+	<string>(U)</string>
+	<string>(u)</string>
+</emoticon>
+
+<emoticon file="wilted_rose">
+	<string>(W)</string>
+	<string>(w)</string>
+</emoticon>
+
+<emoticon file="wink">
+	<string>;-)</string>
+	<string>;)</string>
+</emoticon>
+
+</messaging-emoticon-map>

@@ -33,7 +33,9 @@ SOURCES += main.cpp\
     UserInfo/User.cpp \
     Manager/ManageUser.cpp \
     Manager/ManageUserQXmpp.cpp \
-    Message/SmileyPack.cpp
+    Message/SmileyPack.cpp \
+    Message/EmoticonsWidget.cpp \
+    Message/style.cpp
     #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmSendFile/DlgSendManage.cpp \
     #Widgets/FrmSendFile/FrmSendFile.cpp \
@@ -85,7 +87,9 @@ HEADERS  += MainWindow.h \
     Message/ChatActions/MessageAction.h \
     UserInfo/User.h \
     Manager/ManageUser.h \
-    Manager/ManageUserQXmpp.h
+    Manager/ManageUserQXmpp.h \
+    Message/EmoticonsWidget.h \
+    Message/style.h
     #Widgets/FrmUserList/Roster.h \
     #Widgets/FrmSendFile/DlgSendManage.h \
     #Widgets/FrmSendFile/FrmSendFile.h \
