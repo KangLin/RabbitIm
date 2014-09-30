@@ -92,6 +92,10 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     check = connect(GET_CLIENT.data(), SIGNAL(sigMessageUpdate(QString)),
                     SLOT(slotMessageUpdate(QString)));
     Q_ASSERT(check);
+
+    check = connect(GET_CLIENT.data(), SIGNAL(sigMessageClean(QString)),
+                    SLOT(slotMessageUpdate(QString)));
+    Q_ASSERT(check);
 }
 
 CFrmUserList::~CFrmUserList()

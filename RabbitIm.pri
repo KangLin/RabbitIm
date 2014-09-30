@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     Manager/ManageUserQXmpp.cpp \
     Message/SmileyPack.cpp \
     Message/EmoticonsWidget.cpp \
-    Message/style.cpp
+    Message/style.cpp \
+    Widgets/FrmRecentMessage/FrmRecentMsgList.cpp
     #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmSendFile/DlgSendManage.cpp \
     #Widgets/FrmSendFile/FrmSendFile.cpp \
@@ -89,7 +90,8 @@ HEADERS  += MainWindow.h \
     Manager/ManageUser.h \
     Manager/ManageUserQXmpp.h \
     Message/EmoticonsWidget.h \
-    Message/style.h
+    Message/style.h \
+    Widgets/FrmRecentMessage/FrmRecentMsgList.h
     #Widgets/FrmUserList/Roster.h \
     #Widgets/FrmSendFile/DlgSendManage.h \
     #Widgets/FrmSendFile/FrmSendFile.h \
@@ -119,7 +121,8 @@ FORMS    += MainWindow.ui \
     Widgets/FrmOptions/FrmOptions.ui \
     Widgets/FrmUservCard/FrmUservCard.ui \
     Widgets/FrmMessage/FrmMessage.ui \
-    Widgets/FrmMessage/FrmContainer.ui
+    Widgets/FrmMessage/FrmContainer.ui \
+    Widgets/FrmRecentMessage/FrmRecentMsgList.ui
     #Widgets/FrmGroupChat/FrmGroupChatList.ui \
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
     #Widgets/FrmGroupChat/FrmGroupChat.ui \

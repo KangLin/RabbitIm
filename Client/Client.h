@@ -179,7 +179,18 @@ signals:
      */
     void sigRosterRemoveReceived(const QString& szId);
 
+    /**
+     * @brief 接收到新消息时触发  
+     *
+     * @param szId:好友ID  
+     */
     void sigMessageUpdate(const QString& szId);
+    /**
+     * @brief 清空未读消息时触发  
+     *
+     * @param szId:好友ID  
+     */
+    void sigMessageClean(const QString& szId);
 
 public slots:
 

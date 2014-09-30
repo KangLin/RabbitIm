@@ -329,7 +329,7 @@ void CFrmMessage::slotMessageUpdate(const QString &szId)
     //通知未读数改变  
     std::vector<QSharedPointer<CChatAction> > msg = m_User->GetMessage()->GetUnreadMessage();
     AppendMessageToOutputView(msg);
-    emit GET_CLIENT->sigUpdateRosterUserInfo(m_User->GetInfo()->GetId(), m_User);
+    emit GET_CLIENT->sigMessageClean(m_User->GetInfo()->GetId());
 }
 
 void CFrmMessage::slotUpdateRoster(const QString &szId, QSharedPointer<CUser> user)

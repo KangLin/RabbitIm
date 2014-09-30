@@ -53,6 +53,7 @@
         <file alias="English">png/English.png</file>
         <file alias="Stype">png/stype.png</file>
         <file alias="Modify">png/Modify.png</file>
+        <file alias="Message">png/message.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

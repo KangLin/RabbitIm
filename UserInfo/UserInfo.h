@@ -6,7 +6,6 @@
 #include <QImage>
 #include <QDataStream>
 #include <QSet>
-#include "Message/Message.h"
 
 class CUserInfo : public QObject
 {
@@ -62,8 +61,6 @@ public:
     virtual SUBSCRIPTION_TYPE GetSubScriptionType();
     virtual QString GetSubscriptionTypeStr(SUBSCRIPTION_TYPE type) const;
 
-    CMessage* GetMessage();
-
  #ifndef QT_NO_DATASTREAM
     virtual int LoadFromStorage(QDataStream &input);
     virtual int SaveToStorage(QDataStream &output);
@@ -80,8 +77,6 @@ protected:
     USER_INFO_STATUS m_Status;
     QSet<QString> m_Groups;
     SUBSCRIPTION_TYPE m_subscriptionType;
-
-    CMessage m_Message;
 
 signals:
 

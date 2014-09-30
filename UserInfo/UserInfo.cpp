@@ -156,11 +156,6 @@ QString CUserInfo::GetSubscriptionTypeStr(SUBSCRIPTION_TYPE type) const
     }
 }
 
-CMessage* CUserInfo::GetMessage()
-{
-    return &m_Message;
-}
-
 int CUserInfo::LoadFromStorage(QDataStream &input)
 {
     int nRet = 0;

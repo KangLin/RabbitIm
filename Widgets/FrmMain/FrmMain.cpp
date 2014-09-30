@@ -12,6 +12,7 @@ CFrmMain::CFrmMain(QWidget *parent) :
     ui->tabWidget->clear();
     
     ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
+    ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"), tr("Recent messages"));
     //ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
 }
 
@@ -26,8 +27,8 @@ void CFrmMain::resizeEvent(QResizeEvent *e)
                     e->size().width(),
                     geometry().size().width());
 
-    m_UserList.resize(ui->tabWidget->currentWidget()->geometry().size());
-    //m_GroupChatList.resize(ui->tabWidget->currentWidget()->geometry().size());
+    ui->tabWidget->resize(geometry().size());
+    ui->tabWidget->currentWidget()->resize(ui->tabWidget->geometry().size());
 }
 
 void CFrmMain::changeEvent(QEvent *e)
@@ -37,6 +38,7 @@ void CFrmMain::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_UserList), tr("Rosters"));
+        ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_MessageList), tr("Recent messages"));
         //ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_GroupChatList), tr("Group Chat"));
         break;
     }

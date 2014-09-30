@@ -467,7 +467,6 @@ void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
     if(QSystemTrayIcon::Trigger == e)
     {
         slotMessageClicked();
-        slotTrayTimerStop();
         this->show();
         this->activateWindow();
     }
