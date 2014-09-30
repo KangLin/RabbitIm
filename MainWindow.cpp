@@ -51,6 +51,10 @@ MainWindow::MainWindow(QWidget *parent) :
                         SLOT(slotUpdateLocaleUserInfo()));
         Q_ASSERT(check);
 
+        check = connect(client.data(), SIGNAL(sigMessageClean(const QString&)),
+                        SLOT(slotMessageClean(const QString&)));
+        Q_ASSERT(check);
+
         //0712文件发送管理窗口
         //TODO:有内存泄漏
         //m_pSendManageDlg = new CDlgSendManage(0);
@@ -475,9 +479,7 @@ void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 void MainWindow::slotMessageClicked()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotMessageClicked");
-    //TODO:
-    
-    slotTrayTimerStop();
+    CGlobal::Instance()->GetManager()->GetRecentMessage()->ShowLastMessageDialog();
 }
 
 //在通知栏上显示消息  
@@ -539,7 +541,8 @@ void MainWindow::slotTrayTimeOut()
 
 void MainWindow::slotTrayTimerStart()
 {
-    m_TrayTimer.start(CGlobal::Instance()->GetNotifiationFlashInterval());
+    if(!m_TrayTimer.isActive())
+        m_TrayTimer.start(CGlobal::Instance()->GetNotifiationFlashInterval());
 }
 
 void MainWindow::slotTrayTimerStop()
@@ -547,6 +550,12 @@ void MainWindow::slotTrayTimerStop()
     m_TrayIcon.setIcon(QIcon(":/icon/AppIcon"));
     m_TrayTimer.stop();
     m_TrayIcon.show();
+}
+
+void MainWindow::slotMessageClean(const QString&)
+{
+    if(!CGlobal::Instance()->GetManager()->GetRecentMessage()->GetUnreadCount())
+        slotTrayTimerStop();
 }
 
 void MainWindow::on_actionNotifiation_show_main_windows_triggered()

@@ -64,6 +64,8 @@ protected slots:
     void slotTrayTimerStart();
     void slotTrayTimerStop();
 
+    void slotMessageClean(const QString& szId);
+
     void on_actionNotifiation_show_main_windows_triggered();
 
     void slotActionGroupStatusTriggered(QAction* act);//状态菜单组点击触发  

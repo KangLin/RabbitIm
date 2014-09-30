@@ -4,6 +4,7 @@
 #include "Client/Client.h"
 #include "ManageUser.h"
 #include "ManageMessageDialog.h"
+#include "Widgets/FrmRecentMessage/ManageRecentMessage.h"
 #include <QSharedPointer>
 
 class CManager
@@ -17,6 +18,7 @@ public:
     virtual QSharedPointer<CManageUser> GetManageUser() = 0;
     ///< 消息对话框管理对象  
     virtual QSharedPointer<CManageMessageDialog> GetManageMessageDialog();
+    virtual QSharedPointer<CManageRecentMessage> GetRecentMessage();
 
     /**
      * @brief 登录后初始化  

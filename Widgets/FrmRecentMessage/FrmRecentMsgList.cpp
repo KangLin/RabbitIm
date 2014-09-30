@@ -5,6 +5,10 @@
 
 #include <QSettings>
 
+#ifdef WIN32
+#undef GetMessage
+#endif
+
 CFrmRecentMsgList::CFrmRecentMsgList(QWidget *parent) :
     QFrame(parent),
     m_MsgList(this),
@@ -104,7 +108,7 @@ void CFrmRecentMsgList::slotMessageUpdate(const QString &szId)
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(szId));
+        LOG_MODEL_ERROR("CFrmRecentMsgList", "Dn't the roster:%s", qPrintable(szId));
         return;
     }
 
@@ -120,26 +124,14 @@ void CFrmRecentMsgList::slotMessageUpdate(const QString &szId)
         QModelIndex index;
         foreach(index, lstIndexs)
         {
-            LOG_MODEL_DEBUG("FrmUserList", "index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(info->GetId()));
+            LOG_MODEL_DEBUG("CFrmRecentMsgList", "index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(info->GetId()));
             QStandardItem* pItem = m_pModel->itemFromIndex(index);
+            delete pItem;
             m_pModel->removeRow(index.row());
         }
     }
 
     ItemInsertRoster(roster);
-}
-
-void CFrmRecentMsgList::insertStandardItem(int row,QString szJid)
-{
-}
-
-void CFrmRecentMsgList::moveStandardItem(int from, int to)
-{
-    if(from != to)
-    {
-        QList<QStandardItem *> lstItem=m_pModel->takeRow(from);
-        m_pModel->insertRow(to, lstItem);
-    }
 }
 
 void CFrmRecentMsgList::resizeEvent(QResizeEvent *e)
@@ -166,26 +158,21 @@ void CFrmRecentMsgList::changeEvent(QEvent *e)
 
 void CFrmRecentMsgList::clicked(const QModelIndex &index)
 {
-    LOG_MODEL_DEBUG("Roster", "CFrmRecentMsgList::Clicked, row:%d; column:%d",
+    LOG_MODEL_DEBUG("CFrmRecentMsgList", "CFrmRecentMsgList::Clicked, row:%d; column:%d",
            index.row(), index.column());
 #ifdef ANDROID
     const QAbstractItemModel *m = index.model();
     if(!m)return;
-  
-    QVariant v = m->data(index, Qt::UserRole + 1);
-    if(v.canConvert<CRoster*>())
-    {
-        CRoster* p = v.value<CRoster*>();
-        if(p->getUnreadMessageCount() != 0)
-            slotUpdateUnreadMsg(p->Jid());
-        p->ShowMessageDialog();
-    }
+
+    QVariant v = m->data(index, USERLIST_ITEM_ROLE_JID);
+    QString szId = v.value<QString>();
+    MANAGE_MESSAGE_DIALOG->ShowDialog(szId);
 #endif
 }
 
 void CFrmRecentMsgList::doubleClicked(const QModelIndex &index)
 {
-    LOG_MODEL_DEBUG("Roster", "CFrmRecentMsgList::doubleClicked, row:%d; column:%d",
+    LOG_MODEL_DEBUG("CFrmRecentMsgList", "CFrmRecentMsgList::doubleClicked, row:%d; column:%d",
            index.row(), index.column());
 
 #ifndef ANDROID
@@ -195,6 +182,5 @@ void CFrmRecentMsgList::doubleClicked(const QModelIndex &index)
     QVariant v = m->data(index, USERLIST_ITEM_ROLE_JID);
     QString szId = v.value<QString>();
     MANAGE_MESSAGE_DIALOG->ShowDialog(szId);
-
 #endif
 }

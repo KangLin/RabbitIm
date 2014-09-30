@@ -30,15 +30,11 @@ private slots:
     //树形列表控件响应事件 
     void clicked(const QModelIndex & index);
     void doubleClicked(const QModelIndex & index);
-    
+
 private:
-    //void UpdateDisplayList();
-    //void removeFromUnreadRosters(QString jid);
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent* e);
     void insertStandardItem(int row, QString szJid);
-    void moveStandardItem(int from, int to);
-    void DeleteItem(int row);
 
     enum _OPERATOR_TYPE
     {

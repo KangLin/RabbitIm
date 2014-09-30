@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     Message/SmileyPack.cpp \
     Message/EmoticonsWidget.cpp \
     Message/style.cpp \
-    Widgets/FrmRecentMessage/FrmRecentMsgList.cpp
+    Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
+    Widgets/FrmRecentMessage/ManageRecentMessage.cpp
     #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmSendFile/DlgSendManage.cpp \
     #Widgets/FrmSendFile/FrmSendFile.cpp \
@@ -91,7 +92,8 @@ HEADERS  += MainWindow.h \
     Manager/ManageUserQXmpp.h \
     Message/EmoticonsWidget.h \
     Message/style.h \
-    Widgets/FrmRecentMessage/FrmRecentMsgList.h
+    Widgets/FrmRecentMessage/FrmRecentMsgList.h \
+    Widgets/FrmRecentMessage/ManageRecentMessage.h
     #Widgets/FrmUserList/Roster.h \
     #Widgets/FrmSendFile/DlgSendManage.h \
     #Widgets/FrmSendFile/FrmSendFile.h \
