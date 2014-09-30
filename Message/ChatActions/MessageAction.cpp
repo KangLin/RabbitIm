@@ -44,17 +44,7 @@ QString CMessageAction::getMessage()
         offset += htmledUrl.length();
     }
 
-    // detect text quotes
-    QStringList messageLines = message_.split("\n");
-    message_ = "";
-    for (QString& s : messageLines)
-    {
-        if (QRegExp("^[ ]*&gt;.*").exactMatch(s))
-            message_ += "<span class=quote>>" + s.right(s.length()-4) + "</span><br/>";
-        else
-            message_ += s + "<br/>";
-    }
-    message_ = message_.left(message_.length()-4);
+    message_ = message_.replace(QString("\n"), QString("<br/>"));
 
     QString msg;
     msg = "<div> <font='";
@@ -72,7 +62,10 @@ QString CMessageAction::getContent()
    QString msg;
 
    msg = "<div>";
-   msg = "<div> <img src='";
+   msg += "<div>";
+   if(!this->isMe)
+        msg += "<a href='rabbitim://userinfo'>";
+   msg += "<img src='";
    msg += CGlobal::Instance()->GetFileUserAvatar(szId) + "' width='16' height='16' />";
    msg += "<font color='";
    if(!this->isMe)
@@ -80,9 +73,12 @@ QString CMessageAction::getContent()
    else
         msg += CGlobal::Instance()->GetUserColor().name();
    msg += "'>[";
-   msg += QTime::currentTime().toString() + "]"
-           + GLOBAL_USER->GetUserInfoRoster(szId)->GetInfo()->GetShowName()
-           + ":</font>";
+   msg += QTime::currentTime().toString() + "]";
+   msg += GLOBAL_USER->GetUserInfoRoster(szId)->GetInfo()->GetShowName() + ":";
+   msg += "</font>";
+   if(!this->isMe)
+        msg += "</a>";
+   msg += "</div>";
    msg += getMessage() + "</div>";
    LOG_MODEL_DEBUG("CMessageAction", qPrintable(msg));
    return msg;

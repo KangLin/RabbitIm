@@ -340,8 +340,17 @@ void CFrmMessage::slotUpdateRoster(const QString &szId, QSharedPointer<CUser> us
 
 void CFrmMessage::slotAnchorClicked(const QUrl &url)
 {
-    LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::slotAnchorClicked");
-    QDesktopServices::openUrl(url);
+    LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::slotAnchorClicked:scheme:%s;host:%s;query:%s",
+                    qPrintable(url.scheme()),
+                    qPrintable(url.host()),
+                    qPrintable(url.query()));
+    if(url.scheme() == "rabbitim" && url.host() == "userinfo")
+    {
+        //响应"<a href='rabbitim://userinfo'>";  
+        this->on_lbAvatar_clicked();
+    }
+    else
+        QDesktopServices::openUrl(url);
 }
 
 void CFrmMessage::on_pbEmoticons_clicked()
@@ -362,5 +371,5 @@ void CFrmMessage::on_pbEmoticons_clicked()
 
 void CFrmMessage::slotEmoteInsertRequested(const QString &s)
 {
-    ui->txtInput->append(s);
+    ui->txtInput->insertPlainText(s);
 }
