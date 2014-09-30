@@ -47,7 +47,9 @@ int CFrmMessage::Init(const QString &szId)
     ui->txtView->setAcceptRichText(false);
     ui->txtView->setOpenExternalLinks(false);
     ui->txtView->setOpenLinks(false);
-
+#ifdef MOBILE
+    ui->pbEmoticons->setText("");
+#endif
     check = connect(ui->txtView, SIGNAL(anchorClicked(const QUrl &)),
                     SLOT(slotAnchorClicked(const QUrl &)));
     Q_ASSERT(check);
@@ -372,4 +374,5 @@ void CFrmMessage::on_pbEmoticons_clicked()
 void CFrmMessage::slotEmoteInsertRequested(const QString &s)
 {
     ui->txtInput->insertPlainText(s);
+    ui->txtInput->setFocus();
 }
