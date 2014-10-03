@@ -291,12 +291,15 @@ CUserInfo::USER_INFO_STATUS CClientXmpp::StatusFromPresence(QXmppPresence::Avail
     return s;
 }
 
+/**
+ * @brief 客户端连接后进行初始化工作.注意:先初始化数据,再初始化界面  
+ *
+ */
 void CClientXmpp::slotClientConnected()
 {
     QString szId = m_Client.configuration().jidBare();
-    
+
     int nRet = 0;
-    CGlobal::Instance()->GetManager()->Clean();
     nRet = CGlobal::Instance()->GetManager()->Init(szId);
     if(nRet)
     {
@@ -316,10 +319,14 @@ void CClientXmpp::slotClientConnected()
     emit sigLoadRosterFromStorage();
 }
 
+/**
+ * @brief 客户端断开连接时清理操作.注意:先清理界面,再清理数据  
+ *
+ */
 void CClientXmpp::slotClientDisConnected()
 {
-    CGlobal::Instance()->GetManager()->Clean();
     emit sigClientDisconnected();
+    CGlobal::Instance()->GetManager()->Clean();
 }
 
 void CClientXmpp::slotClientError(QXmppClient::Error e)

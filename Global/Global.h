@@ -206,11 +206,12 @@ signals:
 public slots:
 };
 
+#define GETMANAGER CGlobal::Instance()->GetManager()
 #define GET_MAINWINDOW CGlobal::Instance()->GetMainWindow()
-#define GET_CLIENT CGlobal::Instance()->GetManager()->GetClient()
-#define GLOBAL_USER CGlobal::Instance()->GetManager()->GetManageUser()
+#define GET_CLIENT GETMANAGER->GetClient()
+#define GLOBAL_USER GETMANAGER->GetManageUser()
 #define USER_INFO_LOCALE GLOBAL_USER->GetUserInfoLocale()
-#define MANAGE_MESSAGE_DIALOG CGlobal::Instance()->GetManager()->GetManageMessageDialog()
+#define MANAGE_MESSAGE_DIALOG GETMANAGER->GetManageMessageDialog()
 
 #define LM_DEBUG 0
 #define LM_INFO 1

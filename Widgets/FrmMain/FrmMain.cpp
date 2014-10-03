@@ -1,6 +1,7 @@
 #include "FrmMain.h"
 #include "ui_FrmMain.h"
 #include "../../Global/Global.h"
+#include <QSettings>
 
 CFrmMain::CFrmMain(QWidget *parent) :
     QFrame(parent),
@@ -11,13 +12,21 @@ CFrmMain::CFrmMain(QWidget *parent) :
     ui->setupUi(this);
     ui->tabWidget->clear();
     
+
     ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
     ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"), tr("Recent messages"));
     //ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
+    if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
+        return;
+    QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
+    int nIndex = conf.value("Widgets/Main", 0).toInt();
+    ui->tabWidget->setCurrentIndex(nIndex);
 }
 
 CFrmMain::~CFrmMain()
 {
+    QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
+    conf.setValue("Widgets/Main", ui->tabWidget->currentIndex());
     delete ui;
 }
 

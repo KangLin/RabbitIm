@@ -11,6 +11,7 @@ CManager::~CManager()
 
 int CManager::Init(const QString &szId)
 {
+    //注意:初始化顺序  
     GetManageUser()->Init(szId);
     GetManageMessageDialog()->Init(szId);
     GetRecentMessage()->Init(szId);
@@ -19,9 +20,10 @@ int CManager::Init(const QString &szId)
 
 int CManager::Clean()
 {
-    GetManageUser()->Clean();
-    GetManageMessageDialog()->Clean();
+    //注意:清理顺序  
     GetRecentMessage()->Clean();
+    GetManageMessageDialog()->Clean();
+    GetManageUser()->Clean();
     return 0;
 }
 

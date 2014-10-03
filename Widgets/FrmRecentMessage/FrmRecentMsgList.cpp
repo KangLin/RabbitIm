@@ -40,15 +40,43 @@ CFrmRecentMsgList::CFrmRecentMsgList(QWidget *parent) :
     check = connect(GET_CLIENT.data(), SIGNAL(sigMessageClean(QString)),
                     SLOT(slotMessageUpdate(QString)));
     Q_ASSERT(check);
+
+    check = connect(GET_CLIENT.data(), SIGNAL(sigChangedStatus(const QString&)),
+                    SLOT(SlotChangedStatus(const QString&)));
+    Q_ASSERT(check);
+
+    LoadFromStorage();
 }
 
 CFrmRecentMsgList::~CFrmRecentMsgList()
 {
+    GET_CLIENT->disconnect(this);
+    GETMANAGER->GetRecentMessage()->disconnect(this);
     delete ui;
     delete m_pModel;
 }
 
-int CFrmRecentMsgList::ItemInsertRoster(QSharedPointer<CUser> roster)
+void CFrmRecentMsgList::LoadFromStorage()
+{
+    QList<QString> lstMembers;
+    lstMembers = GETMANAGER->GetRecentMessage()->GetAllMembers();
+    int nRow = 0;
+    foreach (QString szId, lstMembers) 
+    {
+        //是好友消息  
+        QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoRoster(szId);
+        if(!user.isNull())
+        {
+            ItemInsertRoster(user, nRow++);
+        }
+        //是群消息  
+        
+        //是不在好友列表中的人发过来的消息  
+        
+    }
+}
+
+int CFrmRecentMsgList::ItemInsertRoster(QSharedPointer<CUser> roster, int nRow)
 {
     int nRet = 0;
     if(roster.isNull())
@@ -68,14 +96,14 @@ int CFrmRecentMsgList::ItemInsertRoster(QSharedPointer<CUser> roster)
     pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
     pItem->setEditable(false);
     QString szText;
-    
+
     szText = info->GetShowName()
         #ifdef DEBUG
             + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
             +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
         #endif
             ;
-    
+
     pItem->setData(szText, Qt::DisplayRole); //改变item文本,或者直接用 pItem->setText(szText);  
 #ifdef DEBUG
             pItem->setToolTip(info->GetId());
@@ -99,7 +127,7 @@ int CFrmRecentMsgList::ItemInsertRoster(QSharedPointer<CUser> roster)
     QList<QStandardItem *> lstItems;
     lstItems << pItem << pMessageCountItem;
 
-    m_pModel->insertRow(0, lstItems);
+    m_pModel->insertRow(nRow, lstItems);
     return nRet;
 }
 
@@ -131,7 +159,85 @@ void CFrmRecentMsgList::slotMessageUpdate(const QString &szId)
         }
     }
 
-    ItemInsertRoster(roster);
+    //判断是否到达列表最大值  
+    QSharedPointer<CManageRecentMessage> recentMessage = CGlobal::Instance()->GetManager()->GetRecentMessage();
+    int nRowCount = m_pModel->rowCount();
+    if(nRowCount >= recentMessage->GetMaxCount())
+    {
+        m_pModel->removeRow(nRowCount - 1);
+    }
+
+    if(roster->GetMessage()->GetUnReadCount() > 0)
+        ItemInsertRoster(roster, 0);
+    else
+    {
+        int row = recentMessage->GetUnreadCount();
+        ItemInsertRoster(roster, row);
+    }
+}
+
+void CFrmRecentMsgList::SlotChangedStatus(const QString &szId)
+{
+    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
+                                                USERLIST_ITEM_ROLE_JID, 
+                                                szId, 
+                                                -1,
+                                                Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+    if(lstIndexs.isEmpty())
+    {
+      return;
+    }
+
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+    if(roster.isNull())
+    {
+        LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(szId));
+        return;
+    }
+
+    QSharedPointer<CUserInfo> info = roster->GetInfo();
+
+    QModelIndex index;
+    foreach(index, lstIndexs)
+    {
+        QStandardItem* pItem = m_pModel->itemFromIndex(index);
+        if(!pItem) continue;
+        if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ROSTER)
+        {
+            //改变item背景颜色  
+            pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
+            pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
+            QString szText;
+            
+            szText = info->GetShowName()
+        #ifdef DEBUG
+                    + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
+                    +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
+        #endif
+                    ;
+
+            pItem->setData(szText, Qt::DisplayRole); //改变item文本  
+#ifdef DEBUG
+            pItem->setToolTip(info->GetId());
+#endif 
+            //改变item图标  
+            pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(info->GetStatus())), Qt::DecorationRole);
+        }
+
+        if(NULL == pItem || NULL == pItem->parent()) continue;
+        QStandardItem* pItemUnReadMessageCount = pItem->parent()->child(index.row(), index.column() + 1);
+        if(pItemUnReadMessageCount->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
+        {
+            //设置未读消息数  
+            int nCount = roster->GetMessage()->GetUnReadCount();
+            if(nCount)
+                pItemUnReadMessageCount->setText(QString::number(nCount));
+            else
+                pItemUnReadMessageCount->setText(QString(""));
+            pItemUnReadMessageCount->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
+        }
+    }
+    return;
 }
 
 void CFrmRecentMsgList::resizeEvent(QResizeEvent *e)
@@ -143,7 +249,7 @@ void CFrmRecentMsgList::resizeEvent(QResizeEvent *e)
     //调整列的宽度  
     int nWidth = m_MsgList.geometry().width() * 4/ 5;
     m_MsgList.setColumnWidth(0, nWidth);
-    m_MsgList.setColumnWidth(1, m_MsgList.geometry().width() - nWidth);
+    m_MsgList.setColumnWidth(1, m_MsgList.geometry().width() - nWidth - 5);
 }
 
 void CFrmRecentMsgList::changeEvent(QEvent *e)

@@ -23,8 +23,11 @@ public:
     explicit CFrmRecentMsgList(QWidget *parent = 0);
     ~CFrmRecentMsgList();
 
-public slots:
+private slots:
     void slotMessageUpdate(const QString& szId);
+    void LoadFromStorage();
+    //好友出席状态改变时触发  
+    void SlotChangedStatus(const QString& szId);
 
 private slots:
     //树形列表控件响应事件 
@@ -34,7 +37,6 @@ private slots:
 private:
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent* e);
-    void insertStandardItem(int row, QString szJid);
 
     enum _OPERATOR_TYPE
     {
@@ -55,7 +57,7 @@ private:
         PROPERTIES_UNREAD_MESSAGE_COUNT
     };
 
-    int ItemInsertRoster(QSharedPointer<CUser> roster);
+    int ItemInsertRoster(QSharedPointer<CUser> roster, int nRow = 0);
 
 private:
     Ui::CFrmRecentMsgList *ui;
