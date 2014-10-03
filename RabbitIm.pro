@@ -137,7 +137,8 @@ OTHER_FILES += README.md \
     android/AndroidManifest.xml \
     License.html \
     ChangeLog.txt \
-    Authors.txt
+    Authors.txt \
+    CMakeLists.txt
 
 isEmpty(PREFIX)
 {
@@ -156,7 +157,7 @@ wince {
     mytranslat.path = $$PREFIX
     DEPLOYMENT += mytranslat
 }
-else {
+else:!android{
     other.files = License.html README.md
     other.path = $$PREFIX
     other.CONFIG += directory no_check_exist 

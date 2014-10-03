@@ -34,7 +34,7 @@ CGlobal::CGlobal(QObject *parent) :
 #endif
 
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
-    m_szXmppServer = conf.value("Login/XmppServer", "183.233.149.120").toString();
+    m_szXmppServer = conf.value("Login/XmppServer", "182.254.185.29").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
     //m_szStunServer = conf.value("Login/StunServer", "stun.l.google.com").toString();
     m_szStunServer = conf.value("Login/StunServer", "183.233.149.120").toString();

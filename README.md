@@ -149,6 +149,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 
 2. msvc：
 主页：http://msdn.microsoft.com/zh-cn/vstudio
+当前使用版本：vs 2013
 
 3. mingw、msys（或者cygwin）：
 mingw主页：http://www.mingw.org/  
@@ -464,6 +465,7 @@ MAKE在不同的环境下有不同的命令：
     * msys-make：msys 环境下用
 
 ##### 2.1、用 CMake 编译
+###### 2.1.1、windows、linux平台
 
 
     mkdir rabbitim-build  #建立编译目录
@@ -472,12 +474,13 @@ MAKE在不同的环境下有不同的命令：
     make                  #执行编译
     ./RabbitIm            #启动程序
 
-android 平台:
+
+###### 2.1.2、android 平台:
 
 
     mkdir rabbitim-build  #建立编译目录
     cd rabbitim-build     #进入编译目录
-    cmake -DCMAKE_TOOLCHAIN_FILE=../rabbitim/android.toolchain.cmake ../rabbitim/. -DQt5_DIR=/home/l/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5 #执行 cmake
+    cmake -DCMAKE_TOOLCHAIN_FILE=../rabbitim/platforms/android/android.toolchain.cmake ../rabbitim/. -DQt5_DIR=/home/l/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5 #执行 cmake
     make           #执行编译
 
 

@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     Widgets/FrmGroupChat/FrmGroupChat.cpp \
     Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp \
     Widgets/FrmMain/FrmMain.cpp \
-    Widgets/FrmCustom/MenuMessageSend.cpp
+    Widgets/FrmCustom/MenuMessageSend.cpp \
+    Widgets/DlgScreenShot/DlgScreenShot.cpp
 
 HEADERS  += MainWindow.h \
     XmppClient.h \
@@ -68,7 +69,8 @@ HEADERS  += MainWindow.h \
     Widgets/FrmGroupChat/FrmGroupChat.h \
     Widgets/FrmGroupChat/FrmCreateGroupChatRoom.h \
     Widgets/FrmMain/FrmMain.h \
-    Widgets/FrmCustom/MenuMessageSend.h
+    Widgets/FrmCustom/MenuMessageSend.h \
+    Widgets/DlgScreenShot/DlgScreenShot.h
 
 FORMS    += MainWindow.ui \
     Widgets/FrmSendFile/DlgSendManage.ui \
@@ -91,8 +93,3 @@ FORMS    += MainWindow.ui \
 
 RESOURCES += \
     Resource/Resource.qrc
-
-win32{
-SOURCES += Widgets/DlgScreenShot/DlgScreenShot.cpp
-HEADERS += Widgets/DlgScreenShot/DlgScreenShot.h
-}

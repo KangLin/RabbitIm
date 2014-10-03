@@ -17,7 +17,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    m_TrayIcon(QIcon(":/icon/AppIcon"), this),
+    m_TrayIcon( this),
     m_TrayIconMenu(this),
     m_ActionGroupStatus(this),
     m_ActionGroupTranslator(this),
@@ -80,6 +80,8 @@ MainWindow::MainWindow(QWidget *parent) :
         CFrmVideo::instance();
     }
 
+    //设置应用程序图标  
+    this->setWindowIcon(QIcon(":/icon/AppIcon"));
     if(QSystemTrayIcon::isSystemTrayAvailable())
     {
         check = connect(&m_TrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -170,6 +172,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     if(QMessageBox::Ok == msg.exec())
     {
         //退出程序  
+        CGlobal::Instance()->GetXmppClient()->disconnectFromServer();
         e->accept();
         QApplication::closeAllWindows();
     }
@@ -247,11 +250,14 @@ void MainWindow::clientIqReceived(const QXmppIq &iq)
     LOG_MODEL_DEBUG("MainWindow", "MainWindow:: iq Received:%d", iq.error().condition());
 }
 
+//得到本地用户形象信息  
 void MainWindow::slotClientVCardReceived()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotClientVCardReceived");
-    CGlobal::Instance()->GetRoster()->SetVCard(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard());
+    CGlobal::Instance()->GetRoster()->SetVCard(CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard(),
+                                               CGlobal::Instance()->GetXmppClient()->vCardManager().clientVCard().to());
     m_TrayIcon.setToolTip(tr("RabbitIm: %1").arg(CGlobal::Instance()->GetShowName()));
+    m_pTableMain->Init();
 }
 
 void MainWindow::stateChanged(QXmppClient::State state)
@@ -602,6 +608,7 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
             QXmppPresence presence;
             QXmppPresence::AvailableStatusType status = it.key();
             CGlobal::Instance()->SetStatus(status);
+            presence.setAvailableStatusType(status);
             CGlobal::Instance()->GetXmppClient()->setClientPresence(presence);
             act->setCheckable(true);
             act->setChecked(true);
@@ -653,11 +660,39 @@ void MainWindow::About()
 
 void MainWindow::on_actionChange_Style_Sheet_S_triggered()
 {
-    //*从资源中加载应用程序样式  
+   //*从资源中加载应用程序样式  
+#ifdef MOBILE
+    QDesktopWidget *pDesk = QApplication::desktop();
+    QFileDialog dlg(pDesk, tr("Open File"), QString(), "*.qss");
+    //dlg.setGeometry(this->rect());
+    QScreen* pScreen = QApplication::primaryScreen();
+    LOG_MODEL_DEBUG("MainWindow", "DeskWidth:%d;height:%d;w:%d;h:%d;screenWidth:%d;height:%d;w%d;h%d", 
+                    pDesk->geometry().width(),
+                    pDesk->geometry().height(),
+                    pDesk->availableGeometry().width(),
+                    pDesk->availableGeometry().height(),
+                    pScreen->geometry().width(),
+                    pScreen->geometry().height(),
+                    pScreen->availableGeometry().width(),
+                    pScreen->availableGeometry().height()
+                    );
+    dlg.setGeometry(pScreen->availableGeometry());
+    QString szFile;
+    QStringList fileNames;
+    if(dlg.exec())
+        fileNames = dlg.selectedFiles();
+    else
+        return;
+    if(fileNames.isEmpty())
+        return;
+    szFile = *fileNames.begin();
+#else
     QString szFile = QFileDialog::getOpenFileName(
                 this, tr("Open File"), 
                 QString(), "*.qss", 0,
                 QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
+#endif
+
     if(szFile.isEmpty())
         return;
 
@@ -674,5 +709,5 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
     {
         LOG_MODEL_ERROR("app", "file open file [%s] fail:%d", 
                         szFile.toStdString().c_str(), file.error());
-    }//*/
+    }
 }

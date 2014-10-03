@@ -133,7 +133,7 @@ ENDIF(USE_OPENCV)
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 ADD_DEFINITIONS("-DQXMPP_STATIC")
-IF(WIN32 AND CMAKE_BUILD_TYPE MATCHES Debug)
+IF(WIN32 AND MSVC AND CMAKE_BUILD_TYPE MATCHES Debug)
     SET(QXMPP_LIBS qxmpp_d)
 ELSE()
     SET(QXMPP_LIBS qxmpp)
@@ -183,20 +183,17 @@ SET(RABBITIM_SOURCES
     Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp 
     Widgets/FrmMain/FrmMain.cpp 
     Widgets/FrmCustom/MenuMessageSend.cpp
+    Widgets/DlgScreenShot/DlgScreenShot.cpp
 )
-
-if(WIN32)
-    SET(RABBITIM_SOURCES 
-        ${RABBITIM_SOURCES}
-        Widgets/DlgScreenShot/DlgScreenShot.cpp)
-endif(WIN32)
 
 SET(RABBITIM_RCC_FILES Resource/Resource.qrc  AppIcon.rc)
 
+#生成目标
 IF(ANDROID)
     add_library(${PROJECT_NAME} SHARED 
         ${RABBITIM_SOURCES}
-        ${RABBITIM_RCC_FILES})
+        ${RABBITIM_RCC_FILES}
+        )
 ELSEIF(WIN32)
     add_executable(${PROJECT_NAME} WIN32
         ${RABBITIM_SOURCES}
@@ -228,14 +225,27 @@ IF(REFRESH_TRANSLATIONS)
         ADD_CUSTOM_TARGET(translations ALL DEPENDS ${QM_FILES})
         add_dependencies(${PROJECT_NAME}  translations)
         foreach(_file ${QM_FILES})
-            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E make_directory translations
-                COMMAND ${CMAKE_COMMAND} -E copy ${_file} translations)
+            IF(ANDROID)
+                add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E make_directory  ${PROJECT_BINARY_DIR}/android-build/translations
+                        COMMAND ${CMAKE_COMMAND} -E copy ${_file}  ${PROJECT_BINARY_DIR}/android-build/translations
+                        COMMAND ${CMAKE_COMMAND} -E copy  ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm   ${PROJECT_BINARY_DIR}/android-build/translations
+                        )
+            ELSE(ANDROID)
+                add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E make_directory translations
+                        COMMAND ${CMAKE_COMMAND} -E copy ${_file} translations
+                        )
+            ENDIF(ANDROID)
         endforeach()
         FILE(COPY ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm DESTINATION "translations")
         #FILE(COPY ${QM_FILES} DESTINATION "translations")
     ENDIF(NOT Qt5_LRELEASE_EXECUTABLE)
 ENDIF(REFRESH_TRANSLATIONS)
+
+GENERATED_DEPLOYMENT_SETTINGS()
+find_program(ANT NAMES ant PATHS  "/usr/bin")
+message("ant:${ANT}\n")
 
 #只发行版本才安装
 IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
@@ -257,3 +267,15 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
         INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuuc52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
     ENDIF(WIN32)
 ENDIF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
+
+IF(ANDROID)
+    add_custom_command(TARGET  ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy ${LIBRARY_OUTPUT_PATH}/libRabbitIm.so ${PROJECT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
+        COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt" 
+            --input ${PROJECT_BINARY_DIR}/android-libRabbitIm.so-deployment-settings.json 
+            --output ${PROJECT_BINARY_DIR}/android-build 
+            --verbose
+            #--ant /usr/bin/ant 
+            #--jdk $ENV{JAVA_HOME}
+    )
+ENDIF(ANDROID)

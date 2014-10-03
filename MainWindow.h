@@ -26,7 +26,7 @@ class MainWindow : public QMainWindow
 public:
     /* 发送文件类型
      * DefaultType:默认类型
-     * ImageType:图片*/
+     * ImageType:图片  */
     enum SendFileType{
         DefaultType,
         ImageType
@@ -74,7 +74,7 @@ protected slots:
     void slotActionGroupStatusTriggered(QAction* act);//状态菜单组点击触发  
     void slotActionGroupTranslateTriggered(QAction* pAct);//翻译菜单组点击触发 
 
-    void on_actionChange_Style_Sheet_S_triggered();
+    void on_actionChange_Style_Sheet_S_triggered();//改变样式菜单触发  
 
     //编辑本地用户详细信息  
     void slotEditInformation();

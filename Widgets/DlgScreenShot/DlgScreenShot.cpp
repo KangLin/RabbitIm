@@ -21,29 +21,53 @@
 #include <QMessageBox>
 #include <QClipboard>
 #include <QColorDialog>
-
+#include <QScreen>
 #include "DlgScreenShot.h"
+#include "../../Global.h"
 
 CDlgScreenShot::CDlgScreenShot(QWidget *parent)
-    :QDialog(parent,Qt::FramelessWindowHint|Qt::Tool|Qt::WindowStaysOnTopHint)
+    :QDialog(parent,
+             Qt::FramelessWindowHint
+             | Qt::X11BypassWindowManagerHint  //这个标志是在x11下有用,查看帮助QWidget::showFullScreen()  
+             /*| Qt::Tool
+             | Qt::WindowStaysOnTopHint
+             | Qt::CustomizeWindowHint*/
+             ),
+    m_x(0),
+    m_y(0),
+    m_width(0),
+    m_height(0),
+    m_pEditor(NULL)
 {
+    this->setFixedSize(qApp->desktop()->size());
     resize(qApp->desktop()->size());
     m_bgImg = QImage(size(),QImage::Format_ARGB32_Premultiplied);
     setAttribute(Qt::WA_TranslucentBackground,true);
     setCursor(Qt::CrossCursor);
-    drawWindow();
     initSelectParam();
+    drawWindow();
     //===================================
     WId id = qApp->desktop()->winId();
     QRect rect = QRect(m_x,m_y,m_width,m_height).normalized();
-    qDebug()<<rect.width();
+    LOG_MODEL_DEBUG("screen shot", "width:%d", rect.width());
     QPixmap pix = QPixmap();
-    pix = QPixmap::grabWindow(id,rect.x(),rect.y(),rect.width(),rect.height());
-    m_editor = new CWdgScreenEditor(pix,this);
-    m_editor->hide();
-    connect(m_editor,SIGNAL(sigReset()),this,SLOT(onSigReset()));
-    connect(m_editor,SIGNAL(sigSelectImg(QPixmap)),this,SLOT(onSigSelectedImg(QPixmap)));
-    connect(m_editor,SIGNAL(sigCancel()),this,SLOT(onSigCancel()));
+    QScreen *pScreen = QGuiApplication::primaryScreen();
+    pix = pScreen->grabWindow(id, rect.x(), rect.y(), rect.width(), rect.height());
+    m_pEditor = new CWdgScreenEditor(pix, this);
+    if(m_pEditor)
+    {
+        m_pEditor->hide();
+        connect(m_pEditor,SIGNAL(sigReset()),this,SLOT(onSigReset()));
+        connect(m_pEditor,SIGNAL(sigSelectImg(QPixmap)),this,SLOT(onSigSelectedImg(QPixmap)));
+        connect(m_pEditor,SIGNAL(sigCancel()),this,SLOT(onSigCancel()));
+    }
+}
+
+CDlgScreenShot::~CDlgScreenShot()
+{
+    LOG_MODEL_DEBUG("screen shot", "CDlgScreenShot::~CDlgScreenShot");
+    if(m_pEditor)
+        delete m_pEditor;
 }
 
 QPixmap CDlgScreenShot::getSelectedImg()
@@ -67,20 +91,25 @@ void CDlgScreenShot::drawWindow()
     QPen pen = painter.pen();
     pen.setWidth(penWidth);
     painter.setPen(pen);
-    painter.fillRect(m_x,m_y,m_width,m_height,Qt::transparent);
-    painter.drawRect(m_x - penWidth,m_y - penWidth,m_width + 2 * penWidth,m_height + 2 * penWidth);
+    painter.fillRect(m_x, m_y, m_width, m_height, Qt::transparent);
+    painter.drawRect(m_x - penWidth, m_y - penWidth, 
+                     m_width + 2 * penWidth, 
+                     m_height + 2 * penWidth);
     repaint();//即时强制重绘 
 }
 
 void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)
 {
+    LOG_MODEL_DEBUG("screen shot", "mouseMoveEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
+                    e->pos().x(), e->pos().y(),
+                    QCursor::pos().x(), QCursor::pos().y());
     if(!m_bGrabing){
         QWidget::mouseMoveEvent(e);
         return;
     }
     if(e->buttons() & Qt::LeftButton)
     {
-        QPoint pos = e->pos();
+        QPoint pos = QCursor::pos();//e->pos();
         m_width = pos.x() - m_x;
         m_height = pos.y() - m_y;
         drawWindow();
@@ -89,33 +118,39 @@ void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)
 
 void CDlgScreenShot::mousePressEvent(QMouseEvent *e)
 {
+    LOG_MODEL_DEBUG("screen shot", "mousePressEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
+                    e->pos().x(), e->pos().y(),
+                    QCursor::pos().x(), QCursor::pos().y());
     if(e->button() == Qt::LeftButton)
     {
-        qDebug()<<e->pos();
         if(!m_bGrabing){
             QWidget::mousePressEvent(e);
             return;
         }
-        m_x = e->pos().x();
-        m_y = e->pos().y();
+        QPoint pos = QCursor::pos();
+        m_x = pos.x();
+        m_y = pos.y();
     }
     else if(e->button() == Qt::RightButton)
     {
-        if(m_editor->isHidden())
+        setCursor(Qt::CrossCursor);
+        if(m_pEditor->isHidden())
         {
             this->reject();
         }
         else
         {
-            m_editor->hide();//改变右键方式  
+            m_pEditor->hide();//改变右键方式  
             onSigReset();
         }
     }
 }
 
-
 void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
 {
+    LOG_MODEL_DEBUG("screen shot", "mouseReleaseEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
+                    e->pos().x(), e->pos().y(),
+                    QCursor::pos().x(), QCursor::pos().y());
     if(!m_bGrabing)
     {
         QWidget::mouseReleaseEvent(e);
@@ -127,13 +162,13 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         setCursor(Qt::ArrowCursor);
         WId id = qApp->desktop()->winId();
         QRect rect = QRect(m_x,m_y,m_width,m_height).normalized();
-        qDebug()<<rect.width();
+        LOG_MODEL_DEBUG("screen shot", "width:%d", rect.width());
         QPixmap pix = QPixmap();
-        pix = QPixmap::grabWindow(id,rect.x(),rect.y(),rect.width(),rect.height());
-//        ImageEditor* editor = new ImageEditor(QPixmap(),this);
-        m_editor->resetByImg(pix);
-        m_editor->move(rect.topLeft());//移动到当前选择的rect的左上角  
-        m_editor->show();
+        QScreen *pScreen = QGuiApplication::primaryScreen();
+        pix = pScreen->grabWindow(id, rect.x(), rect.y(), rect.width(), rect.height());
+        m_pEditor->resetByImg(pix);
+        m_pEditor->move(rect.topLeft());//移动到当前选择的rect的左上角  
+        m_pEditor->show();
     }
 }
 
@@ -288,7 +323,7 @@ void CWdgScreenEditor::resetByImg(const QPixmap &img)
 QPixmap CWdgScreenEditor::getSelectedImg()
 {
     QPixmap pix = QPixmap();
-    pix = QPixmap::grabWidget(this,m_image.rect());
+    pix = this->grab(m_image.rect());
     return pix;
 }
 
@@ -302,18 +337,18 @@ void CWdgScreenEditor::updateForImg(const QPixmap &img)
 {
     m_image = img;
 
-    resize(img.width(),img.height() + 40);
+    resize(img.width(), img.height() + 40);
     setAttribute(Qt::WA_TranslucentBackground,true);
     setMouseTracking(true);
-    m_tempImg = QImage(img.size(),QImage::Format_ARGB32_Premultiplied);
+    m_tempImg = QImage(img.size(), QImage::Format_ARGB32_Premultiplied);
     m_tempImg.fill(Qt::transparent);
     m_bufferImg = m_tempImg;
     m_stackImages.clear();
     m_stackImages.push_back(m_tempImg);
-     m_x = 0;
-     m_y = 0;
-     m_w = 0;
-     m_h = 0;
+    m_x = 0;
+    m_y = 0;
+    m_w = 0;
+    m_h = 0;
 }
 
 void CWdgScreenEditor::paint()
@@ -328,13 +363,13 @@ void CWdgScreenEditor::paint()
     case NoOption:
         break;
     case DrawFree:
-        painter.drawLine(m_oldPos,m_curPos);
+        painter.drawLine(m_oldPos, m_curPos);
         break;
     case DrawRect:
-        painter.drawRect(m_x,m_y,m_w,m_h);
+        painter.drawRect(m_x, m_y, m_w, m_h);
         break;
     case DrawCircle:
-       painter.drawEllipse(m_x,m_y,m_w,m_h);
+       painter.drawEllipse(m_x, m_y, m_w, m_h);
        break;
     }
     update();
@@ -448,21 +483,23 @@ void CWdgScreenEditor::undo()
 bool CWdgScreenEditor::save(const QString& path)
 {
     QPixmap pix = QPixmap();
-    pix = QPixmap::grabWidget(this,m_image.rect());
+    pix = this->grab(m_image.rect());
     return pix.save(path);
 }
 
 void CWdgScreenEditor::saveAs()
 {
-    QString filter = "*.png;;*.jpg;;*.bmp;;*.gif;;*.jpeg";
-    QString dir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +QDir::separator() +  "grabbedImage.png";
+    QString filter =  tr("Images (*.png *.xpm *.jpg)");//"*.png;;*.jpg;;*.bmp;;*.gif;;*.jpeg";
+    QString dir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) 
+            + QDir::separator() + "grabbedImage.png";
 //    QString dir = QDesktopServices::storageLocation(QDesktopServices::DesktopLocation) +QDir::separator() +  "grabbedImage.png";
-    QString path = QFileDialog::getSaveFileName(0,tr("Save"),dir,filter);
-    if(!path.isNull()){
+    QString path = QFileDialog::getSaveFileName(this, tr("Save"), dir, filter, 0,
+                                                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
+    if(!path.isEmpty()){
         if(!save(path)){
-            QMessageBox::warning(this,tr("failed to save"),tr("Sorry! Save failed!Please check savePath!"));
+            QMessageBox::warning(this, tr("Failed to save"), tr("Sorry! Save failed! Please check save path!"));
         }else{
-//            this->rej
+            onCompleteBtnClicked();
         }
     }
 }
