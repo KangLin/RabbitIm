@@ -2,10 +2,16 @@
 #include <QStringList>
 #include <QBuffer>
 #include "Global/Global.h"
+#include <initializer_list>
 
 QString CChatAction::toHtmlChars(const QString &str)
 {
-    static QList<QPair<QString, QString>> replaceList = {{"&","&amp;"}, {">","&gt;"}, {"<","&lt;"}};
+    static QList<QPair<QString, QString>> replaceList = {
+        {"\"", "&quot;"}, 
+        {"&","&amp;"}, 
+        {">","&gt;"}, 
+        {"<","&lt;"}
+    };
     QString res = str;
 
     for (auto &it : replaceList)
