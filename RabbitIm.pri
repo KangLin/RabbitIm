@@ -12,7 +12,6 @@ SOURCES += main.cpp\
     Widgets/FrmUserList/GroupItem.cpp \
     Widgets/FrmRegister/FrmRegister.cpp \
     Widgets/FrmAbout/FrmAbout.cpp \
-    Widgets/FrmAddRoster/FrmAddRoster.cpp \
     Widgets/FrmCustom/CustomTreeView.cpp \
     Widgets/FrmVideo/RecordAudio.cpp \
     Widgets/FrmLogin/FrmLoginSettings.cpp \
@@ -37,7 +36,8 @@ SOURCES += main.cpp\
     Message/style.cpp \
     Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
     Widgets/FrmRecentMessage/ManageRecentMessage.cpp \
-    Widgets/DlgOptions/DlgOptions.cpp
+    Widgets/DlgOptions/DlgOptions.cpp \
+    Widgets/DlgAddRoster/DlgAddRoster.cpp
     #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmSendFile/DlgSendManage.cpp \
     #Widgets/FrmSendFile/FrmSendFile.cpp \
@@ -68,7 +68,6 @@ HEADERS  += MainWindow.h \
     Widgets/FrmUserList/FrmUserList.h \
     Widgets/FrmRegister/FrmRegister.h \
     Widgets/FrmAbout/FrmAbout.h \
-    Widgets/FrmAddRoster/FrmAddRoster.h \
     Widgets/FrmCustom/CustomTreeView.h \
     Widgets/FrmVideo/RecordAudio.h \
     Widgets/FrmAbout/Version.h \
@@ -93,7 +92,8 @@ HEADERS  += MainWindow.h \
     Message/style.h \
     Widgets/FrmRecentMessage/FrmRecentMsgList.h \
     Widgets/FrmRecentMessage/ManageRecentMessage.h \
-    Widgets/DlgOptions/DlgOptions.h
+    Widgets/DlgOptions/DlgOptions.h \
+    Widgets/DlgAddRoster/DlgAddRoster.h
     #Widgets/FrmUserList/Roster.h \
     #Widgets/FrmSendFile/DlgSendManage.h \
     #Widgets/FrmSendFile/FrmSendFile.h \
@@ -118,13 +118,13 @@ FORMS    += MainWindow.ui \
     Widgets/FrmRegister/FrmRegister.ui \
     Widgets/FrmAbout/FrmAbout.ui \
     Widgets/FrmMain/FrmMain.ui \
-    Widgets/FrmAddRoster/FrmAddRoster.ui \
     Widgets/FrmLogin/FrmLoginSettings.ui \
     Widgets/DlgOptions/DlgOptions.ui \
     Widgets/FrmUservCard/FrmUservCard.ui \
     Widgets/FrmMessage/FrmMessage.ui \
     Widgets/FrmMessage/FrmContainer.ui \
-    Widgets/FrmRecentMessage/FrmRecentMsgList.ui
+    Widgets/FrmRecentMessage/FrmRecentMsgList.ui \
+    Widgets/DlgAddRoster/DlgAddRoster.ui
     #Widgets/FrmGroupChat/FrmGroupChatList.ui \
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
     #Widgets/FrmGroupChat/FrmGroupChat.ui \

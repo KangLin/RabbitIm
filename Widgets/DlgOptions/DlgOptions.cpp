@@ -120,7 +120,7 @@ void CDlgOptions::changeEvent(QEvent *e)
 
 void CDlgOptions::on_pbCancel_clicked()
 {
-    close();
+    this->reject();
 }
 
 void CDlgOptions::on_pbOK_clicked()
@@ -170,7 +170,7 @@ void CDlgOptions::on_pbOK_clicked()
 
     emit sigRefresh();
 
-    close();
+    this->accept();
 }
 
 void CDlgOptions::on_pbLocalUserColor_clicked()

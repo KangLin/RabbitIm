@@ -254,15 +254,15 @@ void CFrmUserList::slotCustomContextMenuRequested(const QPoint &pos)
 
 void CFrmUserList::slotAddRoster()
 {
+    CDlgAddRoster dlgAddRoster;
     QSet<QString> groups;
     groups = GetGroupsName();
     QString szId = GetCurrentRoster();
     if(!szId.isEmpty() && CUserInfo::None == GLOBAL_USER->GetUserInfoRoster(szId)->GetInfo()->GetSubScriptionType())
-            m_frmAddRoster.Init(groups, szId);
+        dlgAddRoster.Init(groups, szId);
     else
-        m_frmAddRoster.Init(groups);
-    m_frmAddRoster.show();
-    m_frmAddRoster.activateWindow();
+        dlgAddRoster.Init(groups);
+    dlgAddRoster.exec();
 }
 
 void CFrmUserList::slotRenameRoster()
@@ -302,9 +302,9 @@ void CFrmUserList::slotInformationRoster()
 void CFrmUserList::slotRosterAddReceived(const QString &szId, const CClient::SUBSCRIBE_TYPE &type)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(szId));
-    m_frmAddRoster.Init( GetGroupsName(), szId, true);
-    m_frmAddRoster.show();
-    m_frmAddRoster.activateWindow();
+    CDlgAddRoster dlgAddRoster;
+    dlgAddRoster.Init( GetGroupsName(), szId, true);
+    dlgAddRoster.exec();
 }
 
 QStandardItem*  CFrmUserList::ItemInsertGroup(QString szGroup)

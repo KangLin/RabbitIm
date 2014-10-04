@@ -166,9 +166,13 @@ int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type, const QStri
 {
     QString id = szId;
     if(-1 == szId.indexOf("@"))
-        id = szId + "@" + ((CUserInfoXmpp*)USER_INFO_LOCALE.data())->GetDomain();
+    {
+        CUserInfoXmpp *pInfo = (CUserInfoXmpp*)USER_INFO_LOCALE->GetInfo().data();
+        id = szId + "@" + pInfo->GetDomain();
+    }
     else
         id = szId;
+    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::RosterAdd:szId:%s", id.toStdString().c_str());
     switch(type)
     {
     case SUBSCRIBE_REQUEST:

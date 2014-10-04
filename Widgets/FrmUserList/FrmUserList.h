@@ -7,7 +7,7 @@
 #include <QMap>
 #include <QMenu>
 #include <QResizeEvent>
-#include "../FrmAddRoster/FrmAddRoster.h"
+#include "../DlgAddRoster/DlgAddRoster.h"
 #include "../FrmCustom/CustomTreeView.h"
 #include <UserInfo/COperateRoster.h>
 #include "Client/Client.h"
@@ -143,9 +143,6 @@ private:
     QStandardItemModel *m_pModel;           //好友列表树型控件   
 
     QMap<QString, QStandardItem*> m_Groups; //组列表:<组名,QStandardItem>  
-
-    CFrmAddRoster m_frmAddRoster;           //增加好友对话框  
-
 };
 
 #endif // FRMUSERLIST_H

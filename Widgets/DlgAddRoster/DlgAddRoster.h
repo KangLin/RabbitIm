@@ -1,20 +1,19 @@
 #ifndef FRMADDROSTER_H
 #define FRMADDROSTER_H
 
-#include <QFrame>
+#include <QDialog>
 
 namespace Ui {
-class CFrmAddRoster;
+class CDlgAddRoster;
 }
 
-class CClientXmpp;
-class CFrmAddRoster : public QFrame
+class CDlgAddRoster : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit CFrmAddRoster(QWidget *parent = 0);
-    ~CFrmAddRoster();
+    explicit CDlgAddRoster(QWidget *parent = 0);
+    ~CDlgAddRoster();
 
     int Init(QSet<QString> groups, QString szId = QString(), bool bRequest = false);
 
@@ -28,7 +27,7 @@ private:
     void changeEvent(QEvent *);
 
 private:
-    Ui::CFrmAddRoster *ui;
+    Ui::CDlgAddRoster *ui;
     bool m_bRequest;
 };
 

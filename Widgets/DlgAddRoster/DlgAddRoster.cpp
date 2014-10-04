@@ -1,16 +1,13 @@
-#include "FrmAddRoster.h"
-#include "ui_FrmAddRoster.h"
-#include "qxmpp/QXmppRosterManager.h"
-#include "qxmpp/QXmppUtils.h"
+#include "DlgAddRoster.h"
+#include "ui_DlgAddRoster.h"
 #include "../../Global/Global.h"
 #include <string>
-#include <QDebug>
 #include <QMessageBox>
 #include <QDesktopWidget>
 
-CFrmAddRoster::CFrmAddRoster(QWidget *parent) :
-    QFrame(parent),
-    ui(new Ui::CFrmAddRoster)
+CDlgAddRoster::CDlgAddRoster(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::CDlgAddRoster)
 {
     ui->setupUi(this);
     ui->txtGroup->setEditable(true);
@@ -18,16 +15,20 @@ CFrmAddRoster::CFrmAddRoster(QWidget *parent) :
     m_bRequest = false;
 
     QDesktopWidget *pDesk = QApplication::desktop();
+#ifdef MOBILE
+    this->setGeometry(pDesk->availableGeometry());
+#else
     move((pDesk->width() - width()) / 2,
          (pDesk->height() - height()) / 2);
+#endif
 }
 
-CFrmAddRoster::~CFrmAddRoster()
+CDlgAddRoster::~CDlgAddRoster()
 {
     delete ui;
 }
 
-int CFrmAddRoster::Init(QSet<QString> groups, QString szId, bool bRequest)
+int CDlgAddRoster::Init(QSet<QString> groups, QString szId, bool bRequest)
 {
     ui->txtJID->clear();
     ui->txtNick->clear();
@@ -36,7 +37,7 @@ int CFrmAddRoster::Init(QSet<QString> groups, QString szId, bool bRequest)
     if(bRequest)
     {
         this->setWindowTitle(tr("Request add roster"));
-        ui->lbPrompt->setText(tr("%1 request add roster").arg(QXmppUtils::jidToUser(szId)));
+        ui->lbPrompt->setText(tr("%1 request add roster").arg(szId));
         ui->txtJID->setEnabled(false);
     }
     else
@@ -61,7 +62,7 @@ int CFrmAddRoster::Init(QSet<QString> groups, QString szId, bool bRequest)
     return 0;
 }
 
-void CFrmAddRoster::changeEvent(QEvent *e)
+void CDlgAddRoster::changeEvent(QEvent *e)
 {
     switch(e->type())
     {
@@ -71,7 +72,7 @@ void CFrmAddRoster::changeEvent(QEvent *e)
     }
 }
 
-void CFrmAddRoster::on_pbOk_clicked()
+void CDlgAddRoster::on_pbOk_clicked()
 {
     QString szJid = ui->txtJID->text();
     if(szJid.isEmpty())
@@ -90,17 +91,17 @@ void CFrmAddRoster::on_pbOk_clicked()
     else
         type = CClient::SUBSCRIBE_REQUEST;
     GET_CLIENT->RosterAdd(szJid, type, ui->txtNick->text(), groups);
-    this->close();
+    this->accept();
 }
 
-void CFrmAddRoster::on_pbCancel_clicked()
+void CDlgAddRoster::on_pbCancel_clicked()
 {
     if(m_bRequest)
         GET_CLIENT->RosterAdd(ui->txtJID->text(), CClient::SUBSCRIBE_REFUSE);
-    this->close();
+    this->reject();
 }
 
-void CFrmAddRoster::on_txtJID_editingFinished()
+void CDlgAddRoster::on_txtJID_editingFinished()
 {
     LOG_MODEL_DEBUG("Roster", "CFrmAddRoster::on_txtJID_editingFinished");
     if(ui->txtNick->text().isEmpty())
