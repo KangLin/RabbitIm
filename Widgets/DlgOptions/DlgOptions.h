@@ -1,18 +1,18 @@
 #ifndef FRMOPTIONS_H
 #define FRMOPTIONS_H
 
-#include <QFrame>
+#include <QDialog>
 
 namespace Ui {
-class CFrmOptions;
+class CDlgOptions;
 }
 
-class CFrmOptions : public QFrame
+class CDlgOptions : public QDialog
 {
     Q_OBJECT
-    
 public:
-    static CFrmOptions * Instance();
+    explicit CDlgOptions(QWidget *parent = 0);
+    virtual ~CDlgOptions();
 
 signals:
     void sigRefresh();
@@ -26,19 +26,14 @@ private slots:
     void on_pbRosterMessageColor_clicked();
 
     void on_pbUnreadMessageCountColor_clicked();
-    
+
 protected:
     virtual void showEvent(QShowEvent* );
     virtual void closeEvent(QCloseEvent*);
     virtual void changeEvent(QEvent*);
 
 private:
-    explicit CFrmOptions(QWidget *parent = 0);
-    ~CFrmOptions();
-
-    Ui::CFrmOptions *ui;
-
-    QWidget* m_pParent;
+    Ui::CDlgOptions *ui;
 };
 
 #endif // FRMOPTIONS_H

@@ -1,46 +1,35 @@
-#include "FrmOptions.h"
-#include "ui_FrmOptions.h"
+#include "DlgOptions.h"
+#include "ui_DlgOptions.h"
 #include "../../Global/Global.h"
-#include <QColorDialog>
 #include "../../MainWindow.h"
 #include <QDesktopWidget>
+#include <QColorDialog>
 
-CFrmOptions::CFrmOptions(QWidget *parent) :
-    QFrame(parent),
-    ui(new Ui::CFrmOptions)
+CDlgOptions::CDlgOptions(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::CDlgOptions)
 {
     ui->setupUi(this);
 
     QDesktopWidget *pDesk = QApplication::desktop();
+#ifdef MOBILE
+    this->setGeometry(pDesk->availableGeometry());
+    ui->gBSendMessage->setVisible(false);
+#else
     move((pDesk->width() - width()) / 2,
          (pDesk->height() - height()) / 2);
-
-    m_pParent = parent;
-
-#ifdef MOBILE
-    ui->gBSendMessage->setVisible(false);
 #endif
 
     //控件初始化工作放到showEvent中  
 }
 
-CFrmOptions::~CFrmOptions()
+CDlgOptions::~CDlgOptions()
 {
     delete ui;
 }
 
-CFrmOptions* CFrmOptions::Instance()
+void CDlgOptions::showEvent(QShowEvent *)
 {
-    static CFrmOptions* p = NULL;
-    if(!p)
-        p = new CFrmOptions;
-
-    return p;
-}
-
-void CFrmOptions::showEvent(QShowEvent *)
-{
-    CGlobal::Instance()->GetMainWindow()->setEnabled(false);
     ui->cbAutoLogin->setChecked(CGlobal::Instance()->GetAutoLogin());
     ui->sbDelayTime->setValue(CGlobal::Instance()->GetAutoLoginDelayTime());
     ui->cbNotificationFlash->setChecked(CGlobal::Instance()->IsNotifiationFlashs());
@@ -113,15 +102,13 @@ void CFrmOptions::showEvent(QShowEvent *)
         ui->rBtn_send->setChecked(true);
         break;
     }
-    
 }
 
-void CFrmOptions::closeEvent(QCloseEvent *)
+void CDlgOptions::closeEvent(QCloseEvent *)
 {
-    CGlobal::Instance()->GetMainWindow()->setEnabled(true);
 }
 
-void CFrmOptions::changeEvent(QEvent *e)
+void CDlgOptions::changeEvent(QEvent *e)
 {
     switch(e->type())
     {
@@ -131,12 +118,12 @@ void CFrmOptions::changeEvent(QEvent *e)
     }
 }
 
-void CFrmOptions::on_pbCancel_clicked()
+void CDlgOptions::on_pbCancel_clicked()
 {
     close();
 }
 
-void CFrmOptions::on_pbOK_clicked()
+void CDlgOptions::on_pbOK_clicked()
 {
     CGlobal::Instance()->SetAutoLogin(ui->cbAutoLogin->isChecked());
     CGlobal::Instance()->SetAutoLoginDelayTime(ui->sbDelayTime->value());
@@ -186,41 +173,106 @@ void CFrmOptions::on_pbOK_clicked()
     close();
 }
 
-void CFrmOptions::on_pbLocalUserColor_clicked()
+void CDlgOptions::on_pbLocalUserColor_clicked()
 {
-    CGlobal::Instance()->SetUserColor(QColorDialog::getColor(CGlobal::Instance()->GetUserColor()));
+    QColor color;
+    QDesktopWidget *pDesk = QApplication::desktop();
+    QColorDialog dlgColor(this);
+#ifdef MOBILE
+    dlgColor.setGeometry(pDesk->availableGeometry());
+#else
+    dlgColor.move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
+#endif
+    dlgColor.setCurrentColor(CGlobal::Instance()->GetUserColor());
+    if(QDialog::Rejected == dlgColor.exec())
+        return;
+    color = dlgColor.currentColor();
+    CGlobal::Instance()->SetUserColor(color);
     QPalette pa;
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUserColor());
     ui->lbLocalUserColor->setPalette(pa);
 }
 
-void CFrmOptions::on_pbRosterColor_clicked()
+void CDlgOptions::on_pbRosterColor_clicked()
 {
-    CGlobal::Instance()->SetRosterColor(QColorDialog::getColor(CGlobal::Instance()->GetRosterColor()));
+    QColor color;
+    QDesktopWidget *pDesk = QApplication::desktop();
+    QColorDialog dlgColor(this);
+#ifdef MOBILE
+    dlgColor.setGeometry(pDesk->availableGeometry());
+#else
+    dlgColor.move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
+#endif
+    dlgColor.setCurrentColor(CGlobal::Instance()->GetUserColor());
+    if(QDialog::Rejected == dlgColor.exec())
+        return;
+    color = dlgColor.currentColor();
+    CGlobal::Instance()->SetRosterColor(color);
     QPalette pa;
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetRosterColor());
     ui->lbRosterColor->setPalette(pa);
 }
 
-void CFrmOptions::on_pbLocalUserMessageColor_clicked()
+void CDlgOptions::on_pbLocalUserMessageColor_clicked()
 {
-    CGlobal::Instance()->SetUserMessageColor(QColorDialog::getColor(CGlobal::Instance()->GetUserMessageColor()));
+    QColor color;
+    QDesktopWidget *pDesk = QApplication::desktop();
+    QColorDialog dlgColor(this);
+#ifdef MOBILE
+    dlgColor.setGeometry(pDesk->availableGeometry());
+#else
+    dlgColor.move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
+#endif
+    dlgColor.setCurrentColor(CGlobal::Instance()->GetUserColor());
+    if(QDialog::Rejected == dlgColor.exec())
+        return;
+    color = dlgColor.currentColor();
+    CGlobal::Instance()->SetUserMessageColor(color);
     QPalette pa;
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUserMessageColor());
     ui->lbLocalUserMessageColor->setPalette(pa);
 }
 
-void CFrmOptions::on_pbRosterMessageColor_clicked()
+void CDlgOptions::on_pbRosterMessageColor_clicked()
 {
-    CGlobal::Instance()->SetRosterMessageColor(QColorDialog::getColor(CGlobal::Instance()->GetRosterMessageColor()));
+    QColor color;
+    QDesktopWidget *pDesk = QApplication::desktop();
+    QColorDialog dlgColor(this);
+#ifdef MOBILE
+    dlgColor.setGeometry(pDesk->availableGeometry());
+#else
+    dlgColor.move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
+#endif
+    dlgColor.setCurrentColor(CGlobal::Instance()->GetUserColor());
+    if(QDialog::Rejected == dlgColor.exec())
+        return;
+    color = dlgColor.currentColor();
+    CGlobal::Instance()->SetRosterMessageColor(color);
     QPalette pa;
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetRosterMessageColor());
     ui->lbRosterMessageColor->setPalette(pa);
 }
 
-void CFrmOptions::on_pbUnreadMessageCountColor_clicked()
+void CDlgOptions::on_pbUnreadMessageCountColor_clicked()
 {
-    CGlobal::Instance()->SetUnreadMessageCountColor(QColorDialog::getColor(CGlobal::Instance()->GetUnreadMessageCountColor()));
+    QColor color;
+    QDesktopWidget *pDesk = QApplication::desktop();
+    QColorDialog dlgColor(this);
+#ifdef MOBILE
+    dlgColor.setGeometry(pDesk->availableGeometry());
+#else
+    dlgColor.move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
+#endif
+    dlgColor.setCurrentColor(CGlobal::Instance()->GetUserColor());
+    if(QDialog::Rejected == dlgColor.exec())
+        return;
+    color = dlgColor.currentColor();
+    CGlobal::Instance()->SetUnreadMessageCountColor(color);
     QPalette pa;
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUnreadMessageCountColor());
     ui->lbUnreadMessageCountColor->setPalette(pa);

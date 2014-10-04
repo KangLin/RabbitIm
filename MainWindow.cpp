@@ -8,7 +8,7 @@
 #include "Widgets/FrmLogin/FrmLogin.h"
 #include "Global/Global.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
-#include "Widgets/FrmOptions/FrmOptions.h"
+#include "Widgets/DlgOptions/DlgOptions.h"
 #include "Widgets/FrmSendFile/DlgSendManage.h"
 #include "Widgets/FrmUservCard/FrmUservCard.h"
 
@@ -609,15 +609,11 @@ void MainWindow::onReceiveFile(QXmppTransferJob *job)
 
 void MainWindow::on_actionOptions_O_triggered()
 {
-    CFrmOptions* pFrm = CFrmOptions::Instance();//是一个单例  
-    if(pFrm)
-    {
-        bool check = connect(pFrm, SIGNAL(sigRefresh()), SIGNAL(sigRefresh()));
-        Q_ASSERT(check);
+    CDlgOptions dlg(this);
+    bool check = connect(&dlg, SIGNAL(sigRefresh()), SIGNAL(sigRefresh()));
+    Q_ASSERT(check);
 
-        pFrm->show();
-        pFrm->activateWindow();
-    }
+    dlg.exec();
 }
 
 void MainWindow::About()

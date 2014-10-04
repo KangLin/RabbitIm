@@ -16,7 +16,6 @@ SOURCES += main.cpp\
     Widgets/FrmCustom/CustomTreeView.cpp \
     Widgets/FrmVideo/RecordAudio.cpp \
     Widgets/FrmLogin/FrmLoginSettings.cpp \
-    Widgets/FrmOptions/FrmOptions.cpp \
     Widgets/FrmUservCard/FrmUservCard.cpp \
     Widgets/FrmCustom/Label.cpp \ 
     Widgets/FrmMain/FrmMain.cpp \ 
@@ -37,7 +36,8 @@ SOURCES += main.cpp\
     Message/EmoticonsWidget.cpp \
     Message/style.cpp \
     Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
-    Widgets/FrmRecentMessage/ManageRecentMessage.cpp
+    Widgets/FrmRecentMessage/ManageRecentMessage.cpp \
+    Widgets/DlgOptions/DlgOptions.cpp
     #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmSendFile/DlgSendManage.cpp \
     #Widgets/FrmSendFile/FrmSendFile.cpp \
@@ -73,7 +73,6 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/RecordAudio.h \
     Widgets/FrmAbout/Version.h \
     Widgets/FrmLogin/FrmLoginSettings.h \
-    Widgets/FrmOptions/FrmOptions.h \
     Widgets/FrmUservCard/FrmUservCard.h \ 
     Widgets/FrmCustom/Label.h \ 
     Manager/Manager.h \
@@ -93,7 +92,8 @@ HEADERS  += MainWindow.h \
     Message/EmoticonsWidget.h \
     Message/style.h \
     Widgets/FrmRecentMessage/FrmRecentMsgList.h \
-    Widgets/FrmRecentMessage/ManageRecentMessage.h
+    Widgets/FrmRecentMessage/ManageRecentMessage.h \
+    Widgets/DlgOptions/DlgOptions.h
     #Widgets/FrmUserList/Roster.h \
     #Widgets/FrmSendFile/DlgSendManage.h \
     #Widgets/FrmSendFile/FrmSendFile.h \
@@ -120,7 +120,7 @@ FORMS    += MainWindow.ui \
     Widgets/FrmMain/FrmMain.ui \
     Widgets/FrmAddRoster/FrmAddRoster.ui \
     Widgets/FrmLogin/FrmLoginSettings.ui \
-    Widgets/FrmOptions/FrmOptions.ui \
+    Widgets/DlgOptions/DlgOptions.ui \
     Widgets/FrmUservCard/FrmUservCard.ui \
     Widgets/FrmMessage/FrmMessage.ui \
     Widgets/FrmMessage/FrmContainer.ui \
