@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.1 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 
 project(RabbitIm)
 
@@ -47,6 +47,7 @@ SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTORCC ON)
 
 SET(CMAKE_VERBOSE_MAKEFILE ON)
+SET(CMAKE_CXX_FLAGS "-std=c++11") #启用C++11
 
 # Add definitions for static/style library 
 OPTION(STATIC "Build statically" OFF)
