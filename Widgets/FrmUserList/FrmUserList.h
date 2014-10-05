@@ -104,6 +104,8 @@ private slots:
     void slotAgreeAddRoster();
     //显示好友详细信息槽  
     void slotInformationRoster();
+    
+    void slotSendMessage();
 
     //当有好友请求订阅时触发，在这个函数中调用acceptSubscription()接受请求，  
     //请用refuseSubscription()拒绝请求  

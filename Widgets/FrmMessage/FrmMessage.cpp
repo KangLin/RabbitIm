@@ -77,9 +77,9 @@ int CFrmMessage::Init(const QString &szId)
     check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUser>)),
                     SLOT(slotUpdateRoster(QString,QSharedPointer<CUser>)));
     Q_ASSERT(check);
-    /*/发送文件信号连接20140710 
+    //发送文件信号连接20140710 
     QAction* pAction = m_MoreMenu.addAction(tr("send file"));
-    check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFileTriggered()));
+    /*check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFileTriggered()));
     Q_ASSERT(check);
 
     pAction = m_MoreMenu.addAction(tr("shot screen"));

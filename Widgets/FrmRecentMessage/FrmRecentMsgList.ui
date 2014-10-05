@@ -19,7 +19,33 @@
   <property name="frameShadow">
    <enum>QFrame::Raised</enum>
   </property>
+  <action name="actionOpenMessage">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Message</normaloff>:/icon/Message</iconset>
+   </property>
+   <property name="text">
+    <string>OpenMessage</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Message</string>
+   </property>
+  </action>
+  <action name="actionRemoveMessage">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
+   </property>
+   <property name="text">
+    <string>RemoveMessage</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove Message</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../Resource/Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

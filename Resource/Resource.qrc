@@ -54,6 +54,7 @@
         <file alias="Stype">png/stype.png</file>
         <file alias="Modify">png/Modify.png</file>
         <file alias="Message">png/message.png</file>
+        <file alias="SendFile">png/send_file_24x24.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

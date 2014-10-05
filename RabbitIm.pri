@@ -39,8 +39,6 @@ SOURCES += main.cpp\
     Widgets/DlgOptions/DlgOptions.cpp \
     Widgets/DlgAddRoster/DlgAddRoster.cpp
     #Widgets/FrmMessage/Message.cpp \
-    #Widgets/FrmSendFile/DlgSendManage.cpp \
-    #Widgets/FrmSendFile/FrmSendFile.cpp \
     #Widgets/FrmVideo/DataVideoBuffer.cpp \
     #Widgets/FrmVideo/FrameProcess.cpp \
     #Widgets/FrmVideo/CaptureVideoFrame.cpp \
@@ -95,8 +93,6 @@ HEADERS  += MainWindow.h \
     Widgets/DlgOptions/DlgOptions.h \
     Widgets/DlgAddRoster/DlgAddRoster.h
     #Widgets/FrmUserList/Roster.h \
-    #Widgets/FrmSendFile/DlgSendManage.h \
-    #Widgets/FrmSendFile/FrmSendFile.h \
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmMessage/Message.h \
     #Widgets/FrmVideo/FrmVideo.h \
@@ -128,8 +124,6 @@ FORMS    += MainWindow.ui \
     #Widgets/FrmGroupChat/FrmGroupChatList.ui \
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
     #Widgets/FrmGroupChat/FrmGroupChat.ui \
-    #Widgets/FrmSendFile/DlgSendManage.ui \
-    #Widgets/FrmSendFile/FrmSendFile.ui \
     #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.ui \
     #Widgets/FrmVideo/FrmVideo.ui 
 

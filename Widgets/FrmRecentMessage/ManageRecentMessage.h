@@ -38,7 +38,20 @@ public:
      */
     int ShowLastMessageDialog();
 
+    /**
+     * @brief 删除指定的最近消息条目  
+     *
+     * @param szId：好友ID  
+     * @return int
+     */
+    int Remove(const QString& szId);
+
 public slots:
+    /**
+     * @brief 消息数清0时调用  
+     *
+     * @param szId：好友ID  
+     */
     void slotMessageClean(const QString& szId);
 private slots:
     void slotMessageUpdate(const QString& szId);

@@ -182,6 +182,11 @@ void CManageRecentMessage::slotMessageUpdate(const QString& szId)
     return;
 }
 
+/**
+ * @brief 消息数清0时调用  
+ *
+ * @param szId：好友ID  
+ */
 void CManageRecentMessage::slotMessageClean(const QString& szId)
 {
     int nIndex = m_Unread.indexOf(szId);
@@ -199,4 +204,15 @@ void CManageRecentMessage::slotMessageClean(const QString& szId)
     }
     m_read.push_front(szId);
     return;
+}
+
+int CManageRecentMessage::Remove(const QString &szId)
+{
+    int nIndex = m_Unread.indexOf(szId);
+    if(-1 != nIndex)
+        m_Unread.removeAt(nIndex);
+    nIndex = m_read.indexOf(szId);
+    if(-1 != nIndex)
+        m_read.removeAt(nIndex);
+    return 0;
 }

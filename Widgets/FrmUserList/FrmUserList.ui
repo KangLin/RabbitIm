@@ -81,6 +81,39 @@
     <string>Rename</string>
    </property>
   </action>
+  <action name="actionSendMessage">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Message</normaloff>:/icon/Message</iconset>
+   </property>
+   <property name="text">
+    <string>SendMessage</string>
+   </property>
+   <property name="toolTip">
+    <string>SendMessage</string>
+   </property>
+  </action>
+  <action name="actionSendFile">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/SendFile</normaloff>:/icon/SendFile</iconset>
+   </property>
+   <property name="text">
+    <string>SendFile</string>
+   </property>
+  </action>
+  <action name="actionVideo">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Video</normaloff>:/icon/Video</iconset>
+   </property>
+   <property name="text">
+    <string>Video</string>
+   </property>
+   <property name="toolTip">
+    <string>Video</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../../Resource/Resource.qrc"/>

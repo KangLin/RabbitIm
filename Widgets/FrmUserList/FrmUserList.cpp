@@ -144,6 +144,16 @@ int CFrmUserList::InitMenu()
 
     //菜单设置  
     m_pMenuAction = NULL;
+    m_Menu.addAction(ui->actionSendMessage);
+    check = connect(ui->actionSendMessage, SIGNAL(triggered()),
+                    SLOT(slotSendMessage()));
+    Q_ASSERT(check);
+
+    m_Menu.addAction(ui->actionSendFile);
+    m_Menu.addAction(ui->actionVideo);
+
+    m_Menu.addSeparator();
+
     m_Menu.addAction(ui->actionAddRoster_A);
     check = connect(ui->actionAddRoster_A, SIGNAL(triggered()),
                     SLOT(slotAddRoster()));
@@ -178,6 +188,9 @@ int CFrmUserList::EnableAllActioins(bool bEnable)
     EnableAction(ui->actionRemoveRoster_R, bEnable);
     EnableAction(ui->actionInformation_I, bEnable);
     EnableAction(ui->actionRename, bEnable);
+    EnableAction(ui->actionSendMessage, bEnable);
+    EnableAction(ui->actionSendFile, bEnable);
+    EnableAction(ui->actionVideo, bEnable);
     return 0;
 }
 
@@ -242,6 +255,10 @@ void CFrmUserList::slotUpdateMenu()
         //查看好友信息  
         EnableAction(ui->actionInformation_I);
         //TODO: 移动到组  
+        
+        EnableAction(ui->actionSendMessage);
+        EnableAction(ui->actionSendFile);
+        EnableAction(ui->actionVideo);
     }
     return;
 }
@@ -297,6 +314,15 @@ void CFrmUserList::slotInformationRoster()
     QString bareJid = GetCurrentRoster();
     CFrmUservCard* pvCard = new CFrmUservCard(GLOBAL_USER->GetUserInfoRoster(bareJid)->GetInfo());
     pvCard->show();
+}
+
+void CFrmUserList::slotSendMessage()
+{
+    if(!GetCurrentRoster().isEmpty())
+    {
+        //是用户结点，打开消息对话框  
+        MANAGE_MESSAGE_DIALOG->ShowDialog(GetCurrentRoster()); 
+    }
 }
 
 void CFrmUserList::slotRosterAddReceived(const QString &szId, const CClient::SUBSCRIBE_TYPE &type)
@@ -368,17 +394,15 @@ int CFrmUserList::ItemInsertRoster(const QString& szId)
     pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
     pItem->setEditable(false);
     QString szText;
-    
     szText = info->GetShowName()
         #ifdef DEBUG
             + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
             +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
         #endif
             ;
-    
     pItem->setData(szText, Qt::DisplayRole); //改变item文本,或者直接用 pItem->setText(szText);  
 #ifdef DEBUG
-            pItem->setToolTip(info->GetId());
+    pItem->setToolTip(info->GetId());
 #endif 
 
     //改变item图标  
@@ -440,14 +464,12 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
             pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
             pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
             QString szText;
-            
             szText = info->GetShowName()
         #ifdef DEBUG
                     + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
                     +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
         #endif
                     ;
-
             pItem->setData(szText, Qt::DisplayRole); //改变item文本  
 #ifdef DEBUG
             pItem->setToolTip(info->GetId());
@@ -538,11 +560,7 @@ void CFrmUserList::clicked(const QModelIndex &index)
     if(!m)
         return;
 
-    if(!GetCurrentRoster().isEmpty())
-    {
-        //是用户结点，打开消息对话框  
-        MANAGE_MESSAGE_DIALOG->ShowDialog(GetCurrentRoster()); 
-    }
+    slotSendMessage();
 #endif
 }
 
@@ -561,11 +579,7 @@ void CFrmUserList::doubleClicked(const QModelIndex &index)
     if(!m)
         return;
 
-    if(!GetCurrentRoster().isEmpty())
-    {
-        //是用户结点，打开消息对话框  
-        MANAGE_MESSAGE_DIALOG->ShowDialog(GetCurrentRoster());
-    }
+    slotSendMessage();
 #endif
 }
 

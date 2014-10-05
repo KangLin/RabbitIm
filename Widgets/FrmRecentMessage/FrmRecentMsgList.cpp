@@ -45,6 +45,11 @@ CFrmRecentMsgList::CFrmRecentMsgList(QWidget *parent) :
                     SLOT(SlotChangedStatus(const QString&)));
     Q_ASSERT(check);
 
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
+                    SLOT(slotRefresh()));
+    Q_ASSERT(check);
+
+    InitMenu();
     LoadFromStorage();
 }
 
@@ -67,7 +72,7 @@ void CFrmRecentMsgList::LoadFromStorage()
         QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoRoster(szId);
         if(!user.isNull())
         {
-            ItemInsertRoster(user, nRow++);
+            InsertItem(user, nRow++);
         }
         //是群消息  
         
@@ -76,7 +81,7 @@ void CFrmRecentMsgList::LoadFromStorage()
     }
 }
 
-int CFrmRecentMsgList::ItemInsertRoster(QSharedPointer<CUser> roster, int nRow)
+int CFrmRecentMsgList::InsertItem(QSharedPointer<CUser> roster, int nRow)
 {
     int nRet = 0;
     if(roster.isNull())
@@ -131,13 +136,12 @@ int CFrmRecentMsgList::ItemInsertRoster(QSharedPointer<CUser> roster, int nRow)
     return nRet;
 }
 
-void CFrmRecentMsgList::slotMessageUpdate(const QString &szId)
+int CFrmRecentMsgList::RemoveItem(QSharedPointer<CUser> roster)
 {
-    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("CFrmRecentMsgList", "Dn't the roster:%s", qPrintable(szId));
-        return;
+        LOG_MODEL_ERROR("CFrmRecentMsgList", "Dn't the roster");
+        return -1;
     }
 
     QSharedPointer<CUserInfo> info = roster->GetInfo();
@@ -158,6 +162,91 @@ void CFrmRecentMsgList::slotMessageUpdate(const QString &szId)
             m_pModel->removeRow(index.row());
         }
     }
+    
+    return 0;
+}
+
+int CFrmRecentMsgList::UpdateItem(const QString &szId)
+{
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+    if(roster.isNull())
+    {
+        LOG_MODEL_ERROR("CFrmRecentMsgList", "Dn't the roster:%s", qPrintable(szId));
+        return -1;
+    }
+
+    QSharedPointer<CUserInfo> info = roster->GetInfo();
+
+    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
+                                                USERLIST_ITEM_ROLE_JID, 
+                                                info->GetId(), 
+                                                -1,
+                                                Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+    if(lstIndexs.isEmpty())
+    {
+       LOG_MODEL_ERROR("CFrmRecentMsgList", "Dn't the roster item:%s", qPrintable(szId));
+       return -1;
+    }
+
+    QModelIndex index;
+    foreach(index, lstIndexs)
+    {
+        LOG_MODEL_DEBUG("FrmUserList", "index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(info->GetId()));
+        QStandardItem* pItem = m_pModel->itemFromIndex(index);
+        if(!pItem) continue;
+        if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ROSTER)
+        {
+            //pItem->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+            //pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
+            //改变item背景颜色  
+            pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
+            pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
+            QString szText;
+            
+            szText = info->GetShowName()
+        #ifdef DEBUG
+                    + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
+                    +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
+        #endif
+                    ;
+
+            pItem->setData(szText, Qt::DisplayRole); //改变item文本  
+#ifdef DEBUG
+            pItem->setToolTip(info->GetId());
+#endif 
+            //改变item图标  
+            pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(info->GetStatus())), Qt::DecorationRole);
+        }
+
+        if(NULL == pItem || NULL == pItem->parent()) continue;
+        QStandardItem* pItemUnReadMessageCount = pItem->parent()->child(index.row(), index.column() + 1);
+        if(pItemUnReadMessageCount->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
+        {
+            //设置未读消息数  
+            int nCount = roster->GetMessage()->GetUnReadCount();
+            if(nCount)
+                pItemUnReadMessageCount->setText(QString::number(nCount));
+            else
+                pItemUnReadMessageCount->setText(QString(""));
+            pItemUnReadMessageCount->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
+            //pItemUnReadMessageCount->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
+            //pItemUnReadMessageCount->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
+            //pItemUnReadMessageCount->setEditable(false);//禁止双击编辑  
+        }
+    }
+    return 0;
+}
+
+void CFrmRecentMsgList::slotMessageUpdate(const QString &szId)
+{
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+    if(roster.isNull())
+    {
+        LOG_MODEL_ERROR("CFrmRecentMsgList", "Dn't the roster:%s", qPrintable(szId));
+        return;
+    }
+
+    RemoveItem(roster);
 
     //判断是否到达列表最大值  
     QSharedPointer<CManageRecentMessage> recentMessage = CGlobal::Instance()->GetManager()->GetRecentMessage();
@@ -168,11 +257,11 @@ void CFrmRecentMsgList::slotMessageUpdate(const QString &szId)
     }
 
     if(roster->GetMessage()->GetUnReadCount() > 0)
-        ItemInsertRoster(roster, 0);
+        InsertItem(roster, 0);
     else
     {
         int row = recentMessage->GetUnreadCount();
-        ItemInsertRoster(roster, row);
+        InsertItem(roster, row);
     }
 }
 
@@ -208,7 +297,6 @@ void CFrmRecentMsgList::SlotChangedStatus(const QString &szId)
             pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
             pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
             QString szText;
-            
             szText = info->GetShowName()
         #ifdef DEBUG
                     + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
@@ -289,4 +377,139 @@ void CFrmRecentMsgList::doubleClicked(const QModelIndex &index)
     QString szId = v.value<QString>();
     MANAGE_MESSAGE_DIALOG->ShowDialog(szId);
 #endif
+}
+
+void CFrmRecentMsgList::slotCustomContextMenuRequested(const QPoint &pos)
+{
+    Q_UNUSED(pos);
+    if(m_pModel->rowCount() <= 0)
+        return;
+    m_Menu.exec(QCursor::pos());
+}
+
+void CFrmRecentMsgList::slotRefresh()
+{
+    int nIndex = 0;
+    for(nIndex; nIndex < m_pModel->rowCount(); nIndex++)
+    {
+        QStandardItem* pItem = m_pModel->itemFromIndex(m_pModel->index(nIndex, 0));
+        QString szId = pItem->data(USERLIST_ITEM_ROLE_JID).value<QString>();
+        QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+        if(!roster.isNull())
+        {
+            QSharedPointer<CUserInfo> info = roster->GetInfo();
+            //改变item背景颜色  
+            pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
+            pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
+            QString szText;
+            szText = info->GetShowName()
+        #ifdef DEBUG
+                    + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
+                    +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
+        #endif
+                    ;
+
+            pItem->setData(szText, Qt::DisplayRole); //改变item文本  
+#ifdef DEBUG
+            pItem->setToolTip(info->GetId());
+#endif 
+            //改变item图标  
+            pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(info->GetStatus())), Qt::DecorationRole);
+
+            QStandardItem* pItemUnReadMessageCount = m_pModel->itemFromIndex(m_pModel->index(nIndex, 1));
+            if(pItemUnReadMessageCount->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
+            {
+                //设置未读消息数  
+                int nCount = roster->GetMessage()->GetUnReadCount();
+                if(nCount)
+                    pItemUnReadMessageCount->setText(QString::number(nCount));
+                else
+                    pItemUnReadMessageCount->setText(QString(""));
+                pItemUnReadMessageCount->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
+            }
+        }
+    }
+}
+
+int CFrmRecentMsgList::InitMenu()
+{
+    bool check = false;
+    check = connect(&m_MsgList, SIGNAL(customContextMenuRequested(QPoint)),
+                    SLOT(slotCustomContextMenuRequested(QPoint)));
+    Q_ASSERT(check);
+
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuInitOperator(QMenu*)),
+                    SLOT(slotAddToMainMenu(QMenu*)));
+    Q_ASSERT(check);
+
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuRemoveOperator(QMenu*)),
+                    SLOT(slotDeleteFromMainMenu(QMenu*)));
+    Q_ASSERT(check);
+
+    m_pMenuAction = NULL;
+    m_Menu.addAction(ui->actionOpenMessage);
+    check = connect(ui->actionOpenMessage, SIGNAL(triggered()),
+                    SLOT(slotOpenMessage()));
+    Q_ASSERT(check);
+    
+    m_Menu.addAction(ui->actionRemoveMessage);
+    check = connect(ui->actionRemoveMessage, SIGNAL(triggered()),
+                    SLOT(slotRemoveMessage()));
+    Q_ASSERT(check);
+    return 0;
+}
+
+void CFrmRecentMsgList::slotAddToMainMenu(QMenu* pMenu)
+{
+    m_pMenuAction = pMenu->addMenu(&m_Menu);
+    bool check = connect(pMenu, SIGNAL(aboutToShow()),
+            SLOT(slotUpdateMainMenu()));
+    Q_ASSERT(check);
+}
+
+void CFrmRecentMsgList::slotDeleteFromMainMenu(QMenu *pMenu)
+{
+    pMenu->removeAction(m_pMenuAction);
+    pMenu->disconnect(this);
+}
+
+void CFrmRecentMsgList::slotUpdateMainMenu()
+{
+    m_Menu.setTitle(tr("Operator recnet message(&O)"));
+    if(isHidden())
+        m_Menu.setEnabled(false);
+    else
+        m_Menu.setEnabled(true);
+}
+
+void CFrmRecentMsgList::slotOpenMessage()
+{
+    QModelIndex index = m_MsgList.currentIndex();
+    const QAbstractItemModel *m = index.model();
+    if(!m)
+        return;
+    QVariant v = m->data(index, USERLIST_ITEM_ROLE_JID);
+    QString szId = v.value<QString>();
+    MANAGE_MESSAGE_DIALOG->ShowDialog(szId);
+}
+
+void CFrmRecentMsgList::slotRemoveMessage()
+{
+    QModelIndex index = m_MsgList.currentIndex();
+    const QAbstractItemModel *m = index.model();
+    if(!m)
+        return;
+    QVariant v = m->data(index, USERLIST_ITEM_ROLE_JID);
+    QString szId = v.value<QString>();
+
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+    if(roster.isNull())
+    {
+        LOG_MODEL_ERROR("CFrmRecentMsgList", "Dn't the roster:%s", qPrintable(szId));
+        return;
+    }
+
+    RemoveItem(roster);
+    QSharedPointer<CManageRecentMessage> recentMessage = CGlobal::Instance()->GetManager()->GetRecentMessage();
+    recentMessage->Remove(szId);
 }
