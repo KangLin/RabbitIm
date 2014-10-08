@@ -37,7 +37,10 @@ SOURCES += main.cpp\
     Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
     Widgets/FrmRecentMessage/ManageRecentMessage.cpp \
     Widgets/DlgOptions/DlgOptions.cpp \
-    Widgets/DlgAddRoster/DlgAddRoster.cpp
+    Widgets/DlgAddRoster/DlgAddRoster.cpp \
+    FileTransfer/ManageFileTransfer.cpp \
+    FileTransfer/FileTransfer.cpp \
+    FileTransfer/FileTransferQXmpp.cpp 
     #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmVideo/DataVideoBuffer.cpp \
     #Widgets/FrmVideo/FrameProcess.cpp \
@@ -91,7 +94,10 @@ HEADERS  += MainWindow.h \
     Widgets/FrmRecentMessage/FrmRecentMsgList.h \
     Widgets/FrmRecentMessage/ManageRecentMessage.h \
     Widgets/DlgOptions/DlgOptions.h \
-    Widgets/DlgAddRoster/DlgAddRoster.h
+    Widgets/DlgAddRoster/DlgAddRoster.h \
+    FileTransfer/ManageFileTransfer.h \
+    FileTransfer/FileTransfer.h \
+    FileTransfer/FileTransferQXmpp.h
     #Widgets/FrmUserList/Roster.h \
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmMessage/Message.h \

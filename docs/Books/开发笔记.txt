@@ -49,9 +49,10 @@ android平台编译出来的是一个动态库，它安装后，位于安装目�
 qApp->applicationDirPath()得到的是安装目录下lib的位置。所以向上一级，到安装目录，就可以有读写权限。
 
 * xmpp 协议：
-  对xep-0030 服务发现的一点理解,目录查询：http://www.cnblogs.com/choday/p/3431725.html
-  多用户聊天协议：http://xmpp.org/extensions/xep-0045.html#intro
-  
+  对xep-0030 服务发现的一点理解,目录查询：http://www.cnblogs.com/choday/p/3431725.html  
+  多用户聊天协议：http://xmpp.org/extensions/xep-0045.html#intro  
+  jabber/XMPP文件传输的一些情况:http://www.cnblogs.com/imlucky/archive/2011/10/20/2218780.html  
+
 * 群聊天：
 1. 先查询指定域名的 muc 服务
 2. 查询指定 muc 服务中的房间

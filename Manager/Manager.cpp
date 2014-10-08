@@ -1,7 +1,8 @@
 #include "Manager.h"
 #include "ManageMessageDialogBigScreen.h"
+#include "FileTransfer/ManageFileTransfer.h"
 
-CManager::CManager()    
+CManager::CManager()
 {
 }
 
@@ -41,4 +42,10 @@ QSharedPointer<CManageRecentMessage> CManager::GetRecentMessage()
 {
     static QSharedPointer<CManageRecentMessage> msg(new CManageRecentMessage);
     return msg;
+}
+
+QSharedPointer<CManageFileTransfer> CManager::GetFileTransfer()
+{
+    static QSharedPointer<CManageFileTransfer> file(new CManageFileTransfer);
+    return file;
 }

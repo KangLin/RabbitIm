@@ -8,6 +8,7 @@
 #include "Message/style.h"
 #include "Message/SmileyPack.h"
 #include "Message/EmoticonsWidget.h"
+#include "FileTransfer/ManageFileTransfer.h"
 
 #ifdef WIN32
 #undef SendMessage
@@ -79,9 +80,9 @@ int CFrmMessage::Init(const QString &szId)
     Q_ASSERT(check);
     //发送文件信号连接20140710 
     QAction* pAction = m_MoreMenu.addAction(tr("send file"));
-    /*check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFileTriggered()));
+    check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFile()));
     Q_ASSERT(check);
-
+/*
     pAction = m_MoreMenu.addAction(tr("shot screen"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotShotScreenTriggered()));
     Q_ASSERT(check);
@@ -109,24 +110,37 @@ void CFrmMessage::ChangedPresence(CUserInfo::USER_INFO_STATUS status)
                               + "]");
 }
 
-/*
-void CFrmMessage::slotSendFileTriggered()
+void CFrmMessage::slotSendFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                    "F:",
-                                                    tr("All (*.*)"));
-    if(fileName.isEmpty())
-    {
+    QString szId = m_User->GetInfo()->GetId();
+    if(szId.isEmpty())
         return;
-    }
-    if(m_pRoster->Resouce().isEmpty())
-    {
-        QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
+    
+#ifdef MOBILE
+    QDesktopWidget *pDesk = QApplication::desktop();
+    QFileDialog dlg(pDesk, tr("Open File"));
+    QScreen* pScreen = QApplication::primaryScreen();
+    dlg.setGeometry(pScreen->availableGeometry());
+    QString szFile;
+    QStringList fileNames;
+    if(dlg.exec())
+        fileNames = dlg.selectedFiles();
+    else
         return;
-    }
-    CGlobal::Instance()->GetMainWindow()->sendFile(m_pRoster->Jid(),fileName);
+    if(fileNames.isEmpty())
+        return;
+    szFile = *fileNames.begin();
+#else
+    QString szFile = QFileDialog::getOpenFileName(
+                this, tr("Open File"), 
+                QString(), QString(), 0,
+                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
+#endif
+    
+    QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();
+    file->SendFile(szId, szFile);
 }
-
+/*
 void CFrmMessage::slotShotScreenTriggered()
 {
     CDlgScreenShot dlg;

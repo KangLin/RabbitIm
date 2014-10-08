@@ -2,6 +2,7 @@
 #include "ui_FrmUserList.h"
 #include "../../MainWindow.h"
 #include "../FrmUservCard/FrmUservCard.h"
+#include "FileTransfer/ManageFileTransfer.h"
 #include "Client/Client.h"
 #include "Global/Global.h"
 #include <iostream>
@@ -150,6 +151,10 @@ int CFrmUserList::InitMenu()
     Q_ASSERT(check);
 
     m_Menu.addAction(ui->actionSendFile);
+    check = connect(ui->actionSendFile, SIGNAL(triggered()),
+                    SLOT(slotSendFile()));
+    Q_ASSERT(check);
+
     m_Menu.addAction(ui->actionVideo);
 
     m_Menu.addSeparator();
@@ -323,6 +328,37 @@ void CFrmUserList::slotSendMessage()
         //是用户结点，打开消息对话框  
         MANAGE_MESSAGE_DIALOG->ShowDialog(GetCurrentRoster()); 
     }
+}
+
+void CFrmUserList::slotSendFile()
+{
+    QString szId = GetCurrentRoster();
+    if(szId.isEmpty())
+        return;
+    
+#ifdef MOBILE
+    QDesktopWidget *pDesk = QApplication::desktop();
+    QFileDialog dlg(pDesk, tr("Open File"));
+    QScreen* pScreen = QApplication::primaryScreen();
+    dlg.setGeometry(pScreen->availableGeometry());
+    QString szFile;
+    QStringList fileNames;
+    if(dlg.exec())
+        fileNames = dlg.selectedFiles();
+    else
+        return;
+    if(fileNames.isEmpty())
+        return;
+    szFile = *fileNames.begin();
+#else
+    QString szFile = QFileDialog::getOpenFileName(
+                this, tr("Open File"), 
+                QString(), QString(), 0,
+                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
+#endif
+    
+    QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();
+    file->SendFile(szId, szFile);
 }
 
 void CFrmUserList::slotRosterAddReceived(const QString &szId, const CClient::SUBSCRIBE_TYPE &type)

@@ -56,10 +56,10 @@ private slots:
     void slotUpdateRoster(const QString& szId, QSharedPointer<CUser> user);
     void slotAnchorClicked(const QUrl &url);
     void slotEmoteInsertRequested(const QString &s);
-/*
-    void slotSendFileTriggered();//20140712文件发送  
-    void slotShotScreenTriggered();//20140712截屏  
-    */
+
+    void slotSendFile();//20140712文件发送  
+//    void slotShotScreenTriggered();//20140712截屏  
+  
 
 private:
     int Init(const QString &szId = QString());

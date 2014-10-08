@@ -7,6 +7,7 @@
 #include "Widgets/FrmRecentMessage/ManageRecentMessage.h"
 #include <QSharedPointer>
 
+class CManageFileTransfer;
 class CManager
 {
 public:
@@ -19,6 +20,7 @@ public:
     ///< 消息对话框管理对象  
     virtual QSharedPointer<CManageMessageDialog> GetManageMessageDialog();
     virtual QSharedPointer<CManageRecentMessage> GetRecentMessage();
+    virtual QSharedPointer<CManageFileTransfer> GetFileTransfer();
 
     /**
      * @brief 登录后初始化  
