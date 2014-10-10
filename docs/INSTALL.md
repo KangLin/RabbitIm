@@ -27,11 +27,15 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 当前使用版本：vs 2013
 
 3. mingw、msys（或者cygwin）：
-mingw主页：http://www.mingw.org/  
+mingw主页：http://www.mingw.org/ 。这个主页好象不是最新的，请用：http://sourceforge.net/projects/mingw-w64/  
 cygwin主页：http://www.cygwin.org/  
 当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
 
-4. XMPP协议（QXMPP）：
+4. cmake：
+主页：http://www.cmake.org/
+当前使用版本：3.0.2 
+
+5. XMPP协议（QXMPP）：
 主页：http://code.google.com/p/qxmpp  
 下载：
 `git clone  https://github.com/qxmpp-project/qxmpp.git`  
@@ -39,7 +43,7 @@ cygwin主页：http://www.cygwin.org/
     git库版本 —— b54ccca40a16b3171cfbe4693c8970f8ca902d4f  
 编译方法参考源码根目录下的README文件。
 
-5. webrtc库：
+6. webrtc库：
 主页：http://www.webrtc.org/  
 下载：  
         gclient config http://webrtc.googlecode.com/svn/trunk  
@@ -47,39 +51,39 @@ cygwin主页：http://www.cygwin.org/
 当前使用版本：svn库版本——r5663  
 编译参考：http://blog.csdn.net/kl222/article/details/17198873
 
-6. 编解码库（ffmpeg）：  
+7. 编解码库（ffmpeg）：  
 主页：http://www.ffmpeg.org/  
 下载：
         git clone git://source.ffmpeg.org/ffmpeg.git
 当前使用版本：  
     git库版本 —— 3b06208a57b4954b50d6dcfc1be53b1b3af3dd4c  
     
-7. 编解码库(x264)
+8. 编解码库(x264)
 下载：`git clone git://git.videolan.org/x264.git`  
 当前使用版本：  
     git库版本 —— d6b4e63d2ed8d444b77c11b36c1d646ee5549276
 
-8. 解码库(libvpx)
+9. 解码库(libvpx)
 下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
 当前使用版本:  
     git库版本 —— 6962ea665dc968ce32dd1c03b6c162a35cf43c73
 
-9. 音频处理库(libspeexdsp)
+10. 音频处理库(libspeexdsp)
 下载：`git clone http://git.xiph.org/speexdsp.git`  
 当前使用版本:  
     git库版本 —— af768302c12f231e14076faac79b6313e49613a2
 
-10. 音频编解码库（libspeex）
+11. 音频编解码库（libspeex）
 下载：`git clone http://git.xiph.org/speex.git`  
 当前使用版本：  
     git库版本 —— 78cce679a0f2d376b97e64a6d7763bce82dd06cc
 
-11. 图像处理库(opencv)
+12. 图像处理库(opencv)
 下载：`git clone git://github.com/Itseez/opencv.git`  
 当前使用版本:  
     git库版本 —— c9db91ace508b39af513d04412b3c62399e7ee1b
 
-12. libyuv
+13. libyuv
 下载:`svn checkout http://libyuv.googlecode.com/svn/trunk libyuv`
 
 编译：
