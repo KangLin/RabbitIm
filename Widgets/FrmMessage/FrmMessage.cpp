@@ -78,7 +78,7 @@ int CFrmMessage::Init(const QString &szId)
     check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUser>)),
                     SLOT(slotUpdateRoster(QString,QSharedPointer<CUser>)));
     Q_ASSERT(check);
-    //发送文件信号连接20140710 
+
     QAction* pAction = m_MoreMenu.addAction(tr("send file"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFile()));
     Q_ASSERT(check);
@@ -197,8 +197,20 @@ void CFrmMessage::hideEvent(QHideEvent *)
 
 void CFrmMessage::closeEvent(QCloseEvent *e)
 {
-    Q_UNUSED(e);
     LOG_MODEL_DEBUG("Message", "CFrmMessage::closeEvent");
+    if(GETMANAGER->GetFileTransfer()->GetFileTransfer(m_User->GetInfo()->GetId()))
+    {
+        QMessageBox msg(QMessageBox::Question,
+                        tr("Close message dialog"),
+                        tr("Sending files to determine whether you want to close?"),
+                        QMessageBox::Yes | QMessageBox::No);
+        if(QMessageBox::No == msg.exec())
+        {
+            e->ignore();
+            return;
+        }
+        GETMANAGER->GetFileTransfer()->CancelSend(m_User->GetInfo()->GetId());
+    }
     emit sigClose(this);
 }
 
@@ -263,7 +275,11 @@ void CFrmMessage::on_pbBack_clicked()
 int CFrmMessage::AppendMessageToOutputView(std::vector<QSharedPointer<CChatAction> > action)
 {
     for(auto it : action)
-        ui->txtView->append(it->getContent());
+     {
+         QTextCursor cursor = ui->txtView->textCursor();
+         ui->txtView->append(it->getContent());
+         it->setup(cursor, ui->txtView);
+    }
     return 0;
 }
 
@@ -279,10 +295,8 @@ void CFrmMessage::on_pbSend_clicked()
     }
 
     //发送  
-    std::vector<QSharedPointer<CChatAction> > msg;
-    msg.push_back(GET_CLIENT->SendMessage(m_User->GetInfo()->GetId(),
-                                          ui->txtInput->toPlainText()));
-    AppendMessageToOutputView(msg);
+    GET_CLIENT->SendMessage(m_User->GetInfo()->GetId(),
+                                          ui->txtInput->toPlainText());
 
     ui->txtInput->clear();//清空输入框中的内容  
 }

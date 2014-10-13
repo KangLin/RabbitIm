@@ -86,13 +86,13 @@ int CClient::RosterRename(const QString &szId, const QString &szName)
     return 0;
 }
 
-QSharedPointer<CChatAction>  CClient::SendMessage(const QString &szId, const QString &szMsg)
+int CClient::SendMessage(const QString &szId, const QString &szMsg)
 {
     Q_UNUSED(szId);
     Q_UNUSED(szMsg);
     LOG_MODEL_WARNING("CClient", "The CClient::SendMessage function must be implemented by derived classes");
     Q_ASSERT(false);
-    return QSharedPointer<CChatAction> ();
+    return 0;
 }
 
 int CClient::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)
@@ -102,3 +102,14 @@ int CClient::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)
     Q_ASSERT(false);
     return 0;
 }
+
+QSharedPointer<CFileTransfer> CClient::SendFile(const QString szId, const QString &szFile, const QString &szDescription)
+{
+    Q_UNUSED(szId);
+    Q_UNUSED(szFile);
+    Q_UNUSED(szDescription);
+    LOG_MODEL_WARNING("CClient", "The CClient::SendFile function must be implemented by derived classes");
+    Q_ASSERT(false);
+    return QSharedPointer<CFileTransfer>();
+}
+

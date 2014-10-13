@@ -3,20 +3,25 @@
 
 #include <QObject>
 #include "FileTransfer.h"
+#include "qxmpp/QXmppTransferManager.h"
 
 class CFileTransferQXmpp : public CFileTransfer
 {
     Q_OBJECT
 public:
-    explicit CFileTransferQXmpp(QObject *parent = 0);
+    explicit CFileTransferQXmpp(QXmppTransferJob* pJob, QObject *parent = 0);
 
-    int SendFile(const QString& szId, const QString &szFile, const QString& szDescription = QString());
-    int Accept(const QString& szFile);
-    int Abort();
+    virtual int Accept(const QString& szFile);
+    virtual int Abort();
+
+    virtual QString GetFile();
+
 signals:
     
 public slots:
     
+private:
+     QXmppTransferJob *m_pJob;
 };
 
 #endif // FILETRANSFERQXMPP_H

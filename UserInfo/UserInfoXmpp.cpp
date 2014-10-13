@@ -46,6 +46,7 @@ int CUserInfoXmpp::SetName(const QString &szName)
 
 QString CUserInfoXmpp::GetJid()
 {
+    LOG_MODEL_DEBUG("CUserInfoXmpp", "jid:%s", m_szJid.toStdString().c_str());
     return m_szJid;
 }
 
@@ -78,7 +79,7 @@ int CUserInfoXmpp::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
     m_Birthday = vCard.birthday();
     m_szEmail = vCard.email();
     m_szDescription = vCard.description();
-    if(!jid.isEmpty())
+    if(!jid.isEmpty() && m_szJid.isEmpty())
         m_szJid = jid;
 
     //保存头像  
@@ -100,10 +101,23 @@ int CUserInfoXmpp::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
 
 int CUserInfoXmpp::UpdateUserInfo(const QXmppRosterIq::Item &rosterItem)
 {
-    m_szJid = rosterItem.bareJid();
+    if(m_szJid.isEmpty())
+        m_szJid = rosterItem.bareJid();
     m_Groups = rosterItem.groups();
     SetName(rosterItem.name());
     m_subscriptionType = FromQxmppSubscriptionType(rosterItem.subscriptionType());
+    return 0;
+}
+
+int CUserInfoXmpp::UpdateStatus(const USER_INFO_STATUS status, const QString jid)
+{
+    if(jid.isEmpty())
+    {
+        LOG_MODEL_ERROR("CUserInfoXmpp", "CUserInfoXmpp::UpdateStatus jid is empty");
+        return -1;
+    }
+    SetStatus(status);
+    m_szJid = jid;
     return 0;
 }
 

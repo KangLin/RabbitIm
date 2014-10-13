@@ -2,9 +2,9 @@
 #include "../SmileyPack.h"
 #include "Global/Global.h"
 
-CMessageAction::CMessageAction(const QString &author, const QString &message, const QString &date, const bool &me) :
+CMessageAction::CMessageAction(const QString &author, const QString &message, const QDate &date, const bool &me) :
     CChatAction(me, author, date),
-    message(message)
+    m_szMessage(message)
 {
 }
 
@@ -15,17 +15,15 @@ void CMessageAction::setup(QTextCursor cursor, QTextEdit *)
     // Except we never udpate on our own, so we can safely free our resources
 
     (void) cursor;
-    message.clear();
-    message.squeeze();
-    szId.clear();
-    szId.squeeze();
-    date.clear();
-    date.squeeze();
+    m_szMessage.clear();
+    m_szMessage.squeeze();
+    m_szId.clear();
+    m_szId.squeeze();
 }
 
 QString CMessageAction::getMessage()
 {
-    QString message_ = CSmileyPack::getInstance().smileyfied(toHtmlChars(message));
+    QString message_ = CSmileyPack::getInstance().smileyfied(toHtmlChars(m_szMessage));
 
     // detect urls
     QRegExp exp("(www\\.|http[s]?:\\/\\/|ftp:\\/\\/)\\S+");
@@ -48,7 +46,7 @@ QString CMessageAction::getMessage()
 
     QString msg;
     msg = "<div> <font='";
-    if(isMe)
+    if(m_isMe)
         msg += CGlobal::Instance()->GetUserMessageColor().name();
     else
          msg += CGlobal::Instance()->GetRosterMessageColor().name();
@@ -57,7 +55,7 @@ QString CMessageAction::getMessage()
     return msg;
 }
 
-QString CMessageAction::getContent()
+/*QString CMessageAction::getContent()
 {
    QString msg;
 
@@ -83,3 +81,4 @@ QString CMessageAction::getContent()
    LOG_MODEL_DEBUG("CMessageAction", qPrintable(msg));
    return msg;
 }
+*/

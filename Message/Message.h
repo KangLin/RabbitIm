@@ -12,6 +12,7 @@ class CMessage : public QObject
     Q_OBJECT
 public:
     explicit CMessage(QObject *parent = 0);
+    virtual ~CMessage();
 
     ///< 得到未读消息数  
     int GetUnReadCount();
@@ -20,6 +21,8 @@ public:
                                            const QString& szMessage,
                                            const bool bMe = false, 
                                            const QDate date = QDate::currentDate());
+    int AddMessage(QSharedPointer<CChatAction> chatAction);
+
     ///< 读取消息  
     ///< 读取所有未读消息  
     std::vector<QSharedPointer<CChatAction> > GetUnreadMessage();

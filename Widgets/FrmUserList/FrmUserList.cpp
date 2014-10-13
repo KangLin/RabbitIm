@@ -335,7 +335,7 @@ void CFrmUserList::slotSendFile()
     QString szId = GetCurrentRoster();
     if(szId.isEmpty())
         return;
-    
+
 #ifdef MOBILE
     QDesktopWidget *pDesk = QApplication::desktop();
     QFileDialog dlg(pDesk, tr("Open File"));
@@ -356,7 +356,7 @@ void CFrmUserList::slotSendFile()
                 QString(), QString(), 0,
                 QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
 #endif
-    
+
     QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();
     file->SendFile(szId, szFile);
 }

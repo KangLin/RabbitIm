@@ -1,16 +1,10 @@
 #include "FileTransferQXmpp.h"
 #include "Global/Global.h"
 
-CFileTransferQXmpp::CFileTransferQXmpp(QObject *parent) :
+CFileTransferQXmpp::CFileTransferQXmpp(QXmppTransferJob *pJob, QObject *parent) :
     CFileTransfer(parent)
 {
-}
-
-int CFileTransferQXmpp::SendFile(const QString &szId, const QString &szFile, const QString &szDescription)
-{
-    int nRet = 0;
-    
-    return nRet;
+    m_pJob = pJob;
 }
 
 int CFileTransferQXmpp::Accept(const QString &szFile)
@@ -23,4 +17,9 @@ int CFileTransferQXmpp::Accept(const QString &szFile)
 int CFileTransferQXmpp::Abort()
 {
     return 0;
+}
+
+QString CFileTransferQXmpp::GetFile()
+{
+    return m_pJob->fileName();
 }

@@ -35,7 +35,7 @@ signals:
 
 protected:
     virtual void resizeEvent(QResizeEvent *e);
-    virtual void closeEvent(QCloseEvent *);
+    virtual void closeEvent(QCloseEvent *e);
 
 private slots:
     void slotCloseTable(int nIndex);

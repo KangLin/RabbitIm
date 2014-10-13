@@ -13,6 +13,7 @@
 #include <QImageWriter>
 #include <QBuffer>
 #include "MainWindow.h"
+#include "FileTransfer/FileTransferQXmpp.h"
 
 #ifdef WIN32
 #undef GetMessage
@@ -95,6 +96,11 @@ int CClientXmpp::InitConnect()
     check = connect(&m_Client, SIGNAL(messageReceived(const QXmppMessage&)),
                     SLOT(slotMessageReceived(const QXmppMessage&)));
     Q_ASSERT(check);
+
+    check = connect(&this->m_TransferManager, SIGNAL(fileReceived(QXmppTransferJob*)),
+                    SLOT(slotFileReceived(QXmppTransferJob*)));
+    Q_ASSERT(check);
+
     return 0;
 }
 
@@ -208,11 +214,13 @@ int CClientXmpp::RosterRename(const QString &szId, const QString &szName)
     return !m_Client.rosterManager().renameItem(szId, szName);
 }
 
-QSharedPointer<CChatAction> CClientXmpp::SendMessage(const QString &szId, const QString &szMsg)
+int CClientXmpp::SendMessage(const QString &szId, const QString &szMsg)
 {
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     m_Client.sendMessage(szId, szMsg);
-    return roster->GetMessage()->AddMessage(szId, szMsg, true);
+    roster->GetMessage()->AddMessage(szId, szMsg, true);
+    emit sigMessageUpdate(szId);
+    return 0;
 }
 
 int CClientXmpp::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)
@@ -238,6 +246,27 @@ int CClientXmpp::SetUser(QSharedPointer<CManageUserQXmpp> user)
 {
     m_User = user;
     return 0;
+}
+
+QSharedPointer<CFileTransfer> CClientXmpp::SendFile(const QString szId, const QString &szFile, const QString &szDescription)
+{
+    QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
+    if(r.isNull())
+    {
+        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::SendFile the roster is null");
+        return QSharedPointer<CFileTransfer>();
+    }
+
+    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)r->GetInfo().data();
+    if(pInfo->GetResource().isEmpty())
+    {
+        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::SendFile the roster resource is null");
+        return QSharedPointer<CFileTransfer>();
+    }
+
+    QXmppTransferJob* pJob = m_TransferManager.sendFile(pInfo->GetJid(), szFile, szDescription);
+    QSharedPointer<CFileTransfer> file(new CFileTransferQXmpp(pJob));
+    return file;
 }
 
 QXmppPresence::AvailableStatusType CClientXmpp::StatusToPresence(CUserInfo::USER_INFO_STATUS status)
@@ -427,17 +456,17 @@ void CClientXmpp::slotvCardReceived(const QXmppVCardIq& vCardIq)
     QString szJid = QXmppUtils::jidToBareJid(vCardIq.from());
     if(szJid.isEmpty())
         return;
-    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotvCardReceived:%s", szJid.toStdString().c_str());
+    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotvCardReceived:%s", vCardIq.from().toStdString().c_str());
     QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szJid);
     if(r.isNull())
     {
         QSharedPointer<CUser> user(new CUser);
-        ((CUserInfoXmpp*)user->GetInfo().data())->UpdateUserInfo(vCardIq, szJid);
+        ((CUserInfoXmpp*)user->GetInfo().data())->UpdateUserInfo(vCardIq, vCardIq.from());
         r = user;
     }
     else
         m_User->UpdateUserInfoRoster(vCardIq,
-                               szJid);
+                               vCardIq.from());
     //发信号  
     emit sigUpdateRosterUserInfo(QXmppUtils::jidToBareJid(szJid), r);
 }
@@ -456,9 +485,15 @@ void CClientXmpp::slotPresenceReceived(const QXmppPresence &presence)
     if(!roster.isNull())
     {
         if(presence.type() == QXmppPresence::Available)
-            roster->GetInfo()->SetStatus(StatusFromPresence(presence.availableStatusType()));
+        {
+            CUserInfoXmpp* pInfo =  (CUserInfoXmpp*)roster->GetInfo().data();
+            pInfo->UpdateStatus(StatusFromPresence(presence.availableStatusType()), presence.from());
+        }
         else if(presence.type() == QXmppPresence::Unavailable)
-            roster->GetInfo()->SetStatus(CUserInfo::OffLine);
+        {
+            CUserInfoXmpp* pInfo =  (CUserInfoXmpp*)roster->GetInfo().data();
+            pInfo->UpdateStatus(CUserInfo::OffLine, presence.from());
+        }
         //触发状态改变消息  
         emit sigChangedStatus(bareJid);
     }
@@ -534,4 +569,10 @@ void CClientXmpp::slotMessageReceived(const QXmppMessage &message)
     }
     //TODO:消息输入状态显示
     
+}
+
+void CClientXmpp::slotFileReceived(QXmppTransferJob *job)
+{
+    QSharedPointer<CFileTransfer> file(new CFileTransferQXmpp(job));
+    emit sigFileReceived(QXmppUtils::jidToBareJid(job->jid()), file);
 }

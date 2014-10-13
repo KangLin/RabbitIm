@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QTextCursor>
+#include <QDate>
 
 class FileTransferInstance;
 class QTextEdit;
@@ -10,7 +11,7 @@ class QTextEdit;
 class CChatAction : public QObject
 {
 public:
-    CChatAction(const bool &me, const QString &author, const QString &date) : isMe(me), szId(author), date(date) {;}
+    CChatAction(const bool &me, const QString &author, const QDate &date) : m_isMe(me), m_szId(author), m_Date(date) {;}
     virtual ~CChatAction(){;}
     virtual void setup(QTextCursor cursor, QTextEdit* textEdit) = 0; ///< Call once, and then you MUST let the object update itself
 
@@ -18,15 +19,16 @@ public:
     virtual QString getMessage() = 0;
     virtual QString getDate();
 
-    virtual QString getContent() = 0;
+    virtual QString getContent();
 
 protected:
     QString toHtmlChars(const QString &str);
     QString QImage2base64(const QImage &img);
 
 protected:
-    bool isMe;
-    QString szId, date;
+    bool m_isMe;
+    QString m_szId;
+    QDate m_Date;
 };
 
 #endif // CHATACTION_H

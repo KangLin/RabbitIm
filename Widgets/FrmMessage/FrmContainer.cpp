@@ -107,10 +107,23 @@ void CFrmContainer::resizeEvent(QResizeEvent *e)
     m_tabWidget.resize(this->geometry().size());
 }
 
-void CFrmContainer::closeEvent(QCloseEvent *)
+void CFrmContainer::closeEvent(QCloseEvent *e)
 {
     LOG_MODEL_DEBUG("CFrmContainer", "CFrmContainer::closeEvent");
-    emit sigClose(this);
+
+    QMap<QString, QFrame* >::iterator it, oldIt;
+    it = m_Frame.begin();
+    while(m_Frame.end() != it && oldIt != it)
+    {
+        oldIt = it;
+        it.value()->close();
+        it = m_Frame.begin();
+        if(oldIt == it)
+        {
+            e->ignore();
+            return;
+        }
+    }
 }
 
 void CFrmContainer::slotDeleteFrame(QFrame *frame)
@@ -121,12 +134,7 @@ void CFrmContainer::slotDeleteFrame(QFrame *frame)
     m_tabWidget.setCurrentWidget(frame);
     int nIndex = m_tabWidget.currentIndex();
     m_tabWidget.setCurrentIndex(nOldIndex);
-    slotCloseTable(nIndex);
-}
-
-void CFrmContainer::slotCloseTable(int nIndex)
-{
-    QFrame* frame = (QFrame*)m_tabWidget.widget(nIndex);
+    
     m_tabWidget.removeTab(nIndex);
     QMap<QString, QFrame* >::iterator it;
     for(it = m_Frame.begin(); it != m_Frame.end(); it++)
@@ -145,6 +153,13 @@ void CFrmContainer::slotCloseTable(int nIndex)
     }
     //如果没有子窗口了，通知容器窗口删除掉自己  
     emit sigClose(this);
+}
+
+void CFrmContainer::slotCloseTable(int nIndex)
+{
+    QFrame* frame = (QFrame*)m_tabWidget.widget(nIndex);
+    frame->close();
+    return;
 }
 
 void CFrmContainer::slotCurrentChanged(int index)

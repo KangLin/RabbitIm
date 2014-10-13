@@ -8,6 +8,11 @@ CMessage::CMessage(QObject *parent) :
     m_nUnreadCount = 0;
 }
 
+CMessage::~CMessage()
+{
+    m_Message.clear();
+}
+
 int CMessage::GetUnReadCount()
 {
     return m_nUnreadCount;
@@ -17,10 +22,17 @@ QSharedPointer<CChatAction> CMessage::AddMessage(const QString& szId,
                                                  const QString &szMessage,
                                                  const bool bMe, const QDate date)
 {
-    QSharedPointer<CChatAction> chat(new CMessageAction(szId, szMessage, date.toString(), bMe));
+    QSharedPointer<CChatAction> chat(new CMessageAction(szId, szMessage, date, bMe));
     m_Message.push_back(chat);
     m_nUnreadCount++;
     return chat;
+}
+
+int CMessage::AddMessage(QSharedPointer<CChatAction> chatAction)
+{
+    m_Message.push_back(chatAction);
+    m_nUnreadCount++;
+    return 0;
 }
 
 std::vector<QSharedPointer<CChatAction> > CMessage::GetUnreadMessage()

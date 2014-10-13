@@ -16,6 +16,7 @@ int CManager::Init(const QString &szId)
     GetManageUser()->Init(szId);
     GetManageMessageDialog()->Init(szId);
     GetRecentMessage()->Init(szId);
+    GetFileTransfer()->Init(szId);
     return 0;
 }
 
@@ -25,6 +26,7 @@ int CManager::Clean()
     GetRecentMessage()->Clean();
     GetManageMessageDialog()->Clean();
     GetManageUser()->Clean();
+    GetFileTransfer()->Clean();
     return 0;
 }
 

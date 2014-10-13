@@ -24,6 +24,7 @@ public:
 
     virtual int UpdateUserInfo(const QXmppVCardIq &vCard, QString jid);
     virtual int UpdateUserInfo(const QXmppRosterIq::Item &rosterItem);
+    virtual int UpdateStatus(const USER_INFO_STATUS status, const QString jid);
 
 #ifndef QT_NO_DATASTREAM
     virtual int LoadFromStorage(QDataStream &input);

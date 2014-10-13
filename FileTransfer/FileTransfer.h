@@ -1,5 +1,5 @@
-#ifndef FILETRANSFER_H
-#define FILETRANSFER_H
+#ifndef FILETRANSFER_H_2014_10_10
+#define FILETRANSFER_H_2014_10_10
 
 #include <QObject>
 
@@ -10,11 +10,10 @@ public:
     explicit CFileTransfer(QObject *parent = 0);
     virtual ~CFileTransfer();
 
-    int SendFile(const QString& szId, const QString &szFile, const QString& szDescription = QString());
+    virtual int Accept(const QString& szFile);
+    virtual int Abort();
 
-    int Accept(const QString& szFile);
-    int Abort();
-
+    virtual QString GetFile();
     /// This enum is used to describe the type of error encountered by a transfer job.
     enum Error
     {
@@ -58,4 +57,4 @@ public slots:
     
 };
 
-#endif // FILETRANSFER_H
+#endif // FILETRANSFER_H_2014_10_10

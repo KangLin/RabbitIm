@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "../UserInfo/User.h"
+#include "FileTransfer/FileTransfer.h"
 
 /**
  * @brief 通信客户端抽象类  
@@ -105,9 +106,9 @@ public:
      *
      * @param szId:好友id  
      * @param szMsg:消息内容  
-     * @return QSharedPointer<CChatAction>   
+     * @return int  
      */
-    virtual QSharedPointer<CChatAction>  SendMessage(const QString& szId, const QString &szMsg);
+    virtual int SendMessage(const QString& szId, const QString &szMsg);
     /**
      * @brief 设置登录用户信息  
      *
@@ -115,6 +116,16 @@ public:
      * @return int：成功返回0，失败返回非0  
      */
     virtual int setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo);
+
+    /**
+     * @brief 传送文件  
+     *
+     * @param szId：用户id  
+     * @param szFile：要传送的文件 
+     * @param szDescription：描述信息  
+     * @return QSharedPointer<CFileTransfer>：返回 CFileTransfer 对象指针  
+     */
+    virtual QSharedPointer<CFileTransfer> SendFile(const QString szId, const QString &szFile, const QString &szDescription);
 
     enum ERROR_TYPE
     {
@@ -185,12 +196,20 @@ signals:
      * @param szId:好友ID  
      */
     void sigMessageUpdate(const QString& szId);
+
     /**
      * @brief 清空未读消息时触发  
      *
      * @param szId:好友ID  
      */
     void sigMessageClean(const QString& szId);
+
+    /**
+     * @brief 文件接收时触发  
+     *
+     * @param file
+     */
+    void sigFileReceived(const QString &szId, QSharedPointer<CFileTransfer> file);
 
 public slots:
 

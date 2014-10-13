@@ -84,7 +84,7 @@ public:
      * @param szMsg:消息内容  
      * @return QSharedPointer<CChatAction> 
      */
-    virtual QSharedPointer<CChatAction> SendMessage(const QString& szId, const QString &szMsg);
+    virtual int SendMessage(const QString& szId, const QString &szMsg);
 
     /**
      * @brief 设置登录用户信息  
@@ -95,6 +95,16 @@ public:
     virtual int setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo);
 
     int SetUser(QSharedPointer<CManageUserQXmpp> user);
+
+    /**
+     * @brief 传送文件  
+     *
+     * @param szId：用户id  
+     * @param szFile：要传送的文件 
+     * @param szDescription：描述信息  
+     * @return QSharedPointer<CFileTransfer>：返回 CFileTransfer 对象指针  
+     */
+    virtual QSharedPointer<CFileTransfer> SendFile(const QString szId, const QString &szFile, const QString &szDescription);
 
 private:
     QXmppPresence::AvailableStatusType StatusToPresence(CUserInfo::USER_INFO_STATUS status);
@@ -120,6 +130,12 @@ private slots:
     //接收消息  
     void slotMessageReceived(const QXmppMessage &message);
 
+     /**
+      * @brief 文件接收消息  
+      *
+      * @param job
+      */
+     void slotFileReceived(QXmppTransferJob *job);
 private:
     QXmppClient m_Client;
     QSharedPointer<CManageUserQXmpp> m_User;

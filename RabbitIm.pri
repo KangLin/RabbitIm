@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     Widgets/DlgAddRoster/DlgAddRoster.cpp \
     FileTransfer/ManageFileTransfer.cpp \
     FileTransfer/FileTransfer.cpp \
-    FileTransfer/FileTransferQXmpp.cpp 
+    FileTransfer/FileTransferQXmpp.cpp \  
+    Message/ChatActions/FileTransferAction.cpp
     #Widgets/FrmMessage/Message.cpp \
     #Widgets/FrmVideo/DataVideoBuffer.cpp \
     #Widgets/FrmVideo/FrameProcess.cpp \
@@ -97,7 +98,8 @@ HEADERS  += MainWindow.h \
     Widgets/DlgAddRoster/DlgAddRoster.h \
     FileTransfer/ManageFileTransfer.h \
     FileTransfer/FileTransfer.h \
-    FileTransfer/FileTransferQXmpp.h
+    FileTransfer/FileTransferQXmpp.h \
+    Message/ChatActions/FileTransferAction.h
     #Widgets/FrmUserList/Roster.h \
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmMessage/Message.h \
