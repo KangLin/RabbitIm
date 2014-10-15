@@ -24,6 +24,15 @@ public:
 protected:
     QString toHtmlChars(const QString &str);
     QString QImage2base64(const QImage &img);
+    /**
+     * @brief 
+     *
+     * @param img
+     * @param nWidth:为0时，为图片原始宽度  
+     * @param nHeight：为0时，为图片原始高度  
+     * @return QString
+     */
+    QString QImage2Html(const QImage&img, int nWidth = 0, int nHeight = 0);
 
 protected:
     bool m_isMe;

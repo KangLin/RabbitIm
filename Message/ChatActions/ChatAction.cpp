@@ -29,6 +29,18 @@ QString CChatAction::QImage2base64(const QImage &img)
     return ba.toBase64();
 }
 
+QString CChatAction::QImage2Html(const QImage &img, int nWidth, int nHeight)
+{
+    QString szHtml = "<img ";
+    if(nWidth !=0 && 0 != nHeight)
+    {
+        szHtml += " width='" + QString::number(nWidth)
+            + "' height='" + QString::number(nHeight) + "' ";
+    }
+    szHtml  += " src=\"data:image/png;base64," + QImage2base64(img) + "\">";
+    return szHtml;
+}
+
 QString CChatAction::getName()
 {
     QString name;

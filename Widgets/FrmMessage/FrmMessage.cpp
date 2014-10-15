@@ -375,10 +375,13 @@ void CFrmMessage::slotAnchorClicked(const QUrl &url)
                     qPrintable(url.scheme()),
                     qPrintable(url.host()),
                     qPrintable(url.query()));
-    if(url.scheme() == "rabbitim" && url.host() == "userinfo")
+    if(url.scheme() == "rabbitim")
     {
-        //响应"<a href='rabbitim://userinfo'>";  
-        this->on_lbAvatar_clicked();
+        if(url.host() == "userinfo")
+        {
+            //响应"<a href='rabbitim://userinfo'>";  
+            this->on_lbAvatar_clicked();
+        }
     }
     else
         QDesktopServices::openUrl(url);

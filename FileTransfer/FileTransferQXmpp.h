@@ -14,7 +14,12 @@ public:
     virtual int Accept(const QString& szFile);
     virtual int Abort();
 
+    virtual QUrl GetLocalFileUrl();
     virtual QString GetFile();
+    virtual qint64 GetFileSize();
+    virtual Direction GetDirection();
+    virtual State GetState();
+    virtual Error GetError();
 
 signals:
     

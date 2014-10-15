@@ -29,18 +29,37 @@ CFileTransferAction::~CFileTransferAction()
 QString CFileTransferAction::getMessage()
 {
     QString content;
-    QString progrBar = "<img src=\"data:progressbar./png;base64," 
-            + QImage2base64(drawProgressBarImg(m_dbLastBytesSent/m_dbTotalBytes, m_ProgBarWidth, m_ProgBarHeight))
-            + "\">";
+    QString progrBar =QImage2Html(drawProgressBarImg(m_dbLastBytesSent/m_dbTotalBytes, m_ProgBarWidth, m_ProgBarHeight));
 
-    content  = "<p>" + m_szFile + "</p>";
+    if(m_File->GetState() == CFileTransfer::FinishedState)
+        content  = "<a href='" + m_File->GetLocalFileUrl().toString() + "'>" + m_File->GetFile() + "</a>";
+    else
+        content  = "<p>" + m_File->GetFile() + "</p>";
+
     content += "<table cellspacing='0'><tr>";
     content += "<td>" + GetHumanReadableSize(m_dbFileSize) + "</td>";
     content += "<td align=center>" + GetHumanReadableSize(m_dbSpeed) + "</td>";
     content += "<td align=right>ETA: " + QString::number(m_dbEta) + "</td>";
     content += "</tr><tr><td colspan=3>";
     content += progrBar;
-    content += "</td></tr></table>";
+    content += "</td></tr>";
+
+    content += "<tr><td  align=center>";
+    if(m_File->GetState() == CFileTransfer::OfferState && m_File->GetDirection() == CFileTransfer::IncomingDirection)
+    {
+        content += "<a href='rabbitim://FileTransfer?'>";
+        content += QImage2Html(QImage(":/icon/Accept", "png"), 16, 16);
+        content += tr("Accept") + "</a>";
+    }
+    content += "</td><td />";
+    if(m_File->GetState() != CFileTransfer::FinishedState)
+    {
+        content += "<td align=center><a href='rabbitim://FileTransfer?'>" 
+                +  QImage2Html(QImage(":/icon/Cancel", "png"), 16, 16)
+                + tr("Cancel") 
+                + "</a></td>";
+    }
+    content += "</tr></table>";
     return content;
 }
 

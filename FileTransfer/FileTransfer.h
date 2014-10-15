@@ -2,6 +2,7 @@
 #define FILETRANSFER_H_2014_10_10
 
 #include <QObject>
+#include <QUrl>
 
 class CFileTransfer : public QObject
 {
@@ -13,7 +14,11 @@ public:
     virtual int Accept(const QString& szFile);
     virtual int Abort();
 
-    virtual QString GetFile();
+    enum Direction
+    {
+        IncomingDirection, ///< The file is being received.
+        OutgoingDirection, ///< The file is being sent.
+    };
     /// This enum is used to describe the type of error encountered by a transfer job.
     enum Error
     {
@@ -32,6 +37,13 @@ public:
         TransferState = 2, ///< The transfer is ongoing.
         FinishedState = 3, ///< The transfer is finished.
     };
+
+    virtual QUrl GetLocalFileUrl();
+    virtual QString GetFile();
+    virtual qint64 GetFileSize();
+    virtual Direction GetDirection();
+    virtual State GetState();
+    virtual Error GetError();
 
 signals:
     void sigFileReceived(const QString& szId, const QString& szFile, const QString& szDescription);

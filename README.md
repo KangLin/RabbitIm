@@ -61,9 +61,9 @@ QQ: 16614119
 
 windows 下截图:
 
-![启动窗口截图](http://img.blog.csdn.net/20140709202305447 "启动窗口截图")
-
-![对话窗口截图](http://img.blog.csdn.net/20140709202315775 "对话窗口截图")
+![启动窗口截图](http://img.blog.csdn.net/20141015140459604?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2wyMjI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "启动窗口截图")
+![列表窗口](http://img.blog.csdn.net/20141015140619632?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2wyMjI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center “列表窗口”)
+![对话窗口截图](http://img.blog.csdn.net/20141015141036908?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2wyMjI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "对话窗口截图")
 
 ubuntu 下截图:
 
