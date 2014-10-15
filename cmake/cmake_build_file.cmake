@@ -1,44 +1,47 @@
 
 SET(RABBITIM_SOURCES
     main.cpp
-    MainWindow.cpp
-    XmppClient.cpp
-    Tool.cpp
-    Global/Global.cpp
-    Global/GlobalUser.cpp 
-    UserInfo/COperateRoster.cpp
-    Widgets/FrmSendFile/DlgSendManage.cpp 
-    Widgets/FrmSendFile/FrmSendFile.cpp 
+    MainWindow.cpp 
+    Tool.cpp 
+    Client/ClientXmpp.cpp 
+    Client/Client.cpp 
+    UserInfo/UserInfo.cpp 
+    UserInfo/UserInfoXmpp.cpp 
+    UserInfo/COperateRoster.cpp 
+    Global/Global.cpp 
     Widgets/FrmLogin/FrmLogin.cpp 
     Widgets/FrmUserList/FrmUserList.cpp 
-    Widgets/FrmUserList/Roster.cpp 
     Widgets/FrmUserList/GroupItem.cpp 
-    Widgets/FrmMessage/FrmMessage.cpp 
-    Widgets/FrmMessage/Message.cpp 
     Widgets/FrmRegister/FrmRegister.cpp 
     Widgets/FrmAbout/FrmAbout.cpp 
-    Widgets/FrmVideo/FrmVideo.cpp 
-    Widgets/FrmVideo/CaptureVideoFrame.cpp 
-    Widgets/FrmVideo/FrmPlayer.cpp 
-    Widgets/FrmVideo/DataVideoBuffer.cpp 
-    Widgets/FrmVideo/FrameProcess.cpp 
-    Widgets/FrmAddRoster/FrmAddRoster.cpp 
     Widgets/FrmCustom/CustomTreeView.cpp 
     Widgets/FrmVideo/RecordAudio.cpp 
-    Widgets/FrmVideo/CCamera.cpp 
     Widgets/FrmLogin/FrmLoginSettings.cpp 
-    Widgets/FrmOptions/FrmOptions.cpp 
     Widgets/FrmUservCard/FrmUservCard.cpp 
-    Widgets/FrmCustom/Label.cpp 
-    Widgets/FrmGroupChat/FrmGroupChatList.cpp 
-    Widgets/FrmGroupChat/FrmGroupChatFind.cpp
-    Widgets/FrmGroupChat/Conference.cpp 
-    Widgets/FrmGroupChat/FrmGroupChat.cpp 
-    Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp 
-    Widgets/FrmMain/FrmMain.cpp 
-    Widgets/FrmCustom/MenuMessageSend.cpp 
-    Widgets/DlgScreenShot/DlgScreenShot.cpp 
-    UserInfo/UserInfo.cpp 
-    UserInfo/UserInfoLocale.cpp 
-    UserInfo/UserInfoRoster.cpp 
+    Widgets/FrmCustom/Label.cpp  
+    Widgets/FrmMain/FrmMain.cpp  
+    Manager/Manager.cpp 
+    Manager/ManagerXmpp.cpp 
+    Manager/ManageMessageDialog.cpp 
+    Widgets/FrmMessage/FrmMessage.cpp 
+    Widgets/FrmCustom/MenuMessageSend.cpp  
+    Manager/ManageMessageDialogBigScreen.cpp 
+    Widgets/FrmMessage/FrmContainer.cpp 
+    Message/Message.cpp 
+    Message/ChatActions/ChatAction.cpp 
+    Message/ChatActions/MessageAction.cpp 
+    UserInfo/User.cpp 
+    Manager/ManageUser.cpp 
+    Manager/ManageUserQXmpp.cpp 
+    Message/SmileyPack.cpp 
+    Message/EmoticonsWidget.cpp 
+    Message/style.cpp 
+    Widgets/FrmRecentMessage/FrmRecentMsgList.cpp 
+    Widgets/FrmRecentMessage/ManageRecentMessage.cpp 
+    Widgets/DlgOptions/DlgOptions.cpp 
+    Widgets/DlgAddRoster/DlgAddRoster.cpp 
+    FileTransfer/ManageFileTransfer.cpp 
+    FileTransfer/FileTransfer.cpp 
+    FileTransfer/FileTransferQXmpp.cpp   
+    Message/ChatActions/FileTransferAction.cpp
 )

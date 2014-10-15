@@ -140,7 +140,8 @@ OTHER_FILES += README.md \
     License.html \
     ChangeLog.txt \
     Authors.txt \
-    CMakeLists.txt
+    CMakeLists.txt \
+    cmake/*
 
 isEmpty(PREFIX)
 {

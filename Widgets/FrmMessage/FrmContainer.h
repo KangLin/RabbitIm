@@ -49,6 +49,7 @@ private:
     QMap<QString, QFrame* >m_Frame;
     QTabWidget m_tabWidget;
     int m_nSize;//容纳子窗口大小  
+    bool m_bClose;//标志退出  
 };
 
 #endif // FRMCONTAINER_H

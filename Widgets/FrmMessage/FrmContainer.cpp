@@ -11,6 +11,7 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
 {
     ui->setupUi(this);
     m_nSize = 10;
+    m_bClose = 0;
     m_tabWidget.clear();
     //m_tabWidget.setTabPosition(QTabWidget::South);//设置标签位置  
     m_tabWidget.setTabsClosable(true);
@@ -110,7 +111,7 @@ void CFrmContainer::resizeEvent(QResizeEvent *e)
 void CFrmContainer::closeEvent(QCloseEvent *e)
 {
     LOG_MODEL_DEBUG("CFrmContainer", "CFrmContainer::closeEvent");
-
+    m_bClose = true;
     QMap<QString, QFrame* >::iterator it, oldIt;
     it = m_Frame.begin();
     while(m_Frame.end() != it && oldIt != it)
@@ -124,6 +125,7 @@ void CFrmContainer::closeEvent(QCloseEvent *e)
             return;
         }
     }
+    emit sigClose(this);
 }
 
 void CFrmContainer::slotDeleteFrame(QFrame *frame)
@@ -151,8 +153,12 @@ void CFrmContainer::slotDeleteFrame(QFrame *frame)
     {
         return;
     }
-    //如果没有子窗口了，通知容器窗口删除掉自己  
-    emit sigClose(this);
+
+    if(!m_bClose)
+    {
+        //如果没有子窗口了，则不是close事件，通知容器窗口删除掉自己  
+        emit sigClose(this);
+    }
 }
 
 void CFrmContainer::slotCloseTable(int nIndex)

@@ -475,7 +475,7 @@ void CFrmRecentMsgList::slotDeleteFromMainMenu(QMenu *pMenu)
 
 void CFrmRecentMsgList::slotUpdateMainMenu()
 {
-    m_Menu.setTitle(tr("Operator recnet message(&O)"));
+    m_Menu.setTitle(tr("Operator recent message(&O)"));
     if(isHidden())
         m_Menu.setEnabled(false);
     else
