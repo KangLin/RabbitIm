@@ -705,13 +705,13 @@
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="16"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="49"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="50"/>
         <source>Rosters</source>
         <translation>好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="17"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="50"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="18"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="51"/>
         <source>Recent messages</source>
         <translation>最近消息</translation>
     </message>
@@ -1367,30 +1367,6 @@
         <translation>关闭</translation>
     </message>
     <message>
-        <source>Is close the programe?</source>
-        <translation type="vanished">是否关闭程序？</translation>
-    </message>
-    <message>
-        <source>RabbitIm: %1</source>
-        <translation type="vanished">玉兔即时通信：%1</translation>
-    </message>
-    <message>
-        <source>Network error</source>
-        <translation type="vanished">网络错误</translation>
-    </message>
-    <message>
-        <source>User name or password error</source>
-        <translation type="vanished">用户名或密码错误</translation>
-    </message>
-    <message>
-        <source>Keep Alive error</source>
-        <translation type="vanished">与服务器失去联系</translation>
-    </message>
-    <message>
-        <source>Login success</source>
-        <translation type="vanished">登录成功</translation>
-    </message>
-    <message>
         <location filename="../../MainWindow.cpp" line="298"/>
         <source>Close(&amp;E)</source>
         <translation>关闭(&amp;E)</translation>
@@ -1440,6 +1416,12 @@
         <location filename="../../MainWindow.cpp" line="140"/>
         <source>logout</source>
         <translation>登出</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="234"/>
+        <location filename="../../MainWindow.cpp" line="235"/>
+        <source>RabbitIm:%1</source>
+        <translation >玉兔即时通信：%1</translation>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="295"/>

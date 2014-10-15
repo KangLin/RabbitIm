@@ -231,8 +231,8 @@ void MainWindow::slotClientDisconnected()
 
 void MainWindow::slotUpdateLocaleUserInfo()
 {
-    this->m_TrayIcon.setToolTip(QString("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
-    this->setWindowTitle(QString("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
+    this->m_TrayIcon.setToolTip(tr("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
+    this->setWindowTitle(tr("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
     QPixmap pixmap;
     pixmap.convertFromImage(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetPhoto());
     setWindowIcon(QIcon(pixmap));

@@ -28,7 +28,7 @@ private:
     
     CFrmRecentMsgList m_MessageList;
     CFrmUserList m_UserList;
-    //CFrmGroupChatList m_GroupChatList;
+    //CFrmUserList m_GroupChatList;
 };
 
 #endif // FRMMAIN_H
