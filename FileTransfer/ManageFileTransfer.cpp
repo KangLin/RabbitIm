@@ -2,6 +2,9 @@
 #include "Global/Global.h"
 #include "Message/ChatActions/FileTransferAction.h"
 #include <QFileDialog>
+#include <QDesktopWidget>
+#include <QApplication>
+#include <QScreen>
 
 CManageFileTransfer::CManageFileTransfer(QObject *parent) :
     QObject(parent)
@@ -126,9 +129,9 @@ int CManageFileTransfer::Accept(QSharedPointer<CFileTransfer> file)
     if(dlg.exec())
         fileNames = dlg.selectedFiles();
     else
-        return;
+        return -1;
     if(fileNames.isEmpty())
-        return;
+        return -2;
     szFile = *fileNames.begin();
 #else
     QString szFile = QFileDialog::getSaveFileName(NULL, tr("Sava as ..."),

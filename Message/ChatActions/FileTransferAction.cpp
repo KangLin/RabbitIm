@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QFileInfo>
 #include <QDir>
+#include "Global/Global.h"
 
 CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, const QString &author, const QDate &date, const bool &me)
   : CChatAction(me, author, date)
@@ -199,9 +200,10 @@ QString CFileTransferAction::drawBottomFinished()
 {
     QString content = "<tr>";
     content += "<td align='center'><a href='file://";
-    
+
     QFileInfo info(m_File->GetLocalFileUrl().toLocalFile());
     QString filename = info.absolutePath();
+    LOG_MODEL_DEBUG("CFileTransferAction", "file:%s", qPrintable(filename));
 
     content += filename + "'>";
     content += tr("Open folder");
