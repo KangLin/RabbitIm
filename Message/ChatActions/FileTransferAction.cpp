@@ -5,6 +5,8 @@
 #include <QPainter>
 #include <QFileInfo>
 #include <QDir>
+#include <QDesktopWidget>
+#include <QApplication>
 #include "Global/Global.h"
 
 CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, const QString &author, const QDate &date, const bool &me)
@@ -12,8 +14,22 @@ CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, con
 {
     m_File = file;
     m_pEdit = NULL;
-    m_ProgBarHeight = 10;
+#ifdef MOBILE
+     QDesktopWidget *pDesk = QApplication::desktop();
+     int nWidth;
+     if(pDesk->availableGeometry().width() > pDesk->availableGeometry().height())
+         nWidth = pDesk->availableGeometry().height();
+     else
+         nWidth = pDesk->availableGeometry().width();
+     if(nWidth < 200)
+         m_ProgBarWidth = nWidth - 10;
+     else
+         m_ProgBarWidth = nWidth - 100;
+#else
     m_ProgBarWidth = 250;
+#endif
+
+    m_ProgBarHeight = 10;
 
     bool check = connect(file.data(), SIGNAL(sigUpdate()),this, SLOT(slotUpdateHtml()));
     Q_ASSERT(check);
@@ -116,11 +132,13 @@ QImage CFileTransferAction::drawProgressBarImg(const double &part, int w, int h)
     qPainter.setPen(Qt::black);
     qPainter.drawRect(0, 0, w - 1, h - 1);
 
-    //qPainter.setBrush(Qt::SolidPattern);
-    qPainter.setBrush(QBrush(Qt::green));
-    qPainter.setPen(Qt::black);
-    qPainter.drawRect(1, 0, (w - 2) * (part), h - 1);
-
+    if(0 != part)
+    {
+        //qPainter.setBrush(Qt::SolidPattern);
+        qPainter.setBrush(QBrush(Qt::green));
+        qPainter.setPen(Qt::black);
+        qPainter.drawRect(1, 0, (w - 2) * (part), h - 1);
+    }
     return progressBar;
 }
 
