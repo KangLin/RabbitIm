@@ -265,6 +265,7 @@ QSharedPointer<CFileTransfer> CClientXmpp::SendFile(const QString szId, const QS
     }
 
     QXmppTransferJob* pJob = m_TransferManager.sendFile(pInfo->GetJid(), szFile, szDescription);
+    pJob->setLocalFileUrl(QUrl::fromLocalFile(szFile));
     QSharedPointer<CFileTransfer> file(new CFileTransferQXmpp(pJob));
     return file;
 }

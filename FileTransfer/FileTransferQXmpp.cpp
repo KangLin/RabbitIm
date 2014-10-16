@@ -21,7 +21,6 @@ CFileTransferQXmpp::CFileTransferQXmpp(QXmppTransferJob *pJob, QObject *parent) 
 int CFileTransferQXmpp::Accept(const QString &szFile)
 {
     int nRet = 0;
-    m_pJob->setLocalFileUrl(szFile);
     m_pJob->accept(szFile);
     return nRet;
 }

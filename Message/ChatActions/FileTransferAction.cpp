@@ -1,9 +1,10 @@
 #include "FileTransferAction.h"
-
 #include <QTextEdit>
 #include <QScrollBar>
 #include <QImage>
 #include <QPainter>
+#include <QFileInfo>
+#include <QDir>
 
 CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, const QString &author, const QDate &date, const bool &me)
   : CChatAction(me, author, date)
@@ -65,9 +66,30 @@ QString CFileTransferAction::getMessage()
 {
     QString content;
 
-    content  = drawTop();
-    content += "<table cellspacing='0'><tr>";
-    content += "<td>" + GetHumanReadableSize(m_File->GetFileSize()) + "</td>";
+    content += "<table>";
+    content += drawTop();
+    content += drawProgressBar();
+    content += drawBottom();
+    content += "</table>";
+    return content;
+}
+
+QString CFileTransferAction::drawTop()
+{
+    QString content;
+    content = "<tr><td colspan='3' align='center'>";
+    if(m_File->GetState() == CFileTransfer::FinishedState && m_File->GetError() == CFileTransfer::NoError)
+        content  += "<a href='" + m_File->GetLocalFileUrl().toString() + "'>" + m_File->GetLocalFileUrl().fileName() + "</a>";
+    else
+        content  += "<p>" + m_File->GetFile() + "</p>";
+    content += "</td></tr>";
+    return content;
+}
+
+QString CFileTransferAction::drawProgressBar()
+{
+    QString content;
+    content += "<tr><td>" + GetHumanReadableSize(m_File->GetFileSize()) + "</td>";
     content += "<td align=center>" + GetHumanReadableSize(m_File->GetSpeed()) + "/s</td>";
 
     int etaSecs = 0;
@@ -78,17 +100,9 @@ QString CFileTransferAction::getMessage()
 
     content += "<td align=right>" + tr("ETA: ") + etaTime.toString("mm:ss") + "</td>";
     content += "</tr><tr><td colspan=3>";
-    content += drawProgressBar();
+    content += QImage2Html(drawProgressBarImg((double)m_File->GetDoneSize()/(double)m_File->GetFileSize(), m_ProgBarWidth, m_ProgBarHeight));
     content += "</td></tr>";
-
-    content += drawBottom();
-    content += "</table>";
     return content;
-}
-
-QString CFileTransferAction::drawProgressBar()
-{
-    return QImage2Html(drawProgressBarImg((double)m_File->GetDoneSize()/(double)m_File->GetFileSize(), m_ProgBarWidth, m_ProgBarHeight));
 }
 
 QImage CFileTransferAction::drawProgressBarImg(const double &part, int w, int h)
@@ -105,16 +119,6 @@ QImage CFileTransferAction::drawProgressBarImg(const double &part, int w, int h)
     qPainter.drawRect(1, 0, (w - 2) * (part), h - 1);
 
     return progressBar;
-}
-
-QString CFileTransferAction::drawTop()
-{
-    QString content;
-    if(m_File->GetState() == CFileTransfer::FinishedState && m_File->GetError() == CFileTransfer::NoError)
-        content  = "<a href='" + m_File->GetLocalFileUrl().toString() + "'>" + m_File->GetLocalFileUrl().fileName() + "</a>";
-    else
-        content  = "<p>" + m_File->GetFile() + "</p>";
-    return content;
 }
 
 QString CFileTransferAction::drawBottom()
@@ -192,7 +196,16 @@ QString CFileTransferAction::drawBottomCancel()
 
 QString CFileTransferAction::drawBottomFinished()
 {
-    QString content = "<tr><td colspan=3 align=center>";
+    QString content = "<tr>";
+    content += "<td align='center'><a href='file://";
+    
+    QFileInfo info(m_File->GetLocalFileUrl().toLocalFile());
+    QString filename = info.absolutePath();
+
+    content += filename + "'>";
+    content += tr("Open folder");
+    content += "</a></td>";
+    content += "<td colspan=2 align=center>";
     content += tr("Send the file has been finished.");
     content += "</td></tr>";
     return content;
