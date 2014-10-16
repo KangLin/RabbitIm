@@ -10,57 +10,15 @@ CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, con
 {
     m_File = file;
     m_pEdit = NULL;
-    m_dbLastBytesSent = 0;
-    m_dbTotalBytes = 0;
-    m_dbSpeed = 0;
-    m_dbFileSize = 0;
-    m_dbEta = 0;
-    m_ProgBarHeight = 9;
+    m_ProgBarHeight = 10;
     m_ProgBarWidth = 250;
-    m_szFile = file->GetFile();
 
-    //connect(w, &FileTransferInstance::stateUpdated, this, &FileTransferAction::updateHtml);
+    bool check = connect(file.data(), SIGNAL(sigUpdate()),this, SLOT(slotUpdateHtml()));
+    Q_ASSERT(check);
 }
 
 CFileTransferAction::~CFileTransferAction()
 {
-}
-
-QString CFileTransferAction::getMessage()
-{
-    QString content;
-    QString progrBar =QImage2Html(drawProgressBarImg(m_dbLastBytesSent/m_dbTotalBytes, m_ProgBarWidth, m_ProgBarHeight));
-
-    if(m_File->GetState() == CFileTransfer::FinishedState)
-        content  = "<a href='" + m_File->GetLocalFileUrl().toString() + "'>" + m_File->GetFile() + "</a>";
-    else
-        content  = "<p>" + m_File->GetFile() + "</p>";
-
-    content += "<table cellspacing='0'><tr>";
-    content += "<td>" + GetHumanReadableSize(m_dbFileSize) + "</td>";
-    content += "<td align=center>" + GetHumanReadableSize(m_dbSpeed) + "</td>";
-    content += "<td align=right>ETA: " + QString::number(m_dbEta) + "</td>";
-    content += "</tr><tr><td colspan=3>";
-    content += progrBar;
-    content += "</td></tr>";
-
-    content += "<tr><td  align=center>";
-    if(m_File->GetState() == CFileTransfer::OfferState && m_File->GetDirection() == CFileTransfer::IncomingDirection)
-    {
-        content += "<a href='rabbitim://FileTransfer?'>";
-        content += QImage2Html(QImage(":/icon/Accept", "png"), 16, 16);
-        content += tr("Accept") + "</a>";
-    }
-    content += "</td><td />";
-    if(m_File->GetState() != CFileTransfer::FinishedState)
-    {
-        content += "<td align=center><a href='rabbitim://FileTransfer?'>" 
-                +  QImage2Html(QImage(":/icon/Cancel", "png"), 16, 16)
-                + tr("Cancel") 
-                + "</a></td>";
-    }
-    content += "</tr></table>";
-    return content;
 }
 
 void CFileTransferAction::setup(QTextCursor cursor, QTextEdit *textEdit)
@@ -74,7 +32,7 @@ void CFileTransferAction::setup(QTextCursor cursor, QTextEdit *textEdit)
     m_pEdit = textEdit;
 }
 
-void CFileTransferAction::updateHtml()
+void CFileTransferAction::slotUpdateHtml()
 {
     if (m_Cursor.isNull() || !m_pEdit)
         return;
@@ -86,7 +44,7 @@ void CFileTransferAction::updateHtml()
     int pos = m_Cursor.selectionStart();
     m_Cursor.removeSelectedText();
     m_Cursor.setKeepPositionOnInsert(false);
-    m_Cursor.insertHtml(getMessage());
+    m_Cursor.insertHtml(getContent());
     m_Cursor.setKeepPositionOnInsert(true);
     int end = m_Cursor.position();
     m_Cursor.setPosition(pos);
@@ -96,15 +54,41 @@ void CFileTransferAction::updateHtml()
     m_pEdit->verticalScrollBar()->setValue(vSliderVal);
 
     // Free our ressources if we'll never need to update again
-    /*if (w->getState() == FileTransferInstance::TransfState::tsCanceled
-            || w->getState() == FileTransferInstance::TransfState::tsFinished)
+    if(m_File->GetError() == CFileTransfer::AbortError
+            || m_File->GetState() == CFileTransfer::FinishedState)
     {
-        name.clear();
-        name.squeeze();
-        date.clear();
-        date.squeeze();
-        cur = QTextCursor();
-    }*/
+        m_Cursor = QTextCursor();
+    }
+}
+
+QString CFileTransferAction::getMessage()
+{
+    QString content;
+
+    content  = drawTop();
+    content += "<table cellspacing='0'><tr>";
+    content += "<td>" + GetHumanReadableSize(m_File->GetFileSize()) + "</td>";
+    content += "<td align=center>" + GetHumanReadableSize(m_File->GetSpeed()) + "/s</td>";
+
+    int etaSecs = 0;
+    if(m_File->GetSpeed())
+        etaSecs = (m_File->GetFileSize() - m_File->GetDoneSize()) / m_File->GetSpeed();
+    QTime etaTime(0,0);
+    etaTime = etaTime.addSecs(etaSecs);
+
+    content += "<td align=right>" + tr("ETA: ") + etaTime.toString("mm:ss") + "</td>";
+    content += "</tr><tr><td colspan=3>";
+    content += drawProgressBar();
+    content += "</td></tr>";
+
+    content += drawBottom();
+    content += "</table>";
+    return content;
+}
+
+QString CFileTransferAction::drawProgressBar()
+{
+    return QImage2Html(drawProgressBarImg((double)m_File->GetDoneSize()/(double)m_File->GetFileSize(), m_ProgBarWidth, m_ProgBarHeight));
 }
 
 QImage CFileTransferAction::drawProgressBarImg(const double &part, int w, int h)
@@ -121,6 +105,105 @@ QImage CFileTransferAction::drawProgressBarImg(const double &part, int w, int h)
     qPainter.drawRect(1, 0, (w - 2) * (part), h - 1);
 
     return progressBar;
+}
+
+QString CFileTransferAction::drawTop()
+{
+    QString content;
+    if(m_File->GetState() == CFileTransfer::FinishedState && m_File->GetError() == CFileTransfer::NoError)
+        content  = "<a href='" + m_File->GetLocalFileUrl().toString() + "'>" + m_File->GetLocalFileUrl().fileName() + "</a>";
+    else
+        content  = "<p>" + m_File->GetFile() + "</p>";
+    return content;
+}
+
+QString CFileTransferAction::drawBottom()
+{
+    QString szContent;
+    if(m_File->GetError() == CFileTransfer::AbortError)
+    {
+        szContent = drawBottomCancel();
+        return szContent;
+    }
+    else if(m_File->GetError() != CFileTransfer::NoError)
+    {
+        szContent = drawBottomError();
+        return szContent;
+    }
+    if(m_File->GetState() == CFileTransfer::OfferState && m_File->GetDirection() == CFileTransfer::IncomingDirection)
+    {
+        szContent = drawBottomAccept();
+        return szContent;
+    }
+    if(m_File->GetState() == CFileTransfer::TransferState 
+            || (m_File->GetState() == CFileTransfer::OfferState 
+                && m_File->GetDirection() == CFileTransfer::OutgoingDirection)
+            || m_File->GetState() == CFileTransfer::StartState)
+    {
+        szContent = drawBottomTransfering();
+        return szContent;
+    }
+    if(m_File->GetState() == CFileTransfer::FinishedState)
+    {
+        szContent = drawBottomFinished();
+        return szContent;
+    }
+    return szContent;
+}
+
+QString CFileTransferAction::drawBottomAccept()
+{
+    QString content = "<tr><td  align=center>";
+    content += "<a href='rabbitim://FileTransfer?command=accept&id="
+            + m_File->GetId() + "'>";
+    content += QImage2Html(QImage(":/icon/Accept", "png"), 16, 16);
+    content += tr("Accept") + "</a>";
+
+    content += "</td><td />";
+    content += "<td align=center>";
+    content += "<a href='rabbitim://FileTransfer?command=cancel&id="
+            + m_File->GetId() + "'>";
+    content += QImage2Html(QImage(":/icon/Cancel", "png"), 16, 16)
+            + tr("Cancel") + "</a>";
+
+    content += "</td></tr>";
+    return content;
+}
+
+QString CFileTransferAction::drawBottomTransfering()
+{
+    QString content = "<tr><td colspan=3 align=center>";
+    content += "<a href='rabbitim://FileTransfer?command=cancel&id="
+            + m_File->GetId() + "'>";
+    content += QImage2Html(QImage(":/icon/Cancel", "png"), 16, 16)
+            + tr("Cancel") + "</a>";
+
+    content += "</td></tr>";
+    return content;
+}
+
+QString CFileTransferAction::drawBottomCancel()
+{
+    QString content = "<tr><td colspan=3 align=center>";
+    content += tr("Send the file has been canceled.");
+    content += "</td></tr>";
+    return content;
+}
+
+QString CFileTransferAction::drawBottomFinished()
+{
+    QString content = "<tr><td colspan=3 align=center>";
+    content += tr("Send the file has been finished.");
+    content += "</td></tr>";
+    return content;
+}
+
+QString CFileTransferAction::drawBottomError()
+{
+    QString content = "<tr><td colspan=3 align=center>";
+    content += tr("File sending error.");
+    content += "</td></tr>";
+    return content;
 }
 
 QString CFileTransferAction::GetHumanReadableSize(unsigned long long size)

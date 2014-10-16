@@ -33,7 +33,7 @@ public:
      * @return int
      */
     virtual int Clean();
-    
+
     int SendFile(const QString& szId, const QString &szFile, const QString& szDescription = QString());
 
     /**
@@ -46,6 +46,11 @@ public:
 
     int CancelSend(const QString& szId);
     int CancelSend(QSharedPointer<CFileTransfer> file);
+
+    int ProcessCommand(const QString& szId, const QString& szCommand);
+
+private:
+    int Accept(QSharedPointer<CFileTransfer> file);
 
 signals:
 

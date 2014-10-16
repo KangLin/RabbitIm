@@ -14,24 +14,26 @@ public:
     virtual void setup(QTextCursor cursor, QTextEdit* textEdit) override;
 
 private slots:
-    void updateHtml();
+    void slotUpdateHtml();
 private:
     QImage drawProgressBarImg(const double &part, int w, int h);
     QString GetHumanReadableSize(unsigned long long size);
+    QString drawProgressBar();
+    QString drawTop();
+    QString drawBottom();
+    QString drawBottomAccept();
+    QString drawBottomTransfering();
+    QString drawBottomCancel();
+    QString drawBottomFinished();
+    QString drawBottomError();
 
 private:
     QSharedPointer<CFileTransfer> m_File;
     QTextCursor m_Cursor;
     QTextEdit* m_pEdit;
 
-    QString m_szFile;
     int m_ProgBarWidth;
     int m_ProgBarHeight;
-    double m_dbFileSize;
-    double m_dbLastBytesSent;
-    double m_dbTotalBytes;
-    double m_dbSpeed;
-    double m_dbEta;//estimated time of arrival
 };
 
 #endif // FILETRANSFERACTION_H

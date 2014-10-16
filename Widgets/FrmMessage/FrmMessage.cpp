@@ -277,6 +277,8 @@ int CFrmMessage::AppendMessageToOutputView(std::vector<QSharedPointer<CChatActio
     for(auto it : action)
      {
          QTextCursor cursor = ui->txtView->textCursor();
+         cursor.movePosition(QTextCursor::End);
+         cursor.setKeepPositionOnInsert(true);
          ui->txtView->append(it->getContent());
          it->setup(cursor, ui->txtView);
     }
@@ -382,9 +384,15 @@ void CFrmMessage::slotAnchorClicked(const QUrl &url)
             //响应"<a href='rabbitim://userinfo'>";  
             this->on_lbAvatar_clicked();
         }
+        else if(url.host() == "filetransfer")
+        {
+            GETMANAGER->GetFileTransfer()->ProcessCommand(m_User->GetInfo()->GetId(), url.query());
+        }
     }
     else
+     {
         QDesktopServices::openUrl(url);
+    }
 }
 
 void CFrmMessage::on_pbEmoticons_clicked()

@@ -101,6 +101,6 @@ QString CChatAction::getContent()
        msg += "left'>";
    msg += getMessage();
    msg += "</td></tr></table>";
-   LOG_MODEL_DEBUG("CMessageAction", qPrintable(msg));
+   LOG_MODEL_DEBUG("CChatAction", qPrintable(msg));
   return msg;
 }

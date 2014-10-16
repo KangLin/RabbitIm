@@ -20,13 +20,18 @@ public:
     virtual Direction GetDirection();
     virtual State GetState();
     virtual Error GetError();
-
+    virtual qint64 GetSpeed();
+    virtual qint64 GetDoneSize();
 signals:
     
 public slots:
+    void slotError(QXmppTransferJob::Error error);
+    void slotStateChanged(QXmppTransferJob::State state);
+    void slotProgress(qint64 done, qint64 total);
     
 private:
      QXmppTransferJob *m_pJob;
+     qint64 m_DoneSize;
 };
 
 #endif // FILETRANSFERQXMPP_H

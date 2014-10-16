@@ -1,6 +1,7 @@
 #include "ManageFileTransfer.h"
 #include "Global/Global.h"
 #include "Message/ChatActions/FileTransferAction.h"
+#include <QFileDialog>
 
 CManageFileTransfer::CManageFileTransfer(QObject *parent) :
     QObject(parent)
@@ -82,4 +83,58 @@ int CManageFileTransfer::CancelSend(const QString &szId)
 {
     m_FileTransfer.remove(szId);
     return 0;
+}
+
+int CManageFileTransfer::ProcessCommand(const QString &szId, const QString &szCommand)
+{
+    int nRet = -1;
+    QStringList szPara;
+    szPara = szCommand.split("&");
+    QString szCmd = szPara.at(0).split("=").at(1);
+    QString szFileId = szPara.at(1).split("=").at(1);
+    LOG_MODEL_DEBUG("CManageFileTransfer", "cmd:%s;id:%s", qPrintable(szCmd), qPrintable(szId));
+    QMap<QString, QSharedPointer<CFileTransfer> >::iterator it = m_FileTransfer.find(szId);
+    while (m_FileTransfer.end() != it)
+    {
+        if(it.value()->GetId() == szFileId)
+        {
+            if("accept" == szCmd)
+            {
+                nRet = Accept(it.value());
+            }
+            if("cancel" ==szCmd)
+                nRet = it.value()->Abort();
+            return nRet;
+        }
+        it++;
+    }
+    LOG_MODEL_DEBUG("CManageFileTransfer", "There isn't szId:%s;Fileid:%s", qPrintable(szId), qPrintable(szFileId));
+    return nRet;
+}
+
+int CManageFileTransfer::Accept(QSharedPointer<CFileTransfer> file)
+{
+    int nRet = 0;
+#ifdef MOBILE
+    QDesktopWidget *pDesk = QApplication::desktop();
+    QFileDialog dlg(pDesk, tr("Sava as ..."), file->GetFile(), QString());
+    //dlg.setGeometry(this->rect());
+    QScreen* pScreen = QApplication::primaryScreen();
+    dlg.setGeometry(pScreen->availableGeometry());
+    QString szFile;
+    QStringList fileNames;
+    if(dlg.exec())
+        fileNames = dlg.selectedFiles();
+    else
+        return;
+    if(fileNames.isEmpty())
+        return;
+    szFile = *fileNames.begin();
+#else
+    QString szFile = QFileDialog::getSaveFileName(NULL, tr("Sava as ..."),
+                file->GetFile(), QString(), 0,
+                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
+#endif
+    nRet =file->Accept(szFile);
+    return nRet;
 }
