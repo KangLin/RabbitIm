@@ -200,8 +200,10 @@ QString CFileTransferAction::drawBottomCancel()
 QString CFileTransferAction::drawBottomFinished()
 {
     QString content = "<tr>";
-    content += "<td align='center'><a href='file://";
-
+    content += "<td align='center'><a href='";
+#ifdef UNIX
+    content += "file://";
+#endif
     QFileInfo info(m_File->GetLocalFileUrl().toLocalFile());
     QString filename = info.absolutePath();
     LOG_MODEL_DEBUG("CFileTransferAction", "file:%s", qPrintable(filename));

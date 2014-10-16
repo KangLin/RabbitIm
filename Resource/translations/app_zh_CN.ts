@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>CClientXmpp</name>
+    <message>
+        <location filename="../../Client/ClientXmpp.cpp" line="264"/>
+        <source>The roster is offline, don&apos;t send file.</source>
+        <translation>好友是离线状态，不能发送文件。</translation>
+    </message>
+</context>
+<context>
     <name>CDlgAddRoster</name>
     <message>
         <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.ui" line="26"/>
@@ -272,6 +280,45 @@
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="708"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
+    </message>
+</context>
+<context>
+    <name>CFileTransferAction</name>
+    <message>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="103"/>
+        <source>ETA: </source>
+        <translation>剩余：</translation>
+    </message>
+    <message>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="167"/>
+        <source>Accept</source>
+        <translation>接收</translation>
+    </message>
+    <message>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="174"/>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="186"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="195"/>
+        <source>Send the file has been canceled.</source>
+        <translation>文件传输被取消。</translation>
+    </message>
+    <message>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="212"/>
+        <source>Open folder</source>
+        <translation>打开文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="215"/>
+        <source>Send the file has been finished.</source>
+        <translation>文件传输完成。</translation>
+    </message>
+    <message>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="223"/>
+        <source>File sending error.</source>
+        <translation>传输错误</translation>
     </message>
 </context>
 <context>
@@ -789,12 +836,12 @@
         <translation>有文件正在发送，你确定是否关闭消息对话框？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="293"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="295"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="293"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="295"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
@@ -1235,39 +1282,53 @@
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="337"/>
+        <location filename="../../Global/Global.cpp" line="340"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="339"/>
+        <location filename="../../Global/Global.cpp" line="342"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="341"/>
+        <location filename="../../Global/Global.cpp" line="344"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="343"/>
+        <location filename="../../Global/Global.cpp" line="346"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="345"/>
-        <location filename="../../Global/Global.cpp" line="349"/>
+        <location filename="../../Global/Global.cpp" line="348"/>
+        <location filename="../../Global/Global.cpp" line="352"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="347"/>
+        <location filename="../../Global/Global.cpp" line="350"/>
         <source>OffLine</source>
         <translation>离线</translation>
     </message>
     <message>
         <source>Away for an extended period</source>
         <translation type="vanished">离开</translation>
+    </message>
+</context>
+<context>
+    <name>CManageFileTransfer</name>
+    <message>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="80"/>
+        <source>Send file %1</source>
+        <translation>发送文件 %1</translation>
+    </message>
+    <message>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="127"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="141"/>
+        <source>Sava as ...</source>
+        <translation>另存为...</translation>
     </message>
 </context>
 <context>
@@ -1421,7 +1482,7 @@
         <location filename="../../MainWindow.cpp" line="234"/>
         <location filename="../../MainWindow.cpp" line="235"/>
         <source>RabbitIm:%1</source>
-        <translation >玉兔即时通信：%1</translation>
+        <translation>玉兔即时通信：%1</translation>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="295"/>

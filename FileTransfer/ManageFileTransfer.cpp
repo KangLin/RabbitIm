@@ -7,6 +7,8 @@
 #include <QApplication>
 #include <QScreen>
 
+#undef GetMessage
+
 CManageFileTransfer::CManageFileTransfer(QObject *parent) :
     QObject(parent)
 {
@@ -75,7 +77,7 @@ void CManageFileTransfer::slotFileReceived(const QString& szId, QSharedPointer<C
     }
     QSharedPointer<CFileTransferAction> action(new CFileTransferAction(file, szId, QDate::currentDate(), false));
     roster->GetMessage()->AddMessage(action);
-    GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName() + ":", tr("Received file %1").arg(file->GetFile()));
+    GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName() + ":", tr("Send file %1").arg(file->GetFile()));
     emit GET_CLIENT->sigMessageUpdate(szId);
 }
 
