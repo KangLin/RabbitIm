@@ -114,7 +114,8 @@ QImage CFileTransferAction::drawProgressBarImg(const double &part, int w, int h)
     qPainter.setPen(Qt::black);
     qPainter.drawRect(0, 0, w - 1, h - 1);
 
-    qPainter.setBrush(Qt::SolidPattern);
+    //qPainter.setBrush(Qt::SolidPattern);
+    qPainter.setBrush(QBrush(Qt::green));
     qPainter.setPen(Qt::black);
     qPainter.drawRect(1, 0, (w - 2) * (part), h - 1);
 
