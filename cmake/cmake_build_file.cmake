@@ -45,3 +45,24 @@ SET(RABBITIM_SOURCES
     FileTransfer/FileTransferQXmpp.cpp   
     Message/ChatActions/FileTransferAction.cpp
 )
+
+SET(RABBITIM_UIS
+    MainWindow.ui
+    Widgets/FrmLogin/FrmLogin.ui
+    Widgets/FrmUserList/FrmUserList.ui
+    Widgets/FrmRegister/FrmRegister.ui
+    Widgets/FrmAbout/FrmAbout.ui
+    Widgets/FrmMain/FrmMain.ui
+    Widgets/FrmLogin/FrmLoginSettings.ui
+    Widgets/DlgOptions/DlgOptions.ui
+    Widgets/FrmUservCard/FrmUservCard.ui
+    Widgets/FrmMessage/FrmMessage.ui
+    Widgets/FrmMessage/FrmContainer.ui
+    Widgets/FrmRecentMessage/FrmRecentMsgList.ui
+    Widgets/DlgAddRoster/DlgAddRoster.ui
+    #Widgets/FrmGroupChat/FrmGroupChatList.ui
+    #Widgets/FrmGroupChat/FrmGroupChatFind.ui
+    #Widgets/FrmGroupChat/FrmGroupChat.ui
+    #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.ui
+    #Widgets/FrmVideo/FrmVideo.ui 
+)

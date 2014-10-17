@@ -162,6 +162,7 @@ ELSEIF(WIN32)
     add_executable(${PROJECT_NAME} WIN32
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
+        ${RABBITIM_UIS}
         )
 ELSE()
     add_executable(${PROJECT_NAME} 
