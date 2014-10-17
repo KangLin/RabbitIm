@@ -83,6 +83,14 @@ QString CFileTransferAction::getMessage()
 {
     QString content;
 
+    //如果传输成功，且文件是图片，则直接在消息对话框中显示图片  
+    if(m_File->GetError() == CFileTransfer::NoError
+       && m_File->GetState() == CFileTransfer::FinishedState
+       && isImageFile(m_File->GetLocalFileUrl().toLocalFile()))
+    {
+        return drawImageFile();
+    }
+
     //content += "<table bgcolor='#00ffff'>";
     content += "<table>";
     content += drawTop();
@@ -97,7 +105,7 @@ QString CFileTransferAction::drawTop()
     QString content;
     content = "<tr><td colspan='3' align='center'>";
     if(m_File->GetState() == CFileTransfer::FinishedState && m_File->GetError() == CFileTransfer::NoError)
-        content  += "<a href='" + m_File->GetLocalFileUrl().toString() + "'>" + m_File->GetLocalFileUrl().fileName() + "</a>";
+        content  += "<a href='" + m_File->GetLocalFileUrl().toLocalFile() + "'>" + m_File->GetLocalFileUrl().fileName() + "</a>";
     else
         content  += "<p>" + m_File->GetFile() + "</p>";
     content += "</td></tr>";
@@ -235,12 +243,35 @@ QString CFileTransferAction::drawBottomFinished()
     return content;
 }
 
+QString CFileTransferAction::drawImageFile()
+{
+    QString content;
+    content = "<a href='";
+    content += m_File->GetLocalFileUrl().toLocalFile();
+    content += "'>";
+    content += "<img src='" + m_File->GetLocalFileUrl().toLocalFile() + "' alt='" 
+            + m_File->GetLocalFileUrl().toString()
+            + "' /></a>";
+    return content;
+}
+
 QString CFileTransferAction::drawBottomError()
 {
     QString content = "<tr><td colspan=3 align=center>";
     content += tr("File sending error.");
     content += "</td></tr>";
     return content;
+}
+
+bool CFileTransferAction::isImageFile(const QString &szFile)
+{
+    QStringList imgSuffix;
+    imgSuffix << "png" << "gif" << "ico" << "bmp" << "jpg";
+    QFileInfo info(szFile);
+    QString suffix = info.suffix().toLower();
+    if(imgSuffix.indexOf(suffix) != -1)
+        return true;
+    return false;
 }
 
 QString CFileTransferAction::GetHumanReadableSize(unsigned long long size)

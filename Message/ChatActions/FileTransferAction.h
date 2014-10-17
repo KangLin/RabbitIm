@@ -19,6 +19,7 @@ private:
     QImage drawProgressBarImg(const double &part, int w, int h);
     QString GetHumanReadableSize(unsigned long long size);
     QString drawProgressBar();
+    QString drawImageFile();
     QString drawTop();
     QString drawBottom();
     QString drawBottomAccept();
@@ -26,6 +27,7 @@ private:
     QString drawBottomCancel();
     QString drawBottomFinished();
     QString drawBottomError();
+    bool isImageFile(const QString& szFile);///<判断文件是否是图片，根据扩展名进行判断  
 
 private:
     QSharedPointer<CFileTransfer> m_File;
