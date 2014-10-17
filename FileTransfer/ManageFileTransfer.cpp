@@ -1,6 +1,7 @@
 #include "ManageFileTransfer.h"
 #include "Global/Global.h"
 #include "Message/ChatActions/FileTransferAction.h"
+#include "MainWindow.h"
 #include <QFileDialog>
 #include <QDesktopWidget>
 #include <QApplication>
@@ -74,6 +75,7 @@ void CManageFileTransfer::slotFileReceived(const QString& szId, QSharedPointer<C
     }
     QSharedPointer<CFileTransferAction> action(new CFileTransferAction(file, szId, QDate::currentDate(), false));
     roster->GetMessage()->AddMessage(action);
+    GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName() + ":", tr("Received file %1").arg(file->GetFile()));
     emit GET_CLIENT->sigMessageUpdate(szId);
 }
 

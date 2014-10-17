@@ -67,7 +67,8 @@ QString CFileTransferAction::getMessage()
 {
     QString content;
 
-    content += "<table bgcolor='#00ffff'>";
+    //content += "<table bgcolor='#00ffff'>";
+    content += "<table>";
     content += drawTop();
     content += drawProgressBar();
     content += drawBottom();

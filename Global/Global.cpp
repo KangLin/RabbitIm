@@ -75,11 +75,8 @@ CGlobal* CGlobal::Instance()
     return p;
 }
 
-#ifdef DEBUG
-#define LOG_BUFFER_LENGTH 40480
-#else
+
 #define LOG_BUFFER_LENGTH 1024
-#endif
 int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...)
 {
     char buf[LOG_BUFFER_LENGTH];
@@ -97,8 +94,9 @@ int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszMode
     va_end (args);
     if(nRet < 0 || nRet >= LOG_BUFFER_LENGTH)
     {
-        LOG_MODEL_ERROR("Global", "vsprintf is fail:%d", nRet);
-        return nRet;
+        LOG_MODEL_ERROR("Global", "vsprintf buf is short, %d > %d. Truncated it:%d", nRet > LOG_BUFFER_LENGTH, LOG_BUFFER_LENGTH);
+        buf[LOG_BUFFER_LENGTH - 1] = 0;
+        //return nRet;
     }
     szTemp += buf;
 
