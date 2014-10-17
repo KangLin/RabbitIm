@@ -34,6 +34,14 @@ public:
      */
     virtual int Clean();
 
+    /**
+     * @brief 向用户发送文件  
+     *
+     * @param szId：用户id  
+     * @param szFile：要发送的文件名  
+     * @param szDescription：描述  
+     * @return int：成功返回0，失败返回非0  
+     */
     int SendFile(const QString& szId, const QString &szFile, const QString& szDescription = QString());
 
     /**
@@ -42,11 +50,23 @@ public:
      * @param szId：好友id  
      * @return int：正在发送文件的个数  
      */
-    int GetFileTransfer(const QString &szId);
+    int GetFileTransfers(const QString &szId);
 
+    /**
+     * @brief 取消息用户发送的文件  
+     *
+     * @param szId：用户id  
+     * @return int
+     */
     int CancelSend(const QString& szId);
-    int CancelSend(QSharedPointer<CFileTransfer> file);
 
+    /**
+     * @brief 根据命令串执行操作  
+     *
+     * @param szId
+     * @param szCommand
+     * @return int
+     */
     int ProcessCommand(const QString& szId, const QString& szCommand);
 
 private:

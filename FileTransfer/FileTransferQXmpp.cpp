@@ -6,6 +6,13 @@ CFileTransferQXmpp::CFileTransferQXmpp(QXmppTransferJob *pJob, QObject *parent) 
 {
     m_pJob = pJob;
     m_DoneSize = 0;
+    m_localFile = pJob->localFileUrl();
+    m_szFileName = pJob->fileName();
+    m_nFileSize = pJob->fileSize();
+    m_Direction = (Direction)pJob->direction();
+    m_State = (State)pJob->state();
+    m_Error = (Error)pJob->error();
+    
     bool check = false;
     check = connect(pJob, SIGNAL(error(QXmppTransferJob::Error)), 
                     SLOT(slotError(QXmppTransferJob::Error)));
@@ -16,54 +23,66 @@ CFileTransferQXmpp::CFileTransferQXmpp(QXmppTransferJob *pJob, QObject *parent) 
     check = connect(pJob, SIGNAL(progress(qint64,qint64)),
                     SLOT(slotProgress(qint64,qint64)));
     Q_ASSERT(check);
+    
 }
 
 int CFileTransferQXmpp::Accept(const QString &szFile)
 {
     int nRet = 0;
-    m_pJob->accept(szFile);
+    if(m_pJob)
+        m_pJob->accept(szFile);
+    m_localFile = QUrl::fromLocalFile(szFile);
     return nRet;
 }
 
 int CFileTransferQXmpp::Abort()
 {
-    m_pJob->abort();
+    if(m_pJob)
+        m_pJob->abort();
     return 0;
 }
 
 QUrl CFileTransferQXmpp::GetLocalFileUrl()
 {
-    return m_pJob->localFileUrl();
+    if(m_pJob)
+        m_pJob->localFileUrl();
+    return m_localFile;
 }
 
 QString CFileTransferQXmpp::GetFile()
 {
-    return m_pJob->fileName();
+    return m_szFileName;
 }
 
 qint64 CFileTransferQXmpp::GetFileSize()
 {
-    return m_pJob->fileSize();
+    return m_nFileSize;
 }
 
 CFileTransfer::Direction CFileTransferQXmpp::GetDirection()
 {
-    return (Direction) m_pJob->direction();
+    return m_Direction;
 }
 
 CFileTransfer::State CFileTransferQXmpp::GetState()
 {
-    return (State)m_pJob->state();
+    if(m_pJob)
+        return (State)m_pJob->state();
+    return m_State;
 }
 
 CFileTransfer::Error CFileTransferQXmpp::GetError()
 {
-    return (Error) m_pJob->error();
+    if(m_pJob)
+        return (Error)m_pJob->error();
+    return m_Error;
 }
 
 qint64 CFileTransferQXmpp::GetSpeed()
 {
-    return m_pJob->speed();
+    if(m_pJob)
+        return m_pJob->speed();
+    return 0;
 }
 
 qint64 CFileTransferQXmpp::GetDoneSize()
@@ -74,6 +93,7 @@ qint64 CFileTransferQXmpp::GetDoneSize()
 void CFileTransferQXmpp::slotError(QXmppTransferJob::Error error)
 {
     LOG_MODEL_DEBUG("CFileTransferQXmpp", "Error:%d", error);
+    m_Error = (Error)error;
     emit sigUpdate();
 }
 
@@ -90,5 +110,6 @@ void CFileTransferQXmpp::slotProgress(qint64 done, qint64 total)
 void CFileTransferQXmpp::slotStateChanged(QXmppTransferJob::State state)
 {
     LOG_MODEL_DEBUG("CFileTransferQXmpp", "state:%d", state);
+    m_State = (State) state;
     emit sigUpdate();
 }

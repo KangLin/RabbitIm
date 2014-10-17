@@ -11,8 +11,19 @@ public:
     explicit CFileTransfer(QObject *parent = 0);
     virtual ~CFileTransfer();
 
-    virtual QString GetId();//标志些对象  
+    virtual QString GetId();//标志此对象  
+    /**
+     * @brief 接收文件操作  
+     *
+     * @param szFile
+     * @return int
+     */
     virtual int Accept(const QString& szFile);
+    /**
+     * @brief 取消操作  
+     *
+     * @return int
+     */
     virtual int Abort();
 
     enum Direction
@@ -39,16 +50,21 @@ public:
         FinishedState = 3, ///< The transfer is finished.
     };
 
-    virtual QUrl GetLocalFileUrl();
-    virtual QString GetFile();
-    virtual qint64 GetFileSize();
-    virtual Direction GetDirection();
-    virtual State GetState();
-    virtual Error GetError();
+    virtual QUrl GetLocalFileUrl();///< 得到本地文件  
+    virtual QString GetFile();  ///< 得到传送的文件名  
+    virtual qint64 GetFileSize();  ///< 得到文件的大小  
+    virtual Direction GetDirection(); ///< 得到传输方向  
+    virtual State GetState();       ///< 得到状态  
+    virtual Error GetError();        ///< 得到错误  
 
-    virtual qint64 GetSpeed();
-    virtual qint64 GetDoneSize();
+    virtual qint64 GetSpeed();   ///< 得到传输速率  
+    virtual qint64 GetDoneSize();  ///< 得到已经传输的大小  
+
 signals:
+    /**
+     * @brief 当状态改变或出错时触发  
+     *
+     */
     void sigUpdate();
 
 public slots:

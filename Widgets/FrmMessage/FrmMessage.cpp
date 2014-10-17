@@ -198,7 +198,7 @@ void CFrmMessage::hideEvent(QHideEvent *)
 void CFrmMessage::closeEvent(QCloseEvent *e)
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::closeEvent");
-    if(GETMANAGER->GetFileTransfer()->GetFileTransfer(m_User->GetInfo()->GetId()))
+    if(GETMANAGER->GetFileTransfer()->GetFileTransfers(m_User->GetInfo()->GetId()))
     {
         QMessageBox msg(QMessageBox::Question,
                         tr("Close message dialog"),

@@ -36,7 +36,7 @@ int CManageFileTransfer::Clean()
     return 0;
 }
 
-int CManageFileTransfer::GetFileTransfer(const QString &szId)
+int CManageFileTransfer::GetFileTransfers(const QString &szId)
 {
     QList<QSharedPointer<CFileTransfer> > files = m_FileTransfer.values(szId);
     return files.size();
@@ -81,13 +81,14 @@ void CManageFileTransfer::slotFileReceived(const QString& szId, QSharedPointer<C
     emit GET_CLIENT->sigMessageUpdate(szId);
 }
 
-int CManageFileTransfer::CancelSend(QSharedPointer<CFileTransfer> file)
-{
-    return 0;
-}
-
 int CManageFileTransfer::CancelSend(const QString &szId)
 {
+    QMap<QString, QSharedPointer<CFileTransfer> >::iterator it = m_FileTransfer.find(szId);
+    while (m_FileTransfer.end() != it)
+    {
+         it.value()->Abort();
+        it++;
+    }
     m_FileTransfer.remove(szId);
     return 0;
 }
@@ -97,8 +98,8 @@ int CManageFileTransfer::ProcessCommand(const QString &szId, const QString &szCo
     int nRet = -1;
     QStringList szPara;
     szPara = szCommand.split("&");
-    QString szCmd = szPara.at(0).split("=").at(1);
-    QString szFileId = szPara.at(1).split("=").at(1);
+    QString szCmd = szPara.at(0).split("=").at(1);//命令  
+    QString szFileId = szPara.at(1).split("=").at(1);//文件id  
     LOG_MODEL_DEBUG("CManageFileTransfer", "cmd:%s;id:%s", qPrintable(szCmd), qPrintable(szId));
     QMap<QString, QSharedPointer<CFileTransfer> >::iterator it = m_FileTransfer.find(szId);
     while (m_FileTransfer.end() != it)

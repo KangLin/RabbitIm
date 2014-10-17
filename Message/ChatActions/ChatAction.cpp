@@ -88,7 +88,7 @@ QString CChatAction::getContent()
    else
         msg += CGlobal::Instance()->GetUserColor().name();
    msg += "'>[";
-   msg += QTime::currentTime().toString() + "]";
+   msg += m_Date.toString(Qt::ISODate) + "]";
    msg += roster->GetInfo()->GetShowName() + ":";
    msg += "</font>";
    if(!m_isMe)

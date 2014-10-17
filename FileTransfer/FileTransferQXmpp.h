@@ -32,6 +32,12 @@ public slots:
 private:
      QXmppTransferJob *m_pJob;
      qint64 m_DoneSize;
+     QUrl m_localFile;
+     QString m_szFileName;
+     qint64 m_nFileSize;
+     Direction m_Direction;
+     CFileTransfer::State m_State;
+     Error m_Error;
 };
 
 #endif // FILETRANSFERQXMPP_H
