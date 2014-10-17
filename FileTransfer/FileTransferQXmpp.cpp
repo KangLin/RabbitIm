@@ -1,5 +1,6 @@
 #include "FileTransferQXmpp.h"
 #include "Global/Global.h"
+#include "qxmpp/QXmppUtils.h"
 
 CFileTransferQXmpp::CFileTransferQXmpp(QXmppTransferJob *pJob, QObject *parent) :
     CFileTransfer(parent)
@@ -12,6 +13,7 @@ CFileTransferQXmpp::CFileTransferQXmpp(QXmppTransferJob *pJob, QObject *parent) 
     m_Direction = (Direction)pJob->direction();
     m_State = (State)pJob->state();
     m_Error = (Error)pJob->error();
+    m_szId = QXmppUtils::jidToBareJid(pJob->jid());
     
     bool check = false;
     check = connect(pJob, SIGNAL(error(QXmppTransferJob::Error)), 
@@ -95,6 +97,9 @@ void CFileTransferQXmpp::slotError(QXmppTransferJob::Error error)
     LOG_MODEL_DEBUG("CFileTransferQXmpp", "Error:%d", error);
     m_Error = (Error)error;
     emit sigUpdate();
+
+    if(NoError != error)
+        emit sigFinished(GetId(), GetFileTranserId());
 }
 
 void CFileTransferQXmpp::slotProgress(qint64 done, qint64 total)
@@ -112,4 +117,6 @@ void CFileTransferQXmpp::slotStateChanged(QXmppTransferJob::State state)
     LOG_MODEL_DEBUG("CFileTransferQXmpp", "state:%d", state);
     m_State = (State) state;
     emit sigUpdate();
+    if(FinishedState == m_State)
+        emit sigFinished(GetId(), GetFileTranserId());
 }

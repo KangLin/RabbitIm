@@ -180,14 +180,14 @@ QString CFileTransferAction::drawBottomAccept()
 {
     QString content = "<tr><td  align=center>";
     content += "<a href='rabbitim://FileTransfer?command=accept&id="
-            + m_File->GetId() + "'>";
+            + m_File->GetFileTranserId() + "'>";
     content += QImage2Html(QImage(":/icon/Accept", "png"), 16, 16);
     content += tr("Accept") + "</a>";
 
     content += "</td><td />";
     content += "<td align=center>";
     content += "<a href='rabbitim://FileTransfer?command=cancel&id="
-            + m_File->GetId() + "'>";
+            + m_File->GetFileTranserId() + "'>";
     content += QImage2Html(QImage(":/icon/Cancel", "png"), 16, 16)
             + tr("Cancel") + "</a>";
 
@@ -199,7 +199,7 @@ QString CFileTransferAction::drawBottomTransfering()
 {
     QString content = "<tr><td colspan=3 align=center>";
     content += "<a href='rabbitim://FileTransfer?command=cancel&id="
-            + m_File->GetId() + "'>";
+            + m_File->GetFileTranserId() + "'>";
     content += QImage2Html(QImage(":/icon/Cancel", "png"), 16, 16)
             + tr("Cancel") + "</a>";
 

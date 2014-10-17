@@ -11,7 +11,9 @@ public:
     explicit CFileTransfer(QObject *parent = 0);
     virtual ~CFileTransfer();
 
-    virtual QString GetId();//标志此对象  
+    virtual QString GetFileTranserId();//标志此对象  
+    virtual QString GetId();
+
     /**
      * @brief 接收文件操作  
      *
@@ -66,11 +68,19 @@ signals:
      *
      */
     void sigUpdate();
+    /**
+     * @brief 发送文件完成或出错或取消后触发此消息，用于管理对象删除此对象  
+     *
+     * @param szId：好友Id  
+     * @param szFileTransferId:此对象id  
+     */
+    void sigFinished(const QString& szId, const QString& szFileTransferId);
 
 public slots:
 
-private:
+protected:
     int m_nId;//些对象ID  
+    QString m_szId;//好友id  
 };
 
 #endif // FILETRANSFER_H_2014_10_10

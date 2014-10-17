@@ -25,7 +25,7 @@ int CManageFileTransfer::Init(QString szId)
     check = connect(GET_CLIENT.data(), SIGNAL(sigFileReceived(QString,QSharedPointer<CFileTransfer>)),
                     SLOT(slotFileReceived(QString,QSharedPointer<CFileTransfer>)));
     Q_ASSERT(check);
-            
+
     return 0;
 }
 
@@ -51,6 +51,9 @@ int CManageFileTransfer::SendFile(const QString &szId, const QString &szFile, co
     {
         return -1;
     }
+    bool check = connect(file.data(), SIGNAL(sigFinished(const QString&, const QString&)),
+                         SLOT(slotFinished(const QString&, const QString&)));
+    Q_ASSERT(check);
     m_FileTransfer.insertMulti(szId, file);
 
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
@@ -68,6 +71,9 @@ int CManageFileTransfer::SendFile(const QString &szId, const QString &szFile, co
 
 void CManageFileTransfer::slotFileReceived(const QString& szId, QSharedPointer<CFileTransfer> file)
 {
+    bool check = connect(file.data(), SIGNAL(sigFinished(const QString&, const QString&)),
+                         SLOT(slotFinished(const QString&, const QString&)));
+    Q_ASSERT(check);
     m_FileTransfer.insertMulti(szId, file);
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
@@ -81,12 +87,26 @@ void CManageFileTransfer::slotFileReceived(const QString& szId, QSharedPointer<C
     emit GET_CLIENT->sigMessageUpdate(szId);
 }
 
+void CManageFileTransfer::slotFinished(const QString &szId, const QString &szFileTransferId)
+{
+    QMap<QString, QSharedPointer<CFileTransfer> >::iterator it = m_FileTransfer.find(szId);
+    while (m_FileTransfer.end() != it)
+    {
+        if(it.value()->GetFileTranserId() == szFileTransferId)
+        {
+            m_FileTransfer.erase(it);
+            break;
+        }
+        it++;
+    }
+}
+
 int CManageFileTransfer::CancelSend(const QString &szId)
 {
     QMap<QString, QSharedPointer<CFileTransfer> >::iterator it = m_FileTransfer.find(szId);
     while (m_FileTransfer.end() != it)
     {
-         it.value()->Abort();
+        it.value()->Abort();
         it++;
     }
     m_FileTransfer.remove(szId);
@@ -104,7 +124,7 @@ int CManageFileTransfer::ProcessCommand(const QString &szId, const QString &szCo
     QMap<QString, QSharedPointer<CFileTransfer> >::iterator it = m_FileTransfer.find(szId);
     while (m_FileTransfer.end() != it)
     {
-        if(it.value()->GetId() == szFileId)
+        if(it.value()->GetFileTranserId() == szFileId)
         {
             if("accept" == szCmd)
             {

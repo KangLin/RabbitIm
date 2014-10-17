@@ -13,9 +13,14 @@ CFileTransfer::~CFileTransfer()
 {
 }
 
-QString CFileTransfer::GetId()
+QString CFileTransfer::GetFileTranserId()
 {
     return QString::number(m_nId);
+}
+
+QString CFileTransfer::GetId()
+{
+    return m_szId;
 }
 
 int CFileTransfer::Accept(const QString &szFile)

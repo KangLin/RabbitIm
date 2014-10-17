@@ -81,6 +81,7 @@ public slots:
      * @param file
      */
     void slotFileReceived(const QString& szId, QSharedPointer<CFileTransfer> file);
+    void slotFinished(const QString& szId, const QString& szFileTransferId);
 
 private:
     QMap<QString, QSharedPointer<CFileTransfer> > m_FileTransfer;
