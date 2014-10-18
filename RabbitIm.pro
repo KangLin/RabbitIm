@@ -98,6 +98,7 @@ android{
     WEBRTC_LIBRARY_DIR = .
     #WEBRTC_LIBRARY = -L$$WEBRTC_LIBRARY_DIR -llibjingle -llibjingle_media -llibjingle_p2p -lwebrtc
 } else:unix {
+    DEFINES += UNIX
     INCLUDEPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
 

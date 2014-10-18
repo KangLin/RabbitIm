@@ -79,6 +79,7 @@ ELSEIF(ANDROID)
     #SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -Wno-psabi -march=armv7-a -mfloat-abi=softfp -mfpu=vfp -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums  -Wa,--noexecstack -gdwarf-2 -marm -fno-omit-frame-pointer -Wall -Wno-psabi -W -fPIE)
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined -Wl,-z,noexecstack -shared")
 ELSE(LINUX OR UNIX)
+    ADD_DEFINITIONS(-DUNIX)
     SET(TOOLCHAIN_NAME unix)
 ENDIF()
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR} 
