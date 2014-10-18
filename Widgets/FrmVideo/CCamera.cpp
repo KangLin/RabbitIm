@@ -1,6 +1,6 @@
 #include "CCamera.h"
 #include "../../Global/Global.h"
-#include "FrmVideo.h"
+//#include "FrmVideo.h"
 #include <QCameraInfo>
 
 CCamera::CCamera(QObject *parent) : QObject(parent)
@@ -8,10 +8,11 @@ CCamera::CCamera(QObject *parent) : QObject(parent)
     if(!parent)
         LOG_MODEL_ERROR("Video", "CCaptureVideoFrame::CCaptureVideoFrame parent is null");
 
+    /*增加线程  
     CFrmVideo* pFrmVideo = (CFrmVideo*)parent;
     if(pFrmVideo)
         m_CaptureFrameProcess.moveToThread(pFrmVideo->GetVideoThread());
-
+    */
     m_pCamera = NULL;
 
     SetDefaultCamera();

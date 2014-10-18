@@ -41,21 +41,19 @@ SOURCES += main.cpp\
     FileTransfer/ManageFileTransfer.cpp \
     FileTransfer/FileTransfer.cpp \
     FileTransfer/FileTransferQXmpp.cpp \  
-    Message/ChatActions/FileTransferAction.cpp
-    #Widgets/FrmMessage/Message.cpp \
-    #Widgets/FrmVideo/DataVideoBuffer.cpp \
-    #Widgets/FrmVideo/FrameProcess.cpp \
-    #Widgets/FrmVideo/CaptureVideoFrame.cpp \
-    #Widgets/FrmVideo/FrmPlayer.cpp \
-    #Widgets/FrmVideo/CCamera.cpp \
+    Message/ChatActions/FileTransferAction.cpp \
+    Widgets/FrmVideo/DataVideoBuffer.cpp \
+    Widgets/FrmVideo/FrameProcess.cpp \
+    Widgets/FrmVideo/CaptureVideoFrame.cpp \
+    Widgets/FrmVideo/CCamera.cpp \
+    Widgets/FrmVideo/FrmPlayer.cpp 
+    #Widgets/FrmVideo/FrmVideo.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     #Widgets/FrmGroupChat/Conference.cpp \
     #Widgets/FrmGroupChat/FrmGroupChat.cpp \
     #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp \
     #Widgets/DlgScreenShot/DlgScreenShot.cpp \
-    #Widgets/FrmVideo/FrmVideo.cpp \
-    #Widgets/FrmUserList/Roster.cpp \
 
 HEADERS  += MainWindow.h \
     Global/Global.h \
@@ -99,16 +97,16 @@ HEADERS  += MainWindow.h \
     FileTransfer/ManageFileTransfer.h \
     FileTransfer/FileTransfer.h \
     FileTransfer/FileTransferQXmpp.h \
-    Message/ChatActions/FileTransferAction.h
-    #Widgets/FrmUserList/Roster.h \
-    #Widgets/FrmUserList/GroupItem.h \
-    #Widgets/FrmMessage/Message.h \
+    Message/ChatActions/FileTransferAction.h \
+    Widgets/FrmVideo/CaptureVideoFrame.h \
+    Widgets/FrmVideo/DataVideoBuffer.h \
+    Widgets/FrmVideo/FrameProcess.h \
+    Widgets/FrmVideo/CCamera.h \
+    Widgets/FrmVideo/FrmPlayer.h    
     #Widgets/FrmVideo/FrmVideo.h \
-    #Widgets/FrmVideo/CaptureVideoFrame.h \
-    #Widgets/FrmVideo/FrmPlayer.h \    
-    #Widgets/FrmVideo/DataVideoBuffer.h \
-    #Widgets/FrmVideo/FrameProcess.h \
-    #Widgets/FrmVideo/CCamera.h \
+    #Widgets/FrmUserList/GroupItem.h \
+    
+    
     #Widgets/FrmGroupChat/FrmGroupChatList.h \
     #Widgets/FrmGroupChat/FrmGroupChatFind.h \
     #Widgets/FrmGroupChat/Conference.h \

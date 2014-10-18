@@ -39,6 +39,7 @@ private:
     CFrameProcess m_FrameProcess;//格式转换实例  
     
 #ifdef DEBUG
+public:
     int TestCamera();
 #endif
 };

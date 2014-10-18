@@ -20,6 +20,7 @@ public:
 
     int Start();
     int Stop();
+
     QList<QString> GetAvailableDevices();
 #ifdef ANDROID
     QCamera::Position GetCameraPoistion();

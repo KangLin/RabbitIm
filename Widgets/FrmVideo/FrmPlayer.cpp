@@ -4,7 +4,7 @@
 #include <QThread>
 #include <QEvent>
 #include "DataVideoBuffer.h"
-#include "FrmVideo.h"
+//#include "FrmVideo.h"
 #include "../../Global/Global.h"
 #include "CaptureVideoFrame.h"
 #include "CCamera.h"
@@ -12,9 +12,11 @@
 CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f)
 {
+    /*TODO:增加线程  
     CFrmVideo* pFrmVideo = (CFrmVideo*)parent;
+    
     if(pFrmVideo)
-        m_FrameProcess.moveToThread(pFrmVideo->GetVideoThread());
+        m_FrameProcess.moveToThread(pFrmVideo->GetVideoThread());//*/
     bool check = true;
     check = connect(this, SIGNAL(sigConverteToRGB32Frame(const QVideoFrame&, const QRect&)),
                     &m_FrameProcess, SLOT(slotFrameConvertedToRGB32(const QVideoFrame&, const QRect&)));

@@ -30,7 +30,7 @@ QXMPP_LIBRARY_NAME = -lqxmpp# qxmpp 库名
 
 CONFIG(debug, debug|release) {
     #调试宏
-    DEFINES += DEBUG #DEBUG_VIDEO_TIME 
+    DEFINES += DEBUG DEBUG_VIDEO_TIME 
 } 
 
 QXMPP_USE_VPX = 1

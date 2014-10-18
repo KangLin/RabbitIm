@@ -40,17 +40,18 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
         CDataVideoBuffer *pBuffer = NULL;
         mirror.resize(inFrame.mappedBytes());
         rotate.resize(inFrame.mappedBytes());
+        /*TODO:
         CFrmVideo *pFrmVideo = CFrmVideo::instance();
         if(pFrmVideo->GetCameraPostion() == QCamera::BackFace)
         {
-            //*背景摄像头要顺时针旋转90度,再做Y轴镜像
+            //背景摄像头要顺时针旋转90度,再做Y轴镜像
             CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, 1);
             CTool::YUV420spMirror(reinterpret_cast<uchar *> (mirror.data()),
                                   reinterpret_cast<uchar *>(rotate.data()),
                                   nHeight, nWidth, 0);
-            pBuffer = new CDataVideoBuffer(mirror, nHeight, nWidth);//*/
+            pBuffer = new CDataVideoBuffer(mirror, nHeight, nWidth);
         }
-        else
+        else //*/
         {
             //*前景摄像头要逆时针旋转90度
             CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, -1);

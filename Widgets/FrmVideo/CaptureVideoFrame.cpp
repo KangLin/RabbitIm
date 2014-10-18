@@ -20,10 +20,11 @@ CCaptureVideoFrame::~CCaptureVideoFrame()
 QList<QVideoFrame::PixelFormat> 
 CCaptureVideoFrame::supportedPixelFormats(QAbstractVideoBuffer::HandleType handleType) const
 {
+    LOG_MODEL_DEBUG("CCaptureVideoFrame", "CCaptureVideoFrame::supportedPixelFormats handleType:%d", handleType);
     Q_UNUSED(handleType);
     QList<QVideoFrame::PixelFormat> lst;
 
-    //lst.push_back(QVideoFrame::Format_YUYV);//Qt现在不支持此格式，因为Qt内部用了QImage来处理视频帧。
+    lst.push_back(QVideoFrame::Format_YUYV);//Qt现在不支持此格式，因为Qt内部用了QImage来处理视频帧。
     //windows 平台、linux 平台默认都支持 RGB32 格式  
     lst.push_back(QVideoFrame::Format_RGB32);
    // lst.push_back(QVideoFrame::Format_BGR32);
@@ -59,9 +60,10 @@ bool CCaptureVideoFrame::setSource(QCamera *pCamera)
     ret = m_Probe.setSource(pCamera);
     if(ret)
     {
-        connect(&m_Probe, 
+        ret = connect(&m_Probe, 
                 SIGNAL(videoFrameProbed(const QVideoFrame&)),
                 SLOT(present(const QVideoFrame&)));
+        Q_ASSERT(ret);
     }
     else
         LOG_MODEL_ERROR("CaptureVideo", "m_Probe.setSource fail");
