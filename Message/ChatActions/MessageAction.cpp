@@ -2,7 +2,7 @@
 #include "../SmileyPack.h"
 #include "Global/Global.h"
 
-CMessageAction::CMessageAction(const QString &author, const QString &message, const QDate &date, const bool &me) :
+CMessageAction::CMessageAction(const QString &author, const QString &message, const QTime &date, const bool &me) :
     CChatAction(me, author, date),
     m_szMessage(message)
 {

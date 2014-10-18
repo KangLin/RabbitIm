@@ -9,7 +9,7 @@
 #include <QApplication>
 #include "Global/Global.h"
 
-CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, const QString &author, const QDate &date, const bool &me)
+CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, const QString &author, const QTime &date, const bool &me)
   : CChatAction(me, author, date)
 {
     m_File = file;
@@ -133,19 +133,18 @@ QString CFileTransferAction::drawProgressBar()
 
 QImage CFileTransferAction::drawProgressBarImg(const double &part, int w, int h)
 {
-    QImage progressBar(w, h, QImage::Format_Mono);
+    QImage progressBar(w, h, QImage::Format_RGB16);
 
     QPainter qPainter(&progressBar);
-    qPainter.setBrush(Qt::NoBrush);
-    qPainter.setPen(Qt::black);
-    qPainter.drawRect(0, 0, w - 1, h - 1);
+    qPainter.setBrush(QBrush(Qt::white));
+    qPainter.setPen(Qt::white);
+    qPainter.drawRect(0, 0, w, h);
 
     if(0 != part)
     {
-        //qPainter.setBrush(Qt::SolidPattern);
         qPainter.setBrush(QBrush(Qt::green));
-        qPainter.setPen(Qt::black);
-        qPainter.drawRect(1, 0, (w - 2) * (part), h - 1);
+        qPainter.setPen(Qt::green);
+        qPainter.drawRect(0, 0, w * part, h);
     }
     return progressBar;
 }

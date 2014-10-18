@@ -1,14 +1,16 @@
 #include "FrmMessage.h"
 #include "ui_FrmMessage.h"
 #include "../FrmUservCard/FrmUservCard.h"
-#include <QKeyEvent>
-#include <QMessageBox>
 #include "MainWindow.h"
 #include "Global/Global.h"
 #include "Message/style.h"
 #include "Message/SmileyPack.h"
 #include "Message/EmoticonsWidget.h"
 #include "FileTransfer/ManageFileTransfer.h"
+#include <QKeyEvent>
+#include <QMessageBox>
+#include <QDropEvent>
+#include <QUrl>
 
 #ifdef WIN32
 #undef SendMessage
@@ -77,6 +79,10 @@ int CFrmMessage::Init(const QString &szId)
 
     check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUser>)),
                     SLOT(slotUpdateRoster(QString,QSharedPointer<CUser>)));
+    Q_ASSERT(check);
+
+    check = connect(GET_CLIENT.data(), SIGNAL(sigChangedStatus(const QString&)),
+                    SLOT(SlotChangedStatus(const QString&)));
     Q_ASSERT(check);
 
     QAction* pAction = m_MoreMenu.addAction(tr("send file"));
@@ -224,9 +230,15 @@ void CFrmMessage::changeEvent(QEvent *e)
     }
 }
 
+void CFrmMessage::dropEvent(QDropEvent *event)
+{
+    LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::dropEvent");
+}
+
 bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
 {
     if (target == ui->txtInput) { 
+        LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::eventFilter event type:%d", event->type());
         if (event->type() == QEvent::KeyPress) { 
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event); 
             CGlobal::E_MESSAGE_SEND_TYPE type = CGlobal::Instance()->GetMessageSendType();
@@ -244,6 +256,22 @@ bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
                 if (keyEvent->key() == Qt::Key_Return) {
                     this->on_pbSend_clicked();
                     return true; 
+                }
+            }
+        }
+        else if(event->type() == QEvent::Drop)
+        {
+            LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::eventFilter dropEvent");
+            QDropEvent *dropEvent = static_cast<QDropEvent*>(event);
+            if(dropEvent->mimeData()->hasUrls())
+            {
+                foreach (QUrl url, dropEvent->mimeData()->urls()) {
+                    QString szId = m_User->GetInfo()->GetId();
+                    if(szId.isEmpty())
+                        break;
+                    QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();
+                    file->SendFile(szId, url.toLocalFile());
+                    return true;
                 }
             }
         }
@@ -368,6 +396,13 @@ void CFrmMessage::slotUpdateRoster(const QString &szId, QSharedPointer<CUser> us
     if(m_User.isNull() || m_User->GetInfo()->GetId() != szId)
         return;
     Q_UNUSED(user);
+    slotRefresh();
+}
+
+void CFrmMessage::SlotChangedStatus(const QString &szId)
+{
+    if(m_User.isNull() || m_User->GetInfo()->GetId() != szId)
+        return;
     slotRefresh();
 }
 

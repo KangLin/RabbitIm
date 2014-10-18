@@ -4,6 +4,7 @@
 #include <QObject>
 #include "FileTransfer.h"
 #include "qxmpp/QXmppTransferManager.h"
+#include <QDateTime>
 
 class CFileTransferQXmpp : public CFileTransfer
 {
@@ -38,6 +39,8 @@ private:
      Direction m_Direction;
      CFileTransfer::State m_State;
      Error m_Error;
+
+     QDateTime m_LastUpdateTime;
 };
 
 #endif // FILETRANSFERQXMPP_H

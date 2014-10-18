@@ -16,8 +16,6 @@
 CSmileyPack::CSmileyPack()
 {
     load(CGlobal::Instance()->GetFileSmileyPack());
-    //TODO
-    //connect(&Settings::getInstance(), &Settings::smileyPackChanged, this, &CSmileyPack::onSmileyPackChanged);
 }
 
 CSmileyPack& CSmileyPack::getInstance()

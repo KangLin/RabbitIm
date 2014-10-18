@@ -20,9 +20,9 @@ int CMessage::GetUnReadCount()
 
 QSharedPointer<CChatAction> CMessage::AddMessage(const QString& szId, 
                                                  const QString &szMessage,
-                                                 const bool bMe, const QDate date)
+                                                 const bool bMe, const QTime time)
 {
-    QSharedPointer<CChatAction> chat(new CMessageAction(szId, szMessage, date, bMe));
+    QSharedPointer<CChatAction> chat(new CMessageAction(szId, szMessage, time, bMe));
     m_Message.push_back(chat);
     m_nUnreadCount++;
     return chat;

@@ -6,7 +6,7 @@
 class CMessageAction : public CChatAction
 {
 public:
-    CMessageAction(const QString &author, const QString &message, const QDate &date, const bool &me);
+    CMessageAction(const QString &author, const QString &message, const QTime &date, const bool &me);
     virtual ~CMessageAction(){;}
     virtual QString getMessage();
     //virtual QString getContent();

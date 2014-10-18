@@ -20,7 +20,7 @@ public:
     QSharedPointer<CChatAction> AddMessage(const QString& szId, 
                                            const QString& szMessage,
                                            const bool bMe = false, 
-                                           const QDate date = QDate::currentDate());
+                                           const QTime time = QTime::currentTime());
     int AddMessage(QSharedPointer<CChatAction> chatAction);
 
     ///< 读取消息  

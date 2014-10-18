@@ -168,12 +168,12 @@ int CFrmLogin::SaveConf()
     return 0;
 }
 
-//TODO:
+//TODO:加密密码  
 QString CFrmLogin::EncryptPassword(QString szPassword)
 {
     return szPassword;
 }
-//TODO:
+//TODO:解密密码  
 QString CFrmLogin::DecryptPassword(QString szPassword)
 {
     return szPassword;

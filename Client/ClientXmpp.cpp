@@ -261,7 +261,7 @@ QSharedPointer<CFileTransfer> CClientXmpp::SendFile(const QString szId, const QS
     if(pInfo->GetResource().isEmpty())
     {
         LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::SendFile the roster resource is null");
-        r->GetMessage()->AddMessage(szId, tr("The roster is offline, don't send file."), true);
+        r->GetMessage()->AddMessage(szId, tr("The roster is offline, don't send the file."), true);
         emit sigMessageUpdate(szId);
         return QSharedPointer<CFileTransfer>();
     }
@@ -568,7 +568,7 @@ void CClientXmpp::slotMessageReceived(const QXmppMessage &message)
     {
         QString szBareJid = QXmppUtils::jidToBareJid(message.from());
         QString szNick = QXmppUtils::jidToResource(message.from());
-        //TODO:
+        //TODO:组消息  
     }
     //TODO:消息输入状态显示
     

@@ -36,6 +36,7 @@ private:
     virtual void showEvent(QShowEvent* );
     virtual void closeEvent(QCloseEvent *e);
     virtual void changeEvent(QEvent*);
+    virtual void dropEvent(QDropEvent *event);
 
     bool eventFilter(QObject *target, QEvent *event);
 
@@ -54,6 +55,7 @@ private slots:
     void slotRefresh();
     void slotMessageUpdate(const QString& szId);
     void slotUpdateRoster(const QString& szId, QSharedPointer<CUser> user);
+    void SlotChangedStatus(const QString& szId);
     void slotAnchorClicked(const QUrl &url);
     void slotEmoteInsertRequested(const QString &s);
 

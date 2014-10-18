@@ -8,7 +8,7 @@ class CFileTransferAction : public CChatAction
 {
     Q_OBJECT
 public:
-    CFileTransferAction(QSharedPointer<CFileTransfer> file, const QString &author, const QDate &date, const bool &me);
+    CFileTransferAction(QSharedPointer<CFileTransfer> file, const QString &author, const QTime &date, const bool &me);
     virtual ~CFileTransferAction();
     virtual QString getMessage();
     virtual void setup(QTextCursor cursor, QTextEdit* textEdit) override;

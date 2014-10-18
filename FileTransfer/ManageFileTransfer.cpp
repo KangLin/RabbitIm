@@ -63,7 +63,7 @@ int CManageFileTransfer::SendFile(const QString &szId, const QString &szFile, co
         return -1;
     }
 
-    QSharedPointer<CFileTransferAction> action(new CFileTransferAction(file, szId, QDate::currentDate(), true));
+    QSharedPointer<CFileTransferAction> action(new CFileTransferAction(file, szId, QTime::currentTime(), true));
     roster->GetMessage()->AddMessage(action);
     emit GET_CLIENT->sigMessageUpdate(szId);
     return nRet;
@@ -81,7 +81,7 @@ void CManageFileTransfer::slotFileReceived(const QString& szId, QSharedPointer<C
         LOG_MODEL_ERROR("CManageFileTransfer", "There isn't roster:%s", szId.toStdString().c_str());
         return;
     }
-    QSharedPointer<CFileTransferAction> action(new CFileTransferAction(file, szId, QDate::currentDate(), false));
+    QSharedPointer<CFileTransferAction> action(new CFileTransferAction(file, szId, QTime::currentTime(), false));
     roster->GetMessage()->AddMessage(action);
     GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName() + ":", tr("Send file %1").arg(file->GetFile()));
     emit GET_CLIENT->sigMessageUpdate(szId);

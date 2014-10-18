@@ -161,7 +161,7 @@ int CUserInfoXmpp::LoadFromStorage(QDataStream &input)
 int CUserInfoXmpp::SaveToStorage(QDataStream &output)
 {
     CUserInfo::SaveToStorage(output);
-    output << m_szJid;
+    output << GetId();//只存baredJid，资源会在状态更新时设置  
     output << m_szName;
     return 0;
 }

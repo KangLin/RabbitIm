@@ -56,7 +56,7 @@ QString CChatAction::getName()
 
 QString CChatAction::getDate()
 {
-    QString res = m_Date.toString();
+    QString res = m_Time.toString();
     return res;
 }
 
@@ -88,7 +88,7 @@ QString CChatAction::getContent()
    else
         msg += CGlobal::Instance()->GetUserColor().name();
    msg += "'>[";
-   msg += m_Date.toString(Qt::ISODate) + "]";
+   msg += m_Time.toString() + "]";
    msg += roster->GetInfo()->GetShowName() + ":";
    msg += "</font>";
    if(!m_isMe)

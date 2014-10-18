@@ -105,6 +105,12 @@ void CFileTransferQXmpp::slotError(QXmppTransferJob::Error error)
 void CFileTransferQXmpp::slotProgress(qint64 done, qint64 total)
 {
     m_DoneSize = done;
+    QDateTime now = QDateTime::currentDateTime();
+    if (m_LastUpdateTime.secsTo(now) < 1) //update every 1s
+        return;
+
+    m_LastUpdateTime = now;
+    
     if(total != m_pJob->fileSize())
     {
         LOG_MODEL_ERROR("CFileTransferQXmpp", "file size is equet:total:%d;fileSize:%d", total, m_pJob->fileSize());
@@ -116,6 +122,8 @@ void CFileTransferQXmpp::slotStateChanged(QXmppTransferJob::State state)
 {
     LOG_MODEL_DEBUG("CFileTransferQXmpp", "state:%d", state);
     m_State = (State) state;
+    if(TransferState == m_State)
+        m_LastUpdateTime = QDateTime::currentDateTime();
     emit sigUpdate();
     if(FinishedState == m_State)
         emit sigFinished(GetId(), GetFileTranserId());

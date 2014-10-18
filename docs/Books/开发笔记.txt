@@ -43,6 +43,8 @@ http://qtdocs.sourceforge.net/index.php/%E4%BA%8B%E4%BB%B6%E5%92%8C%E4%BA%8B%E4%
 
 * Qt 处理配置文件：参考代码中的CFrmLogin::SaveConf
 
+* QT拖拽功能简介 http://blog.csdn.net/pcsuite/article/details/6147191
+
 * Qt android 平台写配置文件权限：
 android平台编译出来的是一个动态库，它安装后，位于安装目录的lib目录下。此目录只有读权限。只有system用户才有写权限。
 而安装目录除了lib目录外，对应用程序的用户有读写权限。
