@@ -57,13 +57,14 @@ public:
     static AVPixelFormat QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFrame::PixelFormat format);
 
 #ifdef RABBITIM_USER_OPENCV
-    /* 对图像进行旋转
+    /* 对图像进行旋转  
      * 参数:
      *   src:源图像
      *   _cneter:旋转中心
      *   angle:角度
-     * 返回值:旋转后的图像 */
-    static cv::Mat ImageRotate(cv::Mat & src, const CvPoint &_center, double angle);
+     *   scale:缩放  
+     * 返回值:旋转后的图像  */
+    static cv::Mat ImageRotate(cv::Mat & src, const cv::Point &_center, double angle, double scale = 1);
 #endif
     
     /* 对YUV420sp(NV12、NV21)存储格式的图像旋转+-90度

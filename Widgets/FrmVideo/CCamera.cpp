@@ -2,6 +2,9 @@
 #include "../../Global/Global.h"
 //#include "FrmVideo.h"
 #include <QCameraInfo>
+#include <QCameraInfo>
+#include <QApplication>
+#include <QScreen>
 
 CCamera::CCamera(QObject *parent) : QObject(parent)
 {
@@ -169,3 +172,19 @@ int CCamera::GetDeviceIndex()
     return -1;
 }
 
+int CCamera::GetOrientation()
+{
+    QScreen *screen = QGuiApplication::primaryScreen();
+    int screenAngle = screen->angleBetween(screen->nativeOrientation(), screen->orientation());
+    QCamera camera;
+    QCameraInfo cameraInfo(camera);
+    int rotation = 0;
+    if (cameraInfo.position() == QCamera::BackFace) {
+        rotation = (cameraInfo.orientation() - screenAngle) % 360;
+    } else {
+        // Front position, compensate the mirror
+        rotation = (360 - cameraInfo.orientation() + screenAngle) % 360;
+    }
+    LOG_MODEL_DEBUG("main", "screen angle:%d;rotation:%d", screenAngle, rotation);
+    return rotation;
+}

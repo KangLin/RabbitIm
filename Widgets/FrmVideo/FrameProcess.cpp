@@ -3,9 +3,11 @@
 #include "DataVideoBuffer.h"
 #include "../../Global/Global.h"
 #include "FrmVideo.h"
+#include "CCamera.h"
 
-CFrameProcess::CFrameProcess(QObject *parent) :
-    QObject(parent)
+CFrameProcess::CFrameProcess(CCamera* pCamera, QObject *parent) :
+    QObject(parent),
+    m_pCamera(pCamera)
 {
 }
 
@@ -95,7 +97,8 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
             outData.resize(inFrame.mappedBytes());//dst.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()
             cv::Mat src(inFrame.height(), inFrame.width(), CV_8UC4, inFrame.bits());
             cv::Mat dst(inFrame.height(), inFrame.width(), CV_8UC4, outData.data());
-            cv::flip(src, dst, 1); //最后一个参数>0为x轴镜像，=0为y轴镜像，，<0x,y轴都镜像。
+            cv::flip(src, dst, 0); //最后一个参数>0为x轴镜像，=0为y轴镜像，，<0为x,y轴都镜像。
+            //dst = CTool::ImageRotate(src, cv::Point(inFrame.width() >> 2, inFrame.height() >> 2), m_pCamera->GetOrientation());
 
             //由QVideoFrame进行释放
             CDataVideoBuffer* pBuffer = new CDataVideoBuffer(outData,
@@ -108,7 +111,8 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 #else
             //*用QImage做图像镜像
             QImage img(inFrame.bits(), inFrame.width(), inFrame.height(), QImage::Format_RGB32);
-            img = img.mirrored(true, false);
+            img = img.mirrored(true, true);
+            //img = img.transformed(QTransform().rotate(m_pCamera->GetOrientation()));
             QVideoFrame outFrame(img);//*/
 #endif
             emit sigCaptureFrame(outFrame);

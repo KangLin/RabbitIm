@@ -28,6 +28,7 @@ public:
     int SetDefaultCamera();
     int SetDeviceIndex(int index);
     int GetDeviceIndex();
+    int GetOrientation();//得摄像头安装的方向,返回角度  
 
 signals:
     //不同平台处理过后的视频帧捕获信号  

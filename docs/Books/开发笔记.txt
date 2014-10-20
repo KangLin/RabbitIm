@@ -68,3 +68,5 @@ qApp->applicationDirPath()得到的是安装目录下lib的位置。所以向上
 * Qt中屏幕或窗口截图功能的实现:http://www.cnblogs.com/wowk/archive/2013/07/07/3176594.html
 
 * html img Src base64 图片显示 :http://blog.csdn.net/samqingqing/article/details/7532141
+
+* OpenCV2.4.4 图像旋转和缩放:http://blog.csdn.net/masibuaa/article/details/9017761

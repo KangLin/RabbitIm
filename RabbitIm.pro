@@ -51,6 +51,7 @@ FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale  -lavfilter  -lavutil
 
 INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom 
 
+OPENCV_VERSION=300
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android{
     INCLUDEPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
@@ -82,8 +83,6 @@ android{
             LDFLAGS += /NODEFAULTLIB:libcmt
         }
 
-        OPENCV_VERSION=300
-
     } else:CONFIG(debug, debug|release){
         DEFINES += DEBUG
 
@@ -92,7 +91,7 @@ android{
             QXMPP_LIBRARY_NAME = qxmpp_d.lib# qxmpp 库名
         }
 
-        OPENCV_VERSION=300d
+        //OPENCV_VERSION=300d
     }
 
     WEBRTC_LIBRARY_DIR = .
@@ -107,8 +106,9 @@ android{
 
 !isEmpty(RABBITIM_USER_OPENCV) {
     DEFINES += RABBITIM_USER_OPENCV
-    OPENCV_LIBRARY=-lopencv_core$$OPENCV_VERSION \
-    -lopencv_imgproc$$OPENCV_VERSION
+    OPENCV_LIBRARY=-lopencv_imgproc$$OPENCV_VERSION \
+    -lopencv_core$$OPENCV_VERSION \
+    -lzlib
 }
 
 LIBS += $$LDFLAGS $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY

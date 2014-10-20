@@ -178,18 +178,18 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
 }
 
 #ifdef RABBITIM_USER_OPENCV
-cv::Mat CTool::ImageRotate(cv::Mat & src, const CvPoint &_center, double angle)
+cv::Mat CTool::ImageRotate(cv::Mat & src, const cv::Point &_center, double angle, double scale)
 {
-    CvPoint2D32f center;
+    cv::Point2f center;
     center.x = float(_center.x);
     center.y = float(_center.y);
 
     //计算二维旋转的仿射变换矩阵  
-    cv::Mat M = cv::getRotationMatrix2D(center, angle, 1);
+    cv::Mat M = cv::getRotationMatrix2D(center, angle, scale);
 
     // rotate
     cv::Mat dst;
-    cv::warpAffine(src, dst, M, cvSize(src.cols, src.rows), cv::INTER_LINEAR);
+    cv::warpAffine(src, dst, M, cv::Size(src.cols, src.rows), cv::INTER_LINEAR);
     return dst;
 }
 #endif

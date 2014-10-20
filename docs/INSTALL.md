@@ -80,7 +80,7 @@ cygwin主页：http://www.cygwin.org/
 12. 图像处理库(opencv)
 下载：`git clone git://github.com/Itseez/opencv.git`  
 当前使用版本:  
-    git库版本 —— c9db91ace508b39af513d04412b3c62399e7ee1b
+    git库版本 —— 55f490485bd58dc972de9e0333cdff005fce1251
 
 13. libyuv
 下载:`svn checkout http://libyuv.googlecode.com/svn/trunk libyuv`

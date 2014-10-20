@@ -78,7 +78,7 @@ cmake \
     -DBUILD_TIFF=OFF \
     -DBUILD_WITH_DEBUG_INFO=OFF \
     -DWITH_OPENCL=OFF \
-    -DBUILD_opencv_video=OFF \
+    -DBUILD_opencv_video=ON \
     -DBUILD_opencv_videostab=OFF \
     -DBUILD_opencv_ts=OFF \
     -DBUILD_opencv_java=OFF \
@@ -86,7 +86,13 @@ cmake \
     -DWITH_TIFF=OFF \
     -DWITH_PNG=OFF \
     -DWITH_OPENEXR=OFF \
-    -DBUILD_opencv_androidcamera=OFF \
+    -DBUILD_opencv_androidcamera=ON \
+    -DWITH_IPP=OFF \
+    -DWITH_IPP_A=OFF \
+    -DWITH_PVAPI=OFF \
+    -DWITH_JASPER=OFF \
+    -DWITH_OPENCLAMDFFT=OFF \
+    -DWITH_OPENCLAMDBLAS=OFF \
     .. 
 
 cmake --build . --target install --config Release

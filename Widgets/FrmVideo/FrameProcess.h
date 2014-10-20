@@ -6,11 +6,12 @@
 #include "qxmpp/QXmppRtpChannel.h"
 #include "../../Tool.h"
 
+class CCamera;
 class CFrameProcess : public QObject
 {
     Q_OBJECT
 public:
-    explicit CFrameProcess(QObject *parent = 0);
+    explicit CFrameProcess(CCamera* pCamera = NULL, QObject *parent = 0);
     virtual ~CFrameProcess();
 
 signals:
@@ -35,6 +36,8 @@ public slots:
 private:
     //用于从AVPICTURE输出到QVideoFrame中
     int FillFrame(const AVPicture &pic, const QRect &rect, QVideoFrame &frame);
+    
+    CCamera* m_pCamera;
 
 };
 

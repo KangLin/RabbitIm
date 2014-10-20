@@ -55,7 +55,7 @@ cmake \
         -DBUILD_TIFF=OFF \
         -DBUILD_WITH_DEBUG_INFO=OFF \
         -DWITH_OPENCL=OFF \
-        -DBUILD_opencv_video=OFF \
+        -DBUILD_opencv_video=ON \
         -DBUILD_opencv_videostab=OFF \
         -DBUILD_opencv_ts=OFF \
         -DBUILD_opencv_java=OFF \
@@ -69,11 +69,17 @@ cmake \
         -DWITH_1394=OFF \
         -DWITH_VTK=OFF \
         -DWITH_VFW=OFF \
+        -DWITH_IPP=OFF \
+        -DWITH_IPP_A=OFF \
+        -DWITH_PVAPI=OFF \
+        -DWITH_JASPER=OFF \
+        -DWITH_OPENCLAMDFFT=OFF \
+        -DWITH_OPENCLAMDBLAS=OFF \
         ..
 
 cmake --build . --target install --config Release
 
-cp -fr ${PREFIX}/x86/mingw/staticlib/*.a ${PREFIX}/lib/.
-rm -fr ${PREFIX}/x86
+cp -fr ${PREFIX}/x64/mingw/staticlib/*.a ${PREFIX}/lib/.
+rm -fr ${PREFIX}/x64
 
 cd $CUR_DIR

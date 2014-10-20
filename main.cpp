@@ -3,8 +3,6 @@
 #include "Global/Global.h"
 #include "Tool.h"
 #include <QDebug>
-#include <QCamera>
-#include <QCameraInfo>
 #include <QApplication>
 #include <QTranslator>
 
@@ -90,19 +88,6 @@ int main(int argc, char *argv[])
     w.move((pDesk->width() - w.width()) / 2, (pDesk->height() - w.height()) / 2);
 #endif
     w.show();//*/
-
-    const QScreen *screen = QGuiApplication::primaryScreen();
-    const int screenAngle = screen->angleBetween(screen->nativeOrientation(), screen->orientation());
-    QCamera camera;
-    QCameraInfo cameraInfo(camera);
-    int rotation;
-    if (cameraInfo.position() == QCamera::BackFace) {
-        rotation = (cameraInfo.orientation() - screenAngle) % 360;
-    } else {
-        // Front position, compensate the mirror
-        rotation = (360 - cameraInfo.orientation() + screenAngle) % 360;
-    }
-    LOG_MODEL_DEBUG("main", "screen angle:%d;rotation:%d", screenAngle, rotation);
 
     //*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())  
     CFrmPlayer player;
