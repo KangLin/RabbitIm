@@ -92,15 +92,15 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
         else
         {
 #ifdef RABBITIM_USER_OPENCV
-           //*用opencv库做图像镜像
+           //*用opencv库做图像镜像  
             QByteArray outData;
-            outData.resize(inFrame.mappedBytes());//dst.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()
+            outData.resize(inFrame.mappedBytes());//dst.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()  
             cv::Mat src(inFrame.height(), inFrame.width(), CV_8UC4, inFrame.bits());
             cv::Mat dst(inFrame.height(), inFrame.width(), CV_8UC4, outData.data());
-            cv::flip(src, dst, 0); //最后一个参数>0为x轴镜像，=0为y轴镜像，，<0为x,y轴都镜像。
-            //dst = CTool::ImageRotate(src, cv::Point(inFrame.width() >> 2, inFrame.height() >> 2), m_pCamera->GetOrientation());
+            cv::flip(src, dst, 0); //最后一个参数>0为x轴镜像，=0为y轴镜像，，<0为x,y轴都镜像。  
+            //dst = CTool::ImageRotate(src, cv::Point(inFrame.width() >> 2, inFrame.height() >> 2), m_pCamera->GetOrientation());  
 
-            //由QVideoFrame进行释放
+            //由QVideoFrame进行释放  
             CDataVideoBuffer* pBuffer = new CDataVideoBuffer(outData,
                                     dst.cols,
                                     dst.rows);
@@ -109,15 +109,17 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
                                        dst.rows),
                                  inFrame.pixelFormat());//*/
 #else
-            //*用QImage做图像镜像
+            //用QImage做图像镜像  
             QImage img(inFrame.bits(), inFrame.width(), inFrame.height(), QImage::Format_RGB32);
-            img = img.mirrored(true, true);
-            //img = img.transformed(QTransform().rotate(m_pCamera->GetOrientation()));
-            QVideoFrame outFrame(img);//*/
+            img = img.mirrored(false, true);
+            /*
+            if(m_pCamera->GetOrientation())
+                img = img.transformed(QTransform().rotate(m_pCamera->GetOrientation()));//*/
+            QVideoFrame outFrame(img);
 #endif
             emit sigCaptureFrame(outFrame);
 
-            //TODO:宽、高要在外面设置
+            //TODO:宽、高要在外面设置  
             slotFrameConvertedToYUYV(outFrame, 320,240);
         }
 
