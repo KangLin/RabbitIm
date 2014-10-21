@@ -3,7 +3,7 @@
 #include "DataVideoBuffer.h"
 #include "../../Global/Global.h"
 #include "FrmVideo.h"
-#include "CCamera.h"
+#include "Camera.h"
 
 CFrameProcess::CFrameProcess(CCamera* pCamera, QObject *parent) :
     QObject(parent),
@@ -42,29 +42,26 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
         CDataVideoBuffer *pBuffer = NULL;
         mirror.resize(inFrame.mappedBytes());
         rotate.resize(inFrame.mappedBytes());
-        /*TODO:
-        CFrmVideo *pFrmVideo = CFrmVideo::instance();
-        if(pFrmVideo->GetCameraPostion() == QCamera::BackFace)
+
+        if(m_pCamera->GetCameraPoistion() == QCamera::BackFace)
         {
-            //背景摄像头要顺时针旋转90度,再做Y轴镜像
+            //背景摄像头要顺时针旋转90度,再做Y轴镜像  
             CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, 1);
             CTool::YUV420spMirror(reinterpret_cast<uchar *> (mirror.data()),
                                   reinterpret_cast<uchar *>(rotate.data()),
                                   nHeight, nWidth, 0);
             pBuffer = new CDataVideoBuffer(mirror, nHeight, nWidth);
         }
-        else //*/
+        else
         {
-            //*前景摄像头要逆时针旋转90度
+            //前景摄像头要逆时针旋转90度  
             CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, -1);
-            pBuffer = new CDataVideoBuffer(rotate, nHeight, nWidth);//*/
+            pBuffer = new CDataVideoBuffer(rotate, nHeight, nWidth);
         }
 
         QVideoFrame outFrame(pBuffer, QSize( nHeight, nWidth), QVideoFrame::Format_NV21);
-        
-        emit sigCaptureFrame(outFrame);
 
-        slotFrameConvertedToYUYV(outFrame, 320,240);
+        emit sigCaptureFrame(outFrame);
 
     }while(0);
 
@@ -118,9 +115,6 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
             QVideoFrame outFrame(img);
 #endif
             emit sigCaptureFrame(outFrame);
-
-            //TODO:宽、高要在外面设置  
-            slotFrameConvertedToYUYV(outFrame, 320,240);
         }
 
     }while(0);
@@ -154,7 +148,7 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
         nRet = avpicture_layout(&pic, AV_PIX_FMT_YUYV422, nWidth, nHeight, f.bits(), size);
         if(nRet > 0)
         {
-            emit sigConvertedToYUYVFrame(f);
+            emit sigFrameConvertedToYUYVFrame(f);
         }
 
         avpicture_free(&pic);
@@ -187,7 +181,7 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame, const 
 
     f.unmap();
 
-    emit sigConvertedToRGB32Frame(outFrame);
+    emit sigFrameConvertedToRGB32Frame(outFrame);
 }
 
 void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, const QRect &rect)
@@ -201,7 +195,7 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, cons
     QVideoFrame outFrame;
     FillFrame(pic, rect, outFrame);
     avpicture_free(&pic);
-    emit sigConvertedToRGB32Frame(outFrame);
+    emit sigFrameConvertedToRGB32Frame(outFrame);
 }
 
 int CFrameProcess::FillFrame(const AVPicture &pic, const QRect &rect, QVideoFrame &frame)

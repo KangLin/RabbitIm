@@ -28,6 +28,11 @@ Qt的皮肤设计:http://blog.csdn.net/lastsoup/article/details/7043124
 QtThread线程介绍:http://blog.csdn.net/liuhongwei123888/article/details/6072320
 每个线程要用 setObjectName 设置名称，便于调试。
 
+* Qt 信号与线程:
+Qt 线程基础:http://blog.csdn.net/dbzhang800/article/details/6554104
+Qt中线程跟信号槽的关系:http://cxyclub.cn/n/10254/
+如何让 Qt 的程序使用 Sleep:http://blog.csdn.net/dbzhang800/article/details/6300425
+
 * QWidget 鼠标移事件：
 当mousetracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。
 当mousetracking为on时，没鼠标键按下，也会有mouseEvent事件

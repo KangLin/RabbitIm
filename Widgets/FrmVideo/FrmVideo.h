@@ -19,7 +19,7 @@
 #include "FrmPlayer.h"
 #include "Client/ClientXmpp.h"
 #include "RecordAudio.h"
-#include "CCamera.h"
+#include "Camera.h"
 
 class CRoster;
 class MainWindow;

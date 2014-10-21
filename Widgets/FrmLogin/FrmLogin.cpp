@@ -41,9 +41,9 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
 
     if(ui->chkLogin->checkState() == Qt::Checked)
     {
-        m_tmAutoLogin.start(1000 * CGlobal::Instance()->GetAutoLoginDelayTime());
         bool check = connect(&m_tmAutoLogin, SIGNAL(timeout()), SLOT(on_pbOk_clicked()));
         Q_ASSERT(check);
+        m_tmAutoLogin.start(1000 * CGlobal::Instance()->GetAutoLoginDelayTime());
     }
 }
 

@@ -102,11 +102,14 @@ android{
     DEPENDPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
 
     LIBS += -L$$PWD/ThirdLibary/unix/lib
+    OPENCV_VERSION=
 }
 
 !isEmpty(RABBITIM_USER_OPENCV) {
     DEFINES += RABBITIM_USER_OPENCV
-    OPENCV_LIBRARY=-lopencv_imgproc$$OPENCV_VERSION \
+    OPENCV_LIBRARY= -lopencv_video$$OPENCV_VERSION \
+    -lopencv_videoio$$OPENCV_VERSION \
+    -lopencv_imgproc$$OPENCV_VERSION \
     -lopencv_core$$OPENCV_VERSION \
     -lzlib
 }

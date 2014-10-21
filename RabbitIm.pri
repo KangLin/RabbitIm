@@ -45,8 +45,8 @@ SOURCES += main.cpp\
     Widgets/FrmVideo/DataVideoBuffer.cpp \
     Widgets/FrmVideo/FrameProcess.cpp \
     Widgets/FrmVideo/CaptureVideoFrame.cpp \
-    Widgets/FrmVideo/CCamera.cpp \
-    Widgets/FrmVideo/FrmPlayer.cpp 
+    Widgets/FrmVideo/FrmPlayer.cpp \ 
+    Widgets/FrmVideo/Camera.cpp
     #Widgets/FrmVideo/FrmVideo.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
@@ -101,8 +101,8 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/CaptureVideoFrame.h \
     Widgets/FrmVideo/DataVideoBuffer.h \
     Widgets/FrmVideo/FrameProcess.h \
-    Widgets/FrmVideo/CCamera.h \
-    Widgets/FrmVideo/FrmPlayer.h    
+    Widgets/FrmVideo/FrmPlayer.h \    
+    Widgets/FrmVideo/Camera.h
     #Widgets/FrmVideo/FrmVideo.h \
     #Widgets/FrmUserList/GroupItem.h \
     
@@ -135,3 +135,8 @@ FORMS    += MainWindow.ui \
 
 RESOURCES += \
     Resource/Resource.qrc
+
+!isEmpty(RABBITIM_USER_OPENCV) {
+    SOURCES += Widgets/FrmVideo/CameraOpencv.cpp 
+    HEADERS += Widgets/FrmVideo/CameraOpencv.h 
+}

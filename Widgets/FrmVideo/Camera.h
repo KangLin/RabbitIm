@@ -6,10 +6,9 @@
 #include <QCamera>
 #include <QAbstractVideoBuffer>
 #include <QVideoFrame>
+#include <QObject>
 #include "CaptureVideoFrame.h"
 #include "FrameProcess.h"
-
-#include <QObject>
 
 class CCamera : public QObject
 {
@@ -18,23 +17,21 @@ public:
     explicit CCamera(QObject *parent = 0);
     virtual ~CCamera();
 
-    int Start();
-    int Stop();
+    virtual int Start();
+    virtual int Stop();
 
-    QList<QString> GetAvailableDevices();
+    virtual QList<QString> GetAvailableDevices();
 #ifdef ANDROID
-    QCamera::Position GetCameraPoistion();
+    virtual QCamera::Position GetCameraPoistion();
 #endif
-    int SetDefaultCamera();
-    int SetDeviceIndex(int index);
-    int GetDeviceIndex();
-    int GetOrientation();//得摄像头安装的方向,返回角度  
+    virtual int SetDefaultCamera();
+    virtual int SetDeviceIndex(int index);
+    virtual int GetDeviceIndex();
+    virtual int GetOrientation();//得摄像头安装的方向,返回角度  
 
 signals:
     //不同平台处理过后的视频帧捕获信号  
     void sigCaptureFrame(const QVideoFrame &frame);
-    //转换视频帧格式后触发的信号，用于视频压缩发送  
-    void sigConvertedToYUYVFrame(const QXmppVideoFrame &frame);
 
 private:
     //摄像头位置  

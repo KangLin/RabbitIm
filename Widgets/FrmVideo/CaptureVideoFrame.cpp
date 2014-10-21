@@ -48,7 +48,7 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
            preTime.msecsTo(curTime));
     preTime = curTime;
 #endif
-    emit sigRawCaptureFrame(frame);
+    emit sigCaptureFrame(frame);
     return true;
 }
 

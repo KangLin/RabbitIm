@@ -59,7 +59,7 @@ public:
 
 signals:
     //从摄像头捕获的原始帧  
-    void sigRawCaptureFrame(const QVideoFrame &frame);
+    void sigCaptureFrame(const QVideoFrame &frame);
 
 private slots:
     virtual bool present(const QVideoFrame &frame);

@@ -1,6 +1,5 @@
-#include "CCamera.h"
+#include "Camera.h"
 #include "../../Global/Global.h"
-//#include "FrmVideo.h"
 #include <QCameraInfo>
 #include <QCameraInfo>
 #include <QApplication>
@@ -11,18 +10,12 @@ CCamera::CCamera(QObject *parent) : QObject(parent)
     if(!parent)
         LOG_MODEL_ERROR("Video", "CCaptureVideoFrame::CCaptureVideoFrame parent is null");
 
-    /*增加线程  
-    CFrmVideo* pFrmVideo = (CFrmVideo*)parent;
-    if(pFrmVideo)
-        m_CaptureFrameProcess.moveToThread(pFrmVideo->GetVideoThread());
-    */
     m_pCamera = NULL;
-
     SetDefaultCamera();
 
     bool check = true;
     check = connect(&m_CaptureVideoFrame,
-                    SIGNAL(sigRawCaptureFrame(const QVideoFrame&)),
+                    SIGNAL(sigCaptureFrame(const QVideoFrame&)),
                     &m_CaptureFrameProcess,
                     SLOT(slotCaptureFrame(const QVideoFrame&)));
     Q_ASSERT(check);
@@ -31,13 +24,6 @@ CCamera::CCamera(QObject *parent) : QObject(parent)
                     SIGNAL(sigCaptureFrame(const QVideoFrame&)),
                     this,
                     SIGNAL(sigCaptureFrame(const QVideoFrame&)));
-    Q_ASSERT(check);
-
-    //捕获的帧转换成了YUV4:2:0格式  
-    check = connect(&m_CaptureFrameProcess,
-                    SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)),
-                    this,
-                    SIGNAL(sigConvertedToYUYVFrame(const QXmppVideoFrame&)));
     Q_ASSERT(check);
 }
 

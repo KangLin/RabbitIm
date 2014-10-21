@@ -4,19 +4,17 @@
 #include <QThread>
 #include <QEvent>
 #include "DataVideoBuffer.h"
-//#include "FrmVideo.h"
 #include "../../Global/Global.h"
 #include "CaptureVideoFrame.h"
-#include "CCamera.h"
+#ifdef RABBITIM_USER_OPENCV
+#include "CameraOpencv.h"
+#else
+#include "Camera.h"
+#endif
 
 CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f)
 {
-    /*TODO:增加线程  
-    CFrmVideo* pFrmVideo = (CFrmVideo*)parent;
-    
-    if(pFrmVideo)
-        m_FrameProcess.moveToThread(pFrmVideo->GetVideoThread());//*/
     bool check = true;
     check = connect(this, SIGNAL(sigConverteToRGB32Frame(const QVideoFrame&, const QRect&)),
                     &m_FrameProcess, SLOT(slotFrameConvertedToRGB32(const QVideoFrame&, const QRect&)));
@@ -24,7 +22,7 @@ CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
     check = connect(this, SIGNAL(sigConverteToRGB32Frame(const QXmppVideoFrame&, const QRect&)),
                     &m_FrameProcess, SLOT(slotFrameConvertedToRGB32(const QXmppVideoFrame&, const QRect&)));
     Q_ASSERT(check);
-    check = connect(&m_FrameProcess, SIGNAL(sigConvertedToRGB32Frame(const QVideoFrame&)),
+    check = connect(&m_FrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(const QVideoFrame&)),
                         SLOT(slotPaint(const QVideoFrame&)));
     Q_ASSERT(check);
 }
@@ -50,13 +48,6 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
     m_VideoFrame.unmap();
 }
 
-void CFrmPlayer::mouseReleaseEvent(QMouseEvent *)
-{
-#ifdef DEBUG
-    //TestCamera();
-#endif
-}
-
 void CFrmPlayer::changeEvent(QEvent *e)
 {
     switch(e->type())
@@ -66,26 +57,6 @@ void CFrmPlayer::changeEvent(QEvent *e)
         break;
     }
 }
-
-#ifdef DEBUG
-int CFrmPlayer::TestCamera()
-{
-    //以下为视频捕获、显示测试代码  
-    static CCamera *pCamera = NULL;
-    if(pCamera)
-    {
-        pCamera->Stop();
-        delete pCamera;
-        pCamera = NULL;
-    }
-
-    pCamera = new CCamera;
-    connect(pCamera, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
-            SLOT(slotPresent(const QVideoFrame&)));
-    pCamera->Start();
-    return 0;
-}
-#endif
 
 void CFrmPlayer::slotPaint(const QVideoFrame &frame)
 {
@@ -110,3 +81,35 @@ void CFrmPlayer::slotPresent(const QXmppVideoFrame &frame)
     QRect rect = this->rect();
     emit sigConverteToRGB32Frame(frame, rect);
 }
+
+void CFrmPlayer::mouseReleaseEvent(QMouseEvent *)
+{
+#ifdef DEBUG
+    //TestCamera();
+#endif
+}
+
+#ifdef DEBUG
+int CFrmPlayer::TestCamera()
+{
+    //以下为视频捕获、显示测试代码  
+    static CCamera *pCamera = NULL;
+    if(pCamera)
+    {
+        pCamera->Stop();
+        delete pCamera;
+        pCamera = NULL;
+    }
+
+#ifdef RABBITIM_USER_OPENCV
+    pCamera = new CCameraOpencv;
+#else
+    pCamera = new CCamera;
+#endif
+    pCamera->GetAvailableDevices();
+    connect(pCamera, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
+            SLOT(slotPresent(const QVideoFrame&)));
+    pCamera->Start();
+    return 0;
+}
+#endif
