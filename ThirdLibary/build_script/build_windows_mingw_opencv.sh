@@ -1,7 +1,6 @@
 #参数:
 #    $1:源码的位置 
 
-
 #运行本脚本前,先运行 build_windows_mingw_envsetup.sh 进行环境变量设置,需要先设置下面变量:
 #   PREFIX=`pwd`/../windows  #修改这里为安装前缀
 if [ -z "${PREFIX}" ]; then
@@ -35,7 +34,7 @@ cd build_windows_mingw
 rm -fr *
 
 echo "configure ..."
-cmake \
+cmake .. \
         -G"Unix Makefiles" \
         -DCMAKE_INSTALL_PREFIX=${PREFIX} \
         -DBUILD_SHARED_LIBS=OFF \
@@ -45,7 +44,6 @@ cmake \
         -DBUILD_ANDROID_EXAMPLES=OFF \
         -DBUILD_TESTS=OFF \
         -DBUILD_FAT_JAVA_LIB=OFF \
-        -DBUILD_JASPER=OFF \
         -DBUILD_JPEG=OFF \
         -DBUILD_OPENEXR=OFF \
         -DBUILD_PERF_TESTS=OFF \
@@ -75,7 +73,11 @@ cmake \
         -DWITH_JASPER=OFF \
         -DWITH_OPENCLAMDFFT=OFF \
         -DWITH_OPENCLAMDBLAS=OFF \
-        ..
+        -DWITH_GIGEAPI=OFF \
+        -DWITH_GSTREAMER=OFF \
+        -DWITH_GTK=OFF \
+        -DWITH_LIBV4L=OFF \
+        -DWITH_V4L=OFF 
 
 cmake --build . --target install --config Release
 

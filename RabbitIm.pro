@@ -112,6 +112,11 @@ android{
     -lopencv_imgproc$$OPENCV_VERSION \
     -lopencv_core$$OPENCV_VERSION \
     -lzlib
+
+    win32{
+        OPENCV_LIBRARY += -lopencv_imgcodecs$$OPENCV_VERSION 
+        OPENCV_LIBRARY += -lOle32 -lolepro32 -loleaut32 -luuid #dshow依赖库
+    }
 }
 
 LIBS += $$LDFLAGS $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY
