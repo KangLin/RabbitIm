@@ -33,8 +33,9 @@ CONFIG(debug, debug|release) {
     DEFINES += DEBUG DEBUG_VIDEO_TIME 
 } 
 
-QXMPP_USE_VPX = 1
-#QXMPP_USE_SPEEX=1
+QXMPP_USE_VPX = 1                 #使用 vpx
+#QXMPP_USE_SPEEX=1            #使用 speex
+#RABBITIM_USER_OPENCV=1 #使用 opencv
 
 !isEmpty(QXMPP_USE_SPEEX) {
     CODEC_LIBRARY += -lspeex
@@ -51,7 +52,6 @@ FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale  -lavfilter  -lavutil
 
 INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom 
 
-OPENCV_VERSION=300
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android{
     INCLUDEPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
@@ -91,7 +91,7 @@ android{
             QXMPP_LIBRARY_NAME = qxmpp_d.lib# qxmpp 库名
         }
 
-        //OPENCV_VERSION=300d
+        OPENCV_VERSION=300d
     }
 
     WEBRTC_LIBRARY_DIR = .
@@ -102,17 +102,25 @@ android{
     DEPENDPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
 
     LIBS += -L$$PWD/ThirdLibary/unix/lib
-    OPENCV_VERSION=
 }
 
 !isEmpty(RABBITIM_USER_OPENCV) {
     DEFINES += RABBITIM_USER_OPENCV
     OPENCV_LIBRARY= -lopencv_video$$OPENCV_VERSION \
-    -lopencv_videoio$$OPENCV_VERSION \
-    -lopencv_imgproc$$OPENCV_VERSION \
-    -lopencv_core$$OPENCV_VERSION \
-    -lzlib
+                                            -lopencv_videoio$$OPENCV_VERSION \
+                                            -lopencv_imgproc$$OPENCV_VERSION \
+                                            -lopencv_core$$OPENCV_VERSION
 
+    android{
+        OPENCV_LIBRARY += \
+                                             -lopencv_androidcamera \
+                                             -lopencv_imgcodecs \
+                                             -llibjpeg
+    }
+    else {
+        OPENCV_LIBRARY += -lzlib
+    }
+    
     win32{
         OPENCV_LIBRARY += -lopencv_imgcodecs$$OPENCV_VERSION 
         OPENCV_LIBRARY += -lOle32 -lolepro32 -loleaut32 -luuid #dshow依赖库
@@ -181,5 +189,8 @@ else:!android{
 }
 
 #ANDROID 平台相关内容  
-ANDROID_EXTRA_LIBS = #ANDROID 平台的扩展库
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android  #ANDROID包的源码目录
+
+contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+    ANDROID_EXTRA_LIBS =
+}

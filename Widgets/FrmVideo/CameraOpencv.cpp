@@ -1,6 +1,7 @@
 #include "CameraOpencv.h"
 #include "Global/Global.h"
 #include "DataVideoBuffer.h"
+#include <QImage>
 
 CCameraOpencv::CCameraOpencv(QObject *parent) :
     CCamera(parent)
@@ -40,9 +41,16 @@ void CCameraOpencv::slotTimeOut()
 {
     cv::Mat frame;
     m_videoCapture >> frame;
-    cv::cvtColor(frame, frame, cv::COLOR_BGR2RGB);
-    //另外一种做法参见：http://blog.csdn.net/yang_xian521/article/details/7042687
-    QByteArray outData((const char*)frame.data, (int)(frame.total() * frame.channels()));
+    LOG_MODEL_DEBUG("CCameraOpencv", "frame.type:%d;format:", frame.type(), m_videoCapture.get(cv::CAP_PROP_FORMAT));
+
+    cv::cvtColor(frame, frame, cv::COLOR_BGR2RGB);  
+    cv::flip(frame, frame, 1);  
+    QImage image((uchar*)(frame.data), frame.cols, frame.rows, QImage::Format_RGB888);  //RGB888就是RGB24即RGB
+    QVideoFrame outFrame(image);
+
+    /*QByteArray outData((const char*)frame.data, (int)(frame.total() * frame.channels()));
+    //QByteArray outData;
+    //outData.append((const char*)frame.data, frame.total() * frame.channels());
     //frame.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels() 
     //outData.append(frame.data, frame.total() * frame.channels());
     //由QVideoFrame进行释放  
@@ -53,7 +61,7 @@ void CCameraOpencv::slotTimeOut()
     QVideoFrame outFrame(pBuffer,
                          QSize(frame.rows,
                                frame.cols),
-                         QVideoFrame::Format_RGB32);//*/
+                         QVideoFrame::Format_RGB24);//*/
     
     emit sigCaptureFrame(outFrame);
 }

@@ -54,7 +54,7 @@ case `uname -s` in
         ;;
 esac
 
-cmake \
+cmake .. \
     -G"${GENERATORS}"\
     -DCMAKE_MAKE_PROGRAM="$ANDROID_NDK/prebuilt/${HOST}/bin/make" \
     -DCMAKE_TOOLCHAIN_FILE=../platforms/android/android.toolchain.cmake \
@@ -62,7 +62,6 @@ cmake \
     -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-${TOOLCHAIN_VERSION} \
     -DANDROID_NATIVE_API_LEVEL=android-${PLATFORMS_VERSION} \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DBUILD_SHARED_LIBS=OFF \
     -DBUILD_DOCS=OFF \
     -DBUILD_opencv_apps=OFF \
     -DBUILD_EXAMPLES=OFF \
@@ -78,27 +77,38 @@ cmake \
     -DBUILD_TIFF=OFF \
     -DBUILD_WITH_DEBUG_INFO=OFF \
     -DWITH_OPENCL=OFF \
-    -DBUILD_opencv_video=ON \
     -DBUILD_opencv_videostab=OFF \
     -DBUILD_opencv_ts=OFF \
     -DBUILD_opencv_java=OFF \
+    -DBUILD_opencv_highgui=OFF \
+    -DBUILD_opencv_features2d=OFF \
+    -DBUILD_opencv_photo=OFF \
     -DWITH_WEBP=OFF \
     -DWITH_TIFF=OFF \
     -DWITH_PNG=OFF \
     -DWITH_OPENEXR=OFF \
-    -DBUILD_opencv_androidcamera=ON \
     -DWITH_IPP=OFF \
     -DWITH_IPP_A=OFF \
     -DWITH_PVAPI=OFF \
     -DWITH_JASPER=OFF \
     -DWITH_OPENCLAMDFFT=OFF \
     -DWITH_OPENCLAMDBLAS=OFF \
-    .. 
+    -DWITH_FFMPEG=OFF \
+    -DWITH_1394=OFF \
+    -DWITH_VTK=OFF \
+    -DWITH_GIGEAPI=OFF \
+    -DWITH_GSTREAMER=OFF \
+    -DWITH_GTK=OFF \
+    -DBUILD_opencv_video=ON \
+    -DBUILD_opencv_androidcamera=ON \
+    -DBUILD_opencv_imgcodecs=ON \
+    -DBUILD_SHARED_LIBS=ON 
 
 cmake --build . --target install --config Release
 
 cp -fr ${PREFIX}/sdk/native/jni/include/opencv* ${PREFIX}/include/.
 cp -fr ${PREFIX}/sdk/native/libs/armeabi-v7a/* ${PREFIX}/lib/.
-rm -fr ${PREFIX}/sdk ${PREFIX}/apk
+cp -fr ${PREFIX}/sdk/native/3rdparty/libs/armeabi-v7a/* ${PREFIX}/lib/.
+rm -fr ${PREFIX}/sdk ${PREFIX}/apk  ${PREFIX}/LICENSE  ${PREFIX}/README.android 
 
 cd $CUR_DIR

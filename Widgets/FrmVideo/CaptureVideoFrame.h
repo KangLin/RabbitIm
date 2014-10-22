@@ -56,6 +56,7 @@ public:
     //设置支持的捕获格式
     virtual QList<QVideoFrame::PixelFormat> supportedPixelFormats(
             QAbstractVideoBuffer::HandleType handleType = QAbstractVideoBuffer::NoHandle) const;
+    //bool isFormatSupported(const QVideoSurfaceFormat &format) const;
 
 signals:
     //从摄像头捕获的原始帧  

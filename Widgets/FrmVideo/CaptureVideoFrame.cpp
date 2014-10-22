@@ -4,6 +4,9 @@
 #include <QTime>
 #include <QtDebug>
 #include <QCameraInfo>
+#include <QVideoFrame>
+#include <QVideoSurfaceFormat>
+#include <QImage>
 #include "FrmVideo.h"
 #include "../../Global/Global.h"
 
@@ -21,21 +24,28 @@ QList<QVideoFrame::PixelFormat>
 CCaptureVideoFrame::supportedPixelFormats(QAbstractVideoBuffer::HandleType handleType) const
 {
     LOG_MODEL_DEBUG("CCaptureVideoFrame", "CCaptureVideoFrame::supportedPixelFormats handleType:%d", handleType);
-    Q_UNUSED(handleType);
-    QList<QVideoFrame::PixelFormat> lst;
-#ifndef ANDROID
-    //windows 平台、linux 平台默认都支持 RGB32 格式  
-    lst.push_back(QVideoFrame::Format_RGB32);
-   // lst.push_back(QVideoFrame::Format_BGR32);
-#else
-   lst.push_back(QVideoFrame::Format_YUYV);//Qt现在不支持此格式，因为Qt内部用了QImage来处理视频帧。
-#endif
-    return lst;
+    if (handleType == QAbstractVideoBuffer::NoHandle) {
+        return QList<QVideoFrame::PixelFormat>()
+                << QVideoFrame::Format_RGB32//windows 平台、linux 平台默认都支持 RGB32 格式  
+                << QVideoFrame::Format_ARGB32
+                << QVideoFrame::Format_ARGB32_Premultiplied
+                << QVideoFrame::Format_RGB565
+                << QVideoFrame::Format_RGB555;
+    } else {
+        return QList<QVideoFrame::PixelFormat>();
+    }
 }
-
-//捕获视频帧。android下是图像格式是NV21,背景摄像头要顺时针旋转90度,再做Y轴镜像
-//前景摄像头要逆时针旋转90度
-//windows下格式是RGB32,做Y轴镜像  
+/*
+bool CCaptureVideoFrame::isFormatSupported(const QVideoSurfaceFormat &format) const
+{
+    const QImage::Format imageFormat = QVideoFrame::imageFormatFromPixelFormat(format.pixelFormat());
+    const QSize size = format.frameSize();
+    LOG_MODEL_DEBUG("CCaptureVideoFrame", "format:%d;size:%s;handleType:%d", imageFormat, size, format.handleType());
+    return imageFormat != QImage::Format_Invalid
+            && !size.isEmpty()
+            && format.handleType() == QAbstractVideoBuffer::NoHandle;
+}
+*/
 bool CCaptureVideoFrame::present(const QVideoFrame &frame)
 {
 #ifdef DEBUG_VIDEO_TIME
@@ -56,6 +66,7 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
 bool CCaptureVideoFrame::setSource(QCamera *pCamera)
 {
     bool ret = true;
+
 #ifdef ANDROID
     //android下,目前只能用probe捕获视频  
     ret = m_Probe.setSource(pCamera);

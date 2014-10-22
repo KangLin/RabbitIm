@@ -17,9 +17,6 @@ public:
     virtual int Stop();
 
     virtual QList<QString> GetAvailableDevices();
-#ifdef ANDROID
-    virtual QCamera::Position GetCameraPoistion();
-#endif
     virtual int SetDefaultCamera();
     virtual int SetDeviceIndex(int index);
     virtual int GetDeviceIndex();

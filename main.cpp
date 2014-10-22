@@ -73,15 +73,23 @@ int main(int argc, char *argv[])
     MainWindow w;
 #ifdef MOBILE
     QScreen* pScreen = QApplication::primaryScreen();
-    LOG_MODEL_DEBUG("main", "DeskWidth:%d;height:%d;w:%d;h:%d;screenWidth:%d;height:%d;w%d;h%d", 
-                    pDesk->geometry().width(),
-                    pDesk->geometry().height(),
-                    pDesk->availableGeometry().width(),
-                    pDesk->availableGeometry().height(),
+    LOG_MODEL_DEBUG("main", "screen:size(%d,%d);availableSize(%d,%d);geometry(%d,%d);availableGeometry(%d,%d)",
+                    pScreen->size().width(),
+                    pScreen->size().height(),
+                    pScreen->availableSize().width(),
+                    pScreen->availableSize().height(),
                     pScreen->geometry().width(),
                     pScreen->geometry().height(),
                     pScreen->availableGeometry().width(),
                     pScreen->availableGeometry().height()
+                    );
+    LOG_MODEL_DEBUG("main", "desk:size(%d,%d);geometry(%d,%d);availableGeometry(%d,%d)",
+                    pDesk->size().width(),
+                    pDesk->size().height(),
+                    pDesk->geometry().width(),
+                    pDesk->geometry().height(),
+                    pDesk->availableGeometry().width(),
+                    pDesk->availableGeometry().height()
                     );
     w.setGeometry(pDesk->geometry());
 #else

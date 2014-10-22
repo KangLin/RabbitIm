@@ -1,11 +1,11 @@
 #需要设置下面变量：
-#export ANDROID_NDK_ROOT=/d/software/android-ndk-r9               #指定 android ndk 根目录 
+#export ANDROID_NDK_ROOT=/home/android-ndk-r9c               #指定 android ndk 根目录 
 #export ANDROID_NDK=$ANDROID_NDK_ROOT  #指定 android ndk 根目录 
-#export ANDROID_SDK=/d/software/android-sdk-windows                   #指定 android sdk 根目录
+#export ANDROID_SDK=/home/android-sdk/sdk                   #指定 android sdk 根目录
 #export ANDROID_SDK_ROOT=$ANDROID_SDK   
-#JAVA_HOME=                      #指定 jdk 根目录 
-#QMAKE=/home/l/Qt5.3.1/5.3/android_armv7/bin/qmake   #设置用于 mingw 平台编译的 QMAKE
-#JOM=make             #设置 QT make 工具 JOM
+#export JAVA_HOME=/home/jdk1.7.0_51                      #指定 jdk 根目录 
+#export QMAKE=/home/l/Qt5.4.0/5.4/android_armv7/bin/qmake   #设置用于 mingw 平台编译的 QMAKE
+#export JOM=make             #设置 QT make 工具 JOM
 
 if [ -n "${RabbitImRoot}" ]; then
     PREFIX=${RabbitImRoot}/ThirdLibary/android
