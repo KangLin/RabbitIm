@@ -4,6 +4,10 @@
 #
 #-------------------------------------------------
 
+QXMPP_USE_VPX = 1                 #使用 vpx
+#QXMPP_USE_SPEEX=1            #使用 speex
+#RABBITIM_USER_OPENCV=1 #使用 opencv
+
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets
 
@@ -32,10 +36,6 @@ CONFIG(debug, debug|release) {
     #调试宏
     DEFINES += DEBUG DEBUG_VIDEO_TIME 
 } 
-
-QXMPP_USE_VPX = 1                 #使用 vpx
-#QXMPP_USE_SPEEX=1            #使用 speex
-#RABBITIM_USER_OPENCV=1 #使用 opencv
 
 !isEmpty(QXMPP_USE_SPEEX) {
     CODEC_LIBRARY += -lspeex
@@ -112,15 +112,14 @@ android{
                                             -lopencv_core$$OPENCV_VERSION
 
     android{
-        OPENCV_LIBRARY += \
-                                             -lopencv_androidcamera \
-                                             -lopencv_imgcodecs \
-                                             -llibjpeg
+        OPENCV_LIBRARY += -lopencv_imgcodecs \
+                                              -lopencv_androidcamera \
+                                              -llibjpeg
     }
     else {
         OPENCV_LIBRARY += -lzlib
     }
-    
+
     win32{
         OPENCV_LIBRARY += -lopencv_imgcodecs$$OPENCV_VERSION 
         OPENCV_LIBRARY += -lOle32 -lolepro32 -loleaut32 -luuid #dshow依赖库
@@ -162,7 +161,12 @@ OTHER_FILES += README.md \
 
 isEmpty(PREFIX)
 {
-    PREFIX = install
+    android{
+        PREFIX=/.
+    }
+    else{
+        PREFIX = install
+    }
 }
 
 mytarnslat.commands = lrelease $${PWD}/RabbitIm.pro && \
@@ -177,7 +181,7 @@ wince {
     mytranslat.path = $$PREFIX
     DEPLOYMENT += mytranslat
 }
-else:!android{
+else{
     other.files = License.html README.md
     other.path = $$PREFIX
     other.CONFIG += directory no_check_exist 
@@ -192,5 +196,15 @@ else:!android{
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android  #ANDROID包的源码目录
 
 contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
-    ANDROID_EXTRA_LIBS =
+    !isEmpty(RABBITIM_USER_OPENCV) {
+        ANDROID_EXTRA_LIBS = \
+            $$PWD/ThirdLibary/android/lib/libnative_camera_r4.0.0.so \
+            $$PWD/ThirdLibary/android/lib/libopencv_info.so
+    }
+
+    ANDROID_PERMISSIONS += \
+        android.permission.CAMERA
+
+    ANDROID_FEATURES += \
+        android.hardware.camera
 }

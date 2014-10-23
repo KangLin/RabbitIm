@@ -80,8 +80,6 @@ cmake .. \
     -DBUILD_opencv_videostab=OFF \
     -DBUILD_opencv_ts=OFF \
     -DBUILD_opencv_java=OFF \
-    -DBUILD_opencv_highgui=OFF \
-    -DBUILD_opencv_features2d=OFF \
     -DBUILD_opencv_photo=OFF \
     -DWITH_WEBP=OFF \
     -DWITH_TIFF=OFF \
@@ -99,10 +97,23 @@ cmake .. \
     -DWITH_GIGEAPI=OFF \
     -DWITH_GSTREAMER=OFF \
     -DWITH_GTK=OFF \
-    -DBUILD_opencv_video=ON \
+    -DBUILD_opencv_ml:BOOL=OFF \
+    -DBUILD_opencv_objdetect:BOOL=OFF \
+    -DBUILD_opencv_shape:BOOL=OFF \
+    -DBUILD_opencv_stitching:BOOL=OFF \
+    -DBUILD_opencv_superres:BOOL=OFF \
+    -DENABLE_OMIT_FRAME_POINTER:BOOL=OFF \
+    -DENABLE_PRECOMPILED_HEADERS:BOOL=OFF \
+    -DWITH_CUDA:BOOL=OFF \
+    -DWITH_CUFFT:BOOL=OFF \
+    -DWITH_EIGEN:BOOL=OFF \
+    -DBUILD_opencv_highgui=OFF \
+    -DBUILD_opencv_features2d=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
     -DBUILD_opencv_androidcamera=ON \
-    -DBUILD_opencv_imgcodecs=ON \
-    -DBUILD_SHARED_LIBS=ON 
+    -DBUILD_opencv_video=ON \
+    -DBUILD_opencv_videoio=ON \
+    -DBUILD_opencv_imgcodecs=ON 
 
 cmake --build . --target install --config Release
 

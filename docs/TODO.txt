@@ -1,6 +1,6 @@
 ﻿邮件
-测试手机功能
 
+pScreen->availableSize().width()：不能正确定得到
 
 消息记录保存到文件中
 
