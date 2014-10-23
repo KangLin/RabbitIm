@@ -198,7 +198,7 @@ ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android  #ANDROID包的源码目录
 contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     !isEmpty(RABBITIM_USER_OPENCV) {
         ANDROID_EXTRA_LIBS = \
-            $$PWD/ThirdLibary/android/lib/libnative_camera_r4.0.0.so \
+            $$PWD/ThirdLibary/android/lib/libnative_camera_r4.0.3.so \
             $$PWD/ThirdLibary/android/lib/libopencv_info.so
     }
 
