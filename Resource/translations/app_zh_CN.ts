@@ -5,8 +5,8 @@
     <name>CClientXmpp</name>
     <message>
         <location filename="../../Client/ClientXmpp.cpp" line="264"/>
-        <source>The roster is offline, don&apos;t send file.</source>
-        <translation>好友是离线状态，不能发送文件。</translation>
+        <source>The roster is offline, don&apos;t send the file.</source>
+        <translation type="unfinished">好友离线状态，不能发送文件。</translation>
     </message>
 </context>
 <context>
@@ -189,8 +189,8 @@
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="337"/>
-        <source>Send Message</source>
-        <translation></translation>
+        <source>Send message key</source>
+        <translation>发送消息键</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="349"/>
@@ -285,38 +285,38 @@
 <context>
     <name>CFileTransferAction</name>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="103"/>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="127"/>
         <source>ETA: </source>
         <translation>剩余：</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="167"/>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="192"/>
         <source>Accept</source>
         <translation>接收</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="174"/>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="186"/>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="199"/>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="211"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="195"/>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="220"/>
         <source>Send the file has been canceled.</source>
         <translation>文件传输被取消。</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="212"/>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="237"/>
         <source>Open folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="215"/>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="240"/>
         <source>Send the file has been finished.</source>
         <translation>文件传输完成。</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="223"/>
+        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="260"/>
         <source>File sending error.</source>
         <translation>传输错误</translation>
     </message>
@@ -815,33 +815,33 @@
         <translation>发送(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="82"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="88"/>
         <source>send file</source>
         <translation>发送文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="121"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="135"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="127"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="141"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="204"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="210"/>
         <source>Close message dialog</source>
         <translation>关闭消息对话框</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="205"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="211"/>
         <source>Sending files to determine whether you want to close?</source>
         <translation>有文件正在发送，你确定是否关闭消息对话框？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="295"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="323"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="295"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="323"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
@@ -849,18 +849,6 @@
         <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="202"/>
         <source>Video</source>
         <translation>视频</translation>
-    </message>
-    <message>
-        <source>%1 isn&apos;t online.</source>
-        <translation type="vanished">%1 不在线。</translation>
-    </message>
-    <message>
-        <source>Save File</source>
-        <translation type="vanished">保存为文件</translation>
-    </message>
-    <message>
-        <source>Images (*.png *.xpm *.jpg)</source>
-        <translation type="vanished">图像 (*.png *.xpm *.jpg)</translation>
     </message>
 </context>
 <context>
@@ -953,30 +941,6 @@
         <location filename="../../Widgets/FrmRegister/FrmRegister.ui" line="303"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
-    </message>
-    <message>
-        <source>Register success</source>
-        <translation type="vanished">注册成功</translation>
-    </message>
-    <message>
-        <source>Unknow error:</source>
-        <translation type="vanished">未知错误：</translation>
-    </message>
-    <message>
-        <source>User</source>
-        <translation type="vanished">用户</translation>
-    </message>
-    <message>
-        <source>had exist</source>
-        <translation type="vanished">已存在</translation>
-    </message>
-    <message>
-        <source>Sever internal error</source>
-        <translation type="vanished">服务器内部错误</translation>
-    </message>
-    <message>
-        <source>Register fail</source>
-        <translation type="vanished">注册失败</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="85"/>
@@ -1320,13 +1284,13 @@
 <context>
     <name>CManageFileTransfer</name>
     <message>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="80"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="86"/>
         <source>Send file %1</source>
         <translation>发送文件 %1</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="127"/>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="141"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="148"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="162"/>
         <source>Sava as ...</source>
         <translation>另存为...</translation>
     </message>
@@ -1377,7 +1341,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="14"/>
-        <location filename="../../MainWindow.cpp" line="90"/>
+        <location filename="../../MainWindow.cpp" line="84"/>
         <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>
     </message>
@@ -1412,7 +1376,7 @@
         <translation>中文(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="289"/>
+        <location filename="../../MainWindow.cpp" line="283"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation>改变样式(&amp;S)</translation>
     </message>
@@ -1422,96 +1386,96 @@
         <translation>选项(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="136"/>
-        <location filename="../../MainWindow.cpp" line="530"/>
+        <location filename="../../MainWindow.cpp" line="130"/>
+        <location filename="../../MainWindow.cpp" line="524"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="298"/>
+        <location filename="../../MainWindow.cpp" line="292"/>
         <source>Close(&amp;E)</source>
         <translation>关闭(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="276"/>
-        <location filename="../../MainWindow.cpp" line="514"/>
+        <location filename="../../MainWindow.cpp" line="270"/>
+        <location filename="../../MainWindow.cpp" line="508"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation>编辑本地用户信息(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="339"/>
+        <location filename="../../MainWindow.cpp" line="333"/>
         <source>Status(&amp;S)</source>
         <translation>状态(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="358"/>
+        <location filename="../../MainWindow.cpp" line="352"/>
         <source>Language(&amp;L)</source>
         <translation>语言(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="360"/>
+        <location filename="../../MainWindow.cpp" line="354"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="362"/>
+        <location filename="../../MainWindow.cpp" line="356"/>
         <source>Chinese</source>
         <translation>简体中文</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="361"/>
+        <location filename="../../MainWindow.cpp" line="355"/>
         <source>English</source>
         <translation>英语</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="137"/>
+        <location filename="../../MainWindow.cpp" line="131"/>
         <source>Is close the programe or logout?</source>
         <translation>是关闭程序还是登出？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="139"/>
+        <location filename="../../MainWindow.cpp" line="133"/>
         <source>close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="140"/>
+        <location filename="../../MainWindow.cpp" line="134"/>
         <source>logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="234"/>
-        <location filename="../../MainWindow.cpp" line="235"/>
+        <location filename="../../MainWindow.cpp" line="228"/>
+        <location filename="../../MainWindow.cpp" line="229"/>
         <source>RabbitIm:%1</source>
         <translation>玉兔即时通信：%1</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="295"/>
+        <location filename="../../MainWindow.cpp" line="289"/>
         <source>Logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="460"/>
+        <location filename="../../MainWindow.cpp" line="454"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="460"/>
+        <location filename="../../MainWindow.cpp" line="454"/>
         <source>Change language must reset program.</source>
         <translation>改变语言设置，必须重启程序才能生效。</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="523"/>
+        <location filename="../../MainWindow.cpp" line="517"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="525"/>
+        <location filename="../../MainWindow.cpp" line="519"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="635"/>
-        <location filename="../../MainWindow.cpp" line="660"/>
+        <location filename="../../MainWindow.cpp" line="629"/>
+        <location filename="../../MainWindow.cpp" line="654"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>

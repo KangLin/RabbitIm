@@ -334,7 +334,7 @@
        <item row="1" column="0">
         <widget class="QGroupBox" name="gBSendMessage">
          <property name="title">
-          <string>Send Message</string>
+          <string>Send message key</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_5">
           <item row="0" column="0">
