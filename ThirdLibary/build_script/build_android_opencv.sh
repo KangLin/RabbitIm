@@ -113,7 +113,8 @@ cmake .. \
     -DBUILD_opencv_androidcamera=ON \
     -DBUILD_opencv_video=ON \
     -DBUILD_opencv_videoio=ON \
-    -DBUILD_opencv_imgcodecs=ON 
+    -DBUILD_opencv_imgcodecs=ON \
+    -DBUILD_opencv_imgproc:BOOL=ON
 
 cmake --build . --target install --config Release
 

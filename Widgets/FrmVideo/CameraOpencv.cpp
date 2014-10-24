@@ -41,7 +41,7 @@ void CCameraOpencv::slotTimeOut()
 {
     cv::Mat frame;
     m_videoCapture >> frame;
-    LOG_MODEL_DEBUG("CCameraOpencv", "frame.type:%d;format:", frame.type(), m_videoCapture.get(cv::CAP_PROP_FORMAT));
+    //LOG_MODEL_DEBUG("CCameraOpencv", "frame.type:%d;format:", frame.type(), m_videoCapture.get(cv::CAP_PROP_FORMAT));
 
     cv::cvtColor(frame, frame, cv::COLOR_BGR2RGB);  
     cv::flip(frame, frame, 1);  

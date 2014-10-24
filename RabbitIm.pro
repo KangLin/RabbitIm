@@ -112,8 +112,10 @@ android{
                                             -lopencv_core$$OPENCV_VERSION
 
     android{
-        OPENCV_LIBRARY += -lopencv_imgcodecs \
+        OPENCV_LIBRARY += \
                                               -lopencv_androidcamera \
+                                              -lopencv_imgcodecs \
+                                              -lopencv_info \
                                               -llibjpeg
     }
     else {
@@ -196,15 +198,14 @@ else{
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android  #ANDROID包的源码目录
 
 contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
-    !isEmpty(RABBITIM_USER_OPENCV) {
-        ANDROID_EXTRA_LIBS = \
-            $$PWD/ThirdLibary/android/lib/libnative_camera_r4.0.3.so \
-            $$PWD/ThirdLibary/android/lib/libopencv_info.so
-    }
-
     ANDROID_PERMISSIONS += \
         android.permission.CAMERA
 
     ANDROID_FEATURES += \
         android.hardware.camera
+    !isEmpty(RABBITIM_USER_OPENCV) {
+        ANDROID_EXTRA_LIBS = \
+            $$PWD/ThirdLibary/android/lib/libnative_camera_r4.0.3.so \
+            $$PWD/ThirdLibary/android/lib/libopencv_info.so 
+    }
 }
