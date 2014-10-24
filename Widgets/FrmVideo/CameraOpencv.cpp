@@ -6,16 +6,12 @@
 CCameraOpencv::CCameraOpencv(QObject *parent) :
     CCamera(parent)
 {
-    m_deviceIndex = 0;
     m_tmCapture = 1000 / 30;
     bool check = connect(&m_Timer, SIGNAL(timeout()),
                          SLOT(slotTimeOut()));
     Q_ASSERT(check);
     check = connect(this, SIGNAL(sigCaptureRawFrame(QVideoFrame)), 
-                    &m_FrameProcess, SLOT(slotCaptureFrame(QVideoFrame)));
-    Q_ASSERT(check);
-    check = connect(&m_FrameProcess, SIGNAL(sigCaptureFrame(QVideoFrame)),
-                    this, SIGNAL(sigCaptureFrame(QVideoFrame)));
+                    &m_CaptureFrameProcess, SLOT(slotCaptureFrame(QVideoFrame)));
     Q_ASSERT(check);
 }
 
@@ -25,9 +21,11 @@ CCameraOpencv::~CCameraOpencv()
 int CCameraOpencv::Start()
 {
     int nRet = 0;
-    if(!m_videoCapture.open(m_deviceIndex))
+    if(m_videoCapture.isOpened())
+        Stop();
+    if(!m_videoCapture.open(this->GetDeviceIndex()))
     {
-        LOG_MODEL_DEBUG("CCameraOpencv", "don't open video deivce:%d", m_deviceIndex);
+        LOG_MODEL_DEBUG("CCameraOpencv", "don't open video deivce:%d", GetDeviceIndex());
         return -1;
     }
 
@@ -82,41 +80,6 @@ void CCameraOpencv::slotTimeOut()
                          QSize(frame.cols,
                                frame.rows),
                          QVideoFrame::Format_RGB24);//*/
-    
+
     emit sigCaptureRawFrame(outFrame);
-}
-
-QList<QString> CCameraOpencv::GetAvailableDevices()
-{
-    QList<QString> ret;
-    
-    return ret;
-}
-
-int CCameraOpencv::SetDefaultCamera()
-{
-    int nRet = 0;
-    
-    return nRet;
-}
-
-int CCameraOpencv::SetDeviceIndex(int index)
-{
-    int nRet = 0;
-    
-    return nRet;
-}
-
-int CCameraOpencv::GetDeviceIndex()
-{
-    int nRet = 0;
-    
-    return nRet;
-}
-
-int CCameraOpencv::GetOrientation()
-{
-    int nRet = 0;
-    
-    return nRet;
 }

@@ -21,8 +21,13 @@ public:
     virtual int Stop();
 
     virtual QList<QString> GetAvailableDevices();
-#ifdef ANDROID
-    virtual QCamera::Position GetCameraPoistion();
+#ifdef MOBILE
+    enum Position{
+        UnspecifiedPosition,
+        BackFace,
+        FrontFace
+    };
+    virtual Position GetCameraPoistion();
 #endif
     virtual int SetDefaultCamera();
     virtual int SetDeviceIndex(int index);
@@ -39,6 +44,7 @@ private:
     QCamera *m_pCamera;
 
     CCaptureVideoFrame m_CaptureVideoFrame;//实现捕获视频帧  
+protected:
     CFrameProcess m_CaptureFrameProcess;
 
 private slots:

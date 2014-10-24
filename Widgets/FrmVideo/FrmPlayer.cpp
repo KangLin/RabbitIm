@@ -106,6 +106,7 @@ int CFrmPlayer::TestCamera()
 #else
     pCamera = new CCamera;
 #endif
+    pCamera->SetDeviceIndex(1);
     pCamera->GetAvailableDevices();
     connect(pCamera, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
             SLOT(slotPresent(const QVideoFrame&)));

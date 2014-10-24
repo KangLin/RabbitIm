@@ -5,7 +5,8 @@
 #include <QApplication>
 #include <QScreen>
 
-CCamera::CCamera(QObject *parent) : QObject(parent)
+CCamera::CCamera(QObject *parent) : QObject(parent),
+    m_CaptureFrameProcess(this)
 {
     if(!parent)
         LOG_MODEL_ERROR("Video", "CCaptureVideoFrame::CCaptureVideoFrame parent is null");
@@ -113,11 +114,11 @@ QList<QString> CCamera::GetAvailableDevices()
     return ret;
 }
 
-#ifdef ANDROID
-QCamera::Position CCamera::GetCameraPoistion()
+#ifdef MOBILE
+CCamera::Position CCamera::GetCameraPoistion()
 {
     QCameraInfo info(m_CameraPosition);
-    return info.position();
+    return (Position)info.position();
 }
 #endif
 

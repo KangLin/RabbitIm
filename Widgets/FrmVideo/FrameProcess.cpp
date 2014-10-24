@@ -20,6 +20,7 @@ CFrameProcess::~CFrameProcess()
 //前景摄像头要逆时针旋转90度  
 void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 {
+    Q_ASSERT(m_pCamera);//需要初始指针  
     QVideoFrame inFrame(frame);
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
     {
@@ -35,8 +36,21 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
            //*用opencv库做图像镜像  
             cv::Mat src(inFrame.height(), inFrame.width(), CV_8UC3, inFrame.bits());
             cv::Mat dst;
-            cv::transpose(src, dst);
-            cv::flip(dst, dst, 1); //最后一个参数flip_mode = 0 沿X-轴翻转, flip_mode > 0 (如 1) 沿Y-轴翻转， flip_mode < 0 (如 -1) 沿X-轴和Y-轴翻转  
+            if(m_pCamera->GetCameraPoistion() == CCamera::BackFace)
+            {
+                cv::transpose(src, dst);//转置  
+                cv::flip(dst, dst, 1); //最后一个参数flip_mode = 0 沿X-轴翻转, flip_mode > 0 (如 1) 沿Y-轴翻转， flip_mode < 0 (如 -1) 沿X-轴和Y-轴翻转  
+            }
+            else if(m_pCamera->GetCameraPoistion() == CCamera::FrontFace)
+            {
+                cv::transpose(src, dst);//转置  
+                cv::flip(dst, dst, 0);
+            }
+            else
+            {
+                LOG_MODEL_DEBUG("CFrameProcess", "camera poistion is error");
+                dst = src;
+            }
             QImage img((uchar*)(dst.data), dst.cols, dst.rows, QImage::Format_RGB888);  //RGB888就是RGB24即RGB  
 #else
             QImage img(inFrame.bits(), 
@@ -44,7 +58,10 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
                        inFrame.height(),
                        QVideoFrame::imageFormatFromPixelFormat(inFrame.pixelFormat()));
             QMatrix m;
-            img = img.transformed(m.rotate(90));
+            if(m_pCamera->GetCameraPoistion() == CCamera::BackFace)
+                img = img.transformed(m.rotate(90));
+            else if(m_pCamera->GetCameraPoistion() == CCamera::FrontFace)
+                img = img.transformed(m.rotate(-90));
 #endif
             QVideoFrame outFrame(img);
             emit sigCaptureFrame(outFrame);
