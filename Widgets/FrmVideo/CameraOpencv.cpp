@@ -41,7 +41,13 @@ void CCameraOpencv::slotTimeOut()
 {
     cv::Mat frame;
     m_videoCapture >> frame;
-    //LOG_MODEL_DEBUG("CCameraOpencv", "frame.type:%d;format:", frame.type(), m_videoCapture.get(cv::CAP_PROP_FORMAT));
+    LOG_MODEL_DEBUG("CCameraOpencv", "frame.type:%d;format:%d", frame.type(), 
+                #ifdef ANDROID
+                    m_videoCapture.get(cv::CAP_PROP_ANDROID_PREVIEW_FORMAT)
+                #else
+                    m_videoCapture.get(cv::CAP_PROP_FORMAT)
+                #endif
+                    );
 
     cv::cvtColor(frame, frame, cv::COLOR_BGR2RGB);  
     cv::flip(frame, frame, 1);  
