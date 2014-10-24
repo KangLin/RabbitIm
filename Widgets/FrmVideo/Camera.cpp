@@ -71,7 +71,7 @@ int CCamera::Stop()
 
 int CCamera::SetDefaultCamera()
 {
-#ifdef ANDROID
+#ifdef MOBILE
     QList<QByteArray> device = QCamera::availableDevices();
     QList<QByteArray>::iterator it;
     for(it = device.begin(); it != device.end(); it++)
@@ -163,15 +163,11 @@ int CCamera::GetOrientation()
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     int screenAngle = screen->angleBetween(screen->nativeOrientation(), screen->orientation());
-    QCamera camera;
+    QCamera camera(m_CameraPosition);
     QCameraInfo cameraInfo(camera);
     int rotation = 0;
-    if (cameraInfo.position() == QCamera::BackFace) {
-        rotation = (cameraInfo.orientation() - screenAngle) % 360;
-    } else {
-        // Front position, compensate the mirror
-        rotation = (360 - cameraInfo.orientation() + screenAngle) % 360;
-    }
-    LOG_MODEL_DEBUG("main", "screen angle:%d;rotation:%d", screenAngle, rotation);
+    rotation = (cameraInfo.orientation() - screenAngle) % 360;
+    LOG_MODEL_DEBUG("main", "screen angle:%d;rotation:%d;cameraInfo.orientation():%d",
+                    screenAngle, rotation, cameraInfo.orientation());
     return rotation;
 }
