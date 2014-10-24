@@ -16,18 +16,10 @@ CFrameProcess::~CFrameProcess()
 }
 
 #ifdef ANDROID
-//捕获视频帧。android下是图像格式是NV21,背景摄像头要顺时针旋转90度,再做Y轴镜像
-//前景摄像头要逆时针旋转90度
+//捕获视频帧。android下是图像格式是NV21,背景摄像头要顺时针旋转90度,再做Y轴镜像  
+//前景摄像头要逆时针旋转90度  
 void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 {
-    if(frame.pixelFormat() != QVideoFrame::Format_NV21)
-    {
-        LOG_MODEL_WARNING("Video", "CCaptureVideoFrame::present:don't Format_NV21");
-        emit sigCaptureFrame(frame);
-        slotFrameConvertedToYUYV(frame, 320,240);
-        return;
-    }
-
     QVideoFrame inFrame(frame);
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
     {
@@ -36,6 +28,37 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
     }
 
     do{
+
+        if(frame.pixelFormat() == QVideoFrame::Format_RGB24)
+        {
+#ifdef RABBITIM_USER_OPENCV
+           //*用opencv库做图像镜像  
+            cv::Mat src(inFrame.height(), inFrame.width(), CV_8UC3, inFrame.bits());
+            cv::Mat dst;
+            cv::transpose(src, dst);
+            cv::flip(dst, dst, 1); //最后一个参数flip_mode = 0 沿X-轴翻转, flip_mode > 0 (如 1) 沿Y-轴翻转， flip_mode < 0 (如 -1) 沿X-轴和Y-轴翻转  
+            QImage img((uchar*)(dst.data), dst.cols, dst.rows, QImage::Format_RGB888);  //RGB888就是RGB24即RGB  
+#else
+            QImage img(inFrame.bits(), 
+                       inFrame.width(), 
+                       inFrame.height(),
+                       QVideoFrame::imageFormatFromPixelFormat(inFrame.pixelFormat()));
+            QMatrix m;
+            img = img.transformed(m.rotate(90));
+#endif
+            QVideoFrame outFrame(img);
+            emit sigCaptureFrame(outFrame);
+            break;
+        }
+
+        if(frame.pixelFormat() != QVideoFrame::Format_NV21)
+        {
+            LOG_MODEL_WARNING("Video", "CCaptureVideoFrame::present:don't Format_NV21");
+            QVideoFrame outFrame(frame);
+            emit sigCaptureFrame(outFrame);
+            break;
+        }
+
         int nWidth = inFrame.width();
         int nHeight = inFrame.height();
         QByteArray mirror, rotate;
@@ -70,7 +93,7 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
     return;
 }
 #else
-//捕获视频帧。windows下格式是RGB32,做Y轴镜像
+//捕获视频帧。windows下格式是RGB32,做Y轴镜像  
 void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 {
     QVideoFrame inFrame(frame);
@@ -81,8 +104,8 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
     }
 
     do{
-        //windows下要镜像，android下要旋转90度
-        if(inFrame.pixelFormat() != QVideoFrame::Format_RGB32)
+        //windows下要镜像，android下要旋转90度  
+        if(inFrame.pixelFormat() != QVideoFrame::Format_RGB24)
         {
             emit sigCaptureFrame(frame);
         }
@@ -92,9 +115,9 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
            //*用opencv库做图像镜像  
             QByteArray outData;
             outData.resize(inFrame.mappedBytes());//dst.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()  
-            cv::Mat src(inFrame.height(), inFrame.width(), CV_8UC4, inFrame.bits());
-            cv::Mat dst(inFrame.height(), inFrame.width(), CV_8UC4, outData.data());
-            cv::flip(src, dst, 0); //最后一个参数>0为x轴镜像，=0为y轴镜像，，<0为x,y轴都镜像。  
+            cv::Mat src(inFrame.height(), inFrame.width(), CV_8UC3, inFrame.bits());
+            cv::Mat dst(inFrame.height(), inFrame.width(), CV_8UC3, outData.data());
+            cv::flip(src, dst, 1);  //最后一个参数flip_mode = 0 沿X-轴翻转, flip_mode > 0 (如 1) 沿Y-轴翻转， flip_mode < 0 (如 -1) 沿X-轴和Y-轴翻转  
             //dst = CTool::ImageRotate(src, cv::Point(inFrame.width() >> 2, inFrame.height() >> 2), m_pCamera->GetOrientation());  
 
             //由QVideoFrame进行释放  
@@ -107,8 +130,9 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
                                  inFrame.pixelFormat());//*/
 #else
             //用QImage做图像镜像  
-            QImage img(inFrame.bits(), inFrame.width(), inFrame.height(), QImage::Format_RGB32);
-            img = img.mirrored(false, true);
+            QImage img(inFrame.bits(), inFrame.width(), inFrame.height(), 
+                       QVideoFrame::imageFormatFromPixelFormat(inFrame.pixelFormat()));
+            img = img.mirrored(true, false);
             /*
             if(m_pCamera->GetOrientation())
                 img = img.transformed(QTransform().rotate(m_pCamera->GetOrientation()));//*/

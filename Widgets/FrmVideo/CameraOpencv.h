@@ -5,6 +5,7 @@
 #include <QTimer>
 #include "Camera.h"
 #include "opencv2/opencv.hpp"
+#include "FrameProcess.h"
 
 class CCameraOpencv : public CCamera
 {
@@ -23,6 +24,7 @@ public:
     virtual int GetOrientation();//得摄像头安装的方向,返回角度  
 
 signals:
+    void sigCaptureRawFrame(const QVideoFrame &frame);
 
 private slots:
     void slotTimeOut();
@@ -32,6 +34,7 @@ private:
     int m_deviceIndex;
     QTimer m_Timer;
     int m_tmCapture;
+    CFrameProcess m_FrameProcess;
 };
 
 #endif // CAMERAOPENCV_H

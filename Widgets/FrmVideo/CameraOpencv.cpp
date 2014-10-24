@@ -11,6 +11,12 @@ CCameraOpencv::CCameraOpencv(QObject *parent) :
     bool check = connect(&m_Timer, SIGNAL(timeout()),
                          SLOT(slotTimeOut()));
     Q_ASSERT(check);
+    check = connect(this, SIGNAL(sigCaptureRawFrame(QVideoFrame)), 
+                    &m_FrameProcess, SLOT(slotCaptureFrame(QVideoFrame)));
+    Q_ASSERT(check);
+    check = connect(&m_FrameProcess, SIGNAL(sigCaptureFrame(QVideoFrame)),
+                    this, SIGNAL(sigCaptureFrame(QVideoFrame)));
+    Q_ASSERT(check);
 }
 
 CCameraOpencv::~CCameraOpencv()
@@ -40,7 +46,15 @@ int CCameraOpencv::Stop()
 void CCameraOpencv::slotTimeOut()
 {
     cv::Mat frame;
+#ifdef ANDROID
+    if(!m_videoCapture.grab())
+        return;
+     m_videoCapture.retrieve(frame, cv::CAP_ANDROID_COLOR_FRAME_RGB);
+#else
     m_videoCapture >> frame;
+    //因为opencv会在内部把图像转化为BGR格式  
+    cv::cvtColor(frame, frame, cv::COLOR_BGR2RGB);  
+#endif
     if(frame.empty())
         return;
     /*LOG_MODEL_DEBUG("CCameraOpencv", "frame.type:%d;format:%d", frame.type(), 
@@ -51,11 +65,7 @@ void CCameraOpencv::slotTimeOut()
                 #endif
                     );
     */
-    
-    
-    //因为opencv会在内部把图像转化为BGR格式  
-    cv::cvtColor(frame, frame, cv::COLOR_BGR2RGB);  
-    cv::flip(frame, frame, 1);  
+
     //*第一种转换方法：用QImage  
     QImage image((uchar*)(frame.data), frame.cols, frame.rows, QImage::Format_RGB888);  //RGB888就是RGB24即RGB  
     QVideoFrame outFrame(image);//*/
@@ -73,7 +83,7 @@ void CCameraOpencv::slotTimeOut()
                                frame.rows),
                          QVideoFrame::Format_RGB24);//*/
     
-    emit sigCaptureFrame(outFrame);
+    emit sigCaptureRawFrame(outFrame);
 }
 
 QList<QString> CCameraOpencv::GetAvailableDevices()
