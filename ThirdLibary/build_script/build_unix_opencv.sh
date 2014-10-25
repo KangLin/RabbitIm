@@ -55,7 +55,6 @@ cmake ../. \
         -DBUILD_TIFF=OFF \
         -DBUILD_WITH_DEBUG_INFO=OFF \
         -DWITH_OPENCL=OFF \
-        -DBUILD_opencv_video=ON \
         -DBUILD_opencv_videostab=OFF \
         -DBUILD_opencv_ts=OFF \
         -DBUILD_opencv_java=OFF \
@@ -78,6 +77,7 @@ cmake ../. \
         -DWITH_GIGEAPI=OFF \
         -DWITH_GSTREAMER=OFF \
         -DWITH_GTK=OFF \
+        -DBUILD_opencv_video=ON \
         -DWITH_LIBV4L=ON \
         -DWITH_V4L=ON
 

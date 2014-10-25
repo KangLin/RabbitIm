@@ -64,11 +64,11 @@ void CCameraOpencv::slotTimeOut()
                     );
     */
 
-    //*第一种转换方法：用QImage  
+    /*第一种转换方法：用QImage  
     QImage image((uchar*)(frame.data), frame.cols, frame.rows, QImage::Format_RGB888);  //RGB888就是RGB24即RGB  
     QVideoFrame outFrame(image);//*/
 
-    /*第二种转换方法：用CDataVideoBuffer  
+    //*第二种转换方法：用CDataVideoBuffer  
     QByteArray outData((const char*)frame.data, (int)(frame.total() * frame.channels()));
     //frame.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()  
     //由QVideoFrame进行释放  
@@ -80,6 +80,9 @@ void CCameraOpencv::slotTimeOut()
                          QSize(frame.cols,
                                frame.rows),
                          QVideoFrame::Format_RGB24);//*/
-
+#ifdef ANDROID
     emit sigCaptureRawFrame(outFrame);
+#else
+    emit sigCaptureFrame(outFrame);//opencv已经做过镜像了  
+#endif
 }

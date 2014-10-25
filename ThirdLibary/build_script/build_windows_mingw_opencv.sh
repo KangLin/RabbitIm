@@ -53,7 +53,7 @@ cmake .. \
         -DBUILD_TIFF=OFF \
         -DBUILD_WITH_DEBUG_INFO=OFF \
         -DWITH_OPENCL=OFF \
-        -DBUILD_opencv_video=ON \
+        -DBUILD_opencv_calib3d=OFF \
         -DBUILD_opencv_videostab=OFF \
         -DBUILD_opencv_ts=OFF \
         -DBUILD_opencv_java=OFF \
@@ -77,7 +77,23 @@ cmake .. \
         -DWITH_GSTREAMER=OFF \
         -DWITH_GTK=OFF \
         -DWITH_LIBV4L=OFF \
-        -DWITH_V4L=OFF 
+        -DBUILD_opencv_features2d=OFF \
+        -DBUILD_opencv_flann=OFF \
+        -DBUILD_opencv_highgui=OFF \
+        -DWITH_V4L=OFF \
+        -DBUILD_opencv_ml=OFF \
+        -DBUILD_opencv_objdetect=OFF \
+        -DBUILD_opencv_photo=OFF \
+        -DBUILD_opencv_shape=OFF \
+        -DBUILD_opencv_stitching=OFF \
+        -DBUILD_opencv_superres=OFF \
+        -DWITH_CUDA=OFF \
+        -DWITH_CUFFT=OFF \
+        -DWITH_DIRECTX=OFF \
+        -DWITH_EIGEN:BOOL=OFF \
+        -DWITH_DSHOW=ON \
+        -DBUILD_opencv_video=ON \
+        -DBUILD_opencv_videoio=ON
 
 cmake --build . --target install --config Release
 

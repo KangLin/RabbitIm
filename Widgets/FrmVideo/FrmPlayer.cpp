@@ -92,6 +92,10 @@ void CFrmPlayer::mouseReleaseEvent(QMouseEvent *)
 #ifdef DEBUG
 int CFrmPlayer::TestCamera()
 {
+#ifdef DEBUG_VIDEO_TIME
+    LOG_MODEL_DEBUG("CFrmPlayer", "CFrmPlayer::TestCamera threadid:%d",
+           QThread::currentThreadId());
+#endif
     //以下为视频捕获、显示测试代码  
     static CCamera *pCamera = NULL;
     if(pCamera)

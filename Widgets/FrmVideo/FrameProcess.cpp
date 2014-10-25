@@ -20,7 +20,13 @@ CFrameProcess::~CFrameProcess()
 //前景摄像头要逆时针旋转90度  
 void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 {
+#ifdef DEBUG_VIDEO_TIME
+    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotCaptureFrame threadid:%d",
+           QThread::currentThreadId());
+#endif
+#ifdef DEBUG
     Q_ASSERT(m_pCamera);//需要初始指针  
+#endif
     QVideoFrame inFrame(frame);
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
     {
@@ -32,7 +38,7 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 
         if(frame.pixelFormat() == QVideoFrame::Format_RGB24)
         {
-/*#ifdef RABBITIM_USER_OPENCV
+/*
             //用opencv库做图像镜像  
             cv::Mat src(inFrame.height(), inFrame.width(), CV_8UC3, inFrame.bits());
             cv::Mat dst;
@@ -53,18 +59,14 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
             }
             //dst = CTool::ImageRotate(src, cv::Point(src.cols >> 1, src.rows >> 1), m_pCamera->GetOrientation());//有黑边  
             QImage img((uchar*)(dst.data), dst.cols, dst.rows, QImage::Format_RGB888);  //RGB888就是RGB24即RGB  
-#else*/
+*/
             QImage img(inFrame.bits(), 
                        inFrame.width(), 
                        inFrame.height(),
                        QVideoFrame::imageFormatFromPixelFormat(inFrame.pixelFormat()));
             QMatrix m;
             img = img.transformed(m.rotate(360 - m_pCamera->GetOrientation()));
-            /*if(m_pCamera->GetCameraPoistion() == CCamera::BackFace)
-                img = img.transformed(m.rotate(90));
-            else if(m_pCamera->GetCameraPoistion() == CCamera::FrontFace)
-                img = img.transformed(m.rotate(-90));*/
-//#endif
+
             QVideoFrame outFrame(img);
             emit sigCaptureFrame(outFrame);
             break;
@@ -115,7 +117,9 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 //捕获视频帧。windows下格式是RGB32,做Y轴镜像  
 void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 {
+#ifdef DEBUG
     Q_ASSERT(m_pCamera);//需要初始指针  
+#endif
     QVideoFrame inFrame(frame);
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
     {
@@ -125,42 +129,40 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 
     do{
         //windows下要镜像
-        if(inFrame.pixelFormat() != QVideoFrame::Format_RGB24)
+        /*if(inFrame.pixelFormat() != QVideoFrame::Format_RGB32)
         {
             emit sigCaptureFrame(frame);
-        }
-        else
-        {
+            break;
+        }*/
+
 #ifdef RABBITIM_USER_OPENCV
-           //*用opencv库做图像镜像  
-            QByteArray outData;
-            outData.resize(inFrame.mappedBytes());//dst.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()  
-            cv::Mat src(inFrame.height(), inFrame.width(), CV_8UC3, inFrame.bits());
-            cv::Mat dst(inFrame.height(), inFrame.width(), CV_8UC3, outData.data());
-            cv::flip(src, dst, 1);  //最后一个参数flip_mode = 0 沿X-轴翻转, flip_mode > 0 (如 1) 沿Y-轴翻转， flip_mode < 0 (如 -1) 沿X-轴和Y-轴翻转  
-            //dst = CTool::ImageRotate(src, cv::Point(inFrame.width() >> 1, inFrame.height() >> 1), m_pCamera->GetOrientation());  
-
-            //由QVideoFrame进行释放  
-            CDataVideoBuffer* pBuffer = new CDataVideoBuffer(outData,
-                                    dst.cols,
-                                    dst.rows);
-            QVideoFrame outFrame(pBuffer,
-                                 QSize(dst.cols,
-                                       dst.rows),
-                                 inFrame.pixelFormat());//*/
+        //*用opencv库做图像镜像  
+        int nType = CV_8UC4;
+        if(inFrame.pixelFormat() == QVideoFrame::Format_RGB24)
+            nType = CV_8UC3;
+        QByteArray outData;
+        outData.resize(inFrame.mappedBytes());//dst.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()  
+        cv::Mat src(inFrame.height(), inFrame.width(), nType, inFrame.bits());
+        cv::Mat dst(inFrame.height(), inFrame.width(), nType, outData.data());
+        cv::flip(src, dst, 1);  //最后一个参数flip_mode = 0 沿X-轴翻转, flip_mode > 0 (如 1) 沿Y-轴翻转， flip_mode < 0 (如 -1) 沿X-轴和Y-轴翻转  
+        //dst = CTool::ImageRotate(src, cv::Point(inFrame.width() >> 1, inFrame.height() >> 1), m_pCamera->GetOrientation());  
+        
+        //由QVideoFrame进行释放  
+        CDataVideoBuffer* pBuffer = new CDataVideoBuffer(outData,
+                                                         dst.cols,
+                                                         dst.rows);
+        QVideoFrame outFrame(pBuffer,
+                             QSize(dst.cols,
+                                   dst.rows),
+                             inFrame.pixelFormat());//*/
 #else
-            //用QImage做图像镜像  
-            QImage img(inFrame.bits(), inFrame.width(), inFrame.height(), 
-                       QVideoFrame::imageFormatFromPixelFormat(inFrame.pixelFormat()));
-            img = img.mirrored(true, false);
-            /*
-            if(m_pCamera->GetOrientation())
-                img = img.transformed(QTransform().rotate(m_pCamera->GetOrientation()));//*/
-            QVideoFrame outFrame(img);
+        //用QImage做图像镜像  
+        QImage img(inFrame.bits(), inFrame.width(), inFrame.height(), 
+                   QVideoFrame::imageFormatFromPixelFormat(inFrame.pixelFormat()));
+        img = img.mirrored(false, false);
+        QVideoFrame outFrame(img);
 #endif
-            emit sigCaptureFrame(outFrame);
-        }
-
+        emit sigCaptureFrame(outFrame);
     }while(0);
 
     inFrame.unmap();

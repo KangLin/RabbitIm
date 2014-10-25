@@ -115,6 +115,7 @@ QList<QString> CCamera::GetAvailableDevices()
 }
 
 #ifdef MOBILE
+//TODO:修改：只在相机开始时做一次。  
 CCamera::Position CCamera::GetCameraPoistion()
 {
     QCameraInfo info(m_CameraPosition);

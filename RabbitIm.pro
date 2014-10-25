@@ -91,7 +91,7 @@ android{
             QXMPP_LIBRARY_NAME = qxmpp_d.lib# qxmpp 库名
         }
 
-        OPENCV_VERSION=300d
+        OPENCV_VERSION=300
     }
 
     WEBRTC_LIBRARY_DIR = .
