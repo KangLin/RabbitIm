@@ -238,7 +238,7 @@ void CFrmMessage::dropEvent(QDropEvent *event)
 bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
 {
     if (target == ui->txtInput) { 
-        LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::eventFilter event type:%d", event->type());
+        //LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::eventFilter event type:%d", event->type());
         if (event->type() == QEvent::KeyPress) { 
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event); 
             CGlobal::E_MESSAGE_SEND_TYPE type = CGlobal::Instance()->GetMessageSendType();
@@ -337,30 +337,19 @@ void CFrmMessage::on_tbMore_clicked()
 
 void CFrmMessage::on_pbVideo_clicked()
 {
-/*    if(m_pRoster->Resouce().isEmpty())
-    {
-        QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
+    if(m_User.isNull())
         return;
-    }
-    CFrmVideo *pVideo = CFrmVideo::instance();
-    if(NULL == pVideo)
-        return;
-
-    QDesktopWidget *pDesk = QApplication::desktop();
-    pVideo->move((pDesk->width() - pVideo->width()) / 2, (pDesk->height() - pVideo->height()) / 2);
-    pVideo->show();
-    pVideo->activateWindow();
-
-    pVideo->Call(m_pRoster->Jid());*/
+    GETMANAGER->GetCall()->CallVideo(m_User->GetInfo()->GetId());
 }
 
 void CFrmMessage::on_lbAvatar_clicked()
 {
-    if(!m_User.isNull())
+    if(m_User.isNull())
     {
-        CFrmUservCard *pvCard = new CFrmUservCard(m_User->GetInfo());
-        pvCard->show();
+        return;
     }
+    CFrmUservCard *pvCard = new CFrmUservCard(m_User->GetInfo());
+    pvCard->show();
 }
 
 void CFrmMessage::slotRefresh()

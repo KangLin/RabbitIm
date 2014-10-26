@@ -16,12 +16,13 @@
 #include <QSound>
 #include <QThread>
 #include <QByteArray>
+#include <QSharedPointer>
 #include "FrmPlayer.h"
 #include "Client/ClientXmpp.h"
 #include "RecordAudio.h"
 #include "Camera.h"
+#include "Call/CallVideo.h"
 
-class CRoster;
 class MainWindow;
 namespace Ui {
 class CFrmVideo;
@@ -39,12 +40,9 @@ private:
 public:
     static CFrmVideo *instance();
     QThread* GetVideoThread();
-    
-#ifdef ANDROID
-    QCamera::Position GetCameraPostion();
-#endif
+
     //主动发起呼叫  
-    int Call(QString jid);
+    int Call(QString szId);
 
 protected slots:
     void clientIqReceived(const QXmppIq &iq);
@@ -83,9 +81,6 @@ private:
     virtual void changeEvent(QEvent*);
     void mouseMoveEvent(QMouseEvent * event);
 
-    //连接与 call 相关的信号  
-    int ConnectionCallSlot(QXmppCall *pCall);
-
     //调整显示窗体大小  
     void AdjustPlayer(const QRect &rect);
     //显示/关闭呼叫提示与按钮  
@@ -113,7 +108,7 @@ private:
 private:
     Ui::CFrmVideo *ui;
 
-    QXmppCall* m_pCall;
+    QSharedPointer<CCallObject> m_Call;
     CClient* m_pClient;
     MainWindow* m_pMainWindow;
     QString m_szRemoteJID;

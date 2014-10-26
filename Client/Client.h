@@ -4,6 +4,7 @@
 #include <QObject>
 #include "../UserInfo/User.h"
 #include "FileTransfer/FileTransfer.h"
+#include "Call/CallObject.h"
 
 /**
  * @brief 通信客户端抽象类  
@@ -127,6 +128,14 @@ public:
      */
     virtual QSharedPointer<CFileTransfer> SendFile(const QString szId, const QString &szFile, const QString &szDescription);
 
+    /**
+     * @brief 视频呼叫  
+     *
+     * @param szId：用户id  
+     * @return QSharedPointer<CCallObject>
+     */
+    virtual QSharedPointer<CCallObject> CallVideo(const QString szId);
+
     enum ERROR_TYPE
     {
         NoError,            ///< No error.
@@ -207,9 +216,17 @@ signals:
     /**
      * @brief 文件接收时触发  
      *
+     * @param szId:用户ID  
      * @param file
      */
     void sigFileReceived(const QString &szId, QSharedPointer<CFileTransfer> file);
+
+    /**
+     * @brief 视频接收时触发  
+     *
+     * @param call
+     */
+    void sigCallVideoReceived(QSharedPointer<CCallObject> call);
 
 public slots:
 

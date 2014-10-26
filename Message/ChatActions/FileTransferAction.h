@@ -31,8 +31,6 @@ private:
 
 private:
     QSharedPointer<CFileTransfer> m_File;
-    QTextCursor m_Cursor;
-    QTextEdit* m_pEdit;
 
     int m_ProgBarWidth;
     int m_ProgBarHeight;

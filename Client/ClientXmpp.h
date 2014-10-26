@@ -106,6 +106,14 @@ public:
      */
     virtual QSharedPointer<CFileTransfer> SendFile(const QString szId, const QString &szFile, const QString &szDescription);
 
+    /**
+     * @brief 视频呼叫  
+     *
+     * @param szId：用户id  
+     * @return QSharedPointer<CCallObject>
+     */
+    virtual QSharedPointer<CCallObject> CallVideo(const QString szId);
+
 private:
     QXmppPresence::AvailableStatusType StatusToPresence(CUserInfo::USER_INFO_STATUS status);
     CUserInfo::USER_INFO_STATUS StatusFromPresence(QXmppPresence::AvailableStatusType status);
@@ -136,6 +144,12 @@ private slots:
       * @param job
       */
      void slotFileReceived(QXmppTransferJob *job);
+     /**
+      * @brief 接收到视频呼叫  
+      *
+      * @param call
+      */
+     void slotCallVideoReceived(QXmppCall *pCall);
 private:
     QXmppClient m_Client;
     QSharedPointer<CManageUserQXmpp> m_User;

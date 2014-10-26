@@ -113,3 +113,10 @@ QSharedPointer<CFileTransfer> CClient::SendFile(const QString szId, const QStrin
     return QSharedPointer<CFileTransfer>();
 }
 
+QSharedPointer<CCallObject> CClient::CallVideo(const QString szId)
+{
+    Q_UNUSED(szId);
+    LOG_MODEL_WARNING("CClient", "The CClient::CallVideo function must be implemented by derived classes");
+    Q_ASSERT(false);
+    return QSharedPointer<CCallObject>();
+}

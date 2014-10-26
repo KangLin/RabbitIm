@@ -14,6 +14,8 @@
 #include <QBuffer>
 #include "MainWindow.h"
 #include "FileTransfer/FileTransferQXmpp.h"
+#include "Call/CallVideoQXmpp.h"
+#include <QHostAddress>
 
 #ifdef WIN32
 #undef GetMessage
@@ -99,6 +101,10 @@ int CClientXmpp::InitConnect()
 
     check = connect(&this->m_TransferManager, SIGNAL(fileReceived(QXmppTransferJob*)),
                     SLOT(slotFileReceived(QXmppTransferJob*)));
+    Q_ASSERT(check);
+    
+    check = connect(&m_CallManager, SIGNAL(callReceived(QXmppCall*)),
+                    SLOT(slotCallVideoReceived(QXmppCall*)));
     Q_ASSERT(check);
 
     return 0;
@@ -270,6 +276,58 @@ QSharedPointer<CFileTransfer> CClientXmpp::SendFile(const QString szId, const QS
     pJob->setLocalFileUrl(QUrl::fromLocalFile(szFile));
     QSharedPointer<CFileTransfer> file(new CFileTransferQXmpp(pJob));
     return file;
+}
+
+/**
+ * @brief 视频呼叫  
+ *
+ * @param szId：用户id  
+ * @return QSharedPointer<CCallObject>
+ */
+QSharedPointer<CCallObject> CClientXmpp::CallVideo(const QString szId)
+{
+    //检查被叫方是否在线  
+    QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
+    if(r.isNull())
+    {
+        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::CallVideo the roster is null");
+        return QSharedPointer<CCallObject>();
+    }
+
+    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)r->GetInfo().data();
+    if(pInfo->GetResource().isEmpty())
+    {
+        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::CallVideo the roster resource is null");
+        r->GetMessage()->AddMessage(szId, tr("The roster is offline, don't launch a video call."), true);
+        emit sigMessageUpdate(szId);
+        return QSharedPointer<CCallObject>();
+    }
+    //设置ice服务器参数  
+    m_CallManager.setStunServer(
+                QHostAddress(CGlobal::Instance()->GetStunServer()),
+                CGlobal::Instance()->GetStunServerPort()
+                );
+    m_CallManager.setTurnServer(
+                QHostAddress(CGlobal::Instance()->GetTurnServer()),
+                CGlobal::Instance()->GetTurnServerPort()
+                );
+    m_CallManager.setTurnUser(
+                CGlobal::Instance()->GetTurnServerUser()
+                );
+    m_CallManager.setTurnPassword(
+                CGlobal::Instance()->GetTurnServerPassword()
+                );
+
+    //返回QXmppCall的引用,这个会由QXmppCallManager管理.用户层不要释放此指针  
+    QXmppCall* m_pCall = m_CallManager.call(pInfo->GetJid());
+    if(NULL == m_pCall)
+    {
+        LOG_MODEL_ERROR("Video",  "call %s fail", qPrintable(pInfo->GetJid()));
+        return QSharedPointer<CCallObject>();
+    }
+
+    QSharedPointer<CCallObject> call(new CCallVideoQXmpp(m_pCall));
+    return call;
 }
 
 QXmppPresence::AvailableStatusType CClientXmpp::StatusToPresence(CUserInfo::USER_INFO_STATUS status)
@@ -578,4 +636,10 @@ void CClientXmpp::slotFileReceived(QXmppTransferJob *job)
 {
     QSharedPointer<CFileTransfer> file(new CFileTransferQXmpp(job));
     emit sigFileReceived(QXmppUtils::jidToBareJid(job->jid()), file);
+}
+
+void CClientXmpp::slotCallVideoReceived(QXmppCall *pCall)
+{
+    QSharedPointer<CCallObject> call(new CCallVideoQXmpp(pCall));
+    emit sigCallVideoReceived(call);
 }

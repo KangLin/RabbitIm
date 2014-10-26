@@ -156,6 +156,9 @@ int CFrmUserList::InitMenu()
     Q_ASSERT(check);
 
     m_Menu.addAction(ui->actionVideo);
+    check = connect(ui->actionVideo, SIGNAL(triggered()),
+                    SLOT(slotCallVideo()));
+    Q_ASSERT(check);
 
     m_Menu.addSeparator();
 
@@ -359,6 +362,15 @@ void CFrmUserList::slotSendFile()
 
     QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();
     file->SendFile(szId, szFile);
+    //TODO:增加弹出消息对话框  
+}
+
+void CFrmUserList::slotCallVideo()
+{
+    QString szId = GetCurrentRoster();
+    if(szId.isEmpty())
+        return;
+    GETMANAGER->GetCall()->CallVideo(szId);
 }
 
 void CFrmUserList::slotRosterAddReceived(const QString &szId, const CClient::SUBSCRIBE_TYPE &type)

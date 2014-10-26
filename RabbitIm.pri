@@ -46,8 +46,13 @@ SOURCES += main.cpp\
     Widgets/FrmVideo/FrameProcess.cpp \
     Widgets/FrmVideo/CaptureVideoFrame.cpp \
     Widgets/FrmVideo/FrmPlayer.cpp \ 
-    Widgets/FrmVideo/Camera.cpp
-    #Widgets/FrmVideo/FrmVideo.cpp \
+    Widgets/FrmVideo/Camera.cpp \
+    Call/CallObject.cpp \
+    Call/CallVideo.cpp \
+    Call/CallVideoQXmpp.cpp \
+    Call/ManageCall.cpp \
+    Call/CallAction.cpp
+    #Widgets/FrmVideo/FrmVideo.cpp \ 
     #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     #Widgets/FrmGroupChat/Conference.cpp \
@@ -102,11 +107,14 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/DataVideoBuffer.h \
     Widgets/FrmVideo/FrameProcess.h \
     Widgets/FrmVideo/FrmPlayer.h \    
-    Widgets/FrmVideo/Camera.h
-    #Widgets/FrmVideo/FrmVideo.h \
+    Widgets/FrmVideo/Camera.h \
+    Call/CallObject.h \
+    Call/CallVideo.h \
+    Call/CallVideoQXmpp.h \
+    Call/ManageCall.h \
+    Call/CallAction.h
+    #Widgets/FrmVideo/FrmVideo.h \ 
     #Widgets/FrmUserList/GroupItem.h \
-    
-    
     #Widgets/FrmGroupChat/FrmGroupChatList.h \
     #Widgets/FrmGroupChat/FrmGroupChatFind.h \
     #Widgets/FrmGroupChat/Conference.h \
@@ -126,12 +134,13 @@ FORMS    += MainWindow.ui \
     Widgets/FrmMessage/FrmMessage.ui \
     Widgets/FrmMessage/FrmContainer.ui \
     Widgets/FrmRecentMessage/FrmRecentMsgList.ui \
-    Widgets/DlgAddRoster/DlgAddRoster.ui
+    Widgets/DlgAddRoster/DlgAddRoster.ui #\
+    #Widgets/FrmVideo/FrmVideo.ui 
     #Widgets/FrmGroupChat/FrmGroupChatList.ui \
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
     #Widgets/FrmGroupChat/FrmGroupChat.ui \
     #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.ui \
-    #Widgets/FrmVideo/FrmVideo.ui 
+
 
 RESOURCES += \
     Resource/Resource.qrc

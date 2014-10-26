@@ -81,7 +81,11 @@ QString CChatAction::getContent()
    if(!m_isMe)
         msg += "<a href='rabbitim://userinfo'>";
    msg += "<img src='";
-   msg += CGlobal::Instance()->GetFileUserAvatar(m_szId) + "' width='16' height='16' />";
+   if(m_isMe)
+        msg += CGlobal::Instance()->GetFileUserAvatar(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetId());
+   else
+        msg += CGlobal::Instance()->GetFileUserAvatar(m_szId);
+   msg += "' width='16' height='16' />";
    msg += "<font color='";
    if(!m_isMe)
         msg += CGlobal::Instance()->GetRosterColor().name();
@@ -89,7 +93,11 @@ QString CChatAction::getContent()
         msg += CGlobal::Instance()->GetUserColor().name();
    msg += "'>[";
    msg += m_Time.toString() + "]";
-   msg += roster->GetInfo()->GetShowName() + ":";
+   if(!m_isMe)
+        msg += roster->GetInfo()->GetShowName();
+   else
+        msg += GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName();
+   msg += ":";
    msg += "</font>";
    if(!m_isMe)
         msg += "</a>";
@@ -103,4 +111,15 @@ QString CChatAction::getContent()
    msg += "</td></tr></table>";
    LOG_MODEL_DEBUG("CChatAction", qPrintable(msg));
   return msg;
+}
+
+void CChatAction::setup(QTextCursor cursor, QTextEdit *textEdit)
+{
+    m_Cursor = cursor;
+    m_Cursor.setKeepPositionOnInsert(true);
+    int end=m_Cursor.selectionEnd();
+    m_Cursor.setPosition(m_Cursor.position());
+    m_Cursor.setPosition(end, QTextCursor::KeepAnchor);
+
+    m_pEdit = textEdit;
 }

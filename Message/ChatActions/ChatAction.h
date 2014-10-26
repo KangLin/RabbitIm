@@ -13,7 +13,7 @@ class CChatAction : public QObject
 public:
     CChatAction(const bool &me, const QString &author, const QTime &date) : m_isMe(me), m_szId(author), m_Time(date) {;}
     virtual ~CChatAction(){;}
-    virtual void setup(QTextCursor cursor, QTextEdit* textEdit) = 0; ///< Call once, and then you MUST let the object update itself
+    virtual void setup(QTextCursor cursor, QTextEdit* textEdit); ///< Call once, and then you MUST let the object update itself
 
     virtual QString getName();
     virtual QString getMessage() = 0;
@@ -38,6 +38,8 @@ protected:
     bool m_isMe;
     QString m_szId;
     QTime m_Time;
+    QTextCursor m_Cursor;
+    QTextEdit* m_pEdit;
 };
 
 #endif // CHATACTION_H

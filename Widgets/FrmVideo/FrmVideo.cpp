@@ -18,12 +18,9 @@
 #include <QLinearGradient>
 #include <QRadialGradient>
 #include <QCameraInfo>
-#include "../FrmUserList/Roster.h"
 #include "../../Global/Global.h"
 #include "qxmpp/QXmppRtpChannel.h"
 #include "../../MainWindow.h"
-
-extern CGlobal g_Global;
 
 CFrmVideo::CFrmVideo(QWidget *parent) :
     QFrame(parent),
@@ -98,10 +95,6 @@ CFrmVideo* CFrmVideo::instance()
     if(NULL == pVideo)
     {
         pVideo = new CFrmVideo();
-        if(pVideo)
-        {
-            pVideo->SetClient();
-        }
     }
     return pVideo;
 }
@@ -283,45 +276,11 @@ int CFrmVideo::ShowToolBar(bool bShow)
     return 0;
 }
 
-int CFrmVideo::ConnectionCallSlot(QXmppCall *pCall)
-{
-    //只有主叫方才有的事件  
-    bool check = connect(pCall, SIGNAL(ringing()),
-                    SLOT(ringing()));
-    Q_ASSERT(check);
-    
-    //以下是双方都有的事件  
-    check = connect(pCall, SIGNAL(connected()),
-                         SLOT(connected()));
-    Q_ASSERT(check);
-
-    check = connect(pCall, SIGNAL(stateChanged(QXmppCall::State)),
-                    SLOT(stateChanged(QXmppCall::State)));
-    Q_ASSERT(check);
-
-    check = connect(pCall, SIGNAL(audioModeChanged(QIODevice::OpenMode)),
-                    SLOT(audioModeChanged(QIODevice::OpenMode)));
-    Q_ASSERT(check);
-
-    check = connect(pCall, SIGNAL(videoModeChanged(QIODevice::OpenMode)),
-                    SLOT(videoModeChanged(QIODevice::OpenMode)));
-    Q_ASSERT(check);
-
-    check = connect(pCall, SIGNAL(finished()),
-                    SLOT(finished()));
-    Q_ASSERT(check);
-
-    if(check)
-        return 0;
-
-    return -1;
-}
-
 //主动发起呼叫  
-int CFrmVideo::Call(QString jid)
+int CFrmVideo::Call(QString szId)
 {
     //如果已经有调用，则停止并释放  
-    if(m_pCall)
+    if(!m_Call.isNull())
     {
         QMessageBox msg(QMessageBox::Question,
                         tr("Call"),
@@ -335,38 +294,20 @@ int CFrmVideo::Call(QString jid)
         return -1;
     }
 
-    m_szRemoteJID = jid;//保存被叫用户jid  
+    m_szRemoteJID = szId;//保存被叫用户id  
 
-    QString szText = tr("%1 is ringing").arg(GetShowName(jid));
+    QString szText = tr("%1 is ringing").arg(GetShowName(szId));
     this->setWindowTitle(szText);
     ui->lbPrompt->setText(szText);
 
-    ui->lbAvatar->setPixmap(QPixmap(CGlobal::Instance()->GetFileUserAvatar(jid)));
+    ui->lbAvatar->setPixmap(QPixmap(CGlobal::Instance()->GetFileUserAvatar(szId)));
 
-    m_pClient->m_CallManager.setStunServer(
-                QHostAddress(CGlobal::Instance()->GetStunServer()),
-                CGlobal::Instance()->GetStunServerPort()
-                );
-    m_pClient->m_CallManager.setTurnServer(
-                QHostAddress(CGlobal::Instance()->GetStunServer()),
-                CGlobal::Instance()->GetTurnServerPort()
-                );
-    m_pClient->m_CallManager.setTurnUser(
-                CGlobal::Instance()->GetTurnServerUser()
-                );
-    m_pClient->m_CallManager.setTurnPassword(
-                CGlobal::Instance()->GetTurnServerPassword()
-                );
-    
-    //返回QXmppCall的引用,这个会由QXmppCallManager管理.用户层不要释放此指针  
-    QXmppCall* m_pCall = m_pClient->m_CallManager.call(jid);
-    if(NULL == m_pCall)
+    m_Call = GET_CLIENT->CallVideo(szId);
+    if(m_Call.isNull())
     {
-        LOG_MODEL_ERROR("Video",  "call %s fail", qPrintable(jid));
+        LOG_MODEL_ERROR("Video",  "call %s fail", qPrintable(szId));
         return -2;
     }
-
-    ConnectionCallSlot(m_pCall);
 
     //播放铃音,非阻塞式播放  
     PlayCallSound(m_pCall);

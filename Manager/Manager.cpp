@@ -17,16 +17,18 @@ int CManager::Init(const QString &szId)
     GetManageMessageDialog()->Init(szId);
     GetRecentMessage()->Init(szId);
     GetFileTransfer()->Init(szId);
+    GetCall()->Init(szId);
     return 0;
 }
 
 int CManager::Clean()
 {
     //注意:清理顺序  
+    GetCall()->Clean();
+    GetFileTransfer()->Clean();
     GetRecentMessage()->Clean();
     GetManageMessageDialog()->Clean();
     GetManageUser()->Clean();
-    GetFileTransfer()->Clean();
     return 0;
 }
 
@@ -50,4 +52,10 @@ QSharedPointer<CManageFileTransfer> CManager::GetFileTransfer()
 {
     static QSharedPointer<CManageFileTransfer> file(new CManageFileTransfer);
     return file;
+}
+
+QSharedPointer<CManageCall> CManager::GetCall()
+{
+    static QSharedPointer<CManageCall> call(new CManageCall);
+    return call;
 }
