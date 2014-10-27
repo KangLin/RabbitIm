@@ -165,6 +165,8 @@ int CFrmUserList::InitMenu()
                     SLOT(slotCallAudio()));
     Q_ASSERT(check);
 
+    //TODO:新增菜单  
+    
     m_Menu.addSeparator();
 
     m_Menu.addAction(ui->actionAddRoster_A);
@@ -204,6 +206,8 @@ int CFrmUserList::EnableAllActioins(bool bEnable)
     EnableAction(ui->actionSendMessage, bEnable);
     EnableAction(ui->actionSendFile, bEnable);
     EnableAction(ui->actionVideo, bEnable);
+    EnableAction(ui->actionAudio, bEnable);
+    //TODO:新增菜单  
     return 0;
 }
 
@@ -272,6 +276,8 @@ void CFrmUserList::slotUpdateMenu()
         EnableAction(ui->actionSendMessage);
         EnableAction(ui->actionSendFile);
         EnableAction(ui->actionVideo);
+        EnableAction(ui->actionAudio);
+        //TODO:新增菜单  
     }
     return;
 }

@@ -6,6 +6,8 @@
 #include "UserInfo.h"
 #include "Message/Message.h"
 
+#undef GetMessage
+
 class CUser : public QObject
 {
     Q_OBJECT

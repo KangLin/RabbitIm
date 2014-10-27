@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include "MainWindow.h"
 
+#undef GetMessage
 CManageCall::CManageCall(QObject *parent) :
     QObject(parent)
 {
