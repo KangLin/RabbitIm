@@ -114,6 +114,18 @@
     <string>Video</string>
    </property>
   </action>
+  <action name="actionAudio">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Microphone</normaloff>:/icon/Microphone</iconset>
+   </property>
+   <property name="text">
+    <string>Audio</string>
+   </property>
+   <property name="toolTip">
+    <string>Audio</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../../Resource/Resource.qrc"/>

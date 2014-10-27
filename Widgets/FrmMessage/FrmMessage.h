@@ -59,7 +59,8 @@ private slots:
     void slotAnchorClicked(const QUrl &url);
     void slotEmoteInsertRequested(const QString &s);
 
-    void slotSendFile();//20140712文件发送  
+    void slotSendFile();
+    void slotCallAudio();
 //    void slotShotScreenTriggered();//20140712截屏  
   
 

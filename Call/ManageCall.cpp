@@ -4,6 +4,7 @@
 #include "Global/Global.h"
 #include "CallAction.h"
 #include <QMessageBox>
+#include "MainWindow.h"
 
 CManageCall::CManageCall(QObject *parent) :
     QObject(parent)
@@ -33,6 +34,11 @@ int CManageCall::Clean()
 
 int CManageCall::CallVideo(QString szId)
 {
+    return 0;
+}
+
+int CManageCall::Call(QString szId)
+{
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
@@ -47,18 +53,21 @@ int CManageCall::CallVideo(QString szId)
         QSharedPointer<CUser> callRoster = GLOBAL_USER->GetUserInfoRoster(szCallId);
         if(!callRoster.isNull())
             szShowName = callRoster->GetInfo()->GetShowName();
-        
-        roster->GetMessage()->AddMessage(szId, "Being talk with" + szShowName + ", please stop it.");
+        roster->GetMessage()->AddMessage(szId, "Being talk with " + szShowName + ", please stop it.", true);
+        emit GET_CLIENT->sigMessageUpdate(szId);
         return -2;
     }
 
-    QSharedPointer<CCallObject> call = GET_CLIENT->CallVideo(szId);
+    QSharedPointer<CCallObject> call = GET_CLIENT->Call(szId);
     if(call.isNull())
     {
         LOG_MODEL_DEBUG("CManageCall", "CManageCall::CallVideo fail");
         return -3;
     }
     m_Call = call;
+    bool check = connect(call.data(), SIGNAL(sigFinished(QSharedPointer<CCallObject>)),
+                         SLOT(slotCallFinished(QSharedPointer<CCallObject>)));
+    Q_ASSERT(check);
     QSharedPointer<CCallAction> action(new CCallAction(m_Call, szId, QTime::currentTime(), true));
     roster->GetMessage()->AddMessage(action);
     emit GET_CLIENT->sigMessageUpdate(szId);
@@ -81,12 +90,67 @@ void CManageCall::slotCallVideoReceived(QSharedPointer<CCallObject> call)
         QSharedPointer<CUser> callRoster = GLOBAL_USER->GetUserInfoRoster(szCallId);
         if(!callRoster.isNull())
             szShowName = callRoster->GetInfo()->GetShowName();
-        roster->GetMessage()->AddMessage(call->GetId(), "Being talk with " + szShowName + ", please stop it.");
+        QString szMsg = "Has new call from " 
+                + roster->GetInfo()->GetShowName() 
+                + ". but being talk with "
+                + szShowName 
+                + ", please stop it.";
+        roster->GetMessage()->AddMessage(call->GetId(), szMsg, true);
+        GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName(), szMsg);
         call->Cancel();
+        emit GET_CLIENT->sigMessageUpdate(call->GetId());
         return;
     }
     m_Call = call;
+    bool check = connect(call.data(), SIGNAL(sigFinished(QSharedPointer<CCallObject>)),
+                         SLOT(slotCallFinished(QSharedPointer<CCallObject>)));
+    Q_ASSERT(check);
     QSharedPointer<CCallAction> action(new CCallAction(m_Call, m_Call->GetId(), QTime::currentTime(), false));
     roster->GetMessage()->AddMessage(action);
+    GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName(), tr("video call"));
     emit GET_CLIENT->sigMessageUpdate(call->GetId());
+}
+
+void CManageCall::slotCallFinished(QSharedPointer<CCallObject> call)
+{
+    if(m_Call == call)
+        m_Call.clear();
+}
+
+bool CManageCall::IsRun()
+{
+    if(!m_Call.isNull())
+        return true;
+    return false;
+}
+
+int CManageCall::Stop()
+{
+    if(!m_Call.isNull())
+        m_Call->Cancel();
+    return 0;
+}
+
+int CManageCall::ProcessCommandCall(const QString &szId, const QString &szCommand)
+{
+    QString szCmd;
+    szCmd = szCommand.split("=").at(1);
+
+    if(m_Call.isNull() && "call" != szCmd)
+    {
+        LOG_MODEL_ERROR("CManageCall", "m_Call is null");
+        return -1;
+    }
+    if("accept" == szCmd)
+        m_Call->Accept();
+    else if("cancel" == szCmd)
+        m_Call->Cancel();
+    else if("call" == szCmd)
+        Call(szId);
+    else
+    {
+        LOG_MODEL_DEBUG("CManageCall", "command isn't exist");
+        return -1;
+    }
+    return 0;
 }

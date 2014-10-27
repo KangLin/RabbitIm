@@ -14,7 +14,7 @@
 #include <QBuffer>
 #include "MainWindow.h"
 #include "FileTransfer/FileTransferQXmpp.h"
-#include "Call/CallVideoQXmpp.h"
+#include "Call/CallQXmpp.h"
 #include <QHostAddress>
 
 #ifdef WIN32
@@ -286,6 +286,11 @@ QSharedPointer<CFileTransfer> CClientXmpp::SendFile(const QString szId, const QS
  */
 QSharedPointer<CCallObject> CClientXmpp::CallVideo(const QString szId)
 {
+    return QSharedPointer<CCallObject>();
+}
+
+QSharedPointer<CCallObject> CClientXmpp::Call(const QString szId)
+{
     //检查被叫方是否在线  
     QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
     if(r.isNull())
@@ -326,7 +331,7 @@ QSharedPointer<CCallObject> CClientXmpp::CallVideo(const QString szId)
         return QSharedPointer<CCallObject>();
     }
 
-    QSharedPointer<CCallObject> call(new CCallVideoQXmpp(m_pCall));
+    QSharedPointer<CCallObject> call(new CCallQXmpp(m_pCall));
     return call;
 }
 
@@ -640,6 +645,6 @@ void CClientXmpp::slotFileReceived(QXmppTransferJob *job)
 
 void CClientXmpp::slotCallVideoReceived(QXmppCall *pCall)
 {
-    QSharedPointer<CCallObject> call(new CCallVideoQXmpp(pCall));
+    QSharedPointer<CCallObject> call(new CCallQXmpp(pCall));
     emit sigCallVideoReceived(call);
 }

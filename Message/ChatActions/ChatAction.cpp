@@ -41,6 +41,26 @@ QString CChatAction::QImage2Html(const QImage &img, int nWidth, int nHeight)
     return szHtml;
 }
 
+QString CChatAction::drawButton(const QString &szHref, const QString &szText, const QString &szIcon)
+{
+QString szMsg;
+szMsg = "<td align='center'><a href='" + szHref + "'>";
+if(!szIcon.isEmpty())
+szMsg += QImage2Html(QImage(szIcon, "png"), 16, 16);
+szMsg += szText + "</a></td>";
+return szMsg;
+}
+
+QString CChatAction::drawAccept(QString szHref)
+{
+return drawButton(szHref, tr("Accpet"), ":/icon/Accept");
+}
+
+QString CChatAction::drawCancel(QString szHref)
+{
+return drawButton(szHref, tr("Cancel"), ":/icon/Cancel");
+}
+
 QString CChatAction::getName()
 {
     QString name;
@@ -109,7 +129,7 @@ QString CChatAction::getContent()
        msg += "left'>";
    msg += getMessage();
    msg += "</td></tr></table>";
-   LOG_MODEL_DEBUG("CChatAction", qPrintable(msg));
+   //LOG_MODEL_DEBUG("CChatAction", qPrintable(msg));
   return msg;
 }
 

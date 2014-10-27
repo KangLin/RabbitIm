@@ -4,12 +4,14 @@
 #include <QObject>
 #include <QIODevice>
 #include <QTime>
+#include <QSound>
 
 class CCallObject : public QObject
 {
     Q_OBJECT
 public:
     explicit CCallObject(QObject *parent = 0);
+    virtual ~CCallObject();
 
     enum Direction
     {
@@ -26,48 +28,29 @@ public:
         FinishedState = 3,      ///< The call is finished.
     };
 
-    virtual int Accept();
-    virtual int Cancel();
+    virtual int Accept();//=0
+    virtual int Cancel();//=0
 
     virtual QString GetId();
-    virtual int GetTotalTime();//得到通话时间  
-    virtual State GetState();
+    virtual State GetState(); //=0
+    virtual Direction GetDirection();
 
 protected:
     virtual int SetId(const QString szId);
+    virtual int SetDirection(Direction d);
+    virtual void PlayCallSound();
+    virtual void StopCallSound();
+
+private slots:
 
 signals:
-    /// \brief This signal is emitted when a call is connected.
-    ///
-    /// Once this signal is emitted, you can connect a QAudioOutput and
-    /// QAudioInput to the call. You can determine the appropriate clockrate
-    /// and the number of channels by calling payloadType().
-    void sigConnected();
-
-    /// \brief This signal is emitted when a call is finished.
-    ///
-    /// Note: Do not delete the call in the slot connected to this signal,
-    /// instead use deleteLater().
-    void sigFinished();
-
-    /// \brief This signal is emitted when the remote party is ringing.
-    void sigRinging();
-
-    /// \brief This signal is emitted when the call state changes.
-    void sigStateChanged(State state);
-
-    /// \brief This signal is emitted when the audio channel changes.
-    void audioModeChanged(QIODevice::OpenMode mode);
-
-    /// \brief This signal is emitted when the video channel changes.
-    void videoModeChanged(QIODevice::OpenMode mode);
+    void sigUpdate();
+    void sigFinished(QSharedPointer<CCallObject> call);
 
 private:
     QString m_szId;
-
-protected:
-    QTime m_tmStart;  //呼叫开始时间  
-    int m_nTotal;  //呼叫总时间  
+    Direction m_Direction;//呼叫方向  
+    QSharedPointer <QSound> m_Sound;
 };
 
 #endif // CALLOBJECT_H

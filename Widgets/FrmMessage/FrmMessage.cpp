@@ -88,6 +88,10 @@ int CFrmMessage::Init(const QString &szId)
     QAction* pAction = m_MoreMenu.addAction(tr("send file"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFile()));
     Q_ASSERT(check);
+
+    pAction = m_MoreMenu.addAction(tr("Audio Call"));
+    check = connect(pAction, SIGNAL(triggered()), SLOT(slotCallAudio()));
+    Q_ASSERT(check);
 /*
     pAction = m_MoreMenu.addAction(tr("shot screen"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotShotScreenTriggered()));
@@ -146,6 +150,14 @@ void CFrmMessage::slotSendFile()
     QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();
     file->SendFile(szId, szFile);
 }
+
+void CFrmMessage::slotCallAudio()
+{
+    if(m_User.isNull())
+        return;
+    GETMANAGER->GetCall()->Call(m_User->GetInfo()->GetId());
+}
+
 /*
 void CFrmMessage::slotShotScreenTriggered()
 {
@@ -216,6 +228,19 @@ void CFrmMessage::closeEvent(QCloseEvent *e)
             return;
         }
         GETMANAGER->GetFileTransfer()->CancelSend(m_User->GetInfo()->GetId());
+    }
+    if(GETMANAGER->GetCall()->IsRun())
+    {
+        QMessageBox msg(QMessageBox::Question,
+                        tr("Close message dialog"),
+                        tr("Is talking whether you want to close?"),
+                        QMessageBox::Yes | QMessageBox::No);
+        if(QMessageBox::No == msg.exec())
+        {
+            e->ignore();
+            return;
+        }
+        GETMANAGER->GetCall()->Stop();
     }
     emit sigClose(this);
 }
@@ -403,14 +428,19 @@ void CFrmMessage::slotAnchorClicked(const QUrl &url)
                     qPrintable(url.query()));
     if(url.scheme() == "rabbitim")
     {
-        if(url.host() == "userinfo")
+        QString host = url.host().toLower();
+        if("userinfo" == host)
         {
             //响应"<a href='rabbitim://userinfo'>";  
             this->on_lbAvatar_clicked();
         }
-        else if(url.host() == "filetransfer")
+        else if("filetransfer" == host)
         {
             GETMANAGER->GetFileTransfer()->ProcessCommand(m_User->GetInfo()->GetId(), url.query());
+        }
+        else if("call" == host)
+        {
+            GETMANAGER->GetCall()->ProcessCommandCall(m_User->GetInfo()->GetId(), url.query());
         }
     }
     else

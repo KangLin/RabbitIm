@@ -32,11 +32,17 @@ public:
      * @return int
      */
     virtual int CallVideo(QString szId);
+    virtual int Call(QString szId);
+
+    virtual bool IsRun();
+    virtual int Stop();
+    virtual int ProcessCommandCall(const QString &szId, const QString &szCommand);
 
 signals:
     
-public slots:
+private slots:
     void slotCallVideoReceived(QSharedPointer<CCallObject> call);
+    void slotCallFinished(QSharedPointer<CCallObject> call);
 
 private:
     QSharedPointer<CCallObject> m_Call;

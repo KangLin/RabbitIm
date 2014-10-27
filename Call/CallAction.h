@@ -4,26 +4,32 @@
 #include "Message/ChatActions/ChatAction.h"
 #include "CallObject.h"
 #include <QSharedPointer>
+#include <QTimer>
 
 class CCallAction : public CChatAction
 {
+    Q_OBJECT
 public:
-    CCallAction(QSharedPointer<CCallObject> call, const QString &author, const QTime &date, const bool &me);
-    virtual ~CCallAction();
+    explicit CCallAction(QSharedPointer<CCallObject> call, const QString &author, const QTime &date, const bool &me);
+    ~CCallAction();
 
     virtual QString getMessage();
 
-private:
-    QString getDescriptionConnectingState();
-    QString getDescriptionActiveState();
-    QString getDescriptionDisconnectingState();
-    QString getDescriptionFinishedState();
-    QString drawButton(const QString &szHref, const QString &szText, const QString &szIcon = QString());
-    QString drawAccept(QString szHref);
-    QString drawCancel(QString szHref);
+private slots:
+    void slotUpdateHtml();
+
+protected:
+    virtual QString getDescriptionConnectingState();
+    virtual QString getDescriptionActiveState();
+    virtual QString getDescriptionDisconnectingState();
+    virtual QString getDescriptionFinishedState();
+
+    virtual QString getPrompt();
 
 private:
     QSharedPointer<CCallObject> m_Call;
+    QTime m_tmStart;
+    QTimer m_Timer;
 };
 
 #endif // CCALLACTION_H

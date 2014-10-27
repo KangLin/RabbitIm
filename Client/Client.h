@@ -135,7 +135,13 @@ public:
      * @return QSharedPointer<CCallObject>
      */
     virtual QSharedPointer<CCallObject> CallVideo(const QString szId);
-
+    /**
+     * @brief 语音呼叫  
+     *
+     * @param szId：用户id  
+     * @return QSharedPointer<CCallObject>
+     */
+    virtual QSharedPointer<CCallObject> Call(const QString szId);
     enum ERROR_TYPE
     {
         NoError,            ///< No error.

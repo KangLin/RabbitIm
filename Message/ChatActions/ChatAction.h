@@ -4,12 +4,12 @@
 #include <QString>
 #include <QTextCursor>
 #include <QDate>
-
-class FileTransferInstance;
-class QTextEdit;
+#include <QTextEdit>
+#include <QObject>
 
 class CChatAction : public QObject
 {
+        Q_OBJECT
 public:
     CChatAction(const bool &me, const QString &author, const QTime &date) : m_isMe(me), m_szId(author), m_Time(date) {;}
     virtual ~CChatAction(){;}
@@ -33,7 +33,10 @@ protected:
      * @return QString
      */
     QString QImage2Html(const QImage&img, int nWidth = 0, int nHeight = 0);
-
+    QString drawButton(const QString &szHref, const QString &szText, const QString &szIcon = QString());
+    QString drawAccept(QString szHref);
+    QString drawCancel(QString szHref);
+    
 protected:
     bool m_isMe;
     QString m_szId;
