@@ -167,7 +167,7 @@ void CCallQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
 
 void ShowAudioDeviceSupportCodec(QAudioDeviceInfo &info, QString szPropmt)
 {
-    qDebug("==================== %s ========================", qPrintable(szPropmt));
+    qDebug("==================== %s start ========================", qPrintable(szPropmt));
     qDebug("device name:%s", qPrintable(info.deviceName()));
     QString szTemp;
     foreach(QString codec, info.supportedCodecs())
@@ -204,7 +204,21 @@ void ShowAudioDeviceSupportCodec(QAudioDeviceInfo &info, QString szPropmt)
     }
     qDebug("audio device support byte order:%s", qPrintable(szTemp));
 
-    qDebug("==================== %s ========================", qPrintable(szPropmt));
+    qDebug("==================== %s end========================", qPrintable(szPropmt));
+}
+
+void ShowAudioDevices()
+{
+    int n = 0;
+    QList<QAudioDeviceInfo> infos = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
+    foreach (QAudioDeviceInfo info, infos) {
+        ShowAudioDeviceSupportCodec(info, "input" + QString::number(++n));
+    }
+    n = 0;
+    infos = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+    foreach (QAudioDeviceInfo info, infos) {
+        ShowAudioDeviceSupportCodec(info, "output" + QString::number(++n));
+    }
 }
 
 int CCallQXmpp::StartAudioDevice()
@@ -219,6 +233,7 @@ int CCallQXmpp::StartAudioDevice()
 
     QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
 #ifdef DEBUG
+    ShowAudioDevices();
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallVideoQXmpp::connected:audio name:%s;id:%d;channels:%d, clockrate:%d, packet time:%d",
            qPrintable(AudioPlayLoadType.name()),
            AudioPlayLoadType.id(),
@@ -246,17 +261,13 @@ int CCallQXmpp::StartAudioDevice()
         LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio input format not supported - trying to use nearest");
         inFormat = infoAudioInput.nearestFormat(inFormat);
     }
-#ifdef DEBUG
-    ShowAudioDeviceSupportCodec(infoAudioInput, "input device");
-#endif
+
     QAudioDeviceInfo infoAudioOutput(QAudioDeviceInfo::defaultOutputDevice());
     if (!infoAudioOutput.isFormatSupported(outFormat)) {
         LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio output format not supported - trying to use nearest");
         outFormat = infoAudioOutput.nearestFormat(outFormat);
     }
-#ifdef DEBUG
-    ShowAudioDeviceSupportCodec(infoAudioOutput, "output device");
-#endif
+
     m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
     if(!m_pAudioInput)
         LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioInput device instance fail.");
