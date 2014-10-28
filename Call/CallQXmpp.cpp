@@ -214,11 +214,15 @@ void ShowAudioDevices()
     foreach (QAudioDeviceInfo info, infos) {
         ShowAudioDeviceSupportCodec(info, "input" + QString::number(++n));
     }
+    QAudioDeviceInfo in = QAudioDeviceInfo::defaultInputDevice();
+    ShowAudioDeviceSupportCodec(in, "default input");
     n = 0;
     infos = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
     foreach (QAudioDeviceInfo info, infos) {
         ShowAudioDeviceSupportCodec(info, "output" + QString::number(++n));
     }
+    QAudioDeviceInfo out = QAudioDeviceInfo::defaultOutputDevice();
+    ShowAudioDeviceSupportCodec(out, "default output");
 }
 
 int CCallQXmpp::StartAudioDevice()
