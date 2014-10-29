@@ -6,7 +6,7 @@
 CCameraOpencv::CCameraOpencv(QObject *parent) :
     CCamera(parent)
 {
-    m_tmCapture = 1000 / 30;
+    m_tmCapture = 1000 / GetFrameRate();
     bool check = connect(&m_Timer, SIGNAL(timeout()),
                          SLOT(slotTimeOut()));
     Q_ASSERT(check);
@@ -28,6 +28,9 @@ int CCameraOpencv::Start()
         LOG_MODEL_DEBUG("CCameraOpencv", "don't open video deivce:%d", GetDeviceIndex());
         return -1;
     }
+
+    m_nFrameWidth = m_videoCapture.get(cv::CAP_PROP_FRAME_WIDTH);
+    m_nFrameHeight = m_videoCapture.get(cv::CAP_PROP_FRAME_WIDTH);
 
     m_Timer.start(m_tmCapture);
     return nRet;

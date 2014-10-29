@@ -278,18 +278,7 @@ QSharedPointer<CFileTransfer> CClientXmpp::SendFile(const QString szId, const QS
     return file;
 }
 
-/**
- * @brief 视频呼叫  
- *
- * @param szId：用户id  
- * @return QSharedPointer<CCallObject>
- */
-QSharedPointer<CCallObject> CClientXmpp::CallVideo(const QString szId)
-{
-    return QSharedPointer<CCallObject>();
-}
-
-QSharedPointer<CCallObject> CClientXmpp::Call(const QString szId)
+QSharedPointer<CCallObject> CClientXmpp::Call(const QString szId, bool bVideo)
 {
     //检查被叫方是否在线  
     QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
@@ -331,7 +320,7 @@ QSharedPointer<CCallObject> CClientXmpp::Call(const QString szId)
         return QSharedPointer<CCallObject>();
     }
 
-    QSharedPointer<CCallObject> call(new CCallQXmpp(m_pCall));
+    QSharedPointer<CCallObject> call(new CCallQXmpp(m_pCall, bVideo));
     return call;
 }
 
@@ -500,7 +489,6 @@ void CClientXmpp::slotRosterReceived()
         //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
         RequestUserInfoRoster(jid);
     }
-    
 }
 
 //得到本地用户形象信息  

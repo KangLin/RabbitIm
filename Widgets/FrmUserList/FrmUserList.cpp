@@ -382,7 +382,7 @@ void CFrmUserList::slotCallVideo()
     QString szId = GetCurrentRoster();
     if(szId.isEmpty())
         return;
-    GETMANAGER->GetCall()->CallVideo(szId);
+    GETMANAGER->GetCall()->Call(szId, true);
     //弹出消息对话框  
     MANAGE_MESSAGE_DIALOG->ShowDialog(szId); 
 }

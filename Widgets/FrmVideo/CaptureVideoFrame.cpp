@@ -9,10 +9,12 @@
 #include <QImage>
 #include "FrmVideo.h"
 #include "../../Global/Global.h"
+#include "Camera.h"
 
-CCaptureVideoFrame::CCaptureVideoFrame(QObject *parent) :
+CCaptureVideoFrame::CCaptureVideoFrame(CCamera *pCamera, QObject *parent) :
     QAbstractVideoSurface(parent)
 {
+    m_pCamera = pCamera;
 }
 
 CCaptureVideoFrame::~CCaptureVideoFrame()
@@ -59,6 +61,11 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
            preTime.msecsTo(curTime));
     preTime = curTime;
 #endif
+    if(m_pCamera)
+    {
+        m_pCamera->SetWidth(frame.width());
+        m_pCamera->SetHeight(frame.height());
+    }
     emit sigCaptureFrame(frame);
     return true;
 }

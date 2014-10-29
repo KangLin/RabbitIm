@@ -107,19 +107,13 @@ public:
     virtual QSharedPointer<CFileTransfer> SendFile(const QString szId, const QString &szFile, const QString &szDescription);
 
     /**
-     * @brief 视频呼叫  
-     *
-     * @param szId：用户id  
-     * @return QSharedPointer<CCallObject>
-     */
-    virtual QSharedPointer<CCallObject> CallVideo(const QString szId);
-    /**
      * @brief 语音呼叫  
      *
      * @param szId：用户id  
+     * @param bVideo:是否是视频呼叫  
      * @return QSharedPointer<CCallObject>
      */
-    virtual QSharedPointer<CCallObject> Call(const QString szId);
+    virtual QSharedPointer<CCallObject> Call(const QString szId, bool bVideo = false);
 
 private:
     QXmppPresence::AvailableStatusType StatusToPresence(CUserInfo::USER_INFO_STATUS status);

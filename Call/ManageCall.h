@@ -26,13 +26,13 @@ public:
     virtual int Clean();
 
     /**
-     * @brief 视频呼叫  
+     * @brief 呼叫  
      *
      * @param szId：用户ID  
+     * @param bVideo:是否是视频呼叫  
      * @return int
      */
-    virtual int CallVideo(QString szId);
-    virtual int Call(QString szId);
+    virtual int Call(QString szId, bool bVideo = false);
 
     virtual bool IsRun();
     virtual int Stop();
@@ -46,6 +46,7 @@ private slots:
 
 private:
     QSharedPointer<CCallObject> m_Call;
+    bool m_bVideoCall;
 };
 
 #endif // MANAGECALL_H

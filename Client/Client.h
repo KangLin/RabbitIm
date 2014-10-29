@@ -139,9 +139,10 @@ public:
      * @brief 语音呼叫  
      *
      * @param szId：用户id  
+     * @param bVideo:是否是视频呼叫  
      * @return QSharedPointer<CCallObject>
      */
-    virtual QSharedPointer<CCallObject> Call(const QString szId);
+    virtual QSharedPointer<CCallObject> Call(const QString szId, bool bVideo = false);
     enum ERROR_TYPE
     {
         NoError,            ///< No error.
@@ -235,7 +236,6 @@ signals:
     void sigCallVideoReceived(QSharedPointer<CCallObject> call);
 
 public slots:
-
 };
 
 #endif // CLIENT_H

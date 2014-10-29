@@ -34,6 +34,12 @@ public:
     virtual int GetDeviceIndex();
     virtual int GetOrientation();//得摄像头安装的方向,返回角度  
 
+    virtual int GetFrameRate();
+    virtual int GetWidth();
+    virtual int SetWidth(int nWidth);
+    virtual int GetHeight();
+    virtual int SetHeight(int nHeight);
+
 signals:
     //不同平台处理过后的视频帧捕获信号  
     void sigCaptureFrame(const QVideoFrame &frame);
@@ -46,6 +52,9 @@ private:
     CCaptureVideoFrame m_CaptureVideoFrame;//实现捕获视频帧  
 protected:
     CFrameProcess m_CaptureFrameProcess;
+    int m_nFrameRate;
+    int m_nFrameWidth;
+    int m_nFrameHeight;
 
 private slots:
     void updateCameraState(QCamera::State state);

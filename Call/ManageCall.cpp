@@ -1,5 +1,4 @@
 #include "ManageCall.h"
-#include "CallVideo.h"
 #include "Client/Client.h"
 #include "Global/Global.h"
 #include "CallAction.h"
@@ -10,6 +9,7 @@
 CManageCall::CManageCall(QObject *parent) :
     QObject(parent)
 {
+    m_bVideoCall = false;
 }
 
 CManageCall::~CManageCall()
@@ -33,13 +33,9 @@ int CManageCall::Clean()
     return nRet;
 }
 
-int CManageCall::CallVideo(QString szId)
+int CManageCall::Call(QString szId, bool bVideo)
 {
-    return 0;
-}
-
-int CManageCall::Call(QString szId)
-{
+    m_bVideoCall = bVideo;
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
@@ -59,7 +55,7 @@ int CManageCall::Call(QString szId)
         return -2;
     }
 
-    QSharedPointer<CCallObject> call = GET_CLIENT->Call(szId);
+    QSharedPointer<CCallObject> call = GET_CLIENT->Call(szId, bVideo);
     if(call.isNull())
     {
         LOG_MODEL_DEBUG("CManageCall", "CManageCall::CallVideo fail");
@@ -147,7 +143,7 @@ int CManageCall::ProcessCommandCall(const QString &szId, const QString &szComman
     else if("cancel" == szCmd)
         m_Call->Cancel();
     else if("call" == szCmd)
-        Call(szId);
+        Call(szId, m_bVideoCall);
     else
     {
         LOG_MODEL_DEBUG("CManageCall", "command isn't exist");

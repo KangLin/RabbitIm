@@ -1,10 +1,11 @@
 #include "CallObject.h"
 #include "Global/Global.h"
 
-CCallObject::CCallObject(QObject *parent) :
+CCallObject::CCallObject(bool bVideo, QObject *parent) :
     QObject(parent)
 {
     m_Direction = IncomingDirection;
+    m_bVideo = bVideo;
 }
 
 CCallObject::~CCallObject()
@@ -52,6 +53,11 @@ CCallObject::State CCallObject::GetState()
 CCallObject::Direction CCallObject::GetDirection()
 {
     return m_Direction;
+}
+
+bool CCallObject::IsVideo()
+{
+    return m_bVideo;
 }
 
 //播放铃音,系统会启用单独的线程进行播放  

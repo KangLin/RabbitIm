@@ -6,12 +6,16 @@
 #include <QScreen>
 
 CCamera::CCamera(QObject *parent) : QObject(parent),
-    m_CaptureFrameProcess(this)
+    m_CaptureFrameProcess(this),
+    m_CaptureVideoFrame(this)
 {
     if(!parent)
         LOG_MODEL_ERROR("Video", "CCaptureVideoFrame::CCaptureVideoFrame parent is null");
 
     m_pCamera = NULL;
+    m_nFrameHeight = 480;
+    m_nFrameWidth = 640;
+    m_nFrameRate = 15;
     SetDefaultCamera();
 
     bool check = true;
@@ -171,4 +175,31 @@ int CCamera::GetOrientation()
     LOG_MODEL_DEBUG("main", "screen angle:%d;rotation:%d;cameraInfo.orientation():%d",
                     screenAngle, rotation, cameraInfo.orientation());
     return rotation;
+}
+
+int CCamera::GetFrameRate()
+{
+    return m_nFrameRate;
+}
+
+int CCamera::GetWidth()
+{
+    return m_nFrameWidth;
+}
+
+int CCamera::SetWidth(int nWidth)
+{
+    m_nFrameWidth = nWidth;
+    return 0;
+}
+
+int CCamera::GetHeight()
+{
+    return m_nFrameHeight;
+}
+
+int CCamera::SetHeight(int nHeight)
+{
+    m_nFrameHeight = nHeight;
+    return 0;
 }

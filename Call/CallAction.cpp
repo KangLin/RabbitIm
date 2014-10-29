@@ -113,13 +113,24 @@ QString CCallAction::getPrompt()
         szMsg = tr("Be receiving a call");
         break;
     case CCallObject::ActiveState:
-        szMsg = tr("Be talking ..., talk time:") + QString::number(m_tmStart.secsTo(QTime::currentTime()));
+        if(m_Call->IsVideo())
+            szMsg = tr("Be a video calling..., ");
+        else
+            szMsg = tr("Be talking ..., ");
+        szMsg += tr("talk time:") + QString::number(m_tmStart.secsTo(QTime::currentTime()));
         break;
     case CCallObject::DisconnectingState:
-        szMsg = tr("talk is disconnected");
+        if(m_Call->IsVideo())
+            szMsg = tr("Video is disconnected");
+        else
+            szMsg = tr("talk is disconnected");
         break;
     case CCallObject::FinishedState:
-        szMsg = tr("talk over: talk time:") + QString::number(m_tmStart.secsTo(QTime::currentTime()));
+        if(m_Call->IsVideo())
+            szMsg = tr("Video talk over.");
+        else
+            szMsg = tr("Talk over.");
+        szMsg += tr("talk time:") + QString::number(m_tmStart.secsTo(QTime::currentTime()));
         break;
     default:
         break;

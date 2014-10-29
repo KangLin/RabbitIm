@@ -364,7 +364,7 @@ void CFrmMessage::on_pbVideo_clicked()
 {
     if(m_User.isNull())
         return;
-    GETMANAGER->GetCall()->CallVideo(m_User->GetInfo()->GetId());
+    GETMANAGER->GetCall()->Call(m_User->GetInfo()->GetId(), true);
 }
 
 void CFrmMessage::on_lbAvatar_clicked()

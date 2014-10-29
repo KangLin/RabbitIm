@@ -44,11 +44,12 @@
 #include <QVideoProbe>
 #include <QCamera>
 
+class CCamera;
 class CCaptureVideoFrame : public QAbstractVideoSurface
 {
     Q_OBJECT
 public:
-    explicit CCaptureVideoFrame(QObject *parent = 0);
+    explicit CCaptureVideoFrame(CCamera* pCamera = NULL, QObject *parent = 0);
     virtual ~CCaptureVideoFrame();
 
     //设置捕获源
@@ -67,6 +68,7 @@ private slots:
 
 private:
      QVideoProbe m_Probe;//android下,目前只能用probe捕获视频  
+     CCamera *m_pCamera;
 };
 
 #endif // CAPTUREVIDEOFRAME_H

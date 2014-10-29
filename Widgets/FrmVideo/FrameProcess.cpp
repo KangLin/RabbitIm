@@ -4,6 +4,7 @@
 #include "../../Global/Global.h"
 #include "FrmVideo.h"
 #include "Camera.h"
+#include <QThread>
 
 CFrameProcess::CFrameProcess(CCamera* pCamera, QObject *parent) :
     QObject(parent),
@@ -177,6 +178,11 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
         return;
 
+    if(-1 == nWidth)
+        nWidth = inFrame.width();
+    if(-1 == nHeight)
+        nHeight = inFrame.height();
+
     do{
         //转换图片格式
         AVPicture pic;
@@ -203,7 +209,7 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
     inFrame.unmap();
 }
 
-void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame, const QRect &rect)
+void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect rect)
 {
     QVideoFrame outFrame;
     QVideoFrame f(inFrame);
@@ -211,7 +217,11 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame, const 
     //QVideoFrame使用bits前一定要先map，bits才会生效
     if(!f.map(QAbstractVideoBuffer::ReadOnly))
         return;
-
+    if(rect.isEmpty())
+    {
+        rect.setTopLeft(QPoint(0, 0));
+        rect.setBottomRight(QPoint(inFrame.width(), inFrame.height()));
+    }
     do
     {
         //图片格式转换
@@ -230,8 +240,13 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame, const 
     emit sigFrameConvertedToRGB32Frame(outFrame);
 }
 
-void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, const QRect &rect)
+void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, QRect rect)
 {
+    if(rect.isEmpty())
+    {
+        rect.setTopLeft(QPoint(0, 0));
+        rect.setBottomRight(QPoint(frame.width(), frame.height()));
+    }
     //图片格式转换
     AVPicture pic;
     int nRet = CTool::ConvertFormat(frame, pic, rect.width(), rect.height(), AV_PIX_FMT_RGB32);

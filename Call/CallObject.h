@@ -10,7 +10,7 @@ class CCallObject : public QObject
 {
     Q_OBJECT
 public:
-    explicit CCallObject(QObject *parent = 0);
+    explicit CCallObject(bool bVideo = false, QObject *parent = 0);
     virtual ~CCallObject();
 
     enum Direction
@@ -28,13 +28,16 @@ public:
         FinishedState = 3,      ///< The call is finished.
     };
 
+public slots:
     virtual int Accept();//=0
     virtual int Cancel();//=0
 
+public:
     virtual QString GetId();
     virtual State GetState(); //=0
     virtual Direction GetDirection();
 
+    virtual bool IsVideo();//是否是视频呼叫  
 protected:
     virtual int SetId(const QString szId);
     virtual int SetDirection(Direction d);
@@ -51,6 +54,9 @@ private:
     QString m_szId;
     Direction m_Direction;//呼叫方向  
     QSharedPointer <QSound> m_Sound;
+
+protected:
+    bool m_bVideo;
 };
 
 #endif // CALLOBJECT_H

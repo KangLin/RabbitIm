@@ -4,11 +4,12 @@
 #include "qxmpp/QXmppRtpChannel.h"
 #include <QAudioDeviceInfo>
 
-CCallQXmpp::CCallQXmpp(QXmppCall* pCall, QObject *parent) : CCallObject(parent)
+CCallQXmpp::CCallQXmpp(QXmppCall* pCall, bool bVideo, QObject *parent) : CCallObject(bVideo, parent)
 {
     m_pAudioInput = NULL;
     m_pAudioOutput = NULL;
     m_pCall = pCall;
+
     if(pCall)
     {
         SetId(QXmppUtils::jidToBareJid(pCall->jid()));
@@ -18,6 +19,8 @@ CCallQXmpp::CCallQXmpp(QXmppCall* pCall, QObject *parent) : CCallObject(parent)
     }
     else
         Q_ASSERT(false);
+
+    m_pFrmVideo = NULL;
 }
 
 CCallQXmpp::~CCallQXmpp()
@@ -26,6 +29,8 @@ CCallQXmpp::~CCallQXmpp()
         delete m_pAudioInput;
     if(m_pAudioOutput)
         delete m_pAudioOutput;
+    if(m_pFrmVideo)
+        m_pFrmVideo->close();
 }
 
 int CCallQXmpp::ConnectionCallSlot(QXmppCall *pCall)
@@ -47,6 +52,10 @@ int CCallQXmpp::ConnectionCallSlot(QXmppCall *pCall)
 
     check = connect(pCall, SIGNAL(audioModeChanged(QIODevice::OpenMode)),
                     SLOT(slotAudioModeChanged(QIODevice::OpenMode)));
+    Q_ASSERT(check);
+
+    check = connect(pCall, SIGNAL(videoModeChanged(QIODevice::OpenMode)),
+                    SLOT(slotVideoModeChanged(QIODevice::OpenMode)));
     Q_ASSERT(check);
 
     check = connect(pCall, SIGNAL(finished()),
@@ -91,14 +100,14 @@ CCallObject::State CCallQXmpp::GetState()
 
 void CCallQXmpp::slotConnection()
 {
-    LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallVideoQXmpp::slotConnection");
+    LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallQXmpp::slotConnection");
     StopCallSound();
 
     //初始始化音频设备  
     StartAudioDevice();
 
-    //初始化视频设备，并开始视频  
-    //StartVideo();
+    if(m_bVideo)
+        StartVideo();
 }
 
 void CCallQXmpp::slotStateChanged(QXmppCall::State state)
@@ -112,6 +121,10 @@ void CCallQXmpp::slotFinished()
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallVideoQXmpp::slotFinished");
     StopAudioDevice();
     StopCallSound();
+    if(m_bVideo)
+    {
+        StopVideo();
+    }
     emit sigFinished(QSharedPointer<CCallObject>(this));
 }
 
@@ -294,4 +307,196 @@ int CCallQXmpp::StopAudioDevice()
     }
 
     return 0;
+}
+
+//视频模式改变  
+void CCallQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
+{
+    if(!m_pCall)
+        return;
+    LOG_MODEL_DEBUG("CCallQXmpp", "CCallQXmpp::slotVideoModeChanged:mode:%d", mode);
+    if(!m_bVideo)
+    {
+        m_bVideo = true;
+        StartVideo();
+    }
+
+    if(QIODevice::WriteOnly == mode)
+    {
+        //SetVideoFormat();
+    }
+    if(QIODevice::ReadOnly == mode)
+    {
+        int t = 1000 / m_pCall->videoChannel()->encoderFormat().frameRate();
+        m_tmRecive.start(t);
+    }
+}
+
+void CCallQXmpp::slotCaptureFrame(const QXmppVideoFrame &frame)
+{
+    if(!m_pCall)
+    {
+        LOG_MODEL_DEBUG("Video", "m_pCall is NULL");
+        return;
+    }
+
+    QXmppRtpVideoChannel *pChannel = m_pCall->videoChannel();
+    if(!pChannel || !(pChannel->openMode() & QIODevice::WriteOnly))
+    {
+        LOG_MODEL_DEBUG("Video", "m_pCall->videoChannel() is null or openMode isn't write mode");
+        return;
+    }
+
+//    static int nWidth = 0, nHeight = 0;
+//    if(frame.width() != nWidth || frame.height() != frame.height())
+//    {
+//        nWidth = frame.width();
+//        nHeight = frame.height();
+//        QXmppVideoFormat format = pChannel->decoderFormat();
+//        format.setFrameSize(QSize(nWidth, nHeight));
+//        pChannel->setEncoderFormat(format);
+//    }
+
+    pChannel->writeFrame(frame);
+}
+
+void CCallQXmpp::slotReciveFrame()
+{
+    QList<QXmppVideoFrame> f = m_pCall->videoChannel()->readFrames();
+    foreach(QXmppVideoFrame frame, f)
+    {
+        if(!frame.isValid())
+            continue;
+        m_ReciveFrameProcess.slotFrameConvertedToRGB32(frame, QRect(0, 0, frame.width(), frame.height()));
+    }
+}
+
+int CCallQXmpp::SetVideoFormat()
+{
+    QXmppVideoFormat videoFormat;
+    // QXmpp uses this defaults formats for Encoder/Decoder:
+    //
+    // Default Decoder Format
+    // {
+    //     frameRate =  15
+    //     frameSize =  QSize(320, 240)
+    //     pixelFormat =  18
+    // }
+    //
+    // Default Encoder Format
+    // {
+    //     frameRate =  15
+    //     frameSize =  QSize(320, 240)
+    //     pixelFormat =  21
+    // }
+    videoFormat.setFrameRate(m_Camera.GetFrameRate());
+    LOG_MODEL_DEBUG("CCallQXmpp", "CCallQXmpp::SetVideoFormat:width:%d, height:%d", m_Camera.GetWidth(), m_Camera.GetHeight());
+    videoFormat.setFrameSize(QSize(m_Camera.GetWidth(), m_Camera.GetHeight()));
+    // QXmpp allow the following pixel formats for video encoding:
+    //
+    // PixelFormat
+    // {
+    //     Format_Invalid = 0,
+    //     Format_RGB32 = 3,
+    //     Format_RGB24 = 4,
+    //     Format_YUV420P = 18,
+    //     Format_UYVY = 20,
+    //     Format_YUYV = 21
+    // }
+    //
+    // QXmpp can be compiled with Vp8 and Theora support.
+    // The encoding formats supported by this codecs are:
+    //
+    // Vpx    -> QXmppVideoFrame::Format_YUYV
+    //
+    // Theora -> QXmppVideoFrame::Format_YUV420P
+    //           QXmppVideoFrame::Format_YUYV
+
+    videoFormat.setPixelFormat(QXmppVideoFrame::Format_YUYV);
+
+    // Change default Encoder Format.
+    m_pCall->videoChannel()->setEncoderFormat(videoFormat);
+    return 0;
+}
+
+int CCallQXmpp::StartVideo()
+{
+    if(!m_bVideo)
+    {
+        return -1;
+    }
+    bool check = false;
+    //初始化视频设备，并开始视频  
+    m_Camera.SetDeviceIndex(CGlobal::Instance()->GetVideoCaptureDevice());
+    m_Camera.Start();
+    if(m_pCall->direction() == QXmppCall::OutgoingDirection)
+        m_pCall->startVideo();
+    if(m_pFrmVideo)
+    {
+        m_pFrmVideo->close();
+    }
+    m_pFrmVideo = new CFrmVideo();
+    //窗口关闭时会自己释放内存  
+    m_pFrmVideo->setAttribute(Qt::WA_DeleteOnClose, true);
+    check = connect(m_pFrmVideo, SIGNAL(destroyed()),
+                    SLOT(slotFrmVideoClose()));
+    Q_ASSERT(check);
+    m_pFrmVideo->show();
+    m_pFrmVideo->activateWindow();
+    
+    //显示本地视频  
+    check = connect(&m_Camera, SIGNAL(sigCaptureFrame(QVideoFrame)),
+                    &m_CaptureFrameProcess, SLOT(slotFrameConvertedToRGB32(QVideoFrame)));
+    Q_ASSERT(check);
+    check = connect(&m_CaptureFrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
+                    m_pFrmVideo, SLOT(slotDisplayLoacleVideo(QVideoFrame)));
+    Q_ASSERT(check);
+
+    //从本地到网络  
+    check = connect(&m_Camera, SIGNAL(sigCaptureFrame(QVideoFrame)),
+                    &m_CaptureToRemoteFrameProcess, SLOT(slotFrameConvertedToYUYV(QVideoFrame)));
+    Q_ASSERT(check);
+    check = connect(&m_CaptureToRemoteFrameProcess, SIGNAL(sigFrameConvertedToYUYVFrame(QXmppVideoFrame)),
+                    SLOT(slotCaptureFrame(QXmppVideoFrame)));
+    Q_ASSERT(check);
+
+    //从网络到本地  
+    //接收定时器  
+    check = connect(&m_tmRecive, SIGNAL(timeout()),
+                    SLOT(slotReciveFrame()));
+    Q_ASSERT(check);
+    //接收后会发送信号进行转换,显示网络视频    
+    check = connect(&m_ReciveFrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
+                    m_pFrmVideo, SLOT(slotDisplayRemoteVideo(QVideoFrame)));
+    Q_ASSERT(check);//*/
+}
+
+int CCallQXmpp::StopVideo()
+{
+    if(!m_bVideo)
+        return -1;
+    if(m_pCall->direction() == QXmppCall::OutgoingDirection)
+        m_pCall->stopVideo();
+    m_Camera.Stop();
+    if(m_pFrmVideo)
+    {
+        m_pFrmVideo->close();
+        m_pFrmVideo = NULL;
+    }
+    m_Camera.disconnect();
+    m_CaptureFrameProcess.disconnect();
+    m_CaptureToRemoteFrameProcess.disconnect();
+    m_ReciveFrameProcess.disconnect();
+    return 0;
+}
+
+void CCallQXmpp::slotFrmVideoClose()
+{
+    if(m_pFrmVideo)
+    {
+        CFrmVideo* p = m_pFrmVideo;
+        m_pFrmVideo = NULL;
+        p->close();
+    }
+    this->Cancel();
 }

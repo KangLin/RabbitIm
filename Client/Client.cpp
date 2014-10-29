@@ -121,7 +121,7 @@ QSharedPointer<CCallObject> CClient::CallVideo(const QString szId)
     return QSharedPointer<CCallObject>();
 }
 
-QSharedPointer<CCallObject> CClient::Call(const QString szId)
+QSharedPointer<CCallObject> CClient::Call(const QString szId, bool bVideo)
 {
     Q_UNUSED(szId);
     LOG_MODEL_WARNING("CClient", "The CClient::Call function must be implemented by derived classes");
