@@ -51,7 +51,8 @@ SOURCES += main.cpp\
     Call/CallVideo.cpp \
     Call/ManageCall.cpp \
     Call/CallAction.cpp \ #\
-    $$PWD/Call/CallQXmpp.cpp
+    $$PWD/Call/CallQXmpp.cpp \
+    $$PWD/Call/CallVideoQXmpp.cpp
     #Widgets/FrmVideo/FrmVideo.cpp 
     #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
@@ -112,7 +113,8 @@ HEADERS  += MainWindow.h \
     Call/CallVideo.h \
     Call/ManageCall.h \
     Call/CallAction.h \ #\
-    $$PWD/Call/CallQXmpp.h
+    $$PWD/Call/CallQXmpp.h \
+    $$PWD/Call/CallVideoQXmpp.h
     #Widgets/FrmVideo/FrmVideo.h 
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmGroupChat/FrmGroupChatList.h \
