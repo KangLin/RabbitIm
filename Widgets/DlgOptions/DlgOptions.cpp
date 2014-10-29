@@ -2,8 +2,11 @@
 #include "ui_DlgOptions.h"
 #include "../../Global/Global.h"
 #include "../../MainWindow.h"
+#include "Widgets/FrmVideo/Camera.h"
 #include <QDesktopWidget>
 #include <QColorDialog>
+#include <QAudioInput>
+#include <QAudioOutput>
 
 CDlgOptions::CDlgOptions(QWidget *parent) :
     QDialog(parent),
@@ -102,6 +105,27 @@ void CDlgOptions::showEvent(QShowEvent *)
         ui->rBtn_send->setChecked(true);
         break;
     }
+
+    CCamera camera;
+    QList<QString> lstVideoDevices = camera.GetAvailableDevices();
+    foreach (QString cam, lstVideoDevices) {
+        ui->cbVideo->addItem(cam);
+    }
+    ui->cbVideo->addItem(tr("no device"));
+    ui->cbVideo->setCurrentIndex(CGlobal::Instance()->GetVideoCaptureDevice());
+
+    QList<QAudioDeviceInfo> infos = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
+    foreach (QAudioDeviceInfo info, infos) {
+        ui->cbAudioInput->addItem(info.deviceName());
+    }
+    ui->cbAudioInput->addItem(tr("no device"));
+    ui->cbAudioInput->setCurrentIndex(CGlobal::Instance()->GetAudioInputDevice());
+    infos = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+    foreach (QAudioDeviceInfo info, infos) {
+        ui->cbAudioOutput->addItem(info.deviceName());
+    }
+    ui->cbAudioOutput->addItem(tr("no device"));
+    ui->cbAudioOutput->setCurrentIndex(CGlobal::Instance()->GetAudioOutputDevice());
 }
 
 void CDlgOptions::closeEvent(QCloseEvent *)
@@ -167,6 +191,10 @@ void CDlgOptions::on_pbOK_clicked()
         screenShotToType = CGlobal::E_TO_SEND;
     
     CGlobal::Instance()->SetScreenShotToType(screenShotToType);
+
+    CGlobal::Instance()->SetVideoCaptureDevice(ui->cbVideo->currentIndex());
+    CGlobal::Instance()->SetAudioInputDevice(ui->cbAudioInput->currentIndex());
+    CGlobal::Instance()->SetAudioOutputDevice(ui->cbAudioOutput->currentIndex());
 
     emit sigRefresh();
 

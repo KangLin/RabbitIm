@@ -2,6 +2,7 @@
 #include "qxmpp/QXmppUtils.h"
 #include "Global/Global.h"
 #include "qxmpp/QXmppRtpChannel.h"
+#include <QAudioDeviceInfo>
 
 CCallQXmpp::CCallQXmpp(QXmppCall* pCall, QObject *parent) : CCallObject(parent)
 {
@@ -260,30 +261,37 @@ int CCallQXmpp::StartAudioDevice()
 
     outFormat = inFormat;
 
-    QAudioDeviceInfo infoAudioInput(QAudioDeviceInfo::defaultInputDevice());
-    if (!infoAudioInput.isFormatSupported(inFormat)) {
-        LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio input format not supported - trying to use nearest");
-        inFormat = infoAudioInput.nearestFormat(inFormat);
+    QList<QAudioDeviceInfo> lstInputs = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
+    if(!lstInputs.isEmpty() && (lstInputs.size() > CGlobal::Instance()->GetAudioInputDevice()))
+    {
+        QAudioDeviceInfo infoAudioInput(lstInputs.at(CGlobal::Instance()->GetAudioInputDevice()));
+        if (!infoAudioInput.isFormatSupported(inFormat)) {
+            LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio input format not supported - trying to use nearest");
+            //TODO:增加格式转换  
+            inFormat = infoAudioInput.nearestFormat(inFormat);
+        }
+        m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
+        if(!m_pAudioInput)
+            LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioInput device instance fail.");
+        else if(pAudioChannel->openMode() & QIODevice::WriteOnly ) 
+            m_pAudioInput->start(pAudioChannel);
     }
 
-    QAudioDeviceInfo infoAudioOutput(QAudioDeviceInfo::defaultOutputDevice());
-    if (!infoAudioOutput.isFormatSupported(outFormat)) {
-        LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio output format not supported - trying to use nearest");
-        outFormat = infoAudioOutput.nearestFormat(outFormat);
+    QList<QAudioDeviceInfo> lstOutputs = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+    if(!lstOutputs.isEmpty() && (lstOutputs.size() > CGlobal::Instance()->GetAudioOutputDevice()))
+    {
+        QAudioDeviceInfo infoAudioOutput(lstOutputs.at(CGlobal::Instance()->GetAudioOutputDevice()));
+        if (!infoAudioOutput.isFormatSupported(outFormat)) {
+            LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio output format not supported - trying to use nearest");
+            //TODO:增加格式转换  
+            outFormat = infoAudioOutput.nearestFormat(outFormat);
+        }
+        m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
+        if(!m_pAudioOutput)
+            LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioOutput device instance fail.");
+        else if(pAudioChannel->openMode() & QIODevice::ReadOnly)
+            m_pAudioOutput->start(pAudioChannel);
     }
-
-    m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
-    if(!m_pAudioInput)
-        LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioInput device instance fail.");
-    m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
-    if(!m_pAudioOutput)
-        LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioOutput device instance fail.");
-
-    if(pAudioChannel->openMode() & QIODevice::WriteOnly ) 
-        m_pAudioInput->start(pAudioChannel);
-    if(pAudioChannel->openMode() & QIODevice::ReadOnly)
-        m_pAudioOutput->start(pAudioChannel);
-
     return nRet;
 }
 

@@ -1,4 +1,8 @@
-﻿邮件
+﻿音频、视频设备列表选项
+视频呼叫开发
+视频会议开发
+从android到pc发送文件有问题
+
 
 pScreen->availableSize().width()：不能正确定得到
 

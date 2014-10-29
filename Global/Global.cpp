@@ -59,6 +59,10 @@ CGlobal::CGlobal(QObject *parent) :
     m_RosterShowType = (E_ROSTER_SHOW_TYPE)conf.value("Options/Roster/ShowType", E_ROSTER_SHOW_NAME).toInt();
     m_ScreenShotToType = (E_SCREEN_SHOT_TO_TYPE)conf.value("Options/ScreenShot/ToType", E_TO_SEND).toInt();
 
+    m_nVideoCaptureDevice = conf.value("Device/Video/Capture", 0).toInt();
+    m_nAudioInputDevice = conf.value("Device/Audio/Input", 0).toInt();
+    m_nAudioOutputDevice = conf.value("Device/Audio/Output", 0).toInt();
+
     //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用 
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
 }
@@ -621,4 +625,43 @@ int CGlobal::SetScreenShotToType(CGlobal::E_SCREEN_SHOT_TO_TYPE type)
 CGlobal::E_ROSTER_SHOW_TYPE CGlobal::GetRosterShowType()
 {
     return m_RosterShowType;
+}
+
+int CGlobal::GetVideoCaptureDevice()
+{
+    return m_nVideoCaptureDevice;
+}
+
+int CGlobal::SetVideoCaptureDevice(int nIndex)
+{
+    m_nVideoCaptureDevice = nIndex;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Device/Video/Capture", nIndex);
+    return 0;
+}
+
+int CGlobal::GetAudioInputDevice()
+{
+    return m_nAudioInputDevice;
+}
+
+int CGlobal::SetAudioInputDevice(int nIndex)
+{
+    m_nAudioInputDevice = nIndex;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Device/Audio/Input", nIndex);
+    return 0;
+}
+
+int CGlobal::GetAudioOutputDevice()
+{
+    return m_nAudioOutputDevice;
+}
+
+int CGlobal::SetAudioOutputDevice(int nIndex)
+{
+    m_nAudioOutputDevice = nIndex;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Device/Audio/Output", nIndex);
+    return 0;
 }

@@ -201,6 +201,18 @@ private:
     E_ROSTER_SHOW_TYPE m_RosterShowType;
     E_SCREEN_SHOT_TO_TYPE m_ScreenShotToType;
 
+public:
+    int GetVideoCaptureDevice();
+    int SetVideoCaptureDevice(int nIndex = -1);
+    int GetAudioInputDevice();
+    int SetAudioInputDevice(int nIndex);
+    int GetAudioOutputDevice();
+    int SetAudioOutputDevice(int nIndex);
+private:
+    int m_nVideoCaptureDevice;
+    int m_nAudioInputDevice;
+    int m_nAudioOutputDevice;
+
 signals:
 
 public slots:
