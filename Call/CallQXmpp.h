@@ -16,8 +16,6 @@
     #include "Widgets/FrmVideo/Camera.h"
 #endif
 
-#include "Widgets/FrmVideo/CameraOpencv.h"
-
 class CCallQXmpp : public CCallObject
 {
     Q_OBJECT
@@ -78,8 +76,7 @@ private:
 #if ANDROID && RABBITIM_USER_OPENCV
     CCameraOpencv m_Camera;
 #else
-    CCameraOpencv m_Camera;
-    //CCamera m_Camera;
+    CCamera m_Camera;
 #endif
     CFrmVideo *m_pFrmVideo;
 };

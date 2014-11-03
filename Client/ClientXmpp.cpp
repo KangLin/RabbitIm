@@ -284,15 +284,15 @@ QSharedPointer<CCallObject> CClientXmpp::Call(const QString szId, bool bVideo)
     QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
     if(r.isNull())
     {
-        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::CallVideo the roster is null");
+        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::Call the roster is null");
         return QSharedPointer<CCallObject>();
     }
 
     CUserInfoXmpp* pInfo = (CUserInfoXmpp*)r->GetInfo().data();
     if(pInfo->GetResource().isEmpty())
     {
-        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::CallVideo the roster resource is null");
-        r->GetMessage()->AddMessage(szId, tr("The roster is offline, don't launch a video call."), true);
+        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::Call the roster resource is null");
+        r->GetMessage()->AddMessage(szId, tr("The roster is offline, don't launch a call."), true);
         emit sigMessageUpdate(szId);
         return QSharedPointer<CCallObject>();
     }
