@@ -13,8 +13,8 @@ CCamera::CCamera(QObject *parent) : QObject(parent),
         LOG_MODEL_ERROR("Video", "CCaptureVideoFrame::CCaptureVideoFrame parent is null");
 
     m_pCamera = NULL;
-    m_nFrameHeight = 480;
-    m_nFrameWidth = 640;
+    m_nFrameHeight = 320;
+    m_nFrameWidth = 240;
     m_nFrameRate = 15;
     SetDefaultCamera();
 

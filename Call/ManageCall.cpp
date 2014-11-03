@@ -94,7 +94,7 @@ void CManageCall::slotCallVideoReceived(QSharedPointer<CCallObject> call)
                 + ", please stop it.";
         roster->GetMessage()->AddMessage(call->GetId(), szMsg, true);
         GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName(), szMsg);
-        call->Cancel();
+        //call->Cancel();
         emit GET_CLIENT->sigMessageUpdate(call->GetId());
         return;
     }

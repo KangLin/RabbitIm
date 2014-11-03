@@ -1,20 +1,20 @@
 #ifndef FRMREGISTER_H
 #define FRMREGISTER_H
 
-#include <QFrame>
+#include <QDialog>
 #include "Client/Client.h"
 
 namespace Ui {
-class CFrmRegister;
+class CDlgRegister;
 }
 
-class CFrmRegister : public QFrame
+class CDlgRegister : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit CFrmRegister(QWidget *parent = 0);
-    ~CFrmRegister();
+    explicit CDlgRegister(QWidget *parent = 0);
+    ~CDlgRegister();
 
     int SetLogin(QWidget *pLogin);
 
@@ -25,12 +25,11 @@ protected:
 private slots:
     void connected();
     void clientError(CClient::ERROR_TYPE e);
-    //void clientIqReceived(const QXmppIq &iq);
     void on_pbCreate_clicked();
     void on_pbCancel_clicked();
 
 private:
-    Ui::CFrmRegister *ui;
+    Ui::CDlgRegister *ui;
     QWidget *m_pLogin;
 };
 

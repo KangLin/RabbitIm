@@ -15,8 +15,6 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
 
     ui->lbePrompt->setText("");
 
-    m_pRegister = new CFrmRegister();
-
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     //加载所有用户  
     int userTotal = conf.value("Login/UserTotal", 0).toInt();
@@ -50,9 +48,6 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
 CFrmLogin::~CFrmLogin()
 {
     delete ui;
-
-    if(m_pRegister)
-        delete m_pRegister;
 
     LOG_MODEL_DEBUG("Login", "CFrmLogin::~CFrmLogin");
 }
@@ -97,13 +92,11 @@ void CFrmLogin::on_pbClose_clicked()
 
 void CFrmLogin::on_pbRegitster_clicked()
 {
-    if(m_pRegister)
-    {
-        this->setEnabled(false);
-        m_pRegister->SetLogin(this);
-        m_pRegister->show();
-        m_pRegister->activateWindow();
-    }
+    disconnect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
+               CGlobal::Instance()->GetMainWindow(),
+               SLOT(slotClientConnected()));
+    m_Register.SetLogin(this);
+    m_Register.exec();
 }
 
 void CFrmLogin::on_pbSet_clicked()

@@ -1,38 +1,33 @@
-#include "FrmRegister.h"
-#include "ui_FrmRegister.h"
+#include "DlgRegister.h"
+#include "ui_DlgRegister.h"
 #include "../FrmLogin/FrmLogin.h"
 #include "../../MainWindow.h"
 #include "Global/Global.h"
 #include <QDesktopWidget>
 
-CFrmRegister::CFrmRegister(QWidget *parent) :
-    QFrame(parent),
-    ui(new Ui::CFrmRegister)
+CDlgRegister::CDlgRegister(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::CDlgRegister)
 {
     ui->setupUi(this);
 
-    bool check = connect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
-                         SLOT(connected()));
-    Q_ASSERT(check);
-
-    check = connect(GET_CLIENT.data(), SIGNAL(sigClientError(CClient::ERROR_TYPE)),
-                    SLOT(clientError(CClient::ERROR_TYPE)));
-
-    QDesktopWidget *pDesk = QApplication::desktop();    
-    move((pDesk->width() - width()) / 2, (pDesk->height() - height()) / 2);
+    QDesktopWidget *pDesk = QApplication::desktop();
+#ifdef MOBILE
+    this->setGeometry(pDesk->availableGeometry());
+#else
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
+#endif
 }
 
-CFrmRegister::~CFrmRegister()
+CDlgRegister::~CDlgRegister()
 {
-    LOG_MODEL_DEBUG("Register",  "CFrmRegister::~CFrmRegister");
-
     delete ui;
 }
-/*
-void CFrmRegister::clientIqReceived(const QXmppIq &iq)
+
+void CDlgRegister::clientError(CClient::ERROR_TYPE e)
 {
-    LOG_MODEL_DEBUG("Register", "CFrmRegister::clientIqReceived");
-    if(iq.type() == QXmppIq::Result)
+    if(CClient::NoError == e)
     {
         ((CFrmLogin*)m_pLogin)->SetLoginInformation(ui->txtUser->text(), ui->txtPassword->text());
         ((CFrmLogin*)m_pLogin)->SetPrompt(tr("Register success"));
@@ -42,41 +37,33 @@ void CFrmRegister::clientIqReceived(const QXmppIq &iq)
 
         close();
     }
-    else if(iq.type() == QXmppIq::Error)
+    else
     {
-        LOG_MODEL_DEBUG("Register", "CFrmRegister::clientIqReceived:%d", iq.error().code());
-        QString szReason(tr("Unknow error:") + iq.error().code());
-        if(iq.error().condition() == QXmppIq::Error::Conflict)
+        QString szReason(tr("Unknow error"));
+        if(CClient::Conflict == e)
         {
             szReason = tr("User") + " [" + ui->txtUser->text() + "] " + tr("had exist");
         }
-        else if(iq.error().condition() == QXmppIq::Error::InternalServerError)
+        else if(CClient::InternalServerError == e)
         {
             szReason = tr("Sever internal error");
         }
-
+        
         QMessageBox msg(QMessageBox::Critical,
                         tr("Register fail"),
                         szReason,
                         QMessageBox::Ok);
         msg.exec();
     }
-
     GET_CLIENT->Logout();
-}*/
-
-void CFrmRegister::clientError(CClient::ERROR_TYPE e)
-{
-    Q_UNUSED(e);
-    LOG_MODEL_DEBUG("Register", "CFrmRegister::clientError");
 }
 
-void CFrmRegister::connected()
+void CDlgRegister::connected()
 {
     GET_CLIENT->Register(ui->txtUser->text(), ui->txtPassword->text(), ui->txtemail->text(), ui->txtInstructions->text());
 }
 
-void CFrmRegister::on_pbCreate_clicked()
+void CDlgRegister::on_pbCreate_clicked()
 {
     if(ui->txtUser->text().isEmpty()
             || ui->txtUser->text().isNull())
@@ -130,24 +117,29 @@ void CFrmRegister::on_pbCreate_clicked()
         return;
     }
 
+    GET_CLIENT.data()->disconnect(this);
+    bool check = connect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
+                         SLOT(connected()));
+    Q_ASSERT(check);
+
+    check = connect(GET_CLIENT.data(), SIGNAL(sigClientError(CClient::ERROR_TYPE)),
+                    SLOT(clientError(CClient::ERROR_TYPE)));
+    
     GET_CLIENT->Login();
 }
 
-int CFrmRegister::SetLogin(QWidget *pLogin)
+int CDlgRegister::SetLogin(QWidget *pLogin)
 {
     m_pLogin = pLogin;
     return 0;
 }
 
-void CFrmRegister::on_pbCancel_clicked()
+void CDlgRegister::on_pbCancel_clicked()
 {
-    if(m_pLogin)
-        m_pLogin->setEnabled(true);
-
     close();
 }
 
-void CFrmRegister::hideEvent(QHideEvent *)
+void CDlgRegister::hideEvent(QHideEvent *)
 {
     LOG_MODEL_DEBUG("Register", "CFrmRegister::hideEvent");
     if(m_pLogin)
@@ -156,7 +148,7 @@ void CFrmRegister::hideEvent(QHideEvent *)
     close();
 }
 
-void CFrmRegister::changeEvent(QEvent *e)
+void CDlgRegister::changeEvent(QEvent *e)
 {
     switch(e->type())
     {

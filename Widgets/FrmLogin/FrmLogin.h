@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include "../../MainWindow.h"
-#include "../FrmRegister/FrmRegister.h"
+#include "../DlgRegister/DlgRegister.h"
 
 class MainWindow;
 
@@ -42,7 +42,7 @@ private:
 
 private:
     Ui::CFrmLogin *ui;
-    CFrmRegister *m_pRegister;
+    CDlgRegister m_Register;
     QTimer m_tmAutoLogin;//用于自动登录  
 
     //密码加密函数  

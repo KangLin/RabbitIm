@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CFrmRegister</class>
- <widget class="QFrame" name="CFrmRegister">
+ <class>CDlgRegister</class>
+ <widget class="QDialog" name="CDlgRegister">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -28,12 +28,6 @@
   <property name="windowIcon">
    <iconset resource="../../Resource/Resource.qrc">
     <normaloff>:/icon/AppIcon</normaloff>:/icon/AppIcon</iconset>
-  </property>
-  <property name="frameShape">
-   <enum>QFrame::StyledPanel</enum>
-  </property>
-  <property name="frameShadow">
-   <enum>QFrame::Raised</enum>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">

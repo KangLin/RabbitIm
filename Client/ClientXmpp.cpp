@@ -47,7 +47,7 @@ int CClientXmpp::InitConnect()
                     SLOT(slotClientError(QXmppClient::Error)));
     Q_ASSERT(check);
 
-    /*check = connect(m_Client, SIGNAL(iqReceived(QXmppIq)),
+    check = connect(&m_Client, SIGNAL(iqReceived(QXmppIq)),
                     SLOT(slotClientIqReceived(QXmppIq)));
     Q_ASSERT(check);//*/
 
@@ -440,7 +440,27 @@ void CClientXmpp::slotClientError(QXmppClient::Error e)
 
 void CClientXmpp::slotClientIqReceived(const QXmppIq &iq)
 {
+    ERROR_TYPE error = NoError;
     LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp:: iq Received:%d", iq.error().condition());
+    if(iq.type() == QXmppIq::Result)
+    {
+        ;
+    }
+    else if(iq.type() == QXmppIq::Error)
+    {
+        LOG_MODEL_DEBUG("Register", "CFrmRegister::clientIqReceived:%d", iq.error().code());
+
+        if(iq.error().condition() == QXmppIq::Error::Conflict)
+        {
+            error = Conflict;
+        }
+        else if(iq.error().condition() == QXmppIq::Error::InternalServerError)
+        {
+            error = InternalServerError;
+        }
+    }
+    emit sigClientError(error);
+    return;
 }
 
 void CClientXmpp::slotStateChanged(QXmppClient::State state)

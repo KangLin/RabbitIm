@@ -145,10 +145,13 @@ public:
     virtual QSharedPointer<CCallObject> Call(const QString szId, bool bVideo = false);
     enum ERROR_TYPE
     {
-        NoError,            ///< No error.
+        NoError,                    ///< No error.
         NetworkError,        ///< Error due to TCP socket.
         KeepAliveError,     ///< Error due to no response to a keep alive.
-        LoginFail          ///< 登录失败  
+        LoginFail,                 ///< 登录失败  
+        Conflict,                   ///< 用户已经注册  
+        OtherError,             ///< 其它错误  
+        InternalServerError
     };
 
 signals:

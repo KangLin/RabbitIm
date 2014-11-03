@@ -10,7 +10,6 @@ SOURCES += main.cpp\
     Widgets/FrmLogin/FrmLogin.cpp \
     Widgets/FrmUserList/FrmUserList.cpp \
     Widgets/FrmUserList/GroupItem.cpp \
-    Widgets/FrmRegister/FrmRegister.cpp \
     Widgets/FrmAbout/FrmAbout.cpp \
     Widgets/FrmCustom/CustomTreeView.cpp \
     Widgets/FrmVideo/RecordAudio.cpp \
@@ -51,7 +50,8 @@ SOURCES += main.cpp\
     Call/ManageCall.cpp \
     Call/CallAction.cpp \ #\
     $$PWD/Call/CallQXmpp.cpp \
-    Widgets/FrmVideo/FrmVideo.cpp 
+    Widgets/FrmVideo/FrmVideo.cpp \ 
+    $$PWD/Widgets/DlgRegister/DlgRegister.cpp
     #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     #Widgets/FrmGroupChat/Conference.cpp \
@@ -70,7 +70,6 @@ HEADERS  += MainWindow.h \
     Tool.h \
     Widgets/FrmLogin/FrmLogin.h \
     Widgets/FrmUserList/FrmUserList.h \
-    Widgets/FrmRegister/FrmRegister.h \
     Widgets/FrmAbout/FrmAbout.h \
     Widgets/FrmCustom/CustomTreeView.h \
     Widgets/FrmVideo/RecordAudio.h \
@@ -111,7 +110,8 @@ HEADERS  += MainWindow.h \
     Call/ManageCall.h \
     Call/CallAction.h \ #\
     $$PWD/Call/CallQXmpp.h \
-    Widgets/FrmVideo/FrmVideo.h 
+    Widgets/FrmVideo/FrmVideo.h \ 
+    $$PWD/Widgets/DlgRegister/DlgRegister.h
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmGroupChat/FrmGroupChatList.h \
     #Widgets/FrmGroupChat/FrmGroupChatFind.h \
@@ -123,7 +123,6 @@ HEADERS  += MainWindow.h \
 FORMS    += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
     Widgets/FrmUserList/FrmUserList.ui \
-    Widgets/FrmRegister/FrmRegister.ui \
     Widgets/FrmAbout/FrmAbout.ui \
     Widgets/FrmMain/FrmMain.ui \
     Widgets/FrmLogin/FrmLoginSettings.ui \
@@ -133,7 +132,8 @@ FORMS    += MainWindow.ui \
     Widgets/FrmMessage/FrmContainer.ui \
     Widgets/FrmRecentMessage/FrmRecentMsgList.ui \
     Widgets/DlgAddRoster/DlgAddRoster.ui \
-    Widgets/FrmVideo/FrmVideo.ui 
+    Widgets/FrmVideo/FrmVideo.ui \ 
+    $$PWD/Widgets/DlgRegister/DlgRegister.ui
     #Widgets/FrmGroupChat/FrmGroupChatList.ui \
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
     #Widgets/FrmGroupChat/FrmGroupChat.ui \
