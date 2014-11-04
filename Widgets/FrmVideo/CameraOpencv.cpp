@@ -46,6 +46,10 @@ int CCameraOpencv::Stop()
 
 void CCameraOpencv::slotTimeOut()
 {
+#ifdef DEBUG_VIDEO_TIME
+    LOG_MODEL_DEBUG("CCameraOpencv", "CCameraOpencv::slotTimeOut threadid:0x%X", QThread::currentThread());
+#endif
+
     cv::Mat frame;
 #ifdef ANDROID
     if(!m_videoCapture.grab())

@@ -54,7 +54,7 @@ void CRecordAudio::slotReadyRead()
 #ifdef DEBUG_VIDEO_TIME
     static QTime preTime = QTime::currentTime();
     QTime curTime = QTime::currentTime();
-    LOG_MODEL_DEBUG("RecordAudio", "CRecordAudio::slotReadyRead:threadid:%d, preTime:%s, currTime:%s, space:%d",
+    LOG_MODEL_DEBUG("RecordAudio", "CRecordAudio::slotReadyRead:threadid:0x%X, preTime:%s, currTime:%s, space:%d",
            QThread::currentThreadId(),
            qPrintable(preTime.toString("hh:mm:ss.zzz")),
            qPrintable(curTime.toString("hh:mm:ss.zzz")),
@@ -102,7 +102,7 @@ qint64 CRecordAudio::readData(char *data, qint64 maxlen)
 #ifdef DEBUG_VIDEO_TIME
     static QTime preTime = QTime::currentTime();
     QTime curTime = QTime::currentTime();
-    LOG_MODEL_DEBUG("RecordAudio", "CRecordAudio::readData:threadid:%d, preTime:%s, currTime:%s, space:%d",
+    LOG_MODEL_DEBUG("RecordAudio", "CRecordAudio::readData:threadid:0x%X, preTime:%s, currTime:%s, space:%d",
            QThread::currentThreadId(),
            qPrintable(preTime.toString("hh:mm:ss.zzz")),
            qPrintable(curTime.toString("hh:mm:ss.zzz")),
@@ -126,7 +126,7 @@ qint64 CRecordAudio::writeData(const char *data, qint64 len)
 #ifdef DEBUG_VIDEO_TIME
     static QTime preTime = QTime::currentTime();
     QTime curTime = QTime::currentTime();
-    LOG_MODEL_DEBUG("RecordAudio", "CRecordAudio::writeData:threadid:%d, preTime:%s, currTime:%s, space:%d",
+    LOG_MODEL_DEBUG("RecordAudio", "CRecordAudio::writeData:threadid:0x%X, preTime:%s, currTime:%s, space:%d",
            QThread::currentThreadId(),
            qPrintable(preTime.toString("hh:mm:ss.zzz")),
            qPrintable(curTime.toString("hh:mm:ss.zzz")),

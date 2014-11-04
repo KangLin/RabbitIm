@@ -8,8 +8,8 @@ CCallQXmpp::CCallQXmpp(QXmppCall* pCall, bool bVideo, QObject *parent) : CCallOb
 {
     m_pAudioInput = NULL;
     m_pAudioOutput = NULL;
+    m_pFrmVideo = NULL;
     m_pCall = pCall;
-
     if(pCall)
     {
         SetId(QXmppUtils::jidToBareJid(pCall->jid()));
@@ -20,7 +20,11 @@ CCallQXmpp::CCallQXmpp(QXmppCall* pCall, bool bVideo, QObject *parent) : CCallOb
     else
         Q_ASSERT(false);
 
-    m_pFrmVideo = NULL;
+    m_VideoThread.setObjectName("VideoProcess");
+    m_Camera.moveToThread(&m_VideoThread);
+    m_CaptureFrameProcess.moveToThread(&m_VideoThread);
+    m_CaptureToRemoteFrameProcess.moveToThread(&m_VideoThread);
+    m_ReciveFrameProcess.moveToThread(&m_VideoThread);
 }
 
 CCallQXmpp::~CCallQXmpp()
@@ -341,7 +345,7 @@ void CCallQXmpp::slotCaptureFrame(const QXmppVideoFrame &frame)
     }
 
     QXmppRtpVideoChannel *pChannel = m_pCall->videoChannel();
-    if(!pChannel || !(pChannel->openMode() & QIODevice::WriteOnly))
+    if(!pChannel || !(pChannel->openMode() & QIODevice::WriteOnly) || !frame.isValid())
     {
         LOG_MODEL_DEBUG("Video", "m_pCall->videoChannel() is null or openMode isn't write mode");
         return;
@@ -362,6 +366,8 @@ void CCallQXmpp::slotCaptureFrame(const QXmppVideoFrame &frame)
 
 void CCallQXmpp::slotReciveFrame()
 {
+    if(!m_pCall->videoChannel())
+        return;
     QList<QXmppVideoFrame> f = m_pCall->videoChannel()->readFrames();
     foreach(QXmppVideoFrame frame, f)
     {
@@ -425,25 +431,30 @@ int CCallQXmpp::StartVideo()
     {
         return -1;
     }
+#ifdef DEBUG_VIDEO_TIME
+    LOG_MODEL_DEBUG("CCallQXmpp", "CCallQXmpp::StartVideo threadid:0x%X",
+           QThread::currentThreadId());
+#endif
+
     bool check = false;
-    //初始化视频设备，并开始视频  
-    m_Camera.SetDeviceIndex(CGlobal::Instance()->GetVideoCaptureDevice());
-    m_Camera.Start();
-    if(m_pCall->direction() == QXmppCall::OutgoingDirection)
-        m_pCall->startVideo();
+    m_VideoThread.start();//开始视频处理线程  
+    //打开显示对话框  
     if(m_pFrmVideo)
     {
         m_pFrmVideo->close();
     }
     m_pFrmVideo = new CFrmVideo();
-    //窗口关闭时会自己释放内存  
-    m_pFrmVideo->setAttribute(Qt::WA_DeleteOnClose, true);
-    check = connect(m_pFrmVideo, SIGNAL(destroyed()),
-                    SLOT(slotFrmVideoClose()));
-    Q_ASSERT(check);
-    m_pFrmVideo->show();
-    m_pFrmVideo->activateWindow();
-    
+    if(m_pFrmVideo)
+    {
+        //窗口关闭时会自己释放内存  
+        m_pFrmVideo->setAttribute(Qt::WA_DeleteOnClose, true);
+        check = connect(m_pFrmVideo, SIGNAL(destroyed()),
+                        SLOT(slotFrmVideoClose()));
+        Q_ASSERT(check);
+        m_pFrmVideo->show();
+        m_pFrmVideo->activateWindow();
+    }
+
     //显示本地视频  
     check = connect(&m_Camera, SIGNAL(sigCaptureFrame(QVideoFrame)),
                     &m_CaptureFrameProcess, SLOT(slotFrameConvertedToRGB32(QVideoFrame)));
@@ -468,7 +479,14 @@ int CCallQXmpp::StartVideo()
     //接收后会发送信号进行转换,显示网络视频    
     check = connect(&m_ReciveFrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
                     m_pFrmVideo, SLOT(slotDisplayRemoteVideo(QVideoFrame)));
-    Q_ASSERT(check);//*/
+    Q_ASSERT(check);
+
+    //初始化视频设备，并开始视频  
+    m_Camera.SetDeviceIndex(CGlobal::Instance()->GetVideoCaptureDevice());
+    m_Camera.Start();
+    if(m_pCall->direction() == QXmppCall::OutgoingDirection)
+        m_pCall->startVideo();
+
 }
 
 int CCallQXmpp::StopVideo()
@@ -478,6 +496,8 @@ int CCallQXmpp::StopVideo()
     if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->stopVideo();
     m_Camera.Stop();
+    m_tmRecive.stop();
+    m_VideoThread.quit();
     if(m_pFrmVideo)
     {
         m_pFrmVideo->close();

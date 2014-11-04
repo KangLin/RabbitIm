@@ -22,7 +22,7 @@ CFrameProcess::~CFrameProcess()
 void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 {
 #ifdef DEBUG_VIDEO_TIME
-    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotCaptureFrame threadid:%d",
+    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotCaptureFrame threadid:0x%X",
            QThread::currentThreadId());
 #endif
 #ifdef DEBUG
@@ -118,6 +118,10 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 //捕获视频帧。windows下格式是RGB32,做Y轴镜像  
 void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 {
+#ifdef DEBUG_VIDEO_TIME
+    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotCaptureFrame threadid:0x%X",
+           QThread::currentThreadId());
+#endif
 #ifdef DEBUG
     Q_ASSERT(m_pCamera);//需要初始指针  
 #endif
@@ -174,6 +178,10 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 
 void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidth, int nHeight)
 {
+#ifdef DEBUG_VIDEO_TIME
+    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotFrameConvertedToYUYV threadid:0x%X",
+           QThread::currentThreadId());
+#endif
     QVideoFrame inFrame(frame);
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
         return;
@@ -211,6 +219,10 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
 
 void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect rect)
 {
+#ifdef DEBUG_VIDEO_TIME
+    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotFrameConvertedToRGB32 threadid:0x%X",
+           QThread::currentThreadId());
+#endif
     QVideoFrame outFrame;
     QVideoFrame f(inFrame);
 
@@ -242,6 +254,10 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect
 
 void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, QRect rect)
 {
+#ifdef DEBUG_VIDEO_TIME
+    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotFrameConvertedToRGB32 threadid:0x%X",
+           QThread::currentThreadId());
+#endif
     if(rect.isEmpty())
     {
         rect.setTopLeft(QPoint(0, 0));
@@ -261,6 +277,10 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, QRec
 
 int CFrameProcess::FillFrame(const AVPicture &pic, const QRect &rect, QVideoFrame &frame)
 {
+#ifdef DEBUG_VIDEO_TIME
+    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::FillFrame threadid:0x%X",
+           QThread::currentThreadId());
+#endif
     int nRet = 0;
     int size = avpicture_get_size(AV_PIX_FMT_RGB32, rect.width(), rect.height());
 

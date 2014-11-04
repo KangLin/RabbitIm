@@ -7,9 +7,11 @@
 #include "CallObject.h"
 #include <QObject>
 #include <QTimer>
+#include <QThread>
 #include "CallQXmpp.h"
 #include "Widgets/FrmVideo/FrameProcess.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
+
 #if ANDROID && RABBITIM_USER_OPENCV
     #include "Widgets/FrmVideo/CameraOpencv.h"
 #else
@@ -73,6 +75,7 @@ private:
     CFrameProcess m_CaptureFrameProcess;
     CFrameProcess m_CaptureToRemoteFrameProcess;
     CFrameProcess m_ReciveFrameProcess;
+    QThread m_VideoThread;
 #if ANDROID && RABBITIM_USER_OPENCV
     CCameraOpencv m_Camera;
 #else

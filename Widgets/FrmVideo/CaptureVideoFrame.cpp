@@ -54,7 +54,7 @@ bool CCaptureVideoFrame::present(const QVideoFrame &frame)
 #ifdef DEBUG_VIDEO_TIME
     static QTime preTime = QTime::currentTime();
     QTime curTime = QTime::currentTime();
-    LOG_MODEL_DEBUG("Video", "CCaptureVideoFrame::present:threadid:%d, preTime:%s, currTime:%s, space:%d",
+    LOG_MODEL_DEBUG("Video", "CCaptureVideoFrame::present:threadid:0x%X, preTime:%s, currTime:%s, space:%d",
            QThread::currentThreadId(),
            qPrintable(preTime.toString("hh:mm:ss.zzz")),
            qPrintable(curTime.toString("hh:mm:ss.zzz")),

@@ -7,6 +7,7 @@
 #include <QAbstractVideoBuffer>
 #include <QVideoFrame>
 #include <QObject>
+#include <QThread>
 #include "CaptureVideoFrame.h"
 #include "FrameProcess.h"
 
