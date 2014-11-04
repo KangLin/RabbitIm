@@ -17,6 +17,7 @@ CManageFileTransfer::CManageFileTransfer(QObject *parent) :
 CManageFileTransfer::~CManageFileTransfer()
 {
     Clean();
+    LOG_MODEL_DEBUG("CManageFileTransfer", "CManageFileTransfer::~CManageFileTransfer");
 }
 
 int CManageFileTransfer::Init(QString szId)

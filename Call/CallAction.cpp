@@ -5,8 +5,8 @@
 
 CCallAction::CCallAction(QSharedPointer<CCallObject> call, const QString &author, const QTime &date, const bool &me) 
     : CChatAction(me, author, date)
-    , m_Call(call)
 {
+    m_Call = call;
     bool check = connect(m_Call.data(), SIGNAL(sigUpdate()),this, SLOT(slotUpdateHtml()));
     Q_ASSERT(check);
     check = connect(&m_Timer, SIGNAL(timeout()),
@@ -16,6 +16,9 @@ CCallAction::CCallAction(QSharedPointer<CCallObject> call, const QString &author
 
 CCallAction::~CCallAction()
 {
+    if(m_Timer.isActive())
+        m_Timer.stop();
+    LOG_MODEL_DEBUG("CCallAction", "CCallAction::~CCallAction");
 }
 
 QString CCallAction::getMessage()
@@ -23,6 +26,8 @@ QString CCallAction::getMessage()
     QString szMsg;
     szMsg = "<table>";
     //LOG_MODEL_DEBUG("CCallAction", "state:%d", m_Call->GetState());
+    if(m_Call.isNull())
+        return QString();
     switch(m_Call->GetState())
     {
     case CCallObject::ConnectingState:

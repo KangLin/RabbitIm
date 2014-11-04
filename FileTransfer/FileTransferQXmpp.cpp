@@ -28,6 +28,11 @@ CFileTransferQXmpp::CFileTransferQXmpp(QXmppTransferJob *pJob, QObject *parent) 
     
 }
 
+CFileTransferQXmpp::~CFileTransferQXmpp()
+{
+    LOG_MODEL_DEBUG("CFileTransferQXmpp", "CFileTransferQXmpp::~CFileTransferQXmpp");
+}
+
 int CFileTransferQXmpp::Accept(const QString &szFile)
 {
     int nRet = 0;

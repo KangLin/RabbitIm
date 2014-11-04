@@ -14,6 +14,7 @@ CManageCall::CManageCall(QObject *parent) :
 
 CManageCall::~CManageCall()
 {
+    LOG_MODEL_DEBUG("CManageCall", "CManageCall::~CManageCall");
 }
 
 int CManageCall::Init(QString szId)
@@ -62,10 +63,10 @@ int CManageCall::Call(QString szId, bool bVideo)
         return -3;
     }
     m_Call = call;
-    bool check = connect(call.data(), SIGNAL(sigFinished(QSharedPointer<CCallObject>)),
-                         SLOT(slotCallFinished(QSharedPointer<CCallObject>)));
+    bool check = connect(call.data(), SIGNAL(sigFinished(CCallObject*)),
+                         SLOT(slotCallFinished(CCallObject*)));
     Q_ASSERT(check);
-    QSharedPointer<CCallAction> action(new CCallAction(m_Call, szId, QTime::currentTime(), true));
+    QSharedPointer<CCallAction> action(new CCallAction(call, szId, QTime::currentTime(), true));
     roster->GetMessage()->AddMessage(action);
     emit GET_CLIENT->sigMessageUpdate(szId);
     return 0;
@@ -99,19 +100,20 @@ void CManageCall::slotCallVideoReceived(QSharedPointer<CCallObject> call)
         return;
     }
     m_Call = call;
-    bool check = connect(call.data(), SIGNAL(sigFinished(QSharedPointer<CCallObject>)),
-                         SLOT(slotCallFinished(QSharedPointer<CCallObject>)));
+    bool check = connect(call.data(), SIGNAL(sigFinished(CCallObject*)),
+                         SLOT(slotCallFinished(CCallObject*)));
     Q_ASSERT(check);
-    QSharedPointer<CCallAction> action(new CCallAction(m_Call, m_Call->GetId(), QTime::currentTime(), false));
+    QSharedPointer<CCallAction> action(new CCallAction(call, m_Call->GetId(), QTime::currentTime(), false));
     roster->GetMessage()->AddMessage(action);
     GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName(), 
                                         roster->GetInfo()->GetShowName() + tr(" is calling"));
     emit GET_CLIENT->sigMessageUpdate(call->GetId());
 }
 
-void CManageCall::slotCallFinished(QSharedPointer<CCallObject> call)
+void CManageCall::slotCallFinished(CCallObject *pCall)
 {
-    if(m_Call == call)
+    LOG_MODEL_DEBUG("CManageCall", "CManageCall::slotCallFinished");
+    if(m_Call == pCall)
         m_Call.clear();
 }
 
@@ -136,7 +138,7 @@ int CManageCall::ProcessCommandCall(const QString &szId, const QString &szComman
 
     if(m_Call.isNull() && "call" != szCmd)
     {
-        LOG_MODEL_ERROR("CManageCall", "m_Call is null");
+        LOG_MODEL_ERROR("CManageCall", "m_Call is null or command is error. szCmd:%s", qPrintable(szCmd));
         return -1;
     }
     if("accept" == szCmd)
@@ -147,7 +149,7 @@ int CManageCall::ProcessCommandCall(const QString &szId, const QString &szComman
         Call(szId, m_bVideoCall);
     else
     {
-        LOG_MODEL_DEBUG("CManageCall", "command isn't exist");
+        LOG_MODEL_DEBUG("CManageCall", "command isn't exist.szCmd:%s", qPrintable(szCmd));
         return -1;
     }
     return 0;

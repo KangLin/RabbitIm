@@ -48,7 +48,7 @@ private slots:
 
 signals:
     void sigUpdate();
-    void sigFinished(QSharedPointer<CCallObject> call);
+    void sigFinished(CCallObject *pCall);
 
 private:
     QString m_szId;

@@ -11,6 +11,7 @@ class CFileTransferQXmpp : public CFileTransfer
     Q_OBJECT
 public:
     explicit CFileTransferQXmpp(QXmppTransferJob* pJob, QObject *parent = 0);
+    virtual ~CFileTransferQXmpp();
 
     virtual int Accept(const QString& szFile);
     virtual int Abort();

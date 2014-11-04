@@ -10,6 +10,7 @@ CCallObject::CCallObject(bool bVideo, QObject *parent) :
 
 CCallObject::~CCallObject()
 {
+    LOG_MODEL_DEBUG("CCallObject", "CCallObject::~CCallObject.id:%d", qPrintable(m_szId));
 }
 
 QString CCallObject::GetId()

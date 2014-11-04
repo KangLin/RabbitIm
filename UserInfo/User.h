@@ -13,6 +13,7 @@ class CUser : public QObject
     Q_OBJECT
 public:
     explicit CUser(QObject *parent = 0);
+    virtual ~CUser();
 
     QSharedPointer<CUserInfo> GetInfo();
     QSharedPointer<CMessage> GetMessage();

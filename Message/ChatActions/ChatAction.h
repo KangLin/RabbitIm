@@ -9,10 +9,10 @@
 
 class CChatAction : public QObject
 {
-        Q_OBJECT
+    Q_OBJECT
 public:
-    CChatAction(const bool &me, const QString &author, const QTime &date) : m_isMe(me), m_szId(author), m_Time(date) {;}
-    virtual ~CChatAction(){;}
+    CChatAction(const bool &me, const QString &author, const QTime &date);
+    virtual ~CChatAction();
     virtual void setup(QTextCursor cursor, QTextEdit* textEdit); ///< Call once, and then you MUST let the object update itself
 
     virtual QString getName();

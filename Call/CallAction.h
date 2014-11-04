@@ -11,7 +11,7 @@ class CCallAction : public CChatAction
     Q_OBJECT
 public:
     explicit CCallAction(QSharedPointer<CCallObject> call, const QString &author, const QTime &date, const bool &me);
-    ~CCallAction();
+    virtual ~CCallAction();
 
     virtual QString getMessage();
 

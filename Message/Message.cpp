@@ -11,6 +11,7 @@ CMessage::CMessage(QObject *parent) :
 CMessage::~CMessage()
 {
     m_Message.clear();
+    LOG_MODEL_DEBUG("CMessage", "CMessage::~CMessage");
 }
 
 int CMessage::GetUnReadCount()

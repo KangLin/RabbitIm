@@ -35,6 +35,8 @@ CCallQXmpp::~CCallQXmpp()
         delete m_pAudioOutput;
     if(m_pFrmVideo)
         m_pFrmVideo->close();
+
+    LOG_MODEL_DEBUG("CCallQXmpp", "CCallQXmpp::~CCallQXmpp.id:%d", qPrintable(GetId()));
 }
 
 int CCallQXmpp::ConnectionCallSlot(QXmppCall *pCall)
@@ -129,7 +131,7 @@ void CCallQXmpp::slotFinished()
     {
         StopVideo();
     }
-    emit sigFinished(QSharedPointer<CCallObject>(this));
+    emit sigFinished(this);
 }
 
 //音频模式改变  

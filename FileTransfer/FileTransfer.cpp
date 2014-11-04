@@ -11,6 +11,7 @@ CFileTransfer::CFileTransfer(QObject *parent) :
 
 CFileTransfer::~CFileTransfer()
 {
+    LOG_MODEL_DEBUG("CFileTransfer", "CFileTransfer::~CFileTransfer:id:%d", m_nId);
 }
 
 QString CFileTransfer::GetFileTranserId()

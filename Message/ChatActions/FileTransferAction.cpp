@@ -13,7 +13,6 @@ CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, con
   : CChatAction(me, author, date)
 {
     m_File = file;
-    m_pEdit = NULL;
 #ifdef MOBILE
      QDesktopWidget *pDesk = QApplication::desktop();
      int nWidth;
@@ -37,17 +36,7 @@ CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, con
 
 CFileTransferAction::~CFileTransferAction()
 {
-}
-
-void CFileTransferAction::setup(QTextCursor cursor, QTextEdit *textEdit)
-{
-    m_Cursor = cursor;
-    m_Cursor.setKeepPositionOnInsert(true);
-    int end=m_Cursor.selectionEnd();
-    m_Cursor.setPosition(m_Cursor.position());
-    m_Cursor.setPosition(end, QTextCursor::KeepAnchor);
-
-    m_pEdit = textEdit;
+    LOG_MODEL_DEBUG("CFileTransferAction", "CFileTransferAction::~CFileTransferAction");
 }
 
 void CFileTransferAction::slotUpdateHtml()

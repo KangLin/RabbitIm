@@ -42,7 +42,7 @@ signals:
     
 private slots:
     void slotCallVideoReceived(QSharedPointer<CCallObject> call);
-    void slotCallFinished(QSharedPointer<CCallObject> call);
+    void slotCallFinished(CCallObject* pCall);
 
 private:
     QSharedPointer<CCallObject> m_Call;
