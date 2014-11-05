@@ -213,6 +213,12 @@ private:
     int m_nAudioInputDevice;
     int m_nAudioOutputDevice;
 
+public:
+    bool GetIsShowLocaleVideo();
+    int SetIsShowLocaleVideo(bool bShow = true);
+private:
+    bool m_bShowLocaleVideo;
+
 signals:
 
 public slots:

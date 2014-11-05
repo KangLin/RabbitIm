@@ -7,7 +7,7 @@
 QXMPP_USE_VPX = 1             #使用 vpx
 #QXMPP_USE_SPEEX=1            #使用 speex
 #RABBITIM_USER_OPENCV=1       #使用 opencv
-#RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
+RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
 
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets

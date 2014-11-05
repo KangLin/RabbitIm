@@ -192,7 +192,7 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
         nHeight = inFrame.height();
 
     do{
-#ifdef RABBITIM_USER_FFMPEG
+#ifdef  RABBITIM_USER_FFMPEG
         //转换图片格式
         AVPicture pic;
         int nRet = 0;
@@ -214,8 +214,8 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
 
         avpicture_free(&pic);
 #else
-#error "Must use ffmpeg or opencv library"
-#endif
+#error "Must use ffmpeg library"
+#endif//#ifdef  RABBITIM_USER_FFMPEG
     }while(0);
 
     inFrame.unmap();
@@ -229,6 +229,15 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect
 #endif
     QVideoFrame outFrame;
     QVideoFrame f(inFrame);
+
+    if(inFrame.pixelFormat() == QVideoFrame::Format_BGR32 
+            && (rect.isEmpty()
+                || (rect.width() == inFrame.width() 
+                    && rect.height() == inFrame.height())))
+    {
+        emit sigFrameConvertedToRGB32Frame(inFrame);
+        return;
+    }
 
     //QVideoFrame使用bits前一定要先map，bits才会生效
     if(!f.map(QAbstractVideoBuffer::ReadOnly))

@@ -54,6 +54,8 @@ private slots:
     void on_pbOK_clicked();
     void on_pbCancel_clicked();
     void on_cmbCamera_currentIndexChanged(int index);
+    
+    void slotRefresh();
 };
 
 #endif // FRMVIDEO_H

@@ -9,6 +9,7 @@
 #include "FrmVideo.h"
 #include "ui_FrmVideo.h"
 #include "../../Global/Global.h"
+#include "MainWindow.h"
 #include <QApplication>
 #include <QDesktopWidget>
 
@@ -34,6 +35,12 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     //当tracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。  
     //当tracking为on时，没鼠标键按下，也会有mouseEvent事件  
     this->setMouseTracking(true);
+
+    bool check = connect(GET_MAINWINDOW, SIGNAL(sigRefresh()), 
+                         SLOT(slotRefresh()));
+    Q_ASSERT(check);
+    
+    slotRefresh();
 }
 
 CFrmVideo::~CFrmVideo()
@@ -165,7 +172,7 @@ int CFrmVideo::ShowToolBar(bool bShow)
 
 void CFrmVideo::slotDisplayLoacleVideo(const QVideoFrame &frame)
 {
-    m_LocalePlayer.slotPresent(frame);
+        m_LocalePlayer.slotPresent(frame);
 }
 
 void CFrmVideo::slotDisplayRemoteVideo(const QVideoFrame &frame)
@@ -186,4 +193,12 @@ void CFrmVideo::on_pbCancel_clicked()
 void CFrmVideo::on_cmbCamera_currentIndexChanged(int index)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::on_cmbCamera_currentIndexChanged");
+}
+
+void CFrmVideo::slotRefresh()
+{
+    if(CGlobal::Instance()->GetIsShowLocaleVideo())
+        m_LocalePlayer.show();
+    else
+        m_LocalePlayer.hide();
 }

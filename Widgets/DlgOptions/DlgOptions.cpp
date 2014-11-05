@@ -126,6 +126,8 @@ void CDlgOptions::showEvent(QShowEvent *)
     }
     ui->cbAudioOutput->addItem(tr("no device"));
     ui->cbAudioOutput->setCurrentIndex(CGlobal::Instance()->GetAudioOutputDevice());
+
+    ui->cbShowLocaleVideo->setChecked(CGlobal::Instance()->GetIsShowLocaleVideo());
 }
 
 void CDlgOptions::closeEvent(QCloseEvent *)
@@ -196,6 +198,7 @@ void CDlgOptions::on_pbOK_clicked()
     CGlobal::Instance()->SetAudioInputDevice(ui->cbAudioInput->currentIndex());
     CGlobal::Instance()->SetAudioOutputDevice(ui->cbAudioOutput->currentIndex());
 
+    CGlobal::Instance()->SetIsShowLocaleVideo(ui->cbShowLocaleVideo->isChecked());
     emit sigRefresh();
 
     this->accept();

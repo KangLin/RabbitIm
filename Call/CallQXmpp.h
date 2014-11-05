@@ -48,6 +48,9 @@ private:
     int OpenAudioInput();
     int OpenAudioOutput();
 
+    int ConnectLocaleVideo();
+    int DisconnectLocaleVideo();
+
 private:
     QAudioInput*  m_pAudioInput; //音频输入设备  
     QAudioOutput* m_pAudioOutput;//音频输出设备  
@@ -65,6 +68,9 @@ protected slots:
     
     void slotFrmVideoClose();
 
+    //配置更新  
+    void slotUpdateOption();
+
 private:
     int SetVideoFormat();
     int StartVideo();
@@ -72,9 +78,9 @@ private:
 
 private:
     QTimer m_tmRecive;
-    CFrameProcess m_CaptureFrameProcess;
-    CFrameProcess m_CaptureToRemoteFrameProcess;
-    CFrameProcess m_ReciveFrameProcess;
+    CFrameProcess m_CaptureFrameProcess;//本地显示  
+    CFrameProcess m_CaptureToRemoteFrameProcess;//发送到网络  
+    CFrameProcess m_ReciveFrameProcess;//从网络接收  
     QThread m_VideoThread;
 #if ANDROID && RABBITIM_USER_OPENCV
     CCameraOpencv m_Camera;

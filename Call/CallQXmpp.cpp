@@ -3,6 +3,7 @@
 #include "Global/Global.h"
 #include "qxmpp/QXmppRtpChannel.h"
 #include <QAudioDeviceInfo>
+#include "MainWindow.h"
 
 CCallQXmpp::CCallQXmpp(QXmppCall* pCall, bool bVideo, QObject *parent) : CCallObject(bVideo, parent)
 {
@@ -25,10 +26,25 @@ CCallQXmpp::CCallQXmpp(QXmppCall* pCall, bool bVideo, QObject *parent) : CCallOb
     m_CaptureFrameProcess.moveToThread(&m_VideoThread);
     m_CaptureToRemoteFrameProcess.moveToThread(&m_VideoThread);
     m_ReciveFrameProcess.moveToThread(&m_VideoThread);
+    
+    bool check = connect(GET_MAINWINDOW, SIGNAL(sigRefresh()),
+                         SLOT(slotUpdateOption()));
+    Q_ASSERT(check);
 }
 
 CCallQXmpp::~CCallQXmpp()
 {
+    //TODO:多线程在运行时直接关闭窗口会core  
+    LOG_MODEL_DEBUG("CCallQXmpp", "CCallQXmpp status:%d", GetState());
+    if(this->GetState() == ActiveState)
+    {
+        this->Cancel();
+        slotFinished();
+    }
+    if(GetState() == DisconnectingState)
+    {
+        slotFinished();
+    }
     if(m_pAudioInput)
         delete m_pAudioInput;
     if(m_pAudioOutput)
@@ -458,12 +474,10 @@ int CCallQXmpp::StartVideo()
     }
 
     //显示本地视频  
-    check = connect(&m_Camera, SIGNAL(sigCaptureFrame(QVideoFrame)),
-                    &m_CaptureFrameProcess, SLOT(slotFrameConvertedToRGB32(QVideoFrame)));
-    Q_ASSERT(check);
-    check = connect(&m_CaptureFrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
-                    m_pFrmVideo, SLOT(slotDisplayLoacleVideo(QVideoFrame)));
-    Q_ASSERT(check);
+    if(CGlobal::Instance()->GetIsShowLocaleVideo())
+    {
+        ConnectLocaleVideo();
+    }
 
     //从本地到网络  
     check = connect(&m_Camera, SIGNAL(sigCaptureFrame(QVideoFrame)),
@@ -524,4 +538,40 @@ void CCallQXmpp::slotFrmVideoClose()
         p->close();
     }
     this->Cancel();
+}
+
+int CCallQXmpp::ConnectLocaleVideo()
+{
+    if(!m_bVideo)
+        return -1;
+    //显示本地视频  
+    if(CGlobal::Instance()->GetIsShowLocaleVideo())
+    {
+        bool check = connect(&m_Camera, SIGNAL(sigCaptureFrame(QVideoFrame)),
+                        &m_CaptureFrameProcess, SLOT(slotFrameConvertedToRGB32(QVideoFrame)));
+        Q_ASSERT(check);
+        check = connect(&m_CaptureFrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
+                        m_pFrmVideo, SLOT(slotDisplayLoacleVideo(QVideoFrame)));
+        Q_ASSERT(check);
+    }
+
+    return 0;
+}
+
+int CCallQXmpp::DisconnectLocaleVideo()
+{
+    if(!m_bVideo)
+        return -1;
+    m_Camera.disconnect(&m_CaptureFrameProcess);
+    m_CaptureFrameProcess.disconnect(m_pFrmVideo);
+    return 0;
+}
+
+void CCallQXmpp::slotUpdateOption()
+{
+    DisconnectLocaleVideo();
+    if(CGlobal::Instance()->GetIsShowLocaleVideo())
+    {
+        ConnectLocaleVideo();
+    }
 }
