@@ -30,6 +30,7 @@ public:
     //设置ffmpeg日志输出  
     static int SetFFmpegLog();
 
+#ifdef RABBITIM_USER_FFMPEG
     /* 格式转换
      * 如果转换成功，则调用者使用完 outFrame 后，需要调用 avpicture_free(&outFrame) 释放内存
      * 成功返回0，不成功返回非0 */
@@ -55,6 +56,7 @@ public:
     //格式映射  
     static AVPixelFormat QVideoFrameFormatToFFMpegPixFormat(const QVideoFrame::PixelFormat format);
     static AVPixelFormat QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFrame::PixelFormat format);
+#endif
 
 #ifdef RABBITIM_USER_OPENCV
     /* 对图像进行旋转  

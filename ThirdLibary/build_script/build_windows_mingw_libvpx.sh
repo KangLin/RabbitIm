@@ -50,7 +50,7 @@ echo "configure ..."
     --prefix=$PREFIX
 
 echo "make install"
-if [ "0" != "`make install`" ]; then
+if [ "0" != "`make;make install`" ]; then
     cp libvpx_g.a libvpx.a && make install
 fi
 

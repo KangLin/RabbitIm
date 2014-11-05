@@ -42,7 +42,8 @@ rm -fr *
 echo "configure ..."
 ../configure --prefix=$PREFIX  \
     --disable-shared \
-    --enable-static 
+    --enable-static \
+    --disable-examples
     
 echo "make install"
 make

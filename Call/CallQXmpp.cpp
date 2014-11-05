@@ -495,8 +495,15 @@ int CCallQXmpp::StopVideo()
 {
     if(!m_bVideo)
         return -1;
+
+    m_Camera.disconnect();
+    m_CaptureFrameProcess.disconnect();
+    m_CaptureToRemoteFrameProcess.disconnect();
+    m_ReciveFrameProcess.disconnect();
+
     if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->stopVideo();
+
     m_Camera.Stop();
     m_tmRecive.stop();
     m_VideoThread.quit();
@@ -505,10 +512,6 @@ int CCallQXmpp::StopVideo()
         m_pFrmVideo->close();
         m_pFrmVideo = NULL;
     }
-    m_Camera.disconnect();
-    m_CaptureFrameProcess.disconnect();
-    m_CaptureToRemoteFrameProcess.disconnect();
-    m_ReciveFrameProcess.disconnect();
     return 0;
 }
 

@@ -28,8 +28,8 @@ CCaptureVideoFrame::supportedPixelFormats(QAbstractVideoBuffer::HandleType handl
     LOG_MODEL_DEBUG("CCaptureVideoFrame", "CCaptureVideoFrame::supportedPixelFormats handleType:%d", handleType);
     if (handleType == QAbstractVideoBuffer::NoHandle) {
         return QList<QVideoFrame::PixelFormat>()
-                << QVideoFrame::Format_RGB24
                 << QVideoFrame::Format_RGB32//windows 平台、linux 平台默认都支持 RGB32 格式  
+                << QVideoFrame::Format_RGB24
                 << QVideoFrame::Format_ARGB32
                 << QVideoFrame::Format_ARGB32_Premultiplied
                 << QVideoFrame::Format_RGB565

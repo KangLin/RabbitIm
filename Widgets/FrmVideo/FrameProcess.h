@@ -32,9 +32,10 @@ signals:
     void sigFrameConvertedToRGB32Frame(const QVideoFrame &frame);
 
 private:
+#ifdef RABBITIM_USER_FFMPEG
     //用于从AVPICTURE输出到QVideoFrame中  
     int FillFrame(const AVPicture &pic, const QRect &rect, QVideoFrame &frame);
-
+#endif
     CCamera* m_pCamera;
 };
 

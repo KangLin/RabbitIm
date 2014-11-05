@@ -4,9 +4,10 @@
 #
 #-------------------------------------------------
 
-QXMPP_USE_VPX = 1                 #使用 vpx
+QXMPP_USE_VPX = 1             #使用 vpx
 #QXMPP_USE_SPEEX=1            #使用 speex
-#RABBITIM_USER_OPENCV=1 #使用 opencv
+#RABBITIM_USER_OPENCV=1       #使用 opencv
+#RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
 
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets
@@ -48,8 +49,10 @@ CONFIG(debug, debug|release) {
     }
 }
 
-FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale  -lavfilter  -lavutil
-
+!isEmpty(RABBITIM_USER_FFMPEG) {
+    DEFINES += RABBITIM_USER_FFMPEG
+    FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale  -lavfilter  -lavutil
+}
 INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom 
 
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
@@ -68,8 +71,10 @@ android{
 
         QXMPP_LIBRARY_NAME = qxmpp.lib# qxmpp 库名
 
-        #msvc 下直接用库文名查找依赖库
-        FFMPEG_LIBRARY= libavcodec.a libavformat.a libswscale.a libswresample.a libavfilter.a libavutil.a
+        !isEmpty(RABBITIM_USER_FFMPEG) {
+            #msvc 下直接用库文名查找依赖库
+            FFMPEG_LIBRARY= libavcodec.a libavformat.a libswscale.a libswresample.a libavfilter.a libavutil.a
+        }
     }
     else
     {

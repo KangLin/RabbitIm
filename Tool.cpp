@@ -10,7 +10,6 @@ CTool::~CTool()
 {
 }
 
-
 //设置日志的回调函数  
 void Log(void*, int, const char* fmt, va_list vl)
 {
@@ -24,6 +23,7 @@ int CTool::SetFFmpegLog()
     return 0;
 }
 
+#ifdef RABBITIM_USER_FFMPEG
 AVPixelFormat CTool::QVideoFrameFormatToFFMpegPixFormat(const QVideoFrame::PixelFormat format)
 {
     if(QVideoFrame::Format_RGB32 == format)
@@ -176,6 +176,7 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     sws_freeContext(pSwsCtx);
     return nRet;
 }
+#endif
 
 #ifdef RABBITIM_USER_OPENCV
 cv::Mat CTool::ImageRotate(cv::Mat & src, const cv::Point &_center, double angle, double scale)

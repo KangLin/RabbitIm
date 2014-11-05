@@ -19,9 +19,6 @@ CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
     check = connect(this, SIGNAL(sigConverteToRGB32Frame(const QVideoFrame&, const QRect&)),
                     &m_FrameProcess, SLOT(slotFrameConvertedToRGB32(const QVideoFrame&, const QRect&)));
     Q_ASSERT(check);
-    check = connect(this, SIGNAL(sigConverteToRGB32Frame(const QXmppVideoFrame&, const QRect&)),
-                    &m_FrameProcess, SLOT(slotFrameConvertedToRGB32(const QXmppVideoFrame&, const QRect&)));
-    Q_ASSERT(check);
     check = connect(&m_FrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(const QVideoFrame&)),
                         SLOT(slotPaint(const QVideoFrame&)));
     Q_ASSERT(check);
@@ -39,11 +36,15 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
     if(!m_VideoFrame.map(QAbstractVideoBuffer::ReadOnly))
         return;
     QPainter painter(this);
+    QImage::Format f = QVideoFrame::imageFormatFromPixelFormat(m_VideoFrame.pixelFormat());
+    if(QImage::Format_Invalid == f)
+        return;
     QImage image(m_VideoFrame.bits(),
                  m_VideoFrame.width(),
                  m_VideoFrame.height(),
                  m_VideoFrame.bytesPerLine(),
-                 QVideoFrame::imageFormatFromPixelFormat(m_VideoFrame.pixelFormat()));
+                 f);
+    //TODO:这个函数画RGB24位图在MINGW下会出错  
     painter.drawImage(this->rect(), image);
     m_VideoFrame.unmap();
 }
@@ -67,19 +68,13 @@ void CFrmPlayer::slotPaint(const QVideoFrame &frame)
 //从摄像头捕获的帧  
 void CFrmPlayer::slotPresent(const QVideoFrame &frame)
 {
-#ifdef ANDROID
-    QRect rect = this->rect();
-    emit sigConverteToRGB32Frame(frame, rect);
-#else
-    slotPaint(frame);
-#endif
-}
-
-//从网络上接收的帧  
-void CFrmPlayer::slotPresent(const QXmppVideoFrame &frame)
-{
-    QRect rect = this->rect();
-    emit sigConverteToRGB32Frame(frame, rect);
+    if(QVideoFrame::Format_BGR32 != frame.pixelFormat())
+    {
+        QRect rect = this->rect();
+        emit sigConverteToRGB32Frame(frame, rect);
+    }
+    else
+        slotPaint(frame);
 }
 
 void CFrmPlayer::mouseReleaseEvent(QMouseEvent *)

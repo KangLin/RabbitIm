@@ -162,7 +162,7 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
                              inFrame.pixelFormat());//*/
 #else
         //用QImage做图像镜像  
-        QImage img(inFrame.bits(), inFrame.width(), inFrame.height(), 
+        QImage img(inFrame.bits(), inFrame.width(), inFrame.height(),
                    QVideoFrame::imageFormatFromPixelFormat(inFrame.pixelFormat()));
         img = img.mirrored(false, false);
         QVideoFrame outFrame(img);
@@ -192,6 +192,7 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
         nHeight = inFrame.height();
 
     do{
+#ifdef RABBITIM_USER_FFMPEG
         //转换图片格式
         AVPicture pic;
         int nRet = 0;
@@ -212,6 +213,9 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
         }
 
         avpicture_free(&pic);
+#else
+#error "Must use ffmpeg or opencv library"
+#endif
     }while(0);
 
     inFrame.unmap();
@@ -229,13 +233,16 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect
     //QVideoFrame使用bits前一定要先map，bits才会生效
     if(!f.map(QAbstractVideoBuffer::ReadOnly))
         return;
+
     if(rect.isEmpty())
     {
         rect.setTopLeft(QPoint(0, 0));
         rect.setBottomRight(QPoint(inFrame.width(), inFrame.height()));
     }
+
     do
     {
+#ifdef RABBITIM_USER_FFMPEG
         //图片格式转换
         AVPicture pic;
         int nRet = CTool::ConvertFormat(f, pic, rect.width(), rect.height(), AV_PIX_FMT_RGB32);
@@ -245,6 +252,9 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect
         FillFrame(pic, rect, outFrame);
 
         avpicture_free(&pic);
+#else
+#error "Must use ffmpeg or opencv library"
+#endif
     }while(0);
 
     f.unmap();
@@ -263,18 +273,23 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, QRec
         rect.setTopLeft(QPoint(0, 0));
         rect.setBottomRight(QPoint(frame.width(), frame.height()));
     }
-    //图片格式转换
+
+    QVideoFrame outFrame;
+#ifdef RABBITIM_USER_FFMPEG
+    //图片格式转换  
     AVPicture pic;
     int nRet = CTool::ConvertFormat(frame, pic, rect.width(), rect.height(), AV_PIX_FMT_RGB32);
     if(nRet)
         return;
-
-    QVideoFrame outFrame;
     FillFrame(pic, rect, outFrame);
     avpicture_free(&pic);
+#else
+#error "Must use ffmpeg or opencv library"
+#endif
     emit sigFrameConvertedToRGB32Frame(outFrame);
 }
 
+#ifdef RABBITIM_USER_FFMPEG
 int CFrameProcess::FillFrame(const AVPicture &pic, const QRect &rect, QVideoFrame &frame)
 {
 #ifdef DEBUG_VIDEO_TIME
@@ -300,3 +315,4 @@ int CFrameProcess::FillFrame(const AVPicture &pic, const QRect &rect, QVideoFram
         return -1;
     return nRet;
 }
+#endif
