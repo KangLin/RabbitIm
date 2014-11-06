@@ -82,7 +82,7 @@ public:
      *
      * @param szId:好友id  
      * @param szMsg:消息内容  
-     * @return QSharedPointer<CChatAction> 
+     * @return QSharedPointer<CChatAction>  
      */
     virtual int SendMessage(const QString& szId, const QString &szMsg);
 
@@ -111,7 +111,7 @@ public:
      *
      * @param szId：用户id  
      * @param bVideo:是否是视频呼叫  
-     * @return QSharedPointer<CCallObject>
+     * @return QSharedPointer<CCallObject>  
      */
     virtual QSharedPointer<CCallObject> Call(const QString szId, bool bVideo = false);
 

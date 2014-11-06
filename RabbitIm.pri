@@ -48,7 +48,7 @@ SOURCES += main.cpp\
     Widgets/FrmVideo/Camera.cpp \
     Call/CallObject.cpp \
     Call/ManageCall.cpp \
-    Call/CallAction.cpp \ #\
+    Call/CallAction.cpp \
     $$PWD/Call/CallQXmpp.cpp \
     Widgets/FrmVideo/FrmVideo.cpp \ 
     $$PWD/Widgets/DlgRegister/DlgRegister.cpp
@@ -108,7 +108,7 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/Camera.h \
     Call/CallObject.h \
     Call/ManageCall.h \
-    Call/CallAction.h \ #\
+    Call/CallAction.h \ 
     $$PWD/Call/CallQXmpp.h \
     Widgets/FrmVideo/FrmVideo.h \ 
     $$PWD/Widgets/DlgRegister/DlgRegister.h

@@ -7,18 +7,13 @@
 #include <QString>
 #include <QStringList>
 
-#define SMILEYPACK_SEARCH_PATHS                                                                                             \
-    {                                                                                                                       \
-        "./smileys", "/usr/share/qtox/smileys", "/usr/share/emoticons", "~/.kde4/share/emoticons", "~/.kde/share/emoticons" \
-    }
-
 //maps emoticons to smileys
 class CSmileyPack : public QObject
 {
     Q_OBJECT
 public:
     static CSmileyPack& getInstance();
-    static QList<QPair<QString, QString> > listSmileyPacks(const QStringList& paths = SMILEYPACK_SEARCH_PATHS);
+    static QList<QPair<QString, QString> > listSmileyPacks(QStringList &paths);
     static bool isValid(const QString& filename);
 
     bool load(const QString& filename);

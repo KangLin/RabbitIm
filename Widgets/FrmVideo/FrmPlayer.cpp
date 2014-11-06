@@ -68,7 +68,7 @@ void CFrmPlayer::slotPaint(const QVideoFrame &frame)
 //从摄像头捕获的帧  
 void CFrmPlayer::slotPresent(const QVideoFrame &frame)
 {
-    if(QVideoFrame::Format_BGR32 != frame.pixelFormat())
+    if(QVideoFrame::Format_RGB32 != frame.pixelFormat())
     {
         QRect rect = this->rect();
         emit sigConverteToRGB32Frame(frame, rect);

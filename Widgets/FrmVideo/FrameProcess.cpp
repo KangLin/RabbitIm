@@ -232,8 +232,8 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect
 
     if(inFrame.pixelFormat() == QVideoFrame::Format_BGR32 
             && (rect.isEmpty()
-                || (rect.width() == inFrame.width() 
-                    && rect.height() == inFrame.height())))
+                || (rect.width() == f.width() 
+                    && rect.height() == f.height())))
     {
         emit sigFrameConvertedToRGB32Frame(inFrame);
         return;
@@ -245,8 +245,8 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect
 
     if(rect.isEmpty())
     {
-        rect.setTopLeft(QPoint(0, 0));
-        rect.setBottomRight(QPoint(inFrame.width(), inFrame.height()));
+        rect.setWidth(f.width());
+        rect.setHeight(f.height());
     }
 
     do
@@ -254,6 +254,7 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect
 #ifdef RABBITIM_USER_FFMPEG
         //图片格式转换
         AVPicture pic;
+        LOG_MODEL_DEBUG("CFrmeProcess", "width:%d;height:%d;f.width:%d;height:%d", rect.width(), rect.height(), f.width(), f.height());
         int nRet = CTool::ConvertFormat(f, pic, rect.width(), rect.height(), AV_PIX_FMT_RGB32);
         if(nRet)
             break;

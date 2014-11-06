@@ -24,8 +24,12 @@ CSmileyPack& CSmileyPack::getInstance()
     return smileyPack;
 }
 
-QList<QPair<QString, QString> > CSmileyPack::listSmileyPacks(const QStringList &paths)
+QList<QPair<QString, QString> > CSmileyPack::listSmileyPacks(QStringList &paths)
 {
+    if(paths.isEmpty())
+    {
+        paths << "./smileys" << "/usr/share/qtox/smileys" << "/usr/share/emoticons" << "~/.kde4/share/emoticons" << "~/.kde/share/emoticons";
+    }
     QList<QPair<QString, QString> > smileyPacks;
 
     for (QString path : paths)

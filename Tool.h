@@ -119,15 +119,7 @@ public:
      * srcWidth:要操作图像的宽度
      * srcHeight:要操作图像的高度 */
     static void YUV420spMirrorX(uchar *dst, const uchar *src, int srcWidth, int srcHeight);
-
-    //设置窗口中的所有子窗体背景为透明  
-    static int SetAllChildrenTransparent(QWidget *pWin);
-    
-    /*获取字节数的大小文本,例如1024返回1B;20140711
-    * size:字节大小
-    * prec:精度,小数的保留的位数 */
-    static QString GetSizeString(qint64 size, int prec = 2);
-    
+  
 signals:
 
 public slots:

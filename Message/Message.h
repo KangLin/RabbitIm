@@ -28,7 +28,6 @@ public:
     std::vector<QSharedPointer<CChatAction> > GetUnreadMessage();
 
 signals:
-    
 public slots:
 private:
     std::vector<QSharedPointer<CChatAction> > m_Message;
