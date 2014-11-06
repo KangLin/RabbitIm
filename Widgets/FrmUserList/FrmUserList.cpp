@@ -165,6 +165,7 @@ int CFrmUserList::InitMenu()
                     SLOT(slotCallAudio()));
     Q_ASSERT(check);
 
+    m_Menu.addAction(ui->actionAllowMonitor);
     //TODO:新增菜单  
     
     m_Menu.addSeparator();

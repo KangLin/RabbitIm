@@ -42,7 +42,7 @@ CGlobal::CGlobal(QObject *parent) :
     //m_szStunServer = conf.value("Login/StunServer", "stun.l.google.com").toString();
     m_szStunServer = conf.value("Login/StunServer", "183.233.149.120").toString();
     //m_szTurnServer = conf.value("Login/TurnServer", "turn.l.google.com").toString();
-    m_szTurnServer = conf.value("Login/TurnServer", "183.233.149.120").toString();
+    m_szTurnServer = conf.value("Login/TurnServer", "182.254.185.29").toString();
     m_nStunServerPort = conf.value("Login/StunServerPort", 3478).toInt();
     m_nTurnServerPort = conf.value("Login/TurnServerPort", 3478).toInt();
     m_szTurnUser = conf.value("Login/TurnServerUser", "1").toString();

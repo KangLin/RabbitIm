@@ -9,6 +9,7 @@ CUserInfo::CUserInfo(QObject *parent) :
 {
     m_subscriptionType = None;
     m_Status = OffLine;
+    m_bMonitor = false;
 }
 
 CUserInfo::~CUserInfo()
@@ -156,6 +157,17 @@ QString CUserInfo::GetSubscriptionTypeStr(SUBSCRIPTION_TYPE type) const
     }
 }
 
+bool CUserInfo::GetIsMonitor()
+{
+    return m_bMonitor;
+}
+
+int CUserInfo::SetMonitor(bool bMonitor)
+{
+    m_bMonitor = bMonitor;
+    return 0;
+}
+
 int CUserInfo::LoadFromStorage(QDataStream &input)
 {
     int nRet = 0;
@@ -163,6 +175,7 @@ int CUserInfo::LoadFromStorage(QDataStream &input)
           >> m_szEmail
           >> m_szDescription
           >> m_Birthday
+          >> m_bMonitor
           >> (int&)m_subscriptionType;
     int nSize = 0;
     input >> nSize;
@@ -181,6 +194,7 @@ int CUserInfo::SaveToStorage(QDataStream &output)
            << m_szEmail 
            << m_szDescription
            << m_Birthday
+           << m_bMonitor
            << (int&)m_subscriptionType
            << m_Groups.size();
     foreach(QString group, m_Groups)

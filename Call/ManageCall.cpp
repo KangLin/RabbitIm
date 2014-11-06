@@ -99,10 +99,17 @@ void CManageCall::slotCallVideoReceived(QSharedPointer<CCallObject> call)
         emit GET_CLIENT->sigMessageUpdate(call->GetId());
         return;
     }
+
     m_Call = call;
     bool check = connect(call.data(), SIGNAL(sigFinished(CCallObject*)),
                          SLOT(slotCallFinished(CCallObject*)));
     Q_ASSERT(check);
+
+    if(roster->GetInfo()->GetIsMonitor())
+    {
+        m_Call->Accept();
+    }
+
     QSharedPointer<CCallAction> action(new CCallAction(call, m_Call->GetId(), QTime::currentTime(), false));
     roster->GetMessage()->AddMessage(action);
     GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName(), 

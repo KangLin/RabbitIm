@@ -61,6 +61,9 @@ public:
     virtual SUBSCRIPTION_TYPE GetSubScriptionType();
     virtual QString GetSubscriptionTypeStr(SUBSCRIPTION_TYPE type) const;
 
+    virtual bool GetIsMonitor();
+    virtual int SetMonitor(bool bMonitor);
+
  #ifndef QT_NO_DATASTREAM
     virtual int LoadFromStorage(QDataStream &input);
     virtual int SaveToStorage(QDataStream &output);
@@ -78,6 +81,7 @@ protected:
     QSet<QString> m_Groups;
     SUBSCRIPTION_TYPE m_subscriptionType;
 
+    bool m_bMonitor;
 signals:
 
 public slots:

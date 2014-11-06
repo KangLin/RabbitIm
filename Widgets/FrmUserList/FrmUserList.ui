@@ -126,6 +126,18 @@
     <string>Audio</string>
    </property>
   </action>
+  <action name="actionAllowMonitor">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Monitor</normaloff>:/icon/Monitor</iconset>
+   </property>
+   <property name="text">
+    <string>AllowMonitor</string>
+   </property>
+   <property name="toolTip">
+    <string>AllowMonitor</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../../Resource/Resource.qrc"/>
