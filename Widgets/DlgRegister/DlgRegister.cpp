@@ -10,8 +10,8 @@ CDlgRegister::CDlgRegister(QWidget *parent) :
     ui(new Ui::CDlgRegister)
 {
     ui->setupUi(this);
-
     QDesktopWidget *pDesk = QApplication::desktop();
+
 #ifdef MOBILE
     this->setGeometry(pDesk->availableGeometry());
 #else

@@ -280,8 +280,8 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, QRec
 #endif
     if(rect.isEmpty())
     {
-        rect.setTopLeft(QPoint(0, 0));
-        rect.setBottomRight(QPoint(frame.width(), frame.height()));
+        rect.setWidth(frame.width());
+        rect.setHeight(frame.height());
     }
 
     QVideoFrame outFrame;

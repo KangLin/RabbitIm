@@ -349,8 +349,7 @@ void CCallQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
     }
     if(QIODevice::ReadOnly == mode)
     {
-        int t = 1000 / m_pCall->videoChannel()->encoderFormat().frameRate();
-        m_tmRecive.start(t);
+        
     }
 }
 
@@ -503,6 +502,8 @@ int CCallQXmpp::StartVideo()
     if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->startVideo();
 
+    int t = 1000 / m_pCall->videoChannel()->encoderFormat().frameRate();
+    m_tmRecive.start(t);
 }
 
 int CCallQXmpp::StopVideo()
@@ -542,7 +543,7 @@ void CCallQXmpp::slotFrmVideoClose()
 
 int CCallQXmpp::ConnectLocaleVideo()
 {
-    if(!m_bVideo)
+    if(!m_bVideo || !m_pFrmVideo)
         return -1;
     //显示本地视频  
     if(CGlobal::Instance()->GetIsShowLocaleVideo())
