@@ -4,8 +4,8 @@
 #运行本脚本前,先运行 build_windows_mingw_envsetup.sh 进行环境变量设置,需要先设置下面变量:
 #   PREFIX=`pwd`/../windows  #修改这里为安装前缀
 if [ -z "${PREFIX}" ]; then
-    echo "build_windows_mingw_envsetup.sh"
-    source build_windows_mingw_envsetup.sh
+    echo "build_unix_envsetup.sh"
+    source build_unix_envsetup.sh
 fi
 
 if [ -n "$1" ]; then
@@ -42,7 +42,6 @@ echo "configure ......"
     --disable-ffprobe \
     --disable-ffserver \
     --disable-ffplay \
-    --disable-ffmpeg \
     --disable-avdevice \
     --disable-shared \
     --enable-libx264 \
