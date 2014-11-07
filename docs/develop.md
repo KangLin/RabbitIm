@@ -34,6 +34,38 @@
   提交的基本原则为：
   1. 按每个小功能进行提交，写清楚提交注释，并保证能够编译通过。
   2. 提交前需要作者完成单元测试。
+  
+开发流程
+--------
+
+###开发者流程
+
+- 开发者是指现在玉兔即时通信的开发人员，或者以后我们信任的贡献者转化而成的开发人员。
+
+- 要成为开发者，需要在github上注册账号, 然后由管理者加入到相应项目的collaborators列表
+
+- 开发主要用到master和develop两个分支， 平时开发都在develop分支上，只有代码
+达到一个milestone的stable状态，才把develop分支merge到master分支
+
+- 有时开发者可能想实现一个比较cool的feature，可以建立一个feature_x分支，
+测试稳定后merge到master
+
+###贡献者流程
+
+- 贡献者是指非玉兔即时通信项目组成员，热爱开源且希望为开源项目贡献代码的开发人员
+
+- 贡献者可以在github上Fork一个子项目，然后在Fork的项目上提交代码，
+再通过Pull Request把修改通知给项目开发者，由开发者code review后，
+决定是否merge进入master分支， 具体可参考: [github协作流程](http://www.worldhello.net/gotgithub/04-work-with-others/010-fork-and-pull.html)
+
+###版本迭代流程
+- 版本迭代周期暂定为3个月
+- 开发者和贡献者可以把想要实现的feature通过github的wiki功能提交上来
+- 开始迭代前讨论本期版本要实现哪些feature，然后把要在本次迭代实现的featue列表写入版本的TODO feature list列表
+- 制定大概的排期
+- 开发，内部测试
+- alpha版本发布，公测
+- 把develop分支代码merge到master分支，stable版本发布
 
 参考资料：
 --------

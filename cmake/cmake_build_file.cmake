@@ -1,6 +1,6 @@
 
 SET(RABBITIM_SOURCES
-    main.cpp
+main.cpp
     MainWindow.cpp 
     Tool.cpp 
     Client/ClientXmpp.cpp 
@@ -12,7 +12,6 @@ SET(RABBITIM_SOURCES
     Widgets/FrmLogin/FrmLogin.cpp 
     Widgets/FrmUserList/FrmUserList.cpp 
     Widgets/FrmUserList/GroupItem.cpp 
-    Widgets/FrmRegister/FrmRegister.cpp 
     Widgets/FrmAbout/FrmAbout.cpp 
     Widgets/FrmCustom/CustomTreeView.cpp 
     Widgets/FrmVideo/RecordAudio.cpp 
@@ -43,23 +42,35 @@ SET(RABBITIM_SOURCES
     FileTransfer/ManageFileTransfer.cpp 
     FileTransfer/FileTransfer.cpp 
     FileTransfer/FileTransferQXmpp.cpp   
-    Message/ChatActions/FileTransferAction.cpp
+    Message/ChatActions/FileTransferAction.cpp 
+    Widgets/FrmVideo/DataVideoBuffer.cpp 
+    Widgets/FrmVideo/FrameProcess.cpp 
+    Widgets/FrmVideo/CaptureVideoFrame.cpp 
+    Widgets/FrmVideo/FrmPlayer.cpp  
+    Widgets/FrmVideo/Camera.cpp 
+    Call/CallObject.cpp 
+    Call/ManageCall.cpp 
+    Call/CallAction.cpp 
+    $$PWD/Call/CallQXmpp.cpp 
+    Widgets/FrmVideo/FrmVideo.cpp  
+    $$PWD/Widgets/DlgRegister/DlgRegister.cpp
 )
 
 SET(RABBITIM_UIS
-    MainWindow.ui
-    Widgets/FrmLogin/FrmLogin.ui
-    Widgets/FrmUserList/FrmUserList.ui
-    Widgets/FrmRegister/FrmRegister.ui
-    Widgets/FrmAbout/FrmAbout.ui
-    Widgets/FrmMain/FrmMain.ui
-    Widgets/FrmLogin/FrmLoginSettings.ui
-    Widgets/DlgOptions/DlgOptions.ui
-    Widgets/FrmUservCard/FrmUservCard.ui
-    Widgets/FrmMessage/FrmMessage.ui
-    Widgets/FrmMessage/FrmContainer.ui
-    Widgets/FrmRecentMessage/FrmRecentMsgList.ui
-    Widgets/DlgAddRoster/DlgAddRoster.ui
+    MainWindow.ui 
+    Widgets/FrmLogin/FrmLogin.ui 
+    Widgets/FrmUserList/FrmUserList.ui 
+    Widgets/FrmAbout/FrmAbout.ui 
+    Widgets/FrmMain/FrmMain.ui 
+    Widgets/FrmLogin/FrmLoginSettings.ui 
+    Widgets/DlgOptions/DlgOptions.ui 
+    Widgets/FrmUservCard/FrmUservCard.ui 
+    Widgets/FrmMessage/FrmMessage.ui 
+    Widgets/FrmMessage/FrmContainer.ui 
+    Widgets/FrmRecentMessage/FrmRecentMsgList.ui 
+    Widgets/DlgAddRoster/DlgAddRoster.ui 
+    Widgets/FrmVideo/FrmVideo.ui  
+    $$PWD/Widgets/DlgRegister/DlgRegister.ui
     #Widgets/FrmGroupChat/FrmGroupChatList.ui
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui
     #Widgets/FrmGroupChat/FrmGroupChat.ui

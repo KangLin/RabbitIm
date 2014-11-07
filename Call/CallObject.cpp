@@ -6,11 +6,13 @@ CCallObject::CCallObject(bool bVideo, QObject *parent) :
 {
     m_Direction = IncomingDirection;
     m_bVideo = bVideo;
+    m_pSound = NULL;
 }
 
 CCallObject::~CCallObject()
 {
     LOG_MODEL_DEBUG("CCallObject", "CCallObject::~CCallObject.id:%d", qPrintable(m_szId));
+    StopCallSound();
 }
 
 QString CCallObject::GetId()
@@ -71,26 +73,26 @@ void CCallObject::PlayCallSound()
     else
         file = ":/sound/Receive";
 
-    if(!m_Sound.isNull())
+    if(m_pSound)
     {
-        m_Sound->stop();
-        m_Sound.clear();
+        m_pSound->stop();
+        m_pSound = NULL;
     }
-    QSharedPointer<QSound> sound(new QSound(file));
-    m_Sound = sound;
-    if(!m_Sound.isNull())
+    m_pSound = new QSound(file);
+    if(m_pSound)
     {
-        m_Sound->setLoops(100);
-        m_Sound->play();
+        m_pSound->setLoops(100);
+        m_pSound->play();
     }
 }
 
 void CCallObject::StopCallSound()
 {
     LOG_MODEL_DEBUG("CCallObject", "CCallObject::StopCallSound");
-    if(!m_Sound.isNull())
+    if(m_pSound)
     {
-        m_Sound->stop();
-        m_Sound.clear();
+            m_pSound->stop();
+            delete m_pSound;
+            m_pSound = NULL;
     }
 }

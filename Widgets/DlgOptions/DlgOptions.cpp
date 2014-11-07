@@ -128,6 +128,7 @@ void CDlgOptions::showEvent(QShowEvent *)
     ui->cbAudioOutput->setCurrentIndex(CGlobal::Instance()->GetAudioOutputDevice());
 
     ui->cbShowLocaleVideo->setChecked(CGlobal::Instance()->GetIsShowLocaleVideo());
+    ui->cbMonitor->setChecked(CGlobal::Instance()->GetIsMonitor());
 }
 
 void CDlgOptions::closeEvent(QCloseEvent *)
@@ -199,6 +200,8 @@ void CDlgOptions::on_pbOK_clicked()
     CGlobal::Instance()->SetAudioOutputDevice(ui->cbAudioOutput->currentIndex());
 
     CGlobal::Instance()->SetIsShowLocaleVideo(ui->cbShowLocaleVideo->isChecked());
+    CGlobal::Instance()->SetMonitor(ui->cbMonitor->isChecked());
+
     emit sigRefresh();
 
     this->accept();

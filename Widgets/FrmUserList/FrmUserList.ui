@@ -132,10 +132,10 @@
      <normaloff>:/icon/Monitor</normaloff>:/icon/Monitor</iconset>
    </property>
    <property name="text">
-    <string>AllowMonitor</string>
+    <string>Allow Monitor</string>
    </property>
    <property name="toolTip">
-    <string>AllowMonitor</string>
+    <string>Allow Monitor</string>
    </property>
   </action>
  </widget>

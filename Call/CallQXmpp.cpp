@@ -386,6 +386,10 @@ void CCallQXmpp::slotReciveFrame()
     if(!m_pCall->videoChannel())
         return;
     QList<QXmppVideoFrame> f = m_pCall->videoChannel()->readFrames();
+    //监控模式下接收后直接返回  
+    if(IsMonitor())
+        return;
+
     foreach(QXmppVideoFrame frame, f)
     {
         if(!frame.isValid())
@@ -455,28 +459,6 @@ int CCallQXmpp::StartVideo()
 
     bool check = false;
     m_VideoThread.start();//开始视频处理线程  
-    //打开显示对话框  
-    if(m_pFrmVideo)
-    {
-        m_pFrmVideo->close();
-    }
-    m_pFrmVideo = new CFrmVideo();
-    if(m_pFrmVideo)
-    {
-        //窗口关闭时会自己释放内存  
-        m_pFrmVideo->setAttribute(Qt::WA_DeleteOnClose, true);
-        check = connect(m_pFrmVideo, SIGNAL(destroyed()),
-                        SLOT(slotFrmVideoClose()));
-        Q_ASSERT(check);
-        m_pFrmVideo->show();
-        m_pFrmVideo->activateWindow();
-    }
-
-    //显示本地视频  
-    if(CGlobal::Instance()->GetIsShowLocaleVideo())
-    {
-        ConnectLocaleVideo();
-    }
 
     //从本地到网络  
     check = connect(&m_Camera, SIGNAL(sigCaptureFrame(QVideoFrame)),
@@ -485,15 +467,10 @@ int CCallQXmpp::StartVideo()
     check = connect(&m_CaptureToRemoteFrameProcess, SIGNAL(sigFrameConvertedToYUYVFrame(QXmppVideoFrame)),
                     SLOT(slotCaptureFrame(QXmppVideoFrame)));
     Q_ASSERT(check);
-
     //从网络到本地  
     //接收定时器  
     check = connect(&m_tmRecive, SIGNAL(timeout()),
                     SLOT(slotReciveFrame()));
-    Q_ASSERT(check);
-    //接收后会发送信号进行转换,显示网络视频    
-    check = connect(&m_ReciveFrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
-                    m_pFrmVideo, SLOT(slotDisplayRemoteVideo(QVideoFrame)));
     Q_ASSERT(check);
 
     //初始化视频设备，并开始视频  
@@ -504,6 +481,13 @@ int CCallQXmpp::StartVideo()
 
     int t = 1000 / m_pCall->videoChannel()->encoderFormat().frameRate();
     m_tmRecive.start(t);
+
+    if(IsMonitor())
+    {
+        return 0;
+    }
+
+    OpenVideoWindow();
 }
 
 int CCallQXmpp::StopVideo()
@@ -522,11 +506,7 @@ int CCallQXmpp::StopVideo()
     m_Camera.Stop();
     m_tmRecive.stop();
     m_VideoThread.quit();
-    if(m_pFrmVideo)
-    {
-        m_pFrmVideo->close();
-        m_pFrmVideo = NULL;
-    }
+    CloseVideoWindow();
     return 0;
 }
 
@@ -575,4 +555,65 @@ void CCallQXmpp::slotUpdateOption()
     {
         ConnectLocaleVideo();
     }
+}
+
+int CCallQXmpp::OpenVideoWindow()
+{
+    //打开显示对话框  
+    if(m_pFrmVideo)
+    {
+        m_pFrmVideo->close();
+    }
+    m_pFrmVideo = new CFrmVideo();
+    if(!m_pFrmVideo)
+    {
+        return -1;
+    }
+
+    //窗口关闭时会自己释放内存  
+    m_pFrmVideo->setAttribute(Qt::WA_DeleteOnClose, true);
+    bool check = connect(m_pFrmVideo, SIGNAL(destroyed()),
+                         SLOT(slotFrmVideoClose()));
+    Q_ASSERT(check);
+    m_pFrmVideo->show();
+    m_pFrmVideo->activateWindow();
+
+    //接收后会发送信号进行转换,显示网络视频    
+    check = connect(&m_ReciveFrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
+                    m_pFrmVideo, SLOT(slotDisplayRemoteVideo(QVideoFrame)));
+    Q_ASSERT(check);
+
+    //显示本地视频  
+    if(CGlobal::Instance()->GetIsShowLocaleVideo())
+    {
+        ConnectLocaleVideo();
+    }
+    return 0;
+}
+
+int CCallQXmpp::CloseVideoWindow()
+{
+    if(m_pFrmVideo)
+    {
+        m_pFrmVideo->close();
+        m_pFrmVideo = NULL;
+    }
+    return 0;
+}
+
+bool CCallQXmpp::IsMonitor()
+{
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(this->GetId());
+    if(roster.isNull())
+    {
+        LOG_MODEL_DEBUG("CCallQXmpp", "roster is null");
+        return false;
+    }
+    if(this->GetDirection() == CCallObject::IncomingDirection
+            && roster->GetInfo()->GetIsMonitor()
+            && CGlobal::Instance()->GetIsMonitor())
+    {
+        return true;
+    }
+    return false;
 }

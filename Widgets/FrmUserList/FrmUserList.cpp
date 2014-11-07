@@ -166,7 +166,11 @@ int CFrmUserList::InitMenu()
     Q_ASSERT(check);
 
     m_Menu.addAction(ui->actionAllowMonitor);
-    //TODO:新增菜单  
+    ui->actionAllowMonitor->setCheckable(true);
+    check = connect(ui->actionAllowMonitor, SIGNAL(triggered()),
+                    SLOT(slotMonitor()));
+    Q_ASSERT(check);
+    //TODO:1.新增菜单,总共三步  
     
     m_Menu.addSeparator();
 
@@ -208,7 +212,8 @@ int CFrmUserList::EnableAllActioins(bool bEnable)
     EnableAction(ui->actionSendFile, bEnable);
     EnableAction(ui->actionVideo, bEnable);
     EnableAction(ui->actionAudio, bEnable);
-    //TODO:新增菜单  
+    EnableAction(ui->actionAllowMonitor, bEnable);
+    //TODO:2.新增菜单  
     return 0;
 }
 
@@ -261,8 +266,9 @@ void CFrmUserList::slotUpdateMenu()
     }
     else
     {
+        QSharedPointer<CUserInfo> info = GLOBAL_USER->GetUserInfoRoster(bareJid)->GetInfo();
         //增加订阅  
-        if(CUserInfo::From == GLOBAL_USER->GetUserInfoRoster(bareJid)->GetInfo()->GetSubScriptionType())
+        if(CUserInfo::From == info->GetSubScriptionType())
             EnableAction(ui->actionAgreeAddRoster);
 
         //显示重命名菜单  
@@ -278,7 +284,12 @@ void CFrmUserList::slotUpdateMenu()
         EnableAction(ui->actionSendFile);
         EnableAction(ui->actionVideo);
         EnableAction(ui->actionAudio);
-        //TODO:新增菜单  
+        if(CGlobal::Instance()->GetIsMonitor())
+         {
+            ui->actionAllowMonitor->setChecked(info->GetIsMonitor());
+            EnableAction(ui->actionAllowMonitor);
+        }
+        //TODO:3新增菜单  
     }
     return;
 }
@@ -396,6 +407,17 @@ void CFrmUserList::slotCallAudio()
     GETMANAGER->GetCall()->Call(szId);
     //弹出消息对话框  
     MANAGE_MESSAGE_DIALOG->ShowDialog(szId); 
+}
+
+void CFrmUserList::slotMonitor()
+{
+    QString szId = GetCurrentRoster();
+    if(szId.isEmpty())
+        return;
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+    if(roster.isNull())
+        return;
+    roster->GetInfo()->SetMonitor(!roster->GetInfo()->GetIsMonitor());
 }
 
 void CFrmUserList::slotRosterAddReceived(const QString &szId, const CClient::SUBSCRIBE_TYPE &type)

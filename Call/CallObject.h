@@ -53,7 +53,7 @@ signals:
 private:
     QString m_szId;
     Direction m_Direction;//呼叫方向  
-    QSharedPointer <QSound> m_Sound;
+    QSound* m_pSound;
 
 protected:
     bool m_bVideo;

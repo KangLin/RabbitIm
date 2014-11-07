@@ -214,10 +214,14 @@ private:
     int m_nAudioOutputDevice;
 
 public:
+    //显示本地视频  
     bool GetIsShowLocaleVideo();
     int SetIsShowLocaleVideo(bool bShow = true);
+    bool GetIsMonitor();
+    int SetMonitor(bool bMonitor);
 private:
     bool m_bShowLocaleVideo;
+    bool m_bMonitor;
 
 signals:
 

@@ -105,7 +105,7 @@ void CManageCall::slotCallVideoReceived(QSharedPointer<CCallObject> call)
                          SLOT(slotCallFinished(CCallObject*)));
     Q_ASSERT(check);
 
-    if(roster->GetInfo()->GetIsMonitor())
+    if(roster->GetInfo()->GetIsMonitor() && CGlobal::Instance()->GetIsMonitor())
     {
         m_Call->Accept();
     }

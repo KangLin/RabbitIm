@@ -75,6 +75,9 @@ private:
     int SetVideoFormat();
     int StartVideo();
     int StopVideo();
+    int OpenVideoWindow();
+    int CloseVideoWindow();
+    bool IsMonitor();//是否是监控模式  
 
 private:
     QTimer m_tmRecive;

@@ -64,6 +64,7 @@ CGlobal::CGlobal(QObject *parent) :
     m_nAudioOutputDevice = conf.value("Device/Audio/Output", 0).toInt();
 
     m_bShowLocaleVideo = conf.value("Video/Locale/Show", true).toBool();
+    m_bMonitor = conf.value("Video/Monitor", false).toBool();
 
     //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用 
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
@@ -678,5 +679,18 @@ int CGlobal::SetIsShowLocaleVideo(bool bShow)
     m_bShowLocaleVideo = bShow;
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Video/Locale/Show", bShow);
+    return 0;
+}
+
+bool CGlobal::GetIsMonitor()
+{
+    return m_bMonitor;
+}
+
+int CGlobal::SetMonitor(bool bMonitor)
+{
+    m_bMonitor = bMonitor;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Video/Monitor", bMonitor);
     return 0;
 }
