@@ -1,7 +1,7 @@
 #ifndef FILETRANSFERACTION_H
 #define FILETRANSFERACTION_H
 
-#include "ChatAction.h"
+#include "Message/ChatActions/ChatAction.h"
 #include "FileTransfer/FileTransfer.h"
 
 class CFileTransferAction : public CChatAction

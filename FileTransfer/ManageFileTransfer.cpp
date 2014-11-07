@@ -1,6 +1,6 @@
 #include "ManageFileTransfer.h"
 #include "Global/Global.h"
-#include "Message/ChatActions/FileTransferAction.h"
+#include "FileTransferAction.h"
 #include "MainWindow.h"
 #include <QFileDialog>
 #include <QDesktopWidget>

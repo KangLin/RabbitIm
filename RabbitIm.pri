@@ -40,7 +40,7 @@ SOURCES += main.cpp\
     FileTransfer/ManageFileTransfer.cpp \
     FileTransfer/FileTransfer.cpp \
     FileTransfer/FileTransferQXmpp.cpp \  
-    Message/ChatActions/FileTransferAction.cpp \
+    FileTransfer/FileTransferAction.cpp \
     Widgets/FrmVideo/DataVideoBuffer.cpp \
     Widgets/FrmVideo/FrameProcess.cpp \
     Widgets/FrmVideo/CaptureVideoFrame.cpp \
@@ -100,7 +100,7 @@ HEADERS  += MainWindow.h \
     FileTransfer/ManageFileTransfer.h \
     FileTransfer/FileTransfer.h \
     FileTransfer/FileTransferQXmpp.h \
-    Message/ChatActions/FileTransferAction.h \
+    FileTransfer/FileTransferAction.h \
     Widgets/FrmVideo/CaptureVideoFrame.h \
     Widgets/FrmVideo/DataVideoBuffer.h \
     Widgets/FrmVideo/FrameProcess.h \
