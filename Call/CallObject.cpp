@@ -76,7 +76,7 @@ void CCallObject::PlayCallSound()
     if(m_pSound)
     {
         m_pSound->stop();
-        m_pSound = NULL;
+        delete m_pSound;
     }
     m_pSound = new QSound(file);
     if(m_pSound)

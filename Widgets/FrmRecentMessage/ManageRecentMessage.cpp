@@ -81,6 +81,11 @@ int CManageRecentMessage::LoadFromStorage(const QString &szId)
 int CManageRecentMessage::SaveToStorage()
 {
     int nRet = 0;
+    if(USER_INFO_LOCALE.isNull())
+    {
+        LOG_MODEL_ERROR("CManageRecentMessage", "USER_INFO_LOCALE is null");
+        return -1;
+    }
     QString szFile = CGlobal::Instance()->GetDirUserData(USER_INFO_LOCALE->GetInfo()->GetId()) 
             + QDir::separator() + "RecentMessage.dat";
 
