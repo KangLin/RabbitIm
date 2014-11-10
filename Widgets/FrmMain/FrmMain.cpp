@@ -26,8 +26,12 @@ CFrmMain::CFrmMain(QWidget *parent) :
 
 CFrmMain::~CFrmMain()
 {
-    QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
-    conf.setValue("Widgets/Main", ui->tabWidget->currentIndex());
+    if(!USER_INFO_LOCALE.isNull())
+    {
+        QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
+        conf.setValue("Widgets/Main", ui->tabWidget->currentIndex());
+    }
+
     delete ui;
 }
 

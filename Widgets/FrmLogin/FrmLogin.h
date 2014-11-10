@@ -37,6 +37,9 @@ private slots:
     
     void on_pbSet_clicked();
 
+public slots:
+    void slotRefresh();
+
 private:
     void changeEvent(QEvent *);
 

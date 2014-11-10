@@ -3,6 +3,7 @@
 #include "../../Global/Global.h"
 #include "FrmLoginSettings.h"
 #include <QSettings>
+#include "MainWindow.h"
 
 CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),
@@ -166,6 +167,7 @@ QString CFrmLogin::EncryptPassword(QString szPassword)
 {
     return szPassword;
 }
+
 //TODO:解密密码  
 QString CFrmLogin::DecryptPassword(QString szPassword)
 {
@@ -246,4 +248,9 @@ void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
         ui->chkSave->setChecked(false);
     else
         ui->chkSave->setChecked(true);
+}
+
+void CFrmLogin::slotRefresh()
+{
+    ui->chkLogin->setChecked(CGlobal::Instance()->GetAutoLogin());
 }

@@ -17,6 +17,8 @@ public:
     explicit CClient(QObject *parent = 0);
     virtual ~CClient();
 
+    virtual bool IsLogin();///< 用户是否登录  
+
     /**
      * @brief 注册新用户  
      *
@@ -239,6 +241,11 @@ signals:
     void sigCallVideoReceived(QSharedPointer<CCallObject> call);
 
 public slots:
+    
+protected:
+    int SetLogin(bool bLogin);
+private:
+    bool m_bIsLogin;
 };
 
 #endif // CLIENT_H

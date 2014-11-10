@@ -147,6 +147,7 @@ int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUs
 
 int CClientXmpp::Logout()
 {
+    SetLogin(false);
     QXmppPresence presence(QXmppPresence::Unavailable);
     m_Client.setClientPresence(presence);
     m_Client.disconnectFromServer();
@@ -388,23 +389,27 @@ void CClientXmpp::slotClientConnected()
     QString szId = m_Client.configuration().jidBare();
 
     int nRet = 0;
-    nRet = CGlobal::Instance()->GetManager()->Init(szId);
-    if(nRet)
+    if(!IsLogin())
     {
-        LOG_MODEL_ERROR("CClientXmpp", "Init GlobalUser fail");
-        return;
-    }
+        nRet = CGlobal::Instance()->GetManager()->Init(szId);
+        if(nRet)
+        {
+            LOG_MODEL_ERROR("CClientXmpp", "Init GlobalUser fail");
+            return;
+        }
 
-    //因为openfire当用户信息改变时，不会广播改变通知，所以当程序启动时要查询所有信息。这里会影响性能  
-    //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
-    //if(USER_INFO_LOCALE.isNull())
-    {
-        //调用客户端操作，得到本地用户信息  
-        GET_CLIENT->RequestUserInfoLocale();
-    }
+        //因为openfire当用户信息改变时，不会广播改变通知，所以当程序启动时要查询所有信息。这里会影响性能  
+        //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
+        //if(USER_INFO_LOCALE.isNull())
+        {
+            //调用客户端操作，得到本地用户信息  
+            GET_CLIENT->RequestUserInfoLocale();
+        }
 
-    emit sigClientConnected();
-    emit sigLoadRosterFromStorage();
+        SetLogin(true);//设置登录标志  
+        emit sigClientConnected();
+        emit sigLoadRosterFromStorage();
+    }
 }
 
 /**
@@ -413,8 +418,12 @@ void CClientXmpp::slotClientConnected()
  */
 void CClientXmpp::slotClientDisConnected()
 {
-    emit sigClientDisconnected();
-    CGlobal::Instance()->GetManager()->Clean();
+    if(!IsLogin())
+    {
+        //注意:这个顺序不能变  
+        emit sigClientDisconnected();
+        CGlobal::Instance()->GetManager()->Clean();
+    }
 }
 
 void CClientXmpp::slotClientError(QXmppClient::Error e)

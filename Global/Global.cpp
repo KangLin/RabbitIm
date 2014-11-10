@@ -40,7 +40,7 @@ CGlobal::CGlobal(QObject *parent) :
     m_szXmppServer = conf.value("Login/XmppServer", "182.254.185.29").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
     //m_szStunServer = conf.value("Login/StunServer", "stun.l.google.com").toString();
-    m_szStunServer = conf.value("Login/StunServer", "183.233.149.120").toString();
+    m_szStunServer = conf.value("Login/StunServer", "182.254.185.29").toString();
     //m_szTurnServer = conf.value("Login/TurnServer", "turn.l.google.com").toString();
     m_szTurnServer = conf.value("Login/TurnServer", "182.254.185.29").toString();
     m_nStunServerPort = conf.value("Login/StunServerPort", 3478).toInt();

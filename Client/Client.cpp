@@ -4,10 +4,22 @@
 CClient::CClient(QObject *parent) :
     QObject(parent)
 {
+    m_bIsLogin = false;
 }
 
 CClient::~CClient()
 {
+}
+
+bool CClient::IsLogin()
+{
+    return m_bIsLogin;
+}
+
+int CClient::SetLogin(bool bLogin)
+{
+    m_bIsLogin = bLogin;
+    return 0;
 }
 
 int CClient::Register(const QString &szId, const QString &szName, const QString &szPassword, const QString &szEmail, const QString &szDescript)
