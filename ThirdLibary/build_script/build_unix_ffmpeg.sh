@@ -33,6 +33,7 @@ echo "configure ......"
 ./configure  \
     --prefix=$PREFIX \
     --enable-gpl \
+    --enable-pic \
     --disable-doc \
     --disable-htmlpages \
     --disable-manpages  \
