@@ -169,7 +169,7 @@ OTHER_FILES += README.md \
 isEmpty(PREFIX)
 {
     android{
-        PREFIX=/.
+       PREFIX=/.
     }
     else{
         PREFIX = install

@@ -382,7 +382,8 @@ void CFrmUserList::slotSendFile()
                 QString(), QString(), 0,
                 QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
 #endif
-
+    if(szFile.isEmpty())
+        return;
     QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();
     file->SendFile(szId, szFile);
     //弹出消息对话框  

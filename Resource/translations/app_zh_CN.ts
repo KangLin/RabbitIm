@@ -2,11 +2,84 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>CCallAction</name>
+    <message>
+        <location filename="../../Call/CallAction.cpp" line="64"/>
+        <source>Be launching a call</source>
+        <translation>正在呼叫</translation>
+    </message>
+    <message>
+        <location filename="../../Call/CallAction.cpp" line="95"/>
+        <location filename="../../Call/CallAction.cpp" line="107"/>
+        <source>Call</source>
+        <translation>呼叫</translation>
+    </message>
+    <message>
+        <location filename="../../Call/CallAction.cpp" line="118"/>
+        <source>Be receiving a call</source>
+        <translation>正在呼叫 ...</translation>
+    </message>
+    <message>
+        <location filename="../../Call/CallAction.cpp" line="122"/>
+        <source>Be a video calling..., </source>
+        <translation>正在视频通话...，</translation>
+    </message>
+    <message>
+        <location filename="../../Call/CallAction.cpp" line="124"/>
+        <source>Be talking ..., </source>
+        <translation>正在通话 ...，</translation>
+    </message>
+    <message>
+        <location filename="../../Call/CallAction.cpp" line="125"/>
+        <location filename="../../Call/CallAction.cpp" line="138"/>
+        <source>talk time:</source>
+        <translation>通话时间:</translation>
+    </message>
+    <message>
+        <location filename="../../Call/CallAction.cpp" line="129"/>
+        <source>Video is disconnected</source>
+        <translation>断开视频连接</translation>
+    </message>
+    <message>
+        <location filename="../../Call/CallAction.cpp" line="131"/>
+        <source>talk is disconnected</source>
+        <translation>断开通话连接</translation>
+    </message>
+    <message>
+        <location filename="../../Call/CallAction.cpp" line="135"/>
+        <source>Video talk over.</source>
+        <translation>视频通话完毕。</translation>
+    </message>
+    <message>
+        <location filename="../../Call/CallAction.cpp" line="137"/>
+        <source>Talk over.</source>
+        <translation>通话完毕。</translation>
+    </message>
+</context>
+<context>
+    <name>CChatAction</name>
+    <message>
+        <location filename="../../Message/ChatActions/ChatAction.cpp" line="66"/>
+        <source>Accpet</source>
+        <translation>接受</translation>
+    </message>
+    <message>
+        <location filename="../../Message/ChatActions/ChatAction.cpp" line="71"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+</context>
+<context>
     <name>CClientXmpp</name>
     <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="264"/>
+        <location filename="../../Client/ClientXmpp.cpp" line="271"/>
         <source>The roster is offline, don&apos;t send the file.</source>
-        <translation type="unfinished">好友离线状态，不能发送文件。</translation>
+        <translation>好友离线状态，不能发送文件。</translation>
+    </message>
+    <message>
+        <location filename="../../Client/ClientXmpp.cpp" line="296"/>
+        <source>The roster is offline, don&apos;t launch a call.</source>
+        <translation>好友离线状态，不能发起呼叫。</translation>
     </message>
 </context>
 <context>
@@ -272,51 +345,216 @@
         <translation>未读消息数颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="679"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="656"/>
+        <source>Multimedia devices</source>
+        <translation>多媒体设备</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="668"/>
+        <source>Audio devices</source>
+        <translation>音频设备</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="682"/>
+        <source>Audio input devices:</source>
+        <translation>音频输入设备：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="705"/>
+        <source>Audio output devices:</source>
+        <translation>音频输出设备：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="725"/>
+        <source>video devices:</source>
+        <translation>视频捕获设备：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="742"/>
+        <source>Show locale video</source>
+        <translation>显示本地视频</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="749"/>
+        <source>Monitor mode</source>
+        <translation>监控模式</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="782"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="708"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="811"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="114"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="121"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="127"/>
+        <source>no device</source>
+        <translation>无</translation>
+    </message>
+</context>
+<context>
+    <name>CDlgRegister</name>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="26"/>
+        <source>Create account</source>
+        <translation>建立新用户</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="71"/>
+        <source>User:</source>
+        <translation>用户名：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="112"/>
+        <source>Password:</source>
+        <translation>密码：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="147"/>
+        <source>Confirm password:</source>
+        <translation>校验密码：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="182"/>
+        <source>Email:</source>
+        <translation>电子邮箱：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="217"/>
+        <source>Instructions:</source>
+        <translation>说明：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="256"/>
+        <source>Register new account</source>
+        <translation>注册新用户</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="259"/>
+        <source>Create(&amp;C)</source>
+        <translation>建立(&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="294"/>
+        <source>Cancle</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="297"/>
+        <source>Cancel(&amp;C)</source>
+        <translation>取消（&amp;C）</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="33"/>
+        <source>Register success</source>
+        <translation>注册成功</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="42"/>
+        <source>Unknow error</source>
+        <translation>未知错误</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="45"/>
+        <source>User</source>
+        <translation>用户</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="45"/>
+        <source>had exist</source>
+        <translation>已经存在</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="49"/>
+        <source>Sever internal error</source>
+        <translation>服务内部错误</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="53"/>
+        <source>Register fail</source>
+        <translation>注册失败</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="72"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="82"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="91"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="99"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="107"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="115"/>
+        <source>Register error</source>
+        <translation>注册错误</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="73"/>
+        <source>Don&apos;t fill user name, Please refilling</source>
+        <translation>忘记填写用户名，请重新填写</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="83"/>
+        <source>Don&apos;t fill password, Please refilling</source>
+        <translation>忘记填写密码，请重新填写</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="92"/>
+        <source>Confirm password error, Please refilling</source>
+        <translation>密码校验错误，请重新填写</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="100"/>
+        <source>Password contains illegal characters. Only letters, numbers, `~!@#$%^&amp;*() combinations</source>
+        <translation>密码包含非法字符。密码只能是字母、数字或 `~!@#$%^&amp;*() 组合。</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="108"/>
+        <source>Don&apos;t fill email, Please refilling</source>
+        <translation>忘记填写电子邮箱，请重新填写</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="116"/>
+        <source>Email format is wrong</source>
+        <translation>电子邮箱格式错误。</translation>
     </message>
 </context>
 <context>
     <name>CFileTransferAction</name>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="127"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="116"/>
         <source>ETA: </source>
         <translation>剩余：</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="192"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="181"/>
         <source>Accept</source>
         <translation>接收</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="199"/>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="211"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="188"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="200"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="220"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="209"/>
         <source>Send the file has been canceled.</source>
         <translation>文件传输被取消。</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="237"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="226"/>
         <source>Open folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="240"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="229"/>
         <source>Send the file has been finished.</source>
         <translation>文件传输完成。</translation>
     </message>
     <message>
-        <location filename="../../Message/ChatActions/FileTransferAction.cpp" line="260"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="249"/>
         <source>File sending error.</source>
         <translation>传输错误</translation>
     </message>
@@ -752,13 +990,13 @@
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="16"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="50"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="54"/>
         <source>Rosters</source>
         <translation>好友</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="18"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="51"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="55"/>
         <source>Recent messages</source>
         <translation>最近消息</translation>
     </message>
@@ -816,32 +1054,43 @@
     </message>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="88"/>
-        <source>send file</source>
+        <source>Send file</source>
         <translation>发送文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="127"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="141"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="92"/>
+        <source>Audio call</source>
+        <translation>音频呼叫</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="131"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="145"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="210"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="222"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="235"/>
         <source>Close message dialog</source>
         <translation>关闭消息对话框</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="211"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="223"/>
         <source>Sending files to determine whether you want to close?</source>
         <translation>有文件正在发送，你确定是否关闭消息对话框？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="323"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="236"/>
+        <source>Is talking whether you want to close?</source>
+        <translation>正在通话，是否关闭？</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="348"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="323"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="348"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
@@ -891,99 +1140,6 @@
     </message>
 </context>
 <context>
-    <name>CFrmRegister</name>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.ui" line="26"/>
-        <source>Create account</source>
-        <translation>建立新用户</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.ui" line="77"/>
-        <source>User:</source>
-        <translation>用户名：</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.ui" line="118"/>
-        <source>Password:</source>
-        <translation>密码：</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.ui" line="153"/>
-        <source>Confirm password:</source>
-        <translation>校验密码：</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.ui" line="188"/>
-        <source>Email:</source>
-        <translation>电子邮箱：</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.ui" line="223"/>
-        <source>Instructions:</source>
-        <translation>说明：</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.ui" line="262"/>
-        <source>Register new account</source>
-        <translation>注册新用户</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.ui" line="265"/>
-        <source>Create(&amp;C)</source>
-        <translation>建立(&amp;C)</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.ui" line="300"/>
-        <source>Cancle</source>
-        <translation>取消</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.ui" line="303"/>
-        <source>Cancel(&amp;C)</source>
-        <translation>取消（&amp;C）</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="85"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="95"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="104"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="112"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="120"/>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="128"/>
-        <source>Register error</source>
-        <translation>注册错误</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="86"/>
-        <source>Don&apos;t fill user name, Please refilling</source>
-        <translation>忘记填写用户名，请重新填写</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="96"/>
-        <source>Don&apos;t fill password, Please refilling</source>
-        <translation>忘记填写密码，请重新填写</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="105"/>
-        <source>Confirm password error, Please refilling</source>
-        <translation>密码校验错误，请重新填写</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="121"/>
-        <source>Don&apos;t fill email, Please refilling</source>
-        <translation>忘记填写电子邮箱，请重新填写</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="113"/>
-        <source>Password contains illegal characters. Only letters, numbers, `~!@#$%^&amp;*() combinations</source>
-        <translation>密码包含非法字符。密码只能是字母、数字或 `~!@#$%^&amp;*() 组合。</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmRegister/FrmRegister.cpp" line="129"/>
-        <source>Email format is wrong</source>
-        <translation>电子邮箱格式错误。</translation>
-    </message>
-</context>
-<context>
     <name>CFrmUserList</name>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="33"/>
@@ -997,30 +1153,30 @@
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="139"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="225"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="234"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="243"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="252"/>
         <source>Operator roster(&amp;O)</source>
         <translation>操作好友(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="297"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="323"/>
         <source>Roster[%1] rename</source>
         <translation>重命名好友[%1]</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="298"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="324"/>
         <source>Roster[%1] rename:</source>
         <translation>重命名好友[%1]</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="341"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="355"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="367"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="381"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="39"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="388"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="447"/>
         <source>My friends</source>
         <translation>我的好友</translation>
     </message>
@@ -1086,6 +1242,18 @@
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="114"/>
         <source>Video</source>
         <translation>视频</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="123"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="126"/>
+        <source>Audio</source>
+        <translation>音频呼叫</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="135"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="138"/>
+        <source>Allow Monitor</source>
+        <translation>允许监控模式</translation>
     </message>
 </context>
 <context>
@@ -1179,118 +1347,88 @@
 <context>
     <name>CFrmVideo</name>
     <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="14"/>
         <source>Video</source>
-        <translation type="vanished">视频</translation>
+        <translation>视频</translation>
     </message>
     <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="109"/>
+        <source>PromptTable</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="158"/>
         <source>Select Camera:</source>
-        <translation type="vanished">选择摄像头:</translation>
+        <translation>选择摄像头:</translation>
     </message>
     <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="180"/>
         <source>Select Camera</source>
-        <translation type="vanished">选择摄像头</translation>
+        <translation>选择摄像头</translation>
     </message>
     <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="207"/>
         <source>OK(&amp;O)</source>
-        <translation type="vanished">确定(&amp;O)</translation>
+        <translation>确定(&amp;O)</translation>
     </message>
     <message>
+        <location filename="../../Widgets/FrmVideo/FrmVideo.ui" line="232"/>
         <source>Cancel(&amp;C)</source>
-        <translation type="vanished">取消（&amp;C）</translation>
-    </message>
-    <message>
-        <source>Call</source>
-        <translation type="vanished">呼叫</translation>
-    </message>
-    <message>
-        <source>Being talk with %1 , Do you stop it?</source>
-        <translation type="vanished">正在与 %1 通话，是否停止？</translation>
-    </message>
-    <message>
-        <source>%1 is ringing</source>
-        <translation type="vanished">%1 正在响铃</translation>
-    </message>
-    <message>
-        <source>%1 is calling </source>
-        <translation type="vanished">%1 正在呼叫</translation>
-    </message>
-    <message>
-        <source>State: Connecting Call</source>
-        <translation type="vanished">状态：呼叫连接中</translation>
-    </message>
-    <message>
-        <source>State: Active Call</source>
-        <translation type="vanished">状态：呼叫激活</translation>
-    </message>
-    <message>
-        <source>State: Disconnecting Call</source>
-        <translation type="vanished">状态：呼叫断连中</translation>
-    </message>
-    <message>
-        <source>State: Finished Call</source>
-        <translation type="vanished">状态：呼叫完成</translation>
-    </message>
-    <message>
-        <source>I am talking with %1 call</source>
-        <translation type="vanished">正在与 %1 通话</translation>
-    </message>
-    <message>
-        <source>Do you call %1 ?</source>
-        <translation type="vanished">是否呼叫 %1 ？</translation>
-    </message>
-    <message>
-        <source>Be connecting %1</source>
-        <translation type="vanished">正在与 %1 连接</translation>
+        <translation>取消（&amp;C）</translation>
     </message>
 </context>
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="340"/>
+        <location filename="../../Global/Global.cpp" line="347"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="342"/>
+        <location filename="../../Global/Global.cpp" line="349"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="344"/>
+        <location filename="../../Global/Global.cpp" line="351"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="346"/>
+        <location filename="../../Global/Global.cpp" line="353"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="348"/>
-        <location filename="../../Global/Global.cpp" line="352"/>
+        <location filename="../../Global/Global.cpp" line="355"/>
+        <location filename="../../Global/Global.cpp" line="359"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="350"/>
+        <location filename="../../Global/Global.cpp" line="357"/>
         <source>OffLine</source>
         <translation>离线</translation>
     </message>
+</context>
+<context>
+    <name>CManageCall</name>
     <message>
-        <source>Away for an extended period</source>
-        <translation type="vanished">离开</translation>
+        <location filename="../../Call/ManageCall.cpp" line="116"/>
+        <source> is calling</source>
+        <translation>正在呼叫</translation>
     </message>
 </context>
 <context>
     <name>CManageFileTransfer</name>
     <message>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="86"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="87"/>
         <source>Send file %1</source>
         <translation>发送文件 %1</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="148"/>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="162"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="149"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="163"/>
         <source>Sava as ...</source>
         <translation>另存为...</translation>
     </message>
@@ -1311,17 +1449,17 @@
 <context>
     <name>CUserInfo</name>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="142"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="143"/>
         <source>[none]</source>
         <translation>[未知]</translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="146"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="147"/>
         <source>[From]</source>
         <translation>[挂起]</translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="150"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="151"/>
         <source>[remove]</source>
         <translation>[删除]</translation>
     </message>

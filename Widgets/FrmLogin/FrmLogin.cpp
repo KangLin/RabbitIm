@@ -44,6 +44,10 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
         Q_ASSERT(check);
         m_tmAutoLogin.start(1000 * CGlobal::Instance()->GetAutoLoginDelayTime());
     }
+
+    bool check = connect(GET_MAINWINDOW, SIGNAL(sigRefresh()),
+                         SLOT(slotRefresh()));
+    Q_ASSERT(check);
 }
 
 CFrmLogin::~CFrmLogin()

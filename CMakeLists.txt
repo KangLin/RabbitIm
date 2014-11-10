@@ -105,10 +105,10 @@ IF(USE_SPEEX)
     SET(SPEEX_LIBS speex)
 ENDIF()
 
-OPTION(USE_FFMPEG "Use ffmpeg library" ON)
-MESSAGE("Use ffmpeg library:${USE_FFMPEG}\n")
-IF(USE_FFMPEG)
-    ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS") #ffmpeg需要
+OPTION(RABBITIM_USER_FFMPEG "Use ffmpeg library" ON)
+MESSAGE("Use ffmpeg library:${RABBITIM_USER_FFMPEG}\n")
+IF(RABBITIM_USER_FFMPEG)
+    ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS" "-DRABBITIM_USER_FFMPEG") #ffmpeg需要
     IF(MSVC)
         SET(FFMPEG_LIBS 
             ${THIRD_LIB_DIR}/libavcodec.a 
@@ -119,11 +119,11 @@ IF(USE_FFMPEG)
     ELSE()
         SET(FFMPEG_LIBS avcodec avformat swscale avfilter avutil)
     ENDIF()
-ENDIF(USE_FFMPEG)
+ENDIF(RABBITIM_USER_FFMPEG)
 
-OPTION(USE_OPENCV "Use opencv library" OFF)
-MESSAGE("Use opencv library:${USE_OPENCV}\n")
-IF(USE_OPENCV)
+OPTION(RABBITIM_USER_OPENCV "Use opencv library" OFF)
+MESSAGE("Use opencv library:${RABBITIM_USER_OPENCV}\n")
+IF(RABBITIM_USER_OPENCV)
     add_definitions("-DRABBITIM_USER_OPENCV")
     IF(WIN32)
         SET(OPENCV_VERSION 300)
@@ -131,7 +131,7 @@ IF(USE_OPENCV)
     SET(OPENCV_LIBS 
         opencv_core${OPENCV_VERSION}
         opencv_imgproc${OPENCV_VERSION})
-ENDIF(USE_OPENCV)
+ENDIF(RABBITIM_USER_OPENCV)
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 ADD_DEFINITIONS("-DQXMPP -DQXMPP_STATIC")
@@ -169,6 +169,7 @@ ELSE()
     add_executable(${PROJECT_NAME} 
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
+        ${RABBITIM_UIS}
         )
 ENDIF()
 target_link_libraries(${PROJECT_NAME} 

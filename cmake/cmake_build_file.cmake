@@ -1,6 +1,6 @@
 
 SET(RABBITIM_SOURCES
-main.cpp
+    main.cpp
     MainWindow.cpp 
     Tool.cpp 
     Client/ClientXmpp.cpp 
@@ -42,7 +42,7 @@ main.cpp
     FileTransfer/ManageFileTransfer.cpp 
     FileTransfer/FileTransfer.cpp 
     FileTransfer/FileTransferQXmpp.cpp   
-    Message/ChatActions/FileTransferAction.cpp 
+    FileTransfer/FileTransferAction.cpp 
     Widgets/FrmVideo/DataVideoBuffer.cpp 
     Widgets/FrmVideo/FrameProcess.cpp 
     Widgets/FrmVideo/CaptureVideoFrame.cpp 
@@ -51,9 +51,9 @@ main.cpp
     Call/CallObject.cpp 
     Call/ManageCall.cpp 
     Call/CallAction.cpp 
-    $$PWD/Call/CallQXmpp.cpp 
+    Call/CallQXmpp.cpp 
     Widgets/FrmVideo/FrmVideo.cpp  
-    $$PWD/Widgets/DlgRegister/DlgRegister.cpp
+    Widgets/DlgRegister/DlgRegister.cpp
 )
 
 SET(RABBITIM_UIS
@@ -70,10 +70,15 @@ SET(RABBITIM_UIS
     Widgets/FrmRecentMessage/FrmRecentMsgList.ui 
     Widgets/DlgAddRoster/DlgAddRoster.ui 
     Widgets/FrmVideo/FrmVideo.ui  
-    $$PWD/Widgets/DlgRegister/DlgRegister.ui
+    Widgets/DlgRegister/DlgRegister.ui
     #Widgets/FrmGroupChat/FrmGroupChatList.ui
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui
     #Widgets/FrmGroupChat/FrmGroupChat.ui
     #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.ui
     #Widgets/FrmVideo/FrmVideo.ui 
 )
+
+IF(RABBITIM_USER_OPENCV) 
+    SET(SOURCES ${SOURCES} Widgets/FrmVideo/CameraOpencv.cpp)
+    SET(HEADERS ${HEADERS} Widgets/FrmVideo/CameraOpencv.h)
+ENDIF(RABBITIM_USER_OPENCV)

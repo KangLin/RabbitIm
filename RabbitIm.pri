@@ -49,9 +49,9 @@ SOURCES += main.cpp\
     Call/CallObject.cpp \
     Call/ManageCall.cpp \
     Call/CallAction.cpp \
-    $$PWD/Call/CallQXmpp.cpp \
+    Call/CallQXmpp.cpp \
     Widgets/FrmVideo/FrmVideo.cpp \ 
-    $$PWD/Widgets/DlgRegister/DlgRegister.cpp
+    Widgets/DlgRegister/DlgRegister.cpp
     #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     #Widgets/FrmGroupChat/Conference.cpp \
@@ -109,9 +109,9 @@ HEADERS  += MainWindow.h \
     Call/CallObject.h \
     Call/ManageCall.h \
     Call/CallAction.h \ 
-    $$PWD/Call/CallQXmpp.h \
+    Call/CallQXmpp.h \
     Widgets/FrmVideo/FrmVideo.h \ 
-    $$PWD/Widgets/DlgRegister/DlgRegister.h
+    Widgets/DlgRegister/DlgRegister.h
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmGroupChat/FrmGroupChatList.h \
     #Widgets/FrmGroupChat/FrmGroupChatFind.h \
@@ -133,7 +133,7 @@ FORMS    += MainWindow.ui \
     Widgets/FrmRecentMessage/FrmRecentMsgList.ui \
     Widgets/DlgAddRoster/DlgAddRoster.ui \
     Widgets/FrmVideo/FrmVideo.ui \ 
-    $$PWD/Widgets/DlgRegister/DlgRegister.ui
+    Widgets/DlgRegister/DlgRegister.ui
     #Widgets/FrmGroupChat/FrmGroupChatList.ui \
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
     #Widgets/FrmGroupChat/FrmGroupChat.ui \
