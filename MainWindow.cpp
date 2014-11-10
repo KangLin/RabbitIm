@@ -38,8 +38,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //初始化子窗体
     if(!m_Login.isNull())
+    {
+        check = connect(this, SIGNAL(sigRefresh()),
+                        m_Login.data(), SLOT(slotRefresh()));
+        Q_ASSERT(check);
         this->setCentralWidget(m_Login.data());
-
+    }
     QSharedPointer<CClient> client = GET_CLIENT;
     if(!client.isNull())
     {
@@ -215,8 +219,12 @@ void MainWindow::slotClientDisconnected()
         m_Login = f;
     }
     if(!m_Login.isNull())
+    {
         this->setCentralWidget(m_Login.data());
-
+        bool check = connect(this, SIGNAL(sigRefresh()),
+                        m_Login.data(), SLOT(slotRefresh()));
+        Q_ASSERT(check);
+    }
     m_TableMain.clear();
 
     setWindowTitle("RabbitIm");

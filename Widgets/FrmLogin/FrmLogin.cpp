@@ -44,10 +44,6 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
         Q_ASSERT(check);
         m_tmAutoLogin.start(1000 * CGlobal::Instance()->GetAutoLoginDelayTime());
     }
-
-    bool check = connect(GET_MAINWINDOW, SIGNAL(sigRefresh()),
-                         SLOT(slotRefresh()));
-    Q_ASSERT(check);
 }
 
 CFrmLogin::~CFrmLogin()
@@ -75,14 +71,18 @@ void CFrmLogin::on_pbOk_clicked()
         m_tmAutoLogin.stop();
 
     disconnect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
-               CGlobal::Instance()->GetMainWindow(),
+               GET_MAINWINDOW,
                SLOT(slotClientConnected()));
     bool check = connect(GET_CLIENT.data(),
                          SIGNAL(sigClientConnected()),
-                         CGlobal::Instance()->GetMainWindow(),
+                        GET_MAINWINDOW,
                          SLOT(slotClientConnected()));
     Q_ASSERT(check);
-
+    disconnect(GET_CLIENT.data(), SIGNAL(sigClientError(CClient::ERROR_TYPE)),
+               this, SLOT(slotClientError(CClient::ERROR_TYPE)));
+    check = connect(GET_CLIENT.data(), SIGNAL(sigClientError(CClient::ERROR_TYPE)),
+                    SLOT(slotClientError(CClient::ERROR_TYPE)));
+    Q_ASSERT(check);
     ui->lbePrompt->setText(tr("Being Login..."));
 
     GET_CLIENT->Login(ui->cmbUser->currentText(), ui->lnPassword->text(), m_Status);
@@ -257,4 +257,23 @@ void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
 void CFrmLogin::slotRefresh()
 {
     ui->chkLogin->setChecked(CGlobal::Instance()->GetAutoLogin());
+}
+
+void CFrmLogin::slotClientError(CClient::ERROR_TYPE e)
+{
+    QString szMsg;
+    switch (e)
+    {
+    case CClient::NetworkError:
+        szMsg = tr("Network error");
+        break;
+    case CClient::KeepAliveError:
+        szMsg = tr("Keep active error");
+        break;
+    case CClient::LoginFail:
+        szMsg = tr("Login fail");
+    default:
+        break;
+    }
+    SetPrompt(szMsg);
 }

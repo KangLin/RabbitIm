@@ -37,6 +37,8 @@ private slots:
     
     void on_pbSet_clicked();
 
+    void slotClientError(CClient::ERROR_TYPE e);
+
 public slots:
     void slotRefresh();
 
