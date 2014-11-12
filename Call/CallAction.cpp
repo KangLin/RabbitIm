@@ -7,6 +7,7 @@ CCallAction::CCallAction(QSharedPointer<CCallObject> call, const QString &author
     : CChatAction(me, author, date)
 {
     m_Call = call;
+    m_tmStart = date;
     bool check = connect(m_Call.data(), SIGNAL(sigUpdate()),this, SLOT(slotUpdateHtml()));
     Q_ASSERT(check);
     check = connect(&m_Timer, SIGNAL(timeout()),
@@ -36,7 +37,19 @@ QString CCallAction::getMessage()
     case CCallObject::ActiveState:
         if(!m_Timer.isActive())
         {
-            m_tmStart = QTime::currentTime();
+            QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(m_szId);
+            if(!roster.isNull())
+            {
+                if(!(roster->GetInfo()->GetIsMonitor() 
+                        && CGlobal::Instance()->GetIsMonitor()))
+                {
+                    m_tmStart = QTime::currentTime();
+                }
+            }
+            else
+            {
+                m_tmStart = QTime::currentTime();
+            }
             m_Timer.start(1000);
         }
         szMsg += getDescriptionActiveState();

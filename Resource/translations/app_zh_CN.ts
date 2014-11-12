@@ -4,54 +4,54 @@
 <context>
     <name>CCallAction</name>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="64"/>
+        <location filename="../../Call/CallAction.cpp" line="77"/>
         <source>Be launching a call</source>
         <translation>正在呼叫</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="95"/>
-        <location filename="../../Call/CallAction.cpp" line="107"/>
+        <location filename="../../Call/CallAction.cpp" line="108"/>
+        <location filename="../../Call/CallAction.cpp" line="120"/>
         <source>Call</source>
         <translation>呼叫</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="118"/>
+        <location filename="../../Call/CallAction.cpp" line="131"/>
         <source>Be receiving a call</source>
         <translation>正在呼叫 ...</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="122"/>
+        <location filename="../../Call/CallAction.cpp" line="135"/>
         <source>Be a video calling..., </source>
         <translation>正在视频通话...，</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="124"/>
+        <location filename="../../Call/CallAction.cpp" line="137"/>
         <source>Be talking ..., </source>
         <translation>正在通话 ...，</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="125"/>
         <location filename="../../Call/CallAction.cpp" line="138"/>
+        <location filename="../../Call/CallAction.cpp" line="151"/>
         <source>talk time:</source>
         <translation>通话时间:</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="129"/>
+        <location filename="../../Call/CallAction.cpp" line="142"/>
         <source>Video is disconnected</source>
         <translation>断开视频连接</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="131"/>
+        <location filename="../../Call/CallAction.cpp" line="144"/>
         <source>talk is disconnected</source>
         <translation>断开通话连接</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="135"/>
+        <location filename="../../Call/CallAction.cpp" line="148"/>
         <source>Video talk over.</source>
         <translation>视频通话完毕。</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="137"/>
+        <location filename="../../Call/CallAction.cpp" line="150"/>
         <source>Talk over.</source>
         <translation>通话完毕。</translation>
     </message>
@@ -77,7 +77,7 @@
         <translation>好友离线状态，不能发送文件。</translation>
     </message>
     <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="296"/>
+        <location filename="../../Client/ClientXmpp.cpp" line="295"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
         <translation>好友离线状态，不能发起呼叫。</translation>
     </message>
@@ -908,17 +908,17 @@
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="268"/>
         <source>Network error</source>
-        <translation >网络错误</translation>
+        <translation>网络错误</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="271"/>
         <source>Keep active error</source>
-        <translation >保持活动错误</translation>
+        <translation>保持活动错误</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="274"/>
         <source>Login fail</source>
-        <translation >登录失败</translation>
+        <translation>登录失败</translation>
     </message>
 </context>
 <context>
@@ -1429,7 +1429,17 @@
 <context>
     <name>CManageCall</name>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="116"/>
+        <location filename="../../Call/ManageCall.cpp" line="54"/>
+        <source>Being talk with %1, please stop it.</source>
+        <translation >正在与 ％1 通话，请停止它。</translation>
+    </message>
+    <message>
+        <location filename="../../Call/ManageCall.cpp" line="91"/>
+        <source>Has new call from %1. but being talk with %2, please stop it.</source>
+        <translation>％1发起一个新的连接，但是现在正在与 ％2 通话，请先停止它。</translation>
+    </message>
+    <message>
+        <location filename="../../Call/ManageCall.cpp" line="111"/>
         <source> is calling</source>
         <translation>正在呼叫</translation>
     </message>

@@ -51,7 +51,7 @@ int CManageCall::Call(QString szId, bool bVideo)
         QSharedPointer<CUser> callRoster = GLOBAL_USER->GetUserInfoRoster(szCallId);
         if(!callRoster.isNull())
             szShowName = callRoster->GetInfo()->GetShowName();
-        roster->GetMessage()->AddMessage(szId, "Being talk with " + szShowName + ", please stop it.", true);
+        roster->GetMessage()->AddMessage(szId, tr("Being talk with %1, please stop it.").arg(szShowName ), true);
         emit GET_CLIENT->sigMessageUpdate(szId);
         return -2;
     }
@@ -88,20 +88,15 @@ void CManageCall::slotCallVideoReceived(QSharedPointer<CCallObject> call)
         QSharedPointer<CUser> callRoster = GLOBAL_USER->GetUserInfoRoster(szCallId);
         if(!callRoster.isNull())
             szShowName = callRoster->GetInfo()->GetShowName();
-        QString szMsg = "Has new call from " 
-                + roster->GetInfo()->GetShowName() 
-                + ". but being talk with "
-                + szShowName 
-                + ", please stop it.";
+        QString szMsg = tr("Has new call from %1. but being talk with %2, please stop it.").arg(roster->GetInfo()->GetShowName(), szShowName);
         roster->GetMessage()->AddMessage(call->GetId(), szMsg, true);
         GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName(), szMsg);
-        //call->Cancel();
         emit GET_CLIENT->sigMessageUpdate(call->GetId());
         return;
     }
 
     m_Call = call;
-    bool check = connect(call.data(), SIGNAL(sigFinished(CCallObject*)),
+    bool check = connect(m_Call.data(), SIGNAL(sigFinished(CCallObject*)),
                          SLOT(slotCallFinished(CCallObject*)));
     Q_ASSERT(check);
 

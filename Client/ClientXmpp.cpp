@@ -32,6 +32,8 @@ CClientXmpp::CClientXmpp(QObject *parent)
     m_Client.addExtension(&m_CallManager);
     m_Client.addExtension(&m_MucManager);
     m_Client.addExtension(&m_TransferManager);
+
+    InitConnect();
 }
 
 CClientXmpp::~CClientXmpp()
@@ -47,16 +49,16 @@ int CClientXmpp::InitConnect()
                     SLOT(slotClientError(QXmppClient::Error)));
     Q_ASSERT(check);
 
+    check = connect(&m_Client, SIGNAL(connected()),
+                    SLOT(slotClientConnected()));
+    Q_ASSERT(check);
+
     check = connect(&m_Client, SIGNAL(iqReceived(QXmppIq)),
                     SLOT(slotClientIqReceived(QXmppIq)));
-    Q_ASSERT(check);//*/
+    Q_ASSERT(check);
 
     check = connect(&m_Client, SIGNAL(stateChanged(QXmppClient::State)),
                     SLOT(slotStateChanged(QXmppClient::State)));
-    Q_ASSERT(check);
-
-    check = connect(&m_Client, SIGNAL(connected()),
-                    SLOT(slotClientConnected()));
     Q_ASSERT(check);
 
     check = connect(&m_Client, SIGNAL(disconnected()),
@@ -102,7 +104,7 @@ int CClientXmpp::InitConnect()
     check = connect(&this->m_TransferManager, SIGNAL(fileReceived(QXmppTransferJob*)),
                     SLOT(slotFileReceived(QXmppTransferJob*)));
     Q_ASSERT(check);
-    
+
     check = connect(&m_CallManager, SIGNAL(callReceived(QXmppCall*)),
                     SLOT(slotCallVideoReceived(QXmppCall*)));
     Q_ASSERT(check);
@@ -124,8 +126,6 @@ int CClientXmpp::Register(const QString &szId, const QString &szName, const QStr
 
 int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUserInfo::USER_INFO_STATUS status)
 {
-    InitConnect();
-
     QXmppConfiguration config;
     //TODO:设置为非sasl验证  
     config.setUseSASLAuthentication(false);
@@ -288,7 +288,6 @@ QSharedPointer<CCallObject> CClientXmpp::Call(const QString szId, bool bVideo)
         LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::Call the roster is null");
         return QSharedPointer<CCallObject>();
     }
-
     CUserInfoXmpp* pInfo = (CUserInfoXmpp*)r->GetInfo().data();
     if(pInfo->GetResource().isEmpty())
     {
@@ -297,6 +296,7 @@ QSharedPointer<CCallObject> CClientXmpp::Call(const QString szId, bool bVideo)
         emit sigMessageUpdate(szId);
         return QSharedPointer<CCallObject>();
     }
+
     //设置ice服务器参数  
     m_CallManager.setStunServer(
                 QHostAddress(CGlobal::Instance()->GetStunServer()),
@@ -317,7 +317,7 @@ QSharedPointer<CCallObject> CClientXmpp::Call(const QString szId, bool bVideo)
     QXmppCall* m_pCall = m_CallManager.call(pInfo->GetJid());
     if(NULL == m_pCall)
     {
-        LOG_MODEL_ERROR("Video",  "call %s fail", qPrintable(pInfo->GetJid()));
+        LOG_MODEL_ERROR("CClientXmpp",  "call %s fail", qPrintable(pInfo->GetJid()));
         return QSharedPointer<CCallObject>();
     }
 
