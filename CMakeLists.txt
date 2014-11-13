@@ -188,7 +188,7 @@ IF(REFRESH_TRANSLATIONS)
     IF(NOT Qt5_LRELEASE_EXECUTABLE)
         MESSAGE(WARNING "Could not find lrelease. Your build won't contain translations.")
     ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
-        qt5_add_translation(QM_FILES ${TS_FILES})
+        qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译资源文件  
         ADD_CUSTOM_TARGET(translations ALL DEPENDS ${QM_FILES})
         add_dependencies(${PROJECT_NAME}  translations)
         foreach(_file ${QM_FILES})

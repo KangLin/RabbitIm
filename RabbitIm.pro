@@ -176,15 +176,15 @@ isEmpty(PREFIX)
     }
 }
 
-mytarnslat.commands = lrelease $${PWD}/RabbitIm.pro && \
+mytranslations.commands = lrelease $${PWD}/RabbitIm.pro && \
     cd $${PWD}/Resource/translations && \
     $(COPY_DIR) app_zh_CN.qm $${OUT_PWD}/translations/app_zh_CN.qm
 
-QMAKE_EXTRA_TARGETS += mytarnslat
+QMAKE_EXTRA_TARGETS += mytranslations
 
 #安装
 wince {
-    mytranslat.files =  Resource/translations/app_zh_CN.qm
+    mytranslat.files = Resource/translations/app_zh_CN.qm
     mytranslat.path = $$PREFIX
     DEPLOYMENT += mytranslat
 }
