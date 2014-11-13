@@ -73,11 +73,7 @@ void CCallObject::PlayCallSound()
     else
         file = ":/sound/Receive";
 
-    if(m_pSound)
-    {
-        m_pSound->stop();
-        delete m_pSound;
-    }
+    StopCallSound();
     m_pSound = new QSound(file);
     if(m_pSound)
     {

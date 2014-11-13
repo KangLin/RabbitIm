@@ -21,7 +21,7 @@ int CManageCall::Init(QString szId)
 {
     bool check = false;
     Q_UNUSED(szId);
-    check = connect(GET_CLIENT.data(), SIGNAL(sigCallVideoReceived(QSharedPointer<CCallObject>)),
+    check = connect(GET_CLIENT.data(), SIGNAL(sigCallReceived(QSharedPointer<CCallObject>)),
                     SLOT(slotCallVideoReceived(QSharedPointer<CCallObject>)));
     Q_ASSERT(check);
     return 0;
@@ -100,6 +100,7 @@ void CManageCall::slotCallVideoReceived(QSharedPointer<CCallObject> call)
                          SLOT(slotCallFinished(CCallObject*)));
     Q_ASSERT(check);
 
+    //监控模式下自动接收  
     if(roster->GetInfo()->GetIsMonitor() && CGlobal::Instance()->GetIsMonitor())
     {
         m_Call->Accept();

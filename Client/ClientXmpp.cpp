@@ -106,7 +106,7 @@ int CClientXmpp::InitConnect()
     Q_ASSERT(check);
 
     check = connect(&m_CallManager, SIGNAL(callReceived(QXmppCall*)),
-                    SLOT(slotCallVideoReceived(QXmppCall*)));
+                    SLOT(slotCallReceived(QXmppCall*)));
     Q_ASSERT(check);
 
     return 0;
@@ -660,8 +660,8 @@ void CClientXmpp::slotFileReceived(QXmppTransferJob *job)
     emit sigFileReceived(QXmppUtils::jidToBareJid(job->jid()), file);
 }
 
-void CClientXmpp::slotCallVideoReceived(QXmppCall *pCall)
+void CClientXmpp::slotCallReceived(QXmppCall *pCall)
 {
     QSharedPointer<CCallObject> call(new CCallQXmpp(pCall));
-    emit sigCallVideoReceived(call);
+    emit sigCallReceived(call);
 }

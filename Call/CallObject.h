@@ -10,6 +10,12 @@ class CCallObject : public QObject
 {
     Q_OBJECT
 public:
+    /**
+     * @brief 
+     *
+     * @param bVideo:视频呼叫  
+     * @param parent
+     */
     explicit CCallObject(bool bVideo = false, QObject *parent = 0);
     virtual ~CCallObject();
 

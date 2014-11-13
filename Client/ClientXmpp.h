@@ -150,7 +150,7 @@ private slots:
       *
       * @param call
       */
-     void slotCallVideoReceived(QXmppCall *pCall);
+     void slotCallReceived(QXmppCall *pCall);
 private:
     QXmppClient m_Client;
     QSharedPointer<CManageUserQXmpp> m_User;

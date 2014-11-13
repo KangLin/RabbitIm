@@ -238,7 +238,7 @@ signals:
      *
      * @param call
      */
-    void sigCallVideoReceived(QSharedPointer<CCallObject> call);
+    void sigCallReceived(QSharedPointer<CCallObject> call);
 
 public slots:
     

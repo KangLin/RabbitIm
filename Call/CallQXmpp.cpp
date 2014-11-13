@@ -26,7 +26,7 @@ CCallQXmpp::CCallQXmpp(QXmppCall* pCall, bool bVideo, QObject *parent) : CCallOb
     m_CaptureFrameProcess.moveToThread(&m_VideoThread);
     m_CaptureToRemoteFrameProcess.moveToThread(&m_VideoThread);
     m_ReciveFrameProcess.moveToThread(&m_VideoThread);
-    
+
     bool check = connect(GET_MAINWINDOW, SIGNAL(sigRefresh()),
                          SLOT(slotUpdateOption()));
     Q_ASSERT(check);
@@ -158,10 +158,13 @@ void CCallQXmpp::slotAudioModeChanged(QIODevice::OpenMode mode)
     if(!(m_pCall && m_pAudioInput && m_pAudioOutput))
         return;
 
-    if(QIODevice::WriteOnly & mode)
+    if(QIODevice::WriteOnly & mode) 
     {
-        LOG_MODEL_DEBUG("CCallVideoQXmpp", "OpenAudioInput CFrmVideo::audioModeChanged:%xm_pAudioInput->start()", mode);
-        m_pAudioInput->start(m_pCall->audioChannel());
+        if (m_pAudioInput->state() != QAudio::ActiveState)
+        {
+            LOG_MODEL_DEBUG("CCallVideoQXmpp", "OpenAudioInput CFrmVideo::audioModeChanged:%xm_pAudioInput->start()", mode);
+            m_pAudioInput->start(m_pCall->audioChannel());
+        }
     }
     else 
     {
@@ -171,8 +174,11 @@ void CCallQXmpp::slotAudioModeChanged(QIODevice::OpenMode mode)
 
     if(QIODevice::ReadOnly & mode)
     {
-        LOG_MODEL_DEBUG("CCallVideoQXmpp", "OpenAudioOutput CFrmVideo::audioModeChanged:%x-----------m_pAudioOutput->start()", mode);
-        m_pAudioOutput->start(m_pCall->audioChannel());
+        if (m_pAudioOutput->state() != QAudio::ActiveState)
+        {
+            LOG_MODEL_DEBUG("CCallVideoQXmpp", "OpenAudioOutput CFrmVideo::audioModeChanged:%x-----------m_pAudioOutput->start()", mode);
+            m_pAudioOutput->start(m_pCall->audioChannel());
+        }
     }
     else
     {
@@ -245,11 +251,17 @@ void ShowAudioDevices()
 int CCallQXmpp::StartAudioDevice()
 {
     int nRet = 0;
+    if(!m_pCall)
+    {
+        LOG_MODEL_ERROR("CCallQXmpp", "CCallQXmpp::StartAudioDevice is null");
+        return -1;
+    }
+
     QXmppRtpAudioChannel* pAudioChannel = m_pCall->audioChannel();
     if(!pAudioChannel)
     {
         LOG_MODEL_WARNING("CCallVideoQXmpp", "CCallVideoQXmpp::StartAudioDevice:don't get audio channel");
-        return -1;
+        return -2;
     }
 
     QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
@@ -289,7 +301,7 @@ int CCallQXmpp::StartAudioDevice()
         m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
         if(!m_pAudioInput)
             LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioInput device instance fail.");
-        else if(pAudioChannel->openMode() & QIODevice::WriteOnly ) 
+        else if((pAudioChannel->openMode() & QIODevice::WriteOnly)  && (m_pAudioInput->state() != QAudio::ActiveState) )
             m_pAudioInput->start(pAudioChannel);
     }
 
@@ -305,7 +317,7 @@ int CCallQXmpp::StartAudioDevice()
         m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
         if(!m_pAudioOutput)
             LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioOutput device instance fail.");
-        else if(pAudioChannel->openMode() & QIODevice::ReadOnly)
+        else if((pAudioChannel->openMode() & QIODevice::ReadOnly) && (m_pAudioOutput->state() != QAudio::ActiveState) )
             m_pAudioOutput->start(pAudioChannel);
     }
     return nRet;
@@ -337,7 +349,7 @@ void CCallQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
     if(!m_pCall)
         return;
     LOG_MODEL_DEBUG("CCallQXmpp", "CCallQXmpp::slotVideoModeChanged:mode:%d", mode);
-    if(!m_bVideo)
+    if(!m_bVideo && this->GetDirection() == IncomingDirection)
     {
         m_bVideo = true;
         StartVideo();
@@ -479,6 +491,7 @@ int CCallQXmpp::StartVideo()
     if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->startVideo();
 
+    //启动接收定时器  
     int t = 1000 / m_pCall->videoChannel()->encoderFormat().frameRate();
     m_tmRecive.start(t);
 
@@ -514,9 +527,7 @@ void CCallQXmpp::slotFrmVideoClose()
 {
     if(m_pFrmVideo)
     {
-        CFrmVideo* p = m_pFrmVideo;
         m_pFrmVideo = NULL;
-        p->close();
     }
     this->Cancel();
 }

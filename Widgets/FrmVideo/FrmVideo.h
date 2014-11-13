@@ -28,7 +28,7 @@ public slots:
     void slotDisplayLoacleVideo(const QVideoFrame& frame);
     //显示远端视频  
     void slotDisplayRemoteVideo(const QVideoFrame& frame);
-    
+
 protected slots:
 private:
     virtual void closeEvent(QCloseEvent *e);
