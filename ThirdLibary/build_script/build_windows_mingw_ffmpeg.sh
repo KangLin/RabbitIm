@@ -28,8 +28,10 @@ echo "SOURCE_CODE:$SOURCE_CODE"
 echo "CUR_DIR:$CUR_DIR"
 echo "PREFIX:$PREFIX"
 echo ""
-echo "configure ......"
+echo "make clean"
+make clean
 
+echo "configure ......"
 ./configure  \
     --prefix=$PREFIX \
     --enable-gpl \
