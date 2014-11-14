@@ -85,11 +85,11 @@ int CFrmMessage::Init(const QString &szId)
                     SLOT(SlotChangedStatus(const QString&)));
     Q_ASSERT(check);
 
-    QAction* pAction = m_MoreMenu.addAction(tr("Send file"));
+    QAction* pAction = m_MoreMenu.addAction(QIcon(":/icon/SendFile"), tr("Send file"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFile()));
     Q_ASSERT(check);
 
-    pAction = m_MoreMenu.addAction(tr("Audio call"));
+    pAction = m_MoreMenu.addAction(QIcon(":/icon/Microphone"), tr("Audio call"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotCallAudio()));
     Q_ASSERT(check);
 /*

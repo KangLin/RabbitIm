@@ -104,6 +104,8 @@ int CManageUser::LoadLocaleFromStorage(const QString &szId)
 int CManageUser::SaveLocaleToStorage()
 {
     int nRet = 0;
+    if(GetUserInfoLocale().isNull())
+        return -1;
     QString szFile = GetLocaleFile(GetUserInfoLocale()->GetInfo()->GetId());
 
     QFile out(szFile);

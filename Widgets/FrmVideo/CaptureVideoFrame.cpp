@@ -34,6 +34,7 @@ CCaptureVideoFrame::supportedPixelFormats(QAbstractVideoBuffer::HandleType handl
                 << QVideoFrame::Format_ARGB32_Premultiplied
                 << QVideoFrame::Format_RGB565
                 << QVideoFrame::Format_RGB555;
+		//lst.push_back(QVideoFrame::Format_YUYV);//Qt现在不支持此格式，因为Qt内部用了QImage来处理视频帧。
     } else {
         return QList<QVideoFrame::PixelFormat>();
     }
