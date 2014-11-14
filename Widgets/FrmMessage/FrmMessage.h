@@ -59,11 +59,15 @@ private slots:
     void slotAnchorClicked(const QUrl &url);
     void slotEmoteInsertRequested(const QString &s);
 
-    void slotSendFile();
+    void on_pbSendFile_clicked();
     void slotCallAudio();
 //    void slotShotScreenTriggered();//20140712截屏  
   
 
+
+    
+    void on_pbShotScreen_clicked();
+    
 private:
     int Init(const QString &szId = QString());
 

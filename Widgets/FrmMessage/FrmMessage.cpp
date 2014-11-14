@@ -67,6 +67,9 @@ int CFrmMessage::Init(const QString &szId)
 #ifndef MOBILE
     ui->pbSend->setMenu(&m_MessageSendMenu);
     ui->pbSend->setPopupMode(QToolButton::MenuButtonPopup);
+#else
+    ui->pbBack->setText(tr("Back"));
+    ui->pbBack->setIcon(QIcon(":/icon/Left"));
 #endif
 
     check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
@@ -85,11 +88,7 @@ int CFrmMessage::Init(const QString &szId)
                     SLOT(SlotChangedStatus(const QString&)));
     Q_ASSERT(check);
 
-    QAction* pAction = m_MoreMenu.addAction(QIcon(":/icon/SendFile"), tr("Send file"));
-    check = connect(pAction, SIGNAL(triggered()), SLOT(slotSendFile()));
-    Q_ASSERT(check);
-
-    pAction = m_MoreMenu.addAction(QIcon(":/icon/Microphone"), tr("Audio call"));
+    QAction* pAction = m_MoreMenu.addAction(QIcon(":/icon/Microphone"), tr("Audio call"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotCallAudio()));
     Q_ASSERT(check);
 /*
@@ -118,38 +117,6 @@ void CFrmMessage::ChangedPresence(CUserInfo::USER_INFO_STATUS status)
                               + "["
                               + CGlobal::Instance()->GetRosterStatusText(status)
                               + "]");
-}
-
-void CFrmMessage::slotSendFile()
-{
-    QString szId = m_User->GetInfo()->GetId();
-    if(szId.isEmpty())
-        return;
-    
-#ifdef MOBILE
-    QDesktopWidget *pDesk = QApplication::desktop();
-    QFileDialog dlg(pDesk, tr("Open File"));
-    QScreen* pScreen = QApplication::primaryScreen();
-    dlg.setGeometry(pScreen->availableGeometry());
-    QString szFile;
-    QStringList fileNames;
-    if(dlg.exec())
-        fileNames = dlg.selectedFiles();
-    else
-        return;
-    if(fileNames.isEmpty())
-        return;
-    szFile = *fileNames.begin();
-#else
-    QString szFile = QFileDialog::getOpenFileName(
-                this, tr("Open File"), 
-                QString(), QString(), 0,
-                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
-#endif
-    if(szFile.isEmpty())
-        return;
-    QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();
-    file->SendFile(szId, szFile);
 }
 
 void CFrmMessage::slotCallAudio()
@@ -470,4 +437,41 @@ void CFrmMessage::slotEmoteInsertRequested(const QString &s)
 {
     ui->txtInput->insertPlainText(s);
     ui->txtInput->setFocus();
+}
+
+void CFrmMessage::on_pbSendFile_clicked()
+{
+    QString szId = m_User->GetInfo()->GetId();
+    if(szId.isEmpty())
+        return;
+
+#ifdef MOBILE
+    QDesktopWidget *pDesk = QApplication::desktop();
+    QFileDialog dlg(pDesk, tr("Open File"));
+    QScreen* pScreen = QApplication::primaryScreen();
+    dlg.setGeometry(pScreen->availableGeometry());
+    QString szFile;
+    QStringList fileNames;
+    if(dlg.exec())
+        fileNames = dlg.selectedFiles();
+    else
+        return;
+    if(fileNames.isEmpty())
+        return;
+    szFile = *fileNames.begin();
+#else
+    QString szFile = QFileDialog::getOpenFileName(
+                this, tr("Open File"), 
+                QString(), QString(), 0,
+                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
+#endif
+    if(szFile.isEmpty())
+        return;
+    QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();
+    file->SendFile(szId, szFile);
+}
+
+void CFrmMessage::on_pbShotScreen_clicked()
+{
+    
 }

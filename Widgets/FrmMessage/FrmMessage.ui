@@ -92,12 +92,68 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="text">
+       <property name="minimumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>36</width>
+         <height>36</height>
+        </size>
+       </property>
+       <property name="toolTip">
         <string>emoticons</string>
+       </property>
+       <property name="statusTip">
+        <string>emoticons</string>
+       </property>
+       <property name="whatsThis">
+        <string>emoticons</string>
+       </property>
+       <property name="inputMethodHints">
+        <set>Qt::ImhNone</set>
+       </property>
+       <property name="text">
+        <string/>
        </property>
        <property name="icon">
         <iconset resource="../../Resource/Resource.qrc">
          <normaloff>:/ui/emoteButton/emoteButton.png</normaloff>:/ui/emoteButton/emoteButton.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbSendFile">
+       <property name="minimumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>36</width>
+         <height>36</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Send File</string>
+       </property>
+       <property name="statusTip">
+        <string>Send File</string>
+       </property>
+       <property name="whatsThis">
+        <string>Send File</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/SendFile</normaloff>:/icon/SendFile</iconset>
        </property>
       </widget>
      </item>
@@ -111,15 +167,27 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>77</width>
-         <height>25</height>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>36</width>
+         <height>36</height>
         </size>
        </property>
        <property name="toolTip">
         <string>Video</string>
        </property>
+       <property name="statusTip">
+        <string>Video</string>
+       </property>
+       <property name="whatsThis">
+        <string>Video</string>
+       </property>
        <property name="text">
-        <string>Video(&amp;V)</string>
+        <string/>
        </property>
        <property name="icon">
         <iconset resource="../../Resource/Resource.qrc">
@@ -134,9 +202,57 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="pbShotScreen">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>36</width>
+         <height>36</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Shot screen</string>
+       </property>
+       <property name="statusTip">
+        <string>Shot screen</string>
+       </property>
+       <property name="whatsThis">
+        <string>Shot screen</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Cut</normaloff>:/icon/Cut</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="tbMore">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
