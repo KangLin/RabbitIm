@@ -15,7 +15,7 @@ public:
 private slots:
     void slotUpdateHtml();
 private:
-    QImage drawProgressBarImg(const double &part, int w, int h);
+    QImage drawProgressBarImg(const double &part, int w, int h, Qt::GlobalColor clrBack = Qt::white, Qt::GlobalColor clrFront = Qt::green);
     QString GetHumanReadableSize(unsigned long long size);
     QString drawProgressBar();
     QString drawImageFile();

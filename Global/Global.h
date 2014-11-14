@@ -52,6 +52,8 @@ public:
     QString GetFileSmileyPack();
     //得到用户的配置目录  
     QString GetUserConfigureFile(QString jid);
+    //得到接收文件保存的目录  
+    QString GetDirReceiveFile();
 
 public:
     CUserInfo::USER_INFO_STATUS GetStatus();//得到本地用户状态  

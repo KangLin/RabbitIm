@@ -51,13 +51,14 @@ SOURCES += main.cpp\
     Call/CallAction.cpp \
     Call/CallQXmpp.cpp \
     Widgets/FrmVideo/FrmVideo.cpp \ 
-    Widgets/DlgRegister/DlgRegister.cpp
+    Widgets/DlgRegister/DlgRegister.cpp \
+    Widgets/DlgScreenShot/DlgScreenShot.cpp 
     #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     #Widgets/FrmGroupChat/Conference.cpp \
     #Widgets/FrmGroupChat/FrmGroupChat.cpp \
     #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp \
-    #Widgets/DlgScreenShot/DlgScreenShot.cpp \
+    
 
 HEADERS  += MainWindow.h \
     Global/Global.h \
@@ -111,14 +112,15 @@ HEADERS  += MainWindow.h \
     Call/CallAction.h \ 
     Call/CallQXmpp.h \
     Widgets/FrmVideo/FrmVideo.h \ 
-    Widgets/DlgRegister/DlgRegister.h
+    Widgets/DlgRegister/DlgRegister.h \
+    Widgets/DlgScreenShot/DlgScreenShot.h 
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmGroupChat/FrmGroupChatList.h \
     #Widgets/FrmGroupChat/FrmGroupChatFind.h \
     #Widgets/FrmGroupChat/Conference.h \
     #Widgets/FrmGroupChat/FrmGroupChat.h \
     #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.h \
-    #Widgets/DlgScreenShot/DlgScreenShot.h \
+    
 
 FORMS    += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \

@@ -10,7 +10,7 @@
         <file alias="Cancel">png/cancel.png</file>
         <file>png/complete.png</file>
         <file>png/pen.png</file>
-        <file>png/saveas.png</file>
+        <file alias="SaveAs">png/saveas.png</file>
         <file>png/shot.png</file>
         <file>png/undo.png</file>
         <file alias="Status_available">png/im_available.png</file>

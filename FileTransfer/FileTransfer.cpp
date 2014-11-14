@@ -67,6 +67,13 @@ CFileTransfer::Direction CFileTransfer::GetDirection()
     return IncomingDirection;
 }
 
+QString CFileTransfer::GetDescription()
+{
+    LOG_MODEL_WARNING("CFileTransfer", "The GetDescription function must be implemented by derived classes");
+    Q_ASSERT(false);
+    return QString();
+}
+
 CFileTransfer::State CFileTransfer::GetState()
 {
     LOG_MODEL_WARNING("CFileTransfer", "The GetState function must be implemented by derived classes");

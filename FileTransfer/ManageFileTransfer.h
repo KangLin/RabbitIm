@@ -71,6 +71,7 @@ public:
 
 private:
     int Accept(QSharedPointer<CFileTransfer> file);
+    int SaveAs(QSharedPointer<CFileTransfer> file);
 
 signals:
 

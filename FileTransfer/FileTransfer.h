@@ -56,6 +56,7 @@ public:
     virtual QString GetFile();  ///< 得到传送的文件名  
     virtual qint64 GetFileSize();  ///< 得到文件的大小  
     virtual Direction GetDirection(); ///< 得到传输方向  
+    virtual QString GetDescription(); ///< 得到文件描述
     virtual State GetState();       ///< 得到状态  
     virtual Error GetError();        ///< 得到错误  
 

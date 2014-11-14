@@ -82,6 +82,11 @@ void CManageFileTransfer::slotFileReceived(const QString& szId, QSharedPointer<C
         LOG_MODEL_ERROR("CManageFileTransfer", "There isn't roster:%s", szId.toStdString().c_str());
         return;
     }
+
+    if(file->GetDescription() == "ShotScreen")
+    {
+        Accept(file);
+    }
     QSharedPointer<CFileTransferAction> action(new CFileTransferAction(file, szId, QTime::currentTime(), false));
     roster->GetMessage()->AddMessage(action);
     GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName() + ":", tr("Send file %1").arg(file->GetFile()));
@@ -128,9 +133,9 @@ int CManageFileTransfer::ProcessCommand(const QString &szId, const QString &szCo
         if(it.value()->GetFileTranserId() == szFileId)
         {
             if("accept" == szCmd)
-            {
                 nRet = Accept(it.value());
-            }
+            if("saveas" == szCmd)
+                nRet = SaveAs(it.value());
             if("cancel" ==szCmd)
                 nRet = it.value()->Abort();
             return nRet;
@@ -142,6 +147,16 @@ int CManageFileTransfer::ProcessCommand(const QString &szId, const QString &szCo
 }
 
 int CManageFileTransfer::Accept(QSharedPointer<CFileTransfer> file)
+{
+    int nRet = 0;
+    QString szTmp = CGlobal::Instance()->GetDirReceiveFile()//QStandardPaths::writableLocation(QStandardPaths::TempLocation) 
+            + QDir::separator() 
+            + file->GetFile();
+    nRet = file->Accept(szTmp);
+    return nRet;
+}
+
+int CManageFileTransfer::SaveAs(QSharedPointer<CFileTransfer> file)
 {
     int nRet = 0;
 #ifdef MOBILE
@@ -164,6 +179,7 @@ int CManageFileTransfer::Accept(QSharedPointer<CFileTransfer> file)
                 file->GetFile(), QString(), 0,
                 QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
 #endif
+
     nRet =file->Accept(szFile);
     return nRet;
 }

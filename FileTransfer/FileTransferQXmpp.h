@@ -20,6 +20,7 @@ public:
     virtual QString GetFile();
     virtual qint64 GetFileSize();
     virtual Direction GetDirection();
+    virtual QString GetDescription();
     virtual State GetState();
     virtual Error GetError();
     virtual qint64 GetSpeed();

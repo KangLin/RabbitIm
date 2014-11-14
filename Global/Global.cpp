@@ -493,6 +493,16 @@ QString CGlobal::GetDirUserAvatar()
     return dirHeads;
 }
 
+QString CGlobal::GetDirReceiveFile()
+{
+    QString dir = GetDirUserData() + QDir::separator() + "ReceiveFiles";
+    QDir d;
+    if(!d.exists(dir))
+        if(!d.mkdir(dir))
+            LOG_MODEL_ERROR("CGlobal", "mkdir GetUserDataAvatar error:%s", qPrintable(dir));
+    return dir;
+}
+
 QString CGlobal::GetFileUserAvatar(QString bareJid)
 {
     QString jid;

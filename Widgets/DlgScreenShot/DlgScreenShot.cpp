@@ -267,22 +267,6 @@ void CWdgScreenEditor::initToolBar(){
     toolBar->addWidget(undoBtn);
     connect(undoBtn,SIGNAL(clicked()),this,SLOT(undo()));
 
-    saveAsBtn = new QToolButton;
-    icon = QIcon(":/icon/png/saveas.png");
-    saveAsBtn->setIcon(icon);
-    saveAsBtn->setToolTip(tr("save as"));
-    saveAsBtn->setCursor(Qt::ArrowCursor);
-    toolBar->addWidget(saveAsBtn);
-    connect(saveAsBtn,SIGNAL(clicked()),this,SLOT(saveAs()));
-
-    cancelBtn = new QToolButton;
-    icon = QIcon(":/icon/png/cancel.png");
-    cancelBtn->setIcon(icon);
-    cancelBtn->setCursor(Qt::ArrowCursor);
-    toolBar->addWidget(cancelBtn);
-    cancelBtn->setToolTip(tr("cancel"));
-    connect(cancelBtn,SIGNAL(clicked()),this,SLOT(onCancelBtnClicked()));
-
     colorBtn = new QToolButton;
     icon = QIcon(":/icon/Color");
     colorBtn->setIcon(icon);
@@ -290,6 +274,22 @@ void CWdgScreenEditor::initToolBar(){
     colorBtn->setCursor(Qt::ArrowCursor);
     toolBar->addWidget(colorBtn);
     connect(colorBtn,SIGNAL(clicked()),this,SLOT(onSelectColor()));
+
+    saveAsBtn = new QToolButton;
+    icon = QIcon(":/icon/SaveAs");
+    saveAsBtn->setIcon(icon);
+    saveAsBtn->setToolTip(tr("save as"));
+    saveAsBtn->setCursor(Qt::ArrowCursor);
+    toolBar->addWidget(saveAsBtn);
+    connect(saveAsBtn,SIGNAL(clicked()),this,SLOT(saveAs()));
+
+    cancelBtn = new QToolButton;
+    icon = QIcon(":/icon/Cancel");
+    cancelBtn->setIcon(icon);
+    cancelBtn->setCursor(Qt::ArrowCursor);
+    toolBar->addWidget(cancelBtn);
+    cancelBtn->setToolTip(tr("cancel"));
+    connect(cancelBtn,SIGNAL(clicked()),this,SLOT(onCancelBtnClicked()));
 
     completeBtn = new QToolButton;
     icon = QIcon(":/icon/png/complete.png");
@@ -377,7 +377,6 @@ void CWdgScreenEditor::paint()
 
 void CWdgScreenEditor::mousePressEvent(QMouseEvent *e)
 {
-
     if(e->button() == Qt::LeftButton){
         if(!m_image.rect().contains(e->pos())){
             QWidget::mousePressEvent(e);

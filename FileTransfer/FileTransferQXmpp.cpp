@@ -71,6 +71,13 @@ CFileTransfer::Direction CFileTransferQXmpp::GetDirection()
     return m_Direction;
 }
 
+QString CFileTransferQXmpp::GetDescription()
+{
+    if(m_pJob)
+        return m_pJob->fileInfo().description();
+    return QString();
+}
+
 CFileTransfer::State CFileTransferQXmpp::GetState()
 {
     if(m_pJob)

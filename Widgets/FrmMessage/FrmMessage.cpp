@@ -3,10 +3,12 @@
 #include "../FrmUservCard/FrmUservCard.h"
 #include "MainWindow.h"
 #include "Global/Global.h"
+#include "Client/Client.h"
 #include "Message/style.h"
 #include "Message/SmileyPack.h"
 #include "Message/EmoticonsWidget.h"
 #include "FileTransfer/ManageFileTransfer.h"
+#include "Widgets/DlgScreenShot/DlgScreenShot.h"
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QDropEvent>
@@ -91,11 +93,7 @@ int CFrmMessage::Init(const QString &szId)
     QAction* pAction = m_MoreMenu.addAction(QIcon(":/icon/Microphone"), tr("Audio call"));
     check = connect(pAction, SIGNAL(triggered()), SLOT(slotCallAudio()));
     Q_ASSERT(check);
-/*
-    pAction = m_MoreMenu.addAction(tr("shot screen"));
-    check = connect(pAction, SIGNAL(triggered()), SLOT(slotShotScreenTriggered()));
-    Q_ASSERT(check);
-    */
+
     ui->tbMore->setMenu(&m_MoreMenu);
 
     QDesktopWidget *pDesk = QApplication::desktop();    
@@ -126,8 +124,7 @@ void CFrmMessage::slotCallAudio()
     GETMANAGER->GetCall()->Call(m_User->GetInfo()->GetId());
 }
 
-/*
-void CFrmMessage::slotShotScreenTriggered()
+void CFrmMessage::on_pbShotScreen_clicked()
 {
     CDlgScreenShot dlg;
     if(dlg.exec() ==  QDialog::Accepted)
@@ -161,12 +158,7 @@ void CFrmMessage::slotShotScreenTriggered()
             bool isOk = image.save(filePath);
             if(isOk)
             {
-                if(m_pRoster->Resouce().isEmpty())
-                {
-                    QMessageBox::critical(this, tr("Video"), tr("%1 isn't online.").arg(m_pRoster->ShowName()));
-                    return;
-                }
-                CGlobal::Instance()->GetMainWindow()->sendFile(m_pRoster->Jid(), filePath, MainWindow::ImageType);
+                GETMANAGER->GetFileTransfer()->SendFile(m_User->GetInfo()->GetId(), filePath, "ShotScreen");
             }
             else
             {
@@ -175,7 +167,7 @@ void CFrmMessage::slotShotScreenTriggered()
         }
     }
 }
-*/
+
 void CFrmMessage::hideEvent(QHideEvent *)
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::hideEvent");
@@ -469,9 +461,4 @@ void CFrmMessage::on_pbSendFile_clicked()
         return;
     QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();
     file->SendFile(szId, szFile);
-}
-
-void CFrmMessage::on_pbShotScreen_clicked()
-{
-    
 }

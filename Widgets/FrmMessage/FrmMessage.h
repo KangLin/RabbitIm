@@ -61,11 +61,6 @@ private slots:
 
     void on_pbSendFile_clicked();
     void slotCallAudio();
-//    void slotShotScreenTriggered();//20140712截屏  
-  
-
-
-    
     void on_pbShotScreen_clicked();
     
 private:

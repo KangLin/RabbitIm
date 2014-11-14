@@ -115,23 +115,27 @@ QString CFileTransferAction::drawProgressBar()
 
     content += "<td align=right>" + tr("ETA: ") + etaTime.toString("mm:ss") + "</td>";
     content += "</tr><tr><td colspan=3>";
-    content += QImage2Html(drawProgressBarImg((double)m_File->GetDoneSize()/(double)m_File->GetFileSize(), m_ProgBarWidth, m_ProgBarHeight));
+    if(m_File->GetError() == CFileTransfer::AbortError
+            || m_File->GetError() != CFileTransfer::NoError)
+       content += QImage2Html(drawProgressBarImg(1, m_ProgBarWidth, m_ProgBarHeight, Qt::red, Qt::red));
+    else
+        content += QImage2Html(drawProgressBarImg((double)m_File->GetDoneSize()/(double)m_File->GetFileSize(), m_ProgBarWidth, m_ProgBarHeight));
     content += "</td></tr>";
     return content;
 }
 
-QImage CFileTransferAction::drawProgressBarImg(const double &part, int w, int h)
+QImage CFileTransferAction::drawProgressBarImg(const double &part, int w, int h, Qt::GlobalColor clrBack, Qt::GlobalColor clrFront)
 {
     QImage progressBar(w, h, QImage::Format_RGB16);
 
     QPainter qPainter(&progressBar);
-    qPainter.setBrush(QBrush(Qt::white));
+    qPainter.setBrush(QBrush(clrBack));
     qPainter.setPen(Qt::white);
     qPainter.drawRect(0, 0, w, h);
 
     if(0 != part)
     {
-        qPainter.setBrush(QBrush(Qt::green));
+        qPainter.setBrush(QBrush(clrFront));
         qPainter.setPen(Qt::green);
         qPainter.drawRect(0, 0, w * part, h);
     }
@@ -174,20 +178,19 @@ QString CFileTransferAction::drawBottom()
 
 QString CFileTransferAction::drawBottomAccept()
 {
-    QString content = "<tr><td  align=center>";
-    content += "<a href='rabbitim://FileTransfer?command=accept&id="
-            + m_File->GetFileTranserId() + "'>";
-    content += QImage2Html(QImage(":/icon/Accept", "png"), 16, 16);
-    content += tr("Accept") + "</a>";
+    QString content = "<tr>";
+    content += drawAccept("rabbitim://FileTransfer?command=accept&id="
+            + m_File->GetFileTranserId());
 
-    content += "</td><td />";
-    content += "<td align=center>";
-    content += "<a href='rabbitim://FileTransfer?command=cancel&id="
-            + m_File->GetFileTranserId() + "'>";
-    content += QImage2Html(QImage(":/icon/Cancel", "png"), 16, 16)
-            + tr("Cancel") + "</a>";
+    QString szHref;
+    szHref = "rabbitim://FileTransfer?command=saveas&id="
+            + m_File->GetFileTranserId();
+    content += drawButton(szHref, tr("Save as ..."), ":/icon/SaveAs");
 
-    content += "</td></tr>";
+    content += drawCancel("rabbitim://FileTransfer?command=cancel&id="
+            + m_File->GetFileTranserId());
+
+    content += "</tr>";
     return content;
 }
 

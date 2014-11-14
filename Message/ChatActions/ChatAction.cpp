@@ -53,22 +53,22 @@ QString CChatAction::QImage2Html(const QImage &img, int nWidth, int nHeight)
 
 QString CChatAction::drawButton(const QString &szHref, const QString &szText, const QString &szIcon)
 {
-QString szMsg;
-szMsg = "<td align='center'><a href='" + szHref + "'>";
-if(!szIcon.isEmpty())
-szMsg += QImage2Html(QImage(szIcon, "png"), 16, 16);
-szMsg += szText + "</a></td>";
-return szMsg;
+    QString szMsg;
+    szMsg = "<td align='center'><a href='" + szHref + "'>";
+    if(!szIcon.isEmpty())
+        szMsg += QImage2Html(QImage(szIcon, "png"), 16, 16);
+    szMsg += szText + "</a></td>";
+    return szMsg;
 }
 
 QString CChatAction::drawAccept(QString szHref)
 {
-return drawButton(szHref, tr("Accpet"), ":/icon/Accept");
+    return drawButton(szHref, tr("Accpet"), ":/icon/Accept");
 }
 
 QString CChatAction::drawCancel(QString szHref)
 {
-return drawButton(szHref, tr("Cancel"), ":/icon/Cancel");
+    return drawButton(szHref, tr("Cancel"), ":/icon/Cancel");
 }
 
 QString CChatAction::getName()
