@@ -2,6 +2,7 @@
 #include "Global/Global.h"
 #include "FileTransferAction.h"
 #include "MainWindow.h"
+#include "Tool.h"
 #include <QFileDialog>
 #include <QDesktopWidget>
 #include <QApplication>
@@ -83,7 +84,7 @@ void CManageFileTransfer::slotFileReceived(const QString& szId, QSharedPointer<C
         return;
     }
 
-    if(file->GetDescription() == "ShotScreen")
+    if(CTool::isImageFile(file->GetFile()))
     {
         Accept(file);
     }

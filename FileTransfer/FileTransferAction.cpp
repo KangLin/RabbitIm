@@ -1,4 +1,5 @@
 #include "FileTransferAction.h"
+#include "Tool.h"
 #include <QTextEdit>
 #include <QScrollBar>
 #include <QImage>
@@ -75,7 +76,7 @@ QString CFileTransferAction::getMessage()
     //如果传输成功，且文件是图片，则直接在消息对话框中显示图片  
     if(m_File->GetError() == CFileTransfer::NoError
        && m_File->GetState() == CFileTransfer::FinishedState
-       && isImageFile(m_File->GetLocalFileUrl().toLocalFile()))
+       && CTool::isImageFile(m_File->GetLocalFileUrl().toLocalFile()))
     {
         return drawImageFile();
     }
@@ -252,17 +253,6 @@ QString CFileTransferAction::drawBottomError()
     content += tr("File sending error.");
     content += "</td></tr>";
     return content;
-}
-
-bool CFileTransferAction::isImageFile(const QString &szFile)
-{
-    QStringList imgSuffix;
-    imgSuffix << "png" << "gif" << "ico" << "bmp" << "jpg";
-    QFileInfo info(szFile);
-    QString suffix = info.suffix().toLower();
-    if(imgSuffix.indexOf(suffix) != -1)
-        return true;
-    return false;
 }
 
 QString CFileTransferAction::GetHumanReadableSize(unsigned long long size)

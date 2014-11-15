@@ -7,7 +7,13 @@ CCallAction::CCallAction(QSharedPointer<CCallObject> call, const QString &author
     : CChatAction(me, author, date)
 {
     m_Call = call;
-    m_tmStart = date;
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(m_szId);
+    if(!roster.isNull())
+    {
+        if(roster->GetInfo()->GetIsMonitor() 
+                && CGlobal::Instance()->GetIsMonitor() && !m_isMe)
+            m_tmStart = date;
+    }
     bool check = connect(m_Call.data(), SIGNAL(sigUpdate()),this, SLOT(slotUpdateHtml()));
     Q_ASSERT(check);
     check = connect(&m_Timer, SIGNAL(timeout()),
@@ -41,7 +47,7 @@ QString CCallAction::getMessage()
             if(!roster.isNull())
             {
                 if(!(roster->GetInfo()->GetIsMonitor() 
-                        && CGlobal::Instance()->GetIsMonitor()))
+                        && CGlobal::Instance()->GetIsMonitor() && !m_isMe))
                 {
                     m_tmStart = QTime::currentTime();
                 }

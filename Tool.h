@@ -118,7 +118,8 @@ public:
      * srcWidth:要操作图像的宽度
      * srcHeight:要操作图像的高度 */
     static void YUV420spMirrorX(uchar *dst, const uchar *src, int srcWidth, int srcHeight);
-  
+
+    static bool isImageFile(const QString& szFile);///<判断文件是否是图片，根据扩展名进行判断  
 signals:
 
 public slots:

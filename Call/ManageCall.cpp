@@ -107,6 +107,7 @@ void CManageCall::slotCallVideoReceived(QSharedPointer<CCallObject> call)
     }
 
     QSharedPointer<CCallAction> action(new CCallAction(m_Call, m_Call->GetId(), QTime::currentTime(), false));
+
     roster->GetMessage()->AddMessage(action);
     GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName(), 
                                         roster->GetInfo()->GetShowName() + tr(" is calling"));

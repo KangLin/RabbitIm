@@ -158,7 +158,7 @@ void CFrmMessage::on_pbShotScreen_clicked()
             bool isOk = image.save(filePath);
             if(isOk)
             {
-                GETMANAGER->GetFileTransfer()->SendFile(m_User->GetInfo()->GetId(), filePath, "ShotScreen");
+                GETMANAGER->GetFileTransfer()->SendFile(m_User->GetInfo()->GetId(), filePath);
             }
             else
             {

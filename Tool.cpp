@@ -1,5 +1,6 @@
 #include "Tool.h"
 #include "Global/Global.h"
+#include <QFileInfo>
 
 CTool::CTool(QObject *parent) :
     QObject(parent)
@@ -406,4 +407,15 @@ void CTool::YUV420spMirror(uchar *dst, const uchar *src, int srcWidth, int srcHe
     default:
         break;
     }
+}
+
+bool CTool::isImageFile(const QString &szFile)
+{
+    QStringList imgSuffix;
+    imgSuffix << "png" << "gif" << "ico" << "bmp" << "jpg";
+    QFileInfo info(szFile);
+    QString suffix = info.suffix().toLower();
+    if(imgSuffix.indexOf(suffix) != -1)
+        return true;
+    return false;
 }
