@@ -11,7 +11,7 @@
         <file>png/complete.png</file>
         <file>png/pen.png</file>
         <file alias="SaveAs">png/saveas.png</file>
-        <file>png/shot.png</file>
+        <file alias="Cut">png/shot.png</file>
         <file>png/undo.png</file>
         <file alias="Status_available">png/im_available.png</file>
         <file alias="Status_available_stale">png/im_available_stale.png</file>
@@ -56,7 +56,6 @@
         <file alias="Message">png/message.png</file>
         <file alias="SendFile">png/send_file_24x24.png</file>
         <file alias="Monitor">png/monitor.jpg</file>
-        <file alias="Cut">png/cut.jpg</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

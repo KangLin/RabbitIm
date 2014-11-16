@@ -133,6 +133,7 @@ void CFrmMessage::on_pbShotScreen_clicked()
         CGlobal::E_SCREEN_SHOT_TO_TYPE type = CGlobal::Instance()->GetScreenShotToType();
         if(type == CGlobal::E_TO_CLIPBOARD)
         {
+            //TODO:剪切板操作会引起警告：QImage::pixel: coordinate (308,398) out of range  
             QClipboard* clipboard = QApplication::clipboard();
             clipboard->setImage(image);//参数是否合适TODO  
         }

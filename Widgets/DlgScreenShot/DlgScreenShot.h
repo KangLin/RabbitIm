@@ -46,10 +46,12 @@ private:
     QPixmap m_selectImg;
 };
 
-
+#include <QToolBar>
+#include <QToolButton>
+#include <QMenu>
+#include <QActionGroup>
+#include "Global/Global.h"
 //================================================================
-class QToolButton;
-class QToolBar;
 enum Option{NoOption,DrawFree,DrawCircle,DrawRect};
 
 class  CWdgScreenEditor : public QWidget
@@ -57,6 +59,7 @@ class  CWdgScreenEditor : public QWidget
     Q_OBJECT
 public:
     CWdgScreenEditor(const QPixmap& img,QWidget* parent = 0);
+    ~CWdgScreenEditor();
     void resetByImg(const QPixmap& img);
     QPixmap getSelectedImg();
 
@@ -83,22 +86,31 @@ private slots:
     void onCompleteBtnClicked();
     void onSelectColor();
 
+    //完成按钮的功能菜单响应曹函数  
+    void slotMenuShow();//菜单显示时触发  
+    void slotActionGroupCompleteTriggered(QAction* act);
+
 signals:
     void sigReset();
     void sigSelectImg(const QPixmap& pix);
     void sigCancel();
 
 private:
-    QToolBar* toolBar;
-    QToolButton* saveAsBtn;
-    QToolButton* cancelBtn;
-    QToolButton* completeBtn;
-    QToolButton* circleBtn;
-    QToolButton* rectBtn;
-    QToolButton* undoBtn;
-    QToolButton* textBtn;
-    QToolButton* penBtn;
-    QToolButton* colorBtn;
+    QToolBar toolBar;
+    QToolButton circleBtn;
+    QToolButton rectBtn;
+    QToolButton undoBtn;
+    QToolButton textBtn;
+    QToolButton penBtn;
+    QToolButton colorBtn;
+    QToolButton saveAsBtn;
+    QToolButton cancelBtn;
+    QToolButton completeBtn;
+    
+    QMap<CGlobal::E_SCREEN_SHOT_TO_TYPE, QIcon> m_IconComplete;
+    QMenu m_menuCompleteBtu;
+    QMap<CGlobal::E_SCREEN_SHOT_TO_TYPE, QAction*> m_ActionsComplete;
+    QActionGroup m_ActionGroupComplete;
 
     Option m_curOption;
     QPixmap m_image;
@@ -112,7 +124,7 @@ private:
     int m_h;
     QPoint m_curPos;
     QPoint m_oldPos;
-    
+
     QColor m_penColor;
 };
 

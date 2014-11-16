@@ -4,54 +4,54 @@
 <context>
     <name>CCallAction</name>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="77"/>
+        <location filename="../../Call/CallAction.cpp" line="83"/>
         <source>Be launching a call</source>
         <translation>正在呼叫</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="108"/>
-        <location filename="../../Call/CallAction.cpp" line="120"/>
+        <location filename="../../Call/CallAction.cpp" line="114"/>
+        <location filename="../../Call/CallAction.cpp" line="126"/>
         <source>Call</source>
         <translation>呼叫</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="131"/>
+        <location filename="../../Call/CallAction.cpp" line="137"/>
         <source>Be receiving a call</source>
         <translation>正在呼叫 ...</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="135"/>
+        <location filename="../../Call/CallAction.cpp" line="141"/>
         <source>Be a video calling..., </source>
         <translation>正在视频通话...，</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="137"/>
+        <location filename="../../Call/CallAction.cpp" line="143"/>
         <source>Be talking ..., </source>
         <translation>正在通话 ...，</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="138"/>
-        <location filename="../../Call/CallAction.cpp" line="151"/>
+        <location filename="../../Call/CallAction.cpp" line="144"/>
+        <location filename="../../Call/CallAction.cpp" line="157"/>
         <source>talk time:</source>
         <translation>通话时间:</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="142"/>
+        <location filename="../../Call/CallAction.cpp" line="148"/>
         <source>Video is disconnected</source>
         <translation>断开视频连接</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="144"/>
+        <location filename="../../Call/CallAction.cpp" line="150"/>
         <source>talk is disconnected</source>
         <translation>断开通话连接</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="148"/>
+        <location filename="../../Call/CallAction.cpp" line="154"/>
         <source>Video talk over.</source>
         <translation>视频通话完毕。</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="150"/>
+        <location filename="../../Call/CallAction.cpp" line="156"/>
         <source>Talk over.</source>
         <translation>通话完毕。</translation>
     </message>
@@ -523,38 +523,41 @@
 <context>
     <name>CFileTransferAction</name>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="116"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="117"/>
         <source>ETA: </source>
         <translation>剩余：</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="181"/>
         <source>Accept</source>
-        <translation>接收</translation>
+        <translation type="vanished">接收</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="188"/>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="200"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="189"/>
+        <source>Save as ...</source>
+        <translation>另存为 ...</translation>
+    </message>
+    <message>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="204"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="209"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="213"/>
         <source>Send the file has been canceled.</source>
         <translation>文件传输被取消。</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="226"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="230"/>
         <source>Open folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="229"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="233"/>
         <source>Send the file has been finished.</source>
         <translation>文件传输完成。</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="249"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="253"/>
         <source>File sending error.</source>
         <translation>传输错误</translation>
     </message>
@@ -1033,84 +1036,115 @@
         <translation>呢称</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="82"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="143"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="146"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="149"/>
+        <source>Send File</source>
+        <translation>发送文件</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="225"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="228"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="231"/>
+        <source>Shot screen</source>
+        <translation>截屏</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="261"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="141"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="108"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="111"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="114"/>
         <source>emoticons</source>
         <translation>表情</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="164"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="348"/>
         <source>Send Message</source>
         <translation>发送消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="205"/>
         <source>Video(&amp;V)</source>
-        <translation>视频(&amp;V)</translation>
+        <translation type="vanished">视频(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="234"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="316"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="237"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="319"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="173"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="357"/>
         <source>Send(&amp;S)</source>
         <translation>发送(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="88"/>
         <source>Send file</source>
-        <translation>发送文件</translation>
+        <translation type="vanished">发送文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="92"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="93"/>
         <source>Audio call</source>
         <translation>音频呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="131"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="145"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="443"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="457"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="223"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="236"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="183"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="196"/>
         <source>Close message dialog</source>
         <translation>关闭消息对话框</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="224"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="73"/>
+        <source>Back</source>
+        <translation>回退</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="142"/>
+        <source>Save File</source>
+        <translation>保存文件</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="144"/>
+        <source>Images (*.png *.xpm *.jpg)</source>
+        <translation>图像 （*.png *.xpm *.jpg)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="184"/>
         <source>Sending files to determine whether you want to close?</source>
         <translation>有文件正在发送，你确定是否关闭消息对话框？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="237"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="197"/>
         <source>Is talking whether you want to close?</source>
         <translation>正在通话，是否关闭？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="349"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="309"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="349"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="309"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="202"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="181"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="184"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="187"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
@@ -1431,7 +1465,7 @@
     <message>
         <location filename="../../Call/ManageCall.cpp" line="54"/>
         <source>Being talk with %1, please stop it.</source>
-        <translation >正在与 ％1 通话，请停止它。</translation>
+        <translation>正在与 ％1 通话，请停止它。</translation>
     </message>
     <message>
         <location filename="../../Call/ManageCall.cpp" line="91"/>
@@ -1439,7 +1473,7 @@
         <translation>％1发起一个新的连接，但是现在正在与 ％2 通话，请先停止它。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="111"/>
+        <location filename="../../Call/ManageCall.cpp" line="113"/>
         <source> is calling</source>
         <translation>正在呼叫</translation>
     </message>
@@ -1447,13 +1481,13 @@
 <context>
     <name>CManageFileTransfer</name>
     <message>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="87"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="93"/>
         <source>Send file %1</source>
         <translation>发送文件 %1</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="149"/>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="163"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="165"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="179"/>
         <source>Sava as ...</source>
         <translation>另存为...</translation>
     </message>
@@ -1492,12 +1526,79 @@
 <context>
     <name>CWdgScreenEditor</name>
     <message>
-        <source>color</source>
-        <translation type="vanished">颜色</translation>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="234"/>
+        <source>pen</source>
+        <translation>笔</translation>
     </message>
     <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="248"/>
+        <source>ellipse tool</source>
+        <translation>椭圆</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="258"/>
+        <source>rect tool</source>
+        <translation>矩形</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="265"/>
+        <source>undo</source>
+        <translation>撤消</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="271"/>
+        <source>color</source>
+        <translation>颜色</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="287"/>
+        <source>cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="290"/>
+        <source>Clipboard</source>
+        <translation>保存到剪切板</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="293"/>
+        <source>Save As</source>
+        <translation>另存为 ...</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="296"/>
+        <source>Send file</source>
+        <translation>发送文件</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="308"/>
+        <source>ok</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="504"/>
+        <source>Images (*.png *.xpm *.jpg)</source>
+        <translation>图像 （*.png *.xpm *.jpg)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="508"/>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="512"/>
+        <source>Failed to save</source>
+        <translation>保存失败</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="512"/>
+        <source>Sorry! Save failed! Please check save path!</source>
+        <translation>对不起！文件保存错误！请检查保存路径！</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/DlgScreenShot.cpp" line="534"/>
         <source>select color</source>
-        <translation type="vanished">选择颜色</translation>
+        <translation>选择颜色</translation>
     </message>
 </context>
 <context>
