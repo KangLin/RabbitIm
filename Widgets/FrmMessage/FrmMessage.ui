@@ -202,7 +202,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pbShotScreen">
+      <widget class="QToolButton" name="pbShotScreen">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
          <horstretch>0</horstretch>
@@ -236,6 +236,9 @@
        <property name="icon">
         <iconset resource="../../Resource/Resource.qrc">
          <normaloff>:/icon/Cut</normaloff>:/icon/Cut</iconset>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::MenuButtonPopup</enum>
        </property>
       </widget>
      </item>

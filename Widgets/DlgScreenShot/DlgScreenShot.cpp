@@ -30,45 +30,39 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
     :QDialog(parent,
              Qt::FramelessWindowHint
              | Qt::X11BypassWindowManagerHint  //这个标志是在x11下有用,查看帮助QWidget::showFullScreen()  
-             /*| Qt::Tool
+             | Qt::Tool
              | Qt::WindowStaysOnTopHint
-             | Qt::CustomizeWindowHint*/
+             | Qt::CustomizeWindowHint
              ),
     m_x(0),
     m_y(0),
     m_width(0),
     m_height(0),
-    m_pEditor(NULL)
+    m_Editor(this)
 {
     this->setFixedSize(qApp->desktop()->size());
     resize(qApp->desktop()->size());
-    m_bgImg = QImage(size(),QImage::Format_ARGB32_Premultiplied);
     setAttribute(Qt::WA_TranslucentBackground,true);
     setCursor(Qt::CrossCursor);
-    initSelectParam();
-    drawWindow();
-    //===================================
     WId id = qApp->desktop()->winId();
-    QRect rect = QRect(m_x,m_y,m_width,m_height).normalized();
-    LOG_MODEL_DEBUG("screen shot", "width:%d", rect.width());
-    QPixmap pix = QPixmap();
     QScreen *pScreen = QGuiApplication::primaryScreen();
-    pix = pScreen->grabWindow(id, rect.x(), rect.y(), rect.width(), rect.height());
-    m_pEditor = new CWdgScreenEditor(pix, this);
-    if(m_pEditor)
-    {
-        m_pEditor->hide();
-        connect(m_pEditor,SIGNAL(sigReset()),this,SLOT(onSigReset()));
-        connect(m_pEditor,SIGNAL(sigSelectImg(QPixmap)),this,SLOT(onSigSelectedImg(QPixmap)));
-        connect(m_pEditor,SIGNAL(sigCancel()),this,SLOT(onSigCancel()));
-    }
+    m_imgDesktop = pScreen->grabWindow(id,
+                                       0,
+                                       0, 
+                                       pScreen->geometry().width(),//pScreen->availableGeometry().width(),
+                                       pScreen->geometry().height()//pScreen->availableGeometry().height()
+                                       ).toImage();
+    initSelectParam();
+
+    m_Editor.hide();
+    connect(&m_Editor,SIGNAL(sigReset()),this,SLOT(onSigReset()));
+    connect(&m_Editor,SIGNAL(sigSelectImg(QPixmap)),this,SLOT(onSigSelectedImg(QPixmap)));
+    connect(&m_Editor,SIGNAL(sigCancel()),this,SLOT(onSigCancel()));
 }
 
 CDlgScreenShot::~CDlgScreenShot()
 {
     LOG_MODEL_DEBUG("screen shot", "CDlgScreenShot::~CDlgScreenShot");
-    if(m_pEditor)
-        delete m_pEditor;
 }
 
 QPixmap CDlgScreenShot::getSelectedImg()
@@ -79,15 +73,18 @@ QPixmap CDlgScreenShot::getSelectedImg()
 void CDlgScreenShot::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
+    drawWindow();
     QPainter painter(this);
-    painter.drawImage(rect(),m_bgImg);
+    painter.drawImage(rect(),drawWindow());
 }
 
-void CDlgScreenShot::drawWindow()
+QImage CDlgScreenShot::drawWindow()
 {
-    QPainter painter(&m_bgImg);
+    QImage img;
+    img = m_imgDesktop;
+    QPainter painter(&img);
     painter.setCompositionMode(QPainter::CompositionMode_Source);
-    painter.fillRect(m_bgImg.rect(),QColor(0,0,0,70));
+    painter.fillRect(img.rect(),QColor(0,0,0,70));
     int penWidth = 2;
     QPen pen = painter.pen();
     pen.setWidth(penWidth);
@@ -96,7 +93,8 @@ void CDlgScreenShot::drawWindow()
     painter.drawRect(m_x - penWidth, m_y - penWidth, 
                      m_width + 2 * penWidth, 
                      m_height + 2 * penWidth);
-    repaint();//即时强制重绘  
+
+    return img;
 }
 
 void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)
@@ -113,7 +111,7 @@ void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)
         QPoint pos = QCursor::pos();//e->pos();
         m_width = pos.x() - m_x;
         m_height = pos.y() - m_y;
-        drawWindow();
+        this->update();
     }
 }
 
@@ -135,13 +133,13 @@ void CDlgScreenShot::mousePressEvent(QMouseEvent *e)
     else if(e->button() == Qt::RightButton)
     {
         setCursor(Qt::CrossCursor);
-        if(m_pEditor->isHidden())
+        if(m_Editor.isHidden())
         {
             this->reject();
         }
         else
         {
-            m_pEditor->hide();//改变右键方式  
+            m_Editor.hide();//改变右键方式  
             onSigReset();
         }
     }
@@ -167,9 +165,22 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         QPixmap pix = QPixmap();
         QScreen *pScreen = QGuiApplication::primaryScreen();
         pix = pScreen->grabWindow(id, rect.x(), rect.y(), rect.width(), rect.height());
-        m_pEditor->resetByImg(pix);
-        m_pEditor->move(rect.topLeft());//移动到当前选择的rect的左上角  
-        m_pEditor->show();
+
+        int x = rect.x(), y = rect.y() + rect.height();
+        QRect rectToolBar = m_Editor.toolBar.frameGeometry();
+        if(y + rectToolBar.height() > this->height())
+        {
+            y = rect.y() - rectToolBar.height();
+        }
+        else if(x + rectToolBar.width() > this->width())
+        {
+            x = this->width() - rectToolBar.width();
+        }
+        m_Editor.toolBar.move(x, y);
+        m_Editor.toolBar.show();
+        m_Editor.resetByImg(pix);
+        m_Editor.move(rect.topLeft());//移动到当前选择的rect的左上角  
+        m_Editor.show();
     }
 }
 
@@ -185,7 +196,7 @@ void CDlgScreenShot::initSelectParam()
 void CDlgScreenShot::onSigReset()
 {
     initSelectParam();
-    drawWindow();
+    this->update();
 }
 
 void CDlgScreenShot::onSigSelectedImg(const QPixmap &pix)
@@ -196,369 +207,5 @@ void CDlgScreenShot::onSigSelectedImg(const QPixmap &pix)
 
 void CDlgScreenShot::onSigCancel()
 {
-//    initSelectParam();
-//    drawWindow();
     this->reject();
-}
-
-//====================================================================
-CWdgScreenEditor::CWdgScreenEditor(const QPixmap& img, QWidget *parent)
-    :QWidget(parent),
-      m_image(img), 
-      toolBar(this),
-      m_ActionGroupComplete(this)
-{
-    m_penColor = QColor(Qt::red);
-    updateForImg(img);
-    initToolBar();
-    updateToolBar();
-}
-
-CWdgScreenEditor::~CWdgScreenEditor()
-{
-    m_stackImages.clear();
-    LOG_MODEL_DEBUG("CWdgScreenEditor", "CWdgScreenEditor::~CWdgScreenEditor");
-}
-
-void CWdgScreenEditor::initToolBar(){
-    QPixmap pix(50,50);
-    QPainter painter(&pix);
-    painter.setCompositionMode(QPainter::CompositionMode_Source);
-    QIcon icon;
-
-    icon = QIcon(":/icon/png/pen.png");
-    penBtn.setIcon(icon);
-    penBtn.setCursor(Qt::ArrowCursor);
-    toolBar.addWidget(&penBtn);
-    penBtn.setCheckable(true);
-    penBtn.setToolTip(tr("pen"));
-    //group->addButton(penBtn);
-    connect(&penBtn,SIGNAL(clicked()),this,SLOT(curOptionChanged()));
-
-    painter.fillRect(pix.rect(),QColor(255,255,255,150));
-    QPen pen = painter.pen();
-    pen = painter.pen();
-    pen.setWidth(2);
-    painter.setPen(pen);
-    painter.drawEllipse(5,5,pix.width() - 10,pix.height() - 10);
-    icon = QIcon(pix);
-    circleBtn.setIcon(icon);
-    circleBtn.setCheckable(true);
-    circleBtn.setCursor(Qt::ArrowCursor);
-    circleBtn.setToolTip(tr("ellipse tool"));
-    toolBar.addWidget(&circleBtn);
-    connect(&circleBtn,SIGNAL(clicked()),this,SLOT(curOptionChanged()));
-
-    painter.fillRect(pix.rect(),QColor(255,255,255,150));
-    painter.drawRect(8,8,pix.width() - 16,pix.height() - 16);
-    icon = QIcon(pix);
-    rectBtn.setIcon(icon);
-    rectBtn.setCheckable(true);
-    rectBtn.setCursor(Qt::ArrowCursor);
-    rectBtn.setText(tr("rect tool"));
-    toolBar.addWidget(&rectBtn);
-    connect(&rectBtn,SIGNAL(clicked()),this,SLOT(curOptionChanged()));
-
-    icon = QIcon(":/icon/png/undo.png");
-    undoBtn.setIcon(icon);
-    undoBtn.setCursor(Qt::ArrowCursor);
-    undoBtn.setToolTip(tr("undo"));
-    toolBar.addWidget(&undoBtn);
-    connect(&undoBtn,SIGNAL(clicked()),this,SLOT(undo()));
-
-    icon = QIcon(":/icon/Color");
-    colorBtn.setIcon(icon);
-    colorBtn.setToolTip(tr("color"));
-    colorBtn.setCursor(Qt::ArrowCursor);
-    toolBar.addWidget(&colorBtn);
-    connect(&colorBtn,SIGNAL(clicked()),this,SLOT(onSelectColor()));
-/*
-    icon = QIcon(":/icon/SaveAs");
-    saveAsBtn.setIcon(icon);
-    saveAsBtn.setToolTip(tr("save as"));
-    saveAsBtn.setCursor(Qt::ArrowCursor);
-    toolBar.addWidget(&saveAsBtn);
-    connect(&saveAsBtn,SIGNAL(clicked()),this,SLOT(saveAs()));
-*/
-    icon = QIcon(":/icon/Cancel");
-    cancelBtn.setIcon(icon);
-    cancelBtn.setCursor(Qt::ArrowCursor);
-    toolBar.addWidget(&cancelBtn);
-    cancelBtn.setToolTip(tr("cancel"));
-    connect(&cancelBtn,SIGNAL(clicked()),this,SLOT(onCancelBtnClicked()));
-
-    QAction* pAction = m_menuCompleteBtu.addAction(tr("Clipboard"), this, SLOT(slotClipboard()));
-    m_ActionGroupComplete.addAction(pAction);
-    m_ActionsComplete.insert(CGlobal::E_TO_CLIPBOARD, pAction);
-    pAction = m_menuCompleteBtu.addAction(tr("Save As"), this, SLOT(slotSaveAs()));
-    m_ActionGroupComplete.addAction(pAction);
-    m_ActionsComplete.insert(CGlobal::E_TO_SAVE, pAction);
-    pAction = m_menuCompleteBtu.addAction(tr("Send file"), this, SLOT(slotSendFile()));
-    m_ActionGroupComplete.addAction(pAction);
-    m_ActionsComplete.insert(CGlobal::E_TO_SEND, pAction);
-    bool check = connect(&m_ActionGroupComplete, SIGNAL(triggered(QAction*)),
-                         SLOT(slotActionGroupCompleteTriggered(QAction*)));
-    Q_ASSERT(check);
-    connect(&m_menuCompleteBtu, SIGNAL(aboutToShow()), this, SLOT(slotMenuShow()));
-    completeBtn.setMenu(&m_menuCompleteBtu);
-    m_IconComplete.insert(CGlobal::E_TO_CLIPBOARD, QIcon(":/icon/Cut"));
-    m_IconComplete.insert(CGlobal::E_TO_SAVE, QIcon(":/icon/SaveAs"));
-    m_IconComplete.insert(CGlobal::E_TO_SEND, QIcon(":/icon/SendFile"));
-    completeBtn.setIcon(m_IconComplete[CGlobal::Instance()->GetScreenShotToType()]);
-    completeBtn.setToolTip(tr("ok"));
-    completeBtn.setCursor(Qt::ArrowCursor);
-    completeBtn.setPopupMode(QToolButton::MenuButtonPopup);
-    toolBar.addWidget(&completeBtn);
-    connect(&completeBtn,SIGNAL(clicked()),this,SLOT(onCompleteBtnClicked()));
-}
-
-//void ZScreenEditor::moveEvent(QMoveEvent* e)
-//{
-//    if(frameGeometry().bottom() + toolBar->height() > qApp->desktop()->height()){
-//        resize(m_image.size());
-//        toolBar->move(0,m_image.height() - toolBar->height());
-//    }
-//}
-
-void CWdgScreenEditor::mouseDoubleClickEvent(QMouseEvent *)
-{
-    onCompleteBtnClicked();
-}
-
-void CWdgScreenEditor::resetByImg(const QPixmap &img)
-{
-    updateForImg(img);
-    updateToolBar();
-    repaint();
-}
-
-QPixmap CWdgScreenEditor::getSelectedImg()
-{
-    QPixmap pix = QPixmap();
-    pix = this->grab(m_image.rect());
-    return pix;
-}
-
-void CWdgScreenEditor::updateToolBar()
-{
-    toolBar.move(0,m_image.height());
-    setMinimumSize(300,m_image.height() + toolBar.height());
-}
-
-void CWdgScreenEditor::updateForImg(const QPixmap &img)
-{
-    m_image = img;
-
-    resize(img.width(), img.height() + 40);
-    setAttribute(Qt::WA_TranslucentBackground,true);
-    setMouseTracking(true);
-    m_tempImg = QImage(img.size(), QImage::Format_ARGB32_Premultiplied);
-    m_tempImg.fill(Qt::transparent);
-    m_bufferImg = m_tempImg;
-    m_stackImages.clear();
-    m_stackImages.push_back(m_tempImg);
-    m_x = 0;
-    m_y = 0;
-    m_w = 0;
-    m_h = 0;
-}
-
-void CWdgScreenEditor::paint()
-{
-    QPainter painter(&m_tempImg);
-    painter.setRenderHint(QPainter::Antialiasing,true);
-    QPen pen = painter.pen();
-    pen.setWidth(2);
-    pen.setColor(m_penColor);
-    painter.setPen(pen);
-    switch(m_curOption){
-    case NoOption:
-        break;
-    case DrawFree:
-        painter.drawLine(m_oldPos, m_curPos);
-        break;
-    case DrawRect:
-        painter.drawRect(m_x, m_y, m_w, m_h);
-        break;
-    case DrawCircle:
-       painter.drawEllipse(m_x, m_y, m_w, m_h);
-       break;
-    }
-    update();
-}
-
-void CWdgScreenEditor::mousePressEvent(QMouseEvent *e)
-{
-    if(e->button() == Qt::LeftButton){
-        if(!m_image.rect().contains(e->pos())){
-            QWidget::mousePressEvent(e);
-            return;
-        }
-        m_bDrawing = true;
-        m_x = e->pos().x();
-        m_y = e->pos().y();
-        m_curPos = e->pos();
-        switch(m_curOption){
-        case NoOption:break;
-        case DrawRect:
-        case DrawCircle:
-            setCursor(Qt::CrossCursor);
-            break;
-        case DrawFree:
-            QPixmap pix(":/icon/png/pen.png");
-            QCursor cursor(pix,0,pix.height());
-            setCursor(cursor);
-            break;
-        }
-    }else if(e->button() == Qt::RightButton){
-        emit sigReset();
-        this->close();
-    }
-
-}
-
-void CWdgScreenEditor::mouseMoveEvent(QMouseEvent *e)
-{
-    if(e->buttons() & Qt::LeftButton){
-        if(!m_image.rect().contains(e->pos())){
-            QWidget::mouseMoveEvent(e);
-            return;
-        }
-        switch(m_curOption){
-        case DrawFree:
-            m_oldPos = m_curPos;
-            m_curPos = e->pos();
-            break;
-        case DrawRect:
-        case DrawCircle:
-            m_tempImg = m_bufferImg;
-            m_w = e->pos().x() - m_x;
-            m_h = e->pos().y() - m_y;
-            break;
-        case NoOption:
-        default:
-            break;
-        }
-        paint();
-    }
-}
-
-void CWdgScreenEditor::mouseReleaseEvent(QMouseEvent *e)
-{
-    if(e->button() == Qt::LeftButton){
-        m_bDrawing = false;
-        m_bufferImg = m_tempImg;
-        m_w = 0;
-        m_h = 0;
-        m_stackImages.push_back(m_tempImg);
-    }
-}
-
-void CWdgScreenEditor::paintEvent(QPaintEvent *e)
-{
-    Q_UNUSED(e);
-    QPainter painter(this);
-    painter.drawPixmap(0,0,m_image);
-    if(m_bDrawing){
-        painter.drawImage(0,0,m_tempImg);
-    }else{
-        painter.drawImage(0,0,m_bufferImg);
-    }
-}
-
-void CWdgScreenEditor::curOptionChanged()
-{
-    if(sender() == &penBtn){
-        m_curOption = DrawFree;
-        QPixmap pix(":/icon/pen.png");
-        QCursor cursor(pix,0,pix.height());
-        setCursor(cursor);
-    }else if(sender() == &circleBtn){
-        m_curOption = DrawCircle;
-        setCursor(Qt::CrossCursor);
-    }else if(sender() == &rectBtn){
-        m_curOption = DrawRect;
-        setCursor(Qt::CrossCursor);
-    }
-}
-
-void CWdgScreenEditor::undo()
-{
-    if(m_stackImages.size() <= 1) return;
-
-    m_stackImages.pop_back();
-    m_tempImg = m_stackImages.last();
-    m_bufferImg = m_stackImages.last();
-    update();
-}
-
-bool CWdgScreenEditor::save(const QString& path)
-{
-    QPixmap pix = QPixmap();
-    pix = this->grab(m_image.rect());
-    return pix.save(path);
-}
-
-void CWdgScreenEditor::saveAs()
-{
-    QString filter =  tr("Images (*.png *.xpm *.jpg)");//"*.png;;*.jpg;;*.bmp;;*.gif;;*.jpeg";
-    QString dir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) 
-            + QDir::separator() + "grabbedImage.png";
-//    QString dir = QDesktopServices::storageLocation(QDesktopServices::DesktopLocation) +QDir::separator() +  "grabbedImage.png";
-    QString path = QFileDialog::getSaveFileName(this, tr("Save"), dir, filter, 0,
-                                                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
-    if(!path.isEmpty()){
-        if(!save(path)){
-            QMessageBox::warning(this, tr("Failed to save"), tr("Sorry! Save failed! Please check save path!"));
-        }else{
-            onCompleteBtnClicked();
-        }
-    }
-}
-
-void CWdgScreenEditor::onCancelBtnClicked()
-{
-    this->close();
-    emit sigCancel();
-}
-
-void CWdgScreenEditor::onCompleteBtnClicked()
-{
-    QPixmap pix = getSelectedImg();
-    emit sigSelectImg(pix);
-    this->close();
-}
-
-void CWdgScreenEditor::onSelectColor()
-{
-     QColor color = QColorDialog::getColor(m_penColor, this, tr("select color"));
-     if(color.isValid())
-     {
-         m_penColor = color;
-     }
-}
-
-void CWdgScreenEditor::slotActionGroupCompleteTriggered(QAction *act)
-{
-    QMap<CGlobal::E_SCREEN_SHOT_TO_TYPE, QAction*>::iterator it;
-    for(it = m_ActionsComplete.begin(); it != m_ActionsComplete.end(); it++)
-    {
-        if(it.value() == act)
-        {
-            CGlobal::Instance()->SetScreenShotToType(it.key());
-            completeBtn.setIcon(m_IconComplete[it.key()]);
-            break;
-        }
-    }
-}
-
-void CWdgScreenEditor::slotMenuShow()
-{
-    QMap<CGlobal::E_SCREEN_SHOT_TO_TYPE, QAction*>::iterator it;
-    for(it = m_ActionsComplete.begin(); it != m_ActionsComplete.end(); it++)
-    {
-        it.value()->setChecked(false);
-        it.value()->setCheckable(true);
-    }
-    m_ActionsComplete[CGlobal::Instance()->GetScreenShotToType()]->setChecked(true);
 }
