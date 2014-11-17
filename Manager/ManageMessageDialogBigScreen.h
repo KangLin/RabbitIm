@@ -34,6 +34,8 @@ public:
      */
     virtual int ShowDialog(const QString& szId);
 
+    virtual int Show();
+    virtual int Hide();
 private slots:
     void slotDeleteContainer(CFrmContainer* obj);
 private:

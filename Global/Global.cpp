@@ -58,6 +58,7 @@ CGlobal::CGlobal(QObject *parent) :
 
     m_RosterShowType = (E_ROSTER_SHOW_TYPE)conf.value("Options/Roster/ShowType", E_ROSTER_SHOW_NAME).toInt();
     m_ScreenShotToType = (E_SCREEN_SHOT_TO_TYPE)conf.value("Options/ScreenShot/ToType", E_TO_SEND).toInt();
+    m_bHideMessageBox = conf.value("Options/ScreenShot/HideMessageBox", false).toBool();
 
     m_nVideoCaptureDevice = conf.value("Device/Video/Capture", 0).toInt();
     m_nAudioInputDevice = conf.value("Device/Audio/Input", 0).toInt();
@@ -632,6 +633,19 @@ int CGlobal::SetScreenShotToType(CGlobal::E_SCREEN_SHOT_TO_TYPE type)
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Options/ScreenShot/ToType", type);
     m_ScreenShotToType = type;
+    return 0;
+}
+
+bool CGlobal::IsHideMessageBox()
+{
+    return m_bHideMessageBox;
+}
+
+int CGlobal::SetHideMessageBox(bool bHide)
+{
+    m_bHideMessageBox = bHide;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Options/ScreenShot/HideMessageBox", m_bHideMessageBox);
     return 0;
 }
 

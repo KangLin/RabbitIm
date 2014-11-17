@@ -61,7 +61,9 @@ private slots:
 
     void on_pbSendFile_clicked();
     void slotCallAudio();
+
     void on_pbShotScreen_clicked();
+    void on_actionHideMessageBox_triggered();
     
 private:
     int Init(const QString &szId = QString());

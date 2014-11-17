@@ -74,3 +74,23 @@ void CManageMessageDialog::slotDeleteFrmMessage(QFrame *obj)
         }
     }
 }
+
+int CManageMessageDialog::Show()
+{
+    QMap<QString, QFrame*>::iterator it;
+    for(it = m_DlgMessage.begin(); it != m_DlgMessage.end(); it++)
+    {
+        it.value()->show();
+    }
+    return 0;
+}
+
+int CManageMessageDialog::Hide()
+{
+    QMap<QString, QFrame*>::iterator it;
+    for(it = m_DlgMessage.begin(); it != m_DlgMessage.end(); it++)
+    {
+        it.value()->hide();
+    }
+    return 0;
+}

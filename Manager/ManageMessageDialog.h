@@ -34,6 +34,9 @@ public:
      */
     virtual int ShowDialog(const QString& szId);
 
+    virtual int Hide();
+    virtual int Show();
+
 private slots:
     void slotDeleteFrmMessage(QFrame *obj);
 private:

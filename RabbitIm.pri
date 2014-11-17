@@ -53,7 +53,7 @@ SOURCES += main.cpp\
     Widgets/FrmVideo/FrmVideo.cpp \ 
     Widgets/DlgRegister/DlgRegister.cpp \
     Widgets/DlgScreenShot/DlgScreenShot.cpp \ 
-    $$PWD/Widgets/DlgScreenShot/WdgScreenEditor.cpp
+    Widgets/DlgScreenShot/WdgScreenEditor.cpp
     #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     #Widgets/FrmGroupChat/Conference.cpp \
@@ -115,7 +115,7 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/FrmVideo.h \ 
     Widgets/DlgRegister/DlgRegister.h \
     Widgets/DlgScreenShot/DlgScreenShot.h \ 
-    $$PWD/Widgets/DlgScreenShot/WdgScreenEditor.h
+    Widgets/DlgScreenShot/WdgScreenEditor.h
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmGroupChat/FrmGroupChatList.h \
     #Widgets/FrmGroupChat/FrmGroupChatFind.h \

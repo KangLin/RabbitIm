@@ -1,6 +1,6 @@
 
 SET(RABBITIM_SOURCES
-    main.cpp
+main.cpp
     MainWindow.cpp 
     Tool.cpp 
     Client/ClientXmpp.cpp 
@@ -53,7 +53,9 @@ SET(RABBITIM_SOURCES
     Call/CallAction.cpp 
     Call/CallQXmpp.cpp 
     Widgets/FrmVideo/FrmVideo.cpp  
-    Widgets/DlgRegister/DlgRegister.cpp
+    Widgets/DlgRegister/DlgRegister.cpp 
+    Widgets/DlgScreenShot/DlgScreenShot.cpp  
+    Widgets/DlgScreenShot/WdgScreenEditor.cpp
 )
 
 SET(RABBITIM_UIS

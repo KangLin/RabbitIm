@@ -103,6 +103,7 @@ public:
     };
     E_CLOSE_TYPE GetCloseType();
     int SetCloseType(E_CLOSE_TYPE type);
+
 private:
     E_CLOSE_TYPE m_CloseType;
 
@@ -198,10 +199,13 @@ public:
     
     E_SCREEN_SHOT_TO_TYPE GetScreenShotToType();
     int SetScreenShotToType(E_SCREEN_SHOT_TO_TYPE type);
+    bool IsHideMessageBox();//截屏时是否隐藏消息对话框窗口  
+    int SetHideMessageBox(bool bHide);
     
 private:
     E_ROSTER_SHOW_TYPE m_RosterShowType;
     E_SCREEN_SHOT_TO_TYPE m_ScreenShotToType;
+    bool m_bHideMessageBox;
 
 public:
     int GetVideoCaptureDevice();

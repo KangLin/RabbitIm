@@ -63,3 +63,22 @@ void CManageMessageDialogBigScreen::slotDeleteContainer(CFrmContainer *obj)
         }
     }
 }
+
+int CManageMessageDialogBigScreen::Show()
+{
+    std::list<CFrmContainer* >::iterator it;
+    for(it = m_Container.begin(); it != m_Container.end(); it++)
+    {
+        (*it)->show();
+    }
+    return 0;
+}
+
+int CManageMessageDialogBigScreen::Hide()
+{
+    std::list<CFrmContainer* >::iterator it;
+    for(it = m_Container.begin(); it != m_Container.end(); it++)
+    {
+        (*it)->hide();
+    }
+}

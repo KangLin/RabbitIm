@@ -73,6 +73,7 @@ int CFrmMessage::Init(const QString &szId)
     ui->pbBack->setText(tr("Back"));
     ui->pbBack->setIcon(QIcon(":/icon/Left"));
 #endif
+    ui->pbShotScreen->addAction(ui->actionHideMessageBox);
 
     check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
                     SLOT(slotRefresh()));
@@ -126,6 +127,8 @@ void CFrmMessage::slotCallAudio()
 
 void CFrmMessage::on_pbShotScreen_clicked()
 {
+    if(CGlobal::Instance()->IsHideMessageBox())
+        GETMANAGER->GetManageMessageDialog()->Hide();
     CDlgScreenShot dlg;
     if(dlg.exec() ==  QDialog::Accepted)
     {
@@ -167,6 +170,8 @@ void CFrmMessage::on_pbShotScreen_clicked()
             }
         }
     }
+    if(CGlobal::Instance()->IsHideMessageBox())
+        GETMANAGER->GetManageMessageDialog()->Show();
 }
 
 void CFrmMessage::hideEvent(QHideEvent *)
@@ -462,4 +467,11 @@ void CFrmMessage::on_pbSendFile_clicked()
         return;
     QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();
     file->SendFile(szId, szFile);
+}
+
+void CFrmMessage::on_actionHideMessageBox_triggered()
+{
+    CGlobal::Instance()->SetHideMessageBox(!CGlobal::Instance()->IsHideMessageBox());
+    ui->actionHideMessageBox->setCheckable(true);
+    ui->actionHideMessageBox->setChecked(CGlobal::Instance()->IsHideMessageBox());
 }

@@ -14,7 +14,7 @@
    <string>Chat</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../Resource/Resource.qrc">
+   <iconset>
     <normaloff>:/icon/AppIcon</normaloff>:/icon/AppIcon</iconset>
   </property>
   <property name="frameShape">
@@ -50,7 +50,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../Resource/Resource.qrc">:/icon/AppIcon</pixmap>
+        <pixmap>:/icon/AppIcon</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -120,7 +120,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset>
          <normaloff>:/ui/emoteButton/emoteButton.png</normaloff>:/ui/emoteButton/emoteButton.png</iconset>
        </property>
       </widget>
@@ -152,7 +152,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset>
          <normaloff>:/icon/SendFile</normaloff>:/icon/SendFile</iconset>
        </property>
       </widget>
@@ -190,7 +190,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset>
          <normaloff>:/icon/Video</normaloff>:/icon/Video</iconset>
        </property>
        <property name="autoDefault">
@@ -234,7 +234,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset>
          <normaloff>:/icon/Cut</normaloff>:/icon/Cut</iconset>
        </property>
        <property name="popupMode">
@@ -322,7 +322,7 @@ p, li { white-space: pre-wrap; }
         <string>Close(&amp;C)</string>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset>
          <normaloff>:/icon/Close</normaloff>:/icon/Close</iconset>
        </property>
        <property name="autoDefault">
@@ -360,7 +360,7 @@ p, li { white-space: pre-wrap; }
         <string>Send(&amp;S)</string>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset>
          <normaloff>:/icon/Accept</normaloff>:/icon/Accept</iconset>
        </property>
        <property name="popupMode">
@@ -374,6 +374,14 @@ p, li { white-space: pre-wrap; }
     </layout>
    </item>
   </layout>
+  <action name="actionHideMessageBox">
+   <property name="text">
+    <string>Hide message box</string>
+   </property>
+   <property name="toolTip">
+    <string>Hide message box</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -385,8 +393,6 @@ p, li { white-space: pre-wrap; }
  <tabstops>
   <tabstop>txtInput</tabstop>
  </tabstops>
- <resources>
-  <include location="../../Resource/Resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
