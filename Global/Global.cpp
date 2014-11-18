@@ -21,6 +21,11 @@ CGlobal::CGlobal(QObject *parent) :
 {
     m_pMainWindow = NULL;
     QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
+    m_szDocumentPath =  QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    if(m_szDocumentPath.isEmpty())
+    {
+        LOG_MODEL_ERROR("CGlobal", "document path is empty");
+    }
     m_LocalStatus = (CUserInfo::USER_INFO_STATUS)conf.value("Login/LoginState", CUserInfo::Online).toInt();
     m_UserColor = GetColorFormConf("Options/User/LocalColor", QColor(255, 0, 0));
     m_RosterColor = GetColorFormConf("Options/User/RosterColor", QColor(0, 0, 255));
@@ -433,9 +438,20 @@ QString CGlobal::GetDirApplication()
 #endif
 }
 
+QString CGlobal::GetDirDocument()
+{
+    return m_szDocumentPath + QDir::separator() + "RabbitIm";
+}
+
+int CGlobal::SetDirDocument(QString szPath)
+{
+    m_szDocumentPath = szPath + QDir::separator() + "RabbitIm";
+    return 0;
+}
+
 QString CGlobal::GetDirApplicationConfigure()
 {
-    return GetDirApplication() + QDir::separator() + "conf";
+    return GetDirDocument() + QDir::separator() + "conf";
 }
 
 //应用程序的配置文件  
@@ -468,18 +484,12 @@ QString CGlobal::GetDirUserData(const QString &szId)
     else
         jid = szId;
     jid = jid.replace("@", ".");
-    QString path = GetDirApplicationConfigure() + QDir::separator() + "Users";
+    QString path = GetDirApplicationConfigure() + QDir::separator() + "Users" + QDir::separator() + jid;
     QDir d;
     if(!d.exists(path))
     {
-        if(!d.mkdir(path))
-            LOG_ERROR("mkdir path fail:%s", qPrintable(path));
-    }
-    path = path + QDir::separator() + jid;
-    if(!d.exists(path))
-    {
-        if(!d.mkdir(path))
-            LOG_ERROR("mkdir path fail:%s", qPrintable(path));
+        if(!d.mkpath(path))
+            return QString();
     }
     return path;
 }

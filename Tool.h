@@ -120,6 +120,14 @@ public:
     static void YUV420spMirrorX(uchar *dst, const uchar *src, int srcWidth, int srcHeight);
 
     static bool isImageFile(const QString& szFile);///<判断文件是否是图片，根据扩展名进行判断  
+    
+    /**
+     * @brief 删除指定的目录  
+     *
+     * @param dirName 要删除的目录名  
+     * @return bool 成功返回 true，否则返回 false  
+     */
+    static bool removeDirectory(QString dirName);
 signals:
 
 public slots:

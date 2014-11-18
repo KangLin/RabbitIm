@@ -7,6 +7,7 @@
 #include <QColorDialog>
 #include <QAudioInput>
 #include <QAudioOutput>
+#include <QDir>
 
 CDlgOptions::CDlgOptions(QWidget *parent) :
     QDialog(parent),
@@ -310,4 +311,9 @@ void CDlgOptions::on_pbUnreadMessageCountColor_clicked()
     QPalette pa;
     pa.setColor(QPalette::WindowText, CGlobal::Instance()->GetUnreadMessageCountColor());
     ui->lbUnreadMessageCountColor->setPalette(pa);
+}
+
+void CDlgOptions::on_pbResetConfigure_clicked()
+{
+    CTool::removeDirectory(CGlobal::Instance()->GetDirDocument());
 }

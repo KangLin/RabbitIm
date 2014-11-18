@@ -36,6 +36,9 @@ private:
 public:
     //应用程序目录  
     QString GetDirApplication();
+    //文档目录，默认是系统文档目录  
+    QString GetDirDocument();
+    int SetDirDocument(QString szPath);
     //应用程序配置目录  
     QString GetDirApplicationConfigure();
     //应用程序配置文件  
@@ -54,7 +57,8 @@ public:
     QString GetUserConfigureFile(QString jid);
     //得到接收文件保存的目录  
     QString GetDirReceiveFile();
-
+private:
+    QString m_szDocumentPath;
 public:
     CUserInfo::USER_INFO_STATUS GetStatus();//得到本地用户状态  
     int SetStatus(CUserInfo::USER_INFO_STATUS status);

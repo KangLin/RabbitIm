@@ -9,8 +9,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setApplicationName(a.tr("RabbitIm"));
-    a.setOrganizationName(a.tr("KangLin studio"));
+    a.setApplicationName("RabbitIm");
+    a.setOrganizationName("KangLin studio");
 
     //QFontDatabase::addApplicationFont("://DejaVuSans.ttf");
     //a.setFont(QFont(DejaVuSans));

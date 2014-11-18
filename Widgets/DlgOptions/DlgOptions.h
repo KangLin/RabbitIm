@@ -27,6 +27,8 @@ private slots:
 
     void on_pbUnreadMessageCountColor_clicked();
 
+    void on_pbResetConfigure_clicked();
+
 protected:
     virtual void showEvent(QShowEvent* );
     virtual void closeEvent(QCloseEvent*);
