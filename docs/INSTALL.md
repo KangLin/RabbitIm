@@ -319,11 +319,22 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 ##### 1.1. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
 
+###### 1.1.1. windows、linux平台
 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
   * 选择项目-> 相应平台的构建套件
   * 会弹出一个执行 CMake 对话框
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
+  * 选择相应的创建器
+  * 点执行 CMake 按钮,开始执行 CMake 。如果成功就会打开项目。
+
+###### 1.1.2. android平台
+用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
+  * 选择项目-> 相应平台的构建套件
+  * 会弹出一个执行 CMake 对话框
+    + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
+    + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
+    + 还要填入： -DCMAKE_TOOLCHAIN_FILE=platforms/android/android.toolchain.cmake
   * 选择相应的创建器
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功就会打开项目。
 
@@ -348,8 +359,8 @@ MAKE在不同的环境下有不同的命令：
 
     mkdir rabbitim-build  #建立编译目录
     cd rabbitim-build     #进入编译目录
-    cmake ../rabbitim/. -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=/home/l/Qt5.3.1/5.3/gcc_64/lib/cmake/Qt5    #执行 camke
-    make                  #执行编译
+    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=/home/l/Qt5.3.1/5.3/gcc_64/lib/cmake/Qt5    #执行 camke
+    cmake --build .       #执行编译
     ./RabbitIm            #启动程序
 
 
@@ -358,8 +369,47 @@ MAKE在不同的环境下有不同的命令：
 
     mkdir rabbitim-build  #建立编译目录
     cd rabbitim-build     #进入编译目录
-    cmake -DCMAKE_TOOLCHAIN_FILE=../rabbitim/platforms/android/android.toolchain.cmake ../rabbitim/. -DQt5_DIR=/home/l/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5 #执行 cmake
-    make           #执行编译
+    cmake .. -G"Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../platforms/android/android.toolchain.cmake
+        -DQt5_DIR=/home/l/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5
+        -DANT=/e/source/apache/ant/apache-ant-1.8.3/bin       #执行 cmake
+    cmake --build .       #执行编译
+
+####### 2.1.2.1. 可以会出现下面错误：
+
+CMake Error at c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfig.cma
+ke:15 (message):
+  The imported target "Qt5::Gui" references the file
+
+     "Qt5Gui_EGL_LIBRARY-NOTFOUND"
+
+  but this file does not exist.  Possible reasons include:
+
+  * The file was deleted, renamed, or moved to another location.
+
+  * An install or uninstall procedure did not complete successfully.
+
+  * The installation package was faulty and contained
+
+     "c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake"
+
+
+  but not all the files it references.
+
+Call Stack (most recent call first):
+  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake:31 (
+_qt5_Gui_check_file_exists)
+  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake:58 (
+_qt5gui_find_extra_libs)
+  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:143 (inclu
+de)
+  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5/Qt5Config.cmake:26 (find_package
+)
+
+
+* 原因：
+没找到 Qt5Gui_EGL 库。预编译的android包中没包含此库。
+* 解决办法：
+把 c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake 中第 58 行注释掉。
 
 翻译文件部署：
 ------------

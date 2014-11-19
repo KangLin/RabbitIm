@@ -164,7 +164,8 @@ OTHER_FILES += README.md \
     ChangeLog.txt \
     Authors.txt \
     CMakeLists.txt \
-    cmake/*
+    cmake/* \
+    platforms/android/*
 
 isEmpty(PREFIX)
 {
