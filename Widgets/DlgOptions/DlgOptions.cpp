@@ -315,5 +315,8 @@ void CDlgOptions::on_pbUnreadMessageCountColor_clicked()
 
 void CDlgOptions::on_pbResetConfigure_clicked()
 {
-    CTool::removeDirectory(CGlobal::Instance()->GetDirDocument());
+    if(ui->cbConfigureFile->isChecked())
+        CTool::removeDirectory(CGlobal::Instance()->GetDirApplicationConfigure());
+    if(ui->cbDataFile->isChecked())
+        CTool::removeDirectory(CGlobal::Instance()->GetDirApplicationData());
 }

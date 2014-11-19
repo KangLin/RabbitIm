@@ -454,6 +454,11 @@ QString CGlobal::GetDirApplicationConfigure()
     return GetDirDocument() + QDir::separator() + "conf";
 }
 
+QString CGlobal::GetDirApplicationData()
+{
+    return GetDirDocument() + QDir::separator() + "Data";
+}
+
 //应用程序的配置文件  
 QString CGlobal::GetApplicationConfigureFile()
 {
@@ -463,6 +468,35 @@ QString CGlobal::GetApplicationConfigureFile()
 QString CGlobal::GetDirTranslate()
 {
     return GetDirApplication() + QDir::separator() + "translations";
+}
+
+QString CGlobal::GetDirUserConfigure(const QString &szId)
+{
+    QString jid;
+    if(szId.isEmpty())
+    {
+        if(!GetManager()->GetManageUser().isNull()
+                && !GetManager()->GetManageUser()->GetUserInfoLocale().isNull())
+        {
+            jid = GetManager()->GetManageUser()->GetUserInfoLocale()->GetInfo()->GetId();
+        }
+        else
+        {
+            LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
+            Q_ASSERT(false);
+        }
+    }
+    else
+        jid = szId;
+    jid = jid.replace("@", ".");
+    QString path = GetDirApplicationConfigure() + QDir::separator() + jid;
+    QDir d;
+    if(!d.exists(path))
+    {
+        if(!d.mkpath(path))
+            return QString();
+    }
+    return path;
 }
 
 QString CGlobal::GetDirUserData(const QString &szId)
@@ -484,7 +518,7 @@ QString CGlobal::GetDirUserData(const QString &szId)
     else
         jid = szId;
     jid = jid.replace("@", ".");
-    QString path = GetDirApplicationConfigure() + QDir::separator() + "Users" + QDir::separator() + jid;
+    QString path = GetDirApplicationData() + QDir::separator() + jid;
     QDir d;
     if(!d.exists(path))
     {
@@ -494,9 +528,9 @@ QString CGlobal::GetDirUserData(const QString &szId)
     return path;
 }
 
-QString CGlobal::GetDirUserAvatar()
+QString CGlobal::GetDirUserAvatar(const QString &szId)
 {
-    QString dirHeads = GetDirUserData() + QDir::separator() + "Heads";
+    QString dirHeads = GetDirUserData(szId) + QDir::separator() + "Heads";
     QDir d;
     if(!d.exists(dirHeads))
         if(!d.mkdir(dirHeads))
@@ -504,9 +538,9 @@ QString CGlobal::GetDirUserAvatar()
     return dirHeads;
 }
 
-QString CGlobal::GetDirReceiveFile()
+QString CGlobal::GetDirReceiveFile(const QString &szId)
 {
-    QString dir = GetDirUserData() + QDir::separator() + "ReceiveFiles";
+    QString dir = GetDirUserData(szId) + QDir::separator() + "ReceiveFiles";
     QDir d;
     if(!d.exists(dir))
         if(!d.mkdir(dir))
@@ -514,14 +548,14 @@ QString CGlobal::GetDirReceiveFile()
     return dir;
 }
 
-QString CGlobal::GetFileUserAvatar(QString bareJid)
+QString CGlobal::GetFileUserAvatar(const QString &szId)
 {
-    QString jid;
-    if(!bareJid.isEmpty())
-        jid = QXmppUtils::jidToBareJid(bareJid);
-    jid = jid.replace("@", ".");
+    QString id;
+    if(!szId.isEmpty())
+        id = QXmppUtils::jidToBareJid(szId);
+    id = id.replace("@", ".");
 
-    return GetDirUserAvatar() + QDir::separator() + jid + ".png";
+    return GetDirUserAvatar() + QDir::separator() + id + ".png";
 }
 
 QString CGlobal::GetFileSmileyPack()
@@ -529,9 +563,9 @@ QString CGlobal::GetFileSmileyPack()
     return QString(":/smileys/default/emoticons.xml");
 }
 
-QString CGlobal::GetUserConfigureFile(QString jid)
+QString CGlobal::GetUserConfigureFile(const QString &szId)
 {
-    return GetDirUserData(jid) + QDir::separator() + "user.conf";
+    return GetDirUserConfigure(szId) + QDir::separator() + "user.conf";
 }
 
 int CGlobal::SetAutoLogin(bool bAuto)

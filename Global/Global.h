@@ -41,22 +41,51 @@ public:
     int SetDirDocument(QString szPath);
     //应用程序配置目录  
     QString GetDirApplicationConfigure();
-    //应用程序配置文件  
-    QString GetApplicationConfigureFile();
+    //应用程序数据目录  
+    QString GetDirApplicationData();
+    /**
+     * @brief 用户配置目录  
+     *
+     * @param  szId:本地用户id,默认为本地用户   
+     */
+    QString GetDirUserConfigure(const QString &szId = QString());
+    /**
+     * @brief 用户数据存放目录  
+     *
+     * @param  szId:本地用户id,默认为本地用户   
+     */
+    QString GetDirUserData(const QString &szId = QString());
     //翻译文件目录  
     QString GetDirTranslate();
-    //用户数据存放目录  
-    QString GetDirUserData(const QString &szId = QString());
-    //得到用户头像目录  
-    QString GetDirUserAvatar();
-    //得到指定用户的头像文件  
-    QString GetFileUserAvatar(QString bareJid);
+    //应用程序配置文件  
+    QString GetApplicationConfigureFile();
+    /**
+     * @brief 得到用户的配置文件  
+     *
+     * @param  szId:本地用户id,默认为本地用户   
+     */
+    QString GetUserConfigureFile(const QString &szId = QString());
+    /**
+     * @brief 得到用户头像目录  
+     *
+     * @param  szId:本地用户id,默认为本地用户   
+     */
+    QString GetDirUserAvatar(const QString &szId = QString());
+    /**
+     * @brief 得到指定用户的头像文件  
+     *
+     * @param  szId:好友的ID   
+     */
+    QString GetFileUserAvatar(const QString &szId);
+    /**
+     * @brief 得到接收文件保存的目录  
+     *
+     * @param  szId:本地用户id,默认为本地用户   
+     */
+    QString GetDirReceiveFile(const QString &szId = QString());
     //得到表情图片文件  
     QString GetFileSmileyPack();
-    //得到用户的配置目录  
-    QString GetUserConfigureFile(QString jid);
-    //得到接收文件保存的目录  
-    QString GetDirReceiveFile();
+
 private:
     QString m_szDocumentPath;
 public:
