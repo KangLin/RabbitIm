@@ -1,4 +1,41 @@
-Getting Started¶
+下载代码(要翻墙)：
+git clone http://git.chromium.org/external/libyuv.git    
+
+用 make 编译（linux、mingw、cygwin）：
+make -f linux.mk
+
+用 cmake 编译（vs、linux、mingw、msys等）:
+mkdir out
+cd out
+cmake ..
+cmake --build .
+
+Release build/install
+ mkdir out
+ cd out
+ cmake -DCMAKE_INSTALL_PREFIX="/usr/lib" -DCMAKE_BUILD_TYPE="Release" ..
+ cmake --build . --config Release
+ sudo cmake --build . --target install --config Release
+
+Windows 8 Phone
+
+编译环境准备：
+ 安装 Visual Studio 2012 and Arm 到你的环境：
+
+ call "c:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_arm\vcvarsx86_arm.bat"
+ 
+或者 Visual Studio 2013
+ call "c:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_arm\vcvarsx86_arm.bat"
+
+也可以从“开始”菜单->Visual Studio 2013->Visual Studio Tools->VS2013 ARM 兼容工具命令提示
+
+然后再进入libyuv源码根目录，再执行下列操作：
+
+ nmake /f winarm.mk clean
+ nmake /f winarm.mk
+
+ 
+Getting Started
 
 How to get and build the libyuv code. 
 
