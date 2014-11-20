@@ -33,12 +33,23 @@ mkdir -p build_android
 cd build_android
 rm -fr *
 
+#需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
+case `uname -s` in
+    MINGW* | CYGWIN*)
+        GENERATORS="MinGW Makefiles"
+        ;;
+    Linux* | Unix* | *)
+        GENERATORS="Unix Makefiles" 
+        ;;
+esac
 echo "configure ..."
 cmake .. \
-    -G"Unix Makefiles" \
+    -G"${GENERATORS}"\
+    -DCMAKE_MAKE_PROGRAM="$ANDROID_NDK/prebuilt/${HOST}/bin/make" \
     -DCMAKE_INSTALL_PREFIX="$PREFIX" \
-    -DCMAKE_TOOLCHAIN_FILE=$PREFIX/../../platforms/android/android.toolchain.cmake \
-    -DCMAKE_BUILD_TYPE="Release" 
+    -DCMAKE_TOOLCHAIN_FILE="/d/source/rabbitim/platforms/android/android.toolchain.cmake"
+
+echo "build..."
 cmake --build . --target install --config Release
 
 cd $CUR_DIR
