@@ -130,9 +130,10 @@ windows 下需要安装 cygwin 或者 msys 环境。
 所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。
 为了避免这个问题。你也可以把环境变量保到 build_${PLATFORM}_envsetup.sh 文件中。
 
-脚本只编译第三方依赖库的发行版本，调试版本，请手工编译。
+脚本只编译第三方依赖库的发行版本。如果你需要调试版本，请手工编译。
 
-第三方库编译脚本位于：${RabbitImRoot}/ThirdLibary/build_script 目录下。
+第三方库编译脚本位于：${RabbitImRoot}/ThirdLibary/build_script 目录下。  
+
 1. android 平台：
     * build_android.sh : 编译所有第三方依赖库
     * build_android_${LIBRARY} : 编译具体的第三方库。它可以带一个指定第三方库源码根目录作为输入参数。如果不指定这个参数，
@@ -191,6 +192,8 @@ windows 下需要安装 cygwin 或者 msys 环境。
     export ANDROID_SDK=    #android sdk 根目录
     export ANDROID_SDK_ROOT=$ANDROID_SDK    
     export JAVA_HOME=         #jdk根目录
+    export ANT_ROOT=          #ant工具的目录
+    export PATH=$PATH:%ANT_ROOT/bin
 
 可以把上面环境变量保存到  ~/.profile 文件中。  
 如果编译 android 平台的库，也可以把上面环境变量保存在：
@@ -220,8 +223,9 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 详见《webrtc教程》。编译参考：http://blog.csdn.net/kl222/article/details/17198873
 
 6. libyuv 编译：
-详见：https://code.google.com/p/libyuv/wiki/GettingStarted  
-或者： ${RabbitImRoot}/docs/Books/libyuv编译.txt
+官网：https://code.google.com/p/libyuv/wiki/GettingStarted  
+详见：《libyuv编译》：http://blog.csdn.net/kl222/article/details/41309541  
+或者： [libyuv编译.txt](/docs/Books/libyuv编译.txt)
 
 7. QXMPP编译：  
     1)用 Qt Creator 进行编译（详见源码根目录下的README文件）：
@@ -309,17 +313,18 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 ### 本工程编译
 如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。
-#### 1. 用Qt Creator 编译
+#### 1. 用Qt Creator 编译 
 
+##### 1.1. 用 Qt Creator 编译 Rabbitim.pro
 用 Qt Creator 打开本工程根目录下的 Rabbitim.pro 文件。
   * 下载(http://pan.baidu.com/s/1ntA0t5n )或自己编译第三方库，并放到 $(RabbitImRoot)/ThirdLibary 目录下。
   * 工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
   * 把 pm 文件复制到安装目录的 translate 目录下。
   * 构建->构建项目"RabbitIm"。编译本项目。
 
-##### 1.1. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
+##### 1.2. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
 
-###### 1.1.1. windows、linux平台
+###### 1.2.1. windows、linux平台
 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
   * 选择项目-> 相应平台的构建套件
   * 会弹出一个执行 CMake 对话框
@@ -328,13 +333,14 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
   * 选择相应的创建器
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功就会打开项目。
 
-###### 1.1.2. android平台
+###### 1.2.2. android平台
 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
   * 选择项目-> 相应平台的构建套件
   * 会弹出一个执行 CMake 对话框
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
-    + 还要填入： -DCMAKE_TOOLCHAIN_FILE=platforms/android/android.toolchain.cmake
+    + 还要填入： -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
+    ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5
   * 选择相应的创建器
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功就会打开项目。
 
@@ -347,34 +353,63 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     qmake ${RabbitImRoot}/Rabbitim.pro
     $(MAKE)
 
-MAKE在不同的环境下有不同的命令：
-    * make：unix、linux gun环境下用
-    * nmake：msvc环境下用
-    * mingw32-make：mingw 环境下用
-    * msys-make：msys 环境下用
+MAKE在不同的环境下有不同的命令：  
+    * make：unix、linux gun环境下用  
+    * nmake：msvc环境下用  
+    * mingw32-make：mingw 环境下用  
+    * msys-make：msys 环境下用  
 
 ##### 2.1. 用 CMake 编译
 ###### 2.1.1. windows、linux平台
 
-
     mkdir rabbitim-build  #建立编译目录
     cd rabbitim-build     #进入编译目录
-    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=/home/l/Qt5.3.1/5.3/gcc_64/lib/cmake/Qt5    #执行 camke
+    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=${Qt5_DIR}    #执行 camke
     cmake --build .       #执行编译
     ./RabbitIm            #启动程序
 
+    Qt5_DIR:qt cmake 的安装路径。例如： /c/Qt/Qt5.3.1_android/5.3/mingw482_32/lib/cmake/Qt5
 
 ###### 2.1.2. android 平台:
+
+windows 平台下以 mingw 环境为例
+
+2.1.2.1. 先设置环境变量：
+
+
+    export ANDROID_NDK_ROOT=     #android ndk 根目录
+    export ANDROID_NDK=$ANDROID_NDK_ROOT
+    export ANDROID_SDK=    #android sdk 根目录
+    export ANDROID_SDK_ROOT=$ANDROID_SDK    
+    export JAVA_HOME=         #jdk根目录
+    export ANT_ROOT=          #ant工具的目录
+    export PATH=$PATH:%ANT_ROOT/bin
+
+
+2.1.2.2. 建立编译目录：
 
 
     mkdir rabbitim-build  #建立编译目录
     cd rabbitim-build     #进入编译目录
-    cmake .. -G"Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../platforms/android/android.toolchain.cmake
-        -DQt5_DIR=/home/l/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5
-        -DANT=/e/source/apache/ant/apache-ant-1.8.3/bin       #执行 cmake
+    
+
+2.1.2.3. 配置、编译：
+
+
+    cmake .. -G"Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../platforms/android/android.toolchain.cmake \
+        -DCMAKE_MAKE_PROGRAM=${ANDROID_MAKE} \  #windows 下需要 make 工具的位置,linux下则不需要这个
+        -DQt5_DIR=${Qt5_DIR}         \   #qt 的 cmake 位置
+        -DANT=${ANT_ROOT}/bin/ant    \   #ant 工具位置
     cmake --build .       #执行编译
 
-####### 2.1.2.1. 可以会出现下面错误：
+变量说明：  
+
+    ${ANDROID_MAKE}:"$ANDROID_NDK/prebuilt/windows/bin/make"
+    ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：Qt5_DIR=/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5
+    ${ANT_ROOT}:ant 的安装路径。例如：ANT_ROOT=/e/source/apache/ant/apache-ant-1.8.3
+
+
+2.1.2.4. 可以会出现下面错误：
 
 CMake Error at c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfig.cma
 ke:15 (message):
