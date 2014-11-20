@@ -41,6 +41,7 @@ echo "PLATFORM:$PLATFORM"
 echo "CROSS_PREFIX:$CROSS_PREFIX"
 echo ""
 
+make clean
 echo "configure ffmpeg ..."
 ./configure  \
     --target-os=linux \

@@ -35,6 +35,24 @@ Windows 8 Phone
  nmake /f winarm.mk
 
  
+android:
+#需要设置下面变量：
+export ANDROID_NDK_ROOT=/home/android-ndk-r9c               #指定 android ndk 根目录 
+export ANDROID_NDK=$ANDROID_NDK_ROOT  #指定 android ndk 根目录 
+export ANDROID_SDK=/home/android-sdk/sdk                   #指定 android sdk 根目录
+export ANDROID_SDK_ROOT=$ANDROID_SDK   
+export JAVA_HOME=/home/jdk1.7.0_51                      #指定 jdk 根目录 
+
+cmake .. \
+    -G"Unix Makefiles"\
+    -DCMAKE_MAKE_PROGRAM="$ANDROID_NDK/prebuilt/${HOST}/bin/make" \ #android 自带的 make
+    -DCMAKE_INSTALL_PREFIX="$PREFIX" \
+    -DCMAKE_TOOLCHAIN_FILE="${RabbitImRoot}/platforms/android/android.toolchain.cmake"
+
+echo "build..."
+cmake --build . --target install --config Release
+
+
 Getting Started
 
 How to get and build the libyuv code. 
