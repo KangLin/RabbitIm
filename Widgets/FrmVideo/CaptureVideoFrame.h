@@ -9,7 +9,7 @@
  *      CCaptureVideoFrame videoFrame;
  *      videoFrame.setSource(&m_Camera);
  * 注册SLOT：
- *      connect(&videoFrame, SIGNAL(sigRawCaptureFrame(const QVideoFrame&)),
+ *      connect(&videoFrame, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
  *           SLOT(CaptureVideoFrame(const QVideoFrame&)));
  * 在SLOT 中 CaptureVideoFrame(const QVideoFrame&) 处理捕获到的视频帧。
  *
