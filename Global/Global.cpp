@@ -20,12 +20,14 @@ CGlobal::CGlobal(QObject *parent) :
     QObject(parent)
 {
     m_pMainWindow = NULL;
-    QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
+    //注意这个必须的在最前  
     m_szDocumentPath =  QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     if(m_szDocumentPath.isEmpty())
     {
         LOG_MODEL_ERROR("CGlobal", "document path is empty");
     }
+
+    QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
     m_LocalStatus = (CUserInfo::USER_INFO_STATUS)conf.value("Login/LoginState", CUserInfo::Online).toInt();
     m_UserColor = GetColorFormConf("Options/User/LocalColor", QColor(255, 0, 0));
     m_RosterColor = GetColorFormConf("Options/User/RosterColor", QColor(0, 0, 255));
@@ -409,7 +411,7 @@ CGlobal::E_CLOSE_TYPE CGlobal::GetCloseType()
 int CGlobal::SetCloseType(E_CLOSE_TYPE type)
 {
     m_CloseType = type;
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Logout/type", type);
     return 0;
 }

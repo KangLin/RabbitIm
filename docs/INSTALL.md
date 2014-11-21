@@ -341,7 +341,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
   * 会弹出一个执行 CMake 对话框
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
-    + 还要填入： -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
+    + 还要填入：-DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
     ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5
   * 选择相应的创建器
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功就会打开项目。
@@ -406,10 +406,13 @@ windows 平台下以 mingw 环境为例
 
 变量说明：  
 
-    ${ANDROID_MAKE}:"$ANDROID_NDK/prebuilt/windows/bin/make"
+    ${ANDROID_MAKE}:windows下android ndk 自带的make工具。例如："$ANDROID_NDK/prebuilt/windows/bin/make"
     ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：Qt5_DIR=/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5
-    ${ANT_ROOT}:ant 的安装路径。例如：ANT_ROOT=/e/source/apache/ant/apache-ant-1.8.3
+    ${ANT_ROOT}:ant 的安装路径。例如：ANT_ROOT=/d/software/apache-ant-1.9.4
 
+例如：
+
+    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=../rabbitim/platforms/android/android.toolchain.cmake -DQt5_DIR=/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5 ../rabbitim -DANT=/d/software/apache-ant-1.9.4/bin/ant -DCMAKE_MAKE_PROGRAM=/d/software/android-ndk-r9/prebuilt/windows/bin/make -G"Unix Makefiles"
 
 2.1.2.4. 可以会出现下面错误：
 

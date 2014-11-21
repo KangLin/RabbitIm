@@ -128,7 +128,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent start");
     int type = CGlobal::Instance()->GetCloseType();
     switch (type) {
-    case 0:
+    case CGlobal::E_CLOSE_TYPE_NO:
     {
         QMessageBox msg(QMessageBox::Question,
                         tr("Close"),
@@ -136,9 +136,18 @@ void MainWindow::closeEvent(QCloseEvent *e)
                         QMessageBox::Ok | QMessageBox::Yes | QMessageBox::Cancel);
         msg.setButtonText(QMessageBox::Ok , tr("close"));
         msg.setButtonText(QMessageBox::Yes, tr("logout"));
-        msg.setDefaultButton(QMessageBox::Ok);
+        msg.setDefaultButton(QMessageBox::Yes);
+        /*QMessageBox msg;
+        msg.setIcon(QMessageBox::Question);
+        msg.setWindowTitle(tr("Close"));
+        msg.setText(tr("Is close the programe or logout?"));
+        QPushButton* pLogout = msg.addButton(tr("Logout"), QMessageBox::YesRole);
+        QPushButton * pClose = msg.addButton(tr("Close"), QMessageBox::AcceptRole);
+        msg.addButton(tr("Cancel"), QMessageBox::NoRole);
+        msg.setDefaultButton(pClose);*/
         int nRet = msg.exec();
         if(QMessageBox::Ok == nRet)
+        //if(msg.clickedButton() == pClose)
         {
             CGlobal::Instance()->SetCloseType(CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME);
             //退出程序  
@@ -146,6 +155,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
             e->accept();
             QApplication::closeAllWindows();
         }
+        //else if(msg.clickedButton() == pLogout)
         else if(QMessageBox::Yes == nRet)
         {
             CGlobal::Instance()->SetCloseType(CGlobal::E_CLOSE_TYPE_LOGOUT);
@@ -156,13 +166,13 @@ void MainWindow::closeEvent(QCloseEvent *e)
             e->ignore(); //忽略退出事件 
     }
         break;
-    case 1:
+    case CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME:
         //退出程序  
         GET_CLIENT->Logout();
         e->accept();
         QApplication::closeAllWindows();
         break;
-    case 2:
+    case CGlobal::E_CLOSE_TYPE_LOGOUT:
         slotLogout();
         e->ignore();
         break;
