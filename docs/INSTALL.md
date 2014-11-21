@@ -320,18 +320,20 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
   * 下载(http://pan.baidu.com/s/1ntA0t5n )或自己编译第三方库，并放到 $(RabbitImRoot)/ThirdLibary 目录下。
   * 工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
   * 把 pm 文件复制到安装目录的 translate 目录下。
+  * 打开菜单：文件->打开文件，选中 Rabbitim.pro 文件
   * 构建->构建项目"RabbitIm"。编译本项目。
 
 ##### 1.2. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
 
 ###### 1.2.1. windows、linux平台
 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
-  * 选择项目-> 相应平台的构建套件
+  * 打开菜单：文件->打开文件，选中 CMakeLists.txt 文件
   * 会弹出一个执行 CMake 对话框
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
   * 选择相应的创建器
-  * 点执行 CMake 按钮,开始执行 CMake 。如果成功就会打开项目。
+  * 点执行 CMake 按钮,开始执行 CMake 。如果成功，点完成就会打开项目。
+  * 点调试，就可以编译，并调试程序
 
 ###### 1.2.2. android平台
 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。

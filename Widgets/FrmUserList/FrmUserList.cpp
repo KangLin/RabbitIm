@@ -380,7 +380,7 @@ void CFrmUserList::slotSendFile()
     QString szFile = QFileDialog::getOpenFileName(
                 this, tr("Open File"), 
                 QString(), QString(), 0,
-                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
+                QFileDialog::ReadOnly /*| QFileDialog::DontUseNativeDialog*/);
 #endif
     if(szFile.isEmpty())
         return;

@@ -530,7 +530,7 @@ QString CGlobal::GetDirUserData(const QString &szId)
 
 QString CGlobal::GetDirUserAvatar(const QString &szId)
 {
-    QString dirHeads = GetDirUserData(szId) + QDir::separator() + "Heads";
+    QString dirHeads = GetDirUserData(szId) + QDir::separator() + "Avatars";
     QDir d;
     if(!d.exists(dirHeads))
         if(!d.mkdir(dirHeads))
