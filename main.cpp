@@ -22,22 +22,6 @@ int main(int argc, char *argv[])
 
     CTool::SetFFmpegLog();
 
-    //*从配置文件中加载应用程序样式  
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
-    QString szFile(conf.value("UI/StyleSheet", ":/sink/Blue").toString());
-    QFile file(szFile);//从资源文件中加载  
-    if(file.open(QFile::ReadOnly))
-    {
-        QString stylesheet= file.readAll();
-        qApp->setStyleSheet(stylesheet);
-        file.close();
-    }
-    else
-    {
-        LOG_MODEL_ERROR("app", "file open file [%s] fail:%d",
-                        szFile.toStdString().c_str(), file.error());
-    }//*/
-
     //*
     QDesktopWidget *pDesk = QApplication::desktop();    
     MainWindow w;

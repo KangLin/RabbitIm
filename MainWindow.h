@@ -68,11 +68,6 @@ protected slots:
 
     void on_actionNotifiation_show_main_windows_triggered();
 
-    void slotActionGroupStatusTriggered(QAction* act);//状态菜单组点击触发  
-    void slotActionGroupTranslateTriggered(QAction* pAct);//翻译菜单组点击触发 
-
-    void on_actionChange_Style_Sheet_S_triggered();//改变样式菜单触发  
-
     //编辑登录用户详细信息  
     void slotEditInformation();
     //登录用户登出  
@@ -92,11 +87,6 @@ private:
     int ReInitMenuOperator(); //初始化菜单  
     int InitLoginedMenu();    //初始化登录后的相关菜单  
     int InitOperatorMenu();   //初始始化操作菜单  
-    int InitMenuStatus();     //增加状态菜单  
-    int ClearMenuStatus();
-    int InitMenuTranslate();  //增加翻译菜单  
-    int ClearMenuTranslate();
-    int LoadTranslate(QString szLocale = QString());
 
 private:
     Ui::MainWindow *ui;
@@ -109,18 +99,41 @@ private:
     bool m_bTrayShow;
     QTimer m_TrayTimer;
 
+    //样式菜单  
+    QMenu m_MenuStyle;
+    QActionGroup m_ActionGroupStyle;
+    QMap<QString, QAction*> m_ActionStyles;
+    int InitMenuStyles();
+    int ClearMenuStyles();
+    int OpenCustomStyleMenu();
+    int LoadStyle();
+private slots:
+    void slotActionGroupStyleTriggered(QAction* act);//改变样式菜单触发  
+
+private:
     //状态菜单  
     QMenu m_MenuStatus;
     QActionGroup m_ActionGroupStatus;
     QMap<CUserInfo::USER_INFO_STATUS, QAction*> m_ActionStatus;
+    int InitMenuStatus();     //增加状态菜单  
+    int ClearMenuStatus();
+private slots:
+    void slotActionGroupStatusTriggered(QAction* act);//状态菜单组点击触发  
 
+private:
     //翻译菜单  
     QMenu m_MenuTranslate;
     QMap<QString, QAction*> m_ActionTranslator;
     QActionGroup m_ActionGroupTranslator;
     QSharedPointer<QTranslator> m_TranslatorQt;
     QSharedPointer<QTranslator> m_TranslatorApp;
+    int InitMenuTranslate();  //增加翻译菜单  
+    int ClearMenuTranslate();
+    int LoadTranslate(QString szLocale = QString());
+private slots:
+    void slotActionGroupTranslateTriggered(QAction* pAct);//翻译菜单组点击触发 
 
+private:
     CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口  
 };
 

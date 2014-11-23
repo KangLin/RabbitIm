@@ -145,7 +145,8 @@ FORMS    += MainWindow.ui \
 
 
 RESOURCES += \
-    Resource/Resource.qrc
+    Resource/Resource.qrc \
+    Resource/sink/dark/style.qrc
 
 !isEmpty(RABBITIM_USER_OPENCV) {
     SOURCES += Widgets/FrmVideo/CameraOpencv.cpp 

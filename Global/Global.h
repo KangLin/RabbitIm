@@ -262,6 +262,14 @@ private:
     bool m_bShowLocaleVideo;
     bool m_bMonitor;
 
+public:
+    QString GetStyle();
+    QString GetMenuStyle();
+    int SetMenuStyle(QString szMenu, QString szFile);
+private:
+    QString m_szStyleFile;
+    QString m_szMenuStyle;
+
 signals:
 
 public slots:

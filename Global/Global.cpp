@@ -74,6 +74,9 @@ CGlobal::CGlobal(QObject *parent) :
     m_bShowLocaleVideo = conf.value("Video/Locale/Show", true).toBool();
     m_bMonitor = conf.value("Video/Monitor", false).toBool();
 
+    m_szStyleFile = conf.value("UI/StyleSheet", ":/sink/Blue").toString();
+    m_szMenuStyle = conf.value("UI/MenuStyleSheet", "Blue").toString();
+
     //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用 
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
 }
@@ -396,9 +399,9 @@ QColor CGlobal::GetRosterStatusColor(CUserInfo::USER_INFO_STATUS status)
     else if(CUserInfo::DO_NOT_DISTURB == status)
         return QColor(255, 0, 0);
     else if(CUserInfo::Invisible == status)
-        return QColor(255, 255, 255);
+        return QColor(0, 0, 0);
     else if(CUserInfo::OffLine == status)
-        return QColor(255, 0, 255);
+        return QColor(0, 0, 0);
     else
         return QColor(255, 255, 255);
 }
@@ -762,5 +765,25 @@ int CGlobal::SetMonitor(bool bMonitor)
     m_bMonitor = bMonitor;
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("Video/Monitor", bMonitor);
+    return 0;
+}
+
+QString CGlobal::GetStyle()
+{
+    return m_szStyleFile;
+}
+
+QString CGlobal::GetMenuStyle()
+{
+    return m_szMenuStyle;
+}
+
+int CGlobal::SetMenuStyle(QString szMenu, QString szFile)
+{
+    m_szMenuStyle = szMenu;
+    m_szStyleFile = szFile;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("UI/MenuStyleSheet", szMenu);
+    conf.setValue("UI/StyleSheet", szFile);
     return 0;
 }

@@ -55,6 +55,9 @@ android平台编译出来的是一个动态库，它安装后，位于安装目�
 而安装目录除了lib目录外，对应用程序的用户有读写权限。
 qApp->applicationDirPath()得到的是安装目录下lib的位置。所以向上一级，到安装目录，就可以有读写权限。
 
+* Qt 样式库：
+http://qt-project.org/wiki/Category:Styles
+
 * xmpp 协议：
   对xep-0030 服务发现的一点理解,目录查询：http://www.cnblogs.com/choday/p/3431725.html  
   多用户聊天协议：http://xmpp.org/extensions/xep-0045.html#intro  

@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_TrayIconMenu(this),
     m_ActionGroupStatus(this),
     m_ActionGroupTranslator(this),
+    m_ActionGroupStyle(this),
     m_Login(new CFrmLogin(this)),
     ui(new Ui::MainWindow)
 {
@@ -33,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
             SLOT(About()));
     Q_ASSERT(check);
 
+    LoadStyle();
     LoadTranslate();
     ReInitMenuOperator();
 
@@ -283,6 +285,9 @@ int MainWindow::InitLoginedMenu()
     ClearMenuStatus();
     InitMenuStatus();
 
+    ClearMenuStyles();
+    InitMenuStyles();
+
     ui->menuOperator_O->addMenu(&m_MenuStatus);
     ui->menuOperator_O->addAction(QIcon(":/icon/Information"),
                 tr("Edit Locale User Infomation(&E)"),
@@ -298,8 +303,7 @@ int MainWindow::InitLoginedMenu()
 int MainWindow::InitOperatorMenu()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitOperatorMenu");
-    ui->menuOperator_O->addAction(QIcon(":/icon/Stype"), tr("Change Style Sheet(&S)"), 
-                this, SLOT(on_actionChange_Style_Sheet_S_triggered()));
+    ui->menuOperator_O->addMenu(&m_MenuStyle);
     ui->menuOperator_O->addMenu(&m_MenuTranslate);
     ui->menuOperator_O->addSeparator();
     if(m_bLogin)
@@ -309,6 +313,44 @@ int MainWindow::InitOperatorMenu()
     ui->menuOperator_O->addAction(QIcon(":/icon/Close"), 
                                   tr("Close(&E)"),
                                   this, SLOT(close()));
+    return 0;
+}
+
+int MainWindow::InitMenuStyles()
+{
+    m_ActionStyles["Custom"] = m_MenuStyle.addAction("Custom");
+    m_ActionStyles["System"] = m_MenuStyle.addAction("System");
+    m_ActionStyles["Blue"] = m_MenuStyle.addAction("Blue");
+    m_ActionStyles["Dark"] = m_MenuStyle.addAction("Dark");
+    QMap<QString, QAction*>::iterator it;
+    for(it = m_ActionStyles.begin(); it != m_ActionStyles.end(); it++)
+    {
+        m_ActionGroupStyle.addAction(it.value());
+    }
+    bool check = connect(&m_ActionGroupStyle, SIGNAL(triggered(QAction*)),
+                         SLOT(slotActionGroupStyleTriggered(QAction*)));
+    Q_ASSERT(check);
+    QAction* pAct = m_ActionStyles[CGlobal::Instance()->GetMenuStyle()];
+    if(pAct)
+    {
+        pAct->setCheckable(true);
+        pAct->setChecked(true);
+    }
+    m_MenuStyle.setIcon(QIcon(":/icon/Stype"));
+    m_MenuStyle.setTitle("Change Style Sheet(&S)");
+    return 0;
+}
+
+int MainWindow::ClearMenuStyles()
+{
+    QMap<QString, QAction*>::iterator it;
+    for(it = m_ActionStyles.begin(); it != m_ActionStyles.end(); it++)
+    {
+        m_ActionGroupStyle.removeAction(it.value());
+    }
+    m_ActionGroupStyle.disconnect();
+    m_ActionStyles.clear();
+    m_MenuStyle.clear();
     return 0;
 }
 
@@ -639,7 +681,54 @@ void MainWindow::About()
     }
 }
 
-void MainWindow::on_actionChange_Style_Sheet_S_triggered()
+void MainWindow::slotActionGroupStyleTriggered(QAction* act)
+{
+    QMap<QString, QAction*>::iterator it;
+    for(it = m_ActionStyles.begin(); it != m_ActionStyles.end(); it++)
+    {
+        if(it.value() == act)
+        {
+            act->setCheckable(true);
+            act->setChecked(true);
+            if(it.key() == "Blue")
+                CGlobal::Instance()->SetMenuStyle("Blue", ":/sink/Blue");
+            else if(it.key() == "Dark")
+                CGlobal::Instance()->SetMenuStyle("Dark", ":/qdarkstyle/style.qss");
+            else if(it.key() == "Custom")
+                OpenCustomStyleMenu();
+            else
+                CGlobal::Instance()->SetMenuStyle("System", "");
+        }
+    }
+
+    LoadStyle();
+}
+
+int MainWindow::LoadStyle()
+{
+    //*从配置文件中加载应用程序样式  
+    QString szFile = CGlobal::Instance()->GetStyle();
+    if(szFile.isEmpty())
+        qApp->setStyleSheet("");
+    else
+    {
+        QFile file(szFile);//从资源文件中加载  
+        if(file.open(QFile::ReadOnly))
+        {
+            QString stylesheet= file.readAll();
+            qApp->setStyleSheet(stylesheet);
+            file.close();
+        }
+        else
+        {
+            LOG_MODEL_ERROR("app", "file open file [%s] fail:%d",
+                            CGlobal::Instance()->GetStyle().toStdString().c_str(), file.error());
+        }
+    }
+    return 0;
+}
+
+int MainWindow::OpenCustomStyleMenu()
 {
    //*从资源中加载应用程序样式  
 #ifdef MOBILE
@@ -663,9 +752,9 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
     if(dlg.exec())
         fileNames = dlg.selectedFiles();
     else
-        return;
+        return -1;
     if(fileNames.isEmpty())
-        return;
+        return -2;
     szFile = *fileNames.begin();
 #else
     QString szFile = QFileDialog::getOpenFileName(
@@ -675,7 +764,7 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
 #endif
 
     if(szFile.isEmpty())
-        return;
+        return -1;
 
     QFile file(szFile);//从资源文件中加载  
     if(file.open(QFile::ReadOnly))
@@ -685,6 +774,8 @@ void MainWindow::on_actionChange_Style_Sheet_S_triggered()
         file.close();
         QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
         conf.setValue("UI/StyleSheet", szFile);
+        
+        CGlobal::Instance()->SetMenuStyle("Custom", szFile);
     }
     else
     {
