@@ -16,6 +16,13 @@ lessThan(QT_MAJOR_VERSION, 5) : error("version is $$QT_MAJOR_VERSION, please qt 
 
 TARGET = RabbitIm
 TEMPLATE = app
+#设置目标输出目录
+CONFIG(debug, debug|release){
+    TARGET_PATH=$${OUT_PWD}/Debug
+}
+else{
+    TARGET_PATH=$${OUT_PWD}/Release
+}
 
 CONFIG   += c++11
 
@@ -148,9 +155,6 @@ RC_FILE = AppIcon.rc
 
 CONFIG += localize_deployment  #本地语言部署
 
-TRANSLATIONS += \
-    Resource/translations/app_zh_CN.ts
-
 OTHER_FILES += README.md \
     .gitignore \
     AppIcon.rc \
@@ -167,38 +171,10 @@ OTHER_FILES += README.md \
     cmake/* \
     platforms/android/*
 
-isEmpty(PREFIX)
-{
-    android{
-       PREFIX=/.
-    }
-    else{
-        PREFIX = install
-    }
-}
-
-mytranslations.commands = lrelease $${PWD}/RabbitIm.pro && \
-    cd $${PWD}/Resource/translations && \
-    $(COPY_DIR) app_zh_CN.qm $${OUT_PWD}/translations/app_zh_CN.qm
-
-QMAKE_EXTRA_TARGETS += mytranslations
-
-#安装
-wince {
-    mytranslat.files = Resource/translations/app_zh_CN.qm
-    mytranslat.path = $$PREFIX
-    DEPLOYMENT += mytranslat
-}
-else{
-    other.files = License.html README.md
-    other.path = $$PREFIX
-    other.CONFIG += directory no_check_exist 
-    target.path = $$PREFIX
-    mytranslat.files =  Resource/translations/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
-    mytranslat.path = $$PREFIX/translate
-    mytranslat.CONFIG += directory no_check_exist 
-    INSTALLS += target other mytranslat
-}
+# Rules for creating/updating {ts|qm}-files
+include(Resource/translations/translations.pri)
+# Build all the qm files now, to make RCC happy
+#system($$fromfile(Resource/translations/translations.pri, updateallqm))
 
 #ANDROID 平台相关内容  
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android  #ANDROID包的源码目录
