@@ -32,11 +32,11 @@ QMAKE_EXTRA_COMPILERS += updateqm
 # Release all the .ts files at once
 #updateallqm = $$QMAKE_LRELEASE -silent $$TRANSLATIONS
 
+TRANSLATIONS_OUTPUT_PATH = $${TARGET_PATH}/translations
 mytranslations.target = mytranslations
-mytranslations.commands = \
-    $(MKDIR) $${TARGET_PATH}/translations && \
-    $(COPY_DIR) $${PWD}/*.qm $${TARGET_PATH}/translations/. && \
-    $(COPY_DIR) $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm $${TARGET_PATH}/translations/.
+mytranslations.commands = $(MKDIR) $${TRANSLATIONS_OUTPUT_PATH} && \
+    $(COPY_DIR) $${PWD}/app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/app_zh_CN.qm && \
+    $(COPY_DIR) $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/qt_zh_CN.qm
 QMAKE_EXTRA_TARGETS += mytranslations
 #PRE_TARGETDEPS += mytranslations
 POST_TARGETDEPS += mytranslations
