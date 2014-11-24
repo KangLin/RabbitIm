@@ -486,8 +486,8 @@ int CFrmUserList::ItemInsertRoster(const QString& szId)
     pItem->setData(info->GetId(), USERLIST_ITEM_ROLE_JID);
     pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
     //改变item背景颜色  
-    pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
-    pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
+    //pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
+   // pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
     pItem->setEditable(false);
     QString szText;
     szText = info->GetShowName()

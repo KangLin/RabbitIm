@@ -17,12 +17,16 @@ lessThan(QT_MAJOR_VERSION, 5) : error("version is $$QT_MAJOR_VERSION, please qt 
 TARGET = RabbitIm
 TEMPLATE = app
 #设置目标输出目录
-CONFIG(debug, debug|release){
-    TARGET_PATH=$${OUT_PWD}/Debug
+win32{
+    CONFIG(debug, debug|release){
+        TARGET_PATH=$${OUT_PWD}/Debug
+    }else{
+        TARGET_PATH=$${OUT_PWD}/Release
+    }
+}else{
+    TARGET_PATH=$${OUT_PWD}
 }
-else{
-    TARGET_PATH=$${OUT_PWD}/Release
-}
+
 
 CONFIG   += c++11
 

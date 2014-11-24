@@ -38,8 +38,8 @@ void CDlgOptions::showEvent(QShowEvent *)
     ui->sbDelayTime->setValue(CGlobal::Instance()->GetAutoLoginDelayTime());
     ui->cbNotificationFlash->setChecked(CGlobal::Instance()->IsNotifiationFlashs());
     ui->cbNotificationShowMessage->setChecked(CGlobal::Instance()->IsNotifiationBarShowMessage());
-    ui->txtFlashInterval->setText(QString::number(CGlobal::Instance()->GetNotifiationFlashInterval()));
-    ui->txtShowMessageDelay->setText(QString::number(CGlobal::Instance()->GetNotifiationBarShowMessageDelay()));
+    ui->sbFlashInterval->setValue(CGlobal::Instance()->GetNotifiationFlashInterval());
+    ui->sbShowMessageDelay->setValue(CGlobal::Instance()->GetNotifiationBarShowMessageDelay());
     ui->cbMessageSound->setChecked(CGlobal::Instance()->GetMessageSound());
 
     CGlobal::E_ROSTER_SHOW_TYPE type = CGlobal::Instance()->GetRosterShowType();
@@ -157,8 +157,8 @@ void CDlgOptions::on_pbOK_clicked()
     CGlobal::Instance()->SetAutoLoginDelayTime(ui->sbDelayTime->value());
     CGlobal::Instance()->SetNotifiationBarShowMessage(ui->cbNotificationShowMessage->isChecked());
     CGlobal::Instance()->SetNotifiationFlashs(ui->cbNotificationFlash->isChecked());
-    CGlobal::Instance()->SetNotifiationFlashInterval(ui->txtFlashInterval->text().toInt());
-    CGlobal::Instance()->SetNotifiationBarShowMessageDelay(ui->txtShowMessageDelay->text().toInt());
+    CGlobal::Instance()->SetNotifiationFlashInterval(ui->sbFlashInterval->value());
+    CGlobal::Instance()->SetNotifiationBarShowMessageDelay(ui->sbShowMessageDelay->value());
     CGlobal::Instance()->SetMessageSound(ui->cbMessageSound->isChecked());
 
     CGlobal::E_ROSTER_SHOW_TYPE type = CGlobal::Instance()->GetRosterShowType();

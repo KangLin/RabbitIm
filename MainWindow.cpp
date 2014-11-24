@@ -268,6 +268,9 @@ int MainWindow::ReInitMenuOperator()
     //初始化翻译菜单  
     ClearMenuTranslate();
     InitMenuTranslate();
+    //初始化样式菜单  
+    ClearMenuStyles();
+    InitMenuStyles();
 
     if(m_bLogin)
         InitLoginedMenu();
@@ -284,9 +287,6 @@ int MainWindow::InitLoginedMenu()
     //初始化状态菜单  
     ClearMenuStatus();
     InitMenuStatus();
-
-    ClearMenuStyles();
-    InitMenuStyles();
 
     ui->menuOperator_O->addMenu(&m_MenuStatus);
     ui->menuOperator_O->addAction(QIcon(":/icon/Information"),
@@ -325,6 +325,7 @@ int MainWindow::InitMenuStyles()
     QMap<QString, QAction*>::iterator it;
     for(it = m_ActionStyles.begin(); it != m_ActionStyles.end(); it++)
     {
+        it.value()->setCheckable(true);
         m_ActionGroupStyle.addAction(it.value());
     }
     bool check = connect(&m_ActionGroupStyle, SIGNAL(triggered(QAction*)),
@@ -333,7 +334,6 @@ int MainWindow::InitMenuStyles()
     QAction* pAct = m_ActionStyles[CGlobal::Instance()->GetMenuStyle()];
     if(pAct)
     {
-        pAct->setCheckable(true);
         pAct->setChecked(true);
     }
     m_MenuStyle.setIcon(QIcon(":/icon/Stype"));
@@ -377,8 +377,11 @@ int MainWindow::InitMenuStatus()
 
     QMap<CUserInfo::USER_INFO_STATUS, QAction*>::iterator it;
     for(it = m_ActionStatus.begin(); it != m_ActionStatus.end(); it++)
+    {
+        it.value()->setCheckable(true);
         m_ActionGroupStatus.addAction(it.value());
-
+    }
+    
     bool check = connect(&m_ActionGroupStatus, SIGNAL(triggered(QAction*)),
                          SLOT(slotActionGroupStatusTriggered(QAction*)));
     Q_ASSERT(check);
@@ -386,7 +389,6 @@ int MainWindow::InitMenuStatus()
     QAction* pAct = m_ActionStatus[CGlobal::Instance()->GetStatus()];
     if(pAct)
     {
-        pAct->setCheckable(true);
         pAct->setChecked(true);
     }
 
@@ -417,8 +419,11 @@ int MainWindow::InitMenuTranslate()
 
     QMap<QString, QAction*>::iterator it;
     for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
+    {
+        it.value()->setCheckable(true);
         m_ActionGroupTranslator.addAction(it.value());
-
+    }
+    
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitMenuTranslate m_ActionTranslator size:%d", m_ActionTranslator.size());
 
     bool check = connect(&m_ActionGroupTranslator, SIGNAL(triggered(QAction*)),
@@ -431,7 +436,6 @@ int MainWindow::InitMenuTranslate()
     if(pAct)
     {
         LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitMenuTranslate setchecked locale:%s", szLocale.toStdString().c_str());
-        pAct->setCheckable(true);
         pAct->setChecked(true);
         LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitMenuTranslate setchecked end");
     }
@@ -509,7 +513,6 @@ void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
             conf.setValue("Global/Language", szLocale);
             LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotActionGroupTranslateTriggered:%s", it.key().toStdString().c_str());
             LoadTranslate(it.key());
-            pAct->setCheckable(true);
             pAct->setChecked(true);
             QMessageBox::information(this, tr("Information"), tr("Change language must reset program."));
             close();
@@ -633,7 +636,6 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
             CUserInfo::USER_INFO_STATUS status = it.key();
             USER_INFO_LOCALE->GetInfo()->SetStatus(status);
             GET_CLIENT->setClientStatus(status);
-            act->setCheckable(true);
             act->setChecked(true);
             m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(status)));
         }
@@ -688,7 +690,6 @@ void MainWindow::slotActionGroupStyleTriggered(QAction* act)
     {
         if(it.value() == act)
         {
-            act->setCheckable(true);
             act->setChecked(true);
             if(it.key() == "Blue")
                 CGlobal::Instance()->SetMenuStyle("Blue", ":/sink/Blue");
