@@ -1,13 +1,13 @@
-#include "FrmAbout.h"
-#include "ui_FrmAbout.h"
+#include "DlgAbout.h"
+#include "ui_DlgAbout.h"
 #include "../../Global/Global.h"
 #include "Version.h"
 #include <QFile>
 #include "../../MainWindow.h"
 
-CFrmAbout::CFrmAbout(QWidget *parent) :
-    QFrame(parent),
-    ui(new Ui::CFrmAbout)
+CDlgAbout::CDlgAbout(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::CDlgAbout)
 {
     ui->setupUi(this);
     QString szVersion(tr("Version:%1").arg(VERSION));
@@ -28,28 +28,32 @@ CFrmAbout::CFrmAbout(QWidget *parent) :
     }
 
     QDesktopWidget *pDesk = QApplication::desktop();
+#ifdef MOBILE
+    this->setGeometry(pDesk->geometry());
+#else
     move((pDesk->width() - width()) / 2,
          (pDesk->height() - height()) / 2);
+#endif
+
 }
 
-CFrmAbout::~CFrmAbout()
+CDlgAbout::~CDlgAbout()
 {
     LOG_MODEL_DEBUG("About", "CFrmAbout::~CFrmAbout");
     delete ui;
 }
 
-void CFrmAbout::showEvent(QShowEvent *)
+void CDlgAbout::showEvent(QShowEvent *)
 {
     CGlobal::Instance()->GetMainWindow()->setEnabled(false);
 }
 
-void CFrmAbout::closeEvent(QCloseEvent *)
+void CDlgAbout::closeEvent(QCloseEvent *)
 {
     CGlobal::Instance()->GetMainWindow()->setEnabled(true);
-    deleteLater();
 }
 
-void CFrmAbout::changeEvent(QEvent *e)
+void CDlgAbout::changeEvent(QEvent *e)
 {
     switch(e->type())
     {
@@ -59,8 +63,8 @@ void CFrmAbout::changeEvent(QEvent *e)
     }
 }
 
-void CFrmAbout::on_btbButtons_clicked(QAbstractButton *button)
+void CDlgAbout::on_btbButtons_clicked(QAbstractButton *button)
 {
     Q_UNUSED(button);
-    this->close();
+    this->accept();
 }

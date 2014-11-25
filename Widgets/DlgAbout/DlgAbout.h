@@ -1,20 +1,20 @@
 #ifndef FRMABOUT_H
 #define FRMABOUT_H
 
-#include <QFrame>
+#include <QDialog>
 #include <QAbstractButton>
 
 namespace Ui {
-class CFrmAbout;
+class CDlgAbout;
 }
 
-class CFrmAbout : public QFrame
+class CDlgAbout : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit CFrmAbout(QWidget *parent = 0);
-    ~CFrmAbout();
+    explicit CDlgAbout(QWidget *parent = 0);
+    ~CDlgAbout();
 
 protected:
     virtual void closeEvent(QCloseEvent *);
@@ -25,7 +25,7 @@ private slots:
     void on_btbButtons_clicked(QAbstractButton *button);
 
 private:
-    Ui::CFrmAbout *ui;
+    Ui::CDlgAbout *ui;
 };
 
 #endif // FRMABOUT_H

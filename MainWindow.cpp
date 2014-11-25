@@ -2,7 +2,7 @@
 #include "ui_MainWindow.h"
 #include <iostream>
 #include <QIcon>
-#include "Widgets/FrmAbout/FrmAbout.h"
+#include "Widgets/DlgAbout/DlgAbout.h"
 #include <QMessageBox>
 #include "Widgets/FrmUserList/FrmUserList.h"
 #include "Widgets/FrmLogin/FrmLogin.h"
@@ -675,12 +675,8 @@ void MainWindow::on_actionOptions_O_triggered()
 void MainWindow::About()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
-    CFrmAbout* pAbout = new CFrmAbout;//CFrmAbout 会在关闭时自动释放内存  
-    if(pAbout)
-    {
-        pAbout->show();
-        pAbout->activateWindow();
-    }
+    CDlgAbout about;
+    about.exec();
 }
 
 void MainWindow::slotActionGroupStyleTriggered(QAction* act)

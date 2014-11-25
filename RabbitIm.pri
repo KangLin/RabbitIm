@@ -10,7 +10,6 @@ SOURCES += main.cpp\
     Widgets/FrmLogin/FrmLogin.cpp \
     Widgets/FrmUserList/FrmUserList.cpp \
     Widgets/FrmUserList/GroupItem.cpp \
-    Widgets/FrmAbout/FrmAbout.cpp \
     Widgets/FrmCustom/CustomTreeView.cpp \
     Widgets/FrmVideo/RecordAudio.cpp \
     Widgets/FrmLogin/FrmLoginSettings.cpp \
@@ -53,7 +52,8 @@ SOURCES += main.cpp\
     Widgets/FrmVideo/FrmVideo.cpp \ 
     Widgets/DlgRegister/DlgRegister.cpp \
     Widgets/DlgScreenShot/DlgScreenShot.cpp \ 
-    Widgets/DlgScreenShot/WdgScreenEditor.cpp
+    Widgets/DlgScreenShot/WdgScreenEditor.cpp \
+    Widgets/DlgAbout/DlgAbout.cpp
     #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     #Widgets/FrmGroupChat/Conference.cpp \
@@ -72,10 +72,9 @@ HEADERS  += MainWindow.h \
     Tool.h \
     Widgets/FrmLogin/FrmLogin.h \
     Widgets/FrmUserList/FrmUserList.h \
-    Widgets/FrmAbout/FrmAbout.h \
     Widgets/FrmCustom/CustomTreeView.h \
     Widgets/FrmVideo/RecordAudio.h \
-    Widgets/FrmAbout/Version.h \
+    Widgets/DlgAbout/Version.h \
     Widgets/FrmLogin/FrmLoginSettings.h \
     Widgets/FrmUservCard/FrmUservCard.h \ 
     Widgets/FrmCustom/Label.h \ 
@@ -115,7 +114,8 @@ HEADERS  += MainWindow.h \
     Widgets/FrmVideo/FrmVideo.h \ 
     Widgets/DlgRegister/DlgRegister.h \
     Widgets/DlgScreenShot/DlgScreenShot.h \ 
-    Widgets/DlgScreenShot/WdgScreenEditor.h
+    Widgets/DlgScreenShot/WdgScreenEditor.h \
+    Widgets/DlgAbout/DlgAbout.h
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmGroupChat/FrmGroupChatList.h \
     #Widgets/FrmGroupChat/FrmGroupChatFind.h \
@@ -127,7 +127,7 @@ HEADERS  += MainWindow.h \
 FORMS    += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
     Widgets/FrmUserList/FrmUserList.ui \
-    Widgets/FrmAbout/FrmAbout.ui \
+    Widgets/DlgAbout/DlgAbout.ui \
     Widgets/FrmMain/FrmMain.ui \
     Widgets/FrmLogin/FrmLoginSettings.ui \
     Widgets/DlgOptions/DlgOptions.ui \

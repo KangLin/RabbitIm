@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CFrmAbout</class>
- <widget class="QFrame" name="CFrmAbout">
+ <class>CDlgAbout</class>
+ <widget class="QDialog" name="CDlgAbout">
   <property name="geometry">
    <rect>
     <x>0</x>
