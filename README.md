@@ -82,15 +82,15 @@ ubuntu 下截图:
          ｜---Authors.txt       #作者
          ｜---ChangeLog.txt     #变更日志
          ｜---docs              #开发文档目录
-         ｜    ｜---- INSTALL.md   #编译、安装文档
-         ｜    ｜----develop.md       #开发文档
+         ｜    ｜----INSTALL.md   #编译、安装文档
+         ｜    ｜----develop.md   #开发文档
          ｜    ｜----Books      #开发相关的资料
          ｜    ｜      ｜
-         ｜    ｜      ｜---开发笔记.txt
-         ｜    ｜      ｜---libyuv编译.txt
+         ｜    ｜      ｜--- 开发笔记.txt
+         ｜    ｜      ｜--- libyuv编译.md
          ｜    ｜----TODO.txt   #需要完成的事
          ｜---License.html      #协议文件
 
-[开发](/docs/develop.md)
+[开发](./docs/develop.md)
 
-[编译](/docs/INSTALL.md)
+[编译](./docs/INSTALL.md)

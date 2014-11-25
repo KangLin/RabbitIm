@@ -225,7 +225,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 6. libyuv 编译：
 官网：https://code.google.com/p/libyuv/wiki/GettingStarted  
 详见：《libyuv编译》：http://blog.csdn.net/kl222/article/details/41309541  
-或者： [libyuv编译.txt](/docs/Books/libyuv编译.txt)
+或者： [libyuv编译.txt](./Books/libyuv编译.txt)
 
 7. QXMPP编译：  
     1)用 Qt Creator 进行编译（详见源码根目录下的README文件）：

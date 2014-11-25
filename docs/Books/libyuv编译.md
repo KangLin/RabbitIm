@@ -1,56 +1,69 @@
-下载代码(要翻墙)：
-git clone http://git.chromium.org/external/libyuv.git    
+## 下载代码(要翻墙)：
 
-用 make 编译（linux、mingw、cygwin）：
-make -f linux.mk
+    git clone http://git.chromium.org/external/libyuv.git    
 
-用 cmake 编译（vs、linux、mingw、msys等）:
-mkdir out
-cd out
-cmake ..
-cmake --build .
+## 编译：
 
-Release build/install
- mkdir out
- cd out
- cmake -DCMAKE_INSTALL_PREFIX="/usr/lib" -DCMAKE_BUILD_TYPE="Release" ..
- cmake --build . --config Release
- sudo cmake --build . --target install --config Release
+1. 用 make 编译（linux、mingw、cygwin）：
 
-Windows 8 Phone
+    make -f linux.mk
 
-编译环境准备：
+2. 用 cmake 编译（vs、linux、mingw、msys等）:
+
+    mkdir out
+    cd out
+    cmake ..
+    cmake --build .
+    
+    Release build/install
+     mkdir out
+     cd out
+     cmake -DCMAKE_INSTALL_PREFIX="/usr/lib" -DCMAKE_BUILD_TYPE="Release" ..
+     cmake --build . --config Release
+     sudo cmake --build . --target install --config Release
+
+3. Windows 8 Phone
+
+* 编译环境准备：  
  安装 Visual Studio 2012 and Arm 到你的环境：
 
- call "c:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_arm\vcvarsx86_arm.bat"
+
+   call "c:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_arm\vcvarsx86_arm.bat"
+
  
 或者 Visual Studio 2013
- call "c:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_arm\vcvarsx86_arm.bat"
+
+
+   call "c:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_arm\vcvarsx86_arm.bat"
+
 
 也可以从“开始”菜单->Visual Studio 2013->Visual Studio Tools->VS2013 ARM 兼容工具命令提示
 
-然后再进入libyuv源码根目录，再执行下列操作：
+* 然后再进入libyuv源码根目录，再执行下列操作：
 
- nmake /f winarm.mk clean
- nmake /f winarm.mk
+
+    nmake /f winarm.mk clean
+    nmake /f winarm.mk
 
  
-android:
-#需要设置下面变量：
-export ANDROID_NDK_ROOT=/home/android-ndk-r9c               #指定 android ndk 根目录 
-export ANDROID_NDK=$ANDROID_NDK_ROOT  #指定 android ndk 根目录 
-export ANDROID_SDK=/home/android-sdk/sdk                   #指定 android sdk 根目录
-export ANDROID_SDK_ROOT=$ANDROID_SDK   
-export JAVA_HOME=/home/jdk1.7.0_51                      #指定 jdk 根目录 
+4. android:
 
-cmake .. \
-    -G"Unix Makefiles"\
-    -DCMAKE_MAKE_PROGRAM="$ANDROID_NDK/prebuilt/${HOST}/bin/make" \ #android 自带的 make
-    -DCMAKE_INSTALL_PREFIX="$PREFIX" \
-    -DCMAKE_TOOLCHAIN_FILE="${RabbitImRoot}/platforms/android/android.toolchain.cmake"
 
-echo "build..."
-cmake --build . --target install --config Release
+    #需要设置下面变量：
+    export ANDROID_NDK_ROOT=/home/android-ndk-r9c               #指定 android ndk 根目录 
+    export ANDROID_NDK=$ANDROID_NDK_ROOT  #指定 android ndk 根目录 
+    export ANDROID_SDK=/home/android-sdk/sdk                   #指定 android sdk 根目录
+    export ANDROID_SDK_ROOT=$ANDROID_SDK   
+    export JAVA_HOME=/home/jdk1.7.0_51                      #指定 jdk 根目录 
+    
+    cmake .. \
+        -G"Unix Makefiles"\
+        -DCMAKE_MAKE_PROGRAM="$ANDROID_NDK/prebuilt/${HOST}/bin/make" \ #android 自带的 make
+        -DCMAKE_INSTALL_PREFIX="$PREFIX" \
+        -DCMAKE_TOOLCHAIN_FILE="${RabbitImRoot}/platforms/android/android.toolchain.cmake"
+    
+    echo "build..."
+    cmake --build . --target install --config Release
 
 
 Getting Started

@@ -156,7 +156,7 @@ void CFrmMessage::on_pbShotScreen_clicked()
         }
         else
         {
-            QString fileName = QDateTime::currentDateTime().toString("yyyyMMddhhmmss.png");
+            QString fileName = "ShotScreen" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss.png");
             QString filePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) +QDir::separator() +  fileName;
             LOG_MODEL_DEBUG("Message", QString("filePath = %1").arg(filePath).toLocal8Bit().data());
             bool isOk = image.save(filePath);

@@ -734,7 +734,7 @@ int MainWindow::OpenCustomStyleMenu()
    //*从资源中加载应用程序样式  
 #ifdef MOBILE
     QDesktopWidget *pDesk = QApplication::desktop();
-    QFileDialog dlg(pDesk, tr("Open File"), QString(), "*.qss");
+    QFileDialog dlg(pDesk, tr("Open File"), QString(), "*.qss *.*");
     //dlg.setGeometry(this->rect());
     QScreen* pScreen = QApplication::primaryScreen();
     LOG_MODEL_DEBUG("MainWindow", "DeskWidth:%d;height:%d;w:%d;h:%d;screenWidth:%d;height:%d;w%d;h%d", 
@@ -760,8 +760,8 @@ int MainWindow::OpenCustomStyleMenu()
 #else
     QString szFile = QFileDialog::getOpenFileName(
                 this, tr("Open File"), 
-                QString(), "*.qss", 0,
-                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
+                QString(), "*.qss *.*", 0,
+                QFileDialog::ReadOnly /*| QFileDialog::DontUseNativeDialog*/);
 #endif
 
     if(szFile.isEmpty())

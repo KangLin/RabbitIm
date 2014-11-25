@@ -7,6 +7,7 @@
 #include "qxmpp/QXmppVCardManager.h"
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppRegisterIq.h"
+#include "qxmpp/QXmppTransferManager.h"
 #include "UserInfo/UserInfoXmpp.h"
 #include "Manager/ManageUserQXmpp.h"
 #include "Global/Global.h"
@@ -31,6 +32,8 @@ CClientXmpp::CClientXmpp(QObject *parent)
 
     m_Client.addExtension(&m_CallManager);
     m_Client.addExtension(&m_MucManager);
+    //TODO:增加文件代理的查找  
+    m_TransferManager.setProxy("proxy." + CGlobal::Instance()->GetXmppDomain());
     m_Client.addExtension(&m_TransferManager);
 
     InitConnect();
