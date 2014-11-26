@@ -12,7 +12,6 @@ SOURCES += main.cpp\
     Widgets/FrmUserList/GroupItem.cpp \
     Widgets/FrmCustom/CustomTreeView.cpp \
     Widgets/FrmVideo/RecordAudio.cpp \
-    Widgets/FrmLogin/FrmLoginSettings.cpp \
     Widgets/FrmUservCard/FrmUservCard.cpp \
     Widgets/FrmCustom/Label.cpp \ 
     Widgets/FrmMain/FrmMain.cpp \ 
@@ -54,7 +53,8 @@ SOURCES += main.cpp\
     Widgets/DlgScreenShot/DlgScreenShot.cpp \ 
     Widgets/DlgScreenShot/WdgScreenEditor.cpp \
     Widgets/DlgAbout/DlgAbout.cpp \
-    Widgets/FrmGroupChat/FrmGroupChatList.cpp 
+    Widgets/FrmGroupChat/FrmGroupChatList.cpp \ 
+    Widgets/FrmLogin/DlgLoginSettings.cpp
     #Widgets/FrmGroupChat/FrmGroupChat.cpp 
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     #Widgets/FrmGroupChat/Conference.cpp \
@@ -75,7 +75,6 @@ HEADERS  += MainWindow.h \
     Widgets/FrmCustom/CustomTreeView.h \
     Widgets/FrmVideo/RecordAudio.h \
     Widgets/DlgAbout/Version.h \
-    Widgets/FrmLogin/FrmLoginSettings.h \
     Widgets/FrmUservCard/FrmUservCard.h \ 
     Widgets/FrmCustom/Label.h \ 
     Manager/Manager.h \
@@ -116,7 +115,8 @@ HEADERS  += MainWindow.h \
     Widgets/DlgScreenShot/DlgScreenShot.h \ 
     Widgets/DlgScreenShot/WdgScreenEditor.h \
     Widgets/DlgAbout/DlgAbout.h \
-    Widgets/FrmGroupChat/FrmGroupChatList.h 
+    Widgets/FrmGroupChat/FrmGroupChatList.h \ 
+    Widgets/FrmLogin/DlgLoginSettings.h
     #Widgets/FrmGroupChat/FrmGroupChat.h \
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmGroupChat/FrmGroupChatFind.h \
@@ -129,7 +129,6 @@ FORMS    += MainWindow.ui \
     Widgets/FrmUserList/FrmUserList.ui \
     Widgets/DlgAbout/DlgAbout.ui \
     Widgets/FrmMain/FrmMain.ui \
-    Widgets/FrmLogin/FrmLoginSettings.ui \
     Widgets/DlgOptions/DlgOptions.ui \
     Widgets/FrmUservCard/FrmUservCard.ui \
     Widgets/FrmMessage/FrmMessage.ui \
@@ -138,7 +137,8 @@ FORMS    += MainWindow.ui \
     Widgets/DlgAddRoster/DlgAddRoster.ui \
     Widgets/FrmVideo/FrmVideo.ui \ 
     Widgets/DlgRegister/DlgRegister.ui \
-    Widgets/FrmGroupChat/FrmGroupChatList.ui 
+    Widgets/FrmGroupChat/FrmGroupChatList.ui \ 
+    Widgets/FrmLogin/DlgLoginSettings.ui
 #Widgets/FrmGroupChat/FrmGroupChat.ui \
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
     

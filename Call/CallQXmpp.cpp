@@ -21,12 +21,12 @@ CCallQXmpp::CCallQXmpp(QXmppCall* pCall, bool bVideo, QObject *parent) : CCallOb
     else
         Q_ASSERT(false);
 
-    m_VideoThread.setObjectName("VideoProcess");
+    /*m_VideoThread.setObjectName("VideoProcess");
     m_Camera.moveToThread(&m_VideoThread);
     m_CaptureFrameProcess.moveToThread(&m_VideoThread);
     m_CaptureToRemoteFrameProcess.moveToThread(&m_VideoThread);
     m_ReciveFrameProcess.moveToThread(&m_VideoThread);
-
+*/
     bool check = connect(GET_MAINWINDOW, SIGNAL(sigRefresh()),
                          SLOT(slotUpdateOption()));
     Q_ASSERT(check);
