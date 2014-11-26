@@ -3,7 +3,6 @@
 #include "../../Global/Global.h"
 #include "FrmGroupChatFind.h"
 #include "../../MainWindow.h"
-#include "../FrmUserList/Roster.h"
 #include <QDesktopWidget>
 
 #define ROLE_JID Qt::UserRole + 1
@@ -40,11 +39,11 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     check = connect(&m_GroupList, SIGNAL(customContextMenuRequested(QPoint)),
                     SLOT(slotCustomContextMenuRequested(QPoint)));
     Q_ASSERT(check);
-    
+    /*
     check = connect(&XMPP_CLIENT->m_MucManager, SIGNAL(invitationReceived(QString,QString,QString)),
                     SLOT(slotInvitationReceived(QString,QString,QString)));
     Q_ASSERT(check);
-
+*/
     /*check = connect(&CGlobal::Instance()->GetXmppClient()->m_MucManager, SIGNAL(roomAdded(QXmppMucRoom*)),
                     SLOT(slotRoomAdded(QXmppMucRoom*)));
     Q_ASSERT(check);*/
@@ -60,17 +59,17 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
 
 CFrmGroupChatList::~CFrmGroupChatList()
 {
-    QMap<QString, CFrmGroupChat*>::iterator it;
-    for(it = m_Group.begin(); it != m_Group.end(); it++)
-    {
-        delete *it;
-    }
+//    QMap<QString, CFrmGroupChat*>::iterator it;
+//    for(it = m_Group.begin(); it != m_Group.end(); it++)
+//    {
+//        delete *it;
+//    }
 
     delete ui;
     if(m_pModel)
         delete m_pModel;
 }
-
+/*
 CFrmGroupChat* CFrmGroupChatList::GetGroupChat(const QString& jid)
 {
     QMap<QString, CFrmGroupChat*>::iterator it;
@@ -96,28 +95,7 @@ void CFrmGroupChatList::slotRoomAdded(QXmppMucRoom *room)
                     room->nickName().toStdString().c_str(),
                     room->subject().toStdString().c_str());
 }
-
-int CFrmGroupChatList::InitMenu()
-{
-    m_Menu.setTitle(tr("Operator group chat(&G)"));
-    m_Menu.addAction(ui->actionNew_Search_group_chat_rooms);
-    connect(ui->actionNew_Search_group_chat_rooms, SIGNAL(triggered()), this, SLOT(slotActionFindGroup()));
-    m_Menu.addAction(ui->actionLeave_room);
-    connect(ui->actionLeave_room, SIGNAL(triggered()), this, SLOT(slotActionLeave()));
-
-    bool check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuInitOperator(QMenu*)),
-                    SLOT(slotAddToMainMenu(QMenu*)));
-    Q_ASSERT(check);
-
-    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuRemoveOperator(QMenu*)),
-                    SLOT(slotRemoveFromMainMenu(QMenu*)));
-    Q_ASSERT(check);
-
-    check = connect(&m_Menu, SIGNAL(aboutToShow()), SLOT(slotUpdateMenu()));
-    Q_ASSERT(check);
-
-    return 0;
-}
+*/
 
 void CFrmGroupChatList::resizeEvent(QResizeEvent* e)
 {
@@ -142,17 +120,34 @@ void CFrmGroupChatList::changeEvent(QEvent *e)
     }
 }
 
-void CFrmGroupChatList::slotCustomContextMenuRequested(const QPoint &pos)
+int CFrmGroupChatList::InitMenu()
 {
-    Q_UNUSED(pos);
-    m_Menu.exec(QCursor::pos());
+    m_Menu.setTitle(tr("Operator group chat(&G)"));
+    m_Menu.addAction(ui->actionOpen_chat_room);
+    m_Menu.addAction(ui->actionNew_Search_group_chat_rooms);
+    m_Menu.addAction(ui->actionJoin_chat_room);
+    m_Menu.addAction(ui->actionLeave_room);
+    m_Menu.addAction(ui->actionRoom_infomation);
+
+    bool check = connect(GET_MAINWINDOW, SIGNAL(sigMenuInitOperator(QMenu*)),
+                    SLOT(slotAddToMainMenu(QMenu*)));
+    Q_ASSERT(check);
+
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigMenuRemoveOperator(QMenu*)),
+                    SLOT(slotRemoveFromMainMenu(QMenu*)));
+    Q_ASSERT(check);
+
+    check = connect(&m_Menu, SIGNAL(aboutToShow()), SLOT(slotUpdateMenu()));
+    Q_ASSERT(check);
+
+    return 0;
 }
 
 void CFrmGroupChatList::slotAddToMainMenu(QMenu *pMenu)
 {
     m_pAction = pMenu->addMenu(&m_Menu);
     bool check = connect(pMenu, SIGNAL(aboutToShow()),
-                    SLOT(slotUpdateMainMenu()));
+                    SLOT(slotUpdateMenu()));//slotUpdateMainMenu
     Q_ASSERT(check);
 }
 
@@ -169,7 +164,7 @@ void CFrmGroupChatList::slotUpdateMenu()
     else
         m_Menu.setEnabled(true);
 }
-
+/*
 void CFrmGroupChatList::slotUpdateMainMenu()
 {
     m_Menu.setTitle(tr("Operator group chat(&G)"));
@@ -180,28 +175,35 @@ void CFrmGroupChatList::slotUpdateMainMenu()
     else
         m_Menu.setEnabled(true);
 }
+*/
+void CFrmGroupChatList::slotCustomContextMenuRequested(const QPoint &pos)
+{
+    Q_UNUSED(pos);
+    m_Menu.exec(QCursor::pos());
+}
 
 void CFrmGroupChatList::slotActionFindGroup()
 {
-    CFrmGroupChatFind * pFrm = CFrmGroupChatFind::Instance();
+  /*  CFrmGroupChatFind * pFrm = CFrmGroupChatFind::Instance();
     bool check = connect(pFrm, SIGNAL(sigJoinedGroup(QString,CFrmGroupChat*)),
                          SLOT(slotJoinedGroup(QString,CFrmGroupChat*)));
     Q_ASSERT(check);
 
-    pFrm->show();
+    pFrm->show();*/
 }
 
 void CFrmGroupChatList::slotActionLeave()
 {
-    QModelIndex index = m_GroupList.currentIndex();
+    /*QModelIndex index = m_GroupList.currentIndex();
     if(!index.isValid())
         return;
     const QAbstractItemModel* m = index.model();
     QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
     CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
     chat->Leave();//当聊天室离开后,会触发 sigLeft 事件,然后在 slotLeft 中处理  
+    */
 }
-
+/*
 void CFrmGroupChatList::slotJoinedGroup(const QString &jid, CFrmGroupChat *pChat)
 {
     if(m_Group.find(jid) != m_Group.end())
@@ -233,24 +235,25 @@ void CFrmGroupChatList::slotLeft(const QString &jid, CFrmGroupChat *pChat)
     }
     m_Group.remove(jid);
 }
-
+*/
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)
 {
 #ifdef MOBILE
-    const QAbstractItemModel* m = index.model();
+    /*const QAbstractItemModel* m = index.model();
     QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
     CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
-    chat->show();
+    chat->show();*/
 #endif
 }
 
 void CFrmGroupChatList::slotDoubleClicked(const QModelIndex &index)
 {
 #ifndef ANDROID
-    const QAbstractItemModel* m = index.model();
+    /*const QAbstractItemModel* m = index.model();
     QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
     CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
     chat->show();
-    chat->activateWindow();
+    chat->activateWindow();*/
 #endif
 }
+

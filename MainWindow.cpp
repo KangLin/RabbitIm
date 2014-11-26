@@ -292,9 +292,10 @@ int MainWindow::InitLoginedMenu()
     ui->menuOperator_O->addAction(QIcon(":/icon/Information"),
                 tr("Edit Locale User Infomation(&E)"),
                 this, SLOT(slotEditInformation()));
-
     //注册菜单  
     emit sigMenuInitOperator(ui->menuOperator_O);
+ 
+    ui->menuOperator_O->addSeparator();
 
     InitOperatorMenu();
     return 0;

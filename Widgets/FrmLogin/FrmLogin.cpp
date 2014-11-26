@@ -1,7 +1,7 @@
 #include "FrmLogin.h"
 #include "ui_FrmLogin.h"
 #include "../../Global/Global.h"
-#include "FrmLoginSettings.h"
+#include "DlgLoginSettings.h"
 #include <QSettings>
 #include "MainWindow.h"
 
@@ -106,15 +106,8 @@ void CFrmLogin::on_pbRegitster_clicked()
 
 void CFrmLogin::on_pbSet_clicked()
 {
-    CFrmLoginSettings* pSet = new CFrmLoginSettings();//窗口关闭时，会自动释放内存  
-    if(pSet)
-    {
-        pSet->SetLogin(this);
-        pSet->show();
-        pSet->activateWindow();
-    }
-    else
-        LOG_MODEL_ERROR("Login", "new CFrmLoginSettings fail");
+    CDlgLoginSettings set(this);//窗口关闭时，会自动释放内存  
+    set.exec();
 }
 
 int CFrmLogin::SetPrompt(QString szPrompt)

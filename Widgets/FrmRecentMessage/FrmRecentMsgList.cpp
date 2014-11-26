@@ -294,8 +294,8 @@ void CFrmRecentMsgList::SlotChangedStatus(const QString &szId)
         if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ROSTER)
         {
             //改变item背景颜色  
-            pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
-            pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
+            //pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
+            //pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
             QString szText;
             szText = info->GetShowName()
         #ifdef DEBUG
@@ -399,8 +399,8 @@ void CFrmRecentMsgList::slotRefresh()
         {
             QSharedPointer<CUserInfo> info = roster->GetInfo();
             //改变item背景颜色  
-            pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
-            pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
+            //pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
+            //pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
             QString szText;
             szText = info->GetShowName()
         #ifdef DEBUG

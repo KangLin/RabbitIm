@@ -53,11 +53,11 @@ SOURCES += main.cpp\
     Widgets/DlgRegister/DlgRegister.cpp \
     Widgets/DlgScreenShot/DlgScreenShot.cpp \ 
     Widgets/DlgScreenShot/WdgScreenEditor.cpp \
-    Widgets/DlgAbout/DlgAbout.cpp
-    #Widgets/FrmGroupChat/FrmGroupChatList.cpp \
+    Widgets/DlgAbout/DlgAbout.cpp \
+    Widgets/FrmGroupChat/FrmGroupChatList.cpp 
+    #Widgets/FrmGroupChat/FrmGroupChat.cpp 
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     #Widgets/FrmGroupChat/Conference.cpp \
-    #Widgets/FrmGroupChat/FrmGroupChat.cpp \
     #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp \
     
 
@@ -115,12 +115,12 @@ HEADERS  += MainWindow.h \
     Widgets/DlgRegister/DlgRegister.h \
     Widgets/DlgScreenShot/DlgScreenShot.h \ 
     Widgets/DlgScreenShot/WdgScreenEditor.h \
-    Widgets/DlgAbout/DlgAbout.h
+    Widgets/DlgAbout/DlgAbout.h \
+    Widgets/FrmGroupChat/FrmGroupChatList.h 
+    #Widgets/FrmGroupChat/FrmGroupChat.h \
     #Widgets/FrmUserList/GroupItem.h \
-    #Widgets/FrmGroupChat/FrmGroupChatList.h \
     #Widgets/FrmGroupChat/FrmGroupChatFind.h \
     #Widgets/FrmGroupChat/Conference.h \
-    #Widgets/FrmGroupChat/FrmGroupChat.h \
     #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.h \
     
 
@@ -137,10 +137,11 @@ FORMS    += MainWindow.ui \
     Widgets/FrmRecentMessage/FrmRecentMsgList.ui \
     Widgets/DlgAddRoster/DlgAddRoster.ui \
     Widgets/FrmVideo/FrmVideo.ui \ 
-    Widgets/DlgRegister/DlgRegister.ui
-    #Widgets/FrmGroupChat/FrmGroupChatList.ui \
+    Widgets/DlgRegister/DlgRegister.ui \
+    Widgets/FrmGroupChat/FrmGroupChatList.ui 
+#Widgets/FrmGroupChat/FrmGroupChat.ui \
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
-    #Widgets/FrmGroupChat/FrmGroupChat.ui \
+    
     #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.ui \
 
 

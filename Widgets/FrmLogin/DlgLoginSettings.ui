@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CFrmLoginSettings</class>
- <widget class="QFrame" name="CFrmLoginSettings">
+ <class>CDlgLoginSettings</class>
+ <widget class="QDialog" name="CDlgLoginSettings">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,12 +12,6 @@
   </property>
   <property name="windowTitle">
    <string>Server Settings</string>
-  </property>
-  <property name="frameShape">
-   <enum>QFrame::StyledPanel</enum>
-  </property>
-  <property name="frameShadow">
-   <enum>QFrame::Raised</enum>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

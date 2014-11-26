@@ -1,10 +1,10 @@
 #ifndef FRMLOGINSETTINGS_H
 #define FRMLOGINSETTINGS_H
 
-#include <QFrame>
+#include <QDialog>
 
 namespace Ui {
-class CFrmLoginSettings;
+class CDlgLoginSettings;
 }
 
 /*本类在窗口关闭时会自己释放内存，所以构造时请用
@@ -12,13 +12,13 @@ class CFrmLoginSettings;
  * p->SetLogin(this);
  * p->show();
  */
-class CFrmLoginSettings : public QFrame
+class CDlgLoginSettings : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit CFrmLoginSettings(QWidget *parent = 0);
-    ~CFrmLoginSettings();
+    explicit CDlgLoginSettings(QWidget *parent = 0);
+    ~CDlgLoginSettings();
 
     int SetLogin(QWidget *pLogin);
 
@@ -33,9 +33,7 @@ private slots:
     void on_pbCanecl_clicked();
 
 private:
-    Ui::CFrmLoginSettings *ui;
-
-    QWidget* m_pParent;
+    Ui::CDlgLoginSettings *ui;
 };
 
 #endif // FRMLOGINSETTINGS_H

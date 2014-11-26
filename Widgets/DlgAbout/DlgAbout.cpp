@@ -45,12 +45,10 @@ CDlgAbout::~CDlgAbout()
 
 void CDlgAbout::showEvent(QShowEvent *)
 {
-    CGlobal::Instance()->GetMainWindow()->setEnabled(false);
 }
 
 void CDlgAbout::closeEvent(QCloseEvent *)
 {
-    CGlobal::Instance()->GetMainWindow()->setEnabled(true);
 }
 
 void CDlgAbout::changeEvent(QEvent *e)

@@ -1,11 +1,11 @@
-#include "FrmLoginSettings.h"
-#include "ui_FrmLoginSettings.h"
+#include "DlgLoginSettings.h"
+#include "ui_DlgLoginSettings.h"
 #include "../../Global/Global.h"
 #include <QDesktopWidget>
 
-CFrmLoginSettings::CFrmLoginSettings(QWidget *parent) :
-    QFrame(parent),
-    ui(new Ui::CFrmLoginSettings)
+CDlgLoginSettings::CDlgLoginSettings(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::CDlgLoginSettings)
 {
     LOG_MODEL_DEBUG("Login", "CFrmLoginSettings::CFrmLoginSettings");
     ui->setupUi(this);
@@ -23,32 +23,24 @@ CFrmLoginSettings::CFrmLoginSettings(QWidget *parent) :
     QDesktopWidget *pDesk = QApplication::desktop();
     move((pDesk->width() - width()) / 2,
          (pDesk->height() - height()) / 2);
-
-    m_pParent = parent;
 }
 
-CFrmLoginSettings::~CFrmLoginSettings()
+CDlgLoginSettings::~CDlgLoginSettings()
 {
     delete ui;
     LOG_MODEL_DEBUG("Login", "CFrmLoginSettings::~CFrmLoginSettings");
 }
 
-void CFrmLoginSettings::closeEvent(QCloseEvent *)
+void CDlgLoginSettings::closeEvent(QCloseEvent *)
 {
-    if(m_pParent)
-        m_pParent->setEnabled(true);
-
-    deleteLater();
 }
 
-void CFrmLoginSettings::showEvent(QShowEvent *event)
+void CDlgLoginSettings::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
-    if(m_pParent)
-        m_pParent->setEnabled(false);
 }
 
-void CFrmLoginSettings::changeEvent(QEvent *e)
+void CDlgLoginSettings::changeEvent(QEvent *e)
 {
     switch(e->type())
     {
@@ -58,13 +50,7 @@ void CFrmLoginSettings::changeEvent(QEvent *e)
     }
 }
 
-int CFrmLoginSettings::SetLogin(QWidget *pLogin)
-{
-    m_pParent = pLogin;
-    return 0;
-}
-
-void CFrmLoginSettings::on_pbOK_clicked()
+void CDlgLoginSettings::on_pbOK_clicked()
 {
     CGlobal::Instance()->SetXmppDomain(ui->txtXmppDomain->text());
     CGlobal::Instance()->SetXmppServer(ui->txtXmppServer->text());
@@ -76,14 +62,10 @@ void CFrmLoginSettings::on_pbOK_clicked()
     CGlobal::Instance()->SetTurnServerUser(ui->txtUser->text());
     CGlobal::Instance()->SetTurnServerPassword(ui->txtPassword->text());
 
-    if(m_pParent)
-        m_pParent->setEnabled(true);
     close();
 }
 
-void CFrmLoginSettings::on_pbCanecl_clicked()
+void CDlgLoginSettings::on_pbCanecl_clicked()
 {
-    if(m_pParent)
-        m_pParent->setEnabled(true);
     close();
 }

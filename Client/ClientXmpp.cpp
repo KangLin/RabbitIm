@@ -32,7 +32,8 @@ CClientXmpp::CClientXmpp(QObject *parent)
 
     m_Client.addExtension(&m_CallManager);
     m_Client.addExtension(&m_MucManager);
-    //TODO:增加文件代理的查找  
+    //TODO:增加文件代理的查找,如果用发现服务查找， 
+    //则可能引起大量查询包，导制服务器忙。目前解决方案就是直接设置代理  
     m_TransferManager.setProxy("proxy." + CGlobal::Instance()->GetXmppDomain());
     m_Client.addExtension(&m_TransferManager);
 

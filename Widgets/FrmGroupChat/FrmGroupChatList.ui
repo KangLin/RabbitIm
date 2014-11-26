@@ -52,6 +52,32 @@
     <string>Alt+L</string>
    </property>
   </action>
+  <action name="actionCreate_chat_room">
+   <property name="text">
+    <string>Create chat room</string>
+   </property>
+   <property name="toolTip">
+    <string>Create chat room</string>
+   </property>
+  </action>
+  <action name="actionJoin_chat_room">
+   <property name="text">
+    <string>Join chat room</string>
+   </property>
+   <property name="toolTip">
+    <string>Join chat room</string>
+   </property>
+  </action>
+  <action name="actionRoom_infomation">
+   <property name="text">
+    <string>Room infomation</string>
+   </property>
+  </action>
+  <action name="actionOpen_chat_room">
+   <property name="text">
+    <string>Open chat room</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../../Resource/Resource.qrc"/>

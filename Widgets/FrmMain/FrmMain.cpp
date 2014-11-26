@@ -6,7 +6,7 @@
 CFrmMain::CFrmMain(QWidget *parent) :
     QFrame(parent),
     m_UserList(parent),
-    //m_GroupChatList(parent),
+    m_GroupChatList(parent),
     ui(new Ui::CFrmMain)
 {
     ui->setupUi(this);
@@ -14,7 +14,7 @@ CFrmMain::CFrmMain(QWidget *parent) :
     
 
     ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
-    //ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
+    ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
     ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"), tr("Recent messages"));
     
     if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
@@ -53,7 +53,7 @@ void CFrmMain::changeEvent(QEvent *e)
         ui->retranslateUi(this);
         ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_UserList), tr("Rosters"));
         ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_MessageList), tr("Recent messages"));
-        //ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_GroupChatList), tr("Group Chat"));
+        ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_GroupChatList), tr("Group Chat"));
         break;
     }
 }
