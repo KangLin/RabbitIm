@@ -3,6 +3,7 @@
 #include "../../Global/Global.h"
 #include "FrmGroupChatFind.h"
 #include "../../MainWindow.h"
+#include "DlgCreateGroupChatRoom.h"
 #include <QDesktopWidget>
 
 #define ROLE_JID Qt::UserRole + 1
@@ -39,14 +40,6 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     check = connect(&m_GroupList, SIGNAL(customContextMenuRequested(QPoint)),
                     SLOT(slotCustomContextMenuRequested(QPoint)));
     Q_ASSERT(check);
-    /*
-    check = connect(&XMPP_CLIENT->m_MucManager, SIGNAL(invitationReceived(QString,QString,QString)),
-                    SLOT(slotInvitationReceived(QString,QString,QString)));
-    Q_ASSERT(check);
-*/
-    /*check = connect(&CGlobal::Instance()->GetXmppClient()->m_MucManager, SIGNAL(roomAdded(QXmppMucRoom*)),
-                    SLOT(slotRoomAdded(QXmppMucRoom*)));
-    Q_ASSERT(check);*/
 
     check = connect(&m_GroupList, SIGNAL(clicked(QModelIndex)),
                     SLOT(slotClicked(QModelIndex)));
@@ -59,43 +52,11 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
 
 CFrmGroupChatList::~CFrmGroupChatList()
 {
-//    QMap<QString, CFrmGroupChat*>::iterator it;
-//    for(it = m_Group.begin(); it != m_Group.end(); it++)
-//    {
-//        delete *it;
-//    }
-
-    delete ui;
     if(m_pModel)
         delete m_pModel;
-}
-/*
-CFrmGroupChat* CFrmGroupChatList::GetGroupChat(const QString& jid)
-{
-    QMap<QString, CFrmGroupChat*>::iterator it;
-    it = m_Group.find(jid);
-    if(m_Group.end() == it)
-        return NULL;
-    return it.value();
-}
 
-void CFrmGroupChatList::slotInvitationReceived(const QString &roomJid, const QString &inviter, const QString &reason)
-{
-    LOG_MODEL_DEBUG("CFrmGroupChatList", "roomJid:%s, inviter:%s, reason:%s",
-                    roomJid.toStdString().c_str(), 
-                    inviter.toStdString().c_str(),
-                    reason.toStdString().c_str());
+    delete ui;
 }
-
-void CFrmGroupChatList::slotRoomAdded(QXmppMucRoom *room)
-{
-    LOG_MODEL_DEBUG("CFrmGroupChatList", "CFrmGroupChatList::slotRoomAdded:jid:%s,name:%s,nick:%s,subject:%s",
-                    room->jid().toStdString().c_str(),
-                    room->name().toStdString().c_str(),
-                    room->nickName().toStdString().c_str(),
-                    room->subject().toStdString().c_str());
-}
-*/
 
 void CFrmGroupChatList::resizeEvent(QResizeEvent* e)
 {
@@ -103,7 +64,7 @@ void CFrmGroupChatList::resizeEvent(QResizeEvent* e)
                     e->size().width(),
                     geometry().size().width());
     m_GroupList.resize(this->geometry().size());
-    
+
     //调整列的宽度  
     int nWidth = m_GroupList.geometry().width() * 4/ 5;
     m_GroupList.setColumnWidth(0, nWidth);
@@ -124,7 +85,7 @@ int CFrmGroupChatList::InitMenu()
 {
     m_Menu.setTitle(tr("Operator group chat(&G)"));
     m_Menu.addAction(ui->actionOpen_chat_room);
-    m_Menu.addAction(ui->actionNew_Search_group_chat_rooms);
+    m_Menu.addAction(ui->actionCreate_chat_room);
     m_Menu.addAction(ui->actionJoin_chat_room);
     m_Menu.addAction(ui->actionLeave_room);
     m_Menu.addAction(ui->actionRoom_infomation);
@@ -160,82 +121,57 @@ void CFrmGroupChatList::slotRemoveFromMainMenu(QMenu *pMenu)
 void CFrmGroupChatList::slotUpdateMenu()
 {
     if(this->isHidden())
+    {
         m_Menu.setEnabled(false);
-    else
-        m_Menu.setEnabled(true);
+        return;
+    }
+
+    m_Menu.setEnabled(true);
+
+    ui->actionCreate_chat_room->setVisible(true);
+    ui->actionJoin_chat_room->setVisible(true);
+    
+    QString room = GetCurrentRoom();
+    if(room.isEmpty())//列表是空  
+    {
+        ui->actionLeave_room->setVisible(false);
+        ui->actionOpen_chat_room->setVisible(false);
+        ui->actionRoom_infomation->setVisible(false);
+        return;
+    }
+
+    ui->actionLeave_room->setVisible(true);
+    ui->actionOpen_chat_room->setVisible(true);
+    ui->actionRoom_infomation->setVisible(true);
 }
-/*
-void CFrmGroupChatList::slotUpdateMainMenu()
-{
-    m_Menu.setTitle(tr("Operator group chat(&G)"));
-    LOG_MODEL_DEBUG("Group chat", "CFrmGroupChatList isHidden:%s",
-                    qPrintable(QString::number(isHidden())));
-    if(this->isHidden())
-        m_Menu.setEnabled(false);
-    else
-        m_Menu.setEnabled(true);
-}
-*/
+
 void CFrmGroupChatList::slotCustomContextMenuRequested(const QPoint &pos)
 {
     Q_UNUSED(pos);
     m_Menu.exec(QCursor::pos());
 }
 
-void CFrmGroupChatList::slotActionFindGroup()
+void CFrmGroupChatList::on_actionCreate_chat_room_triggered()
 {
-  /*  CFrmGroupChatFind * pFrm = CFrmGroupChatFind::Instance();
-    bool check = connect(pFrm, SIGNAL(sigJoinedGroup(QString,CFrmGroupChat*)),
-                         SLOT(slotJoinedGroup(QString,CFrmGroupChat*)));
-    Q_ASSERT(check);
-
-    pFrm->show();*/
+    CDlgCreateGroupChatRoom room;
+    room.exec();
 }
 
-void CFrmGroupChatList::slotActionLeave()
+void CFrmGroupChatList::on_actionJoin_chat_room_triggered()
 {
-    /*QModelIndex index = m_GroupList.currentIndex();
-    if(!index.isValid())
-        return;
-    const QAbstractItemModel* m = index.model();
-    QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
-    CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
-    chat->Leave();//当聊天室离开后,会触发 sigLeft 事件,然后在 slotLeft 中处理  
-    */
-}
-/*
-void CFrmGroupChatList::slotJoinedGroup(const QString &jid, CFrmGroupChat *pChat)
-{
-    if(m_Group.find(jid) != m_Group.end())
-    {
-        LOG_MODEL_DEBUG("Group chat", "group chat [%s] is exist", jid.toStdString().c_str());
-        return;
-    }
-
-    bool check = connect(pChat, SIGNAL(sigLeft(QString,CFrmGroupChat*)),
-                         SLOT(slotLeft(QString,CFrmGroupChat*)));
-    Q_ASSERT(check);
     
-    QList<QStandardItem*> pItem = pChat->GetItem();
-    m_pModel->appendRow(pItem);
-    m_Group[jid] = pChat;
 }
 
-void CFrmGroupChatList::slotLeft(const QString &jid, CFrmGroupChat *pChat)
+void CFrmGroupChatList::on_actionOpen_chat_room_triggered()
 {
-    QList<QStandardItem* > item = pChat->GetItem();
-    if(!item.isEmpty())
-    {
-        QStandardItem* pItem = *item.begin();
-        if(pItem)
-            if(-1 != pItem->row())
-            {
-                m_pModel->removeRow(pItem->row());
-            }
-    }
-    m_Group.remove(jid);
+    
 }
-*/
+
+void CFrmGroupChatList::on_actionLeave_room_triggered()
+{
+    
+}
+
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)
 {
 #ifdef MOBILE
@@ -257,3 +193,13 @@ void CFrmGroupChatList::slotDoubleClicked(const QModelIndex &index)
 #endif
 }
 
+QString CFrmGroupChatList::GetCurrentRoom()
+{
+    QModelIndex index = m_GroupList.currentIndex();
+    const QAbstractItemModel *m = index.model();
+    if(!m)//列表是空  
+    {
+       return QString();
+    }
+
+}

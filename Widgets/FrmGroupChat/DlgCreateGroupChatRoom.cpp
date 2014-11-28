@@ -1,41 +1,29 @@
-#include "FrmCreateGroupChatRoom.h"
-#include "ui_FrmCreateGroupChatRoom.h"
+#include "DlgCreateGroupChatRoom.h"
+#include "ui_DlgCreateGroupChatRoom.h"
 #include <QMessageBox>
 #include <QDesktopWidget>
 
-CFrmCreateGroupChatRoom::CFrmCreateGroupChatRoom(QWidget *parent) :
-    QFrame(parent),
-    ui(new Ui::CFrmCreateGroupChatRoom)
+CDlgCreateGroupChatRoom::CDlgCreateGroupChatRoom(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::CDlgCreateGroupChatRoom)
 {
     ui->setupUi(this);
+
     QDesktopWidget *pDesk = QApplication::desktop();
+#ifdef MOBILE
+    this->setGeometry(pDesk->geometry());
+#else
     move((pDesk->width() - width()) / 2,
          (pDesk->height() - height()) / 2);
+#endif
 }
 
-CFrmCreateGroupChatRoom::~CFrmCreateGroupChatRoom()
+CDlgCreateGroupChatRoom::~CDlgCreateGroupChatRoom()
 {
     delete ui;
 }
 
-CFrmCreateGroupChatRoom* CFrmCreateGroupChatRoom::Instance(const QString &jid)
-{
-    static CFrmCreateGroupChatRoom* pChat = NULL;
-    if(NULL == pChat)
-        pChat = new CFrmCreateGroupChatRoom();
-
-    if(pChat)
-        pChat->Init(jid);
-    return pChat;
-}
-
-int CFrmCreateGroupChatRoom::Init(const QString &jid)
-{
-    m_szJid = jid;
-    return 0;
-}
-
-void CFrmCreateGroupChatRoom::showEvent(QShowEvent *)
+void CDlgCreateGroupChatRoom::showEvent(QShowEvent *)
 {
     ui->txtConfirmPassword->clear();
     ui->txtName->clear();
@@ -46,11 +34,11 @@ void CFrmCreateGroupChatRoom::showEvent(QShowEvent *)
     ui->cbProtracted->setChecked(false);
 }
 
-void CFrmCreateGroupChatRoom::closeEvent(QCloseEvent *)
+void CDlgCreateGroupChatRoom::closeEvent(QCloseEvent *)
 {
 }
 
-void CFrmCreateGroupChatRoom::changeEvent(QEvent *e)
+void CDlgCreateGroupChatRoom::changeEvent(QEvent *e)
 {
     switch(e->type())
     {
@@ -60,7 +48,7 @@ void CFrmCreateGroupChatRoom::changeEvent(QEvent *e)
     }
 }
 
-void CFrmCreateGroupChatRoom::on_pbOK_clicked()
+void CDlgCreateGroupChatRoom::on_pbOK_clicked()
 {
     QString szName = ui->txtName->text();
     if(szName.isEmpty())
@@ -84,7 +72,7 @@ void CFrmCreateGroupChatRoom::on_pbOK_clicked()
         QMessageBox::critical(this, tr("Error"), tr("Enter the password is not the same twice."));
         return;
     }
-
+/*
     CFrmGroupChat* pGroupChat = new CFrmGroupChat();
     if(pGroupChat)
     {
@@ -137,14 +125,14 @@ void CFrmCreateGroupChatRoom::on_pbOK_clicked()
         form.setFields(fields);
         pGroupChat->setConfiguration(form);
 
-        if(!pGroupChat->Create(szName + "@" + m_szJid))
+        if(!pGroupChat->Create(szName + "@" + m_szId))
             delete pGroupChat;
     }
-
-    close();
+*/
+    this->accept();
 }
 
-void CFrmCreateGroupChatRoom::on_pbCancel_clicked()
+void CDlgCreateGroupChatRoom::on_pbCancel_clicked()
 {
-    close();
+    this->reject();
 }

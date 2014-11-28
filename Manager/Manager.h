@@ -7,6 +7,7 @@
 #include "Widgets/FrmRecentMessage/ManageRecentMessage.h"
 #include "Call/ManageCall.h"
 #include <QSharedPointer>
+#include "Widgets/FrmGroupChat/ManageGroupChat.h"
 
 class CManageFileTransfer;
 class CManager
@@ -23,7 +24,7 @@ public:
     virtual QSharedPointer<CManageRecentMessage> GetRecentMessage();
     virtual QSharedPointer<CManageFileTransfer> GetFileTransfer();
     virtual QSharedPointer<CManageCall> GetCall();
-
+    virtual QSharedPointer<CManageGroupChat> GetManageGroupChat() = 0;
     /**
      * @brief 登录后初始化  
      *

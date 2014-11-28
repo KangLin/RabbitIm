@@ -25,13 +25,19 @@ Qt的皮肤设计:http://blog.csdn.net/lastsoup/article/details/7043124
 * 漫谈QWidget及其派生类(二) :http://blog.csdn.net/dbzhang800/article/details/6741344
 
 * Qt 线程
-QtThread线程介绍:http://blog.csdn.net/liuhongwei123888/article/details/6072320
+[QtThread线程介绍](http://blog.csdn.net/liuhongwei123888/article/details/6072320)
 每个线程要用 setObjectName 设置名称，便于调试。
 
 * Qt 信号与线程:
-Qt 线程基础:http://blog.csdn.net/dbzhang800/article/details/6554104
-Qt中线程跟信号槽的关系:http://cxyclub.cn/n/10254/
-如何让 Qt 的程序使用 Sleep:http://blog.csdn.net/dbzhang800/article/details/6300425
+[Qt 线程基础](http://blog.csdn.net/dbzhang800/article/details/6554104)
+[Qt中线程跟信号槽的关系](http://cxyclub.cn/n/10254/)
+[如何让 Qt 的程序使用 Sleep](http://blog.csdn.net/dbzhang800/article/details/6300425)
+
++ [Qt 学习之路 2（71）：线程简介](http://www.devbean.net/2013/11/qt-study-road-2-thread-intro/)
++ [Qt 学习之路 2（72）：线程和事件循环](http://www.devbean.net/2013/11/qt-study-road-2-thread-and-event-loop/)
++ [Qt 学习之路 2（73）：Qt 线程相关类](http://www.devbean.net/2013/11/qt-study-road-2-thread-related-classes/)
++ [Qt 学习之路 2（74）：线程和 QObject](http://www.devbean.net/2013/12/qt-study-road-2-thread-and-qobject/)
++ [Qt 学习之路 2（75）：线程总结](http://www.devbean.net/2013/12/qt-study-road-2-thread-summary/)
 
 * QWidget 鼠标移事件：
 当mousetracking为off时，只有当一个鼠标键按下时，才会有mouseEvent事件。

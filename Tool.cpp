@@ -127,7 +127,7 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     int nRet = 0;
     struct SwsContext* pSwsCtx = NULL;
 
-    //分配输出空间
+    //分配输出空间  
     nRet = avpicture_alloc(&outFrame, outPixelFormat, nOutWidth, nOutHeight);
     if(nRet)
     {

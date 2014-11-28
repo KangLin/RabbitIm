@@ -69,6 +69,7 @@
 
 参考资料：
 --------
+* [开发笔记](./Books/开发笔记.txt)
 
 * [Qt Model/View](http://blog.csdn.net/leo115/article/details/7532677)
 

@@ -54,14 +54,18 @@ SOURCES += main.cpp\
     Widgets/DlgScreenShot/WdgScreenEditor.cpp \
     Widgets/DlgAbout/DlgAbout.cpp \
     Widgets/FrmGroupChat/FrmGroupChatList.cpp \ 
-    Widgets/FrmLogin/DlgLoginSettings.cpp
+    Widgets/FrmLogin/DlgLoginSettings.cpp \
+    Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp \
+    Widgets/FrmGroupChat/ManageGroupChat.cpp \
+    Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp \
+    Widgets/FrmGroupChat/GroupChat.cpp
     #Widgets/FrmGroupChat/FrmGroupChat.cpp 
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp \
     #Widgets/FrmGroupChat/Conference.cpp \
-    #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.cpp \
+    
     
 
-HEADERS  += MainWindow.h \
+HEADERS += MainWindow.h \
     Global/Global.h \
     UserInfo/UserInfo.h \
     Client/Client.h \
@@ -116,15 +120,19 @@ HEADERS  += MainWindow.h \
     Widgets/DlgScreenShot/WdgScreenEditor.h \
     Widgets/DlgAbout/DlgAbout.h \
     Widgets/FrmGroupChat/FrmGroupChatList.h \ 
-    Widgets/FrmLogin/DlgLoginSettings.h
-    #Widgets/FrmGroupChat/FrmGroupChat.h \
+    Widgets/FrmLogin/DlgLoginSettings.h \  
+    Widgets/FrmGroupChat/DlgCreateGroupChatRoom.h \
+    Widgets/FrmGroupChat/ManageGroupChat.h \
+    Widgets/FrmGroupChat/ManageGroupChatQxmpp.h \
+    Widgets/FrmGroupChat/GroupChat.h
+   # Widgets/FrmGroupChat/FrmGroupChat.h 
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmGroupChat/FrmGroupChatFind.h \
     #Widgets/FrmGroupChat/Conference.h \
-    #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.h \
+    
     
 
-FORMS    += MainWindow.ui \
+FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
     Widgets/FrmUserList/FrmUserList.ui \
     Widgets/DlgAbout/DlgAbout.ui \
@@ -138,11 +146,12 @@ FORMS    += MainWindow.ui \
     Widgets/FrmVideo/FrmVideo.ui \ 
     Widgets/DlgRegister/DlgRegister.ui \
     Widgets/FrmGroupChat/FrmGroupChatList.ui \ 
-    Widgets/FrmLogin/DlgLoginSettings.ui
-#Widgets/FrmGroupChat/FrmGroupChat.ui \
+    Widgets/FrmLogin/DlgLoginSettings.ui \ 
+    Widgets/FrmGroupChat/DlgCreateGroupChatRoom.ui 
+    #Widgets/FrmGroupChat/FrmGroupChat.ui 
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui \
     
-    #Widgets/FrmGroupChat/FrmCreateGroupChatRoom.ui \
+    
 
 
 RESOURCES += \
