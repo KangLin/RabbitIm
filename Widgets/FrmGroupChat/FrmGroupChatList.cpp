@@ -5,9 +5,9 @@
 #include "../../MainWindow.h"
 #include "DlgCreateGroupChatRoom.h"
 #include <QDesktopWidget>
-
-#define ROLE_JID Qt::UserRole + 1
-#define ROLE_FORM_GROUPCHAT ROLE_JID + 1
+#include "ManageGroupChat.h"
+#include "Global/Global.h"
+#include "DlgJoinGroupChat.h"
 
 CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     QFrame(parent),
@@ -47,6 +47,16 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
 
     check = connect(&m_GroupList, SIGNAL(doubleClicked(QModelIndex)),
                     SLOT(slotDoubleClicked(QModelIndex)));
+    Q_ASSERT(check);
+
+    check = connect(GETMANAGER->GetManageGroupChat().data(),
+                     SIGNAL(sigJoined(QString)),
+                     this, SLOT(slotJoinedGroup(QString)));
+    Q_ASSERT(check);
+    
+    check = connect(GETMANAGER->GetManageGroupChat().data(),
+                    SIGNAL(sigLeave(QString)),
+                    this, SLOT(slotLeave(QString)));
     Q_ASSERT(check);
 }
 
@@ -159,7 +169,8 @@ void CFrmGroupChatList::on_actionCreate_chat_room_triggered()
 
 void CFrmGroupChatList::on_actionJoin_chat_room_triggered()
 {
-    
+    CDlgJoinGroupChat dlg(this);
+    dlg.exec();
 }
 
 void CFrmGroupChatList::on_actionOpen_chat_room_triggered()
@@ -169,7 +180,9 @@ void CFrmGroupChatList::on_actionOpen_chat_room_triggered()
 
 void CFrmGroupChatList::on_actionLeave_room_triggered()
 {
-    
+    QString szId = GetCurrentRoom();
+    GETMANAGER->GetManageGroupChat()->Leave(szId);
+    ItemRemove(szId);
 }
 
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)
@@ -202,4 +215,62 @@ QString CFrmGroupChatList::GetCurrentRoom()
        return QString();
     }
 
+    //是用户结点
+    QVariant v = m->data(index, GROUP_ITEM_ROLE_JID);
+    if(v.canConvert<QString>())
+    {
+        return v.value<QString>();
+    }
+    return QString();
+}
+
+int CFrmGroupChatList::ItemRemove(const QString &szId)
+{
+    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
+                                                GROUP_ITEM_ROLE_JID, 
+                                                szId, 
+                                                -1,
+                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+    QModelIndex index;
+    foreach(index, lstIndexs)
+    {
+        m_pModel->removeRow(index.row());
+    }
+    return 0;
+}
+
+void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
+{
+    QSharedPointer<CManageGroupChat> mgc = GETMANAGER->GetManageGroupChat();
+    if(mgc.isNull())
+    {
+        LOG_MODEL_ERROR("CFrmGroupChatList", "GETMANAGER->GetManageGroupChat() is null");
+        return;
+    }
+    QSharedPointer<CGroupChat> gc = mgc->Get(szId);
+    //呢称条目  
+    QStandardItem* pItem = new QStandardItem(gc->ShowName());
+    pItem->setData(gc->Id(), GROUP_ITEM_ROLE_JID);
+    pItem->setData(PROPERTIES_ITEM, GROUP_ITEM_ROLE_PROPERTIES);
+
+#ifdef DEBUG
+    pItem->setToolTip(gc->Id());
+#endif 
+
+    //设置item图标  
+    //pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(info->GetStatus())), Qt::DecorationRole);
+    //消息条目  
+    QStandardItem* pMessageCountItem = new QStandardItem("");
+    pItem->setData(gc->Id(), GROUP_ITEM_ROLE_JID);
+    pMessageCountItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, GROUP_ITEM_ROLE_PROPERTIES);
+    pMessageCountItem->setEditable(false);//禁止双击编辑  
+
+    QList<QStandardItem *> lstItems;
+    lstItems << pItem << pMessageCountItem;
+    m_pModel->appendRow(lstItems);
+}
+
+void CFrmGroupChatList::slotLeave(const QString &szId)
+{
+    
 }

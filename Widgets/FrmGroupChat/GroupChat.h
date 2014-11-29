@@ -8,7 +8,11 @@ class CGroupChat : public QObject
     Q_OBJECT
 public:
     explicit CGroupChat(QObject *parent = 0);
-    
+    virtual QString Id() = 0;
+    virtual QString ShowName() = 0;
+    virtual QString Nick() = 0;
+    virtual int Leave() = 0;
+
 signals:
     
 public slots:

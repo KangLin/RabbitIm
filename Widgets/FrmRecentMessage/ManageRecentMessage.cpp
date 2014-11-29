@@ -42,7 +42,7 @@ int CManageRecentMessage::LoadFromStorage(const QString &szId)
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
-        LOG_MODEL_WARNING("CGlobalUser", "Don't open file:%s", szFile.toStdString().c_str());
+        LOG_MODEL_WARNING("CManageRecentMessage", "Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
 
@@ -70,7 +70,7 @@ int CManageRecentMessage::LoadFromStorage(const QString &szId)
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CGlobalUser", "CFrmUserList::LoadUserList exception");
+        LOG_MODEL_ERROR("CManageRecentMessage", "CManageRecentMessage::LoadFromStorage exception");
         nRet = -1;
     }
 
@@ -92,7 +92,7 @@ int CManageRecentMessage::SaveToStorage()
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
-        LOG_MODEL_WARNING("CGlobalUser", "Don't open file:%s", szFile.toStdString().c_str());
+        LOG_MODEL_WARNING("CManageRecentMessage", "Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
 
@@ -116,7 +116,7 @@ int CManageRecentMessage::SaveToStorage()
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CGlobalUser", "CFrmUserList::SaveUserList exception");
+        LOG_MODEL_ERROR("CManageRecentMessage", "CManageRecentMessage::SaveToStorage exception");
         return -1;
     }
 

@@ -149,6 +149,7 @@ CUserInfo::SUBSCRIPTION_TYPE CUserInfoXmpp::FromQxmppSubscriptionType(QXmppRoste
     return t;
 }
 
+#ifndef QT_NO_DATASTREAM
 int CUserInfoXmpp::LoadFromStorage(QDataStream &input)
 {
     int nRet = 0;
@@ -165,3 +166,4 @@ int CUserInfoXmpp::SaveToStorage(QDataStream &output)
     output << m_szName;
     return 0;
 }
+#endif//#ifndef QT_NO_DATASTREAM

@@ -2,6 +2,8 @@
 #include "ui_DlgCreateGroupChatRoom.h"
 #include <QMessageBox>
 #include <QDesktopWidget>
+#include "Global/Global.h"
+#include "ManageGroupChat.h"
 
 CDlgCreateGroupChatRoom::CDlgCreateGroupChatRoom(QWidget *parent) :
     QDialog(parent),
@@ -72,6 +74,19 @@ void CDlgCreateGroupChatRoom::on_pbOK_clicked()
         QMessageBox::critical(this, tr("Error"), tr("Enter the password is not the same twice."));
         return;
     }
+
+    QSharedPointer<CManageGroupChat> groupChat = GETMANAGER->GetManageGroupChat();
+    if(groupChat.isNull())
+    {
+        LOG_MODEL_ERROR("CDlgCreateGroupChatRoom", "CManageGroupChat is null");
+        return;
+    }
+
+    groupChat->Create(ui->txtName->text(), 
+                      ui->txtSubject->text(), 
+                      ui->txtPassword->text(),
+                      ui->txtDescription->text(),
+                      ui->cbProtracted->isChecked());
 /*
     CFrmGroupChat* pGroupChat = new CFrmGroupChat();
     if(pGroupChat)

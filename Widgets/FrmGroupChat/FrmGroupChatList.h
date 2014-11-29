@@ -29,6 +29,18 @@ class CFrmGroupChatList : public QFrame
 public:
     explicit CFrmGroupChatList(QWidget *parent = 0);
     ~CFrmGroupChatList();
+private:
+    enum _GROUP_ROLE
+    {
+        GROUP_ITEM_ROLE_JID = Qt::UserRole + 1,
+        GROUP_ITEM_ROLE_PROPERTIES = GROUP_ITEM_ROLE_JID + 1
+    };
+    enum _PROPERTIES
+    {
+        PROPERTIES_GROUP,
+        PROPERTIES_ITEM,
+        PROPERTIES_UNREAD_MESSAGE_COUNT
+    };
 
 private slots:
     /// This signal is emitted when an invitation to a chat room is received.
@@ -37,9 +49,9 @@ private slots:
     //void slotRoomAdded(QXmppMucRoom *room);
 
     //成功加入聊天室时触发的消息  
-    //void slotJoinedGroup(const QString &jid, CFrmGroupChat* pChat);
+    void slotJoinedGroup(const QString &szId);
     //成功离开聊天室时触发的消息  
-    //void slotLeft(const QString &jid, CFrmGroupChat* pChat);
+    void slotLeave(const QString &szId);
 
 private:
     int InitMenu();//初始化菜单  
@@ -72,6 +84,9 @@ private:
     //列表控件  
     CCustomTreeView m_GroupList;
     QStandardItemModel *m_pModel; //好友列表树型控件  
+    
+    int ItemRemove(const QString &szId);
+
 private slots:
     //树形列表控件响应事件 
     void slotClicked(const QModelIndex & index);

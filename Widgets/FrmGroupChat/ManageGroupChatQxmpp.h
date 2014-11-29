@@ -12,20 +12,19 @@ class CManageGroupChatQxmpp : public CManageGroupChat
 public:
     explicit CManageGroupChatQxmpp(QObject *parent = 0);
 
-    virtual int Create(const QString &szId, 
-                   const QString &szName,
-                   const QString &szSubject,
-                   const QString szPassword = QString(),
-                   bool bProtracted = false
-            );
-    virtual int Join(const QString &szId);
+    virtual int Create(const QString &szName,
+                       const QString &szSubject,
+                       const QString &szPassword = QString(),
+                       const QString &szDescription = QString(),
+                       bool bProtracted = false,
+                       const QString &szNick = QString());
+    virtual int Join(const QString &szId, const QString &szNick = QString());
     virtual QSharedPointer<CGroupChat> Get(const QString &szId);
 
 signals:
-    
+
 public slots:
 private:
-    QMap<QString, QSharedPointer<CGroupChat> > m_GroupChat;
 };
 
 #endif // MANAGEGROUPCHATQXMPP_H

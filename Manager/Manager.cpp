@@ -18,12 +18,14 @@ int CManager::Init(const QString &szId)
     GetRecentMessage()->Init(szId);
     GetFileTransfer()->Init(szId);
     GetCall()->Init(szId);
+    GetManageGroupChat()->Init(szId);
     return 0;
 }
 
 int CManager::Clean()
 {
     //注意:清理顺序  
+    GetManageGroupChat()->Clean();
     GetCall()->Clean();
     GetFileTransfer()->Clean();
     GetRecentMessage()->Clean();

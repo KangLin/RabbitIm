@@ -7,7 +7,7 @@ CConference::CConference(QObject *parent) :
 {
     m_type = REQUEST_TYPE_NO;
     bool check = false;
-    QXmppDiscoveryManager* pDis = XMPP_CLIENT->findExtension<QXmppDiscoveryManager>();
+    QXmppDiscoveryManager* pDis = GET_CLIENT->findExtension<QXmppDiscoveryManager>();
     check = connect(pDis, SIGNAL(infoReceived(QXmppDiscoveryIq)),
                     SLOT(slotInfoReceived(QXmppDiscoveryIq)));
     Q_ASSERT(check);
