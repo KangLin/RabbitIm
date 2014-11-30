@@ -1,5 +1,6 @@
 #include "ManageMessageDialog.h"
 #include "Global/Global.h"
+#include "Widgets/FrmGroupChat/FrmGroupChat.h"
 
 CManageMessageDialog::CManageMessageDialog(QObject *parent) : QObject(parent)
 {
@@ -31,7 +32,7 @@ int CManageMessageDialog::Clean()
 
 int CManageMessageDialog::ShowDialog(const QString &szId)
 {
-    QFrame* frmMessage;
+    QFrame* pFrame = NULL;
     QMap<QString, QFrame*>::iterator it;
     it = m_DlgMessage.find(szId);
     if(m_DlgMessage.end() == it)
@@ -40,23 +41,38 @@ int CManageMessageDialog::ShowDialog(const QString &szId)
         QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
         if(!roster.isNull())
         {
-            CFrmMessage* frm = new CFrmMessage(szId);
-            frmMessage = frm;
-            bool check = connect(frm, SIGNAL(sigClose(QFrame*)),
-                                 SLOT(slotDeleteFrmMessage(QFrame*)));
-            Q_ASSERT(check);
-            m_DlgMessage.insert(szId, frm);
+            pFrame = new CFrmMessage(szId);
         }
         else
         {
-            //TODO:是组消息对话框  
-            
+            //增加组对话框  
+            QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
+            if(gc.isNull())
+            {
+                LOG_MODEL_ERROR("CFrmContainer", "Don't group chat:%s", qPrintable(szId));
+                return -3;
+            }
+            pFrame = new CFrmGroupChat(szId);
         }
+
+        if(!pFrame)
+        {
+            LOG_MODEL_ERROR("CFrmContainer", "pFrame is null");
+            return -4;
+        }
+        bool check = connect(pFrame, SIGNAL(sigClose(QFrame*)),
+                             SLOT(slotDeleteFrmMessage(QFrame*)));
+        Q_ASSERT(check);
+        m_DlgMessage.insert(szId, pFrame);
     }
     else
-        frmMessage = it.value();
-    frmMessage->show();
-    frmMessage->activateWindow();
+        pFrame = it.value();
+
+    if(pFrame)
+    {
+        pFrame->show();
+        pFrame->activateWindow();
+    }
     return 0;
 }
 
@@ -68,7 +84,7 @@ void CManageMessageDialog::slotDeleteFrmMessage(QFrame *obj)
         if(it.value() == obj)
         {
             QFrame* pFrame = it.value();
-            m_DlgMessage.remove(it.key());
+            m_DlgMessage.erase(it);
             delete pFrame;
             return;
         }

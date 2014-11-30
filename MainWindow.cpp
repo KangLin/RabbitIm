@@ -186,7 +186,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::changeEvent(QEvent *e)
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::changeEvent.e->type:%d", e->type());
+    //LOG_MODEL_DEBUG("MainWindow", "MainWindow::changeEvent.e->type:%d", e->type());
     switch(e->type())
     {
     case QEvent::LanguageChange:

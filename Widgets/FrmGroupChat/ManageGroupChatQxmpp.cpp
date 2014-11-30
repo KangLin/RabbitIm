@@ -64,3 +64,4 @@ QSharedPointer<CGroupChat> CManageGroupChatQxmpp::Get(const QString &szId)
         return QSharedPointer<CGroupChat>();
     return it.value();
 }
+

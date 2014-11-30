@@ -32,28 +32,28 @@ public:
             ) = 0;
     virtual int Join(const QString &szId, const QString &szNick = QString()) = 0;
     virtual QSharedPointer<CGroupChat> Get(const QString &szId) = 0;
-    virtual int Leave(const QString &szId);
 
 signals:
     void sigJoined(const QString& szId);
     void sigLeave(const QString& szId);
 
 public slots:
+    int slotLeave(const QString& szId);
 
-private:
+protected:
     /**
      * @brief 从存储中加载信息  
      *
      * @param szLocaleJid  
      * @return int  
      */
-    int LoadFromStorage(const QString &szId);
+    virtual int LoadFromStorage(const QString &szId);
     /**
      * @brief 保存信息到存储  
      *
      * @return int  
      */
-    int SaveToStorage();
+    virtual int SaveToStorage();
 
 protected:
     QMap<QString, QSharedPointer<CGroupChat> > m_GroupChat;

@@ -11,6 +11,8 @@ public:
     virtual QString Id() = 0;
     virtual QString ShowName() = 0;
     virtual QString Nick() = 0;
+    virtual QString Subject() = 0;
+
     virtual int Leave() = 0;
 
 signals:

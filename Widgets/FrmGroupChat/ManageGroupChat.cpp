@@ -105,13 +105,16 @@ int CManageGroupChat::SaveToStorage()
     return nRet;
 }
 
-int CManageGroupChat::Leave(const QString &szId)
+int CManageGroupChat::slotLeave(const QString &szId)
 {
     QMap<QString, QSharedPointer<CGroupChat> >::iterator it;
     it = m_GroupChat.find(szId);
     if(m_GroupChat.end() == it)
+    {
+        LOG_MODEL_DEBUG("CManageGroupChat", "Leave:Don't find %s", szId.toStdString().c_str());
         return -1;
-    it.value()->Leave();
+    }
+    emit sigLeave(szId);
     m_GroupChat.erase(it);
-    return 0;
+    return -2;
 }

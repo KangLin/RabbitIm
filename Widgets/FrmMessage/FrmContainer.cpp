@@ -3,6 +3,7 @@
 #include "FrmMessage.h"
 #include "Global/Global.h"
 #include "MainWindow.h"
+#include "Widgets/FrmGroupChat/FrmGroupChat.h"
 
 CFrmContainer::CFrmContainer(QWidget *parent) :
     QFrame(parent),
@@ -70,35 +71,51 @@ int CFrmContainer::ShowDialog(const QString &szId)
         return -1;
     }
 
+    QFrame* pFrame = NULL;
+    int nIndex = 0;
     //新建对话框,并添加到容器中  
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(!roster.isNull())
     {
         QSharedPointer<CUserInfo> info = roster->GetInfo();
-        CFrmMessage* frame = new CFrmMessage(szId, &m_tabWidget);
+        pFrame = new CFrmMessage(szId, &m_tabWidget);
         QPixmap pixmap;
         pixmap.convertFromImage(info->GetPhoto());
-        int nIndex = m_tabWidget.addTab(frame, QIcon(pixmap), info->GetShowName());
+        nIndex = m_tabWidget.addTab(pFrame, QIcon(pixmap), info->GetShowName());
         if(nIndex < 0)
         {
             LOG_MODEL_ERROR("CFrmContainer", "add tab fail");
             return -2;
         }
-
-        bool check = connect(frame, SIGNAL(sigClose(QFrame*)),
-                             SLOT(slotDeleteFrame(QFrame*)));
-        Q_ASSERT(check);
-
-        m_tabWidget.setCurrentIndex(nIndex);
-        //m_tabWidget.activateWindow();
-        m_tabWidget.show();
-        m_Frame.insert(szId, frame);
-        this->show();
-        this->activateWindow();
-        return 0;
     }
+    else
+    {
+        //增加组对话框  
+        QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
+        if(gc.isNull())
+        {
+            LOG_MODEL_ERROR("CFrmContainer", "Don't group chat:%s", qPrintable(szId));
+            return -3;
+        }
+        pFrame = new CFrmGroupChat(szId, &m_tabWidget);
+        nIndex = m_tabWidget.addTab(pFrame, QIcon(":/icon/Conference"), gc->ShowName());
+        if(nIndex < 0)
+        {
+            LOG_MODEL_ERROR("CFrmContainer", "add tab fail");
+            return -2;
+        }
+    }
+    bool check = connect(pFrame, SIGNAL(sigClose(QFrame*)),
+                         SLOT(slotDeleteFrame(QFrame*)));
+    Q_ASSERT(check);
 
-    //TODO:增加组对话框  
+    m_tabWidget.setCurrentIndex(nIndex);
+    //m_tabWidget.activateWindow();
+    m_tabWidget.show();
+    m_Frame.insert(szId, pFrame);
+    this->show();
+    this->activateWindow();
+    return 0;
 
     return nRet;
 }

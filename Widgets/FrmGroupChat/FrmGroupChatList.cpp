@@ -53,7 +53,7 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
                      SIGNAL(sigJoined(QString)),
                      this, SLOT(slotJoinedGroup(QString)));
     Q_ASSERT(check);
-    
+
     check = connect(GETMANAGER->GetManageGroupChat().data(),
                     SIGNAL(sigLeave(QString)),
                     this, SLOT(slotLeave(QString)));
@@ -140,7 +140,7 @@ void CFrmGroupChatList::slotUpdateMenu()
 
     ui->actionCreate_chat_room->setVisible(true);
     ui->actionJoin_chat_room->setVisible(true);
-    
+
     QString room = GetCurrentRoom();
     if(room.isEmpty())//列表是空  
     {
@@ -175,34 +175,34 @@ void CFrmGroupChatList::on_actionJoin_chat_room_triggered()
 
 void CFrmGroupChatList::on_actionOpen_chat_room_triggered()
 {
-    
+    QString szId = GetCurrentRoom();
+    if(szId.isEmpty())
+        return;
+    //是用户结点，打开消息对话框  
+    MANAGE_MESSAGE_DIALOG->ShowDialog(szId);
 }
 
 void CFrmGroupChatList::on_actionLeave_room_triggered()
 {
     QString szId = GetCurrentRoom();
-    GETMANAGER->GetManageGroupChat()->Leave(szId);
+    QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
+    if(gc.isNull())
+        return;
+    gc->Leave();
     ItemRemove(szId);
 }
 
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)
 {
 #ifdef MOBILE
-    /*const QAbstractItemModel* m = index.model();
-    QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
-    CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
-    chat->show();*/
+    this->on_actionOpen_chat_room_triggered();
 #endif
 }
 
 void CFrmGroupChatList::slotDoubleClicked(const QModelIndex &index)
 {
 #ifndef ANDROID
-    /*const QAbstractItemModel* m = index.model();
-    QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_OBJECT);
-    CFrmGroupChat* chat = v.value<CFrmGroupChat*>();
-    chat->show();
-    chat->activateWindow();*/
+    this->on_actionOpen_chat_room_triggered();
 #endif
 }
 
@@ -258,7 +258,7 @@ void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
 #endif 
 
     //设置item图标  
-    //pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(info->GetStatus())), Qt::DecorationRole);
+    pItem->setData(QIcon(":/icon/Conference"), Qt::DecorationRole);
     //消息条目  
     QStandardItem* pMessageCountItem = new QStandardItem("");
     pItem->setData(gc->Id(), GROUP_ITEM_ROLE_JID);

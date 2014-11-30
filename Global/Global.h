@@ -297,6 +297,8 @@ public slots:
 #define LOG_MODEL_WARNING(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, model, fmt, ##__VA_ARGS__)
 #define LOG_MODEL_DEBUG(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_DEBUG, model, fmt, ##__VA_ARGS__)
 #define LOG_MODEL_INFO(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, model, fmt, ##__VA_ARGS__)
+
+#define RABBITIM_ASSERT(x, ret) Q_ASSERT(x)
 #else
 #define LOG_ERROR(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, "", fmt, ##__VA_ARGS__)
 #define LOG_DEBUG(...)
@@ -307,6 +309,10 @@ public slots:
 #define LOG_MODEL_WARNING(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, model, fmt, ##__VA_ARGS__)
 #define LOG_MODEL_DEBUG(model, fmt, ...)
 #define LOG_MODEL_INFO(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, model, fmt, ##__VA_ARGS__)
+
+#define RABBITIM_ASSERT(x, ret) \
+    if(!x)
+        return ret;
 #endif
 
 #endif // GLOBAL_H
