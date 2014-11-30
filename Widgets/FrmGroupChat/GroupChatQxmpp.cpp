@@ -185,9 +185,22 @@ QString CGroupChatQxmpp::Subject()
     return m_pRoom->subject();
 }
 
+QStringList CGroupChatQxmpp::Participants()
+{
+    RABBITIM_ASSERT(m_pRoom, QStringList());
+    return m_pRoom->participants();
+}
+
 int CGroupChatQxmpp::Leave()
 {
     RABBITIM_ASSERT(m_pRoom, -1);
     m_pRoom->leave();
+    return 0;
+}
+
+int CGroupChatQxmpp::SendMessage(const QString &szMsg)
+{
+    RABBITIM_ASSERT(m_pRoom, -1);
+    m_pRoom->sendMessage(szMsg);
     return 0;
 }

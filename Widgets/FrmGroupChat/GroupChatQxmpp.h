@@ -15,8 +15,10 @@ public:
     virtual QString ShowName();
     virtual QString Nick();
     virtual QString Subject();
+    virtual QStringList Participants();
 
     virtual int Leave();
+    virtual int SendMessage(const QString &szMsg);
 private slots:
     /// This signal is emitted when the allowed actions change.
     void slotAllowedActionsChanged(QXmppMucRoom::Actions actions);

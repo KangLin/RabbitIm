@@ -12,8 +12,10 @@ public:
     virtual QString ShowName() = 0;
     virtual QString Nick() = 0;
     virtual QString Subject() = 0;
+    virtual QStringList Participants() = 0;
 
     virtual int Leave() = 0;
+    virtual int SendMessage(const QString &szMsg) = 0;
 
 signals:
     

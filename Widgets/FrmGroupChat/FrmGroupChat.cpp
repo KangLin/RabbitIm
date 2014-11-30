@@ -6,6 +6,11 @@
 #include "../FrmUservCard/FrmUservCard.h"
 #include <QDesktopWidget>
 
+#ifdef WIN32
+#undef SendMessage
+#undef GetMessage
+#endif
+
 CFrmGroupChat::CFrmGroupChat(const QString &szId, QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmGroupChat)
@@ -18,6 +23,8 @@ CFrmGroupChat::CFrmGroupChat(const QString &szId, QWidget *parent) :
 #ifdef MOBILE
     ui->lstMembers->setVisible(false);
     ui->pbMember->setVisible(true);
+    ui->pbClose->setText(tr("Back"));
+    ui->pbClose->setIcon(QIcon(":/icon/Left"));
 #else
     ui->lstMembers->setVisible(true);
     ui->pbMember->setVisible(false);
@@ -35,10 +42,21 @@ CFrmGroupChat::CFrmGroupChat(const QString &szId, QWidget *parent) :
     QDesktopWidget *pDesk = QApplication::desktop();
     move((pDesk->width() - width()) / 2,
          (pDesk->height() - height()) / 2);
-    
+
     QSharedPointer<CManageGroupChat> mgc = GETMANAGER->GetManageGroupChat();
     m_Room = mgc->Get(szId);
-    
+    //设置标题  
+    QString szTitle = m_Room->ShowName();
+    if(!m_Room->Subject().isEmpty())
+        szTitle += ":" + m_Room->Subject();
+    this->setWindowTitle(szTitle);
+    ui->lbTitle->setText(szTitle);
+
+    //设置成员列表  
+    foreach(QString member, m_Room->Participants())
+    {
+        
+    }
 }
 
 CFrmGroupChat::~CFrmGroupChat()
@@ -87,8 +105,8 @@ void CFrmGroupChat::on_pbSend_clicked()
         return;
     }
 
-    //AppendMessageToList(msg, m_pRoom->nickName());//服务器会转发，所以不需要  
-    //m_pRoom->sendMessage(msg);
+    //AppendMessageToList(msg, m_Room->Nick());//服务器会转发，所以不需要  
+    m_Room->SendMessage(msg);
     ui->txtInput->clear();//清空输入框中的内容  
 }
 
