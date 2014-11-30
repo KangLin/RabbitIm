@@ -605,7 +605,6 @@ int CFrmUserList::ItemRemoveRoster(const QString &szId)
     {
         QStandardItem* pItem = m_pModel->itemFromIndex(index);
         pItem->parent()->removeRow(index.row());
-        delete pItem;
     }
     return 0;
 }
