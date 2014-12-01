@@ -61,8 +61,10 @@ MainWindow::MainWindow(QWidget *parent) :
                         SLOT(slotMessageClean(const QString&)));
         Q_ASSERT(check);
 
-        //TODO:
-        //CFrmVideo::instance();
+        check = connect(GETMANAGER->GetManageGroupChat().data(),
+                        SIGNAL(sigMessageClean(QString)),
+                        SLOT(slotMessageClean(const QString&)));
+        Q_ASSERT(check);
     }
 
     //设置应用程序图标  
