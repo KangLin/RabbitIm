@@ -15,6 +15,13 @@ CManageMessageDialog::~CManageMessageDialog()
 int CManageMessageDialog::Init(const QString &szId)
 {
     Q_UNUSED(szId);
+    bool check = connect(GET_CLIENT.data(), SIGNAL(sigRemoveRosterUserInfo(QString)),
+                    SLOT(slotRemove(QString)));
+    Q_ASSERT(check);
+    
+    check = connect(GETMANAGER->GetManageGroupChat().data(), SIGNAL(sigLeave(QString)),
+                    SLOT(slotRemove(QString)));
+    Q_ASSERT(check);
     return 0;
 }
 
@@ -27,6 +34,8 @@ int CManageMessageDialog::Clean()
         delete it.value();
     }
     m_DlgMessage.clear();
+    GET_CLIENT->disconnect(this);
+    GETMANAGER->GetManageGroupChat()->disconnect(this);
     return 0;
 }
 
@@ -89,6 +98,19 @@ void CManageMessageDialog::slotDeleteFrmMessage(QFrame *obj)
             return;
         }
     }
+}
+
+void CManageMessageDialog::slotRemove(const QString &szId)
+{
+    QMap<QString, QFrame*>::iterator it;
+    it = m_DlgMessage.find(szId);
+    if(m_DlgMessage.end() == it)
+    {
+        return;
+    }
+    QFrame* pFrame = it.value();
+    m_DlgMessage.erase(it);
+    delete pFrame;
 }
 
 int CManageMessageDialog::Show()

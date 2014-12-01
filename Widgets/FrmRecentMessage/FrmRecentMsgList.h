@@ -30,6 +30,7 @@ private slots:
     //好友出席状态改变时触发  
     void SlotChangedStatus(const QString& szId);
     void slotRefresh();
+    void slotRemove(const QString &szId);
 
 private slots:
     //树形列表控件响应事件 

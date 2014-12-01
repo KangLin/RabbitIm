@@ -43,7 +43,7 @@ private slots:
     //刷新控件  
     void slotRefresh();
     void slotDeleteFrame(QFrame *frame);
-
+    void slotRemove(const QString& szId);
 private:
     Ui::CFrmContainer *ui;
     QMap<QString, QFrame* >m_Frame;

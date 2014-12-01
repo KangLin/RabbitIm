@@ -39,6 +39,7 @@ public:
 
 private slots:
     void slotDeleteFrmMessage(QFrame *obj);
+    void slotRemove(const QString& szId);
 private:
     QMap<QString, QFrame*> m_DlgMessage;
 };

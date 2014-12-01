@@ -46,6 +46,14 @@ CFrmRecentMsgList::CFrmRecentMsgList(QWidget *parent) :
                     SLOT(SlotChangedStatus(const QString&)));
     Q_ASSERT(check);
 
+    check = connect(GET_CLIENT.data(), SIGNAL(sigRemoveRosterUserInfo(QString)),
+                    SLOT(slotRemove(QString)));
+    Q_ASSERT(check);
+    
+    check = connect(GETMANAGER->GetManageGroupChat().data(), SIGNAL(sigLeave(QString)),
+                    SLOT(slotRemove(QString)));
+    Q_ASSERT(check);
+
     //连接组消息  
     check = connect(GETMANAGER->GetManageGroupChat().data(), SIGNAL(sigUpdateMessage(QString)),
                     SLOT(slotMessageUpdate(QString)));
@@ -66,6 +74,7 @@ CFrmRecentMsgList::CFrmRecentMsgList(QWidget *parent) :
 CFrmRecentMsgList::~CFrmRecentMsgList()
 {
     GET_CLIENT->disconnect(this);
+    GETMANAGER->GetManageGroupChat()->disconnect(this);
     GETMANAGER->GetRecentMessage()->disconnect(this);
     delete ui;
     delete m_pModel;
@@ -422,6 +431,11 @@ void CFrmRecentMsgList::slotRemoveMessage()
         return;
     QVariant v = m->data(index, USERLIST_ITEM_ROLE_JID);
     QString szId = v.value<QString>();
+    slotRemove(szId);
+}
+
+void CFrmRecentMsgList::slotRemove(const QString &szId)
+{
     RemoveItem(szId);
     QSharedPointer<CManageRecentMessage> recentMessage = CGlobal::Instance()->GetManager()->GetRecentMessage();
     recentMessage->Remove(szId);

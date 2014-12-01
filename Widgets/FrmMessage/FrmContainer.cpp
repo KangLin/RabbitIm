@@ -28,6 +28,15 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
                     SLOT(slotRefresh()));
     Q_ASSERT(check);
 
+    check = connect(GET_CLIENT.data(), SIGNAL(sigRemoveRosterUserInfo(QString)),
+                    SLOT(slotRemove(QString)));
+    Q_ASSERT(check);
+
+    check = connect(GETMANAGER->GetManageGroupChat().data(),
+                    SIGNAL(sigLeave(QString)),
+                    SLOT(slotRemove(QString)));
+    Q_ASSERT(check);
+
     QDesktopWidget *pDesk = QApplication::desktop();    
 #ifdef MOBILE
     this->resize(pDesk->geometry().size());
@@ -39,6 +48,8 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
 CFrmContainer::~CFrmContainer()
 {
     LOG_MODEL_DEBUG("CFrmContainer", "CFrmContainer::~CFrmContainer()");
+    GET_CLIENT->disconnect(this);
+    GETMANAGER->GetManageGroupChat()->disconnect(this);
     CGlobal::Instance()->GetMainWindow()->disconnect(this);
     m_tabWidget.clear();
     QMap<QString, QFrame*>::iterator it;
@@ -179,6 +190,18 @@ void CFrmContainer::slotDeleteFrame(QFrame *frame)
         //如果没有子窗口了，则不是close事件，通知容器窗口删除掉自己  
         emit sigClose(this);
     }
+}
+
+void CFrmContainer::slotRemove(const QString &szId)
+{
+    QMap<QString, QFrame*>::iterator it;
+    it = m_Frame.find(szId);
+    if(m_Frame.end() == it)
+    {
+        return;
+    }
+
+    slotDeleteFrame(it.value());
 }
 
 void CFrmContainer::slotCloseTable(int nIndex)

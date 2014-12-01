@@ -38,6 +38,7 @@ public:
     virtual int Hide();
 private slots:
     void slotDeleteContainer(CFrmContainer* obj);
+
 private:
     std::list<CFrmContainer* > m_Container;
 };
