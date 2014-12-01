@@ -2,6 +2,7 @@
 #include "GroupChat.h"
 #include "ManageGroupChat.h"
 #include "Global/Global.h"
+#include <QFile>
 
 CChatActionGroupChat::CChatActionGroupChat(const QString &szId, const QString &message, const QString &szSendId, const QTime &date, const bool &me) :
     CMessageAction(szId, message, date, me),
@@ -33,11 +34,17 @@ QString CChatActionGroupChat::getContent()
    if(m_isMe)
         msg += CGlobal::Instance()->GetFileUserAvatar(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetId());
    else
-        msg += CGlobal::Instance()->GetFileUserAvatar(gc->ParticipantId(m_szSendId));
+   {
+       QString szFile = CGlobal::Instance()->GetFileUserAvatar(gc->ParticipantId(m_szSendId));
+       QFile file(szFile);
+       if(!file.exists())
+           szFile = ":/icon/AppIcon";
+       msg += szFile;
+   }
    msg += "' width='16' height='16' />";
    msg += "<font color='";
    if(!m_isMe)
-        msg += gc->ParticipantNick(m_szSendId);
+        msg += CGlobal::Instance()->GetRosterColor().name();
    else
         msg += CGlobal::Instance()->GetUserColor().name();
    msg += "'>[";
