@@ -36,10 +36,14 @@ private slots:
     void on_pbMember_clicked();
     void on_lstMembers_clicked(const QModelIndex &index);
     void on_lstMembers_doubleClicked(const QModelIndex &index);
-    
+
+    void slotParticipantAdd(const QString &szId);
+    void slotParticipantRemoved(const QString &szId);
+    void slotUpdateMessage(const QString& szId);
+
 private:
     //消息加入到消息列表  
-    int AppendMessageToList(const QString &szMessage, const QString &nick);
+    int AppendMessageToOutputView(std::vector<QSharedPointer<CChatAction> > action);
     //改变标题  
     int ChangeTitle();
 
@@ -49,6 +53,9 @@ private:
     void changeEvent(QEvent*);
     //用于过滤发送消息键盘事件  
     bool eventFilter(QObject *target, QEvent *event);
+
+    int AddMember(const QString &szId);
+    int RemoveMember(const QString &szId);
 
 private:
     Ui::CFrmGroupChat *ui;

@@ -73,12 +73,12 @@ private:
     enum _PROPERTIES
     {
         PROPERTIES_GROUP,
-        PROPERTIES_ROSTER,
+        PROPERTIES_ID,
         PROPERTIES_UNREAD_MESSAGE_COUNT
     };
 
-    int InsertItem(QSharedPointer<CUser> roster, int nRow = 0);
-    int RemoveItem(QSharedPointer<CUser> roster);
+    int InsertItem(const QString &szId,  int nRow = 0);
+    int RemoveItem(const QString &szId);
     int UpdateItem(const QString &szId);
 
 private:

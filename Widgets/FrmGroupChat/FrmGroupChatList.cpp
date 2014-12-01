@@ -58,6 +58,16 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
                     SIGNAL(sigLeave(QString)),
                     this, SLOT(slotLeave(QString)));
     Q_ASSERT(check);
+
+    check = connect(GETMANAGER->GetManageGroupChat().data(),
+                    SIGNAL(sigUpdateMessage(QString)),
+                    SLOT(slotUpdateMessage(QString)));
+    Q_ASSERT(check);
+    
+    check = connect(GETMANAGER->GetManageGroupChat().data(),
+                    SIGNAL(sigMessageClean(QString)),
+                    SLOT(slotUpdateMessage(QString)));
+    Q_ASSERT(check);
 }
 
 CFrmGroupChatList::~CFrmGroupChatList()
@@ -258,7 +268,7 @@ void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
 #endif 
 
     //设置item图标  
-    pItem->setData(QIcon(":/icon/Conference"), Qt::DecorationRole);
+    pItem->setData(gc->Icon(), Qt::DecorationRole);
     //消息条目  
     QStandardItem* pMessageCountItem = new QStandardItem("");
     pItem->setData(gc->Id(), GROUP_ITEM_ROLE_JID);
@@ -272,5 +282,32 @@ void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
 
 void CFrmGroupChatList::slotLeave(const QString &szId)
 {
-    
+}
+
+void CFrmGroupChatList::slotUpdateMessage(const QString &szId)
+{
+    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
+                                                GROUP_ITEM_ROLE_JID, 
+                                                szId, 
+                                                -1,
+                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+    QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
+    if(gc.isNull())
+        return;
+    QModelIndex index;
+    foreach(index, lstIndexs)
+    {
+        QStandardItem* pItem = m_pModel->itemFromIndex(index);
+        if(NULL == pItem) continue;
+        if(pItem->data(GROUP_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
+        {
+            //设置未读消息数  
+            int nCount = gc->GetMessage()->GetUnReadCount();
+            if(nCount)
+                pItem->setText(QString::number(nCount));
+            else
+                pItem->setText(QString(""));
+            pItem->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
+        }
+    }
 }

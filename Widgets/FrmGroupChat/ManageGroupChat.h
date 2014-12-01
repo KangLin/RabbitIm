@@ -36,7 +36,9 @@ public:
 signals:
     void sigJoined(const QString& szId);
     void sigLeave(const QString& szId);
+    void sigUpdateMessage(const QString &szId);
 
+    void sigMessageClean(const QString &szId);
 public slots:
     int slotLeave(const QString& szId);
 

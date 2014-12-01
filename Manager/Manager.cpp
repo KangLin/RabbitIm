@@ -15,20 +15,20 @@ int CManager::Init(const QString &szId)
     //注意:初始化顺序  
     GetManageUser()->Init(szId);
     GetManageMessageDialog()->Init(szId);
+    GetManageGroupChat()->Init(szId);
     GetRecentMessage()->Init(szId);
     GetFileTransfer()->Init(szId);
     GetCall()->Init(szId);
-    GetManageGroupChat()->Init(szId);
     return 0;
 }
 
 int CManager::Clean()
 {
     //注意:清理顺序  
-    GetManageGroupChat()->Clean();
     GetCall()->Clean();
     GetFileTransfer()->Clean();
     GetRecentMessage()->Clean();
+    GetManageGroupChat()->Clean();
     GetManageMessageDialog()->Clean();
     GetManageUser()->Clean();
     return 0;

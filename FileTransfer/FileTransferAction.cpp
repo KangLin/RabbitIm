@@ -10,8 +10,8 @@
 #include <QApplication>
 #include "Global/Global.h"
 
-CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, const QString &author, const QTime &date, const bool &me)
-  : CChatAction(me, author, date)
+CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, const QString &szId, const QTime &date, const bool &me)
+  : CChatAction(me, szId, date)
 {
     m_File = file;
 #ifdef MOBILE

@@ -3,8 +3,8 @@
 #include <QTextEdit>
 #include <QScrollBar>
 
-CCallAction::CCallAction(QSharedPointer<CCallObject> call, const QString &author, const QTime &date, const bool &me) 
-    : CChatAction(me, author, date)
+CCallAction::CCallAction(QSharedPointer<CCallObject> call, const QString &szId, const QTime &date, const bool &me) 
+    : CChatAction(me, szId, date)
 {
     m_Call = call;
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(m_szId);

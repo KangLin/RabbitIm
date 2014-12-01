@@ -53,6 +53,8 @@ private slots:
     //成功离开聊天室时触发的消息  
     void slotLeave(const QString &szId);
 
+    void slotUpdateMessage(const QString &szId);
+
 private:
     int InitMenu();//初始化菜单  
 
@@ -88,10 +90,10 @@ private:
     int ItemRemove(const QString &szId);
 
 private slots:
-    //树形列表控件响应事件 
+    //树形列表控件响应事件  
     void slotClicked(const QModelIndex & index);
     void slotDoubleClicked(const QModelIndex & index);
-    
+
 private:
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent*);

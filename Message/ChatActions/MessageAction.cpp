@@ -2,8 +2,8 @@
 #include "../SmileyPack.h"
 #include "Global/Global.h"
 
-CMessageAction::CMessageAction(const QString &author, const QString &message, const QTime &date, const bool &me) :
-    CChatAction(me, author, date),
+CMessageAction::CMessageAction(const QString &szId, const QString &message, const QTime &date, const bool &me) :
+    CChatAction(me, szId, date),
     m_szMessage(message)
 {
 }
@@ -54,31 +54,3 @@ QString CMessageAction::getMessage()
     msg += message_ + "</font></div>";
     return msg;
 }
-
-/*QString CMessageAction::getContent()
-{
-   QString msg;
-
-   msg = "<div>";
-   msg += "<div>";
-   if(!this->isMe)
-        msg += "<a href='rabbitim://userinfo'>";
-   msg += "<img src='";
-   msg += CGlobal::Instance()->GetFileUserAvatar(szId) + "' width='16' height='16' />";
-   msg += "<font color='";
-   if(!this->isMe)
-        msg += CGlobal::Instance()->GetRosterColor().name();
-   else
-        msg += CGlobal::Instance()->GetUserColor().name();
-   msg += "'>[";
-   msg += QTime::currentTime().toString() + "]";
-   msg += GLOBAL_USER->GetUserInfoRoster(szId)->GetInfo()->GetShowName() + ":";
-   msg += "</font>";
-   if(!this->isMe)
-        msg += "</a>";
-   msg += "</div>";
-   msg += getMessage() + "</div>";
-   LOG_MODEL_DEBUG("CMessageAction", qPrintable(msg));
-   return msg;
-}
-*/

@@ -6,10 +6,9 @@
 class CMessageAction : public CChatAction
 {
 public:
-    CMessageAction(const QString &author, const QString &message, const QTime &date, const bool &me);
+    CMessageAction(const QString &szId, const QString &message, const QTime &date, const bool &me);
     virtual ~CMessageAction(){;}
     virtual QString getMessage();
-    //virtual QString getContent();
     virtual void setup(QTextCursor cursor, QTextEdit*) override;
 
 private:

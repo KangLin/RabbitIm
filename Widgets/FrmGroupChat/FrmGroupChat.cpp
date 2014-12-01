@@ -55,8 +55,21 @@ CFrmGroupChat::CFrmGroupChat(const QString &szId, QWidget *parent) :
     //设置成员列表  
     foreach(QString member, m_Room->Participants())
     {
-        
+        AddMember(member);
     }
+
+    //初始化连接  
+    bool check = connect(m_Room.data(), SIGNAL(sigParticipantAdd(QString)),
+                         SLOT(slotParticipantAdd(QString)));
+    Q_ASSERT(check);
+    check = connect(m_Room.data(), SIGNAL(sigParticipantRemoved(QString)),
+                    SLOT(slotParticipantRemoved(QString)));
+    Q_ASSERT(check);
+    check = connect(GETMANAGER->GetManageGroupChat().data(),
+                    SIGNAL(sigUpdateMessage(const QString&)),
+                    this,
+                    SLOT(slotUpdateMessage(const QString&)));
+    Q_ASSERT(check);
 }
 
 CFrmGroupChat::~CFrmGroupChat()
@@ -115,40 +128,6 @@ void CFrmGroupChat::on_pbClose_clicked()
     close();
 }
 
-int CFrmGroupChat::AppendMessageToList(const QString &szMessage, const QString &nick)
-{
-    QString recMsg = szMessage;
-    QString msg;
-//    if(bRemote)
-//        msg += "<p align='left'>";
-//    else
-//        msg += "<p align='right'>";
-   // msg += "<img src='";
-   // msg += CGlobal::Instance()->GetFileUserAvatar(nick) + "' width='16' height='16'>";
-    msg += "<font color='";
-    if(m_Room->Nick() != nick)
-        msg += CGlobal::Instance()->GetRosterColor().name();
-    else
-        msg += CGlobal::Instance()->GetUserColor().name();
-    msg += "'>[";
-    msg += QTime::currentTime().toString() + "]" + nick + ":</font><br /><font color='";
-    if(m_Room->Nick() != nick)
-        msg += CGlobal::Instance()->GetRosterMessageColor().name();
-    else
-        msg += CGlobal::Instance()->GetUserMessageColor().name();
-    msg += "'>";
-    msg += recMsg.replace(QString("\n"), QString("<br />"));
-    msg += "</font>";
-    ui->txtView->append(msg);
-    
-    if(this->isHidden())
-    {
-        CGlobal::Instance()->GetMainWindow()->ShowTrayIconMessage(nick, szMessage);
-    }
-    
-    return 0;
-}
-
 int CFrmGroupChat::ChangeTitle()
 {
     QString szTitle = tr("Group chat [%1]:%2").arg(m_Room->ShowName(), m_Room->Subject());
@@ -159,6 +138,7 @@ int CFrmGroupChat::ChangeTitle()
 
 void CFrmGroupChat::showEvent(QShowEvent *)
 {
+    slotUpdateMessage(m_Room->Id());
 }
 
 void CFrmGroupChat::closeEvent(QCloseEvent *)
@@ -212,4 +192,62 @@ void CFrmGroupChat::on_lstMembers_doubleClicked(const QModelIndex &index)
         return;
     //if(USER_INFO_LOCALE->GetBareJid() != QXmppUtils::jidToBareJid(jid))
     //    CFrmUservCard* pvCard = new CFrmUservCard(jid);
+}
+
+void CFrmGroupChat::slotParticipantAdd(const QString &szId)
+{
+    LOG_MODEL_DEBUG("CFrmGroupChat", "CFrmGroupChat::slotParticipantAdd:%s", qPrintable(szId));
+    AddMember(szId);
+}
+
+void CFrmGroupChat::slotParticipantRemoved(const QString &szId)
+{
+    RemoveMember(szId);
+}
+
+void CFrmGroupChat::slotUpdateMessage(const QString &szId)
+{
+    if(szId != m_Room->Id())
+        return;
+    //通知未读数改变  
+    std::vector<QSharedPointer<CChatAction> > msg = m_Room->GetMessage()->GetUnreadMessage();
+    AppendMessageToOutputView(msg);
+    CGlobal::Instance()->GetManager()->GetRecentMessage()->slotMessageClean(szId);
+    emit GETMANAGER->GetManageGroupChat()->sigMessageClean(m_Room->Id());
+}
+
+int CFrmGroupChat::AddMember(const QString &szId)
+{
+    QStandardItem* pItem = new QStandardItem(m_Room->ParticipantNick(szId));
+    pItem->setData(szId, Qt::ToolTipRole);
+    pItem->setData(szId, ROLE_GROUPCHAT_JID);
+    m_pModelMembers->appendRow(pItem);
+}
+
+int CFrmGroupChat::RemoveMember(const QString &szId)
+{
+    QModelIndexList lstIndexs = m_pModelMembers->match(m_pModelMembers->index(0, 0),
+                                                ROLE_GROUPCHAT_JID, 
+                                                szId, 
+                                                -1,
+                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+    QModelIndex index;
+    foreach(index, lstIndexs)
+    {
+        m_pModelMembers->removeRow(index.row());
+    }
+    return 0;
+}
+
+int CFrmGroupChat::AppendMessageToOutputView(std::vector<QSharedPointer<CChatAction> > action)
+{
+    for(auto it : action)
+     {
+         QTextCursor cursor = ui->txtView->textCursor();
+         cursor.movePosition(QTextCursor::End);
+         cursor.setKeepPositionOnInsert(true);
+         ui->txtView->append(it->getContent());
+         it->setup(cursor, ui->txtView);
+    }
+    return 0;
 }

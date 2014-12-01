@@ -3,6 +3,7 @@
 #include "UserInfo/User.h"
 #include <QDir>
 #include <QFile>
+#include "Widgets/FrmGroupChat/GroupChat.h"
 
 CManageRecentMessage::CManageRecentMessage() : QObject()
 {
@@ -18,7 +19,9 @@ int CManageRecentMessage::Init(const QString &szId)
     bool check = connect(GET_CLIENT.data(), SIGNAL(sigMessageUpdate(const QString&)),
                     SLOT(slotMessageUpdate(const QString&)));
     Q_ASSERT(check);
-
+    check = connect(GETMANAGER->GetManageGroupChat().data(), SIGNAL(sigUpdateMessage(QString)),
+                         SLOT(slotMessageUpdate(QString)));
+    Q_ASSERT(check);
     LoadFromStorage(szId);
 
     return 0;
@@ -28,6 +31,7 @@ int CManageRecentMessage::Clean()
 {
     SaveToStorage();
     GET_CLIENT->disconnect(this);
+    GETMANAGER->GetManageGroupChat()->disconnect(this);
     m_Unread.clear();
     m_read.clear();
     return 0;
@@ -172,18 +176,31 @@ void CManageRecentMessage::slotMessageUpdate(const QString& szId)
         else
             m_Unread.pop_back();
     }
+
     QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoRoster(szId);
-    if(user.isNull())
+    if(!user.isNull())
     {
-        //不是好友  
-        m_Unread.push_front(szId);
-    }
-    else if(user->GetMessage()->GetUnReadCount() > 0)
-    {
-        m_Unread.push_front(szId);
+        if(user->GetMessage()->GetUnReadCount() > 0)
+        {
+            m_Unread.push_front(szId);
+        }
+        else
+            m_read.push_front(szId);
     }
     else
-        m_read.push_front(szId);
+    {
+        QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
+        if(!gc.isNull())
+        {
+            if(gc->GetMessage()->GetUnReadCount() > 0)
+                m_Unread.push_front(szId);
+            else
+                m_read.push_front(szId);
+        }
+        else//不是好友消息或组消息  
+            m_Unread.push_front(szId);
+    }
+    
     return;
 }
 

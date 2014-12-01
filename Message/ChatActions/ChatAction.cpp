@@ -4,8 +4,8 @@
 #include "Global/Global.h"
 #include <initializer_list>
 
-CChatAction::CChatAction(const bool &me, const QString &author, const QTime &date)
- : QObject(0), m_isMe(me), m_szId(author), m_Time(date)
+CChatAction::CChatAction(const bool &me, const QString &szId, const QTime &date)
+ : QObject(0), m_isMe(me), m_szId(szId), m_Time(date)
 {
     m_pEdit = NULL;
 }

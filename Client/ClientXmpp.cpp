@@ -647,13 +647,13 @@ void CClientXmpp::slotMessageReceived(const QXmppMessage &message)
         GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName() + ":", message.body());
         emit sigMessageUpdate(szId);
     }
-    //是组消息  
-    if(QXmppMessage::GroupChat == message.type() && QXmppMessage::None == message.state())
+    //是组消息,qxmpp在房间中响应此消息  
+    /*if(QXmppMessage::GroupChat == message.type() && QXmppMessage::None == message.state())
     {
         QString szBareJid = QXmppUtils::jidToBareJid(message.from());
         QString szNick = QXmppUtils::jidToResource(message.from());
         //TODO:组消息  
-    }
+    }*/
     //TODO:消息输入状态显示  
     
 }
