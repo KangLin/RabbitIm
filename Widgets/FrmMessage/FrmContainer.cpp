@@ -98,7 +98,10 @@ int CFrmContainer::ShowDialog(const QString &szId)
             return -3;
         }
         pFrame = new CFrmGroupChat(szId, &m_tabWidget);
-        nIndex = m_tabWidget.addTab(pFrame, gc->Icon(), gc->ShowName() /*+ ":" + gc->Subject()*/);
+        QString szText = gc->ShowName();
+        if(!gc->Subject().isEmpty())
+            szText += ":" + gc->Subject();
+        nIndex = m_tabWidget.addTab(pFrame, gc->Icon(), szText);
         if(nIndex < 0)
         {
             LOG_MODEL_ERROR("CFrmContainer", "add tab fail");

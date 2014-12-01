@@ -17,11 +17,7 @@ public:
     
 private slots:
     void on_buttonBox_accepted();
-    
-    void on_txtId_textEdited(const QString &arg1);
-    
-    void on_txtId_editingFinished();
-    
+
 private:
     Ui::CDlgJoinGroupChat *ui;
 };

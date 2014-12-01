@@ -8,6 +8,7 @@ CDlgJoinGroupChat::CDlgJoinGroupChat(QWidget *parent) :
     ui(new Ui::CDlgJoinGroupChat)
 {
     ui->setupUi(this);
+    ui->txtNick->setText(USER_INFO_LOCALE->GetInfo()->GetName());
 }
 
 CDlgJoinGroupChat::~CDlgJoinGroupChat()
@@ -18,17 +19,4 @@ CDlgJoinGroupChat::~CDlgJoinGroupChat()
 void CDlgJoinGroupChat::on_buttonBox_accepted()
 {
     GETMANAGER->GetManageGroupChat()->Join(ui->txtId->text(), ui->txtNick->text());
-}
-
-void CDlgJoinGroupChat::on_txtId_textEdited(const QString &arg1)
-{
-    
-}
-
-void CDlgJoinGroupChat::on_txtId_editingFinished()
-{
-    if(ui->txtNick->text().isEmpty())
-    {
-        ui->txtNick->setText(ui->txtId->text());
-    }
 }

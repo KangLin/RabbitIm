@@ -395,6 +395,7 @@ void CClientXmpp::slotClientConnected()
     int nRet = 0;
     if(!IsLogin())
     {
+        //数据层在界面之前初始化  
         nRet = CGlobal::Instance()->GetManager()->Init(szId);
         if(nRet)
         {

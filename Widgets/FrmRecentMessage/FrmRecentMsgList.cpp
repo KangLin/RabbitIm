@@ -85,6 +85,16 @@ void CFrmRecentMsgList::LoadFromStorage()
 
 int CFrmRecentMsgList::InsertItem(const QString &szId, int nRow)
 {
+    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
+                                                USERLIST_ITEM_ROLE_JID, 
+                                                szId,
+                                                -1,
+                                                Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+    if(!lstIndexs.isEmpty())
+    {
+        return UpdateItem(szId);
+    }
+    
     int nRet = 0;
     QString szName; 
     int nCount = 0;
@@ -255,6 +265,7 @@ void CFrmRecentMsgList::slotMessageUpdate(const QString &szId)
         m_pModel->removeRow(nRowCount - 1);
     }
 
+    //数据层在界面之前初始化,见CClientXmpp::slotClientConnected()  
     if(nCount > 0)
         InsertItem(szId, 0);
     else

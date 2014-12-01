@@ -5,6 +5,12 @@
 #include "qxmpp/QXmppMessage.h"
 #include "ChatActionGroupChat.h"
 #include "Manager/Manager.h"
+#include "MainWindow.h"
+
+#ifdef WIN32
+#undef GetMessage
+#undef SendMessage
+#endif
 
 CGroupChatQxmpp::CGroupChatQxmpp(QXmppMucRoom *pRoom, QObject *parent) :
     CGroupChat(parent)
@@ -124,6 +130,7 @@ void CGroupChatQxmpp::slotMessageReceived(const QXmppMessage &message)
         QSharedPointer<CMessage> msg = GetMessage();
         QSharedPointer<CChatActionGroupChat> cgc(new CChatActionGroupChat(Id(), message.body(), szJid, QTime::currentTime(), false));
         msg->AddMessage(cgc);
+        GET_MAINWINDOW->ShowTrayIconMessage(this->ParticipantNick(szJid) + ":", message.body());
         emit GETMANAGER->GetManageGroupChat()->sigUpdateMessage(Id());
     }
 }
