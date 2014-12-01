@@ -9,6 +9,10 @@
 #include "Global/Global.h"
 #include "DlgJoinGroupChat.h"
 
+#ifdef WIN32
+#undef GetMessage
+#endif
+
 CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     QFrame(parent),
     m_GroupList(this),
