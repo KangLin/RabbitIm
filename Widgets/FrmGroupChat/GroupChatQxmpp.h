@@ -18,7 +18,9 @@ public:
     virtual QStringList Participants();
     virtual QString ParticipantNick(const QString &szId);
     virtual QString ParticipantId(const QString &szId);
-
+    virtual bool IsProtracted();
+    virtual bool IsPrivate();
+    
     virtual int Leave();
     virtual int SendMessage(const QString &szMsg);
     virtual int Kick(const QString &szId, const QString &reason = QString());

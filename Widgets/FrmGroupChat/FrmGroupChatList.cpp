@@ -8,6 +8,7 @@
 #include "ManageGroupChat.h"
 #include "Global/Global.h"
 #include "DlgJoinGroupChat.h"
+#include "DlgGroupChatInfo.h"
 
 #ifdef WIN32
 #undef GetMessage
@@ -199,11 +200,22 @@ void CFrmGroupChatList::on_actionOpen_chat_room_triggered()
 void CFrmGroupChatList::on_actionLeave_room_triggered()
 {
     QString szId = GetCurrentRoom();
+    if(szId.isEmpty())
+        return;
     QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
     if(gc.isNull())
         return;
     gc->Leave();
     ItemRemove(szId);
+}
+
+void CFrmGroupChatList::on_actionRoom_infomation_triggered()
+{
+    QString szId = GetCurrentRoom();
+    if(szId.isEmpty())
+        return;
+    CDlgGroupChatInfo info(szId, this);
+    info.exec();
 }
 
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)
@@ -316,3 +328,4 @@ void CFrmGroupChatList::slotUpdateMessage(const QString &szId)
         }
     }
 }
+

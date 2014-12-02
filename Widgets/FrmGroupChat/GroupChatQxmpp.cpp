@@ -239,6 +239,18 @@ QString CGroupChatQxmpp::ParticipantId(const QString &szId)
     return QXmppUtils::jidToBareJid(m_pRoom->participantPresence(szId).mucItem().jid());
 }
 
+bool CGroupChatQxmpp::IsProtracted()
+{
+    //TODO:
+    return false;
+}
+
+bool CGroupChatQxmpp::IsPrivate()
+{
+    //TODO:
+    return false;
+}
+
 int CGroupChatQxmpp::Leave()
 {
     RABBITIM_ASSERT(m_pRoom, -1);

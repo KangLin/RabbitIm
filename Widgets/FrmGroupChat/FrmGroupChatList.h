@@ -81,6 +81,7 @@ private slots:
     void on_actionOpen_chat_room_triggered();
     //离开群组菜单  
     void on_actionLeave_room_triggered();
+    void on_actionRoom_infomation_triggered();
 
 private:
     //列表控件  
@@ -94,6 +95,7 @@ private slots:
     void slotClicked(const QModelIndex & index);
     void slotDoubleClicked(const QModelIndex & index);
 
+    
 private:
     void resizeEvent(QResizeEvent *e);
     void changeEvent(QEvent*);

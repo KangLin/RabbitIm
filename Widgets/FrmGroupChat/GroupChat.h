@@ -18,6 +18,8 @@ public:
     virtual QString ParticipantId(const QString &szId) = 0;
     virtual QString ParticipantNick(const QString &szId) = 0;
     virtual QIcon Icon();
+    virtual bool IsProtracted() = 0;
+    virtual bool IsPrivate() = 0;
 
     virtual int Leave() = 0;
     virtual int SendMessage(const QString &szMsg) = 0;
