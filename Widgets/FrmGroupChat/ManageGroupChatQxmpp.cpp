@@ -17,20 +17,21 @@ int CManageGroupChatQxmpp::Create(const QString &szName,
                                   bool bPrivated, 
                                   const QString &szNick)
 {
-    QSharedPointer<CGroupChatQxmpp> gc = Join1(szName, szNick);
+    QSharedPointer<CGroupChatQxmpp> gc = Join1(szName, szPassword, szNick);
     if(gc.isNull())
         return -1;
 
     return gc->SetConfigure(szName, szSubject, szPassword, szDescription, bProtracted, bPrivated, szNick);
+    
 }
 
-int CManageGroupChatQxmpp::Join(const QString &szId, const QString &szNick)
+int CManageGroupChatQxmpp::Join(const QString &szId, const QString &szPassword, const QString &szNick)
 {
-    Join1(szId, szNick);
+    Join1(szId, szPassword, szNick);
     return 0;
 }
 
-QSharedPointer<CGroupChatQxmpp> CManageGroupChatQxmpp::Join1(const QString &szId, const QString &szNick)
+QSharedPointer<CGroupChatQxmpp> CManageGroupChatQxmpp::Join1(const QString &szId, const QString &szPassword, const QString &szNick)
 {
     QString id = szId;
     if(szId.indexOf("@") == -1)
@@ -55,6 +56,7 @@ QSharedPointer<CGroupChatQxmpp> CManageGroupChatQxmpp::Join1(const QString &szId
     {
         szNickName = USER_INFO_LOCALE->GetInfo()->GetName();
     }
+    room->setPassword(szPassword);
     room->setNickName(szNickName);
     if(room->join())
     {
@@ -74,3 +76,18 @@ QSharedPointer<CGroupChat> CManageGroupChatQxmpp::Get(const QString &szId)
     return it.value();
 }
 
+bool CManageGroupChatQxmpp::IsJoined(const QString &szId)
+{
+    QString id = szId;
+    if(szId.indexOf("@") == -1)
+    {
+        //TODO:这里按照xmpp协议是需要向服务器查询会议服务器的id，但是这会产生比较大的流量。  
+        //所以现在的解决方案是直接在服务器上配置好一个固定的会议服务器，  
+        //直接访问这个配置好的服务器即可  
+        //当以后用户量大了后，服务器做集群，就需要完成xmpp的查询服务了。  
+        id = szId + "@conference." + CGlobal::Instance()->GetXmppDomain();
+    }
+    if(m_GroupChat.find(id) == m_GroupChat.end())
+        return false;
+    return true;
+}

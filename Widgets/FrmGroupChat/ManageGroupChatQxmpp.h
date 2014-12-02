@@ -19,14 +19,15 @@ public:
                        bool bProtracted = false,
                        bool bPrivated = false,
                        const QString &szNick = QString());
-    virtual int Join(const QString &szId, const QString &szNick = QString());
+    virtual int Join(const QString &szId, const QString &szPassword = QString(), const QString &szNick = QString());
     virtual QSharedPointer<CGroupChat> Get(const QString &szId);
+    virtual bool IsJoined(const QString &szId);
 
 signals:
 
 public slots:
 private:
-    QSharedPointer<CGroupChatQxmpp> Join1(const QString &szId, const QString &szNick);
+    QSharedPointer<CGroupChatQxmpp> Join1(const QString &szId, const QString &szPassword, const QString &szNick);
 };
 
 #endif // MANAGEGROUPCHATQXMPP_H

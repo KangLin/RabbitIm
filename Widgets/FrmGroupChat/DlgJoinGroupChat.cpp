@@ -19,10 +19,21 @@ CDlgJoinGroupChat::CDlgJoinGroupChat(QWidget *parent) :
     move((pDesk->width() - width()) / 2,
          (pDesk->height() - height()) / 2);
 #endif
+    
+    bool check = connect(GETMANAGER->GetManageGroupChat().data(), 
+                         SIGNAL(sigJoined(QString)),
+                         SLOT(accept()));
+    Q_ASSERT(check);
+    
+    check = connect(GETMANAGER->GetManageGroupChat().data(),
+                    SIGNAL(sigError(QString,CGroupChat::Condition)),
+                    SLOT(slotError(QString,CGroupChat::Condition)));
+    Q_ASSERT(check);
 }
 
 CDlgJoinGroupChat::~CDlgJoinGroupChat()
 {
+    GETMANAGER->GetManageGroupChat()->disconnect(this);
     delete ui;
 }
 
@@ -33,11 +44,26 @@ void CDlgJoinGroupChat::on_buttonBox_accepted()
         QMessageBox::critical(this, tr("Error"), tr("Please fill group chat name."));
         return;
     }
-   
-    if(ui->txtNick->text().isEmpty())
+
+    bool bExist = GETMANAGER->GetManageGroupChat()->IsJoined(ui->txtId->text());
+    if(bExist)
     {
-        QMessageBox::critical(this, tr("Error"), tr("Please fill group chat nick."));
+        QMessageBox::warning(this, "Group chat", tr("%1 is existed").arg(ui->txtId->text()));
         return;
     }
-    GETMANAGER->GetManageGroupChat()->Join(ui->txtId->text(), ui->txtNick->text());
+
+    GETMANAGER->GetManageGroupChat()->Join(ui->txtId->text(), ui->txtPassword->text(), ui->txtNick->text());
+}
+
+void CDlgJoinGroupChat::slotError(const QString &szId, CGroupChat::Condition c)
+{
+    QString szText = tr("Unknow error");
+    switch (c) {
+    case CGroupChat::NotAuthorized:
+        szText = tr("Not authorized");
+        break;
+    default:
+        break;
+    }
+    QMessageBox::critical(this, tr("Error"), szText);
 }

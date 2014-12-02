@@ -118,3 +118,8 @@ int CManageGroupChat::slotLeave(const QString &szId)
     m_GroupChat.erase(it);
     return -2;
 }
+
+int CManageGroupChat::slotError(const QString &szId, CGroupChat::Condition c)
+{
+    emit sigError(szId, c);
+}

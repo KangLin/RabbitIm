@@ -18,6 +18,16 @@ CDlgCreateGroupChatRoom::CDlgCreateGroupChatRoom(QWidget *parent) :
     move((pDesk->width() - width()) / 2,
          (pDesk->height() - height()) / 2);
 #endif
+
+    bool check = connect(GETMANAGER->GetManageGroupChat().data(), 
+                         SIGNAL(sigJoined(QString)),
+                         SLOT(accept()));
+    Q_ASSERT(check);
+
+    check = connect(GETMANAGER->GetManageGroupChat().data(),
+                    SIGNAL(sigError(QString,CGroupChat::Condition)),
+                    SLOT(slotError(QString,CGroupChat::Condition)));
+    Q_ASSERT(check);
 }
 
 CDlgCreateGroupChatRoom::~CDlgCreateGroupChatRoom()
@@ -81,6 +91,13 @@ void CDlgCreateGroupChatRoom::on_pbOK_clicked()
         LOG_MODEL_ERROR("CDlgCreateGroupChatRoom", "CManageGroupChat is null");
         return;
     }
+    
+    bool bExist = GETMANAGER->GetManageGroupChat()->IsJoined(ui->txtName->text());
+    if(bExist)
+    {
+        QMessageBox::warning(this, "Group chat", tr("%1 is existed").arg(ui->txtName->text()));
+        return;
+    }
 
     groupChat->Create(ui->txtName->text(), 
                       ui->txtSubject->text(), 
@@ -89,11 +106,22 @@ void CDlgCreateGroupChatRoom::on_pbOK_clicked()
                       ui->cbProtracted->isChecked(),
                       ui->cbPrivated->isChecked(),
                       ui->txtNick->text());
-
-    this->accept();
 }
 
 void CDlgCreateGroupChatRoom::on_pbCancel_clicked()
 {
     this->reject();
+}
+
+void CDlgCreateGroupChatRoom::slotError(const QString &szId, CGroupChat::Condition c)
+{
+    QString szText = tr("Unknow error");
+    switch (c) {
+    case CGroupChat::NotAuthorized:
+        szText = tr("Not authorized");
+        break;
+    default:
+        break;
+    }
+    QMessageBox::critical(this, tr("Error"), szText);
 }

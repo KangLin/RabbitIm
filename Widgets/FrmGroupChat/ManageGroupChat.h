@@ -31,17 +31,20 @@ public:
                    bool bPrivated = false,
                    const QString &szNick = QString()
             ) = 0;
-    virtual int Join(const QString &szId, const QString &szNick = QString()) = 0;
+    virtual int Join(const QString &szId, const QString &szPassword = QString(), const QString &szNick = QString()) = 0;
     virtual QSharedPointer<CGroupChat> Get(const QString &szId) = 0;
+    virtual bool IsJoined(const QString &szId) = 0;
 
 signals:
     void sigJoined(const QString& szId);
     void sigLeave(const QString& szId);
+    void sigError(const QString& szId, CGroupChat::Condition c);
     void sigUpdateMessage(const QString &szId);
 
     void sigMessageClean(const QString &szId);
 public slots:
     int slotLeave(const QString& szId);
+    int slotError(const QString& szId, CGroupChat::Condition c);
 
 protected:
     /**

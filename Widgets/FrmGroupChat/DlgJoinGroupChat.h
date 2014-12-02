@@ -2,6 +2,7 @@
 #define DLGJOINGROUPCHAT_H
 
 #include <QDialog>
+#include "GroupChat.h"
 
 namespace Ui {
 class CDlgJoinGroupChat;
@@ -17,6 +18,7 @@ public:
     
 private slots:
     void on_buttonBox_accepted();
+    void slotError(const QString &szId, CGroupChat::Condition c);
 
 private:
     Ui::CDlgJoinGroupChat *ui;

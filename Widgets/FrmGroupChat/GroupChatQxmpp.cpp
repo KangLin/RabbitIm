@@ -81,6 +81,7 @@ CGroupChatQxmpp::CGroupChatQxmpp(QXmppMucRoom *pRoom, QObject *parent) :
 
 void CGroupChatQxmpp::slotJoined()
 {
+    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotJoined:%s", qPrintable(Id()));
     emit GETMANAGER->GetManageGroupChat()->sigJoined(Id());
 }
 
@@ -96,7 +97,18 @@ void CGroupChatQxmpp::slotConfigurationReceived(const QXmppDataForm &configurati
 
 void CGroupChatQxmpp::slotError(const QXmppStanza::Error &error)
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotError");
+    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotError:%s;code:%d",
+                    qPrintable(error.text()),
+                    error.code());
+    switch(error.code())
+    {
+    case 401:
+        SetError(CGroupChat::NotAuthorized);
+        break;
+    default:
+        SetError(CGroupChat::Unknow);
+    }
+    GETMANAGER->GetManageGroupChat()->slotError(Id(), Error());
 }
 
 void CGroupChatQxmpp::slotKicked(const QString &jid, const QString &reason)
@@ -279,6 +291,10 @@ int CGroupChatQxmpp::SetConfigure(const QString &szName, const QString &szSubjec
     field1.setValue(true);
     fields.append(field1);
 
+    field1.setKey("muc#roomconfig_changesubject");
+    field1.setValue(true);
+    fields.append(field1);
+
     field1.setKey("muc#roomconfig_membersonly");
     field1.setValue(bPrivated);
     fields.append(field1);
@@ -289,5 +305,6 @@ int CGroupChatQxmpp::SetConfigure(const QString &szName, const QString &szSubjec
     
     form.setFields(fields);
     m_pRoom->setConfiguration(form);
+    m_pRoom->setSubject(szSubject);
     return 0;
 }

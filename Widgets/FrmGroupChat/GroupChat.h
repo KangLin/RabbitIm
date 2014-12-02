@@ -24,6 +24,38 @@ public:
     virtual int Kick(const QString &szId, const QString &reason = QString()) = 0;
 
     virtual QSharedPointer<CMessage> GetMessage();
+    
+    enum Condition
+    {
+        Unknow = -2,
+        NoError = -1,
+        BadRequest,
+        Conflict,
+        FeatureNotImplemented,
+        Forbidden,
+        Gone,
+        InternalServerError,
+        ItemNotFound,
+        JidMalformed,
+        NotAcceptable,
+        NotAllowed,
+        NotAuthorized,
+        PaymentRequired,
+        RecipientUnavailable,
+        Redirect,
+        RegistrationRequired,
+        RemoteServerNotFound,
+        RemoteServerTimeout,
+        ResourceConstraint,
+        ServiceUnavailable,
+        SubscriptionRequired,
+        UndefinedCondition,
+        UnexpectedRequest,
+    };
+    Condition Error();
+protected:
+    int SetError(Condition c);
+
 signals:
     void sigParticipantAdd(const QString &szId);
     void sigParticipantRemoved(const QString &szId);
@@ -32,6 +64,7 @@ signals:
 public slots:
 private:
     QSharedPointer<CMessage> m_Message;
+    Condition m_Condition;
 };
 
 #endif // GROUPCHAT_H
