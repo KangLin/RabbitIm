@@ -78,6 +78,11 @@
     <string>Open chat room</string>
    </property>
   </action>
+  <action name="actionInviter">
+   <property name="text">
+    <string>Inviter</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../../Resource/Resource.qrc"/>

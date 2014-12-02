@@ -20,6 +20,8 @@ Qt的皮肤设计:http://blog.csdn.net/lastsoup/article/details/7043124
 
 * QTreeView 使用：http://www.tuicool.com/articles/ZFBZfm
 
+* [Qt树形控件QTreeView使用2——复选框的设置](http://www.tuicool.com/articles/FvaYNn)
+
 * QT中MDI应用程序中更改子窗口大小或是全屏显示子窗口的方法:http://blog.163.com/w_fox/blog/static/62339536201171895348420/
 
 * 漫谈QWidget及其派生类(二) :http://blog.csdn.net/dbzhang800/article/details/6741344

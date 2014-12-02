@@ -22,6 +22,7 @@ public:
     virtual bool IsPrivate() = 0;
 
     virtual int Leave() = 0;
+    virtual int Invitation(const QString &Id, const QString &reason) = 0;
     virtual int SendMessage(const QString &szMsg) = 0;
     virtual int Kick(const QString &szId, const QString &reason = QString()) = 0;
 

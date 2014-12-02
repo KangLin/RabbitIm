@@ -9,6 +9,7 @@
 #include "Global/Global.h"
 #include "DlgJoinGroupChat.h"
 #include "DlgGroupChatInfo.h"
+#include "DlgInviter.h"
 
 #ifdef WIN32
 #undef GetMessage
@@ -113,8 +114,10 @@ int CFrmGroupChatList::InitMenu()
     m_Menu.addAction(ui->actionCreate_chat_room);
     m_Menu.addAction(ui->actionJoin_chat_room);
     m_Menu.addAction(ui->actionLeave_room);
+    m_Menu.addAction(ui->actionInviter);
     m_Menu.addAction(ui->actionRoom_infomation);
-
+    //TODO:1、增加到菜单  
+    
     bool check = connect(GET_MAINWINDOW, SIGNAL(sigMenuInitOperator(QMenu*)),
                     SLOT(slotAddToMainMenu(QMenu*)));
     Q_ASSERT(check);
@@ -162,12 +165,15 @@ void CFrmGroupChatList::slotUpdateMenu()
         ui->actionLeave_room->setVisible(false);
         ui->actionOpen_chat_room->setVisible(false);
         ui->actionRoom_infomation->setVisible(false);
+        ui->actionInviter->setVisible(false);
         return;
     }
 
+    //TODO:2、设置是否可以显示  
     ui->actionLeave_room->setVisible(true);
     ui->actionOpen_chat_room->setVisible(true);
     ui->actionRoom_infomation->setVisible(true);
+    ui->actionInviter->setVisible(true);
 }
 
 void CFrmGroupChatList::slotCustomContextMenuRequested(const QPoint &pos)
@@ -216,6 +222,15 @@ void CFrmGroupChatList::on_actionRoom_infomation_triggered()
         return;
     CDlgGroupChatInfo info(szId, this);
     info.exec();
+}
+
+void CFrmGroupChatList::on_actionInviter_triggered()
+{
+    QString szId = GetCurrentRoom();
+    if(szId.isEmpty())
+        return;
+    CDlgInviter dlg(szId, this);
+    dlg.exec();
 }
 
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)
@@ -328,4 +343,3 @@ void CFrmGroupChatList::slotUpdateMessage(const QString &szId)
         }
     }
 }
-

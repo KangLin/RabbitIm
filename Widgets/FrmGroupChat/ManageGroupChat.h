@@ -45,6 +45,9 @@ signals:
 public slots:
     int slotLeave(const QString& szId);
     int slotError(const QString& szId, CGroupChat::Condition c);
+    
+    /// This signal is emitted when an invitation to a chat room is received.
+    virtual void slotInvitationReceived(const QString &Id, const QString &inviter, const QString &reason);
 
 protected:
     /**

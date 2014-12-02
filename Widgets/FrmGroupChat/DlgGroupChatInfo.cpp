@@ -3,12 +3,21 @@
 #include "GroupChat.h"
 #include "Global/Global.h"
 #include "ManageGroupChat.h"
+#include <QDesktopWidget>
 
 CDlgGroupChatInfo::CDlgGroupChatInfo(const QString &szId, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgGroupChatInfo)
 {
     ui->setupUi(this);
+    
+    QDesktopWidget *pDesk = QApplication::desktop();
+#ifdef MOBILE
+    this->setGeometry(pDesk->geometry());
+#else
+    move((pDesk->width() - width()) / 2,
+         (pDesk->height() - height()) / 2);
+#endif
 
     QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
     if(gc.isNull())

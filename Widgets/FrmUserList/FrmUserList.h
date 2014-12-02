@@ -9,7 +9,7 @@
 #include <QResizeEvent>
 #include "../DlgAddRoster/DlgAddRoster.h"
 #include "../FrmCustom/CustomTreeView.h"
-#include <UserInfo/COperateRoster.h>
+#include "UserInfo/COperateRoster.h"
 #include "Client/Client.h"
 
 namespace Ui {

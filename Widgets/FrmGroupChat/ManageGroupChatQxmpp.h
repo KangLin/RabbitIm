@@ -11,7 +11,14 @@ class CManageGroupChatQxmpp : public CManageGroupChat
     Q_OBJECT
 public:
     explicit CManageGroupChatQxmpp(QObject *parent = 0);
-
+    /**
+     * @brief 登录后初始化  
+     *
+     * @param szId
+     * @return int
+     */
+    virtual int Init(const QString& szId);
+    virtual int Clean();
     virtual int Create(const QString &szName,
                        const QString &szSubject,
                        const QString &szPassword = QString(),
@@ -25,7 +32,9 @@ public:
 
 signals:
 
-public slots:
+private slots:
+    void slotInvitationReceived(const QString &roomJid, const QString &inviter, const QString &reason);
+
 private:
     QSharedPointer<CGroupChatQxmpp> Join1(const QString &szId, const QString &szPassword, const QString &szNick);
 };

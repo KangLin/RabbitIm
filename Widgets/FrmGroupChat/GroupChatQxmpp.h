@@ -23,6 +23,7 @@ public:
     
     virtual int Leave();
     virtual int SendMessage(const QString &szMsg);
+    virtual int Invitation(const QString &Id, const QString &reason);
     virtual int Kick(const QString &szId, const QString &reason = QString());
 private slots:
     /// This signal is emitted when the allowed actions change.

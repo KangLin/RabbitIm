@@ -3,10 +3,29 @@
 #include "Client/ClientXmpp.h"
 #include "GroupChatQxmpp.h"
 #include "qxmpp/QXmppUtils.h"
+#include <QMessageBox>
 
 CManageGroupChatQxmpp::CManageGroupChatQxmpp(QObject *parent) :
     CManageGroupChat(parent)
 {
+}
+
+int CManageGroupChatQxmpp::Init(const QString &szId)
+{
+    CManageGroupChat::Init(szId);
+    CClientXmpp* client =(CClientXmpp*) GET_CLIENT.data();
+    bool check = connect(&client->m_MucManager, SIGNAL(invitationReceived(QString,QString,QString)),
+                         SLOT(slotInvitationReceived(QString,QString,QString)));
+    Q_ASSERT(check);
+    return 0;
+}
+
+int CManageGroupChatQxmpp::Clean()
+{
+    CClientXmpp* client =(CClientXmpp*) GET_CLIENT.data();
+    client->m_MucManager.disconnect(this);
+    CManageGroupChat::Clean();
+    return 0;
 }
 
 int CManageGroupChatQxmpp::Create(const QString &szName,
@@ -90,4 +109,20 @@ bool CManageGroupChatQxmpp::IsJoined(const QString &szId)
     if(m_GroupChat.find(id) == m_GroupChat.end())
         return false;
     return true;
+}
+
+void CManageGroupChatQxmpp::slotInvitationReceived(const QString &roomJid, const QString &inviter, const QString &reason)
+{
+    if(m_GroupChat.find(roomJid) != m_GroupChat.end())
+        return;
+
+    QString szMsg = tr("%1 inviter you join %2").arg(inviter, roomJid);
+    if(!reason.isEmpty())
+        szMsg += "\n" + reason;
+    int nRet = QMessageBox::question(NULL, tr("Inviter"), szMsg, QMessageBox::Ok | QMessageBox::No);
+    if(QMessageBox::Ok == nRet)
+    {
+        Join(roomJid);
+    }
+    return;
 }

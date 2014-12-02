@@ -269,6 +269,11 @@ int CGroupChatQxmpp::SendMessage(const QString &szMsg)
     return 0;
 }
 
+int CGroupChatQxmpp::Invitation(const QString &Id, const QString &reason)
+{
+    return !m_pRoom->sendInvitation(Id, reason);
+}
+
 int CGroupChatQxmpp::Kick(const QString &szId, const QString &reason)
 {
     m_pRoom->kick(szId, reason);
