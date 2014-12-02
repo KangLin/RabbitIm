@@ -275,8 +275,9 @@ void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
     pItem->setData(gc->Icon(), Qt::DecorationRole);
     //消息条目  
     QStandardItem* pMessageCountItem = new QStandardItem("");
-    pItem->setData(gc->Id(), GROUP_ITEM_ROLE_JID);
+    pMessageCountItem->setData(gc->Id(), GROUP_ITEM_ROLE_JID);
     pMessageCountItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, GROUP_ITEM_ROLE_PROPERTIES);
+    pMessageCountItem->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
     pMessageCountItem->setEditable(false);//禁止双击编辑  
 
     QList<QStandardItem *> lstItems;
@@ -290,11 +291,11 @@ void CFrmGroupChatList::slotLeave(const QString &szId)
 
 void CFrmGroupChatList::slotUpdateMessage(const QString &szId)
 {
-    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
+    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 1),
                                                 GROUP_ITEM_ROLE_JID, 
                                                 szId, 
                                                 -1,
-                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+                                                Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
     if(gc.isNull())
         return;
