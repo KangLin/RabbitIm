@@ -13,15 +13,24 @@ int CManageGroupChatQxmpp::Create(const QString &szName,
                                   const QString &szSubject,
                                   const QString &szPassword,
                                   const QString &szDescription,
-                                  bool bProtracted, 
+                                  bool bProtracted,
+                                  bool bPrivated, 
                                   const QString &szNick)
 {
-    if(!Join(szName, szNick))
+    QSharedPointer<CGroupChatQxmpp> gc = Join1(szName, szNick);
+    if(gc.isNull())
         return -1;
-    return 0;
+
+    return gc->SetConfigure(szName, szSubject, szPassword, szDescription, bProtracted, bPrivated, szNick);
 }
 
 int CManageGroupChatQxmpp::Join(const QString &szId, const QString &szNick)
+{
+    Join1(szId, szNick);
+    return 0;
+}
+
+QSharedPointer<CGroupChatQxmpp> CManageGroupChatQxmpp::Join1(const QString &szId, const QString &szNick)
 {
     QString id = szId;
     if(szId.indexOf("@") == -1)
@@ -33,11 +42,11 @@ int CManageGroupChatQxmpp::Join(const QString &szId, const QString &szNick)
         id = szId + "@conference." + CGlobal::Instance()->GetXmppDomain();
     }
     if(m_GroupChat.find(id) != m_GroupChat.end())
-        return 0;
+        return QSharedPointer<CGroupChatQxmpp>();
     if(GET_CLIENT.isNull())
     {
         LOG_MODEL_ERROR("CManageGroupChatQxmpp", "GET_CLIENT is null");
-        return -1;
+        return QSharedPointer<CGroupChatQxmpp>();
     }
     CClientXmpp* client =(CClientXmpp*) GET_CLIENT.data();
     QXmppMucRoom *room = client->m_MucManager.addRoom(id);
@@ -51,9 +60,9 @@ int CManageGroupChatQxmpp::Join(const QString &szId, const QString &szNick)
     {
         QSharedPointer<CGroupChatQxmpp> groupChat(new CGroupChatQxmpp(room));
         m_GroupChat.insert(id, groupChat);
-        return 0;
+        return groupChat;
     }
-    return -2;
+    return QSharedPointer<CGroupChatQxmpp>();
 }
 
 QSharedPointer<CGroupChat> CManageGroupChatQxmpp::Get(const QString &szId)

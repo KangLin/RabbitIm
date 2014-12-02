@@ -249,3 +249,45 @@ int CGroupChatQxmpp::Kick(const QString &szId, const QString &reason)
 {
     m_pRoom->kick(szId, reason);
 }
+
+int CGroupChatQxmpp::SetConfigure(const QString &szName, const QString &szSubject, const QString &szPassword, const QString &szDescription, bool bProtracted, bool bPrivated, const QString &szNick)
+{
+    QXmppDataForm form(QXmppDataForm::Submit);
+    QList<QXmppDataForm::Field> fields;
+    {
+        QXmppDataForm::Field field(QXmppDataForm::Field::HiddenField);
+        field.setKey("FORM_TYPE");
+        field.setValue("http://jabber.org/protocol/muc#roomconfig");
+        fields.append(field);
+    }
+    QXmppDataForm::Field field;
+    field.setKey("muc#roomconfig_roomname");
+    field.setValue(szName);
+    fields.append(field);
+    field.setKey("muc#roomconfig_subject");
+    field.setValue(szSubject);
+    fields.append(field);
+    field.setKey("muc#roomconfig_roomdesc");
+    field.setValue(szDescription);
+    fields.append(field);
+
+    field.setKey("muc#roomconfig_roomsecret");
+    field.setValue(szPassword);
+    fields.append(field);
+    QXmppDataForm::Field field1(QXmppDataForm::Field::BooleanField);
+    field1.setKey("muc#roomconfig_passwordprotectedroom");
+    field1.setValue(true);
+    fields.append(field1);
+
+    field1.setKey("muc#roomconfig_membersonly");
+    field1.setValue(bPrivated);
+    fields.append(field1);
+    
+    field1.setKey("muc#roomconfig_persistentroom");
+    field1.setValue(bProtracted);
+    fields.append(field1);
+    
+    form.setFields(fields);
+    m_pRoom->setConfiguration(form);
+    return 0;
+}

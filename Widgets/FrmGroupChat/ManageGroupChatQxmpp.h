@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QMap>
-#include "GroupChat.h"
+#include "GroupChatQxmpp.h"
 #include "ManageGroupChat.h"
 
 class CManageGroupChatQxmpp : public CManageGroupChat
@@ -17,6 +17,7 @@ public:
                        const QString &szPassword = QString(),
                        const QString &szDescription = QString(),
                        bool bProtracted = false,
+                       bool bPrivated = false,
                        const QString &szNick = QString());
     virtual int Join(const QString &szId, const QString &szNick = QString());
     virtual QSharedPointer<CGroupChat> Get(const QString &szId);
@@ -25,6 +26,7 @@ signals:
 
 public slots:
 private:
+    QSharedPointer<CGroupChatQxmpp> Join1(const QString &szId, const QString &szNick);
 };
 
 #endif // MANAGEGROUPCHATQXMPP_H

@@ -28,6 +28,7 @@ public:
                    const QString &szPassword = QString(),
                    const QString &szDescription = QString(),
                    bool bProtracted = false,
+                   bool bPrivated = false,
                    const QString &szNick = QString()
             ) = 0;
     virtual int Join(const QString &szId, const QString &szNick = QString()) = 0;

@@ -86,64 +86,10 @@ void CDlgCreateGroupChatRoom::on_pbOK_clicked()
                       ui->txtSubject->text(), 
                       ui->txtPassword->text(),
                       ui->txtDescription->text(),
-                      ui->cbProtracted->isChecked());
-/*
-    CFrmGroupChat* pGroupChat = new CFrmGroupChat();
-    if(pGroupChat)
-    {
-        bool check = connect(pGroupChat, SIGNAL(sigJoined(const QString&,CFrmGroupChat*)),
-                             SIGNAL(sigJoinedGroup(const QString&,CFrmGroupChat*)));
-        Q_ASSERT(check);
+                      ui->cbProtracted->isChecked(),
+                      ui->cbPrivated->isChecked(),
+                      ui->txtNick->text());
 
-        QXmppDataForm form(QXmppDataForm::Submit);
-        QList<QXmppDataForm::Field> fields;
-        {
-            QXmppDataForm::Field field(QXmppDataForm::Field::HiddenField);
-            field.setKey("FORM_TYPE");
-            field.setValue("http://jabber.org/protocol/muc#roomconfig");
-            fields.append(field);
-        }
-        QXmppDataForm::Field field;
-        field.setKey("muc#roomconfig_roomname");
-        field.setValue(ui->txtName->text());
-        fields.append(field);
-        field.setKey("muc#roomconfig_subject");
-        field.setValue(ui->txtSubject->text());
-        fields.append(field);
-        field.setKey("muc#roomconfig_roomdesc");
-        field.setValue(ui->txtDescription->text());
-        fields.append(field);
-        if(!ui->txtPassword->text().isEmpty())
-        {
-            field.setKey("muc#roomconfig_roomsecret");
-            field.setValue(ui->txtPassword->text());
-            fields.append(field);
-            QXmppDataForm::Field field1(QXmppDataForm::Field::BooleanField);
-            field1.setKey("muc#roomconfig_passwordprotectedroom");
-            field1.setValue(true);
-            fields.append(field1);
-        }
-        if(ui->cbPrivated->isChecked())
-        {
-            QXmppDataForm::Field field(QXmppDataForm::Field::BooleanField);
-            field.setKey("muc#roomconfig_membersonly");
-            field.setValue(true);
-            fields.append(field);
-        }
-        if(ui->cbProtracted->isChecked())
-        {
-            QXmppDataForm::Field field(QXmppDataForm::Field::BooleanField);
-            field.setKey("muc#roomconfig_persistentroom");
-            field.setValue(true);
-            fields.append(field);
-        }
-        form.setFields(fields);
-        pGroupChat->setConfiguration(form);
-
-        if(!pGroupChat->Create(szName + "@" + m_szId))
-            delete pGroupChat;
-    }
-*/
     this->accept();
 }
 

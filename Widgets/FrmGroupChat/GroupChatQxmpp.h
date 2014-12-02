@@ -73,6 +73,15 @@ private slots:
     /// This signal is emitted when the room's subject changes.
     void slotSubjectChanged(const QString &subject);
 
+public:
+    int SetConfigure(const QString &szName,
+                     const QString &szSubject,
+                     const QString &szPassword,
+                     const QString &szDescription,
+                     bool bProtracted, 
+                     bool bPrivated,
+                     const QString &szNick);
+    
 public slots:
 
 private:
