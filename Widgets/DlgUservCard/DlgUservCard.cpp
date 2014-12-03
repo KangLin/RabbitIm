@@ -1,22 +1,22 @@
-#include "FrmUservCard.h"
-#include "ui_FrmUservCard.h"
+#include "DlgUservCard.h"
+#include "ui_DlgUservCard.h"
 #include "../../Global/Global.h"
 #include <QFileDialog>
 #include <QImageWriter>
 #include <QDesktopWidget>
 
-CFrmUservCard::CFrmUservCard(QWidget *parent) :
-    QFrame(parent),
-    ui(new Ui::CFrmUservCard)
+CDlgUservCard::CDlgUservCard(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::CDlgUservCard)
 {
     ui->setupUi(this);
     Init();
     m_bModify = false;
 }
 
-CFrmUservCard::CFrmUservCard(const QString &jid, QWidget *parent) :
-    QFrame(parent),
-    ui(new Ui::CFrmUservCard)
+CDlgUservCard::CDlgUservCard(const QString &jid, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::CDlgUservCard)
 {
     ui->setupUi(this);
 
@@ -33,9 +33,9 @@ CFrmUservCard::CFrmUservCard(const QString &jid, QWidget *parent) :
     GET_CLIENT->RequestUserInfoRoster(jid);
 }
 
-CFrmUservCard::CFrmUservCard(QSharedPointer<CUserInfo> user, bool bModify, QWidget *parent) :
-    QFrame(parent),
-    ui(new Ui::CFrmUservCard),
+CDlgUservCard::CDlgUservCard(QSharedPointer<CUserInfo> user, bool bModify, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::CDlgUservCard),
     m_UserInfo(user),
     m_bModify(bModify)
 {
@@ -43,23 +43,28 @@ CFrmUservCard::CFrmUservCard(QSharedPointer<CUserInfo> user, bool bModify, QWidg
     Init();
 }
 
-CFrmUservCard::~CFrmUservCard()
+CDlgUservCard::~CDlgUservCard()
 {
-    LOG_MODEL_DEBUG("CFrmUservCard", "CFrmUservCard::~CFrmUservCard");
+    LOG_MODEL_DEBUG("CDlgUservCard", "CDlgUservCard::~CDlgUservCard");
+    GET_CLIENT.data()->disconnect(this);
     delete ui;
 }
 
-int CFrmUservCard::Init()
+int CDlgUservCard::Init()
 {  
     QDesktopWidget *pDesk = QApplication::desktop();
+#ifdef MOBILE
+    this->setGeometry(pDesk->availableGeometry());
+#else
     move((pDesk->width() - width()) / 2,
          (pDesk->height() - height()) / 2);
+#endif
     return 0;
 }
 
-void CFrmUservCard::showEvent(QShowEvent *)
+void CDlgUservCard::showEvent(QShowEvent *)
 {
-    LOG_MODEL_DEBUG("CFrmUservCard", "CFrmUservCard::showEvent");
+    LOG_MODEL_DEBUG("CDlgUservCard", "CDlgUservCard::showEvent");
 
     if(m_UserInfo.isNull())
         return;
@@ -74,7 +79,7 @@ void CFrmUservCard::showEvent(QShowEvent *)
     QImageWriter imageWriter(&m_Buffer, "png");
     m_Buffer.open(QIODevice::WriteOnly);
     if(!imageWriter.write(m_UserInfo->GetPhoto()))
-        LOG_MODEL_ERROR("CFrmUservCard", "error:%s", imageWriter.errorString().toStdString().c_str());
+        LOG_MODEL_ERROR("CDlgUservCard", "error:%s", imageWriter.errorString().toStdString().c_str());
     m_Buffer.close();
 
     QPixmap pixmap;
@@ -87,12 +92,11 @@ void CFrmUservCard::showEvent(QShowEvent *)
     ui->pbOK->setVisible(m_bModify);
 }
 
-void CFrmUservCard::closeEvent(QCloseEvent *)
+void CDlgUservCard::closeEvent(QCloseEvent *)
 {
-    deleteLater();
 }
 
-void CFrmUservCard::changeEvent(QEvent *e)
+void CDlgUservCard::changeEvent(QEvent *e)
 {
     switch(e->type())
     {
@@ -102,32 +106,32 @@ void CFrmUservCard::changeEvent(QEvent *e)
     }
 }
 
-void CFrmUservCard::on_pbBrower_clicked()
+void CDlgUservCard::on_pbBrower_clicked()
 {
     //*从资源中加载应用程序样式 
     QString szFile = QFileDialog::getOpenFileName(
                 this, tr("Open File"), 
                 QString(), "*.png", 0,
-                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
+                QFileDialog::ReadOnly /*| QFileDialog::DontUseNativeDialog*/);
     if(szFile.isEmpty())
        return; 
 
     QImageWriter imageWriter(&m_Buffer, "png");
     m_Buffer.open(QIODevice::WriteOnly);
     if(!imageWriter.write(QImage(szFile)))
-        LOG_MODEL_ERROR("CFrmUservCard", "error:%s", imageWriter.errorString().toStdString().c_str());
+        LOG_MODEL_ERROR("CDlgUservCard", "error:%s", imageWriter.errorString().toStdString().c_str());
     m_Buffer.close();
 
     ui->lbPhoto->setPixmap(QPixmap(szFile));
 }
 
-void CFrmUservCard::on_pbClear_clicked()
+void CDlgUservCard::on_pbClear_clicked()
 {
     ui->lbPhoto->clear();
     m_Buffer.setData(NULL, 0);
 }
 
-void CFrmUservCard::on_pbOK_clicked()
+void CDlgUservCard::on_pbOK_clicked()
 {
     QSharedPointer<CUserInfo> userInfo = USER_INFO_LOCALE->GetInfo();
     userInfo->SetName(ui->txtName->text());
@@ -140,12 +144,12 @@ void CFrmUservCard::on_pbOK_clicked()
     close();
 }
 
-void CFrmUservCard::on_pbCancel_clicked()
+void CDlgUservCard::on_pbCancel_clicked()
 {
     close();
 }
 
-void CFrmUservCard::slotUpdateRoster(const QString& szId, QSharedPointer<CUser> userInfo)
+void CDlgUservCard::slotUpdateRoster(const QString& szId, QSharedPointer<CUser> userInfo)
 {
     if(szId == m_szJid)
     {
@@ -153,6 +157,6 @@ void CFrmUservCard::slotUpdateRoster(const QString& szId, QSharedPointer<CUser> 
         {
             m_UserInfo = userInfo->GetInfo();
         }
-        this->show();
+        showEvent(NULL);
     }
 }

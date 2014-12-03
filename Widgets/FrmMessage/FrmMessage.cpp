@@ -1,6 +1,6 @@
 #include "FrmMessage.h"
 #include "ui_FrmMessage.h"
-#include "../FrmUservCard/FrmUservCard.h"
+#include "../DlgUservCard/DlgUservCard.h"
 #include "MainWindow.h"
 #include "Global/Global.h"
 #include "Client/Client.h"
@@ -339,8 +339,8 @@ void CFrmMessage::on_lbAvatar_clicked()
     {
         return;
     }
-    CFrmUservCard *pvCard = new CFrmUservCard(m_User->GetInfo());
-    pvCard->show();
+    CDlgUservCard pvCard(m_User->GetInfo(), false);
+    pvCard.exec();
 }
 
 void CFrmMessage::slotRefresh()

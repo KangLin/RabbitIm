@@ -1,7 +1,7 @@
 #include "FrmUserList.h"
 #include "ui_FrmUserList.h"
 #include "../../MainWindow.h"
-#include "../FrmUservCard/FrmUservCard.h"
+#include "../DlgUservCard/DlgUservCard.h"
 #include "FileTransfer/ManageFileTransfer.h"
 #include "Client/Client.h"
 #include "Global/Global.h"
@@ -343,8 +343,8 @@ void CFrmUserList::slotAgreeAddRoster()
 void CFrmUserList::slotInformationRoster()
 {
     QString bareJid = GetCurrentRoster();
-    CFrmUservCard* pvCard = new CFrmUservCard(GLOBAL_USER->GetUserInfoRoster(bareJid)->GetInfo());
-    pvCard->show();
+    CDlgUservCard pvCard(GLOBAL_USER->GetUserInfoRoster(bareJid)->GetInfo());
+    pvCard.exec();
 }
 
 void CFrmUserList::slotSendMessage()

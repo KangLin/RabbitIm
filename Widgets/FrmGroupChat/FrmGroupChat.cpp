@@ -3,7 +3,7 @@
 #include "../../Global/Global.h"
 #include <QMessageBox>
 #include "../../MainWindow.h"
-#include "../FrmUservCard/FrmUservCard.h"
+#include "../DlgUservCard/DlgUservCard.h"
 #include <QDesktopWidget>
 
 #ifdef WIN32
@@ -187,11 +187,16 @@ void CFrmGroupChat::on_lstMembers_doubleClicked(const QModelIndex &index)
 {
     const QAbstractItemModel* m = index.model();
     QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_JID);
-    QString jid = v.value<QString>();
-    if(jid.isEmpty())
+    QString szId = v.value<QString>();
+    if(szId.isEmpty())
         return;
-    //if(USER_INFO_LOCALE->GetBareJid() != QXmppUtils::jidToBareJid(jid))
-    //    CFrmUservCard* pvCard = new CFrmUservCard(jid);
+    szId = m_Room->ParticipantId(szId);
+    if(USER_INFO_LOCALE->GetInfo()->GetId() != szId)
+    {
+        CDlgUservCard pvCard(szId);
+        pvCard.exec();
+    }
+    
 }
 
 void CFrmGroupChat::slotParticipantAdd(const QString &szId)

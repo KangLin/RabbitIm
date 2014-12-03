@@ -12,7 +12,6 @@ SOURCES += main.cpp\
     Widgets/FrmUserList/GroupItem.cpp \
     Widgets/FrmCustom/CustomTreeView.cpp \
     Widgets/FrmVideo/RecordAudio.cpp \
-    Widgets/FrmUservCard/FrmUservCard.cpp \
     Widgets/FrmCustom/Label.cpp \ 
     Widgets/FrmMain/FrmMain.cpp \ 
     Manager/Manager.cpp \
@@ -62,10 +61,11 @@ SOURCES += main.cpp\
     Widgets/FrmGroupChat/GroupChatQxmpp.cpp \
     Widgets/FrmGroupChat/DlgJoinGroupChat.cpp \
     Widgets/FrmGroupChat/FrmGroupChat.cpp \
-    $$PWD/Widgets/FrmGroupChat/ChatActionGroupChat.cpp \
+    Widgets/FrmGroupChat/ChatActionGroupChat.cpp \
     Widgets/FrmGroupChat/DlgGroupChatInfo.cpp \
     Widgets/FrmGroupChat/DlgInviter.cpp \
-    Widgets/FrmCustom/ItemModelCustom.cpp
+    Widgets/FrmCustom/ItemModelCustom.cpp \
+    Widgets/DlgUservCard/DlgUservCard.cpp
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp
     #Widgets/FrmGroupChat/FrmGroupChat.cpp 
     #Widgets/FrmGroupChat/Conference.cpp \
@@ -84,7 +84,6 @@ HEADERS += MainWindow.h \
     Widgets/FrmCustom/CustomTreeView.h \
     Widgets/FrmVideo/RecordAudio.h \
     Widgets/DlgAbout/Version.h \
-    Widgets/FrmUservCard/FrmUservCard.h \ 
     Widgets/FrmCustom/Label.h \ 
     Manager/Manager.h \
     Manager/ManagerXmpp.h \
@@ -136,7 +135,8 @@ HEADERS += MainWindow.h \
     $$PWD/Widgets/FrmGroupChat/ChatActionGroupChat.h \
     Widgets/FrmGroupChat/DlgGroupChatInfo.h \
     Widgets/FrmGroupChat/DlgInviter.h \
-    Widgets/FrmCustom/ItemModelCustom.h
+    Widgets/FrmCustom/ItemModelCustom.h \
+    Widgets/DlgUservCard/DlgUservCard.h
     #Widgets/FrmGroupChat/FrmGroupChatFind.h 
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmGroupChat/Conference.h \
@@ -147,7 +147,7 @@ FORMS += MainWindow.ui \
     Widgets/DlgAbout/DlgAbout.ui \
     Widgets/FrmMain/FrmMain.ui \
     Widgets/DlgOptions/DlgOptions.ui \
-    Widgets/FrmUservCard/FrmUservCard.ui \
+    Widgets/DlgUservCard/DlgUservCard.ui \
     Widgets/FrmMessage/FrmMessage.ui \
     Widgets/FrmMessage/FrmContainer.ui \
     Widgets/FrmRecentMessage/FrmRecentMsgList.ui \

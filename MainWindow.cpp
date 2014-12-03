@@ -10,7 +10,7 @@
 #include "Widgets/FrmVideo/FrmVideo.h"
 #include "Widgets/DlgOptions/DlgOptions.h"
 #include "Widgets/FrmSendFile/DlgSendManage.h"
-#include "Widgets/FrmUservCard/FrmUservCard.h"
+#include "Widgets/DlgUservCard/DlgUservCard.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -647,10 +647,8 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
 
 void MainWindow::slotEditInformation()
 {
-    CFrmUservCard* pvCard = 
-            new CFrmUservCard(USER_INFO_LOCALE->GetInfo(), true);
-    pvCard->show();
-    pvCard->activateWindow();
+    CDlgUservCard pvCard(USER_INFO_LOCALE->GetInfo(), true);
+    pvCard.exec();
 }
 
 void MainWindow::slotLogout()

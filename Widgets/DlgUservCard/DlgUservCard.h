@@ -1,28 +1,28 @@
 #ifndef FRMUSERVCARD_H
 #define FRMUSERVCARD_H
 
-#include <QFrame>
+#include <QDialog>
 #include <QBuffer>
 #include <QSharedPointer>
 #include "Client/Client.h"
 #include "../../UserInfo/UserInfo.h"
 
 namespace Ui {
-class CFrmUservCard;
+class CDlgUservCard;
 }
 
-class CFrmUservCard : public QFrame
+class CDlgUservCard : public QDialog
 {
     Q_OBJECT
 
 public:
     //用于编辑本地用户信息  
-    explicit CFrmUservCard(QWidget *parent = 0);
+    explicit CDlgUservCard(QWidget *parent = 0);
     //用于查询组成员信息  
-    explicit CFrmUservCard(const QString &jid, QWidget *parent = 0);
+    explicit CDlgUservCard(const QString &jid, QWidget *parent = 0);
     //用于查询好友信息  
-    explicit CFrmUservCard(QSharedPointer<CUserInfo> user, bool bModify = false, QWidget* parent = NULL);
-    ~CFrmUservCard();
+    explicit CDlgUservCard(QSharedPointer<CUserInfo> user, bool bModify = false, QWidget* parent = NULL);
+    ~CDlgUservCard();
 
 protected:
     virtual void showEvent(QShowEvent *);
@@ -40,7 +40,7 @@ private slots:
     int Init();
 
 private:
-    Ui::CFrmUservCard *ui;
+    Ui::CDlgUservCard *ui;
     QString m_szJid;
     QSharedPointer<CUserInfo> m_UserInfo;
     bool m_bModify;
