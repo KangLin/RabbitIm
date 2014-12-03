@@ -116,10 +116,14 @@ void CManageGroupChatQxmpp::slotInvitationReceived(const QString &roomJid, const
     if(m_GroupChat.find(roomJid) != m_GroupChat.end())
         return;
 
-    QString szMsg = tr("%1 inviter you join %2").arg(inviter, roomJid);
+    QString szInviter = inviter;
+    QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoRoster(QXmppUtils::jidToBareJid(inviter));
+    if(!user.isNull())
+        szInviter = user->GetInfo()->GetShowName();
+    QString szMsg = tr("%1 inviter you join group chat %2").arg(szInviter, QXmppUtils::jidToUser(roomJid));
     if(!reason.isEmpty())
         szMsg += "\n" + reason;
-    int nRet = QMessageBox::question(NULL, tr("Inviter"), szMsg, QMessageBox::Ok | QMessageBox::No);
+    int nRet = QMessageBox::question(NULL, tr("Inviter join group chat"), szMsg, QMessageBox::Ok | QMessageBox::No);
     if(QMessageBox::Ok == nRet)
     {
         Join(roomJid);

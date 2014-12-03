@@ -62,7 +62,10 @@ SOURCES += main.cpp\
     Widgets/FrmGroupChat/GroupChatQxmpp.cpp \
     Widgets/FrmGroupChat/DlgJoinGroupChat.cpp \
     Widgets/FrmGroupChat/FrmGroupChat.cpp \
-    $$PWD/Widgets/FrmGroupChat/ChatActionGroupChat.cpp
+    $$PWD/Widgets/FrmGroupChat/ChatActionGroupChat.cpp \
+    Widgets/FrmGroupChat/DlgGroupChatInfo.cpp \
+    Widgets/FrmGroupChat/DlgInviter.cpp \
+    Widgets/FrmCustom/ItemModelCustom.cpp
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp
     #Widgets/FrmGroupChat/FrmGroupChat.cpp 
     #Widgets/FrmGroupChat/Conference.cpp \
@@ -130,7 +133,10 @@ HEADERS += MainWindow.h \
     Widgets/FrmGroupChat/GroupChatQxmpp.h \
     Widgets/FrmGroupChat/DlgJoinGroupChat.h \
     Widgets/FrmGroupChat/FrmGroupChat.h \ 
-    $$PWD/Widgets/FrmGroupChat/ChatActionGroupChat.h
+    $$PWD/Widgets/FrmGroupChat/ChatActionGroupChat.h \
+    Widgets/FrmGroupChat/DlgGroupChatInfo.h \
+    Widgets/FrmGroupChat/DlgInviter.h \
+    Widgets/FrmCustom/ItemModelCustom.h
     #Widgets/FrmGroupChat/FrmGroupChatFind.h 
     #Widgets/FrmUserList/GroupItem.h \
     #Widgets/FrmGroupChat/Conference.h \
@@ -152,7 +158,9 @@ FORMS += MainWindow.ui \
     Widgets/FrmLogin/DlgLoginSettings.ui \ 
     Widgets/FrmGroupChat/DlgCreateGroupChatRoom.ui \
     Widgets/FrmGroupChat/FrmGroupChat.ui \
-    Widgets/FrmGroupChat/DlgJoinGroupChat.ui
+    Widgets/FrmGroupChat/DlgJoinGroupChat.ui \
+    Widgets/FrmGroupChat/DlgGroupChatInfo.ui \
+    Widgets/FrmGroupChat/DlgInviter.ui
     #Widgets/FrmGroupChat/FrmGroupChatFind.ui 
 
 RESOURCES += \

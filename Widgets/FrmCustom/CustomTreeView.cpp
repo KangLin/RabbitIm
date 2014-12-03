@@ -43,18 +43,19 @@ void CCustomTreeView::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
 #endif
+
     QTreeView::mouseReleaseEvent(event);
 }
 
 void CCustomTreeView::contextMenuEvent(QContextMenuEvent *event)
 {
-    LOG_MODEL_DEBUG("Roster", "CTreeUserList::mouseReleaseEvent");
+    LOG_MODEL_DEBUG("CCustomTreeView", "CTreeUserList::mouseReleaseEvent");
     QTreeView::contextMenuEvent(event);
 }
 
 void CCustomTreeView::resizeEvent(QResizeEvent *event)
 {
-    LOG_MODEL_DEBUG("Roster", "CTreeUserList::resizeEvent:width:%d,event size:%d", 
+    LOG_MODEL_DEBUG("CCustomTreeView", "CTreeUserList::resizeEvent:width:%d,event size:%d", 
                     this->geometry().width(),
                     event->size().width());
     Q_UNUSED(event);

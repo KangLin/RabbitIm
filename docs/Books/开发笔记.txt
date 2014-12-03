@@ -20,7 +20,9 @@ Qt的皮肤设计:http://blog.csdn.net/lastsoup/article/details/7043124
 
 * QTreeView 使用：http://www.tuicool.com/articles/ZFBZfm
 
-* [Qt树形控件QTreeView使用2——复选框的设置](http://www.tuicool.com/articles/FvaYNn)
+* [Qt树形控件QTreeView使用2——复选框的设置](http://www.tuicool.com/articles/FvaYNn) 这个中例子有些问题，本人已抽象出来放到本工程的 CItemModelCustom 中。
+
+* [在views中选择数据项](http://www.cppblog.com/yuanyajie/archive/2007/06/19/26622.html)
 
 * QT中MDI应用程序中更改子窗口大小或是全屏显示子窗口的方法:http://blog.163.com/w_fox/blog/static/62339536201171895348420/
 

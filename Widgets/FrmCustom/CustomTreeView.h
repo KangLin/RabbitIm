@@ -3,6 +3,7 @@
 
 #include <QTreeView>
 #include <QTime>
+#include <QStandardItem>
 
 class CCustomTreeView : public QTreeView
 {
@@ -20,10 +21,6 @@ protected:
     void mouseReleaseEvent(QMouseEvent * event);
     void resizeEvent(QResizeEvent * event);
     void changeEvent(QEvent*);
-
-signals:
-
-public slots:
 
 private:
     QTime m_MousePressTime;
