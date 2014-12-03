@@ -276,7 +276,7 @@ int CGroupChatQxmpp::Invitation(const QString &Id, const QString &reason)
 
 int CGroupChatQxmpp::Kick(const QString &szId, const QString &reason)
 {
-    m_pRoom->kick(szId, reason);
+    return !m_pRoom->kick(szId, reason);
 }
 
 int CGroupChatQxmpp::SetConfigure(const QString &szName, const QString &szSubject, const QString &szPassword, const QString &szDescription, bool bProtracted, bool bPrivated, const QString &szNick)

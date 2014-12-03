@@ -43,16 +43,11 @@ private:
     };
 
 private slots:
-    /// This signal is emitted when an invitation to a chat room is received.
-    //void slotInvitationReceived(const QString &roomJid, const QString &inviter, const QString &reason);
-    /// This signal is emitted when a new room is managed.
-    //void slotRoomAdded(QXmppMucRoom *room);
-
     //成功加入聊天室时触发的消息  
     void slotJoinedGroup(const QString &szId);
     //成功离开聊天室时触发的消息  
     void slotLeave(const QString &szId);
-
+    //接收消息  
     void slotUpdateMessage(const QString &szId);
 
 private:

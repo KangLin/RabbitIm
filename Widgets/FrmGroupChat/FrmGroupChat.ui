@@ -202,11 +202,24 @@ p, li { white-space: pre-wrap; }
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
   </layout>
+  <action name="actionMember_information">
+   <property name="text">
+    <string>Member information</string>
+   </property>
+  </action>
+  <action name="actionMember_kick">
+   <property name="text">
+    <string>Kick</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

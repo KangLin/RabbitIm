@@ -70,6 +70,9 @@ CFrmGroupChat::CFrmGroupChat(const QString &szId, QWidget *parent) :
                     this,
                     SLOT(slotUpdateMessage(const QString&)));
     Q_ASSERT(check);
+    check = connect(ui->lstMembers, SIGNAL(customContextMenuRequested(QPoint)),
+                    SLOT(slotMemberCustomContextMenuRequested(QPoint)));
+    Q_ASSERT(check);
 }
 
 CFrmGroupChat::~CFrmGroupChat()
@@ -196,7 +199,6 @@ void CFrmGroupChat::on_lstMembers_doubleClicked(const QModelIndex &index)
         CDlgUservCard pvCard(szId);
         pvCard.exec();
     }
-    
 }
 
 void CFrmGroupChat::slotParticipantAdd(const QString &szId)
@@ -208,6 +210,25 @@ void CFrmGroupChat::slotParticipantAdd(const QString &szId)
 void CFrmGroupChat::slotParticipantRemoved(const QString &szId)
 {
     RemoveMember(szId);
+}
+
+void CFrmGroupChat::slotMemberCustomContextMenuRequested(const QPoint &pos)
+{
+    Q_UNUSED(pos);
+    QModelIndex index = ui->lstMembers->currentIndex();
+    if(!index.isValid())
+        return;
+    const QAbstractItemModel* m = index.model();
+    QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_JID);
+    QString szId = v.value<QString>();
+    if(szId.isEmpty())
+        return;
+    if(USER_INFO_LOCALE->GetInfo()->GetId() == szId)
+        return;
+    QMenu menu;
+    menu.addAction(ui->actionMember_kick);
+    menu.addAction(ui->actionMember_information);
+    menu.exec(QCursor::pos());
 }
 
 void CFrmGroupChat::slotUpdateMessage(const QString &szId)
@@ -255,4 +276,27 @@ int CFrmGroupChat::AppendMessageToOutputView(std::vector<QSharedPointer<CChatAct
          it->setup(cursor, ui->txtView);
     }
     return 0;
+}
+
+void CFrmGroupChat::on_actionMember_information_triggered()
+{
+    QModelIndex index = ui->lstMembers->currentIndex();
+    if(!index.isValid())
+        return;
+    on_lstMembers_doubleClicked(index);
+}
+
+void CFrmGroupChat::on_actionMember_kick_triggered()
+{
+    QModelIndex index = ui->lstMembers->currentIndex();
+    if(!index.isValid())
+        return;
+    const QAbstractItemModel* m = index.model();
+    QVariant v = m->data(index, CFrmGroupChat::ROLE_GROUPCHAT_JID);
+    QString szId = v.value<QString>();
+    if(szId.isEmpty())
+        return;
+    
+    if(USER_INFO_LOCALE->GetInfo()->GetId() != m_Room->ParticipantId(szId))
+        m_Room->Kick(szId);
 }

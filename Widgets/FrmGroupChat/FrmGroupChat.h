@@ -41,6 +41,14 @@ private slots:
     void slotParticipantRemoved(const QString &szId);
     void slotUpdateMessage(const QString& szId);
 
+    //显示成员列表的上下文件菜单(右键菜单)  
+    //控件contextMenuPolicy属性要设置为CustomContextMenu，才能触customContextMenuRequested事件，再联接这个槽  
+    //如果设置为DefaultContextMenu，则触发右键菜单事件 void contextMenuEvent(QContextMenuEvent * event);  
+    void slotMemberCustomContextMenuRequested(const QPoint &pos);
+    void on_actionMember_information_triggered();
+    
+    void on_actionMember_kick_triggered();
+    
 private:
     //消息加入到消息列表  
     int AppendMessageToOutputView(std::vector<QSharedPointer<CChatAction> > action);

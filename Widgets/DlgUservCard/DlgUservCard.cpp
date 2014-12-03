@@ -108,7 +108,7 @@ void CDlgUservCard::changeEvent(QEvent *e)
 
 void CDlgUservCard::on_pbBrower_clicked()
 {
-    //*从资源中加载应用程序样式 
+    //*从资源中加载应用程序样式  
     QString szFile = QFileDialog::getOpenFileName(
                 this, tr("Open File"), 
                 QString(), "*.png", 0,
