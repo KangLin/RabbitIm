@@ -194,7 +194,7 @@ void CFrmGroupChat::on_lstMembers_doubleClicked(const QModelIndex &index)
     if(szId.isEmpty())
         return;
     szId = m_Room->ParticipantId(szId);
-    if(USER_INFO_LOCALE->GetInfo()->GetId() != szId)
+    if(USER_INFO_LOCALE->GetInfo()->GetId() == m_Room->ParticipantId(szId))
     {
         CDlgUservCard pvCard(szId);
         pvCard.exec();
@@ -223,7 +223,7 @@ void CFrmGroupChat::slotMemberCustomContextMenuRequested(const QPoint &pos)
     QString szId = v.value<QString>();
     if(szId.isEmpty())
         return;
-    if(USER_INFO_LOCALE->GetInfo()->GetId() == szId)
+    if(USER_INFO_LOCALE->GetInfo()->GetId() == m_Room->ParticipantId(szId))
         return;
     QMenu menu;
     menu.addAction(ui->actionMember_kick);
