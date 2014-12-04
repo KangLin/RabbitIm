@@ -6,7 +6,6 @@
 #include <QList>
 #include <QMenu>
 #include "qxmpp/QXmppDiscoveryIq.h"
-#include "Conference.h"
 #include "FrmGroupChat.h"
 
 namespace Ui {
@@ -59,8 +58,6 @@ private:
 
     QStandardItemModel *m_pTreeConferenceModel; //群聊服务列表树型控件  
     QStandardItemModel *m_pListRoomModel;       //聊天室列表控件  
-
-    CConference m_Conference;
 
     QMenu m_Menu;
     int InitMenu();

@@ -159,6 +159,7 @@ private:
     QXmppTransferManager m_TransferManager;
     
     friend class CManageGroupChatQxmpp;
+    friend class CGroupChatQxmpp;
 };
 
 #endif // XMPPCLIENT_H

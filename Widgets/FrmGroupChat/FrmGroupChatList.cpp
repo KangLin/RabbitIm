@@ -78,6 +78,10 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
                     SIGNAL(sigInvitation(QString,QString,QString)),
                     SLOT(slotInvitation(QString,QString,QString)));
     Q_ASSERT(check);
+    check = connect(GETMANAGER->GetManageGroupChat().data(),
+                    SIGNAL(sigGroupChatInformationChange(QString)),
+                    SLOT(slotUpdateMessage(QString)));
+    Q_ASSERT(check);
 }
 
 CFrmGroupChatList::~CFrmGroupChatList()

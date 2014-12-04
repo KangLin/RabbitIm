@@ -42,6 +42,8 @@ signals:
     void sigInvitation(const QString &szGroupChatId, const QString &szInviter, const QString& szReason);
     void sigUpdateMessage(const QString &szId);
     void sigMessageClean(const QString &szId);
+    void sigGroupChatInformationChange(const QString &szId);
+
 public slots:
     int slotLeave(const QString& szId);
     int slotError(const QString& szId, CGroupChat::Condition c, int errorcode);

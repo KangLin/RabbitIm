@@ -6,6 +6,8 @@
 #include "ChatActionGroupChat.h"
 #include "Manager/Manager.h"
 #include "MainWindow.h"
+#include "Client/ClientXmpp.h"
+#include "qxmpp/QXmppDiscoveryManager.h"
 
 #ifdef WIN32
 #undef GetMessage
@@ -78,7 +80,16 @@ CGroupChatQxmpp::CGroupChatQxmpp(QXmppMucRoom *pRoom, QObject *parent) :
                     SLOT(slotSubjectChanged(QString)));
     Q_ASSERT(check);
 
+    //请求权限  
     m_pRoom->requestPermissions();
+    //得到房间  
+    CClientXmpp* pClient = (CClientXmpp*)GET_CLIENT.data();
+    QXmppDiscoveryManager *pDis = pClient->m_Client.findExtension<QXmppDiscoveryManager>();
+    check = connect(pDis, SIGNAL(infoReceived(QXmppDiscoveryIq)),
+                    SLOT(slotInfoReceived(QXmppDiscoveryIq)));
+    Q_ASSERT(check);
+    
+    pDis->requestInfo(m_pRoom->jid());
 }
 
 void CGroupChatQxmpp::slotJoined()
@@ -203,6 +214,14 @@ void CGroupChatQxmpp::slotSubjectChanged(const QString &subject)
     LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotSubjectChanged:%s", qPrintable(subject));
 }
 
+void CGroupChatQxmpp::slotInfoReceived(const QXmppDiscoveryIq &iq)
+{
+    if(iq.from() != m_pRoom->jid())
+        return;
+    m_Data = iq;
+    emit GETMANAGER->GetManageGroupChat()->sigGroupChatInformationChange(m_pRoom->jid());
+}
+
 QString CGroupChatQxmpp::Id()
 {
     RABBITIM_ASSERT(m_pRoom, QString());
@@ -221,6 +240,10 @@ QString CGroupChatQxmpp::ShowName()
             szName = QXmppUtils::jidToUser(m_pRoom->jid());
         }
     }
+    //TODO:目前用文字表示,以后用图标  
+    if(!this->IsProtracted())
+        szName += tr("[temporary]");
+
     return szName;
 }
 
@@ -233,7 +256,22 @@ QString CGroupChatQxmpp::Nick()
 QString CGroupChatQxmpp::Subject()
 {
     RABBITIM_ASSERT(m_pRoom, QString());
+    foreach(QXmppDataForm::Field f, m_Data.form().fields())
+    {
+        if(f.key() == "muc#roominfo_subject")
+            return f.value().value<QString>();
+    }
     return m_pRoom->subject();
+}
+
+QString CGroupChatQxmpp::Description()
+{
+    foreach(QXmppDataForm::Field f, m_Data.form().fields())
+    {
+        if(f.key() == "muc#roominfo_description")
+            return f.value().value<QString>();
+    }
+    return QString();
 }
 
 QStringList CGroupChatQxmpp::Participants()
@@ -255,13 +293,21 @@ QString CGroupChatQxmpp::ParticipantId(const QString &szId)
 
 bool CGroupChatQxmpp::IsProtracted()
 {
-    //TODO:
+    foreach(QString f, m_Data.features())
+    {
+        if(f == "muc_persistent")
+            return true;
+    }
     return false;
 }
 
 bool CGroupChatQxmpp::IsPrivate()
 {
-    //TODO:
+    foreach(QString f, m_Data.features())
+    {
+        if(f == "muc_passwordprotected")
+            return true;
+    }
     return false;
 }
 

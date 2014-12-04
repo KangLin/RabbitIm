@@ -14,6 +14,7 @@ public:
     virtual QString ShowName() = 0;
     virtual QString Nick() = 0;
     virtual QString Subject() = 0;
+    virtual QString Description() = 0;
     virtual QStringList Participants() = 0;
     virtual QString ParticipantId(const QString &szId) = 0;
     virtual QString ParticipantNick(const QString &szId) = 0;

@@ -65,10 +65,10 @@ SOURCES += main.cpp\
     Widgets/FrmGroupChat/DlgGroupChatInfo.cpp \
     Widgets/FrmGroupChat/DlgInviter.cpp \
     Widgets/FrmCustom/ItemModelCustom.cpp \
-    Widgets/DlgUservCard/DlgUservCard.cpp
+    Widgets/DlgUservCard/DlgUservCard.cpp 
     #Widgets/FrmGroupChat/FrmGroupChatFind.cpp
     #Widgets/FrmGroupChat/FrmGroupChat.cpp 
-    #Widgets/FrmGroupChat/Conference.cpp \
+    
 
 HEADERS += MainWindow.h \
     Global/Global.h \
@@ -136,10 +136,10 @@ HEADERS += MainWindow.h \
     Widgets/FrmGroupChat/DlgGroupChatInfo.h \
     Widgets/FrmGroupChat/DlgInviter.h \
     Widgets/FrmCustom/ItemModelCustom.h \
-    Widgets/DlgUservCard/DlgUservCard.h
+    Widgets/DlgUservCard/DlgUservCard.h 
     #Widgets/FrmGroupChat/FrmGroupChatFind.h 
     #Widgets/FrmUserList/GroupItem.h \
-    #Widgets/FrmGroupChat/Conference.h \
+    
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \

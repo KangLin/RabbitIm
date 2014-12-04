@@ -26,7 +26,11 @@ CDlgGroupChatInfo::CDlgGroupChatInfo(const QString &szId, QWidget *parent) :
     ui->txtName->setText(gc->ShowName());
     ui->txtSubject->setText(gc->Subject());
     ui->txtNick->setText(gc->Nick());
-    
+    ui->txtDescription->setText(gc->Description());
+    ui->cbPrivate->setCheckable(true);
+    ui->cbPrivate->setChecked(gc->IsPrivate());
+    ui->cbProtracted->setCheckable(true);
+    ui->cbProtracted->setChecked(gc->IsProtracted());
 }
 
 CDlgGroupChatInfo::~CDlgGroupChatInfo()
