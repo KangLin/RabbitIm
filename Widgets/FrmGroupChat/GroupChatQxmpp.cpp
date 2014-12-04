@@ -325,6 +325,16 @@ bool CGroupChatQxmpp::IsPrivate()
     return false;
 }
 
+int CGroupChatQxmpp::NumberOfPeople()
+{
+    foreach(QXmppDataForm::Field f, m_Data.form().fields())
+    {
+        if(f.key() == "muc#roominfo_occupants")
+            return f.value().value<int>();
+    }
+    return 0;
+}
+
 CGroupChat::ENUM_Affiliation CGroupChatQxmpp::Affiliation(const QString &szId) 
 {
     if(m_Permissions.isEmpty())

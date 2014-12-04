@@ -22,6 +22,7 @@ public:
     virtual QString ParticipantId(const QString &szId);
     virtual bool IsProtracted();
     virtual bool IsPrivate();
+    virtual int NumberOfPeople(); //房间人数  
     virtual ENUM_Affiliation Affiliation(const QString &szId);
 
     virtual int Leave();

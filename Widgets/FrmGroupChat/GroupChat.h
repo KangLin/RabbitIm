@@ -22,6 +22,7 @@ public:
     virtual QIcon Icon();//房间图标  
     virtual bool IsProtracted() = 0;//是否是执久房间  
     virtual bool IsPrivate() = 0; //是否是私有  
+    virtual int NumberOfPeople() = 0; //房间人数  
 
     enum ENUM_Affiliation {
         UnspecifiedAffiliation,
