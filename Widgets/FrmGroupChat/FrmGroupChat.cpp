@@ -5,6 +5,7 @@
 #include "../../MainWindow.h"
 #include "../DlgUservCard/DlgUservCard.h"
 #include <QDesktopWidget>
+#include "ChatActionGroupChat.h"
 
 #ifdef WIN32
 #undef SendMessage
@@ -182,7 +183,7 @@ void CFrmGroupChat::on_pbMember_clicked()
 void CFrmGroupChat::on_lstMembers_clicked(const QModelIndex &index)
 {
 #ifdef MOBILE
-    on_lstMembers_doubleClicked(index);
+    //on_lstMembers_doubleClicked(index);
 #endif
 }
 
@@ -226,7 +227,9 @@ void CFrmGroupChat::slotMemberCustomContextMenuRequested(const QPoint &pos)
     if(USER_INFO_LOCALE->GetInfo()->GetId() == m_Room->ParticipantId(szId))
         return;
     QMenu menu;
-    menu.addAction(ui->actionMember_kick);
+    if(m_Room->Affiliation(szId) == CGroupChat::AdminAffiliation 
+            || m_Room->Affiliation(szId) == CGroupChat::OwnerAffiliation)
+        menu.addAction(ui->actionMember_kick);
     menu.addAction(ui->actionMember_information);
     menu.exec(QCursor::pos());
 }
@@ -261,6 +264,25 @@ int CFrmGroupChat::RemoveMember(const QString &szId)
     foreach(index, lstIndexs)
     {
         m_pModelMembers->removeRow(index.row());
+        bool isMe = m_Room->ParticipantId(szId) == USER_INFO_LOCALE->GetInfo()->GetId();
+        if(isMe)
+        {
+            this->close();
+            emit GETMANAGER->GetManageGroupChat()->sigLeave(m_Room->Id());
+            return 0;
+        }
+        //TODO:只有所有者和管理员才接收下面消息  
+        QSharedPointer<CChatActionGroupChat> action(
+                    new CChatActionGroupChat(
+                        m_Room->Id(),
+                        tr("Leave the group chat"),
+                        szId,
+                        QTime::currentTime(), 
+                        isMe
+                        )
+                    );
+        m_Room->GetMessage()->AddMessage(action);
+        emit GETMANAGER->GetManageGroupChat()->sigUpdateMessage(m_Room->Id());
     }
     return 0;
 }

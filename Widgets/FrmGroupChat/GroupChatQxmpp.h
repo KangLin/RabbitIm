@@ -20,6 +20,7 @@ public:
     virtual QString ParticipantId(const QString &szId);
     virtual bool IsProtracted();
     virtual bool IsPrivate();
+    virtual ENUM_Affiliation Affiliation(const QString &szId);
     
     virtual int Leave();
     virtual int SendMessage(const QString &szMsg);
@@ -58,13 +59,13 @@ private slots:
     void slotNickNameChanged(const QString &nickName);
 
     /// This signal is emitted when a participant joins the room.
-    void slotParticipantAdded(const QString &jid);
+    //void slotParticipantAdded(const QString &jid);
 
     /// This signal is emitted when a participant changes.
     void slotParticipantChanged(const QString &jid);
 
     /// This signal is emitted when a participant leaves the room.
-    void slotParticipantRemoved(const QString &jid);
+    //void slotParticipantRemoved(const QString &jid);
 
     /// \cond
     void slotParticipantsChanged();
@@ -89,6 +90,7 @@ public slots:
 
 private:
     QXmppMucRoom *m_pRoom;
+    QList<QXmppMucItem> m_Permissions;
 };
 
 #endif // GROUPCHATQXMPP_H

@@ -77,6 +77,8 @@ CGroupChatQxmpp::CGroupChatQxmpp(QXmppMucRoom *pRoom, QObject *parent) :
     check = connect(pRoom, SIGNAL(subjectChanged(QString)),
                     SLOT(slotSubjectChanged(QString)));
     Q_ASSERT(check);
+
+    m_pRoom->requestPermissions();
 }
 
 void CGroupChatQxmpp::slotJoined()
@@ -157,22 +159,22 @@ void CGroupChatQxmpp::slotNickNameChanged(const QString &nickName)
     LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotNickNameChanged:%s", qPrintable(nickName));
 }
 
-void CGroupChatQxmpp::slotParticipantAdded(const QString &jid)
+/*void CGroupChatQxmpp::slotParticipantAdded(const QString &jid)
 {
     LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotParticipantAdded:%s", qPrintable(jid));
     emit sigParticipantAdd(jid);
-}
+}*/
 
 void CGroupChatQxmpp::slotParticipantChanged(const QString &jid)
 {
     LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotParticipantChanged:%s", qPrintable(jid));
 }
-
+/*
 void CGroupChatQxmpp::slotParticipantRemoved(const QString &jid)
 {
     LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotParticipantRemoved:%s", qPrintable(jid));
     emit sigParticipantRemoved(jid);
-}
+}*/
 
 void CGroupChatQxmpp::slotParticipantsChanged()
 {
@@ -182,6 +184,18 @@ void CGroupChatQxmpp::slotParticipantsChanged()
 void CGroupChatQxmpp::slotPermissionsReceived(const QList<QXmppMucItem> &permissions)
 {
     LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotPermissionsReceived");
+    m_Permissions = permissions;
+#ifdef DEBUG
+    foreach(QXmppMucItem item, permissions)
+    {
+        LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotPermissionsReceived:room:%s,jid:%s, nick:%s, afficilatioin:%s, role:%s",
+                        Id().toStdString().c_str(),
+                        item.jid().toStdString().c_str(),
+                        item.nick().toStdString().c_str(),
+                        item.affiliationToString(item.affiliation()).toStdString().c_str(),
+                        item.roleToString(item.role()).toStdString().c_str());
+    }
+#endif
 }
 
 void CGroupChatQxmpp::slotSubjectChanged(const QString &subject)
@@ -249,6 +263,13 @@ bool CGroupChatQxmpp::IsPrivate()
 {
     //TODO:
     return false;
+}
+
+CGroupChat::ENUM_Affiliation CGroupChatQxmpp::Affiliation(const QString &szId) 
+{
+    if(m_Permissions.isEmpty())
+        return UnspecifiedAffiliation;
+    return (ENUM_Affiliation)m_Permissions.at(0).affiliation();
 }
 
 int CGroupChatQxmpp::Leave()

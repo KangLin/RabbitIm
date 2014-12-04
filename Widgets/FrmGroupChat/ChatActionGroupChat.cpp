@@ -4,8 +4,8 @@
 #include "Global/Global.h"
 #include <QFile>
 
-CChatActionGroupChat::CChatActionGroupChat(const QString &szId, const QString &message, const QString &szSendId, const QTime &date, const bool &me) :
-    CMessageAction(szId, message, date, me),
+CChatActionGroupChat::CChatActionGroupChat(const QString &szId, const QString &message, const QString &szSendId, const QTime &time, const bool &me) :
+    CMessageAction(szId, message, time, me),
     m_szSendId(szSendId)
 {
 }

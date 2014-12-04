@@ -286,6 +286,14 @@ int CFrmGroupChatList::ItemRemove(const QString &szId)
 
 void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
 {
+    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
+                                                GROUP_ITEM_ROLE_JID, 
+                                                szId, 
+                                                -1,
+                                                Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+    if(!lstIndexs.isEmpty())
+        return;
+
     QSharedPointer<CManageGroupChat> mgc = GETMANAGER->GetManageGroupChat();
     if(mgc.isNull())
     {
@@ -318,6 +326,7 @@ void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
 
 void CFrmGroupChatList::slotLeave(const QString &szId)
 {
+    ItemRemove(szId);
 }
 
 void CFrmGroupChatList::slotUpdateMessage(const QString &szId)

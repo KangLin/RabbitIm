@@ -21,6 +21,16 @@ public:
     virtual bool IsProtracted() = 0;
     virtual bool IsPrivate() = 0;
 
+    enum ENUM_Affiliation {
+        UnspecifiedAffiliation,
+        OutcastAffiliation,
+        NoAffiliation,
+        MemberAffiliation,
+        AdminAffiliation,
+        OwnerAffiliation,
+    };
+    virtual ENUM_Affiliation Affiliation(const QString &szId) = 0;
+
     virtual int Leave() = 0;
     virtual int Invitation(const QString &Id, const QString &reason) = 0;
     virtual int SendMessage(const QString &szMsg) = 0;
