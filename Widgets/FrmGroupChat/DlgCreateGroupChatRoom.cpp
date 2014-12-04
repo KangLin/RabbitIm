@@ -70,7 +70,7 @@ void CDlgCreateGroupChatRoom::on_pbOK_clicked()
     }
     if(szName.indexOf(QRegExp("[^a-zA-Z0-9]")) != -1)
     {
-        QMessageBox::critical(this, tr("Error"), tr("Room name can only be letters or numbers."));
+        QMessageBox::critical(this, tr("Error"), tr("Name must only be letters or numbers."));
         return;
     }
     if(ui->txtSubject->text().isEmpty())

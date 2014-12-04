@@ -6,8 +6,9 @@ CItemModelCustom::CItemModelCustom(QObject *parent) :
 {
     m_pSelectionModel = NULL;
     m_nCount = 0;
+    m_bSignal = true;
 
-    //关联项目属性改变的信号和槽
+    //关联项目属性改变的信号和槽  
     bool check = connect(this, SIGNAL(itemChanged(QStandardItem*)),
                          SLOT(slotTreeItemChanged(QStandardItem*)));
     Q_ASSERT(check);
@@ -39,8 +40,9 @@ void CItemModelCustom::slotTreeItemChanged(QStandardItem *pItem)
     //检查记数器，防止信号递归调用  
     if(m_nCount > 0)
         return;
-
+    LOG_MODEL_DEBUG("CItemModelCustom", "CItemModelCustom::slotTreeItemChanged:m_nCount:%d", m_nCount);
     m_nCount++;
+    m_bSignal = false;//禁止选择信号,防止递归调用  
 
     if(pItem->isTristate())//节点是三态复选框  
     {
@@ -70,18 +72,20 @@ void CItemModelCustom::slotTreeItemChanged(QStandardItem *pItem)
                                       : QItemSelectionModel::Deselect);
     }
 
+    m_bSignal = true;
     m_nCount--;
 }
 
 ///
-/// \brief 递归设置所有的子项目为全选或全不选状态
-/// \param item 当前项目
-/// \param check true时为全选，false时全不选
+/// \brief 递归设置所有的子项目为全选或全不选状态  
+/// \param item 当前项目  
+/// \param check true时为全选，false时全不选  
 ///
 void CItemModelCustom::treeItem_checkAllChild(QStandardItem * pItem, bool bCheck)
 {
     if(!pItem)
         return;
+    LOG_MODEL_DEBUG("CItemModelCustom", "CItemModelCustom::treeItem_checkAllChild");
     int rowCount = pItem->rowCount();//得到条目的子条目数  
     for(int i = 0; i < rowCount; ++i)
     {
@@ -99,13 +103,14 @@ void CItemModelCustom::treeItem_checkAllChild(QStandardItem * pItem, bool bCheck
 }
 
 ///
-/// \brief 根据子节点的改变，更改父节点的选择情况
+/// \brief 根据子节点的改变，更改父节点的选择情况  
 /// \param item
 ///
 void CItemModelCustom::treeItem_CheckChildChanged(QStandardItem* pItem)
 {
     if(nullptr == pItem)
         return;
+    LOG_MODEL_DEBUG("CItemModelCustom", "CItemModelCustom::treeItem_CheckChildChanged");
     Qt::CheckState siblingState = checkSibling(pItem);
     QStandardItem* parentItem = pItem->parent();
     if(nullptr == parentItem)
@@ -126,6 +131,11 @@ void CItemModelCustom::treeItem_CheckChildChanged(QStandardItem* pItem)
             parentItem->setCheckState(Qt::Unchecked);
     }
     treeItem_CheckChildChanged(parentItem);
+    if(m_pSelectionModel)
+        m_pSelectionModel->select(this->indexFromItem(parentItem), 
+                                  Qt::Unchecked != parentItem->checkState()
+                                  ? QItemSelectionModel::Select
+                                  : QItemSelectionModel::Deselect);
 }
 
 ///
@@ -135,6 +145,7 @@ void CItemModelCustom::treeItem_CheckChildChanged(QStandardItem* pItem)
 ///
 Qt::CheckState CItemModelCustom::checkSibling(QStandardItem* pItem)
 {
+    LOG_MODEL_DEBUG("CItemModelCustom", "CItemModelCustom::checkSibling");
     //先通过父节点获取兄弟节点
     QStandardItem * parent = pItem->parent();
     if(nullptr == parent)
@@ -170,6 +181,8 @@ void CItemModelCustom::slotCurrentChanged(const QModelIndex &current, const QMod
 
 void CItemModelCustom::slotSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    if(!m_bSignal)
+        return;
     LOG_MODEL_DEBUG("CItemModelCustom", "CItemModelCustom::slotCurrentChanged:selected:%d;deselected:%d", selected.size(), deselected.size());
     QModelIndexList indexs = selected.indexes();
     foreach(QModelIndex index, indexs)

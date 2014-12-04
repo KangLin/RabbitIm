@@ -44,6 +44,18 @@ void CDlgJoinGroupChat::on_buttonBox_accepted()
         QMessageBox::critical(this, tr("Error"), tr("Please fill group chat name."));
         return;
     }
+    
+    if(ui->txtId->text().indexOf(QRegExp("[^a-zA-Z0-9]")) != -1)
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Name must only be letters or numbers."));
+        return;
+    }
+
+    if(ui->txtNick->text().indexOf(QRegExp("[^a-zA-Z0-9]")) != -1)
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Nick must only be letters or numbers."));
+        return;
+    }
 
     bool bExist = GETMANAGER->GetManageGroupChat()->IsJoined(ui->txtId->text());
     if(bExist)

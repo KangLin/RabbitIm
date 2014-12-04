@@ -34,6 +34,7 @@ private:
 
     QItemSelectionModel* m_pSelectionModel;
     int m_nCount;//记数器，用于防止信号递归调用  
+    bool m_bSignal;//是否禁用QItemSelectionModel信号,防止递归调用  
 };
 
 #endif // ITEMMODELCUSTOM_H

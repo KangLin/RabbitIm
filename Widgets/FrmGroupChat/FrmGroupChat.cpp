@@ -193,12 +193,12 @@ void CFrmGroupChat::on_lstMembers_doubleClicked(const QModelIndex &index)
     QString szId = v.value<QString>();
     if(szId.isEmpty())
         return;
-    szId = m_Room->ParticipantId(szId);
-    if(USER_INFO_LOCALE->GetInfo()->GetId() == m_Room->ParticipantId(szId))
-    {
-        CDlgUservCard pvCard(szId);
-        pvCard.exec();
-    }
+     szId = m_Room->ParticipantId(szId);
+    if(USER_INFO_LOCALE->GetInfo()->GetId() == szId)
+        return;
+
+    CDlgUservCard pvCard(szId);
+    pvCard.exec();
 }
 
 void CFrmGroupChat::slotParticipantAdd(const QString &szId)
