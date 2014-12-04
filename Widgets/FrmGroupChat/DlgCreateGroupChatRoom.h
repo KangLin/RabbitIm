@@ -27,7 +27,7 @@ private slots:
     void on_pbOK_clicked();
     void on_pbCancel_clicked();
 
-    void slotError(const QString &szId, CGroupChat::Condition c);
+    void slotError(const QString &szId, CGroupChat::Condition c, int ErrCode);
 private:
     Ui::CDlgCreateGroupChatRoom *ui;
 };

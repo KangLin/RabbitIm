@@ -74,6 +74,9 @@ int CFrmMessage::Init(const QString &szId)
     ui->pbBack->setIcon(QIcon(":/icon/Left"));
 #endif
     ui->pbShotScreen->addAction(ui->actionHideMessageBox);
+    ui->actionHideMessageBox->setCheckable(true);
+    ui->actionHideMessageBox->setChecked(CGlobal::Instance()->IsHideMessageBox());
+
 
     check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
                     SLOT(slotRefresh()));

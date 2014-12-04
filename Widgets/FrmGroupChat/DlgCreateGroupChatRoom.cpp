@@ -25,8 +25,8 @@ CDlgCreateGroupChatRoom::CDlgCreateGroupChatRoom(QWidget *parent) :
     Q_ASSERT(check);
 
     check = connect(GETMANAGER->GetManageGroupChat().data(),
-                    SIGNAL(sigError(QString,CGroupChat::Condition)),
-                    SLOT(slotError(QString,CGroupChat::Condition)));
+                    SIGNAL(sigError(QString,CGroupChat::Condition, int)),
+                    SLOT(slotError(QString,CGroupChat::Condition, int)));
     Q_ASSERT(check);
 }
 
@@ -113,14 +113,15 @@ void CDlgCreateGroupChatRoom::on_pbCancel_clicked()
     this->reject();
 }
 
-void CDlgCreateGroupChatRoom::slotError(const QString &szId, CGroupChat::Condition c)
+void CDlgCreateGroupChatRoom::slotError(const QString &szId, CGroupChat::Condition c, int ErrCode)
 {
-    QString szText = tr("Unknow error");
+    QString szText = tr("Unknow error.");
     switch (c) {
     case CGroupChat::NotAuthorized:
-        szText = tr("Not authorized");
+        szText = tr("Not authorized.");
         break;
     default:
+        szText += tr("Error code:") + QString::number(ErrCode);
         break;
     }
     QMessageBox::critical(this, tr("Error"), szText);

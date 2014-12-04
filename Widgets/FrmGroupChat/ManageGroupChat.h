@@ -38,13 +38,13 @@ public:
 signals:
     void sigJoined(const QString& szId);
     void sigLeave(const QString& szId);
-    void sigError(const QString& szId, CGroupChat::Condition c);
+    void sigError(const QString& szId, CGroupChat::Condition c, int errorcode);
+    void sigInvitation(const QString &szGroupChatId, const QString &szInviter, const QString& szReason);
     void sigUpdateMessage(const QString &szId);
-
     void sigMessageClean(const QString &szId);
 public slots:
     int slotLeave(const QString& szId);
-    int slotError(const QString& szId, CGroupChat::Condition c);
+    int slotError(const QString& szId, CGroupChat::Condition c, int errorcode);
     
     /// This signal is emitted when an invitation to a chat room is received.
     virtual void slotInvitationReceived(const QString &Id, const QString &inviter, const QString &reason);

@@ -119,9 +119,9 @@ int CManageGroupChat::slotLeave(const QString &szId)
     return -2;
 }
 
-int CManageGroupChat::slotError(const QString &szId, CGroupChat::Condition c)
+int CManageGroupChat::slotError(const QString &szId, CGroupChat::Condition c, int errorcode)
 {
-    emit sigError(szId, c);
+    emit sigError(szId, c, errorcode);
 }
 
 void CManageGroupChat::slotInvitationReceived(const QString &Id, const QString &inviter, const QString &reason)

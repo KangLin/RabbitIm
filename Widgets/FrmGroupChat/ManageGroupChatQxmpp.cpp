@@ -120,6 +120,8 @@ void CManageGroupChatQxmpp::slotInvitationReceived(const QString &roomJid, const
     QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoRoster(QXmppUtils::jidToBareJid(inviter));
     if(!user.isNull())
         szInviter = user->GetInfo()->GetShowName();
+    emit sigInvitation(roomJid, szInviter, reason);
+    return;
     QString szMsg = tr("%1 inviter you join group chat %2").arg(szInviter, QXmppUtils::jidToUser(roomJid));
     if(!reason.isEmpty())
         szMsg += "\n" + reason;

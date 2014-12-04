@@ -49,6 +49,8 @@ private slots:
     void slotLeave(const QString &szId);
     //接收消息  
     void slotUpdateMessage(const QString &szId);
+    //接收到邀请消息  
+    void slotInvitation(const QString &szGroupChatId, const QString &szInviter, const QString& szReason);
 
 private:
     int InitMenu();//初始化菜单  

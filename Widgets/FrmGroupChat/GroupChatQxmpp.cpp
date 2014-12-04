@@ -108,7 +108,7 @@ void CGroupChatQxmpp::slotError(const QXmppStanza::Error &error)
     default:
         SetError(CGroupChat::Unknow);
     }
-    GETMANAGER->GetManageGroupChat()->slotError(Id(), Error());
+    GETMANAGER->GetManageGroupChat()->slotError(Id(), Error(), error.code());
 }
 
 void CGroupChatQxmpp::slotKicked(const QString &jid, const QString &reason)

@@ -74,6 +74,10 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
                     SIGNAL(sigMessageClean(QString)),
                     SLOT(slotUpdateMessage(QString)));
     Q_ASSERT(check);
+    check = connect(GETMANAGER->GetManageGroupChat().data(),
+                    SIGNAL(sigInvitation(QString,QString,QString)),
+                    SLOT(slotInvitation(QString,QString,QString)));
+    Q_ASSERT(check);
 }
 
 CFrmGroupChatList::~CFrmGroupChatList()
@@ -342,4 +346,10 @@ void CFrmGroupChatList::slotUpdateMessage(const QString &szId)
             pItem->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
         }
     }
+}
+
+void CFrmGroupChatList::slotInvitation(const QString &szGroupChatId, const QString &szInviter, const QString &szReason)
+{
+    CDlgJoinGroupChat dlg(szGroupChatId, szInviter, szReason, this);
+    dlg.exec();
 }
