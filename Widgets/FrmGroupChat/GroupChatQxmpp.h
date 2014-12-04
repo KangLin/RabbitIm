@@ -16,6 +16,7 @@ public:
     virtual QString Nick();
     virtual QString Subject();
     virtual QString Description();
+    virtual QDateTime Date();//房间建立时间  
     virtual QStringList Participants();
     virtual QString ParticipantNick(const QString &szId);
     virtual QString ParticipantId(const QString &szId);

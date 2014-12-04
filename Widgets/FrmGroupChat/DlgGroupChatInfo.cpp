@@ -31,6 +31,7 @@ CDlgGroupChatInfo::CDlgGroupChatInfo(const QString &szId, QWidget *parent) :
     ui->cbPrivate->setChecked(gc->IsPrivate());
     ui->cbProtracted->setCheckable(true);
     ui->cbProtracted->setChecked(gc->IsProtracted());
+    ui->dtEdit->setDateTime(gc->Date());
 }
 
 CDlgGroupChatInfo::~CDlgGroupChatInfo()

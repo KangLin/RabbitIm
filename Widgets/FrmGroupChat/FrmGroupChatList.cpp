@@ -39,7 +39,7 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     }
 
     //禁止列表文本框编辑  
-    m_GroupList.setEditTriggers(QAbstractItemView::NoEditTriggers);
+    //m_GroupList.setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_GroupList.setModel(m_pModel);
     m_GroupList.show();
 
@@ -278,7 +278,7 @@ int CFrmGroupChatList::ItemRemove(const QString &szId)
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                                 GROUP_ITEM_ROLE_JID, 
                                                 szId, 
-                                                -1,
+                                                1,
                                                 Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     QModelIndex index;
     foreach(index, lstIndexs)
@@ -293,7 +293,7 @@ void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                                 GROUP_ITEM_ROLE_JID, 
                                                 szId, 
-                                                -1,
+                                                1,
                                                 Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     if(!lstIndexs.isEmpty())
         return;
@@ -309,13 +309,12 @@ void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
     QStandardItem* pItem = new QStandardItem(gc->ShowName());
     pItem->setData(gc->Id(), GROUP_ITEM_ROLE_JID);
     pItem->setData(PROPERTIES_ITEM, GROUP_ITEM_ROLE_PROPERTIES);
-
+    //设置item图标  
+    pItem->setData(gc->Icon(), Qt::DecorationRole);
 #ifdef DEBUG
     pItem->setToolTip(gc->Id());
 #endif 
 
-    //设置item图标  
-    pItem->setData(gc->Icon(), Qt::DecorationRole);
     //消息条目  
     QStandardItem* pMessageCountItem = new QStandardItem("");
     pMessageCountItem->setData(gc->Id(), GROUP_ITEM_ROLE_JID);
@@ -335,18 +334,32 @@ void CFrmGroupChatList::slotLeave(const QString &szId)
 
 void CFrmGroupChatList::slotUpdateMessage(const QString &szId)
 {
-    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 1),
-                                                GROUP_ITEM_ROLE_JID, 
-                                                szId, 
-                                                -1,
-                                                Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
     if(gc.isNull())
         return;
+
+    QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
+                                                GROUP_ITEM_ROLE_JID, 
+                                                szId, 
+                                                1,
+                                                Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     QModelIndex index;
     foreach(index, lstIndexs)
     {
+        LOG_MODEL_DEBUG("CFrmGroupChatList", "index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(szId));
         QStandardItem* pItem = m_pModel->itemFromIndex(index);
+        if(NULL == pItem) continue;
+        if(pItem->data(GROUP_ITEM_ROLE_PROPERTIES) == PROPERTIES_ITEM)
+        {
+            //呢称条目  
+            pItem->setText(gc->ShowName());
+            //设置item图标  
+            pItem->setData(gc->Icon(), Qt::DecorationRole);
+#ifdef DEBUG
+            pItem->setToolTip(gc->Id());
+#endif 
+        }
+        pItem = m_pModel->itemFromIndex(index.sibling(index.row(), index.column() + 1));
         if(NULL == pItem) continue;
         if(pItem->data(GROUP_ITEM_ROLE_PROPERTIES) == PROPERTIES_UNREAD_MESSAGE_COUNT)
         {

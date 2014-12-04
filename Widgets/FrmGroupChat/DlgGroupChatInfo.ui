@@ -135,25 +135,58 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="txtNick"/>
+      <widget class="QLineEdit" name="txtNick">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
    <item row="4" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QLabel" name="label_7">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Create time:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDateTimeEdit" name="dtEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item row="5" column="0">
     <widget class="QCheckBox" name="cbPrivate">
      <property name="text">
       <string>Private</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="6" column="0">
     <widget class="QCheckBox" name="cbProtracted">
      <property name="text">
       <string>Protracted</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="7" column="0">
     <widget class="QPushButton" name="pushButton">
      <property name="text">
       <string>OK</string>

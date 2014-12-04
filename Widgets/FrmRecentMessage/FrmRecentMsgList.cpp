@@ -97,7 +97,7 @@ int CFrmRecentMsgList::InsertItem(const QString &szId, int nRow)
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                                 USERLIST_ITEM_ROLE_JID, 
                                                 szId,
-                                                -1,
+                                                1,
                                                 Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     if(!lstIndexs.isEmpty())
     {
@@ -163,7 +163,7 @@ int CFrmRecentMsgList::RemoveItem(const QString &szId)
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                                 USERLIST_ITEM_ROLE_JID, 
                                                 szId,
-                                                -1,
+                                                1,
                                                 Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     if(!lstIndexs.isEmpty())
     {
@@ -199,14 +199,14 @@ int CFrmRecentMsgList::UpdateItem(const QString &szId)
     }
     else
     {
-        LOG_MODEL_DEBUG("CFrmRecentMsgList", "CFrmRecentMsgList::UpdateItem: don't exist:%s", qPrintable(szId));
+        LOG_MODEL_WARNING("CFrmRecentMsgList", "CFrmRecentMsgList::UpdateItem: don't exist:%s", qPrintable(szId));
         return -1;
     }
 
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                                 USERLIST_ITEM_ROLE_JID, 
                                                 szId, 
-                                                -1,
+                                                1,
                                                 Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     if(lstIndexs.isEmpty())
     {
@@ -217,7 +217,7 @@ int CFrmRecentMsgList::UpdateItem(const QString &szId)
     QModelIndex index;
     foreach(index, lstIndexs)
     {
-        LOG_MODEL_DEBUG("FrmUserList", "index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(szId));
+        //LOG_MODEL_DEBUG("FrmUserList", "index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(szId));
         QStandardItem* pItem = m_pModel->itemFromIndex(index);
         if(!pItem) continue;
         if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ID)

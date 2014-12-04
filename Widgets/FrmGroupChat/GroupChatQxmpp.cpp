@@ -274,6 +274,20 @@ QString CGroupChatQxmpp::Description()
     return QString();
 }
 
+QDateTime CGroupChatQxmpp::Date()
+{
+    foreach(QXmppDataForm::Field f, m_Data.form().fields())
+    {
+        if(f.key() == "x-muc#roominfo_creationdate")
+        {
+            QString d = f.value().value<QString>();
+            QDateTime dd = QDateTime::fromString(d, "yyyyMMddThh:mm:ss");
+            return dd;
+        }
+    }
+    return QDateTime();
+}
+
 QStringList CGroupChatQxmpp::Participants()
 {
     RABBITIM_ASSERT(m_pRoom, QStringList());
