@@ -247,7 +247,7 @@
         <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="73"/>
         <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="78"/>
         <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="84"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="126"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="127"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
@@ -278,13 +278,18 @@
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="118"/>
-        <source>Unknow error</source>
-        <translation>未知错误</translation>
+        <source>Unknow error.</source>
+        <translation>未知错误。</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="121"/>
-        <source>Not authorized</source>
-        <translation>未验证</translation>
+        <source>Not authorized.</source>
+        <translation>未认证。</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="124"/>
+        <source>Error code:</source>
+        <translation>错误代码：</translation>
     </message>
 </context>
 <context>
@@ -315,7 +320,22 @@
         <translation>呢称：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgGroupChatInfo.ui" line="145"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgGroupChatInfo.ui" line="166"/>
+        <source>Create time:</source>
+        <translation>建立时间：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/DlgGroupChatInfo.ui" line="178"/>
+        <source>Private</source>
+        <translation>私有的</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/DlgGroupChatInfo.ui" line="185"/>
+        <source>Protracted</source>
+        <translation>持久的</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/DlgGroupChatInfo.ui" line="192"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -356,57 +376,72 @@
         <translation>加入群</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.ui" line="34"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.ui" line="20"/>
+        <source>Inviter</source>
+        <translation>邀请</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.ui" line="44"/>
         <source>Name:</source>
         <translation>名字：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.ui" line="73"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.ui" line="83"/>
         <source>Nick:</source>
         <translation>呢称：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.ui" line="112"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.ui" line="122"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="44"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="50"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="56"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="80"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="25"/>
+        <source>%1 invite you join group chat.</source>
+        <translation>%1 邀请你加入到群。</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="70"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="76"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="82"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="107"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="44"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="70"/>
         <source>Please fill group chat name.</source>
         <translation>请填群名。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="50"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="76"/>
         <source>Name must only be letters or numbers.</source>
         <translation>名称只能是字母或数字。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="56"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="82"/>
         <source>Nick must only be letters or numbers.</source>
         <translation>呢称只能是字母或数字。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="63"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="89"/>
         <source>%1 is existed</source>
         <translation>%1 已经存在</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="72"/>
-        <source>Unknow error</source>
-        <translation>未知错误</translation>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="98"/>
+        <source>Unknow error.</source>
+        <translation>未知错误。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="75"/>
-        <source>Not authorized</source>
-        <translation>未验证</translation>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="101"/>
+        <source>Not authorized.</source>
+        <translation>未认证。</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="104"/>
+        <source>Error code:</source>
+        <translation>错误代码：</translation>
     </message>
 </context>
 <context>
@@ -1010,7 +1045,7 @@
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.ui" line="81"/>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="170"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="171"/>
         <source>Members(&amp;M)</source>
         <translation>成员(&amp;M)</translation>
     </message>
@@ -1050,29 +1085,34 @@
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="26"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="27"/>
         <source>Back</source>
         <translation>回退</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="120"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="121"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="120"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="121"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="136"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="137"/>
         <source>Group chat [%1]:%2</source>
         <translation>群[%1]:%2</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="176"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="177"/>
         <source>Chat(&amp;C)</source>
         <translation>聊天(&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="278"/>
+        <source>Leave the group chat</source>
+        <translation>离开群</translation>
     </message>
 </context>
 <context>
@@ -1088,7 +1128,7 @@
         <translation>消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="112"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="120"/>
         <source>Operator group chat(&amp;G)</source>
         <translation>操作群聊(&amp;G)</translation>
     </message>
@@ -1337,19 +1377,19 @@
         <translation>发送(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="94"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="97"/>
         <source>Audio call</source>
         <translation>音频呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="448"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="462"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="451"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="465"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="188"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="201"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="191"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="204"/>
         <source>Close message dialog</source>
         <translation>关闭消息对话框</translation>
     </message>
@@ -1359,32 +1399,32 @@
         <translation>回退</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="145"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="148"/>
         <source>Save File</source>
         <translation>保存文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="147"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="150"/>
         <source>Images (*.png *.xpm *.jpg)</source>
         <translation>图像 （*.png *.xpm *.jpg)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="189"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="192"/>
         <source>Sending files to determine whether you want to close?</source>
         <translation>有文件正在发送，你确定是否关闭消息对话框？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="202"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="205"/>
         <source>Is talking whether you want to close?</source>
         <translation>正在通话，是否关闭？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="314"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="317"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="314"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="317"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
@@ -1620,6 +1660,14 @@
     </message>
 </context>
 <context>
+    <name>CGroupChatQxmpp</name>
+    <message>
+        <location filename="../../Widgets/FrmGroupChat/GroupChatQxmpp.cpp" line="245"/>
+        <source>[temporary]</source>
+        <translation>[临时的]</translation>
+    </message>
+</context>
+<context>
     <name>CManageCall</name>
     <message>
         <location filename="../../Call/ManageCall.cpp" line="54"/>
@@ -1654,12 +1702,12 @@
 <context>
     <name>CManageGroupChatQxmpp</name>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp" line="123"/>
+        <location filename="../../Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp" line="125"/>
         <source>%1 inviter you join group chat %2</source>
         <translation>%1 邀请你加入到群 %2</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp" line="126"/>
+        <location filename="../../Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp" line="128"/>
         <source>Inviter join group chat</source>
         <translation>邀请加入到群</translation>
     </message>
