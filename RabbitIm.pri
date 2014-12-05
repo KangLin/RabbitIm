@@ -32,7 +32,6 @@ SOURCES += main.cpp\
     Message/style.cpp \
     Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
     Widgets/FrmRecentMessage/ManageRecentMessage.cpp \
-    Widgets/DlgOptions/DlgOptions.cpp \
     Widgets/DlgAddRoster/DlgAddRoster.cpp \
     FileTransfer/ManageFileTransfer.cpp \
     FileTransfer/FileTransfer.cpp \
@@ -51,7 +50,6 @@ SOURCES += main.cpp\
     Widgets/DlgRegister/DlgRegister.cpp \
     Widgets/DlgScreenShot/DlgScreenShot.cpp \ 
     Widgets/DlgScreenShot/WdgScreenEditor.cpp \
-    Widgets/DlgAbout/DlgAbout.cpp \
     Widgets/FrmGroupChat/FrmGroupChatList.cpp \ 
     Widgets/FrmLogin/DlgLoginSettings.cpp \
     Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp \
@@ -65,9 +63,9 @@ SOURCES += main.cpp\
     Widgets/FrmGroupChat/DlgGroupChatInfo.cpp \
     Widgets/FrmGroupChat/DlgInviter.cpp \
     Widgets/FrmCustom/ItemModelCustom.cpp \
-    Widgets/DlgUservCard/DlgUservCard.cpp 
-    #Widgets/FrmGroupChat/FrmGroupChatFind.cpp
-    #Widgets/FrmGroupChat/FrmGroupChat.cpp 
+    Widgets/DlgUservCard/DlgUservCard.cpp \ 
+    Widgets/DlgAbout/DlgAbout.cpp \
+    Widgets/DlgOptions/DlgOptions.cpp
     
 
 HEADERS += MainWindow.h \
@@ -103,7 +101,6 @@ HEADERS += MainWindow.h \
     Message/style.h \
     Widgets/FrmRecentMessage/FrmRecentMsgList.h \
     Widgets/FrmRecentMessage/ManageRecentMessage.h \
-    Widgets/DlgOptions/DlgOptions.h \
     Widgets/DlgAddRoster/DlgAddRoster.h \
     FileTransfer/ManageFileTransfer.h \
     FileTransfer/FileTransfer.h \
@@ -122,7 +119,6 @@ HEADERS += MainWindow.h \
     Widgets/DlgRegister/DlgRegister.h \
     Widgets/DlgScreenShot/DlgScreenShot.h \ 
     Widgets/DlgScreenShot/WdgScreenEditor.h \
-    Widgets/DlgAbout/DlgAbout.h \
     Widgets/FrmGroupChat/FrmGroupChatList.h \ 
     Widgets/FrmLogin/DlgLoginSettings.h \  
     Widgets/FrmGroupChat/DlgCreateGroupChatRoom.h \
@@ -132,21 +128,18 @@ HEADERS += MainWindow.h \
     Widgets/FrmGroupChat/GroupChatQxmpp.h \
     Widgets/FrmGroupChat/DlgJoinGroupChat.h \
     Widgets/FrmGroupChat/FrmGroupChat.h \ 
-    $$PWD/Widgets/FrmGroupChat/ChatActionGroupChat.h \
+    Widgets/FrmGroupChat/ChatActionGroupChat.h \
     Widgets/FrmGroupChat/DlgGroupChatInfo.h \
     Widgets/FrmGroupChat/DlgInviter.h \
     Widgets/FrmCustom/ItemModelCustom.h \
-    Widgets/DlgUservCard/DlgUservCard.h 
-    #Widgets/FrmGroupChat/FrmGroupChatFind.h 
-    #Widgets/FrmUserList/GroupItem.h \
-    
+    Widgets/DlgUservCard/DlgUservCard.h \ 
+    Widgets/DlgAbout/DlgAbout.h \
+    Widgets/DlgOptions/DlgOptions.h    
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
     Widgets/FrmUserList/FrmUserList.ui \
-    Widgets/DlgAbout/DlgAbout.ui \
     Widgets/FrmMain/FrmMain.ui \
-    Widgets/DlgOptions/DlgOptions.ui \
     Widgets/DlgUservCard/DlgUservCard.ui \
     Widgets/FrmMessage/FrmMessage.ui \
     Widgets/FrmMessage/FrmContainer.ui \
@@ -160,8 +153,9 @@ FORMS += MainWindow.ui \
     Widgets/FrmGroupChat/FrmGroupChat.ui \
     Widgets/FrmGroupChat/DlgJoinGroupChat.ui \
     Widgets/FrmGroupChat/DlgGroupChatInfo.ui \
-    Widgets/FrmGroupChat/DlgInviter.ui
-    #Widgets/FrmGroupChat/FrmGroupChatFind.ui 
+    Widgets/FrmGroupChat/DlgInviter.ui \
+    Widgets/DlgAbout/DlgAbout.ui \
+    Widgets/DlgOptions/DlgOptions.ui
 
 RESOURCES += \
     Resource/Resource.qrc \

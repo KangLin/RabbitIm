@@ -1,5 +1,5 @@
-#ifndef FRMOPTIONS_H
-#define FRMOPTIONS_H
+#ifndef DLGOPTIONS_H
+#define DLGOPTIONS_H
 
 #include <QDialog>
 
@@ -38,4 +38,4 @@ private:
     Ui::CDlgOptions *ui;
 };
 
-#endif // FRMOPTIONS_H
+#endif // DLGOPTIONS_H

@@ -57,7 +57,7 @@ wince {
     DEPLOYMENT += mytranslat
 }
 else{
-    other.files = License.html README.md
+    other.files = License.html Authors.txt ChangeLog.txt README.md
     other.path = $$PREFIX
     other.CONFIG += directory no_check_exist 
     target.path = $$PREFIX
