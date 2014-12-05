@@ -4,12 +4,15 @@
 #include "Version.h"
 #include <QFile>
 #include "../../MainWindow.h"
+#include "Tool.h"
 
 CDlgAbout::CDlgAbout(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgAbout)
 {
     ui->setupUi(this);
+    CTool::SetWindowsGeometry(this);
+
     QString szVersion(tr("Version:%1").arg(VERSION));
     ui->lblVersion->setText(szVersion);
     ui->lblAuthor->setText(tr("Author: KangLin Email、MSN:kl222@126.com"));
@@ -26,15 +29,6 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
         ui->txtReadMe->append(fileReadMe.readAll());
         fileReadMe.close();
     }
-
-    QDesktopWidget *pDesk = QApplication::desktop();
-#ifdef MOBILE
-    this->setGeometry(pDesk->geometry());
-#else
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
-
 }
 
 CDlgAbout::~CDlgAbout()
@@ -48,6 +42,10 @@ void CDlgAbout::showEvent(QShowEvent *)
 }
 
 void CDlgAbout::closeEvent(QCloseEvent *)
+{
+}
+
+void CDlgAbout::resizeEvent(QResizeEvent *e)
 {
 }
 

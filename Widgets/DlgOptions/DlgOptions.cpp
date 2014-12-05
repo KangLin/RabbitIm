@@ -8,22 +8,15 @@
 #include <QAudioInput>
 #include <QAudioOutput>
 #include <QDir>
+#include "Tool.h"
 
 CDlgOptions::CDlgOptions(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgOptions)
 {
     ui->setupUi(this);
-
-    QDesktopWidget *pDesk = QApplication::desktop();
-#ifdef MOBILE
-    this->setGeometry(pDesk->availableGeometry());
-    ui->gBSendMessage->setVisible(false);
-#else
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
-
+    CTool::SetWindowsGeometry(this);
+    LOG_MODEL_DEBUG("CDlgOptions", "CDlgOptions::CDlgOptions:w:%d, h:%d", this->width(), this->height());
     //控件初始化工作放到showEvent中  
 }
 
@@ -203,7 +196,7 @@ void CDlgOptions::on_pbOK_clicked()
     CGlobal::Instance()->SetIsShowLocaleVideo(ui->cbShowLocaleVideo->isChecked());
     CGlobal::Instance()->SetMonitor(ui->cbMonitor->isChecked());
 
-    emit sigRefresh();
+    emit GET_MAINWINDOW->sigRefresh();
 
     this->accept();
 }

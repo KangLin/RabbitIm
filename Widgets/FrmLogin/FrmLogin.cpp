@@ -100,8 +100,8 @@ void CFrmLogin::on_pbRegitster_clicked()
     disconnect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
                CGlobal::Instance()->GetMainWindow(),
                SLOT(slotClientConnected()));
-    m_Register.SetLogin(this);
-    m_Register.exec();
+    CDlgRegister r(this);
+    r.exec();
 }
 
 void CFrmLogin::on_pbSet_clicked()

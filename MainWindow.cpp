@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_Login(new CFrmLogin(this)),
     ui(new Ui::MainWindow)
 {
+    CTool::SetWindowsGeometry(this);
+
     CGlobal::Instance()->SetMainWindow(this);
 
     m_bLogin = false;
@@ -106,9 +108,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent * e)
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::resizeEvent:e.size:%d;genmetry.size:%d",
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::resizeEvent:e.size:%d;genmetry.size:%d,frame.size:%d",
                     e->size().width(),
-                    geometry().size().width());
+                    geometry().size().width(),
+                    this->frameGeometry().width());
 
     if(!m_TableMain.isNull())
         m_TableMain->resize(this->geometry().size());
@@ -667,16 +670,13 @@ void MainWindow::onReceiveFile(QXmppTransferJob *job)
 void MainWindow::on_actionOptions_O_triggered()
 {
     CDlgOptions dlg(this);
-    bool check = connect(&dlg, SIGNAL(sigRefresh()), SIGNAL(sigRefresh()));
-    Q_ASSERT(check);
-
     dlg.exec();
 }
 
 void MainWindow::About()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
-    CDlgAbout about;
+    CDlgAbout about(this);
     about.exec();
 }
 
@@ -730,21 +730,8 @@ int MainWindow::OpenCustomStyleMenu()
 {
    //*从资源中加载应用程序样式  
 #ifdef MOBILE
-    QDesktopWidget *pDesk = QApplication::desktop();
-    QFileDialog dlg(pDesk, tr("Open File"), QString(), "*.qss *.*");
-    //dlg.setGeometry(this->rect());
-    QScreen* pScreen = QApplication::primaryScreen();
-    LOG_MODEL_DEBUG("MainWindow", "DeskWidth:%d;height:%d;w:%d;h:%d;screenWidth:%d;height:%d;w%d;h%d", 
-                    pDesk->geometry().width(),
-                    pDesk->geometry().height(),
-                    pDesk->availableGeometry().width(),
-                    pDesk->availableGeometry().height(),
-                    pScreen->geometry().width(),
-                    pScreen->geometry().height(),
-                    pScreen->availableGeometry().width(),
-                    pScreen->availableGeometry().height()
-                    );
-    dlg.setGeometry(pScreen->availableGeometry());
+    QFileDialog dlg(this, tr("Open File"), QString(), "*.qss *.*");
+    CTool::SetWindowsGeometry(&dlg);
     QString szFile;
     QStringList fileNames;
     if(dlg.exec())

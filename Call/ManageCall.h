@@ -2,6 +2,7 @@
 #define MANAGECALL_H
 
 #include <QObject>
+#include <QSharedPointer>
 #include "CallObject.h"
 
 class CManageCall : public QObject

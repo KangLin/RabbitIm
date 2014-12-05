@@ -47,7 +47,7 @@ private:
 
 private:
     Ui::CFrmLogin *ui;
-    CDlgRegister m_Register;
+
     QTimer m_tmAutoLogin;//用于自动登录  
 
     //密码加密函数  

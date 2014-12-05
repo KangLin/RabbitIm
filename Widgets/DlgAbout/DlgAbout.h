@@ -19,6 +19,7 @@ public:
 protected:
     virtual void closeEvent(QCloseEvent *);
     virtual void showEvent(QShowEvent*);
+    virtual void resizeEvent(QResizeEvent *e);
     virtual void changeEvent(QEvent *e);
 
 private slots:

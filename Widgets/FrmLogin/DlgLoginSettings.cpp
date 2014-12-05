@@ -1,7 +1,6 @@
 #include "DlgLoginSettings.h"
 #include "ui_DlgLoginSettings.h"
 #include "../../Global/Global.h"
-#include <QDesktopWidget>
 
 CDlgLoginSettings::CDlgLoginSettings(QWidget *parent) :
     QDialog(parent),
@@ -9,6 +8,7 @@ CDlgLoginSettings::CDlgLoginSettings(QWidget *parent) :
 {
     LOG_MODEL_DEBUG("Login", "CFrmLoginSettings::CFrmLoginSettings");
     ui->setupUi(this);
+    CTool::SetWindowsGeometry(this);
 
     ui->txtXmppDomain->setText(CGlobal::Instance()->GetXmppDomain());
     ui->txtXmppServer->setText(CGlobal::Instance()->GetXmppServer());
@@ -19,10 +19,6 @@ CDlgLoginSettings::CDlgLoginSettings(QWidget *parent) :
     ui->txtTurnPort->setText(QString::number(CGlobal::Instance()->GetTurnServerPort()));
     ui->txtUser->setText(CGlobal::Instance()->GetTurnServerUser());
     ui->txtPassword->setText(CGlobal::Instance()->GetTurnServerPassword());
-
-    QDesktopWidget *pDesk = QApplication::desktop();
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
 }
 
 CDlgLoginSettings::~CDlgLoginSettings()

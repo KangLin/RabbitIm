@@ -2,6 +2,10 @@
 #include "Global/Global.h"
 #include <QFileInfo>
 #include <QDir>
+#include <QGuiApplication>
+#include <QScreen>
+#include <QDesktopWidget>
+#include <QApplication>
 
 CTool::CTool(QObject *parent) :
     QObject(parent)
@@ -451,4 +455,38 @@ bool CTool::removeDirectory(QString dirName)
       return false;
   }
   return true;
+}
+
+int CTool::SetWindowsGeometry(QWidget *pWindow)
+{
+    /*
+    QDesktopWidget *pDesk = QApplication::desktop();
+    LOG_MODEL_DEBUG("CTool", "availableGeometry:%d,%d; screenGeometry:%d,%d; geometry:%d,%d",
+                    pDesk->availableGeometry().width(),
+                    pDesk->availableGeometry().height(),
+                    pDesk->screenGeometry().width(),
+                    pDesk->screenGeometry().height(),
+                    pDesk->geometry().width(),
+                    pDesk->geometry().height());
+#ifdef MOBILE
+    pWindow->setGeometry(pDesk->availableGeometry());
+#else
+    pWindow->move((pDesk->width() - pWindow->width()) / 2,
+         (pDesk->height() - pWindow->height()) / 2);
+#endif
+    //*/
+    //*
+    QScreen *pScreen = QGuiApplication::primaryScreen();
+    LOG_MODEL_DEBUG("CTool", "availableGeometry:%d,%d; geometry:%d,%d",
+                    pScreen->availableGeometry().width(),
+                    pScreen->availableGeometry().height(),
+                    pScreen->geometry().width(),
+                    pScreen->geometry().height());
+#ifdef MOBILE
+    pWindow->setGeometry(pScreen->availableGeometry());
+#else
+    pWindow->move((pScreen->availableGeometry().width() - pWindow->width()) / 2,
+         (pScreen->availableGeometry().height() - pWindow->height()) / 2);
+#endif
+    //*/
 }

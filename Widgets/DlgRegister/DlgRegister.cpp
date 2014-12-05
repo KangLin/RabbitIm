@@ -3,39 +3,31 @@
 #include "../FrmLogin/FrmLogin.h"
 #include "../../MainWindow.h"
 #include "Global/Global.h"
-#include <QDesktopWidget>
+#include "Tool.h"
 
 CDlgRegister::CDlgRegister(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgRegister)
 {
     ui->setupUi(this);
-    QDesktopWidget *pDesk = QApplication::desktop();
-
-#ifdef MOBILE
-    this->setGeometry(pDesk->availableGeometry());
-#else
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
+    CTool::SetWindowsGeometry(this);
+    m_pLogin = parent;
 }
 
 CDlgRegister::~CDlgRegister()
 {
+    GET_CLIENT->disconnect(this);
     delete ui;
 }
 
 void CDlgRegister::clientError(CClient::ERROR_TYPE e)
 {
+    GET_CLIENT->disconnect(this);
     if(CClient::NoError == e)
     {
         ((CFrmLogin*)m_pLogin)->SetLoginInformation(ui->txtUser->text(), ui->txtPassword->text());
         ((CFrmLogin*)m_pLogin)->SetPrompt(tr("Register success"));
-
-        if(m_pLogin)
-            m_pLogin->setEnabled(true);
-
-        close();
+        this->accept();
     }
     else
     {
@@ -48,7 +40,7 @@ void CDlgRegister::clientError(CClient::ERROR_TYPE e)
         {
             szReason = tr("Sever internal error");
         }
-        
+
         QMessageBox msg(QMessageBox::Critical,
                         tr("Register fail"),
                         szReason,
@@ -117,7 +109,7 @@ void CDlgRegister::on_pbCreate_clicked()
         return;
     }
 
-    GET_CLIENT.data()->disconnect(this);
+    GET_CLIENT->disconnect(this);
     bool check = connect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
                          SLOT(connected()));
     Q_ASSERT(check);
@@ -128,24 +120,14 @@ void CDlgRegister::on_pbCreate_clicked()
     GET_CLIENT->Login();
 }
 
-int CDlgRegister::SetLogin(QWidget *pLogin)
-{
-    m_pLogin = pLogin;
-    return 0;
-}
-
 void CDlgRegister::on_pbCancel_clicked()
 {
-    close();
+    this->reject();
 }
 
 void CDlgRegister::hideEvent(QHideEvent *)
 {
     LOG_MODEL_DEBUG("Register", "CFrmRegister::hideEvent");
-    if(m_pLogin)
-        m_pLogin->setEnabled(true);
-
-    close();
 }
 
 void CDlgRegister::changeEvent(QEvent *e)

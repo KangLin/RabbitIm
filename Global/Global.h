@@ -5,6 +5,7 @@
 #include <QColor>
 #include <QSharedPointer>
 #include "Manager/Manager.h"
+#include "Tool.h"
 
 class MainWindow;
 class CGlobal : public QObject

@@ -4,23 +4,17 @@
 #include <string>
 #include <QMessageBox>
 #include <QDesktopWidget>
+#include "Tool.h"
 
 CDlgAddRoster::CDlgAddRoster(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgAddRoster)
 {
     ui->setupUi(this);
+    CTool::SetWindowsGeometry(this);
     ui->txtGroup->setEditable(true);
 
     m_bRequest = false;
-
-    QDesktopWidget *pDesk = QApplication::desktop();
-#ifdef MOBILE
-    this->setGeometry(pDesk->availableGeometry());
-#else
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
 }
 
 CDlgAddRoster::~CDlgAddRoster()

@@ -238,7 +238,7 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
+ 
  <resources>
   <include location="../../Resource/Resource.qrc"/>
  </resources>

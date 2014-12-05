@@ -128,6 +128,8 @@ public:
      * @return bool 成功返回 true，否则返回 false  
      */
     static bool removeDirectory(QString dirName);
+    
+    static int SetWindowsGeometry(QWidget* pWindow);
 signals:
 
 public slots:

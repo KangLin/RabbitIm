@@ -41,16 +41,9 @@ CDlgJoinGroupChat::~CDlgJoinGroupChat()
 int CDlgJoinGroupChat::Init()
 {
     ui->setupUi(this);
+    CTool::SetWindowsGeometry(this);
     ui->txtNick->setText(USER_INFO_LOCALE->GetInfo()->GetName());
 
-    QDesktopWidget *pDesk = QApplication::desktop();
-#ifdef MOBILE
-    this->setGeometry(pDesk->geometry());
-#else
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
-    
     bool check = connect(GETMANAGER->GetManageGroupChat().data(), 
                          SIGNAL(sigJoined(QString)),
                          SLOT(accept()));

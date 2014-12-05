@@ -4,12 +4,12 @@
 #include <QFileDialog>
 #include <QImageWriter>
 #include <QDesktopWidget>
+#include "Tool.h"
 
 CDlgUservCard::CDlgUservCard(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgUservCard)
 {
-    ui->setupUi(this);
     Init();
     m_bModify = false;
 }
@@ -18,8 +18,6 @@ CDlgUservCard::CDlgUservCard(const QString &jid, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgUservCard)
 {
-    ui->setupUi(this);
-
     Init();
 
     m_bModify = false;
@@ -39,7 +37,6 @@ CDlgUservCard::CDlgUservCard(QSharedPointer<CUserInfo> user, bool bModify, QWidg
     m_UserInfo(user),
     m_bModify(bModify)
 {
-    ui->setupUi(this);
     Init();
 }
 
@@ -51,14 +48,9 @@ CDlgUservCard::~CDlgUservCard()
 }
 
 int CDlgUservCard::Init()
-{  
-    QDesktopWidget *pDesk = QApplication::desktop();
-#ifdef MOBILE
-    this->setGeometry(pDesk->availableGeometry());
-#else
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
+{
+    ui->setupUi(this);
+    CTool::SetWindowsGeometry(this);
     return 0;
 }
 

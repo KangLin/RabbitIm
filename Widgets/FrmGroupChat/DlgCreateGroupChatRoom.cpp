@@ -4,20 +4,14 @@
 #include <QDesktopWidget>
 #include "Global/Global.h"
 #include "ManageGroupChat.h"
+#include "Tool.h"
 
 CDlgCreateGroupChatRoom::CDlgCreateGroupChatRoom(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgCreateGroupChatRoom)
 {
     ui->setupUi(this);
-
-    QDesktopWidget *pDesk = QApplication::desktop();
-#ifdef MOBILE
-    this->setGeometry(pDesk->geometry());
-#else
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
+    CTool::SetWindowsGeometry(this);
 
     bool check = connect(GETMANAGER->GetManageGroupChat().data(), 
                          SIGNAL(sigJoined(QString)),

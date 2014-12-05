@@ -7,11 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>442</width>
-    <height>405</height>
+    <height>433</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Options</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../Resource/Resource.qrc">
+    <normaloff>:/icon/AppIcon</normaloff>:/icon/AppIcon</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout_13">
    <item row="1" column="0">

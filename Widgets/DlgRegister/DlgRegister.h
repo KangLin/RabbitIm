@@ -13,10 +13,9 @@ class CDlgRegister : public QDialog
     Q_OBJECT
 
 public:
+    //parent:必须为 CFrmLogin 对象指针  
     explicit CDlgRegister(QWidget *parent = 0);
     ~CDlgRegister();
-
-    int SetLogin(QWidget *pLogin);
 
 protected:
     virtual void hideEvent(QHideEvent *);

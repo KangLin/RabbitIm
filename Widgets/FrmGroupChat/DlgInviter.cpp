@@ -8,14 +8,7 @@ CDlgInviter::CDlgInviter(const QString &szId, QWidget *parent) :
     ui(new Ui::CDlgInviter)
 {
     ui->setupUi(this);
-
-    QDesktopWidget *pDesk = QApplication::desktop();
-#ifdef MOBILE
-    this->setGeometry(pDesk->geometry());
-#else
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
+    CTool::SetWindowsGeometry(this);
 
     m_pTreeModel = new CItemModelCustom(this);
     ui->treeView->setModel(m_pTreeModel);

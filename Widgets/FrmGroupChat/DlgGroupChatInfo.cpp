@@ -10,14 +10,7 @@ CDlgGroupChatInfo::CDlgGroupChatInfo(const QString &szId, QWidget *parent) :
     ui(new Ui::CDlgGroupChatInfo)
 {
     ui->setupUi(this);
-    
-    QDesktopWidget *pDesk = QApplication::desktop();
-#ifdef MOBILE
-    this->setGeometry(pDesk->geometry());
-#else
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
+    CTool::SetWindowsGeometry(this);
 
     QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
     if(gc.isNull())
