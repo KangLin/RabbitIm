@@ -240,6 +240,8 @@ void CFrmGroupChat::slotUpdateMessage(const QString &szId)
         return;
     //通知未读数改变  
     std::vector<QSharedPointer<CChatAction> > msg = m_Room->GetMessage()->GetUnreadMessage();
+    if(msg.size() == 0)
+        return;
     AppendMessageToOutputView(msg);
     CGlobal::Instance()->GetManager()->GetRecentMessage()->slotMessageClean(szId);
     emit GETMANAGER->GetManageGroupChat()->sigMessageClean(m_Room->Id());

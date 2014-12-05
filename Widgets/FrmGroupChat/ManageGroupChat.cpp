@@ -49,9 +49,9 @@ int CManageGroupChat::LoadFromStorage(const QString &szId)
         s >> nSize;
         while(nSize--)
         {
-            QString szId, szNick;
-            s >> szId >> szNick;
-            Join(szId, szNick);
+            QString szId, szPassword, szNick;
+            s >> szId >> szPassword >> szNick;
+            Join(szId, szPassword, szNick);
         }
     }
     catch(...)
@@ -92,7 +92,7 @@ int CManageGroupChat::SaveToStorage()
         QMap<QString, QSharedPointer<CGroupChat> >::iterator it;
         for(it = m_GroupChat.begin(); it != m_GroupChat.end(); it++)
         {
-            s << it.key() << it.value()->Nick();
+            s << it.key() << it.value()->Password() << it.value()->Nick();
         }
     }
     catch(...)

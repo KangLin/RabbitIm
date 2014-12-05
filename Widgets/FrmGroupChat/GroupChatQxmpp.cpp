@@ -18,6 +18,8 @@ CGroupChatQxmpp::CGroupChatQxmpp(QXmppMucRoom *pRoom, QObject *parent) :
     CGroupChat(parent)
 {
     m_pRoom = pRoom;
+    SetPassword(m_pRoom->password());
+
     bool check = connect(pRoom, 
                          SIGNAL(joined()),
                          this,

@@ -39,6 +39,8 @@ public:
     virtual int SendMessage(const QString &szMsg) = 0;
     virtual int Kick(const QString &szId, const QString &reason = QString()) = 0;
 
+    virtual QString Password();
+    virtual int SetPassword(const QString &szPassword);
     virtual QSharedPointer<CMessage> GetMessage();
     
     enum Condition
@@ -81,6 +83,7 @@ public slots:
 private:
     QSharedPointer<CMessage> m_Message;
     Condition m_Condition;
+    QString m_szPassword;
 };
 
 #endif // GROUPCHAT_H

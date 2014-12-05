@@ -369,6 +369,8 @@ void CFrmMessage::slotMessageUpdate(const QString &szId)
         return;
     //通知未读数改变  
     std::vector<QSharedPointer<CChatAction> > msg = m_User->GetMessage()->GetUnreadMessage();
+    if(msg.size() == 0)
+        return;
     AppendMessageToOutputView(msg);
     CGlobal::Instance()->GetManager()->GetRecentMessage()->slotMessageClean(szId);
     emit GET_CLIENT->sigMessageClean(m_User->GetInfo()->GetId());
