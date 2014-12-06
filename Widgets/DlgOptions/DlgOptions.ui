@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>453</width>
+    <width>350</width>
     <height>402</height>
    </rect>
   </property>
@@ -18,68 +18,6 @@
     <normaloff>:/icon/AppIcon</normaloff>:/icon/AppIcon</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout_13">
-   <item row="1" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="pbOK">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>80</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>OK(&amp;O)</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
-         <normaloff>:/icon/Accept</normaloff>:/icon/Accept</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pbCancel">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>80</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Cancel(&amp;C)</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
-         <normaloff>:/icon/Cancel</normaloff>:/icon/Cancel</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
@@ -89,7 +27,7 @@
       <attribute name="title">
        <string>Nomarl</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_14">
+      <layout class="QGridLayout" name="gridLayout_17">
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_10">
          <item>
@@ -186,7 +124,7 @@
        <item row="2" column="0">
         <widget class="QGroupBox" name="groupBox">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -393,7 +331,7 @@
       <attribute name="title">
        <string>Message</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_10">
+      <layout class="QGridLayout" name="gridLayout_14">
        <item row="0" column="0">
         <widget class="QCheckBox" name="cbMessageSound">
          <property name="sizePolicy">
@@ -473,19 +411,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QRadioButton" name="rBtn_save">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>save</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="2">
            <widget class="QRadioButton" name="rBtn_send">
             <property name="sizePolicy">
@@ -496,6 +421,19 @@
             </property>
             <property name="text">
              <string>send</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QRadioButton" name="rBtn_save">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>save</string>
             </property>
            </widget>
           </item>
@@ -512,7 +450,7 @@
        <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -599,7 +537,7 @@
        <item row="1" column="0">
         <widget class="QGroupBox" name="groupBox_3">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -692,7 +630,7 @@
        <item row="2" column="0">
         <widget class="QGroupBox" name="groupBox_4">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -817,7 +755,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="Multimedia">
       <attribute name="title">
        <string>Multimedia devices</string>
       </attribute>
@@ -825,7 +763,7 @@
        <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox_7">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -896,7 +834,20 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="cbVideo"/>
+          <widget class="QComboBox" name="cbVideo">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -904,6 +855,12 @@
         <layout class="QHBoxLayout" name="horizontalLayout_15">
          <item>
           <widget class="QCheckBox" name="cbShowLocaleVideo">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="text">
             <string>Show locale video</string>
            </property>
@@ -911,6 +868,12 @@
          </item>
          <item>
           <widget class="QCheckBox" name="cbMonitor">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="text">
             <string>Monitor mode</string>
            </property>
@@ -921,6 +884,68 @@
       </layout>
      </widget>
     </widget>
+   </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pbOK">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>OK(&amp;O)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Accept</normaloff>:/icon/Accept</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbCancel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Cancel(&amp;C)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Cancel</normaloff>:/icon/Cancel</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -936,10 +961,6 @@
   <tabstop>pbOK</tabstop>
   <tabstop>pbCancel</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>cbAutoLogin</tabstop>
-  <tabstop>sbDelayTime</tabstop>
-  <tabstop>cbNotificationShowMessage</tabstop>
-  <tabstop>cbNotificationFlash</tabstop>
  </tabstops>
  <resources>
   <include location="../../Resource/Resource.qrc"/>

@@ -301,14 +301,13 @@ bool CWdgScreenEditor::save(const QString& path)
 
 void CWdgScreenEditor::saveAs()
 {
-    QString filter =  tr("Images (*.png *.xpm *.jpg)");//"*.png;;*.jpg;;*.bmp;;*.gif;;*.jpeg";
-    QString dir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) 
-            + QDir::separator() + "grabbedImage.png";
-//    QString dir = QDesktopServices::storageLocation(QDesktopServices::DesktopLocation) +QDir::separator() +  "grabbedImage.png";
-    QString path = QFileDialog::getSaveFileName(this, tr("Save"), dir, filter, 0,
-                                                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
-    if(!path.isEmpty()){
-        if(!save(path)){
+    QString szFile;
+    QString szFilter =  tr("Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)");
+    QString szDir = CGlobal::Instance()->GetDirReceiveFile()
+            + QDir::separator() + "grabbedImage_" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".png";
+    szFile = CTool::FileDialog(this, szDir, szFilter, tr("Save"));
+    if(!szFile.isEmpty()){
+        if(!save(szFile)){
             QMessageBox::warning(this, tr("Failed to save"), tr("Sorry! Save failed! Please check save path!"));
         }else{
             onCompleteBtnClicked();

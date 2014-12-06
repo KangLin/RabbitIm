@@ -33,6 +33,7 @@ protected:
     virtual void showEvent(QShowEvent* );
     virtual void closeEvent(QCloseEvent*);
     virtual void changeEvent(QEvent*);
+    virtual void resizeEvent(QResizeEvent *e);
 
 private:
     Ui::CDlgOptions *ui;

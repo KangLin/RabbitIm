@@ -145,15 +145,17 @@ void CFrmMessage::on_pbShotScreen_clicked()
         }
         else if(type == CGlobal::E_TO_SAVE)
         {
-            QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
-                                       "./untitled.png",
-                                       tr("Images (*.png *.xpm *.jpg)"));
-            if(!fileName.isEmpty())
+            QString szFile;
+            QString szFilter =  tr("Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)");
+            QString szDir = CGlobal::Instance()->GetDirReceiveFile()
+                    + QDir::separator() + "grabbedImage_" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".png";
+            szFile = CTool::FileDialog(this, szDir, szFilter, tr("Save"));
+            if(!szFile.isEmpty())
             {
-                bool isOk = image.save(fileName);
+                bool isOk = image.save(szFile);
                 if(!isOk)
                 {
-                    LOG_MODEL_ERROR("Message", "save file [%s] is error", fileName.toStdString().c_str());
+                    LOG_MODEL_ERROR("Message", "save file [%s] is error", szFile.toStdString().c_str());
                 }
             }
         }
@@ -448,26 +450,7 @@ void CFrmMessage::on_pbSendFile_clicked()
     if(szId.isEmpty())
         return;
 
-#ifdef MOBILE
-    QDesktopWidget *pDesk = QApplication::desktop();
-    QFileDialog dlg(pDesk, tr("Open File"));
-    QScreen* pScreen = QApplication::primaryScreen();
-    dlg.setGeometry(pScreen->availableGeometry());
-    QString szFile;
-    QStringList fileNames;
-    if(dlg.exec())
-        fileNames = dlg.selectedFiles();
-    else
-        return;
-    if(fileNames.isEmpty())
-        return;
-    szFile = *fileNames.begin();
-#else
-    QString szFile = QFileDialog::getOpenFileName(
-                this, tr("Open File"), 
-                QString(), QString(), 0,
-                QFileDialog::ReadOnly /*| QFileDialog::DontUseNativeDialog*/);
-#endif
+    QString szFile = CTool::FileDialog(this, QString(), QString(), tr("Open File"));
     if(szFile.isEmpty())
         return;
     QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();

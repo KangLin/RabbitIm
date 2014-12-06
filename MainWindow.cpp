@@ -728,26 +728,9 @@ int MainWindow::LoadStyle()
 
 int MainWindow::OpenCustomStyleMenu()
 {
-   //*从资源中加载应用程序样式  
-#ifdef MOBILE
-    QFileDialog dlg(this, tr("Open File"), QString(), "*.qss *.*");
-    CTool::SetWindowsGeometry(&dlg);
     QString szFile;
-    QStringList fileNames;
-    if(dlg.exec())
-        fileNames = dlg.selectedFiles();
-    else
-        return -1;
-    if(fileNames.isEmpty())
-        return -2;
-    szFile = *fileNames.begin();
-#else
-    QString szFile = QFileDialog::getOpenFileName(
-                this, tr("Open File"), 
-                QString(), "*.qss *.*", 0,
-                QFileDialog::ReadOnly /*| QFileDialog::DontUseNativeDialog*/);
-#endif
-
+    QString szFilter("*.qss *.*");
+    szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
     if(szFile.isEmpty())
         return -1;
 

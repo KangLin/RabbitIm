@@ -1,7 +1,6 @@
 #include "DlgUservCard.h"
 #include "ui_DlgUservCard.h"
 #include "../../Global/Global.h"
-#include <QFileDialog>
 #include <QImageWriter>
 #include <QDesktopWidget>
 #include "Tool.h"
@@ -100,11 +99,8 @@ void CDlgUservCard::changeEvent(QEvent *e)
 
 void CDlgUservCard::on_pbBrower_clicked()
 {
-    //*从资源中加载应用程序样式  
-    QString szFile = QFileDialog::getOpenFileName(
-                this, tr("Open File"), 
-                QString(), "*.png", 0,
-                QFileDialog::ReadOnly /*| QFileDialog::DontUseNativeDialog*/);
+    QString szFile, szFilter("*.png");
+    szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
     if(szFile.isEmpty())
        return; 
 

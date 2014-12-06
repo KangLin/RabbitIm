@@ -129,7 +129,16 @@ public:
      */
     static bool removeDirectory(QString dirName);
     
+    /**
+     * @brief 调整窗口的位置，手机上，让窗口全屏，在pc上，把窗口调整到屏幕中间  
+     *
+     * @fn SetWindowsGeometry
+     * @param pWindow
+     * @return int
+     */
     static int SetWindowsGeometry(QWidget* pWindow);
+    
+    static QString FileDialog(QWidget* pParent, const QString &szDir, const QString &szFilter, const QString &szTilte = tr("Save"));
 signals:
 
 public slots:

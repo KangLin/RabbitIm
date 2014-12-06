@@ -362,26 +362,7 @@ void CFrmUserList::slotSendFile()
     if(szId.isEmpty())
         return;
 
-#ifdef MOBILE
-    QDesktopWidget *pDesk = QApplication::desktop();
-    QFileDialog dlg(pDesk, tr("Open File"));
-    QScreen* pScreen = QApplication::primaryScreen();
-    dlg.setGeometry(pScreen->availableGeometry());
-    QString szFile;
-    QStringList fileNames;
-    if(dlg.exec())
-        fileNames = dlg.selectedFiles();
-    else
-        return;
-    if(fileNames.isEmpty())
-        return;
-    szFile = *fileNames.begin();
-#else
-    QString szFile = QFileDialog::getOpenFileName(
-                this, tr("Open File"), 
-                QString(), QString(), 0,
-                QFileDialog::ReadOnly /*| QFileDialog::DontUseNativeDialog*/);
-#endif
+    QString szFile = CTool::FileDialog(this, QString(), QString(), tr("Open File"));
     if(szFile.isEmpty())
         return;
     QSharedPointer<CManageFileTransfer> file = CGlobal::Instance()->GetManager()->GetFileTransfer();

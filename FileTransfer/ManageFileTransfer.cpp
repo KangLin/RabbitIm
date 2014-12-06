@@ -160,27 +160,13 @@ int CManageFileTransfer::Accept(QSharedPointer<CFileTransfer> file)
 int CManageFileTransfer::SaveAs(QSharedPointer<CFileTransfer> file)
 {
     int nRet = 0;
-#ifdef MOBILE
-    QDesktopWidget *pDesk = QApplication::desktop();
-    QFileDialog dlg(pDesk, tr("Sava as ..."), file->GetFile(), QString());
-    //dlg.setGeometry(this->rect());
-    QScreen* pScreen = QApplication::primaryScreen();
-    dlg.setGeometry(pScreen->availableGeometry());
     QString szFile;
-    QStringList fileNames;
-    if(dlg.exec())
-        fileNames = dlg.selectedFiles();
-    else
-        return -1;
-    if(fileNames.isEmpty())
-        return -2;
-    szFile = *fileNames.begin();
-#else
-    QString szFile = QFileDialog::getSaveFileName(NULL, tr("Sava as ..."),
-                file->GetFile(), QString(), 0,
-                QFileDialog::ReadOnly | QFileDialog::DontUseNativeDialog);
-#endif
+    QString szDir = CGlobal::Instance()->GetDirReceiveFile()
+            + QDir::separator() + file->GetFile();
 
+    szFile = CTool::FileDialog(NULL, szDir, QString(), tr("Save as"));
+    if(szFile.isEmpty())
+        return -1;
     nRet =file->Accept(szFile);
     return nRet;
 }

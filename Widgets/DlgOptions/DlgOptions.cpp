@@ -139,6 +139,14 @@ void CDlgOptions::changeEvent(QEvent *e)
     }
 }
 
+void CDlgOptions::resizeEvent(QResizeEvent *e)
+{
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow::resizeEvent:e.size:%d;genmetry.size:%d,frame.size:%d",
+                    e->size().width(),
+                    geometry().size().width(),
+                    this->frameGeometry().width());
+}
+
 void CDlgOptions::on_pbCancel_clicked()
 {
     this->reject();

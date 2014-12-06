@@ -6,6 +6,7 @@
 #include <QScreen>
 #include <QDesktopWidget>
 #include <QApplication>
+#include <QFileDialog>
 
 CTool::CTool(QObject *parent) :
     QObject(parent)
@@ -489,4 +490,21 @@ int CTool::SetWindowsGeometry(QWidget *pWindow)
          (pScreen->availableGeometry().height() - pWindow->height()) / 2);
 #endif
     //*/
+}
+
+QString CTool::FileDialog(QWidget *pParent, const QString &szDir, const QString &szFilter, const QString &szTilte)
+{
+    QString szFile;
+    QFileDialog dlg(pParent, szTilte, szDir, szFilter);
+    dlg.setOption(QFileDialog::DontUseNativeDialog, false);
+    CTool::SetWindowsGeometry(&dlg);
+    QStringList fileNames;
+    if(dlg.exec())
+        fileNames = dlg.selectedFiles();
+    else
+        return szFile;
+    if(fileNames.isEmpty())
+        return szFile;
+    szFile = *fileNames.begin();
+    return szFile;
 }
