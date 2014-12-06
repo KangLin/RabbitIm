@@ -60,13 +60,15 @@ private:
     //在组队列中插入组  
     QStandardItem*  ItemInsertGroup(QString szGroup);
     //更新组中用户  
-    int ItemUpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups);
+    int ItemUpdateGroup(QSharedPointer<CUserInfo> info);
     //插入好友条目  
     int ItemInsertRoster(const QString &szId);
     //更新好友条目  
     int ItemUpdateRoster(const QString &szId);
     //删除好友条目  
     int ItemRemoveRoster(const QString &szId);
+    //生成好友条目  
+    QList<QStandardItem *> NewItemRoster(QSharedPointer<CUserInfo> info);
 
     //事件  
     void resizeEvent(QResizeEvent *e);

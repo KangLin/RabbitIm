@@ -422,8 +422,9 @@ QStandardItem*  CFrmUserList::ItemInsertGroup(QString szGroup)
     return lstGroup;
 }
 
-int CFrmUserList::ItemUpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString> groups)
+int CFrmUserList::ItemUpdateGroup(QSharedPointer<CUserInfo> info)
 {
+    QSet<QString> groups = info->GetGroups();
     if(groups.isEmpty())
     {
         QString szDefaulGroup(tr("My friends"));
@@ -444,6 +445,9 @@ int CFrmUserList::ItemUpdateGroup(QList<QStandardItem *> &lstItems, QSet<QString
         else
             lstGroup = it.value();
 
+        QList<QStandardItem *> lstItems = NewItemRoster(info);
+        if(lstItems.isEmpty())
+            continue;
         lstGroup->appendRow(lstItems);
     }
 
@@ -461,6 +465,15 @@ int CFrmUserList::ItemInsertRoster(const QString& szId)
     }
 
     QSharedPointer<CUserInfo> info = roster->GetInfo();
+    if(info.isNull())
+        return -2;
+
+    ItemUpdateGroup(info);
+    return nRet;
+}
+
+QList<QStandardItem *> CFrmUserList::NewItemRoster(QSharedPointer<CUserInfo> info)
+{
     //呢称条目  
     QStandardItem* pItem = new QStandardItem(info->GetShowName() 
                                              + info->GetSubscriptionTypeStr(info->GetSubScriptionType()));
@@ -468,7 +481,7 @@ int CFrmUserList::ItemInsertRoster(const QString& szId)
     pItem->setData(PROPERTIES_ROSTER, USERLIST_ITEM_ROLE_PROPERTIES);
     //改变item背景颜色  
     //pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
-   // pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
+    // pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
     pItem->setEditable(false);
     QString szText;
     szText = info->GetShowName()
@@ -493,9 +506,7 @@ int CFrmUserList::ItemInsertRoster(const QString& szId)
 
     QList<QStandardItem *> lstItems;
     lstItems << pItem << pMessageCountItem;
-
-    ItemUpdateGroup(lstItems, info->GetGroups());
-    return nRet;
+    return lstItems;
 }
 
 int CFrmUserList::ItemUpdateRoster(const QString &szId)

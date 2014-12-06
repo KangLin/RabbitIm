@@ -321,10 +321,10 @@ int MainWindow::InitOperatorMenu()
 
 int MainWindow::InitMenuStyles()
 {
-    m_ActionStyles["Custom"] = m_MenuStyle.addAction("Custom");
-    m_ActionStyles["System"] = m_MenuStyle.addAction("System");
-    m_ActionStyles["Blue"] = m_MenuStyle.addAction("Blue");
-    m_ActionStyles["Dark"] = m_MenuStyle.addAction("Dark");
+    m_ActionStyles["Custom"] = m_MenuStyle.addAction(tr("Custom"));
+    m_ActionStyles["System"] = m_MenuStyle.addAction(tr("System"));
+    m_ActionStyles["Blue"] = m_MenuStyle.addAction(tr("Blue"));
+    m_ActionStyles["Dark"] = m_MenuStyle.addAction(tr("Dark"));
     QMap<QString, QAction*>::iterator it;
     for(it = m_ActionStyles.begin(); it != m_ActionStyles.end(); it++)
     {
@@ -340,7 +340,7 @@ int MainWindow::InitMenuStyles()
         pAct->setChecked(true);
     }
     m_MenuStyle.setIcon(QIcon(":/icon/Stype"));
-    m_MenuStyle.setTitle("Change Style Sheet(&S)");
+    m_MenuStyle.setTitle(tr("Change Style Sheet(&S)"));
     return 0;
 }
 
