@@ -212,14 +212,8 @@ void CDlgOptions::on_pbOK_clicked()
 void CDlgOptions::on_pbLocalUserColor_clicked()
 {
     QColor color;
-    QDesktopWidget *pDesk = QApplication::desktop();
     QColorDialog dlgColor(this);
-#ifdef MOBILE
-    dlgColor.setGeometry(pDesk->availableGeometry());
-#else
-    dlgColor.move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
+    CTool::SetWindowsGeometry(&dlgColor);
     dlgColor.setCurrentColor(CGlobal::Instance()->GetUserColor());
     if(QDialog::Rejected == dlgColor.exec())
         return;
@@ -233,14 +227,8 @@ void CDlgOptions::on_pbLocalUserColor_clicked()
 void CDlgOptions::on_pbRosterColor_clicked()
 {
     QColor color;
-    QDesktopWidget *pDesk = QApplication::desktop();
     QColorDialog dlgColor(this);
-#ifdef MOBILE
-    dlgColor.setGeometry(pDesk->availableGeometry());
-#else
-    dlgColor.move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
+    CTool::SetWindowsGeometry(&dlgColor);
     dlgColor.setCurrentColor(CGlobal::Instance()->GetUserColor());
     if(QDialog::Rejected == dlgColor.exec())
         return;
@@ -254,14 +242,8 @@ void CDlgOptions::on_pbRosterColor_clicked()
 void CDlgOptions::on_pbLocalUserMessageColor_clicked()
 {
     QColor color;
-    QDesktopWidget *pDesk = QApplication::desktop();
     QColorDialog dlgColor(this);
-#ifdef MOBILE
-    dlgColor.setGeometry(pDesk->availableGeometry());
-#else
-    dlgColor.move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
+    CTool::SetWindowsGeometry(&dlgColor);
     dlgColor.setCurrentColor(CGlobal::Instance()->GetUserColor());
     if(QDialog::Rejected == dlgColor.exec())
         return;
@@ -275,14 +257,8 @@ void CDlgOptions::on_pbLocalUserMessageColor_clicked()
 void CDlgOptions::on_pbRosterMessageColor_clicked()
 {
     QColor color;
-    QDesktopWidget *pDesk = QApplication::desktop();
     QColorDialog dlgColor(this);
-#ifdef MOBILE
-    dlgColor.setGeometry(pDesk->availableGeometry());
-#else
-    dlgColor.move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
+    CTool::SetWindowsGeometry(&dlgColor);
     dlgColor.setCurrentColor(CGlobal::Instance()->GetUserColor());
     if(QDialog::Rejected == dlgColor.exec())
         return;
@@ -296,14 +272,8 @@ void CDlgOptions::on_pbRosterMessageColor_clicked()
 void CDlgOptions::on_pbUnreadMessageCountColor_clicked()
 {
     QColor color;
-    QDesktopWidget *pDesk = QApplication::desktop();
     QColorDialog dlgColor(this);
-#ifdef MOBILE
-    dlgColor.setGeometry(pDesk->availableGeometry());
-#else
-    dlgColor.move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
-#endif
+    CTool::SetWindowsGeometry(&dlgColor);
     dlgColor.setCurrentColor(CGlobal::Instance()->GetUserColor());
     if(QDialog::Rejected == dlgColor.exec())
         return;

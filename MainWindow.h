@@ -123,6 +123,7 @@ private:
     QSharedPointer<QTranslator> m_TranslatorApp;
     int InitMenuTranslate();  //增加翻译菜单  
     int ClearMenuTranslate();
+    //加载翻译资源  
     int LoadTranslate(QString szLocale = QString());
 private slots:
     void slotActionGroupTranslateTriggered(QAction* pAct);//翻译菜单组点击触发 

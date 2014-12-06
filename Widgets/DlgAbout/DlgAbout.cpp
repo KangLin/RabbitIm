@@ -14,7 +14,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     CTool::SetWindowsGeometry(this);
     QString szVersion(tr("Version:%1").arg(VERSION));
     ui->lblVersion->setText(szVersion);
-    ui->lblAuthor->setText(tr("Author: KangLin Email、MSN:kl222@126.com"));
+    ui->lblAuthor->setText(tr("Author: KangLin\nEmail、MSN:kl222@126.com"));
     QFile readme( CGlobal::Instance()->GetDirApplication() + QDir::separator() + "README.md");
     if(readme.open(QFile::ReadOnly))
     {

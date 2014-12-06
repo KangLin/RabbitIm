@@ -86,41 +86,43 @@
     <name>CDlgAbout</name>
     <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="14"/>
-        <source>About Rabbit Immediate Communicate</source>
-        <translation>关于 玉兔即时通信</translation>
+        <source>About</source>
+        <translation >关于</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="115"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="104"/>
         <source>Rabbit Immediate Communicate</source>
         <translation>玉兔即时通信</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="176"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="157"/>
         <source>Author:KangLin</source>
         <translation>作者：康林</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="186"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="144"/>
         <source>Version: 1.0.0.0 Revision: 0000</source>
         <translation>版本：1.0.0.0 次版本：0000</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="13"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="15"/>
         <source>Version:%1</source>
         <translation>版本：%1</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="15"/>
-        <source>Author: KangLin Email、MSN:kl222@126.com</source>
-        <translation>作者：康林 电子邮箱、MSN：kl222@126.com</translation>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="17"/>
+        <source>Author: KangLin
+Email、MSN:kl222@126.com</source>
+        <translation>作者：康林
+邮箱、MSN:kl222@126.com</translation>
     </message>
 </context>
 <context>
     <name>CDlgAddRoster</name>
     <message>
         <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.ui" line="26"/>
-        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="45"/>
-        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="46"/>
+        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="39"/>
+        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="40"/>
         <source>Add Roster</source>
         <translation>增加好友</translation>
     </message>
@@ -160,27 +162,27 @@
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="39"/>
+        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="33"/>
         <source>Request add roster</source>
         <translation>请求增加好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="40"/>
+        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="34"/>
         <source>%1 request add roster</source>
         <translation>%1 请求增加为好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="53"/>
+        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="47"/>
         <source>My friends</source>
         <translation>我的好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="80"/>
+        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="74"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="80"/>
+        <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.cpp" line="74"/>
         <source>Isn&apos;t fill JID. Please fill it.</source>
         <translation>没有填 JID,请重新填写。</translation>
     </message>
@@ -243,51 +245,51 @@
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="68"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="73"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="62"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="67"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="72"/>
         <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="78"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="84"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="127"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="121"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="68"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="62"/>
         <source>Please fill room name.</source>
         <translation>请填写群名称。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="73"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="67"/>
         <source>Name must only be letters or numbers.</source>
         <translation>名称只能是字母或数字。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="78"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="72"/>
         <source>Please fill room subject.</source>
         <translation>请填写群主题。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="84"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="78"/>
         <source>Enter the password is not the same twice.</source>
         <translation>两次输入的密码不相同。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="98"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="92"/>
         <source>%1 is existed</source>
         <translation>%1 已经存在</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="118"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="112"/>
         <source>Unknow error.</source>
         <translation>未知错误。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="121"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="115"/>
         <source>Not authorized.</source>
         <translation>未认证。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="124"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="118"/>
         <source>Error code:</source>
         <translation>错误代码：</translation>
     </message>
@@ -358,12 +360,12 @@
         <translation>邀请消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgInviter.cpp" line="28"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgInviter.cpp" line="21"/>
         <source>Inviter rosters to join %1</source>
         <translation>邀请好友加入到 %1</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgInviter.cpp" line="74"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgInviter.cpp" line="67"/>
         <source>My friends</source>
         <translation>我的好友</translation>
     </message>
@@ -401,45 +403,45 @@
         <translation>%1 邀请你加入到群。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="70"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="76"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="82"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="107"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="63"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="69"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="75"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="100"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="70"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="63"/>
         <source>Please fill group chat name.</source>
         <translation>请填群名。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="76"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="69"/>
         <source>Name must only be letters or numbers.</source>
         <translation>名称只能是字母或数字。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="82"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="75"/>
         <source>Nick must only be letters or numbers.</source>
         <translation>呢称只能是字母或数字。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="89"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="82"/>
         <source>%1 is existed</source>
         <translation>%1 已经存在</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="98"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="91"/>
         <source>Unknow error.</source>
         <translation>未知错误。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="101"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="94"/>
         <source>Not authorized.</source>
         <translation>未认证。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="104"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="97"/>
         <source>Error code:</source>
         <translation>错误代码：</translation>
     </message>
@@ -517,259 +519,259 @@
         <translation>选项</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="86"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="28"/>
         <source>Nomarl</source>
         <translation>普通</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="100"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="42"/>
         <source>Auto Login</source>
         <translation>自动登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="109"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="51"/>
         <source>Delay:</source>
         <translation>延时：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="132"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="74"/>
         <source>secodes</source>
         <translation>秒</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="152"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="94"/>
         <source>Close Operator</source>
         <translation>关闭操作</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="158"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="100"/>
         <source>Close Programe</source>
         <translation>关闭程序</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="168"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="110"/>
         <source>Logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="175"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="117"/>
         <source>Prompt</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="197"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="139"/>
         <source>Notification bar</source>
         <translation>通知栏</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="217"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="159"/>
         <source>Flash Interval: </source>
         <translation>闪烁间隔：</translation>
     </message>
     <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="188"/>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="246"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="304"/>
         <source>ms</source>
         <translation>毫秒</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="272"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="214"/>
         <source>Show Message Delay:</source>
         <translation>显示消息延时：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="324"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="266"/>
         <source>Show message</source>
         <translation>显示消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="337"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="279"/>
         <source>Flashes</source>
         <translation>闪烁</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="355"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="297"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="363"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="305"/>
         <source>Configure files</source>
         <translation>配置文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="370"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="312"/>
         <source>Data files</source>
         <translation>数据文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="379"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="321"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="456"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="398"/>
         <source>Screen Shot to</source>
         <translation>截屏后操作</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="468"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="410"/>
         <source>Clipboard</source>
         <translation>保存到剪切板</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="481"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="436"/>
         <source>save</source>
         <translation>保存为文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="494"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="423"/>
         <source>send</source>
         <translation>发送</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="390"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="332"/>
         <source>Message</source>
         <translation>消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="402"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="344"/>
         <source>Receiving a message alert tone</source>
         <translation>接收消息提示音</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="409"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="351"/>
         <source>Send message key</source>
         <translation>发送消息键</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="421"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="363"/>
         <source>CTRL+ENTER</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="437"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="379"/>
         <source>ENTER</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="505"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="447"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="523"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="465"/>
         <source>Show User Name</source>
         <translation>显示用户名</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="541"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="483"/>
         <source>JID</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="560"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="502"/>
         <source>Name</source>
         <translation>名字</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="585"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="527"/>
         <source>Nick</source>
         <translation>呢称</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="616"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="558"/>
         <source>User color</source>
         <translation>用户颜色</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="624"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="566"/>
         <source>Locale user color:</source>
         <translation>本地用户颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="646"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="679"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="739"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="772"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="805"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="588"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="621"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="681"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="714"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="747"/>
         <source>Select color(&amp;S)</source>
         <translation>选择颜色(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="657"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="599"/>
         <source>Roster color:</source>
         <translation>好友颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="709"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="651"/>
         <source>Message color</source>
         <translation>消息颜色</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="717"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="659"/>
         <source>Locale user message color:</source>
         <translation>本地用户消息颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="750"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="692"/>
         <source>Roster message color:</source>
         <translation>好友消息颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="783"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="725"/>
         <source>Unread message count color:</source>
         <translation>未读消息数颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="818"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="760"/>
         <source>Multimedia devices</source>
         <translation>多媒体设备</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="830"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="772"/>
         <source>Audio devices</source>
         <translation>音频设备</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="844"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="786"/>
         <source>Audio input devices:</source>
         <translation>音频输入设备：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="867"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="809"/>
         <source>Audio output devices:</source>
         <translation>音频输出设备：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="887"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="829"/>
         <source>video devices:</source>
         <translation>视频捕获设备：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="904"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="865"/>
         <source>Show locale video</source>
         <translation>显示本地视频</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="911"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="878"/>
         <source>Monitor mode</source>
         <translation>监控模式</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="40"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="911"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="69"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="940"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="108"/>
         <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="115"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="122"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="128"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="121"/>
         <source>no device</source>
         <translation>无</translation>
     </message>
@@ -827,72 +829,72 @@
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="33"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="29"/>
         <source>Register success</source>
         <translation>注册成功</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="42"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="34"/>
         <source>Unknow error</source>
         <translation>未知错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="45"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="37"/>
         <source>User</source>
         <translation>用户</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="45"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="37"/>
         <source>had exist</source>
         <translation>已经存在</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="49"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="41"/>
         <source>Sever internal error</source>
         <translation>服务内部错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="53"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="45"/>
         <source>Register fail</source>
         <translation>注册失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="72"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="82"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="64"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="74"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="83"/>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="91"/>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="99"/>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="107"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="115"/>
         <source>Register error</source>
         <translation>注册错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="73"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="65"/>
         <source>Don&apos;t fill user name, Please refilling</source>
         <translation>忘记填写用户名，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="83"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="75"/>
         <source>Don&apos;t fill password, Please refilling</source>
         <translation>忘记填写密码，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="92"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="84"/>
         <source>Confirm password error, Please refilling</source>
         <translation>密码校验错误，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="100"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="92"/>
         <source>Password contains illegal characters. Only letters, numbers, `~!@#$%^&amp;*() combinations</source>
         <translation>密码包含非法字符。密码只能是字母、数字或 `~!@#$%^&amp;*() 组合。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="108"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="100"/>
         <source>Don&apos;t fill email, Please refilling</source>
         <translation>忘记填写电子邮箱，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="116"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="108"/>
         <source>Email format is wrong</source>
         <translation>电子邮箱格式错误。</translation>
     </message>
@@ -980,7 +982,7 @@
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="113"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="103"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
@@ -1110,7 +1112,7 @@
         <translation>聊天(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="278"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="280"/>
         <source>Leave the group chat</source>
         <translation>离开群</translation>
     </message>
@@ -1191,7 +1193,7 @@
     <name>CFrmLogin</name>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="20"/>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="133"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="315"/>
         <source>Login</source>
         <translation>登录</translation>
     </message>
@@ -1201,12 +1203,12 @@
         <translation>用户名：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="165"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="347"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="331"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="156"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
@@ -1226,22 +1228,22 @@
         <translation>设置(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="226"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="202"/>
         <source>Save password</source>
         <translation>保存密码</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="251"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="227"/>
         <source>Auto login</source>
         <translation>自动登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="276"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="285"/>
         <source>State</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="136"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="318"/>
         <source>Login(&amp;L)</source>
         <translation>登录(&amp;L)</translation>
     </message>
@@ -1251,7 +1253,7 @@
         <translation>注册(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="168"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="350"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
@@ -1382,14 +1384,23 @@
         <translation>音频呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="451"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="465"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="149"/>
+        <source>Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</source>
+        <translation>图像(*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="152"/>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="453"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="191"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="204"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="193"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="206"/>
         <source>Close message dialog</source>
         <translation>关闭消息对话框</translation>
     </message>
@@ -1399,32 +1410,22 @@
         <translation>回退</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="148"/>
-        <source>Save File</source>
-        <translation>保存文件</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="150"/>
-        <source>Images (*.png *.xpm *.jpg)</source>
-        <translation>图像 （*.png *.xpm *.jpg)</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="192"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="194"/>
         <source>Sending files to determine whether you want to close?</source>
         <translation>有文件正在发送，你确定是否关闭消息对话框？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="205"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="207"/>
         <source>Is talking whether you want to close?</source>
         <translation>正在通话，是否关闭？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="317"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="319"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="317"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="319"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
@@ -1505,14 +1506,13 @@
         <translation>重命名好友[%1]</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="367"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="381"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="365"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="39"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="448"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="429"/>
         <source>My friends</source>
         <translation>我的好友</translation>
     </message>
@@ -1662,7 +1662,7 @@
 <context>
     <name>CGroupChatQxmpp</name>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/GroupChatQxmpp.cpp" line="245"/>
+        <location filename="../../Widgets/FrmGroupChat/GroupChatQxmpp.cpp" line="247"/>
         <source>[temporary]</source>
         <translation>[临时的]</translation>
     </message>
@@ -1693,10 +1693,9 @@
         <translation>发送文件 %1</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="165"/>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="179"/>
-        <source>Sava as ...</source>
-        <translation>另存为...</translation>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="167"/>
+        <source>Save as</source>
+        <translation>另存为……</translation>
     </message>
 </context>
 <context>
@@ -1723,6 +1722,14 @@
         <location filename="../../Widgets/FrmCustom/MenuMessageSend.cpp" line="15"/>
         <source>Ctrl + Enter Send</source>
         <translation>Ctrl + Enter 键发送</translation>
+    </message>
+</context>
+<context>
+    <name>CTool</name>
+    <message>
+        <location filename="../../Tool.h" line="141"/>
+        <source>Save</source>
+        <translation>保存</translation>
     </message>
 </context>
 <context>
@@ -1796,9 +1803,9 @@
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="304"/>
-        <source>Images (*.png *.xpm *.jpg)</source>
-        <translation>图像 （*.png *.xpm *.jpg)</translation>
+        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="305"/>
+        <source>Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</source>
+        <translation>图像(*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="308"/>
@@ -1806,17 +1813,17 @@
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="312"/>
+        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="311"/>
         <source>Failed to save</source>
         <translation>保存失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="312"/>
+        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="311"/>
         <source>Sorry! Save failed! Please check save path!</source>
         <translation>对不起！文件保存错误！请检查保存路径！</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="334"/>
+        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="333"/>
         <source>select color</source>
         <translation>选择颜色</translation>
     </message>
@@ -1825,7 +1832,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="14"/>
-        <location filename="../../MainWindow.cpp" line="92"/>
+        <location filename="../../MainWindow.cpp" line="94"/>
         <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>
     </message>
@@ -1865,96 +1872,95 @@
         <translation>选项(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="138"/>
-        <location filename="../../MainWindow.cpp" line="590"/>
+        <location filename="../../MainWindow.cpp" line="141"/>
+        <location filename="../../MainWindow.cpp" line="593"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="317"/>
+        <location filename="../../MainWindow.cpp" line="320"/>
         <source>Close(&amp;E)</source>
         <translation>关闭(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="295"/>
-        <location filename="../../MainWindow.cpp" line="574"/>
+        <location filename="../../MainWindow.cpp" line="298"/>
+        <location filename="../../MainWindow.cpp" line="577"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation>编辑本地用户信息(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="398"/>
+        <location filename="../../MainWindow.cpp" line="401"/>
         <source>Status(&amp;S)</source>
         <translation>状态(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="417"/>
+        <location filename="../../MainWindow.cpp" line="420"/>
         <source>Language(&amp;L)</source>
         <translation>语言(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="419"/>
+        <location filename="../../MainWindow.cpp" line="422"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="421"/>
+        <location filename="../../MainWindow.cpp" line="424"/>
         <source>Chinese</source>
         <translation>简体中文</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="420"/>
+        <location filename="../../MainWindow.cpp" line="423"/>
         <source>English</source>
         <translation>英语</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="139"/>
+        <location filename="../../MainWindow.cpp" line="142"/>
         <source>Is close the programe or logout?</source>
         <translation>是关闭程序还是登出？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="141"/>
+        <location filename="../../MainWindow.cpp" line="144"/>
         <source>close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="142"/>
+        <location filename="../../MainWindow.cpp" line="145"/>
         <source>logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="250"/>
-        <location filename="../../MainWindow.cpp" line="251"/>
+        <location filename="../../MainWindow.cpp" line="253"/>
+        <location filename="../../MainWindow.cpp" line="254"/>
         <source>RabbitIm:%1</source>
         <translation>玉兔即时通信：%1</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="314"/>
+        <location filename="../../MainWindow.cpp" line="317"/>
         <source>Logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="520"/>
+        <location filename="../../MainWindow.cpp" line="523"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="520"/>
+        <location filename="../../MainWindow.cpp" line="523"/>
         <source>Change language must reset program.</source>
         <translation>改变语言设置，必须重启程序才能生效。</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="583"/>
+        <location filename="../../MainWindow.cpp" line="586"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="585"/>
+        <location filename="../../MainWindow.cpp" line="588"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="734"/>
-        <location filename="../../MainWindow.cpp" line="759"/>
+        <location filename="../../MainWindow.cpp" line="733"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>

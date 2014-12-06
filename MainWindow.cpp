@@ -22,16 +22,13 @@ MainWindow::MainWindow(QWidget *parent) :
     m_Login(new CFrmLogin(this)),
     ui(new Ui::MainWindow)
 {
-    CTool::SetWindowsGeometry(this);
-
     CGlobal::Instance()->SetMainWindow(this);
+    CTool::SetWindowsGeometry(this);
+    ui->setupUi(this);
 
     m_bLogin = false;
 
-    ui->setupUi(this);
-
     bool check;
-    Q_UNUSED(check);
     check = connect(ui->actionAbout_A, SIGNAL(triggered()),
             SLOT(About()));
     Q_ASSERT(check);
@@ -429,7 +426,7 @@ int MainWindow::InitMenuTranslate()
         it.value()->setCheckable(true);
         m_ActionGroupTranslator.addAction(it.value());
     }
-    
+
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitMenuTranslate m_ActionTranslator size:%d", m_ActionTranslator.size());
 
     bool check = connect(&m_ActionGroupTranslator, SIGNAL(triggered(QAction*)),

@@ -472,6 +472,10 @@ QString CGlobal::GetApplicationConfigureFile()
 
 QString CGlobal::GetDirTranslate()
 {
+#ifdef ANDROID
+    //TODO:android下应该在安装包中装好语言  
+    return GetDirApplicationConfigure() + QDir::separator() + "translations";
+#endif
     return GetDirApplication() + QDir::separator() + "translations";
 }
 
