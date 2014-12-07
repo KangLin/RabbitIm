@@ -8,6 +8,7 @@ QXMPP_USE_VPX = 1             #使用 vpx
 #QXMPP_USE_SPEEX=1            #使用 speex
 #RABBITIM_USER_OPENCV=1       #使用 opencv
 RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
+RABBITIM_USER_LIBCURL=1      #使用 libcurl
 
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets
@@ -58,6 +59,11 @@ CONFIG(debug, debug|release) {
     android {
         CODEC_LIBRARY += -lcpu-features
     }
+}
+
+!isEmpty(RABBITIM_USER_LIBCURL)
+{
+    LIBCURL_LIBRARY += -lcurl
 }
 
 !isEmpty(RABBITIM_USER_FFMPEG) {
@@ -144,7 +150,9 @@ android{
     }
 }
 
-LIBS += $$LDFLAGS $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY
+LIBS += $$LDFLAGS $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY \
+        $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY \
+        $$LIBCURL_LIBRARY
 
 DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
 

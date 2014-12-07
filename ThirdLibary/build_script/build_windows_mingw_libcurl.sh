@@ -11,13 +11,13 @@ fi
 if [ -n "$1" ]; then
     SOURCE_CODE=$1
 else
-    SOURCE_CODE=${PREFIX}/../src/libyuv
+    SOURCE_CODE=${PREFIX}/../src/libcurl
 fi
 
 #下载源码:
 if [ ! -d ${SOURCE_CODE} ]; then
-    echo "git clone http://git.chromium.org/external/libyuv.git"
-    git clone http://git.chromium.org/external/libyuv.git  ${SOURCE_CODE}
+    echo "git clone git://github.com/bagder/curl.git"
+    git clone git://github.com/bagder/curl.git  ${SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`
@@ -38,8 +38,8 @@ cmake .. \
     -G"Unix Makefiles" \
     -DCMAKE_INSTALL_PREFIX="$PREFIX" \
     -DCMAKE_BUILD_TYPE="Release" \
-    -DCURL_STATICLIB=ON \
-    -DBUILD_CURL_TESTS=OFF
+    -DBUILD_CURL_TESTS=OFF \
+    -DCURL_STATICLIB=ON
 cmake --build . --target install --config Release
 
 cd $CUR_DIR

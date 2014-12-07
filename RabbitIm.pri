@@ -65,7 +65,9 @@ SOURCES += main.cpp\
     Widgets/FrmCustom/ItemModelCustom.cpp \
     Widgets/DlgUservCard/DlgUservCard.cpp \ 
     Widgets/DlgAbout/DlgAbout.cpp \
-    Widgets/DlgOptions/DlgOptions.cpp
+    Widgets/DlgOptions/DlgOptions.cpp \
+    Update/Update.cpp \
+    Update/DownLoad.cpp
     
 
 HEADERS += MainWindow.h \
@@ -134,7 +136,9 @@ HEADERS += MainWindow.h \
     Widgets/FrmCustom/ItemModelCustom.h \
     Widgets/DlgUservCard/DlgUservCard.h \ 
     Widgets/DlgAbout/DlgAbout.h \
-    Widgets/DlgOptions/DlgOptions.h    
+    Widgets/DlgOptions/DlgOptions.h \    
+    Update/Update.h \
+    Update/DownLoad.h
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \

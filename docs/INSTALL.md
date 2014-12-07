@@ -82,8 +82,13 @@ cygwin主页：http://www.cygwin.org/
 当前使用版本:  
     git库版本 —— 55f490485bd58dc972de9e0333cdff005fce1251
 
-13. libyuv
+13. libyuv  
 下载:`svn checkout http://libyuv.googlecode.com/svn/trunk libyuv`
+
+14. [libcurl](http://curl.haxx.se)
+下载：`git://github.com/bagder/curl.git`  
+当前使用版本：  
+    git库版本 —— e17220ffcb34d1d8cb504ca79f4523fcb8ffd68a
 
 编译：
 -----

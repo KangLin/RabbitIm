@@ -84,7 +84,7 @@ CGroupChatQxmpp::CGroupChatQxmpp(QXmppMucRoom *pRoom, QObject *parent) :
 
     //请求权限  
     m_pRoom->requestPermissions();
-    //得到房间  
+    //得到房间信息  
     CClientXmpp* pClient = (CClientXmpp*)GET_CLIENT.data();
     QXmppDiscoveryManager *pDis = pClient->m_Client.findExtension<QXmppDiscoveryManager>();
     check = connect(pDis, SIGNAL(infoReceived(QXmppDiscoveryIq)),
