@@ -4,10 +4,11 @@
  * @date 2014-12-08
  *
  * @class CDownLoad DownLoad.h "Update/DownLoad.h"
- * 
- * 使用:  
- *     CDownLoadHandle h; 自定义一个处理实例  
- *     CDownLoad d;
+ * 注意:CDownLoad实例生命周期大于下载的生命周期,否则会阻塞调用线程.因为在析构函数中会等待所有线程退出  
+ * 使用:   
+ *     //从 CDownLoadHandle 派生一个类,自定义一个处理实例  
+ *     CDownLoadHandle h; 
+ *     CDownLoad d; //定义  
  *     d.Start("http://182.254.185.29/a", "a", &h, 20);
  */
 
@@ -20,6 +21,7 @@
 #include <mutex>
 #include <fstream>
 
+//下载处理类  
 class CDownLoadHandle
 {
 public:

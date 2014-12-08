@@ -18,7 +18,7 @@ CDownLoadHandle::~CDownLoadHandle()
 
 int CDownLoadHandle::OnProgress(double total, double now)
 {
-    LOG_MODEL_DEBUG("CDownLoadHandle", "Progress:%f%%", 100 * now / total);
+    LOG_MODEL_DEBUG("CDownLoadHandle", "thread id:0x%X; Progress:%f%%", std::this_thread::get_id(), 100 * now / total);
     return 0;
 }
 
@@ -121,10 +121,13 @@ double CDownLoad::GetFileLength(const std::string &szFile)
 
 int CDownLoad::GetRange(long &nStart, long &nEnd)
 {
-    if(m_nDownLoadPostion >= m_dbFileLength)
-        return -1;
-
     m_Mutex.lock();
+    if(m_nDownLoadPostion >= m_dbFileLength)
+    {
+        m_Mutex.unlock();
+        return -1;
+    }
+
     nStart = m_nDownLoadPostion;
     if(m_nDownLoadPostion + m_nBlockSize > m_dbFileLength)
         nEnd = nStart + m_dbFileLength - m_nDownLoadPostion - 1;
@@ -146,6 +149,7 @@ int CDownLoad::Work(void *pPara)
     process.pThis = pDownLoad;
     while(0 == pDownLoad->GetRange(file.start, file.end))
     {
+        LOG_MODEL_DEBUG("CDownLoad", "thread id:0x%X", std::this_thread::get_id());
         std::string szRange;
         char range[64] = { 0 };
        #ifdef WIN32
@@ -239,6 +243,8 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
     if(m_dbFileLength <= 0)
         return -3;
     m_nBlockSize = m_dbFileLength / nNumThread;
+    if(m_nBlockSize < 10240)
+        m_nBlockSize = 10240;
 
     m_nDownLoadPostion = 0;
     m_dbAlready = 0;
