@@ -4,6 +4,11 @@
  * @date 2014-12-08
  *
  * @class CDownLoad DownLoad.h "Update/DownLoad.h"
+ * 
+ * 使用:  
+ *     CDownLoadHandle h; 自定义一个处理实例  
+ *     CDownLoad d;
+ *     d.Start("http://182.254.185.29/a", "a", &h, 20);
  */
 
 #ifndef DOWNLOAD_H
@@ -49,6 +54,7 @@ public:
     int GetRange(long &nStart, long &nEnd);
     static size_t Write(void *buffer, size_t size, size_t nmemb, void *para);
     static int Work(void *pPara);
+    static int Main(void *pPara);
     static int progress_callback(void *clientp,   double dltotal,   double dlnow,   double ultotal,   double ulnow); 
     std::string m_szUrl;                       //下载地址  
     std::string m_szFile;                      //保存到本地文件  
@@ -58,7 +64,8 @@ public:
     std::mutex m_MutexAlready;    //已经下载的长度互斥量  
     double m_nBlockSize;                  //一个线程下载块的大小  
     double m_nDownLoadPostion; //将要下载的位置  
-    std::vector<std::thread> m_Threads;
+    int m_nNumberThreads;             //下载线程数  
+    std::thread m_MainThread;       //下载主线程,用于等待同步下载线程  
     std::mutex m_Mutex;
     CDownLoadHandle* m_pHandle;
     int m_nErrorCode;

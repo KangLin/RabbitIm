@@ -35,6 +35,7 @@ struct _FILE_STRUCT {
   CDownLoad* pThis;
 };
 
+//处理回调函数的数据结构  
 struct _PROCESS_STRUCT{
     long nAlready;//已经下载过的长度  
     CDownLoad* pThis;
@@ -48,12 +49,14 @@ CDownLoad::CDownLoad(const std::string &szUrl, const std::string &szFile, CDownL
     m_nDownLoadPostion = 0;
     m_dbAlready = 0;
     m_nBlockSize = 0;
+    m_nNumberThreads = 0;
     m_pHandle = pHandle;
     curl_global_init(CURL_GLOBAL_DEFAULT);
 }
 
 CDownLoad::~CDownLoad()
 {
+    m_MainThread.join();
     curl_global_cleanup();
 }
 
@@ -239,6 +242,7 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
 
     m_nDownLoadPostion = 0;
     m_dbAlready = 0;
+    m_nNumberThreads = nNumThread;
 
     if(pHandle)
         m_pHandle = pHandle;
@@ -248,14 +252,22 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
 	if (!m_streamFile)
 		return -4;
 
-    //启动线程  
-    for(int i = 0; i < nNumThread; i++)
-        m_Threads.push_back(std::thread(Work, this));
+    m_MainThread = std::thread(Main, this);
 
-    for (auto& th : m_Threads) th.join();
-	m_streamFile.close();
-	m_streamFile.clear();
+    return 0;
+}
+
+int CDownLoad::Main(void *pPara)
+{
+    CDownLoad* p = (CDownLoad*)pPara;
+    std::vector<std::thread> threads;
+    //启动线程  
+    for(int i = 0; i < p->m_nNumberThreads; i++)
+        threads.push_back(std::thread(Work, p));
+
+    for (auto& th : threads) th.join();
+	p->m_streamFile.close();
+	p->m_streamFile.clear();
 
     LOG_MODEL_DEBUG("CDownLoad", "download end");
-    return 0;
 }
