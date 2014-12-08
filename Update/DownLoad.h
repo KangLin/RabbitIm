@@ -33,10 +33,10 @@ public:
 class CDownLoad
 {
 public:
-    CDownLoad(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), int nBlockSize = 1428, CDownLoadHandle* pHandle = NULL);
+    CDownLoad(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle* pHandle = NULL);
     virtual ~CDownLoad();
-    int Start(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle *pHandle = NULL, int nNumThread = 10, int nBlockSize = 1428);
-    int Start(const char* pUrl, const char* pFile, CDownLoadHandle *pHandle = NULL, int nNumThread = 10, int nBlockSize = 1428);
+    int Start(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle *pHandle = NULL, int nNumThread = 10);
+    int Start(const char* pUrl, const char* pFile, CDownLoadHandle *pHandle = NULL, int nNumThread = 10);
 
     /**
      * @brief 得到文件的长度  

@@ -40,13 +40,14 @@ struct _PROCESS_STRUCT{
     CDownLoad* pThis;
 };
 
-CDownLoad::CDownLoad(const std::string &szUrl, const std::string &szFile, int nBlockSize, CDownLoadHandle *pHandle)
+CDownLoad::CDownLoad(const std::string &szUrl, const std::string &szFile, CDownLoadHandle *pHandle)
 {
     m_szUrl = szUrl;
     m_szFile = szFile;
     m_dbFileLength = 0;
     m_nDownLoadPostion = 0;
-    m_nBlockSize = nBlockSize;
+    m_dbAlready = 0;
+    m_nBlockSize = 0;
     m_pHandle = pHandle;
     curl_global_init(CURL_GLOBAL_DEFAULT);
 }
@@ -155,6 +156,7 @@ int CDownLoad::Work(void *pPara)
         pCurl = curl_easy_init();
         if(!pCurl)
             return -1;
+
         /*
        * You better replace the URL with one that works!
        */
@@ -167,7 +169,7 @@ int CDownLoad::Work(void *pPara)
         //curl_easy_setopt (pCurl, CURLOPT_LOW_SPEED_LIMIT, 1L);  
         //curl_easy_setopt (pCurl, CURLOPT_LOW_SPEED_TIME, 5L);  
         //设置下载区间  
-        curl_easy_setopt (pCurl, CURLOPT_RANGE, szRange.c_str());  
+        curl_easy_setopt (pCurl, CURLOPT_RANGE, szRange.c_str());
         //设置处理进度函数  
         curl_easy_setopt(pCurl, CURLOPT_NOPROGRESS, 0L);
         curl_easy_setopt(pCurl, CURLOPT_PROGRESSFUNCTION, CDownLoad::progress_callback);
@@ -178,10 +180,10 @@ int CDownLoad::Work(void *pPara)
         curl_easy_setopt(pCurl, CURLOPT_VERBOSE, 1L);
 #endif
         res = curl_easy_perform(pCurl);
-        
+
         /* always cleanup */
         curl_easy_cleanup(pCurl);
-        
+
         if(CURLE_OK != res) {
             /* we failed */
             LOG_MODEL_ERROR("CDownLoad", "curl told us %d\n", res);
@@ -203,16 +205,17 @@ int CDownLoad::progress_callback(void *clientp, double dltotal, double dlnow, do
     pThis->m_MutexAlready.lock();
     pThis->m_dbAlready += (dlnow - p->nAlready);
     pThis->m_MutexAlready.unlock();
+    p->nAlready = dlnow;
     return pThis->m_pHandle->OnProgress(pThis->m_dbFileLength, pThis->m_dbAlready);
 }
 
-int CDownLoad::Start(const char *pUrl, const char *pFile, CDownLoadHandle *pHandle, int nNumThread, int nBlockSize)
+int CDownLoad::Start(const char *pUrl, const char *pFile, CDownLoadHandle *pHandle, int nNumThread)
 {
     std::string szUrl(pUrl), szFile(pFile);
-    return Start(szUrl, szFile, pHandle, nNumThread, nBlockSize);
+    return Start(szUrl, szFile, pHandle, nNumThread);
 }
 
-int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownLoadHandle *pHandle, int nNumThread, int nBlockSize)
+int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownLoadHandle *pHandle, int nNumThread)
 {
     if(!szUrl.empty())
         m_szUrl = szUrl;
@@ -232,8 +235,10 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
     m_dbFileLength = GetFileLength(m_szUrl);
     if(m_dbFileLength <= 0)
         return -3;
-    m_nBlockSize = nBlockSize;
+    m_nBlockSize = m_dbFileLength / nNumThread;
+
     m_nDownLoadPostion = 0;
+    m_dbAlready = 0;
 
     if(pHandle)
         m_pHandle = pHandle;
