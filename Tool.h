@@ -10,6 +10,7 @@ extern "C" {
 #include "libswscale/swscale.h"
 }
 
+#include <string>
 #include <QWidget>
 #include <QVideoFrame>
 #include "qxmpp/QXmppRtpChannel.h"
@@ -139,6 +140,7 @@ public:
     static int SetWindowsGeometry(QWidget* pWindow);
     
     static QString FileDialog(QWidget* pParent, const QString &szDir, const QString &szFilter, const QString &szTilte = tr("Save"));
+    static std::string DoubleToString(double d);
 signals:
 
 public slots:

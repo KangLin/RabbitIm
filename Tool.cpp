@@ -7,6 +7,7 @@
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QFileDialog>
+#include <sstream>
 
 CTool::CTool(QObject *parent) :
     QObject(parent)
@@ -507,4 +508,14 @@ QString CTool::FileDialog(QWidget *pParent, const QString &szDir, const QString 
         return szFile;
     szFile = *fileNames.begin();
     return szFile;
+}
+
+std::string CTool::DoubleToString(double d)
+{
+    //Need #include <sstream>
+    std::string str;
+    std::stringstream ss;
+    ss<<d;
+    ss>>str;
+    return str;
 }

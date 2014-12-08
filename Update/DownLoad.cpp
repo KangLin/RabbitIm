@@ -1,6 +1,7 @@
 #include "DownLoad.h"
 #include <stdio.h>
 #include <curl/curl.h>
+#include <sstream>
 
 #ifdef RABBITIM_USER_LIBCURL
 	#include "Global/Global.h"
@@ -9,19 +10,44 @@
 	#define LOG_MODEL_DEBUG(mod, fmt, ...) printf(fmt, ##__VA_ARGS__);
 #endif
 
+CDownLoadHandle::CDownLoadHandle()
+{}
+
+CDownLoadHandle::~CDownLoadHandle()
+{}
+
+int CDownLoadHandle::OnProgress(double total, double now)
+{
+    LOG_MODEL_DEBUG("CDownLoadHandle", "Progress:%f%%", 100 * now / total);
+    return 0;
+}
+
+int CDownLoadHandle::OnEnd(int nErrorCode)
+{
+    LOG_MODEL_DEBUG("CDownLoadHandle", "End.errcode:%d", nErrorCode);
+    return 0;
+}
+
+//文件写入回调函数的数据结构  
 struct _FILE_STRUCT {
   long start;
   long end;
   CDownLoad* pThis;
 };
 
-CDownLoad::CDownLoad(const std::string &szUrl, const std::string &szFile)
+struct _PROCESS_STRUCT{
+    long nAlready;//已经下载过的长度  
+    CDownLoad* pThis;
+};
+
+CDownLoad::CDownLoad(const std::string &szUrl, const std::string &szFile, int nBlockSize, CDownLoadHandle *pHandle)
 {
     m_szUrl = szUrl;
     m_szFile = szFile;
-    m_FileLength = 0;
+    m_dbFileLength = 0;
     m_nDownLoadPostion = 0;
-    m_nBlockSize = 10240;
+    m_nBlockSize = nBlockSize;
+    m_pHandle = pHandle;
     curl_global_init(CURL_GLOBAL_DEFAULT);
 }
 
@@ -32,38 +58,41 @@ CDownLoad::~CDownLoad()
 
 size_t CDownLoad::Write(void *buffer, size_t size, size_t nmemb, void *para)
 {
-  struct _FILE_STRUCT *out=(struct _FILE_STRUCT *)para;
-  if(!out || !out->pThis->m_streamFile)
+  struct _FILE_STRUCT *out = (struct _FILE_STRUCT *)para;
+  if(!out || !out->pThis->m_streamFile || out->start >= out->end)
   {
       return -1; /* failure, can't open file to write */
   }
+  LOG_MODEL_ERROR("CDownLoad", "write:size%d,start:%d,end:%d", size * nmemb, out->start, out->end);
   size_t nWrite = 0;
-  if(out->start + size * nmemb > out->end)
+  if(size * nmemb > out->end - out->start + 1)
   {
+      //理论上不会进入这里   
       LOG_MODEL_ERROR("CDownLoad", "buffer Greater than end");
       out->pThis->m_Mutex.lock();
       out->pThis->m_streamFile.seekp(out->start, std::ios::beg);
-      nWrite = out->pThis->m_streamFile.write((const char*)buffer, out->end - out->start).tellp();
-      out->pThis->m_Mutex.unlock();
+      nWrite = out->pThis->m_streamFile.write((const char*)buffer, out->end - out->start + 1).tellp() - out->start;
       out->start += nWrite;
+      out->pThis->m_Mutex.unlock();
   }
   else
   {
       out->pThis->m_Mutex.lock();
       out->pThis->m_streamFile.seekp(out->start, std::ios::beg);
-      nWrite = out->pThis->m_streamFile.write((const char*)buffer, size * nmemb).tellp();
-      out->pThis->m_Mutex.unlock();
+      nWrite = out->pThis->m_streamFile.write((const char*)buffer, size * nmemb).tellp() - out->start;
       out->start += nWrite;
+      out->pThis->m_Mutex.unlock();
   }
+  LOG_MODEL_ERROR("CDownLoad", "write:size:%d", nWrite);
   return nWrite;
 }
 
 /************************************************************************/
 /* 获取要下载的远程文件的大小                                                */
 /************************************************************************/
-long CDownLoad::GetFileLength(const std::string &szFile)
+double CDownLoad::GetFileLength(const std::string &szFile)
 {
-    long nLength = -1;
+    double nLength = 0;
     CURL *pCurl;
     pCurl = curl_easy_init();
     if(!pCurl)
@@ -73,9 +102,14 @@ long CDownLoad::GetFileLength(const std::string &szFile)
     curl_easy_setopt (pCurl, CURLOPT_NOBODY, 1);    //不需要body  
     curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, 20);        //设置超时  
     curl_easy_setopt(pCurl, CURLOPT_NOSIGNAL, 1);        //屏蔽其它信号  
+#ifdef DEBUG
+        /* Switch on full protocol/debug output */
+        curl_easy_setopt(pCurl, CURLOPT_VERBOSE, 1L);
+#endif
     if (curl_easy_perform (pCurl) == CURLE_OK)
     {
         curl_easy_getinfo (pCurl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &nLength);
+        LOG_MODEL_DEBUG("CDownLoad", "length:%f", nLength);
     }
     curl_easy_cleanup(pCurl);
     return nLength;
@@ -83,37 +117,40 @@ long CDownLoad::GetFileLength(const std::string &szFile)
 
 int CDownLoad::GetRange(long &nStart, long &nEnd)
 {
-    if(m_nDownLoadPostion >= m_FileLength)
+    if(m_nDownLoadPostion >= m_dbFileLength)
         return -1;
 
     m_Mutex.lock();
     nStart = m_nDownLoadPostion;
-    if(m_nDownLoadPostion + m_nBlockSize > m_FileLength)
-        nEnd = m_FileLength - m_nDownLoadPostion;
+    if(m_nDownLoadPostion + m_nBlockSize > m_dbFileLength)
+        nEnd = nStart + m_dbFileLength - m_nDownLoadPostion - 1;
     else
-        nEnd = nStart + m_nBlockSize;
-    m_nDownLoadPostion = nEnd;
+        nEnd = nStart + m_nBlockSize - 1;
+    m_nDownLoadPostion = nEnd + 1;
     m_Mutex.unlock();
-    
+
     return 0;
 }
 
 int CDownLoad::Work(void *pPara)
 {
-    _FILE_STRUCT file;
+    CURLcode res;
+    _FILE_STRUCT file{0};
+    _PROCESS_STRUCT process{0};
     CDownLoad* pDownLoad = (CDownLoad*)pPara;
     file.pThis = pDownLoad;
+    process.pThis = pDownLoad;
     while(0 == pDownLoad->GetRange(file.start, file.end))
     {
         std::string szRange;
-        char range[64] = { 0 };  
-#ifdef WIN32
-        _snprintf_s(range, sizeof (range), "%ld-%ld", file.start, file.end);
-#else
-        snprintf (range, sizeof (range), "%ld-%ld", file.start, file.end);
-#endif
-        szRange = range;
-        
+        char range[64] = { 0 };
+       #ifdef WIN32
+       _snprintf_s(range, sizeof (range), "%ld-%ld", file.start, file.end);
+       #else
+       snprintf (range, sizeof (range), "%ld-%ld", file.start, file.end);
+       #endif
+       szRange = range;
+
         CURL *pCurl;
         pCurl = curl_easy_init();
         if(!pCurl)
@@ -131,12 +168,16 @@ int CDownLoad::Work(void *pPara)
         //curl_easy_setopt (pCurl, CURLOPT_LOW_SPEED_TIME, 5L);  
         //设置下载区间  
         curl_easy_setopt (pCurl, CURLOPT_RANGE, szRange.c_str());  
-        
+        //设置处理进度函数  
+        curl_easy_setopt(pCurl, CURLOPT_NOPROGRESS, 0L);
+        curl_easy_setopt(pCurl, CURLOPT_PROGRESSFUNCTION, CDownLoad::progress_callback);
+        curl_easy_setopt(pCurl, CURLOPT_PROGRESSDATA, &process);
+
 #ifdef DEBUG
         /* Switch on full protocol/debug output */
         curl_easy_setopt(pCurl, CURLOPT_VERBOSE, 1L);
 #endif
-        CURLcode res = curl_easy_perform(pCurl);
+        res = curl_easy_perform(pCurl);
         
         /* always cleanup */
         curl_easy_cleanup(pCurl);
@@ -146,16 +187,32 @@ int CDownLoad::Work(void *pPara)
             LOG_MODEL_ERROR("CDownLoad", "curl told us %d\n", res);
         }
     }
+
+    if(0 == pDownLoad->m_nErrorCode)
+        pDownLoad->m_nErrorCode = res;
+
     return 0;
 }
 
-int CDownLoad::Start(const char *pUrl, const char *pFile, int nNumThread, int nBlockSize)
+int CDownLoad::progress_callback(void *clientp, double dltotal, double dlnow, double ultotal, double ulnow)
 {
-    std::string szUrl(pUrl), szFile(pFile);
-    return Start(szUrl, szFile, nNumThread, nBlockSize);
+    _PROCESS_STRUCT* p = (_PROCESS_STRUCT*)clientp;
+    CDownLoad* pThis = p->pThis;
+    if(NULL == pThis->m_pHandle)
+        return 0;
+    pThis->m_MutexAlready.lock();
+    pThis->m_dbAlready += (dlnow - p->nAlready);
+    pThis->m_MutexAlready.unlock();
+    return pThis->m_pHandle->OnProgress(pThis->m_dbFileLength, pThis->m_dbAlready);
 }
 
-int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, int nNumThread, int nBlockSize)
+int CDownLoad::Start(const char *pUrl, const char *pFile, CDownLoadHandle *pHandle, int nNumThread, int nBlockSize)
+{
+    std::string szUrl(pUrl), szFile(pFile);
+    return Start(szUrl, szFile, pHandle, nNumThread, nBlockSize);
+}
+
+int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownLoadHandle *pHandle, int nNumThread, int nBlockSize)
 {
     if(!szUrl.empty())
         m_szUrl = szUrl;
@@ -166,17 +223,20 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, int nN
         m_szFile = szFile;
     if(m_szFile.empty())
         return -2;
-	if(!m_streamFile)
+    if(!m_streamFile)
 	{
-		m_streamFile.close();
-		m_streamFile.clear();
+        m_streamFile.close();
+        m_streamFile.clear();
 	}
 
-    m_FileLength = GetFileLength(m_szUrl);
-    if(m_FileLength <= 0)
+    m_dbFileLength = GetFileLength(m_szUrl);
+    if(m_dbFileLength <= 0)
         return -3;
     m_nBlockSize = nBlockSize;
     m_nDownLoadPostion = 0;
+
+    if(pHandle)
+        m_pHandle = pHandle;
 
     //打开文件  
 	m_streamFile.open(m_szFile.c_str());

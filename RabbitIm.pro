@@ -63,6 +63,7 @@ CONFIG(debug, debug|release) {
 
 !isEmpty(RABBITIM_USER_LIBCURL)
 {
+    DEFINES += RABBITIM_USER_LIBCURL
     LIBCURL_LIBRARY += -lcurl
 }
 
