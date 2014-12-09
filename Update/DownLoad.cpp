@@ -41,7 +41,8 @@ struct _PROCESS_STRUCT{
     CDownLoad* pThis;
 };
 
-CDownLoad::CDownLoad(const std::string &szUrl, const std::string &szFile, CDownLoadHandle *pHandle)
+CDownLoad::CDownLoad(const std::string &szUrl, const std::string &szFile, CDownLoadHandle *pHandle):
+    m_nBlockSizeMin(10240)
 {
     m_szUrl = szUrl;
     m_szFile = szFile;
@@ -63,31 +64,35 @@ CDownLoad::~CDownLoad()
 size_t CDownLoad::Write(void *buffer, size_t size, size_t nmemb, void *para)
 {
   struct _FILE_STRUCT *out = (struct _FILE_STRUCT *)para;
-  if(!out || !out->pThis->m_streamFile || out->start >= out->end)
+  if(!out ||
+	  !out->pThis ||
+	  !out->pThis->m_streamFile || 
+	  out->start >= out->end
+	  )
   {
       return -1; /* failure, can't open file to write */
   }
   LOG_MODEL_ERROR("CDownLoad", "write:size%d,start:%d,end:%d",
                   size * nmemb, out->start, out->end);
-  size_t nWrite = 0;
+
+  CDownLoad* pThis = out->pThis;
+
   std::streamoff pos;
-  std::streamsize nSize = size * nmemb;
-  if(size * nmemb > out->end - out->start + 1)
+  size_t nWrite = size * nmemb;
+  std::streamsize nSize = nWrite;
+  if(nWrite > out->end - out->start + 1)
   {
       //理论上不会进入这里   
       LOG_MODEL_ERROR("CDownLoad", "buffer Greater than end");
   }
-  else
-  {
-      nSize = size * nmemb;
-  }
 
-  out->pThis->m_Mutex.lock();
-  out->pThis->m_streamFile.seekp(out->start, std::ios::beg);
-  pos = out->pThis->m_streamFile.write((const char*)buffer, nSize).tellp();
-  nWrite = pos -out->start;
+  pThis->m_Mutex.lock();
+  pThis->m_streamFile.seekp(out->start, std::ios::beg);
+  pos = pThis->m_streamFile.write((const char*)buffer, nSize).tellp();
+  pThis->m_Mutex.unlock();
+
+  nWrite = pos - out->start;
   out->start += nWrite;
-  out->pThis->m_Mutex.unlock();
 
   LOG_MODEL_ERROR("CDownLoad", "write:size:%d", nWrite);
   return nWrite;
@@ -245,8 +250,8 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
     if(m_dbFileLength <= 0)
         return -3;
     m_nBlockSize = m_dbFileLength / nNumThread;
-    if(m_nBlockSize < 10240)
-        m_nBlockSize = 10240;
+    if(m_nBlockSize < m_nBlockSizeMin)
+        m_nBlockSize = m_nBlockSizeMin;
 
     m_nDownLoadPostion = 0;
     m_dbAlready = 0;
@@ -255,8 +260,9 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
     if(pHandle)
         m_pHandle = pHandle;
 
-    //打开文件  
-	m_streamFile.open(m_szFile.c_str());
+    //打开文件
+    //注意：一定要以二进制模式打开，否则可能写入的数量大于缓存的数量  
+	m_streamFile.open(m_szFile, std::ios_base::out | std::ios_base::trunc | std::ios::binary);
 	if (!m_streamFile)
 		return -4;
 

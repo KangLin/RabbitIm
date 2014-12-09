@@ -65,6 +65,7 @@ public:
     double m_dbAlready;                   //已经下载的长度  
     std::mutex m_MutexAlready;    //已经下载的长度互斥量  
     double m_nBlockSize;                  //一个线程下载块的大小  
+    const int m_nBlockSizeMin;                 //块的最小值  
     double m_nDownLoadPostion; //将要下载的位置  
     int m_nNumberThreads;             //下载线程数  
     std::thread m_MainThread;       //下载主线程,用于等待同步下载线程  
