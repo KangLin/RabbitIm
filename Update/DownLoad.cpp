@@ -67,26 +67,28 @@ size_t CDownLoad::Write(void *buffer, size_t size, size_t nmemb, void *para)
   {
       return -1; /* failure, can't open file to write */
   }
-  LOG_MODEL_ERROR("CDownLoad", "write:size%d,start:%d,end:%d", size * nmemb, out->start, out->end);
+  LOG_MODEL_ERROR("CDownLoad", "write:size%d,start:%d,end:%d",
+                  size * nmemb, out->start, out->end);
   size_t nWrite = 0;
+  std::streamoff pos;
+  std::streamsize nSize = size * nmemb;
   if(size * nmemb > out->end - out->start + 1)
   {
       //理论上不会进入这里   
       LOG_MODEL_ERROR("CDownLoad", "buffer Greater than end");
-      out->pThis->m_Mutex.lock();
-      out->pThis->m_streamFile.seekp(out->start, std::ios::beg);
-      nWrite = out->pThis->m_streamFile.write((const char*)buffer, out->end - out->start + 1).tellp() - out->start;
-      out->start += nWrite;
-      out->pThis->m_Mutex.unlock();
   }
   else
   {
-      out->pThis->m_Mutex.lock();
-      out->pThis->m_streamFile.seekp(out->start, std::ios::beg);
-      nWrite = out->pThis->m_streamFile.write((const char*)buffer, size * nmemb).tellp() - out->start;
-      out->start += nWrite;
-      out->pThis->m_Mutex.unlock();
+      nSize = size * nmemb;
   }
+
+  out->pThis->m_Mutex.lock();
+  out->pThis->m_streamFile.seekp(out->start, std::ios::beg);
+  pos = out->pThis->m_streamFile.write((const char*)buffer, nSize).tellp();
+  nWrite = pos -out->start;
+  out->start += nWrite;
+  out->pThis->m_Mutex.unlock();
+
   LOG_MODEL_ERROR("CDownLoad", "write:size:%d", nWrite);
   return nWrite;
 }
@@ -104,8 +106,8 @@ double CDownLoad::GetFileLength(const std::string &szFile)
     curl_easy_setopt (pCurl, CURLOPT_URL, szFile.c_str());
     curl_easy_setopt (pCurl, CURLOPT_HEADER, 1);    //只需要header头  
     curl_easy_setopt (pCurl, CURLOPT_NOBODY, 1);    //不需要body  
-    curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, 20);        //设置超时  
-    curl_easy_setopt(pCurl, CURLOPT_NOSIGNAL, 1);        //屏蔽其它信号  
+    curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, 20);   //设置超时  
+    curl_easy_setopt(pCurl, CURLOPT_NOSIGNAL, 1);   //屏蔽其它信号  
 #ifdef DEBUG
         /* Switch on full protocol/debug output */
         curl_easy_setopt(pCurl, CURLOPT_VERBOSE, 1L);
@@ -276,4 +278,5 @@ int CDownLoad::Main(void *pPara)
 	p->m_streamFile.clear();
 
     LOG_MODEL_DEBUG("CDownLoad", "download end");
+	return 0;
 }
