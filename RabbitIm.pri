@@ -165,8 +165,7 @@ RESOURCES += \
     HEADERS += Widgets/FrmVideo/CameraOpencv.h 
 }
 
-!isEmpty(RABBITIM_USER_LIBCURL)
-{
+!isEmpty(RABBITIM_USER_LIBCURL){
     SOURCES += Update/Update.cpp \
     Update/DownLoad.cpp \
     Update/DownLoadHandle.cpp

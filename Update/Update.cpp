@@ -3,10 +3,6 @@
 #include <QDir>
 #include "Version.h"
 
-#ifndef RABBITIM_USER_LIBCURL
-#error "Don't RABBITIM_USER_LIBCURL=1";
-#endif
-
 CUpdate::CUpdate()
 {
     QString szFile = "Update_";

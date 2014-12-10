@@ -29,7 +29,7 @@ win32{
 }
 
 
-CONFIG   += c++11
+CONFIG += c++11
 
 #预编译
 #CONFIG += precompiled_header
@@ -61,8 +61,7 @@ CONFIG(debug, debug|release) {
     }
 }
 
-!isEmpty(RABBITIM_USER_LIBCURL)
-{
+!isEmpty(RABBITIM_USER_LIBCURL){
     DEFINES += RABBITIM_USER_LIBCURL
     LIBCURL_LIBRARY = -lcurl
 }
@@ -100,8 +99,7 @@ android{
         DEPENDPATH += $$PWD/ThirdLibary/windows_mingw/include $$WEBRTC_ROOT
         LIBS += -L$$PWD/ThirdLibary/windows_mingw/lib
 
-        !isEmpty(RABBITIM_USER_LIBCURL)
-        {
+        !isEmpty(RABBITIM_USER_LIBCURL){
             LIBCURL_LIBRARY = $$PWD/ThirdLibary/windows_mingw/lib/libcurl_imp.lib
         }
     }

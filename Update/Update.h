@@ -1,10 +1,6 @@
 #ifndef UPDATE_H
 #define UPDATE_H
 
-#ifndef RABBITIM_USER_LIBCURL
-#error "Don't RABBITIM_USER_LIBCURL=1";
-#endif
-
 #include "DownLoadHandle.h"
 #include <string>
 #include <QString>
