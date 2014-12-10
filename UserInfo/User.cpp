@@ -4,7 +4,7 @@
 
 CUser::CUser(QObject *parent) :
     QObject(parent),
-    m_Message(new CMessage)
+    m_Message(new CManageMessage)
 {
 #ifdef QXMPP
     QSharedPointer<CUserInfo> Info = QSharedPointer<CUserInfo>(new CUserInfoXmpp);
@@ -24,7 +24,7 @@ QSharedPointer<CUserInfo> CUser::GetInfo()
     return m_Info;
 }
 
-QSharedPointer<CMessage> CUser::GetMessage()
+QSharedPointer<CManageMessage> CUser::GetMessage()
 {
     return m_Message;
 }

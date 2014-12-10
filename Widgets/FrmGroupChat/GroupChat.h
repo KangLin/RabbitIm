@@ -2,7 +2,7 @@
 #define GROUPCHAT_H
 
 #include <QObject>
-#include "Message/Message.h"
+#include "Message/ManageMessage.h"
 #include <QIcon>
 
 class CGroupChat : public QObject
@@ -41,7 +41,7 @@ public:
 
     virtual QString Password();
     virtual int SetPassword(const QString &szPassword);
-    virtual QSharedPointer<CMessage> GetMessage();
+    virtual QSharedPointer<CManageMessage> GetMessage();
     
     enum Condition
     {
@@ -81,7 +81,7 @@ signals:
 
 public slots:
 private:
-    QSharedPointer<CMessage> m_Message;
+    QSharedPointer<CManageMessage> m_Message;
     Condition m_Condition;
     QString m_szPassword;
 };

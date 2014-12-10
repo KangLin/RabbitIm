@@ -2,7 +2,7 @@
 
 CGroupChat::CGroupChat(QObject *parent) :
     QObject(parent), 
-    m_Message(new CMessage())
+    m_Message(new CManageMessage())
 {
     m_Condition = NoError;
 }
@@ -18,7 +18,7 @@ int CGroupChat::SetPassword(const QString &szPassword)
     return 0;
 }
 
-QSharedPointer<CMessage> CGroupChat::GetMessage()
+QSharedPointer<CManageMessage> CGroupChat::GetMessage()
 {
     return m_Message;
 }

@@ -6,6 +6,10 @@
 #include <QApplication>
 #include <QTranslator>
 
+#ifdef RABBITIM_USER_LIBCURL
+#include "Update/Update.h"
+#endif
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

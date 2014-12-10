@@ -154,7 +154,7 @@ void CGroupChatQxmpp::slotMessageReceived(const QXmppMessage &message)
         if(QXmppUtils::jidToBareJid(m_pRoom->participantFullJid(szJid)) == USER_INFO_LOCALE->GetInfo()->GetId())
             return;
         //组消息  
-        QSharedPointer<CMessage> msg = GetMessage();
+        QSharedPointer<CManageMessage> msg = GetMessage();
         QSharedPointer<CChatActionGroupChat> cgc(new CChatActionGroupChat(Id(), message.body(), szJid, QTime::currentTime(), false));
         msg->AddMessage(cgc);
         GET_MAINWINDOW->ShowTrayIconMessage(this->ParticipantNick(szJid) + ":", message.body());
@@ -355,7 +355,7 @@ int CGroupChatQxmpp::SendMessage(const QString &szMsg)
 {
     RABBITIM_ASSERT(m_pRoom, -1);
     m_pRoom->sendMessage(szMsg);
-    QSharedPointer<CMessage> msg = GetMessage();
+    QSharedPointer<CManageMessage> msg = GetMessage();
     QSharedPointer<CChatActionGroupChat> cgc(new CChatActionGroupChat(Id(), szMsg, QString(), QTime::currentTime(), true));
     msg->AddMessage(cgc);
     emit GETMANAGER->GetManageGroupChat()->sigUpdateMessage(Id());

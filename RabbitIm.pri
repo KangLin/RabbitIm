@@ -21,7 +21,6 @@ SOURCES += main.cpp\
     Widgets/FrmCustom/MenuMessageSend.cpp \ 
     Manager/ManageMessageDialogBigScreen.cpp \
     Widgets/FrmMessage/FrmContainer.cpp \
-    Message/Message.cpp \
     Message/ChatActions/ChatAction.cpp \
     Message/ChatActions/MessageAction.cpp \
     UserInfo/User.cpp \
@@ -65,7 +64,8 @@ SOURCES += main.cpp\
     Widgets/FrmCustom/ItemModelCustom.cpp \
     Widgets/DlgUservCard/DlgUservCard.cpp \ 
     Widgets/DlgAbout/DlgAbout.cpp \
-    Widgets/DlgOptions/DlgOptions.cpp 
+    Widgets/DlgOptions/DlgOptions.cpp \  
+    Message/ManageMessage.cpp
 
 HEADERS += Version.h \
     MainWindow.h \
@@ -89,7 +89,6 @@ HEADERS += Version.h \
     Widgets/FrmMessage/FrmMessage.h \
     Manager/ManageMessageDialogBigScreen.h \
     Widgets/FrmMessage/FrmContainer.h \
-    Message/Message.h \
     Message/SmileyPack.h \
     Message/ChatActions/ChatAction.h \
     Message/ChatActions/MessageAction.h \
@@ -133,7 +132,8 @@ HEADERS += Version.h \
     Widgets/FrmCustom/ItemModelCustom.h \
     Widgets/DlgUservCard/DlgUservCard.h \ 
     Widgets/DlgAbout/DlgAbout.h \
-    Widgets/DlgOptions/DlgOptions.h 
+    Widgets/DlgOptions/DlgOptions.h \ 
+    Message/ManageMessage.h
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \

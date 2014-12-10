@@ -7,12 +7,12 @@
 #include "ChatActions/ChatAction.h"
 #include <vector>
 
-class CMessage : public QObject
+class CManageMessage : public QObject
 {
     Q_OBJECT
 public:
-    explicit CMessage(QObject *parent = 0);
-    virtual ~CMessage();
+    explicit CManageMessage(QObject *parent = 0);
+    virtual ~CManageMessage();
 
     ///< 得到未读消息数  
     int GetUnReadCount();

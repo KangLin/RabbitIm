@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QSharedPointer>
 #include "UserInfo.h"
-#include "Message/Message.h"
+#include "Message/ManageMessage.h"
 
 #undef GetMessage
 
@@ -16,14 +16,14 @@ public:
     virtual ~CUser();
 
     QSharedPointer<CUserInfo> GetInfo();
-    QSharedPointer<CMessage> GetMessage();
+    QSharedPointer<CManageMessage> GetMessage();
 
 signals:
 
 public slots:
 private:
     QSharedPointer<CUserInfo> m_Info;
-    QSharedPointer<CMessage> m_Message;
+    QSharedPointer<CManageMessage> m_Message;
 };
 
 #endif // USER_H

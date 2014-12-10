@@ -1,25 +1,25 @@
-#include "Message.h"
+#include "ManageMessage.h"
 #include "ChatActions/MessageAction.h"
 #include "Global/Global.h"
 
-CMessage::CMessage(QObject *parent) :
+CManageMessage::CManageMessage(QObject *parent) :
     QObject(parent)
 {
     m_nUnreadCount = 0;
 }
 
-CMessage::~CMessage()
+CManageMessage::~CManageMessage()
 {
     m_Message.clear();
     LOG_MODEL_DEBUG("CMessage", "CMessage::~CMessage");
 }
 
-int CMessage::GetUnReadCount()
+int CManageMessage::GetUnReadCount()
 {
     return m_nUnreadCount;
 }
 
-QSharedPointer<CChatAction> CMessage::AddMessage(const QString& szId, 
+QSharedPointer<CChatAction> CManageMessage::AddMessage(const QString& szId, 
                                                  const QString &szMessage,
                                                  const bool bMe, const QTime time)
 {
@@ -29,14 +29,14 @@ QSharedPointer<CChatAction> CMessage::AddMessage(const QString& szId,
     return chat;
 }
 
-int CMessage::AddMessage(QSharedPointer<CChatAction> chatAction)
+int CManageMessage::AddMessage(QSharedPointer<CChatAction> chatAction)
 {
     m_Message.push_back(chatAction);
     m_nUnreadCount++;
     return 0;
 }
 
-std::vector<QSharedPointer<CChatAction> > CMessage::GetUnreadMessage()
+std::vector<QSharedPointer<CChatAction> > CManageMessage::GetUnreadMessage()
 {
 #ifdef DEBUG
     if(!m_nUnreadCount)
