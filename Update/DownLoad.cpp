@@ -282,6 +282,9 @@ int CDownLoad::Main(void *pPara)
     for (auto& th : threads) th.join();
 	p->m_streamFile.close();
 	p->m_streamFile.clear();
+    
+    if(p->m_pHandle)
+        p->m_pHandle->OnEnd(p->m_nErrorCode);
 
     LOG_MODEL_DEBUG("CDownLoad", "download end");
 	return 0;

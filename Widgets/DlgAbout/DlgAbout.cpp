@@ -15,7 +15,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     QString szVersion(tr("Version:%1").arg(VERSION));
     ui->lblVersion->setText(szVersion);
     ui->lblAuthor->setText(tr("Author: KangLin\nEmail、MSN:kl222@126.com"));
-    QFile readme( CGlobal::Instance()->GetDirApplication() + QDir::separator() + "README.md");
+    QFile readme(CGlobal::Instance()->GetDirApplication() + QDir::separator() + "README.md");
     if(readme.open(QFile::ReadOnly))
     {
         ui->txtReadMe->append(readme.readAll());

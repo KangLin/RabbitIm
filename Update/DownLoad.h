@@ -8,7 +8,7 @@
  * 使用:   
  *     //从 CDownLoadHandle 派生一个类,自定义一个处理实例  
  *     CDownLoadHandle h; 
- *     CDownLoad d; //定义  
+ *     CDownLoad d; //定义实例  
  *     d.Start("http://182.254.185.29/a", "a", &h, 20);
  */
 
@@ -32,7 +32,7 @@ public:
     //参数:  
     //        total:文件总长度  
     //        now:已下载长度  
-    virtual int OnProgress(double total,   double now);
+    virtual int OnProgress(double total, double now);
     //处理结束  
     virtual int OnEnd(int nErrorCode);
 };

@@ -44,6 +44,8 @@ public:
     QString GetDirApplicationConfigure();
     //应用程序数据目录  
     QString GetDirApplicationData();
+    //应用程序下载目录  
+    QString GetDirApplicationDownLoad();
     /**
      * @brief 用户配置目录  
      *

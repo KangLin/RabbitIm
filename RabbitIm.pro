@@ -187,7 +187,8 @@ OTHER_FILES += README.md \
     Authors.txt \
     CMakeLists.txt \
     cmake/* \
-    platforms/android/*
+    platforms/android/* \
+    Update/Update*.xml.*
 
 # Rules for creating/updating {ts|qm}-files
 include(Resource/translations/translations.pri)

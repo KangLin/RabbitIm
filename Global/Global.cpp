@@ -464,6 +464,11 @@ QString CGlobal::GetDirApplicationData()
     return GetDirDocument() + QDir::separator() + "Data";
 }
 
+QString CGlobal::GetDirApplicationDownLoad()
+{
+    return GetDirDocument() + QDir::separator() + "DownLoad";
+}
+
 //应用程序的配置文件  
 QString CGlobal::GetApplicationConfigureFile()
 {

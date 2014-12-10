@@ -67,10 +67,12 @@ SOURCES += main.cpp\
     Widgets/DlgAbout/DlgAbout.cpp \
     Widgets/DlgOptions/DlgOptions.cpp \
     Update/Update.cpp \
-    Update/DownLoad.cpp
+    Update/DownLoad.cpp \
+    Update/DownLoadHandle.cpp
     
 
-HEADERS += MainWindow.h \
+HEADERS += Version.h \
+    MainWindow.h \
     Global/Global.h \
     UserInfo/UserInfo.h \
     Client/Client.h \
@@ -83,7 +85,6 @@ HEADERS += MainWindow.h \
     Widgets/FrmUserList/FrmUserList.h \
     Widgets/FrmCustom/CustomTreeView.h \
     Widgets/FrmVideo/RecordAudio.h \
-    Widgets/DlgAbout/Version.h \
     Widgets/FrmCustom/Label.h \ 
     Manager/Manager.h \
     Manager/ManagerXmpp.h \
@@ -138,7 +139,8 @@ HEADERS += MainWindow.h \
     Widgets/DlgAbout/DlgAbout.h \
     Widgets/DlgOptions/DlgOptions.h \    
     Update/Update.h \
-    Update/DownLoad.h
+    Update/DownLoad.h \
+    Update/DownLoadHandle.h
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \

@@ -1,0 +1,25 @@
+<!--
+每个操作系统一个文件
+version：当前版本号
+time:当前版本生成的时间
+info：当前版本相关信息
+force：是否强制更新，如果此标志为true，则忽略 min_compatible_version ,强制更新
+min_compatible_version:最小兼容版本，小于此版本必须更新
+url：当前版本下载地址
+md5sum:当前下载文件的md5校验和
+operation_system:操作系统 Platform:硬件平台 Architecture:硬件架构
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<RabbitIm>
+    <platform>$platform$</platform>
+    <system>"$operation_system$"</system>
+    <architecture>$architecture$</architecture>
+    <version>$version$</version>
+    <time>$time$</time>
+    <info>$info$</info>
+    <force>$force$</force>
+    <url>$url$</url>
+    <md5sum>$md5sum$</md5sum>
+    <min_compatible_version>$min_compatible_version$</min_compatible_version>
+</RabbitIm>
