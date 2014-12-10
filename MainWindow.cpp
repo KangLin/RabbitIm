@@ -747,4 +747,5 @@ int MainWindow::OpenCustomStyleMenu()
         LOG_MODEL_ERROR("app", "file open file [%s] fail:%d", 
                         szFile.toStdString().c_str(), file.error());
     }
+    return 0;
 }
