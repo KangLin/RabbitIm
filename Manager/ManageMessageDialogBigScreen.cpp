@@ -81,4 +81,5 @@ int CManageMessageDialogBigScreen::Hide()
     {
         (*it)->hide();
     }
+    return 0;
 }

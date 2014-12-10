@@ -253,6 +253,7 @@ int CFrmGroupChat::AddMember(const QString &szId)
     pItem->setData(szId, Qt::ToolTipRole);
     pItem->setData(szId, ROLE_GROUPCHAT_JID);
     m_pModelMembers->appendRow(pItem);
+    return 0;
 }
 
 int CFrmGroupChat::RemoveMember(const QString &szId)

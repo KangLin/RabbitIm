@@ -491,6 +491,7 @@ int CTool::SetWindowsGeometry(QWidget *pWindow)
          (pScreen->availableGeometry().height() - pWindow->height()) / 2);
 #endif
     //*/
+    return 0;
 }
 
 QString CTool::FileDialog(QWidget *pParent, const QString &szDir, const QString &szFilter, const QString &szTilte)

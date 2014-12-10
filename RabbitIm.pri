@@ -65,11 +65,7 @@ SOURCES += main.cpp\
     Widgets/FrmCustom/ItemModelCustom.cpp \
     Widgets/DlgUservCard/DlgUservCard.cpp \ 
     Widgets/DlgAbout/DlgAbout.cpp \
-    Widgets/DlgOptions/DlgOptions.cpp \
-    Update/Update.cpp \
-    Update/DownLoad.cpp \
-    Update/DownLoadHandle.cpp
-    
+    Widgets/DlgOptions/DlgOptions.cpp 
 
 HEADERS += Version.h \
     MainWindow.h \
@@ -137,10 +133,7 @@ HEADERS += Version.h \
     Widgets/FrmCustom/ItemModelCustom.h \
     Widgets/DlgUservCard/DlgUservCard.h \ 
     Widgets/DlgAbout/DlgAbout.h \
-    Widgets/DlgOptions/DlgOptions.h \    
-    Update/Update.h \
-    Update/DownLoad.h \
-    Update/DownLoadHandle.h
+    Widgets/DlgOptions/DlgOptions.h 
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
@@ -170,4 +163,15 @@ RESOURCES += \
 !isEmpty(RABBITIM_USER_OPENCV) {
     SOURCES += Widgets/FrmVideo/CameraOpencv.cpp 
     HEADERS += Widgets/FrmVideo/CameraOpencv.h 
+}
+
+!isEmpty(RABBITIM_USER_LIBCURL)
+{
+    SOURCES += Update/Update.cpp \
+    Update/DownLoad.cpp \
+    Update/DownLoadHandle.cpp
+
+    HEADERS += Update/Update.h \
+    Update/DownLoad.h \
+    Update/DownLoadHandle.h
 }
