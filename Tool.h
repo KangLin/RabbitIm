@@ -141,6 +141,11 @@ public:
     
     static QString FileDialog(QWidget* pParent, const QString &szDir, const QString &szFilter, const QString &szTilte = tr("Save"));
     static std::string DoubleToString(double d);
+    /*
+     * 得到文件的校验和
+     */
+    static QByteArray GetFileMd5Sum(QString filePath);
+    static QString GetFileMd5SumString(QString filePath);
 signals:
 
 public slots:

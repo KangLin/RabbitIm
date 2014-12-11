@@ -78,8 +78,12 @@ android{
     DEPENDPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
     DEFINES += ANDROID MOBILE
     LIBS += -L$$PWD/ThirdLibary/android/lib  
+    RABBITIM_SYSTEM="android"
 } else:win32{
+    RABBITIM_SYSTEM="windows"
     msvc {
+        RABBITIM_PLATFORM="msvc"
+
         LDFLAGS += -ladvapi32
 
         INCLUDEPATH += $$PWD/ThirdLibary/windows_msvc/include $$WEBRTC_ROOT
@@ -95,6 +99,8 @@ android{
     }
     else
     {
+        RABBITIM_PLATFORM="mingw"
+
         INCLUDEPATH += $$PWD/ThirdLibary/windows_mingw/include $$WEBRTC_ROOT
         DEPENDPATH += $$PWD/ThirdLibary/windows_mingw/include $$WEBRTC_ROOT
         LIBS += -L$$PWD/ThirdLibary/windows_mingw/lib
@@ -123,6 +129,7 @@ android{
     WEBRTC_LIBRARY_DIR = .
     #WEBRTC_LIBRARY = -L$$WEBRTC_LIBRARY_DIR -llibjingle -llibjingle_media -llibjingle_p2p -lwebrtc
 } else:unix {
+    RABBITIM_SYSTEM=unix
     DEFINES += UNIX
     INCLUDEPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
     DEPENDPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
@@ -161,6 +168,7 @@ LIBS += $$LDFLAGS $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY \
 DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
 
 include(RabbitIm.pri)
+include(RabbitIm.prf)
 
 CONFIG += mobility
 
@@ -186,7 +194,8 @@ OTHER_FILES += README.md \
     CMakeLists.txt \
     cmake/* \
     platforms/android/* \
-    Update/Update*.xml.*
+    Update/Update*.xml.* \
+    Version.h.template
 
 # Rules for creating/updating {ts|qm}-files
 include(Resource/translations/translations.pri)

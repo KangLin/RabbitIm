@@ -12,10 +12,13 @@ public:
     CDownLoadHandleFile(QObject* parent = NULL);
     ~CDownLoadHandleFile();
     int SetFile(const QString &szFile);
+    int SetMd5sum(const QString &szMd5);
     virtual int OnEnd(int nErrorCode);
+
 private:
     QString m_szFile;
     QProcess m_Process;
+    QString m_szFileMd5sum;
 };
 
 class CDownLoadHandleVersionFile : public CDownLoadHandle, QObject

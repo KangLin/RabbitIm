@@ -5,6 +5,7 @@
 #include <QFile>
 #include "Global/Global.h"
 #include <QDir>
+#include <QDateTime>
 
 CDlgAbout::CDlgAbout(QWidget *parent) :
     QDialog(parent),
@@ -12,9 +13,15 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
 {
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
-    QString szVersion(tr("Version:%1").arg(VERSION));
+ 
+    QString szVersion(tr("Version:%1.%2.%3").arg(QString::number(REVISION_VERSION_NUMBER),
+                                                 QString::number(MINOR_VERSION_NUMBER),
+                                                 QString::number(REVISION_VERSION_NUMBER)
+                                                    ));
     ui->lblVersion->setText(szVersion);
-    ui->lblAuthor->setText(tr("Author: KangLin\nEmail、MSN:kl222@126.com"));
+    ui->lbbuildVersion->setText(tr("Build version:%1").arg(BUILD_VERSION));
+    ui->lbDate->setText(tr("Build date:%1 %2").arg(__DATE__, __TIME__));
+    ui->lblAuthor->setText(tr("Author: KangLin\nEmail、MSN:kl222@126.com"));
     QFile readme(CGlobal::Instance()->GetDirApplication() + QDir::separator() + "README.md");
     if(readme.open(QFile::ReadOnly))
     {

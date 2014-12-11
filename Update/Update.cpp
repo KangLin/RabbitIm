@@ -7,8 +7,10 @@ CUpdate::CUpdate()
 {
     QString szFile = "Update_";
     szFile += RABBITIM_SYSTEM;
+    /*szFile += "_";
     szFile += RABBITIM_PLATFORM;
-    szFile += RABBITIM_ARCHITECTURE;
+    szFile += "_";
+    szFile += RABBITIM_ARCHITECTURE;*/
     szFile += ".xml";
     m_szFile = CGlobal::Instance()->GetDirApplicationDownLoad() + QDir::separator() + szFile;
     //m_szUrl = 
