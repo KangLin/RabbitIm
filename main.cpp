@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
     w.show();//*/
 
     CDlgUpdate dlg;
+    dlg.exec();
 
     /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())  
     CFrmPlayer player;

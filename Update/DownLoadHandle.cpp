@@ -33,6 +33,12 @@ int CDownLoadHandleFile::OnProgress(double total, double now)
     return 0;
 }
 
+int CDownLoadHandleFile::OnError(int nErrorCode, const std::string &szErr)
+{
+    emit m_pDlg->sigError(nErrorCode, szErr.c_str());
+    return 0;
+}
+
 int CDownLoadHandleFile::OnEnd(int nErrorCode)
 {
     emit m_pDlg->sigDownLoadEnd(nErrorCode);
@@ -90,6 +96,12 @@ int CDownLoadHandleVersionFile::SetFile(const std::string &szFile)
     return 0;
 }
 
+int CDownLoadHandleVersionFile::OnError(int nErrorCode, const std::string &szErr)
+{
+    emit m_pDlg->sigError(nErrorCode, szErr.c_str());
+    return 0;
+}
+
 int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
 {
     if(m_szFile.empty())
@@ -141,6 +153,7 @@ int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
             if(szRevisionVersion.toInt() <= REVISION_VERSION_NUMBER)
             {
                 LOG_MODEL_DEBUG("Update", "Is already the newest version.");
+                emit m_pDlg->accepted();
                 return 0;
             }
         }

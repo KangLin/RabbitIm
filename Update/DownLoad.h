@@ -35,6 +35,7 @@ public:
     virtual int OnProgress(double total, double now);
     //处理结束  
     virtual int OnEnd(int nErrorCode);
+    virtual int OnError(int nErrorCode, const std::string &szErr);
 };
 
 class CDownLoad
@@ -43,10 +44,21 @@ public:
     CDownLoad(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle* pHandle = NULL);
     virtual ~CDownLoad();
     //开始下载  
-    int Start(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle *pHandle = NULL, int nNumThread = 10);
-    int Start(const char* pUrl, const char* pFile, CDownLoadHandle *pHandle = NULL, int nNumThread = 10);
+    int Start(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle *pHandle = NULL, int nNumThread = 10, int nTimeOut = 60);
+    int Start(const char* pUrl, const char* pFile, CDownLoadHandle *pHandle = NULL, int nNumThread = 10, int nTimeOut = 60);
     //退出下载  
     int Exit();
+
+    enum __ERROR
+    {
+        ERROR_NO,
+        ERROR_GET_FILE_LENGTH,
+        ERROR_DOWNLOAD_FILE,
+        ERROR_DOWNLOAD_URL_IS_EMPTY,
+        ERROR_DOWNLOAD_FILE_IS_EMPTY,
+        ERROR_OPEN_FILE,
+        ERROR_CURL
+    };
 
 private:
     int Init();
@@ -80,6 +92,7 @@ public://以下函数和变量为CDownLoad内部使用,使用者不能直接使�
     CDownLoadHandle* m_pHandle;
     int m_nErrorCode;
     bool m_bExit;//是否退出  
+    int m_nTimeOut;//超时时间,单位:秒  
 };
 
 #endif // DOWNLOAD_H

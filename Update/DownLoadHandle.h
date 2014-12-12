@@ -16,6 +16,7 @@ public:
     int SetMd5sum(const QString &szMd5);
     virtual int OnProgress(double total, double now);
     virtual int OnEnd(int nErrorCode);
+    virtual int OnError(int nErrorCode, const std::string &szErr);
 
 private:
     CDlgUpdate* m_pDlg;
@@ -32,6 +33,7 @@ public:
 
     //处理结束  
     virtual int OnEnd(int nErrorCode);
+    virtual int OnError(int nErrorCode, const std::string &szErr);
 
     QString m_szInfo;//新版本的信息  
     QString m_szMd5sum; //下载文件的MD5校验和  

@@ -18,13 +18,19 @@ CDownLoadHandle::~CDownLoadHandle()
 
 int CDownLoadHandle::OnProgress(double total, double now)
 {
-    LOG_MODEL_DEBUG("CDownLoadHandle", "thread id:0x%X; Progress:%f%%", std::this_thread::get_id(), 100 * now / total);
+    LOG_MODEL_DEBUG("CDownLoad", "thread id:0x%X; Progress:%f%%", std::this_thread::get_id(), 100 * now / total);
     return 0;
 }
 
 int CDownLoadHandle::OnEnd(int nErrorCode)
 {
-    LOG_MODEL_DEBUG("CDownLoadHandle", "End.errcode:%d", nErrorCode);
+    LOG_MODEL_DEBUG("CDownLoad", "End.errcode:%d", nErrorCode);
+    return 0;
+}
+
+int CDownLoadHandle::OnError(int nErrorCode, const std::string &szErr)
+{
+    LOG_MODEL_ERROR("CDownLoad", "DownLoad error.[%d]%s", nErrorCode, szErr.c_str());
     return 0;
 }
 
@@ -82,6 +88,7 @@ int CDownLoad::Init()
     m_nNumberThreads = 0;
     m_nErrorCode = 0;
     m_bExit = false;
+    m_nTimeOut = 20;
     return 0;
 }
 
@@ -133,11 +140,15 @@ double CDownLoad::GetFileLength(const std::string &szFile)
     CURL *pCurl;
     pCurl = curl_easy_init();
     if(!pCurl)
+    {
+        if(m_pHandle)
+            m_pHandle->OnError(ERROR_CURL, "curl init error");
         return -1;
+    }
     curl_easy_setopt (pCurl, CURLOPT_URL, szFile.c_str());
     curl_easy_setopt (pCurl, CURLOPT_HEADER, 1);    //只需要header头  
     curl_easy_setopt (pCurl, CURLOPT_NOBODY, 1);    //不需要body  
-    curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, 60);   //设置超时  
+    curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, m_nTimeOut);   //设置超时  
     curl_easy_setopt(pCurl, CURLOPT_NOSIGNAL, 1);   //屏蔽其它信号  
 #ifdef DEBUG
         /* Switch on full protocol/debug output */
@@ -147,6 +158,8 @@ double CDownLoad::GetFileLength(const std::string &szFile)
     {
         curl_easy_getinfo (pCurl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &nLength);
         LOG_MODEL_DEBUG("CDownLoad", "length:%f", nLength);
+        if(m_pHandle)
+            m_pHandle->OnError(ERROR_GET_FILE_LENGTH, "Get file length error." + szFile);
     }
     curl_easy_cleanup(pCurl);
     return nLength;
@@ -207,6 +220,7 @@ int CDownLoad::Work(void *pPara)
         curl_easy_setopt(pCurl, CURLOPT_WRITEFUNCTION, CDownLoad::Write);
         /* Set a pointer to our struct to pass to the callback */
         curl_easy_setopt(pCurl, CURLOPT_WRITEDATA, &file);
+        curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, pDownLoad->m_nTimeOut);   //设置超时  
         //curl_easy_setopt (pCurl, CURLOPT_LOW_SPEED_LIMIT, 1L);  
         //curl_easy_setopt (pCurl, CURLOPT_LOW_SPEED_TIME, 5L);  
         //设置下载区间  
@@ -228,6 +242,8 @@ int CDownLoad::Work(void *pPara)
         if(CURLE_OK != res) {
             /* we failed */
             LOG_MODEL_ERROR("CDownLoad", "curl perform error:%d;start:%d:end:%d\n", res, start, end);
+            if(pDownLoad->m_pHandle)
+                pDownLoad->m_pHandle->OnError(ERROR_DOWNLOAD_FILE, "Download file error");
         }
     }
 
@@ -256,20 +272,23 @@ int CDownLoad::Exit()
     return 0;
 }
 
-int CDownLoad::Start(const char *pUrl, const char *pFile, CDownLoadHandle *pHandle, int nNumThread)
+int CDownLoad::Start(const char *pUrl, const char *pFile, CDownLoadHandle *pHandle, int nNumThread, int nTimeOut)
 {
     std::string szUrl(pUrl), szFile(pFile);
-    return Start(szUrl, szFile, pHandle, nNumThread);
+    return Start(szUrl, szFile, pHandle, nNumThread, nTimeOut);
 }
 
-int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownLoadHandle *pHandle, int nNumThread)
+int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownLoadHandle *pHandle, int nNumThread, int nTimeOut)
 {
     Init();
+    m_nTimeOut = nTimeOut;
     if(!szUrl.empty())
         m_szUrl = szUrl;
     if(m_szUrl.empty())
     {
         LOG_MODEL_ERROR("CDownLoad", "url is null");
+        if(pHandle)
+            pHandle->OnError(ERROR_DOWNLOAD_URL_IS_EMPTY, "url is empty");
         return -1;
     }
     if(!szFile.empty())
@@ -277,6 +296,8 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
     if(m_szFile.empty())
     {
         LOG_MODEL_ERROR("CDownLoad", "file name is null");
+        if(pHandle)
+            pHandle->OnError(ERROR_DOWNLOAD_FILE_IS_EMPTY, "file is empty");
         return -2;
     }
     if(!m_streamFile)
@@ -285,9 +306,16 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
         m_streamFile.clear();
 	}
 
+    if(pHandle)
+        m_pHandle = pHandle;
+    
     m_dbFileLength = GetFileLength(m_szUrl);
     if(m_dbFileLength <= 0)
+    {
+        if(pHandle)
+            pHandle->OnError(ERROR_GET_FILE_LENGTH, "Get file length error:" + m_szUrl);
         return -3;
+    }
     m_nBlockSize = m_dbFileLength / (nNumThread - 1);
     if(m_nBlockSize < m_nBlockSizeMin)
         m_nBlockSize = m_nBlockSizeMin;
@@ -296,15 +324,14 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
     m_dbAlready = 0;
     m_nNumberThreads = nNumThread;
 
-    if(pHandle)
-        m_pHandle = pHandle;
-
     //打开文件
     //注意：一定要以二进制模式打开，否则可能写入的数量大于缓存的数量  
 	m_streamFile.open(m_szFile, std::ios_base::out | std::ios_base::trunc | std::ios::binary);
 	if (!m_streamFile)
     {
         LOG_MODEL_ERROR("CDownLoad", "Open file error:%s", m_szFile.c_str());
+        if(pHandle)
+            pHandle->OnError(ERROR_OPEN_FILE, "Open file error:" + m_szFile);
         return -4;
     }
 
