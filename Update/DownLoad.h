@@ -71,7 +71,7 @@ public://以下函数和变量为CDownLoad内部使用,使用者不能直接使�
      * @param szFile
      * @return long
      */
-    double GetFileLength(const std::string &szFile);
+    double GetFileLength(const std::string &szUrl);
     int GetRange(unsigned long &nStart, unsigned long &nEnd);
     static size_t Write(void *buffer, size_t size, size_t nmemb, void *para);
     static int Work(void *pPara);

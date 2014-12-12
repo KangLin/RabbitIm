@@ -10,6 +10,8 @@
 	#define LOG_MODEL_DEBUG(mod, fmt, ...) printf(fmt, ##__VA_ARGS__);
 #endif
 
+#define SKIP_PEER_VERIFICATION 1
+#define SKIP_HOSTNAME_VERIFICATION 1
 CDownLoadHandle::CDownLoadHandle()
 {}
 
@@ -134,7 +136,7 @@ size_t CDownLoad::Write(void *buffer, size_t size, size_t nmemb, void *para)
 /************************************************************************/
 /* 获取要下载的远程文件的大小                                                */
 /************************************************************************/
-double CDownLoad::GetFileLength(const std::string &szFile)
+double CDownLoad::GetFileLength(const std::string &szUrl)
 {
     double nLength = 0;
     CURL *pCurl;
@@ -145,11 +147,34 @@ double CDownLoad::GetFileLength(const std::string &szFile)
             m_pHandle->OnError(ERROR_CURL, "curl init error");
         return -1;
     }
-    curl_easy_setopt (pCurl, CURLOPT_URL, szFile.c_str());
+    curl_easy_setopt (pCurl, CURLOPT_URL, szUrl.c_str());
     curl_easy_setopt (pCurl, CURLOPT_HEADER, 1);    //只需要header头  
     curl_easy_setopt (pCurl, CURLOPT_NOBODY, 1);    //不需要body  
     curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, m_nTimeOut);   //设置超时  
     curl_easy_setopt(pCurl, CURLOPT_NOSIGNAL, 1);   //屏蔽其它信号  
+#ifdef SKIP_PEER_VERIFICATION
+    /*
+     * If you want to connect to a site who isn't using a certificate that is
+     * signed by one of the certs in the CA bundle you have, you can skip the
+     * verification of the server's certificate. This makes the connection
+     * A LOT LESS SECURE.
+     *
+     * If you have a CA cert for the server stored someplace else than in the
+     * default bundle, then the CURLOPT_CAPATH option might come handy for
+     * you.
+     */ 
+    curl_easy_setopt(pCurl, CURLOPT_SSL_VERIFYPEER, 0L);
+#endif
+ 
+#ifdef SKIP_HOSTNAME_VERIFICATION
+    /*
+     * If the site you're connecting to uses a different host name that what
+     * they have mentioned in their server certificate's commonName (or
+     * subjectAltName) fields, libcurl will refuse to connect. You can skip
+     * this check, but this will make the connection less secure.
+     */ 
+    curl_easy_setopt(pCurl, CURLOPT_SSL_VERIFYHOST, 0L);
+#endif
 #ifdef DEBUG
         /* Switch on full protocol/debug output */
         curl_easy_setopt(pCurl, CURLOPT_VERBOSE, 1L);
@@ -158,8 +183,11 @@ double CDownLoad::GetFileLength(const std::string &szFile)
     {
         curl_easy_getinfo (pCurl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &nLength);
         LOG_MODEL_DEBUG("CDownLoad", "length:%f", nLength);
+    }
+    else
+    {
         if(m_pHandle)
-            m_pHandle->OnError(ERROR_GET_FILE_LENGTH, "Get file length error." + szFile);
+            m_pHandle->OnError(ERROR_GET_FILE_LENGTH, "Get file length error." + szUrl);
     }
     curl_easy_cleanup(pCurl);
     return nLength;
@@ -229,6 +257,29 @@ int CDownLoad::Work(void *pPara)
         curl_easy_setopt(pCurl, CURLOPT_NOPROGRESS, 0L);
         curl_easy_setopt(pCurl, CURLOPT_PROGRESSFUNCTION, CDownLoad::progress_callback);
         curl_easy_setopt(pCurl, CURLOPT_PROGRESSDATA, &process);
+#ifdef SKIP_PEER_VERIFICATION
+    /*
+     * If you want to connect to a site who isn't using a certificate that is
+     * signed by one of the certs in the CA bundle you have, you can skip the
+     * verification of the server's certificate. This makes the connection
+     * A LOT LESS SECURE.
+     *
+     * If you have a CA cert for the server stored someplace else than in the
+     * default bundle, then the CURLOPT_CAPATH option might come handy for
+     * you.
+     */ 
+    curl_easy_setopt(pCurl, CURLOPT_SSL_VERIFYPEER, 0L);
+#endif
+ 
+#ifdef SKIP_HOSTNAME_VERIFICATION
+    /*
+     * If the site you're connecting to uses a different host name that what
+     * they have mentioned in their server certificate's commonName (or
+     * subjectAltName) fields, libcurl will refuse to connect. You can skip
+     * this check, but this will make the connection less secure.
+     */ 
+    curl_easy_setopt(pCurl, CURLOPT_SSL_VERIFYHOST, 0L);
+#endif
 
 #ifdef DEBUG
         /* Switch on full protocol/debug output */
