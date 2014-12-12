@@ -42,9 +42,16 @@ class CDownLoad
 public:
     CDownLoad(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle* pHandle = NULL);
     virtual ~CDownLoad();
+    //开始下载  
     int Start(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle *pHandle = NULL, int nNumThread = 10);
     int Start(const char* pUrl, const char* pFile, CDownLoadHandle *pHandle = NULL, int nNumThread = 10);
+    //退出下载  
+    int Exit();
 
+private:
+    int Init();
+
+public://以下函数和变量为CDownLoad内部使用,使用者不能直接使用它们  
     /**
      * @brief 得到文件的长度  
      *
@@ -68,10 +75,11 @@ public:
     const int m_nBlockSizeMin;                 //块的最小值  
     double m_nDownLoadPostion; //将要下载的位置  
     int m_nNumberThreads;             //下载线程数  
-    std::thread m_MainThread;       //下载主线程,用于等待同步下载线程  
+    std::thread* m_pMainThread;       //下载主线程,用于等待同步下载线程  
     std::mutex m_Mutex;
     CDownLoadHandle* m_pHandle;
     int m_nErrorCode;
+    bool m_bExit;//是否退出  
 };
 
 #endif // DOWNLOAD_H

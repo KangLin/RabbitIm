@@ -44,14 +44,10 @@ struct _PROCESS_STRUCT{
 CDownLoad::CDownLoad(const std::string &szUrl, const std::string &szFile, CDownLoadHandle *pHandle):
     m_nBlockSizeMin(10240)
 {
+    m_pMainThread = NULL;
+    Init();
     m_szUrl = szUrl;
     m_szFile = szFile;
-    m_dbFileLength = 0;
-    m_nDownLoadPostion = 0;
-    m_dbAlready = 0;
-    m_nBlockSize = 0;
-    m_nNumberThreads = 0;
-    m_nErrorCode = 0;
     m_pHandle = pHandle;
     curl_global_init(CURL_GLOBAL_DEFAULT);
 }
@@ -64,9 +60,29 @@ CDownLoad::~CDownLoad()
         m_streamFile.clear();
 	}
 
-    if(m_MainThread.joinable())
-        m_MainThread.join();
+    if(m_pMainThread &&m_pMainThread->joinable())
+    {
+        m_pMainThread->join();
+        m_pMainThread = NULL;
+    }
     curl_global_cleanup();
+}
+
+int CDownLoad::Init()
+{
+    if(m_pMainThread &&m_pMainThread->joinable())
+    {
+        m_pMainThread->join();
+        m_pMainThread = NULL;
+    }
+    m_dbFileLength = 0;
+    m_nDownLoadPostion = 0;
+    m_dbAlready = 0;
+    m_nBlockSize = 0;
+    m_nNumberThreads = 0;
+    m_nErrorCode = 0;
+    m_bExit = false;
+    return 0;
 }
 
 size_t CDownLoad::Write(void *buffer, size_t size, size_t nmemb, void *para)
@@ -84,6 +100,8 @@ size_t CDownLoad::Write(void *buffer, size_t size, size_t nmemb, void *para)
                   size * nmemb, out->start, out->end);
 
   CDownLoad* pThis = out->pThis;
+  if(pThis->m_bExit)
+      return -2;
 
   std::streamoff pos;
   size_t nWrite = size * nmemb;
@@ -162,7 +180,7 @@ int CDownLoad::Work(void *pPara)
     CDownLoad* pDownLoad = (CDownLoad*)pPara;
     file.pThis = pDownLoad;
     process.pThis = pDownLoad;
-    while(0 == pDownLoad->GetRange(file.start, file.end))
+    while(0 == pDownLoad->GetRange(file.start, file.end) && !pDownLoad->m_bExit)
     {
         unsigned long start = file.start, end = file.end;
         LOG_MODEL_DEBUG("CDownLoad", "thread id:0x%X", std::this_thread::get_id());
@@ -232,6 +250,12 @@ int CDownLoad::progress_callback(void *clientp, double dltotal, double dlnow, do
     return pThis->m_pHandle->OnProgress(pThis->m_dbFileLength, pThis->m_dbAlready);
 }
 
+int CDownLoad::Exit()
+{
+    m_bExit = true;
+    return 0;
+}
+
 int CDownLoad::Start(const char *pUrl, const char *pFile, CDownLoadHandle *pHandle, int nNumThread)
 {
     std::string szUrl(pUrl), szFile(pFile);
@@ -240,6 +264,7 @@ int CDownLoad::Start(const char *pUrl, const char *pFile, CDownLoadHandle *pHand
 
 int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownLoadHandle *pHandle, int nNumThread)
 {
+    Init();
     if(!szUrl.empty())
         m_szUrl = szUrl;
     if(m_szUrl.empty())
@@ -283,7 +308,7 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
         return -4;
     }
 
-    m_MainThread = std::thread(Main, this);
+    m_pMainThread = new std::thread(Main, this);
 
     return 0;
 }

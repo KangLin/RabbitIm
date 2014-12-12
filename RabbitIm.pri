@@ -65,7 +65,7 @@ SOURCES += main.cpp\
     Widgets/DlgUservCard/DlgUservCard.cpp \ 
     Widgets/DlgAbout/DlgAbout.cpp \
     Widgets/DlgOptions/DlgOptions.cpp \  
-    Message/ManageMessage.cpp
+    Message/ManageMessage.cpp 
 
 HEADERS += Version.h \
     MainWindow.h \
@@ -133,7 +133,7 @@ HEADERS += Version.h \
     Widgets/DlgUservCard/DlgUservCard.h \ 
     Widgets/DlgAbout/DlgAbout.h \
     Widgets/DlgOptions/DlgOptions.h \ 
-    Message/ManageMessage.h
+    Message/ManageMessage.h 
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
@@ -166,11 +166,15 @@ RESOURCES += \
 }
 
 !isEmpty(RABBITIM_USER_LIBCURL){
-    SOURCES += Update/Update.cpp \
+    SOURCES += \
     Update/DownLoad.cpp \
-    Update/DownLoadHandle.cpp
+    Update/DownLoadHandle.cpp \
+    Update/DlgUpdate.cpp
 
-    HEADERS += Update/Update.h \
+    HEADERS += \
     Update/DownLoad.h \
-    Update/DownLoadHandle.h
+    Update/DownLoadHandle.h \
+    Update/DlgUpdate.h
+
+    FORMS += Update/DlgUpdate.ui
 }

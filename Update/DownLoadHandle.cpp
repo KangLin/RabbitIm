@@ -5,9 +5,12 @@
 #include <QMessageBox>
 #include "MainWindow.h"
 #include <QFile>
+#include "DlgUpdate.h"
 
-CDownLoadHandleFile::CDownLoadHandleFile(QObject *parent):QObject(parent)
-{}
+CDownLoadHandleFile::CDownLoadHandleFile(CDlgUpdate *parent):QObject(parent)
+{
+    m_pDlg = parent;
+}
 
 CDownLoadHandleFile::~CDownLoadHandleFile()
 {}
@@ -24,34 +27,61 @@ int CDownLoadHandleFile::SetMd5sum(const QString &szMd5)
     return 0;
 }
 
+int CDownLoadHandleFile::OnProgress(double total, double now)
+{
+    emit m_pDlg->sigProcess(total, now);
+    return 0;
+}
+
 int CDownLoadHandleFile::OnEnd(int nErrorCode)
 {
+    emit m_pDlg->sigDownLoadEnd(nErrorCode);
+
     if(nErrorCode)
     {
-        //TODO:增加错误提示，向主窗口发送信号  
         LOG_MODEL_DEBUG("Update", "file download error:0x%X", nErrorCode);
+        QString szErr = tr("Download file fail:%1").arg(m_szFile);
+        emit m_pDlg->sigError(nErrorCode, szErr);
         return nErrorCode;
     }
 
     //检查文件是否正确，计算md5校验和  
-    QByteArray ba = CTool::GetFileMd5Sum(m_szFile);
-    if(ba.toHex() != m_szFileMd5sum)
+    if(CTool::GetFileMd5SumString(m_szFile) != m_szFileMd5sum)
     {
         LOG_MODEL_ERROR("Update", "md5sum is error.");
+        QString szErr = tr("Download file md5sum error:%1").arg(m_szFile);
+        emit m_pDlg->sigError(-1, szErr);
         return -1;
     }
 
+    //修改文件执行权限
+    QFileInfo info(m_szFile);
+    if(!info.permission(QFile::ExeUser))
+    {
+        //修改文件执行权限
+        QString szErr = tr("Download file don't execute permission. Please modify permission then manually  execute it.%1").arg(m_szFile);
+        emit m_pDlg->sigError(-2, szErr);
+        return -2;
+    }
+
     //启动安装程序  
-    m_Process.start(m_szFile);
+    if(!m_Process.startDetached(m_szFile))
+     {
+        LOG_MODEL_ERROR("Update", "open proess error:%s", m_szFile.toStdString().c_str());
+        QString szErr = tr("Execute install program error.%1").arg(m_szFile);
+        emit m_pDlg->sigError(-2, szErr);
+        return -3;
+    }
     //关闭程序  
     MainWindow* pMain = (MainWindow*)GET_MAINWINDOW;
     pMain->close();
     return 0;
 }
 
-CDownLoadHandleVersionFile::CDownLoadHandleVersionFile(const std::string &szFile, QObject *parent): QObject(parent)
+CDownLoadHandleVersionFile::CDownLoadHandleVersionFile(const std::string &szFile, CDlgUpdate *parent): QObject(parent)
 {
     m_szFile = szFile;
+    m_pDlg = parent;
 }
 
 int CDownLoadHandleVersionFile::SetFile(const std::string &szFile)
@@ -65,10 +95,19 @@ int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
     if(m_szFile.empty())
         return -1;
 
+    if(nErrorCode)
+    {
+        QString szErr = tr("Download file fail:%1").arg(m_szFile.c_str());
+        emit m_pDlg->sigError(nErrorCode, szErr);
+        return nErrorCode;
+    }
+
     QFile file(m_szFile.c_str());
     if(!file.open(QIODevice::ReadOnly))
     {
         LOG_MODEL_ERROR("Update", "Don't open file:%s", m_szFile.c_str());
+        QString szErr = tr("Don't open file:%1").arg(m_szFile.c_str());
+        emit m_pDlg->sigError(-2, szErr);
         return -2;
     }
 
@@ -77,12 +116,16 @@ int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
     if(!doc.setContent(&file, &szErr))
     {
         LOG_MODEL_ERROR("Update", "doc.setContent error:%s", szErr.toStdString().c_str());
+        QString szErr = tr("File format error.%1").arg(m_szFile.c_str());
+        emit m_pDlg->sigError(-3, szErr);
         return -3;
     }
 
     if(doc.isNull())
     {
         LOG_MODEL_ERROR("Update", "doc is null");
+        QString szErr = tr("File format error.%1").arg(m_szFile.c_str());
+        emit m_pDlg->sigError(-4, szErr);
         return -4;
     }
 
@@ -103,26 +146,19 @@ int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
         }
     }
 
-    QString szUrl = startElem.firstChildElement("URL").text();
-    QString szMd5sum = startElem.firstChildElement("MD5SUM").text();
-    QUrl url(szUrl);
-    QString szDownLoadFile = CGlobal::Instance()->GetDirApplicationDownLoad() + QDir::separator() + url.fileName();
+    m_szInfo = tr("New version:%1.%2.%3\n").arg(szMajorVersion, szMinorVersion, szRevisionVersion);
+    m_szInfo += startElem.firstChildElement("INFO").text();
+    m_szUrl = startElem.firstChildElement("URL").text();
+    m_szMd5sum = startElem.firstChildElement("MD5SUM").text();
+    QUrl url(m_szUrl);
+    m_szDownLoadFile= CGlobal::Instance()->GetDirApplicationDownLoad() + QDir::separator() + url.fileName();
     QString szForce = startElem.firstChildElement("FORCE").text();
     if(szForce == "true")//强制更新  
     {
-        m_DownLoadFile.SetFile(szDownLoadFile);
-        m_DownLoadFile.SetMd5sum(szMd5sum);
-        return m_DownLoad.Start(szUrl.toStdString(), szDownLoadFile.toStdString(), &m_DownLoadFile);
-    }
-
-    QString szText;
-    if(QMessageBox::Ok != 
-       QMessageBox::information(NULL, tr("Update"), szText, QMessageBox::Ok, QMessageBox::No))
-    {
+        emit m_pDlg->sigDownLoadStart(false);
         return 0;
     }
 
-    m_DownLoadFile.SetFile(szDownLoadFile);
-    m_DownLoadFile.SetMd5sum(szMd5sum);
-    return m_DownLoad.Start(szUrl.toStdString(), szDownLoadFile.toStdString(), &m_DownLoadFile);
+    emit m_pDlg->sigDownLoadStart(true);
+    return 0;
 }
