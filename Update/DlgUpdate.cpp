@@ -50,7 +50,7 @@ CDlgUpdate::CDlgUpdate(QWidget *parent) :
                      &m_VersionFileHandle, 
                      1, 3);
 
-   return ;
+    return ;
 }
 
 CDlgUpdate::~CDlgUpdate()

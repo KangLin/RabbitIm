@@ -194,7 +194,7 @@ OTHER_FILES += README.md \
     CMakeLists.txt \
     cmake/* \
     platforms/android/* \
-    Update/Update*.xml.* \
+    Update/Update*.xml* \
     Version.h.template
 
 # Rules for creating/updating {ts|qm}-files
