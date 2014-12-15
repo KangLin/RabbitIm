@@ -81,6 +81,8 @@ CGlobal::CGlobal(QObject *parent) :
     m_ScreenShotToType = (E_SCREEN_SHOT_TO_TYPE)conf.value("Options/ScreenShot/ToType", E_TO_SEND).toInt();
     m_bHideMessageBox = conf.value("Options/ScreenShot/HideMessageBox", false).toBool();
 
+    m_Update = (E_UPDATE)conf.value("Options/Update", E_UPDATE_EVERY_TIME).toInt();
+
     m_nVideoCaptureDevice = conf.value("Device/Video/Capture", 0).toInt();
     m_nAudioInputDevice = conf.value("Device/Audio/Input", 0).toInt();
     m_nAudioOutputDevice = conf.value("Device/Audio/Output", 0).toInt();
@@ -809,4 +811,35 @@ int CGlobal::SetMenuStyle(QString szMenu, QString szFile)
     conf.setValue("UI/MenuStyleSheet", szMenu);
     conf.setValue("UI/StyleSheet", szFile);
     return 0;
+}
+
+CGlobal::E_UPDATE CGlobal::GetUpdate()
+{
+    return m_Update;
+}
+
+int CGlobal::SetUpdate(E_UPDATE u)
+{
+    m_Update = u;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Options/Update", m_Update);
+    return 0;
+}
+
+int CGlobal::SetUpdateDate(QDateTime d)
+{
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("Options/Update/Date", d.toString("yyyy/MM/dd hh:mm:ss"));
+    return 0;
+}
+
+QDateTime CGlobal::GetUpdateDate()
+{
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QString szDate = conf.value("Options/Update/Date").toString();
+    QDateTime d;
+    if(szDate.isEmpty())
+        return d;
+    d = QDateTime::fromString(szDate, "yyyy/MM/dd hh:mm:ss");
+    return d;
 }

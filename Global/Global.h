@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QColor>
 #include <QSharedPointer>
+#include <QDateTime>
 #include "Manager/Manager.h"
 #include "Tool.h"
 
@@ -272,6 +273,24 @@ public:
 private:
     QString m_szStyleFile;
     QString m_szMenuStyle;
+
+//检查版本更新
+public:
+    enum E_UPDATE
+    {
+        E_UPDATE_EVERY_TIME,
+        E_UPDATE_DAY,
+        E_UPDATE_WEEK,
+        E_UPDATE_MONTH,
+        E_UPDATE_DONOT
+    };
+    E_UPDATE GetUpdate();
+    int SetUpdate(E_UPDATE u);
+    QDateTime GetUpdateDate();
+    int SetUpdateDate(QDateTime d);
+
+private:
+    E_UPDATE m_Update;
 
 signals:
 

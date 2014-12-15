@@ -47,6 +47,29 @@ CDlgUpdate::~CDlgUpdate()
 
 int CDlgUpdate::Start()
 {
+    QDateTime d = CGlobal::Instance()->GetUpdateDate();
+    int nDays = d.daysTo(QDateTime::currentDateTime());
+    CGlobal::E_UPDATE updateType = CGlobal::Instance()->GetUpdate();
+    switch(updateType)
+    {
+    case CGlobal::E_UPDATE_EVERY_TIME:
+        break;
+    case CGlobal::E_UPDATE_DAY:
+        if(nDays < 1)
+            return 0;
+        break;
+    case CGlobal::E_UPDATE_WEEK:
+        if(nDays < 7)
+            return 0;
+        break;
+    case CGlobal::E_UPDATE_MONTH:
+        if(nDays < 30)
+            return 0;
+        break;
+    default:
+        return 0;
+    }
+
     QString szFile = "Update_";
     szFile += RABBITIM_SYSTEM;
     /*szFile += "_";
@@ -62,7 +85,8 @@ int CDlgUpdate::Start()
                      m_szVersionFile.toStdString(), 
                      &m_VersionFileHandle, 
                      1);
-    
+
+    CGlobal::Instance()->SetUpdateDate(QDateTime::currentDateTime());
     return 0;
 }
 

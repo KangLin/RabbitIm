@@ -100,6 +100,29 @@ void CDlgOptions::showEvent(QShowEvent *)
         break;
     }
 
+    CGlobal::E_UPDATE updateType = CGlobal::Instance()->GetUpdate();
+    switch(updateType)
+    {
+    case CGlobal::E_UPDATE_EVERY_TIME:
+        ui->rbEveryTime->setChecked(true);
+        break;
+    case CGlobal::E_UPDATE_DAY:
+        ui->rbDay->setChecked(true);
+        break;
+    case CGlobal::E_UPDATE_WEEK:
+        ui->rbWeek->setChecked(true);
+        break;
+    case CGlobal::E_UPDATE_MONTH:
+        ui->rbMonth->setChecked(true);
+        break;
+    case CGlobal::E_UPDATE_DONOT:
+        ui->rbDont->setChecked(true);
+        break;
+    default:
+        ui->rbDay->setChecked(true);
+        break;
+    }
+
     CCamera camera;
     QList<QString> lstVideoDevices = camera.GetAvailableDevices();
     foreach (QString cam, lstVideoDevices) {
@@ -194,8 +217,20 @@ void CDlgOptions::on_pbOK_clicked()
         screenShotToType = CGlobal::E_TO_CLIPBOARD;
     else
         screenShotToType = CGlobal::E_TO_SEND;
-    
     CGlobal::Instance()->SetScreenShotToType(screenShotToType);
+
+    CGlobal::E_UPDATE updateType = CGlobal::Instance()->GetUpdate();
+    if(ui->rbEveryTime->isChecked())
+        updateType = CGlobal::E_UPDATE_EVERY_TIME;
+    else if(ui->rbDay->isChecked())
+        updateType = CGlobal::E_UPDATE_DAY;
+    else if(ui->rbWeek->isChecked())
+        updateType = CGlobal::E_UPDATE_WEEK;
+    else if(ui->rbMonth->isChecked())
+        updateType = CGlobal::E_UPDATE_MONTH;
+    else if(ui->rbDont->isChecked())
+        updateType = CGlobal::E_UPDATE_DONOT;
+    CGlobal::Instance()->SetUpdate(updateType);
 
     CGlobal::Instance()->SetVideoCaptureDevice(ui->cbVideo->currentIndex());
     CGlobal::Instance()->SetAudioInputDevice(ui->cbAudioInput->currentIndex());
