@@ -27,20 +27,6 @@ CGlobal::CGlobal(QObject *parent) :
         LOG_MODEL_ERROR("CGlobal", "document path is empty");
     }
 
-    //初始化目录  
-    QDir d;
-    if(!d.exists(GetDirApplicationDownLoad()))
-        if(!d.mkdir(GetDirApplicationDownLoad()))
-            LOG_MODEL_ERROR("CGlobal", "mkdir GetUserDataAvatar error:%s", qPrintable(GetDirApplicationDownLoad()));
-
-    if(!d.exists(GetDirApplicationConfigure()))
-        if(!d.mkdir(GetDirApplicationConfigure()))
-            LOG_MODEL_ERROR("CGlobal", "mkdir GetUserDataAvatar error:%s", qPrintable(GetDirApplicationConfigure()));
-    
-    if(!d.exists(GetDirApplicationData()))
-        if(!d.mkdir(GetDirApplicationData()))
-            LOG_MODEL_ERROR("CGlobal", "mkdir GetUserDataAvatar error:%s", qPrintable(GetDirApplicationData()));
-    
     QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
     m_LocalStatus = (CUserInfo::USER_INFO_STATUS)conf.value("Login/LoginState", CUserInfo::Online).toInt();
     m_UserColor = GetColorFormConf("Options/User/LocalColor", QColor(255, 0, 0));
@@ -482,7 +468,11 @@ QString CGlobal::GetDirApplicationData()
 
 QString CGlobal::GetDirApplicationDownLoad()
 {
-    return GetDirDocument() + QDir::separator() + "DownLoad";
+    QString szDownLoad = GetDirDocument() + QDir::separator() + "DownLoad";
+    QDir d;
+    if(!d.exists(szDownLoad))
+        d.mkdir(szDownLoad);
+    return szDownLoad;
 }
 
 //应用程序的配置文件  

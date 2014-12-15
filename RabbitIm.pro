@@ -106,7 +106,7 @@ android{
         LIBS += -L$$PWD/ThirdLibary/windows_mingw/lib
 
         !isEmpty(RABBITIM_USER_LIBCURL){
-            LIBCURL_LIBRARY = $$PWD/ThirdLibary/windows_mingw/lib/libcurl_imp.lib
+            LIBCURL_LIBRARY = -lcurldll
         }
     }
 

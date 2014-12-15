@@ -1,3 +1,4 @@
+#发行版本时，需要修改下列值  
 MAJOR_VERSION_NUMBER=0      #主版本
 MINOR_VERSION_NUMBER=1       #次版本
 REVISION_VERSION_NUMBER=0  #修订号
