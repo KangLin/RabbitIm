@@ -153,7 +153,7 @@ int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
             if(szRevisionVersion.toInt() <= REVISION_VERSION_NUMBER)
             {
                 LOG_MODEL_DEBUG("Update", "Is already the newest version.");
-                m_pDlg->accept();
+                emit m_pDlg->accepted();
                 return 0;
             }
         }
