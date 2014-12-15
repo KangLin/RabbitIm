@@ -18,12 +18,12 @@ operation_system:操作系统 Platform:硬件平台 Architecture:硬件架构
     <ARCHITECTURE></ARCHITECTURE>
     <MAJOR_VERSION_NUMBER>0</MAJOR_VERSION_NUMBER>
     <MINOR_VERSION_NUMBER>1</MINOR_VERSION_NUMBER>
-    <REVISION_VERSION_NUMBER>0</REVISION_VERSION_NUMBER>
+    <REVISION_VERSION_NUMBER>1</REVISION_VERSION_NUMBER>
     <TIME></TIME>
-    <INFO></INFO>
+    <INFO>test</INFO>
     <FORCE></FORCE>
-    <URL></URL>
-    <MD5SUM></MD5SUM>
+    <URL>http://mirrors.ustc.edu.cn/qtproject/archive/qt/5.4/5.4.0/qt-opensource-linux-x86-android-5.4.0.run</URL>
+    <MD5SUM>270885de7412a3c47dde31d07901f166</MD5SUM>
     <MIN_COMPATIBLE_VERSION></MIN_COMPATIBLE_VERSION>
 </RABBITIM>
 
