@@ -32,7 +32,13 @@ MainWindow::MainWindow(QWidget *parent) :
     check = connect(ui->actionAbout_A, SIGNAL(triggered()),
             SLOT(About()));
     Q_ASSERT(check);
-
+#ifdef RABBITIM_USER_LIBCURL
+    check = connect(this, SIGNAL(sigUpdateExec()),
+                    SLOT(slotUpdateExec()));
+    Q_ASSERT(check);
+    
+    m_Update.Start();
+#endif
     LoadStyle();
     LoadTranslate();
     ReInitMenuOperator();
@@ -655,14 +661,6 @@ void MainWindow::slotLogout()
 {
     GET_CLIENT->Logout();
 }
-/*
-void MainWindow::onReceiveFile(QXmppTransferJob *job)
-{
-    if(job)
-    {
-        m_pSendManageDlg->addFileProcess(*job,false);
-    }
-}*/
 
 void MainWindow::on_actionOptions_O_triggered()
 {
@@ -749,3 +747,10 @@ int MainWindow::OpenCustomStyleMenu()
     }
     return 0;
 }
+
+#ifdef RABBITIM_USER_LIBCURL
+void MainWindow::slotUpdateExec()
+{
+    m_Update.exec();
+}
+#endif

@@ -16,6 +16,8 @@ public:
     explicit CDlgUpdate(QWidget *parent = 0);
     ~CDlgUpdate();
 
+    int Start();
+
 signals:
     void sigDownLoadStart(bool bPrompt);
     void sigDownLoadEnd(int nErr);

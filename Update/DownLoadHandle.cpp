@@ -65,7 +65,7 @@ int CDownLoadHandleFile::OnEnd(int nErrorCode)
     if(!info.permission(QFile::ExeUser))
     {
         //修改文件执行权限
-        QString szErr = tr("Download file don't execute permission. Please modify permission then manually  execute it.%1").arg(m_szFile);
+        QString szErr = tr("Download file don't execute permissions. Please modify permission then manually  execute it.\n%1").arg(m_szFile);
         emit m_pDlg->sigError(-2, szErr);
         return -2;
     }
@@ -153,7 +153,7 @@ int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
             if(szRevisionVersion.toInt() <= REVISION_VERSION_NUMBER)
             {
                 LOG_MODEL_DEBUG("Update", "Is already the newest version.");
-                emit m_pDlg->accepted();
+                m_pDlg->accept();
                 return 0;
             }
         }

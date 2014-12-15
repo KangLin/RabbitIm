@@ -4,6 +4,7 @@
 #include "Version.h"
 #include "Global/Global.h"
 #include <QDir>
+#include "MainWindow.h"
 
 CDlgUpdate::CDlgUpdate(QWidget *parent) :
     QDialog(parent),
@@ -14,10 +15,11 @@ CDlgUpdate::CDlgUpdate(QWidget *parent) :
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
 
-    ui->lbPrompt->setText("");
+    ui->lbPrompt->setText(tr("Is checking update version"));
     ui->lbError->setVisible(false);
     ui->lbError->setText("");
     ui->progressBar->setVisible(false);
+    ui->progressBar->setValue(0);
     ui->pbOk->setEnabled(false);
 
     m_bDownloading = false;
@@ -35,6 +37,16 @@ CDlgUpdate::CDlgUpdate(QWidget *parent) :
                     SLOT(slotProcess(double,double)));
     Q_ASSERT(check);
 
+    return ;
+}
+
+CDlgUpdate::~CDlgUpdate()
+{
+    delete ui;
+}
+
+int CDlgUpdate::Start()
+{
     QString szFile = "Update_";
     szFile += RABBITIM_SYSTEM;
     /*szFile += "_";
@@ -50,13 +62,8 @@ CDlgUpdate::CDlgUpdate(QWidget *parent) :
                      m_szVersionFile.toStdString(), 
                      &m_VersionFileHandle, 
                      1);
-
-    return ;
-}
-
-CDlgUpdate::~CDlgUpdate()
-{
-    delete ui;
+    
+    return 0;
 }
 
 void CDlgUpdate::slotDownLoadStart(bool bPrompt)
@@ -78,6 +85,7 @@ void CDlgUpdate::slotDownLoadStart(bool bPrompt)
 
     ui->lbError->setVisible(true);
     ui->lbError->setText("");
+    emit GET_MAINWINDOW->sigUpdateExec();
 }
 
 void CDlgUpdate::slotDownLoadEnd(int nErr)
@@ -106,7 +114,7 @@ void CDlgUpdate::slotProcess(double nTotal, double nNow)
 
 int CDlgUpdate::DownloadFile()
 {
-    ui->lbPrompt->setText(tr("Downloading: ") + m_VersionFileHandle.m_szInfo);
+    ui->lbPrompt->setText(tr("Downloading ") + m_VersionFileHandle.m_szInfo);
     ui->progressBar->setVisible(true);
     ui->lbError->setText("");
     ui->lbError->setVisible(true);
@@ -116,7 +124,7 @@ int CDlgUpdate::DownloadFile()
     m_HandleDownLoad.SetFile(m_VersionFileHandle.m_szDownLoadFile);
     m_HandleDownLoad.SetMd5sum(m_VersionFileHandle.m_szMd5sum);
     return m_DownLoadFile.Start(m_VersionFileHandle.m_szUrl.toStdString(),
-                                m_VersionFileHandle.m_szDownLoadFile.toStdString(), &m_HandleDownLoad, 10, 60);
+                                m_VersionFileHandle.m_szDownLoadFile.toStdString(), &m_HandleDownLoad, 10, 600);
 }
 
 void CDlgUpdate::on_pbOk_clicked()

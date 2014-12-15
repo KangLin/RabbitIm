@@ -6,6 +6,10 @@
 #include <QSystemTrayIcon>
 #include "Widgets/FrmMain/FrmMain.h"
 
+#ifdef RABBITIM_USER_LIBCURL
+#include "Update/DlgUpdate.h"
+#endif
+
 class CFrmLogin;
 class CFrmUserList;
 class CDlgSendManage;
@@ -130,6 +134,16 @@ private slots:
 
 private:
     CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口  
+
+#ifdef RABBITIM_USER_LIBCURL
+public:
+signals:
+    void sigUpdateExec();
+private slots:
+    void slotUpdateExec();
+private:
+    CDlgUpdate m_Update;
+#endif
 };
 
 #endif // MAINWINDOW_H

@@ -6,10 +6,6 @@
 #include <QApplication>
 #include <QTranslator>
 
-#ifdef RABBITIM_USER_LIBCURL
-#include "Update/DlgUpdate.h"
-#endif
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -32,9 +28,6 @@ int main(int argc, char *argv[])
     CTool::SetWindowsGeometry(&w);
 #endif
     w.show();//*/
-
-    CDlgUpdate dlg;
-    dlg.exec();
 
     /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())  
     CFrmPlayer player;
