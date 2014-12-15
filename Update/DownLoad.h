@@ -20,6 +20,7 @@
 #include <vector>
 #include <mutex>
 #include <fstream>
+#include <curl/curl.h>
 
 //下载处理类  
 class CDownLoadHandle
@@ -44,8 +45,8 @@ public:
     CDownLoad(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle* pHandle = NULL);
     virtual ~CDownLoad();
     //开始下载  
-    int Start(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle *pHandle = NULL, int nNumThread = 10, int nTimeOut = 60);
-    int Start(const char* pUrl, const char* pFile, CDownLoadHandle *pHandle = NULL, int nNumThread = 10, int nTimeOut = 60);
+    int Start(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle *pHandle = NULL, int nNumThread = 1, int nTimeOut = 60);
+    int Start(const char* pUrl, const char* pFile, CDownLoadHandle *pHandle = NULL, int nNumThread = 1, int nTimeOut = 60);
     //退出下载  
     int Exit();
 
@@ -74,9 +75,14 @@ public://以下函数和变量为CDownLoad内部使用,使用者不能直接使�
     double GetFileLength(const std::string &szUrl);
     int GetRange(unsigned long &nStart, unsigned long &nEnd);
     static size_t Write(void *buffer, size_t size, size_t nmemb, void *para);
+    static size_t WriteSingle(void *buffer, size_t size, size_t nmemb, void *para);
     static int Work(void *pPara);
+    static int WorkSingle(void *pPara);
     static int Main(void *pPara);
     static int progress_callback(void *clientp,   double dltotal,   double dlnow,   double ultotal,   double ulnow); 
+    static int xferinfo(void *clientp,
+                        curl_off_t dltotal, curl_off_t dlnow,
+                        curl_off_t ultotal, curl_off_t ulnow);
     std::string m_szUrl;                       //下载地址  
     std::string m_szFile;                      //保存到本地文件  
 	std::ofstream m_streamFile;      //本地文件流  

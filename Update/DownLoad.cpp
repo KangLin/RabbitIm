@@ -1,6 +1,5 @@
 #include "DownLoad.h"
 #include <stdio.h>
-#include <curl/curl.h>
 #include <sstream>
 
 #ifdef RABBITIM_USER_LIBCURL
@@ -20,7 +19,11 @@ CDownLoadHandle::~CDownLoadHandle()
 
 int CDownLoadHandle::OnProgress(double total, double now)
 {
-    LOG_MODEL_DEBUG("CDownLoad", "thread id:0x%X; Progress:%f%%", std::this_thread::get_id(), 100 * now / total);
+    LOG_MODEL_DEBUG("CDownLoad", "thread id:0x%X; total:%f,now:%f;Progress:%f%%", 
+                    std::this_thread::get_id(),
+                    total,
+                    now,
+                    100 * now / total);
     return 0;
 }
 
@@ -87,7 +90,7 @@ int CDownLoad::Init()
     m_nDownLoadPostion = 0;
     m_dbAlready = 0;
     m_nBlockSize = 0;
-    m_nNumberThreads = 0;
+    m_nNumberThreads = 1;
     m_nErrorCode = 0;
     m_bExit = false;
     m_nTimeOut = 20;
@@ -131,6 +134,29 @@ size_t CDownLoad::Write(void *buffer, size_t size, size_t nmemb, void *para)
 
   LOG_MODEL_ERROR("CDownLoad", "write:size:%d", nWrite);
   return nWrite;
+}
+
+size_t CDownLoad::WriteSingle(void *buffer, size_t size, size_t nmemb, void *para)
+{
+    struct _FILE_STRUCT *out = (struct _FILE_STRUCT *)para;
+    if(!out ||
+        !out->pThis ||
+        !out->pThis->m_streamFile
+        )
+    {
+        return -1; /* failure, can't open file to write */
+    }
+
+    CDownLoad* pThis = out->pThis;
+    if(pThis->m_bExit)
+        return -2;
+
+    size_t nWrite = size * nmemb;
+    std::streamsize nSize = nWrite;
+
+    pThis->m_streamFile.write((const char*)buffer, nSize);
+
+    return nWrite;
 }
 
 /************************************************************************/
@@ -255,8 +281,26 @@ int CDownLoad::Work(void *pPara)
         curl_easy_setopt (pCurl, CURLOPT_RANGE, szRange.c_str());
         //设置处理进度函数  
         curl_easy_setopt(pCurl, CURLOPT_NOPROGRESS, 0L);
+    #if LIBCURL_VERSION_NUM >= 0x072000
+        /* xferinfo was introduced in 7.32.0, no earlier libcurl versions will
+           compile as they won't have the symbols around.
+     
+           If built with a newer libcurl, but running with an older libcurl:
+           curl_easy_setopt() will fail in run-time trying to set the new
+           callback, making the older callback get used.
+     
+           New libcurls will prefer the new callback and instead use that one even
+           if both callbacks are set. */ 
+     
+        curl_easy_setopt(pCurl, CURLOPT_XFERINFOFUNCTION, xferinfo);
+        /* pass the struct pointer into the xferinfo function, note that this is
+           an alias to CURLOPT_PROGRESSDATA */ 
+        curl_easy_setopt(pCurl, CURLOPT_XFERINFODATA, &process);
+    #else
         curl_easy_setopt(pCurl, CURLOPT_PROGRESSFUNCTION, CDownLoad::progress_callback);
         curl_easy_setopt(pCurl, CURLOPT_PROGRESSDATA, &process);
+    #endif
+
 #ifdef SKIP_PEER_VERIFICATION
     /*
      * If you want to connect to a site who isn't using a certificate that is
@@ -304,12 +348,132 @@ int CDownLoad::Work(void *pPara)
     return 0;
 }
 
+int CDownLoad::WorkSingle(void *pPara)
+{
+    CURLcode res = CURLE_OK;
+    _FILE_STRUCT file{0};
+    _PROCESS_STRUCT process{0};
+    CDownLoad* pDownLoad = (CDownLoad*)pPara;
+    file.pThis = pDownLoad;
+    process.pThis = pDownLoad;
+
+    CURL *pCurl;
+    pCurl = curl_easy_init();
+    if(!pCurl)
+        return -1;
+
+    /*
+       * You better replace the URL with one that works!
+       */
+    curl_easy_setopt(pCurl, CURLOPT_URL,
+                     pDownLoad->m_szUrl.c_str());
+    /* Define our callback to get called when there's data to be written */
+    curl_easy_setopt(pCurl, CURLOPT_WRITEFUNCTION, CDownLoad::WriteSingle);
+    /* Set a pointer to our struct to pass to the callback */
+    curl_easy_setopt(pCurl, CURLOPT_WRITEDATA, &file);
+    curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, pDownLoad->m_nTimeOut);   //设置超时  
+
+    //设置处理进度函数  
+    curl_easy_setopt(pCurl, CURLOPT_NOPROGRESS, 0L);
+#if LIBCURL_VERSION_NUM >= 0x072000
+    /* xferinfo was introduced in 7.32.0, no earlier libcurl versions will
+       compile as they won't have the symbols around.
+ 
+       If built with a newer libcurl, but running with an older libcurl:
+       curl_easy_setopt() will fail in run-time trying to set the new
+       callback, making the older callback get used.
+ 
+       New libcurls will prefer the new callback and instead use that one even
+       if both callbacks are set. */ 
+ 
+    curl_easy_setopt(pCurl, CURLOPT_XFERINFOFUNCTION, xferinfo);
+    /* pass the struct pointer into the xferinfo function, note that this is
+       an alias to CURLOPT_PROGRESSDATA */ 
+    curl_easy_setopt(pCurl, CURLOPT_XFERINFODATA, &process);
+#else
+    curl_easy_setopt(pCurl, CURLOPT_PROGRESSFUNCTION, CDownLoad::progress_callback);
+    curl_easy_setopt(pCurl, CURLOPT_PROGRESSDATA, &process);
+#endif
+
+#ifdef SKIP_PEER_VERIFICATION
+    /*
+     * If you want to connect to a site who isn't using a certificate that is
+     * signed by one of the certs in the CA bundle you have, you can skip the
+     * verification of the server's certificate. This makes the connection
+     * A LOT LESS SECURE.
+     *
+     * If you have a CA cert for the server stored someplace else than in the
+     * default bundle, then the CURLOPT_CAPATH option might come handy for
+     * you.
+     */ 
+    curl_easy_setopt(pCurl, CURLOPT_SSL_VERIFYPEER, 0L);
+#endif
+    
+#ifdef SKIP_HOSTNAME_VERIFICATION
+    /*
+     * If the site you're connecting to uses a different host name that what
+     * they have mentioned in their server certificate's commonName (or
+     * subjectAltName) fields, libcurl will refuse to connect. You can skip
+     * this check, but this will make the connection less secure.
+     */ 
+    curl_easy_setopt(pCurl, CURLOPT_SSL_VERIFYHOST, 0L);
+#endif
+    
+#ifdef DEBUG
+    /* Switch on full protocol/debug output */
+    curl_easy_setopt(pCurl, CURLOPT_VERBOSE, 1L);
+#endif
+    res = curl_easy_perform(pCurl);
+    
+    /* always cleanup */
+    curl_easy_cleanup(pCurl);
+    
+    if(CURLE_OK != res) {
+        /* we failed */
+        if(pDownLoad->m_pHandle)
+            pDownLoad->m_pHandle->OnError(ERROR_DOWNLOAD_FILE, "Download file error");
+    }
+    
+
+    if(0 == pDownLoad->m_nErrorCode)
+        pDownLoad->m_nErrorCode = res;
+
+    return 0;
+}
+
 int CDownLoad::progress_callback(void *clientp, double dltotal, double dlnow, double ultotal, double ulnow)
 {
+    LOG_MODEL_DEBUG("CDwonLoad", "total:%f;now:%f;utotal:%f;unow:%f", dltotal, dlnow, ultotal, ulnow);
     _PROCESS_STRUCT* p = (_PROCESS_STRUCT*)clientp;
     CDownLoad* pThis = p->pThis;
-    if(NULL == pThis->m_pHandle)
+    if(NULL == pThis->m_pHandle || dltotal <= 0)
         return 0;
+    if(pThis->m_nNumberThreads == 1)
+    {
+        return pThis->m_pHandle->OnProgress(dltotal, dlnow);
+    }
+
+    pThis->m_MutexAlready.lock();
+    pThis->m_dbAlready += (dlnow - p->nAlready);
+    pThis->m_MutexAlready.unlock();
+    p->nAlready = dlnow;
+    return pThis->m_pHandle->OnProgress(pThis->m_dbFileLength, pThis->m_dbAlready);
+}
+
+int CDownLoad::xferinfo(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
+{
+    LOG_MODEL_DEBUG("CDwonLoad", "UP: %" CURL_FORMAT_CURL_OFF_T " of %" CURL_FORMAT_CURL_OFF_T
+                                                                       "  DOWN: %" CURL_FORMAT_CURL_OFF_T " of %" CURL_FORMAT_CURL_OFF_T,
+                    ulnow, ultotal, dlnow, dltotal);
+    _PROCESS_STRUCT* p = (_PROCESS_STRUCT*)clientp;
+    CDownLoad* pThis = p->pThis;
+    if(NULL == pThis->m_pHandle || dltotal <= 0)
+        return 0;
+    if(pThis->m_nNumberThreads == 1)
+    {
+        return pThis->m_pHandle->OnProgress(dltotal, dlnow);
+    }
+    
     pThis->m_MutexAlready.lock();
     pThis->m_dbAlready += (dlnow - p->nAlready);
     pThis->m_MutexAlready.unlock();
@@ -332,6 +496,7 @@ int CDownLoad::Start(const char *pUrl, const char *pFile, CDownLoadHandle *pHand
 int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownLoadHandle *pHandle, int nNumThread, int nTimeOut)
 {
     Init();
+    m_nNumberThreads = nNumThread;
     m_nTimeOut = nTimeOut;
     if(!szUrl.empty())
         m_szUrl = szUrl;
@@ -359,21 +524,6 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
 
     if(pHandle)
         m_pHandle = pHandle;
-    
-    m_dbFileLength = GetFileLength(m_szUrl);
-    if(m_dbFileLength <= 0)
-    {
-        if(pHandle)
-            pHandle->OnError(ERROR_GET_FILE_LENGTH, "Get file length error:" + m_szUrl);
-        return -3;
-    }
-    m_nBlockSize = m_dbFileLength / (nNumThread - 1);
-    if(m_nBlockSize < m_nBlockSizeMin)
-        m_nBlockSize = m_nBlockSizeMin;
-
-    m_nDownLoadPostion = 0;
-    m_dbAlready = 0;
-    m_nNumberThreads = nNumThread;
 
     //打开文件
     //注意：一定要以二进制模式打开，否则可能写入的数量大于缓存的数量  
@@ -395,11 +545,30 @@ int CDownLoad::Main(void *pPara)
 {
     CDownLoad* p = (CDownLoad*)pPara;
     std::vector<std::thread> threads;
-    //启动线程  
-    for(int i = 0; i < p->m_nNumberThreads; i++)
-        threads.push_back(std::thread(Work, p));
+    if(1 < p->m_nNumberThreads)
+    {
+        p->m_dbFileLength = p->GetFileLength(p->m_szUrl);
+        if(p->m_dbFileLength <= 0)
+        {
+            if(p->m_pHandle)
+                p->m_pHandle->OnError(ERROR_GET_FILE_LENGTH, "Get file length error:" + p->m_szUrl);
+            return -3;
+        }
+        p->m_nBlockSize = p->m_dbFileLength / (p->m_nNumberThreads - 1);
+        if(p->m_nBlockSize < p->m_nBlockSizeMin)
+            p->m_nBlockSize = p->m_nBlockSizeMin;
+        //启动线程  
+        for(int i = 0; i < p->m_nNumberThreads; i++)
+            threads.push_back(std::thread(Work, p));
+    
+        for (auto& th : threads) th.join();
+    }
+    else
+    {
+        std::thread t(WorkSingle, p);
+        if(t.joinable()) t.join();
+    }
 
-    for (auto& th : threads) th.join();
 	p->m_streamFile.close();
 	p->m_streamFile.clear();
 
