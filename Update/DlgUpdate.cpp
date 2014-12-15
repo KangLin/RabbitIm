@@ -79,7 +79,6 @@ int CDlgUpdate::Start()
     szFile += ".xml";
     m_szVersionFile = CGlobal::Instance()->GetDirApplicationDownLoad() + QDir::separator() + szFile;
     m_szUrl = "https://code.csdn.net/kl222/rabbitim/blob/Reconstruction/Update/" + szFile;
-    //m_szUrl = "http://182.254.185.29/a";
     m_VersionFileHandle.SetFile(m_szVersionFile.toStdString());
     m_DownLoadVersion.Start(m_szUrl.toStdString(), 
                      m_szVersionFile.toStdString(), 
