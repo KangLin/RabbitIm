@@ -102,7 +102,12 @@ android{
             #msvc 下直接用库文名查找依赖库
             FFMPEG_LIBRARY= libavcodec.a libavformat.a libswscale.a libswresample.a libavfilter.a libavutil.a
         }
-    }
+
+        !isEmpty(RABBITIM_USER_OPENSSL){
+            DEFINES+= RABBITIM_USER_OPENSSL
+            LIBOPENSSL_LIBRARY = ssleay32.lib libeay32.lib
+        }
+   }
     else
     {
         RABBITIM_PLATFORM="mingw"

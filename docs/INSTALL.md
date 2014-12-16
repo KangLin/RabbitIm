@@ -77,7 +77,7 @@ cygwin主页：http://www.cygwin.org/
 当前使用版本：  
     git库版本 —— 78cce679a0f2d376b97e64a6d7763bce82dd06cc
 
-12. 图像处理库(opencv)
+12. [图像处理库(opencv)](http://opencv.org/)
 下载：`git clone git://github.com/Itseez/opencv.git`  
 当前使用版本:  
     git库版本 —— 55f490485bd58dc972de9e0333cdff005fce1251
@@ -85,7 +85,12 @@ cygwin主页：http://www.cygwin.org/
 13. libyuv  
 下载:`svn checkout http://libyuv.googlecode.com/svn/trunk libyuv`
 
-14. [libcurl](http://curl.haxx.se)
+14. [openssl](http://www.openssl.org/)
+下载：`git clone  https://github.com/openssl/openssl`
+当前使用版本：
+    git库版本 —— 376e2ca3e3525290619602dc6013c97c9653c037
+
+15. [libcurl](http://curl.haxx.se)
 下载：`git://github.com/bagder/curl.git`  
 当前使用版本：  
     git库版本 —— e17220ffcb34d1d8cb504ca79f4523fcb8ffd68a
@@ -225,14 +230,16 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
        make install  
 
 5. webrtc编译：
-详见《webrtc教程》。编译参考：http://blog.csdn.net/kl222/article/details/17198873
+详见[《webrtc教程》](http://blog.csdn.net/kl222/article/details/17198873)
 
 6. libyuv 编译：
 官网：https://code.google.com/p/libyuv/wiki/GettingStarted  
-详见：《libyuv编译》：http://blog.csdn.net/kl222/article/details/41309541  
+详见：[《libyuv编译》](http://blog.csdn.net/kl222/article/details/41309541)  
 或者： [libyuv编译.txt](./Books/libyuv编译.txt)
 
-7. QXMPP编译：  
+7. [openssl编译](http://blog.csdn.net/kl222/article/details/41787529)
+
+8. QXMPP编译：  
     1)用 Qt Creator 进行编译（详见源码根目录下的README文件）：
     * 用 Qt Creator 打开本工程。
     * 打开“文件->打开文件或项目”。
@@ -313,8 +320,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 6. webrtc编译：
 
-    详见《webrtc教程》。  
-    编译参考：http://blog.csdn.net/kl222/article/details/17198873
+    详见[《webrtc教程》](http://blog.csdn.net/kl222/article/details/17198873)
 
 ### 本工程编译
 如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。

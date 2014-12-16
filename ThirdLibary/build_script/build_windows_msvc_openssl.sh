@@ -14,20 +14,20 @@
 #运行本脚本前,先运行 build_windows_msvc_envsetup.sh 进行环境变量设置,需要先设置下面变量:
 #   PREFIX=`pwd`/../windows  #修改这里为安装前缀
 if [ -z "${PREFIX}" ]; then
-    echo "source build_windows_msvc_envsetup.sh"
+    echo "build_windows_msvc_envsetup.sh"
     source build_windows_msvc_envsetup.sh
 fi
 
 if [ -n "$1" ]; then
     SOURCE_CODE=$1
 else
-    SOURCE_CODE=${PREFIX}/../src/ffmpeg
+    SOURCE_CODE=${PREFIX}/../src/openssl
 fi
 
 #下载源码:
 if [ ! -d ${SOURCE_CODE} ]; then
-    echo "git clone https://github.com/openssl/openssl.git"
-    git clone https://github.com/openssl/openssl.git ${SOURCE_CODE}
+    echo "git clone https://github.com/openssl/openssl"
+    git clone https://github.com/openssl/openssl ${SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`
@@ -39,38 +39,16 @@ echo "CUR_DIR:$CUR_DIR"
 echo "PREFIX:$PREFIX"
 echo ""
 
-echo "configure ..."
-./configure  \
-        --target-os=win32 \
-        --arch=x86 \
-        --enable-cross-compile \
-        --toolchain=msvc \
-        --prefix=$PREFIX \
-        --enable-runtime-cpudetect \
-        --disable-doc \
-        --disable-htmlpages \
-        --disable-manpages  \
-        --disable-podpages \
-        --disable-txtpages \
-        --disable-programs \
-        --disable-ffprobe \
-        --disable-ffserver \
-        --disable-ffplay \
-        --disable-ffmpeg \
-        --disable-avdevice \
-        --disable-shared # \
-        #--extra-cflags="-I${PREFIX}/include" \
-        #--extra-ldflags="/LIBPATH:${PREFIX}/lib" \
-        #--enable-libvpx
+nmake clean
+echo "configure openssl ..."
+./Configure \
+    --prefix=${PREFIX} \
+    --openssldir=${PREFIX} \
+    VC-WIN32
+
+ms/do_nasm.bat
 
 echo "make install"
-make clean; make install
+nmake -f ms/nt.mak install﻿﻿
 
-mv ${PREFIX}/lib/libavcodec.a ${PREFIX}/lib/avcodec.lib
-mv ${PREFIX}/lib/libavformat.a ${PREFIX}/lib/avformat.lib
-mv ${PREFIX}/lib/libswscale.a ${PREFIX}/lib/swscale.lib
-mv ${PREFIX}/lib/libswresample.a ${PREFIX}/lib/swresample.lib
-mv ${PREFIX}/lib/libavfilter.a ${PREFIX}/lib/avfilter.lib
-mv ${PREFIX}/lib/libavutil.a ${PREFIX}/lib/avutil.lib
-
-cd $CUR_DIR
+cd ${CUR_DIR}
