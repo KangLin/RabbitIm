@@ -41,8 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
     check = connect(this, SIGNAL(sigUpdateExec()),
                     SLOT(slotUpdateExec()));
     Q_ASSERT(check);
-    
+#ifndef DEBUG
     m_Update.Start();
+#endif
 #endif
 
     //初始化子窗体
