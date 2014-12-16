@@ -18,10 +18,32 @@ CDlgOptions::CDlgOptions(QWidget *parent) :
     CTool::SetWindowsGeometry(this);
     LOG_MODEL_DEBUG("CDlgOptions", "CDlgOptions::CDlgOptions:w:%d, h:%d", this->width(), this->height());
     //控件初始化工作放到showEvent中  
+    int nIndex = 0;
+    if(USER_INFO_LOCALE.isNull())
+    {
+        QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+        nIndex = conf.value("Widgets/Options", 0).toInt();
+    }
+    else
+    {
+        QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
+        nIndex = conf.value("Widgets/Options", 0).toInt();
+    }
+    ui->tabWidget->setCurrentIndex(nIndex);
 }
 
 CDlgOptions::~CDlgOptions()
 {
+    if(!USER_INFO_LOCALE.isNull())
+    {
+        QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
+        conf.setValue("Widgets/Options", ui->tabWidget->currentIndex());
+    }
+    else
+    {
+        QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+        conf.setValue("Widgets/Options", ui->tabWidget->currentIndex());
+    }
     delete ui;
 }
 
