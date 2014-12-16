@@ -65,7 +65,8 @@ SOURCES += main.cpp\
     Widgets/DlgUservCard/DlgUservCard.cpp \ 
     Widgets/DlgAbout/DlgAbout.cpp \
     Widgets/DlgOptions/DlgOptions.cpp \  
-    Message/ManageMessage.cpp 
+    Message/ManageMessage.cpp \  
+    $$PWD/Global/Encrypt.cpp
 
 HEADERS += Version.h \
     MainWindow.h \
@@ -133,7 +134,8 @@ HEADERS += Version.h \
     Widgets/DlgUservCard/DlgUservCard.h \ 
     Widgets/DlgAbout/DlgAbout.h \
     Widgets/DlgOptions/DlgOptions.h \ 
-    Message/ManageMessage.h 
+    Message/ManageMessage.h \  
+    $$PWD/Global/Encrypt.h
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \

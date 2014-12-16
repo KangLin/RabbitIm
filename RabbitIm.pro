@@ -9,6 +9,7 @@ QXMPP_USE_VPX = 1             #使用 vpx
 #RABBITIM_USER_OPENCV=1       #使用 opencv
 RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
 #RABBITIM_USER_LIBCURL=1      #使用 libcurl
+#RABBITIM_USER_OPENSSL=1   #使用openssl
 
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets
@@ -64,6 +65,11 @@ CONFIG(debug, debug|release) {
 !isEmpty(RABBITIM_USER_LIBCURL){
     DEFINES += RABBITIM_USER_LIBCURL
     LIBCURL_LIBRARY = -lcurl
+}
+
+!isEmpty(RABBITIM_USER_OPENSSL){
+    DEFINES+= RABBITIM_USER_OPENSSL
+    LIBOPENSSL_LIBRARY = -lcrypto
 }
 
 !isEmpty(RABBITIM_USER_FFMPEG) {
@@ -163,7 +169,7 @@ android{
 
 LIBS += $$LDFLAGS $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY \
         $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY \
-        $$LIBCURL_LIBRARY
+        $$LIBCURL_LIBRARY $$LIBOPENSSL_LIBRARY
 
 DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
 

@@ -4,6 +4,8 @@
 #include "DlgLoginSettings.h"
 #include <QSettings>
 #include "MainWindow.h"
+#include "Global/Encrypt.h"
+#include <string>
 
 CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),
@@ -28,7 +30,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     int nIndex = conf.value("Login/LastUserNameIndex").toInt();
     ui->cmbUser->setCurrentIndex(nIndex);
 
-    ui->lnPassword->setText(conf.value("Login/Password" + QString::number(nIndex + 1), "").toString());
+    ui->lnPassword->setText(DecryptPassword(conf.value("Login/Password" + QString::number(nIndex + 1), "").toString()));
     if(ui->lnPassword->text() != "" || !ui->lnPassword->text().isEmpty())
         ui->chkSave->setChecked(true);
     else
@@ -149,6 +151,7 @@ int CFrmLogin::SaveConf()
     {
         conf.setValue("Login/UserTotal", total + 1);
         conf.setValue("Login/UserName" + QString::number(total +1), ui->cmbUser->currentText());
+        conf.setValue("Login/LastUserNameIndex",  i);//设置最后一次登录用户的索引  
         if(ui->chkLogin->isChecked() || ui->chkSave->isChecked())
         {
             conf.setValue("Login/Password" + QString::number(total +1), EncryptPassword(ui->lnPassword->text()));
@@ -159,16 +162,39 @@ int CFrmLogin::SaveConf()
     return 0;
 }
 
-//TODO:加密密码  
+QString gPassword("RabbitIm.KangLin");
+//加密密码  
 QString CFrmLogin::EncryptPassword(QString szPassword)
 {
+#ifdef RABBITIM_USER_OPENSSL
+    CEncrypt  e;
+    char* pOut = NULL;
+    int nLen = 0;
+    e.SetPassword(gPassword.toStdString().c_str());
+    e.Encode(szPassword.toStdString().c_str(), szPassword.toStdString().size(), &pOut, nLen);
+    QByteArray ba(pOut, nLen);
+    return ba.toHex();
+#else
     return szPassword;
+#endif
 }
 
-//TODO:解密密码  
+//解密密码  
 QString CFrmLogin::DecryptPassword(QString szPassword)
 {
+    if(szPassword.isEmpty())
+        return szPassword;
+#ifdef RABBITIM_USER_OPENSSL
+    CEncrypt  e;
+    QByteArray ba;
+    ba = QByteArray::fromHex(QByteArray(szPassword.toStdString().c_str(), szPassword.toStdString().size()));
+    std::string szOut;
+    e.SetPassword(gPassword.toStdString().c_str());
+    e.Dencode(ba.data(), ba.length(), szOut);
+    return szOut.c_str();
+#else
     return szPassword;
+#endif
 }
 
 void CFrmLogin::on_chkLogin_stateChanged(int state)
@@ -240,7 +266,7 @@ void CFrmLogin::slotActionGroupStatusTriggered(QAction *pAct)
 void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
 {
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
-    ui->lnPassword->setText(conf.value("Login/Password" + QString::number(index + 1), "").toString());
+    ui->lnPassword->setText(this->DecryptPassword(conf.value("Login/Password" + QString::number(index + 1), "").toString()));
     if(ui->lnPassword->text() == "" || ui->lnPassword->text().isEmpty())
         ui->chkSave->setChecked(false);
     else
