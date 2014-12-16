@@ -32,6 +32,11 @@ MainWindow::MainWindow(QWidget *parent) :
     check = connect(ui->actionAbout_A, SIGNAL(triggered()),
             SLOT(About()));
     Q_ASSERT(check);
+
+    LoadStyle();
+    LoadTranslate();
+    ReInitMenuOperator();
+
 #ifdef RABBITIM_USER_LIBCURL
     check = connect(this, SIGNAL(sigUpdateExec()),
                     SLOT(slotUpdateExec()));
@@ -39,9 +44,6 @@ MainWindow::MainWindow(QWidget *parent) :
     
     m_Update.Start();
 #endif
-    LoadStyle();
-    LoadTranslate();
-    ReInitMenuOperator();
 
     //初始化子窗体
     if(!m_Login.isNull())

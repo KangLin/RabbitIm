@@ -554,272 +554,272 @@ Email、MSN:kl222@126.com</source>
         <translation>延时：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="74"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="80"/>
         <source>secodes</source>
         <translation>秒</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="94"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="100"/>
         <source>Close Operator</source>
         <translation>关闭操作</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="100"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="106"/>
         <source>Close Programe</source>
         <translation>关闭程序</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="110"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="116"/>
         <source>Logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="117"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="123"/>
         <source>Prompt</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="139"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="145"/>
         <source>Notification bar</source>
         <translation>通知栏</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="159"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="165"/>
         <source>Flash Interval: </source>
         <translation>闪烁间隔：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="188"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="246"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="194"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="252"/>
         <source>ms</source>
         <translation>毫秒</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="214"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="220"/>
         <source>Show Message Delay:</source>
         <translation>显示消息延时：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="266"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="272"/>
         <source>Show message</source>
         <translation>显示消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="279"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="285"/>
         <source>Flashes</source>
         <translation>闪烁</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="297"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="303"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="305"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="311"/>
         <source>Configure files</source>
         <translation>配置文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="312"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="318"/>
         <source>Data files</source>
         <translation>数据文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="321"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="327"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="398"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="404"/>
         <source>Screen Shot to</source>
         <translation>截屏后操作</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="410"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="416"/>
         <source>Clipboard</source>
         <translation>保存到剪切板</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="436"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="442"/>
         <source>save</source>
         <translation>保存为文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="423"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="429"/>
         <source>send</source>
         <translation>发送</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="332"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="338"/>
         <source>Message</source>
         <translation>消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="344"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="350"/>
         <source>Receiving a message alert tone</source>
         <translation>接收消息提示音</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="351"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="357"/>
         <source>Send message key</source>
         <translation>发送消息键</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="363"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="369"/>
         <source>CTRL+ENTER</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="379"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="385"/>
         <source>ENTER</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="447"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="453"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="465"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="471"/>
         <source>Show User Name</source>
         <translation>显示用户名</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="483"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="489"/>
         <source>JID</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="502"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="508"/>
         <source>Name</source>
         <translation>名字</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="527"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="533"/>
         <source>Nick</source>
         <translation>呢称</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="558"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="564"/>
         <source>User color</source>
         <translation>用户颜色</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="566"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="572"/>
         <source>Locale user color:</source>
         <translation>本地用户颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="588"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="621"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="681"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="714"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="747"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="594"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="627"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="687"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="720"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="753"/>
         <source>Select color(&amp;S)</source>
         <translation>选择颜色(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="599"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="605"/>
         <source>Roster color:</source>
         <translation>好友颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="651"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="657"/>
         <source>Message color</source>
         <translation>消息颜色</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="659"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="665"/>
         <source>Locale user message color:</source>
         <translation>本地用户消息颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="692"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="698"/>
         <source>Roster message color:</source>
         <translation>好友消息颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="725"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="731"/>
         <source>Unread message count color:</source>
         <translation>未读消息数颜色：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="760"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="766"/>
         <source>Multimedia devices</source>
         <translation>多媒体设备</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="772"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="778"/>
         <source>Audio devices</source>
         <translation>音频设备</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="786"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="792"/>
         <source>Audio input devices:</source>
         <translation>音频输入设备：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="809"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="815"/>
         <source>Audio output devices:</source>
         <translation>音频输出设备：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="829"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="835"/>
         <source>video devices:</source>
         <translation>视频捕获设备：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="865"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="871"/>
         <source>Show locale video</source>
         <translation>显示本地视频</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="878"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="884"/>
         <source>Monitor mode</source>
         <translation>监控模式</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="888"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="894"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="894"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="900"/>
         <source>Update time:</source>
         <translation>更新时间：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="900"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="906"/>
         <source>Don&apos;t update</source>
         <translation>不更新</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="907"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="913"/>
         <source>A day</source>
-        <translation>一天</translation>
+        <translation>每天</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="917"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="923"/>
         <source>A Month</source>
         <translation>一月</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="924"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="930"/>
         <source>A week</source>
         <translation>一周</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="931"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="937"/>
         <source>Every time</source>
-        <translation>每天</translation>
+        <translation>每次</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="968"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="974"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="997"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1003"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
@@ -967,42 +967,80 @@ Email、MSN:kl222@126.com</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.ui" line="69"/>
-        <source>TextLabel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../Update/DlgUpdate.ui" line="97"/>
         <source>Ok</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.ui" line="104"/>
+        <location filename="../../Update/DlgUpdate.ui" line="108"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="18"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="19"/>
         <source>Is checking update version</source>
         <translation>正在更新版本</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="96"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="101"/>
+        <source>Download file fail:%1</source>
+        <translation>下载文件失败：%1</translation>
+    </message>
+    <message>
+        <location filename="../../Update/DlgUpdate.cpp" line="110"/>
+        <source>Don&apos;t open file:%1</source>
+        <translation>不能打开文件：%1</translation>
+    </message>
+    <message>
+        <location filename="../../Update/DlgUpdate.cpp" line="120"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="128"/>
+        <source>File format error.%1</source>
+        <translation>文件格式错误。%1</translation>
+    </message>
+    <message>
+        <location filename="../../Update/DlgUpdate.cpp" line="150"/>
+        <source>New version:%1.%2.%3</source>
+        <translation>新版本：%1.%2.%3</translation>
+    </message>
+    <message>
+        <location filename="../../Update/DlgUpdate.cpp" line="156"/>
+        <source>Version file is error</source>
+        <translation>版本文件错误</translation>
+    </message>
+    <message>
+        <location filename="../../Update/DlgUpdate.cpp" line="176"/>
         <source>Do you update new version?</source>
         <translation>你要更新版本吗？</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="119"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="199"/>
         <source>Download fail.</source>
         <translation>下载失败。</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="122"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="204"/>
         <source>Download success.</source>
         <translation>下载成功。</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="140"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="212"/>
+        <source>Download file md5sum error:%1</source>
+        <translation>下载文件 md5 校验和错误:%1</translation>
+    </message>
+    <message>
+        <location filename="../../Update/DlgUpdate.cpp" line="222"/>
+        <source>Download file don&apos;t execute permissions. Please modify permission then manually  execute it.
+%1</source>
+        <translation>下载的文件没有执行权限。请手动修改它的权限，然后执行它。
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../Update/DlgUpdate.cpp" line="231"/>
+        <source>Execute install program error.%1</source>
+        <translation>执行安装程序错误。%1</translation>
+    </message>
+    <message>
+        <location filename="../../Update/DlgUpdate.cpp" line="253"/>
         <source>Downloading </source>
         <translation>正在下载 </translation>
     </message>
@@ -1093,56 +1131,6 @@ Email、MSN:kl222@126.com</source>
         <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="103"/>
         <source>Open File</source>
         <translation>打开文件</translation>
-    </message>
-</context>
-<context>
-    <name>CDownLoadHandleFile</name>
-    <message>
-        <location filename="../../Update/DownLoadHandle.cpp" line="49"/>
-        <source>Download file fail:%1</source>
-        <translation>下载文件失败：%1</translation>
-    </message>
-    <message>
-        <location filename="../../Update/DownLoadHandle.cpp" line="58"/>
-        <source>Download file md5sum error:%1</source>
-        <translation>下载文件 md5 校验和错误:%1</translation>
-    </message>
-    <message>
-        <location filename="../../Update/DownLoadHandle.cpp" line="68"/>
-        <source>Download file don&apos;t execute permissions. Please modify permission then manually  execute it.
-%1</source>
-        <translation>下载的文件没有执行权限。请手动修改它的权限，然后执行它。</translation>
-    </message>
-    <message>
-        <location filename="../../Update/DownLoadHandle.cpp" line="77"/>
-        <source>Execute install program error.%1</source>
-        <translation>执行安装程序错误。%1</translation>
-    </message>
-</context>
-<context>
-    <name>CDownLoadHandleVersionFile</name>
-    <message>
-        <location filename="../../Update/DownLoadHandle.cpp" line="112"/>
-        <source>Download file fail:%1</source>
-        <translation>下载文件失败：%1</translation>
-    </message>
-    <message>
-        <location filename="../../Update/DownLoadHandle.cpp" line="121"/>
-        <source>Don&apos;t open file:%1</source>
-        <translation>不能打开文件：%1</translation>
-    </message>
-    <message>
-        <location filename="../../Update/DownLoadHandle.cpp" line="131"/>
-        <location filename="../../Update/DownLoadHandle.cpp" line="139"/>
-        <source>File format error.%1</source>
-        <translation>文件格式错误。%1</translation>
-    </message>
-    <message>
-        <location filename="../../Update/DownLoadHandle.cpp" line="162"/>
-        <source>New version:%1.%2.%3
-</source>
-        <translation>新版本：%1.%2.%3
-</translation>
     </message>
 </context>
 <context>
@@ -1990,7 +1978,7 @@ Email、MSN:kl222@126.com</source>
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="14"/>
-        <location filename="../../MainWindow.cpp" line="97"/>
+        <location filename="../../MainWindow.cpp" line="99"/>
         <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>
     </message>
@@ -2030,120 +2018,120 @@ Email、MSN:kl222@126.com</source>
         <translation>选项(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="144"/>
-        <location filename="../../MainWindow.cpp" line="596"/>
+        <location filename="../../MainWindow.cpp" line="146"/>
+        <location filename="../../MainWindow.cpp" line="598"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="323"/>
+        <location filename="../../MainWindow.cpp" line="325"/>
         <source>Close(&amp;E)</source>
         <translation>关闭(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="301"/>
-        <location filename="../../MainWindow.cpp" line="580"/>
+        <location filename="../../MainWindow.cpp" line="303"/>
+        <location filename="../../MainWindow.cpp" line="582"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation>编辑本地用户信息(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="404"/>
+        <location filename="../../MainWindow.cpp" line="406"/>
         <source>Status(&amp;S)</source>
         <translation>状态(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="423"/>
+        <location filename="../../MainWindow.cpp" line="425"/>
         <source>Language(&amp;L)</source>
         <translation>语言(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="425"/>
+        <location filename="../../MainWindow.cpp" line="427"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="427"/>
+        <location filename="../../MainWindow.cpp" line="429"/>
         <source>Chinese</source>
         <translation>简体中文</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="426"/>
+        <location filename="../../MainWindow.cpp" line="428"/>
         <source>English</source>
         <translation>英语</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="145"/>
+        <location filename="../../MainWindow.cpp" line="147"/>
         <source>Is close the programe or logout?</source>
         <translation>是关闭程序还是登出？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="147"/>
+        <location filename="../../MainWindow.cpp" line="149"/>
         <source>close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="148"/>
+        <location filename="../../MainWindow.cpp" line="150"/>
         <source>logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="256"/>
-        <location filename="../../MainWindow.cpp" line="257"/>
+        <location filename="../../MainWindow.cpp" line="258"/>
+        <location filename="../../MainWindow.cpp" line="259"/>
         <source>RabbitIm:%1</source>
         <translation>玉兔即时通信：%1</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="320"/>
+        <location filename="../../MainWindow.cpp" line="322"/>
         <source>Logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="330"/>
+        <location filename="../../MainWindow.cpp" line="332"/>
         <source>Custom</source>
         <translation>自定义</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="331"/>
+        <location filename="../../MainWindow.cpp" line="333"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="332"/>
+        <location filename="../../MainWindow.cpp" line="334"/>
         <source>Blue</source>
         <translation>蓝色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="333"/>
+        <location filename="../../MainWindow.cpp" line="335"/>
         <source>Dark</source>
         <translation>黑色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="349"/>
+        <location filename="../../MainWindow.cpp" line="351"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation>扶肤(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="526"/>
+        <location filename="../../MainWindow.cpp" line="528"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="526"/>
+        <location filename="../../MainWindow.cpp" line="528"/>
         <source>Change language must reset program.</source>
         <translation>改变语言设置，必须重启程序才能生效。</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="589"/>
+        <location filename="../../MainWindow.cpp" line="591"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="591"/>
+        <location filename="../../MainWindow.cpp" line="593"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="728"/>
+        <location filename="../../MainWindow.cpp" line="730"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>

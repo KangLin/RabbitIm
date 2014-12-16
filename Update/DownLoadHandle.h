@@ -25,7 +25,7 @@ private:
     QString m_szFileMd5sum;//安装文件的md5校验和  
 };
 
-class CDownLoadHandleVersionFile : public CDownLoadHandle, QObject
+class CDownLoadHandleVersionFile : public CDownLoadHandle
 {
 public:
     CDownLoadHandleVersionFile(const std::string &szFile = std::string(), CDlgUpdate* pDlgUpdate = NULL);
@@ -35,10 +35,6 @@ public:
     virtual int OnEnd(int nErrorCode);
     virtual int OnError(int nErrorCode, const std::string &szErr);
 
-    QString m_szInfo;//新版本的信息  
-    QString m_szMd5sum; //下载文件的MD5校验和  
-    QString m_szUrl;                     //要下载文件的URL  
-    QString m_szDownLoadFile;//下载文件存放本地的位置  
 private:
     CDlgUpdate* m_pDlg;
     std::string m_szFile;//版本文件  
