@@ -52,8 +52,13 @@ cmake .. \
     -DANDROID_NATIVE_API_LEVEL=android-${PLATFORMS_VERSION} \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DCMAKE_BUILD_TYPE="Release" \
+    -DBUILD_CURL_EXE=OFF \
     -DBUILD_CURL_TESTS=OFF \
-    -DCURL_STATICLIB=ON
+    -DCURL_DISABLE_LDAP=ON \
+    -DCURL_DISABLE_LDAPS=ON \
+    -DCMAKE_USE_LIBSSH2=OFF \
+    -DCURL_STATICLIB=ON 
+    
 cmake --build . --target install --config Release
 
 cd $CUR_DIR
