@@ -17,16 +17,9 @@ IF(GIT)
     EXECUTE_PROCESS(
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         COMMAND ${GIT} rev-parse --short HEAD
-        OUTPUT_VARIABLE GIT_OUT OUTPUT_STRIP_TRAILING_WHITESPACE
+        OUTPUT_VARIABLE BUILD_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-    SET(PROJECT_VERSION_PATCH "${GIT_OUT}")
-    MESSAGE("Git Version Patch: ${GIT_OUT}")
-ELSE(GIT)
-    IF(GITBUILD)
-        SET(PROJECT_VERSION_PATCH "${GITBUILD}")
-    ELSE(GITBUILD)
-        SET(GIT_OUT 0)
-    ENDIF(GITBUILD)
+    MESSAGE("Git Version: ${BUILD_VERSION}")
 ENDIF(GIT)
 
 MESSAGE("\n")
@@ -65,20 +58,24 @@ ENDIF()
 #设置头文件包含位置 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 IF(MSVC)
+    SET(RABBITIM_SYSTEM windows)
     SET(TOOLCHAIN_NAME windows_msvc)
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt")
 ELSEIF(MINGW)
+    SET(RABBITIM_SYSTEM windows)
     SET(TOOLCHAIN_NAME windows_mingw)
     # Windows compatibility
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
     # Statically link with libgcc
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static -static-libgcc -static-libstdc++ ")
 ELSEIF(ANDROID)
+    SET(RABBITIM_SYSTEM android)
     SET(TOOLCHAIN_NAME android)
     ADD_DEFINITIONS(-DMOBILE)
     #SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -Wno-psabi -march=armv7-a -mfloat-abi=softfp -mfpu=vfp -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums  -Wa,--noexecstack -gdwarf-2 -marm -fno-omit-frame-pointer -Wall -Wno-psabi -W -fPIE)
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined -Wl,-z,noexecstack -shared")
 ELSE(LINUX OR UNIX)
+    SET(RABBITIM_SYSTEM unix)
     ADD_DEFINITIONS(-DUNIX)
     SET(TOOLCHAIN_NAME unix)
 ENDIF()
@@ -135,6 +132,26 @@ IF(RABBITIM_USER_OPENCV)
         opencv_imgproc${OPENCV_VERSION})
 ENDIF(RABBITIM_USER_OPENCV)
 
+#检测libcurl库
+find_package(CURL)
+if(CURL_FOUND)
+    add_definitions("-DRABBITIM_USER_LIBCURL")
+    include_directories(${CURL_INCLUDE_DIR})
+    SET(LIBCURL_LIBS ${CURL_LIBRARY})
+else(CURL_FOUND)
+    MESSAGE("Don't find libcurl library\n")
+endif(CURL_FOUND)
+
+#检测openssl库
+find_package(OpenSSL)
+if(OPENSSL_FOUND)
+    add_definitions("-DRABBITIM_USER_OPENSSL")
+    include_directories(${OPENSSL_INCLUDE_DIR})
+    SET(OPENSSL_LIBS ${OPENSSL_LIBRARIES})
+else(OPENSSL_FOUND)
+    MESSAGE("Don't find openssl library\n")
+endif(OPENSSL_FOUND)
+
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 ADD_DEFINITIONS("-DQXMPP -DQXMPP_STATIC")
 IF(WIN32 AND MSVC AND CMAKE_BUILD_TYPE MATCHES Debug)
@@ -144,16 +161,20 @@ ELSE()
 ENDIF()
 message("QXMPP_LIBS:${QXMPP_LIBS}")
 SET(RABBITIM_LIBS
+    ${RABBITIM_LIBS}
     ${QXMPP_LIBS}
     ${OPENCV_LIBS}
     ${FFMPEG_LIBS}
     ${VPX_LIBS}
     ${SPEEX_LIBS}
+    ${LIBCURL_LIBS}
+    ${OPENSSL_LIBS}
     )
 
+include(cmake/version.cmake)
 include(cmake/cmake_build_file.cmake)
 
-SET(RABBITIM_RCC_FILES Resource/Resource.qrc  AppIcon.rc)
+SET(RABBITIM_RCC_FILES Resource/Resource.qrc Resource/sink/dark/style.qrc  AppIcon.rc)
 
 #生成目标
 IF(ANDROID)

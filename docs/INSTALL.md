@@ -348,8 +348,10 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
   * 打开菜单：文件->打开文件，选中 CMakeLists.txt 文件
   * 会弹出一个执行 CMake 对话框
-    + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
-    + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
+    + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug 
+    + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release 
+    + 其它可选参数：
+    -DRABBITIM_USER_LIBCURL=ON -DRABBITIM_USER_OPENSSL=ON
   * 选择相应的创建器
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功，点完成就会打开项目。
   * 点调试，就可以编译，并调试程序
@@ -360,7 +362,9 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
   * 会弹出一个执行 CMake 对话框
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
-    + 还要填入：-DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
+    + 其它可选参数：
+    -DRABBITIM_USER_LIBCURL=ON -DRABBITIM_USER_OPENSSL=ON
+    + 还要填入编译器参数：-DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
     ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5
   * 选择相应的创建器
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功就会打开项目。

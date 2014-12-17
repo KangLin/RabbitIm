@@ -1,8 +1,8 @@
-#发行版本时，需要修改下列值  
+#TODO:发行版本时，需要修改下列值  
 MAJOR_VERSION_NUMBER=0      #主版本
 MINOR_VERSION_NUMBER=1       #次版本
 REVISION_VERSION_NUMBER=0  #修订号
-BUILD_VERSION=$$system(git rev-parse HEAD 2> /dev/null || echo "built without git")
+BUILD_VERSION=$$system(git rev-parse --short  HEAD 2> /dev/null || echo "built without git")
 
 #生成的版本头文件
 FILENAME=Version.h

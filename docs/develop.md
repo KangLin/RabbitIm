@@ -68,7 +68,8 @@
 - 把develop分支代码merge到master分支，stable版本发布
 
 ### 版本号约定
-版本控制在 文件[RabbitIm.prf](./../RabbitIm.prf)中。
+* 用Qt project发行时需要修改：[RabbitIm.prf](./../RabbitIm.prf)
+* 用cmake 发行时需要修改：[version.cmake](./../cmake/version.cmake)
 
 #### 格式:
 主版本号 . 子版本号 [. 修正版本号[. 编译版本号 [.编译时间[.后缀]]]]  

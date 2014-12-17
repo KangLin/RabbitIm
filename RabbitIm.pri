@@ -65,8 +65,7 @@ SOURCES += main.cpp\
     Widgets/DlgUservCard/DlgUservCard.cpp \ 
     Widgets/DlgAbout/DlgAbout.cpp \
     Widgets/DlgOptions/DlgOptions.cpp \  
-    Message/ManageMessage.cpp \  
-    $$PWD/Global/Encrypt.cpp
+    Message/ManageMessage.cpp
 
 HEADERS += Version.h \
     MainWindow.h \
@@ -134,8 +133,7 @@ HEADERS += Version.h \
     Widgets/DlgUservCard/DlgUservCard.h \ 
     Widgets/DlgAbout/DlgAbout.h \
     Widgets/DlgOptions/DlgOptions.h \ 
-    Message/ManageMessage.h \  
-    $$PWD/Global/Encrypt.h
+    Message/ManageMessage.h 
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
@@ -179,4 +177,9 @@ RESOURCES += \
     Update/DlgUpdate.h
 
     FORMS += Update/DlgUpdate.ui
+}
+
+!isEmpty(RABBITIM_USER_OPENSSL){
+    SOURCES += Global/Encrypt.cpp
+    HEADERS += Global/Encrypt.h
 }
