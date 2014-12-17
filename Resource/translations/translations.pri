@@ -34,9 +34,21 @@ QMAKE_EXTRA_COMPILERS += updateqm
 
 TRANSLATIONS_OUTPUT_PATH = $${TARGET_PATH}/translations
 mytranslations.target = mytranslations
-mytranslations.commands = $(MKDIR) $${TRANSLATIONS_OUTPUT_PATH} && \
-    $(COPY_DIR) $${PWD}/app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/app_zh_CN.qm && \
-    $(COPY_DIR) $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/qt_zh_CN.qm
+msvc {
+    TRANSLATIONS_OUTPUT_PATH = $$replace(TRANSLATIONS_OUTPUT_PATH, /, \\)
+    QT_QM = $$[QT_INSTALL_TRANSLATIONS]\qt_zh_CN.qm
+    QT_QM = $$replace(QT_QM, /, \\)
+    mkpath($${TRANSLATIONS_OUTPUT_PATH})
+    mytranslations.commands =  \
+        $(COPY_DIR) $$replace(PWD, /, \\)\app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}\app_zh_CN.qm && \
+        $(COPY_DIR) $$QT_QM $${TRANSLATIONS_OUTPUT_PATH}\qt_zh_CN.qm
+    #mytranslations.depends = mytranslations_path
+}
+else {
+    mytranslations.commands = $(MKDIR) $${TRANSLATIONS_OUTPUT_PATH} && \
+        $(COPY_DIR) $${PWD}/app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/app_zh_CN.qm && \
+        $(COPY_DIR) $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/qt_zh_CN.qm
+}
 QMAKE_EXTRA_TARGETS += mytranslations
 #PRE_TARGETDEPS += mytranslations
 POST_TARGETDEPS += mytranslations
