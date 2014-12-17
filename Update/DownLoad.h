@@ -1,15 +1,15 @@
-/**
+/**  
  * @brief 多线程下载类,此类遵守c++11标准,可以单独使用  
  * @author 康林  
- * @date 2014-12-08
- *
- * @class CDownLoad DownLoad.h "Update/DownLoad.h"
+ * @date 2014-12-08  
+ *  
+ * @class CDownLoad DownLoad.h "Update/DownLoad.h"  
  * 注意:CDownLoad实例生命周期大于下载的生命周期,否则会阻塞调用线程.因为在析构函数中会等待所有线程退出  
  * 使用:   
  *     //从 CDownLoadHandle 派生一个类,自定义一个处理实例  
- *     CDownLoadHandle h; 
+ *     CDownLoadHandle h;   
  *     CDownLoad d; //定义实例  
- *     d.Start("http://182.254.185.29/a", "a", &h, 20);
+ *     d.Start("http://182.254.185.29/a", "a", &h, 20);  
  */
 
 #ifndef DOWNLOAD_H
@@ -65,12 +65,12 @@ private:
     int Init();
 
 public://以下函数和变量为CDownLoad内部使用,使用者不能直接使用它们  
-    /**
+    /**  
      * @brief 得到文件的长度  
-     *
-     * @fn GetFileLength
-     * @param szFile
-     * @return long
+     *  
+     * @fn GetFileLength  
+     * @param szFile  
+     * @return long  
      */
     double GetFileLength(const std::string &szUrl);
     int GetRange(unsigned long &nStart, unsigned long &nEnd);

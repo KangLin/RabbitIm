@@ -214,11 +214,11 @@ void CDlgUpdate::slotDownLoadEnd(int nErr)
         return ;
     }
 
-    //修改文件执行权限
+    //修改文件执行权限  
     QFileInfo info(m_szDownLoadFile);
     if(!info.permission(QFile::ExeUser))
     {
-        //修改文件执行权限
+        //修改文件执行权限  
         QString szErr = tr("Download file don't execute permissions. Please modify permission then manually  execute it.\n%1").arg(m_szDownLoadFile);
         slotError(-2, szErr);
         return;

@@ -40,8 +40,8 @@ msvc {
     QT_QM = $$replace(QT_QM, /, \\)
     mkpath($${TRANSLATIONS_OUTPUT_PATH})
     mytranslations.commands =  \
-        $(COPY_DIR) $$replace(PWD, /, \\)\app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}\app_zh_CN.qm && \
-        $(COPY_DIR) $$QT_QM $${TRANSLATIONS_OUTPUT_PATH}\qt_zh_CN.qm
+        $(COPY) $$replace(PWD, /, \\)\app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}\app_zh_CN.qm && \
+        $(COPY) $$QT_QM $${TRANSLATIONS_OUTPUT_PATH}\qt_zh_CN.qm
     #mytranslations.depends = mytranslations_path
 }
 else {

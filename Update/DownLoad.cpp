@@ -159,9 +159,9 @@ size_t CDownLoad::WriteSingle(void *buffer, size_t size, size_t nmemb, void *par
     return nWrite;
 }
 
-/************************************************************************/
-/* 获取要下载的远程文件的大小                                                */
-/************************************************************************/
+/************************************************************************/  
+/* 获取要下载的远程文件的大小                                                */  
+/************************************************************************/ 
 double CDownLoad::GetFileLength(const std::string &szUrl)
 {
     double nLength = 0;
@@ -463,7 +463,7 @@ int CDownLoad::progress_callback(void *clientp, double dltotal, double dlnow, do
 int CDownLoad::xferinfo(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
 {
     LOG_MODEL_DEBUG("CDwonLoad", "UP: %" CURL_FORMAT_CURL_OFF_T " of %" CURL_FORMAT_CURL_OFF_T
-                                                                       "  DOWN: %" CURL_FORMAT_CURL_OFF_T " of %" CURL_FORMAT_CURL_OFF_T,
+                    "  DOWN: %" CURL_FORMAT_CURL_OFF_T " of %" CURL_FORMAT_CURL_OFF_T,
                     ulnow, ultotal, dlnow, dltotal);
     _PROCESS_STRUCT* p = (_PROCESS_STRUCT*)clientp;
     CDownLoad* pThis = p->pThis;
@@ -525,7 +525,7 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
     if(pHandle)
         m_pHandle = pHandle;
 
-    //打开文件
+    //打开文件  
     //注意：一定要以二进制模式打开，否则可能写入的数量大于缓存的数量  
 	m_streamFile.open(m_szFile, std::ios_base::out | std::ios_base::trunc | std::ios::binary);
 	if (!m_streamFile)

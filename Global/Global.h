@@ -227,7 +227,7 @@ public:
     E_ROSTER_SHOW_TYPE GetRosterShowType();
     int SetRosterShowType(E_ROSTER_SHOW_TYPE type);
     
-    enum E_SCREEN_SHOT_TO_TYPE //20140802 截屏后文件处理  
+    enum E_SCREEN_SHOT_TO_TYPE //截屏后文件处理  
     {
         E_TO_CLIPBOARD,
         E_TO_SEND,
@@ -274,7 +274,7 @@ private:
     QString m_szStyleFile;
     QString m_szMenuStyle;
 
-//检查版本更新
+//检查版本更新  
 public:
     enum E_UPDATE
     {

@@ -10,6 +10,8 @@
 #   `c:\MinGW\msys\1.0\msys`  
 #   注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。  
 #   然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibary/build_script`。再运行你想运行的编译脚本。例如： `./build_windows_mscv.sh` 
+#
+#需要 perl
 
 #运行本脚本前,先运行 build_windows_msvc_envsetup.sh 进行环境变量设置,需要先设置下面变量:
 #   PREFIX=`pwd`/../windows  #修改这里为安装前缀

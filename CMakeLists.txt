@@ -19,7 +19,7 @@ IF(GIT)
         COMMAND ${GIT} rev-parse --short HEAD
         OUTPUT_VARIABLE BUILD_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-    MESSAGE("Git Version: ${BUILD_VERSION}")
+    MESSAGE("Git Version: ${BUILD_VERSION}\n")
 ENDIF(GIT)
 
 MESSAGE("\n")
@@ -40,7 +40,9 @@ SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTORCC ON)
 
 SET(CMAKE_VERBOSE_MAKEFILE ON)
-SET(CMAKE_CXX_FLAGS "-std=c++11") #启用C++11
+IF(NOT MSVC)
+    SET(CMAKE_CXX_FLAGS "-std=c++11") #启用C++11
+ENDIF(NOT MSVC)
 
 # Add definitions for static/style library 
 OPTION(STATIC "Build statically" OFF)
@@ -85,6 +87,8 @@ INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}
 
 SET(THIRD_LIB_DIR ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/lib)
 LINK_DIRECTORIES(${THIRD_LIB_DIR})
+#设置库的搜索路径  
+SET(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME})
 
 # 依赖的第三方库
 OPTION(USE_VPX "Use vpx library" ON)
@@ -133,24 +137,30 @@ IF(RABBITIM_USER_OPENCV)
 ENDIF(RABBITIM_USER_OPENCV)
 
 #检测libcurl库
+OPTION(RABBITIM_USER_LIBCURL "Use curl library" OFF)
 find_package(CURL)
 if(CURL_FOUND)
     add_definitions("-DRABBITIM_USER_LIBCURL")
+    SET(RABBITIM_USER_LIBCURL ON)
     include_directories(${CURL_INCLUDE_DIR})
     SET(LIBCURL_LIBS ${CURL_LIBRARY})
 else(CURL_FOUND)
     MESSAGE("Don't find libcurl library\n")
 endif(CURL_FOUND)
+MESSAGE("Use curl library:${RABBITIM_USER_LIBCURL}\n")
 
 #检测openssl库
+OPTION(RABBITIM_USER_OPENSSL "Use openssl library" OFF)
 find_package(OpenSSL)
 if(OPENSSL_FOUND)
     add_definitions("-DRABBITIM_USER_OPENSSL")
+    SET(RABBITIM_USER_OPENSSL ON)
     include_directories(${OPENSSL_INCLUDE_DIR})
     SET(OPENSSL_LIBS ${OPENSSL_LIBRARIES})
 else(OPENSSL_FOUND)
     MESSAGE("Don't find openssl library\n")
 endif(OPENSSL_FOUND)
+MESSAGE("Use openssl library:${RABBITIM_USER_OPENSSL}\n")
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 ADD_DEFINITIONS("-DQXMPP -DQXMPP_STATIC")
@@ -205,9 +215,9 @@ target_link_libraries(${PROJECT_NAME}
 
 #翻译
 SET(TS_FILES Resource/translations/app_zh_CN.ts)
-OPTION(REFRESH_TRANSLATIONS "Refresh translations on compile" ON)
-MESSAGE("Refresh translations on compile: ${REFRESH_TRANSLATIONS}\n")
-IF(REFRESH_TRANSLATIONS)
+OPTION(RABBITIM_TRANSLATIONS "Refresh translations on compile" ON)
+MESSAGE("Refresh translations on compile: ${RABBITIM_TRANSLATIONS}\n")
+IF(RABBITIM_TRANSLATIONS)
     IF(NOT Qt5_LRELEASE_EXECUTABLE)
         MESSAGE(WARNING "Could not find lrelease. Your build won't contain translations.")
     ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
@@ -231,7 +241,7 @@ IF(REFRESH_TRANSLATIONS)
         FILE(COPY ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm DESTINATION "translations")
         #FILE(COPY ${QM_FILES} DESTINATION "translations")
     ENDIF(NOT Qt5_LRELEASE_EXECUTABLE)
-ENDIF(REFRESH_TRANSLATIONS)
+ENDIF(RABBITIM_TRANSLATIONS)
 
 GENERATED_DEPLOYMENT_SETTINGS()
 find_program(ANT NAMES ant PATHS  "/usr/bin")
