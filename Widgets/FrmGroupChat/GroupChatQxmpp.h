@@ -5,6 +5,11 @@
 #include "qxmpp/QXmppMucManager.h"
 #include "GroupChat.h"
 
+#ifdef WIN32
+#undef GetMessage
+#undef SendMessage
+#endif
+
 class CGroupChatQxmpp : public CGroupChat
 {
     Q_OBJECT
