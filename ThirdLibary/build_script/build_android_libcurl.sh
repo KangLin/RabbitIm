@@ -29,36 +29,25 @@ echo "CUR_DIR:$CUR_DIR"
 echo "PREFIX:$PREFIX"
 echo ""
 
+if [ ! -f configure ]; then
+    echo "source buildconf"
+    ./buildconf
+fi
+
 mkdir -p build_android
 cd build_android
 rm -fr *
 
+echo "configure ..."
 
-case `uname -s` in
-    MINGW* | CYGWIN*)
-        GENERATORS="MinGW Makefiles"
-        ;;
-    Linux* | Unix* | *)
-        GENERATORS="Unix Makefiles" 
-        ;;
-esac
+../configure  --prefix=$PREFIX \
+    CC=${CROSS_PREFIX}gcc \
+    --disable-shared \
+    --enable-static \
+    CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${PLATFORM}" \
+    CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${PLATFORM}" \
+    --host=arm-linux-androideabi \
 
-cmake .. \
-    -G"${GENERATORS}"\
-    -DCMAKE_MAKE_PROGRAM="$ANDROID_NDK/prebuilt/${HOST}/bin/make" \
-    -DCMAKE_TOOLCHAIN_FILE=$PREFIX/../../platforms/android/android.toolchain.cmake \
-    -DANDROID_ABI="armeabi-v7a with NEON" \
-    -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-${TOOLCHAIN_VERSION} \
-    -DANDROID_NATIVE_API_LEVEL=android-${PLATFORMS_VERSION} \
-    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DCMAKE_BUILD_TYPE="Release" \
-    -DBUILD_CURL_EXE=OFF \
-    -DBUILD_CURL_TESTS=OFF \
-    -DCURL_DISABLE_LDAP=ON \
-    -DCURL_DISABLE_LDAPS=ON \
-    -DCMAKE_USE_LIBSSH2=OFF \
-    -DCURL_STATICLIB=ON 
-    
-cmake --build . --target install --config Release
+make install
 
 cd $CUR_DIR

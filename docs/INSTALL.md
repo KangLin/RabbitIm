@@ -322,6 +322,14 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
     详见[《webrtc教程》](http://blog.csdn.net/kl222/article/details/17198873)
 
+7. openssl:
+
+    sudo apt-get install libssl-dev 
+
+8. libcurl:
+
+     sudo apt-get install libcurl4-openssl-dev
+
 ### 本工程编译
 如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。
 #### 1. 用Qt Creator 编译 
