@@ -44,7 +44,7 @@ private:
     int DownloadFile();
     Ui::CDlgUpdate *ui;
 
-    //下载版本更新
+    //下载版本更新  
     CDownLoad m_DownLoadVersion;
     //下载版本更新文件处理器  
     CDownLoadHandleVersionFile m_VersionFileHandle;

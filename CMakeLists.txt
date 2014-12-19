@@ -253,18 +253,23 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
         INSTALL(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}")
     ELSE()
         #设置安装目录
-        SET(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install")
+        #SET(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install")
         INSTALL(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}")
     ENDIF()
     INSTALL(FILES ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
     INSTALL(FILES ${QM_FILES} DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
-    SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Gui Qt5::Xml)
-    INSTALL_QT_LIBRARYS(${QT_LIBS})
-    INSTALL_QT_PLUGINS(Qt5Gui_PLUGINS Qt5Network_PLUGINS Qt5Widgets_PLUGINS Qt5Xml_PLUGINS)
+    #SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Gui Qt5::Xml)
+    #INSTALL_QT_LIBRARYS(${QT_LIBS})
+    #INSTALL_QT_PLUGINS(Qt5Gui_PLUGINS Qt5Network_PLUGINS Qt5Widgets_PLUGINS Qt5Xml_PLUGINS)
     IF(WIN32)
-        INSTALL(FILES ${QT_INSTALL_DIR}/bin/icudt52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
-        INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuin52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
-        INSTALL(FILES ${QT_INSTALL_DIR}/bin/icuuc52.dll DESTINATION "${CMAKE_INSTALL_PREFIX}")
+        add_custom_target(Deployment DEPENDS ${PROJECT_NAME}
+            COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.exe" "${CMAKE_INSTALL_PREFIX}/."
+            COMMAND "${QT_INSTALL_DIR}/bin/windeployqt" 
+                --compiler-runtime
+                --no-translations
+                --verbose 7
+                "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.exe"
+        )
     ENDIF(WIN32)
 ENDIF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
 

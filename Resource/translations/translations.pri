@@ -74,7 +74,7 @@ else{
     other.CONFIG += directory no_check_exist 
     target.path = $$PREFIX
     mytranslat.files =  Resource/translations/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
-    mytranslat.path = $$PREFIX/translate
+    mytranslat.path = $$PREFIX/translations
     mytranslat.CONFIG += directory no_check_exist 
     INSTALLS += target other mytranslat
 }

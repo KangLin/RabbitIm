@@ -355,6 +355,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
   * 选择相应的创建器
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功，点完成就会打开项目。
   * 点调试，就可以编译，并调试程序
+  * 如果要分发，选择 项目->构建->构建步骤->目标,选择 Deployment 项.
 
 ###### 1.2.2. android平台
 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
@@ -395,7 +396,13 @@ MAKE在不同的环境下有不同的命令：
 
     Qt5_DIR:qt cmake 的安装路径。例如： /c/Qt/Qt5.3.1_android/5.3/mingw482_32/lib/cmake/Qt5
 
-###### 2.1.2. android 平台:
+###### 2.1.2. 分发
+
+    set PATH=%PATH$;Qt5_DIR
+    cmake --build . --target Deployment
+    
+
+###### 2.1.3. android 平台:
 
 windows 平台下以 mingw 环境为例
 
