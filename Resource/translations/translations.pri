@@ -53,16 +53,6 @@ QMAKE_EXTRA_TARGETS += mytranslations
 #PRE_TARGETDEPS += mytranslations
 POST_TARGETDEPS += mytranslations
 
-#安装
-isEmpty(PREFIX)
-{
-    android{
-       PREFIX=/.
-    }
-    else{
-        PREFIX = install
-    }
-}
 wince {
     mytranslat.files = Resource/translations/app_zh_CN.qm
     mytranslat.path = $$PREFIX

@@ -29,8 +29,18 @@ win32{
     TARGET_PATH=$${OUT_PWD}
 }
 
-
 CONFIG += c++11
+
+#安装
+isEmpty(PREFIX)
+{
+    android{
+       PREFIX=/.
+    }
+    else{
+        PREFIX = $$PWD/install
+    }
+}
 
 #预编译
 #CONFIG += precompiled_header
@@ -151,16 +161,16 @@ android{
 !isEmpty(RABBITIM_USER_OPENCV) {
     DEFINES += RABBITIM_USER_OPENCV
     OPENCV_LIBRARY= -lopencv_video$$OPENCV_VERSION \
-                                            -lopencv_videoio$$OPENCV_VERSION \
-                                            -lopencv_imgproc$$OPENCV_VERSION \
-                                            -lopencv_core$$OPENCV_VERSION
+                    -lopencv_videoio$$OPENCV_VERSION \
+                    -lopencv_imgproc$$OPENCV_VERSION \
+                    -lopencv_core$$OPENCV_VERSION
 
     android{
         OPENCV_LIBRARY += \
-                                              -lopencv_androidcamera \
-                                              -lopencv_imgcodecs \
-                                              -lopencv_info \
-                                              -llibjpeg
+                         -lopencv_androidcamera \
+                         -lopencv_imgcodecs \
+                         -lopencv_info \
+                         -llibjpeg
     }
     else {
         OPENCV_LIBRARY += -lzlib
@@ -227,4 +237,15 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
             $$PWD/ThirdLibary/android/lib/libnative_camera_r4.2.0.so  \ #修改成你手机平台对应的版本，如果没有，则取最近的版本
             $$PWD/ThirdLibary/android/lib/libopencv_info.so 
     }
+}
+
+msvc{
+    Deployment.target = Deployment
+    Deployment.path = $${PREFIX}
+    Deployment.commands = "$$[QT_INSTALL_BINS]/windeployqt" \
+                    --compiler-runtime \
+                    --no-translations \
+                    --verbose 7 \
+                    "$${PREFIX}/$${TARGET}.exe"
+    INSTALLS += Deployment
 }
