@@ -85,7 +85,7 @@ public://以下函数和变量为CDownLoad内部使用,使用者不能直接使�
                         curl_off_t ultotal, curl_off_t ulnow);
     std::string m_szUrl;                       //下载地址  
     std::string m_szFile;                      //保存到本地文件  
-	std::ofstream m_streamFile;      //本地文件流  
+    std::ofstream m_streamFile;      //本地文件流  
     double m_dbFileLength;             //文件总长度  
     double m_dbAlready;                   //已经下载的长度  
     std::mutex m_MutexAlready;    //已经下载的长度互斥量  

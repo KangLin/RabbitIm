@@ -3,10 +3,10 @@
 #include <sstream>
 
 #ifdef RABBITIM_USER_LIBCURL
-	#include "Global/Global.h"
+    #include "Global/Global.h"
 #else
-	#define LOG_MODEL_ERROR(mod, fmt, ...) printf(fmt, ##__VA_ARGS__);
-	#define LOG_MODEL_DEBUG(mod, fmt, ...) printf(fmt, ##__VA_ARGS__);
+    #define LOG_MODEL_ERROR(mod, fmt, ...) printf(fmt, ##__VA_ARGS__);
+    #define LOG_MODEL_DEBUG(mod, fmt, ...) printf(fmt, ##__VA_ARGS__);
 #endif
 
 #define SKIP_PEER_VERIFICATION 1
@@ -66,10 +66,10 @@ CDownLoad::CDownLoad(const std::string &szUrl, const std::string &szFile, CDownL
 CDownLoad::~CDownLoad()
 {
     if(!m_streamFile)
-	{
+    {
         m_streamFile.close();
         m_streamFile.clear();
-	}
+    }
 
     if(m_pMainThread &&m_pMainThread->joinable())
     {
@@ -101,10 +101,10 @@ size_t CDownLoad::Write(void *buffer, size_t size, size_t nmemb, void *para)
 {
   struct _FILE_STRUCT *out = (struct _FILE_STRUCT *)para;
   if(!out ||
-	  !out->pThis ||
-	  !out->pThis->m_streamFile || 
-	  out->start >= out->end
-	  )
+      !out->pThis ||
+      !out->pThis->m_streamFile || 
+      out->start >= out->end
+      )
   {
       return -1; /* failure, can't open file to write */
   }
@@ -517,18 +517,18 @@ int CDownLoad::Start(const std::string &szUrl, const std::string &szFile, CDownL
         return -2;
     }
     if(!m_streamFile)
-	{
+    {
         m_streamFile.close();
         m_streamFile.clear();
-	}
+    }
 
     if(pHandle)
         m_pHandle = pHandle;
 
     //打开文件  
     //注意：一定要以二进制模式打开，否则可能写入的数量大于缓存的数量  
-	m_streamFile.open(m_szFile, std::ios_base::out | std::ios_base::trunc | std::ios::binary);
-	if (!m_streamFile)
+    m_streamFile.open(m_szFile, std::ios_base::out | std::ios_base::trunc | std::ios::binary);
+    if (!m_streamFile)
     {
         LOG_MODEL_ERROR("CDownLoad", "Open file error:%s", m_szFile.c_str());
         if(pHandle)
@@ -569,12 +569,12 @@ int CDownLoad::Main(void *pPara)
         if(t.joinable()) t.join();
     }
 
-	p->m_streamFile.close();
-	p->m_streamFile.clear();
+    p->m_streamFile.close();
+    p->m_streamFile.clear();
 
     if(p->m_pHandle)
         p->m_pHandle->OnEnd(p->m_nErrorCode);
 
     LOG_MODEL_DEBUG("CDownLoad", "download end");
-	return 0;
+    return 0;
 }
