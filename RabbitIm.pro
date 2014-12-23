@@ -32,8 +32,7 @@ win32{
 CONFIG += c++11
 
 #安装
-isEmpty(PREFIX)
-{
+isEmpty(PREFIX){
     android{
        PREFIX=/.
     }
@@ -117,9 +116,8 @@ android{
             DEFINES+= RABBITIM_USER_OPENSSL
             LIBOPENSSL_LIBRARY = ssleay32.lib libeay32.lib
         }
-   }
-    else
-    {
+    }
+    else {
         RABBITIM_PLATFORM="mingw"
 
         INCLUDEPATH += $$PWD/ThirdLibary/windows_mingw/include $$WEBRTC_ROOT
