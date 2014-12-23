@@ -1,5 +1,4 @@
 #include "DownLoadHandle.h"
-#include "Global/Global.h"
 #include "Version.h"
 #include "DlgUpdate.h"
 
