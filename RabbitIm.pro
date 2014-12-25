@@ -115,10 +115,6 @@ android{
     else {
         RABBITIM_PLATFORM="mingw"
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_mingw
-
-        !isEmpty(RABBITIM_USER_LIBCURL){
-            LIBCURL_LIBRARY = -lcurldll
-        }
     }
 
     CONFIG(release, debug|release){
@@ -262,7 +258,7 @@ win32 {
     }
     ThirdLibraryDll.commands =  \
         $(COPY) $$THIRD_LIBRARY_DLL $${TARGET_PATH}\.
-    ThirdLibraryDll.CONFIG += directory no_link no_clean
+    ThirdLibraryDll.CONFIG += directory no_link no_clean no_check_exist
     ThirdLibraryDll.target = ThirdLibraryDll
 }
 QMAKE_EXTRA_TARGETS += ThirdLibraryDll
