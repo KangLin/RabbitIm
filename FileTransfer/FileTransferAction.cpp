@@ -114,7 +114,7 @@ QString CFileTransferAction::drawProgressBar()
     QTime etaTime(0,0);
     etaTime = etaTime.addSecs(etaSecs);
 
-    content += "<td align=right>" + tr("ETA: ") + etaTime.toString("mm:ss") + "</td>";
+    content += "<td align=right>" + tr("ETA: ") + etaTime.toString("hh:mm:ss") + "</td>";
     content += "</tr><tr><td colspan=3>";
     if(m_File->GetError() == CFileTransfer::AbortError
             || m_File->GetError() != CFileTransfer::NoError)

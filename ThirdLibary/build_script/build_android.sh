@@ -11,6 +11,8 @@ if [ -n "$1" ]; then
     source build_android_opencv.sh $1/opencv
     source build_android_ffmpeg.sh $1/ffmpeg
     source build_qxmpp.sh android $1/qxmpp
+    source build_android_openssl.sh $1/openssl
+    source build_android_libcurl.sh $1/curl
 else
     source build_android_speexdsp.sh
     source build_android_speex.sh
@@ -19,4 +21,6 @@ else
     source build_android_opencv.sh 
     source build_android_ffmpeg.sh
     source build_qxmpp.sh android
+    source build_android_openssl.sh
+    source build_android_libcurl.sh
 fi

@@ -71,19 +71,21 @@ CONFIG(debug, debug|release) {
     }
 }
 
-!isEmpty(RABBITIM_USER_LIBCURL){
-    DEFINES += RABBITIM_USER_LIBCURL
-    LIBCURL_LIBRARY = -lcurl
-}
-
 !isEmpty(RABBITIM_USER_OPENSSL){
     DEFINES+= RABBITIM_USER_OPENSSL
-    LIBOPENSSL_LIBRARY = -lcrypto
+    isEmpty(RABBITIM_USER_LIBCURL) {
+        LIBOPENSSL_LIBRARY = -lssl -lcrypto
+    }
+}
+
+!isEmpty(RABBITIM_USER_LIBCURL){
+    DEFINES += RABBITIM_USER_LIBCURL CURL_STATICLIB#用静态库时需要加这个，可以用 ./curl-config --cflags 得到
+    LIBCURL_LIBRARY = -lcurl#可以用 ./curl-config --libs 得到
 }
 
 !isEmpty(RABBITIM_USER_FFMPEG) {
     DEFINES += RABBITIM_USER_FFMPEG
-    FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale  -lavfilter  -lavutil
+    FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lavfilter  -lavutil
 }
 INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom 
 
@@ -115,6 +117,10 @@ android{
     else {
         RABBITIM_PLATFORM="mingw"
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_mingw
+
+        !isEmpty(RABBITIM_USER_LIBCURL){
+            LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lwldap32 -lz -lws2_32#可以用 ./curl-config --libs 得到
+        }
     }
 
     CONFIG(release, debug|release){
@@ -251,13 +257,13 @@ win32{
 win32 {
     #复制第三方依赖库动态库到编译输出目录 
     THIRD_LIBRARY_DLL =  $${THIRD_LIBRARY_PATH}/bin/*.dll
-    msvc {
-        THIRD_LIBRARY_DLL =  $$replace(THIRD_LIBRARY_DLL, /, \\)
+    THIRD_LIBRARY_DLL =  $$replace(THIRD_LIBRARY_DLL, /, \\)
+    exists($${THIRD_LIBRARY_DLL}){
+        ThirdLibraryDll.commands =  \
+            $(COPY) $$THIRD_LIBRARY_DLL $${TARGET_PATH}\.
+        ThirdLibraryDll.CONFIG += directory no_link no_clean no_check_exist
+        ThirdLibraryDll.target = ThirdLibraryDll
+        QMAKE_EXTRA_TARGETS += ThirdLibraryDll
+        POST_TARGETDEPS += ThirdLibraryDll
     }
-    ThirdLibraryDll.commands =  \
-        $(COPY) $$THIRD_LIBRARY_DLL $${TARGET_PATH}\.
-    ThirdLibraryDll.CONFIG += directory no_link no_clean no_check_exist
-    ThirdLibraryDll.target = ThirdLibraryDll
 }
-QMAKE_EXTRA_TARGETS += ThirdLibraryDll
-POST_TARGETDEPS += ThirdLibraryDll
