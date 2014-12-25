@@ -237,6 +237,7 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
 }
 
 win32{
+    #安装qt依赖库
     Deployment_qtlib.target = Deployment_qtlib
     Deployment_qtlib.path = $${PREFIX}
     Deployment_qtlib.commands = "$$[QT_INSTALL_BINS]/windeployqt" \
@@ -244,7 +245,7 @@ win32{
                     --no-translations \
                     --verbose 7 \
                     "$${PREFIX}/$${TARGET}.exe"
-
+    #安装第三方依赖库
     Deployment_third_lib.target = Deployment_third_lib
     Deployment_third_lib.files = $${THIRD_LIBRARY_PATH}/bin/*.dll
     Deployment_third_lib.path = $$PREFIX
@@ -252,3 +253,17 @@ win32{
 
     INSTALLS += Deployment_qtlib Deployment_third_lib
 }
+
+win32 {
+    #复制第三方依赖库动态库到编译输出目录 
+    THIRD_LIBRARY_DLL =  $${THIRD_LIBRARY_PATH}/bin/*.dll
+    msvc {
+        THIRD_LIBRARY_DLL =  $$replace(THIRD_LIBRARY_DLL, /, \\)
+    }
+    ThirdLibraryDll.commands =  \
+        $(COPY) $$THIRD_LIBRARY_DLL $${TARGET_PATH}\.
+    ThirdLibraryDll.CONFIG += directory no_link no_clean
+    ThirdLibraryDll.target = ThirdLibraryDll
+}
+QMAKE_EXTRA_TARGETS += ThirdLibraryDll
+POST_TARGETDEPS += ThirdLibraryDll

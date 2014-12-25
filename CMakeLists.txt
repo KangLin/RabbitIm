@@ -284,3 +284,10 @@ IF(ANDROID)
             #--jdk $ENV{JAVA_HOME}
     )
 ENDIF(ANDROID)
+
+#复制第三方依赖库的动态库到编译目录下
+IF(WIN32)
+    add_custom_command(TARGET  ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/*.dll ${PROJECT_BINARY_DIR}/.
+    )
+ENDIF(WIN32)
