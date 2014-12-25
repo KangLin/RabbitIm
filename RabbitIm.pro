@@ -89,10 +89,9 @@ INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom
 
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android{
-    INCLUDEPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
-    DEPENDPATH += $$PWD/ThirdLibary/android/include $$WEBRTC_ROOT
+    THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/android
     DEFINES += ANDROID MOBILE
-    LIBS += -L$$PWD/ThirdLibary/android/lib  
+    
     RABBITIM_SYSTEM="android"
 } else:win32{
     RABBITIM_SYSTEM="windows"
@@ -100,11 +99,7 @@ android{
         RABBITIM_PLATFORM="msvc"
 
         LDFLAGS += -ladvapi32
-
-        INCLUDEPATH += $$PWD/ThirdLibary/windows_msvc/include $$WEBRTC_ROOT
-        DEPENDPATH += $$PWD/ThirdLibary/windows_msvc/include $$WEBRTC_ROOT
-        LIBS += -L$$PWD/ThirdLibary/windows_msvc/lib
-
+        THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_msvc
         QXMPP_LIBRARY_NAME = qxmpp.lib# qxmpp 库名
 
         !isEmpty(RABBITIM_USER_FFMPEG) {
@@ -119,10 +114,7 @@ android{
     }
     else {
         RABBITIM_PLATFORM="mingw"
-
-        INCLUDEPATH += $$PWD/ThirdLibary/windows_mingw/include $$WEBRTC_ROOT
-        DEPENDPATH += $$PWD/ThirdLibary/windows_mingw/include $$WEBRTC_ROOT
-        LIBS += -L$$PWD/ThirdLibary/windows_mingw/lib
+        THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_mingw
 
         !isEmpty(RABBITIM_USER_LIBCURL){
             LIBCURL_LIBRARY = -lcurldll
@@ -150,11 +142,12 @@ android{
 } else:unix {
     RABBITIM_SYSTEM=unix
     DEFINES += UNIX
-    INCLUDEPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
-    DEPENDPATH += $$PWD/ThirdLibary/unix/include $$WEBRTC_ROOT
-
-    LIBS += -L$$PWD/ThirdLibary/unix/lib
+    THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/unix
 }
+
+INCLUDEPATH += $${THIRD_LIBRARY_PATH}/include $$WEBRTC_ROOT
+DEPENDPATH += $${THIRD_LIBRARY_PATH}/include $$WEBRTC_ROOT
+LIBS += -L$${THIRD_LIBRARY_PATH}/lib  
 
 !isEmpty(RABBITIM_USER_OPENCV) {
     DEFINES += RABBITIM_USER_OPENCV
@@ -237,13 +230,19 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     }
 }
 
-msvc{
-    Deployment.target = Deployment
-    Deployment.path = $${PREFIX}
-    Deployment.commands = "$$[QT_INSTALL_BINS]/windeployqt" \
+win32{
+    Deployment_qtlib.target = Deployment_qtlib
+    Deployment_qtlib.path = $${PREFIX}
+    Deployment_qtlib.commands = "$$[QT_INSTALL_BINS]/windeployqt" \
                     --compiler-runtime \
                     --no-translations \
                     --verbose 7 \
                     "$${PREFIX}/$${TARGET}.exe"
-    INSTALLS += Deployment
+
+    Deployment_third_lib.target = Deployment_third_lib
+    Deployment_third_lib.files = $${THIRD_LIBRARY_PATH}/bin/*.dll
+    Deployment_third_lib.path = $$PREFIX
+    Deployment_third_lib.CONFIG += directory no_check_exist
+
+    INSTALLS += Deployment_qtlib Deployment_third_lib
 }
