@@ -1,28 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+每个操作系统一个文件
+version：当前版本号
+time:当前版本生成的时间
+info：当前版本相关信息
+force：是否强制更新，如果此标志为true，则忽略 min_compatible_version ,强制更新
+min_compatible_version:最小兼容版本，小于此版本必须更新
+url：当前版本下载地址
+md5sum:当前下载文件的md5校验和
+operation_system:操作系统 Platform:硬件平台 Architecture:硬件架构
+-->
+
+<RABBITIM>
+    <SYSTEM>windows</SYSTEM>
+    <PLATFORM>mingw</PLATFORM>
+    <ARCHITECTURE></ARCHITECTURE>
+    <MAJOR_VERSION_NUMBER>0</MAJOR_VERSION_NUMBER>
+    <MINOR_VERSION_NUMBER>1</MINOR_VERSION_NUMBER>
+    <REVISION_VERSION_NUMBER>0</REVISION_VERSION_NUMBER>
+    <TIME></TIME>
+    <INFO></INFO>
+    <FORCE></FORCE>
+    <URL></URL>
+    <MD5SUM></MD5SUM>
+    <MIN_COMPATIBLE_VERSION></MIN_COMPATIBLE_VERSION>
+</RABBITIM>
 
-<!--
-每个操作系统一个文件
-version：当前版本号
-time:当前版本生成的时间
-info：当前版本相关信息
-force：是否强制更新，如果此标志为true，则忽略 min_compatible_version ,强制更新
-min_compatible_version:最小兼容版本，小于此版本必须更新
-url：当前版本下载地址
-md5sum:当前下载文件的md5校验和
-operation_system:操作系统 Platform:硬件平台 Architecture:硬件架构
--->
-
-<RABBITIM>
-    <SYSTEM>windows</SYSTEM>
-    <PLATFORM></PLATFORM>
-    <ARCHITECTURE></ARCHITECTURE>
-    <MAJOR_VERSION_NUMBER>0</MAJOR_VERSION_NUMBER>
-    <MINOR_VERSION_NUMBER>1</MINOR_VERSION_NUMBER>
-    <REVISION_VERSION_NUMBER>1</REVISION_VERSION_NUMBER>
-    <TIME></TIME>
-    <INFO>test</INFO>
-    <FORCE></FORCE>
-    <URL>http://182.254.185.29/download/rabbitim.rar</URL>
-    <MD5SUM>39c20028752b51c367db41038dcf07f7</MD5SUM>
-    <MIN_COMPATIBLE_VERSION></MIN_COMPATIBLE_VERSION>
-</RABBITIM>

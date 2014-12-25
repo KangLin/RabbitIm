@@ -39,7 +39,7 @@ cygwin主页：http://www.cygwin.org/
 下载：
 `git clone  https://github.com/qxmpp-project/qxmpp.git`  
 当前使用版本：  
-    git库版本 —— b54ccca40a16b3171cfbe4693c8970f8ca902d4f  
+    git库版本 —— v0.8.1    
 编译方法参考源码根目录下的README文件。
 
 6. webrtc库：
@@ -55,45 +55,47 @@ cygwin主页：http://www.cygwin.org/
 下载：
         git clone git://source.ffmpeg.org/ffmpeg.git
 当前使用版本：  
-    git库版本 —— 3b06208a57b4954b50d6dcfc1be53b1b3af3dd4c  
+    git库版本 —— 6e6b0a8eed409c06d30cbc86a8e940f8779a4ac2  
     
 8. 编解码库(x264)
 下载：`git clone git://git.videolan.org/x264.git`  
 当前使用版本：  
-    git库版本 —— d6b4e63d2ed8d444b77c11b36c1d646ee5549276
+    git库版本 —— 40bb56814e56ed342040bdbf30258aab39ee9e89
 
 9. 解码库(libvpx)
 下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
 当前使用版本:  
-    git库版本 —— 6962ea665dc968ce32dd1c03b6c162a35cf43c73
+    git库版本 —— 8619274ea384500abeb698f832815ca892266954
 
 10. 音频处理库(libspeexdsp)
 下载：`git clone http://git.xiph.org/speexdsp.git`  
 当前使用版本:  
-    git库版本 —— af768302c12f231e14076faac79b6313e49613a2
+    git库版本 —— a6930dde69ed37c0d56f8fe5b4394bb3e9d31e87
 
 11. 音频编解码库（libspeex）
 下载：`git clone http://git.xiph.org/speex.git`  
 当前使用版本：  
-    git库版本 —— 78cce679a0f2d376b97e64a6d7763bce82dd06cc
+    git库版本 —— 99446819ea60d39dcabac70cb22fac6ba23fdbbe
 
 12. [图像处理库(opencv)](http://opencv.org/)
 下载：`git clone git://github.com/Itseez/opencv.git`  
 当前使用版本:  
-    git库版本 —— 55f490485bd58dc972de9e0333cdff005fce1251
+    git库版本 —— dce629d0e25598d07723324de300ae1cad234f13
 
 13. libyuv  
-下载:`svn checkout http://libyuv.googlecode.com/svn/trunk libyuv`
+下载:`git clone http://git.chromium.org/external/libyuv.git`  
+当前使用版本:  
+    git库版本 —— 002feab4c5d07828ab1c7982351ce08e833a0990
 
 14. [openssl](http://www.openssl.org/)
 下载：`git clone  https://github.com/openssl/openssl`
 当前使用版本：
-    git库版本 —— 376e2ca3e3525290619602dc6013c97c9653c037
+    git库版本 —— OpenSSL_1_0_1j
 
 15. [libcurl](http://curl.haxx.se)
 下载：`git://github.com/bagder/curl.git`  
 当前使用版本：  
-    git库版本 —— e17220ffcb34d1d8cb504ca79f4523fcb8ffd68a
+    git库版本 —— curl-7_39_0
 
 编译：
 -----
@@ -239,7 +241,9 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 7. [openssl编译](http://blog.csdn.net/kl222/article/details/41787529)
 
-8. QXMPP编译：  
+8. [libcurl 编译](http://blog.csdn.net/kl222/article/details/41898025)
+
+9. QXMPP编译：  
     1)用 Qt Creator 进行编译（详见源码根目录下的README文件）：
     * 用 Qt Creator 打开本工程。
     * 打开“文件->打开文件或项目”。
@@ -270,7 +274,12 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     2)用命令行编译：  
      * 设置 qmake 路径到环境变量 PATH 中：`export PATH=$PATH:$QMAKE_PATH`  
      * 建立编译目录：`mkdir build; cd build`
-     * 生成工程文：`qmake ${RabbitImRoot}/Rabbitim.pro`
+     * 生成工程文：`qmake -o Makefile QXMPP_LIBRARY_TYPE=staticlib \
+                 PREFIX=$(RabbitImRoot)/ThirdLibary/${Platform} \
+                 INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${Platform}/include \
+                 LIBS+=-L$(RabbitImRoot)/ThirdLibary/${Platform}/lib \
+                 QXMPP_USE_VPX=1 \
+                 ${RabbitImRoot}/Rabbitim.pro`
      * 编译：`$(MAKE)`  
         MAKE在不同的环境下有不同的命令：
         + make：unix、linux gun环境下用
