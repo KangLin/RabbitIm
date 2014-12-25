@@ -34,12 +34,16 @@ cd build_windows_mingw
 rm -fr *
 
 echo "configure ..."
-cmake .. \
-    -G"Unix Makefiles" \
-    -DCMAKE_INSTALL_PREFIX="$PREFIX" \
-    -DCMAKE_BUILD_TYPE="Release" \
-    -DBUILD_CURL_TESTS=OFF \
-    -DCURL_STATICLIB=ON
-cmake --build . --target install --config Release
+#cmake .. \
+#    -G"Unix Makefiles" \
+#    -DCMAKE_INSTALL_PREFIX="$PREFIX" \
+#    -DCMAKE_BUILD_TYPE="Release" \
+#    -DBUILD_CURL_TESTS=OFF \
+#    -DCURL_STATICLIB=ON
+#cmake --build . --target install --config Release
+
+../configure --prefix="$PREFIX" \
+	--with-ssl="$PREFIX" --disable-shared --enable-static
+make install
 
 cd $CUR_DIR
