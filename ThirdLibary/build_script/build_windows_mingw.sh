@@ -10,6 +10,8 @@ if [ -n "$1" ]; then
     source build_windows_mingw_opencv.sh $1/opencv
     source build_windows_mingw_x264.sh $1/x264
     source build_windows_mingw_ffmpeg.sh $1/ffmpeg
+    source build_windows_mingw_openssl.sh $1/openssl
+    source build_windows_mingw_libcurl.sh $1/curl
 else
     source build_windows_mingw_speexdsp.sh
     source build_windows_mingw_speex.sh
@@ -18,4 +20,6 @@ else
     source build_windows_mingw_x264.sh
     source build_windows_mingw_ffmpeg.sh
     source build_qxmpp.sh windows_mingw
+    source build_windows_mingw_openssl.sh
+    source build_windows_mingw_libcurl.sh
 fi

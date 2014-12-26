@@ -66,11 +66,11 @@ echo "configure ..."
 echo "make install"
 make clean; make install
 
-mv ${PREFIX}/lib/libavcodec.a ${PREFIX}/lib/avcodec.lib
-mv ${PREFIX}/lib/libavformat.a ${PREFIX}/lib/avformat.lib
-mv ${PREFIX}/lib/libswscale.a ${PREFIX}/lib/swscale.lib
-mv ${PREFIX}/lib/libswresample.a ${PREFIX}/lib/swresample.lib
-mv ${PREFIX}/lib/libavfilter.a ${PREFIX}/lib/avfilter.lib
-mv ${PREFIX}/lib/libavutil.a ${PREFIX}/lib/avutil.lib
+#mv ${PREFIX}/lib/libavcodec.a ${PREFIX}/lib/avcodec.lib
+#mv ${PREFIX}/lib/libavformat.a ${PREFIX}/lib/avformat.lib
+#mv ${PREFIX}/lib/libswscale.a ${PREFIX}/lib/swscale.lib
+#mv ${PREFIX}/lib/libswresample.a ${PREFIX}/lib/swresample.lib
+#mv ${PREFIX}/lib/libavfilter.a ${PREFIX}/lib/avfilter.lib
+#mv ${PREFIX}/lib/libavutil.a ${PREFIX}/lib/avutil.lib
 
 cd $CUR_DIR

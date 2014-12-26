@@ -58,7 +58,20 @@ $QMAKE -o Makefile \
        QXMPP_USE_VPX=1 \
        ..
 
-${JOM} install -f Makefile
-
+case $1 in
+    android)
+    "$ANDROID_NDK/prebuilt/${HOST}/bin/make" -f Makefile install
+    ;;
+    windows_msvc)
+    ${JOM} /f Makefile install
+    ;;
+    windows_mingw)
+    make install -f Makefile
+    ;;
+    *)
+    echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw) SOURCE_CODE_ROOT"
+    return 1
+    ;;
+esac
 
 cd $CUR_DIR

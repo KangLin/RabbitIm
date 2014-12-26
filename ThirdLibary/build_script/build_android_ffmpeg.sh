@@ -67,7 +67,7 @@ echo "configure ffmpeg ..."
     --disable-doc \
     --extra-cflags="-march=armv7-a -mfpu=neon -I$PREFIX/include " \
     --extra-ldflags="-L$PREFIX/lib -lcpu-features" \
-    --enable-gpl --enable-neon --enable-libx264 --enable-libvpx --enable-libspeex 
+    --enable-gpl --enable-neon --enable-libx264 #--enable-libvpx --enable-libspeex 
 
 echo "make install"
 make clean
