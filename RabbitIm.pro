@@ -73,14 +73,11 @@ CONFIG(debug, debug|release) {
 
 !isEmpty(RABBITIM_USER_OPENSSL){
     DEFINES+= RABBITIM_USER_OPENSSL
-    isEmpty(RABBITIM_USER_LIBCURL) {
-        LIBOPENSSL_LIBRARY = -lssl -lcrypto
-    }
 }
 
 !isEmpty(RABBITIM_USER_LIBCURL){
     DEFINES += RABBITIM_USER_LIBCURL CURL_STATICLIB#用静态库时需要加这个，可以用 ./curl-config --cflags 得到
-    LIBCURL_LIBRARY = -lcurl#可以用 ./curl-config --libs 得到
+    LIBCURL_LIBRARY = -lcurl -lz#可以用 ./curl-config --libs 得到
 }
 
 !isEmpty(RABBITIM_USER_FFMPEG) {
@@ -95,6 +92,9 @@ android{
     DEFINES += ANDROID MOBILE
     
     RABBITIM_SYSTEM="android"
+    !isEmpty(RABBITIM_USER_OPENSSL){
+        LIBOPENSSL_LIBRARY = -lssl -lcrypto
+    }
 } else:win32{
     RABBITIM_SYSTEM="windows"
     msvc {
@@ -119,7 +119,11 @@ android{
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_mingw
 
         !isEmpty(RABBITIM_USER_LIBCURL){
-            LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lwldap32 -lz -lws2_32#可以用 ./curl-config --libs 得到
+            LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lwldap32 -lws2_32#可以用 ./curl-config --libs 得到
+        }else{
+            !isEmpty(RABBITIM_USER_OPENSSL){
+                LIBOPENSSL_LIBRARY = -lssl -lcrypto
+            }
         }
     }
 
