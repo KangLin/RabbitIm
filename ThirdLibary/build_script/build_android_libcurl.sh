@@ -44,6 +44,7 @@ echo "configure ..."
     CC=${CROSS_PREFIX}gcc \
     --disable-shared \
     --enable-static \
+    --with-ssl="$PREFIX" \
     CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${PLATFORM}" \
     CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${PLATFORM}" \
     --host=arm-linux-androideabi \
