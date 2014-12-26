@@ -123,8 +123,6 @@ android{
         }
 
     } else:CONFIG(debug, debug|release){
-        DEFINES += DEBUG
-
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
             QXMPP_LIBRARY_NAME = qxmpp_d.lib# qxmpp 库名

@@ -16,7 +16,7 @@ CChatAction::~CChatAction()
 
 QString CChatAction::toHtmlChars(const QString &str)
 {
-    static QList<QPair<QString, QString>> replaceList = {
+    static QList<QPair<QString, QString> > replaceList = {
         {"\"", "&quot;"}, 
         {"&","&amp;"}, 
         {">","&gt;"}, 

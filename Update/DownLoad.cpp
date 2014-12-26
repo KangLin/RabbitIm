@@ -108,8 +108,8 @@ size_t CDownLoad::Write(void *buffer, size_t size, size_t nmemb, void *para)
   {
       return -1; /* failure, can't open file to write */
   }
-  LOG_MODEL_ERROR("CDownLoad", "write:size%d,start:%d,end:%d",
-                  size * nmemb, out->start, out->end);
+  LOG_MODEL_DEBUG("CDownLoad", "threadid:0X%X;write:size%d,start:%d,end:%d",
+                  std::this_thread::get_id(), size * nmemb, out->start, out->end);
 
   CDownLoad* pThis = out->pThis;
   if(pThis->m_bExit)
@@ -131,8 +131,11 @@ size_t CDownLoad::Write(void *buffer, size_t size, size_t nmemb, void *para)
 
   nWrite = pos - out->start;
   out->start += nWrite;
-
-  LOG_MODEL_ERROR("CDownLoad", "write:size:%d", nWrite);
+  if(nWrite != size * nmemb)
+  {
+      Q_ASSERT(false);
+  }
+  LOG_MODEL_DEBUG("CDownLoad", "threadid:0X%X;write:size:%d", std::this_thread::get_id(), nWrite);
   return nWrite;
 }
 
@@ -336,7 +339,8 @@ int CDownLoad::Work(void *pPara)
 
         if(CURLE_OK != res) {
             /* we failed */
-            LOG_MODEL_ERROR("CDownLoad", "curl perform error:%d;start:%d:end:%d\n", res, start, end);
+            LOG_MODEL_ERROR("CDownLoad", "threadid:0X%X;curl perform error:%d;start:%d:end:%d\n",
+                            std::this_thread::get_id(), res, start, end);
             if(pDownLoad->m_pHandle)
                 pDownLoad->m_pHandle->OnError(ERROR_DOWNLOAD_FILE, "Download file error");
         }
