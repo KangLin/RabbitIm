@@ -99,6 +99,7 @@ public://以下函数和变量为CDownLoad内部使用,使用者不能直接使�
     int m_nErrorCode;
     bool m_bExit;//是否退出  
     int m_nTimeOut;//超时时间,单位:秒  
+    int m_nNumberReWhile;//得错重试次数  
 };
 
 #endif // DOWNLOAD_H
