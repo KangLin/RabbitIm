@@ -259,9 +259,7 @@ win32{
     Deployment_third_lib.CONFIG += directory no_check_exist
 
     INSTALLS += Deployment_qtlib Deployment_third_lib
-}
 
-win32 {
     #复制第三方依赖库动态库到编译输出目录 
     THIRD_LIBRARY_DLL =  $${THIRD_LIBRARY_PATH}/bin/*.dll
     THIRD_LIBRARY_DLL =  $$replace(THIRD_LIBRARY_DLL, /, \\)
