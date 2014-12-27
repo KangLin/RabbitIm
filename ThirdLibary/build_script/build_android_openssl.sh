@@ -43,11 +43,7 @@ echo ""
 
 make clean
 echo "configure openssl ..."
-./Configure --cross-compile-prefix=${CROSS_PREFIX} \
-    --prefix=${PREFIX} \
-    --openssldir=${PREFIX} \
-    android-armv7 \
-    --sysroot=${PLATFORM}
+perl Configure --cross-compile-prefix=${CROSS_PREFIX} --prefix=${PREFIX} --openssldir=${PREFIX} android-armv7 --sysroot=${PLATFORM}
 
 echo "make install"
 #make clean

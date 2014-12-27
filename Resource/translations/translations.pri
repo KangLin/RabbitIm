@@ -49,9 +49,11 @@ else {
         $(COPY_DIR) $${PWD}/app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/app_zh_CN.qm && \
         $(COPY_DIR) $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/qt_zh_CN.qm
 }
-QMAKE_EXTRA_TARGETS += mytranslations
-#PRE_TARGETDEPS += mytranslations
-POST_TARGETDEPS += mytranslations
+!android{#手机平台不需要
+    QMAKE_EXTRA_TARGETS += mytranslations
+    #PRE_TARGETDEPS += mytranslations
+    POST_TARGETDEPS += mytranslations
+}
 
 wince {
     mytranslat.files = Resource/translations/app_zh_CN.qm
