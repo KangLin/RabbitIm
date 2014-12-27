@@ -50,7 +50,7 @@ echo "configure openssl ..."
     --sysroot=${PLATFORM}
 
 echo "make install"
-make clean
+#make clean
 #make
 make install
 
