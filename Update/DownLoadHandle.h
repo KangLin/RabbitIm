@@ -28,16 +28,19 @@ private:
 class CDownLoadHandleVersionFile : public CDownLoadHandle
 {
 public:
-    CDownLoadHandleVersionFile(const std::string &szFile = std::string(), CDlgUpdate* pDlgUpdate = NULL);
-    int SetFile(const std::string &szFile);
+    CDownLoadHandleVersionFile();
+
+    //开始更新  
+    int Start();
 
     //处理结束  
     virtual int OnEnd(int nErrorCode);
     virtual int OnError(int nErrorCode, const std::string &szErr);
 
 private:
-    CDlgUpdate* m_pDlg;
-    std::string m_szFile;//版本文件  
+    //下载版本更新  
+    CDownLoad m_DownLoad;
+    QString m_szFile;//版本文件  
 };
 
 #endif // DOWNLOADHANDLE_H

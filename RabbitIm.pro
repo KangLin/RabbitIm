@@ -188,12 +188,12 @@ DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
 
 include(RabbitIm.pri)
 #发行版本才更新更新配置
-#CONFIG(release, debug|release) {
+CONFIG(release, debug|release) {
     include(RabbitIm.prf)
     isEmpty(RABBITIM_USER_LIBCURL){
         warning("don't update function")
     }
-#}
+}
 
 CONFIG += mobility
 

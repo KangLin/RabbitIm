@@ -13,14 +13,10 @@ class CDlgUpdate : public QDialog
     Q_OBJECT
 
 public:
-    explicit CDlgUpdate(QWidget *parent = 0);
+    explicit CDlgUpdate(int nError, const QString &szFile, QWidget *parent = 0);
     ~CDlgUpdate();
 
-    int Start();
-
 signals:
-    //版本文件下载后触发  
-    void sigDownLoadVersionFile(int nErrorCode);
     //安装文件下载后触发  
     void sigDownLoadEnd(int nErr);
     //错误触发  
@@ -29,7 +25,7 @@ signals:
     void sigProcess(double nTotal, double nNow);
 
 private slots:
-    void slotDownLoadVersionFile(int nErrorCode);
+    void slotDownLoadVersionFile(int nErrorCode, const QString &szFile);
     void slotDownLoadStart(bool bPrompt);
     void slotDownLoadEnd(int nErr);
     void slotError(int nErr, const QString &szErr);
@@ -44,10 +40,6 @@ private:
     int DownloadFile();
     Ui::CDlgUpdate *ui;
 
-    //下载版本更新  
-    CDownLoad m_DownLoadVersion;
-    //下载版本更新文件处理器  
-    CDownLoadHandleVersionFile m_VersionFileHandle;
     //下载安装文件  
     CDownLoad m_DownLoadFile;
     //下载安装文件处理器  

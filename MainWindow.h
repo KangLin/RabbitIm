@@ -6,10 +6,6 @@
 #include <QSystemTrayIcon>
 #include "Widgets/FrmMain/FrmMain.h"
 
-#ifdef RABBITIM_USER_LIBCURL
-#include "Update/DlgUpdate.h"
-#endif
-
 class CFrmLogin;
 class CFrmUserList;
 class CDlgSendManage;
@@ -138,11 +134,9 @@ private:
 #ifdef RABBITIM_USER_LIBCURL
 public:
 signals:
-    void sigUpdateExec();
+    void sigUpdateExec(int nError, const QString &szFile);
 private slots:
-    void slotUpdateExec();
-private:
-    CDlgUpdate m_Update;
+    void slotUpdateExec(int nError, const QString &szFile);
 #endif
 };
 

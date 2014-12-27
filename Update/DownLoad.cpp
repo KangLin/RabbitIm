@@ -103,8 +103,7 @@ size_t CDownLoad::Write(void *buffer, size_t size, size_t nmemb, void *para)
   struct _FILE_STRUCT *out = (struct _FILE_STRUCT *)para;
   if(!out ||
       !out->pThis ||
-      !out->pThis->m_streamFile || 
-      out->start > out->end
+      !out->pThis->m_streamFile
       )
   {
       LOG_MODEL_ERROR("CDownLoad", "threadid:0x%X",

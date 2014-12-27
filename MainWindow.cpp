@@ -11,6 +11,9 @@
 #include "Widgets/DlgOptions/DlgOptions.h"
 #include "Widgets/FrmSendFile/DlgSendManage.h"
 #include "Widgets/DlgUservCard/DlgUservCard.h"
+#ifdef RABBITIM_USER_LIBCURL
+#include "Update/DlgUpdate.h"
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -38,12 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ReInitMenuOperator();
 
 #ifdef RABBITIM_USER_LIBCURL
-    check = connect(this, SIGNAL(sigUpdateExec()),
-                    SLOT(slotUpdateExec()));
+    check = connect(this, SIGNAL(sigUpdateExec(int,QString)),
+                    SLOT(slotUpdateExec(int,QString)));
     Q_ASSERT(check);
-
-    m_Update.Start();
-
 #endif
 
     //初始化子窗体
@@ -752,8 +752,9 @@ int MainWindow::OpenCustomStyleMenu()
 }
 
 #ifdef RABBITIM_USER_LIBCURL
-void MainWindow::slotUpdateExec()
+void MainWindow::slotUpdateExec(int nError, const QString &szFile)
 {
-    m_Update.exec();
+    CDlgUpdate dlg(nError, szFile, this);
+    dlg.exec();
 }
 #endif

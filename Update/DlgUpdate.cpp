@@ -7,10 +7,9 @@
 #include <QtXml>
 #include "MainWindow.h"
 
-CDlgUpdate::CDlgUpdate(QWidget *parent) :
+CDlgUpdate::CDlgUpdate(int nError, const QString &szFile, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::CDlgUpdate), 
-    m_VersionFileHandle(std::string(), this),
+    ui(new Ui::CDlgUpdate),
     m_HandleDownLoad(this)
 {
     ui->setupUi(this);
@@ -26,9 +25,6 @@ CDlgUpdate::CDlgUpdate(QWidget *parent) :
     m_bDownloading = false;
 
     bool check = false;
-    check = connect(this, SIGNAL(sigDownLoadVersionFile(int)),
-                    SLOT(slotDownLoadVersionFile(int)));
-    Q_ASSERT(check);
     check = connect(this, SIGNAL(sigDownLoadEnd(int)),
                     SLOT(slotDownLoadEnd(int)));
     Q_ASSERT(check);
@@ -39,6 +35,7 @@ CDlgUpdate::CDlgUpdate(QWidget *parent) :
                     SLOT(slotProcess(double,double)));
     Q_ASSERT(check);
 
+    slotDownLoadVersionFile(nError, szFile);
     return ;
 }
 
@@ -47,67 +44,23 @@ CDlgUpdate::~CDlgUpdate()
     delete ui;
 }
 
-int CDlgUpdate::Start()
+void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode, const QString &szFile)
 {
-    QDateTime d = CGlobal::Instance()->GetUpdateDate();
-    int nDays = d.daysTo(QDateTime::currentDateTime());
-    CGlobal::E_UPDATE updateType = CGlobal::Instance()->GetUpdate();
-    switch(updateType)
-    {
-    case CGlobal::E_UPDATE_EVERY_TIME:
-        break;
-    case CGlobal::E_UPDATE_DAY:
-        if(nDays < 1)
-            return 0;
-        break;
-    case CGlobal::E_UPDATE_WEEK:
-        if(nDays < 7)
-            return 0;
-        break;
-    case CGlobal::E_UPDATE_MONTH:
-        if(nDays < 30)
-            return 0;
-        break;
-    default:
-        return 0;
-    }
-
-    QString szFile = "Update_";
-    szFile += RABBITIM_SYSTEM;
-    /*szFile += "_";
-    szFile += RABBITIM_PLATFORM;
-    szFile += "_";
-    szFile += RABBITIM_ARCHITECTURE;*/
-    szFile += ".xml";
-    m_szVersionFile = CGlobal::Instance()->GetDirApplicationDownLoad() + QDir::separator() + szFile;
-    m_szUrl = "https://code.csdn.net/kl222/rabbitim/blob/Reconstruction/Update/" + szFile;
-    m_VersionFileHandle.SetFile(m_szVersionFile.toStdString());
-    m_DownLoadVersion.Start(m_szUrl.toStdString(), 
-                     m_szVersionFile.toStdString(), 
-                     &m_VersionFileHandle, 
-                     1);
-
-    CGlobal::Instance()->SetUpdateDate(QDateTime::currentDateTime());
-    return 0;
-}
-
-void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode)
-{
-    if(m_szVersionFile.isEmpty())
+    if(szFile.isEmpty())
         return ;
 
     if(nErrorCode)
     {
-        QString szErr = tr("Download file fail:%1").arg(m_szVersionFile);
+        QString szErr = tr("Get version configure file fail:%1").arg(szFile);
         slotError(nErrorCode, szErr);
         return ;
     }
 
-    QFile file(m_szVersionFile);
+    QFile file(szFile);
     if(!file.open(QIODevice::ReadOnly))
     {
-        LOG_MODEL_ERROR("Update", "Don't open file:%s", m_szVersionFile.toStdString().c_str());
-        QString szErr = tr("Don't open file:%1").arg(m_szVersionFile);
+        LOG_MODEL_ERROR("Update", "Don't open version configure file:%s", szFile.toStdString().c_str());
+        QString szErr = tr("Don't open version configure file:%1").arg(szFile);
         slotError(-2, szErr);
         return ;
     }
@@ -117,7 +70,7 @@ void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode)
     if(!doc.setContent(&file, &szErr))
     {
         LOG_MODEL_ERROR("Update", "doc.setContent error:%s", szErr.toStdString().c_str());
-        szErr = tr("File format error.%1").arg(m_szVersionFile);
+        szErr = tr("version configure file format error.%1").arg(szFile);
         slotError(-3, szErr);
         return ;
     }
@@ -125,7 +78,7 @@ void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode)
     if(doc.isNull())
     {
         LOG_MODEL_ERROR("Update", "doc is null");
-        QString szErr = tr("File format error.%1").arg(m_szVersionFile);
+        QString szErr = tr("version configure file format error.%1").arg(szFile);
         slotError(-4, szErr);
         return ;
     }
@@ -134,6 +87,7 @@ void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode)
     QString szMajorVersion = startElem.firstChildElement("MAJOR_VERSION_NUMBER").text();
     QString szMinorVersion = startElem.firstChildElement("MINOR_VERSION_NUMBER").text();
     QString szRevisionVersion = startElem.firstChildElement("REVISION_VERSION_NUMBER").text();
+    /*这步已经在CDownloadHandle中判断  
     if(szMajorVersion.toInt() <= MAJOR_VERSION_NUMBER)
     {
         if(szMinorVersion.toInt() <= MINOR_VERSION_NUMBER)
@@ -145,10 +99,12 @@ void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode)
                 return;
             }
         }
-    }
+    }*/
 
     m_szDownloadInfo = tr("New version:%1.%2.%3").arg(szMajorVersion, szMinorVersion, szRevisionVersion);
-    m_szDownloadInfo += "\n" + startElem.firstChildElement("INFO").text();
+    QString szInfo = startElem.firstChildElement("INFO").text();
+    if(!szInfo.isEmpty())
+        m_szDownloadInfo += "\n" + szInfo;
     m_szDownLoadUrl = startElem.firstChildElement("URL").text();
     m_szDownloadMd5sum = startElem.firstChildElement("MD5SUM").text();
     if(m_szDownLoadUrl.isEmpty() || m_szDownloadMd5sum.isEmpty())
@@ -156,6 +112,9 @@ void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode)
         slotError(-5, tr("Version file is error"));
         return;
     }
+
+    CGlobal::Instance()->SetUpdateDate(QDateTime::currentDateTime());
+
     QUrl url(m_szDownLoadUrl);
     m_szDownLoadFile= CGlobal::Instance()->GetDirApplicationDownLoad() + QDir::separator() + url.fileName();
     QString szForce = startElem.firstChildElement("FORCE").text();
@@ -188,7 +147,32 @@ void CDlgUpdate::slotDownLoadStart(bool bPrompt)
 
     ui->lbError->setVisible(true);
     ui->lbError->setText("");
-    emit GET_MAINWINDOW->sigUpdateExec();
+}
+
+void CDlgUpdate::slotError(int nErr, const QString &szErr)
+{
+    ui->lbError->setVisible(true);
+    ui->lbError->setText(szErr);
+}
+
+void CDlgUpdate::slotProcess(double nTotal, double nNow)
+{
+    ui->progressBar->setValue(100 * nNow / nTotal);
+}
+
+int CDlgUpdate::DownloadFile()
+{
+    ui->lbPrompt->setText(tr("Downloading ") + m_szDownloadInfo);
+    ui->progressBar->setVisible(true);
+    ui->lbError->setText("");
+    ui->lbError->setVisible(true);
+    ui->pbOk->setEnabled(false);
+    m_bDownloading = true;
+
+    m_HandleDownLoad.SetFile(m_szDownLoadFile);
+    m_HandleDownLoad.SetMd5sum(m_szDownloadMd5sum);
+    return m_DownLoadFile.Start(m_szDownLoadUrl.toStdString(),
+                                m_szDownLoadFile.toStdString(), &m_HandleDownLoad, 10, 600);
 }
 
 void CDlgUpdate::slotDownLoadEnd(int nErr)
@@ -235,32 +219,6 @@ void CDlgUpdate::slotDownLoadEnd(int nErr)
     //关闭程序  
     MainWindow* pMain = (MainWindow*)GET_MAINWINDOW;
     pMain->close();
-}
-
-void CDlgUpdate::slotError(int nErr, const QString &szErr)
-{
-    ui->lbError->setVisible(true);
-    ui->lbError->setText(szErr);
-}
-
-void CDlgUpdate::slotProcess(double nTotal, double nNow)
-{
-    ui->progressBar->setValue(100 * nNow / nTotal);
-}
-
-int CDlgUpdate::DownloadFile()
-{
-    ui->lbPrompt->setText(tr("Downloading ") + m_szDownloadInfo);
-    ui->progressBar->setVisible(true);
-    ui->lbError->setText("");
-    ui->lbError->setVisible(true);
-    ui->pbOk->setEnabled(false);
-    m_bDownloading = true;
-
-    m_HandleDownLoad.SetFile(m_szDownLoadFile);
-    m_HandleDownLoad.SetMd5sum(m_szDownloadMd5sum);
-    return m_DownLoadFile.Start(m_szDownLoadUrl.toStdString(),
-                                m_szDownLoadFile.toStdString(), &m_HandleDownLoad, 10, 600);
 }
 
 void CDlgUpdate::on_pbOk_clicked()
