@@ -4,6 +4,7 @@
 #include "Version.h"
 #include "Global/Global.h"
 #include <QDir>
+#include <QUrl>
 #include <QtXml>
 #include "MainWindow.h"
 
@@ -169,6 +170,17 @@ int CDlgUpdate::DownloadFile()
     ui->pbOk->setEnabled(false);
     m_bDownloading = true;
 
+    QFile f(m_szDownLoadFile);
+    if(f.exists())
+    {
+        //检查文件是否正确，计算md5校验和  
+        if(CTool::GetFileMd5SumString(m_szDownLoadFile) == m_szDownloadMd5sum)
+        {
+            slotDownLoadEnd(0);
+            return 0;
+        }
+    }
+
     m_HandleDownLoad.SetFile(m_szDownLoadFile);
     m_HandleDownLoad.SetMd5sum(m_szDownloadMd5sum);
     return m_DownLoadFile.Start(m_szDownLoadUrl.toStdString(),
@@ -199,22 +211,26 @@ void CDlgUpdate::slotDownLoadEnd(int nErr)
     }
 
     //修改文件执行权限  
-    QFileInfo info(m_szDownLoadFile);
+    /*QFileInfo info(m_szDownLoadFile);
     if(!info.permission(QFile::ExeUser))
     {
         //修改文件执行权限  
         QString szErr = tr("Download file don't execute permissions. Please modify permission then manually  execute it.\n%1").arg(m_szDownLoadFile);
         slotError(-2, szErr);
         return;
-    }
+    }*/
 
     //启动安装程序  
     if(!m_Process.startDetached(m_szDownLoadFile))
     {
-        LOG_MODEL_ERROR("Update", "open proess error:%s", m_szDownLoadFile.toStdString().c_str());
-        QString szErr = tr("Execute install program error.%1").arg(m_szDownLoadFile);
-        slotError(-2, szErr);
-        return;
+        QUrl url(m_szDownLoadFile);
+        if(!QDesktopServices::openUrl(url))
+        {
+            LOG_MODEL_ERROR("Update", "open proess error:%s", m_szDownLoadFile.toStdString().c_str());
+            QString szErr = tr("Execute install program error.%1").arg(m_szDownLoadFile);
+            slotError(-2, szErr);
+            return;
+        }
     }
     //关闭程序  
     MainWindow* pMain = (MainWindow*)GET_MAINWINDOW;

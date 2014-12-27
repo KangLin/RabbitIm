@@ -152,6 +152,18 @@ void CFrmMessage::on_pbShotScreen_clicked()
             szFile = CTool::FileDialog(this, szDir, szFilter, tr("Save"));
             if(!szFile.isEmpty())
             {
+                QFile f(szFile);
+                if(f.exists())
+                {
+                    if(QMessageBox::No ==
+                            QMessageBox::warning(this, tr("Save"), 
+                                                 tr("File is exists. Do you save it?"),
+                                                 QMessageBox::Ok, 
+                                                 QMessageBox::No))
+                    {
+                        return;
+                    }
+                }
                 bool isOk = image.save(szFile);
                 if(!isOk)
                 {

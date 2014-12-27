@@ -307,6 +307,19 @@ void CWdgScreenEditor::saveAs()
             + QDir::separator() + "grabbedImage_" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".png";
     szFile = CTool::FileDialog(this, szDir, szFilter, tr("Save"));
     if(!szFile.isEmpty()){
+        QFile f(szFile);
+        if(f.exists())
+        {
+            if(QMessageBox::No ==
+                    QMessageBox::warning(this, tr("Save"), 
+                                         tr("File is exists. Do you save it?"),
+                                         QMessageBox::Ok, 
+                                         QMessageBox::No))
+            {
+                onCompleteBtnClicked();
+                return;
+            }
+        }
         if(!save(szFile)){
             QMessageBox::warning(this, tr("Failed to save"), tr("Sorry! Save failed! Please check save path!"));
         }else{

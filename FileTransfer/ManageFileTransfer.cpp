@@ -7,6 +7,7 @@
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QScreen>
+#include <QMessageBox>
 
 #undef GetMessage
 
@@ -167,6 +168,18 @@ int CManageFileTransfer::SaveAs(QSharedPointer<CFileTransfer> file)
     szFile = CTool::FileDialog(NULL, szDir, QString(), tr("Save as"));
     if(szFile.isEmpty())
         return -1;
-    nRet =file->Accept(szFile);
+    QFile f(szFile);
+    if(f.exists())
+    {
+        if(QMessageBox::No ==
+                QMessageBox::warning(NULL, tr("Save as"), 
+                                     tr("File is exists. Do you save it?"),
+                                     QMessageBox::Ok, 
+                                     QMessageBox::No))
+        {
+            return 0;
+        }
+    }
+    nRet = file->Accept(szFile);
     return nRet;
 }
