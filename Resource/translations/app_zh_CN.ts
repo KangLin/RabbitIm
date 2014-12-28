@@ -824,9 +824,9 @@ Email、MSN:kl222@126.com</source>
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="131"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="138"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="144"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="153"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="160"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="166"/>
         <source>no device</source>
         <translation>无</translation>
     </message>
@@ -982,65 +982,58 @@ Email、MSN:kl222@126.com</source>
         <translation>正在更新版本</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="101"/>
-        <source>Download file fail:%1</source>
-        <translation>下载文件失败：%1</translation>
+        <location filename="../../Update/DlgUpdate.cpp" line="55"/>
+        <source>Get version configure file fail:%1</source>
+        <translation>得到版本配置文件失败：%1</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="110"/>
-        <source>Don&apos;t open file:%1</source>
-        <translation>不能打开文件：%1</translation>
+        <location filename="../../Update/DlgUpdate.cpp" line="64"/>
+        <source>Don&apos;t open version configure file:%1</source>
+        <translation>不能打开版本配置文件：%1</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="120"/>
-        <location filename="../../Update/DlgUpdate.cpp" line="128"/>
-        <source>File format error.%1</source>
-        <translation>文件格式错误。%1</translation>
+        <location filename="../../Update/DlgUpdate.cpp" line="74"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="82"/>
+        <source>version configure file format error.%1</source>
+        <translation>版本配置文件格式错误。%1</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="150"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="105"/>
         <source>New version:%1.%2.%3</source>
         <translation>新版本：%1.%2.%3</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="156"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="113"/>
         <source>Version file is error</source>
         <translation>版本文件错误</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="176"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="136"/>
         <source>Do you update new version?</source>
         <translation>你要更新版本吗？</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="199"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="195"/>
         <source>Download fail.</source>
         <translation>下载失败。</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="204"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="200"/>
         <source>Download success.</source>
         <translation>下载成功。</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="212"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="208"/>
         <source>Download file md5sum error:%1</source>
         <translation>下载文件 md5 校验和错误:%1</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="222"/>
-        <source>Download file don&apos;t execute permissions. Please modify permission then manually  execute it.
-%1</source>
-        <translation>下载的文件没有执行权限。请手动修改它的权限，然后执行它。
-%1</translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="231"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="230"/>
         <source>Execute install program error.%1</source>
         <translation>执行安装程序错误。%1</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="253"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="166"/>
         <source>Downloading </source>
         <translation>正在下载 </translation>
     </message>
@@ -1404,22 +1397,22 @@ Email、MSN:kl222@126.com</source>
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="86"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="88"/>
         <source>Being Login...</source>
         <translation>正在登录……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="261"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="287"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="264"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="290"/>
         <source>Keep active error</source>
         <translation>保持活动错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="267"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="293"/>
         <source>Login fail</source>
         <translation>登录失败</translation>
     </message>
@@ -1536,17 +1529,18 @@ Email、MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="152"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="159"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="453"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="465"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="193"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="206"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="205"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="218"/>
         <source>Close message dialog</source>
         <translation>关闭消息对话框</translation>
     </message>
@@ -1556,22 +1550,27 @@ Email、MSN:kl222@126.com</source>
         <translation>回退</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="194"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="160"/>
+        <source>File is exists. Do you save it?</source>
+        <translation>文件已经存在。你是否复盖它？</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="206"/>
         <source>Sending files to determine whether you want to close?</source>
         <translation>有文件正在发送，你确定是否关闭消息对话框？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="207"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="219"/>
         <source>Is talking whether you want to close?</source>
         <translation>正在通话，是否关闭？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="319"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="331"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="319"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="331"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
@@ -1834,14 +1833,20 @@ Email、MSN:kl222@126.com</source>
 <context>
     <name>CManageFileTransfer</name>
     <message>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="93"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="94"/>
         <source>Send file %1</source>
         <translation>发送文件 %1</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="167"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="168"/>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="175"/>
         <source>Save as</source>
         <translation>另存为……</translation>
+    </message>
+    <message>
+        <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="176"/>
+        <source>File is exists. Do you save it?</source>
+        <translation>文件已经存在。你是否复盖它？</translation>
     </message>
 </context>
 <context>
@@ -1955,21 +1960,27 @@ Email、MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="308"/>
+        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="314"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="311"/>
+        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="315"/>
+        <source>File is exists. Do you save it?</source>
+        <translation>文件已经存在。你是否复盖它？</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="324"/>
         <source>Failed to save</source>
         <translation>保存失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="311"/>
+        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="324"/>
         <source>Sorry! Save failed! Please check save path!</source>
         <translation>对不起！文件保存错误！请检查保存路径！</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="333"/>
+        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="346"/>
         <source>select color</source>
         <translation>选择颜色</translation>
     </message>
@@ -1978,7 +1989,7 @@ Email、MSN:kl222@126.com</source>
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="14"/>
-        <location filename="../../MainWindow.cpp" line="99"/>
+        <location filename="../../MainWindow.cpp" line="100"/>
         <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>
     </message>
@@ -2018,120 +2029,120 @@ Email、MSN:kl222@126.com</source>
         <translation>选项(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="146"/>
-        <location filename="../../MainWindow.cpp" line="598"/>
+        <location filename="../../MainWindow.cpp" line="147"/>
+        <location filename="../../MainWindow.cpp" line="599"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="325"/>
+        <location filename="../../MainWindow.cpp" line="326"/>
         <source>Close(&amp;E)</source>
         <translation>关闭(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="303"/>
-        <location filename="../../MainWindow.cpp" line="582"/>
+        <location filename="../../MainWindow.cpp" line="304"/>
+        <location filename="../../MainWindow.cpp" line="583"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation>编辑本地用户信息(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="406"/>
+        <location filename="../../MainWindow.cpp" line="407"/>
         <source>Status(&amp;S)</source>
         <translation>状态(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="425"/>
+        <location filename="../../MainWindow.cpp" line="426"/>
         <source>Language(&amp;L)</source>
         <translation>语言(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="427"/>
+        <location filename="../../MainWindow.cpp" line="428"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="429"/>
+        <location filename="../../MainWindow.cpp" line="430"/>
         <source>Chinese</source>
         <translation>简体中文</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="428"/>
+        <location filename="../../MainWindow.cpp" line="429"/>
         <source>English</source>
         <translation>英语</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="147"/>
+        <location filename="../../MainWindow.cpp" line="148"/>
         <source>Is close the programe or logout?</source>
         <translation>是关闭程序还是登出？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="149"/>
+        <location filename="../../MainWindow.cpp" line="150"/>
         <source>close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="150"/>
+        <location filename="../../MainWindow.cpp" line="151"/>
         <source>logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="258"/>
         <location filename="../../MainWindow.cpp" line="259"/>
+        <location filename="../../MainWindow.cpp" line="260"/>
         <source>RabbitIm:%1</source>
         <translation>玉兔即时通信：%1</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="322"/>
+        <location filename="../../MainWindow.cpp" line="323"/>
         <source>Logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="332"/>
+        <location filename="../../MainWindow.cpp" line="333"/>
         <source>Custom</source>
         <translation>自定义</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="333"/>
+        <location filename="../../MainWindow.cpp" line="334"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="334"/>
+        <location filename="../../MainWindow.cpp" line="335"/>
         <source>Blue</source>
         <translation>蓝色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="335"/>
+        <location filename="../../MainWindow.cpp" line="336"/>
         <source>Dark</source>
         <translation>黑色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="351"/>
+        <location filename="../../MainWindow.cpp" line="352"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation>扶肤(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="528"/>
+        <location filename="../../MainWindow.cpp" line="529"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="528"/>
+        <location filename="../../MainWindow.cpp" line="529"/>
         <source>Change language must reset program.</source>
         <translation>改变语言设置，必须重启程序才能生效。</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="591"/>
+        <location filename="../../MainWindow.cpp" line="592"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="593"/>
+        <location filename="../../MainWindow.cpp" line="594"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="730"/>
+        <location filename="../../MainWindow.cpp" line="731"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
