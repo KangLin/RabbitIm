@@ -39,6 +39,6 @@ echo "configure ..."
     --disable-opencl 
 
 echo "make install ..."
-make install
+make install -j 2
 
 cd $CUR_DIR

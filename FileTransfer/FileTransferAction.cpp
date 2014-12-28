@@ -95,7 +95,9 @@ QString CFileTransferAction::drawTop()
     QString content;
     content = "<tr><td colspan='3' align='center'>";
     if(m_File->GetState() == CFileTransfer::FinishedState && m_File->GetError() == CFileTransfer::NoError)
-        content  += "<a href='" + m_File->GetLocalFileUrl().toLocalFile() + "'>" + m_File->GetLocalFileUrl().fileName() + "</a>";
+        content  += "<a href='" + m_File->GetLocalFileUrl().toLocalFile() + "'>"
+                + m_File->GetLocalFileUrl().fileName()
+                + "</a>";
     else
         content  += "<p>" + m_File->GetFile() + "</p>";
     content += "</td></tr>";

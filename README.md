@@ -13,6 +13,8 @@
   4. 通过以下网址访问此论坛：https://groups.yahoo.com/neo/groups/rabbitim/conversations/messages  
 QQ群：68046752
 
+当前编译状态: [![Build Status](https://travis-ci.org/KangLin/rabbitim.png)](https://travis-ci.org/KangLin/rabbitim)
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 功能:

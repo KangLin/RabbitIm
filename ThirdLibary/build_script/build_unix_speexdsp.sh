@@ -46,7 +46,7 @@ echo "configure ..."
     --disable-examples
     
 echo "make install"
-make
+make -j 2
 make install
 
 cd $CUR_DIR

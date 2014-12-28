@@ -1,0 +1,29 @@
+language: cpp
+
+cache: apt
+cache:
+  directories:
+  - ThirdLibary/src
+  - THirdLibary/src/ffmpeg
+  - THirdLibary/src/qxmpp
+
+compiler:
+  - g++
+
+os:
+  - linux
+
+env:
+  - QT_SELECT=qt5
+  
+install:
+  - ThirdLibary/build_script/travis/install-build-depends.sh
+
+before_script:
+  - ThirdLibary/build_script/travis/build-before.sh
+
+script:
+  - ThirdLibary/build_script/travis/build-and-test.sh
+
+notifications:
+  email: kl222@126.com

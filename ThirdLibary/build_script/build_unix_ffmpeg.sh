@@ -52,6 +52,6 @@ echo "configure ......"
     --extra-ldflags="-static -L$PREFIX/lib" 
 
 make clean
-make install
+make install -j 2
 
 cd $CUR_DIR

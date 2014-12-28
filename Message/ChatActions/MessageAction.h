@@ -9,7 +9,7 @@ public:
     CMessageAction(const QString &szId, const QString &message, const QTime &date, const bool &me);
     virtual ~CMessageAction(){;}
     virtual QString getMessage();
-    virtual void setup(QTextCursor cursor, QTextEdit*) override;
+    virtual void setup(QTextCursor cursor, QTextEdit*);
 
 private:
     QString m_szMessage;

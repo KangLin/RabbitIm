@@ -1,12 +1,12 @@
 #参数:
-#    $1:编译平台(android、windows_msvc、windows_mingw)
+#    $1:编译平台(android、windows_msvc、windows_mingw、unix)
 #    $2:源码的位置(省略时，会自动下载源码)
 
 case $1 in
-    android | windows_msvc | windows_mingw)
+    android | windows_msvc | windows_mingw | unix)
     ;;
     *)
-    echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw) SOURCE_CODE_ROOT"
+    echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
     return 1
     ;;
 esac
@@ -23,7 +23,7 @@ fi
 if [ -n "$2" ]; then
     SOURCE_CODE=$2
 else
-    SOURCE_CODE=${PREFIX}/../src/rabbitim
+    SOURCE_CODE=${PREFIX}/../..
 fi
 
 #下载源码:
@@ -53,6 +53,9 @@ $QMAKE PREFIX=${PREFIX} \
        INCLUDEPATH+=${PREFIX}/include \
        LIBS+=-L${PREFIX}/lib \
        QXMPP_USE_VPX=1 \
+       RABBITIM_USER_FFMPEG=1 \
+       RABBITIM_USER_LIBCURL=1 \
+       RABBITIM_USER_OPENSSL=1 \
        ..
 
 ${JOM} install

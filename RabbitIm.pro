@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QXMPP_USE_VPX = 1             #使用 vpx
+QXMPP_USE_VPX=1             #使用 vpx
 #QXMPP_USE_SPEEX=1            #使用 speex
 #RABBITIM_USER_OPENCV=1       #使用 opencv
 RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
@@ -29,7 +29,7 @@ win32{
     TARGET_PATH=$${OUT_PWD}
 }
 
-CONFIG += c++11
+CONFIG += c++0x
 
 #安装
 isEmpty(PREFIX){
@@ -178,6 +178,8 @@ LIBS += -L$${THIRD_LIBRARY_PATH}/lib
         OPENCV_LIBRARY += -lopencv_imgcodecs$$OPENCV_VERSION 
         OPENCV_LIBRARY += -lOle32 -lolepro32 -loleaut32 -luuid #dshow依赖库
     }
+}else:android{
+    message("android video capture need opencv, please set RABBITIM_USER_OPENCV=1")
 }
 
 LIBS += $$LDFLAGS $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY \
@@ -206,12 +208,14 @@ CONFIG += localize_deployment  #本地语言部署
 
 OTHER_FILES += README.md \
     .gitignore \
+    .travis.yml \
+    ThirdLibary/build_script/travis/*.sh \
+    ThirdLibary/build_script/*.sh \
     AppIcon.rc \
     Resource/translations/app_zh_CN.ts \
     docs/* \
     docs/Books/* \
     docs/QXmpp音视频呼叫流程.txt \
-    ThirdLibary/build_script/*.sh \
     android/AndroidManifest.xml \
     License.html \
     ChangeLog.txt \

@@ -81,6 +81,6 @@ cmake ../. \
         -DWITH_LIBV4L=ON \
         -DWITH_V4L=ON
 
-cmake --build . --target install --config Release
+cmake --build . --target install --config Release -- -j 2
 
 cd $CUR_DIR

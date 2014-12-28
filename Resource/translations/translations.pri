@@ -55,7 +55,7 @@ else {
     POST_TARGETDEPS += mytranslations
 }
 
-wince {
+wince |android {
     mytranslat.files = Resource/translations/app_zh_CN.qm
     mytranslat.path = $$PREFIX
     DEPLOYMENT += mytranslat

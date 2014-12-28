@@ -41,7 +41,7 @@ SET(CMAKE_AUTORCC ON)
 
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 IF(NOT MSVC)
-    SET(CMAKE_CXX_FLAGS "-std=c++11") #启用C++11
+    SET(CMAKE_CXX_FLAGS "-std=c++0x") #启用C++11
 ENDIF(NOT MSVC)
 
 # Add definitions for static/style library 

@@ -49,7 +49,7 @@ echo "configure ..."
     SPEEXDSP_CFLAGS=-I$PREFIX/include SPEEXDSP_LIBS=-L$PREFIX/lib
 
 echo "make install"
-make
+make -j 2
 make install
 
 cd $CUR_DIR

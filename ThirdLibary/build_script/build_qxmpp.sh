@@ -1,12 +1,12 @@
 #参数:
-#    $1:编译平台(android、windows_msvc、windows_mingw)
+#    $1:编译平台(android、windows_msvc、windows_mingw、unix)
 #    $2:源码的位置(省略时，会自动下载源码)
 
 case $1 in
-    android | windows_msvc | windows_mingw)
+    android | windows_msvc | windows_mingw | unix)
     ;;
     *)
-    echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw) SOURCE_CODE_ROOT"
+    echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
     return 1
     ;;
 esac
@@ -28,7 +28,7 @@ fi
 
 #下载源码:
 if [ ! -d ${SOURCE_CODE} ]; then
-    echo "git clone https://github.com/qxmpp-project/qxmpp.git"
+    echo "git clone https://github.com/qxmpp-project/qxmpp.git ${SOURCE_CODE}"
     git clone https://github.com/qxmpp-project/qxmpp.git ${SOURCE_CODE}
 fi
 
@@ -62,6 +62,9 @@ case $1 in
     android)
     "$ANDROID_NDK/prebuilt/${HOST}/bin/make" -f Makefile install
     ;;
+    unix)
+    sudo make install -f Makefile -j 2
+    ;;
     windows_msvc)
     ${JOM} /f Makefile install
     ;;
@@ -69,7 +72,7 @@ case $1 in
     make install -f Makefile
     ;;
     *)
-    echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw) SOURCE_CODE_ROOT"
+    echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
     return 1
     ;;
 esac
