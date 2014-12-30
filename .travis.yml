@@ -2,10 +2,14 @@ language: cpp
 
 cache: apt
 cache:
-  directories:
-  - ThirdLibary/src
-  - THirdLibary/src/ffmpeg
-  - THirdLibary/src/qxmpp
+       directories:
+         - ThirdLibary/src
+         - THirdLibary/src/ffmpeg
+         - THirdLibary/src/qxmpp
+         - ThirdLibary/build_script
+         - ThirdLibary/build_script
+
+jdk: oraclejdk7
 
 compiler:
   - g++
@@ -14,8 +18,11 @@ os:
   - linux
 
 env:
-  - QT_SELECT=qt5
-  
+  matrix:
+    - QMAKE=ThirdLibary/qt/bin/qmake
+    - QMAKE=ThirdLibary/qt/bin/qmake ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
+    - CMAKE=ThirdLibary/cmake-3.1.0-Linux-x86_64/bin/cmake Qt5_DIR=ThirdLibary/qt/lib/cmake/Qt5
+
 install:
   - ThirdLibary/build_script/travis/install-build-depends.sh
 

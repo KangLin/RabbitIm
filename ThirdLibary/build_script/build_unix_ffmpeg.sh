@@ -46,8 +46,6 @@ echo "configure ......"
     --disable-avdevice \
     --disable-shared \
     --enable-libx264 \
-    --enable-libvpx \
-    --enable-libspeex \
     --extra-cflags="-static -I$PREFIX/include" \
     --extra-ldflags="-static -L$PREFIX/lib" 
 

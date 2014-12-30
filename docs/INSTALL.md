@@ -403,7 +403,8 @@ MAKE在不同的环境下有不同的命令：
     cmake --build .       #执行编译
     ./RabbitIm            #启动程序
 
-    Qt5_DIR:qt cmake 的安装路径。例如： /c/Qt/Qt5.3.1_android/5.3/mingw482_32/lib/cmake/Qt5
+    Qt5_DIR:qt cmake 的安装路径。在qt安装目录的 lib/cmake/Qt5。
+    例如： /c/Qt/Qt5.3.1_android/5.3/mingw482_32/lib/cmake/Qt5
 
 ###### 2.1.2. 分发
 

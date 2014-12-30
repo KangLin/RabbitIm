@@ -63,7 +63,7 @@ case $1 in
     "$ANDROID_NDK/prebuilt/${HOST}/bin/make" -f Makefile install
     ;;
     unix)
-    sudo make install -f Makefile -j 2
+    make install -f Makefile -j 2
     ;;
     windows_msvc)
     ${JOM} /f Makefile install

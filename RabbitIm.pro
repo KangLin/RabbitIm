@@ -30,6 +30,7 @@ win32{
 }
 
 CONFIG += c++0x
+QMAKE_CXXFLAGS += " -std=c++0x "
 
 #安装
 isEmpty(PREFIX){
