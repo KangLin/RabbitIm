@@ -505,7 +505,11 @@ int MainWindow::LoadTranslate(QString szLocale)
     qApp->installTranslator(m_TranslatorQt.data());
 
     m_TranslatorApp = QSharedPointer<QTranslator>(new QTranslator(this));
+#ifdef ANDROID
+    m_TranslatorApp->load(":/translations/app_" + szLocale + ".qm");
+#else
     m_TranslatorApp->load("app_" + szLocale + ".qm", CGlobal::Instance()->GetDirTranslate());
+#endif
     qApp->installTranslator(m_TranslatorApp.data());
 
     ui->retranslateUi(this);

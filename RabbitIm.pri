@@ -160,6 +160,10 @@ RESOURCES += \
     Resource/Resource.qrc \
     Resource/sink/dark/style.qrc
 
+android{
+    RESOURCES += Resource/translations/Translations.qrc
+}
+
 !isEmpty(RABBITIM_USER_OPENCV) {
     SOURCES += Widgets/FrmVideo/CameraOpencv.cpp 
     HEADERS += Widgets/FrmVideo/CameraOpencv.h 

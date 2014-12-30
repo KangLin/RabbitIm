@@ -56,8 +56,8 @@ else {
 }
 
 wince |android {
-    mytranslat.files = Resource/translations/app_zh_CN.qm
-    mytranslat.path = $$PREFIX
+    mytranslat.files = Resource/translations/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
+    mytranslat.path = $$PREFIX/translations
     DEPLOYMENT += mytranslat
 }
 else{
