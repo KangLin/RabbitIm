@@ -39,6 +39,28 @@ echo "ANDROID_NDK:$ANDROID_NDK"
 echo "HOST:${HOST}"
 echo ""
 
+if [ ! -f configure ]; then
+    echo "autoreconf -fiv"
+    autoreconf -fiv
+fi
+
+mkdir -p build_android
+cd build_android
+rm -fr *
+
+echo "configure ..."
+
+../configure  --prefix=$PREFIX \
+    --with-sysroot=${PLATFORM} \
+    CC=${CROSS_PREFIX}gcc \
+    CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${PLATFORM}" \
+    CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${PLATFORM}" \
+    --host=arm-linux-androideabi 
+
+make 
+
+exit 0
+
 mkdir -p build_android
 cd build_android
 rm -fr *
