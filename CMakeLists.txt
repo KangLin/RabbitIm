@@ -244,7 +244,7 @@ IF(RABBITIM_TRANSLATIONS)
 ENDIF(RABBITIM_TRANSLATIONS)
 
 GENERATED_DEPLOYMENT_SETTINGS()
-find_program(ANT NAMES ant PATHS  "/usr/bin")
+find_program(ANT NAMES ant) # PATHS  "/usr/bin")
 message("ant:${ANT}\n")
 
 #只发行版本才安装
