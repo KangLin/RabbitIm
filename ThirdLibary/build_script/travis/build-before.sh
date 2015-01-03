@@ -9,7 +9,13 @@ if [ -n "$ANDROID_TARGET" ]; then
     #下载android ndk
     wget http://dl.google.com/android/ndk/android-ndk-r9c-linux-x86_64.tar.bz2
     tar xf android-ndk-r9c-linux-x86_64.tar.bz2
-    export ANDROID_NDK_ROOT=`pwd`/android-ndk-r9c
+    mv android-ndk-r9c android-ndk
+
+    #wget https://dl.google.com/android/ndk/android-ndk-r10d-linux-x86_64.bin
+    #chmod a+x android-ndk-r10d-linux-x86_64.bin
+    #./android-ndk-r10d-linux-x86_64.bin > /dev/null
+    #mv android-ndk-r10d android-ndk
+    export ANDROID_NDK_ROOT=`pwd`/android-ndk
     
     #下载qt for android
     wget http://182.254.185.29/download/travis/qt_android.tar.gz
