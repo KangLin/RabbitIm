@@ -4,7 +4,7 @@
 作者：康林（msn、email:kl222@126.com；QQ:16614119)  
 博客：http://blog.csdn.net/kl222  
      http://blog.csdn.net/kl222/article/details/37597807  
-项目位置：https://code.csdn.net/kl222/rabbitim  
+项目位置：https://github.com/KangLin/rabbitim  
 邮件组地址为：https://groups.yahoo.com/group/rabbitim  
 你可以做以下操作：  
   1. 要在此论坛中发帖，请发送电子邮件至 rabbitim@yahoogroups.com  
