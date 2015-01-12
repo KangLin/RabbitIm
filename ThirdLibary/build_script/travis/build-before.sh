@@ -15,7 +15,12 @@ if [ -n "$ANDROID_TARGET" ]; then
     #chmod a+x android-ndk-r10d-linux-x86_64.bin
     #./android-ndk-r10d-linux-x86_64.bin > /dev/null
     #mv android-ndk-r10d android-ndk
-    export ANDROID_NDK_ROOT=`pwd`/android-ndk
+    #export ANDROID_NDK_ROOT=`pwd`/android-ndk
+
+    #下载 android sdk
+    wget http://182.254.185.29/download/travis/android-sdk.tar.gz 
+    tar xzf android-sdk.tar.gz 
+    mv sdk android-sdk
     
     #下载qt for android
     wget http://182.254.185.29/download/travis/qt_android.tar.gz

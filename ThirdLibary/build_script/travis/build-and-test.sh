@@ -4,6 +4,8 @@ set -ev
 if [ -n "$ANDROID_TARGET" ]; then #编译 android
     export ANDROID_NDK_ROOT=`pwd`/ThirdLibary/android-ndk
     export ANDROID_NDK=$ANDROID_NDK_ROOT
+    export ANDROID_SDK_ROOT=`pwd`/ThirdLibary/android-sdk
+    export ANDROID_SDK=$ANDROID_SDK_ROOT
     export CC=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-4.8/prebuilt/linux-x86_64/bin/arm-linux-androideabi-gcc
     export CXX=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-4.8/prebuilt/linux-x86_64/bin/arm-linux-androideabi-g++
 fi

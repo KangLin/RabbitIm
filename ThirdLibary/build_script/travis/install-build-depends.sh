@@ -1,13 +1,14 @@
 #!/bin/sh
 set -ev
 
-if [ -n "$ANDROID_TARGET" ]; then
-    exit 0
-fi
-
 sudo add-apt-repository -y ppa:ubuntu-sdk-team/ppa
 sudo add-apt-repository --yes ppa:kalakris/cmake
 sudo apt-get update -y -qq
+
+if [ -n "$ANDROID_TARGET" ]; then
+    sudo apt-get install zlib1g:i386 libstdc++6:i386 libc6:i386 -y -qq
+    exit 0
+fi
 
 #安装qt依赖库
 sudo apt-get install build-essential -y -qq
