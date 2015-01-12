@@ -446,9 +446,10 @@ windows 平台下以 mingw 环境为例
 
 变量说明：  
 
-    ${ANDROID_MAKE}:windows下android ndk 自带的make工具。例如："$ANDROID_NDK/prebuilt/windows/bin/make"
-    ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：Qt5_DIR=/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5
-    ${ANT_ROOT}:ant 的安装路径。例如：ANT_ROOT=/d/software/apache-ant-1.9.4
+    ${CMAKE_TOOLCHAIN_FILE}:编译工具链文件。在源码根目录 platforms/android/android.toolchain.cmake
+    ${ANDROID_MAKE}:windows下android ndk 自带的make工具，如果在windows平台上编译，则需要指定。例如："$ANDROID_NDK/prebuilt/windows/bin/make"
+    ${Qt5_DIR}:qt for android 的 cmake 安装路径。位于qt for android的安装目录 lib/cmake/Qt5 。例如：Qt5_DIR=/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5
+    ${ANT_ROOT}:ant 的安装路径（linux一般会安装在 /use/bin 下）。例如： ANT_ROOT=/d/software/apache-ant-1.9.4
 
 例如：
 

@@ -28,9 +28,9 @@ fi
 #用cmake编译
 if [ -n "$CMAKE" ]; then
     if [ -n "$ANDROID_TARGET" ]; then #android需要指定cmake_toolchain_file
-        CMAKE_ARGS="-DCMAKE_TOOLCHAIN_FILE=`pwd`/platforms/android/android.toolchain.cmake"
+        CMAKE_ARGS="-DCMAKE_TOOLCHAIN_FILE=`pwd`/platforms/android/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-4.8"
     fi
 
-    $CMAKE . -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=${Qt5_DIR} "${CMAKE_ARGS}"
-    $CMAKE  --build . --config Release
+    $CMAKE . -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=${Qt5_DIR} ${CMAKE_ARGS}
+    $CMAKE  --build . 
 fi

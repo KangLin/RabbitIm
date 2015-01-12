@@ -40,9 +40,7 @@ SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTORCC ON)
 
 SET(CMAKE_VERBOSE_MAKEFILE ON)
-IF(NOT MSVC)
-    SET(CMAKE_CXX_FLAGS "-std=c++0x") #启用C++11
-ENDIF(NOT MSVC)
+SET(CMAKE_CXX_FLAGS "-std=c++0x") #启用C++11
 
 # Add definitions for static/style library 
 OPTION(STATIC "Build statically" OFF)
@@ -75,7 +73,7 @@ ELSEIF(ANDROID)
     SET(TOOLCHAIN_NAME android)
     ADD_DEFINITIONS(-DMOBILE)
     #SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -Wno-psabi -march=armv7-a -mfloat-abi=softfp -mfpu=vfp -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums  -Wa,--noexecstack -gdwarf-2 -marm -fno-omit-frame-pointer -Wall -Wno-psabi -W -fPIE)
-    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined -Wl,-z,noexecstack -shared")
+    SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined -Wl,-z,noexecstack -shared --sysroot=${ANDROID_SYSROOT}")
 ELSE(LINUX OR UNIX)
     SET(RABBITIM_SYSTEM unix)
     ADD_DEFINITIONS(-DUNIX)
@@ -211,7 +209,8 @@ target_link_libraries(${PROJECT_NAME}
         Qt5::Network
         Qt5::Multimedia
         Qt5::Xml
-        Qt5::Core)
+        Qt5::Core
+        )
 
 #翻译
 SET(TS_FILES Resource/translations/app_zh_CN.ts)
@@ -258,9 +257,6 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
     ENDIF()
     INSTALL(FILES ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
     INSTALL(FILES ${QM_FILES} DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
-    #SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Gui Qt5::Xml)
-    #INSTALL_QT_LIBRARYS(${QT_LIBS})
-    #INSTALL_QT_PLUGINS(Qt5Gui_PLUGINS Qt5Network_PLUGINS Qt5Widgets_PLUGINS Qt5Xml_PLUGINS)
     IF(WIN32)
         add_custom_target(Deployment DEPENDS ${PROJECT_NAME}
             COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.exe" "${CMAKE_INSTALL_PREFIX}/."
@@ -270,12 +266,16 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
                 --verbose 7
                 "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.exe"
         )
+    ELSE(WIN32)
+        SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Gui Qt5::Xml)
+        INSTALL_QT_LIBRARYS(${QT_LIBS})
+        INSTALL_QT_PLUGINS(Qt5Gui_PLUGINS Qt5Network_PLUGINS Qt5Widgets_PLUGINS Qt5Xml_PLUGINS)
     ENDIF(WIN32)
 ENDIF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
 
 IF(ANDROID)
     add_custom_command(TARGET  ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${LIBRARY_OUTPUT_PATH}/libRabbitIm.so ${PROJECT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
+        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/libRabbitIm.so ${PROJECT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
         COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt" 
             --input ${PROJECT_BINARY_DIR}/android-libRabbitIm.so-deployment-settings.json 
             --output ${PROJECT_BINARY_DIR}/android-build 
