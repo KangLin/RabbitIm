@@ -222,6 +222,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 详见《ffmpeg教程》
 
 3. opencv编译：  
+[Building OpenCV4Android from trunk](http://code.opencv.org/projects/opencv/wiki/Building_OpenCV4Android_from_trunk)  
 详见:http://blog.csdn.net/kl222/article/details/27223791  
 编译完成后,安装到:${RabbitImRoot}/ThirdLiabary/${Platform}  
 
