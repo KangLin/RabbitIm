@@ -62,6 +62,9 @@ CGlobal::CGlobal(QObject *parent) :
     m_bNotifiationBarFlashs =  conf.value("Options/NotifiationBar/Flashs", true).toBool();
     m_nFlashInterval = conf.value("Options/NotifiationBar/FlashsInterval", 500).toInt();
     m_bMessageSound = conf.value("Options/Message/ReceiveMessageSound", true).toBool();
+    m_nAnimationHideMainWindow = conf.value("UI/MainWindow/AnimationHide", 3000).toInt();
+    m_nAnimationDuration = conf.value("UI/MainWindow/AnimationDuration", 250).toInt();
+    m_bAnimationHideMainWindows = conf.value("UI/MainWindow/AutoHide", true).toBool();
 
     m_RosterShowType = (E_ROSTER_SHOW_TYPE)conf.value("Options/Roster/ShowType", E_ROSTER_SHOW_NAME).toInt();
     m_ScreenShotToType = (E_SCREEN_SHOT_TO_TYPE)conf.value("Options/ScreenShot/ToType", E_TO_SEND).toInt();
@@ -76,8 +79,8 @@ CGlobal::CGlobal(QObject *parent) :
     m_bShowLocaleVideo = conf.value("Video/Locale/Show", true).toBool();
     m_bMonitor = conf.value("Video/Monitor", false).toBool();
 
-    m_szStyleFile = conf.value("UI/StyleSheet", ":/sink/Blue").toString();
-    m_szMenuStyle = conf.value("UI/MenuStyleSheet", "Blue").toString();
+    m_szStyleFile = conf.value("UI/StyleSheet", "").toString();
+    m_szMenuStyle = conf.value("UI/MenuStyleSheet", "System").toString();
 
     //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用 
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
@@ -677,6 +680,45 @@ int CGlobal::SetMessageSound(bool bSound)
 bool CGlobal::GetMessageSound()
 {
     return m_bMessageSound;
+}
+
+int CGlobal::SetAnimationHideMainWindow(int nMs)
+{
+    m_nAnimationHideMainWindow = nMs;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("UI/MainWindow/AnimationHide", m_nAnimationHideMainWindow);
+    return 0;
+}
+
+int CGlobal::GetAnimationHideMainWindow()
+{
+    return m_nAnimationHideMainWindow;
+}
+
+int CGlobal::SetAnimationDuration(int nMs)
+{
+    m_nAnimationDuration = nMs;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("UI/MainWindow/AnimationDuration", m_nAnimationDuration);
+    return 0;
+}
+
+int CGlobal::GetAnimationDuration()
+{
+    return m_nAnimationDuration;
+}
+
+bool CGlobal::IsAnimationHideMainWindow()
+{
+    return m_bAnimationHideMainWindows;
+}
+
+int CGlobal::SetIsAnimationHideMainWindow(bool bHide)
+{
+    m_bAnimationHideMainWindows = bHide;
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    conf.setValue("UI/MainWindow/AutoHide", m_bAnimationHideMainWindows);
+    return 0;
 }
 
 int CGlobal::SetRosterShowType(E_ROSTER_SHOW_TYPE type)

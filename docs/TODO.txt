@@ -1,9 +1,17 @@
-﻿视频呼叫开发
+﻿做以下平台测试:
+opensuse
+centos
+freebsd
+debian
+
+视频呼叫开发
 视频会议开发
 
 翻译资源,在android平台放在资源中.原因是android打包工具默认不能自定目录.
 
 消息记录保存到文件中
+
+qt 在ubuntu下不能禁用最大化按钮
 
 qxmpp增加设置视频编码格式
 用webrtc摄像头，查捕获时间。

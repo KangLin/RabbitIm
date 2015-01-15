@@ -56,6 +56,9 @@ void CDlgOptions::showEvent(QShowEvent *)
     ui->sbFlashInterval->setValue(CGlobal::Instance()->GetNotifiationFlashInterval());
     ui->sbShowMessageDelay->setValue(CGlobal::Instance()->GetNotifiationBarShowMessageDelay());
     ui->cbMessageSound->setChecked(CGlobal::Instance()->GetMessageSound());
+    ui->sbWindowDelayTime->setValue(CGlobal::Instance()->GetAnimationHideMainWindow());
+    ui->sbAnimationDuration->setValue(CGlobal::Instance()->GetAnimationDuration());
+    ui->cbAutoHideMainWindow->setChecked(CGlobal::Instance()->IsAnimationHideMainWindow());
 
     CGlobal::E_ROSTER_SHOW_TYPE type = CGlobal::Instance()->GetRosterShowType();
     switch (type) {
@@ -70,7 +73,7 @@ void CDlgOptions::showEvent(QShowEvent *)
         ui->rbNick->setChecked(true);
         break;
     }
-    
+
     CGlobal::E_CLOSE_TYPE closeType = CGlobal::Instance()->GetCloseType();
     switch(closeType)
     {
@@ -206,6 +209,9 @@ void CDlgOptions::on_pbOK_clicked()
     CGlobal::Instance()->SetNotifiationFlashInterval(ui->sbFlashInterval->value());
     CGlobal::Instance()->SetNotifiationBarShowMessageDelay(ui->sbShowMessageDelay->value());
     CGlobal::Instance()->SetMessageSound(ui->cbMessageSound->isChecked());
+    CGlobal::Instance()->SetAnimationHideMainWindow(ui->sbWindowDelayTime->value());
+    CGlobal::Instance()->SetAnimationDuration(ui->sbAnimationDuration->value());
+    CGlobal::Instance()->SetIsAnimationHideMainWindow(ui->cbAutoHideMainWindow->isChecked());
 
     CGlobal::E_ROSTER_SHOW_TYPE type = CGlobal::Instance()->GetRosterShowType();
     if(ui->rbJID->isChecked())

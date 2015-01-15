@@ -27,8 +27,17 @@ int main(int argc, char *argv[])
 
     //*
     MainWindow w;
-#ifndef MOBILE
+#ifdef MOBILE
     CTool::SetWindowsGeometry(&w);
+#else
+    //加载窗口位置  
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    int top = conf.value("UI/MainWindow/top", w.frameGeometry().top()).toInt();
+    int left = conf.value("UI/MainWindow/left", w.frameGeometry().left()).toInt();
+    int Width = conf.value("UI/MainWindow/width", w.geometry().width()).toInt();
+    int Height = conf.value("UI/MainWindow/height", w.geometry().height()).toInt();
+    w.resize(Width, Height);
+    w.move(left, top);
 #endif
     w.show();//*/
 

@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include <QMainWindow>
 #include <QSystemTrayIcon>
+#include <QPropertyAnimation>
 #include "Widgets/FrmMain/FrmMain.h"
 
 class CFrmLogin;
@@ -66,13 +67,20 @@ protected slots:
     void slotEditInformation();
     //登录用户登出  
     void slotLogout();
-    //void onReceiveFile(QXmppTransferJob* job);//文件接收通知  
 
 protected:
     virtual void resizeEvent(QResizeEvent *e);
     virtual void showEvent(QShowEvent *);
     virtual void closeEvent(QCloseEvent *e);
     virtual void changeEvent(QEvent* e);
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void mouseReleaseEvent(QMouseEvent *event);
+    virtual void enterEvent(QEvent* event);
+    virtual void leaveEvent(QEvent* event);
+    virtual void moveEvent(QMoveEvent* event);
+    //事件监听器  
+    virtual bool eventFilter(QObject *target, QEvent *event);
 
 private slots:
     void on_actionOptions_O_triggered();
@@ -86,7 +94,7 @@ private:
     Ui::MainWindow *ui;
     QSharedPointer<CFrmLogin> m_Login;
     QSharedPointer<CFrmMain> m_TableMain;
-    bool m_bLogin;
+    bool m_bLogin;//是否登录标志  
 
     QMenu m_TrayIconMenu;
     QSystemTrayIcon m_TrayIcon;
@@ -131,6 +139,7 @@ private slots:
 private:
     CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口  
 
+//程序更新功能  
 #ifdef RABBITIM_USER_LIBCURL
 public:
 signals:
@@ -138,6 +147,20 @@ signals:
 private slots:
     void slotUpdateExec(int nError, const QString &szFile);
 #endif
+
+private:
+    //窗口动画隐藏
+    QPropertyAnimation m_Animation;
+    int m_nWidth, m_nHeight;//窗口的宽和高  
+    int m_nHideSize;//隐藏后的大小  
+    int m_nBorderSize;//边界的大小  
+    int AnimationWindows(const QRect &startRect, const QRect &endRect);
+    
+    int CheckShowWindows();
+    QTimer m_timerAnimation;
+private slots:
+    void slotCheckHideWindows();
+
 };
 
 #endif // MAINWINDOW_H

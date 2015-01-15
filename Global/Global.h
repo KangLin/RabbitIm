@@ -207,6 +207,14 @@ public:
     //是否提示接收消息提示音  
     int SetMessageSound(bool bSound);
     bool GetMessageSound();
+    //主窗口在边界自动隐藏的延时  
+    int SetAnimationHideMainWindow(int nMs);//单位:ms  
+    int GetAnimationHideMainWindow();//单位:ms  
+    int SetAnimationDuration(int nMs);//单位:ms  
+    int GetAnimationDuration();//单位:ms  
+    bool IsAnimationHideMainWindow();//是否自动隐藏主窗口  
+    int SetIsAnimationHideMainWindow(bool bHide);
+
 private:
     bool m_AutoLogin;//自动登录  
     int m_nAutoLoginDelayTime;
@@ -215,6 +223,9 @@ private:
     bool m_bNotifiationBarFlashs;
     int m_nFlashInterval;
     bool m_bMessageSound;//是否提示接收消息提示音  
+    int m_nAnimationHideMainWindow;//单位:ms  
+    int m_nAnimationDuration;//动画时长.单位:ms  
+    bool m_bAnimationHideMainWindows;
 
 public:
     //配置好友显示名称  

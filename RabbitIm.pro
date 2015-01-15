@@ -151,6 +151,12 @@ android{
     RABBITIM_SYSTEM=unix
     DEFINES += UNIX
     THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/unix
+
+    !isEmpty(RABBITIM_USER_LIBCURL){
+        LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lz#可以用 ./curl-config --libs 得到
+    }else:!isEmpty(RABBITIM_USER_OPENSSL){
+        LIBOPENSSL_LIBRARY = -lssl -lcrypto
+    }
 }
 
 INCLUDEPATH += $${THIRD_LIBRARY_PATH}/include $$WEBRTC_ROOT
