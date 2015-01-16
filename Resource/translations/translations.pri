@@ -51,8 +51,12 @@ else {
 }
 !android{#手机平台不需要
     QMAKE_EXTRA_TARGETS += mytranslations
-    #PRE_TARGETDEPS += mytranslations
-    POST_TARGETDEPS += mytranslations
+    #TODO:需要调试编译后编译翻译  
+    #POST_TARGETDEPS += mytranslations
+    #发行版本才更新更新配置
+    CONFIG(release, debug|release) {
+        POST_TARGETDEPS += mytranslations
+    }
 }
 
 wince |android {

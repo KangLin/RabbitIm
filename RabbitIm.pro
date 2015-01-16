@@ -249,7 +249,7 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         android.hardware.camera
     !isEmpty(RABBITIM_USER_OPENCV) {
         ANDROID_EXTRA_LIBS = \
-            $$PWD/ThirdLibary/android/lib/libnative_camera_r4.2.0.so  \ #修改成你手机平台对应的版本，如果没有，则取最近的版本
+            $$PWD/ThirdLibary/android/lib/libnative_camera_r4.2.0.so  \ #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
             $$PWD/ThirdLibary/android/lib/libopencv_info.so 
     }
 }
