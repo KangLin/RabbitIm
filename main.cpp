@@ -42,6 +42,7 @@ int main(int argc, char *argv[])
     w.show();//*/
 
 #ifdef RABBITIM_USER_LIBCURL
+    //检查版本更新  
     CDownLoadHandleVersionFile update;
     update.Start();
 #endif

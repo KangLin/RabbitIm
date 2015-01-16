@@ -51,6 +51,8 @@ CDownLoadHandleVersionFile::CDownLoadHandleVersionFile()
 
 int CDownLoadHandleVersionFile::OnError(int nErrorCode, const std::string &szErr)
 {
+    LOG_MODEL_ERROR("CDownLoadHandleVersionFile", "Download version file error:%d", nErrorCode);
+    return 0;
     emit GET_MAINWINDOW->sigUpdateExec(nErrorCode, m_szFile);
     return 0;
 }
@@ -136,7 +138,8 @@ int CDownLoadHandleVersionFile::Start()
     szFile += RABBITIM_SYSTEM;
     szFile += ".xml";
     m_szFile = CGlobal::Instance()->GetDirApplicationDownLoad() + QDir::separator() + szFile;
-    QString szUrl = "https://code.csdn.net/kl222/rabbitim/blob/Reconstruction/Update/" + szFile;
+    //TODO:设置下载版本文件  
+    QString szUrl = "https://github.com/KangLin/rabbitim/blob/master/Update/" + szFile;
 
     m_DownLoad.Start(szUrl.toStdString(), 
                      m_szFile.toStdString(), 
