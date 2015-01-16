@@ -33,9 +33,6 @@ public:
 
     //在通知栏上显示消息  
     int ShowTrayIconMessage(const QString &szTitle, const QString &szMessage);
-    
-    //文件发送  
-    void sendFile(const QString& jid,const QString& fileName,SendFileType type = MainWindow::DefaultType);
 
 signals:
     //初始化菜单  

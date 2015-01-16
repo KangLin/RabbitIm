@@ -30,18 +30,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 #ifdef MOBILE
     CTool::SetWindowsGeometry(this);
-#else
-    //加载窗口位置,在main.cpp中设置窗口大小和位置  
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
-    //int top = conf.value("UI/MainWindow/top", geometry().top()).toInt();
-    //int left = conf.value("UI/MainWindow/left", geometry().left()).toInt();
-    m_nWidth = conf.value("UI/MainWindow/width", geometry().width()).toInt();
-    m_nHeight = conf.value("UI/MainWindow/height", geometry().height()).toInt();
-    //resize(m_nWidth, m_nHeight);
-    //move(left, top);
 #endif
     ui->setupUi(this);
-
+#ifndef MOBILE
+    //加载窗口位置,在main.cpp中设置窗口大小和位置  
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    m_nWidth = conf.value("UI/MainWindow/width", geometry().width()).toInt();
+    m_nHeight = conf.value("UI/MainWindow/height", geometry().height()).toInt();
+#endif
     m_bLogin = false;
     m_nHideSize = 5;
     m_nBorderSize = 30;
@@ -261,7 +257,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 void MainWindow::enterEvent(QEvent* event)
 {
     Q_UNUSED(event);
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::enterEvent");
+    //LOG_MODEL_DEBUG("MainWindow", "MainWindow::enterEvent");
 
 #ifndef MOBILE
     m_timerAnimation.stop();
@@ -272,7 +268,7 @@ void MainWindow::enterEvent(QEvent* event)
 void MainWindow::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::leaveEvent");
+    //LOG_MODEL_DEBUG("MainWindow", "MainWindow::leaveEvent");
 
 #ifndef MOBILE
     //启动窗口隐藏检测定时器  
@@ -363,15 +359,6 @@ void MainWindow::slotUpdateLocaleUserInfo()
     QPixmap pixmap;
     pixmap.convertFromImage(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetPhoto());
     setWindowIcon(QIcon(pixmap));
-}
-
-void MainWindow::sendFile(const QString &jid, const QString &fileName, MainWindow::SendFileType type)
-{
-    /*QXmppTransferJob* job = XMPP_CLIENT->m_TransferManager.sendFile(jid,fileName,QString::number(type));
-    if(job)
-    {
-        m_pSendManageDlg->addFileProcess(*job,true);
-    }*/
 }
 
 int MainWindow::ReInitMenuOperator()
@@ -867,13 +854,14 @@ void MainWindow::slotUpdateExec(int nError, const QString &szFile)
 
 int MainWindow::AnimationWindows(const QRect &startRect, const QRect &endRect)
 {
+    /*
     LOG_MODEL_DEBUG("MainWindow", "AnimationWindows:\nstartRect:top:%d;left:%d;right:%d;bottom:%d;\nendRect:top:%d;left:%d;right:%d;bottom:%d;\nheight:%d;width:%d",
                     startRect.top(), startRect.left(),
                     startRect.right(), startRect.bottom(),
                     endRect.top(), endRect.left(),
                     endRect.right(), endRect.bottom(),
                     endRect.height(), endRect.width()
-                    );
+                    );//*/
     if(m_Animation.state() != QAbstractAnimation::Stopped)
     {
         LOG_MODEL_DEBUG("MainWindow", "animation is run");
