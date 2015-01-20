@@ -1844,12 +1844,12 @@ Email、MSN:kl222@126.com</source>
     <message>
         <location filename="../../Call/ManageCall.cpp" line="54"/>
         <source>Being talk with %1, please stop it.</source>
-        <translation>正在与 ％1 通话，请停止它。</translation>
+        <translation>正在与 %1 通话，请停止它。</translation>
     </message>
     <message>
         <location filename="../../Call/ManageCall.cpp" line="91"/>
         <source>Has new call from %1. but being talk with %2, please stop it.</source>
-        <translation>％1发起一个新的连接，但是现在正在与 ％2 通话，请先停止它。</translation>
+        <translation>%1发起一个新的连接，但是现在正在与 %2 通话，请先停止它。</translation>
     </message>
     <message>
         <location filename="../../Call/ManageCall.cpp" line="113"/>
