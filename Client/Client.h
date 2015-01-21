@@ -22,12 +22,12 @@ public:
     /**
      * @brief 注册新用户  
      *
-     * @param szId:用户id
-     * @param szName:用户名
-     * @param szPassword:密码
-     * @param szEmail:email
-     * @param szDescript:描述
-     * @return int
+     * @param szId:用户id  
+     * @param szName:用户名  
+     * @param szPassword:密码  
+     * @param szEmail:email  
+     * @param szDescript:描述  
+     * @return int  
      */
     virtual int Register(const QString &szId,
                          const QString &szName,

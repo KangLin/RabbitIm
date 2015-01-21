@@ -120,7 +120,8 @@ int CClientXmpp::Register(const QString &szId, const QString &szName, const QStr
 {
     QXmppRegisterIq registerIq;
     registerIq.setType(QXmppIq::Set);
-    registerIq.setUsername(szName);
+    registerIq.setUsername(szId);
+    Q_UNUSED(szName);
     registerIq.setPassword(szPassword);
     registerIq.setEmail(szEmail);
     registerIq.setInstructions(szDescript);

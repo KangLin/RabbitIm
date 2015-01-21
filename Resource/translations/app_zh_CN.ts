@@ -72,12 +72,12 @@
 <context>
     <name>CClientXmpp</name>
     <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="275"/>
+        <location filename="../../Client/ClientXmpp.cpp" line="276"/>
         <source>The roster is offline, don&apos;t send the file.</source>
         <translation>好友离线状态，不能发送文件。</translation>
     </message>
     <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="299"/>
+        <location filename="../../Client/ClientXmpp.cpp" line="300"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
         <translation>好友离线状态，不能发起呼叫。</translation>
     </message>
@@ -866,47 +866,56 @@ Email、MSN:kl222@126.com</source>
         <translation>建立新用户</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="71"/>
-        <source>User:</source>
+        <source>ID:</source>
+        <translation type="vanished">用户 ID：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="44"/>
+        <source>User ID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="77"/>
+        <source>User name:</source>
         <translation>用户名：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="112"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="122"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="147"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="167"/>
         <source>Confirm password:</source>
         <translation>校验密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="182"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="212"/>
         <source>Email:</source>
         <translation>电子邮箱：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="217"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="257"/>
         <source>Instructions:</source>
         <translation>说明：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="256"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="302"/>
         <source>Register new account</source>
         <translation>注册新用户</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="259"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="305"/>
         <source>Create(&amp;C)</source>
         <translation>建立(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="294"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="340"/>
         <source>Cancle</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="297"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="343"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
@@ -942,41 +951,47 @@ Email、MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="64"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="74"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="83"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="91"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="99"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="107"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="72"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="80"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="89"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="97"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="105"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="113"/>
         <source>Register error</source>
         <translation>注册错误</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="65"/>
-        <source>Don&apos;t fill user name, Please refilling</source>
-        <translation>忘记填写用户名，请重新填写</translation>
+        <source>Don&apos;t fill user id, Please refilling</source>
+        <translation >忘记填写用户ID，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="75"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="73"/>
+        <source>User id contains illegal characters. Only letters, numbers, combinations</source>
+        <translation >用户ID包含无效字符。只能是字母、数字组合</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="81"/>
         <source>Don&apos;t fill password, Please refilling</source>
         <translation>忘记填写密码，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="84"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="90"/>
         <source>Confirm password error, Please refilling</source>
         <translation>密码校验错误，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="92"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="98"/>
         <source>Password contains illegal characters. Only letters, numbers, `~!@#$%^&amp;*() combinations</source>
         <translation>密码包含非法字符。密码只能是字母、数字或 `~!@#$%^&amp;*() 组合。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="100"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="106"/>
         <source>Don&apos;t fill email, Please refilling</source>
         <translation>忘记填写电子邮箱，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="108"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="114"/>
         <source>Email format is wrong</source>
         <translation>电子邮箱格式错误。</translation>
     </message>
@@ -1905,7 +1920,7 @@ Email、MSN:kl222@126.com</source>
 <context>
     <name>CTool</name>
     <message>
-        <location filename="../../Tool.h" line="142"/>
+        <location filename="../../Tool.h" line="144"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -2016,8 +2031,8 @@ Email、MSN:kl222@126.com</source>
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="14"/>
-        <location filename="../../MainWindow.cpp" line="115"/>
-        <location filename="../../MainWindow.cpp" line="355"/>
+        <location filename="../../MainWindow.cpp" line="112"/>
+        <location filename="../../MainWindow.cpp" line="354"/>
         <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>
     </message>
@@ -2057,120 +2072,120 @@ Email、MSN:kl222@126.com</source>
         <translation>选项(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="184"/>
-        <location filename="../../MainWindow.cpp" line="705"/>
+        <location filename="../../MainWindow.cpp" line="182"/>
+        <location filename="../../MainWindow.cpp" line="695"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="428"/>
+        <location filename="../../MainWindow.cpp" line="418"/>
         <source>Close(&amp;E)</source>
         <translation>关闭(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="406"/>
-        <location filename="../../MainWindow.cpp" line="689"/>
+        <location filename="../../MainWindow.cpp" line="396"/>
+        <location filename="../../MainWindow.cpp" line="679"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation>编辑本地用户信息(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="509"/>
+        <location filename="../../MainWindow.cpp" line="499"/>
         <source>Status(&amp;S)</source>
         <translation>状态(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="528"/>
+        <location filename="../../MainWindow.cpp" line="518"/>
         <source>Language(&amp;L)</source>
         <translation>语言(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="530"/>
+        <location filename="../../MainWindow.cpp" line="520"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="532"/>
+        <location filename="../../MainWindow.cpp" line="522"/>
         <source>Chinese</source>
         <translation>简体中文</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="531"/>
+        <location filename="../../MainWindow.cpp" line="521"/>
         <source>English</source>
         <translation>英语</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="185"/>
+        <location filename="../../MainWindow.cpp" line="183"/>
         <source>Is close the programe or logout?</source>
         <translation>是关闭程序还是登出？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="187"/>
+        <location filename="../../MainWindow.cpp" line="185"/>
         <source>close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="188"/>
+        <location filename="../../MainWindow.cpp" line="186"/>
         <source>logout</source>
         <translation>登出</translation>
     </message>
     <message>
+        <location filename="../../MainWindow.cpp" line="360"/>
         <location filename="../../MainWindow.cpp" line="361"/>
-        <location filename="../../MainWindow.cpp" line="362"/>
         <source>RabbitIm:%1</source>
         <translation>玉兔即时通信：%1</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="425"/>
+        <location filename="../../MainWindow.cpp" line="415"/>
         <source>Logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="435"/>
+        <location filename="../../MainWindow.cpp" line="425"/>
         <source>Custom</source>
         <translation>自定义</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="436"/>
+        <location filename="../../MainWindow.cpp" line="426"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="437"/>
+        <location filename="../../MainWindow.cpp" line="427"/>
         <source>Blue</source>
         <translation>蓝色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="438"/>
+        <location filename="../../MainWindow.cpp" line="428"/>
         <source>Dark</source>
         <translation>黑色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="454"/>
+        <location filename="../../MainWindow.cpp" line="444"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation>扶肤(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="635"/>
+        <location filename="../../MainWindow.cpp" line="625"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="635"/>
+        <location filename="../../MainWindow.cpp" line="625"/>
         <source>Change language must reset program.</source>
         <translation>改变语言设置，必须重启程序才能生效。</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="698"/>
+        <location filename="../../MainWindow.cpp" line="688"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="700"/>
+        <location filename="../../MainWindow.cpp" line="690"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="837"/>
+        <location filename="../../MainWindow.cpp" line="829"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>

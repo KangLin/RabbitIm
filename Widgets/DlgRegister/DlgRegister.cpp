@@ -25,7 +25,7 @@ void CDlgRegister::clientError(CClient::ERROR_TYPE e)
     GET_CLIENT->disconnect(this);
     if(CClient::NoError == e)
     {
-        ((CFrmLogin*)m_pLogin)->SetLoginInformation(ui->txtUser->text(), ui->txtPassword->text());
+        ((CFrmLogin*)m_pLogin)->SetLoginInformation(ui->txtId->text(), ui->txtPassword->text());
         ((CFrmLogin*)m_pLogin)->SetPrompt(tr("Register success"));
         this->accept();
     }
@@ -52,19 +52,25 @@ void CDlgRegister::clientError(CClient::ERROR_TYPE e)
 
 void CDlgRegister::connected()
 {
-    GET_CLIENT->Register(ui->txtUser->text(), ui->txtPassword->text(), ui->txtemail->text(), ui->txtInstructions->text());
+    GET_CLIENT->Register(ui->txtId->text(), ui->txtUser->text(), ui->txtPassword->text(), ui->txtemail->text(), ui->txtInstructions->text());
 }
 
 void CDlgRegister::on_pbCreate_clicked()
 {
-    if(ui->txtUser->text().isEmpty()
-            || ui->txtUser->text().isNull())
+    if(ui->txtId->text().isEmpty()
+            || ui->txtId->text().isNull())
     {
         QMessageBox msg(QMessageBox::Critical,
                         tr("Register error"),
-                        tr("Don't fill user name, Please refilling"),
+                        tr("Don't fill user id, Please refilling"),
                         QMessageBox::Ok);
         msg.exec();
+        return;
+    }
+    if(ui->txtId->text().indexOf(QRegExp("[^a-zA-Z0-9]")) != -1)
+    {
+        QMessageBox::critical(this, tr("Register error"), 
+                              tr("User id contains illegal characters. Only letters, numbers, combinations"));
         return;
     }
     if(ui->txtPassword->text().isEmpty()
@@ -86,7 +92,7 @@ void CDlgRegister::on_pbCreate_clicked()
         msg.exec();
         return;
     }
-    if(ui->txtPassword->text().indexOf(QRegExp("[^a-zA-Z0-9\`\~\!\@\#\$\%\^\&\*\(\)]")) != -1)
+    if(ui->txtPassword->text().indexOf(QRegExp("[^a-zA-Z0-9`~!@#$%^&*()]")) != -1)
     {
         QMessageBox::critical(this, tr("Register error"), 
                               tr("Password contains illegal characters. Only letters, numbers, `~!@#$%^&*() combinations"));
@@ -116,7 +122,7 @@ void CDlgRegister::on_pbCreate_clicked()
 
     check = connect(GET_CLIENT.data(), SIGNAL(sigClientError(CClient::ERROR_TYPE)),
                     SLOT(clientError(CClient::ERROR_TYPE)));
-    
+
     GET_CLIENT->Login();
 }
 
@@ -132,7 +138,7 @@ void CDlgRegister::hideEvent(QHideEvent *)
 
 void CDlgRegister::changeEvent(QEvent *e)
 {
-    switch(e->type())
+    switch((int)e->type())
     {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
