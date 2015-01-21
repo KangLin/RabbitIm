@@ -20,14 +20,6 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    /* 发送文件类型
-     * DefaultType:默认类型
-     * ImageType:图片  */
-    enum SendFileType{
-        DefaultType,
-        ImageType
-    };
-    
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
@@ -146,14 +138,15 @@ private slots:
 #endif
 
 private:
-    //窗口动画隐藏
+    //窗口靠边界时自动隐藏  
     QPropertyAnimation m_Animation;
+    bool m_bAnimationHide;//窗口靠边界时自动隐藏  
     int m_nWidth, m_nHeight;//窗口的宽和高  
     int m_nHideSize;//隐藏后的大小  
     int m_nBorderSize;//边界的大小  
     int AnimationWindows(const QRect &startRect, const QRect &endRect);
     
-    int CheckShowWindows();
+    int CheckShowWindows(QRect &endRect);
     QTimer m_timerAnimation;
 private slots:
     void slotCheckHideWindows();

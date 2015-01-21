@@ -491,8 +491,8 @@ int CTool::SetWindowsGeometry(QWidget *pWindow)
 #ifdef MOBILE
     pWindow->setGeometry(pScreen->availableGeometry());
 #else
-    pWindow->move((pScreen->availableGeometry().width() - pWindow->width()) / 2,
-         (pScreen->availableGeometry().height() - pWindow->height()) / 2);
+    pWindow->move((pScreen->availableGeometry().width() - pWindow->width()) >> 1,
+         (pScreen->availableGeometry().height() - pWindow->height()) >> 1);
 #endif
     //*/
     return 0;

@@ -5,10 +5,12 @@
 #pragma execution_character_set("utf-8")
 #endif
 
+#ifdef RABBITIM_USER_FFMPEG
 extern "C" {
 #include "libavformat/avformat.h"
 #include "libswscale/swscale.h"
 }
+#endif
 
 #include <string>
 #include <QWidget>

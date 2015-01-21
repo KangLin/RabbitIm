@@ -32,8 +32,9 @@ int main(int argc, char *argv[])
 #else
     //加载窗口位置  
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
-    int top = conf.value("UI/MainWindow/top", w.frameGeometry().top()).toInt();
-    int left = conf.value("UI/MainWindow/left", w.frameGeometry().left()).toInt();
+    QScreen *pScreen = QGuiApplication::primaryScreen();
+    int top = conf.value("UI/MainWindow/top", (pScreen->availableGeometry().height() - w.height()) >> 1).toInt();
+    int left = conf.value("UI/MainWindow/left", (pScreen->availableGeometry().width() - w.width()) >> 1).toInt();
     int Width = conf.value("UI/MainWindow/width", w.geometry().width()).toInt();
     int Height = conf.value("UI/MainWindow/height", w.geometry().height()).toInt();
     w.resize(Width, Height);

@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_nHeight = conf.value("UI/MainWindow/height", geometry().height()).toInt();
 #endif
     m_bLogin = false;
+    m_bAnimationHide = false;
     m_nHideSize = 5;
     m_nBorderSize = 30;
 
@@ -130,7 +131,8 @@ MainWindow::~MainWindow()
 
 #ifndef MOBILE
     //保存窗口位置  
-    QRect rect = this->geometry();
+    QRect rect;
+    CheckShowWindows(rect);
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("UI/MainWindow/top", rect.top());
     conf.setValue("UI/MainWindow/left", rect.left());
@@ -261,7 +263,8 @@ void MainWindow::enterEvent(QEvent* event)
 
 #ifndef MOBILE
     m_timerAnimation.stop();
-    this->CheckShowWindows();
+    QRect rect;
+    this->CheckShowWindows(rect);
 #endif
 }
 
@@ -681,7 +684,7 @@ void MainWindow::slotTrayIconMenuUpdate()
     m_TrayIconMenu.addMenu(&m_MenuTranslate);
 
     QString szTitle;
-    if(this->isHidden() || this->isMinimized())
+    if(this->isHidden() || this->isMinimized() || m_bAnimationHide)
         szTitle = tr("Show Main Windows");
     else
         szTitle = tr("Hide Main Windows");
@@ -722,8 +725,10 @@ void MainWindow::slotMessageClean(const QString&)
 
 void MainWindow::on_actionNotifiation_show_main_windows_triggered()
 {
-    if(isHidden() || isMinimized())
+    if(isHidden() || isMinimized() || m_bAnimationHide)
      {
+        QRect rect;
+        this->CheckShowWindows(rect);
         this->show();
         this->activateWindow();
     }
@@ -893,6 +898,9 @@ void MainWindow::slotCheckHideWindows()
         return;
     }
 
+    if(m_bAnimationHide)
+        return;
+
     QRect startRect, endRect;
     startRect = geometry();
     endRect = startRect;
@@ -923,6 +931,7 @@ void MainWindow::slotCheckHideWindows()
     else
         return;
 
+    m_bAnimationHide = true;
     this->centralWidget()->hide();
     this->menuBar()->hide();
     this->setWindowFlags(Qt::FramelessWindowHint 
@@ -935,7 +944,7 @@ void MainWindow::slotCheckHideWindows()
         return;
 }
 
-int MainWindow::CheckShowWindows()
+int MainWindow::CheckShowWindows(QRect &endRect)
 {
     /*
     LOG_MODEL_DEBUG("MainWindow", "\ngeometry:top:%d;left:%d;right:%d;bottom:%d;\nheight:%d;width:%d;\nframegeometry:top:%d;left:%d;right:%d;bottom:%d",
@@ -945,13 +954,16 @@ int MainWindow::CheckShowWindows()
                     frameGeometry().top(), frameGeometry().left(),
                     frameGeometry().right(), frameGeometry().bottom()
                     );//*/
+    if(!m_bAnimationHide)
+        return 0;
+
     if(m_Animation.state() != QAbstractAnimation::Stopped)
     {
         LOG_MODEL_DEBUG("MainWindow", "animation is run");
         return -1;//m_Animation.stop();
     }
 
-    QRect startRect, endRect;
+    QRect startRect;
     startRect = geometry();
     endRect = startRect;
 
@@ -991,6 +1003,7 @@ int MainWindow::CheckShowWindows()
         return 0;
     }
 
+    m_bAnimationHide = false;
     this->centralWidget()->show();
     this->menuBar()->show();
     this->setGeometry(startRect);
