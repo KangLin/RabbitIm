@@ -673,11 +673,11 @@ void CFrmUserList::doubleClicked(const QModelIndex &index)
 
 void CFrmUserList::resizeEvent(QResizeEvent *e)
 {
-    LOG_MODEL_DEBUG("CFrmUserList", "CFrmUserList::resizeEvent:e.size:%d;genmetry.size:%d;userlist.framewidth:%d;width:%d",
+    /*LOG_MODEL_DEBUG("CFrmUserList", "CFrmUserList::resizeEvent:e.size:%d;genmetry.size:%d;userlist.framewidth:%d;width:%d",
                     e->size().width(),
                     geometry().size().width(),
                     m_UserList.frameGeometry().width(),
-                    m_UserList.width());
+                    m_UserList.width());*/
     m_UserList.resize(this->geometry().size());
     //调整列的宽度  
     int nWidth = m_UserList.width() * 4/ 5;

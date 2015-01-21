@@ -55,9 +55,9 @@ void CCustomTreeView::contextMenuEvent(QContextMenuEvent *event)
 
 void CCustomTreeView::resizeEvent(QResizeEvent *event)
 {
-    LOG_MODEL_DEBUG("CCustomTreeView", "CTreeUserList::resizeEvent:width:%d,event size:%d", 
+    /*LOG_MODEL_DEBUG("CCustomTreeView", "CTreeUserList::resizeEvent:width:%d,event size:%d", 
                     this->geometry().width(),
-                    event->size().width());
+                    event->size().width());*/
     Q_UNUSED(event);
 }
 

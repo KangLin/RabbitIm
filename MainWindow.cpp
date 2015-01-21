@@ -131,7 +131,7 @@ MainWindow::~MainWindow()
 
 #ifndef MOBILE
     //保存窗口位置  
-    QRect rect;
+    QRect rect = this->geometry();
     CheckShowWindows(rect);
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("UI/MainWindow/top", rect.top());
@@ -859,7 +859,7 @@ void MainWindow::slotUpdateExec(int nError, const QString &szFile)
 
 int MainWindow::AnimationWindows(const QRect &startRect, const QRect &endRect)
 {
-    /*
+    //*
     LOG_MODEL_DEBUG("MainWindow", "AnimationWindows:\nstartRect:top:%d;left:%d;right:%d;bottom:%d;\nendRect:top:%d;left:%d;right:%d;bottom:%d;\nheight:%d;width:%d",
                     startRect.top(), startRect.left(),
                     startRect.right(), startRect.bottom(),
@@ -908,24 +908,56 @@ void MainWindow::slotCheckHideWindows()
     {
         endRect.setTop(0);
         endRect.setHeight(m_nHideSize);
+        if(this->frameGeometry().left() < 0)
+        {
+            endRect.setLeft(0);
+        }
+        else if(this->frameGeometry().right() > QApplication::desktop()->width())
+        {
+            endRect.setLeft(QApplication::desktop()->width() - m_nWidth);
+        }
         endRect.setWidth(m_nWidth);
     }
     else if(this->frameGeometry().bottom() > QApplication::desktop()->height() - m_nBorderSize)//向下边隐藏  
     {
         endRect.setTop(QApplication::desktop()->height() - m_nHideSize);
         endRect.setHeight(m_nHideSize);
+        if(this->frameGeometry().left() < 0)
+        {
+            endRect.setLeft(0);
+        }
+        else if(this->frameGeometry().right() > QApplication::desktop()->width())
+        {
+            endRect.setLeft(QApplication::desktop()->width() - m_nWidth);
+        }
         endRect.setWidth(m_nWidth);
     }
     else if(this->frameGeometry().left() < m_nBorderSize)//向左边隐藏  
     {
         endRect.setLeft(0);
         endRect.setWidth(m_nHideSize);
+        if(this->frameGeometry().top() < 0)
+        {
+            endRect.setTop(0);
+        }
+        else if(this->frameGeometry().bottom() > QApplication::desktop()->height())
+        {
+            endRect.setTop(QApplication::desktop()->height() - m_nHeight);
+        }
         endRect.setHeight(m_nHeight);
     }
     else if(this->frameGeometry().right() > QApplication::desktop()->width() - m_nBorderSize)//向右边隐藏  
     {
         endRect.setLeft(QApplication::desktop()->width() - m_nHideSize);
         endRect.setWidth(m_nHideSize);
+        if(this->frameGeometry().top() < 0)
+        {
+            endRect.setTop(0);
+        }
+        else if(this->frameGeometry().bottom() > QApplication::desktop()->height())
+        {
+            endRect.setTop(QApplication::desktop()->height() - m_nHeight);
+        }
         endRect.setHeight(m_nHeight);
     }
     else
@@ -935,8 +967,7 @@ void MainWindow::slotCheckHideWindows()
     this->centralWidget()->hide();
     this->menuBar()->hide();
     this->setWindowFlags(Qt::FramelessWindowHint 
-                       | Qt::WindowStaysOnTopHint
-                      /* | Qt::X11BypassWindowManagerHint*/);
+                       | Qt::WindowStaysOnTopHint);
     this->setGeometry(startRect);
     this->show();
 
@@ -1013,4 +1044,6 @@ int MainWindow::CheckShowWindows(QRect &endRect)
     this->activateWindow();
     if(AnimationWindows(startRect, endRect))
         return -1;
+
+    return 0;
 }

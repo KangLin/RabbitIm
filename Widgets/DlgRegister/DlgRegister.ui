@@ -143,6 +143,9 @@
          <height>30</height>
         </size>
        </property>
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
       </widget>
      </item>
     </layout>
@@ -187,6 +190,9 @@
          <width>16777215</width>
          <height>30</height>
         </size>
+       </property>
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
        </property>
       </widget>
      </item>
