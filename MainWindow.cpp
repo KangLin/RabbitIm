@@ -859,7 +859,7 @@ void MainWindow::slotUpdateExec(int nError, const QString &szFile)
 
 int MainWindow::AnimationWindows(const QRect &startRect, const QRect &endRect)
 {
-    //*
+    /*
     LOG_MODEL_DEBUG("MainWindow", "AnimationWindows:\nstartRect:top:%d;left:%d;right:%d;bottom:%d;\nendRect:top:%d;left:%d;right:%d;bottom:%d;\nheight:%d;width:%d",
                     startRect.top(), startRect.left(),
                     startRect.right(), startRect.bottom(),

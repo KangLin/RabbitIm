@@ -190,6 +190,13 @@ int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type, const QStri
     }
     else
         id = szId;
+    
+    if(!GLOBAL_USER->GetUserInfoRoster(id).isNull() 
+            || USER_INFO_LOCALE->GetInfo()->GetId() == id)
+    {
+        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::RosterAdd:Roster [%s] is exist", id.toStdString().c_str());
+        return -1;
+    }
     LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::RosterAdd:szId:%s", id.toStdString().c_str());
     switch(type)
     {

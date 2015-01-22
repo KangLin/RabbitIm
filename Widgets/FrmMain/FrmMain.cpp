@@ -37,9 +37,9 @@ CFrmMain::~CFrmMain()
 
 void CFrmMain::resizeEvent(QResizeEvent *e)
 {
-    LOG_MODEL_DEBUG("CWdgTableMain", "CWdgTableMain::resizeEvent:e.size:%d;genmetry.size:%d",
+    /*LOG_MODEL_DEBUG("CWdgTableMain", "CWdgTableMain::resizeEvent:e.size:%d;genmetry.size:%d",
                     e->size().width(),
-                    geometry().size().width());
+                    geometry().size().width());*/
 
     ui->tabWidget->resize(geometry().size());
     ui->tabWidget->currentWidget()->resize(ui->tabWidget->geometry().size());

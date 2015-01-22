@@ -84,7 +84,7 @@ public:
      * @brief //增加好友  
      *
      * @param szId：好友id
-     * @return int：成功返回0，失败返回非0  
+     * @return int：成功返回0，失败返回非0；-1:好友已经存在  
      */
     virtual int RosterAdd(const QString& szId, SUBSCRIBE_TYPE type = SUBSCRIBE_REQUEST,
                           const QString &szName = QString(), const QSet<QString> &groups = QSet<QString>());

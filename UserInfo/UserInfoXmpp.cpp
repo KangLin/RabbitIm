@@ -46,7 +46,7 @@ int CUserInfoXmpp::SetName(const QString &szName)
 
 QString CUserInfoXmpp::GetJid()
 {
-    LOG_MODEL_DEBUG("CUserInfoXmpp", "jid:%s", m_szJid.toStdString().c_str());
+    //LOG_MODEL_DEBUG("CUserInfoXmpp", "jid:%s", m_szJid.toStdString().c_str());
     return m_szJid;
 }
 
