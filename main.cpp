@@ -17,7 +17,9 @@ int main(int argc, char *argv[])
 
     //QFontDatabase::addApplicationFont("://DejaVuSans.ttf");
     //a.setFont(QFont(DejaVuSans));
-    LOG_MODEL_DEBUG("main", "font:%s", a.font().family().toStdString().c_str());
+    LOG_MODEL_DEBUG("main", "font:%s;codec:%s",
+                    a.font().family().toStdString().c_str(),
+                    QTextCodec::codecForLocale()->name().data());
 
     //设置插件路径(msvc 下没有用）   
     a.addLibraryPath(CGlobal::Instance()->GetDirApplication());
