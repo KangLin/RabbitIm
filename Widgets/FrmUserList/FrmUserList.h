@@ -104,6 +104,8 @@ private slots:
     void slotAgreeAddRoster();
     //显示好友详细信息槽  
     void slotInformationRoster();
+    //删除组槽  
+    void slotRemoveGroup();
     
     void slotSendMessage();
     void slotSendFile();

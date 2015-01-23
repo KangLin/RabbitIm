@@ -198,6 +198,11 @@ int CFrmUserList::InitMenu()
                     SLOT(slotInformationRoster()));
     Q_ASSERT(check);
 
+    m_Menu.addAction(ui->actionRemove_Group);
+    check = connect(ui->actionRemove_Group, SIGNAL(triggered()),
+                    SLOT(slotRemoveGroup()));
+    Q_ASSERT(check);
+
     return 0;
 }
 
@@ -207,6 +212,7 @@ int CFrmUserList::EnableAllActioins(bool bEnable)
     EnableAction(ui->actionAgreeAddRoster, bEnable);
     EnableAction(ui->actionRemoveRoster_R, bEnable);
     EnableAction(ui->actionInformation_I, bEnable);
+    EnableAction(ui->actionRemove_Group, bEnable);
     EnableAction(ui->actionRename, bEnable);
     EnableAction(ui->actionSendMessage, bEnable);
     EnableAction(ui->actionSendFile, bEnable);
@@ -263,6 +269,11 @@ void CFrmUserList::slotUpdateMenu()
     if(bareJid.isEmpty())
     {
         //TODO:新建组  
+
+        //TODO:判断子节点是否为空  
+        QModelIndex index = m_UserList.currentIndex();
+        if(!m_pModel->hasChildren(index))
+            EnableAction(ui->actionRemove_Group);
     }
     else
     {
@@ -279,7 +290,7 @@ void CFrmUserList::slotUpdateMenu()
         //查看好友信息  
         EnableAction(ui->actionInformation_I);
         //TODO: 移动到组  
-        
+
         EnableAction(ui->actionSendMessage);
         EnableAction(ui->actionSendFile);
         EnableAction(ui->actionVideo);
@@ -345,6 +356,11 @@ void CFrmUserList::slotInformationRoster()
     QString bareJid = GetCurrentRoster();
     CDlgUservCard pvCard(GLOBAL_USER->GetUserInfoRoster(bareJid)->GetInfo());
     pvCard.exec();
+}
+
+void CFrmUserList::slotRemoveGroup()
+{
+    m_pModel->removeRow(m_UserList.currentIndex().row());
 }
 
 void CFrmUserList::slotSendMessage()

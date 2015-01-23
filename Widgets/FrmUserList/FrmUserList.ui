@@ -138,6 +138,18 @@
     <string>Allow Monitor</string>
    </property>
   </action>
+  <action name="actionRemove_Group">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Group</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove Group</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../../Resource/Resource.qrc"/>
