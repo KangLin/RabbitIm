@@ -405,6 +405,7 @@ void CFrmUserList::slotMonitor()
 void CFrmUserList::slotRosterAddReceived(const QString &szId, const CClient::SUBSCRIBE_TYPE &type)
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(szId));
+    Q_UNUSED(type);
     CDlgAddRoster dlgAddRoster;
     dlgAddRoster.Init( GetGroupsName(), szId, true);
     dlgAddRoster.exec();

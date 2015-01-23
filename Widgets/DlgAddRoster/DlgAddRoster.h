@@ -15,6 +15,11 @@ public:
     explicit CDlgAddRoster(QWidget *parent = 0);
     ~CDlgAddRoster();
 
+    //初始化  
+    //参数:  
+    //        groups:组  
+    //        szId:好友的ID  
+    //        bRequest:是否是请求  
     int Init(QSet<QString> groups, QString szId = QString(), bool bRequest = false);
 
 private slots:

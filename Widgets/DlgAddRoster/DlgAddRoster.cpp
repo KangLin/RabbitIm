@@ -103,8 +103,17 @@ void CDlgAddRoster::on_txtJID_editingFinished()
         QString szJid = ui->txtJID->text();
         int nPos = szJid.indexOf("@");
         if(nPos > 0)
-            ui->txtNick->setText(szJid.left(nPos));
+        {
+            //检查是否已经存在  
+            QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoRoster(szJid);
+            if(user.isNull())
+                ui->txtNick->setText(szJid.left(nPos));
+            else
+                ui->txtNick->setText(user->GetInfo()->GetName());
+        }
         else
+        {
             ui->txtNick->setText(szJid);
+        }
     }
 }
