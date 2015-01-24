@@ -72,12 +72,12 @@
 <context>
     <name>CClientXmpp</name>
     <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="276"/>
+        <location filename="../../Client/ClientXmpp.cpp" line="285"/>
         <source>The roster is offline, don&apos;t send the file.</source>
         <translation>好友离线状态，不能发送文件。</translation>
     </message>
     <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="300"/>
+        <location filename="../../Client/ClientXmpp.cpp" line="309"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
         <translation>好友离线状态，不能发起呼叫。</translation>
     </message>
@@ -148,7 +148,7 @@ Email、MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/DlgAddRoster/DlgAddRoster.ui" line="105"/>
-        <source>Roster JID:</source>
+        <source>Roster ID:</source>
         <translation>好友 JID：</translation>
     </message>
     <message>
@@ -866,13 +866,9 @@ Email、MSN:kl222@126.com</source>
         <translation>建立新用户</translation>
     </message>
     <message>
-        <source>ID:</source>
-        <translation type="vanished">用户 ID：</translation>
-    </message>
-    <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="44"/>
         <source>User ID:</source>
-        <translation type="unfinished"></translation>
+        <translation>用户 ID：</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="77"/>
@@ -885,37 +881,37 @@ Email、MSN:kl222@126.com</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="167"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="170"/>
         <source>Confirm password:</source>
         <translation>校验密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="212"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="218"/>
         <source>Email:</source>
         <translation>电子邮箱：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="257"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="263"/>
         <source>Instructions:</source>
         <translation>说明：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="302"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="308"/>
         <source>Register new account</source>
         <translation>注册新用户</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="305"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="311"/>
         <source>Create(&amp;C)</source>
         <translation>建立(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="340"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="346"/>
         <source>Cancle</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="343"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="349"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
@@ -950,48 +946,48 @@ Email、MSN:kl222@126.com</source>
         <translation>注册失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="64"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="72"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="80"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="89"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="97"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="105"/>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="113"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="65"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="73"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="81"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="90"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="98"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="106"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="114"/>
         <source>Register error</source>
         <translation>注册错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="65"/>
-        <source>Don&apos;t fill user id, Please refilling</source>
-        <translation >忘记填写用户ID，请重新填写</translation>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="66"/>
+        <source>Don&apos;t fill user id, Please refilling, the id length must greater than 4</source>
+        <translation>用户ID没填，其长度必须大于4</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="73"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="74"/>
         <source>User id contains illegal characters. Only letters, numbers, combinations</source>
-        <translation >用户ID包含无效字符。只能是字母、数字组合</translation>
+        <translation>用户ID包含无效字符。只能是字母、数字组合</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="81"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="82"/>
         <source>Don&apos;t fill password, Please refilling</source>
         <translation>忘记填写密码，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="90"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="91"/>
         <source>Confirm password error, Please refilling</source>
         <translation>密码校验错误，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="98"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="99"/>
         <source>Password contains illegal characters. Only letters, numbers, `~!@#$%^&amp;*() combinations</source>
         <translation>密码包含非法字符。密码只能是字母、数字或 `~!@#$%^&amp;*() 组合。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="106"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="107"/>
         <source>Don&apos;t fill email, Please refilling</source>
         <translation>忘记填写电子邮箱，请重新填写</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="114"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="115"/>
         <source>Email format is wrong</source>
         <translation>电子邮箱格式错误。</translation>
     </message>
@@ -1020,8 +1016,8 @@ Email、MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Update/DlgUpdate.cpp" line="19"/>
-        <source>Is checking update version</source>
-        <translation>正在更新版本</translation>
+        <source>Be checking update version ...</source>
+        <translation>正在更新版本 ……</translation>
     </message>
     <message>
         <location filename="../../Update/DlgUpdate.cpp" line="55"/>
@@ -1050,32 +1046,32 @@ Email、MSN:kl222@126.com</source>
         <translation>版本文件错误</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="136"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="157"/>
         <source>Do you update new version?</source>
         <translation>你要更新版本吗？</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="195"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="216"/>
         <source>Download fail.</source>
         <translation>下载失败。</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="200"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="221"/>
         <source>Download success.</source>
         <translation>下载成功。</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="208"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="229"/>
         <source>Download file md5sum error:%1</source>
         <translation>下载文件 md5 校验和错误:%1</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="230"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="251"/>
         <source>Execute install program error.%1</source>
         <translation>执行安装程序错误。%1</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="166"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="187"/>
         <source>Downloading </source>
         <translation>正在下载 </translation>
     </message>
@@ -1677,29 +1673,29 @@ Email、MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="139"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="243"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="252"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="249"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="258"/>
         <source>Operator roster(&amp;O)</source>
         <translation>操作好友(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="323"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="334"/>
         <source>Roster[%1] rename</source>
         <translation>重命名好友[%1]</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="324"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="335"/>
         <source>Roster[%1] rename:</source>
         <translation>重命名好友[%1]</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="365"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="381"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="39"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="430"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="447"/>
         <source>My friends</source>
         <translation>我的好友</translation>
     </message>
@@ -1777,6 +1773,12 @@ Email、MSN:kl222@126.com</source>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="138"/>
         <source>Allow Monitor</source>
         <translation>允许监控模式</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="147"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="150"/>
+        <source>Remove Group</source>
+        <translation>移除组</translation>
     </message>
 </context>
 <context>

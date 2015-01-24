@@ -83,11 +83,15 @@ int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
         return -4;
     }
 
+    file.close();
+
     if(doc.isNull())
     {
         LOG_MODEL_ERROR("Update", "doc is null");
         return -5;
     }
+
+    CGlobal::Instance()->SetUpdateDate(QDateTime::currentDateTime());
 
     QDomElement startElem = doc.documentElement();
     QString szMajorVersion = startElem.firstChildElement("MAJOR_VERSION_NUMBER").text();
@@ -141,12 +145,10 @@ int CDownLoadHandleVersionFile::Start()
     //TODO:设置下载版本文件  
     QString szUrl = "https://github.com/KangLin/rabbitim/blob/master/Update/" + szFile;
 
-    m_DownLoad.Start(szUrl.toStdString(), 
-                     m_szFile.toStdString(), 
+    m_DownLoad.Start(szUrl.toStdString(),
+                     m_szFile.toStdString(),
                      this, 
                      1);
 
-    //TODO:
-    //CGlobal::Instance()->SetUpdateDate(QDateTime::currentDateTime());
     return 0;
 }

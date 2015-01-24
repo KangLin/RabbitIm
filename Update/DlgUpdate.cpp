@@ -16,7 +16,7 @@ CDlgUpdate::CDlgUpdate(int nError, const QString &szFile, QWidget *parent) :
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
 
-    ui->lbPrompt->setText(tr("Is checking update version"));
+    ui->lbPrompt->setText(tr("Be checking update version ..."));
     ui->lbError->setVisible(false);
     ui->lbError->setText("");
     ui->progressBar->setVisible(false);
@@ -123,6 +123,27 @@ void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode, const QString &szFile)
     {
         slotDownLoadStart(false);
         return;
+    }
+
+    QString szMinCompatibleVersion = startElem.firstChildElement("MIN_COMPATIBLE_VERSION").text();
+    if(!szMinCompatibleVersion.isNull())
+    {
+        QStringList lstNowVersion;
+        lstNowVersion << QString::number(MAJOR_VERSION_NUMBER)
+                      << QString::number(MINOR_VERSION_NUMBER)
+                      << QString::number(REVISION_VERSION_NUMBER);
+        QStringList lstVersion = szMinCompatibleVersion.split(".");
+        int nSize = 3;
+        if(lstVersion.size() < nSize)
+            nSize = lstVersion.size();
+        for(int i = 0; i < nSize; i++)
+        {
+            if(lstVersion[i] > lstNowVersion[i])
+            {
+                slotDownLoadStart(false);
+                return;
+            }
+        }
     }
 
     slotDownLoadStart(true);

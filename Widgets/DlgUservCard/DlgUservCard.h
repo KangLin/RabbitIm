@@ -18,7 +18,7 @@ class CDlgUservCard : public QDialog
 public:
     //用于编辑本地用户信息  
     explicit CDlgUservCard(QWidget *parent = 0);
-    //用于查询组成员信息  
+    //用于查询指定ID的信息（适用于不是好友的信息查询），如果ID是好友，则会更新它的信息；如果不是好友，不会影响  
     explicit CDlgUservCard(const QString &jid, QWidget *parent = 0);
     //用于查询好友信息  
     explicit CDlgUservCard(QSharedPointer<CUserInfo> user, bool bModify = false, QWidget* parent = NULL);

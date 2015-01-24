@@ -562,7 +562,7 @@ void CClientXmpp::slotvCardReceived(const QXmppVCardIq& vCardIq)
         ((CUserInfoXmpp*)user->GetInfo().data())->UpdateUserInfo(vCardIq, vCardIq.from());
         r = user;
     }
-    else
+    else//更新现在好友的信息  
         m_User->UpdateUserInfoRoster(vCardIq,
                                vCardIq.from());
     //发信号  
