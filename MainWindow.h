@@ -51,12 +51,13 @@ protected slots:
     void slotMessageClean(const QString& szId);
 
     void on_actionNotifiation_show_main_windows_triggered();
-
-    //编辑登录用户详细信息  
-    void slotEditInformation();
+    
     //登录用户登出  
     void slotLogout();
-
+public slots:
+    //编辑登录用户详细信息  
+    void slotEditInformation();
+    
 protected:
     virtual void resizeEvent(QResizeEvent *e);
     virtual void showEvent(QShowEvent *);

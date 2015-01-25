@@ -20,8 +20,13 @@ public:
     ~CFrmMain();
 
 private:
-    void resizeEvent(QResizeEvent *e);
-    void changeEvent(QEvent*);
+    virtual void resizeEvent(QResizeEvent *e);
+    virtual void changeEvent(QEvent*);
+    virtual void showEvent(QShowEvent *);
+
+private slots:
+    //更新本地用户信息  
+    void slotUpdateLocaleUserInfo();
 
 private:
     Ui::CFrmMain *ui;

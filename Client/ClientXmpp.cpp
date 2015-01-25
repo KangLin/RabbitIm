@@ -415,7 +415,7 @@ void CClientXmpp::slotClientConnected()
 
         //因为openfire当用户信息改变时，不会广播改变通知，所以当程序启动时要查询所有信息。这里会影响性能  
         //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
-        //if(USER_INFO_LOCALE.isNull())
+        if(USER_INFO_LOCALE.isNull())
         {
             //调用客户端操作，得到本地用户信息  
             GET_CLIENT->RequestUserInfoLocale();
@@ -528,10 +528,10 @@ void CClientXmpp::slotRosterReceived()
             r = m_User->AddUserInfoRoster(jid);
             QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(jid);
             m_User->UpdateUserInfoRoster(item);
+            //因为openfire当用户信息改变时，不会广播改变通知，所以当程序启动时要查询所有信息。这里会影响性能  
+            //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
+            RequestUserInfoRoster(jid);
         }
-        //因为openfire当用户信息改变时，不会广播改变通知，所以当程序启动时要查询所有信息。这里会影响性能  
-        //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
-        RequestUserInfoRoster(jid);
     }
 }
 

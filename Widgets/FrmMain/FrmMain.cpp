@@ -1,6 +1,7 @@
 #include "FrmMain.h"
 #include "ui_FrmMain.h"
 #include "../../Global/Global.h"
+#include "MainWindow.h"
 #include <QSettings>
 
 CFrmMain::CFrmMain(QWidget *parent) :
@@ -10,18 +11,41 @@ CFrmMain::CFrmMain(QWidget *parent) :
     ui(new Ui::CFrmMain)
 {
     ui->setupUi(this);
+#ifdef MOBILE
+    ui->widget->setVisible(false);
+#else
     ui->tabWidget->clear();
-    
+    ui->lbAvatar->setScaledContents(true);
+    ui->lbName->clear();
+    ui->lbComment->clear();
+    ui->lbWeather->clear();
+    ui->lbWeather->setScaledContents(true);
+#endif
 
     ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
     ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
     ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"), tr("Recent messages"));
-    
+
     if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
         return;
     QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
     int nIndex = conf.value("Widgets/Main", 0).toInt();
     ui->tabWidget->setCurrentIndex(nIndex);
+
+    bool check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateLocaleUserInfo()),
+                    SLOT(slotUpdateLocaleUserInfo()));
+    Q_ASSERT(check);
+
+    check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
+                    SLOT(slotUpdateLocaleUserInfo()));
+    Q_ASSERT(check);
+
+    check = connect(ui->lbAvatar, SIGNAL(clicked()),
+                    GET_MAINWINDOW, SLOT(slotEditInformation()));
+    Q_ASSERT(check);
+    check = connect(ui->lbName, SIGNAL(clicked()),
+                    GET_MAINWINDOW, SLOT(slotEditInformation()));
+    Q_ASSERT(check);
 }
 
 CFrmMain::~CFrmMain()
@@ -41,8 +65,8 @@ void CFrmMain::resizeEvent(QResizeEvent *e)
                     e->size().width(),
                     geometry().size().width());*/
 
-    ui->tabWidget->resize(geometry().size());
-    ui->tabWidget->currentWidget()->resize(ui->tabWidget->geometry().size());
+    //ui->tabWidget->resize(geometry().size().width(), geometry().size().height() - ui->lbAvatar->frameGeometry().height());
+    //ui->tabWidget->currentWidget()->resize(ui->tabWidget->geometry().size());
 }
 
 void CFrmMain::changeEvent(QEvent *e)
@@ -56,4 +80,21 @@ void CFrmMain::changeEvent(QEvent *e)
         ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_GroupChatList), tr("Group Chat"));
         break;
     }
+}
+
+void CFrmMain::showEvent(QShowEvent *)
+{
+    slotUpdateLocaleUserInfo();
+}
+
+void CFrmMain::slotUpdateLocaleUserInfo()
+{
+    QSharedPointer<CUser> user = USER_INFO_LOCALE;
+    if(user.isNull())
+        return;
+    QSharedPointer<CUserInfo> info = user->GetInfo();
+    if(info.isNull())
+        return;
+    ui->lbName->setText(info->GetShowName());
+    ui->lbAvatar->setPixmap(info->GetPhotoPixmap());
 }

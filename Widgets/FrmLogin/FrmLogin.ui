@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>384</width>
-    <height>478</height>
+    <width>300</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,11 +26,8 @@
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
   </property>
-  <property name="frameShape">
-   <enum>QFrame::StyledPanel</enum>
-  </property>
   <property name="frameShadow">
-   <enum>QFrame::Raised</enum>
+   <enum>QFrame::Plain</enum>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">

@@ -89,6 +89,13 @@ int CUserInfo::SetDescription(const QString &szDescription)
     return 0;
 }
 
+QPixmap CUserInfo::GetPhotoPixmap()
+{
+    QPixmap pixmap;
+    pixmap.convertFromImage(GetPhoto());
+    return pixmap;
+}
+
 QImage CUserInfo::GetPhoto()
 {
     if(m_imgPhoto.isNull())
@@ -176,6 +183,7 @@ int CUserInfo::LoadFromStorage(QDataStream &input)
           >> m_szDescription
           >> m_Birthday
           >> m_bMonitor
+          >> m_imgPhoto
           >> (int&)m_subscriptionType;
     int nSize = 0;
     input >> nSize;
@@ -195,6 +203,7 @@ int CUserInfo::SaveToStorage(QDataStream &output)
            << m_szDescription
            << m_Birthday
            << m_bMonitor
+           << m_imgPhoto
            << (int&)m_subscriptionType
            << m_Groups.size();
     foreach(QString group, m_Groups)

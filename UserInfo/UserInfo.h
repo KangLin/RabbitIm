@@ -36,6 +36,7 @@ public:
     virtual int SetEmail(const QString& szEmail);
     virtual QString GetDescription();
     virtual int SetDescription(const QString& szDescription);
+    virtual QPixmap GetPhotoPixmap();
     virtual QImage GetPhoto();
     virtual int SetPhoto(QImage img);
     virtual int SetPhoto(QByteArray img);

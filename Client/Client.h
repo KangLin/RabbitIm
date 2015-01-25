@@ -241,7 +241,7 @@ signals:
     void sigCallReceived(QSharedPointer<CCallObject> call);
 
 public slots:
-    
+
 protected:
     int SetLogin(bool bLogin);
 private:

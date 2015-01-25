@@ -329,6 +329,11 @@ void MainWindow::slotClientConnected()
     else
         LOG_MODEL_ERROR("MainWindow", "new CWdgTableMain fail");
 
+    bool check = connect(this, SIGNAL(sigRefresh()),
+                    this, SLOT(slotUpdateLocaleUserInfo()));
+    Q_ASSERT(check);
+
+    slotUpdateLocaleUserInfo();
     m_bLogin = true;
     ReInitMenuOperator();
 }
@@ -352,6 +357,7 @@ void MainWindow::slotClientDisconnected()
     m_TableMain.clear();
 
     setWindowTitle(tr("RabbitIm"));
+    setWindowIcon(QIcon(":/icon/AppIcon"));
     ReInitMenuOperator();
 }
 
@@ -359,9 +365,7 @@ void MainWindow::slotUpdateLocaleUserInfo()
 {
     this->m_TrayIcon.setToolTip(tr("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
     this->setWindowTitle(tr("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
-    QPixmap pixmap;
-    pixmap.convertFromImage(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetPhoto());
-    setWindowIcon(QIcon(pixmap));
+    setWindowIcon(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetPhotoPixmap());
 }
 
 int MainWindow::ReInitMenuOperator()
