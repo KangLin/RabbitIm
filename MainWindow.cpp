@@ -363,6 +363,12 @@ void MainWindow::slotClientDisconnected()
 
 void MainWindow::slotUpdateLocaleUserInfo()
 {
+    QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoLocale();
+    if(user.isNull())
+        return;
+    QSharedPointer<CUserInfo> info = user->GetInfo();
+    if(info.isNull())
+        return;
     this->m_TrayIcon.setToolTip(tr("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
     this->setWindowTitle(tr("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
     setWindowIcon(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetPhotoPixmap());
