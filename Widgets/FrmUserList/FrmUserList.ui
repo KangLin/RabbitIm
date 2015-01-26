@@ -75,7 +75,7 @@
      <normaloff>:/icon/Modify</normaloff>:/icon/Modify</iconset>
    </property>
    <property name="text">
-    <string>Rename</string>
+    <string>Rename roster</string>
    </property>
    <property name="toolTip">
     <string>Rename</string>
@@ -148,6 +148,14 @@
    </property>
    <property name="toolTip">
     <string>Remove Group</string>
+   </property>
+  </action>
+  <action name="actionMove_roster">
+   <property name="text">
+    <string>Move roster</string>
+   </property>
+   <property name="toolTip">
+    <string>Move roster</string>
    </property>
   </action>
  </widget>

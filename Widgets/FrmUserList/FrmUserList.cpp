@@ -169,6 +169,12 @@ int CFrmUserList::InitMenu()
     check = connect(ui->actionRename, SIGNAL(triggered()),
                      SLOT(slotRenameRoster()));
     Q_ASSERT(check);
+
+    m_Menu.addAction(ui->actionMove_roster);
+    check = connect(ui->actionMove_roster, SIGNAL(triggered()),
+                    SLOT(slotMoveRoster()));
+    Q_ASSERT(check);
+
     m_Menu.addAction(ui->actionRemoveRoster_R);
     check = connect(ui->actionRemoveRoster_R, SIGNAL(triggered()),
                     SLOT(slotRemoveRoster()));
@@ -205,6 +211,7 @@ int CFrmUserList::EnableAllActioins(bool bEnable)
     EnableAction(ui->actionVideo, bEnable);
     EnableAction(ui->actionAudio, bEnable);
     EnableAction(ui->actionAllowMonitor, bEnable);
+    EnableAction(ui->actionMove_roster, bEnable);
     //TODO:2.新增菜单  
     return 0;
 }
@@ -256,7 +263,7 @@ void CFrmUserList::slotUpdateMenu()
     {
         //TODO:新建组  
 
-        //TODO:判断子节点是否为空  
+        //判断子节点是否为空  
         QModelIndex index = m_UserList.currentIndex();
         if(!m_pModel->hasChildren(index))
             EnableAction(ui->actionRemove_Group);
@@ -288,8 +295,8 @@ void CFrmUserList::slotUpdateMenu()
 
         //查看好友信息  
         EnableAction(ui->actionInformation_I);
-        //TODO: 移动到组  
-
+        //移动到组  
+        EnableAction(ui->actionMove_roster);
         EnableAction(ui->actionSendMessage);
         EnableAction(ui->actionSendFile);
         EnableAction(ui->actionVideo);
@@ -335,6 +342,44 @@ void CFrmUserList::slotRenameRoster()
                                          szName, &ok);
     if (ok && !text.isEmpty())
         GET_CLIENT->RosterRename(GetCurrentRoster(), text);
+}
+
+void CFrmUserList::slotMoveRoster()
+{
+    QString szName;
+    QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoRoster(GetCurrentRoster());
+    if(user.isNull())
+        return;
+    szName = user->GetInfo()->GetShowName();
+    QStringList items;
+    int nIndex = 0, i = 0;
+    QMap<QString, QStandardItem*>::iterator it;
+    for(it = m_Groups.begin(); it != m_Groups.end(); it++)
+    {
+        items << it.key();
+        if(user->GetInfo()->GetGroups().contains(it.key()))
+            nIndex = i;
+        i++;
+    }
+
+    bool ok;
+    QString item = QInputDialog::getItem(this,
+                                         tr("Move roster").arg(szName),
+                                         tr("Move roster %1 to group:").arg(szName),
+                                         items,
+                                         nIndex,
+                                         true,
+                                         &ok);
+    if (ok && !item.isEmpty())
+    {
+        QSet<QString> groups;
+        groups << item;
+        GET_CLIENT->RosterRemove(user->GetInfo()->GetId());
+        GET_CLIENT->RosterAdd(user->GetInfo()->GetId(),
+                              CClient::SUBSCRIBE_ACCEPT,
+                              user->GetInfo()->GetNick(),
+                              groups);
+    }
 }
 
 void CFrmUserList::slotRemoveRoster()
@@ -737,7 +782,7 @@ QString CFrmUserList::GetCurrentRoster()
         return QString();
     }
 
-    //是用户结点
+    //是用户结点  
     QVariant v = m->data(index, USERLIST_ITEM_ROLE_JID);
     if(v.canConvert<QString>())
     {

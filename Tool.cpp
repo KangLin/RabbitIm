@@ -598,7 +598,6 @@ int CTool::ComposePixmap(QPixmap &src1, const QPixmap &src2)
 int CTool::ComposeAvatarStatus(QPixmap &src1, const QPixmap &src2)
 {
     QPainter painter(&src1);
-    //painter.setCompositionMode(QPainter::CompositionMode_Xor);
     painter.drawPixmap((src1.width() * 3) >> 2,  (src1.height() * 3) >> 2, src1.width() >> 2, src1.height() >> 2,  src2);
     return 0;
 }
