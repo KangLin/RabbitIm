@@ -99,18 +99,22 @@ void CDlgUservCard::changeEvent(QEvent *e)
 
 void CDlgUservCard::on_pbBrower_clicked()
 {
-    QString szFile, szFilter("*.png");
+    QString szFile, szFilter("*.png *.jpg *.bmp *.gif *.jpeg");
     szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
     if(szFile.isEmpty())
        return; 
 
+    //TODO:现在只上传小图片,以后增加上传  
+    //原因是openfire把vcard存在数据库中,导制数据库存性能,网络性能降低  
+    QPixmap pixmap(szFile), map;
+    map = pixmap.scaled(64, 64, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     QImageWriter imageWriter(&m_Buffer, "png");
     m_Buffer.open(QIODevice::WriteOnly);
-    if(!imageWriter.write(QImage(szFile)))
+    if(!imageWriter.write(map.toImage()))
         LOG_MODEL_ERROR("CDlgUservCard", "error:%s", imageWriter.errorString().toStdString().c_str());
     m_Buffer.close();
 
-    ui->lbPhoto->setPixmap(QPixmap(szFile));
+    ui->lbPhoto->setPixmap(map);
 }
 
 void CDlgUservCard::on_pbClear_clicked()
