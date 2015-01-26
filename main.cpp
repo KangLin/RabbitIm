@@ -29,9 +29,7 @@ int main(int argc, char *argv[])
 
     //*
     MainWindow w;
-#ifdef MOBILE
-    CTool::SetWindowsGeometry(&w);
-#else
+#ifndef MOBILE
     //加载窗口位置  
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     QScreen *pScreen = QGuiApplication::primaryScreen();

@@ -11,10 +11,10 @@ CFrmMain::CFrmMain(QWidget *parent) :
     ui(new Ui::CFrmMain)
 {
     ui->setupUi(this);
+    ui->tabWidget->clear();
 #ifdef MOBILE
     ui->widget->setVisible(false);
 #else
-    ui->tabWidget->clear();
     ui->lbAvatar->setScaledContents(true);
     ui->lbName->clear();
     ui->lbComment->clear();

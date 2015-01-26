@@ -16,7 +16,11 @@
 #endif
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent, Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint /*| Qt::X11BypassWindowManagerHint*/),
+    QMainWindow(parent
+#ifndef MOBILE
+                , Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint
+#endif
+                ),
     m_TrayIcon( this),
     m_TrayIconMenu(this),
     m_ActionGroupStatus(this),
