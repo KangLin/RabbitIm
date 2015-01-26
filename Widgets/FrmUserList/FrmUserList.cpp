@@ -115,21 +115,7 @@ CFrmUserList::~CFrmUserList()
 int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfo> roster, void *para)
 {
     int nRet = 0;
-    int * p = (int*)para;
-    int type = *((int*)p);
-    switch(type)
-    {
-    case OPERATE_TYPE_INSERT_ROSTER:
-        nRet = ItemInsertRoster(roster->GetId());
-        break;
-    case OPERATE_TYPE_UPDATE_ROSTER:
-        nRet = ItemUpdateRoster(roster->GetId());
-        break;
-    default:
-        LOG_MODEL_ERROR("FrmUserList", "Operate type is error");
-        nRet = -1;
-        break;
-    }
+    nRet = ItemUpdateRoster(roster->GetId());
     return nRet;
 }
 
@@ -581,6 +567,10 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
             //改变item背景颜色  
             //pItem->setData(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus()), Qt::BackgroundRole);
             //pItem->setBackground(QBrush(CGlobal::Instance()->GetRosterStatusColor(info->GetStatus())));
+//            if(CGlobal::Instance()->GetRosterShowType() == CGlobal::E_ROSTER_SHOW_NICK)
+//                pItem->setEditable(true);
+//            else
+//                pItem->setEditable(false);//禁止双击编辑  
             QString szText;
             szText = info->GetShowName()
         #ifdef DEBUG
@@ -638,8 +628,7 @@ void CFrmUserList::slotLoadRosterFromStorage()
 {
     LOG_MODEL_DEBUG("Roster", "CFrmUserList:: Roster received");
 
-    int type = OPERATE_TYPE_INSERT_ROSTER;
-    GLOBAL_USER->ProcessRoster(this, &type);
+    GLOBAL_USER->ProcessRoster(this);
 }
 
 void CFrmUserList::slotUpdateRosterUserInfo(const QString &szId, QSharedPointer<CUser> userInfo)
@@ -771,6 +760,5 @@ void CFrmUserList::slotEntered(const QModelIndex &index)
 
 void CFrmUserList::slotRefresh()
 {
-    int type = OPERATE_TYPE_UPDATE_ROSTER;
-    GLOBAL_USER->ProcessRoster(this, &type);
+    GLOBAL_USER->ProcessRoster(this);
 }
