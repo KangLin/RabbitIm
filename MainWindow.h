@@ -26,6 +26,9 @@ public:
     //在通知栏上显示消息  
     int ShowTrayIconMessage(const QString &szTitle, const QString &szMessage);
 
+    //组合头像图片  
+    static int ComposeAvatarStatus(QSharedPointer<CUserInfo> info, QPixmap &outPixmap);
+
 signals:
     //初始化菜单  
     void sigMenuInitOperator(QMenu* m);

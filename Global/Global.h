@@ -93,6 +93,7 @@ public:
 private:
     QString m_szDocumentPath;
 public:
+    //只保存用户登录时的状态,在用户登录对话框中设置  
     CUserInfo::USER_INFO_STATUS GetStatus();//得到本地用户状态  
     int SetStatus(CUserInfo::USER_INFO_STATUS status);
 private:
@@ -314,6 +315,8 @@ public slots:
 #define GLOBAL_USER GETMANAGER->GetManageUser()
 #define USER_INFO_LOCALE GLOBAL_USER->GetUserInfoLocale()
 #define MANAGE_MESSAGE_DIALOG GETMANAGER->GetManageMessageDialog()
+
+#define RABBITIM_ICON_SIZE 24 //头像的大小  
 
 #define LM_DEBUG 0
 #define LM_INFO 1

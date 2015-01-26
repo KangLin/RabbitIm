@@ -277,11 +277,24 @@ void CFrmUserList::slotUpdateMenu()
     }
     else
     {
-        QSharedPointer<CUserInfo> info = GLOBAL_USER->GetUserInfoRoster(bareJid)->GetInfo();
+        QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoRoster(bareJid);
+        if(user.isNull())
+        {
+            LOG_MODEL_ERROR("FrmUserList", "Don't roster:%s", bareJid.toStdString().c_str());
+            return;
+        }
+        
+        QSharedPointer<CUserInfo> info = user->GetInfo();
+        if(info.isNull())
+        {
+            LOG_MODEL_ERROR("FrmUserList", "Don't roster:%s", bareJid.toStdString().c_str());
+            return;
+        }
+
         //增加订阅  
         if(CUserInfo::From == info->GetSubScriptionType())
             EnableAction(ui->actionAgreeAddRoster);
-
+        
         //显示重命名菜单  
         EnableAction(ui->actionRename);
         //如果是好友上,显示删除好友  
@@ -580,7 +593,9 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
             pItem->setToolTip(info->GetId());
 #endif 
             //改变item图标  
-            pItem->setData(QIcon(CGlobal::Instance()->GetRosterStatusIcon(info->GetStatus())), Qt::DecorationRole);
+            QPixmap pmp;
+            MainWindow::ComposeAvatarStatus(info, pmp);
+            pItem->setData(pmp.scaled(RABBITIM_ICON_SIZE, RABBITIM_ICON_SIZE), Qt::DecorationRole);
         }
 
         if(NULL == pItem || NULL == pItem->parent()) continue;

@@ -363,15 +363,24 @@ void MainWindow::slotClientDisconnected()
 
 void MainWindow::slotUpdateLocaleUserInfo()
 {
-    QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoLocale();
+    QSharedPointer<CUser> user = USER_INFO_LOCALE;
     if(user.isNull())
+    {
+        LOG_MODEL_ERROR("MainWindow", "Locale is null");
         return;
+    }
     QSharedPointer<CUserInfo> info = user->GetInfo();
     if(info.isNull())
+    {
+        LOG_MODEL_ERROR("MainWindow", "info is null");
         return;
+    }
+    user->GetInfo()->SetStatus(CGlobal::Instance()->GetStatus());
     this->m_TrayIcon.setToolTip(tr("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
     this->setWindowTitle(tr("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
-    setWindowIcon(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetPhotoPixmap());
+    QPixmap pmp;
+    ComposeAvatarStatus(user->GetInfo(), pmp);
+    setWindowIcon(pmp);
 }
 
 int MainWindow::ReInitMenuOperator()
@@ -389,6 +398,8 @@ int MainWindow::ReInitMenuOperator()
         InitLoginedMenu();
     else
         InitOperatorMenu();
+
+    emit sigRefresh();
     return 0;
 }
 
@@ -500,14 +511,17 @@ int MainWindow::InitMenuStatus()
                          SLOT(slotActionGroupStatusTriggered(QAction*)));
     Q_ASSERT(check);
 
-    QAction* pAct = m_ActionStatus[CGlobal::Instance()->GetStatus()];
+    //从登录界面保存的全局变量中得到当前用户的状态  
+    CUserInfo::USER_INFO_STATUS status = CGlobal::Instance()->GetStatus();
+    //USER_INFO_LOCALE->GetInfo()->SetStatus(status);//第一次启动时,对象非生成,在slotUpdateLocaleUserInfo中初始化  
+    QAction* pAct = m_ActionStatus[status];
     if(pAct)
     {
         pAct->setChecked(true);
     }
 
     m_MenuStatus.setTitle(tr("Status(&S)"));
-    m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(CGlobal::Instance()->GetStatus())));
+    m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(status)));
 
     return 0;
 }
@@ -755,9 +769,11 @@ void MainWindow::slotActionGroupStatusTriggered(QAction *act)
         {
             CUserInfo::USER_INFO_STATUS status = it.key();
             USER_INFO_LOCALE->GetInfo()->SetStatus(status);
+            CGlobal::Instance()->SetStatus(status);
             GET_CLIENT->setClientStatus(status);
             act->setChecked(true);
             m_MenuStatus.setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(status)));
+            emit sigRefresh();
         }
     }
 }
@@ -1055,5 +1071,15 @@ int MainWindow::CheckShowWindows(QRect &endRect)
     if(AnimationWindows(startRect, endRect))
         return -1;
 
+    return 0;
+}
+
+int MainWindow::ComposeAvatarStatus(QSharedPointer<CUserInfo> info, QPixmap &outPixmap)
+{
+    if(info.isNull())
+        return -1;
+    outPixmap = info->GetPhotoPixmap();
+    QPixmap pStatus(CGlobal::Instance()->GetRosterStatusIcon(info->GetStatus()));
+    CTool::ComposeAvatarStatus(outPixmap, pStatus);
     return 0;
 }

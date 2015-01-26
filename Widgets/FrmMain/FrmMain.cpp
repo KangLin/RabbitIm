@@ -22,16 +22,6 @@ CFrmMain::CFrmMain(QWidget *parent) :
     ui->lbWeather->setScaledContents(true);
 #endif
 
-    ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
-    ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
-    ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"), tr("Recent messages"));
-
-    if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
-        return;
-    QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
-    int nIndex = conf.value("Widgets/Main", 0).toInt();
-    ui->tabWidget->setCurrentIndex(nIndex);
-
     bool check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateLocaleUserInfo()),
                     SLOT(slotUpdateLocaleUserInfo()));
     Q_ASSERT(check);
@@ -46,6 +36,19 @@ CFrmMain::CFrmMain(QWidget *parent) :
     check = connect(ui->lbName, SIGNAL(clicked()),
                     GET_MAINWINDOW, SLOT(slotEditInformation()));
     Q_ASSERT(check);
+
+    ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
+    ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
+    ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"), tr("Recent messages"));
+
+    if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
+    {
+        LOG_MODEL_ERROR("CFrmMain", "locale user is null");
+        return;
+    }
+    QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
+    int nIndex = conf.value("Widgets/Main", 0).toInt();
+    ui->tabWidget->setCurrentIndex(nIndex);
 }
 
 CFrmMain::~CFrmMain()
@@ -91,10 +94,19 @@ void CFrmMain::slotUpdateLocaleUserInfo()
 {
     QSharedPointer<CUser> user = USER_INFO_LOCALE;
     if(user.isNull())
+    {
+        LOG_MODEL_ERROR("CFrmMain", "User is null");
         return;
+    }
     QSharedPointer<CUserInfo> info = user->GetInfo();
     if(info.isNull())
+    {
+        LOG_MODEL_ERROR("CFrmMain", "User is null");
         return;
+    }
     ui->lbName->setText(info->GetShowName());
-    ui->lbAvatar->setPixmap(info->GetPhotoPixmap());
+    QPixmap pmp;
+    MainWindow::ComposeAvatarStatus(info, pmp);
+    ui->lbAvatar->clear();
+    ui->lbAvatar->setPixmap(pmp);
 }

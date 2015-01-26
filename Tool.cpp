@@ -12,6 +12,7 @@
 #include <QByteArray>
 #include <QCryptographicHash>
 #include <QFile>
+#include <QPainter>
 
 CTool::CTool(QObject *parent) :
     QObject(parent)
@@ -576,4 +577,28 @@ QByteArray CTool::GetFileMd5Sum(QString filePath)
 QString CTool::GetFileMd5SumString(QString filePath)
 {
     return GetFileMd5Sum(filePath).toHex();
+}
+
+QPixmap CTool::ComposePixmap(const QString &szFile1, const QString &szFile2)
+{
+    QPixmap src1(szFile1);
+    QPixmap src2(szFile2);
+    ComposePixmap(src1, src2);
+    return src1;
+}
+
+int CTool::ComposePixmap(QPixmap &src1, const QPixmap &src2)
+{
+    QPainter painter(&src1);
+    //painter.setCompositionMode(QPainter::CompositionMode_Xor);
+    painter.drawPixmap(0, 0,  src2);
+    return 0;
+}
+
+int CTool::ComposeAvatarStatus(QPixmap &src1, const QPixmap &src2)
+{
+    QPainter painter(&src1);
+    //painter.setCompositionMode(QPainter::CompositionMode_Xor);
+    painter.drawPixmap((src1.width() * 3) >> 2,  (src1.height() * 3) >> 2, src1.width() >> 2, src1.height() >> 2,  src2);
+    return 0;
 }

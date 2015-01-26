@@ -373,7 +373,8 @@ void CFrmMessage::slotRefresh()
                               + "]");
 
    QPixmap pixmap;
-   pixmap.convertFromImage(m_User->GetInfo()->GetPhoto());
+   MainWindow::ComposeAvatarStatus(m_User->GetInfo(), pixmap);
+   ui->lbAvatar->clear();
    ui->lbAvatar->setPixmap(pixmap);
 }
 

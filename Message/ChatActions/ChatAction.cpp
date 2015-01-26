@@ -115,7 +115,7 @@ QString CChatAction::getContent()
         msg += CGlobal::Instance()->GetFileUserAvatar(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetId());
    else
         msg += CGlobal::Instance()->GetFileUserAvatar(m_szId);
-   msg += "' width='16' height='16' />";
+   msg += "' width='" + QString::number(RABBITIM_ICON_SIZE) + "' height='" + QString::number(RABBITIM_ICON_SIZE) + "' />";
    msg += "<font color='";
    if(!m_isMe)
         msg += CGlobal::Instance()->GetRosterColor().name();
