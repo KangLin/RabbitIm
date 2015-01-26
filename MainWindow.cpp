@@ -1082,6 +1082,15 @@ int MainWindow::ComposeAvatarStatus(QSharedPointer<CUserInfo> info, QPixmap &out
 {
     if(info.isNull())
         return -1;
+    //转换成灰度图像  
+    if(info->GetStatus() == CUserInfo::OffLine 
+       || info->GetStatus() == CUserInfo::Invisible)
+    {
+        QImage in = info->GetPhoto();
+        //CTool::ConvertToGray(in, img);
+        outPixmap = QPixmap::fromImage(in, Qt::MonoOnly);
+        return 0;
+    }
     outPixmap = info->GetPhotoPixmap();
     QPixmap pStatus(CGlobal::Instance()->GetRosterStatusIcon(info->GetStatus()));
     CTool::ComposeAvatarStatus(outPixmap, pStatus);

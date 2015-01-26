@@ -644,4 +644,15 @@ bool CTool::ConvertToGray(QImage &rgbImage, QImage& outGrayImage)
     grayImage.setColorTable(grayColorTable);
     outGrayImage = grayImage;
     return true;
+    //下面算法可以达到效果，但性能很差  
+    //    outGrayImage = rgbImage;
+    //    for(int x = 0; x < rgbImage.width(); x++)
+    //        for(int y = 0; y < rgbImage.width(); y++)
+    //        {
+    //            QRgb pix = rgbImage.pixel(x, y);
+    //            int gray = qGray(pix);
+    //            QRgb grayPixel = qRgb(gray, gray, gray);
+    //            outGrayImage.setPixel(x, y, grayPixel);
+    //        }
+    //return true;
 }
