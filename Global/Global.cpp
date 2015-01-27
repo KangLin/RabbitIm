@@ -571,14 +571,14 @@ QString CGlobal::GetDirReceiveFile(const QString &szId)
     return dir;
 }
 
-QString CGlobal::GetFileUserAvatar(const QString &szId)
+QString CGlobal::GetFileUserAvatar(const QString &szId, const QString &szLocalId)
 {
     QString id;
     if(!szId.isEmpty())
         id = QXmppUtils::jidToBareJid(szId);
     id = id.replace("@", ".");
 
-    return GetDirUserAvatar() + QDir::separator() + id + ".png";
+    return GetDirUserAvatar(szLocalId) + QDir::separator() + id + ".png";
 }
 
 QString CGlobal::GetFileSmileyPack()

@@ -79,8 +79,9 @@ public:
      * @brief 得到指定用户的头像文件  
      *
      * @param  szId:好友的ID   
+     *                    szLocalId:本地用户的ID,如果为空,则会是登录用户  
      */
-    QString GetFileUserAvatar(const QString &szId);
+    QString GetFileUserAvatar(const QString &szId, const QString &szLocalId = QString());
     /**
      * @brief 得到接收文件保存的目录  
      *

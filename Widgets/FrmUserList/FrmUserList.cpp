@@ -591,7 +591,11 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
         int nRet = 0;
         nRet = ItemInsertRoster(szId);
         if(nRet)
+        {
+            LOG_MODEL_ERROR("FrmUserList", "Insert roster %s fail", qPrintable(szId));
             return nRet;
+        }
+        LOG_MODEL_DEBUG("FrmUserList", "Insert roster %s", qPrintable(szId));
         lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                                        USERLIST_ITEM_ROLE_JID, 
                                                        info->GetId(), 

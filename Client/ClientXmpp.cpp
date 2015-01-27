@@ -516,6 +516,7 @@ void CClientXmpp::slotSubscriptionReceived(const QString &szId)
     emit sigRosterAddReceived(szId, SUBSCRIBE_REQUEST);
 }
 
+//qxmpp会在登录成功后自动发送请求好友列表的消息  
 void CClientXmpp::slotRosterReceived()
 {
     QStringList rosters = m_Client.rosterManager().getRosterBareJids();

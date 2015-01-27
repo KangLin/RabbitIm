@@ -39,6 +39,8 @@ private slots:
 
     void slotClientError(CClient::ERROR_TYPE e);
 
+    void on_cmbUser_currentTextChanged(const QString &arg1);
+
 public slots:
     void slotRefresh();
 

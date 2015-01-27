@@ -296,3 +296,21 @@ void CFrmLogin::slotClientError(CClient::ERROR_TYPE e)
     }
     SetPrompt(szMsg);
 }
+
+void CFrmLogin::on_cmbUser_currentTextChanged(const QString &arg1)
+{
+    LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::on_cmbUser_currentTextChanged:%s", qPrintable(arg1));
+    QString szId = arg1;
+#ifdef QXMPP
+    if(szId.indexOf("@") == -1)
+    {
+        szId = szId + "@" + CGlobal::Instance()->GetXmppDomain();
+    }
+#endif
+    QString szFile = CGlobal::Instance()->GetFileUserAvatar(szId, szId);
+    QPixmap map(szFile);
+    if(map.isNull())
+        map.load(":/icon/AppIcon");
+    ui->lbLogon->clear();
+    ui->lbLogon->setPixmap(map.scaled(48, 48));
+}

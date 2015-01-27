@@ -158,8 +158,8 @@ void MainWindow::resizeEvent(QResizeEvent * e)
                     frameGeometry().right(), frameGeometry().bottom()
                     );//*/
 
-    if(!m_TableMain.isNull())
-        m_TableMain->resize(this->geometry().size());
+    /*if(!m_TableMain.isNull())
+        m_TableMain->resize(this->geometry().size());*/
 }
 
 void MainWindow::showEvent(QShowEvent *)
