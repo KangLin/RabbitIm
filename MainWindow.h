@@ -7,6 +7,10 @@
 #include <QPropertyAnimation>
 #include "Widgets/FrmMain/FrmMain.h"
 
+#ifdef ANDROID
+    #include "AndroidNotification.h"
+#endif
+
 class CFrmLogin;
 class CFrmUserList;
 class CDlgSendManage;
@@ -37,7 +41,7 @@ signals:
     void sigRefresh();//选项窗体更新后，刷新内容  
 
 protected slots:
-    void About();
+    void slotAbout();
     void slotClientConnected();
     void slotClientDisconnected();
     //更新本地用户信息  
@@ -54,7 +58,7 @@ protected slots:
     void slotMessageClean(const QString& szId);
 
     void on_actionNotifiation_show_main_windows_triggered();
-    
+
     //登录用户登出  
     void slotLogout();
 public slots:
@@ -89,10 +93,14 @@ private:
     QSharedPointer<CFrmMain> m_TableMain;
     bool m_bLogin;//是否登录标志  
 
+    //系统栏提示  
     QMenu m_TrayIconMenu;
     QSystemTrayIcon m_TrayIcon;
     bool m_bTrayShow;
     QTimer m_TrayTimer;
+#ifdef ANDROID
+    CAndroidNotification m_AndroidNotify;
+#endif
 
     //样式菜单  
     QMenu m_MenuStyle;

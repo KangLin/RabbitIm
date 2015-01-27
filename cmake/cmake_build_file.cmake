@@ -116,3 +116,10 @@ IF(RABBITIM_USER_OPENSSL)
         Global/Encrypt.cpp
     )
 ENDIF(RABBITIM_USER_OPENSSL)
+
+IF(ANDROID)
+    SET(RABBITIM_SOURCES
+        ${RABBITIM_SOURCES}
+        android/jni/AndroidNotification.cpp
+    ) 
+ENDIF(ANDROID)

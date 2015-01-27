@@ -72,6 +72,8 @@ ELSEIF(ANDROID)
     SET(RABBITIM_SYSTEM android)
     SET(TOOLCHAIN_NAME android)
     ADD_DEFINITIONS(-DMOBILE)
+    INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/android/jni)
+    FIND_PACKAGE(Qt5 CONFIG REQUIRED  AndroidExtras)
     #SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -Wno-psabi -march=armv7-a -mfloat-abi=softfp -mfpu=vfp -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums  -Wa,--noexecstack -gdwarf-2 -marm -fno-omit-frame-pointer -Wall -Wno-psabi -W -fPIE)
     SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined -Wl,-z,noexecstack -shared --sysroot=${ANDROID_SYSROOT}")
 ELSE(LINUX OR UNIX)
@@ -189,6 +191,9 @@ IF(ANDROID)
     add_library(${PROJECT_NAME} SHARED 
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
+        )
+        target_link_libraries(${PROJECT_NAME} 
+                Qt5::AndroidExtras
         )
 ELSEIF(WIN32)
     add_executable(${PROJECT_NAME} WIN32

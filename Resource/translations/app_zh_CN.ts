@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>CAndroidNotification</name>
+    <message>
+        <location filename="../../android/jni/AndroidNotification.cpp" line="63"/>
+        <source>RabbitIm</source>
+        <translation>玉兔即时通信</translation>
+    </message>
+</context>
+<context>
     <name>CCallAction</name>
     <message>
         <location filename="../../Call/CallAction.cpp" line="83"/>
@@ -1370,67 +1378,67 @@ Email、MSN:kl222@126.com</source>
     <name>CFrmLogin</name>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="20"/>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="312"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="318"/>
         <source>Login</source>
         <translation>登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="109"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="115"/>
         <source>User:</source>
         <translation>用户名：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="344"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="350"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="153"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="159"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="386"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="392"/>
         <source>Register new account</source>
         <translation>注册新用户</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="418"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="424"/>
         <source>Set Server</source>
         <translation>设置服务器</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="421"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="427"/>
         <source>Set(&amp;S)</source>
         <translation>设置(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="199"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="205"/>
         <source>Save password</source>
         <translation>保存密码</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="224"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="230"/>
         <source>Auto login</source>
         <translation>自动登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="282"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="288"/>
         <source>State</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="315"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="321"/>
         <source>Login(&amp;L)</source>
         <translation>登录(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="389"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="395"/>
         <source>Register(&amp;R)</source>
         <translation>注册(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="347"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="353"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
@@ -2098,7 +2106,7 @@ Email、MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="186"/>
-        <location filename="../../MainWindow.cpp" line="723"/>
+        <location filename="../../MainWindow.cpp" line="727"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
@@ -2109,7 +2117,7 @@ Email、MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="421"/>
-        <location filename="../../MainWindow.cpp" line="707"/>
+        <location filename="../../MainWindow.cpp" line="711"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation>编辑本地用户信息(&amp;E)</translation>
     </message>
@@ -2200,17 +2208,17 @@ Email、MSN:kl222@126.com</source>
         <translation>改变语言设置，必须重启程序才能生效。</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="716"/>
+        <location filename="../../MainWindow.cpp" line="720"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="718"/>
+        <location filename="../../MainWindow.cpp" line="722"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="859"/>
+        <location filename="../../MainWindow.cpp" line="863"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>

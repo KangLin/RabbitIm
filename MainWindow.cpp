@@ -12,7 +12,7 @@
 #include "Widgets/FrmSendFile/DlgSendManage.h"
 #include "Widgets/DlgUservCard/DlgUservCard.h"
 #ifdef RABBITIM_USER_LIBCURL
-#include "Update/DlgUpdate.h"
+    #include "Update/DlgUpdate.h"
 #endif
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     bool check;
     check = connect(ui->actionAbout_A, SIGNAL(triggered()),
-            SLOT(About()));
+            SLOT(slotAbout()));
     Q_ASSERT(check);
 
     LoadStyle();
@@ -680,10 +680,14 @@ int MainWindow::ShowTrayIconMessage(const QString &szTitle, const QString &szMes
 {
     if(CGlobal::Instance()->IsNotifiationBarShowMessage())
     {
+#ifdef ANDROID
+        m_AndroidNotify.setNotification(szMessage, szTitle);
+#else
         m_TrayIcon.showMessage(szTitle,
                                szMessage, 
                                QSystemTrayIcon::Information,
                                CGlobal::Instance()->GetNotifiationBarShowMessageDelay());
+#endif
     }
     if(CGlobal::Instance()->IsNotifiationFlashs())
         slotTrayTimerStart();
@@ -799,7 +803,7 @@ void MainWindow::on_actionOptions_O_triggered()
     dlg.exec();
 }
 
-void MainWindow::About()
+void MainWindow::slotAbout()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
     CDlgAbout about(this);
@@ -1060,7 +1064,7 @@ int MainWindow::CheckShowWindows(QRect &endRect)
     }
     else
     {
-        LOG_MODEL_DEBUG("MainWindow", "CheckShowWindows error");
+        LOG_MODEL_ERROR("MainWindow", "CheckShowWindows error");
         return 0;
     }
 

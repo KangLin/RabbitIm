@@ -223,7 +223,6 @@ OTHER_FILES += README.md \
     docs/* \
     docs/Books/* \
     docs/QXmpp音视频呼叫流程.txt \
-    android/AndroidManifest.xml \
     License.html \
     ChangeLog.txt \
     Authors.txt \
@@ -239,7 +238,9 @@ include(Resource/translations/translations.pri)
 #system($$fromfile(Resource/translations/translations.pri, updateallqm))
 
 #ANDROID 平台相关内容  
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android  #ANDROID包的源码目录
+android {
+    include(android/android.pri)
+}
 
 contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     ANDROID_PERMISSIONS += \
