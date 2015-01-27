@@ -602,48 +602,47 @@ int CTool::ComposeAvatarStatus(QPixmap &src1, const QPixmap &src2)
     return 0;
 }
 
-//转为灰度图
-bool CTool::ConvertToGray(QImage &rgbImage, QImage& outGrayImage)
+uchar RGBtoGRAY(uchar r, uchar g, uchar b)  
+{  
+    return (uchar)((((qint32)((r << 5) + (r << 2) + (r << 1)))+ (qint32)((g << 6) + (g << 3) + (g << 1) + g)  +
+                                   (qint32)((b << 4) - b)) >> 7);  
+}  
+//转为灰度图  
+QImage CTool::ConvertToGray(QImage image)
 {
-    QSize size=rgbImage.size();
-    QImage grayImage(size,QImage::Format_Indexed8);
-    int width=size.width();
-    int height=size.height();
-    uchar * rgbImageData=rgbImage.bits();
-    uchar * grayImageData=grayImage.bits();
- 
-    if(rgbImage.isGrayscale()){
-        qDebug()<<"Image is already gray!Conversion stopped!";
-        return false;
+    QSize size = image.size();
+    QImage grayImage = QImage(size, QImage::Format_Indexed8);
+    int width = size.width();
+    int height = size.height();
+    uchar * rgbImageData = image.bits();
+    uchar * grayImageData = grayImage.bits();
+    if(image.allGray())
+    {
+        grayImage = QImage(image);
+        return grayImage;
     }
- 
-    //若width不是4的倍数，会自动添加字节，使之对齐到4的倍数
-    int realWidth1=rgbImage.bytesPerLine();
+    //若width不是4的倍数，会自动添加字节，使之对齐到4的倍数  
+    int realWidth1=image.bytesPerLine();
     int realWidth2=grayImage.bytesPerLine();
-    uchar * backup1=rgbImageData;
-    uchar * backup2=grayImageData;
-    //直接取用green绿色分量值作为gray索引值
-    for(int i=0;i<height;
-            i++,
-            rgbImageData=backup1+realWidth1*i,
-            grayImageData=backup2+realWidth2*i){
-        for(int j=0;j<width;j++){
-            *grayImageData=*(rgbImageData+1);
-            rgbImageData+=4;
+    uchar * backup1 = rgbImageData;
+    uchar * backup2 = grayImageData;
+    for(int i = 0; i < height; i++)
+    {
+        for(int j = 0; j < width; j++)
+        {
+            uchar R = *rgbImageData;
+            uchar G = *(rgbImageData + 1);
+            uchar B = *(rgbImageData + 2);
+            //*grayImageData = (uchar)(0.29900*R + 0.58700*G + 0.11400*B);
+            *grayImageData = RGBtoGRAY(R, G, B); 
+            rgbImageData += 3;
             grayImageData++;
         }
+        rgbImageData = backup1 + realWidth1 * i;
+        grayImageData = backup2 + realWidth2 * i;
     }
- 
-    QVector<QRgb> grayColorTable;
-    uint rgb=0;
-    for(int i=0;i<256;i++){
-        grayColorTable.append(rgb);
-        rgb+=0x00010101;//r,g,b值分别加1，a值不变,见QRgb说明
-    }
- 
-    grayImage.setColorTable(grayColorTable);
-    outGrayImage = grayImage;
-    return true;
+
+    return grayImage;
     //下面算法可以达到效果，但性能很差  
     //    outGrayImage = rgbImage;
     //    for(int x = 0; x < rgbImage.width(); x++)

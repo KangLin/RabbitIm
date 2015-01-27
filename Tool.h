@@ -153,7 +153,7 @@ public:
     static int ComposePixmap(QPixmap &src1, const QPixmap &src2);
     static int ComposeAvatarStatus(QPixmap &src1, const QPixmap& src2);
 
-    static bool ConvertToGray(QImage &rgbImage, QImage& outGrayImage);
+    static QImage ConvertToGray(QImage image);
 signals:
 
 public slots:

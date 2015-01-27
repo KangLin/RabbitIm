@@ -1086,9 +1086,11 @@ int MainWindow::ComposeAvatarStatus(QSharedPointer<CUserInfo> info, QPixmap &out
     if(info->GetStatus() == CUserInfo::OffLine 
        || info->GetStatus() == CUserInfo::Invisible)
     {
-        QImage in = info->GetPhoto();
-        //CTool::ConvertToGray(in, img);
-        outPixmap = QPixmap::fromImage(in, Qt::MonoOnly);
+        QIcon icon(info->GetPhotoPixmap());
+        outPixmap = icon.pixmap(info->GetPhotoPixmap().width(), 
+                                info->GetPhotoPixmap().height(), 
+                                QIcon::Disabled);
+        //outPixmap = QPixmap::fromImage(info->GetPhoto().convertToFormat(QImage::Format_Mono));
         return 0;
     }
     outPixmap = info->GetPhotoPixmap();
