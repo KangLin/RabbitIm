@@ -29,7 +29,7 @@ MESSAGE("\n")
 
 #TODO:判断 qt 版本
 
-FIND_PACKAGE(Qt5 CONFIG REQUIRED Gui Core Network Xml Multimedia Widgets LinguistTools)
+FIND_PACKAGE(Qt5 CONFIG REQUIRED Gui Core Network Xml Multimedia Widgets WebKitWidgets LinguistTools)
 SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
 
 include(cmake/RabbitImUtils.cmake)
@@ -215,6 +215,7 @@ target_link_libraries(${PROJECT_NAME}
         Qt5::Multimedia
         Qt5::Xml
         Qt5::Core
+        Qt5::WebKitWidgets
         )
 
 #翻译

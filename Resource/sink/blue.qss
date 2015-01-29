@@ -4,6 +4,10 @@ QMainWindow, QFrame, QDialog, QMessageBox,  QTabWidget, QMenu, QToolTip, QTabBar
         stop: 1 rgba(10, 144, 255, 100%));
 }
 
+QWebView {
+    background-color: transparent;
+}
+
 QMenu::item:checked {
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                         stop: 0 #fafafa, stop: 0.4 #f4f4f4,

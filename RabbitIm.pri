@@ -138,7 +138,6 @@ HEADERS += Version.h \
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
     Widgets/FrmUserList/FrmUserList.ui \
-    Widgets/FrmMain/FrmMain.ui \
     Widgets/DlgUservCard/DlgUservCard.ui \
     Widgets/FrmMessage/FrmMessage.ui \
     Widgets/FrmMessage/FrmContainer.ui \
@@ -162,6 +161,9 @@ RESOURCES += \
 
 android{
     RESOURCES += Resource/translations/Translations.qrc
+    FORMS += Widgets/FrmMain/FrmMainAndroid.ui
+}else{
+    FORMS += Widgets/FrmMain/FrmMain.ui 
 }
 
 !isEmpty(RABBITIM_USER_OPENCV) {

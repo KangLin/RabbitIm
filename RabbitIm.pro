@@ -12,8 +12,10 @@ RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
 #RABBITIM_USER_OPENSSL=1   #使用openssl
 
 # 注意：Qt 版本必须大于 5.0  
-QT += core gui network xml multimedia widgets
-
+QT += core gui network xml multimedia widgets 
+!android{
+    QT += webkitwidgets
+}
 lessThan(QT_MAJOR_VERSION, 5) : error("version is $$QT_MAJOR_VERSION, please qt is used greater then 5.0")
 
 TARGET = RabbitIm
