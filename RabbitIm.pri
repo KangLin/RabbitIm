@@ -160,7 +160,8 @@ RESOURCES += \
     Resource/sink/dark/style.qrc
 
 android{
-    RESOURCES += Resource/translations/Translations.qrc
+    RESOURCES += Resource/translations/Translations.qrc \
+        Resource/Android.qrc
     FORMS += Widgets/FrmMain/FrmMainAndroid.ui
 }else{
     FORMS += Widgets/FrmMain/FrmMain.ui 

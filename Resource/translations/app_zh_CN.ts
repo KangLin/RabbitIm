@@ -103,17 +103,32 @@
         <translation>玉兔即时通信</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="160"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="186"/>
         <source>Author:KangLin</source>
         <translation>作者：康林</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="206"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="203"/>
+        <source>License</source>
+        <translation>协议</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="217"/>
+        <source>Change log</source>
+        <translation>变更日志</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="231"/>
+        <source>Thinks</source>
+        <translation>致谢</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="160"/>
         <source>Build Verion:</source>
         <translation>编译版本：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="219"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="173"/>
         <source>Build Date:</source>
         <translation>编译时间：</translation>
     </message>
@@ -143,11 +158,6 @@
 Email or MSN:kl222@126.com</source>
         <translation>作者：康林
 电子邮箱、MSN:kl222@126.com</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="28"/>
-        <source>Thank the following author:</source>
-        <translation>感谢以下作者：</translation>
     </message>
 </context>
 <context>

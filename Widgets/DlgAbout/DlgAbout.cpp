@@ -23,11 +23,22 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui->lbDate->setText(tr("Build date:%1 %2").arg(__DATE__, __TIME__));
     ui->lblAuthor->setText(tr("Author: KangLin\nEmail or MSN:kl222@126.com"));
 
-    QString szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "ChangeLog.txt";
-    AppendFile(szFile);
-    ui->txtReadMe->append(tr("Thank the following author:"));
+    QString szFile;
+#ifdef MOBILE
+    szFile = ":/file/ChangeLog";
+    AppendFile(ui->txtChange, szFile);
+    szFile = ":/file/License";
+    AppendFile(ui->txtLicense, szFile);
+    szFile = ":/file/Authors";
+    AppendFile(ui->txtThinks, szFile);
+#else
+    szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "ChangeLog.txt";
+    AppendFile(ui->txtChange, szFile);
+    szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "License.html";
+    AppendFile(ui->txtLicense, szFile);
     szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "Authors.txt";
-    AppendFile(szFile);
+    AppendFile(ui->txtThinks, szFile);
+#endif
 }
 
 CDlgAbout::~CDlgAbout()
@@ -35,12 +46,12 @@ CDlgAbout::~CDlgAbout()
     delete ui;
 }
 
-int CDlgAbout::AppendFile(const QString &szFile)
+int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
 {
     QFile readme(szFile);
     if(readme.open(QFile::ReadOnly))
     {
-        ui->txtReadMe->append(readme.readAll());
+        pEdit->append(readme.readAll());
         readme.close();
     }
     return 0;

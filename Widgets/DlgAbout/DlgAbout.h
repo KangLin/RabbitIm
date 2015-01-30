@@ -2,6 +2,7 @@
 #define DLGABOUT_H
 
 #include <QDialog>
+#include <QTextEdit>
 
 namespace Ui {
 class CDlgAbout;
@@ -18,7 +19,7 @@ public:
 private:
     Ui::CDlgAbout *ui;
 
-    int AppendFile(const QString &szFile);
+    int AppendFile(QTextEdit *pEdit, const QString &szFile);
 };
 
 #endif // DLGABOUT_H
