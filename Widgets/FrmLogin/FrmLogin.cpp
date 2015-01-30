@@ -307,6 +307,7 @@ void CFrmLogin::on_cmbUser_currentTextChanged(const QString &arg1)
 
 void CFrmLogin::ComposeAvatar(const QString &id)
 {
+    LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::ComposeAvatar:%s", qPrintable(id));
     QString szId = id;
 #ifdef QXMPP
     if(szId.indexOf("@") == -1)

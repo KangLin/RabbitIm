@@ -27,6 +27,9 @@ private:
 private slots:
     //更新本地用户信息  
     void slotUpdateLocaleUserInfo();
+#ifndef MOBILE
+    void on_webView_linkClicked(const QUrl &url);
+#endif
 
 private:
     Ui::CFrmMain *ui;

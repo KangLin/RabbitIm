@@ -19,6 +19,7 @@ CFrmMain::CFrmMain(QWidget *parent) :
 #ifndef MOBILE
     ui->lbAvatar->setScaledContents(true);
     ui->lbName->clear();
+    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 #endif
 
     bool check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateLocaleUserInfo()),
@@ -111,3 +112,10 @@ void CFrmMain::slotUpdateLocaleUserInfo()
     ui->lbAvatar->setPixmap(pmp);
 #endif
 }
+
+#ifndef MOBILE
+void CFrmMain::on_webView_linkClicked(const QUrl &url)
+{
+    QDesktopServices::openUrl(url);
+}
+#endif

@@ -430,7 +430,7 @@ void CFrmMessage::slotAnchorClicked(const QUrl &url)
         }
     }
     else
-     {
+    {
         QDesktopServices::openUrl(url);
     }
 }
