@@ -53,7 +53,7 @@
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>330</height>
+       <height>380</height>
       </size>
      </property>
      <layout class="QGridLayout" name="gridLayout">
@@ -156,13 +156,13 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="text">
@@ -184,13 +184,13 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="editable">
@@ -213,13 +213,13 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="text">
@@ -241,13 +241,13 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="echoMode">
@@ -271,13 +271,13 @@
         <property name="minimumSize">
          <size>
           <width>50</width>
-          <height>30</height>
+          <height>40</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>30</height>
+          <height>40</height>
          </size>
         </property>
         <property name="text">
@@ -301,13 +301,13 @@
           <property name="minimumSize">
            <size>
             <width>90</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="text">
@@ -326,13 +326,13 @@
           <property name="minimumSize">
            <size>
             <width>90</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>30</height>
+            <height>40</height>
            </size>
           </property>
           <property name="text">
