@@ -74,7 +74,6 @@ SET(RABBITIM_UIS
     MainWindow.ui 
     Widgets/FrmLogin/FrmLogin.ui 
     Widgets/FrmUserList/FrmUserList.ui 
-    Widgets/FrmMain/FrmMain.ui 
     Widgets/DlgUservCard/DlgUservCard.ui 
     Widgets/FrmMessage/FrmMessage.ui 
     Widgets/FrmMessage/FrmContainer.ui 
@@ -121,5 +120,15 @@ IF(ANDROID)
     SET(RABBITIM_SOURCES
         ${RABBITIM_SOURCES}
         android/jni/AndroidNotification.cpp
-    ) 
+    )
+
+    SET(RABBITIM_UIS
+        ${RABBITIM_UIS}
+        Widgets/FrmMain/FrmMainAndroid.ui
+    )
+ELSE(ANDROID)
+    SET(RABBITIM_UIS
+        ${RABBITIM_UIS}
+        Widgets/FrmMain/FrmMain.ui
+    )
 ENDIF(ANDROID)

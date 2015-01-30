@@ -29,7 +29,7 @@ MESSAGE("\n")
 
 #TODO:判断 qt 版本
 
-FIND_PACKAGE(Qt5 CONFIG REQUIRED Gui Core Network Xml Multimedia Widgets WebKitWidgets LinguistTools)
+FIND_PACKAGE(Qt5 CONFIG REQUIRED Gui Core Network Xml Multimedia Widgets LinguistTools)
 SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
 
 include(cmake/RabbitImUtils.cmake)
@@ -58,10 +58,12 @@ ENDIF()
 #设置头文件包含位置 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 IF(MSVC)
+    FIND_PACKAGE(Qt5 CONFIG REQUIRED WebKitWidgets)
     SET(RABBITIM_SYSTEM windows)
     SET(TOOLCHAIN_NAME windows_msvc)
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt")
 ELSEIF(MINGW)
+    FIND_PACKAGE(Qt5 CONFIG REQUIRED WebKitWidgets)
     SET(RABBITIM_SYSTEM windows)
     SET(TOOLCHAIN_NAME windows_mingw)
     # Windows compatibility
@@ -77,6 +79,7 @@ ELSEIF(ANDROID)
     #SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -Wno-psabi -march=armv7-a -mfloat-abi=softfp -mfpu=vfp -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums  -Wa,--noexecstack -gdwarf-2 -marm -fno-omit-frame-pointer -Wall -Wno-psabi -W -fPIE)
     SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined -Wl,-z,noexecstack -shared --sysroot=${ANDROID_SYSROOT}")
 ELSE(LINUX OR UNIX)
+    FIND_PACKAGE(Qt5 CONFIG REQUIRED WebKitWidgets)
     SET(RABBITIM_SYSTEM unix)
     ADD_DEFINITIONS(-DUNIX)
     SET(TOOLCHAIN_NAME unix)
@@ -170,6 +173,7 @@ ELSE()
     SET(QXMPP_LIBS qxmpp)
 ENDIF()
 message("QXMPP_LIBS:${QXMPP_LIBS}")
+
 SET(RABBITIM_LIBS
     ${RABBITIM_LIBS}
     ${QXMPP_LIBS}
@@ -179,7 +183,11 @@ SET(RABBITIM_LIBS
     ${SPEEX_LIBS}
     ${LIBCURL_LIBS}
     ${OPENSSL_LIBS}
-    )
+    Qt5::Widgets
+    Qt5::Network
+    Qt5::Multimedia
+    Qt5::Xml
+    Qt5::Core)
 
 include(cmake/version.cmake)
 include(cmake/cmake_build_file.cmake)
@@ -192,30 +200,32 @@ IF(ANDROID)
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
         )
-        target_link_libraries(${PROJECT_NAME} 
-                Qt5::AndroidExtras
-        )
+    SET(RABBITIM_LIBS
+        ${RABBITIM_LIBS} 
+        Qt5::AndroidExtras)
 ELSEIF(WIN32)
     add_executable(${PROJECT_NAME} WIN32
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
         ${RABBITIM_UIS}
         )
+    SET(RABBITIM_LIBS
+        ${RABBITIM_LIBS} 
+        Qt5::WebKitWidgets)
 ELSE()
     add_executable(${PROJECT_NAME} 
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
         ${RABBITIM_UIS}
         )
+    SET(RABBITIM_LIBS
+        ${RABBITIM_LIBS} 
+        Qt5::WebKitWidgets)
 ENDIF()
+message("RABBITIM_LIBS:${RABBITIM_LIBS}\n")
+#链接库
 target_link_libraries(${PROJECT_NAME} 
         ${RABBITIM_LIBS}
-        Qt5::Widgets
-        Qt5::Network
-        Qt5::Multimedia
-        Qt5::Xml
-        Qt5::Core
-        Qt5::WebKitWidgets
         )
 
 #翻译

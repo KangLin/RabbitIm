@@ -38,8 +38,10 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
 
     ui->chkLogin->setChecked(CGlobal::Instance()->GetAutoLogin());
 
+    //初始化头像与状态  
     ReinitStateButton();
 
+    //开始自动登录  
     if(ui->chkLogin->checkState() == Qt::Checked)
     {
         bool check = connect(&m_tmAutoLogin, SIGNAL(timeout()), SLOT(on_pbOk_clicked()));
@@ -61,14 +63,14 @@ void CFrmLogin::changeEvent(QEvent *e)
     {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
-        ui->pbState->setText(CGlobal::Instance()->GetRosterStatusText(m_Status));
-        this->ReinitStateButton();
+        ReinitStateButton();
         break;
     }
 }
 
 void CFrmLogin::on_pbOk_clicked()
 {
+    //停止自动登录定时器  
     if(m_tmAutoLogin.isActive())
         m_tmAutoLogin.stop();
 
@@ -94,13 +96,13 @@ void CFrmLogin::on_pbOk_clicked()
 void CFrmLogin::on_pbClose_clicked()
 {
     //退出程序  
-    ((QWidget*)this->parent())->close();
+    GET_MAINWINDOW->close();
 }
 
 void CFrmLogin::on_pbRegitster_clicked()
 {
     disconnect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
-               CGlobal::Instance()->GetMainWindow(),
+               GET_MAINWINDOW,
                SLOT(slotClientConnected()));
     CDlgRegister r(this);
     r.exec();
@@ -108,7 +110,7 @@ void CFrmLogin::on_pbRegitster_clicked()
 
 void CFrmLogin::on_pbSet_clicked()
 {
-    CDlgLoginSettings set(this);//窗口关闭时，会自动释放内存  
+    CDlgLoginSettings set(this);
     set.exec();
 }
 
@@ -243,8 +245,7 @@ int CFrmLogin::ReinitStateButton()
     ui->pbState->setMenu(&m_StateMenu);
 
     m_Status = CGlobal::Instance()->GetStatus();
-    ui->pbState->setText(CGlobal::Instance()->GetRosterStatusText(m_Status));
-    ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(m_Status)));
+    ComposeAvatar(ui->cmbUser->currentText());
     return 0;
 }
 
@@ -257,8 +258,8 @@ void CFrmLogin::slotActionGroupStatusTriggered(QAction *pAct)
         {
             m_Status = it.key();
             CGlobal::Instance()->SetStatus(m_Status);
-            ui->pbState->setText(CGlobal::Instance()->GetRosterStatusText(m_Status));
-            ui->pbState->setIcon(QIcon(CGlobal::Instance()->GetRosterStatusIcon(m_Status)));
+            ComposeAvatar(ui->cmbUser->currentText());
+            break;
         }
     }
 }
@@ -301,6 +302,12 @@ void CFrmLogin::on_cmbUser_currentTextChanged(const QString &arg1)
 {
     LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::on_cmbUser_currentTextChanged:%s", qPrintable(arg1));
     QString szId = arg1;
+    ComposeAvatar(szId);
+}
+
+void CFrmLogin::ComposeAvatar(const QString &id)
+{
+    QString szId = id;
 #ifdef QXMPP
     if(szId.indexOf("@") == -1)
     {
@@ -311,6 +318,18 @@ void CFrmLogin::on_cmbUser_currentTextChanged(const QString &arg1)
     QPixmap map(szFile);
     if(map.isNull())
         map.load(":/icon/AppIcon");
-    ui->lbLogon->clear();
-    ui->lbLogon->setPixmap(map.scaled(48, 48));
+    
+    QPixmap pStatus(CGlobal::Instance()->GetRosterStatusIcon(m_Status));
+    CTool::ComposeAvatarStatus(map, pStatus);
+    
+    //转换成灰度图像  
+    if(m_Status == CUserInfo::OffLine 
+       || m_Status == CUserInfo::Invisible)
+    {
+        QIcon icon(map);
+        map = icon.pixmap(map.width(), 
+                          map.height(), 
+                          QIcon::Disabled);
+    }
+    ui->pbState->setIcon(QIcon(map.scaled(48, 48)));
 }

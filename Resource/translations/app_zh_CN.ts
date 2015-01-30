@@ -140,9 +140,9 @@
     <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="24"/>
         <source>Author: KangLin
-Email、MSN:kl222@126.com</source>
+Email or MSN:kl222@126.com</source>
         <translation>作者：康林
-邮箱、MSN：kl222@126.com</translation>
+电子邮箱、MSN:kl222@126.com</translation>
     </message>
 </context>
 <context>
@@ -1467,41 +1467,47 @@ Email、MSN:kl222@126.com</source>
     <name>CFrmMain</name>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.ui" line="14"/>
+        <location filename="../../Widgets/FrmMain/FrmMainAndroid.ui" line="14"/>
         <source>Frame</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="106"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="125"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="152"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="126"/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="171"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="155"/>
+        <source>http://p1234.vicp.net/weather/weather_small.html</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="45"/>
+        <location filename="../../Widgets/FrmMain/FrmMainAndroid.ui" line="45"/>
         <source>Tab 1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="176"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.ui" line="50"/>
+        <location filename="../../Widgets/FrmMain/FrmMainAndroid.ui" line="50"/>
         <source>Tab 2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="40"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="81"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="39"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="80"/>
         <source>Rosters</source>
         <translation>好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="42"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="82"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="41"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="81"/>
         <source>Recent messages</source>
         <translation>最近消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="41"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="83"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="40"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="82"/>
         <source>Group Chat</source>
         <translation>群聊</translation>
     </message>

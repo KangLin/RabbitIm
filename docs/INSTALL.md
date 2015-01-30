@@ -362,7 +362,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release 
     + 其它可选参数：
     -DRABBITIM_USER_LIBCURL=ON -DRABBITIM_USER_OPENSSL=ON
-  * 选择相应的创建器
+  * 选择相应的创建器,这里不能选错。
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功，点完成就会打开项目。
   * 点调试，就可以编译，并调试程序
   * 如果要分发，选择 项目->构建->构建步骤->目标,选择 Deployment 项.
@@ -411,14 +411,12 @@ MAKE在不同的环境下有不同的命令：
 
     set PATH=%PATH$;Qt5_DIR
     cmake --build . --target Deployment
-    
 
 ###### 2.1.3. android 平台:
 
 windows 平台下以 mingw 环境为例
 
 2.1.2.1. 先设置环境变量：
-
 
     export ANDROID_NDK_ROOT=     #android ndk 根目录
     export ANDROID_NDK=$ANDROID_NDK_ROOT
@@ -428,16 +426,12 @@ windows 平台下以 mingw 环境为例
     export ANT_ROOT=          #ant工具的目录
     export PATH=$PATH:%ANT_ROOT/bin
 
-
 2.1.2.2. 建立编译目录：
-
 
     mkdir rabbitim-build  #建立编译目录
     cd rabbitim-build     #进入编译目录
     
-
 2.1.2.3. 配置、编译：
-
 
     cmake .. -G"Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../platforms/android/android.toolchain.cmake \
         -DCMAKE_MAKE_PROGRAM=${ANDROID_MAKE} \  #windows 下需要 make 工具的位置,linux下则不需要这个
@@ -478,14 +472,10 @@ ke:15 (message):
   but not all the files it references.
 
 Call Stack (most recent call first):
-  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake:31 (
-_qt5_Gui_check_file_exists)
-  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake:58 (
-_qt5gui_find_extra_libs)
-  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:143 (inclu
-de)
-  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5/Qt5Config.cmake:26 (find_package
-)
+  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake:31 (_qt5_Gui_check_file_exists)  
+  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake:58 (_qt5gui_find_extra_libs)  
+  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake:143 (include)  
+  c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5/Qt5Config.cmake:26 (find_package)  
 
 
 * 原因：

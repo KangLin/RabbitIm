@@ -46,6 +46,7 @@ public slots:
 
 private:
     void changeEvent(QEvent *);
+    void ComposeAvatar(const QString &id);
 
 private:
     Ui::CFrmLogin *ui;

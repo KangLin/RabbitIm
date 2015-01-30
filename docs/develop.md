@@ -33,7 +33,8 @@
 * 源码提交：  
   提交的基本原则为：
   1. 按每个小功能进行提交，写清楚提交注释，并保证能够编译通过。
-  2. 提交前需要作者完成单元测试。
+  2. 本项目支持 QT 和 CMAKE 项目文件，所以需要保证你改的功能在两个项目中能够编译通过。
+  3. 提交前需要作者完成单元测试。
   
 开发流程
 --------
@@ -42,34 +43,35 @@
 
 - 开发者是指现在玉兔即时通信的开发人员，或者以后我们信任的贡献者转化而成的开发人员。
 
-- 要成为开发者，需要在github上注册账号, 然后由管理者加入到相应项目的collaborators列表
+- 要成为开发者，需要在 github 上注册账号, 然后由管理者加入到相应项目的 collaborators 列表
 
-- 开发主要用到master和develop两个分支， 平时开发都在develop分支上，只有代码
-达到一个milestone的stable状态，才把develop分支merge到master分支
+- 开发主要用到 master 和 develop 两个分支， 平时开发都在 develop 分支上，只有代码
+达到一个 milestone 的 stable 状态，才把 develop 分支合并到 master 分支
 
-- 有时开发者可能想实现一个比较cool的feature，可以建立一个feature_x分支，
-测试稳定后merge到master
+- 有时开发者可能想实现一个比较 cool 的功能，可以建立一个 feature_x 分支，
+测试稳定后再合并到 master 分支
 
 ### 贡献者流程
 
 - 贡献者是指非玉兔即时通信项目组成员，热爱开源且希望为开源项目贡献代码的开发人员
 
-- 贡献者可以在github上Fork一个子项目，然后在Fork的项目上提交代码，
-再通过Pull Request把修改通知给项目开发者，由开发者code review后，
-决定是否merge进入master分支， 具体可参考: [github协作流程](http://www.worldhello.net/gotgithub/04-work-with-others/010-fork-and-pull.html)
+- 贡献者可以在 github 上 Fork 一个子项目，然后在 Fork 的项目上提交代码，
+再通过 Pull Request 把修改通知给项目开发者（**注意** pull Request 前必须先合并当前 master 到本地，解决所有可能的冲突），由开发者审查代码后，
+决定是否合并进入 master 分支， 具体可参考: [github协作流程](http://www.worldhello.net/gotgithub/04-work-with-others/010-fork-and-pull.html)
 
 ### 版本迭代流程
 - 版本迭代周期暂定为3个月
-- 开发者和贡献者可以把想要实现的feature通过github的wiki功能提交上来
-- 开始迭代前讨论本期版本要实现哪些feature，然后把要在本次迭代实现的featue列表写入版本的TODO feature list列表
+- 开发者和贡献者可以把想要实现的功能通过 github 的 wiki 功能提交上来
+- 开始迭代前讨论本期版本要实现哪些功能，然后把要在本次迭代实现的功能列表写入版本的[TODO feature list列表](TODO.txt)
 - 制定大概的排期
 - 开发，内部测试
 - alpha版本发布，公测
 - 把develop分支代码merge到master分支，stable版本发布
 
 ### 版本号约定
-* 用Qt project发行时需要修改：[RabbitIm.prf](./../RabbitIm.prf)
-* 用cmake 发行时需要修改：[version.cmake](./../cmake/version.cmake)
+* 本项同时支持 Qt 和 CMake 项目文件，所以需要**同时修改以下文件中的版本号**：
+    - 用Qt project发行时需要修改：[RabbitIm.prf](./../RabbitIm.prf)
+    - 用cmake 发行时需要修改：[version.cmake](./../cmake/version.cmake)
 
 #### 格式:
 主版本号 . 子版本号 [. 修正版本号[. 编译版本号 [.编译时间[.后缀]]]]  
@@ -77,7 +79,9 @@ Major_Version_Number.Minor_Version_Number[.Revision_Number[.Build_Number[.Build_
 示例 : 1.2.1, 2.0, 5.0.0 build-13124
 + Major ：具有相同名称但不同主版本号的程序集不可互换。例如，这适用于对产品的大量重写，这些重写使得无法实现向后兼容性。
 + Minor ：如果两个程序集的名称和主版本号相同，而次版本号不同，这指示显著增强，但照顾到了向后兼容性。例如，这适用于产品的修正版或完全向后兼容的新版本。
+          **本项目中偶数表示稳定版本，奇数表示测试版本**
 + Revision ：名称、主版本号和次版本号都相同但修订号不同的程序集应是完全可互换的。这适用于修复以前发布的程序集中的安全漏洞。
+          **本项目中，如果Minor为奇数，则0表示α（alphal） 内部测试版；1表示β（beta）外部测试版 ;3表示γ（gamma）版**
 + Build ：编译时编码在git代码库中的版本号
 + Build_TIME:编译的时间
 + Suffix:后缀,用于说明当前版本
@@ -107,13 +111,36 @@ Major_Version_Number.Minor_Version_Number[.Revision_Number[.Build_Number[.Build_
 
 #### 管理策略：
 1. 当项目在进行了局部修改或 bug 修正时，主版本号和子版本号都不变，修正版本号加 1；
-2. 当项目在原有的基础上增加了部分功能时，主版本号不变，子版本号加 1，修正版本号复位为 0，因而可以被忽略掉；
-3. 当项目在进行了重大修改或局部修正累积较多，而导致项目整体发生全局变化时，主版本号加 1；
-4. 另外，编译版本号一般是编译器在编译过程中自动生成的，我们只定义其格式，并不进行人为控制。本项目为GIT库中的版本号。
+2. 子版本号奇数表示为测试版本，偶数表示为稳定版本；
+3. 当项目在原有的基础上增加了部分功能时，主版本号不变，子版本号加 1，修正版本号复位为 0，因而可以被忽略掉；
+4. 当项目在进行了重大修改或局部修正累积较多，而导致项目整体发生全局变化时，主版本号加 1；
+5. 另外，编译版本号一般是编译器在编译过程中自动生成的，我们只定义其格式，并不进行人为控制。本项目为GIT库中的版本号。
+
+#### 检查列表
+完成开发后，提交前，需要检查下面事项是否完成：
+
+1. 代码
+    1. 代码中的中文注释后是否加有两个空格
+    2. 代码中的字符串必须是英文
+    3. 是否已修改相关翻译文件
+    4. 是否已修改相关 QT 工程文件
+    5. 是否已修改相关 cmake 工程文件
+    6. 是否完成相关文档(TODO.txt,ChangeLog.txt)
+    7. 是否完成了第三方库各平台编译脚本
+2. 编译
+    1. WINDOWS for msvc 编译器是否能通过
+    2. windows for mingw 编译器是否能通过（已自动化）
+    3. linux for g++ 编译器是否能通过（已自动化）
+    4. android 编译器是否能通过（已自动化）
+    5. 用 Qt 工程是否能通过（已自动化）
+    6. 用 CMake 工程是否能通过（已自动化）
+3. 是否修改了版本号（仅管理员检查此项）
 
 参考资料：
 --------
 * [开发笔记](./Books/开发笔记.md)
+
+* [安装](INSTALL.md)
 
 * [Qt Model/View](http://blog.csdn.net/leo115/article/details/7532677)
 

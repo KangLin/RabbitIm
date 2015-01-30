@@ -21,7 +21,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui->lblVersion->setText(szVersion);
     ui->lbbuildVersion->setText(tr("Build version:%1").arg(BUILD_VERSION));
     ui->lbDate->setText(tr("Build date:%1 %2").arg(__DATE__, __TIME__));
-    ui->lblAuthor->setText(tr("Author: KangLin\nEmail、MSN:kl222@126.com"));
+    ui->lblAuthor->setText(tr("Author: KangLin\nEmail or MSN:kl222@126.com"));
     QFile readme(CGlobal::Instance()->GetDirApplication() + QDir::separator() + "README.md");
     if(readme.open(QFile::ReadOnly))
     {
