@@ -460,7 +460,7 @@ int MainWindow::InitMenuStyles()
     bool check = connect(&m_ActionGroupStyle, SIGNAL(triggered(QAction*)),
                          SLOT(slotActionGroupStyleTriggered(QAction*)));
     Q_ASSERT(check);
-    QAction* pAct = m_ActionStyles[CGlobal::Instance()->GetMenuStyle()];
+    QAction* pAct = m_ActionStyles[CGlobal::Instance()->GetStyleMenu()];
     if(pAct)
     {
         pAct->setChecked(true);
@@ -819,13 +819,13 @@ void MainWindow::slotActionGroupStyleTriggered(QAction* act)
         {
             act->setChecked(true);
             if(it.key() == "Blue")
-                CGlobal::Instance()->SetMenuStyle("Blue", ":/sink/Blue");
+                CGlobal::Instance()->SetStyleMenu("Blue", ":/sink/Blue");
             else if(it.key() == "Dark")
-                CGlobal::Instance()->SetMenuStyle("Dark", ":/qdarkstyle/style.qss");
+                CGlobal::Instance()->SetStyleMenu("Dark", ":/qdarkstyle/style.qss");
             else if(it.key() == "Custom")
                 OpenCustomStyleMenu();
             else
-                CGlobal::Instance()->SetMenuStyle("System", "");
+                CGlobal::Instance()->SetStyleMenu("System", "");
         }
     }
 
@@ -873,7 +873,7 @@ int MainWindow::OpenCustomStyleMenu()
         QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
         conf.setValue("UI/StyleSheet", szFile);
         
-        CGlobal::Instance()->SetMenuStyle("Custom", szFile);
+        CGlobal::Instance()->SetStyleMenu("Custom", szFile);
     }
     else
     {

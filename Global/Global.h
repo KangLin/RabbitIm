@@ -281,11 +281,11 @@ private:
 
 public:
     QString GetStyle();
-    QString GetMenuStyle();
-    int SetMenuStyle(QString szMenu, QString szFile);
+    QString GetStyleMenu();
+    int SetStyleMenu(QString szMenu, QString szFile);
 private:
     QString m_szStyleFile;
-    QString m_szMenuStyle;
+    QString m_szStyleMenu;
 
 //检查版本更新  
 public:

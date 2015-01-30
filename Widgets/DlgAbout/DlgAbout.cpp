@@ -22,15 +22,26 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui->lbbuildVersion->setText(tr("Build version:%1").arg(BUILD_VERSION));
     ui->lbDate->setText(tr("Build date:%1 %2").arg(__DATE__, __TIME__));
     ui->lblAuthor->setText(tr("Author: KangLin\nEmail or MSN:kl222@126.com"));
-    QFile readme(CGlobal::Instance()->GetDirApplication() + QDir::separator() + "README.md");
-    if(readme.open(QFile::ReadOnly))
-    {
-        ui->txtReadMe->append(readme.readAll());
-        readme.close();
-    }
+
+    QString szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "ChangeLog.txt";
+    AppendFile(szFile);
+    ui->txtReadMe->append(tr("Thank the following author:"));
+    szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "Authors.txt";
+    AppendFile(szFile);
 }
 
 CDlgAbout::~CDlgAbout()
 {
     delete ui;
+}
+
+int CDlgAbout::AppendFile(const QString &szFile)
+{
+    QFile readme(szFile);
+    if(readme.open(QFile::ReadOnly))
+    {
+        ui->txtReadMe->append(readme.readAll());
+        readme.close();
+    }
+    return 0;
 }

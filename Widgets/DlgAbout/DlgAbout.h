@@ -17,6 +17,8 @@ public:
     
 private:
     Ui::CDlgAbout *ui;
+
+    int AppendFile(const QString &szFile);
 };
 
 #endif // DLGABOUT_H

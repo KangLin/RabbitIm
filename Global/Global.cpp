@@ -79,8 +79,8 @@ CGlobal::CGlobal(QObject *parent) :
     m_bShowLocaleVideo = conf.value("Video/Locale/Show", true).toBool();
     m_bMonitor = conf.value("Video/Monitor", false).toBool();
 
-    m_szStyleFile = conf.value("UI/StyleSheet", "").toString();
-    m_szMenuStyle = conf.value("UI/MenuStyleSheet", "System").toString();
+    m_szStyleFile = conf.value("UI/StyleSheet", ":/qdarkstyle/style.qss").toString();
+    m_szStyleMenu = conf.value("UI/MenuStyleSheet", "Dark").toString();
 
     //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用 
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
@@ -830,14 +830,14 @@ QString CGlobal::GetStyle()
     return m_szStyleFile;
 }
 
-QString CGlobal::GetMenuStyle()
+QString CGlobal::GetStyleMenu()
 {
-    return m_szMenuStyle;
+    return m_szStyleMenu;
 }
 
-int CGlobal::SetMenuStyle(QString szMenu, QString szFile)
+int CGlobal::SetStyleMenu(QString szMenu, QString szFile)
 {
-    m_szMenuStyle = szMenu;
+    m_szStyleMenu = szMenu;
     m_szStyleFile = szFile;
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("UI/MenuStyleSheet", szMenu);
