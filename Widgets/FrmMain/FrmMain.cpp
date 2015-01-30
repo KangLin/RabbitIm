@@ -16,9 +16,10 @@ CFrmMain::CFrmMain(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tabWidget->clear();
-#ifndef MOBILE
+
     ui->lbAvatar->setScaledContents(true);
     ui->lbName->clear();
+#ifndef MOBILE
     ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 #endif
 
@@ -29,14 +30,14 @@ CFrmMain::CFrmMain(QWidget *parent) :
     check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
                     SLOT(slotUpdateLocaleUserInfo()));
     Q_ASSERT(check);
-#ifndef MOBILE
+
     check = connect(ui->lbAvatar, SIGNAL(clicked()),
                     GET_MAINWINDOW, SLOT(slotEditInformation()));
     Q_ASSERT(check);
     check = connect(ui->lbName, SIGNAL(clicked()),
                     GET_MAINWINDOW, SLOT(slotEditInformation()));
     Q_ASSERT(check);
-#endif
+
     ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
     ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
     ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"), tr("Recent messages"));
@@ -104,13 +105,12 @@ void CFrmMain::slotUpdateLocaleUserInfo()
         LOG_MODEL_ERROR("CFrmMain", "User is null");
         return;
     }
-#ifndef MOBILE
+
     ui->lbName->setText(info->GetShowName());
     QPixmap pmp;
     MainWindow::ComposeAvatarStatus(info, pmp);
     ui->lbAvatar->clear();
     ui->lbAvatar->setPixmap(pmp);
-#endif
 }
 
 #ifndef MOBILE
