@@ -7,7 +7,7 @@ case $1 in
     ;;
     *)
     echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
-    return 1
+    exit 1
     ;;
 esac
 

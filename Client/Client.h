@@ -151,6 +151,7 @@ public:
         NetworkError,        ///< Error due to TCP socket.
         KeepAliveError,     ///< Error due to no response to a keep alive.
         LoginFail,                 ///< 登录失败  
+        NotAuthorized,     ///<验证错误  
         Conflict,                   ///< 用户已经注册  
         OtherError,             ///< 其它错误  
         InternalServerError
@@ -158,19 +159,19 @@ public:
 
 signals:
     /**
-     * @brief 用户成功登录后触发  
+     * @brief 用户成功登录后触发，界面可以初始化  
      *
      */
     void sigClientConnected();
     /**
-     * @brief 用户登出后触发  
+     * @brief 用户登出后触发，通知界面析构  
      *
      */
     void sigClientDisconnected();
     void sigClientError(CClient::ERROR_TYPE e);
 
     /**
-     * @brief 从文件中加载好友完成后触发  
+     * @brief 从文件中加载好友完成后触发，通知界面初始化数据  
      *
      */
     void sigLoadRosterFromStorage();

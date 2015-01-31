@@ -292,6 +292,10 @@ void CFrmLogin::slotClientError(CClient::ERROR_TYPE e)
         break;
     case CClient::LoginFail:
         szMsg = tr("Login fail");
+        break;
+    case CClient::NotAuthorized:
+        szMsg = tr("Password error");
+        break;
     default:
         break;
     }

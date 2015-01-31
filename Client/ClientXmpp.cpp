@@ -131,6 +131,10 @@ int CClientXmpp::Register(const QString &szId, const QString &szName, const QStr
 
 int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUserInfo::USER_INFO_STATUS status)
 {
+    LOG_MODEL_DEBUG("CClientXmpp", "Client state:%d", m_Client.state());
+     if(m_Client.state() != QXmppClient::DisconnectedState)
+         Logout();
+
     QXmppConfiguration config;
     //TODO:设置为非sasl验证  
     config.setUseSASLAuthentication(false);
@@ -153,8 +157,8 @@ int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUs
 int CClientXmpp::Logout()
 {
     SetLogin(false);
-    QXmppPresence presence(QXmppPresence::Unavailable);
-    m_Client.setClientPresence(presence);
+    //QXmppPresence presence(QXmppPresence::Unavailable);
+    //m_Client.setClientPresence(presence);
     m_Client.disconnectFromServer();
     return 0;
 }
@@ -422,8 +426,8 @@ void CClientXmpp::slotClientConnected()
         }
 
         SetLogin(true);//设置登录标志  
-        emit sigClientConnected();
-        emit sigLoadRosterFromStorage();
+        emit sigClientConnected();//通知界面初始化  
+        emit sigLoadRosterFromStorage();//通知界面初始化数据  
     }
 }
 
@@ -451,7 +455,10 @@ void CClientXmpp::slotClientError(QXmppClient::Error e)
         error = NetworkError;
         break;
     case QXmppClient::XmppStreamError:
-        error = LoginFail;
+        if(m_Client.xmppStreamError() == QXmppStanza::Error::NotAuthorized)
+            error  = NotAuthorized;
+        else
+            error = LoginFail;
         break;
     case QXmppClient::KeepAliveError:
         error = KeepAliveError;

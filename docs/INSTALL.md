@@ -270,8 +270,13 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     * 在项目浏览器中选中qxmpp项目，右键点击“执行qmake”；再右键点击“构建”；再右键点击“部署”。
            在部署时会出现":-1: error: [install_htmldocs] Error 4 (ignored)"错误。
            这是由于没有安装doxygen，所以不能产生帮助文档。可以忽略。
-    * 当前版本有BUG，需要打下面补丁
-        ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch  
+    * 当前版本有BUG，需要打下面补丁，或者直接下我改过的版本:`git clone git@github.com:KangLin/qxmpp.git`
+        $(RabbitImRoot)/ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch  
+          + 建立分支 patch:`git branch patch`
+          + 切换到分支 patch:`git checkout patch`
+          + 应用补丁:`git am $(RabbitImRoot)/ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch `
+          + 切换到主分支：`git checkout master`
+          + 把 patch 分支合并到master 分支中 :`git merge patch`
     2)用命令行编译：  
      * 设置 qmake 路径到环境变量 PATH 中：`export PATH=$PATH:$QMAKE_PATH`  
      * 建立编译目录：`mkdir build; cd build`
