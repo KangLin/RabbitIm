@@ -105,7 +105,11 @@ void CFrmLogin::on_pbRegitster_clicked()
                GET_MAINWINDOW,
                SLOT(slotClientConnected()));
     CDlgRegister r(this);
-    r.exec();
+    int nRet = r.exec();
+#ifdef QXMPP
+    if(QDialog::Accepted == nRet)
+        on_pbOk_clicked();
+#endif
 }
 
 void CFrmLogin::on_pbSet_clicked()

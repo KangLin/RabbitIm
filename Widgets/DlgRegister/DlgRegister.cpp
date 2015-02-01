@@ -22,6 +22,7 @@ CDlgRegister::~CDlgRegister()
 
 void CDlgRegister::clientError(CClient::ERROR_TYPE e)
 {
+    ui->pbCreate->setEnabled(true);
     GET_CLIENT->disconnect(this);
     if(CClient::NoError == e)
     {
@@ -52,7 +53,15 @@ void CDlgRegister::clientError(CClient::ERROR_TYPE e)
 
 void CDlgRegister::connected()
 {
-    GET_CLIENT->Register(ui->txtId->text(), ui->txtUser->text(), ui->txtPassword->text(), ui->txtemail->text(), ui->txtInstructions->text());
+    QSharedPointer<CUserInfo> user = GETMANAGER->GetManageUser()->NewUser()->GetInfo();
+    user->SetId(ui->txtId->text());
+    user->SetName(ui->txtUser->text());
+    user->SetEmail(ui->txtemail->text());
+    user->SetDescription(ui->txtInstructions->text());
+    user->SetUrl(ui->txtUrl->text());
+    user->SetBirthday(ui->dtBirthday->date());
+    user->SetPhoto(m_PhotoBuffer.buffer());
+    GET_CLIENT->Register(user, ui->txtPassword->text());
 }
 
 void CDlgRegister::on_pbCreate_clicked()
@@ -125,6 +134,7 @@ void CDlgRegister::on_pbCreate_clicked()
                     SLOT(clientError(CClient::ERROR_TYPE)));
 
     GET_CLIENT->Login();
+    ui->pbCreate->setEnabled(false);
 }
 
 void CDlgRegister::on_pbCancel_clicked()
@@ -145,4 +155,36 @@ void CDlgRegister::changeEvent(QEvent *e)
         ui->retranslateUi(this);
         break;
     }
+}
+
+void CDlgRegister::on_pbBrower_clicked()
+{
+    QString szFile, szFilter("*.png *.jpg *.bmp *.gif *.jpeg");
+    szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
+    if(szFile.isEmpty())
+       return; 
+
+    //TODO:现在只上传小图片,以后增加上传原图  
+    //原因是openfire把vcard存在数据库中,导制数据库存性能,网络性能降低  
+    QPixmap pixmap(szFile), map;
+    int nWidth = pixmap.width();
+    int nHeight = pixmap.height();
+    if(nWidth > RABBITIM_AVATAR_SIZE)
+        nWidth = RABBITIM_AVATAR_SIZE;
+    if(nHeight > RABBITIM_AVATAR_SIZE)
+        nHeight = RABBITIM_AVATAR_SIZE;
+    map = pixmap.scaled(nWidth, nHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    QImageWriter imageWriter(&m_PhotoBuffer, "png");
+    m_PhotoBuffer.open(QIODevice::WriteOnly);
+    if(!imageWriter.write(map.toImage()))
+        LOG_MODEL_ERROR("CDlgRegister", "error:%s", imageWriter.errorString().toStdString().c_str());
+    m_PhotoBuffer.close();
+
+    ui->lbPhoto->setPixmap(map);
+}
+
+void CDlgRegister::on_pbClear_clicked()
+{
+    ui->lbPhoto->clear();
+    m_PhotoBuffer.setData(NULL, 0);
 }

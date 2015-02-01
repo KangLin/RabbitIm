@@ -116,6 +116,12 @@ int CClientXmpp::InitConnect()
     return 0;
 }
 
+int CClientXmpp::ClearConnect()
+{
+    this->disconnect();
+    return 0;
+}
+
 int CClientXmpp::Register(const QString &szId, const QString &szName, const QString &szPassword, const QString &szEmail, const QString &szDescript)
 {
     QXmppRegisterIq registerIq;
@@ -129,12 +135,26 @@ int CClientXmpp::Register(const QString &szId, const QString &szName, const QStr
     return 0;
 }
 
+int CClientXmpp::Register(QSharedPointer<CUserInfo> userInfo, const QString &szPassword)
+{
+    if(userInfo.isNull())
+    {
+        Q_ASSERT(false);
+        return -1;
+    }
+
+    //因为xmpp注册与用户信息设置分为两步，所以需要在注册完成后立即登录进行用户信息设置，位于（slotClientConnected)   
+    m_RegisterUserInfo = userInfo;
+
+    Register(userInfo->GetId(), userInfo->GetName(), szPassword, userInfo->GetEmail(), userInfo->GetDescription());
+    return 0;
+}
+
 int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUserInfo::USER_INFO_STATUS status)
 {
     LOG_MODEL_DEBUG("CClientXmpp", "Client state:%d", m_Client.state());
-     if(m_Client.state() != QXmppClient::DisconnectedState)
-         Logout();
-
+    if(m_Client.state() != QXmppClient::DisconnectedState)
+        Logout();
     QXmppConfiguration config;
     //TODO:设置为非sasl验证  
     config.setUseSASLAuthentication(false);
@@ -263,7 +283,7 @@ int CClientXmpp::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)
     buffer.close();
     vCard.setPhoto(byteArray);
     m_Client.vCardManager().setClientVCard(vCard);
-    //TODO:移到应用层  
+
     RequestUserInfoLocale();
     return 0;
 }
@@ -405,6 +425,7 @@ CUserInfo::USER_INFO_STATUS CClientXmpp::StatusFromPresence(QXmppPresence::Avail
  */
 void CClientXmpp::slotClientConnected()
 {
+    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotClientConnected");
     QString szId = m_Client.configuration().jidBare();
 
     int nRet = 0;
@@ -422,8 +443,25 @@ void CClientXmpp::slotClientConnected()
         //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
         if(USER_INFO_LOCALE.isNull())
         {
-            //调用客户端操作，得到本地用户信息  
-            GET_CLIENT->RequestUserInfoLocale();
+            //因为xmpp注册与用户信息设置分为两步，所以需要在注册完成后立即登录进行用户信息设置  
+            if(!m_RegisterUserInfo.isNull())
+            {
+                if(QXmppUtils::jidToUser(szId) == m_RegisterUserInfo->GetId())
+                {
+                    GET_CLIENT->setlocaleUserInfo(m_RegisterUserInfo);
+                }
+                else
+                {
+                    //调用客户端操作，得到本地用户信息  
+                    GET_CLIENT->RequestUserInfoLocale();
+                }
+                m_RegisterUserInfo.clear();
+            }
+            else
+            {
+                //调用客户端操作，得到本地用户信息  
+                GET_CLIENT->RequestUserInfoLocale();
+            }
         }
 
         SetLogin(true);//设置登录标志  

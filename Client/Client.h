@@ -33,7 +33,9 @@ public:
                          const QString &szName,
                          const QString &szPassword, 
                          const QString& szEmail = QString(),
-                         const QString& szDescript = QString());
+                         const QString& szDescript = QString()) = 0;
+    virtual int Register(QSharedPointer<CUserInfo> userInfo, const QString &szPassword) = 0;
+
     /**
      * @brief 登录  
      *
@@ -44,8 +46,8 @@ public:
      */
     virtual int Login(const QString& szUserName = QString(),
                       const QString &szPassword = QString(),
-                      CUserInfo::USER_INFO_STATUS status = CUserInfo::Online);
-    virtual int Logout();
+                      CUserInfo::USER_INFO_STATUS status = CUserInfo::Online) = 0;
+    virtual int Logout() = 0;
     /**
      * @brief 请求本地用户信息  
      *

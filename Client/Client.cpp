@@ -22,32 +22,6 @@ int CClient::SetLogin(bool bLogin)
     return 0;
 }
 
-int CClient::Register(const QString &szId, const QString &szName, const QString &szPassword, const QString &szEmail, const QString &szDescript)
-{
-    Q_UNUSED(szId);
-    Q_UNUSED(szName);
-    Q_UNUSED(szPassword);
-    Q_UNUSED(szEmail);
-    Q_UNUSED(szDescript);
-    LOG_MODEL_WARNING("CClient", "The CClient::Register function must be implemented by derived classes");
-    Q_ASSERT(false);
-    return 0;
-}
-
-int CClient::Login(const QString &szUserName, const QString &szPassword, CUserInfo::USER_INFO_STATUS status)
-{
-    LOG_MODEL_WARNING("CClient", "The CClient::Login function must be implemented by derived classes");
-    Q_ASSERT(false);
-    return 0;
-}
-
-int CClient::Logout()
-{
-    LOG_MODEL_WARNING("CClient", "The CClient::Logout function must be implemented by derived classes");
-    Q_ASSERT(false);
-    return 0;
-}
-
 int CClient::RequestUserInfoLocale()
 {
     LOG_MODEL_WARNING("CClient", "The CClient::RequestUserInfoLocale function must be implemented by derived classes");

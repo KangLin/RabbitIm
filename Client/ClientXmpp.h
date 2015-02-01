@@ -34,6 +34,8 @@ public:
                          const QString &szPassword, 
                          const QString& szEmail = QString(),
                          const QString& szDescript = QString());
+    virtual int Register(QSharedPointer<CUserInfo> userInfo, const QString &szPassword);
+
     /**
      * @brief 登录  
      *
@@ -120,6 +122,7 @@ private:
     CUserInfo::USER_INFO_STATUS StatusFromPresence(QXmppPresence::AvailableStatusType status);
 
     int InitConnect();
+    int ClearConnect();
 
 private slots:
     void slotClientConnected();
@@ -157,7 +160,7 @@ private:
     QXmppCallManager m_CallManager;
     QXmppMucManager m_MucManager;
     QXmppTransferManager m_TransferManager;
-    
+    QSharedPointer<CUserInfo> m_RegisterUserInfo;//用户注册信息  
     friend class CManageGroupChatQxmpp;
     friend class CGroupChatQxmpp;
 };

@@ -2,6 +2,7 @@
 #define FRMREGISTER_H
 
 #include <QDialog>
+#include <QBuffer>
 #include "Client/Client.h"
 
 namespace Ui {
@@ -27,9 +28,14 @@ private slots:
     void on_pbCreate_clicked();
     void on_pbCancel_clicked();
 
+    void on_pbBrower_clicked();
+    
+    void on_pbClear_clicked();
+    
 private:
     Ui::CDlgRegister *ui;
     QWidget *m_pLogin;
+    QBuffer m_PhotoBuffer;//头像  
 };
 
 #endif // FRMREGISTER_H
