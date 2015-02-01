@@ -26,13 +26,13 @@ public:
     int UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem);
     int UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString jid);
 
+    //新建立一个空的本地对象  
+    virtual QSharedPointer<CUser> NewUser();
 private:
     //得到保存本地用户信息的文件  
     virtual QString GetLocaleFile(const QString &szLocaleJid);
     //得到保存好友信息的文件  
     virtual QString GetRosterFile(const QString &szLocaleJid);
-    //新建立一个空的本地对象  
-    virtual QSharedPointer<CUser> NewUser();
 };
 
 #endif // GLOBALUSERQXMPP_H

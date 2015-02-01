@@ -44,7 +44,7 @@ private:
     QString m_szJid;
     QSharedPointer<CUserInfo> m_UserInfo;
     bool m_bModify;
-    QBuffer m_Buffer;
+    QBuffer m_PhotoBuffer;//头像  
 };
 
 #endif // FRMUSERVCARD_H

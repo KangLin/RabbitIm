@@ -24,11 +24,12 @@ public:
         Invisible        ///< obsolete XEP-0018: 隐形状态  
     };
 
-    virtual QString GetShowName(); //根据配置显示用户名称  
-    virtual QString GetId();       //用户ID，由具体协议实现  
-    virtual QString GetName();     //好友的名称，由本地用户设置  
-    virtual int SetName(const QString& szName);
-    virtual QString GetNick();     //好友呢称，由好友设置  
+    virtual QString GetShowName() = 0; //根据配置显示用户名称  
+    virtual QString GetId() = 0;       //用户ID，由具体协议实现  
+    virtual int SetId(QString szId) = 0;
+    virtual QString GetName() = 0;     //用户的名称，由用户设置  
+    virtual int SetName(const QString& szName) = 0;
+    virtual QString GetNick();     //呢称，由好友设置  
     virtual int SetNick(const QString& szNick);
     virtual QDate GetBirthday();
     virtual int SetBirthday(const QDate &d);
@@ -36,6 +37,8 @@ public:
     virtual int SetEmail(const QString& szEmail);
     virtual QString GetDescription();
     virtual int SetDescription(const QString& szDescription);
+    virtual QString GetUrl() const;
+    virtual int SetUrl(const QString &url);
     virtual QPixmap GetPhotoPixmap();
     virtual QImage GetPhoto();
     virtual int SetPhoto(QImage img);
@@ -76,6 +79,7 @@ protected:
     QDate m_Birthday;
     QString m_szEmail;
     QString m_szDescription;
+    QString m_szUrl;
     QImage m_imgPhoto;
 
     USER_INFO_STATUS m_Status;

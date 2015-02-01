@@ -16,35 +16,6 @@ CUserInfo::~CUserInfo()
 {
 }
 
-QString CUserInfo::GetShowName()
-{
-    LOG_MODEL_WARNING("CUserInfo", "The GetShowName function must be implemented by derived classes");
-    Q_ASSERT(false);
-    return QString();
-}
-
-QString CUserInfo::GetId()
-{
-    LOG_MODEL_WARNING("CUserInfo", "The GetId function must be implemented by derived classes");
-    Q_ASSERT(false);
-    return QString();
-}
-
-QString CUserInfo::GetName()
-{
-    LOG_MODEL_WARNING("CUserInfo", "The GetName function must be implemented by derived classes");
-    Q_ASSERT(false);
-    return QString();
-}
-
-int CUserInfo::SetName(const QString &szName)
-{
-    Q_UNUSED(szName);
-    LOG_MODEL_WARNING("CUserInfo", "The SetName function must be implemented by derived classes");
-    Q_ASSERT(false);
-    return 0;
-}
-
 QString CUserInfo::GetNick()
 {
     return m_szNick;
@@ -86,6 +57,17 @@ QString CUserInfo::GetDescription()
 int CUserInfo::SetDescription(const QString &szDescription)
 {
     m_szDescription = szDescription;
+    return 0;
+}
+
+QString CUserInfo::GetUrl() const
+{
+    return m_szUrl;
+}
+
+int CUserInfo::SetUrl(const QString &url)
+{
+    m_szUrl = url;
     return 0;
 }
 
@@ -181,6 +163,7 @@ int CUserInfo::LoadFromStorage(QDataStream &input)
     input >> m_szNick
           >> m_szEmail
           >> m_szDescription
+          >> m_szUrl
           >> m_Birthday
           >> m_bMonitor
           >> m_imgPhoto
@@ -201,6 +184,7 @@ int CUserInfo::SaveToStorage(QDataStream &output)
     output << m_szNick 
            << m_szEmail 
            << m_szDescription
+           << m_szUrl
            << m_Birthday
            << m_bMonitor
            << m_imgPhoto

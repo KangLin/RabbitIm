@@ -263,6 +263,7 @@ int CClientXmpp::setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo)
     buffer.close();
     vCard.setPhoto(byteArray);
     m_Client.vCardManager().setClientVCard(vCard);
+    //TODO:移到应用层  
     RequestUserInfoLocale();
     return 0;
 }

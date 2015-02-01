@@ -67,11 +67,11 @@ void CDlgUservCard::showEvent(QShowEvent *)
     ui->txtEmail->setText(m_UserInfo->GetEmail());
     ui->txtDescription->setText(m_UserInfo->GetDescription());
 
-    QImageWriter imageWriter(&m_Buffer, "png");
-    m_Buffer.open(QIODevice::WriteOnly);
+    QImageWriter imageWriter(&m_PhotoBuffer, "png");
+    m_PhotoBuffer.open(QIODevice::WriteOnly);
     if(!imageWriter.write(m_UserInfo->GetPhoto()))
         LOG_MODEL_ERROR("CDlgUservCard", "error:%s", imageWriter.errorString().toStdString().c_str());
-    m_Buffer.close();
+    m_PhotoBuffer.close();
 
     QPixmap pixmap;
     pixmap.convertFromImage(m_UserInfo->GetPhoto());
@@ -104,15 +104,21 @@ void CDlgUservCard::on_pbBrower_clicked()
     if(szFile.isEmpty())
        return; 
 
-    //TODO:现在只上传小图片,以后增加上传  
+    //TODO:现在只上传小图片,以后增加上传原图  
     //原因是openfire把vcard存在数据库中,导制数据库存性能,网络性能降低  
     QPixmap pixmap(szFile), map;
-    map = pixmap.scaled(64, 64, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    QImageWriter imageWriter(&m_Buffer, "png");
-    m_Buffer.open(QIODevice::WriteOnly);
+    int nWidth = pixmap.width();
+    int nHeight = pixmap.height();
+    if(nWidth > RABBITIM_AVATAR_SIZE)
+        nWidth = RABBITIM_AVATAR_SIZE;
+    if(nHeight > RABBITIM_AVATAR_SIZE)
+        nHeight = RABBITIM_AVATAR_SIZE;
+    map = pixmap.scaled(nWidth, nHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    QImageWriter imageWriter(&m_PhotoBuffer, "png");
+    m_PhotoBuffer.open(QIODevice::WriteOnly);
     if(!imageWriter.write(map.toImage()))
         LOG_MODEL_ERROR("CDlgUservCard", "error:%s", imageWriter.errorString().toStdString().c_str());
-    m_Buffer.close();
+    m_PhotoBuffer.close();
 
     ui->lbPhoto->setPixmap(map);
 }
@@ -120,7 +126,7 @@ void CDlgUservCard::on_pbBrower_clicked()
 void CDlgUservCard::on_pbClear_clicked()
 {
     ui->lbPhoto->clear();
-    m_Buffer.setData(NULL, 0);
+    m_PhotoBuffer.setData(NULL, 0);
 }
 
 void CDlgUservCard::on_pbOK_clicked()
@@ -131,7 +137,7 @@ void CDlgUservCard::on_pbOK_clicked()
     userInfo->SetBirthday(ui->dateBirthday->date());
     userInfo->SetEmail(ui->txtEmail->text());
     userInfo->SetDescription(ui->txtDescription->text());
-    userInfo->SetPhoto(m_Buffer.buffer());
+    userInfo->SetPhoto(m_PhotoBuffer.buffer());
     GET_CLIENT->setlocaleUserInfo(userInfo);
     close();
 }

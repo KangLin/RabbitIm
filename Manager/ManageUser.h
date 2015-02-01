@@ -75,6 +75,12 @@ public:
      */
     virtual int RemoveUserInfoRoster(const QString &szId);
 
+    /**
+     * @brief 新建立一个空的用户信息对象.由实现类实现.  
+     *
+     * @return QSharedPointer<CUserInfo>:用户信息对象  
+     */
+    virtual QSharedPointer<CUser> NewUser();
 private:
     /**
      * @brief 从存储中加载信息  
@@ -108,13 +114,6 @@ private:
      * @return QString:保存信息的文件名  
      */
     virtual QString GetRosterFile(const QString &szId);
-
-    /**
-     * @brief 新建立一个空的用户信息对象.由实现类实现.  
-     *
-     * @return QSharedPointer<CUserInfo>:用户信息对象  
-     */
-    virtual QSharedPointer<CUser> NewUser();
 
 protected:
     //本地用户信息  

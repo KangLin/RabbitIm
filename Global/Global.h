@@ -318,6 +318,7 @@ public slots:
 #define MANAGE_MESSAGE_DIALOG GETMANAGER->GetManageMessageDialog()
 
 #define RABBITIM_ICON_SIZE 24 //头像的大小  
+#define RABBITIM_AVATAR_SIZE 64 //头像的大小  
 
 #define LM_DEBUG 0
 #define LM_INFO 1
