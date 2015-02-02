@@ -135,7 +135,7 @@ QString CUserInfo::GetSubscriptionTypeStr(SUBSCRIPTION_TYPE type) const
     case From:
         return tr("[From]");
     case To:
-        return "";
+        return tr("[To]");
     case Remove:
         return tr("[remove]");
     default:

@@ -285,7 +285,7 @@ void CFrmUserList::slotUpdateMenu()
         }
 
         //增加订阅  
-        if(CUserInfo::From == info->GetSubScriptionType())
+        if(CUserInfo::Both != info->GetSubScriptionType())
             EnableAction(ui->actionAgreeAddRoster);
         
         //显示重命名菜单  
@@ -302,11 +302,11 @@ void CFrmUserList::slotUpdateMenu()
         EnableAction(ui->actionVideo);
         EnableAction(ui->actionAudio);
         if(CGlobal::Instance()->GetIsMonitor())
-         {
+        {
             ui->actionAllowMonitor->setChecked(info->GetIsMonitor());
             EnableAction(ui->actionAllowMonitor);
         }
-        //TODO:3新增菜单  
+         //TODO:3新增菜单  
     }
     return;
 }
@@ -585,7 +585,7 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
                                                 USERLIST_ITEM_ROLE_JID, 
                                                 info->GetId(), 
                                                 -1,
-                                                Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+                                               Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive | Qt::MatchCaseSensitive);
     if(lstIndexs.isEmpty())
     {
         int nRet = 0;
@@ -600,7 +600,7 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
                                                        USERLIST_ITEM_ROLE_JID, 
                                                        info->GetId(), 
                                                        -1,
-                                                       Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+                                                       Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive | Qt::MatchCaseSensitive);
     }
 
     QModelIndex index;
@@ -662,7 +662,7 @@ int CFrmUserList::ItemRemoveRoster(const QString &szId)
                                                 USERLIST_ITEM_ROLE_JID, 
                                                 szId, 
                                                 -1,
-                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive | Qt::MatchCaseSensitive);
     QModelIndex index;
     foreach(index, lstIndexs)
     {

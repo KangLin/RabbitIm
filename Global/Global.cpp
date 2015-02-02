@@ -108,6 +108,22 @@ int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszMode
     sprintf(buf, "%d", nLine);
     szTemp += buf;
     szTemp += "):";
+    switch(nLevel)
+    {
+    case LM_DEBUG:
+        szTemp += "DEBUG";
+        break;
+    case LM_ERROR:
+        szTemp += "ERROR";
+        break;
+    case LM_INFO:
+        szTemp += "INFO";
+        break;
+    case LM_WARNING:
+        szTemp = "WARNING";
+        break;
+    }
+    szTemp += ":";
     szTemp += pszModelName;
     szTemp += ":";
 

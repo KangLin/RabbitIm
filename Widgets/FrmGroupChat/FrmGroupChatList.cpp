@@ -279,7 +279,7 @@ int CFrmGroupChatList::ItemRemove(const QString &szId)
                                                 GROUP_ITEM_ROLE_JID, 
                                                 szId, 
                                                 1,
-                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive | Qt::MatchCaseSensitive);
     QModelIndex index;
     foreach(index, lstIndexs)
     {
@@ -294,7 +294,7 @@ void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
                                                 GROUP_ITEM_ROLE_JID, 
                                                 szId, 
                                                 1,
-                                                Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive | Qt::MatchCaseSensitive);
     if(!lstIndexs.isEmpty())
         return;
 
@@ -342,7 +342,7 @@ void CFrmGroupChatList::slotUpdateMessage(const QString &szId)
                                                 GROUP_ITEM_ROLE_JID, 
                                                 szId, 
                                                 1,
-                                                Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
+                                                Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive | Qt::MatchCaseSensitive);
     QModelIndex index;
     foreach(index, lstIndexs)
     {
