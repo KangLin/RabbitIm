@@ -41,6 +41,8 @@ private slots:
 
     void on_cmbUser_currentTextChanged(const QString &arg1);
 
+    void on_lnPassword_returnPressed();
+    
 public slots:
     void slotRefresh();
 

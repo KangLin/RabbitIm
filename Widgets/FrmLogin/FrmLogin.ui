@@ -372,7 +372,7 @@
            <bool>true</bool>
           </property>
           <property name="default">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -484,12 +484,15 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>cmbUser</tabstop>
   <tabstop>lnPassword</tabstop>
   <tabstop>chkSave</tabstop>
   <tabstop>chkLogin</tabstop>
   <tabstop>pbOk</tabstop>
   <tabstop>pbClose</tabstop>
   <tabstop>pbRegitster</tabstop>
+  <tabstop>pbSet</tabstop>
+  <tabstop>pbState</tabstop>
  </tabstops>
  <resources>
   <include location="../../Resource/Resource.qrc"/>

@@ -298,7 +298,7 @@ void CFrmLogin::slotClientError(CClient::ERROR_TYPE e)
         szMsg = tr("Login fail");
         break;
     case CClient::NotAuthorized:
-        szMsg = tr("Password error");
+        szMsg = tr("Username or Password error");
         break;
     default:
         break;
@@ -341,4 +341,9 @@ void CFrmLogin::ComposeAvatar(const QString &id)
                           QIcon::Disabled);
     }
     ui->pbState->setIcon(QIcon(map.scaled(48, 48)));
+}
+
+void CFrmLogin::on_lnPassword_returnPressed()
+{
+    on_pbOk_clicked();
 }
