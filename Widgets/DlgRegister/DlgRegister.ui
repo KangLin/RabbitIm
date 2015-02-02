@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>364</height>
+    <height>378</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -398,6 +398,9 @@
          <width>16777215</width>
          <height>40</height>
         </size>
+       </property>
+       <property name="displayFormat">
+        <string>yyyy/M/d</string>
        </property>
       </widget>
      </item>

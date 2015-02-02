@@ -368,9 +368,12 @@ void CFrmMessage::slotRefresh()
     }
 
     ui->lbRosterName->setText(m_User->GetInfo()->GetShowName()
+#ifdef DEBUG
                               + "["
                               + CGlobal::Instance()->GetRosterStatusText(m_User->GetInfo()->GetStatus())
-                              + "]");
+                              + "]"
+ #endif
+                              );
 
    QPixmap pixmap;
    MainWindow::ComposeAvatarStatus(m_User->GetInfo(), pixmap);
