@@ -189,7 +189,7 @@ SET(RABBITIM_LIBS
     Qt5::Xml
     Qt5::Core)
 
-include(cmake/version.cmake)
+include(cmake/install_version.cmake)
 include(cmake/cmake_build_file.cmake)
 
 SET(RABBITIM_RCC_FILES Resource/Resource.qrc Resource/sink/dark/style.qrc  AppIcon.rc)
