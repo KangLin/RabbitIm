@@ -218,15 +218,15 @@ int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type, const QStri
     //如果请求者是自己,则退出  
     if(USER_INFO_LOCALE->GetInfo()->GetId() == id)
     {
-        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::RosterAdd:Roster [%s] is exist", id.toStdString().c_str());
+        LOG_MODEL_ERROR("Roster", "CClientXmpp::RosterAdd:Roster [%s] is self", id.toStdString().c_str());
         return -1;
     }
 
-    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::RosterAdd:szId:%s", id.toStdString().c_str());
+    LOG_MODEL_DEBUG("Roster", "CClientXmpp::RosterAdd:szId:%s", id.toStdString().c_str());
     switch(type)
     {
     case SUBSCRIBE_REQUEST:
-        m_Client.rosterManager().addItem(id, szName, groups);
+        //m_Client.rosterManager().addItem(id, szName, groups);
         m_Client.rosterManager().subscribe(id);
         break;
     case SUBSCRIBE_ACCEPT:
@@ -242,7 +242,7 @@ int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type, const QStri
         m_Client.rosterManager().refuseSubscription(id);
         break;
     default:
-        LOG_MODEL_ERROR("CClientXmpp", "Subscribe type is Invalid");
+        LOG_MODEL_ERROR("Roster", "Subscribe type is Invalid");
         break;
     }
     return 0;
@@ -299,14 +299,14 @@ QSharedPointer<CFileTransfer> CClientXmpp::SendFile(const QString szId, const QS
     QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
     if(r.isNull())
     {
-        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::SendFile the roster is null");
+        LOG_MODEL_ERROR("SendFile", "CClientXmpp::SendFile the roster is null");
         return QSharedPointer<CFileTransfer>();
     }
 
     CUserInfoXmpp* pInfo = (CUserInfoXmpp*)r->GetInfo().data();
     if(pInfo->GetResource().isEmpty())
     {
-        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::SendFile the roster resource is null");
+        LOG_MODEL_ERROR("SendFile", "CClientXmpp::SendFile the roster resource is null");
         r->GetMessage()->AddMessage(szId, tr("The roster is offline, don't send the file."), true);
         emit sigMessageUpdate(szId);
         return QSharedPointer<CFileTransfer>();
@@ -324,13 +324,13 @@ QSharedPointer<CCallObject> CClientXmpp::Call(const QString szId, bool bVideo)
     QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
     if(r.isNull())
     {
-        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::Call the roster is null");
+        LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster is null");
         return QSharedPointer<CCallObject>();
     }
     CUserInfoXmpp* pInfo = (CUserInfoXmpp*)r->GetInfo().data();
     if(pInfo->GetResource().isEmpty())
     {
-        LOG_MODEL_ERROR("CClientXmpp", "CClientXmpp::Call the roster resource is null");
+        LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster resource is null");
         r->GetMessage()->AddMessage(szId, tr("The roster is offline, don't launch a call."), true);
         emit sigMessageUpdate(szId);
         return QSharedPointer<CCallObject>();
@@ -356,7 +356,7 @@ QSharedPointer<CCallObject> CClientXmpp::Call(const QString szId, bool bVideo)
     QXmppCall* m_pCall = m_CallManager.call(pInfo->GetJid());
     if(NULL == m_pCall)
     {
-        LOG_MODEL_ERROR("CClientXmpp",  "call %s fail", qPrintable(pInfo->GetJid()));
+        LOG_MODEL_ERROR("Call",  "call %s fail", qPrintable(pInfo->GetJid()));
         return QSharedPointer<CCallObject>();
     }
 
@@ -571,7 +571,7 @@ void CClientXmpp::slotRosterReceived()
         QSharedPointer<CUser> r = m_User->GetUserInfoRoster(jid);
         if(r.isNull())
         {
-            LOG_MODEL_DEBUG("CClientXmpp", "slotRosterReceived:roster[%s] is not exist", jid.toStdString().c_str());
+            LOG_MODEL_DEBUG("Roster", "slotRosterReceived:roster[%s] is not exist", jid.toStdString().c_str());
             r = m_User->AddUserInfoRoster(jid);
             QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(jid);
             m_User->UpdateUserInfoRoster(item);
@@ -585,7 +585,7 @@ void CClientXmpp::slotRosterReceived()
 //得到本地用户形象信息  
 void CClientXmpp::slotClientVCardReceived()
 {
-    LOG_MODEL_DEBUG("CClientXmpp", 
+    LOG_MODEL_DEBUG("Roster", 
                     "CClientXmpp::slotClientVCardReceived:%s", 
                      m_Client.vCardManager().clientVCard().to().toStdString().c_str());
 
@@ -601,7 +601,7 @@ void CClientXmpp::slotvCardReceived(const QXmppVCardIq& vCardIq)
     QString szJid = QXmppUtils::jidToBareJid(vCardIq.from());
     if(szJid.isEmpty())
         return;
-    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotvCardReceived:%s", vCardIq.from().toStdString().c_str());
+    LOG_MODEL_DEBUG("Roster", "CClientXmpp::slotvCardReceived:%s", vCardIq.from().toStdString().c_str());
     QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szJid);
     if(r.isNull())
     {
@@ -618,8 +618,9 @@ void CClientXmpp::slotvCardReceived(const QXmppVCardIq& vCardIq)
 
 void CClientXmpp::slotPresenceReceived(const QXmppPresence &presence)
 {
-    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotPresenceReceived jid:%s;status:%d;status text:%s",
+    LOG_MODEL_DEBUG("Roster", "CClientXmpp::slotPresenceReceived jid:%s;type:%d,status:%d;status text:%s",
            qPrintable(presence.from()),
+           presence.type(),
            presence.availableStatusType(),
            qPrintable(presence.statusText())
            );
@@ -648,6 +649,7 @@ void CClientXmpp::slotPresenceReceived(const QXmppPresence &presence)
 
 void CClientXmpp::slotItemAdded(const QString &szId)
 {
+    LOG_MODEL_DEBUG("Roster", "CClientXmpp::slotItemAdded:%s", qPrintable(szId));
     QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
     if(r.isNull())
     {
@@ -657,11 +659,12 @@ void CClientXmpp::slotItemAdded(const QString &szId)
         RequestUserInfoRoster(szId);
     }
     else
-        LOG_MODEL_DEBUG("CClientXmpp", "roster [%s] is exist.", szId.toStdString().c_str());
+        LOG_MODEL_DEBUG("Roster", "roster [%s] is exist.", szId.toStdString().c_str());
 }
 
 void CClientXmpp::slotItemChanged(const QString &szId)
 {
+    LOG_MODEL_DEBUG("Roster", "CClientXmpp::slotItemChanged:%s", qPrintable(szId));
     QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
     if(!r.isNull())
     {
@@ -671,16 +674,17 @@ void CClientXmpp::slotItemChanged(const QString &szId)
         emit sigUpdateRosterUserInfo(QXmppUtils::jidToBareJid(szId), r);
     }
     else
-        LOG_MODEL_DEBUG("CClientXmpp", "roster [%s] is not exist.", szId.toStdString().c_str());
+        LOG_MODEL_DEBUG("Roster", "roster [%s] is not exist.", szId.toStdString().c_str());
 }
 
 void CClientXmpp::slotItemRemoved(const QString &szId)
 {
+    LOG_MODEL_DEBUG("Roster", "CClientXmpp::slotItemRemoved:%s", qPrintable(szId));
     int nRet = 0;
     nRet = m_User->RemoveUserInfoRoster(szId);
     if(nRet)
     {
-        LOG_MODEL_ERROR("CClientXmpp", "remove user info roster:%s", qPrintable(szId));
+        LOG_MODEL_ERROR("Roster", "remove user info roster:%s", qPrintable(szId));
         return;
     }
     emit sigRemoveRosterUserInfo(szId);
@@ -688,7 +692,7 @@ void CClientXmpp::slotItemRemoved(const QString &szId)
 
 void CClientXmpp::slotMessageReceived(const QXmppMessage &message)
 {
-    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotMessageReceived:type:%d;state:%d;from:%s;to:%s;body:%s",
+    LOG_MODEL_DEBUG("Message", "CClientXmpp::slotMessageReceived:type:%d;state:%d;from:%s;to:%s;body:%s",
                     message.type(),
                     message.state(), //消息的状态 0:消息内容，其它值表示这个消息的状态  
                     qPrintable(message.from()),

@@ -93,6 +93,8 @@ ubuntu 下截图:
          ｜    ｜----TODO.txt   #需要完成的事
          ｜---License.html      #协议文件
 
+[变更日志](ChangeLog.txt)
+
 [开发](./docs/develop.md)
 
 [编译](./docs/INSTALL.md)

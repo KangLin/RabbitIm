@@ -15,3 +15,4 @@ qxmpp 登录后,qxmpp会自动发送请求好友列表消息:
 
 
 接受到好友列表消息后触发消息  `: QXmppRosterManager::rosterReceived() 
+

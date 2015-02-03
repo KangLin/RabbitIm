@@ -68,11 +68,11 @@ void CDlgRegister::on_pbCreate_clicked()
 {
     if(ui->txtId->text().isEmpty()
             || ui->txtId->text().isNull() 
-            || ui->txtId->text().length() < 4)
+            || ui->txtId->text().length() < 4 || ui->txtId->text().length() > 8)
     {
         QMessageBox msg(QMessageBox::Critical,
                         tr("Register error"),
-                        tr("Don't fill user id, Please refilling, the id length must greater than 4"),
+                        tr("Don't fill user id, Please refilling, the id length must more than 4 and less then 8"),
                         QMessageBox::Ok);
         msg.exec();
         return;
