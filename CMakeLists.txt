@@ -111,58 +111,66 @@ ENDIF()
 
 #TODO:增加检测ffmpeg库
 OPTION(RABBITIM_USER_FFMPEG "Use ffmpeg library" ON)
-MESSAGE("Use ffmpeg library:${RABBITIM_USER_FFMPEG}\n")
 IF(RABBITIM_USER_FFMPEG)
-    ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS" "-DRABBITIM_USER_FFMPEG") #ffmpeg需要
-    IF(MSVC)
-        SET(FFMPEG_LIBS 
-            ${THIRD_LIB_DIR}/libavcodec.a 
-            ${THIRD_LIB_DIR}/libavformat.a 
-            ${THIRD_LIB_DIR}/libswscale.a 
-            ${THIRD_LIB_DIR}/libavfilter.a 
-            ${THIRD_LIB_DIR}/libavutil.a)
-    ELSE()
-        SET(FFMPEG_LIBS avcodec avformat swscale avfilter avutil)
-    ENDIF()
+    IF(RABBITIM_USER_FFMPEG)
+        ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS" "-DRABBITIM_USER_FFMPEG") #ffmpeg需要
+        IF(MSVC)
+            SET(FFMPEG_LIBS 
+                ${THIRD_LIB_DIR}/libavcodec.a 
+                ${THIRD_LIB_DIR}/libavformat.a 
+                ${THIRD_LIB_DIR}/libswscale.a 
+                ${THIRD_LIB_DIR}/libavfilter.a 
+                ${THIRD_LIB_DIR}/libavutil.a)
+        ELSE()
+            SET(FFMPEG_LIBS avcodec avformat swscale avfilter avutil)
+        ENDIF()
+    ENDIF(RABBITIM_USER_FFMPEG)
 ENDIF(RABBITIM_USER_FFMPEG)
+MESSAGE("Use ffmpeg library:${RABBITIM_USER_FFMPEG}\n")
 
 #TODO:增加检测opencv库
 OPTION(RABBITIM_USER_OPENCV "Use opencv library" OFF)
-MESSAGE("Use opencv library:${RABBITIM_USER_OPENCV}\n")
 IF(RABBITIM_USER_OPENCV)
-    add_definitions("-DRABBITIM_USER_OPENCV")
-    IF(WIN32)
-        SET(OPENCV_VERSION 300)
-    ENDIF(WIN32)
-    SET(OPENCV_LIBS 
-        opencv_core${OPENCV_VERSION}
-        opencv_imgproc${OPENCV_VERSION})
+    IF(RABBITIM_USER_OPENCV)
+        add_definitions("-DRABBITIM_USER_OPENCV")
+        IF(WIN32)
+            SET(OPENCV_VERSION 300)
+        ENDIF(WIN32)
+        SET(OPENCV_LIBS 
+            opencv_core${OPENCV_VERSION}
+            opencv_imgproc${OPENCV_VERSION})
+    ENDIF(RABBITIM_USER_OPENCV)
 ENDIF(RABBITIM_USER_OPENCV)
+MESSAGE("Use opencv library:${RABBITIM_USER_OPENCV}\n")
 
 #检测libcurl库
-OPTION(RABBITIM_USER_LIBCURL "Use curl library" OFF)
-find_package(CURL)
-if(CURL_FOUND)
-    add_definitions("-DRABBITIM_USER_LIBCURL")
-    SET(RABBITIM_USER_LIBCURL ON)
-    include_directories(${CURL_INCLUDE_DIR})
-    SET(LIBCURL_LIBS ${CURL_LIBRARY})
-else(CURL_FOUND)
-    MESSAGE("Don't find libcurl library\n")
-endif(CURL_FOUND)
+OPTION(RABBITIM_USER_LIBCURL "Use curl library" ON)
+IF(RABBITIM_USER_LIBCURL)
+    find_package(CURL)
+    if(CURL_FOUND)
+        add_definitions("-DRABBITIM_USER_LIBCURL")
+        SET(RABBITIM_USER_LIBCURL ON)
+        include_directories(${CURL_INCLUDE_DIR})
+        SET(LIBCURL_LIBS ${CURL_LIBRARY})
+    else(CURL_FOUND)
+        MESSAGE("Don't find libcurl library\n")
+    endif(CURL_FOUND)
+ENDIF(RABBITIM_USER_LIBCURL)
 MESSAGE("Use curl library:${RABBITIM_USER_LIBCURL}\n")
 
 #检测openssl库
-OPTION(RABBITIM_USER_OPENSSL "Use openssl library" OFF)
-find_package(OpenSSL)
-if(OPENSSL_FOUND)
-    add_definitions("-DRABBITIM_USER_OPENSSL")
-    SET(RABBITIM_USER_OPENSSL ON)
-    include_directories(${OPENSSL_INCLUDE_DIR})
-    SET(OPENSSL_LIBS ${OPENSSL_LIBRARIES})
-else(OPENSSL_FOUND)
-    MESSAGE("Don't find openssl library\n")
-endif(OPENSSL_FOUND)
+OPTION(RABBITIM_USER_OPENSSL "Use openssl library" ON)
+IF(RABBITIM_USER_OPENSSL)
+    find_package(OpenSSL)
+    if(OPENSSL_FOUND)
+        add_definitions("-DRABBITIM_USER_OPENSSL")
+        SET(RABBITIM_USER_OPENSSL ON)
+        include_directories(${OPENSSL_INCLUDE_DIR})
+        SET(OPENSSL_LIBS ${OPENSSL_LIBRARIES})
+    else(OPENSSL_FOUND)
+        MESSAGE("Don't find openssl library\n")
+    endif(OPENSSL_FOUND)
+ENDIF(RABBITIM_USER_OPENSSL)
 MESSAGE("Use openssl library:${RABBITIM_USER_OPENSSL}\n")
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
@@ -189,7 +197,7 @@ SET(RABBITIM_LIBS
     Qt5::Xml
     Qt5::Core)
 
-include(cmake/version.cmake)
+include(cmake/install_version.cmake)
 include(cmake/cmake_build_file.cmake)
 
 SET(RABBITIM_RCC_FILES Resource/Resource.qrc Resource/sink/dark/style.qrc  AppIcon.rc)
