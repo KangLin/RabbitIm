@@ -24,6 +24,6 @@ sudo apt-get install -y libspeex-dev libtheora-dev libvpx-dev -qq
 sudo apt-get install -y libopencv-dev -qq
 #sudo apt-get install -y libqxmpp-dev -qq
 #sudo apt-get install -y libssl-dev -qq
-sudo apt-get install -y libcurl4-openssl-dev -qq
+sudo apt-get install -y libcurl4-openssl-dev 
 #sudo apt-get install -y yasm -qq
 #sudo apt-get install -y doxygen -qq
