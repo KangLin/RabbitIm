@@ -11,7 +11,7 @@ CONFIGURE_FILE(
 ADD_CUSTOM_TARGET(uninstall
     "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
 
-SET(INSTALL_DIRECTORIES ${CMAKE_INSTALL_PREFIX}/RabbitIm)
+SET(INSTALL_DIRECTORIES .)
 
 # Find Git Version Patch
 FIND_PROGRAM(GIT git)
@@ -176,7 +176,7 @@ IF(OPTION_RABBITIM_USER_OPENSSL)
     else(OPENSSL_FOUND)
         MESSAGE("Don't find openssl library\n")
     endif(OPENSSL_FOUND)
-ENDIF(RABBITIM_USER_OPENSSL)
+ENDIF(OPTION_RABBITIM_USER_OPENSSL)
 MESSAGE("Use openssl library:${RABBITIM_USER_OPENSSL}\n")
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
@@ -256,7 +256,7 @@ IF(RABBITIM_TRANSLATIONS)
         foreach(_file ${QM_FILES})
             IF(ANDROID)
                 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                        COMMAND ${CMAKE_COMMAND} -E make_directory  ${PROJECT_BINARY_DIR}/android-build/translations
+                        #COMMAND ${CMAKE_COMMAND} -E make_directory  ${PROJECT_BINARY_DIR}/android-build/translations
                         COMMAND ${CMAKE_COMMAND} -E copy ${_file}  ${PROJECT_BINARY_DIR}/android-build/translations
                         COMMAND ${CMAKE_COMMAND} -E copy  ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm   ${PROJECT_BINARY_DIR}/android-build/translations
                         )
@@ -280,22 +280,25 @@ message("ant:${ANT}\n")
 IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
     IF(ANDROID)
         INSTALL(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}")
-    ELSE()
+    ELSE(ANDROID)
         #设置安装目录
-        #SET(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install")
-        INSTALL(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "${INSTALL_DIRECTORIES}")
-    ENDIF()
-    INSTALL(FILES ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm DESTINATION "${INSTALL_DIRECTORIES}/translations")
-    INSTALL(FILES ${QM_FILES} DESTINATION "${INSTALL_DIRECTORIES}/translations")
+        INSTALL(TARGETS "${PROJECT_NAME}" DESTINATION "${INSTALL_DIRECTORIES}")
+    ENDIF(ANDROID)
+    #安装语言
+    INSTALL(FILES "${QT_INSTALL_DIR}/translations/qt_zh_CN.qm" DESTINATION "${INSTALL_DIRECTORIES}/translations")
+    INSTALL(FILES "${QM_FILES}" DESTINATION "${INSTALL_DIRECTORIES}/translations")
+    #安装qt库
     IF(WIN32)
         add_custom_target(Deployment DEPENDS ${PROJECT_NAME}
-            COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.exe" "${INSTALL_DIRECTORIES}/."
-            COMMAND "${QT_INSTALL_DIR}/bin/windeployqt" 
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
+            COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.exe" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
+            COMMAND "SET PATH=%PATH%;${QT_INSTALL_DIR}/bin" & "${QT_INSTALL_DIR}/bin/windeployqt" 
                 --compiler-runtime
                 --no-translations
                 --verbose 7
-                "${INSTALL_DIRECTORIES}/${PROJECT_NAME}.exe"
+                "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.exe"
         )
+        INSTALL(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/." DESTINATION "${INSTALL_DIRECTORIES}" CONFIGURATIONS Release)
     ELSE(WIN32)
         SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Gui Qt5::Xml Qt5::WebKitWidgets)
         INSTALL_QT_LIBRARYS(${QT_LIBS})
