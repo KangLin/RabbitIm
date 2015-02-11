@@ -51,12 +51,11 @@ echo "Current dir:`pwd`"
 rm -fr *
 
 $QMAKE -o Makefile \
-       QXMPP_LIBRARY_TYPE=staticlib \
        PREFIX=${PREFIX} \
        INCLUDEPATH+=${PREFIX}/include \
        LIBS+=-L${PREFIX}/lib \
        QXMPP_USE_VPX=1 \
-       ..
+       .. #QXMPP_LIBRARY_TYPE=staticlib #静态库
 
 case $1 in
     android)

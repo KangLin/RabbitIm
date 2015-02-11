@@ -30,11 +30,14 @@ mingw主页：http://www.mingw.org/ 。这个主页好象不是最新的，请�
 cygwin主页：http://www.cygwin.org/  
 当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
 
-4. cmake：
+4. autoconf、automake、libtool：
+mingw用msys中的相关工具
+
+5. cmake：
 主页：http://www.cmake.org/
 当前使用版本：3.0.2 
 
-5. XMPP协议（QXMPP）：
+6. XMPP协议（QXMPP）：
 主页：http://code.google.com/p/qxmpp  
 下载：
 `git clone  https://github.com/qxmpp-project/qxmpp.git`  
@@ -42,7 +45,7 @@ cygwin主页：http://www.cygwin.org/
     git库版本 —— v0.8.1    
 编译方法参考源码根目录下的README文件。
 
-6. webrtc库：
+7. webrtc库：
 主页：http://www.webrtc.org/  
 下载：  
         gclient config http://webrtc.googlecode.com/svn/trunk  
@@ -50,52 +53,52 @@ cygwin主页：http://www.cygwin.org/
 当前使用版本：svn库版本——r5663  
 编译参考：http://blog.csdn.net/kl222/article/details/17198873
 
-7. 编解码库（ffmpeg）：  
+8. 编解码库（ffmpeg）：  
 主页：http://www.ffmpeg.org/  
 下载：
         git clone git://source.ffmpeg.org/ffmpeg.git
 当前使用版本：  
-    git库版本 —— 6e6b0a8eed409c06d30cbc86a8e940f8779a4ac2  
-    
-8. 编解码库(x264)
+    git库版本 —— 694671bc9af5117bfb6a8bdd19821592f0d9372d  
+
+9. 编解码库(x264)
 下载：`git clone git://git.videolan.org/x264.git`  
 当前使用版本：  
     git库版本 —— 40bb56814e56ed342040bdbf30258aab39ee9e89
 
-9. 解码库(libvpx)
+10. 解码库(libvpx)
 下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
 当前使用版本:  
     git库版本 —— 8619274ea384500abeb698f832815ca892266954
 
-10. 音频处理库(libspeexdsp)
+11. 音频处理库(libspeexdsp)
 下载：`git clone http://git.xiph.org/speexdsp.git`  
 当前使用版本:  
-    git库版本 —— a6930dde69ed37c0d56f8fe5b4394bb3e9d31e87
+    git库版本 —— 887ac103dbbd0533ed501fc3dd599c876cc0eec7
 
-11. 音频编解码库（libspeex）
+12. 音频编解码库（libspeex）
 下载：`git clone http://git.xiph.org/speex.git`  
 当前使用版本：  
-    git库版本 —— 99446819ea60d39dcabac70cb22fac6ba23fdbbe
+    git库版本 —— 6aab25cb90f373c27f36901d4d9ed510919d2ea4
 
-12. [图像处理库(opencv)](http://opencv.org/)
+13. [图像处理库(opencv)](http://opencv.org/)
 下载：`git clone git://github.com/Itseez/opencv.git`  
 当前使用版本:  
     git库版本 —— dce629d0e25598d07723324de300ae1cad234f13
 
-13. libyuv  
+14. libyuv  
 下载:`git clone http://git.chromium.org/external/libyuv.git`  
 当前使用版本:  
-    git库版本 —— 002feab4c5d07828ab1c7982351ce08e833a0990
+    git库版本 —— 8619274ea384500abeb698f832815ca892266954
 
-14. [openssl](http://www.openssl.org/)
+15. [openssl](http://www.openssl.org/)
 下载：`git clone  https://github.com/openssl/openssl`
 当前使用版本：
     git库版本 —— OpenSSL_1_0_1j
 
-15. [libcurl](http://curl.haxx.se)
+16. [libcurl](http://curl.haxx.se)
 下载：`git://github.com/bagder/curl.git`  
 当前使用版本：  
-    git库版本 —— curl-7_39_0
+    git库版本 —— curl-7_40_0
 
 编译：
 -----
@@ -366,7 +369,8 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug 
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release 
     + 其它可选参数：
-    -DRABBITIM_USER_LIBCURL=ON -DRABBITIM_USER_OPENSSL=ON
+    -DOPTIOIN_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON
+    -DOPTION_RABBITIM_USER_OPENCV=ON
   * 选择相应的创建器,这里不能选错。
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功，点完成就会打开项目。
   * 点调试，就可以编译，并调试程序
@@ -379,7 +383,8 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
     + 其它可选参数：
-    -DRABBITIM_USER_LIBCURL=ON -DRABBITIM_USER_OPENSSL=ON
+    -DOPTIOIN_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON
+    -DOPTION_RABBITIM_USER_OPENCV=ON
     + 还要填入编译器参数：-DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
     ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5
   * 选择相应的创建器
@@ -387,7 +392,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 #### 2. 用命令行编译
 
-设置 qmake 路径到环境变量 PATH 中：`export PATH=$PATH:$QMAKE_PATH`
+**设置 qmake 路径到环境变量 PATH 中**：`export PATH=$PATH:$QMAKE_PATH`，QMAKE_PATH=${QT_INSTALL_DIR}/bin
 
     mkdir build
     cd build
@@ -402,26 +407,53 @@ MAKE在不同的环境下有不同的命令：
 
 ##### 2.1. 用 CMake 编译
 ###### 2.1.1. windows、linux平台
+    * 用 G++ 编译
 
     mkdir rabbitim-build  #建立编译目录
     cd rabbitim-build     #进入编译目录
+    ${QT_INSTALL_DIR}/bin/qtenv2.bat #windows环境下可用这个批处理设置qt的环境变量
     cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=${Qt5_DIR}    #执行 camke
     cmake --build .       #执行编译
     ./RabbitIm            #启动程序
 
-    Qt5_DIR:qt cmake 的安装路径。在qt安装目录的 lib/cmake/Qt5。
+    Qt5_DIR:qt cmake 的安装路径。在qt安装目录的 ${QT_INSTALL_DIR}/lib/cmake/Qt5。
     例如： /c/Qt/Qt5.3.1_android/5.3/mingw482_32/lib/cmake/Qt5
 
-###### 2.1.2. 分发
+    export PATH=$PATH:/c/Qt/Qt5.3.2/5.3/mingw482_32/bin #windows环境mingw下设置 qt 到环境变量 PATH
+    cmake .. -DQt5_DIR=/c/Qt/Qt5.3.2/5.3/mingw482_32/lib/cmake/Qt5 -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+    cmake --build .
 
-    set PATH=%PATH$;Qt5_DIR
-    cmake --build . --target Deployment
+    * 用 msvc 编译
+
+    C:\Qt\Qt5.3.1\5.3\msvc2013\bin\qtenv2.bat #windows环境下可用这个批处理设置qt的环境变量
+    set PATH=%PATH%;C:\Qt\Qt5.3.1\5.3\msvc2013\bin  #也可以直接设置环境变量
+    cmake .. -DQt5_DIR=C:\Qt\Qt5.3.1\5.3\msvc2013\lib\cmake\Qt5 -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
+    cmake --build .
+
+###### 2.1.2. 打包
+    + windows 下
+        * 下载 nsis 并把它设置到环境变量（PATH）中（如果已经安装，请忽略此步)
+
+    http://nsis.sourceforge.net/Download
+
+        * 再执行下面命令
+
+    set PATH=%PATH%;${QT_INSTALL_DIR}/bin #把qt安装目录加到环境变量中
+    cpack -G NSIS
+
+    + unix、linux 下
+        * rpm 需要安装 rpmbuilder
+    
+        * 再执行下面命令
+
+    export PATH=$PATH:${QT_INSTALL_DIR}/bin
+    cpack -G deb rmp
 
 ###### 2.1.3. android 平台:
 
 windows 平台下以 mingw 环境为例
 
-2.1.2.1. 先设置环境变量：
+###### 2.1.3.1. 先设置环境变量：
 
     export ANDROID_NDK_ROOT=     #android ndk 根目录
     export ANDROID_NDK=$ANDROID_NDK_ROOT
@@ -431,12 +463,12 @@ windows 平台下以 mingw 环境为例
     export ANT_ROOT=          #ant工具的目录
     export PATH=$PATH:%ANT_ROOT/bin
 
-2.1.2.2. 建立编译目录：
+###### 2.1.3.2. 建立编译目录：
 
     mkdir rabbitim-build  #建立编译目录
     cd rabbitim-build     #进入编译目录
     
-2.1.2.3. 配置、编译：
+###### 2.1.3.3. 配置、编译：
 
     cmake .. -G"Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../platforms/android/android.toolchain.cmake \
         -DCMAKE_MAKE_PROGRAM=${ANDROID_MAKE} \  #windows 下需要 make 工具的位置,linux下则不需要这个
@@ -455,7 +487,7 @@ windows 平台下以 mingw 环境为例
 
     cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=../rabbitim/platforms/android/android.toolchain.cmake -DQt5_DIR=/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5 ../rabbitim -DANT=/d/software/apache-ant-1.9.4/bin/ant -DCMAKE_MAKE_PROGRAM=/d/software/android-ndk-r9/prebuilt/windows/bin/make -G"Unix Makefiles"
 
-2.1.2.4. 可以会出现下面错误：
+###### 2.1.3.4. 可以会出现下面错误：
 
 CMake Error at c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfig.cma
 ke:15 (message):

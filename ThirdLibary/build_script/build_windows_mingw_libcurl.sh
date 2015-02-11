@@ -29,6 +29,10 @@ echo "CUR_DIR:$CUR_DIR"
 echo "PREFIX:$PREFIX"
 echo ""
 
+if [ ! -e configure ]; then
+    ./buildconf
+fi
+
 mkdir -p build_windows_mingw
 cd build_windows_mingw
 rm -fr *
@@ -43,7 +47,14 @@ echo "configure ..."
 #cmake --build . --target install --config Release
 
 ../configure --prefix="$PREFIX" \
-	--with-ssl="$PREFIX" --disable-shared --enable-static
+    --with-ssl="$PREFIX" \
+    --disable-debug \
+    --disable-curldebug \
+    --disable-manual \
+    --disable-shared \
+    --enable-static \
+    --enable-optimize
+
 make install
 
 cd $CUR_DIR

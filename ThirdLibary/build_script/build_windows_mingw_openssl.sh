@@ -37,7 +37,7 @@ echo "configure openssl ..."
     mingw
 
 echo "make install"
-make clean
+#make clean
 #make
 make install
 

@@ -46,12 +46,15 @@ echo "configure ......"
     --disable-ffplay \
     --disable-ffmpeg \
     --disable-avdevice \
+    --enable-static \
     --disable-shared \
     --enable-libx264 \
     --enable-libvpx \
-    --enable-libspeex \
-    --extra-cflags="-static -I$PREFIX/include" \
-    --extra-ldflags="-static -L$PREFIX/lib" 
+    --extra-cflags=" -I$PREFIX/include" \
+    --extra-ldflags=" -L$PREFIX/lib" 
+    #--enable-libspeex \
+    #--extra-cflags="-static -I$PREFIX/include" \
+    #--extra-ldflags="-static -L$PREFIX/lib" 
 
 make clean
 make install

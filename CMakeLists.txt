@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
 
+if(POLICY CMP0010)
+  cmake_policy(SET CMP0010 NEW)
+endif()
+
 project(RabbitIm)
 
 # 建立要删除的文件
@@ -11,7 +15,10 @@ CONFIGURE_FILE(
 ADD_CUSTOM_TARGET(uninstall
     "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
 
-SET(INSTALL_DIRECTORIES .)
+# 设置安装前缀
+IF(NOT CMAKE_INSTALL_PREFIX) 
+    SET(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/RabbitIm CACHE STRING "Install path prefix.") 
+ENDIF() 
 
 # Find Git Version Patch
 FIND_PROGRAM(GIT git)
@@ -42,7 +49,9 @@ SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTORCC ON)
 
 SET(CMAKE_VERBOSE_MAKEFILE ON)
-SET(CMAKE_CXX_FLAGS "-std=c++0x") #启用C++11
+IF(NOT MSVC)
+    SET(CMAKE_CXX_FLAGS "-std=c++0x") #启用C++11
+ENDIF(NOT MSVC)
 
 # Add definitions for static/style library 
 OPTION(STATIC "Build statically" OFF)
@@ -63,6 +72,7 @@ IF(MSVC)
     FIND_PACKAGE(Qt5 CONFIG REQUIRED WebKitWidgets)
     SET(RABBITIM_SYSTEM windows)
     SET(TOOLCHAIN_NAME windows_msvc)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt")
 ELSEIF(MINGW)
     FIND_PACKAGE(Qt5 CONFIG REQUIRED WebKitWidgets)
@@ -150,38 +160,51 @@ ENDIF(OPTION_RABBITIM_USER_OPENCV)
 MESSAGE("Use opencv library:${RABBITIM_USER_OPENCV}\n")
 
 #检测libcurl库
-OPTION(OPTIOIN_RABBITIM_USER_LIBCURL "Use curl library" ON)
-IF(OPTIOIN_RABBITIM_USER_LIBCURL)
-    find_package(CURL)
-    if(CURL_FOUND)
-        add_definitions("-DRABBITIM_USER_LIBCURL")
-        SET(RABBITIM_USER_LIBCURL ON)
-        include_directories(${CURL_INCLUDE_DIR})
-        SET(LIBCURL_LIBS ${CURL_LIBRARY})
-    else(CURL_FOUND)
-        MESSAGE("Don't find libcurl library\n")
-    endif(CURL_FOUND)
-ENDIF(OPTIOIN_RABBITIM_USER_LIBCURL)
+OPTION(RABBITIM_USER_LIBCURL "Use curl library" ON)
+IF(RABBITIM_USER_LIBCURL)
+    add_definitions("-DRABBITIM_USER_LIBCURL")
+    IF(MSVC)
+        SET(CURL_LIBRARY -llibcurl)
+    ELSEIF(MINGW)
+        add_definitions("-DCURL_STATICLIB")
+        SET(CURL_LIBRARY -lcurl -lcrypto -lssl -lgdi32 -lwldap32 -lz -lws2_32)
+    ELSE(MSVC)
+        find_package(CURL)
+        if(NOT CURL_FOUND)
+            MESSAGE("Don't find libcurl library\n")
+        ENDIF(NOT CURL_FOUND)
+    ENDIF(MSVC)
+    SET(RABBITIM_USER_LIBCURL ON)
+
+    include_directories(${CURL_INCLUDE_DIR})
+    SET(LIBCURL_LIBS ${CURL_LIBRARY})
+ENDIF(RABBITIM_USER_LIBCURL)
 MESSAGE("Use curl library:${RABBITIM_USER_LIBCURL}\n")
 
 #检测openssl库
-OPTION(OPTION_RABBITIM_USER_OPENSSL "Use openssl library" ON)
-IF(OPTION_RABBITIM_USER_OPENSSL)
-    find_package(OpenSSL)
-    if(OPENSSL_FOUND)
-        add_definitions("-DRABBITIM_USER_OPENSSL")
-        SET(RABBITIM_USER_OPENSSL ON)
-        include_directories(${OPENSSL_INCLUDE_DIR})
-        SET(OPENSSL_LIBS ${OPENSSL_LIBRARIES})
-    else(OPENSSL_FOUND)
-        MESSAGE("Don't find openssl library\n")
-    endif(OPENSSL_FOUND)
-ENDIF(OPTION_RABBITIM_USER_OPENSSL)
+OPTION(OPTRABBITIM_USER_OPENSSL "Use openssl library" ON)
+IF(OPTRABBITIM_USER_OPENSSL)
+    add_definitions("-DRABBITIM_USER_OPENSSL")
+    SET(RABBITIM_USER_OPENSSL ON)
+    IF(MSVC)
+        SET(OPENSSL_LIBRARIES -llibeay32 -lssleay32)
+    ELSEIF(MINGW)
+        SET(OPENSSL_LIBRARIES -lcrypto -lssl)
+    ELSE(MSVC)
+        find_package(OpenSSL)
+        IF(NOT OPENSSL_FOUND)
+            MESSAGE("Don't find openssl library\n")
+        ENDIF()
+    ENDIF(MSVC)
+
+    include_directories(${OPENSSL_INCLUDE_DIR})
+    SET(OPENSSL_LIBS ${OPENSSL_LIBRARIES})
+ENDIF(OPTRABBITIM_USER_OPENSSL)
 MESSAGE("Use openssl library:${RABBITIM_USER_OPENSSL}\n")
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 ADD_DEFINITIONS("-DQXMPP") # -DQXMPP_STATIC")
-IF(WIN32 AND MSVC AND CMAKE_BUILD_TYPE MATCHES Debug)
+IF(CMAKE_BUILD_TYPE MATCHES Debug)
     SET(QXMPP_LIBS qxmpp_d0)
 ELSE()
     SET(QXMPP_LIBS qxmpp0)
@@ -252,13 +275,13 @@ IF(RABBITIM_TRANSLATIONS)
     ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
         qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译资源文件  
         ADD_CUSTOM_TARGET(translations ALL DEPENDS ${QM_FILES})
-        add_dependencies(${PROJECT_NAME}  translations)
+        add_dependencies(${PROJECT_NAME} translations)
         foreach(_file ${QM_FILES})
             IF(ANDROID)
                 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                         #COMMAND ${CMAKE_COMMAND} -E make_directory  ${PROJECT_BINARY_DIR}/android-build/translations
-                        COMMAND ${CMAKE_COMMAND} -E copy ${_file}  ${PROJECT_BINARY_DIR}/android-build/translations
-                        COMMAND ${CMAKE_COMMAND} -E copy  ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm   ${PROJECT_BINARY_DIR}/android-build/translations
+                        COMMAND ${CMAKE_COMMAND} -E copy ${_file} ${PROJECT_BINARY_DIR}/android-build/translations
+                        COMMAND ${CMAKE_COMMAND} -E copy ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm ${PROJECT_BINARY_DIR}/android-build/translations
                         )
             ELSE(ANDROID)
                 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -268,7 +291,10 @@ IF(RABBITIM_TRANSLATIONS)
             ENDIF(ANDROID)
         endforeach()
         FILE(COPY ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm DESTINATION "translations")
-        #FILE(COPY ${QM_FILES} DESTINATION "translations")
+
+        #安装1:翻译
+        INSTALL(FILES "${QT_INSTALL_DIR}/translations/qt_zh_CN.qm" DESTINATION "translations" CONFIGURATIONS Release)
+        INSTALL(FILES "${QM_FILES}" DESTINATION "translations" CONFIGURATIONS Release)
     ENDIF(NOT Qt5_LRELEASE_EXECUTABLE)
 ENDIF(RABBITIM_TRANSLATIONS)
 
@@ -278,27 +304,26 @@ message("ant:${ANT}\n")
 
 #只发行版本才安装
 IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
+    #安装2:目标
     IF(ANDROID)
         INSTALL(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}")
     ELSE(ANDROID)
-        #设置安装目录
-        INSTALL(TARGETS "${PROJECT_NAME}" DESTINATION "${INSTALL_DIRECTORIES}")
+        INSTALL(TARGETS "${PROJECT_NAME}" RUNTIME DESTINATION "." CONFIGURATIONS Release)
     ENDIF(ANDROID)
-    #安装语言
-    INSTALL(FILES "${QT_INSTALL_DIR}/translations/qt_zh_CN.qm" DESTINATION "${INSTALL_DIRECTORIES}/translations")
-    INSTALL(FILES "${QM_FILES}" DESTINATION "${INSTALL_DIRECTORIES}/translations")
-    #安装qt库
+
+    #安装3:qt库
     IF(WIN32)
-        add_custom_target(Deployment DEPENDS ${PROJECT_NAME}
+        #add_custom_target(Deployment DEPENDS ${PROJECT_NAME}
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
             COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.exe" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
-            COMMAND "SET PATH=%PATH%;${QT_INSTALL_DIR}/bin" & "${QT_INSTALL_DIR}/bin/windeployqt" 
+            COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                 --compiler-runtime
                 --no-translations
                 --verbose 7
                 "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.exe"
         )
-        INSTALL(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/." DESTINATION "${INSTALL_DIRECTORIES}" CONFIGURATIONS Release)
+        install(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/." DESTINATION "." CONFIGURATIONS Release)
     ELSE(WIN32)
         SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Gui Qt5::Xml Qt5::WebKitWidgets)
         INSTALL_QT_LIBRARYS(${QT_LIBS})
@@ -309,20 +334,31 @@ ENDIF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
 IF(ANDROID)
     add_custom_command(TARGET  ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/libRabbitIm.so ${PROJECT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
-        COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt" 
-            --input ${PROJECT_BINARY_DIR}/android-libRabbitIm.so-deployment-settings.json 
-            --output ${PROJECT_BINARY_DIR}/android-build 
+        #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+        COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"    
+            --input ${PROJECT_BINARY_DIR}/android-libRabbitIm.so-deployment-settings.json
+            --output ${PROJECT_BINARY_DIR}/android-build
             --verbose
-            #--ant /usr/bin/ant 
+            #--ant /usr/bin/ant
             #--jdk $ENV{JAVA_HOME}
     )
 ENDIF(ANDROID)
 
 #复制第三方依赖库的动态库到编译目录下
 IF(WIN32)
-    IF(EXISTS ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/*.dll)
-        add_custom_command(TARGET  ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/*.dll ${PROJECT_BINARY_DIR}/.
-        )
-    ENDIF()
+    file(GLOB THIRD_DLL_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/*.dll")
+    message("THIRD_DLL_LIBRARY:${THIRD_DLL_LIBRARY}")
+    FOREACH(file ${THIRD_DLL_LIBRARY})
+        IF(EXISTS "${file}")
+            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy "${file}" "${PROJECT_BINARY_DIR}/."
+            )
+            #安装4:第三方动态库
+            INSTALL(FILES ${file} DESTINATION . CONFIGURATIONS Release)
+        ENDIF(EXISTS "${file}")
+    ENDFOREACH(file)
+
 ENDIF(WIN32)
+
+#安装5:安装相关文件
+install(FILES License.html Authors.txt ChangeLog.txt DESTINATION .)

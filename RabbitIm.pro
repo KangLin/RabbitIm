@@ -40,7 +40,7 @@ isEmpty(PREFIX){
        PREFIX=/.
     }
     else{
-        PREFIX = $$PWD/install
+        PREFIX = $$PWD/$${TARGET}
     }
 }
 
@@ -56,7 +56,7 @@ isEmpty(PREFIX){
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 DEFINES += QXMPP #QXMPP_STATIC
-QXMPP_LIBRARY_NAME = -lqxmpp# qxmpp 库名
+QXMPP_LIBRARY_NAME = -lqxmpp0 # qxmpp 库名
 
 CONFIG(debug, debug|release) {
     #调试宏
@@ -75,7 +75,7 @@ CONFIG(debug, debug|release) {
 }
 
 !isEmpty(RABBITIM_USER_OPENSSL){
-    DEFINES+= RABBITIM_USER_OPENSSL
+    DEFINES += RABBITIM_USER_OPENSSL
 }
 
 !isEmpty(RABBITIM_USER_LIBCURL){
@@ -155,7 +155,7 @@ android{
     THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/unix
 
     !isEmpty(RABBITIM_USER_LIBCURL){
-        LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lz#可以用 ./curl-config --libs 得到
+        LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lz  #可以用 ./curl-config --libs 得到
     }else:!isEmpty(RABBITIM_USER_OPENSSL){
         LIBOPENSSL_LIBRARY = -lssl -lcrypto
     }
@@ -276,13 +276,17 @@ win32{
 
     #复制第三方依赖库动态库到编译输出目录 
     THIRD_LIBRARY_DLL =  $${THIRD_LIBRARY_PATH}/bin/*.dll
-    msvc{
+    win32{
         THIRD_LIBRARY_DLL =  $$replace(THIRD_LIBRARY_DLL, /, \\)
         TARGET_PATH = $$replace(TARGET_PATH, /, \\)
+        TARGET_PATH = $${TARGET_PATH}\.
+    } else {
+        TARGET_PATH = $${TARGET_PATH}/.
     }
+
     exists($${THIRD_LIBRARY_DLL}){
         ThirdLibraryDll.commands =  \
-            $(COPY) $$THIRD_LIBRARY_DLL $${TARGET_PATH}\.
+            $(COPY) $$THIRD_LIBRARY_DLL $${TARGET_PATH}
         ThirdLibraryDll.CONFIG += directory no_link no_clean no_check_exist
         ThirdLibraryDll.target = ThirdLibraryDll
         QMAKE_EXTRA_TARGETS += ThirdLibraryDll
