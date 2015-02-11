@@ -9,8 +9,8 @@
 #   然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibary/build_script`。再运行你想运行的编译脚本。例如： `./build_windows_mscv.sh` 
 
 #需要设置下面变量：
-#QMAKE=/c/QT/Qt5.3.0_msvc/5.3/msvc2013_opengl/bin/qmake.exe   #设置用于 mingw 平台编译的 QMAKE
-#JOM=/c/Qt/Qt5.3.0_msvc/Tools/QtCreator/bin/jom.exe           #设置 QT make 工具 JOM
+QMAKE=/c/Qt/Qt5.3.1/5.3/msvc2013/bin/qmake.exe   #设置用于 mingw 平台编译的 QMAKE
+JOM=/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom.exe           #设置 QT make 工具 JOM
 
 if [ -n "${RabbitImRoot}" ]; then
     PREFIX=${RabbitImRoot}/ThirdLibary/windows_msvc

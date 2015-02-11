@@ -55,7 +55,7 @@ isEmpty(PREFIX){
 #}
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
-DEFINES += QXMPP QXMPP_STATIC
+DEFINES += QXMPP #QXMPP_STATIC
 QXMPP_LIBRARY_NAME = -lqxmpp# qxmpp 库名
 
 CONFIG(debug, debug|release) {
@@ -104,10 +104,9 @@ android{
     RABBITIM_SYSTEM="windows"
     msvc {
         RABBITIM_PLATFORM="msvc"
-
+        QMAKE_CXXFLAGS += /wd"4819"  #忽略msvc下对utf-8的警告  
         LDFLAGS += -ladvapi32
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_msvc
-        QXMPP_LIBRARY_NAME = qxmpp.lib# qxmpp 库名
 
         !isEmpty(RABBITIM_USER_FFMPEG) {
             #msvc 下直接用库文名查找依赖库
@@ -115,9 +114,9 @@ android{
         }
 
         !isEmpty(RABBITIM_USER_LIBCURL){
-            LIBCURL_LIBRARY = -lcurl 
+            LIBCURL_LIBRARY = -llibcurl 
         }else:!isEmpty(RABBITIM_USER_OPENSSL){
-            LIBOPENSSL_LIBRARY = ssleay32.lib libeay32.lib
+            LIBOPENSSL_LIBRARY = -lssleay32 -llibeay32
         }
     }
     else {
@@ -136,12 +135,13 @@ android{
     CONFIG(release, debug|release){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmt
+            QXMPP_LIBRARY_NAME = -lqxmpp0# qxmpp 库名
         }
 
     } else:CONFIG(debug, debug|release){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
-            QXMPP_LIBRARY_NAME = qxmpp_d.lib# qxmpp 库名
+            QXMPP_LIBRARY_NAME = -lqxmpp_d0# qxmpp 库名
         }
 
         OPENCV_VERSION=300
@@ -276,7 +276,10 @@ win32{
 
     #复制第三方依赖库动态库到编译输出目录 
     THIRD_LIBRARY_DLL =  $${THIRD_LIBRARY_PATH}/bin/*.dll
-    THIRD_LIBRARY_DLL =  $$replace(THIRD_LIBRARY_DLL, /, \\)
+    msvc{
+        THIRD_LIBRARY_DLL =  $$replace(THIRD_LIBRARY_DLL, /, \\)
+        TARGET_PATH = $$replace(TARGET_PATH, /, \\)
+    }
     exists($${THIRD_LIBRARY_DLL}){
         ThirdLibraryDll.commands =  \
             $(COPY) $$THIRD_LIBRARY_DLL $${TARGET_PATH}\.

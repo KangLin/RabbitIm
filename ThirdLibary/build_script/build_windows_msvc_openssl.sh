@@ -6,9 +6,7 @@
 #   先从菜单栏中起动vs2013编译命令行工具：  
 #   C:\Program Files\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts  
 #   VS2013 x86 本机工具命令提示  
-#   在命令行下，启动msys。 
-#   `c:\MinGW\msys\1.0\msys`  
-#   注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。  
+#  
 #   然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibary/build_script`。再运行你想运行的编译脚本。例如： `./build_windows_mscv.sh` 
 #
 #需要 perl
@@ -43,7 +41,7 @@ echo ""
 
 nmake clean
 echo "configure openssl ..."
-./Configure \
+perl Configure \
     --prefix=${PREFIX} \
     --openssldir=${PREFIX} \
     VC-WIN32
@@ -51,6 +49,9 @@ echo "configure openssl ..."
 ms/do_nasm.bat
 
 echo "make install"
-nmake -f ms/nt.mak install﻿﻿
+#静态库
+#nmake -f ms/nt.mak install﻿﻿
+#动态库  
+nmake -f ms/ntdll.mak #install﻿﻿
 
 cd ${CUR_DIR}

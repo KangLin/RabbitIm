@@ -57,8 +57,8 @@ echo "configure ..."
         --disable-ffserver \
         --disable-ffplay \
         --disable-ffmpeg \
-        --disable-avdevice \
-        --disable-shared # \
+        --disable-avdevice # \
+        #--disable-shared \
         #--extra-cflags="-I${PREFIX}/include" \
         #--extra-ldflags="/LIBPATH:${PREFIX}/lib" \
         #--enable-libvpx
