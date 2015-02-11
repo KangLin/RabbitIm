@@ -173,6 +173,7 @@ void CDlgUpdate::slotDownLoadStart(bool bPrompt)
 
 void CDlgUpdate::slotError(int nErr, const QString &szErr)
 {
+    Q_UNUSED(nErr);
     ui->lbError->setVisible(true);
     ui->lbError->setText(szErr);
 }
@@ -205,7 +206,8 @@ int CDlgUpdate::DownloadFile()
     m_HandleDownLoad.SetFile(m_szDownLoadFile);
     m_HandleDownLoad.SetMd5sum(m_szDownloadMd5sum);
     return m_DownLoadFile.Start(m_szDownLoadUrl.toStdString(),
-                                m_szDownLoadFile.toStdString(), &m_HandleDownLoad, 10, 600);
+                                m_szDownLoadFile.toStdString(),
+                                &m_HandleDownLoad, 10, 600);
 }
 
 void CDlgUpdate::slotDownLoadEnd(int nErr)

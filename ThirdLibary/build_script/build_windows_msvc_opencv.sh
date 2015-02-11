@@ -36,7 +36,7 @@ rm -fr *
 
 cmake \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DBUILD_SHARED_LIBS=OFF \
+    -DBUILD_SHARED_LIBS=ON \
     -DBUILD_DOCS=OFF \
     -DBUILD_opencv_apps=OFF \
     -DBUILD_EXAMPLES=OFF \

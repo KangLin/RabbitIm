@@ -46,8 +46,6 @@ rm -fr *
 
 echo "configure ..."
 ../configure \
-    --disable-shared \
-    --enable-static \
     --enable-static-msvcrt \
     --disable-docs \
     --disable-examples  \
@@ -58,7 +56,10 @@ echo "configure ..."
     --disable-debug  \
     --disable-debug-libs \
     --target=x86-win32-vs12 \
-    --prefix=$PREFIX
+    --prefix=$PREFIX 
+    #--enable-shared \
+    #--disable-static 
+    
 
 echo "make install"
 
