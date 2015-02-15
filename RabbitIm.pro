@@ -56,7 +56,7 @@ isEmpty(PREFIX){
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 DEFINES += QXMPP #QXMPP_STATIC
-QXMPP_LIBRARY_NAME = -lqxmpp0 # qxmpp 库名
+QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
 
 CONFIG(debug, debug|release) {
     #调试宏
@@ -124,7 +124,7 @@ android{
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_mingw
 
         !isEmpty(RABBITIM_USER_LIBCURL){
-            LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lwldap32 -lz -lws2_32#可以用 ./curl-config --libs 得到
+            LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lwldap32 -lz -lws2_32 #可以用 ./curl-config --libs 得到
         }else{
             !isEmpty(RABBITIM_USER_OPENSSL){
                 LIBOPENSSL_LIBRARY = -lssl -lcrypto
@@ -135,14 +135,14 @@ android{
     CONFIG(release, debug|release){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmt
-            QXMPP_LIBRARY_NAME = -lqxmpp0# qxmpp 库名
         }
+        QXMPP_LIBRARY_NAME = -lqxmpp0   #qxmpp 库名
 
     } else:CONFIG(debug, debug|release){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
-            QXMPP_LIBRARY_NAME = -lqxmpp_d0# qxmpp 库名
         }
+        QXMPP_LIBRARY_NAME = -lqxmpp_d0 #qxmpp 库名
 
         OPENCV_VERSION=300
     }
