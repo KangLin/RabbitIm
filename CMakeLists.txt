@@ -167,7 +167,7 @@ IF(RABBITIM_USER_LIBCURL)
         SET(CURL_LIBRARY -llibcurl)
     ELSEIF(MINGW)
         add_definitions("-DCURL_STATICLIB")
-        SET(CURL_LIBRARY -lcurl -lcrypto -lssl -lgdi32 -lwldap32 -lz -lws2_32)
+        SET(CURL_LIBRARY -lcurl -lcrypto -lssl -lgdi32 -lwldap32 -lz -lws2_32)#可以用 ./curl-config --libs 得到
     ELSE(MSVC)
         find_package(CURL)
         if(NOT CURL_FOUND)
@@ -204,11 +204,15 @@ MESSAGE("Use openssl library:${RABBITIM_USER_OPENSSL}\n")
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 ADD_DEFINITIONS("-DQXMPP") # -DQXMPP_STATIC")
-IF(CMAKE_BUILD_TYPE MATCHES Debug)
-    SET(QXMPP_LIBS qxmpp_d0)
-ELSE()
-    SET(QXMPP_LIBS qxmpp0)
-ENDIF()
+IF(WIN32)
+    IF(CMAKE_BUILD_TYPE MATCHES Debug)
+        SET(QXMPP_LIBS qxmpp_d0)
+    ELSE(CMAKE_BUILD_TYPE MATCHES Debug)
+        SET(QXMPP_LIBS qxmpp0)
+    ENDIF(CMAKE_BUILD_TYPE MATCHES Debug)
+ELSE(WIN32)
+    SET(QXMPP_LIBS qxmpp)
+ENDIF(WIN32)
 message("QXMPP_LIBS:${QXMPP_LIBS}")
 
 SET(RABBITIM_LIBS
@@ -229,7 +233,7 @@ SET(RABBITIM_LIBS
 include(cmake/install_version.cmake)
 include(cmake/cmake_build_file.cmake)
 
-SET(RABBITIM_RCC_FILES Resource/Resource.qrc Resource/sink/dark/style.qrc  AppIcon.rc)
+SET(RABBITIM_RCC_FILES Resource/Resource.qrc Resource/sink/dark/style.qrc AppIcon.rc)
 
 #生成目标
 IF(ANDROID)
