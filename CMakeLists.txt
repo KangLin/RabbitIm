@@ -72,7 +72,7 @@ IF(MSVC)
     FIND_PACKAGE(Qt5 CONFIG REQUIRED WebKitWidgets)
     SET(RABBITIM_SYSTEM windows)
     SET(TOOLCHAIN_NAME windows_msvc)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")  #删除不是GBK字符的警告
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt")
 ELSEIF(MINGW)
     FIND_PACKAGE(Qt5 CONFIG REQUIRED WebKitWidgets)
@@ -81,7 +81,7 @@ ELSEIF(MINGW)
     # Windows compatibility
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
     # Statically link with libgcc
-    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static -static-libgcc -static-libstdc++ ")
+    # SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static -static-libgcc -static-libstdc++ ")
 ELSEIF(ANDROID)
     SET(RABBITIM_SYSTEM android)
     SET(TOOLCHAIN_NAME android)
@@ -107,21 +107,23 @@ LINK_DIRECTORIES(${THIRD_LIB_DIR})
 SET(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME})
 
 # 依赖的第三方库
-OPTION(OPTION_USE_VPX "Use vpx library" ON)
-MESSAGE("Use vpx library:${USE_VPX}\n")
-IF(OPTION_USE_VPX)
+OPTION(OPTION_RABBITIM_USE_VPX "Use vpx library" ON)
+MESSAGE("Use vpx library:${OPTION_RABBITIM_USE_VPX}\n")
+IF(OPTION_RABBITIM_USE_VPX)
     SET(USE_VPX ON)
     SET(VPX_LIBS vpx)
     IF(ANDROID)
         SET(VPX_LIBS ${VPX_LIBS} cpu-features)
     ENDIF(ANDROID)
-ENDIF(OPTION_USE_VPX)
+ELSE(OPTION_RABBITIM_USE_VPX)
+    message("Must use libvpx, please install libvpx")
+ENDIF(OPTION_RABBITIM_USE_VPX)
 
-OPTION(USE_SPEEX "Use speex library" OFF)
-MESSAGE("Use speex library:${USE_SPEEX}\n")
-IF(USE_SPEEX)
+OPTION(OPTION_RABBITIM_USE_SPEEX "Use speex library" OFF)
+MESSAGE("Use speex library:${OPTION_RABBITIM_USE_SPEEX}\n")
+IF(OPTION_RABBITIM_USE_SPEEX)
     SET(SPEEX_LIBS speex)
-ENDIF()
+ENDIF(OPTION_RABBITIM_USE_SPEEX)
 
 #TODO:增加检测ffmpeg库
 OPTION(OPTION_RABBITIM_USER_FFMPEG "Use ffmpeg library" ON)
@@ -146,49 +148,74 @@ MESSAGE("Use ffmpeg library:${RABBITIM_USER_FFMPEG}\n")
 #TODO:增加检测opencv库
 OPTION(OPTION_RABBITIM_USER_OPENCV "Use opencv library" OFF)
 IF(OPTION_RABBITIM_USER_OPENCV)
-    IF(RABBITIM_USER_OPENCV)
-        add_definitions("-DRABBITIM_USER_OPENCV")
-        SET(RABBITIM_USER_OPENCV ON)
-        IF(WIN32)
-            SET(OPENCV_VERSION 300)
-        ENDIF(WIN32)
-        SET(OPENCV_LIBS 
+    add_definitions("-DRABBITIM_USER_OPENCV")
+    SET(RABBITIM_USER_OPENCV ON)
+    IF(WIN32)
+        SET(OPENCV_VERSION 300)
+    ENDIF(WIN32)
+    SET(OPENCV_LIBS 
+            opencv_imgproc${OPENCV_VERSION}
+            opencv_videoio${OPENCV_VERSION}
+            opencv_video${OPENCV_VERSION}
             opencv_core${OPENCV_VERSION}
-            opencv_imgproc${OPENCV_VERSION})
-    ENDIF(RABBITIM_USER_OPENCV)
+            )
+    IF(ANDROID)
+        SET(OPENCV_LIBS ${OPENCV_LIBS}
+                         opencv_androidcamera
+                         opencv_imgcodecs 
+                         opencv_info 
+                         libjpeg
+                )
+
+        SET(ANDROID_EXTRA_LIBS #第三方信赖库
+                ${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libnative_camera_r4.2.0.so  #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
+                ${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libopencv_info.so 
+                )
+    ELSE(ANDROID)
+        SET(OPENCV_LIBS  ${OPENCV_LIBS} zlib)
+    ENDIF(ANDROID)
+ELSEIF(OPTION_RABBITIM_USER_OPENCV)
+    message("android must opencv library, please install library.")
 ENDIF(OPTION_RABBITIM_USER_OPENCV)
-MESSAGE("Use opencv library:${RABBITIM_USER_OPENCV}\n")
+MESSAGE("Use opencv library:${OPTION_RABBITIM_USER_OPENCV}\n")
 
 #检测libcurl库
-OPTION(RABBITIM_USER_LIBCURL "Use curl library" ON)
-IF(RABBITIM_USER_LIBCURL)
+OPTION(OPTION_RABBITIM_USER_LIBCURL "Use curl library" ON)
+IF(OPTION_RABBITIM_USER_LIBCURL)
+    SET(RABBITIM_USER_LIBCURL ON)
     add_definitions("-DRABBITIM_USER_LIBCURL")
+
     IF(MSVC)
         SET(CURL_LIBRARY -llibcurl)
     ELSEIF(MINGW)
         add_definitions("-DCURL_STATICLIB")
-        SET(CURL_LIBRARY -lcurl -lcrypto -lssl -lgdi32 -lwldap32 -lz -lws2_32)#可以用 ./curl-config --libs 得到
+        SET(CURL_LIBRARY -lcurl -lcrypto -lssl -lgdi32 -lwldap32 -lz -lws2_32)  #可以用 ./curl-config --libs 得到
+    ELSEIF(ANDROID)
+        add_definitions("-DCURL_STATICLIB")
+        SET(CURL_LIBRARY -lcurl -lz)  #可以用 ./curl-config --libs 得到
     ELSE(MSVC)
         find_package(CURL)
         if(NOT CURL_FOUND)
             MESSAGE("Don't find libcurl library\n")
         ENDIF(NOT CURL_FOUND)
     ENDIF(MSVC)
-    SET(RABBITIM_USER_LIBCURL ON)
 
     include_directories(${CURL_INCLUDE_DIR})
     SET(LIBCURL_LIBS ${CURL_LIBRARY})
-ENDIF(RABBITIM_USER_LIBCURL)
-MESSAGE("Use curl library:${RABBITIM_USER_LIBCURL}\n")
+ENDIF(OPTION_RABBITIM_USER_LIBCURL)
+MESSAGE("Use curl library:${OPTION_RABBITIM_USER_LIBCURL}\n")
 
 #检测openssl库
-OPTION(OPTRABBITIM_USER_OPENSSL "Use openssl library" ON)
-IF(OPTRABBITIM_USER_OPENSSL)
-    add_definitions("-DRABBITIM_USER_OPENSSL")
+OPTION(OPTION_RABBITIM_USER_OPENSSL "Use openssl library" ON)
+IF(OPTION_RABBITIM_USER_OPENSSL)
     SET(RABBITIM_USER_OPENSSL ON)
+    ADD_DEFINITIONS("-DRABBITIM_USER_OPENSSL")
+
     IF(MSVC)
         SET(OPENSSL_LIBRARIES -llibeay32 -lssleay32)
     ELSEIF(MINGW)
+        SET(OPENSSL_LIBRARIES -lcrypto -lssl)
+    ELSEIF(ANDROID)
         SET(OPENSSL_LIBRARIES -lcrypto -lssl)
     ELSE(MSVC)
         find_package(OpenSSL)
@@ -199,8 +226,8 @@ IF(OPTRABBITIM_USER_OPENSSL)
 
     include_directories(${OPENSSL_INCLUDE_DIR})
     SET(OPENSSL_LIBS ${OPENSSL_LIBRARIES})
-ENDIF(OPTRABBITIM_USER_OPENSSL)
-MESSAGE("Use openssl library:${RABBITIM_USER_OPENSSL}\n")
+ENDIF(OPTION_RABBITIM_USER_OPENSSL)
+MESSAGE("Use openssl library:${OPTION_RABBITIM_USER_OPENSSL}\n")
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 ADD_DEFINITIONS("-DQXMPP") # -DQXMPP_STATIC")
@@ -213,6 +240,11 @@ IF(WIN32)
 ELSE(WIN32)
     SET(QXMPP_LIBS qxmpp)
 ENDIF(WIN32)
+
+IF(ANDROID)
+    ADD_DEFINITIONS("-DQXMPP_STATIC")
+ENDIF(ANDROID)
+
 message("QXMPP_LIBS:${QXMPP_LIBS}")
 
 SET(RABBITIM_LIBS
@@ -240,10 +272,12 @@ IF(ANDROID)
     add_library(${PROJECT_NAME} SHARED 
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
+        ${RABBITIM_UIS}
         )
     SET(RABBITIM_LIBS
         ${RABBITIM_LIBS} 
         Qt5::AndroidExtras)
+    qt5_wrap_ui(RABBITIM_UIS ${RABBITIM_UIS})
 ELSEIF(WIN32)
     add_executable(${PROJECT_NAME} WIN32
         ${RABBITIM_SOURCES}
@@ -283,7 +317,7 @@ IF(RABBITIM_TRANSLATIONS)
         foreach(_file ${QM_FILES})
             IF(ANDROID)
                 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                        #COMMAND ${CMAKE_COMMAND} -E make_directory  ${PROJECT_BINARY_DIR}/android-build/translations
+                        #COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/android-build/translations
                         COMMAND ${CMAKE_COMMAND} -E copy ${_file} ${PROJECT_BINARY_DIR}/android-build/translations
                         COMMAND ${CMAKE_COMMAND} -E copy ${QT_INSTALL_DIR}/translations/qt_zh_CN.qm ${PROJECT_BINARY_DIR}/android-build/translations
                         )
@@ -301,10 +335,6 @@ IF(RABBITIM_TRANSLATIONS)
         INSTALL(FILES "${QM_FILES}" DESTINATION "translations" CONFIGURATIONS Release)
     ENDIF(NOT Qt5_LRELEASE_EXECUTABLE)
 ENDIF(RABBITIM_TRANSLATIONS)
-
-GENERATED_DEPLOYMENT_SETTINGS()
-find_program(ANT NAMES ant) # PATHS  "/usr/bin")
-message("ant:${ANT}\n")
 
 #只发行版本才安装
 IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
@@ -327,8 +357,15 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
                 --verbose 7
                 "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.exe"
         )
-        install(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/." DESTINATION "." CONFIGURATIONS Release)
-    ELSE(WIN32)
+        INSTALL(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/." DESTINATION ".")
+        #install(CODE "execute_process(COMMAND \"${QT_INSTALL_DIR}/bin/windeployqt\"
+        #                    --compiler-runtime
+        #                    --no-translations
+        #                    --verbose 7
+        #                    \"${PROJECT_NAME}.exe\"
+        #                    WORKING_DIRECTORY .)"
+        #        )
+    ELSEIF(NOT ANDROID)
         SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Gui Qt5::Xml Qt5::WebKitWidgets)
         INSTALL_QT_LIBRARYS(${QT_LIBS})
         INSTALL_QT_PLUGINS(Qt5Gui_PLUGINS Qt5Network_PLUGINS Qt5Widgets_PLUGINS Qt5Xml_PLUGINS)
@@ -336,6 +373,10 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
 ENDIF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
 
 IF(ANDROID)
+    GENERATED_DEPLOYMENT_SETTINGS()
+    find_program(ANT NAMES ant) # PATHS  "/usr/bin")
+    message("ant:${ANT}\n")
+
     add_custom_command(TARGET  ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/libRabbitIm.so ${PROJECT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
         #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
@@ -366,3 +407,4 @@ ENDIF(WIN32)
 
 #安装5:安装相关文件
 install(FILES License.html Authors.txt ChangeLog.txt DESTINATION .)
+

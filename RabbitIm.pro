@@ -182,7 +182,7 @@ LIBS += -L$${THIRD_LIBRARY_PATH}/lib
     }
 
     win32{
-        OPENCV_LIBRARY += -lopencv_imgcodecs$$OPENCV_VERSION 
+        OPENCV_LIBRARY += -lopencv_imgcodecs$$OPENCV_VERSION
         OPENCV_LIBRARY += -lOle32 -lolepro32 -loleaut32 -luuid #dshow依赖库
     }
 }else:android{

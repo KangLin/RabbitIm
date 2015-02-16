@@ -358,6 +358,13 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
   * 工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
   * 把 pm 文件复制到安装目录的 translate 目录下。
   * 打开菜单：文件->打开文件，选中 Rabbitim.pro 文件
+  * 设置可选参数
+        ＋QXMPP_USE_VPX=1             #使用 vpx
+         + QXMPP_USE_SPEEX=1            #使用 speex
+         + RABBITIM_USER_OPENCV=1       #使用 opencv
+         + RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
+         + RABBITIM_USER_LIBCURL=1      #使用 libcurl
+         + RABBITIM_USER_OPENSSL=1   #使用openssl
   * 构建->构建项目"RabbitIm"。编译本项目。
 
 ##### 1.2. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
@@ -369,12 +376,12 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug 
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release 
     + 其它可选参数：
-    -DOPTIOIN_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON
+    -DOPTION_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON
     -DOPTION_RABBITIM_USER_OPENCV=ON
   * 选择相应的创建器,这里不能选错。
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功，点完成就会打开项目。
   * 点调试，就可以编译，并调试程序
-  * 如果要分发，选择 项目->构建->构建步骤->目标,选择 Deployment 项.
+  * 注意，在 windows 下，不同的编译器与 Qt Creator 是绑定的。必须用它自带的 Qt Creator 才不会出错
 
 ###### 1.2.2. android平台
 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
@@ -383,7 +390,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
     + 其它可选参数：
-    -DOPTIOIN_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON
+    -DOPTION_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON
     -DOPTION_RABBITIM_USER_OPENCV=ON
     + 还要填入编译器参数：-DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
     ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5
@@ -392,6 +399,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 #### 2. 用命令行编译
 
+##### 2.1. 用 qmake 编译
 **设置 qmake 路径到环境变量 PATH 中**：`export PATH=$PATH:$QMAKE_PATH`，QMAKE_PATH=${QT_INSTALL_DIR}/bin
 
     mkdir build
@@ -405,32 +413,37 @@ MAKE在不同的环境下有不同的命令：
     * mingw32-make：mingw 环境下用  
     * msys-make：msys 环境下用  
 
-##### 2.1. 用 CMake 编译
-###### 2.1.1. windows、linux平台
+##### 2.2. 用 CMake 编译
+###### 2.2.1. windows、linux平台
     * 用 G++ 编译
 
+    cd $(RabbitImRoot)    #进入项目源码根目录
     mkdir rabbitim-build  #建立编译目录
-    cd rabbitim-build     #进入编译目录
-    ${QT_INSTALL_DIR}/bin/qtenv2.bat #windows环境下可用这个批处理设置qt的环境变量
-    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${Qt5_DIR}    #执行 camke
-    cmake --build . --config Release  #执行编译
-    ./RabbitIm            #启动程序
+    cd rabbitim-build        #进入编译目录
+    ${QT_INSTALL_DIR}/bin/qtenv2.bat              #[可选]windows环境下可用这个批处理设置qt的环境变量，linux下直接设置环境变量
+    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=${Qt5_DIR}    #执行 camke
+    cmake --build .   --config Release      #执行编译
+    ./RabbitIm               #启动程序
 
     Qt5_DIR:qt cmake 的安装路径。在qt安装目录的 ${QT_INSTALL_DIR}/lib/cmake/Qt5。
     例如： /c/Qt/Qt5.3.1_android/5.3/mingw482_32/lib/cmake/Qt5
 
     export PATH=$PATH:/c/Qt/Qt5.3.2/5.3/mingw482_32/bin #windows环境mingw下设置 qt 到环境变量 PATH
     cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=/c/Qt/Qt5.3.2/5.3/mingw482_32/lib/cmake/Qt5
-    cmake --build .  --config Release
+    cmake --build .  --config Release #编译
 
     * 用 msvc 编译
 
-    C:\Qt\Qt5.3.1\5.3\msvc2013\bin\qtenv2.bat #windows环境下可用这个批处理设置qt的环境变量
-    set PATH=%PATH%;C:\Qt\Qt5.3.1\5.3\msvc2013\bin  #也可以直接设置环境变量
+    #windows环境下可用这个批处理设置qt的环境变量
+    C:\Qt\Qt5.3.1\5.3\msvc2013\bin\qtenv2.bat
+    #也可以直接设置环境变量
+    set PATH=%PATH%;C:\Qt\Qt5.3.1\5.3\msvc2013\bin
+    #注意产生者用 NMake Makefiles，如果用 VS，则需要对 CMakeLists.txt 中的目标路径做些修改
     cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=C:\Qt\Qt5.3.1\5.3\msvc2013\lib\cmake\Qt5
-    cmake --build .  --config Release
+    #编译
+    cmake --build . --config Release --target package
 
-###### 2.1.2. 打包
+###### 2.2.2. 打包
     + windows 下
         * 下载 nsis 并把它设置到环境变量（PATH）中（如果已经安装，请忽略此步)
 
@@ -439,7 +452,8 @@ MAKE在不同的环境下有不同的命令：
         * 再执行下面命令
 
     set PATH=%PATH%;${QT_INSTALL_DIR}/bin #把qt安装目录加到环境变量中
-    cpack -G NSIS
+    cpack -G NSIS   #这个是编译完成后，单独打包的命令，或者也可用下面编译时打包命令
+    cmake --build .  --config Release --target package     #编译时同时打包
 
     + unix、linux 下
         * rpm 需要安装 rpmbuilder
@@ -449,26 +463,27 @@ MAKE在不同的环境下有不同的命令：
     export PATH=$PATH:${QT_INSTALL_DIR}/bin
     cpack -G deb rmp
 
-###### 2.1.3. android 平台:
+###### 2.2.3. android 平台:
 
 windows 平台下以 mingw 环境为例
 
-###### 2.1.3.1. 先设置环境变量：
+###### 2.2.3.1. 先设置环境变量：
 
     export ANDROID_NDK_ROOT=     #android ndk 根目录
     export ANDROID_NDK=$ANDROID_NDK_ROOT
-    export ANDROID_SDK=    #android sdk 根目录
+    export ANDROID_SDK=                   #android sdk 根目录
     export ANDROID_SDK_ROOT=$ANDROID_SDK    
-    export JAVA_HOME=         #jdk根目录
-    export ANT_ROOT=          #ant工具的目录
+    export JAVA_HOME=                       #jdk根目录
+    export ANT_ROOT=                         #ant工具的目录
     export PATH=$PATH:%ANT_ROOT/bin
 
-###### 2.1.3.2. 建立编译目录：
+###### 2.2.3.2. 建立编译目录：
 
+    cd $(RabbitImRoot)    #进入项目源码根目录
     mkdir rabbitim-build  #建立编译目录
-    cd rabbitim-build     #进入编译目录
-    
-###### 2.1.3.3. 配置、编译：
+    cd rabbitim-build         #进入编译目录
+
+###### 2.2.3.3. 配置、编译：
 
     cmake .. -G"Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../platforms/android/android.toolchain.cmake \
         -DCMAKE_MAKE_PROGRAM=${ANDROID_MAKE} \  #windows 下需要 make 工具的位置,linux下则不需要这个
@@ -487,7 +502,7 @@ windows 平台下以 mingw 环境为例
 
     cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=../rabbitim/platforms/android/android.toolchain.cmake -DQt5_DIR=/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5 ../rabbitim -DANT=/d/software/apache-ant-1.9.4/bin/ant -DCMAKE_MAKE_PROGRAM=/d/software/android-ndk-r9/prebuilt/windows/bin/make -G"Unix Makefiles"
 
-###### 2.1.3.4. 可以会出现下面错误：
+###### 2.2.3.4. 可以会出现下面错误：
 
 CMake Error at c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfig.cma
 ke:15 (message):
@@ -504,7 +519,6 @@ ke:15 (message):
   * The installation package was faulty and contained
 
      "c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake"
-
 
   but not all the files it references.
 
