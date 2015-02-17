@@ -12,6 +12,8 @@ COperateRoster::~COperateRoster()
 
 int COperateRoster::ProcessRoster(QSharedPointer<CUserInfo> roster, void* para)
 {
+    Q_UNUSED(roster);
+    Q_UNUSED(para);
     LOG_MODEL_DEBUG("operateRoster", "must overwrite the function");
     return 0;
 }

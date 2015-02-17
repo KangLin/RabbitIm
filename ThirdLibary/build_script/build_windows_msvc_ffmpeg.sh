@@ -57,20 +57,14 @@ echo "configure ..."
         --disable-ffserver \
         --disable-ffplay \
         --disable-ffmpeg \
-        --disable-avdevice # \
-        #--disable-shared \
+        --disable-avdevice \
+        --enable-shared \
+        --disable-static  
         #--extra-cflags="-I${PREFIX}/include" \
         #--extra-ldflags="/LIBPATH:${PREFIX}/lib" \
         #--enable-libvpx
 
 echo "make install"
 make clean; make install
-
-#mv ${PREFIX}/lib/libavcodec.a ${PREFIX}/lib/avcodec.lib
-#mv ${PREFIX}/lib/libavformat.a ${PREFIX}/lib/avformat.lib
-#mv ${PREFIX}/lib/libswscale.a ${PREFIX}/lib/swscale.lib
-#mv ${PREFIX}/lib/libswresample.a ${PREFIX}/lib/swresample.lib
-#mv ${PREFIX}/lib/libavfilter.a ${PREFIX}/lib/avfilter.lib
-#mv ${PREFIX}/lib/libavutil.a ${PREFIX}/lib/avutil.lib
 
 cd $CUR_DIR

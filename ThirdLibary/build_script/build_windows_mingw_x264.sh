@@ -35,7 +35,7 @@ echo "configure ..."
 ./configure --prefix=$PREFIX \
     --enable-shared \
     --disable-cli \
-    --disable-opencl #--enable-static 
+    --disable-opencl 
 
 echo "make install ..."
 make install

@@ -33,11 +33,21 @@ cygwin主页：http://www.cygwin.org/
 4. autoconf、automake、libtool：
 mingw用msys中的相关工具
 
-5. cmake：
+5. 汇编工具（yasm、nasm）
+[yasm](http://yasm.tortall.net/)
+[nasm](http://www.nasm.us/)  
+下载并安装，并且设置路径到环境变量PATH
+
+6. Java
+[jdk](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+安装，并设置环境变量 JAVA_HOME
+并把 %JAVA_HOME%/bin 加到环境变量 PATH 中
+
+7. cmake：
 主页：http://www.cmake.org/
 当前使用版本：3.0.2 
 
-6. XMPP协议（QXMPP）：
+8. XMPP协议（QXMPP）：
 主页：http://code.google.com/p/qxmpp  
 下载：
 `git clone  https://github.com/qxmpp-project/qxmpp.git`  
@@ -45,7 +55,7 @@ mingw用msys中的相关工具
     git库版本 —— v0.8.1    
 编译方法参考源码根目录下的README文件。
 
-7. webrtc库：
+9. webrtc库：
 主页：http://www.webrtc.org/  
 下载：  
         gclient config http://webrtc.googlecode.com/svn/trunk  
@@ -53,49 +63,49 @@ mingw用msys中的相关工具
 当前使用版本：svn库版本——r5663  
 编译参考：http://blog.csdn.net/kl222/article/details/17198873
 
-8. 编解码库（ffmpeg）：  
+10. 编解码库（ffmpeg）：  
 主页：http://www.ffmpeg.org/  
 下载：
         git clone git://source.ffmpeg.org/ffmpeg.git
 当前使用版本：  
-    git库版本 —— 694671bc9af5117bfb6a8bdd19821592f0d9372d  
+    git库版本 —— n2.5.4  
 
-9. 编解码库(x264)
+11. 编解码库(x264)
 下载：`git clone git://git.videolan.org/x264.git`  
 当前使用版本：  
     git库版本 —— 40bb56814e56ed342040bdbf30258aab39ee9e89
 
-10. 解码库(libvpx)
+12. 解码库(libvpx)
 下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
 当前使用版本:  
     git库版本 —— 8619274ea384500abeb698f832815ca892266954
 
-11. 音频处理库(libspeexdsp)
+13. 音频处理库(libspeexdsp)
 下载：`git clone http://git.xiph.org/speexdsp.git`  
 当前使用版本:  
     git库版本 —— 887ac103dbbd0533ed501fc3dd599c876cc0eec7
 
-12. 音频编解码库（libspeex）
+14. 音频编解码库（libspeex）
 下载：`git clone http://git.xiph.org/speex.git`  
 当前使用版本：  
     git库版本 —— 6aab25cb90f373c27f36901d4d9ed510919d2ea4
 
-13. [图像处理库(opencv)](http://opencv.org/)
+15. [图像处理库(opencv)](http://opencv.org/)
 下载：`git clone git://github.com/Itseez/opencv.git`  
 当前使用版本:  
-    git库版本 —— dce629d0e25598d07723324de300ae1cad234f13
+    git库版本 —— d1a15097fe927aa79d0fea28771296b54849bb61
 
-14. libyuv  
-下载:`git clone http://git.chromium.org/external/libyuv.git`  
+16. libyuv  
+下载:`git clone http://git.chromium.org/external/libyuv.git`
 当前使用版本:  
-    git库版本 —— 8619274ea384500abeb698f832815ca892266954
+    git库版本 —— 975dd5a69951618ecf1be39a4c564ea1da4ca3ff
 
-15. [openssl](http://www.openssl.org/)
+17. [openssl](http://www.openssl.org/)
 下载：`git clone  https://github.com/openssl/openssl`
 当前使用版本：
     git库版本 —— OpenSSL_1_0_1j
 
-16. [libcurl](http://curl.haxx.se)
+18. [libcurl](http://curl.haxx.se)
 下载：`git://github.com/bagder/curl.git`  
 当前使用版本：  
     git库版本 —— curl-7_40_0
@@ -434,14 +444,16 @@ MAKE在不同的环境下有不同的命令：
 
     * 用 msvc 编译
 
-    #windows环境下可用这个批处理设置qt的环境变量
+    #启动 msvc 编译环境,可以在开始菜单栏->vs2013->visual studio tools->VS2013 x86 本机工具命令提示，也可以直接执行下面命令：
+    "C:\Program Files\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86
+    #windows 环境下可用这个批处理设置qt的环境变量
     C:\Qt\Qt5.3.1\5.3\msvc2013\bin\qtenv2.bat
     #也可以直接设置环境变量
     set PATH=%PATH%;C:\Qt\Qt5.3.1\5.3\msvc2013\bin
     #注意产生者用 NMake Makefiles，如果用 VS，则需要对 CMakeLists.txt 中的目标路径做些修改
     cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=C:\Qt\Qt5.3.1\5.3\msvc2013\lib\cmake\Qt5
     #编译
-    cmake --build . --config Release --target package
+    cmake --build . --config Release
 
 ###### 2.2.2. 打包
     + windows 下

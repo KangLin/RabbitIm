@@ -67,6 +67,7 @@ int CClient::RosterRemove(const QString &szId)
 int CClient::RosterRename(const QString &szId, const QString &szName)
 {
     Q_UNUSED(szId);
+    Q_UNUSED(szName);
     LOG_MODEL_WARNING("CClient", "The CClient::RosterRename function must be implemented by derived classes");
     Q_ASSERT(false);
     return 0;
@@ -110,6 +111,7 @@ QSharedPointer<CCallObject> CClient::CallVideo(const QString szId)
 QSharedPointer<CCallObject> CClient::Call(const QString szId, bool bVideo)
 {
     Q_UNUSED(szId);
+    Q_UNUSED(bVideo);
     LOG_MODEL_WARNING("CClient", "The CClient::Call function must be implemented by derived classes");
     Q_ASSERT(false);
     return QSharedPointer<CCallObject>();

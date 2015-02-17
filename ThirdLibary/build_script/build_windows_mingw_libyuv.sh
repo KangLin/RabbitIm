@@ -37,9 +37,8 @@ echo "configure ..."
 cmake .. \
     -G"Unix Makefiles" \
     -DCMAKE_INSTALL_PREFIX="$PREFIX" \
-    -DCMAKE_BUILD_TYPE="Release" \
-    -DCURL_STATICLIB=ON \
-    -DBUILD_CURL_TESTS=OFF
+    -DCMAKE_BUILD_TYPE="Release"
+    
 cmake --build . --target install --config Release
 
 cd $CUR_DIR

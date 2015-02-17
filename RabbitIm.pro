@@ -8,8 +8,8 @@ QXMPP_USE_VPX=1             #使用 vpx
 #QXMPP_USE_SPEEX=1            #使用 speex
 #RABBITIM_USER_OPENCV=1       #使用 opencv
 RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
-RABBITIM_USER_LIBCURL=1      #使用 libcurl
-RABBITIM_USER_OPENSSL=1   #使用openssl
+#RABBITIM_USER_LIBCURL=1      #使用 libcurl
+#RABBITIM_USER_OPENSSL=1   #使用openssl
 
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets 
@@ -108,11 +108,6 @@ android{
         LDFLAGS += -ladvapi32
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_msvc
 
-        !isEmpty(RABBITIM_USER_FFMPEG) {
-            #msvc 下直接用库文名查找依赖库
-            FFMPEG_LIBRARY= libavcodec.a libavformat.a libswscale.a libswresample.a libavfilter.a libavutil.a
-        }
-
         !isEmpty(RABBITIM_USER_LIBCURL){
             LIBCURL_LIBRARY = -llibcurl 
         }else:!isEmpty(RABBITIM_USER_OPENSSL){
@@ -192,6 +187,7 @@ LIBS += -L$${THIRD_LIBRARY_PATH}/lib
 LIBS += $$LDFLAGS $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY \
         $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY \
         $$LIBCURL_LIBRARY $$LIBOPENSSL_LIBRARY
+message("Libs:$$LIBS")
 
 DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
 

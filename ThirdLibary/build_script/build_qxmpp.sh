@@ -65,7 +65,7 @@ case $1 in
     make install -f Makefile -j 2
     ;;
     windows_msvc)
-    ${JOM} /f Makefile install
+    ${JOM} -f Makefile install
     ;;
     windows_mingw)
     make install -f Makefile

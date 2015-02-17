@@ -131,16 +131,7 @@ IF(OPTION_RABBITIM_USER_FFMPEG)
     SET(RABBITIM_USER_FFMPEG ON)
     IF(RABBITIM_USER_FFMPEG)
         ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS" "-DRABBITIM_USER_FFMPEG") #ffmpeg需要
-        IF(MSVC)
-            SET(FFMPEG_LIBS 
-                ${THIRD_LIB_DIR}/libavcodec.a 
-                ${THIRD_LIB_DIR}/libavformat.a 
-                ${THIRD_LIB_DIR}/libswscale.a 
-                ${THIRD_LIB_DIR}/libavfilter.a 
-                ${THIRD_LIB_DIR}/libavutil.a)
-        ELSE()
-            SET(FFMPEG_LIBS avcodec avformat swscale avfilter avutil)
-        ENDIF()
+        SET(FFMPEG_LIBS avcodec avformat swscale avfilter avutil)
     ENDIF(RABBITIM_USER_FFMPEG)
 ENDIF(OPTION_RABBITIM_USER_FFMPEG)
 MESSAGE("Use ffmpeg library:${RABBITIM_USER_FFMPEG}\n")

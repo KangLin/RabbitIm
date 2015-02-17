@@ -1,3 +1,4 @@
+#不能支持
 PREFIX=`pwd`/../windows
 
 ./configure --prefix=$PREFIX \
