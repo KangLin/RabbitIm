@@ -403,7 +403,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     -DOPTION_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON
     -DOPTION_RABBITIM_USER_OPENCV=ON
     + 还要填入编译器参数：-DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
-    ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5
+    ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
   * 选择相应的创建器
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功就会打开项目。
 
@@ -436,11 +436,11 @@ MAKE在不同的环境下有不同的命令：
     ./RabbitIm               #启动程序
 
     Qt5_DIR:qt cmake 的安装路径。在qt安装目录的 ${QT_INSTALL_DIR}/lib/cmake/Qt5。
-    例如： /c/Qt/Qt5.3.1_android/5.3/mingw482_32/lib/cmake/Qt5
+    例如： /c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
 
-    export PATH=$PATH:/c/Qt/Qt5.3.2/5.3/mingw482_32/bin #windows环境mingw下设置 qt 到环境变量 PATH
-    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=/c/Qt/Qt5.3.2/5.3/mingw482_32/lib/cmake/Qt5
-    cmake --build .  --config Release #编译
+    export PATH=$PATH:/c/Qt/Qt5.3.1/5.3/mingw482_32/bin #windows环境mingw下设置 qt 到环境变量 PATH
+    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
+    cmake --build . --config Release #编译
 
     * 用 msvc 编译
 

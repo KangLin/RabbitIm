@@ -21,16 +21,17 @@ IF(NOT CMAKE_INSTALL_PREFIX)
 ENDIF() 
 
 # Find Git Version Patch
-FIND_PROGRAM(GIT git)
-IF(GIT)
-    EXECUTE_PROCESS(
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        COMMAND ${GIT} rev-parse --short HEAD
-        OUTPUT_VARIABLE BUILD_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    MESSAGE("Git Version: ${BUILD_VERSION}\n")
-ENDIF(GIT)
-
+if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+    FIND_PROGRAM(GIT git)
+    IF(GIT)
+        EXECUTE_PROCESS(
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            COMMAND ${GIT} rev-parse --short HEAD
+            OUTPUT_VARIABLE BUILD_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+        MESSAGE("Git Version: ${BUILD_VERSION}\n")
+    ENDIF(GIT)
+ENDIF()
 MESSAGE("\n")
 
 #增加pkgconfig模块
@@ -41,17 +42,96 @@ MESSAGE("\n")
 FIND_PACKAGE(Qt5 CONFIG REQUIRED Gui Core Network Xml Multimedia Widgets LinguistTools)
 SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+endif()
+
+include(CheckCXXCompilerFlag)
+include(CheckIncludeFiles)
+include(CheckLibraryExists)
 include(cmake/RabbitImUtils.cmake)
 
 #打开 qt 编译工具
 SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTORCC ON)
-
+SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
+
+# Exit for blacklisted compilers (those that don't support C++11 very well)
+#  MSVC++ 8.0  _MSC_VER == 1400 (Visual Studio 2005)
+#  Clang 3.0
+SET(BAD_CXX_MESSAGE "")
+IF(MSVC)
+    IF(MSVC_VERSION LESS 1500)
+      SET(BAD_CXX_MESSAGE "MSVC 2008 or higher")
+    ENDIF()
+ENDIF()
+IF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    IF(${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 3.1.0)
+      SET(BAD_CXX_MESSAGE "Clang v3.1.0 or higher")
+    ENDIF()
+ENDIF()
+IF(BAD_CXX_MESSAGE)
+    MESSAGE(FATAL_ERROR "\nSorry, ${BAD_CXX_MESSAGE} is required to build this software. Please retry using a modern compiler that supports C++11 lambdas.")
+ENDIF()
 IF(NOT MSVC)
     SET(CMAKE_CXX_FLAGS "-std=c++0x") #启用C++11
 ENDIF(NOT MSVC)
+
+#
+# Compiler & linker settings
+#
+if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  check_cxx_compiler_flag(-Wunused-but-set-variable HAVE_GXX_UNUSED_BUT_SET)
+  check_cxx_compiler_flag(-Wlogical-op HAVE_GXX_LOGICAL_OP)
+  check_cxx_compiler_flag(-Wsizeof-pointer-memaccess HAVE_GXX_POINTER_MEMACCESS)
+  check_cxx_compiler_flag(-Wreorder HAVE_GXX_REORDER)
+  check_cxx_compiler_flag(-Wformat-security HAVE_GXX_FORMAT_SECURITY)
+  check_cxx_compiler_flag(-std=c++0x HAVE_GXX_CXX11)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated -Wextra -Woverloaded-virtual -Winit-self -Wmissing-include-dirs -Wunused -Wno-div-by-zero -Wundef -Wpointer-arith -Wmissing-noreturn -Werror=return-type")
+  if(APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++") # required in C++11 mode
+  endif()
+  if(HAVE_GXX_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+  endif()
+  if(HAVE_GXX_UNUSED_BUT_SET)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunused-but-set-variable")
+  endif()
+  if(HAVE_GXX_LOGICAL_OP)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wlogical-op")
+  endif()
+  if(HAVE_GXX_POINTER_MEMACCESS)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsizeof-pointer-memaccess")
+  endif()
+  if(HAVE_GXX_REORDER)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wreorder")
+  endif()
+  if(HAVE_GXX_FORMAT_SECURITY)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wformat -Wformat-security")
+  endif()
+  if(MINGW)
+    # mingw will error out on the crazy casts in probe.cpp without this
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
+  else()
+    # visibility attributes not supported on mingw, don't use -fvisibility option
+    # see: http://stackoverflow.com/questions/7994415/mingw-fvisibility-hidden-does-not-seem-to-work
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
+  endif()
+endif()
+
+if(WIN32)
+  add_definitions(-DUNICODE -D_UNICODE)
+endif()
+
+# linker flags
+if(CMAKE_SYSTEM_NAME MATCHES Linux OR CMAKE_SYSTEM_NAME STREQUAL GNU)
+  if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--fatal-warnings -Wl,--no-undefined -lc ${CMAKE_SHARED_LINKER_FLAGS}")
+    set(CMAKE_MODULE_LINKER_FLAGS "-Wl,--fatal-warnings -Wl,--no-undefined -lc ${CMAKE_MODULE_LINKER_FLAGS}")
+  endif()
+endif()
 
 # Add definitions for static/style library 
 OPTION(STATIC "Build statically" OFF)

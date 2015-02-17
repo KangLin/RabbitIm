@@ -500,7 +500,7 @@ int CCallQXmpp::StartVideo()
         return 0;
     }
 
-    OpenVideoWindow();
+    return OpenVideoWindow();
 }
 
 int CCallQXmpp::StopVideo()
