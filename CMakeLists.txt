@@ -418,22 +418,28 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
 
     #安装3:qt库
     IF(WIN32)
+        IF(MINGW)
+            #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本
+            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND strip "${PROJECT_BINARY_DIR}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}"
+                )
+        ENDIF()
         #add_custom_target(Deployment DEPENDS ${PROJECT_NAME}
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
-            COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}.exe" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
+            COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
             COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                 --compiler-runtime
                 --no-translations
                 --verbose 7
-                "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.exe"
+                "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}"
         )
         INSTALL(DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/." DESTINATION ".")
         #install(CODE "execute_process(COMMAND \"${QT_INSTALL_DIR}/bin/windeployqt\"
         #                    --compiler-runtime
         #                    --no-translations
         #                    --verbose 7
-        #                    \"${PROJECT_NAME}.exe\"
+        #                    \"${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}\"
         #                    WORKING_DIRECTORY .)"
         #        )
     ELSEIF(NOT ANDROID)
@@ -446,7 +452,7 @@ ENDIF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
 IF(ANDROID)
     GENERATED_DEPLOYMENT_SETTINGS()
     find_program(ANT NAMES ant) # PATHS  "/usr/bin")
-    message("ant:${ANT}\n")
+    MESSAGE("ant:${ANT}\n")
 
     add_custom_command(TARGET  ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/libRabbitIm.so ${PROJECT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
@@ -462,8 +468,8 @@ ENDIF(ANDROID)
 
 #复制第三方依赖库的动态库到编译目录下
 IF(WIN32)
-    file(GLOB THIRD_DLL_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/*.dll")
-    message("THIRD_DLL_LIBRARY:${THIRD_DLL_LIBRARY}")
+    FILE(GLOB THIRD_DLL_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/*.dll")
+    MESSAGE("THIRD_DLL_LIBRARY:${THIRD_DLL_LIBRARY}")
     FOREACH(file ${THIRD_DLL_LIBRARY})
         IF(EXISTS "${file}")
             add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -473,7 +479,6 @@ IF(WIN32)
             INSTALL(FILES ${file} DESTINATION . CONFIGURATIONS Release)
         ENDIF(EXISTS "${file}")
     ENDFOREACH(file)
-
 ENDIF(WIN32)
 
 #安装5:安装相关文件
