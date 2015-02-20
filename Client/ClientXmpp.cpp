@@ -17,6 +17,7 @@
 #include "FileTransfer/FileTransferQXmpp.h"
 #include "Call/CallQXmpp.h"
 #include <QHostAddress>
+#include "Version.h"
 
 #ifdef WIN32
 #undef GetMessage
@@ -156,13 +157,14 @@ int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUs
     if(m_Client.state() != QXmppClient::DisconnectedState)
         Logout();
     QXmppConfiguration config;
-    //TODO:设置为非sasl验证  
-    config.setUseSASLAuthentication(false);
+    //设置为非sasl验证  
+    config.setUseSASLAuthentication(true);
     if(szUserName.isNull())
         config.setUseNonSASLAuthentication(false);
     config.setHost(CGlobal::Instance()->GetXmppServer());
     config.setPort(CGlobal::Instance()->GetXmppServerPort());
     config.setDomain(CGlobal::Instance()->GetXmppDomain());
+    config.setResource(config.resource() + RABBITIM_SYSTEM);
     if(!szUserName.isEmpty())
         config.setUser(szUserName);
     if(!szPassword.isEmpty())
