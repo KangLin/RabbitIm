@@ -17,7 +17,7 @@ ADD_CUSTOM_TARGET(uninstall
 
 # 设置安装前缀
 IF(NOT CMAKE_INSTALL_PREFIX) 
-    SET(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/RabbitIm CACHE STRING "Install path prefix.") 
+    SET(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/${PROJECT_NAME} CACHE STRING "Install path prefix.") 
 ENDIF() 
 
 # Find Git Version Patch
@@ -443,9 +443,15 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
         #                    WORKING_DIRECTORY .)"
         #        )
     ELSEIF(NOT ANDROID)
-        SET(QT_LIBS Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Core Qt5::Gui Qt5::Xml Qt5::WebKitWidgets)
+        SET(QT_LIBS Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Xml Qt5::WebKitWidgets)
         INSTALL_QT_LIBRARYS(${QT_LIBS})
-        INSTALL_QT_PLUGINS(Qt5Gui_PLUGINS Qt5Network_PLUGINS Qt5Widgets_PLUGINS Qt5Xml_PLUGINS)
+        INSTALL_QT_PLUGINS(Qt5Core_PLUGINS 
+                                              Qt5Gui_PLUGINS
+                                              Qt5Widgets_PLUGINS
+                                              Qt5Network_PLUGINS
+                                              Qt5Multimedia_PLUGINS
+                                              Qt5Xml_PLUGINS
+                                              Qt5WebKitWidgets_PLUGINS)
     ENDIF(WIN32)
 ENDIF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
 
@@ -484,3 +490,4 @@ ENDIF(WIN32)
 #安装5:安装相关文件
 install(FILES License.html Authors.txt ChangeLog.txt DESTINATION .)
 
+message("QT_LIBINFIX:${QT5_LIBINFIX}")
