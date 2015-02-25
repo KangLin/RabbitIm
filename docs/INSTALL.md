@@ -107,7 +107,7 @@ http://www.perl.org/
 8. [图像处理库(opencv)](http://opencv.org/)
 下载：`git clone git://github.com/Itseez/opencv.git`  
 当前使用版本:  
-    git库版本 —— d1a15097fe927aa79d0fea28771296b54849bb61
+    git库版本 —— bdb088dccab11c9031e92414e02a0964ff614562
 
 9. libyuv  
 下载:`git clone http://git.chromium.org/external/libyuv.git`
@@ -117,7 +117,7 @@ http://www.perl.org/
 10. [openssl](http://www.openssl.org/)
 下载：`git clone  https://github.com/openssl/openssl`
 当前使用版本：
-    git库版本 —— OpenSSL_1_0_1j
+    git库版本 —— f2aff60f6f9eab0e24d3804e8aa641e74d1a235a
 
 11. [libcurl](http://curl.haxx.se)
 下载：`git://github.com/bagder/curl.git`  
@@ -374,6 +374,9 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 ### 本工程编译
 如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。
+用脚本  $(RabbitImRoot)/ThirdLibary/build_rabbitim.sh 进行编译：
+. build_rabbitim.sh (android|windows_msvc|windows_mingw|unix) SOURCE_CODE_ROOT [cmake]
+
 #### 1. 用Qt Creator 编译 
 
 ##### 1.1. 用 Qt Creator 编译 Rabbitim.pro
@@ -526,7 +529,7 @@ windows 平台下以 mingw 环境为例
 
 例如：
 
-    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=../rabbitim/platforms/android/android.toolchain.cmake -DQt5_DIR=/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5 ../rabbitim -DANT=/d/software/apache-ant-1.9.4/bin/ant -DCMAKE_MAKE_PROGRAM=/d/software/android-ndk-r9/prebuilt/windows/bin/make -G"Unix Makefiles"
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../rabbitim/platforms/android/android.toolchain.cmake -DQt5_DIR=/c/Qt/Qt5.3.1_android/5.3/android_armv7/lib/cmake/Qt5 ../rabbitim -DANT=/d/software/apache-ant-1.9.4/bin/ant -DCMAKE_MAKE_PROGRAM=/d/software/android-ndk-r9/prebuilt/windows/bin/make -G"Unix Makefiles"
 
 ###### 2.2.3.4. 可以会出现下面错误：
 

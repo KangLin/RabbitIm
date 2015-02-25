@@ -56,7 +56,7 @@ echo "configure ..."
 ../configure  --prefix=$PREFIX \
     CC=${CROSS_PREFIX}gcc \
     --disable-shared \
-    --enable-static \
+    -enable-static \
     --disable-oggtest \
     --without-ogg \
     --enable-vbr \

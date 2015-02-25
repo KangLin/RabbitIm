@@ -263,7 +263,7 @@ IF(OPTION_RABBITIM_USER_LIBCURL)
         SET(CURL_LIBRARY -lcurl -lcrypto -lssl -lgdi32 -lwldap32 -lz -lws2_32)  #可以用 ./curl-config --libs 得到
     ELSEIF(ANDROID)
         add_definitions("-DCURL_STATICLIB")
-        SET(CURL_LIBRARY -lcurl -lz)  #可以用 ./curl-config --libs 得到
+        SET(CURL_LIBRARY -lcurl -lssl -lcrypto -lz)  #可以用 ./curl-config --libs 得到
     ELSE(MSVC)
         find_package(CURL)
         if(NOT CURL_FOUND)
@@ -429,7 +429,6 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
             COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
             COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
             COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                --compiler-runtime
                 --no-translations
                 --verbose 7
                 "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}"

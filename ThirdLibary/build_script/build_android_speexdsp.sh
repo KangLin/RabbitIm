@@ -56,7 +56,7 @@ export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
 ../configure --prefix=$PREFIX  \
     CC=${CROSS_PREFIX}gcc \
     --disable-shared \
-    --enable-static \
+    -enable-static \
     --with-gnu-ld \
     --with-sysroot="${PLATFORM}" \
     CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${PLATFORM}" \

@@ -34,7 +34,7 @@ QMAKE_EXTRA_COMPILERS += updateqm
 
 TRANSLATIONS_OUTPUT_PATH = $${TARGET_PATH}/translations
 mytranslations.target = mytranslations
-win32 {
+msvc {
     TRANSLATIONS_OUTPUT_PATH = $$replace(TRANSLATIONS_OUTPUT_PATH, /, \\)
     QT_QM = $$[QT_INSTALL_TRANSLATIONS]\qt_zh_CN.qm
     QT_QM = $$replace(QT_QM, /, \\)

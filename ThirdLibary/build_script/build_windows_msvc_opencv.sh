@@ -53,8 +53,9 @@ cmake \
     -DBUILD_TIFF=OFF \
     -DBUILD_WITH_DEBUG_INFO=OFF \
     -DWITH_OPENCL=OFF \
-    -DBUILD_opencv_video=OFF \
+    -DBUILD_opencv_video=ON \
     -DBUILD_opencv_videostab=OFF \
+    -DBUILD_opencv_videoio=ON \
     -DBUILD_opencv_ts=OFF \
     -DBUILD_opencv_java=OFF \
     -DWITH_WEBP=OFF \
