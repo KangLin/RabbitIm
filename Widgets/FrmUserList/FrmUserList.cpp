@@ -548,8 +548,8 @@ QList<QStandardItem *> CFrmUserList::NewItemRoster(QSharedPointer<CUserInfo> inf
     szText = info->GetShowName()
         #ifdef DEBUG
             + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
-            +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
         #endif
+            +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
             ;
     pItem->setData(szText, Qt::DisplayRole); //改变item文本,或者直接用 pItem->setText(szText);  
 #ifdef DEBUG
@@ -624,8 +624,8 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
             szText = info->GetShowName()
         #ifdef DEBUG
                     + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
-                    +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
         #endif
+                    +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
                     ;
             pItem->setData(szText, Qt::DisplayRole); //改变item文本  
 #ifdef DEBUG
