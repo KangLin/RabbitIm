@@ -55,7 +55,7 @@ $QMAKE -o Makefile \
        INCLUDEPATH+=${PREFIX}/include \
        LIBS+=-L${PREFIX}/lib \
        QXMPP_USE_VPX=1 \
-       .. #QXMPP_LIBRARY_TYPE=staticlib #静态库
+       .. #"CONFIG+=debug" #QXMPP_LIBRARY_TYPE=staticlib #静态库
 
 case $1 in
     android)
