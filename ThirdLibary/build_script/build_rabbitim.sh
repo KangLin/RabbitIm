@@ -36,6 +36,7 @@ CUR_DIR=`pwd`
 cd ${SOURCE_CODE}
 
 echo ""
+echo "PATH:$PATH"
 echo "SOURCE_CODE:$SOURCE_CODE"
 echo "CUR_DIR:$CUR_DIR"
 echo "PREFIX:$PREFIX"
@@ -49,15 +50,31 @@ cd ${SOURCE_CODE}/build_$1
 echo "Current dir:`pwd`"
 rm -fr *
 
-$QMAKE PREFIX=${PREFIX} \
+$QMAKE .. PREFIX=`pwd`/install \
        INCLUDEPATH+=${PREFIX}/include \
        LIBS+=-L${PREFIX}/lib \
        QXMPP_USE_VPX=1 \
-       RABBITIM_USER_FFMPEG=1 \
-       RABBITIM_USER_LIBCURL=1 \
-       RABBITIM_USER_OPENSSL=1 \
-       ..
+       RABBITIM_USER_FFMPEG=1 
+      # RABBITIM_USER_LIBCURL=1 \
+      # RABBITIM_USER_OPENSSL=1 \
 
-${JOM} install
+case $1 in
+    android)
+    "$ANDROID_NDK/prebuilt/${HOST}/bin/make" -f Makefile install
+    ;;
+    unix)
+    make install -f Makefile -j 2
+    ;;
+    windows_msvc)
+    ${JOM} -f Makefile install
+    ;;
+    windows_mingw)
+    make install -f Makefile
+    ;;
+    *)
+    echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
+    return 1
+    ;;
+esac
 
 cd $CUR_DIR

@@ -34,6 +34,7 @@ echo "configure openssl ..."
 ./Configure \
     --prefix=${PREFIX} \
     --openssldir=${PREFIX} \
+    shared \
     mingw
 
 echo "make install"

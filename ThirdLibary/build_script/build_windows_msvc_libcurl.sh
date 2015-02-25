@@ -49,7 +49,7 @@ echo "configure ..."
 #cmake --build . --target install --config Release
 buildconf.bat
 cd winbuild
-nmake /f Makefile.vc mode=static VC=12 WITH_SSL="$PREFIX"
+nmake /f Makefile.vc mode=dll VC=12 WITH_SSL="$PREFIX"
 cd ../builds/libcurl-vc12-x86-release-static-ipv6-sspi
 xcopy * "$PREFIX"/.
 
