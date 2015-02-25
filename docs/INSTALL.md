@@ -38,16 +38,19 @@ mingw用msys中的相关工具
 [nasm](http://www.nasm.us/)  
 下载并安装，并且设置路径到环境变量PATH
 
-6. Java
+6. perl 工具
+http://www.perl.org/
+
+7. Java
 [jdk](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 安装，并设置环境变量 JAVA_HOME
 并把 %JAVA_HOME%/bin 加到环境变量 PATH 中
 
-7. cmake：
+8. cmake：
 主页：http://www.cmake.org/
 当前使用版本：3.0.2 
 
-8. XMPP协议（QXMPP）：
+9. XMPP协议（QXMPP）：
 主页：http://code.google.com/p/qxmpp  
 下载：
 `git clone  https://github.com/qxmpp-project/qxmpp.git`  
@@ -55,7 +58,7 @@ mingw用msys中的相关工具
     git库版本 —— v0.8.1    
 编译方法参考源码根目录下的README文件。
 
-9. webrtc库：
+10. webrtc库：
 主页：http://www.webrtc.org/  
 下载：  
         gclient config http://webrtc.googlecode.com/svn/trunk  
@@ -63,49 +66,49 @@ mingw用msys中的相关工具
 当前使用版本：svn库版本——r5663  
 编译参考：http://blog.csdn.net/kl222/article/details/17198873
 
-10. 编解码库（ffmpeg）：  
+11. 编解码库（ffmpeg）：  
 主页：http://www.ffmpeg.org/  
 下载：
         git clone git://source.ffmpeg.org/ffmpeg.git
 当前使用版本：  
     git库版本 —— n2.5.4  
 
-11. 编解码库(x264)
+12. 编解码库(x264)
 下载：`git clone git://git.videolan.org/x264.git`  
 当前使用版本：  
     git库版本 —— 40bb56814e56ed342040bdbf30258aab39ee9e89
 
-12. 解码库(libvpx)
+13. 解码库(libvpx)
 下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
 当前使用版本:  
     git库版本 —— 8619274ea384500abeb698f832815ca892266954
 
-13. 音频处理库(libspeexdsp)
+14. 音频处理库(libspeexdsp)
 下载：`git clone http://git.xiph.org/speexdsp.git`  
 当前使用版本:  
     git库版本 —— 887ac103dbbd0533ed501fc3dd599c876cc0eec7
 
-14. 音频编解码库（libspeex）
+15. 音频编解码库（libspeex）
 下载：`git clone http://git.xiph.org/speex.git`  
 当前使用版本：  
     git库版本 —— 6aab25cb90f373c27f36901d4d9ed510919d2ea4
 
-15. [图像处理库(opencv)](http://opencv.org/)
+16. [图像处理库(opencv)](http://opencv.org/)
 下载：`git clone git://github.com/Itseez/opencv.git`  
 当前使用版本:  
     git库版本 —— d1a15097fe927aa79d0fea28771296b54849bb61
 
-16. libyuv  
+17. libyuv  
 下载:`git clone http://git.chromium.org/external/libyuv.git`
 当前使用版本:  
     git库版本 —— 975dd5a69951618ecf1be39a4c564ea1da4ca3ff
 
-17. [openssl](http://www.openssl.org/)
+18. [openssl](http://www.openssl.org/)
 下载：`git clone  https://github.com/openssl/openssl`
 当前使用版本：
     git库版本 —— OpenSSL_1_0_1j
 
-18. [libcurl](http://curl.haxx.se)
+19. [libcurl](http://curl.haxx.se)
 下载：`git://github.com/bagder/curl.git`  
 当前使用版本：  
     git库版本 —— curl-7_40_0
