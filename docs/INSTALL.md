@@ -4,7 +4,7 @@
 * 开发工具：git、svn、autoconf、automake、make、cmake、python、perl、bash、
 * Windows 下开发环境:Mingw、msys（或者cygwin）、msvc
 * android 开发工具：android ndk、android sdk、jdk、ant
-* 汇编工具：yasm
+* 汇编工具：yasm、nasm(windows)
 * UI：QT
 * 即时通信协议（XMPP）：QXMPP
 * 视频通信：webrtc
@@ -12,8 +12,8 @@
            libspeex（可选）
 * 图形处理库：opencv（可选）
 
-下载工具和依赖：
--------------
+工具：
+-----
 
 1. QT：
 主页：http://qt-project.org/  
@@ -21,36 +21,47 @@
 当前使用版本：5.3.0  
 QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 
-2. msvc：
+2. cmake：
+主页：http://www.cmake.org/
+当前使用版本：3.0.2 
+
+3. autoconf、automake、libtool：
+mingw用msys中的相关工具
+
+4. windows平台工具
+
+    4.1. msvc：
 主页：http://msdn.microsoft.com/zh-cn/vstudio
 当前使用版本：vs 2013 update 4
 
-3. mingw、msys（或者cygwin）：
+    4.2. windows sdk(The Microsoft® Windows® Software Development Kit (SDK) for Windows 8.1):
+https://msdn.microsoft.com/zh-cn/windows/desktop/bg162891
+
+    4.3. Windows Driver Kit:
+http://www.microsoft.com/en-us/download/confirmation.aspx?id=42273
+
+    4.4. mingw、msys（或者cygwin）：
 mingw主页：http://www.mingw.org/ 。这个主页好象不是最新的，请用：http://sourceforge.net/projects/mingw-w64/  
 cygwin主页：http://www.cygwin.org/  
 当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
 
-4. autoconf、automake、libtool：
-mingw用msys中的相关工具
-
-5. 汇编工具（yasm、nasm）
+    4.5. 汇编工具（yasm、nasm）
 [yasm](http://yasm.tortall.net/)
 [nasm](http://www.nasm.us/)  
 下载并安装，并且设置路径到环境变量PATH
 
-6. perl 工具
+5. perl 工具
 http://www.perl.org/
 
-7. Java
+6. Java
 [jdk](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 安装，并设置环境变量 JAVA_HOME
 并把 %JAVA_HOME%/bin 加到环境变量 PATH 中
 
-8. cmake：
-主页：http://www.cmake.org/
-当前使用版本：3.0.2 
+第三方库：
+--------
 
-9. XMPP协议（QXMPP）：
+1. XMPP协议（QXMPP）：
 主页：http://code.google.com/p/qxmpp  
 下载：
 `git clone  https://github.com/qxmpp-project/qxmpp.git`  
@@ -58,7 +69,7 @@ http://www.perl.org/
     git库版本 —— v0.8.1    
 编译方法参考源码根目录下的README文件。
 
-10. webrtc库：
+2. webrtc库：
 主页：http://www.webrtc.org/  
 下载：  
         gclient config http://webrtc.googlecode.com/svn/trunk  
@@ -66,49 +77,49 @@ http://www.perl.org/
 当前使用版本：svn库版本——r5663  
 编译参考：http://blog.csdn.net/kl222/article/details/17198873
 
-11. 编解码库（ffmpeg）：  
+3. 编解码库（ffmpeg）：  
 主页：http://www.ffmpeg.org/  
 下载：
         git clone git://source.ffmpeg.org/ffmpeg.git
 当前使用版本：  
     git库版本 —— n2.5.4  
 
-12. 编解码库(x264)
+4. 编解码库(x264)
 下载：`git clone git://git.videolan.org/x264.git`  
 当前使用版本：  
     git库版本 —— 40bb56814e56ed342040bdbf30258aab39ee9e89
 
-13. 解码库(libvpx)
+5. 解码库(libvpx)
 下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
 当前使用版本:  
     git库版本 —— 8619274ea384500abeb698f832815ca892266954
 
-14. 音频处理库(libspeexdsp)
+6. 音频处理库(libspeexdsp)
 下载：`git clone http://git.xiph.org/speexdsp.git`  
 当前使用版本:  
     git库版本 —— 887ac103dbbd0533ed501fc3dd599c876cc0eec7
 
-15. 音频编解码库（libspeex）
+7. 音频编解码库（libspeex）
 下载：`git clone http://git.xiph.org/speex.git`  
 当前使用版本：  
     git库版本 —— 6aab25cb90f373c27f36901d4d9ed510919d2ea4
 
-16. [图像处理库(opencv)](http://opencv.org/)
+8. [图像处理库(opencv)](http://opencv.org/)
 下载：`git clone git://github.com/Itseez/opencv.git`  
 当前使用版本:  
     git库版本 —— d1a15097fe927aa79d0fea28771296b54849bb61
 
-17. libyuv  
+9. libyuv  
 下载:`git clone http://git.chromium.org/external/libyuv.git`
 当前使用版本:  
     git库版本 —— 975dd5a69951618ecf1be39a4c564ea1da4ca3ff
 
-18. [openssl](http://www.openssl.org/)
+10. [openssl](http://www.openssl.org/)
 下载：`git clone  https://github.com/openssl/openssl`
 当前使用版本：
     git库版本 —— OpenSSL_1_0_1j
 
-19. [libcurl](http://curl.haxx.se)
+11. [libcurl](http://curl.haxx.se)
 下载：`git://github.com/bagder/curl.git`  
 当前使用版本：  
     git库版本 —— curl-7_40_0
@@ -368,16 +379,14 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 ##### 1.1. 用 Qt Creator 编译 Rabbitim.pro
 用 Qt Creator 打开本工程根目录下的 Rabbitim.pro 文件。
   * 下载(http://pan.baidu.com/s/1ntA0t5n )或自己编译第三方库，并放到 $(RabbitImRoot)/ThirdLibary 目录下。
-  * 工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
-  * 把 pm 文件复制到安装目录的 translate 目录下。
   * 打开菜单：文件->打开文件，选中 Rabbitim.pro 文件
   * 设置可选参数
-        ＋QXMPP_USE_VPX=1             #使用 vpx
+         + QXMPP_USE_VPX=1              #使用 vpx
          + QXMPP_USE_SPEEX=1            #使用 speex
          + RABBITIM_USER_OPENCV=1       #使用 opencv
          + RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
          + RABBITIM_USER_LIBCURL=1      #使用 libcurl
-         + RABBITIM_USER_OPENSSL=1   #使用openssl
+         + RABBITIM_USER_OPENSSL=1      #使用openssl
   * 构建->构建项目"RabbitIm"。编译本项目。
 
 ##### 1.2. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
@@ -389,7 +398,8 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug 
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release 
     + 其它可选参数：
-    -DOPTION_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON
+    -DOPTION_RABBITIM_USER_LIBCURL=ON
+    -DOPTION_RABBITIM_USER_OPENSSL=ON
     -DOPTION_RABBITIM_USER_OPENCV=ON
   * 选择相应的创建器,这里不能选错。
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功，点完成就会打开项目。
@@ -403,8 +413,9 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
     + 其它可选参数：
-    -DOPTION_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON
-    -DOPTION_RABBITIM_USER_OPENCV=ON
+        -DOPTION_RABBITIM_USER_LIBCURL=ON
+        -DOPTION_RABBITIM_USER_OPENSSL=ON
+        -DOPTION_RABBITIM_USER_OPENCV=ON
     + 还要填入编译器参数：-DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
     ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
   * 选择相应的创建器
@@ -433,7 +444,7 @@ MAKE在不同的环境下有不同的命令：
     cd $(RabbitImRoot)    #进入项目源码根目录
     mkdir rabbitim-build  #建立编译目录
     cd rabbitim-build        #进入编译目录
-    ${QT_INSTALL_DIR}/bin/qtenv2.bat              #[可选]windows环境下可用这个批处理设置qt的环境变量，linux下直接设置环境变量
+    ${QT_INSTALL_DIR}/bin/qtenv2.bat   #[可选]windows环境下可用这个批处理设置qt的环境变量，linux下直接设置环境变量
     cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=${Qt5_DIR}    #执行 camke
     cmake --build .   --config Release      #执行编译
     ./RabbitIm               #启动程序
