@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=RabbitIm
+Name[x-test]=xxRabbImxx
+Comment=Rabbit instant messaging
+Comment[x-test]=xxRabbit instant messagingxx
+GenericName=Rabbit instant messaging
+GenericName[x-test]=xxQt Inspection Toolxx
+Exec=RabbitIm
+Icon=AppIcon.ico
+Type=Application
+Categories=Development;
+X-KDE-StartupNotify=true
