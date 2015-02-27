@@ -425,6 +425,7 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
                 )
         ENDIF()
         #add_custom_target(Deployment DEPENDS ${PROJECT_NAME}
+        #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
             COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."

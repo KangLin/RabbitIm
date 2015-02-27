@@ -104,7 +104,12 @@ else
            RABBITIM_USER_FFMPEG=1 \
            RABBITIM_USER_LIBCURL=1 \
            RABBITIM_USER_OPENSSL=1 
-    $MAKE -f Makefile install
+    if [ "$1" == "android" ]; then
+        $MAKE -f Makefile install INSTALL_ROOT="`pwd`/android-build"
+        ${QT_BIN}/androiddeployqt --input "`pwd`/android-libRabbitIm.so-deployment-settings.json" --output "`pwd`/android-build" --verbose
+    else
+        $MAKE -f Makefile install
+    fi
 fi
 
 cd $CUR_DIR
