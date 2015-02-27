@@ -597,10 +597,10 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
         }
         LOG_MODEL_DEBUG("FrmUserList", "Insert roster %s", qPrintable(szId));
         lstIndexs = m_pModel->match(m_pModel->index(0, 0),
-                                                       USERLIST_ITEM_ROLE_JID, 
-                                                       info->GetId(), 
-                                                       -1,
-                                                       Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive | Qt::MatchCaseSensitive);
+                                    USERLIST_ITEM_ROLE_JID, 
+                                    info->GetId(), 
+                                    -1,
+                                    Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive | Qt::MatchCaseSensitive);
     }
 
     QModelIndex index;

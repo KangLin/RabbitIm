@@ -14,12 +14,12 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
  
-    QString szVersion(tr("Version:%1.%2.%3").arg(QString::number(REVISION_VERSION_NUMBER),
+    QString szVersion(tr("Version:%1.%2.%3.%4").arg(QString::number(REVISION_VERSION_NUMBER),
                                                  QString::number(MINOR_VERSION_NUMBER),
-                                                 QString::number(REVISION_VERSION_NUMBER)
+                                                 QString::number(REVISION_VERSION_NUMBER),
+                                                 BUILD_VERSION
                                                     ));
     ui->lblVersion->setText(szVersion);
-    ui->lbbuildVersion->setText(tr("Build version:%1").arg(BUILD_VERSION));
     ui->lbDate->setText(tr("Build date:%1 %2").arg(__DATE__, __TIME__));
     ui->lblAuthor->setText(tr("Author: KangLin\nEmail or MSN:kl222@126.com"));
 
@@ -32,9 +32,9 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     szFile = ":/file/Authors";
     AppendFile(ui->txtThinks, szFile);
 #else
-    szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "ChangeLog.txt";
+    szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "ChangeLog.md";
     AppendFile(ui->txtChange, szFile);
-    szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "License.html";
+    szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "License.md";
     AppendFile(ui->txtLicense, szFile);
     szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "Authors.txt";
     AppendFile(ui->txtThinks, szFile);

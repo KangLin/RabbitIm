@@ -65,7 +65,7 @@ wince |android {
     DEPLOYMENT += mytranslat
 }
 else{
-    other.files = License.html Authors.txt ChangeLog.txt
+    other.files = License.md Authors.txt ChangeLog.md
     other.path = $$PREFIX
     other.CONFIG += directory no_check_exist 
     target.path = $$PREFIX

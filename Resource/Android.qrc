@@ -2,6 +2,6 @@
     <qresource prefix="/file">
         <file alias="ChangeLog">../ChangeLog.txt</file>
 	<file alias="Authors">../Authors.txt</file>
-	<file alias="License">../License.html</file>
+	<file alias="License">../License.md</file>
     </qresource>
 </RCC>

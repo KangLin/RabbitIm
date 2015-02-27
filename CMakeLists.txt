@@ -429,7 +429,7 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
             COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
             COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
             COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                --no-translations
+                --compiler-runtime
                 --verbose 7
                 "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}"
         )
@@ -481,5 +481,5 @@ IF(WIN32)
 ENDIF(WIN32)
 
 #安装5:安装相关文件
-install(FILES License.html Authors.txt ChangeLog.txt DESTINATION .)
+install(FILES License.md Authors.txt ChangeLog.md DESTINATION .)
 

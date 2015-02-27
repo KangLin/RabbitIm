@@ -219,8 +219,8 @@ OTHER_FILES += README.md \
     docs/* \
     docs/Books/* \
     docs/QXmpp音视频呼叫流程.txt \
-    License.html \
-    ChangeLog.txt \
+    License.md \
+    ChangeLog.md \
     Authors.txt \
     CMakeLists.txt \
     cmake/* \
