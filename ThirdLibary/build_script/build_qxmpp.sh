@@ -48,7 +48,7 @@ echo ""
 mkdir -p ${SOURCE_CODE}/build_$1
 cd ${SOURCE_CODE}/build_$1
 echo "Current dir:`pwd`"
-#rm -fr *
+rm -fr *
 
 $QMAKE -o Makefile \
        PREFIX=${PREFIX} \

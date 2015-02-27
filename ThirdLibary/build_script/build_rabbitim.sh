@@ -82,6 +82,7 @@ else
             MAKE="$ANDROID_NDK/prebuilt/${HOST}/bin/make"
             ;;
         unix)
+            PARA="-r -spec linux-g++ "
             MAKE="make"
             ;;
         windows_msvc)
