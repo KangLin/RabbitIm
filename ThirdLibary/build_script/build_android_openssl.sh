@@ -41,9 +41,10 @@ echo "PLATFORM:$PLATFORM"
 echo "CROSS_PREFIX:$CROSS_PREFIX"
 echo ""
 
-make clean
+git clean -xdf
 echo "configure openssl ..."
-perl Configure --cross-compile-prefix=${CROSS_PREFIX} --prefix=${PREFIX} --openssldir=${PREFIX} android-armv7 --sysroot=${PLATFORM}
+CFLAGS=--sysroot="${PLATFORM}"
+perl Configure --cross-compile-prefix=${CROSS_PREFIX} --prefix=${PREFIX} --openssldir=${PREFIX} android-armv7 --sysroot="${PLATFORM}"
 
 echo "make install"
 #make clean

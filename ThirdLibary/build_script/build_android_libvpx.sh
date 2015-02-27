@@ -23,8 +23,8 @@ fi
 
 #下载源码:
 if [ ! -d ${SOURCE_CODE} ]; then
-    echo "git clone https://chromium.googlesource.com/webm/libvpx  ${SOURCE_CODE}"
-    git clone https://chromium.googlesource.com/webm/libvpx  ${SOURCE_CODE}
+    echo "git clone https://chromium.googlesource.com/webm/libvpx ${SOURCE_CODE}"
+    git clone https://chromium.googlesource.com/webm/libvpx ${SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`
@@ -52,16 +52,16 @@ echo "configure ..."
     --target=armv7-android-gcc \
     --sdk-path=${ANDROID_NDK_ROOT} \
     --prefix=${PREFIX} \
-    --disable-examples  \
+    --disable-examples \
     --disable-install-docs \
     --disable-install-bins \
     --enable-install-libs \
     --disable-unit-tests \
     --extra-cflags="-mfloat-abi=softfp -mfpu=neon " \
-    --disable-debug  \
+    --disable-debug \
     --disable-debug-libs \
     --disable-shared \
-    --enable-static 
+    --enable-static
 
 echo "make install"
 if [ "0" != "`make install`" ]; then
@@ -69,7 +69,7 @@ if [ "0" != "`make install`" ]; then
 fi
 
 #编译 cpufeatures
-${CROSS_PREFIX}gcc  -I${PLATFORM}/usr/include -c ${ANDROID_NDK_ROOT}/sources/android/cpufeatures/cpu-features.c
+${CROSS_PREFIX}gcc -I${PLATFORM}/usr/include -c ${ANDROID_NDK_ROOT}/sources/android/cpufeatures/cpu-features.c
 ${CROSS_PREFIX}ar rcs  libcpu-features.a cpu-features.o
 cp libcpu-features.a ${PREFIX}/lib/.
 

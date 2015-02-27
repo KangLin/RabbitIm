@@ -1,14 +1,18 @@
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
-#export ANDROID_NDK_ROOT=/home/android-ndk-r9c               #指定 android ndk 根目录 
-#export ANDROID_NDK=$ANDROID_NDK_ROOT  #指定 android ndk 根目录 
-#export ANDROID_SDK=/home/android-sdk/sdk                   #指定 android sdk 根目录
+#export ANDROID_NDK_ROOT=/home/android-ndk-r9c   #指定 android ndk 根目录 
+#export ANDROID_NDK=$ANDROID_NDK_ROOT            #指定 android ndk 根目录 
+#export ANDROID_SDK=/home/android-sdk/sdk        #指定 android sdk 根目录
 #export ANDROID_SDK_ROOT=$ANDROID_SDK   
-#export JAVA_HOME=/home/jdk1.7.0_51                      #指定 jdk 根目录 
-QMAKE=`pwd`/qt/android_armv7/bin/qmake #设置用于 unix 平台编译的 QMAKE。
-                                             #这里设置的是自动编译时的配置，你需要修改为你本地qt编译环境的配置.
-                                             #注意：修改后的本文件不要上传代码库中
-JOM=make                 #设置 QT make 工具 JOM
+#export JAVA_HOME=/home/jdk1.7.0_51              #指定 jdk 根目录 
+#ANT=/d/software/apache-ant-1.9.4/bin/ant         #ant 程序
+#QT_ROOT=/c/Qt/Qt5.3.1/5.3/android_armv7         #QT 安装根目录
+#JOM=/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom       #设置 QT make 工具 JOM
+
+QT_BIN=${QT_ROOT}/bin       #设置用于 android 平台编译的 qt bin 目录
+QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
+                            #这里设置的是自动编译时的配置，你需要修改为你本地qt编译环境的配置.
+                            #注意：修改后的本文件不要上传代码库中
 
 if [ -n "${RabbitImRoot}" ]; then
     PREFIX=${RabbitImRoot}/ThirdLibary/android
@@ -42,6 +46,7 @@ PLATFORM=$ANDROID_NDK_ROOT/platforms/android-${PLATFORMS_VERSION}/arch-arm
 ANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-$TOOLCHAIN_VERSION
 CROSS_PREFIX=$PREBUILT/${HOST}/bin/arm-linux-androideabi-
 export PATH=$PREBUILT/${HOST}/bin:$PATH    #把工具链路径加到环境变量中
+export PATH=${QT_BIN}:$PATH
 
 echo ""
 echo "ANDROID_NDK_ROOT:$ANDROID_NDK_ROOT"

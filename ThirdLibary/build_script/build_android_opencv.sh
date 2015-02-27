@@ -57,7 +57,7 @@ esac
 cmake .. \
     -G"${GENERATORS}"\
     -DCMAKE_MAKE_PROGRAM="$ANDROID_NDK/prebuilt/${HOST}/bin/make" \
-    -DCMAKE_TOOLCHAIN_FILE=$PREFIX/../../platforms/android/android.toolchain.cmake \
+    -DCMAKE_TOOLCHAIN_FILE=${SOURCE_CODE}/platforms/android/android.toolchain.cmake \
     -DANDROID_ABI="armeabi-v7a with NEON" \
     -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-${TOOLCHAIN_VERSION} \
     -DANDROID_NATIVE_API_LEVEL=android-${PLATFORMS_VERSION} \

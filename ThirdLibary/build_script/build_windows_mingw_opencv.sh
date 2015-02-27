@@ -37,7 +37,7 @@ echo "configure ..."
 cmake .. \
         -G"Unix Makefiles" \
         -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-        -DBUILD_SHARED_LIBS=OFF \
+        -DBUILD_SHARED_LIBS=ON \
         -DBUILD_DOCS=OFF \
         -DBUILD_opencv_apps=OFF \
         -DBUILD_EXAMPLES=OFF \
@@ -97,7 +97,10 @@ cmake .. \
 
 cmake --build . --target install --config Release
 
-cp -fr ${PREFIX}/x64/mingw/staticlib/*.a ${PREFIX}/lib/.
+mkdir -p ${PREFIX}/lib ${PREFIX}/bin
+cp -f ${PREFIX}/x64/mingw/staticlib/*.lib ${PREFIX}/lib/.
+cp -f ${PREFIX}/x64/mingw/lib/*.lib ${PREFIX}/lib/.
+cp -f ${PREFIX}/x64/mingw/bin/*.dll ${PREFIX}/bin/.
 rm -fr ${PREFIX}/x64
 
 cd $CUR_DIR

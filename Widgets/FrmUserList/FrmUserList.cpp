@@ -548,8 +548,8 @@ QList<QStandardItem *> CFrmUserList::NewItemRoster(QSharedPointer<CUserInfo> inf
     szText = info->GetShowName()
         #ifdef DEBUG
             + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
-            +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
         #endif
+            +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
             ;
     pItem->setData(szText, Qt::DisplayRole); //改变item文本,或者直接用 pItem->setText(szText);  
 #ifdef DEBUG
@@ -597,10 +597,10 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
         }
         LOG_MODEL_DEBUG("FrmUserList", "Insert roster %s", qPrintable(szId));
         lstIndexs = m_pModel->match(m_pModel->index(0, 0),
-                                                       USERLIST_ITEM_ROLE_JID, 
-                                                       info->GetId(), 
-                                                       -1,
-                                                       Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive | Qt::MatchCaseSensitive);
+                                    USERLIST_ITEM_ROLE_JID, 
+                                    info->GetId(), 
+                                    -1,
+                                    Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive | Qt::MatchCaseSensitive);
     }
 
     QModelIndex index;
@@ -624,8 +624,8 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
             szText = info->GetShowName()
         #ifdef DEBUG
                     + "[" + CGlobal::Instance()->GetRosterStatusText(info->GetStatus()) + "]"
-                    +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
         #endif
+                    +  info->GetSubscriptionTypeStr(info->GetSubScriptionType())
                     ;
             pItem->setData(szText, Qt::DisplayRole); //改变item文本  
 #ifdef DEBUG

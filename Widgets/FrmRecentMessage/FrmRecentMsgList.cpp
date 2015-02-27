@@ -181,7 +181,8 @@ int CFrmRecentMsgList::UpdateItem(const QString &szId)
 {
     QString szShowText;
     int nCount = 0;
-    QIcon icon;
+    //改变item图标  
+    QPixmap pmp;
     QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(!roster.isNull())
@@ -189,13 +190,14 @@ int CFrmRecentMsgList::UpdateItem(const QString &szId)
         szShowText = roster->GetInfo()->GetShowName() 
                 + roster->GetInfo()->GetSubscriptionTypeStr(roster->GetInfo()->GetSubScriptionType());
         nCount = roster->GetMessage()->GetUnReadCount();
-        icon = QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetInfo()->GetStatus()));
+
+        MainWindow::ComposeAvatarStatus(roster->GetInfo(), pmp);
     }
     else if(!gc.isNull())
     {
         szShowText = gc->ShowName();
         nCount = gc->GetMessage()->GetUnReadCount();
-        icon = gc->Icon();
+        pmp = gc->Icon().pixmap(RABBITIM_ICON_SIZE, RABBITIM_ICON_SIZE);
     }
     else
     {
@@ -227,7 +229,7 @@ int CFrmRecentMsgList::UpdateItem(const QString &szId)
             pItem->setToolTip(szId);
 #endif 
             //改变item图标  
-            pItem->setData(icon, Qt::DecorationRole);
+            pItem->setData(pmp.scaled(RABBITIM_ICON_SIZE, RABBITIM_ICON_SIZE), Qt::DecorationRole);
         }
 
         if(NULL == pItem || NULL == pItem->parent()) continue;

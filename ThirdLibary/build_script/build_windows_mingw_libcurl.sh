@@ -17,7 +17,7 @@ fi
 #下载源码:
 if [ ! -d ${SOURCE_CODE} ]; then
     echo "git clone git://github.com/bagder/curl.git"
-    git clone git://github.com/bagder/curl.git  ${SOURCE_CODE}
+    git clone git://github.com/bagder/curl.git ${SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`

@@ -32,7 +32,7 @@ echo ""
 mkdir -p build_windows_mscv
 cd build_windows_mscv
 
-rm -fr *
+#rm -fr *
 
 cmake \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
@@ -53,8 +53,9 @@ cmake \
     -DBUILD_TIFF=OFF \
     -DBUILD_WITH_DEBUG_INFO=OFF \
     -DWITH_OPENCL=OFF \
-    -DBUILD_opencv_video=OFF \
+    -DBUILD_opencv_video=ON \
     -DBUILD_opencv_videostab=OFF \
+    -DBUILD_opencv_videoio=ON \
     -DBUILD_opencv_ts=OFF \
     -DBUILD_opencv_java=OFF \
     -DWITH_WEBP=OFF \
@@ -71,7 +72,10 @@ cmake \
 
 cmake --build . --config Release --target install #编译并安装
 
-cp ${PREFIX}/x86/vc12/staticlib/*.lib ${PREFIX}/lib/.
+mkdir -p ${PREFIX}/lib ${PREFIX}/bin
+cp -f ${PREFIX}/x86/vc12/staticlib/*.lib ${PREFIX}/lib/.
+cp -f ${PREFIX}/x86/vc12/lib/*.lib ${PREFIX}/lib/.
+cp -f ${PREFIX}/x86/vc12/bin/*.dll ${PREFIX}/bin/.
 rm -fr ${PREFIX}/x86
 
 cd $CUR_DIR

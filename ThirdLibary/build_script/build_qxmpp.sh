@@ -7,7 +7,7 @@ case $1 in
     ;;
     *)
     echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
-    exit 1
+    return 1
     ;;
 esac
 
@@ -48,7 +48,7 @@ echo ""
 mkdir -p ${SOURCE_CODE}/build_$1
 cd ${SOURCE_CODE}/build_$1
 echo "Current dir:`pwd`"
-rm -fr *
+#rm -fr *
 
 $QMAKE -o Makefile \
        PREFIX=${PREFIX} \
@@ -59,8 +59,9 @@ $QMAKE -o Makefile \
 
 case $1 in
     android)
-    "$ANDROID_NDK/prebuilt/${HOST}/bin/make" -f Makefile install
-    ;;
+    "$ANDROID_NDK/prebuilt/${HOST}/bin/make" -f Makefile install INSTALL_ROOT="${PREFIX}" #在windows下编译
+    #make -f Makefile install INSTALL_ROOT="${PREFIX}" #在linux下编译
+     ;;
     unix)
     make install -f Makefile -j 2
     ;;

@@ -98,54 +98,44 @@
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="104"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="114"/>
         <source>Rabbit Immediate Communicate</source>
         <translation>玉兔即时通信</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="186"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="154"/>
+        <source>Version: 1.0.0.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="183"/>
         <source>Author:KangLin</source>
         <translation>作者：康林</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="203"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="200"/>
         <source>License</source>
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="217"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="214"/>
         <source>Change log</source>
         <translation>变更日志</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="231"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="228"/>
         <source>Thinks</source>
         <translation>致谢</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="160"/>
-        <source>Build Verion:</source>
-        <translation>编译版本：</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="173"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="170"/>
         <source>Build Date:</source>
         <translation>编译时间：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="144"/>
-        <source>Version: 1.0.0.0 Revision: 0000</source>
-        <translation>版本：1.0.0.0 次版本：0000</translation>
-    </message>
-    <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="17"/>
-        <source>Version:%1.%2.%3</source>
-        <translation>版本：%1.%2.%3</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="22"/>
-        <source>Build version:%1</source>
-        <translation>编译版本：</translation>
+        <source>Version:%1.%2.%3.%4</source>
+        <translation>版本：%1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="23"/>
@@ -896,7 +886,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="88"/>
         <source>Clear Avatar</source>
-        <translation >清除头像</translation>
+        <translation>清除头像</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="91"/>
@@ -936,30 +926,35 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="384"/>
         <source>Birthday:</source>
-        <translation >生日：</translation>
+        <translation>生日：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="421"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="403"/>
+        <source>yyyy/M/d</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="424"/>
         <source>Url:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="464"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="467"/>
         <source>Register new account</source>
         <translation>注册新用户</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="467"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="470"/>
         <source>Create(&amp;C)</source>
         <translation>建立(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="502"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="505"/>
         <source>Cancle</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="505"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="508"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
@@ -1006,8 +1001,8 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="75"/>
-        <source>Don&apos;t fill user id, Please refilling, the id length must greater than 4</source>
-        <translation>用户ID没填，其长度必须大于4</translation>
+        <source>Don&apos;t fill user id, Please refilling, the id length must more than 4 and less then 8</source>
+        <translation>用户 id 填写不对，请重填。id 长度必须大于4，并且小于8</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="83"/>
@@ -1042,7 +1037,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="163"/>
         <source>Open File</source>
-        <translation >打开文件</translation>
+        <translation>打开文件</translation>
     </message>
 </context>
 <context>
@@ -1104,27 +1099,27 @@ Email or MSN:kl222@126.com</source>
         <translation>你要更新版本吗？</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="216"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="218"/>
         <source>Download fail.</source>
         <translation>下载失败。</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="221"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="223"/>
         <source>Download success.</source>
         <translation>下载成功。</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="229"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="231"/>
         <source>Download file md5sum error:%1</source>
         <translation>下载文件 md5 校验和错误:%1</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="251"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="253"/>
         <source>Execute install program error.%1</source>
         <translation>执行安装程序错误。%1</translation>
     </message>
     <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="187"/>
+        <location filename="../../Update/DlgUpdate.cpp" line="188"/>
         <source>Downloading </source>
         <translation>正在下载 </translation>
     </message>
@@ -1511,7 +1506,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="301"/>
         <source>Username or Password error</source>
-        <translation >用户名或密码错误</translation>
+        <translation>用户名或密码错误</translation>
     </message>
 </context>
 <context>
@@ -1906,33 +1901,33 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="363"/>
+        <location filename="../../Global/Global.cpp" line="379"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="365"/>
+        <location filename="../../Global/Global.cpp" line="381"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="367"/>
+        <location filename="../../Global/Global.cpp" line="383"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="369"/>
+        <location filename="../../Global/Global.cpp" line="385"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="371"/>
-        <location filename="../../Global/Global.cpp" line="375"/>
+        <location filename="../../Global/Global.cpp" line="387"/>
+        <location filename="../../Global/Global.cpp" line="391"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="373"/>
+        <location filename="../../Global/Global.cpp" line="389"/>
         <source>OffLine</source>
         <translation>离线</translation>
     </message>
@@ -2027,6 +2022,11 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../UserInfo/UserInfo.cpp" line="136"/>
         <source>[From]</source>
         <translation>[挂起]</translation>
+    </message>
+    <message>
+        <location filename="../../UserInfo/UserInfo.cpp" line="138"/>
+        <source>[To]</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../UserInfo/UserInfo.cpp" line="140"/>

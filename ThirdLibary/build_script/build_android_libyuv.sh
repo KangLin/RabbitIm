@@ -47,7 +47,7 @@ cmake .. \
     -G"${GENERATORS}"\
     -DCMAKE_MAKE_PROGRAM="$ANDROID_NDK/prebuilt/${HOST}/bin/make" \
     -DCMAKE_INSTALL_PREFIX="$PREFIX" \
-    -DCMAKE_TOOLCHAIN_FILE="/d/source/rabbitim/platforms/android/android.toolchain.cmake"
+    -DCMAKE_TOOLCHAIN_FILE="$PREFIX/../../platforms/android/android.toolchain.cmake"
 
 echo "build..."
 cmake --build . --target install --config Release

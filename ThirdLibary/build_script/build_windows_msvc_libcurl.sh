@@ -8,6 +8,8 @@
 #   VS2013 x86 本机工具命令提示  
 #   在命令行下
 
+#在windows命令行下执行下面步骤
+
 #运行本脚本前,先运行 build_windows_msvc_envsetup.sh 进行环境变量设置,需要先设置下面变量:
 #   PREFIX=`pwd`/../windows  #修改这里为安装前缀
 if [ -z "${PREFIX}" ]; then
@@ -49,7 +51,7 @@ echo "configure ..."
 #cmake --build . --target install --config Release
 buildconf.bat
 cd winbuild
-nmake /f Makefile.vc mode=static VC=12 WITH_SSL="$PREFIX"
+nmake /f Makefile.vc mode=dll VC=12 WITH_SSL="$PREFIX"
 cd ../builds/libcurl-vc12-x86-release-static-ipv6-sspi
 xcopy * "$PREFIX"/.
 

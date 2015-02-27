@@ -29,11 +29,12 @@ echo "CUR_DIR:$CUR_DIR"
 echo "PREFIX:$PREFIX"
 echo ""
 
-make clean
+git clean -xdf
 echo "configure openssl ..."
 ./Configure \
     --prefix=${PREFIX} \
     --openssldir=${PREFIX} \
+    shared \
     mingw
 
 echo "make install"

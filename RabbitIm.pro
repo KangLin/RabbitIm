@@ -102,6 +102,7 @@ android{
     }
 } else:win32{
     RABBITIM_SYSTEM="windows"
+    OPENCV_VERSION=300
     msvc {
         RABBITIM_PLATFORM="msvc"
         QMAKE_CXXFLAGS += /wd"4819"  #忽略msvc下对utf-8的警告  
@@ -137,7 +138,6 @@ android{
             LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
         }
         QXMPP_LIBRARY_NAME = -lqxmpp_d0 #qxmpp 库名
-        OPENCV_VERSION=300
     }
 
     WEBRTC_LIBRARY_DIR = .
@@ -219,8 +219,8 @@ OTHER_FILES += README.md \
     docs/* \
     docs/Books/* \
     docs/QXmpp音视频呼叫流程.txt \
-    License.html \
-    ChangeLog.txt \
+    License.md \
+    ChangeLog.md \
     Authors.txt \
     CMakeLists.txt \
     cmake/* \
@@ -234,20 +234,34 @@ include(Resource/translations/translations.pri)
 #system($$fromfile(Resource/translations/translations.pri, updateallqm))
 
 #ANDROID 平台相关内容  
-android {
+android{
     include(android/android.pri)
 }
 
-contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+contains(ANDROID_TARGET_ARCH,armeabi-v7a){
     ANDROID_PERMISSIONS += \
         android.permission.CAMERA
 
     ANDROID_FEATURES += \
         android.hardware.camera
-    !isEmpty(RABBITIM_USER_OPENCV) {
+    !isEmpty(RABBITIM_USER_OPENCV){
         ANDROID_EXTRA_LIBS = \
             $$PWD/ThirdLibary/android/lib/libnative_camera_r4.2.0.so  \ #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
-            $$PWD/ThirdLibary/android/lib/libopencv_info.so 
+            $$PWD/ThirdLibary/android/lib/libopencv_info.so #\
+            #$$PWD/ThirdLibary/android/lib/libopencv_core.so \
+            #$$PWD/ThirdLibary/android/lib/libopencv_imgproc.so \
+            #$$PWD/ThirdLibary/android/lib/libopencv_videoio.so \
+            #$$PWD/ThirdLibary/android/lib/libopencv_flann.so \
+            #$$PWD/ThirdLibary/android/lib/libopencv_imgcodecs.so \
+            #$$PWD/ThirdLibary/android/lib/libopencv_video.so
+            #$$PWD/ThirdLibary/android/lib/libnative_camera_r2.2.0.so \
+            #$$PWD/ThirdLibary/android/lib/libnative_camera_r4.1.1.so \
+            #$$PWD/ThirdLibary/android/lib/libnative_camera_r2.3.3.so \
+            #$$PWD/ThirdLibary/android/lib/libnative_camera_r3.0.1.so \
+            #$$PWD/ThirdLibary/android/lib/libnative_camera_r4.3.0.so \
+            #$$PWD/ThirdLibary/android/lib/libnative_camera_r4.0.0.so \
+            #$$PWD/ThirdLibary/android/lib/libnative_camera_r4.4.0.so \
+            #$$PWD/ThirdLibary/android/lib/libnative_camera_r4.0.3.so \
     }
 }
 
@@ -257,7 +271,6 @@ win32{
     Deployment_qtlib.path = $${PREFIX}
     Deployment_qtlib.commands = "$$[QT_INSTALL_BINS]/windeployqt" \
                     --compiler-runtime \
-                    --no-translations \
                     --verbose 7 \
                     "$${PREFIX}/$${TARGET}.exe"
     #安装第三方依赖库
@@ -270,11 +283,11 @@ win32{
 
     #复制第三方依赖库动态库到编译输出目录 
     THIRD_LIBRARY_DLL =  $${THIRD_LIBRARY_PATH}/bin/*.dll
-    win32{
+    msvc{
         THIRD_LIBRARY_DLL =  $$replace(THIRD_LIBRARY_DLL, /, \\)
         TARGET_PATH = $$replace(TARGET_PATH, /, \\)
         TARGET_PATH = $${TARGET_PATH}\.
-    } else {
+    }else{
         TARGET_PATH = $${TARGET_PATH}/.
     }
 

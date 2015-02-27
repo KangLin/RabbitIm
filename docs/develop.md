@@ -71,11 +71,11 @@
 ### 版本号约定
 * 本项同时支持 Qt 和 CMake 项目文件，所以需要**同时修改以下文件中的版本号**：
     - 用Qt project发行时需要修改：[RabbitIm.prf](./../RabbitIm.prf)
-    - 用cmake 发行时需要修改：[version.cmake](./../cmake/version.cmake)
+    - 用cmake 发行时需要修改：[install_version.cmake](./../cmake/install_version.cmake)
 
 #### 格式:
 主版本号 . 子版本号 [. 修正版本号[. 编译版本号 [.编译时间[.后缀]]]]  
-Major_Version_Number.Minor_Version_Number[.Revision_Number[.Build_Number[.Build_TIME[.Suffix]]]]
+Major_Version_Number.Minor_Version_Number[.Revision_Number[.Build_Number[.Build_TIME[.Suffix]]]]  
 示例 : 1.2.1, 2.0, 5.0.0 build-13124
 + Major ：具有相同名称但不同主版本号的程序集不可互换。例如，这适用于对产品的大量重写，这些重写使得无法实现向后兼容性。
 + Minor ：如果两个程序集的名称和主版本号相同，而次版本号不同，这指示显著增强，但照顾到了向后兼容性。例如，这适用于产品的修正版或完全向后兼容的新版本。
@@ -125,7 +125,7 @@ Major_Version_Number.Minor_Version_Number[.Revision_Number[.Build_Number[.Build_
     3. 是否已修改相关翻译文件
     4. 是否已修改相关 QT 工程文件
     5. 是否已修改相关 cmake 工程文件
-    6. 是否完成相关文档(TODO.txt,ChangeLog.txt)
+    6. 是否完成相关文档(TODO.txt,ChangeLog.md)
     7. 是否完成了第三方库各平台编译脚本
 2. 编译
     1. WINDOWS for msvc 编译器是否能通过

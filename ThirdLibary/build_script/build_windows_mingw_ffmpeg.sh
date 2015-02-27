@@ -46,8 +46,8 @@ echo "configure ......"
     --disable-ffplay \
     --disable-ffmpeg \
     --disable-avdevice \
-    --enable-static \
-    --disable-shared \
+    --disable-static \
+    --enable-shared \
     --enable-libx264 \
     --enable-libvpx \
     --extra-cflags=" -I$PREFIX/include" \
