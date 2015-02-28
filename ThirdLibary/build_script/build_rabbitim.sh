@@ -77,7 +77,7 @@ if [ "$3" == "cmake" ]; then
     esac
     echo "cmake .. -G\"${GENERATORS}\" $PARA"
     cmake .. -G"${GENERATORS}" $PARA
-    cmake --build .  --config Release ${CMAKE_PARA}
+    cmake --build .  --config Release ${CMAKE_PARA} -- -j 2
 else
     case $1 in
         android)
@@ -112,7 +112,7 @@ else
         $MAKE -f Makefile install INSTALL_ROOT="`pwd`/android-build"
         ${QT_BIN}/androiddeployqt --input "`pwd`/android-libRabbitIm.so-deployment-settings.json" --output "`pwd`/android-build" --verbose
     else
-        $MAKE -f Makefile install
+        $MAKE -f Makefile install -j 2
     fi
 fi
 
