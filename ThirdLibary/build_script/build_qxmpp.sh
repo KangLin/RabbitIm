@@ -50,31 +50,36 @@ cd ${SOURCE_CODE}/build_$1
 echo "Current dir:`pwd`"
 rm -fr *
 
-$QMAKE -o Makefile \
-       PREFIX=${PREFIX} \
-       INCLUDEPATH+=${PREFIX}/include \
-       LIBS+=-L${PREFIX}/lib \
-       QXMPP_USE_VPX=1 \
-       .. #"CONFIG+=debug" #QXMPP_LIBRARY_TYPE=staticlib #静态库
-
+MAKE=make
 case $1 in
     android)
-    "$ANDROID_NDK/prebuilt/${HOST}/bin/make" -f Makefile install INSTALL_ROOT="${PREFIX}" #在windows下编译
+    PARA=" -r -spec android-g++"
+    MAKE_PARA=" INSTALL_ROOT=\"${PREFIX}\""
+    MAKE=mingw32-make #mingw 中编译
+    #MAKE="$ANDROID_NDK/prebuilt/${HOST}/bin/make"  #在windows下编译
     #make -f Makefile install INSTALL_ROOT="${PREFIX}" #在linux下编译
      ;;
     unix)
-    make install -f Makefile -j 2
     ;;
     windows_msvc)
-    ${JOM} -f Makefile install
+    MAKE=${JOM}
     ;;
     windows_mingw)
-    make install -f Makefile
     ;;
     *)
     echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
     return 1
     ;;
 esac
+
+$QMAKE -o Makefile \
+       PREFIX=${PREFIX} \
+       INCLUDEPATH+=${PREFIX}/include \
+       LIBS+=-L${PREFIX}/lib \
+       QXMPP_USE_VPX=1 \
+       ${PARA} \
+       .. #"CONFIG+=debug" #QXMPP_LIBRARY_TYPE=staticlib #静态库
+
+${MAKE} -f Makefile install ${MAKE_PARA}
 
 cd $CUR_DIR

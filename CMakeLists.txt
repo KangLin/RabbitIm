@@ -239,8 +239,7 @@ IF(OPTION_RABBITIM_USER_OPENCV)
                 )
 
         SET(ANDROID_EXTRA_LIBS #第三方信赖库
-                ${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libnative_camera_r4.2.0.so  #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
-                ${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libopencv_info.so 
+                "${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libopencv_info.so,${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libnative_camera_r4.2.0.so"  #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
                 )
     ELSE(ANDROID)
         SET(OPENCV_LIBS  ${OPENCV_LIBS} zlib)
@@ -302,21 +301,16 @@ IF(OPTION_RABBITIM_USER_OPENSSL)
 ENDIF(OPTION_RABBITIM_USER_OPENSSL)
 MESSAGE("Use openssl library:${OPTION_RABBITIM_USER_OPENSSL}\n")
 
+#qxmpp库
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 ADD_DEFINITIONS("-DQXMPP") # -DQXMPP_STATIC")
 IF(WIN32)
-    IF(CMAKE_BUILD_TYPE MATCHES Debug)
-        SET(QXMPP_LIBS qxmpp_d0)
-    ELSE(CMAKE_BUILD_TYPE MATCHES Debug)
-        SET(QXMPP_LIBS qxmpp0)
-    ENDIF(CMAKE_BUILD_TYPE MATCHES Debug)
-ELSE(WIN32)
+    SET(QXMPP_LIBS qxmpp0)
+ELSEIF(ANDROID)
+    SET(QXMPP_LIBS -lqxmpp -llog -lz -lm -ldl -lc -lgcc)
+ELSE()
     SET(QXMPP_LIBS qxmpp)
 ENDIF(WIN32)
-
-IF(ANDROID)
-    ADD_DEFINITIONS("-DQXMPP_STATIC")
-ENDIF(ANDROID)
 
 message("QXMPP_LIBS:${QXMPP_LIBS}")
 

@@ -54,16 +54,19 @@ rm -fr *
 
 if [ "$3" == "cmake" ]; then
     GENERATORS="Unix Makefiles" 
+    CMAKE_PARA="--target package"
     PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5"
     case $1 in
         android)
             PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${PREFIX}/../../platforms/android/android.toolchain.cmake -DOPTION_RABBITIM_USER_OPENCV=ON"
             PARA="${PARA} -DANT=${ANT} "
+            CMAKE_PARA=""
             ;;
         unix)
             ;;
         windows_msvc)
             GENERATORS="NMake Makefiles"
+            PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=OFF -DOPTION_RABBITIM_USER_OPENSSL=OFF"
             ;;
         windows_mingw)
             ;;
@@ -74,7 +77,7 @@ if [ "$3" == "cmake" ]; then
     esac
     echo "cmake .. -G\"${GENERATORS}\" $PARA"
     cmake .. -G"${GENERATORS}" $PARA
-    cmake --build . --config Release --target package 
+    cmake --build .  --config Release ${CMAKE_PARA}
 else
     case $1 in
         android)
