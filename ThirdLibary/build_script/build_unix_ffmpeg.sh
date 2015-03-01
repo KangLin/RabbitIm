@@ -44,10 +44,14 @@ echo "configure ......"
     --disable-ffserver \
     --disable-ffplay \
     --disable-avdevice \
-    --disable-shared \
+    --disable-static \
+    --enable-shared \
     --enable-libx264 \
-    --extra-cflags="-static -I$PREFIX/include" \
-    --extra-ldflags="-static -L$PREFIX/lib" 
+    --extra-cflags=" -I$PREFIX/include" \
+    --extra-ldflags=" -L$PREFIX/lib" 
+    
+    #--extra-cflags="-static -I$PREFIX/include" \
+    #--extra-ldflags="-static -L$PREFIX/lib" 
 
 make clean
 make install -j 2

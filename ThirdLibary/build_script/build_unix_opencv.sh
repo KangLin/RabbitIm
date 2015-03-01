@@ -38,7 +38,7 @@ echo "configure ..."
 cmake ../. \
         -G"Unix Makefiles" \
         -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-        -DBUILD_SHARED_LIBS=OFF \
+        -DBUILD_SHARED_LIBS=ON \
         -DBUILD_DOCS=OFF \
         -DBUILD_opencv_apps=OFF \
         -DBUILD_EXAMPLES=OFF \
@@ -78,6 +78,7 @@ cmake ../. \
         -DWITH_GSTREAMER=OFF \
         -DWITH_GTK=OFF \
         -DBUILD_opencv_video=ON \
+        -DBUILD_opencv_videoio=ON \
         -DWITH_LIBV4L=ON \
         -DWITH_V4L=ON
 

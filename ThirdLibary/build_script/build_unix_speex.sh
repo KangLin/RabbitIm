@@ -42,8 +42,8 @@ rm -fr *
 echo "configure ..."
 
 ../configure  --prefix=$PREFIX \
-    --disable-shared \
-    --enable-static \
+    --enable-shared \
+    --disable-static \
     --disable-oggtest \
     --enable-vbr \
     SPEEXDSP_CFLAGS=-I$PREFIX/include SPEEXDSP_LIBS=-L$PREFIX/lib
