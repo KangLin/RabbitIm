@@ -22,6 +22,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui->lblVersion->setText(szVersion);
     ui->lbDate->setText(tr("Build date:%1 %2").arg(__DATE__, __TIME__));
     ui->lblAuthor->setText(tr("Author: KangLin\nEmail or MSN:kl222@126.com"));
+    ui->lbCopyright->setText(tr(" Copyright (C) 2014-%1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
 
     QString szFile;
 #ifdef MOBILE
@@ -52,6 +53,10 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
     if(readme.open(QFile::ReadOnly))
     {
         pEdit->append(readme.readAll());
+        //把光标移动文档开始处  
+        QTextCursor cursor =   pEdit->textCursor();
+        cursor.movePosition(QTextCursor::Start);
+        pEdit->setTextCursor(cursor);
         readme.close();
     }
     return 0;

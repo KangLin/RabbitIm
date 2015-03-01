@@ -80,12 +80,12 @@
 <context>
     <name>CClientXmpp</name>
     <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="310"/>
+        <location filename="../../Client/ClientXmpp.cpp" line="312"/>
         <source>The roster is offline, don&apos;t send the file.</source>
         <translation>好友离线状态，不能发送文件。</translation>
     </message>
     <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="334"/>
+        <location filename="../../Client/ClientXmpp.cpp" line="336"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
         <translation>好友离线状态，不能发起呼叫。</translation>
     </message>
@@ -98,37 +98,42 @@
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="114"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="104"/>
         <source>Rabbit Immediate Communicate</source>
         <translation>玉兔即时通信</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="154"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="144"/>
         <source>Version: 1.0.0.0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="183"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="173"/>
         <source>Author:KangLin</source>
         <translation>作者：康林</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="200"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="190"/>
         <source>License</source>
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="214"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="204"/>
         <source>Change log</source>
         <translation>变更日志</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="228"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="218"/>
         <source>Thinks</source>
         <translation>致谢</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="170"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="253"/>
+        <source> Copyright (C) 2014 KangLin Studio</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="160"/>
         <source>Build Date:</source>
         <translation>编译时间：</translation>
     </message>
@@ -148,6 +153,11 @@
 Email or MSN:kl222@126.com</source>
         <translation>作者：康林
 电子邮箱、MSN:kl222@126.com</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="25"/>
+        <source> Copyright (C) 2014-%1 KangLin Studio</source>
+        <translation >版权所有 (C) 2014-%1 康林工作室</translation>
     </message>
 </context>
 <context>
@@ -1418,93 +1428,103 @@ Email or MSN:kl222@126.com</source>
     <name>CFrmLogin</name>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="26"/>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="362"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="375"/>
         <source>Login</source>
         <translation>登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="169"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="182"/>
         <source>User:</source>
         <translation>用户名：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="394"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="407"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="226"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="239"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="99"/>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="102"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="112"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="115"/>
         <source>Change logon status</source>
         <translation>改变登录状态</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="436"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="449"/>
         <source>Register new account</source>
         <translation>注册新用户</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="468"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="481"/>
         <source>Set Server</source>
         <translation>设置服务器</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="471"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="484"/>
         <source>Set(&amp;S)</source>
         <translation>设置(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="314"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="513"/>
+        <source> Copyright (C) 2014 KangLin Studio</source>
+        <translation ></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="327"/>
         <source>Save password</source>
         <translation>保存密码</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="339"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="352"/>
         <source>Auto login</source>
         <translation>自动登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="365"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="378"/>
         <source>Login(&amp;L)</source>
         <translation>登录(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="439"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="452"/>
         <source>Register(&amp;R)</source>
         <translation>注册(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="397"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="410"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="90"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="20"/>
+        <source> Copyright (C) 2014-%1 KangLin Studio</source>
+        <translation >版权所有 (C) 2014-%1 康林工作室</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="91"/>
         <source>Being Login...</source>
         <translation>正在登录……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="292"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="293"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="295"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="296"/>
         <source>Keep active error</source>
         <translation>保持活动错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="298"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="299"/>
         <source>Login fail</source>
         <translation>登录失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="301"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="302"/>
         <source>Username or Password error</source>
         <translation>用户名或密码错误</translation>
     </message>
@@ -1722,7 +1742,7 @@ Email or MSN:kl222@126.com</source>
         <translation>最近消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.cpp" line="407"/>
+        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.cpp" line="409"/>
         <source>Operator recent message(&amp;O)</source>
         <translation>操作最近消息</translation>
     </message>

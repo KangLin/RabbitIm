@@ -17,6 +17,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     ui->setupUi(this);
 
     ui->lbePrompt->setText("");
+    ui->lbCopyright->setText(tr(" Copyright (C) 2014-%1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
 
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     //加载所有用户  
@@ -64,6 +65,8 @@ void CFrmLogin::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         ReinitStateButton();
+        break;
+    default:
         break;
     }
 }

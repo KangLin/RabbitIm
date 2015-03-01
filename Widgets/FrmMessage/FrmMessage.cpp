@@ -313,7 +313,7 @@ int CFrmMessage::AppendMessageToOutputView(std::vector<QSharedPointer<CChatActio
     for(auto it : action)
      {
          QTextCursor cursor = ui->txtView->textCursor();
-         cursor.movePosition(QTextCursor::End);
+         cursor.movePosition(QTextCursor::End);  //把光标移动到文档最后  
          cursor.setKeepPositionOnInsert(true);
          ui->txtView->append(it->getContent());
          it->setup(cursor, ui->txtView);
