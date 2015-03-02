@@ -1,12 +1,24 @@
+#作者：康林
 #参数:
-#    $1:编译平台(android、windows_msvc、windows_mingw、unix)
-#    $2:源码的位置(省略时，会自动下载源码)
+#    $1:编译目标(android、windows_msvc、windows_mingw、unix)
+#    $2:源码的位置 
+
+
+#运行本脚本前,先运行 build_unix_envsetup.sh 进行环境变量设置,需要先设置下面变量:
+#   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix）
+#   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
+#   RABBITIM_BUILD_SOURCE_CODE    #源码目录
+#   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
+#   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
+
+HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix) SOURCE_CODE_ROOT"
 
 case $1 in
-    android | windows_msvc | windows_mingw | unix)
+    android|windows_msvc|windows_mingw|unix)
+    RABBITIM_BUILD_TARGERT=$1
     ;;
     *)
-    echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
+    echo "${HELP_STRING}"
     return 1
     ;;
 esac
@@ -16,48 +28,46 @@ esac
 #   QMAKE=  #设置用于相应平台编译的 QMAKE
 #   JOM=    #QT 自带的类似 make 的工具
 if [ -z "${PREFIX}" -o -z "${QMAKE}" -o -z "${JOM}" ]; then
-    echo "source build_$1_envsetup.sh"
-    source build_$1_envsetup.sh
+    echo "build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
-    SOURCE_CODE=$2
+    RABBITIM_BUILD_SOURCE_CODE=$2
 else
-    SOURCE_CODE=${PREFIX}/../src/qxmpp
+    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/qxmpp
 fi
 
 #下载源码:
-if [ ! -d ${SOURCE_CODE} ]; then
-    echo "git clone https://github.com/qxmpp-project/qxmpp.git ${SOURCE_CODE}"
-    git clone https://github.com/qxmpp-project/qxmpp.git ${SOURCE_CODE}
+if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
+    echo "git clone https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}"
+    git clone https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`
-cd ${SOURCE_CODE}
+cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-echo ""
-echo "SOURCE_CODE:$SOURCE_CODE"
-echo "CUR_DIR:$CUR_DIR"
-echo "PREFIX:$PREFIX"
-echo "QMAKE:$QMAKE"
-echo "JOM:$JOM"
-echo "\$1:$1"
-echo "\$2:$2"
-echo ""
-
-mkdir -p ${SOURCE_CODE}/build_$1
-cd ${SOURCE_CODE}/build_$1
-echo "Current dir:`pwd`"
+mkdir -p build_${RABBITIM_BUILD_TARGERT}
+cd build_${RABBITIM_BUILD_TARGERT}
 rm -fr *
 
+echo ""
+echo "RABBITIM_BUILD_TARGERT:${RABBITIM_BUILD_TARGERT}"
+echo "RABBITIM_BUILD_SOURCE_CODE:$RABBITIM_BUILD_SOURCE_CODE"
+echo "CUR_DIR:`pwd`"
+echo "RABBITIM_BUILD_PREFIX:$RABBITIM_BUILD_PREFIX"
+echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
+echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
+echo ""
+
 MAKE=make
-case $1 in
+case $RABBITIM_BUILD_TARGERT in
     android)
     PARA=" -r -spec android-g++"
-    MAKE_PARA=" INSTALL_ROOT=\"${PREFIX}\""
-    MAKE=mingw32-make #mingw 中编译
-    #MAKE="$ANDROID_NDK/prebuilt/${HOST}/bin/make"  #在windows下编译
-    #make -f Makefile install INSTALL_ROOT="${PREFIX}" #在linux下编译
+    MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
+    #MAKE=mingw32-make #mingw 中编译
+    #MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make"  #在windows下编译
+    #make -f Makefile install INSTALL_ROOT="${RABBITIM_BUILD_PREFIX}"      #在linux下编译
      ;;
     unix)
     ;;
@@ -73,13 +83,17 @@ case $1 in
 esac
 
 $QMAKE -o Makefile \
-       PREFIX=${PREFIX} \
-       INCLUDEPATH+=${PREFIX}/include \
-       LIBS+=-L${PREFIX}/lib \
+       PREFIX=${RABBITIM_BUILD_PREFIX} \
+       INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include \
+       LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib \
        QXMPP_USE_VPX=1 \
        ${PARA} \
        .. #"CONFIG+=debug" #QXMPP_LIBRARY_TYPE=staticlib #静态库
 
-${MAKE} -f Makefile install ${MAKE_PARA}
+${MAKE} -f Makefile install
+if [ "$RABBITIM_BUILD_TARGERT" == "android" ]; then
+    ${MAKE} -f Makefile install ${MAKE_PARA}
+    cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
+fi
 
 cd $CUR_DIR
