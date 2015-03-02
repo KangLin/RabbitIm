@@ -64,9 +64,7 @@ echo "configure ..."
     --enable-static
 
 echo "make install"
-if [ "0" != "`make install`" ]; then
-    cp libvpx_g.a libvpx.a && make install
-fi
+make install    
 
 #编译 cpufeatures
 ${CROSS_PREFIX}gcc -I${PLATFORM}/usr/include -c ${ANDROID_NDK_ROOT}/sources/android/cpufeatures/cpu-features.c

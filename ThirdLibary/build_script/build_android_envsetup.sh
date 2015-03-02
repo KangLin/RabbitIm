@@ -6,8 +6,8 @@
 #export ANDROID_SDK_ROOT=$ANDROID_SDK   
 #export JAVA_HOME=/home/jdk1.7.0_51              #指定 jdk 根目录 
 #ANT=/d/software/apache-ant-1.9.4/bin/ant         #ant 程序
-#QT_ROOT=/c/Qt/Qt5.3.1/5.3/android_armv7         #QT 安装根目录
-#JOM=/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom       #设置 QT make 工具 JOM
+QT_ROOT=/home/l/Qt5.3.1/5.3/android_armv7         #QT 安装根目录
+JOM=make #/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom       #设置 QT make 工具 JOM
 
 QT_BIN=${QT_ROOT}/bin       #设置用于 android 平台编译的 qt bin 目录
 QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
@@ -29,9 +29,11 @@ TARGET_OS=`uname -s`
 case $TARGET_OS in
     MINGW* | CYGWIN*)
         HOST="windows"
+        RABBITIM_BUILD_HOST="windows"
         ;;
     Linux* | Unix*)
         HOST="linux-`uname -m`"    #windows、linux-x86_64
+        RABBITIM_BUILD_HOST="linux-`uname -m`"    #windows、linux-x86_64
         ;;
     *)
     echo "Please set HOST. see build_android_envsetup.sh"
@@ -61,3 +63,37 @@ echo "CROSS_PREFIX:$CROSS_PREFIX"
 echo "HOST:$HOST"
 echo "PATH:$PATH"
 echo ""
+
+#   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
+#   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
+#   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
+
+if [ -n "${RabbitImRoot}" ]; then
+    RABBITIM_BUILD_PREFIX=${RabbitImRoot}/ThirdLibary/android
+else
+    RABBITIM_BUILD_PREFIX=`pwd`/../android    #修改这里为安装前缀 
+fi
+
+#自动判断主机类型，目前只做了linux、windows判断
+TARGET_OS=`uname -s`
+case $TARGET_OS in
+    MINGW* | CYGWIN*)
+        RABBITIM_BUILD_HOST="windows"
+        ;;
+    Linux* | Unix*)
+        RABBITIM_BUILD_HOST="linux-`uname -m`"    #windows、linux-x86_64
+        ;;
+    *)
+    echo "Please set RABBITIM_BUILD_HOST. see build_android_envsetup.sh"
+    return 2
+    ;;
+esac
+
+RABBITIM_BUILD_TOOLCHAIN_VERSION=4.8   #工具链版本号 
+RABBITIM_BUILD_PLATFORMS_VERSION=18 #android api (平台)版本号 
+export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
+
+RABBITIM_BUILD_CROSS_PREFIX=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}/prebuilt/${RABBITIM_BUILD_HOST}/bin/arm-linux-androideabi-
+RABBITIM_BUILD_CROSS_SYSROOT=$ANDROID_NDK_ROOT/platforms/android-${PLATFORMS_VERSION}/arch-arm
+
+
