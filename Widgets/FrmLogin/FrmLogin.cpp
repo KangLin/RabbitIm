@@ -14,10 +14,8 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     ui(new Ui::CFrmLogin)
 {
     LOG_MODEL_DEBUG("Login", "CFrmLogin::CFrmLogin");
-    ui->setupUi(this);
 
-    ui->lbePrompt->setText("");
-    ui->lbCopyright->setText(tr(" Copyright (C) 2014-%1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
+    ui->setupUi(this);
 
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     //加载所有用户  
@@ -49,6 +47,9 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
         Q_ASSERT(check);
         m_tmAutoLogin.start(1000 * CGlobal::Instance()->GetAutoLoginDelayTime());
     }
+
+    ui->lbePrompt->setText("");
+    ui->lbCopyright->setText(tr("Copyright (C) 2014 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
 }
 
 CFrmLogin::~CFrmLogin()

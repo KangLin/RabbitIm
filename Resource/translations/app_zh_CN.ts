@@ -156,8 +156,8 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="25"/>
-        <source> Copyright (C) 2014-%1 KangLin Studio</source>
-        <translation >版权所有 (C) 2014-%1 康林工作室</translation>
+        <source> Copyright (C) 2014 - %1 KangLin Studio</source>
+        <translation>版权所有 (C) 2014 - %1 康林工作室</translation>
     </message>
 </context>
 <context>
@@ -1471,7 +1471,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="513"/>
         <source> Copyright (C) 2014 KangLin Studio</source>
-        <translation ></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="327"/>
@@ -1500,31 +1500,31 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="20"/>
-        <source> Copyright (C) 2014-%1 KangLin Studio</source>
-        <translation >版权所有 (C) 2014-%1 康林工作室</translation>
+        <source>Copyright (C) 2014 - %1 KangLin Studio</source>
+        <translation>版权所有 (C) 2014 - %1 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="91"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="93"/>
         <source>Being Login...</source>
         <translation>正在登录……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="293"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="295"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="296"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="298"/>
         <source>Keep active error</source>
         <translation>保持活动错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="299"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="301"/>
         <source>Login fail</source>
         <translation>登录失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="302"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="304"/>
         <source>Username or Password error</source>
         <translation>用户名或密码错误</translation>
     </message>
@@ -1660,7 +1660,7 @@ Email or MSN:kl222@126.com</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="469"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="472"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
@@ -1691,12 +1691,12 @@ Email or MSN:kl222@126.com</source>
         <translation>正在通话，是否关闭？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="331"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="334"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="331"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="334"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
