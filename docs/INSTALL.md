@@ -58,6 +58,10 @@ http://www.perl.org/
 安装，并设置环境变量 JAVA_HOME
 并把 %JAVA_HOME%/bin 加到环境变量 PATH 中
 
+7. linux 工具
+
+    7.1. deb打包工具：dh_make、 debhelper
+
 第三方库：
 --------
 
@@ -335,6 +339,11 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 #### unix 或 linux 编译（以ubuntu为例）：
 
 ##### 从源码编译参见 [mingw工具链编译] ("mingw工具链编译")
+
+##### ubuntu中安装相关工具
+
+1. sudo apt-get install dh-make debhelper
+
 
 ##### ubuntu中直接安装相关的库  
 

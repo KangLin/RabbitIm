@@ -212,6 +212,7 @@ CONFIG += localize_deployment  #本地语言部署
 OTHER_FILES += README.md \
     .gitignore \
     .travis.yml \
+    debian/* \
     ThirdLibary/build_script/travis/*.sh \
     ThirdLibary/build_script/*.sh \
     AppIcon.rc \

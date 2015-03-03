@@ -61,7 +61,7 @@ echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 echo ""
 
-if [ "$3" == "cmake" ]; then
+if [ "$3" != "qmake" ]; then
     GENERATORS="Unix Makefiles" 
     CMAKE_PARA="--target package"
     PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5"
@@ -72,6 +72,7 @@ if [ "$3" == "cmake" ]; then
             CMAKE_PARA=""
             ;;
         unix)
+            PARA="-DCMAKE_INSTALL_PREFIX=/usr/local/RabbitIm"
             ;;
         windows_msvc)
             GENERATORS="NMake Makefiles"

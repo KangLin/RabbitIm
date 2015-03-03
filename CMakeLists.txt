@@ -134,13 +134,13 @@ if(CMAKE_SYSTEM_NAME MATCHES Linux OR CMAKE_SYSTEM_NAME STREQUAL GNU)
 endif()
 
 # Add definitions for static/style library 
-OPTION(STATIC "Build statically" OFF)
-MESSAGE("Build statically: ${STATIC}")
-IF(STATIC)
+OPTION(OPTION_STATIC "Build statically" OFF)
+MESSAGE("Build statically: ${OPTION_STATIC}")
+IF(OPTION_STATIC)
     ADD_DEFINITIONS(-DQT_STATIC)
-ELSE(STATIC)
+ELSE(OPTION_STATIC)
     ADD_DEFINITIONS(-DQT_SHARED)
-ENDIF(STATIC)
+ENDIF(OPTION_STATIC)
 
 IF(CMAKE_BUILD_TYPE MATCHES Debug)
     ADD_DEFINITIONS(-DDEBUG)# -DDEBUG_VIDEO_TIME )
@@ -195,6 +195,7 @@ IF(OPTION_RABBITIM_USE_VPX)
     IF(ANDROID)
         SET(VPX_LIBS ${VPX_LIBS} cpu-features)
     ENDIF(ANDROID)
+    SET(RABBITIM_PACKAGE_REQUIRES ${RABBITIM_PACKAGE_REQUIRES} libvpx-dev)
 ELSE(OPTION_RABBITIM_USE_VPX)
     message("Must use libvpx, please install libvpx")
 ENDIF(OPTION_RABBITIM_USE_VPX)
@@ -203,6 +204,7 @@ OPTION(OPTION_RABBITIM_USE_SPEEX "Use speex library" OFF)
 MESSAGE("Use speex library:${OPTION_RABBITIM_USE_SPEEX}\n")
 IF(OPTION_RABBITIM_USE_SPEEX)
     SET(SPEEX_LIBS speex)
+    SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES},libspeex1,libspeexdsp1")
 ENDIF(OPTION_RABBITIM_USE_SPEEX)
 
 #TODO:增加检测ffmpeg库
@@ -212,6 +214,7 @@ IF(OPTION_RABBITIM_USER_FFMPEG)
     IF(RABBITIM_USER_FFMPEG)
         ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS" "-DRABBITIM_USER_FFMPEG") #ffmpeg需要
         SET(FFMPEG_LIBS avcodec avformat swscale avfilter avutil)
+        SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev")
     ENDIF(RABBITIM_USER_FFMPEG)
 ENDIF(OPTION_RABBITIM_USER_FFMPEG)
 MESSAGE("Use ffmpeg library:${RABBITIM_USER_FFMPEG}\n")
@@ -243,6 +246,7 @@ IF(OPTION_RABBITIM_USER_OPENCV)
                 )
     ELSE(ANDROID)
         SET(OPENCV_LIBS  ${OPENCV_LIBS} zlib)
+        SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libopencv-dev")
     ENDIF(ANDROID)
 ELSEIF(OPTION_RABBITIM_USER_OPENCV)
     IF(ANDROID)
@@ -270,6 +274,7 @@ IF(OPTION_RABBITIM_USER_LIBCURL)
         if(NOT CURL_FOUND)
             MESSAGE("Don't find libcurl library\n")
         ENDIF(NOT CURL_FOUND)
+        SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libcurl4-openssl-dev")
     ENDIF(MSVC)
 
     include_directories(${CURL_INCLUDE_DIR})
@@ -282,6 +287,7 @@ OPTION(OPTION_RABBITIM_USER_OPENSSL "Use openssl library" ON)
 IF(OPTION_RABBITIM_USER_OPENSSL)
     SET(RABBITIM_USER_OPENSSL ON)
     ADD_DEFINITIONS("-DRABBITIM_USER_OPENSSL")
+    #SET(RABBITIM_PACKAGE_REQUIRES )
 
     IF(MSVC)
         SET(OPENSSL_LIBRARIES -llibeay32 -lssleay32)
@@ -295,7 +301,7 @@ IF(OPTION_RABBITIM_USER_OPENSSL)
             MESSAGE("Don't find openssl library\n")
         ENDIF()
     ENDIF(MSVC)
-
+    SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libssl-dev")
     include_directories(${OPENSSL_INCLUDE_DIR})
     SET(OPENSSL_LIBS ${OPENSSL_LIBRARIES})
 ENDIF(OPTION_RABBITIM_USER_OPENSSL)
@@ -471,17 +477,25 @@ ENDIF(ANDROID)
 #复制第三方依赖库的动态库到编译目录下
 IF(WIN32)
     FILE(GLOB THIRD_DLL_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/*.dll")
-    MESSAGE("THIRD_DLL_LIBRARY:${THIRD_DLL_LIBRARY}")
-    FOREACH(file ${THIRD_DLL_LIBRARY})
-        IF(EXISTS "${file}")
-            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy "${file}" "${PROJECT_BINARY_DIR}/."
-            )
-            #安装4:第三方动态库
-            INSTALL(FILES ${file} DESTINATION . CONFIGURATIONS Release)
-        ENDIF(EXISTS "${file}")
-    ENDFOREACH(file)
+    #安装4:第三方动态库
+    INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/" 
+                     DESTINATION .
+                     FILES_MATCHING PATTERN "*.dll")
+ELSEIF(NOT ANDROID)
+    FILE(GLOB THIRD_DLL_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/lib/*.so")
+    #安装4:第三方动态库
+    INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/lib/" 
+                     DESTINATION .
+                     FILES_MATCHING PATTERN "*.so*")
 ENDIF(WIN32)
+MESSAGE("THIRD_DLL_LIBRARY:${THIRD_DLL_LIBRARY}")
+FOREACH(file ${THIRD_DLL_LIBRARY})
+    IF(EXISTS "${file}")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy "${file}" "${PROJECT_BINARY_DIR}/."
+            )
+     ENDIF(EXISTS "${file}")
+ENDFOREACH(file)
 
 #安装5:安装相关文件
 install(FILES License.md Authors.txt ChangeLog.md DESTINATION .)
