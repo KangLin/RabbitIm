@@ -1,10 +1,13 @@
-cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 if(POLICY CMP0010)
   cmake_policy(SET CMP0010 NEW)
 endif()
 
 project(RabbitIm)
+
+#设置 find_XXX.cmake 搜索目录  
+SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 
 # 建立要删除的文件
 CONFIGURE_FILE(
@@ -33,9 +36,6 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     ENDIF(GIT)
 ENDIF()
 MESSAGE("\n")
-
-#增加pkgconfig模块
-#include(FindPkgConfig)
 
 #TODO:判断 qt 版本
 
@@ -185,16 +185,32 @@ SET(THIRD_LIB_DIR ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/lib) #第三
 LINK_DIRECTORIES(${THIRD_LIB_DIR})
 #设置库的搜索路径  
 SET(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME})
+MESSAGE("CMAKE_PREFIX_PATH:${CMAKE_PREFIX_PATH}/lib/pkgconfig")
+
+#pkgconfig模块
+FIND_PACKAGE(PkgConfig)
+SET(PKG_CONFIG_USE_CMAKE_PREFIX_PATH TRUE)
 
 # 依赖的第三方库
 OPTION(OPTION_RABBITIM_USE_VPX "Use vpx library" ON)
 MESSAGE("Use vpx library:${OPTION_RABBITIM_USE_VPX}\n")
 IF(OPTION_RABBITIM_USE_VPX)
     SET(USE_VPX ON)
-    SET(VPX_LIBS vpx)
-    IF(ANDROID)
-        SET(VPX_LIBS ${VPX_LIBS} cpu-features)
-    ENDIF(ANDROID)
+
+    IF(PKG_CONFIG_FOUND)
+        pkg_check_modules(VPX REQUIRED vpx)
+        IF(VPX_FOUND)
+            add_compile_options(${VPX_CFLAGS})
+        ELSEIF(VPX_FOUND)
+            SET(VPX_LIBRARIES -lvpx)
+        ENDIF(VPX_FOUND)
+    ELSE(PKG_CONFIG_FOUND)
+        SET(VPX_LIBRARIES -lvpx)
+        IF(ANDROID)
+            SET(VPX_LIBRARIES ${VPX_LIBRARIES} cpu-features)
+        ENDIF(ANDROID)
+    ENDIF(PKG_CONFIG_FOUND)
+
     SET(RABBITIM_PACKAGE_REQUIRES ${RABBITIM_PACKAGE_REQUIRES} libvpx-dev)
 ELSE(OPTION_RABBITIM_USE_VPX)
     message("Must use libvpx, please install libvpx")
@@ -203,19 +219,34 @@ ENDIF(OPTION_RABBITIM_USE_VPX)
 OPTION(OPTION_RABBITIM_USE_SPEEX "Use speex library" OFF)
 MESSAGE("Use speex library:${OPTION_RABBITIM_USE_SPEEX}\n")
 IF(OPTION_RABBITIM_USE_SPEEX)
-    SET(SPEEX_LIBS speex)
+
+    IF(PKG_CONFIG_FOUND)
+        pkg_check_modules(SPEEX REQUIRED speex)
+        IF(SPEEX_FOUND)
+            add_compile_options(${SPEEX_CFLAGS})
+        ELSEIF(SPEEX_FOUND)
+            SET(SPEEX_LIBRARIES -lspeex)
+        ENDIF(SPEEX_FOUND)
+    ELSE(PKG_CONFIG_FOUND)
+        SET(SPEEX_LIBRARIES -lspeex)
+    ENDIF(PKG_CONFIG_FOUND)
+
     SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES},libspeex1,libspeexdsp1")
 ENDIF(OPTION_RABBITIM_USE_SPEEX)
 
-#TODO:增加检测ffmpeg库
+#增加检测ffmpeg库
 OPTION(OPTION_RABBITIM_USER_FFMPEG "Use ffmpeg library" ON)
 IF(OPTION_RABBITIM_USER_FFMPEG)
     SET(RABBITIM_USER_FFMPEG ON)
-    IF(RABBITIM_USER_FFMPEG)
-        ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS" "-DRABBITIM_USER_FFMPEG") #ffmpeg需要
-        SET(FFMPEG_LIBS avcodec avformat swscale avfilter avutil)
-        SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev")
-    ENDIF(RABBITIM_USER_FFMPEG)
+    SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev")
+
+    ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS" "-DRABBITIM_USER_FFMPEG") #ffmpeg需要
+
+    find_package(FFMPEG REQUIRED  COMPONENTS avcodec avformat avutil swscale)
+    IF(FFMPEG_FOUND)
+        INCLUDE_DIRECTORIES("${FFMPEG_INCLUDE_DIRS}")
+    ENDIF(FFMPEG_FOUND)
+
 ENDIF(OPTION_RABBITIM_USER_FFMPEG)
 MESSAGE("Use ffmpeg library:${RABBITIM_USER_FFMPEG}\n")
 
@@ -260,25 +291,30 @@ OPTION(OPTION_RABBITIM_USER_LIBCURL "Use curl library" ON)
 IF(OPTION_RABBITIM_USER_LIBCURL)
     SET(RABBITIM_USER_LIBCURL ON)
     add_definitions("-DRABBITIM_USER_LIBCURL")
+    SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libcurl4-openssl-dev")
 
     IF(MSVC)
-        SET(CURL_LIBRARY -llibcurl)
-    ELSEIF(MINGW)
-        add_definitions("-DCURL_STATICLIB")
-        SET(CURL_LIBRARY -lcurl -lcrypto -lssl -lgdi32 -lwldap32 -lz -lws2_32)  #可以用 ./curl-config --libs 得到
-    ELSEIF(ANDROID)
-        add_definitions("-DCURL_STATICLIB")
-        SET(CURL_LIBRARY -lcurl -lssl -lcrypto -lz)  #可以用 ./curl-config --libs 得到
+        SET(CURL_LIBRARIES -llibcurl)
     ELSE(MSVC)
-        find_package(CURL)
-        if(NOT CURL_FOUND)
-            MESSAGE("Don't find libcurl library\n")
-        ENDIF(NOT CURL_FOUND)
-        SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libcurl4-openssl-dev")
+
+        IF(PKG_CONFIG_FOUND)
+            pkg_check_modules(CURL REQUIRED libcurl)
+            IF(CURL_FOUND)
+                add_compile_options(${CURL_CFLAGS})
+            ELSE(CURL_FOUND)
+                SET(CURL_LIBRARIES -lcurl -lssl -lcrypto -lz)
+            ENDIF(CURL_FOUND)
+        ELSE(PKG_CONFIG_FOUND)
+            find_package(CURL REQUIRED)
+            if(CURL_FOUND)
+                include_directories(${CURL_INCLUDE_DIR})
+            endif(CURL_FOUND)
+        ENDIF(PKG_CONFIG_FOUND)
+
     ENDIF(MSVC)
 
-    include_directories(${CURL_INCLUDE_DIR})
-    SET(LIBCURL_LIBS ${CURL_LIBRARY})
+    include_directories(${CURL_INCLUDE_DIRS})
+
 ENDIF(OPTION_RABBITIM_USER_LIBCURL)
 MESSAGE("Use curl library:${OPTION_RABBITIM_USER_LIBCURL}\n")
 
@@ -287,48 +323,54 @@ OPTION(OPTION_RABBITIM_USER_OPENSSL "Use openssl library" ON)
 IF(OPTION_RABBITIM_USER_OPENSSL)
     SET(RABBITIM_USER_OPENSSL ON)
     ADD_DEFINITIONS("-DRABBITIM_USER_OPENSSL")
-    #SET(RABBITIM_PACKAGE_REQUIRES )
+    SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libssl-dev")
 
     IF(MSVC)
         SET(OPENSSL_LIBRARIES -llibeay32 -lssleay32)
-    ELSEIF(MINGW)
-        SET(OPENSSL_LIBRARIES -lcrypto -lssl)
-    ELSEIF(ANDROID)
-        SET(OPENSSL_LIBRARIES -lcrypto -lssl)
     ELSE(MSVC)
-        find_package(OpenSSL)
-        IF(NOT OPENSSL_FOUND)
-            MESSAGE("Don't find openssl library\n")
-        ENDIF()
+ 
+       IF(PKG_CONFIG_FOUND)
+            pkg_check_modules(OPENSSL REQUIRED openssl)
+            IF(OPENSSL_FOUND)
+                add_compile_options(${OPENSSL_CFLAGS})
+            ELSE()
+                SET(OPENSSL_LIBRARIES -lcrypto -lssl)
+            ENDIF(OPENSSL_FOUND)
+        ELSE(PKG_CONFIG_FOUND)
+            find_package(OpenSSL REQUIRED)
+            if(OPENSSL_FOUND)
+                include_directories(${OPENSSL_INCLUDE_DIR})
+            endif(OPENSSL_FOUND)
+        ENDIF(PKG_CONFIG_FOUND)
+
     ENDIF(MSVC)
-    SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libssl-dev")
-    include_directories(${OPENSSL_INCLUDE_DIR})
-    SET(OPENSSL_LIBS ${OPENSSL_LIBRARIES})
+
 ENDIF(OPTION_RABBITIM_USER_OPENSSL)
 MESSAGE("Use openssl library:${OPTION_RABBITIM_USER_OPENSSL}\n")
 
 #qxmpp库
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 ADD_DEFINITIONS("-DQXMPP") # -DQXMPP_STATIC")
-IF(WIN32)
-    SET(QXMPP_LIBS qxmpp0)
-ELSEIF(ANDROID)
-    SET(QXMPP_LIBS -lqxmpp -llog -lz -lm -ldl -lc -lgcc)
-ELSE()
-    SET(QXMPP_LIBS qxmpp)
-ENDIF(WIN32)
-
-message("QXMPP_LIBS:${QXMPP_LIBS}")
+IF(PKG_CONFIG_FOUND)
+    pkg_check_modules(QXMPP REQUIRED qxmpp)
+    IF(QXMPP_FOUND)
+            add_compile_options(${QXMPP_CFLAGS})
+    ELSE(QXMPP_FOUND)
+            SET(QXMPP_LIBRARIES -lqxmpp)
+    ENDIF(QXMPP_FOUND)
+ELSE(PKG_CONFIG_FOUND)
+    SET(QXMPP_LIBRARIES -lqxmpp)
+ENDIF(PKG_CONFIG_FOUND)
 
 SET(RABBITIM_LIBS
     ${RABBITIM_LIBS}
-    ${QXMPP_LIBS}
+    ${QXMPP_LIBRARIES}
     ${OPENCV_LIBS}
-    ${FFMPEG_LIBS}
-    ${VPX_LIBS}
-    ${SPEEX_LIBS}
-    ${LIBCURL_LIBS}
-    ${OPENSSL_LIBS}
+    ${FFMPEG_LIBRARIES}
+    ${VPX_LIBRARIES}
+    ${SPEEX_LIBRARIES}
+    ${CURL_LIBRARIES}
+    ${OPENSSL_LIBRARIES}
     Qt5::Widgets
     Qt5::Network
     Qt5::Multimedia
@@ -499,4 +541,3 @@ ENDFOREACH(file)
 
 #安装5:安装相关文件
 install(FILES License.md Authors.txt ChangeLog.md DESTINATION .)
-

@@ -85,7 +85,7 @@ CONFIG(debug, debug|release) {
 
 !isEmpty(RABBITIM_USER_FFMPEG) {
     DEFINES += RABBITIM_USER_FFMPEG
-    FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lavfilter  -lavutil
+    FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lavutil
 }
 INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom 
 
