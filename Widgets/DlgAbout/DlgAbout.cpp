@@ -19,9 +19,11 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
                                                  QString::number(REVISION_VERSION_NUMBER),
                                                  BUILD_VERSION
                                                     ));
-    ui->lblVersion->setText(szVersion);
+    ui->lbVersion->setText(szVersion);
     ui->lbDate->setText(tr("Build date:%1 %2").arg(__DATE__, __TIME__));
-    ui->lblAuthor->setText(tr("Author: KangLin\nEmail or MSN:kl222@126.com"));
+    ui->lbAuthor->setText(tr("Author: KangLin\nEmail or MSN:kl222@126.com"));
+    ui->lbHome->setOpenExternalLinks(true);
+    ui->lbHome->setText(tr("Home page:") + "<a href=\"https://github.com/KangLin/rabbitim\">https://github.com/KangLin/rabbitim</a>");
     ui->lbCopyright->setText(tr(" Copyright (C) 2014 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
 
     QString szFile;

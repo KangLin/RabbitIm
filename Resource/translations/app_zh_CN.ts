@@ -113,22 +113,27 @@
         <translation>作者：康林</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="190"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="186"/>
+        <source>Home page:https://github.com/KangLin/rabbitim</source>
+        <translation ></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="206"/>
         <source>License</source>
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="204"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="220"/>
         <source>Change log</source>
         <translation>变更日志</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="218"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="234"/>
         <source>Thinks</source>
         <translation>致谢</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="253"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="269"/>
         <source> Copyright (C) 2014 KangLin Studio</source>
         <translation></translation>
     </message>
@@ -156,6 +161,11 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="25"/>
+        <source>Home page:</source>
+        <translation >主页:</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="26"/>
         <source> Copyright (C) 2014 - %1 KangLin Studio</source>
         <translation>版权所有 (C) 2014 - %1 康林工作室</translation>
     </message>
@@ -1499,32 +1509,32 @@ Email or MSN:kl222@126.com</source>
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="20"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="52"/>
         <source>Copyright (C) 2014 - %1 KangLin Studio</source>
         <translation>版权所有 (C) 2014 - %1 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="93"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="94"/>
         <source>Being Login...</source>
         <translation>正在登录……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="295"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="296"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="298"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="299"/>
         <source>Keep active error</source>
         <translation>保持活动错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="301"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="302"/>
         <source>Login fail</source>
         <translation>登录失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="304"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="305"/>
         <source>Username or Password error</source>
         <translation>用户名或密码错误</translation>
     </message>
@@ -2026,7 +2036,7 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CTool</name>
     <message>
-        <location filename="../../Tool.h" line="144"/>
+        <location filename="../../Tool.h" line="145"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
