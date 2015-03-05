@@ -37,9 +37,8 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 ENDIF()
 MESSAGE("\n")
 
-#TODO:判断 qt 版本
-
-FIND_PACKAGE(Qt5 CONFIG REQUIRED Gui Core Network Xml Multimedia Widgets LinguistTools)
+#判断 qt 版本
+FIND_PACKAGE(Qt5 5.3 CONFIG REQUIRED Gui Core Network Xml Multimedia Widgets LinguistTools)
 SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
 
 if(NOT CMAKE_BUILD_TYPE)

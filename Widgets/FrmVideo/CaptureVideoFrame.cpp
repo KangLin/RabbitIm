@@ -3,7 +3,6 @@
 #include <QThread>
 #include <QTime>
 #include <QtDebug>
-#include <QCameraInfo>
 #include <QVideoFrame>
 #include <QVideoSurfaceFormat>
 #include <QImage>

@@ -5,12 +5,12 @@ SET(REVISION_VERSION_NUMBER 0)  #修订号
 
 # Project Info
 SET(PROJECT_DESCRIPTION  "Rabbit instant messaging")
-SET(PROJECT_COPYRIGHT     "Copyright (C) 2009-2015 KangLin studio")
-SET(PROJECT_CONTACT         "kl222@126.com")
-SET(PROJECT_VENDOR           "KangLin studio")
-SET(PROJECT_WEBSITE           "https://github.com/KangLin/rabbitim")
-SET(PROJECT_LICENSE            "GPLv2+ License")
-SET(PROJECT_VERSION          "${MAJOR_VERSION_NUMBER}.${MINOR_VERSION_NUMBER}.${REVISION_VERSION_NUMBER}")
+SET(PROJECT_COPYRIGHT    "Copyright (C) 2009-2015 KangLin studio")
+SET(PROJECT_CONTACT      "kl222@126.com")
+SET(PROJECT_VENDOR       "KangLin studio")
+SET(PROJECT_WEBSITE      "https://github.com/KangLin/rabbitim")
+SET(PROJECT_LICENSE      "GPLv2+ License")
+SET(PROJECT_VERSION      "${MAJOR_VERSION_NUMBER}.${MINOR_VERSION_NUMBER}.${REVISION_VERSION_NUMBER}")
 
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/Update/Version.h.template.cmake

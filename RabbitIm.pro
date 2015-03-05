@@ -16,7 +16,8 @@ QT += core gui network xml multimedia widgets
 !android{
     QT += webkitwidgets
 }
-lessThan(QT_MAJOR_VERSION, 5) : error("version is $$QT_MAJOR_VERSION, please qt is used greater then 5.0")
+
+lessThan(QT_VERSION, 5.3) : error("version is $$QT_VERSION, please qt is used greater then 5.3")
 
 TARGET = RabbitIm
 TEMPLATE = app
