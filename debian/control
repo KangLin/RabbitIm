@@ -1,0 +1,18 @@
+Source: rabbitim
+Section: x11
+Priority: optional
+Maintainer: KangLin studio <kl222@126.com>
+Build-Depends: debhelper (>= 8.0.0), cmake, libvpx-dev, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev, libcurl4-openssl-dev, libssl-dev
+Standards-Version: 0.1.0
+Homepage: https://github.com/KangLin/rabbitim
+Vcs-Git: git@github.com:KangLin/rabbitim.git
+Vcs-Browser: https://github.com/KangLin/rabbitim
+
+Package: rabbitim
+Architecture: any
+Version: 0.1.0
+Section: x11
+Priority: optional
+Depends:  ${shlibs:Depends}, ${misc:Depends}
+Maintainer: KangLin studio <kl222@126.com>
+Description: Rabbit instant messaging

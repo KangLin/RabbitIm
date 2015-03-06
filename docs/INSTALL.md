@@ -23,7 +23,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 
 2. cmake：
 主页：http://www.cmake.org/
-当前使用版本：3.0.2 
+当前使用版本：3.1 
 
 3. autoconf、automake、libtool：
 mingw用msys中的相关工具
@@ -50,6 +50,10 @@ cygwin主页：http://www.cygwin.org/
 [nasm](http://www.nasm.us/)  
 下载并安装，并且设置路径到环境变量PATH
 
+5. gun 编译工具：
+    5.1. gcc、g++
+    当前使用版本：4.8
+
 5. perl 工具
 http://www.perl.org/
 
@@ -67,10 +71,11 @@ http://www.perl.org/
 
 1. XMPP协议（QXMPP）：
 主页：http://code.google.com/p/qxmpp  
+需要用我修改的版本：https://github.com/KangLin/qxmpp
 下载：
-`git clone  https://github.com/qxmpp-project/qxmpp.git`  
+`git clone https://github.com/KangLin/qxmpp.git`
 当前使用版本：  
-    git库版本 —— v0.8.1    
+    git库版本 —— 0b49b87c2c4e38a6d2fd9983949e34782575955c  
 编译方法参考源码根目录下的README文件。
 
 2. webrtc库：
@@ -127,6 +132,12 @@ http://www.perl.org/
 下载：`git://github.com/bagder/curl.git`  
 当前使用版本：  
     git库版本 —— curl-7_40_0
+
+本项目：
+---------
+
+主页：https://github.com/KangLin/rabbitim  
+下载：`git clone https://github.com/KangLin/rabbitim.git `
 
 编译：
 -----
@@ -342,7 +353,18 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 ##### ubuntu中安装相关工具
 
-1. sudo apt-get install dh-make debhelper
+1. 开发工具：
+
+    sudo apt-get install git cmake g++
+    
+2. qt
+当前集成到ubuntu中的是qt4，所以需要从qt-project网站上下载qt安装包。目前用的是qt5.3.0
+`sudo apt-get  install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev`
+
+
+3. 安装工具：
+
+    sudo apt-get install dh-make debhelper
 
 
 ##### ubuntu中直接安装相关的库  
@@ -353,7 +375,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 2. ffmpeg安装：
 
-    sudo apt-get install libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavfilter-dev
+    sudo apt-get install libavcodec-dev libavformat-dev libavutil-dev libswscale-dev
 
 3. opencv安装：
 
@@ -366,8 +388,12 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     sudo apt-get install libspeex-dev libspeexdsp-dev 
 
 5. QXMPP安装：
+下载 qxmpp：`git clone https://github.com/KangLin/qxmpp.git`  
+修改编译环境脚本为本系统环境：${RabbitImRoot}/ThirdLibary/build_script/build_unix_envsetup.sh  
+编译：
 
-    sudo apt-get install libqxmpp-dev
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build_qxmpp unix /home/qxmpp
 
 6. webrtc编译：
 

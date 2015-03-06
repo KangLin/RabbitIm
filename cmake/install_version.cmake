@@ -103,11 +103,11 @@ IF(DPKG_FOUND AND NOT WIN32 AND NOT ANDROID)
 
     configure_file(
       ${CMAKE_CURRENT_SOURCE_DIR}/debian/control.template.cmake
-      ${CMAKE_CURRENT_SOURCE_DIR}/debian/control
+      ${PROJECT_BINARY_DIR}/control
       @ONLY
     )
     SET(CONTROL_EXTRA
-            "${CMAKE_SOURCE_DIR}/debian/menu;${CMAKE_SOURCE_DIR}/debian/control")
+            "${CMAKE_SOURCE_DIR}/debian/menu;${PROJECT_BINARY_DIR}/control")
     SET(CONTROL_EXTRA 
             "${CONTROL_EXTRA};${CMAKE_SOURCE_DIR}/debian/preinst;${CMAKE_SOURCE_DIR}/debian/postinst")
     SET(CONTROL_EXTRA 

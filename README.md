@@ -47,7 +47,6 @@ QQ群：68046752
 电话：13034802883  
 QQ: 16614119  
 邮箱：kl222@126.com  
-Logon：![](Resource/png/AppIcon.png)
 
 文档:
 ----

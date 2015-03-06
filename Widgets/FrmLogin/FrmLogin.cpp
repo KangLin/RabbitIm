@@ -66,6 +66,7 @@ void CFrmLogin::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         ReinitStateButton();
+        ui->lbCopyright->setText(tr("Copyright (C) 2014 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
         break;
     default:
         break;
