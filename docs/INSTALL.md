@@ -536,7 +536,7 @@ windows 平台下以 mingw 环境为例
     export ANDROID_NDK_ROOT=     #android ndk 根目录
     export ANDROID_NDK=$ANDROID_NDK_ROOT
     export ANDROID_SDK=                   #android sdk 根目录
-    export ANDROID_SDK_ROOT=$ANDROID_SDK    
+    export ANDROID_SDK_ROOT=$ANDROID_SDK
     export JAVA_HOME=                       #jdk根目录
     export ANT_ROOT=                         #ant工具的目录
     export PATH=$PATH:%ANT_ROOT/bin

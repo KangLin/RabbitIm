@@ -515,6 +515,7 @@ IF(ANDROID)
     )
 ENDIF(ANDROID)
 
+SET(CMAKE_INSTALL_RPATH ".") #设置链接库的搜索路径
 #复制第三方依赖库的动态库到编译目录下
 IF(WIN32)
     FILE(GLOB THIRD_DLL_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/*.dll")
