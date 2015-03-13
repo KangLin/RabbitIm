@@ -1,20 +1,19 @@
 #作者：康林
 #参数:
-#    $1:编译目标(android、windows_msvc、windows_mingw、unix)
+#    $1:编译目标(android、windows_msvc、windows_mingw、unix、unix_mingw)
 #    $2:源码的位置 
 
-
-#运行本脚本前,先运行 build_unix_envsetup.sh 进行环境变量设置,需要先设置下面变量:
-#   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix）
+#运行本脚本前,先运行 build_$1_envsetup.sh 进行环境变量设置,需要先设置下面变量:
+#   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix、unix_mingw）
 #   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
 #   RABBITIM_BUILD_SOURCE_CODE    #源码目录
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
-HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix) SOURCE_CODE_ROOT"
+HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) SOURCE_CODE_ROOT"
 
 case $1 in
-    android|windows_msvc|windows_mingw|unix)
+    android|windows_msvc|windows_mingw|unix|unix_mingw)
     RABBITIM_BUILD_TARGERT=$1
     ;;
     *)
@@ -67,6 +66,7 @@ if [ "$3" != "qmake" ]; then
     PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5"
     case $1 in
         android)
+			export ANDROID_SYSROOT=$RABBITIM_BUILD_CROSS_SYSROOT
             PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/platforms/android/android.toolchain.cmake -DOPTION_RABBITIM_USER_OPENCV=ON"
             PARA="${PARA} -DANT=${ANT} "
             CMAKE_PARA=""
@@ -92,7 +92,7 @@ else
     MAKE="make"
     case $1 in
         android)
-            PARA="-r -spec android-g++ RABBITIM_USER_OPENCV=1"
+            PARA="-r -spec android-g++ " #RABBITIM_USER_OPENCV=1
             #MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make" #windows下
             ;;
         unix)

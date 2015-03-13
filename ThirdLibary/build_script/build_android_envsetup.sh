@@ -5,8 +5,8 @@
 #export ANDROID_SDK=/home/android-sdk/sdk        #指定 android sdk 根目录
 #export ANDROID_SDK_ROOT=$ANDROID_SDK   
 #export JAVA_HOME=/home/jdk1.7.0_51              #指定 jdk 根目录 
-#ANT=/d/software/apache-ant-1.9.4/bin/ant         #ant 程序
-QT_ROOT=/home/l/Qt5.3.1/5.3/android_armv7         #QT 安装根目录
+ANT=/usr/bin/ant         #ant 程序
+QT_ROOT=/usr/local/Qt-5.5.0-androi         #QT 安装根目录
 JOM=make #/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom       #设置 QT make 工具 JOM
 
 QT_BIN=${QT_ROOT}/bin       #设置用于 android 平台编译的 qt bin 目录
@@ -95,5 +95,5 @@ export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
 
 RABBITIM_BUILD_CROSS_PREFIX=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}/prebuilt/${RABBITIM_BUILD_HOST}/bin/arm-linux-androideabi-
 RABBITIM_BUILD_CROSS_SYSROOT=$ANDROID_NDK_ROOT/platforms/android-${PLATFORMS_VERSION}/arch-arm
-
+RABBITIM_BUILD_HOST=arm-linux-androideabi
 

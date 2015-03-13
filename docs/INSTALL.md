@@ -127,6 +127,7 @@ http://www.perl.org/
 下载：`git clone  https://github.com/openssl/openssl`
 当前使用版本：
     git库版本 —— f2aff60f6f9eab0e24d3804e8aa641e74d1a235a
+			OpenSSL_1_0_1l
 
 11. [libcurl](http://curl.haxx.se)
 下载：`git://github.com/bagder/curl.git`  
@@ -265,7 +266,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
 
 3. opencv编译：  
 [Building OpenCV4Android from trunk](http://code.opencv.org/projects/opencv/wiki/Building_OpenCV4Android_from_trunk)  
-详见:http://blog.csdn.net/kl222/article/details/27223791  
+详见:[http://blog.csdn.net/kl222/article/details/27223791](http://blog.csdn.net/kl222/article/details/27223791)  
 编译完成后,安装到:${RabbitImRoot}/ThirdLiabary/${Platform}  
 
 4. libspeex、libspeexdsp编译:

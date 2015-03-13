@@ -1,21 +1,19 @@
 #作者：康林
-
 #参数:
-#    $1:编译目标
+#    $1:编译目标(android、windows_msvc、windows_mingw、unix、unix_mingw)
 #    $2:源码的位置 
 
-
-#运行本脚本前,先运行 build_unix_envsetup.sh 进行环境变量设置,需要先设置下面变量:
-#   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix）
+#运行本脚本前,先运行 build_$1_envsetup.sh 进行环境变量设置,需要先设置下面变量:
+#   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix、unix_mingw）
 #   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
 #   RABBITIM_BUILD_SOURCE_CODE    #源码目录
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
-HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix) SOURCE_CODE_ROOT"
+HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) SOURCE_CODE_ROOT"
 
 case $1 in
-    android|windows_msvc|windows_mingw|unix)
+    android|windows_msvc|windows_mingw|unix|unix_mingw)
     RABBITIM_BUILD_TARGERT=$1
     ;;
     *)
@@ -69,26 +67,35 @@ case ${RABBITIM_BUILD_TARGERT} in
         ${RABBITIM_BUILD_CROSS_PREFIX}gcc -I${RABBITIM_BUILD_CROSS_SYSROOT}/usr/include -c ${ANDROID_NDK_ROOT}/sources/android/cpufeatures/cpu-features.c
         ${RABBITIM_BUILD_CROSS_PREFIX}ar rcs  libcpu-features.a cpu-features.o
         cp libcpu-features.a ${RABBITIM_BUILD_PREFIX}/lib/.
-    ;;
+		;;
     unix)
-    ;;
+		;;
     windows_msvc)
-    ;;
+		;;
     windows_mingw)
-    ;;
+		;;
+	unix_mingw)
+		export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
+		export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
+		export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
+		export LD=${RABBITIM_BUILD_CROSS_PREFIX}gcc
+		export AS=yasm
+		export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
+		export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
+		CONFIG_PARA=" --target=x86-win32-gcc"
+		;;
     *)
-    echo "${HELP_STRING}"
-    return 2
-    ;;
+		echo "${HELP_STRING}"
+		return 2
+		;;
 esac
 
-CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX}  --disable-docs --disable-examples --disable-install-docs --disable-install-bins --enable-install-libs --disable-unit-tests --disable-debug --disable-debug-libs"
+CONFIG_PARA="${CONFIG_PARA}  --enable-libs --prefix=${RABBITIM_BUILD_PREFIX}  --disable-docs --disable-examples --disable-install-docs --disable-install-bins --enable-install-libs --disable-unit-tests --disable-debug --disable-debug-libs"
 
 echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS=}\""
 ../configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}"
 
 echo "make install"
-make -j 2
-make install
+make -j 2 && make install
 
 cd $CUR_DIR

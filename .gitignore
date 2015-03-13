@@ -99,3 +99,8 @@ release/
 Release/
 ipch/
 IncludeLocalDatabase.txt
+ThirdLibary/unix_mingw/
+ThirdLibary/unix/
+ThirdLibary/android/
+ThirdLibary/windows_msvc/
+ThirdLibary/windows_mingw/
