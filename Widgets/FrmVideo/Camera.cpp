@@ -1,7 +1,6 @@
 #include "Camera.h"
 #include "../../Global/Global.h"
 #include <QCameraInfo>
-#include <QCameraInfo>
 #include <QApplication>
 #include <QScreen>
 
