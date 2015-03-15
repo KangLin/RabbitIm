@@ -24,55 +24,54 @@ esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo "build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh || return 1
+    source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
 else
-    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/openssl
-fi
-
-#下载源码:
-if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    echo "git clone https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
-    git clone https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
+    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/qt5
 fi
 
 CUR_DIR=`pwd`
+
+#下载源码:
+if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
+    echo "git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
+    git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
+    cd ${RABBITIM_BUILD_SOURCE_CODE}
+    perl init-repository
+    cd ${CUR_DIR}
+fi
+
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-echo ""
-echo "RABBITIM_BUILD_TARGERT:${RABBITIM_BUILD_TARGERT}"
+git clean -xdf
+git submodule foreach --recursive "git clean -dfx"
+
 echo "RABBITIM_BUILD_SOURCE_CODE:$RABBITIM_BUILD_SOURCE_CODE"
 echo "CUR_DIR:`pwd`"
 echo "RABBITIM_BUILD_PREFIX:$RABBITIM_BUILD_PREFIX"
+echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
-git clean -xdf
 echo "configure ..."
+
+CONFIG_PARA="-opensource -nomake examples -nomake tests -prefix ${RABBITIM_BUILD_PREFIX} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-		perl Configure --cross-compile-prefix=${RABBITIM_BUILD_CROSS_PREFIX} \
-				--prefix=${RABBITIM_BUILD_PREFIX} \
-				--openssldir=${RABBITIM_BUILD_PREFIX} \
-				android-armv7 \
-				--sysroot="${RABBITIM_BUILD_CROSS_SYSROOT}"
-		;;
+	CONFIG_PARA="${CONFIG_PARA} -xplatform android-g++ -android-ndk ${ANDROID_NDK_ROOT} -android-sdk ${ANDROID_SDK_ROOT} -android-ndk-host ${RABBITIM_BUILD_HOST} -android-toolchain-version ${TOOLCHAIN_VERSION} -android-ndk-platform android-${PLATFORMS_VERSION} -no-sql-sqlite"
+    	;;
     unix)
-		./config --prefix=${RABBITIM_BUILD_PREFIX} --openssldir=${RABBITIM_BUILD_PREFIX} shared
-		;;
+	;;
     windows_msvc)
-		;;
+    	;;
     windows_mingw)
-		;;
+    	;;
 	unix_mingw)
-		perl Configure  --prefix=${RABBITIM_BUILD_PREFIX} \
-			--openssldir=${RABBITIM_BUILD_PREFIX} \
-			--cross-compile-prefix=${RABBITIM_BUILD_CROSS_PREFIX} \
-			shared mingw
+		CONFIG_PARA="-release -xplatform win32-g++ -device-option CROSS_COMPILE=i686-w64-mingw32- ${CONFIG_PARA}"
 		;;
     *)
 		echo "${HELP_STRING}"
@@ -80,7 +79,10 @@ case ${RABBITIM_BUILD_TARGERT} in
 		;;
 esac
 
+echo "./configure ${CONFIG_PARA}"
+./configure ${CONFIG_PARA}
+
 echo "make install"
-make  && make install
+make module-qtwebkit -j 2 && make install
 
 cd $CUR_DIR

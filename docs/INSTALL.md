@@ -124,10 +124,10 @@ http://www.perl.org/
     git库版本 —— 975dd5a69951618ecf1be39a4c564ea1da4ca3ff
 
 10. [openssl](http://www.openssl.org/)
-下载：`git clone  https://github.com/openssl/openssl`
-当前使用版本：
-    git库版本 —— f2aff60f6f9eab0e24d3804e8aa641e74d1a235a
-			OpenSSL_1_0_1l
+下载：`git clone  https://github.com/openssl/openssl`  
+当前使用版本：  
+    git库版本 —— 94be83127b08dc3977d2c14304aa61208db048d0  
+	remotes/origin/OpenSSL_1_0_2-stable
 
 11. [libcurl](http://curl.haxx.se)
 下载：`git://github.com/bagder/curl.git`  
