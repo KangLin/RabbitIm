@@ -33,20 +33,19 @@ else
     RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/icu
 fi
 
+CUR_DIR=`pwd`
+
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     echo "git clone http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}"
-	cd ${RABBITIM_BUILD_SOURCE_CODE} 
-	wget -c http://download.icu-project.org/files/icu4c/52.1/icu4c-52_1-src.zip
-	unzip icu4c-52_1-src.zip
+	svn co http://source.icu-project.org/repos/icu/icu/trunk/ ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
-CUR_DIR=`pwd`
-cd ${RABBITIM_BUILD_SOURCE_CODE}/source
-chmod +x *
-
-rm -fr ${RABBITIM_BUILD_SOURCE_CODE}/temp
-mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}/temp
+SOURCE_DIR=${RABBITIM_BUILD_SOURCE_CODE}/source     #源代码目录
+CONFIG_DIR=${RABBITIM_BUILD_SOURCE_CODE}/temp_${RABBITIM_BUILD_TARGERT}_Config #配置目录
+BUILD_DIR=${RABBITIM_BUILD_SOURCE_CODE}/temp_${RABBITIM_BUILD_TARGERT}_Build   #编译目录
+rm -fr ${CONFIG_DIR} ${BUILD_DIR}
+mkdir -p ${BUILD_DIR} ${CONFIG_DIR}
 
 echo ""
 echo "RABBITIM_BUILD_TARGERT:${RABBITIM_BUILD_TARGERT}"
@@ -70,24 +69,17 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
     ;;
 	unix_mingw)
-		export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
-                export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
-                export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
-                export LD=${RABBITIM_BUILD_CROSS_PREFIX}gcc
-                export AS=yasm
-                export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
-                export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
-
-		CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} --host=${RABBITIM_BUILD_HOST} --with-cross-build=${RABBITIM_BUILD_SOURCE_CODE}"
+		cd ${CONFIG_DIR}
+		sh ${SOURCE_DIR}/runConfigureICU MinGW #--prefix=${RABBITIM_BUILD_PREFIX}
+		make
+		cd ${BUILD_DIR}
+		sh ${SOURCE_DIR}/configure --host=${RABBITIM_BUILD_HOST} --with-cross_build=${CONFIG_DIR} --prefix=${RABBITIM_BUILD_PREFIX}
+		make install
 		;;
     *)
     echo "${HELP_STRING}"
     return 2
     ;;
 esac
-
-./configure ${CONFIG_PARA}
-echo "make install"
-make -j 2 && make install
 
 cd $CUR_DIR
