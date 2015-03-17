@@ -20,7 +20,6 @@ find_program(CMAKE_C_COMPILER NAMES ${COMPILER_PREFIX}-gcc)
 find_program(CMAKE_CXX_COMPILER NAMES ${COMPILER_PREFIX}-g++)
 #SET(CMAKE_CXX_COMPILER ${COMPILER_PREFIX}-g++)
 
-
 # here is the target environment located
 #SET(USER_ROOT_PATH /home/erk/erk-win32-dev)
 SET(CMAKE_FIND_ROOT_PATH  /usr/${COMPILER_PREFIX} ${USER_ROOT_PATH})

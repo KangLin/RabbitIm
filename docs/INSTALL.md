@@ -1,5 +1,11 @@
-依赖：
+环境：
 -----
+
+1. [ubuntu](INSTALL_UBUNTU.md)
+
+2. [android](INSTALL_ANDROID.md)
+
+3. [windows](INSTALL_WINDOWS.md)
 
 * 开发工具：git、svn、autoconf、automake、make、cmake、python、perl、bash、
 * Windows 下开发环境:Mingw、msys（或者cygwin）、msvc
@@ -66,6 +72,8 @@ http://www.perl.org/
 
     7.1. deb打包工具：dh_make、 debhelper
 
+8. icu工具，编译 QtWebkit 需要
+
 第三方库：
 --------
 
@@ -121,7 +129,7 @@ http://www.perl.org/
 9. libyuv  
 下载:`git clone http://git.chromium.org/external/libyuv.git`
 当前使用版本:  
-    git库版本 —— 975dd5a69951618ecf1be39a4c564ea1da4ca3ff
+    git库版本 —— 70e5c818603e9b83aac266f2e7750c0543cb19de
 
 10. [openssl](http://www.openssl.org/)
 下载：`git clone  https://github.com/openssl/openssl`  
@@ -133,6 +141,11 @@ http://www.perl.org/
 下载：`git://github.com/bagder/curl.git`  
 当前使用版本：  
     git库版本 —— curl-7_40_0
+
+12. [libicu](http://site.icu-project.org/)
+下载：`svn co http://source.icu-project.org/repos/icu/icu/trunk/ icu`
+当前使用版本：
+    Revision: 37233
 
 本项目：
 ---------
@@ -153,10 +166,10 @@ http://www.perl.org/
         ｜-----patch            #补丁包目录
         ｜-----build_script     #第三方库编译脚本目录
         ｜-----src              #源码目录
-        ｜-----windows_msvc     # Windows 平台 msvc 编译器的第三方库
+        ｜-----windows_msvc     # Windows 平台 msvc 编译的第三方库
         ｜       ｜-----include #头文件
         ｜       ｜-----lib     #库文
-        ｜-----windows_mingw    # Windows 平台 mingw 编译器的第三方库
+        ｜-----windows_mingw    # Windows 平台 mingw 交叉编译的第三方库
         ｜       ｜-----include
         ｜       ｜-----lib
         ｜------windows_phone   #Windows Phone 平台的第三方库
@@ -166,6 +179,9 @@ http://www.perl.org/
         ｜       ｜-----include
         ｜       ｜-----lib
         ｜------unix            # unix 平台的第三方库
+        ｜       ｜-----include
+        ｜       ｜-----lib
+        ｜------unix_mingw      # unix  平台 mingw 交叉编译的第三方库
         ｜       ｜-----include
         ｜       ｜-----lib
         ｜------ ios            # ios 平台的第三方库
@@ -191,11 +207,8 @@ windows 下需要安装 cygwin 或者 msys 环境。
 
 1. android 平台：
     * build_android.sh : 编译所有第三方依赖库
-    * build_android_${LIBRARY} : 编译具体的第三方库。它可以带一个指定第三方库源码根目录作为输入参数。如果不指定这个参数，
-                                那么将会取 ${RabbitImRoot}/ThirdLibary/src/${LIBRARY} 作为第三方库源码根目录。
-                                例如：我只要编译 libvpx 库，则可以直接运行：
-                                `build_android_libvpx.sh [libvpx源码根目录]`
     * build_android_envsetup.sh : 设置编译时需要的变量  
+    * build.sh android [source_code_directory] : 编译第三方库脚本
         环境变量说明:
     + export ANDROID_NDK_ROOT=              #android ndk 根目录
     + export ANDROID_NDK=$ANDROID_NDK_ROOT
@@ -209,12 +222,8 @@ windows 下需要安装 cygwin 或者 msys 环境。
 2. windows 平台：
    windows 平台有两种方法编译：
    1. ) msvc 工具链：
-      * build_windows_msvc.sh:编译所有第三依赖库
-      * build_windows_msvc_${LIBRARY}: 编译具体的第三方库。它可以带一个指定第三方库源码根目录作为输入参数。如果不指定这个参数，
-                                    那么将会取 ${RabbitImRoot}/ThirdLibary/src/${LIBRARY} 作为第三方库源码根目录。
-                                    例如：我只要编译 libvpx 库，则可以直接运行：
-                                    `build_windows_msvc_libvpx.sh [libvpx源码根目录]`
       * build_windows_msvc_envsetup.sh:设置编译时需要的变量  
+      * build.sh windows_msvc [source_code_directory] : 编译第三方库脚本
         环境变量说明：  
    msvc 工具链的环境变量可用下面方法设置：  
    先从菜单栏中起动vs2013编译命令行工具：  
@@ -225,12 +234,8 @@ windows 下需要安装 cygwin 或者 msys 环境。
    注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。  
    然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibary/build_script`。再运行你想运行的编译脚本。例如： `./build_windows_mscv.sh` 。
    2. )mingw 工具链
-      * build_windows_mingw.sh:编译所有第三依赖库
-      * build_windows_mingw_${LIBRARY}: 编译具体的第三方库。它可以带一个指定第三方库源码根目录作为输入参数。如果不指定这个参数，
-                                    那么将会取 ${RabbitImRoot}/ThirdLibary/src/${LIBRARY} 作为第三方库源码根目录。
-                                    例如：我只要编译 libvpx 库，则可以直接运行：
-                                    `build_windows_mingw_libvpx.sh [libvpx源码根目录]`
       * build_windows_mingw_envsetup.sh:设置编译时需要的变量
+      * build.sh windows_mingw [source_code_directory] : 编译第三方库脚本
 
 3. windows phone 平台：
 
@@ -336,79 +341,11 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
         + mingw32-make：mingw 环境下用
         + msys-make：msys 环境下用
 
-#### msvs工具链：
+10. [qt编译](http://blog.csdn.net/kl222/article/details/44216951)
 
-##### 依赖:
-  * msvs
-  * sh环境(msys或cygwin)
-    先从菜单栏中起动vs2013编译命令行工具：  
-    C:\Program Files\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts  
-    VS2013 x86 本机工具命令提示  
-    在命令行下，启动msys。 
-    `c:\MinGW\msys\1.0\bin\sh.exe --login -i`  
-    注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。
+本工程编译
+--------
 
-#### unix 或 linux 编译（以ubuntu为例）：
-
-##### 从源码编译参见 [mingw工具链编译] ("mingw工具链编译")
-
-##### ubuntu中安装相关工具
-
-1. 开发工具：
-
-    sudo apt-get install git cmake g++
-    
-2. qt
-当前集成到ubuntu中的是qt4，所以需要从qt-project网站上下载qt安装包。目前用的是qt5.3.0
-`sudo apt-get  install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev`
-
-
-3. 安装工具：
-
-    sudo apt-get install dh-make debhelper
-
-
-##### ubuntu中直接安装相关的库  
-
-1. 编解码库(libvpx)安装：
-
-    sudo apt-get install libvpx-dev
-
-2. ffmpeg安装：
-
-    sudo apt-get install libavcodec-dev libavformat-dev libavutil-dev libswscale-dev
-
-3. opencv安装：
-
-    sudo apt-get install libopencv-dev
-
-    安装opencv时，会自动安装ffmpeg库
-    
-4. libspeex 安装:
-
-    sudo apt-get install libspeex-dev libspeexdsp-dev 
-
-5. QXMPP安装：
-下载 qxmpp：`git clone https://github.com/KangLin/qxmpp.git`  
-修改编译环境脚本为本系统环境：${RabbitImRoot}/ThirdLibary/build_script/build_unix_envsetup.sh  
-编译：
-
-    cd ${RabbitImRoot}/ThirdLibary/build_script
-    ./build_qxmpp unix /home/qxmpp
-
-6. webrtc编译：
-
-    详见[《webrtc教程》](http://blog.csdn.net/kl222/article/details/17198873)
-
-7. openssl:
-
-    sudo apt-get install libssl-dev 
-
-8. libcurl:
-
-     sudo apt-get install libcurl4-openssl-dev
-
-### 本工程编译
 如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。
 用脚本  $(RabbitImRoot)/ThirdLibary/build_rabbitim.sh 进行编译：
 . build_rabbitim.sh (android|windows_msvc|windows_mingw|unix) SOURCE_CODE_ROOT [cmake]

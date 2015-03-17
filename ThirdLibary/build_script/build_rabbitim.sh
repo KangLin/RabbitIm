@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #作者：康林
 #参数:
 #    $1:编译目标(android、windows_msvc、windows_mingw、unix、unix_mingw)
@@ -10,7 +12,8 @@
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
-HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) SOURCE_CODE_ROOT"
+set -ev
+HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) [SOURCE_CODE_ROOT_DIRECTORY] [qmake]"
 
 case $1 in
     android|windows_msvc|windows_mingw|unix|unix_mingw)
@@ -57,6 +60,7 @@ echo "CUR_DIR:`pwd`"
 echo "RABBITIM_BUILD_PREFIX:$RABBITIM_BUILD_PREFIX"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
+echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 echo ""
 
@@ -67,7 +71,7 @@ if [ "$3" != "qmake" ]; then
     case $1 in
         android)
 			export ANDROID_SYSROOT=$RABBITIM_BUILD_CROSS_SYSROOT
-            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/platforms/android/android.toolchain.cmake -DOPTION_RABBITIM_USER_OPENCV=ON"
+            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-android.cmake -DOPTION_RABBITIM_USER_OPENCV=ON"
             PARA="${PARA} -DANT=${ANT} "
             CMAKE_PARA=""
             ;;
@@ -79,6 +83,10 @@ if [ "$3" != "qmake" ]; then
             PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=OFF -DOPTION_RABBITIM_USER_OPENSSL=OFF"
             ;;
         windows_mingw)
+            ;;
+        unix_mingw)
+            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-mingw-linux.cmake"
+            PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON"
             ;;
         *)
             echo "${HELP_STRING}"
@@ -93,7 +101,9 @@ else
     case $1 in
         android)
             PARA="-r -spec android-g++ " #RABBITIM_USER_OPENCV=1
-            #MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make" #windows下
+            if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
+                MAKE="$RABBITIM_CMAKE_MAKE_PROGRAM" 
+            fi
             ;;
         unix)
             PARA="-r -spec linux-g++ "
@@ -103,6 +113,9 @@ else
             MAKE=${JOM}
             ;;
         windows_mingw)
+            PARA="-spec win32-g++"
+            ;;
+        unix_mingw)
             PARA="-spec win32-g++"
             ;;
         *)

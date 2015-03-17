@@ -10,8 +10,9 @@
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
+set -ev
 QT_CLEAN="clean"
-HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) SOURCE_CODE_ROOT"
+HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
     android|windows_msvc|windows_mingw|unix|unix_mingw)
@@ -46,8 +47,9 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
 fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
+
 #清理
-if [ "clean"=="$QT_CLEAN" ]; then
+if [ -n "$QT_CLEAN" ]; then
 	git clean -xdf
 	git submodule foreach --recursive "git clean -dfx"
 	echo $1
@@ -59,22 +61,32 @@ if [ "clean"=="$QT_CLEAN" ]; then
         	        git clean -xdf
 	        fi
 	done
+	rm -fr ${RABBITIM_BUILD_PREFIX}/qt
 fi
 
 echo "RABBITIM_BUILD_SOURCE_CODE:$RABBITIM_BUILD_SOURCE_CODE"
 echo "CUR_DIR:`pwd`"
 echo "RABBITIM_BUILD_PREFIX:$RABBITIM_BUILD_PREFIX"
 echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
+echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
 echo "configure ..."
 
-CONFIG_PARA="-opensource -confirm-license -nomake examples -nomake tests -prefix ${RABBITIM_BUILD_PREFIX}/qt -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
+CONFIG_PARA="-opensource -confirm-license -nomake examples -nomake tests -nomake tools"
+CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt"
+CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-	CONFIG_PARA="${CONFIG_PARA} -xplatform android-g++ -android-ndk ${ANDROID_NDK_ROOT} -android-sdk ${ANDROID_SDK_ROOT} -android-ndk-host ${RABBITIM_BUILD_HOST} -android-toolchain-version ${TOOLCHAIN_VERSION} -android-ndk-platform android-${PLATFORMS_VERSION} -no-sql-sqlite"
+        CONFIG_PARA="${CONFIG_PARA} -xplatform android-g++ -android-ndk ${ANDROID_NDK_ROOT}"
+        CONFIG_PARA="${CONFIG_PARA} -android-sdk ${ANDROID_SDK_ROOT}"
+        CONFIG_PARA="${CONFIG_PARA} -android-ndk-host ${RABBITIM_BUILD_HOST}"
+        CONFIG_PARA="${CONFIG_PARA} -android-toolchain-version ${RABBITIM_BUILD_TOOLCHAIN_VERSION}"
+        CONFIG_PARA="${CONFIG_PARA} -android-ndk-platform android-${RABBITIM_BUILD_PLATFORMS_VERSION}"
+        CONFIG_PARA="${CONFIG_PARA} -no-sql-sqlite ${CONFIG_PARA}"
+        MODULE_PARA="module-qtandroidextras"
     	;;
     unix)
 	;;
@@ -83,7 +95,8 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
     	;;
 	unix_mingw)
-		CONFIG_PARA="-release -xplatform win32-g++ -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX} -no-pch ${CONFIG_PARA}"
+		CONFIG_PARA="-release -xplatform win32-g++"
+		CONFIG_PARA="${CONFIG_PARA} -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
 		;;
     *)
 		echo "${HELP_STRING}"
@@ -95,6 +108,15 @@ echo "./configure ${CONFIG_PARA}"
 ./configure ${CONFIG_PARA}
 
 echo "make install"
-make module-qtwebkit -j 2 && make install
+MODULE_PARA="${MODULE_PARA} module-qtwebkit"
+for para in $MODULE_PARA; do
+          INSTALL_MODULE_PARA="${INSTALL_MODULE_PARA} ${PARA}-install_subtargets"
+done
+
+#make ${MODULE_PARA} -j2
+#make  ${MODULE_PARA} -j2 && make ${INSTALL_MODULE_PARA}
+make -j2 && make install
+
+cp qtbase/bin/qt.conf ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf
 
 cd $CUR_DIR

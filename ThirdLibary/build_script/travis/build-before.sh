@@ -1,11 +1,22 @@
+#!/bin/sh
 #下载编译好的第三方依赖库
 
 set -ev
 
-SOURCE_DIR="`pwd`"
-cd ThirdLibary
+function function_common()
+{
+    #下载最新cmake程序
+    if [ -n "$CMAKE" ]; then
+        wget http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
+        tar xf cmake-3.1.0-Linux-x86_64.tar.gz
+        mv cmake-3.1.0-Linux-x86_64 cmake
+    fi
+}
 
-if [ -n "$ANDROID_TARGET" ]; then
+function function_android()
+{
+    function_common
+    
     #下载android ndk
     wget http://dl.google.com/android/ndk/android-ndk-r9c-linux-x86_64.tar.bz2
     tar xf android-ndk-r9c-linux-x86_64.tar.bz2
@@ -30,8 +41,12 @@ if [ -n "$ANDROID_TARGET" ]; then
     #下载第三方依赖库
     wget http://182.254.185.29/download/travis/android.tar.gz
     tar xzf android.tar.gz 
-else
-   #下载qt for linux
+}
+
+function function_unix()
+{
+    function_common
+     #下载qt for linux
     wget http://182.254.185.29/download/travis/qt_linux.tar.gz
     tar xzf qt_linux.tar.gz 
     mv gcc_64 qt
@@ -39,12 +54,34 @@ else
     #下载第三方依赖库
     wget http://182.254.185.29/download/travis/unix.tar.gz
     tar xzf unix.tar.gz
-fi
+}
 
-#下载最新cmake程序
-if [ -n "$CMAKE" ]; then
-    wget http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
-    tar xf cmake-3.1.0-Linux-x86_64.tar.gz
-fi
+function function_mingw()
+{
+    function_common
+    cd ${SOURCE_DIR}/ThirdLibary/build_script
+    echo "pwd:`pwd`"
+    echo "Source_dir:${SOURCE_DIR}"
+    source build.sh ${BUILD_TARGERT}
+    cd ${SOURCE_DIR}/ThirdLibary
+}
+
+SOURCE_DIR="`pwd`"
+echo $SOURCE_DIR
+cd ThirdLibary
+
+case ${BUILD_TARGERT} in
+    android)
+        function_android
+        ;;
+    unix)
+        function_unix
+        ;;
+    unix_mingw)
+        function_mingw
+        ;;
+    *)
+        ;;
+esac
 
 cd ${SOURCE_DIR}

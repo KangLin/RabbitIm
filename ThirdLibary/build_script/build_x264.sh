@@ -10,7 +10,8 @@
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
-HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) SOURCE_CODE_ROOT"
+set -ev
+HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
     android|windows_msvc|windows_mingw|unix|unix_mingw)
@@ -48,6 +49,7 @@ echo "RABBITIM_BUILD_SOURCE_CODE:$RABBITIM_BUILD_SOURCE_CODE"
 echo "CUR_DIR:`pwd`"
 echo "RABBITIM_BUILD_PREFIX:$RABBITIM_BUILD_PREFIX"
 echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
+echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
@@ -56,7 +58,7 @@ echo "configure ..."
 CONFIG_PARA="--enable-shared"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-    CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-static --host=arm-linux"
+    CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
     CONFIG_PARA="${CONFIG_PARA} --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
     CFLAGS="-march=armv7-a -mfpu=neon"
     ASFLAGS="-march=armv7-a -mfpu=neon"
@@ -68,7 +70,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
     ;;
 	unix_mingw)
-		CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-shared --host=${RABBITIM_BUILD_HOST}"
+		CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-shared --host=$RABBITIM_BUILD_CROSS_HOST"
 		;;
     *)
     echo "${HELP_STRING}"

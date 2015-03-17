@@ -19,19 +19,26 @@ os:
 
 env:
   matrix:
-    - QMAKE=ThirdLibary/qt/bin/qmake
-    - QMAKE=ThirdLibary/qt/bin/qmake ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
-    - CMAKE=ThirdLibary/cmake-3.1.0-Linux-x86_64/bin/cmake Qt5_DIR=ThirdLibary/qt/lib/cmake/Qt5
-    - CMAKE=ThirdLibary/cmake-3.1.0-Linux-x86_64/bin/cmake Qt5_DIR=ThirdLibary/qt/lib/cmake/Qt5  ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a
+    - BUILD_TARGERT=unix
+    - BUILD_TARGERT=unix_mingw 
+    - BUILD_TARGERT=android
+    - BUILD_TARGERT=unix QMAKE=qmake
+    - BUILD_TARGERT=unix_mingw QMAKE=qmake
+    - BUILD_TARGERT=android QMAKE=qmake
+
+    #- QMAKE=ThirdLibary/qt/bin/qmake
+    #- QMAKE=ThirdLibary/qt/bin/qmake ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
+    #- CMAKE=ThirdLibary/cmake-3.1.0-Linux-x86_64/bin/cmake Qt5_DIR=ThirdLibary/qt/lib/cmake/Qt5
+    #- CMAKE=ThirdLibary/cmake-3.1.0-Linux-x86_64/bin/cmake Qt5_DIR=ThirdLibary/qt/lib/cmake/Qt5  ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a
 
 install:
-  - ThirdLibary/build_script/travis/install-build-depends.sh
+  - source ThirdLibary/build_script/travis/build-depends.sh
 
 before_script:
-  - ThirdLibary/build_script/travis/build-before.sh
+  - source ThirdLibary/build_script/travis/build-before.sh
 
 script:
-  - ThirdLibary/build_script/travis/build-and-test.sh
+  - source ThirdLibary/build_script/travis/build-and-test.sh
 
 notifications:
   email: kl222@126.com
