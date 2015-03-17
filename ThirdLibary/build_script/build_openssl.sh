@@ -23,7 +23,7 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    echo "source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
     source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh || return 1
 fi
 

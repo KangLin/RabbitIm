@@ -23,7 +23,7 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    echo "source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
     source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
@@ -73,7 +73,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
     ;;
 	unix_mingw)
-		CONFIG_PARA="--enable-cross-compile --target-os=mingw32 --arch=i686 --cpu=i686"
+		CONFIG_PARA="${CONFIG_PARA} --enable-cross-compile --target-os=mingw32 --arch=i686 --cpu=i686"
 		CONFIG_PARA="${CONFIG_PARA} --cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX}"
 		CFLAGS="-I${RABBITIM_BUILD_PREFIX}/include " 
 		LDFLAGS="-L${RABBITIM_BUILD_PREFIX}/lib" 

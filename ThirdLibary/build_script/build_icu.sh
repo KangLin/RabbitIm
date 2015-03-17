@@ -23,7 +23,7 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    echo "source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
     source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
@@ -74,7 +74,8 @@ case ${RABBITIM_BUILD_TARGERT} in
 		make
 		cd ${BUILD_DIR}
 		sh ${SOURCE_DIR}/configure --host=${RABBITIM_BUILD_HOST} --with-cross_build=${CONFIG_DIR} --prefix=${RABBITIM_BUILD_PREFIX}
-		make install
+		make && make install
+		mv ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
 		;;
     *)
     echo "${HELP_STRING}"

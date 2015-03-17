@@ -27,7 +27,7 @@ esac
 #   QMAKE=  #设置用于相应平台编译的 QMAKE
 #   JOM=    #QT 自带的类似 make 的工具
 if [ -z "${PREFIX}" -o -z "${QMAKE}" -o -z "${JOM}" ]; then
-    echo "build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    echo "source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
     source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 

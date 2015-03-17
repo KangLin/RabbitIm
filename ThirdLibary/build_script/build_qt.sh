@@ -10,6 +10,7 @@
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
+QT_CLEAN="clean"
 HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) SOURCE_CODE_ROOT"
 
 case $1 in
@@ -23,7 +24,7 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    echo "source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
     source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
@@ -45,9 +46,20 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
 fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
-
-git clean -xdf
-git submodule foreach --recursive "git clean -dfx"
+#清理
+if [ "clean"=="$QT_CLEAN" ]; then
+	git clean -xdf
+	git submodule foreach --recursive "git clean -dfx"
+	echo $1
+	for i in `ls $1`;
+	do
+        	if [ -d $1/${i} ]; then
+                	echo "$1/${i}"
+	                cd $1/${i}
+        	        git clean -xdf
+	        fi
+	done
+fi
 
 echo "RABBITIM_BUILD_SOURCE_CODE:$RABBITIM_BUILD_SOURCE_CODE"
 echo "CUR_DIR:`pwd`"
@@ -59,7 +71,7 @@ echo ""
 
 echo "configure ..."
 
-CONFIG_PARA="-opensource -nomake examples -nomake tests -prefix ${RABBITIM_BUILD_PREFIX} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
+CONFIG_PARA="-opensource -confirm-license -nomake examples -nomake tests -prefix ${RABBITIM_BUILD_PREFIX}/qt -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
 	CONFIG_PARA="${CONFIG_PARA} -xplatform android-g++ -android-ndk ${ANDROID_NDK_ROOT} -android-sdk ${ANDROID_SDK_ROOT} -android-ndk-host ${RABBITIM_BUILD_HOST} -android-toolchain-version ${TOOLCHAIN_VERSION} -android-ndk-platform android-${PLATFORMS_VERSION} -no-sql-sqlite"
@@ -71,7 +83,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
     	;;
 	unix_mingw)
-		CONFIG_PARA="-release -xplatform win32-g++ -device-option CROSS_COMPILE=i686-w64-mingw32- ${CONFIG_PARA}"
+		CONFIG_PARA="-release -xplatform win32-g++ -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX} -no-pch ${CONFIG_PARA}"
 		;;
     *)
 		echo "${HELP_STRING}"

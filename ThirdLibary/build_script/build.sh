@@ -40,6 +40,8 @@ if [ -n "$2" ]; then
     source build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg && \
     source build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl && \
     source build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl && \
+    source build_icu.sh ${RABBITIM_BUILD_TARGERT} $2/icu && \
+    source build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
     source build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp
 else
     echo "start:\n $0 $1 $2."
@@ -51,5 +53,7 @@ else
     source build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \
     source build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
     source build_libcurl.sh ${RABBITIM_BUILD_TARGERT} && \
+    source build_icu.sh ${RABBITIM_BUILD_TARGERT} && \
+    source build_qt.sh ${RABBITIM_BUILD_TARGERT} && \
     source build_qxmpp.sh ${RABBITIM_BUILD_TARGERT}
 fi
