@@ -119,10 +119,8 @@ for para in $MODULE_PARA; do
           INSTALL_MODULE_PARA="${INSTALL_MODULE_PARA} ${PARA}-install_subtargets"
 done
 
-#make ${MODULE_PARA} -j2
-#make  ${MODULE_PARA} -j2 && make ${INSTALL_MODULE_PARA}
-make -j2 \
-	&& make install \
+make  ${MODULE_PARA} -j2 \
+    && make ${INSTALL_MODULE_PARA} \
 	&& cp qtbase/bin/qt.conf ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf
 
 cd $CUR_DIR
