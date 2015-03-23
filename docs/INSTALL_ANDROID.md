@@ -23,10 +23,8 @@
 
 * 设置环境变量
 
-    
         export ANDROID_NDK=/home/android-ndk
         export ANDROID_NDK_ROOT=$ANDROID_NDK
-    
 
 ### 3. android sdk 
 * 平台版本：18
