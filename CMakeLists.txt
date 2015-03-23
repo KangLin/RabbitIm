@@ -6,9 +6,6 @@ endif()
 
 project(RabbitIm)
 
-#设置 find_XXX.cmake 搜索目录  
-SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
-
 # 建立要删除的文件
 CONFIGURE_FILE(
     "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
@@ -186,8 +183,12 @@ LINK_DIRECTORIES(${THIRD_LIB_DIR})
 SET(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME})
 MESSAGE("CMAKE_PREFIX_PATH:${CMAKE_PREFIX_PATH}/lib/pkgconfig")
 
+#设置 find_XXX.cmake 搜索目录  
+SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
+
 #pkgconfig模块
 FIND_PACKAGE(PkgConfig)
+find_program(PKG_CONFIG NAMES pkg-config)
 SET(PKG_CONFIG_USE_CMAKE_PREFIX_PATH TRUE)
 
 # 依赖的第三方库
@@ -240,11 +241,15 @@ IF(OPTION_RABBITIM_USER_FFMPEG)
     SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev")
 
     ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS" "-DRABBITIM_USER_FFMPEG") #ffmpeg需要
-
-    find_package(FFMPEG REQUIRED  COMPONENTS avcodec avformat avutil swscale)
-    IF(FFMPEG_FOUND)
-        INCLUDE_DIRECTORIES("${FFMPEG_INCLUDE_DIRS}")
-    ENDIF(FFMPEG_FOUND)
+    IF(PKG_CONFIG_FOUND)
+        find_package(FFMPEG REQUIRED COMPONENTS avcodec avformat avutil swscale)
+        IF(FFMPEG_FOUND)
+            INCLUDE_DIRECTORIES("${FFMPEG_INCLUDE_DIRS}")
+        ENDIF(FFMPEG_FOUND)
+    ELSEIF(PKG_CONFIG_FOUND)
+        #message("Must use pkg-config, please install it.")
+        SET(FFMPEG_LIBRARIES -lavcodec -lavformat -lavutil -lswscale -lswresample -lx264 -lpthread)
+    ENDIF(PKG_CONFIG_FOUND)
 
 ENDIF(OPTION_RABBITIM_USER_FFMPEG)
 MESSAGE("Use ffmpeg library:${RABBITIM_USER_FFMPEG}\n")

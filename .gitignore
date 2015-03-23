@@ -9,6 +9,11 @@ test.xml
 .kdev4/
 .kdev_include_paths
 build/
+build_android/
+build_unix_mingw/
+build_windows_mingw/
+build_unix/
+build_windows_msvc/
 *.ncb
 .metadata/
 *~
