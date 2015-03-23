@@ -53,7 +53,7 @@ cygwin主页：http://www.cygwin.org/
 
     sudo apt-get install mingw-w64
 
-2. 其它工具详见：[INSTALL_UBUNTU.md](INSTALL_UBUNTU.md)
+2. 其它工具详见：[INSTALL_UBUNTU.md](INSTALL_UBUNTU.md#user-content-工具)
 
 3. qt 编译
 

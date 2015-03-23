@@ -62,6 +62,11 @@
 9. icu：编译 QtWebkit 需要
 
     sudo apt-get install icu-devtools
+    
+10. ant工具
+
+    sudo apt-get install ant
+
 
 ## 第三方库
 
