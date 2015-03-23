@@ -52,7 +52,7 @@
    <item row="1" column="0">
     <widget class="QWidget" name="widget" native="true">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -161,7 +161,7 @@
         <item>
          <widget class="QLabel" name="label_3">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>1</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -189,7 +189,7 @@
         <item>
          <widget class="QComboBox" name="cmbUser">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>2</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -218,7 +218,7 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>1</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -246,7 +246,7 @@
         <item>
          <widget class="QLineEdit" name="lnPassword">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>2</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -306,7 +306,7 @@
         <item>
          <widget class="QCheckBox" name="chkSave">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -331,7 +331,7 @@
         <item>
          <widget class="QCheckBox" name="chkLogin">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -359,6 +359,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="pbOk">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>80</width>
@@ -391,6 +397,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="pbClose">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>80</width>
@@ -428,7 +440,7 @@
         <item>
          <widget class="QPushButton" name="pbRegitster">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -465,6 +477,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="pbSet">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>80</width>
