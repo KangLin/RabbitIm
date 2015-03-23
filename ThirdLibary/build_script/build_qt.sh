@@ -11,7 +11,7 @@
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
 set -ev
-QT_CLEAN="clean"
+#QT_CLEAN="clean"
 HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
@@ -95,7 +95,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
     	;;
 	unix_mingw)
-		CONFIG_PARA="-release -xplatform win32-g++"
+		CONFIG_PARA="${CONFIG_PARA} -release -xplatform win32-g++"
 		CONFIG_PARA="${CONFIG_PARA} -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
 		;;
     *)
@@ -115,8 +115,8 @@ done
 
 #make ${MODULE_PARA} -j2
 #make  ${MODULE_PARA} -j2 && make ${INSTALL_MODULE_PARA}
-make -j2 && make install
-
-cp qtbase/bin/qt.conf ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf
+make -j2 \
+	&& make install \
+	&& cp qtbase/bin/qt.conf ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf
 
 cd $CUR_DIR
