@@ -1,5 +1,5 @@
 #!/bin/sh
-set -ev
+set -e
 
 function function_common()
 {

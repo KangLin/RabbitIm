@@ -10,7 +10,7 @@
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
-set -ev
+set -e
 HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
@@ -23,13 +23,13 @@ case $1 in
     ;;
 esac
 
-#运行本脚本前,先运行 build_windows_mingw_envsetup.sh 进行环境变量设置,需要先设置下面变量:
-#   PREFIX=`pwd`/../windows  #修改这里为安装前缀
+#运行本脚本前,先运行 build_${RABBITIM_BUILD_TARGERT}_envsetup.sh 进行环境变量设置,需要先设置下面变量:
+#   PREFIX= #修改这里为安装前缀
 #   QMAKE=  #设置用于相应平台编译的 QMAKE
 #   JOM=    #QT 自带的类似 make 的工具
 if [ -z "${PREFIX}" -o -z "${QMAKE}" -o -z "${JOM}" ]; then
     echo "source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh || return 1
 fi
 
 if [ -n "$2" ]; then

@@ -1,7 +1,7 @@
 #!/bin/sh
 #下载编译好的第三方依赖库
 
-set -ev
+set -e
 
 function function_common()
 {

@@ -28,6 +28,7 @@ if [ ! -d ${RABBITIM_BUILD_PREFIX} ]; then
     mkdir -p ${RABBITIM_BUILD_PREFIX}
 fi
 
+#设置qt安装位置
 if [ -z "$QT_ROOT" ]; then
         QT_ROOT=${RABBITIM_BUILD_PREFIX}/qt
 fi

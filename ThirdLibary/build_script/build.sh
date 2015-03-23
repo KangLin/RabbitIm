@@ -14,7 +14,7 @@
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
-set -ev
+set -e
 HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
