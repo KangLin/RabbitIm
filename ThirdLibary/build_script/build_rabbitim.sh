@@ -7,7 +7,7 @@
 #   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix、unix_mingw）
 #   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
 #   RABBITIM_BUILD_SOURCE_CODE    #源码目录
-#   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
+#   RABBITIM_BUILD_CROSS_PREFIX   #交叉编译前缀
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
 set -e
@@ -70,6 +70,9 @@ if [ "$3" != "qmake" ]; then
     PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5"
     case $1 in
         android)
+			export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX}
+			export PKG_CONFIG=/usr/bin/pkg-config
+			#export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
 			export ANDROID_SYSROOT=$RABBITIM_BUILD_CROSS_SYSROOT
             PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-android.cmake -DOPTION_RABBITIM_USER_OPENCV=ON"
             PARA="${PARA} -DANT=${ANT} "
@@ -85,6 +88,9 @@ if [ "$3" != "qmake" ]; then
         windows_mingw)
             ;;
         unix_mingw)
+			export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX}
+			export PKG_CONFIG=/usr/bin/pkg-config
+			#export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
             PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-mingw-linux.cmake"
             PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON"
             ;;

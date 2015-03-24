@@ -100,7 +100,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 	unix_mingw)
         export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
         export PKG_CONFIG=/usr/bin/pkg-config
-        
+
 		CONFIG_PARA="${CONFIG_PARA} -release -xplatform win32-g++"
 		CONFIG_PARA="${CONFIG_PARA} -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
 		;;
