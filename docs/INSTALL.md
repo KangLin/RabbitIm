@@ -31,7 +31,7 @@ QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
 主页：http://www.cmake.org/
 当前使用版本：3.1 
 
-3. autoconf、automake、libtool：
+3. autoconf、automake、libtool、m4：
 mingw用msys中的相关工具
 
 4. windows平台工具
@@ -68,11 +68,15 @@ http://www.perl.org/
 安装，并设置环境变量 JAVA_HOME
 并把 %JAVA_HOME%/bin 加到环境变量 PATH 中
 
-7. linux 工具
+7. 安装工具
 
     7.1. deb打包工具：dh_make、 debhelper
+    7.2. rpm打包工具:
+	7.3. windows安装工具:nsis
 
 8. icu工具，编译 QtWebkit 需要
+
+9. [工具与版本](http://qt-project.org/wiki/Qt-5.5.0-tools-and-versions)
 
 第三方库：
 --------

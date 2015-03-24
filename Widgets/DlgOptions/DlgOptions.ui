@@ -95,7 +95,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="Nomarl">
       <attribute name="title">
@@ -1257,7 +1257,6 @@
        </item>
       </layout>
       <zorder>groupBox_7</zorder>
-      <zorder>verticalSpacer_3</zorder>
      </widget>
      <widget class="QWidget" name="tab">
       <attribute name="title">

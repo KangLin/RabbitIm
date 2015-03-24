@@ -48,11 +48,12 @@ if [ -n "$2" ]; then
     source build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp
 else
     echo "start:\n $0 $1 $2."
-    source build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} && \
-    source build_speex.sh ${RABBITIM_BUILD_TARGERT} && \
+    #source build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} && \
+    #source build_speex.sh ${RABBITIM_BUILD_TARGERT} && \
     source build_x264.sh ${RABBITIM_BUILD_TARGERT} && \
     source build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \
-    source build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \
+    source build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
+    #source build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \
     source build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \
     source build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
     source build_libcurl.sh ${RABBITIM_BUILD_TARGERT} && \
