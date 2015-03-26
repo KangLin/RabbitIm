@@ -1142,7 +1142,7 @@
             <item>
              <widget class="QLabel" name="label_9">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -1256,7 +1256,6 @@
         </spacer>
        </item>
       </layout>
-      <zorder>groupBox_7</zorder>
      </widget>
      <widget class="QWidget" name="tab">
       <attribute name="title">
