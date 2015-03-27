@@ -83,6 +83,8 @@ CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BU
 
 case ${RABBITIM_BUILD_TARGERT} in
     android)
+		export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
+		export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
         CONFIG_PARA="${CONFIG_PARA} -xplatform android-g++ -android-ndk ${ANDROID_NDK_ROOT}"
         CONFIG_PARA="${CONFIG_PARA} -android-sdk ${ANDROID_SDK_ROOT}"
         CONFIG_PARA="${CONFIG_PARA} -android-ndk-host ${RABBITIM_BUILD_HOST}"
@@ -98,6 +100,8 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
     	;;
 	unix_mingw)
+		export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
+		export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
 		CONFIG_PARA="${CONFIG_PARA} -release -xplatform win32-g++"
 		CONFIG_PARA="${CONFIG_PARA} -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
 		CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"

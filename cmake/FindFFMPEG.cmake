@@ -32,30 +32,40 @@ foreach(comp ${FFMPEG_FIND_COMPONENTS})
 	if(PKG_CONFIG_FOUND)
 		pkg_check_modules(_${comp} QUIET lib${comp})
 	endif()
-	find_path(FFMPEG_${comp}_INCLUDE_DIR
-		NAMES "lib${comp}/${comp}.h"
-		HINTS
-			${_${comp}_INCLUDE_DIRS}
-			ENV FFMPEG_PATH
-			ENV ${FFMPEG_PATH_ARCH}
-		PATHS
-			/usr/include /usr/local/include /opt/local/include /sw/include
-		PATH_SUFFIXES FFMPEG libav
-		DOC "FFMPEG include directory")
 
-	find_library(FFMPEG_${comp}_LIBRARY
-		NAMES ${comp} ${comp}-FFMPEG ${_${comp}_LIBRARIES}
-		HINTS
-			${_${comp}_LIBRARY_DIRS}
-			"${FFMPEG_${comp}_INCLUDE_DIR}/../lib"
-			"${FFMPEG_${comp}_INCLUDE_DIR}/../lib${_lib_suffix}"
-			"${FFMPEG_${comp}_INCLUDE_DIR}/../libs${_lib_suffix}"
-			"${FFMPEG_${comp}_INCLUDE_DIR}/lib"
-			"${FFMPEG_${comp}_INCLUDE_DIR}/lib${_lib_suffix}"
-		PATHS
-			/usr/lib /usr/local/lib /opt/local/lib /sw/lib
-		PATH_SUFFIXES ${comp} lib${comp}
-		DOC "FFMPEG ${comp} library")
+	if(NOT _${comp}_INCLUDE_DIRS)
+		find_path(FFMPEG_${comp}_INCLUDE_DIR
+			NAMES "lib${comp}/${comp}.h"
+			HINTS
+				${_${comp}_INCLUDE_DIRS}
+				ENV FFMPEG_PATH
+				ENV ${FFMPEG_PATH_ARCH}
+			PATHS
+				/usr/include /usr/local/include /opt/local/include /sw/include
+			PATH_SUFFIXES FFMPEG libav
+			DOC "FFMPEG include directory")
+	else()
+		SET(FFMPEG_${comp}_INCLUDE_DIR ${_${comp}_INCLUDE_DIRS})
+	endif()
+
+	if(NOT _${comp}_LIBRARIES)
+		find_library(FFMPEG_${comp}_LIBRARY
+			NAMES ${comp} ${comp}-FFMPEG ${_${comp}_LIBRARIES}
+			HINTS
+				${_${comp}_LIBRARY_DIRS}
+				"${FFMPEG_${comp}_INCLUDE_DIR}/../lib"
+				"${FFMPEG_${comp}_INCLUDE_DIR}/../lib${_lib_suffix}"
+				"${FFMPEG_${comp}_INCLUDE_DIR}/../libs${_lib_suffix}"
+				"${FFMPEG_${comp}_INCLUDE_DIR}/lib"
+				"${FFMPEG_${comp}_INCLUDE_DIR}/lib${_lib_suffix}"
+			PATHS
+				/usr/lib /usr/local/lib /opt/local/lib /sw/lib
+			PATH_SUFFIXES ${comp} lib${comp}
+			DOC "FFMPEG ${comp} library")
+	else()
+		SET(FFMPEG_${comp}_LIBRARY ${_${comp}_LIBRARIES})
+	endif()
+	message("_${comp}_LIBRARIES:${FFMPEG_${comp}_LIBRARY}")
 	find_package_handle_standard_args(FFMPEG_${comp}
 		FOUND_VAR FFMPEG_${comp}_FOUND
 		REQUIRED_VARS FFMPEG_${comp}_LIBRARY FFMPEG_${comp}_INCLUDE_DIR)
@@ -63,6 +73,7 @@ foreach(comp ${FFMPEG_FIND_COMPONENTS})
 		list(APPEND FFMPEG_INCLUDE_DIRS ${FFMPEG_${comp}_INCLUDE_DIR})
 		list(APPEND FFMPEG_LIBRARIES ${FFMPEG_${comp}_LIBRARY})
 	endif()
+	
 endforeach(comp)
 
 # Run checks via find_package_handle_standard_args

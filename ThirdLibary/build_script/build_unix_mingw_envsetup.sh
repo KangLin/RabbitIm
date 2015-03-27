@@ -26,8 +26,6 @@ QMAKE=${QT_BIN}/qmake   #设置用于 unix 平台编译的 QMAKE
 export PATH=${QT_BIN}:$PATH
 export PKG_CONFIG=/usr/bin/pkg-config
 export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
-export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
-export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
 
 if [ -z "${RABBITIM_BUILD_CROSS_HOST}" ]; then
 	RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32
