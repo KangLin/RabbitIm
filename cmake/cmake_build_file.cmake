@@ -90,6 +90,7 @@ SET(RABBITIM_UIS
     Widgets/FrmGroupChat/DlgInviter.ui 
     Widgets/DlgAbout/DlgAbout.ui 
     Widgets/DlgOptions/DlgOptions.ui
+    Widgets/FrmMain/FrmMain.ui
 )
 
 IF(RABBITIM_USER_OPENCV) 
@@ -120,15 +121,5 @@ IF(ANDROID)
     SET(RABBITIM_SOURCES
         ${RABBITIM_SOURCES}
         android/jni/AndroidNotification.cpp
-    )
-
-    SET(RABBITIM_UIS
-        ${RABBITIM_UIS}
-        Widgets/FrmMain/FrmMainAndroid.ui
-    )
-ELSE(ANDROID)
-    SET(RABBITIM_UIS
-        ${RABBITIM_UIS}
-        Widgets/FrmMain/FrmMain.ui
     )
 ENDIF(ANDROID)

@@ -153,7 +153,8 @@ FORMS += MainWindow.ui \
     Widgets/FrmGroupChat/DlgGroupChatInfo.ui \
     Widgets/FrmGroupChat/DlgInviter.ui \
     Widgets/DlgAbout/DlgAbout.ui \
-    Widgets/DlgOptions/DlgOptions.ui
+    Widgets/DlgOptions/DlgOptions.ui \
+    Widgets/FrmMain/FrmMain.ui
 
 RESOURCES += \
     Resource/Resource.qrc \
@@ -162,9 +163,9 @@ RESOURCES += \
 android{
     RESOURCES += Resource/translations/Translations.qrc \
         Resource/Android.qrc
-    FORMS += Widgets/FrmMain/FrmMainAndroid.ui
+    FORMS +=
 }else{
-    FORMS += Widgets/FrmMain/FrmMain.ui 
+    FORMS += 
 }
 
 !isEmpty(RABBITIM_USER_OPENCV) {

@@ -37,6 +37,10 @@ MESSAGE("\n")
 #判断 qt 版本
 FIND_PACKAGE(Qt5 5.3 CONFIG REQUIRED Gui Core Network Xml Multimedia Widgets LinguistTools)
 SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
+FIND_PACKAGE(Qt5WebKitWidgets)
+IF(Qt5WebKitWidgets_FOUND)
+	ADD_DEFINITIONS(-DRABBITIM_WEBKIT)
+ENDIF(Qt5WebKitWidgets_FOUND)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
@@ -145,13 +149,11 @@ ENDIF()
 #设置头文件包含位置 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 IF(MSVC)
-    FIND_PACKAGE(Qt5 CONFIG REQUIRED WebKitWidgets)
     SET(RABBITIM_SYSTEM windows)
     SET(TOOLCHAIN_NAME windows_msvc)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")  #删除不是GBK字符的警告
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt")
 ELSEIF(MINGW)
-    FIND_PACKAGE(Qt5 CONFIG REQUIRED WebKitWidgets)
     SET(RABBITIM_SYSTEM windows)
     SET(TOOLCHAIN_NAME windows_mingw)
     # Windows compatibility
@@ -167,7 +169,6 @@ ELSEIF(ANDROID)
     #SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -Wno-psabi -march=armv7-a -mfloat-abi=softfp -mfpu=vfp -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums  -Wa,--noexecstack -gdwarf-2 -marm -fno-omit-frame-pointer -Wall -Wno-psabi -W -fPIE)
     SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined -Wl,-z,noexecstack -shared --sysroot=${ANDROID_SYSROOT}")
 ELSE(LINUX OR UNIX)
-    FIND_PACKAGE(Qt5 CONFIG REQUIRED WebKitWidgets)
     SET(RABBITIM_SYSTEM unix)
     ADD_DEFINITIONS(-DUNIX)
     SET(TOOLCHAIN_NAME unix)
@@ -180,7 +181,7 @@ SET(THIRD_PACKAGE ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME})   #第三�
 SET(THIRD_LIB_DIR ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/lib) #第三方库目录
 LINK_DIRECTORIES(${THIRD_LIB_DIR})
 #设置库的搜索路径  
-SET(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME})
+SET(CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME} ${CMAKE_PREFIX_PATH})
 MESSAGE("CMAKE_PREFIX_PATH:${CMAKE_PREFIX_PATH}/lib/pkgconfig")
 #允许 pkg-config 在 CMAKE_PREFIX_PATH 中搜索库
 SET(PKG_CONFIG_USE_CMAKE_PREFIX_PATH TRUE)
@@ -402,19 +403,18 @@ ELSEIF(WIN32)
         ${RABBITIM_RCC_FILES}
         ${RABBITIM_UIS}
         )
-    SET(RABBITIM_LIBS
-        ${RABBITIM_LIBS} 
-        Qt5::WebKitWidgets)
 ELSE()
     add_executable(${PROJECT_NAME} 
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
         ${RABBITIM_UIS}
         )
+ENDIF()
+IF(Qt5WebKitWidgets_FOUND)
     SET(RABBITIM_LIBS
         ${RABBITIM_LIBS} 
         Qt5::WebKitWidgets)
-ENDIF()
+ENDIF(Qt5WebKitWidgets_FOUND)
 message("RABBITIM_LIBS:${RABBITIM_LIBS}\n")
 #链接库
 target_link_libraries(${PROJECT_NAME} 
@@ -490,15 +490,19 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
         #                    WORKING_DIRECTORY .)"
         #        )
     ELSEIF(NOT ANDROID)
-        SET(QT_LIBS Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Xml Qt5::WebKitWidgets)
-        INSTALL_QT_LIBRARYS(${QT_LIBS})
-        INSTALL_QT_PLUGINS(Qt5Core_PLUGINS 
+        SET(QT_LIBS Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Xml)
+        SET(QT_PLUGINS Qt5Core_PLUGINS 
                            Qt5Gui_PLUGINS
                            Qt5Widgets_PLUGINS
                            Qt5Network_PLUGINS
                            Qt5Multimedia_PLUGINS
-                           Qt5Xml_PLUGINS
-                           Qt5WebKitWidgets_PLUGINS)
+                           Qt5Xml_PLUGINS)
+        IF(Qt5WebKitWidgets_FOUND)
+			SET(QT_LIBS ${QT_LIBS} Qt5::WebKitWidgets)
+			SET(QT_PLUGINS ${QT_PLUGINS} Qt5WebKitWidgets_PLUGINS)
+		ENDIF(Qt5WebKitWidgets_FOUND)
+        INSTALL_QT_LIBRARYS(${QT_LIBS})
+        INSTALL_QT_PLUGINS(${QT_PLUGINS})
     ENDIF(WIN32)
 ENDIF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
 

@@ -1,9 +1,5 @@
 #include "FrmMain.h"
-#ifdef MOBILE
-    #include "ui_FrmMainAndroid.h"
-#else
-    #include "ui_FrmMain.h"
-#endif
+#include "ui_FrmMain.h"
 #include "../../Global/Global.h"
 #include "MainWindow.h"
 #include <QSettings>
@@ -12,6 +8,9 @@ CFrmMain::CFrmMain(QWidget *parent) :
     QFrame(parent),
     m_UserList(parent),
     m_GroupChatList(parent),
+#ifdef RABBITIM_WEBKIT
+    m_weather(new QWebView),
+#endif
     ui(new Ui::CFrmMain)
 {
     ui->setupUi(this);
@@ -19,8 +18,14 @@ CFrmMain::CFrmMain(QWidget *parent) :
 
     ui->lbAvatar->setScaledContents(true);
     ui->lbName->clear();
-#ifndef MOBILE
-    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+#ifdef RABBITIM_WEBKIT
+    m_weather->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    m_weather->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    m_weather->setUrl(QUrl("http://p1234.vicp.net/weather/weather_small.html"));
+    m_weather->setMaximumHeight(46);
+    ui->HeadLayout->addWidget(m_weather.data());
+    connect(m_weather.data(), SIGNAL(linkClicked(QUrl)),
+            SLOT(slotWebViewLinkClicked(QUrl)));
 #endif
 
     bool check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateLocaleUserInfo()),
@@ -113,8 +118,8 @@ void CFrmMain::slotUpdateLocaleUserInfo()
     ui->lbAvatar->setPixmap(pmp);
 }
 
-#ifndef MOBILE
-void CFrmMain::on_webView_linkClicked(const QUrl &url)
+#ifdef RABBITIM_WEBKIT
+void CFrmMain::slotWebViewLinkClicked(const QUrl &url)
 {
     QDesktopServices::openUrl(url);
 }

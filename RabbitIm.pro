@@ -13,8 +13,10 @@ RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
 
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets 
-!android{
+
+qtHaveModule(webkit){
     QT += webkitwidgets
+	DEFINES += RABBITIM_WEBKIT
 }
 
 lessThan(QT_VERSION, 5.3) : error("version is $$QT_VERSION, please qt is used greater then 5.3")

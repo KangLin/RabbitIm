@@ -107,7 +107,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QVBoxLayout" name="HeadLayout">
           <item>
            <widget class="CLabel" name="lbName">
             <property name="sizePolicy">
@@ -127,42 +127,6 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QWebView" name="webView">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>26</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>42</height>
-             </size>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="url">
-             <url>
-              <string>http://p1234.vicp.net/weather/weather_small.html</string>
-             </url>
-            </property>
-            <property name="zoomFactor">
-             <double>1.000000000000000</double>
-            </property>
-            <property name="renderHints">
-             <set>QPainter::SmoothPixmapTransform</set>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
        </layout>
@@ -173,11 +137,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header>QtWebKitWidgets/QWebView</header>
-  </customwidget>
   <customwidget>
    <class>CLabel</class>
    <extends>QLabel</extends>
