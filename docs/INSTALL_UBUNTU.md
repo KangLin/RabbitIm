@@ -32,6 +32,7 @@
 	Release:	12.04
 	Codename:	precise
 
+[自动编译](https://travis-ci.org/KangLin/rabbitim)
 
 ## 工具
 
@@ -120,16 +121,14 @@
 
         sudo apt-get install libcurl4-openssl-dev
 
-### 7. libicu:
+### 7. qt 编译：
+* openssl:
 
-        sudo apt-get install libicu-dev
-
-### 8. qt 编译：
 * Libxcb:
 
         sudo apt-get install "^libxcb.*" libx11-xcb-dev libxrender-dev libxi-dev
 
-* libicu
+* libicu：（qtwebkit需要）
 
         sudo apt-get install libicu-dev
 
@@ -143,12 +142,16 @@
         sudo apt-get install libasound2-dev 
         sudo apt-get install libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev
 
+* libfontconfig (需要这个库才能用系统字体，会调用系统 freetype,否则会调用qt自己的freetype。qt自己的freetype字体不含中文)
+
+        sudo apt-get install libfontconfig1-dev 
+
 * 编译
 
         cd ${RabbitImRoot}/ThirdLibary/build_script
         ./build_qt.sh unix [source_code_directory]
 
-### 9. qxmpp:
+### 8. qxmpp:
 
         cd ${RabbitImRoot}/ThirdLibary/build_script
         ./build_qxmpp.sh unix [source_code_directory]

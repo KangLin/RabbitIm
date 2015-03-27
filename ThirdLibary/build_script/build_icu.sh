@@ -77,7 +77,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 		cd ${BUILD_DIR}
 		sh ${SOURCE_DIR}/configure --host=${RABBITIM_BUILD_CROSS_HOST} --with-cross_build=${CONFIG_DIR} --prefix=${RABBITIM_BUILD_PREFIX}
 		make && make install
-		mv ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+		cp ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
 		;;
     *)
     echo "${HELP_STRING}"
