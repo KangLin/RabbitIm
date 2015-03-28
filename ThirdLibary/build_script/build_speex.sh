@@ -75,11 +75,12 @@ case ${RABBITIM_BUILD_TARGERT} in
     ;;
     unix)
         CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse "
-    ;;
+        ;;
     windows_msvc)
     ;;
     windows_mingw)
-    ;;
+        CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse "
+        ;;
 	unix_mingw)
 		CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --enable-shared --host=${RABBITIM_BUILD_CROSS_HOST}"
 		;;
@@ -96,6 +97,6 @@ echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\"
 ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
 
 echo "make install"
-make -j 2 && make install
+make ${RABBITIM_MAKE_JOB_PARA} && make install
 
 cd $CUR_DIR

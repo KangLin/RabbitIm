@@ -99,6 +99,6 @@ echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS=}\""
 ../configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}"
 
 echo "make install"
-make -j 2 && make install
+make ${RABBITIM_MAKE_JOB_PARA} && make install
 
 cd $CUR_DIR

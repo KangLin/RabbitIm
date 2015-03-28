@@ -1,5 +1,5 @@
 #注意：修改后的本文件不要上传代码库中
-#需要设置下面变量：
+#需要设置下面变量，也可以把它们设置在环境变量中：
 #export ANDROID_NDK_ROOT=/home/android-ndk-r9c   #指定 android ndk 根目录
 #export ANDROID_NDK=$ANDROID_NDK_ROOT            #指定 android ndk 根目录
 #export ANDROID_SDK=/home/android-sdk/sdk        #指定 android sdk 根目录
@@ -45,6 +45,7 @@ case $TARGET_OS in
         ;;
     Linux* | Unix*)
         RABBITIM_BUILD_HOST="linux-`uname -m`"    #windows、linux-x86_64
+        RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数
         ;;
     *)
     echo "Please set RABBITIM_BUILD_HOST. see build_android_envsetup.sh"

@@ -117,7 +117,7 @@ echo "./configure ${CONFIG_PARA}"
 ./configure ${CONFIG_PARA}
 
 echo "make install"
-make -j2 \
+make ${RABBITIM_MAKE_JOB_PARA} \
 	&& make install \
 	&& cp qtbase/bin/qt.conf ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf
 

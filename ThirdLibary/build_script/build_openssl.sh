@@ -85,6 +85,6 @@ case ${RABBITIM_BUILD_TARGERT} in
 esac
 
 echo "make install"
-make  && make install
+make ${RABBITIM_MAKE_JOB_PARA} && make install
 
 cd $CUR_DIR

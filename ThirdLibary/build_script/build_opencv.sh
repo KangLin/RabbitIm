@@ -109,8 +109,11 @@ cmake .. \
     -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
     -DCMAKE_BUILD_TYPE="Release" \
     -G"${GENERATORS}" ${CMAKE_PARA} 
-
-cmake --build . --target install --config Release -- -j 2
+if [ -n "${RABBITIM_MAKE_JOB_PARA}" ]; then
+    cmake --build . --target install --config Release -- ${RABBITIM_MAKE_JOB_PARA}
+else
+    cmake --build . --target install --config Release
+fi
 
 if [ "${RABBITIM_BUILD_TARGERT}" == "android" ]; then
     cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/jni/include/opencv* ${RABBITIM_BUILD_PREFIX}/include/.

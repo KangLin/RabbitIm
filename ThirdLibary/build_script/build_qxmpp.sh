@@ -62,29 +62,29 @@ echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
-MAKE=make
+MAKE="make ${RABBITIM_MAKE_JOB_PARA}"
 case $RABBITIM_BUILD_TARGERT in
     android)
-    PARA=" -r -spec android-g++"
-    MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
-    #MAKE=mingw32-make #mingw 中编译
-    #MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make"  #在windows下编译
-    #make -f Makefile install INSTALL_ROOT="${RABBITIM_BUILD_PREFIX}"      #在linux下编译
-     ;;
+        PARA=" -r -spec android-g++"
+        MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
+        #MAKE=mingw32-make #mingw 中编译
+        #MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make"  #在windows下编译
+        #make -f Makefile install INSTALL_ROOT="${RABBITIM_BUILD_PREFIX}"      #在linux下编译
+         ;;
     unix)
-    ;;
+        ;;
     windows_msvc)
-    MAKE=${JOM}
-    ;;
+        MAKE=${JOM}
+        ;;
     windows_mingw)
-    ;;
+        ;;
     unix_mingw)
-    #PARA="-r -spec win32-g++ CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
-    ;;
+        #PARA="-r -spec win32-g++ CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
+        ;;
     *)
-    echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
-    return 1
-    ;;
+        echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
+        return 1
+        ;;
 esac
 
 $QMAKE -o Makefile \
@@ -95,7 +95,7 @@ $QMAKE -o Makefile \
        ${PARA} \
        .. #"CONFIG+=debug" #QXMPP_LIBRARY_TYPE=staticlib #静态库
 
-${MAKE} -f Makefile install
+${MAKE} -f Makefile install 
 if [ "$RABBITIM_BUILD_TARGERT" == "android" ]; then
     ${MAKE} -f Makefile install ${MAKE_PARA}
     cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib

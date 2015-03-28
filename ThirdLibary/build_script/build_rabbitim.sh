@@ -94,9 +94,9 @@ if [ "$3" != "qmake" ]; then
     esac
     echo "cmake .. -G\"${GENERATORS}\" $PARA"
     cmake .. -G"${GENERATORS}" $PARA
-    cmake --build .  --config Release ${CMAKE_PARA} -- -j 2
+    cmake --build .  --config Release ${CMAKE_PARA} -- ${RABBITIM_MAKE_JOB_PARA}
 else
-    MAKE="make"
+    MAKE="make ${RABBITIM_MAKE_JOB_PARA}"
     case $1 in
         android)
             PARA="-r -spec android-g++ " #RABBITIM_USER_OPENCV=1
@@ -130,7 +130,7 @@ else
            RABBITIM_USER_LIBCURL=1 \
            RABBITIM_USER_OPENSSL=1 
     if [ "$1" == "android" ]; then
-        $MAKE -f Makefile install INSTALL_ROOT="`pwd`/android-build" -j 2
+        $MAKE -f Makefile install INSTALL_ROOT="`pwd`/android-build"
         ${QT_BIN}/androiddeployqt --input "`pwd`/android-libRabbitIm.so-deployment-settings.json" --output "`pwd`/android-build" --verbose
     else
         $MAKE -f Makefile install -j 2
