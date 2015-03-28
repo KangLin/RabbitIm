@@ -1,4 +1,7 @@
-﻿做以下平台测试:
+﻿linux平台下打开不了接收的包含有中文名的文件
+android平台下打开不了接收的文件
+
+做以下平台测试:
 opensuse
 centos
 freebsd
