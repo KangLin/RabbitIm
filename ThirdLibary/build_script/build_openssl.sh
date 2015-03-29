@@ -71,7 +71,12 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
 		;;
     windows_mingw)
-		;;
+        ./Configure \
+            --prefix=${RABBITIM_BUILD_PREFIX} \
+            --openssldir=${RABBITIM_BUILD_PREFIX} \
+            shared \
+            mingw
+        ;;
 	unix_mingw)
 		perl Configure  --prefix=${RABBITIM_BUILD_PREFIX} \
 			--openssldir=${RABBITIM_BUILD_PREFIX} \

@@ -1,24 +1,28 @@
+#注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
-#QT_ROOT=/c/Qt/Qt5.3.1/5.3/mingw482_32 #QT 安装根目录
-#JOM=/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom.exe  #设置 QT make 工具 JOM
+#QT_ROOT=/home/k/Qt5.4.1/5.4/gcc_64 #QT 安装根目录
+JOM=make #设置 QT make 工具 JOM
 
-QT_BIN=${QT_ROOT}/bin       #设置用于 mingw 平台编译的qt bin目录
-QMAKE=${QT_BIN}/qmake.exe   #设置用于 mingw 平台编译的 QMAKE
+#   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
+#   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
+#   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
+
 if [ -n "${RabbitImRoot}" ]; then
-    PREFIX=${RabbitImRoot}/ThirdLibary/windows_mingw
+    RABBITIM_BUILD_PREFIX=${RabbitImRoot}/ThirdLibary/windows_mingw
 else
-    PREFIX=`pwd`/../windows_mingw    #修改这里为安装前缀 
+    RABBITIM_BUILD_PREFIX=`pwd`/../windows_mingw    #修改这里为安装前缀 
+fi
+if [ ! -d ${RABBITIM_BUILD_PREFIX} ]; then
+    mkdir -p ${RABBITIM_BUILD_PREFIX}
 fi
 
-if [ ! -d ${PREFIX} ]; then
-    mkdir -p ${PREFIX}
+if [ -z "$QT_ROOT" ]; then
+        QT_ROOT=${RABBITIM_BUILD_PREFIX}/qt
 fi
-
-export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
+QT_BIN=${QT_ROOT}/bin       #设置用于 android 平台编译的 qt bin 目录
+QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
+                            #这里设置的是自动编译时的配置，你需要修改为你本地qt编译环境的配置.
+                            
+export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
 export PATH=${QT_BIN}:$PATH
 
-echo ""
-echo "PREFIX:$PREFIX"
-echo "QMAKE:$QMAKE"
-echo "JOM:$JOM"
-echo ""

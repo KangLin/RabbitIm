@@ -77,7 +77,7 @@ echo "configure ..."
 
 CONFIG_PARA="-opensource -confirm-license -nomake examples -nomake tests -no-compile-examples"
 CONFIG_PARA="${CONFIG_PARA} -no-sql-sqlite -no-sql-odbc"
-CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtcanvas3d -skip qtwebkit-examples -skip qt3d"
+CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples" # -skip qt3d -skip qtcanvas3d"
 CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt"
 CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
 
@@ -85,7 +85,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     android)
 		export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
 		export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
-        CONFIG_PARA="${CONFIG_PARA} -xplatform android-g++ -android-ndk ${ANDROID_NDK_ROOT}"
+        CONFIG_PARA="${CONFIG_PARA} -platform android-g++ -xplatform android-g++ -android-ndk ${ANDROID_NDK_ROOT}"
         CONFIG_PARA="${CONFIG_PARA} -android-sdk ${ANDROID_SDK_ROOT}"
         CONFIG_PARA="${CONFIG_PARA} -android-ndk-host ${RABBITIM_BUILD_HOST}"
         CONFIG_PARA="${CONFIG_PARA} -android-toolchain-version ${RABBITIM_BUILD_TOOLCHAIN_VERSION}"
@@ -113,7 +113,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 		;;
 esac
 
-echo "./configure ${CONFIG_PARA}"
+echo "./configure ${CONFIG_PARA}" 
 ./configure ${CONFIG_PARA}
 
 echo "make install"

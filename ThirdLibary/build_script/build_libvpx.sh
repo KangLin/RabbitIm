@@ -76,6 +76,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
 		;;
     windows_mingw)
+        CONFIG_PARA=""
 		;;
 	unix_mingw)
 		export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 

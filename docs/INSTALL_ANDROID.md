@@ -71,10 +71,11 @@ ubuntu下交叉编译
         sudo apt-get install subversion git
 
 #### 1.9. 脚本工具：
-* python:2.7.6
-* perl:5.18.2
+* Perl version 5.12 or later   [http://www.activestate.com/activeperl/]
+* Python version 2.7 or later  [http://www.activestate.com/activepython/]
+* Ruby version 1.9.3 or later  [http://rubyinstaller.org/]  
+    qtwebkit编译需要
 * bash:
-* ruby:qtwebkit编译需要
 
         sudo apt-get install ruby  build-essential perl python 
 
@@ -142,7 +143,62 @@ windows下交叉编译
         export ANDROID_SDK=/home/android-sdk/sdk
         export ANDROID_SDK_ROOT=$ANDROID_SDK
 
+#### 1.4. 下载工具
+主页： http://www.gnu.org/software/wget/  
+一般 msys/cygwin 中会包含
+
+#### 1.5. ant工具
+主页： http://ant.apache.org/
+
+        cd /tools
+        wget http://apache.dataguru.cn//ant/binaries/apache-ant-1.9.4-bin.zip
+        #并把路径加到环境变量PATH中
+        export PATH=/tools/ant/bin:$PATH
+
+#### 1.7. auto工具：
+主页:
+* automake: http://www.gnu.org/software/automake/
+* autoconf: http://www.gnu.org/software/autoconf/
+* libtool: http://www.gnu.org/software/libtool/
+* m4: http://www.gnu.org/software/m4
+* pkg-config: http://www.freedesktop.org/wiki/Software/pkg-config/
+
+一般 msys/cygwin 中会包含
+
+#### 1.8. 版本管理工具：
+* subversion: http://subversion.apache.org/
+* git: http://www.git-scm.com/
+
+需要把路径加到环境变量 PATH 中
+
+#### 1.9. 脚本工具：
+* python:2.7.6  version 2.7 or later
+主页: https://www.python.org/  http://www.activestate.com/activepython/
+* perl：5.18.2  version 5.12 or later 
+主页： http://www.perl.org/  http://www.activestate.com/activeperl/
+* bash:msys或cygwin
+* ruby:qtwebkit编译需要 version 1.9.3 or later  
+主页：http://www.ruby-lang.org/  http://rubyinstaller.org/  
+https://github.com/ruby/ruby
+
+#### 1.10. cmake 工具
+
+        cd /tools
+        wget http://www.cmake.org/files/v3.1/cmake-3.1.0-rc1-win32-x86.zip
+        unxip cmake-3.1.0-rc1-win32-x86.zip
+        mv cmake-3.1.0-rc1-win32-x86 cmake
+        export PATH=/tools/cmake/bin:$PATH
+
+#### 1.11. 语法分析工具：bison, flex and gperf（用于Qt编译）
+
+        sudo apt-get install bison flex gperf
+
 ### 2. 环境
+#### 2.1. 操作系统:windows 7 旗舰版 版本：6.1 (内部版本 7601 Service Pack 1)
+#### 2.2. bash 环境: msys（或者cygwin）
+mingw主页：http://www.mingw.org/ 。这个主页好象不是最新的，请用：http://sourceforge.net/projects/mingw-w64/  
+cygwin主页：http://www.cygwin.org/  
+当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
 
 ### 3. 第三方依赖库
 #### 3.1. 编译第三方依赖库(脚本中包括qt)

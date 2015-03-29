@@ -77,14 +77,14 @@ case ${RABBITIM_BUILD_TARGERT} in
         if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
             CMAKE_PARA="${CMAKE_PARA} -DCMAKE_MAKE_PROGRAM=$RABBITIM_CMAKE_MAKE_PROGRAM" 
         fi
-    ;;
+        ;;
     unix)
         CMAKE_PARA="-DWITH_LIBV4L=ON -DWITH_V4L=ON"
-    ;;
+        ;;
     windows_msvc)
-    ;;
+        ;;
     windows_mingw)
-    ;;
+        ;;
 	unix_mingw)
 		CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw-linux.cmake"
 		;;
