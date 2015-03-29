@@ -25,7 +25,8 @@
 主页：http://qt-project.org/  
 下载：http://qt-project.org/downloads  
 当前使用版本：5.3.0  
-QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
+QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html  
+[QT编译](http://blog.csdn.net/kl222/article/details/44216951)
 
 2. cmake：
 主页：http://www.cmake.org/
@@ -76,7 +77,7 @@ http://www.perl.org/
 
 8. icu工具，编译 QtWebkit 需要
 
-9. [工具与版本](http://qt-project.org/wiki/Qt-5.5.0-tools-and-versions)
+9. [Qt工具与版本](http://qt-project.org/wiki/Qt-5.5.0-tools-and-versions)
 
 第三方库：
 --------

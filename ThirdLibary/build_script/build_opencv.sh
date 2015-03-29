@@ -26,8 +26,8 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
@@ -115,10 +115,23 @@ cmake .. \
 cmake --build . --target install --config Release -- ${RABBITIM_MAKE_JOB_PARA}
 
 if [ "${RABBITIM_BUILD_TARGERT}" == "android" ]; then
-    cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/jni/include/opencv* ${RABBITIM_BUILD_PREFIX}/include/.
-    cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib/.
-    cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/3rdparty/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib/.
+    if [ -d ${RABBITIM_BUILD_PREFIX}/sdk/native/jni/include ]; then
+        cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/jni/include/opencv* ${RABBITIM_BUILD_PREFIX}/include/.
+    fi
+    mkdir -p ${RABBITIM_BUILD_PREFIX}/lib/cmake
+    cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/jni/*.cmake ${RABBITIM_BUILD_PREFIX}/lib/cmake/.
+    if [ -d ${RABBITIM_BUILD_PREFIX}/sdk/native/libs/armeabi-v7a ]; then
+        cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib/.
+    fi
+    if [ -d ${RABBITIM_BUILD_PREFIX}/sdk/native/3rdparty/libs/armeabi-v7a ]; then
+        cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/3rdparty/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib/.
+    fi
     #rm -fr ${RABBITIM_BUILD_PREFIX}/sdk ${RABBITIM_BUILD_PREFIX}/apk  ${RABBITIM_BUILD_PREFIX}/LICENSE  ${RABBITIM_BUILD_PREFIX}/README.android 
+else
+    if [ -f ${RABBITIM_BUILD_PREFIX}/Open*.cmake ]; then
+        mkdir -p ${RABBITIM_BUILD_PREFIX}/lib/cmake
+        mv -f ${RABBITIM_BUILD_PREFIX}/OpenCV*.cmake ${RABBITIM_BUILD_PREFIX}/lib/cmake/.
+    fi
 fi
 
 cd $CUR_DIR

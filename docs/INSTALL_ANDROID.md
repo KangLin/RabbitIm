@@ -114,7 +114,7 @@ windows下交叉编译
 * 设置环境变量：
 
         export JAVA_HOME=/home/jdk1.7.0_51
-        export PATH=$JAVA_HOME/bin:$PATH:$ANDROID_SDK/platform-tools
+        export PATH=$JAVA_HOME/bin:$PATH
 
 #### 1.2. android ndk
 * 工具链版本：4.8
@@ -129,7 +129,8 @@ windows下交叉编译
     
         export ANDROID_NDK=/home/android-ndk
         export ANDROID_NDK_ROOT=$ANDROID_NDK
-    
+        export PATH=$PATH::$ANDROID_SDK/platform-tools
+
 #### 1.3. android sdk 
 * 平台版本：18
 * 下载：
@@ -139,7 +140,8 @@ windows下交叉编译
         mv sdk android-sdk
 
 * 设置环境变量
-    
+
+        cd /home
         export ANDROID_SDK=/home/android-sdk/sdk
         export ANDROID_SDK_ROOT=$ANDROID_SDK
 
@@ -195,17 +197,18 @@ https://github.com/ruby/ruby
 
 ### 2. 环境
 #### 2.1. 操作系统:windows 7 旗舰版 版本：6.1 (内部版本 7601 Service Pack 1)
-#### 2.2. bash 环境: msys（或者cygwin）
-mingw主页：http://www.mingw.org/ 。这个主页好象不是最新的，请用：http://sourceforge.net/projects/mingw-w64/  
-cygwin主页：http://www.cygwin.org/  
-当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
+#### 1.2. bash 环境: msys（msys2 或者 cygwin）
+* msys: http://www.mingw.org/wiki/MSYS
+* msys2: http://sourceforge.net/projects/msys2/
+代码位置: https://github.com/Alexpux/MSYS2-packages
+* cygwin主页: http://www.cygwin.org/
 
 ### 3. 第三方依赖库
 #### 3.1. 编译第三方依赖库(脚本中包括qt)
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build.sh android [source_code_directory]
-    
+
 ### 4. 编译本项目:
 
     cd ${RabbitImRoot}/ThirdLibary/build_script

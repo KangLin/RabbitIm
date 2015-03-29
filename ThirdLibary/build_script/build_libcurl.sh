@@ -26,8 +26,8 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
@@ -46,8 +46,8 @@ CUR_DIR=`pwd`
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 if [ ! -f configure ]; then
-    echo "source buildconf"
-    ./buildconf
+    echo "sh buildconf"
+    sh buildconf
 fi
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
@@ -80,6 +80,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
 		;;
     windows_mingw)
+        CONFIG_PARA="--enable-static --disable-shared --with-gnu-ld --enable-sse "
 		;;
 	unix_mingw)
 		CONFIG_PARA="${CONFIG_PARA}  CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse "

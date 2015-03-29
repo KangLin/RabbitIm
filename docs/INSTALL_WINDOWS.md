@@ -62,14 +62,17 @@ windows下用mingw交叉编译
 -------------------------
 ### 1. 环境
 #### 1.1. 操作系统:windows 7 旗舰版 版本：6.1 (内部版本 7601 Service Pack 1)
-#### 1.2. bash 环境: msys（或者cygwin）
-mingw主页：http://www.mingw.org/ 。这个主页好象不是最新的，请用：http://sourceforge.net/projects/mingw-w64/  
-cygwin主页：http://www.cygwin.org/  
-当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
+#### 1.2. bash 环境: msys（msys2 或者 cygwin）
+* msys: http://www.mingw.org/wiki/MSYS
+* msys2: http://sourceforge.net/projects/msys2/
+代码位置: https://github.com/Alexpux/MSYS2-packages
+* cygwin主页: http://www.cygwin.org/
 
 ### 2. 工具
 #### 2.1. 交叉编译工具:mingw
-mingw主页：http://www.mingw.org/ 。这个主页好象不是最新的，请用：http://sourceforge.net/projects/mingw-w64/
+* mingw主页： http://www.mingw.org/ 。这个主页好象不是最新的，
+* mingw-w64: http://sourceforge.net/projects/mingw-w64/
+* mingwbuilds: http://sourceforge.net/projects/mingwbuilds/
 因为 QT for android in windows 预编译包中已包含了 mingw 。  
 当前使用版本：
 gcc version 4.8.2 (i686-posix-dwarf-rev3, Built by MinGW-W64 project)

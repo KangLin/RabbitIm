@@ -26,8 +26,8 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then

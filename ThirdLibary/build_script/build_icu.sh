@@ -26,8 +26,8 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
@@ -40,8 +40,10 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    echo "git clone http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}"
-	svn co http://source.icu-project.org/repos/icu/icu/trunk/ ${RABBITIM_BUILD_SOURCE_CODE}
+    #echo "git clone https://github.com/svn2github/libicu.git ${RABBITIM_BUILD_SOURCE_CODE}/source"
+    #git clone https://github.com/svn2github/libicu.git ${RABBITIM_BUILD_SOURCE_CODE}
+    echo "svn co http://source.icu-project.org/repos/icu/icu/trunk/ ${RABBITIM_BUILD_SOURCE_CODE}"
+    svn co http://source.icu-project.org/repos/icu/icu/trunk/ ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
 SOURCE_DIR=${RABBITIM_BUILD_SOURCE_CODE}/source     #源代码目录
@@ -71,7 +73,11 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
     ;;
     windows_mingw)
-    ;;
+        cd ${BUILD_DIR}
+        sh ${SOURCE_DIR}/runConfigureICU MinGW --prefix=${RABBITIM_BUILD_PREFIX}
+        make ${RABBITIM_MAKE_JOB_PARA} && make install
+        cp ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+        ;;
 	unix_mingw)
 		cd ${CONFIG_DIR}
 		sh ${SOURCE_DIR}/runConfigureICU MinGW #--prefix=${RABBITIM_BUILD_PREFIX}

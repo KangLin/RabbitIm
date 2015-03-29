@@ -26,8 +26,8 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
@@ -46,8 +46,8 @@ CUR_DIR=`pwd`
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 if [ ! -f configure ]; then
-    echo "source autogen.sh"
-    . autogen.sh 
+    echo "sh autogen.sh"
+    sh autogen.sh 
 fi
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}

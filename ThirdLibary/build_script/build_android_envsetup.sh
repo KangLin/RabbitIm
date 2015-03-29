@@ -50,7 +50,7 @@ QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
 #自动判断主机类型，目前只做了linux、windows判断
 TARGET_OS=`uname -s`
 case $TARGET_OS in
-    MINGW* | CYGWIN*)
+    MINGW* | CYGWIN* | MSYS*)
         RABBITIM_BUILD_HOST="windows"
         #RABBITIM_CMAKE_MAKE_PROGRAM=$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make #这个用不着，只有在windows命令行下才有用
         ;;
