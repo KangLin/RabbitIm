@@ -29,7 +29,7 @@ function function_common()
     if [ -n "${BUILD_THIRDLIBARY}" ]; then
 		#编译第三方库
 		cd ${SOURCE_DIR}/ThirdLibary/build_script
-		source build.sh ${BUILD_TARGERT}
+		sh build.sh ${BUILD_TARGERT}
 	fi
 }
 

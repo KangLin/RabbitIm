@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #作者：康林
 #参数:
 #    $1:编译目标(android、windows_msvc、windows_mingw、unix、unix_mingw)

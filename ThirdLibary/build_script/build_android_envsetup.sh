@@ -1,3 +1,14 @@
+#bash用法：
+#   在用一sh进程中执行脚本script.sh:
+#   source script.sh
+#   . script.sh
+#   注意这种用法，script.sh开头一行不能包含 #!/bin/sh
+
+#   新建一个sh进程执行脚本script.sh:
+#   sh script.sh
+#   ./script.sh
+#   注意这种用法，script.sh开头一行必须包含 #!/bin/sh
+
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量，也可以把它们设置在环境变量中：
 #export ANDROID_NDK_ROOT=/home/android-ndk-r9c   #指定 android ndk 根目录
@@ -41,7 +52,7 @@ TARGET_OS=`uname -s`
 case $TARGET_OS in
     MINGW* | CYGWIN*)
         RABBITIM_BUILD_HOST="windows"
-        RABBITIM_CMAKE_MAKE_PROGRAM=$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make
+        #RABBITIM_CMAKE_MAKE_PROGRAM=$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make #这个用不着，只有在windows命令行下才有用
         ;;
     Linux* | Unix*)
         RABBITIM_BUILD_HOST="linux-`uname -m`"    #windows、linux-x86_64

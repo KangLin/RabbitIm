@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #作者：康林
 #参数:
 #    $1:编译目标(android、windows_msvc、windows_mingw、unix、unix_mingw)
@@ -61,7 +63,7 @@ echo ""
 #需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
 case `uname -s` in
     MINGW* | CYGWIN*)
-        GENERATORS="MinGW Makefiles"
+        GENERATORS="MSYS Makefiles"
         ;;
     Linux* | Unix* | *)
         GENERATORS="Unix Makefiles" 
@@ -109,17 +111,14 @@ cmake .. \
     -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
     -DCMAKE_BUILD_TYPE="Release" \
     -G"${GENERATORS}" ${CMAKE_PARA} 
-if [ -n "${RABBITIM_MAKE_JOB_PARA}" ]; then
-    cmake --build . --target install --config Release -- ${RABBITIM_MAKE_JOB_PARA}
-else
-    cmake --build . --target install --config Release
-fi
+
+cmake --build . --target install --config Release -- ${RABBITIM_MAKE_JOB_PARA}
 
 if [ "${RABBITIM_BUILD_TARGERT}" == "android" ]; then
     cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/jni/include/opencv* ${RABBITIM_BUILD_PREFIX}/include/.
     cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib/.
     cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/3rdparty/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib/.
-    rm -fr ${RABBITIM_BUILD_PREFIX}/sdk ${RABBITIM_BUILD_PREFIX}/apk  ${RABBITIM_BUILD_PREFIX}/LICENSE  ${RABBITIM_BUILD_PREFIX}/README.android 
+    #rm -fr ${RABBITIM_BUILD_PREFIX}/sdk ${RABBITIM_BUILD_PREFIX}/apk  ${RABBITIM_BUILD_PREFIX}/LICENSE  ${RABBITIM_BUILD_PREFIX}/README.android 
 fi
 
 cd $CUR_DIR

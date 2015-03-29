@@ -74,15 +74,50 @@ mingw主页：http://www.mingw.org/ 。这个主页好象不是最新的，请�
 当前使用版本：
 gcc version 4.8.2 (i686-posix-dwarf-rev3, Built by MinGW-W64 project)
 
-#### 2.2. 安装auto工具、版本管理工具：
+#### 2.2. 安装auto工具：
+主页:
+* automake: http://www.gnu.org/software/automake/
+* autoconf: http://www.gnu.org/software/autoconf/
+* libtool: http://www.gnu.org/software/libtool/
+* m4: http://www.gnu.org/software/m4
+* pkg-config: http://www.freedesktop.org/wiki/Software/pkg-config/
 
-#### 2.3. perl 工具
-http://www.perl.org/
+一般 msys/cygwin 中会包含
 
-#### 2.4. 汇编工具（yasm、nasm）
+#### 2.3. 版本管理工具:
+* subversion: http://subversion.apache.org/
+* git: http://www.git-scm.com/
+
+#### 2.4. 脚本工具
+* python:2.7.6  version 2.7 or later
+主页: https://www.python.org/  http://www.activestate.com/activepython/
+* perl：5.18.2  version 5.12 or later 
+主页： http://www.perl.org/  http://www.activestate.com/activeperl/
+* bash:msys或cygwin
+* ruby:qtwebkit编译需要 version 1.9.3 or later  
+主页：http://www.ruby-lang.org/  http://rubyinstaller.org/  
+https://github.com/ruby/ruby
+
+#### 2.5. 汇编工具（yasm、nasm）
 [yasm](http://yasm.tortall.net/)  
 [nasm](http://www.nasm.us/)  
 下载并安装，并且设置路径到环境变量PATH
+
+#### 2.6. cmake 工具
+主页：www.cmake.org
+
+        cd /tools
+        wget http://www.cmake.org/files/v3.1/cmake-3.1.0-rc1-win32-x86.zip
+        unxip cmake-3.1.0-rc1-win32-x86.zip
+        mv cmake-3.1.0-rc1-win32-x86 cmake
+        export PATH=/tools/cmake/bin:$PATH
+
+#### 2.7. 语法分析工具：bison, flex and gperf（用于Qt编译）
+
+        sudo apt-get install bison flex gperf
+
+#### 2.8. 安装工具
+主页：http://nsis.sourceforge.net/Main_Page
 
 ### 3. 编译第三方依赖库(脚本中包括qt)
 

@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #作者：康林
 #参数:
 #    $1:编译目标(android、windows_msvc、windows_mingw、unix、unix_mingw)
@@ -56,12 +58,14 @@ echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
+echo "RABBITIM_MAKE_JOB_PARA:$RABBITIM_MAKE_JOB_PARA"
+echo "RABBITIM_CMAKE_MAKE_PROGRAM:$RABBITIM_CMAKE_MAKE_PROGRAM"
 echo ""
 
 #需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
 case `uname -s` in
     MINGW* | CYGWIN*)
-        GENERATORS="MinGW Makefiles"
+        GENERATORS="MSYS Makefiles"
         ;;
     Linux* | Unix* | *)
         GENERATORS="Unix Makefiles" 
@@ -90,11 +94,12 @@ case ${RABBITIM_BUILD_TARGERT} in
     ;;
 esac
 
+echo "cmake .. -DCMAKE_INSTALL_PREFIX=$RABBITIM_BUILD_PREFIX -DCMAKE_BUILD_TYPE=Release -G\"${GENERATORS}\" ${CMAKE_PARA}"
 cmake .. \
     -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
     -DCMAKE_BUILD_TYPE="Release" \
     -G"${GENERATORS}" ${CMAKE_PARA} 
 
-cmake --build . --target install --config Release
+cmake --build . --target install --config Release -- ${RABBITIM_MAKE_JOB_PARA}
 
 cd $CUR_DIR
