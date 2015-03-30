@@ -21,13 +21,13 @@ case $1 in
     ;;
     *)
     echo "${HELP_STRING}"
-    return 1
+    exit 1
     ;;
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo ". `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    . `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
@@ -36,13 +36,22 @@ else
     RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/speex
 fi
 
+CUR_DIR=`pwd`
+cd ${RABBITIM_BUILD_SOURCE_CODE}
+
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    echo "git clone http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}"
-    git clone http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
+    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+        echo "git clone http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone --branch=6aab25c http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
+    else
+        echo "wget http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz"
+        wget http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz
+        tar xzf http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz
+        mv -f speex-1.2rc1 ${RABBITIM_BUILD_SOURCE_CODE}
+    fi
 fi
 
-CUR_DIR=`pwd`
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 if [ ! -f configure ]; then

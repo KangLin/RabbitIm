@@ -21,7 +21,7 @@ case $1 in
     ;;
     *)
     echo "${HELP_STRING}"
-    return 1
+    exit 1
     ;;
 esac
 
@@ -30,8 +30,8 @@ esac
 #   QMAKE=  #设置用于相应平台编译的 QMAKE
 #   JOM=    #QT 自带的类似 make 的工具
 if [ -z "${PREFIX}" -o -z "${QMAKE}" -o -z "${JOM}" ]; then
-    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo ". `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    . `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
@@ -40,13 +40,21 @@ else
     RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/qxmpp
 fi
 
+CUR_DIR=`pwd`
+cd ${RABBITIM_BUILD_SOURCE_CODE}
+
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    echo "git clone https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}"
-    git clone https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
+    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+        echo "git clone https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone https://github.com/KangLin/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
+    else
+        wget https://github.com/KangLin/qxmpp/archive/master.zip
+        unzip master.zip
+        mv -f qxmpp-master ${RABBITIM_BUILD_SOURCE_CODE}
+    fi
 fi
 
-CUR_DIR=`pwd`
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}

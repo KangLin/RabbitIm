@@ -22,13 +22,13 @@ case $1 in
     ;;
     *)
     echo "${HELP_STRING}"
-    return 1
+    exit 1
     ;;
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo ". `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    . `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
@@ -41,31 +41,46 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    echo "git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
-    git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
+    QT_VERSION=5.4.1
     cd ${RABBITIM_BUILD_SOURCE_CODE}
-    perl init-repository -no-qtcanvas3d -no-qt3d
-    cd ${CUR_DIR}
+    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+        echo "git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git checkout ${QT_VERSION}
+        perl init-repository -f -no-qtcanvas3d -no-qt3d
+        cd ${CUR_DIR}
+    else
+        wget http://ftp.jaist.ac.jp/pub/qtproject/archive/qt/5.4/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
+        tar xzf qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
+        mv -f qt-everywhere-opensource-src-${QT_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
+    fi
 fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 #清理
 if [ -n "$QT_CLEAN" ]; then
-    qtrepotools/bin/qt5_tool -c
-    
-	#git clean -xdf
-	#git submodule foreach --recursive "git clean -dfx"
-	#echo $1
-	#for i in `ls $1`;
-	#do
-    #    	if [ -d $1/${i} ]; then
-    #            	echo "$1/${i}"
-	#                cd $1/${i}
-    #    	        git clean -xdf
-	#        fi
-	#done
-	rm -fr ${RABBITIM_BUILD_PREFIX}/qt
+    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+        qtrepotools/bin/qt5_tool -c
+        
+        #git clean -xdf
+        #git submodule foreach --recursive "git clean -dfx"
+        #echo $1
+        #for i in `ls $1`;
+        #do
+        #    	if [ -d $1/${i} ]; then
+        #            	echo "$1/${i}"
+        #                cd $1/${i}
+        #    	        git clean -xdf
+        #        fi
+        #done
+    else
+        if [ -f Makefile ]; then
+            make distclean
+            rm -f Makefile
+        fi
+    fi
+    rm -fr ${RABBITIM_BUILD_PREFIX}/qt
 fi
 
 echo "RABBITIM_BUILD_SOURCE_CODE:$RABBITIM_BUILD_SOURCE_CODE"

@@ -21,13 +21,13 @@ case $1 in
     ;;
     *)
     echo "${HELP_STRING}"
-    return 1
+    exit 1
     ;;
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo ". `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    . `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then

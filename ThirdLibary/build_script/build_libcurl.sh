@@ -21,13 +21,13 @@ case $1 in
     ;;
     *)
     echo "${HELP_STRING}"
-    return 1
+    exit 1
     ;;
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo ". `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    . `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
@@ -36,13 +36,23 @@ else
     RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/libcurl
 fi
 
+CUR_DIR=`pwd`
+
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    echo "git clone git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}"
-    git clone git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
+    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+        echo "git clone git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone --branch=curl-7_41_0 git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
+    else
+        CUR_FILE=curl-7.41.0
+        echo "wget http://curl.haxx.se/download/${CUR_FILE}.tar.gz"
+        cd ${RABBITIM_BUILD_SOURCE_CODE}
+        wget http://curl.haxx.se/download/${CUR_FILE}.tar.gz
+        tar xzf ${CUR_FILE}.tar.gz
+        mv -f ${CUR_FILE} ${RABBITIM_BUILD_SOURCE_CODE}
+    fi
 fi
 
-CUR_DIR=`pwd`
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 if [ ! -f configure ]; then

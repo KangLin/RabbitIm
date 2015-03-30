@@ -1,4 +1,14 @@
 #!/bin/sh
+#bash用法：
+#   在用一sh进程中执行脚本script.sh:
+#   source script.sh
+#   . script.sh
+#   注意这种用法，script.sh开头一行不能包含 #!/bin/sh
+
+#   新建一个sh进程执行脚本script.sh:
+#   sh script.sh
+#   ./script.sh
+#   注意这种用法，script.sh开头一行必须包含 #!/bin/sh
 
 #作者：康林
 #参数:
@@ -21,13 +31,13 @@ case $1 in
     ;;
     *)
     echo "${HELP_STRING}"
-    return 1
+    exit 1
     ;;
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo ". `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    . `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
@@ -36,13 +46,24 @@ else
     RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/ffmpeg
 fi
 
+CUR_DIR=`pwd`
+
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    echo "git clone git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}"
-    git clone git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
+    FFMPEG_VERSION=2.6.1
+    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+        echo "git clone git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone  --branch=n${FFMPEG_VERSION} git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
+    else
+        echo "wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_FILE}.tar.gz"
+        cd ${RABBITIM_BUILD_SOURCE_CODE}
+        wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_FILE}.tar.gz
+        tar xzvf ffmpeg-${FFMPEG_FILE}.tar.gz
+        mv -f ffmpeg-${FFMPEG_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
+        rm ffmpeg-${FFMPEG_VERSION}.tar.gz
+    fi
 fi
 
-CUR_DIR=`pwd`
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 echo ""
@@ -56,7 +77,12 @@ echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
-git clean -xdf
+if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+    git clean -xdf
+else
+    make distclean
+fi
+
 echo "configure ..."
 CONFIG_PARA="--disable-static --enable-shared"
 case ${RABBITIM_BUILD_TARGERT} in

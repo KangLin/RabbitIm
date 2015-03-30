@@ -36,9 +36,13 @@ http://www.perl.org/
 ### 2. 环境  
 #### 2.1. 操作系统:windows 7 旗舰版 版本：6.1 (内部版本 7601 Service Pack 1)
 
-#### 2.2. bash 环境: msys（或者cygwin）
-cygwin主页：http://www.cygwin.org/  
-当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
+#### 2.2. bash 环境: msys（msys2 或者 cygwin）
+* msys: http://www.mingw.org/wiki/MSYS
+* msys2: http://sourceforge.net/projects/msys2/
+代码位置: https://github.com/Alexpux/MSYS2-packages
+* cygwin主页: http://www.cygwin.org/  
+
+当前使用的是msys
 
 #### 2.3. 使用:
 先从菜单栏中起动vs2013编译命令行工具：  
@@ -66,7 +70,9 @@ windows下用mingw交叉编译
 * msys: http://www.mingw.org/wiki/MSYS
 * msys2: http://sourceforge.net/projects/msys2/
 代码位置: https://github.com/Alexpux/MSYS2-packages
-* cygwin主页: http://www.cygwin.org/
+* cygwin主页: http://www.cygwin.org/  
+
+当前使用的是msys
 
 ### 2. 工具
 #### 2.1. 交叉编译工具:mingw
@@ -92,12 +98,12 @@ gcc version 4.8.2 (i686-posix-dwarf-rev3, Built by MinGW-W64 project)
 * git: http://www.git-scm.com/
 
 #### 2.4. 脚本工具
-* python:2.7.6  version 2.7 or later
+* python:2.7.6  版本 2.7 或以后
 主页: https://www.python.org/  http://www.activestate.com/activepython/
-* perl：5.18.2  version 5.12 or later 
+* perl：5.18.2  版本 5.12 或以后
 主页： http://www.perl.org/  http://www.activestate.com/activeperl/
 * bash:msys或cygwin
-* ruby:qtwebkit编译需要 version 1.9.3 or later  
+* ruby:qtwebkit编译需要 版本 1.9.3 或以后
 主页：http://www.ruby-lang.org/  http://rubyinstaller.org/  
 https://github.com/ruby/ruby
 

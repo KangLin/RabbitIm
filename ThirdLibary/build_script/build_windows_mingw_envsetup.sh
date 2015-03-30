@@ -24,5 +24,5 @@ QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
                             #这里设置的是自动编译时的配置，你需要修改为你本地qt编译环境的配置.
                             
 export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
-export PATH=${QT_BIN}:$PATH
+export PATH=${RABBITIM_BUILD_PREFIX}/bin:${QT_BIN}:$PATH
 

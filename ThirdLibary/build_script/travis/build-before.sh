@@ -55,7 +55,7 @@ function function_android()
 		tar xzf android.tar.gz 
 		
 		#cd ${SOURCE_DIR}/ThirdLibary/android
-		下载qt for android
+		#下载qt for android
 		wget http://182.254.185.29/download/travis/qt_android.tar.gz
 		tar xzf qt_android.tar.gz 
 		mv android_armv7 qt

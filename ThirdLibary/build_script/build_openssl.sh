@@ -21,13 +21,13 @@ case $1 in
     ;;
     *)
     echo "${HELP_STRING}"
-    return 1
+    exit 1
     ;;
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo ". `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    . `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
@@ -36,13 +36,23 @@ else
     RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/openssl
 fi
 
+CUR_DIR=`pwd`
+
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    echo "git clone https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
-    git clone https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
+    OPENSLL_BRANCH=OpenSSL_1_0_2-stable
+    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+        echo "git clone https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
+    else
+        cd ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}-stable.zip"
+        wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip
+        unzip ${OPENSLL_BRANCH}.zip
+        mv -f openssl-${OPENSLL_BRANCH} ${RABBITIM_BUILD_SOURCE_CODE}
+    fi
 fi
 
-CUR_DIR=`pwd`
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 echo ""
@@ -56,7 +66,14 @@ echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
-git clean -xdf
+if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+    git clean -xdf
+else
+    if [ -f Makefile ]; then
+        make distclean
+    fi
+fi
+
 echo "configure ..."
 case ${RABBITIM_BUILD_TARGERT} in
     android)
