@@ -76,7 +76,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         cd ${BUILD_DIR}
         sh ${SOURCE_DIR}/runConfigureICU MinGW --prefix=${RABBITIM_BUILD_PREFIX}
         make ${RABBITIM_MAKE_JOB_PARA} && make install
-        cp ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+        cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
         ;;
 	unix_mingw)
 		cd ${CONFIG_DIR}
@@ -85,7 +85,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 		cd ${BUILD_DIR}
 		sh ${SOURCE_DIR}/configure --host=${RABBITIM_BUILD_CROSS_HOST} --with-cross_build=${CONFIG_DIR} --prefix=${RABBITIM_BUILD_PREFIX}
 		make ${RABBITIM_MAKE_JOB_PARA} && make install
-		cp ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+		cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
 		;;
     *)
     echo "${HELP_STRING}"
