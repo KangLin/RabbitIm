@@ -37,18 +37,19 @@ else
 fi
 
 CUR_DIR=`pwd`
-cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone http://git.xiph.org/speexdsp.git  ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=887ac10 http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -b 887ac10 http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget http://downloads.xiph.org/releases/speex/speexdsp-1.2rc3.tar.gz"
+        mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
+        cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget http://downloads.xiph.org/releases/speex/speexdsp-1.2rc3.tar.gz
         tar xvf speexdsp-1.2rc3.tar.gz
-        mv -f speexdsp-1.2rc3 ${RABBITIM_BUILD_SOURCE_CODE}
+        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/speexdsp-1.2rc3
     fi
 fi
 

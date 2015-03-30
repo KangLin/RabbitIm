@@ -91,7 +91,7 @@ if [ "$3" != "qmake" ]; then
             ;;
         *)
             echo "${HELP_STRING}"
-            return 1
+            exit 1
             ;;
     esac
     echo "cmake .. -G\"${GENERATORS}\" $PARA"
@@ -121,7 +121,7 @@ else
             ;;
         *)
             echo "${HELP_STRING}"
-            return 1
+            exit 1
             ;;
     esac
     $QMAKE .. $PARA PREFIX=`pwd`/install \

@@ -41,7 +41,6 @@ else
 fi
 
 CUR_DIR=`pwd`
-cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
@@ -49,9 +48,11 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "git clone https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone https://github.com/KangLin/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
+		mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
+		cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget https://github.com/KangLin/qxmpp/archive/master.zip
         unzip master.zip
-        mv -f qxmpp-master ${RABBITIM_BUILD_SOURCE_CODE}
+        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/qxmpp-master
     fi
 fi
 
@@ -106,7 +107,7 @@ $QMAKE -o Makefile \
        .. #"CONFIG+=debug" #QXMPP_LIBRARY_TYPE=staticlib #静态库
 
 ${MAKE} -f Makefile install 
-if [ "$RABBITIM_BUILD_TARGERT" == "android" ]; then
+if [ "$RABBITIM_BUILD_TARGERT" = "android" ]; then
     ${MAKE} -f Makefile install ${MAKE_PARA}
     cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
 fi

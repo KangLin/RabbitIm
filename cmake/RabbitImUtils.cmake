@@ -35,6 +35,7 @@ MACRO(INSTALL_QT_LIBRARYS _LIBS)
     ENDFOREACH()
 ENDMACRO(INSTALL_QT_LIBRARYS)
 
+#产生android平台分发设置
 MACRO(GENERATED_DEPLOYMENT_SETTINGS)
     SET(_file_name "${PROJECT_BINARY_DIR}/android-libRabbitIm.so-deployment-settings.json")
     
@@ -63,3 +64,18 @@ MACRO(GENERATED_DEPLOYMENT_SETTINGS)
     FILE(APPEND ${_file_name} "\"application-binary\":\"${PROJECT_BINARY_DIR}/libRabbitIm.so\"\n")
     FILE(APPEND ${_file_name} "}")
 ENDMACRO(GENERATED_DEPLOYMENT_SETTINGS)
+
+#用于嵌入式分发other文件
+macro(add_deployment_file SRC DEST)
+	file(RELATIVE_PATH path ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+	file(APPEND "${CMAKE_SOURCE_DIR}/QtCreatorDeployment.txt" "${path}/${SRC}:${DEST}\n")
+endmacro()
+
+#用于嵌入式分发other文件夹及其子目录
+macro(add_deployment_directory SRC DEST)
+	file(GLOB_RECURSE files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "${SRC}/*")
+	foreach(filename ${files})
+		get_filename_component(path ${filename} PATH)
+		add_deployment_file("${filename}" "${DEST}/${path}")
+	endforeach(filename)
+endmacro()

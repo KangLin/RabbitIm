@@ -45,11 +45,12 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "git clone https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
     else
+		mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         echo "wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}-stable.zip"
         wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip
         unzip ${OPENSLL_BRANCH}.zip
-        mv -f openssl-${OPENSLL_BRANCH} ${RABBITIM_BUILD_SOURCE_CODE}
+        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/openssl-${OPENSLL_BRANCH}
     fi
 fi
 
@@ -81,8 +82,8 @@ case ${RABBITIM_BUILD_TARGERT} in
 		perl Configure --cross-compile-prefix=${RABBITIM_BUILD_CROSS_PREFIX} \
 				--prefix=${RABBITIM_BUILD_PREFIX} \
 				--openssldir=${RABBITIM_BUILD_PREFIX} \
-				android-armv7 #\
-#				--sysroot="${RABBITIM_BUILD_CROSS_SYSROOT}"
+				android-armv7 \
+				--sysroot="${RABBITIM_BUILD_CROSS_SYSROOT}"
 		;;
     unix)
 		./config --prefix=${RABBITIM_BUILD_PREFIX} --openssldir=${RABBITIM_BUILD_PREFIX} shared
@@ -109,6 +110,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 esac
 
 echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} && make install
+#make ${RABBITIM_MAKE_JOB_PARA} && make install
+make && make install
 
 cd $CUR_DIR

@@ -104,42 +104,42 @@ http://www.perl.org/
 下载：
         git clone git://source.ffmpeg.org/ffmpeg.git
 当前使用版本：  
-    git库版本 —— n2.5.4  
+    git库版本 —— n2.6.1  
 
 4. 编解码库(x264)
 下载：`git clone git://git.videolan.org/x264.git`  
 当前使用版本：  
-    git库版本 —— 40bb56814e56ed342040bdbf30258aab39ee9e89
+    git库版本 —— 121396c
 
 5. 解码库(libvpx)
 下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
 当前使用版本:  
-    git库版本 —— 8619274ea384500abeb698f832815ca892266954
+    git库版本 —— 9b99eb2
 
 6. 音频处理库(libspeexdsp)
 下载：`git clone http://git.xiph.org/speexdsp.git`  
 当前使用版本:  
-    git库版本 —— 887ac103dbbd0533ed501fc3dd599c876cc0eec7
+    git库版本 —— 887ac10
 
 7. 音频编解码库（libspeex）
 下载：`git clone http://git.xiph.org/speex.git`  
 当前使用版本：  
-    git库版本 —— 6aab25cb90f373c27f36901d4d9ed510919d2ea4
+    git库版本 —— 6aab25c
 
 8. [图像处理库(opencv)](http://opencv.org/)
 下载：`git clone git://github.com/Itseez/opencv.git`  
 当前使用版本:  
-    git库版本 —— bdb088dccab11c9031e92414e02a0964ff614562
+    git库版本 —— 2.4.11
 
 9. libyuv  
 下载:`git clone http://git.chromium.org/external/libyuv.git`
 当前使用版本:  
-    git库版本 —— 70e5c818603e9b83aac266f2e7750c0543cb19de
+    git库版本 —— 416c48d
 
 10. [openssl](http://www.openssl.org/)
 下载：`git clone  https://github.com/openssl/openssl`  
 当前使用版本：  
-    git库版本 —— 94be83127b08dc3977d2c14304aa61208db048d0  
+    git库版本 —— c8ece53  
 	remotes/origin/OpenSSL_1_0_2-stable
 
 11. [libcurl](http://curl.haxx.se)
@@ -150,7 +150,7 @@ http://www.perl.org/
 12. [libicu](http://site.icu-project.org/)
 下载：`svn co http://source.icu-project.org/repos/icu/icu/trunk/ icu`
 当前使用版本：
-    Revision: 37233
+    Revision: 37303
 
 本项目：
 ---------

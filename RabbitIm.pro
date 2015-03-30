@@ -96,7 +96,7 @@ INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom
 android{
     THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/android
     DEFINES += ANDROID MOBILE
-    
+
     RABBITIM_SYSTEM="android"
     !isEmpty(RABBITIM_USER_LIBCURL){
         LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lz#可以用 ./curl-config --libs 得到
@@ -123,7 +123,7 @@ android{
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_mingw
 
         !isEmpty(RABBITIM_USER_LIBCURL){
-            LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lwldap32 -lz -lws2_32 #可以用 ./curl-config --libs 得到
+            LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lwldap32 -lws2_32 #可以用 ./curl-config --libs 得到
         }else{
             !isEmpty(RABBITIM_USER_OPENSSL){
                 LIBOPENSSL_LIBRARY = -lssl -lcrypto

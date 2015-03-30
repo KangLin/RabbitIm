@@ -37,7 +37,6 @@ else
 fi
 
 CUR_DIR=`pwd`
-cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
@@ -47,10 +46,11 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         git clone --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip"
+        mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip
         unzip ${OPENCV_VERSION}.zip
-        mv -f opencv-${OPENCV_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
+        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/opencv-${OPENCV_VERSION} 
     fi
 fi
 
@@ -84,8 +84,10 @@ esac
 CMAKE_PARA="-DBUILD_SHARED_LIBS=ON"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
+		export ANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}
+		export ANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
         CMAKE_PARA="-DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/platforms/android/android.toolchain.cmake"
-        CMAKE_PARA="${CMAKE_PARA} -DANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION} "
+        #CMAKE_PARA="${CMAKE_PARA} -DANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION} "
 
         if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
             CMAKE_PARA="${CMAKE_PARA} -DCMAKE_MAKE_PROGRAM=$RABBITIM_CMAKE_MAKE_PROGRAM" 
@@ -103,7 +105,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 		;;
     *)
     echo "${HELP_STRING}"
-    return 2
+    exit 2
     ;;
 esac
 
@@ -124,25 +126,5 @@ cmake .. \
     -G"${GENERATORS}" ${CMAKE_PARA} 
 
 cmake --build . --target install --config Release -- ${RABBITIM_MAKE_JOB_PARA}
-
-if [ "${RABBITIM_BUILD_TARGERT}" == "android" ]; then
-    if [ -d ${RABBITIM_BUILD_PREFIX}/sdk/native/jni/include ]; then
-        cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/jni/include/opencv* ${RABBITIM_BUILD_PREFIX}/include/.
-    fi
-    mkdir -p ${RABBITIM_BUILD_PREFIX}/lib/cmake
-    cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/jni/*.cmake ${RABBITIM_BUILD_PREFIX}/lib/cmake/.
-    if [ -d ${RABBITIM_BUILD_PREFIX}/sdk/native/libs/armeabi-v7a ]; then
-        cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib/.
-    fi
-    if [ -d ${RABBITIM_BUILD_PREFIX}/sdk/native/3rdparty/libs/armeabi-v7a ]; then
-        cp -fr ${RABBITIM_BUILD_PREFIX}/sdk/native/3rdparty/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib/.
-    fi
-    #rm -fr ${RABBITIM_BUILD_PREFIX}/sdk ${RABBITIM_BUILD_PREFIX}/apk  ${RABBITIM_BUILD_PREFIX}/LICENSE  ${RABBITIM_BUILD_PREFIX}/README.android 
-else
-    if [ -f ${RABBITIM_BUILD_PREFIX}/Open*.cmake ]; then
-        mkdir -p ${RABBITIM_BUILD_PREFIX}/lib/cmake
-        mv -f ${RABBITIM_BUILD_PREFIX}/OpenCV*.cmake ${RABBITIM_BUILD_PREFIX}/lib/cmake/.
-    fi
-fi
 
 cd $CUR_DIR

@@ -177,16 +177,19 @@ INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/Widgets/FrmCustom
     ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/include)
 
-SET(THIRD_PACKAGE ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME})   #第三方开发包目录  
-SET(THIRD_LIB_DIR ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/lib) #第三方库目录
+SET(THIRD_PACKAGE_DIR ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME})   #第三方开发包目录  
+SET(THIRD_LIB_DIR ${THIRD_PACKAGE_DIR}/lib) #第三方库目录
 LINK_DIRECTORIES(${THIRD_LIB_DIR})
 #设置库的搜索路径  
-SET(CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME} ${CMAKE_PREFIX_PATH})
+SET(CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME} ${THIRD_PACKAGE_DIR} ${CMAKE_PREFIX_PATH})
 #MESSAGE("CMAKE_PREFIX_PATH:${CMAKE_PREFIX_PATH}/lib/pkgconfig")
 #允许 pkg-config 在 CMAKE_PREFIX_PATH 中搜索库
 SET(PKG_CONFIG_USE_CMAKE_PREFIX_PATH TRUE)
 #设置 find_XXX.cmake 搜索目录  
-SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${THIRD_LIB_DIR}/cmake ${CMAKE_MODULE_PATH})
+SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${THIRD_PACKAGE_DIR} ${CMAKE_MODULE_PATH})
+IF(ANDROID)
+	SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} THIRD_LIB_DIR/sdk/native/jni)
+ENDIF()
 #pkgconfig模块
 FIND_PACKAGE(PkgConfig)
 
@@ -253,42 +256,49 @@ IF(OPTION_RABBITIM_USER_FFMPEG)
 ENDIF(OPTION_RABBITIM_USER_FFMPEG)
 MESSAGE("Use ffmpeg library:${RABBITIM_USER_FFMPEG}\n")
 
-#TODO:增加检测opencv库
-find_package(OpenCV)
-OPTION(OPTION_RABBITIM_USER_OPENCV "Use opencv library" OFF)
+#增加检测opencv库
+OPTION(OPTION_RABBITIM_USER_OPENCV "Use opencv library" ON)
 IF(OPTION_RABBITIM_USER_OPENCV)
     add_definitions("-DRABBITIM_USER_OPENCV")
     SET(RABBITIM_USER_OPENCV ON)
-    IF(WIN32)
-        SET(OPENCV_VERSION 300)
-    ENDIF(WIN32)
-    SET(OPENCV_LIBS 
-            opencv_imgproc${OPENCV_VERSION}
-            opencv_videoio${OPENCV_VERSION}
-            opencv_video${OPENCV_VERSION}
-            opencv_core${OPENCV_VERSION}
-            )
-    IF(ANDROID)
-        SET(OPENCV_LIBS ${OPENCV_LIBS}
-                         opencv_androidcamera
-                         opencv_imgcodecs 
-                         opencv_info 
-                         libjpeg
-                )
+    IF(PKG_CONFIG_FOUND)
+		find_package(OpenCV COMPONENTS core imgproc video videoio)
+		if(NOT OpenCV_FOUND)
+			SET(OPTION_RABBITIM_USER_OPENCV OFF)
+			SET(RABBITIM_USER_OPENCV OFF)
+		ENDIF()
+    ELSE(PKG_CONFIG_FOUND)
+		IF(WIN32)
+			SET(OPENCV_VERSION 300)
+		ENDIF(WIN32)
+		SET(OPENCV_LIBS 
+				opencv_imgproc${OPENCV_VERSION}
+				opencv_videoio${OPENCV_VERSION}
+				opencv_video${OPENCV_VERSION}
+				opencv_core${OPENCV_VERSION}
+				)
+		IF(ANDROID)
+			SET(OPENCV_LIBS ${OPENCV_LIBS}
+							opencv_androidcamera
+							opencv_imgcodecs 
+							opencv_info 
+							libjpeg
+					)
 
-        SET(ANDROID_EXTRA_LIBS #第三方信赖库
-                "${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libopencv_info.so,${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libnative_camera_r4.2.0.so"  #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
-                )
-    ELSE(ANDROID)
-        SET(OPENCV_LIBS  ${OPENCV_LIBS} zlib)
-        SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libopencv-dev")
-    ENDIF(ANDROID)
+			SET(ANDROID_EXTRA_LIBS #第三方信赖库
+					"${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libopencv_info.so,${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libnative_camera_r4.2.0.so"  #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
+					)
+		ELSE(ANDROID)
+			SET(OPENCV_LIBS  ${OPENCV_LIBS} zlib)
+			SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libopencv-dev")
+		ENDIF(ANDROID)
+    ENDIF(PKG_CONFIG_FOUND)
 ELSEIF(OPTION_RABBITIM_USER_OPENCV)
     IF(ANDROID)
         message("android must opencv library, please install library, and -DOPTION_RABBITIM_USER_OPENCV=ON .")
     ENDIF(ANDROID)
 ENDIF(OPTION_RABBITIM_USER_OPENCV)
-MESSAGE("Use opencv library:${OPTION_RABBITIM_USER_OPENCV}\n")
+MESSAGE("Use opencv library:${RABBITIM_USER_OPENCV}\n")
 
 #检测libcurl库
 OPTION(OPTION_RABBITIM_USER_LIBCURL "Use curl library" ON)

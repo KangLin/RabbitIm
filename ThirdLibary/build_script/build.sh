@@ -38,11 +38,12 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo "source `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
+    echo ". `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
     . `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
 fi
 
 if [ -n "$2" ]; then
+	echo "Source dir:$2"
     sh build_speexdsp.sh ${RABBITIM_BUILD_TARGERT}  $2/speexdsp && \
     sh build_speex.sh ${RABBITIM_BUILD_TARGERT} $2/speex && \
     sh build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264 && \

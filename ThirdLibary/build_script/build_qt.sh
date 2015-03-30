@@ -52,7 +52,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     else
         wget http://ftp.jaist.ac.jp/pub/qtproject/archive/qt/5.4/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         tar xzf qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
-        mv -f qt-everywhere-opensource-src-${QT_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
+        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/qt-everywhere-opensource-src-${QT_VERSION} 
     fi
 fi
 
@@ -96,7 +96,7 @@ echo "configure ..."
 
 CONFIG_PARA="-opensource -confirm-license -nomake examples -nomake tests -no-compile-examples"
 CONFIG_PARA="${CONFIG_PARA} -no-sql-sqlite -no-sql-odbc"
-CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples" # -skip qt3d -skip qtcanvas3d"
+CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples -skip qt3d -skip qtcanvas3d"
 CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt"
 CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
 

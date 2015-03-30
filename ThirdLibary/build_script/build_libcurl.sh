@@ -46,10 +46,11 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     else
         CUR_FILE=curl-7.41.0
         echo "wget http://curl.haxx.se/download/${CUR_FILE}.tar.gz"
+        mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget http://curl.haxx.se/download/${CUR_FILE}.tar.gz
         tar xzf ${CUR_FILE}.tar.gz
-        mv -f ${CUR_FILE} ${RABBITIM_BUILD_SOURCE_CODE}
+        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/${CUR_FILE}
     fi
 fi
 
