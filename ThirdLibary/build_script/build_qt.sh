@@ -60,7 +60,7 @@ cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 #清理
 if [ -n "$QT_CLEAN" ]; then
-    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ -d ".git" ]; then
         qtrepotools/bin/qt5_tool -c
         
         #git clean -xdf

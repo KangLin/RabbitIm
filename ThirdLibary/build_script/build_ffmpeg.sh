@@ -77,7 +77,7 @@ echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
-if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+if [ -d ".git" ]; then
     git clean -xdf
 else
     make distclean
