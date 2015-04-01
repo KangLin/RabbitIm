@@ -1,4 +1,4 @@
-Version：0.1.0
+版本：0.1.0
 --------------
 1. 跨平台(Windows、linux、unix、Android），已测试：Windows7、Ubuntu、Android
 2. 登录、注册、添加好友、删除好友、好友状态、好友形象、好友形象与状态合成（用形象表示状态）
@@ -15,3 +15,11 @@ Version：0.1.0
 13. 通知栏消息
 14. PC上主窗口在屏幕靠边自动隐藏
 15. 制作 windows、deb、rpm、android 安装包
+
+版本：0.0.1
+----------
+1. 跨平台
+玉兔即时通信是一款跨操作系统平台（Windows、Linux、Android、MacOs、IOS、windows phone）的文本、语音、视频的即时通信软件。
+2. xmpp协议的即时通信软件
+3. 支持语音、视频（p2p）
+4. 支持换肤功能
