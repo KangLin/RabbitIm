@@ -95,14 +95,14 @@ case ${RABBITIM_BUILD_TARGERT} in
         LDFLAGS="-L${RABBITIM_BUILD_PREFIX}/lib -lcpu-features" 
 		;;
     unix)
-        CFLAGS=" -I$PREFIX/include" 
-        LDFLAGS=" -L$PREFIX/lib" 
+        CFLAGS=" -I$RABBITIM_BUILD_PREFIX/include" 
+        LDFLAGS=" -L$RABBITIM_BUILD_PREFIX/lib" 
     ;;
     windows_msvc)
     ;;
     windows_mingw)
-        CFLAGS=" -I$PREFIX/include" 
-        LDFLAGS=" -L$PREFIX/lib" 
+        CFLAGS=" -I$RABBITIM_BUILD_PREFIX/include" 
+        LDFLAGS=" -L$RABBITIM_BUILD_PREFIX/lib" 
         ;;
 	unix_mingw)
 		CONFIG_PARA="${CONFIG_PARA} --enable-cross-compile --target-os=mingw32 --arch=i686 --cpu=i686"

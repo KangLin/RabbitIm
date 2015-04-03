@@ -228,6 +228,7 @@ OTHER_FILES += README.md \
     Authors.txt \
     CMakeLists.txt \
     cmake/* \
+    cmake/platforms/* \
     platforms/android/* \
     Update/Update*.xml* \
     Version.h.template

@@ -145,7 +145,7 @@ http://www.perl.org/
 11. [libcurl](http://curl.haxx.se)
 下载：`git://github.com/bagder/curl.git`  
 当前使用版本：  
-    git库版本 —— curl-7_40_0
+    git库版本 —— curl-7_41_0
 
 12. [libicu](http://site.icu-project.org/)
 下载：`svn co http://source.icu-project.org/repos/icu/icu/trunk/ icu`

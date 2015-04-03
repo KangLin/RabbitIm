@@ -57,7 +57,7 @@ cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 if [ ! -f configure ]; then
     echo "sh autogen.sh"
-    sh autogen.sh 
+    sh autogen.sh
 fi
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
@@ -84,22 +84,22 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-    ;;
+        ;;
     unix)
         CONFIG_PARA="${CONFIG_PARA} --enable-vbr --enable-sse"
-    ;;
+        ;;
     windows_msvc)
-    ;;
+        ;;
     windows_mingw)
         CONFIG_PARA="${CONFIG_PARA} --enable-vbr --enable-sse"
-    ;;
-	unix_mingw)
-		CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --enable-shared --with-gnu-ld --host=${RABBITIM_BUILD_CROSS_HOST}"
-		;;
+        ;;
+    unix_mingw)
+        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --enable-shared --with-gnu-ld --host=${RABBITIM_BUILD_CROSS_HOST}"
+        ;;
     *)
-    echo "${HELP_STRING}"
-    return 2
-    ;;
+        echo "${HELP_STRING}"
+        exit 2
+        ;;
 esac
 
 CONFIG_PARA="${CONFIG_PARA}"

@@ -133,7 +133,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
     	;;
     windows_mingw)
-        CONFIG_PARA="${CONFIG_PARA} -release -platform win32-g++"
+        CONFIG_PARA="${CONFIG_PARA} -release -platform win32-g++ -no-rpath"
         CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"
         ;;
 	unix_mingw)

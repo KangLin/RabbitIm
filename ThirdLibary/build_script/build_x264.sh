@@ -78,7 +78,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 		;;
     *)
     echo "${HELP_STRING}"
-    return 2
+    exit 2
     ;;
 esac
 
