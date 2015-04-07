@@ -85,26 +85,28 @@ fi
 
 echo "configure ..."
 CONFIG_PARA="--disable-static --enable-shared"
+THIRD_LIB="--enable-libx264"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-        CONFIG_PARA="--enable-cross-compile --target-os=linux --arch=arm --cpu=armv7-a  --enable-runtime-cpudetect --enable-neon"
+        CONFIG_PARA="--enable-cross-compile --target-os=linux --arch=arm --cpu=armv7-a --enable-neon"
         CONFIG_PARA="${CONFIG_PARA} --enable-static --disable-shared --disable-w32threads"
         CONFIG_PARA="${CONFIG_PARA} --cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX}"
         CONFIG_PARA="${CONFIG_PARA} --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-        CFLAGS="-march=armv7-a -mfpu=neon -I${RABBITIM_BUILD_PREFIX}/include " 
-        LDFLAGS="-L${RABBITIM_BUILD_PREFIX}/lib -lcpu-features" 
-		;;
+        CONFIG_PARA="${CONFIG_PARA} ${THIRD_LIB}"
+        CFLAGS="-march=armv7-a -mfpu=neon"
+        LDFLAGS="-lcpu-features" 
+        ;;
     unix)
-        CFLAGS=" -I$RABBITIM_BUILD_PREFIX/include" 
-        LDFLAGS=" -L$RABBITIM_BUILD_PREFIX/lib" 
-    ;;
+        CONFIG_PARA="${CONFIG_PARA} ${THIRD_LIB}"
+        ;;
     windows_msvc)
-    ;;
+        CONFIG_PARA="${CONFIG_PARA} --target-os=win32 --arch=i686 --cpu=i686"
+        CONFIG_PARA="${CONFIG_PARA} --enable-cross-compile --toolchain=msvc"
+        ;;
     windows_mingw)
 		CONFIG_PARA="${CONFIG_PARA} --enable-cross-compile --target-os=mingw32 --arch=i686 --cpu=i686"
 		CONFIG_PARA="${CONFIG_PARA} --cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX}"
-		CFLAGS="-I${RABBITIM_BUILD_PREFIX}/include " 
-		LDFLAGS="-L${RABBITIM_BUILD_PREFIX}/lib" 
+        CONFIG_PARA="${CONFIG_PARA} ${THIRD_LIB}"
 		;;
     *)
     echo "${HELP_STRING}"
@@ -115,7 +117,9 @@ esac
 CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --enable-gpl --enable-pic --disable-doc --disable-htmlpages"
 CONFIG_PARA="${CONFIG_PARA} --disable-manpages --disable-podpages --disable-txtpages --disable-programs --disable-ffprobe"
 CONFIG_PARA="${CONFIG_PARA} --disable-ffserver --disable-ffplay --disable-avdevice"
-CONFIG_PARA="${CONFIG_PARA}  --enable-libx264"
+CONFIG_PARA="${CONFIG_PARA} --enable-runtime-cpudetect"
+CFLAGS="${CFLAGS} -I$RABBITIM_BUILD_PREFIX/include" 
+LDFLAGS="${LDFLAGS} -L$RABBITIM_BUILD_PREFIX/lib" 
 
 echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS}\""
 ./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-ldflags="${LDFLAGS}"

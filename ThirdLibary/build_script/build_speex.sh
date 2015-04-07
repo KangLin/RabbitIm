@@ -89,7 +89,9 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse "
         ;;
     windows_msvc)
-    ;;
+        echo "build_speex.sh don't support windows_msvc. "
+        exit 2
+        ;;
     windows_mingw)
         CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc"
         CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse"
@@ -97,7 +99,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     *)
     echo "${HELP_STRING}"
-    return 2
+    exit 3
     ;;
 esac
 

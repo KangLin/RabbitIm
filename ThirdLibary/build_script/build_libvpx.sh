@@ -76,6 +76,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
 		;;
     windows_msvc)
+        CONFIG_PARA="--target=x86-win32-vs12" # --enable-static-msvcrt
 		;;
     windows_mingw)
 		export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
@@ -89,11 +90,14 @@ case ${RABBITIM_BUILD_TARGERT} in
 		;;
     *)
 		echo "${HELP_STRING}"
-		return 2
+		exit 2
 		;;
 esac
 
-CONFIG_PARA="${CONFIG_PARA}  --enable-libs --prefix=${RABBITIM_BUILD_PREFIX}  --disable-docs --disable-examples --disable-install-docs --disable-install-bins --enable-install-libs --disable-unit-tests --disable-debug --disable-debug-libs"
+CONFIG_PARA="${CONFIG_PARA} --enable-libs --prefix=${RABBITIM_BUILD_PREFIX}"
+CONFIG_PARA="${CONFIG_PARA} --disable-docs --disable-examples --disable-install-docs"
+CONFIG_PARA="${CONFIG_PARA} --disable-install-bins --enable-install-libs"
+CONFIG_PARA="${CONFIG_PARA} --disable-unit-tests --disable-debug --disable-debug-libs"
 
 echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS=}\""
 ../configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}"

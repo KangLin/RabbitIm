@@ -2,21 +2,21 @@
 
 #作者：康林
 #参数:
-#    $1:编译目标(android、windows_msvc、windows_mingw、unix)
+#    $1:编译目标(android、windows_msvc、windows_mingw、unix、unix_mingw)
 #    $2:源码的位置 
 
 #运行本脚本前,先运行 build_$1_envsetup.sh 进行环境变量设置,需要先设置下面变量:
-#   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix)
+#   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix、unix_mingw）
 #   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
 #   RABBITIM_BUILD_SOURCE_CODE    #源码目录
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
 set -e
-HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY]"
+HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
-    android|windows_msvc|windows_mingw|unix)
+    android|windows_msvc|windows_mingw|unix|unix_mingw)
     RABBITIM_BUILD_TARGERT=$1
     ;;
     *)
@@ -73,13 +73,10 @@ echo ""
 
 #需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
 case `uname -s` in
-    MINGW*)
-        GENERATORS="MinGW Makefiles"
-        ;;
-    MSYS*)
+    MINGW* | CYGWIN*)
         GENERATORS="MSYS Makefiles"
         ;;
-    Linux*|Unix*|CYGWIN*|*)
+    Linux* | Unix* | *)
         GENERATORS="Unix Makefiles" 
         ;;
 esac
@@ -100,10 +97,11 @@ case ${RABBITIM_BUILD_TARGERT} in
         CMAKE_PARA="-DWITH_LIBV4L=ON -DWITH_V4L=ON"
         ;;
     windows_msvc)
-        GENERATORS="Visual Studio 12 2013"
         ;;
     windows_mingw)
-        CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw.cmake"
+        ;;
+    unix_mingw)
+        CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw-linux.cmake"
         ;;
     *)
     echo "${HELP_STRING}"
@@ -120,18 +118,14 @@ CMAKE_PARA="${CMAKE_PARA} -DWITH_TIFF=OFF -DWITH_JPEG=OFF -DWITH_PNG=OFF -DWITH_
 CMAKE_PARA="${CMAKE_PARA} -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_VTK=OFF -DWITH_VFW=OFF -DWITH_IPP=OFF"
 CMAKE_PARA="${CMAKE_PARA} -DWITH_PVAPI=OFF -DWITH_JASPER=OFF -DWITH_OPENCLAMDFFT=OFF -DWITH_OPENCLAMDBLAS=OFF"
 CMAKE_PARA="${CMAKE_PARA} -DWITH_GIGEAPI=OFF -DWITH_GSTREAMER=OFF -DWITH_GTK=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_video=OFF -DBUILD_opencv_videoio=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_highgui=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_videoio=ON -DWITH_WEBP=OFF -DWITH_EIGEN=OFF -DWITH_IPP_A=OFF"
+CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_video=ON"
+#CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_videoio=ON -DWITH_WEBP=OFF -DWITH_IPP_A=OFF"
 
 cmake .. \
     -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
     -DCMAKE_BUILD_TYPE="Release" \
     -G"${GENERATORS}" ${CMAKE_PARA} 
-if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
-    cmake --build . --target install --config Release -- ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1
-else
-    cmake --build . --target install --config Release
-fi
+
+cmake --build . --target install --config Release -- ${RABBITIM_MAKE_JOB_PARA}
 
 cd $CUR_DIR

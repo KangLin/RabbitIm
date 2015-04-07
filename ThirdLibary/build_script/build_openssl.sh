@@ -89,7 +89,24 @@ case ${RABBITIM_BUILD_TARGERT} in
 		./config --prefix=${RABBITIM_BUILD_PREFIX} --openssldir=${RABBITIM_BUILD_PREFIX} shared
 		;;
     windows_msvc)
-		;;
+        echo "build_openssl.sh don't support windows_msvc. please do follow programe in command line."
+        echo "Open msvc 2013 command envment ...."
+        echo "Into openssl source directory"
+        echo "perl Configure --prefix=${RABBITIM_BUILD_PREFIX} --openssldir=${RABBITIM_BUILD_PREFIX} VC-WIN32"
+        echo "nmake -f ms/ntdll.mak install"
+        exit 2
+        perl Configure \
+            --prefix=${RABBITIM_BUILD_PREFIX} \
+            --openssldir=${RABBITIM_BUILD_PREFIX} \
+            VC-WIN32
+        ms/do_nasm.bat
+        echo "make install"
+        #静态库
+        #nmake -f ms/nt.mak install﻿﻿
+        #动态库  
+        nmake -f ms/ntdll.mak install﻿﻿
+        exit 0
+        ;;
     windows_mingw)
 		perl Configure  --prefix=${RABBITIM_BUILD_PREFIX} \
 			--openssldir=${RABBITIM_BUILD_PREFIX} \
@@ -98,7 +115,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 		;;
     *)
 		echo "${HELP_STRING}"
-		return 2
+		exit 3
 		;;
 esac
 

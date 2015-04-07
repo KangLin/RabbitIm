@@ -13,50 +13,139 @@
 windows原生编译
 -----------------
 
-### 1. 工具
+### 1. 环境
+#### 1.1. 操作系统:windows 7 旗舰版 版本：6.1 (内部版本 7601 Service Pack 1)
 
-#### 1.1. 编译工具: msvc
+### 2. 工具
+#### 2.1. bash 环境: msys（msys2） 或者 cygwin
+* msys: http://www.mingw.org/wiki/MSYS
+* msys2: http://sourceforge.net/projects/msys2/
+代码位置: https://github.com/Alexpux/MSYS2-packages
+* cygwin主页: http://www.cygwin.org/
+
+当前文档以msys2为例：
+[安装步骤](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/)
++ 从官网下载[msys2](http://sourceforge.net/projects/msys2/files/Base/i686/)
++ 安装，启动msys2
++ 同步：
+
+        pacman -Sy
+
++ 更新系统：
+
+        pacman -Su
+
++ 下载工具：
+
+        pacman -S wget svn git autoconf automake m4 libtool pkg-config make bison flex gperf
+
++ 下载本地编译器gcc（版本：4.9.2）：
+
+        pacman -S mingw-w64-i686-gcc
+
++ 可能会出现的问题：
+[出现资源不足](http://sourceforge.net/p/msys2/tickets/74/)：
+39 [main] make 7628 child_info_fork::abort: C:\Users\AndreaZ\Documents\msys2_32\usr\bin\msys-unistring-2.dll: Loaded to different address: parent(0x440000) != child(0x630000)  
+make: fork: Resource temporarily unavailable
+解决方法：
+. 关闭所有msys2进程
+. 运行 autorebase.bat
+. 重启 MSYS2
+
+最好在 pacman -Su 后就做 autorebase.bat
+
+#### 2.1. 编译工具: msvc
 主页：http://msdn.microsoft.com/zh-cn/vstudio  
 当前使用版本：vs 2013 update 4
 
-#### 1.2. windows sdk(The Microsoft® Windows® Software Development Kit (SDK) for Windows 8.1):
+#### 2.3. windows sdk(The Microsoft® Windows® Software Development Kit (SDK) for Windows 8.1):
 https://msdn.microsoft.com/zh-cn/windows/desktop/bg162891
 
-#### 1.3. Windows Driver Kit:
+#### 2.4. Windows Driver Kit:
 http://www.microsoft.com/en-us/download/confirmation.aspx?id=42273
 
-#### 1.4. 汇编工具（yasm、nasm）
+#### 2.5. 下载工具：
+
+        pacman -S wget
+
+#### 2.6. 安装auto工具：
+主页:
+* automake: http://www.gnu.org/software/automake/
+* autoconf: http://www.gnu.org/software/autoconf/
+* libtool: http://www.gnu.org/software/libtool/
+* m4: http://www.gnu.org/software/m4
+* pkg-config: http://www.freedesktop.org/wiki/Software/pkg-config/
+* make:根据bash系统的不同，有msys make（msys bash）、mingw make、gnu make（cygwin bash）
+
+或者：
+
+        pacman -S autoconf automake m4 libtool pkg-config make
+
+#### 2.7. 版本管理工具:
+* subversion: http://subversion.apache.org/
+* git: http://www.git-scm.com/
+
+或者：
+
+        pacman -S svn git
+
+#### 2.8. 脚本工具
+* python:2.7.6  版本 2.7 或以后
+主页: https://www.python.org/  http://www.activestate.com/activepython/
+* perl：5.18.2  版本 5.12 或以后
+主页： http://www.perl.org/  http://www.activestate.com/activeperl/
+* bash:msys或cygwin
+* ruby:qtwebkit编译需要 版本 1.9.3 或以后
+主页：http://www.ruby-lang.org/  http://rubyinstaller.org/  
+https://github.com/ruby/ruby
+
+或者：
+
+        pacman -S python perl ruby
+
+#### 2.9. 汇编工具（yasm、nasm）
 [yasm](http://yasm.tortall.net/)  
 [nasm](http://www.nasm.us/)  
 下载并安装，并且设置路径到环境变量PATH
 
-#### 1.5. perl 工具
-http://www.perl.org/
+或者：
 
-### 2. 环境  
-#### 2.1. 操作系统:windows 7 旗舰版 版本：6.1 (内部版本 7601 Service Pack 1)
+        pacman yasm nasm
 
-#### 2.2. bash 环境: msys（msys2 或者 cygwin）
-* msys: http://www.mingw.org/wiki/MSYS
-* msys2: http://sourceforge.net/projects/msys2/
-代码位置: https://github.com/Alexpux/MSYS2-packages
-* cygwin主页: http://www.cygwin.org/  
+#### 2.10. cmake 工具
+主页：www.cmake.org
 
-当前使用的是msys
+        cd /tools
+        wget http://www.cmake.org/files/v3.1/cmake-3.1.0-rc1-win32-x86.zip
+        unzip cmake-3.1.0-rc1-win32-x86.zip
+        mv cmake-3.1.0-rc1-win32-x86 cmake
+        export PATH=/tools/cmake/bin:$PATH
 
-#### 2.3. 使用:
+或者：
+
+        pacman -S mingw-w64-i686-cmake
+
+#### 2.11. 语法分析工具：bison, flex and gperf（用于Qt编译）
+
+        pacman -S bison flex gperf
+
+#### 2.12. 安装工具
+主页：http://nsis.sourceforge.net/Main_Page
+
+
+### 3. 使用:
 先从菜单栏中起动vs2013编译命令行工具：  
 `C:\Program Files\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts VS2013 x86`
 本机工具命令提示。在命令行下，启动msys。 
 `c:\MinGW\msys\1.0\bin\sh.exe --login -i`  
 注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。
     
-### 3. 编译第三方依赖库(脚本中包括qt)
+### 4. 编译第三方依赖库(脚本中包括qt)
 
         cd ${RabbitImRoot}/ThirdLibary/build_script
         ./build.sh unix_mingw [source_code_directory]
 
-### 4. 编译本项目:
+### 5. 编译本项目:
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build_rabbitim.sh unix_mingw [source_code_directory] [qmake]

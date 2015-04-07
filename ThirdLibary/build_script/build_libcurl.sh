@@ -89,13 +89,15 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse "
 		;;
     windows_msvc)
+        echo "build_libcurl.sh don't support windows_msvc. "
+        exit 2
 		;;
     windows_mingw)
 		CONFIG_PARA="${CONFIG_PARA}  CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse "
 		;;
     *)
 		echo "${HELP_STRING}"
-		return 2
+		exit 3
 		;;
 esac
 
