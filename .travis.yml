@@ -17,10 +17,10 @@ os:
 env:
   matrix:
     - BUILD_TARGERT=unix BUILD_THIRDLIBARY=true
-    - BUILD_TARGERT=unix_mingw BUILD_THIRDLIBARY=true RABBITIM_USE_REPOSITORIES=true
+    - BUILD_TARGERT=windows_mingw BUILD_THIRDLIBARY=true RABBITIM_USE_REPOSITORIES=true
     - BUILD_TARGERT=android ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
     - BUILD_TARGERT=unix QMAKE=qmake BUILD_THIRDLIBARY=true
-    - BUILD_TARGERT=unix_mingw QMAKE=qmake BUILD_THIRDLIBARY=true
+    - BUILD_TARGERT=windows_mingw QMAKE=qmake BUILD_THIRDLIBARY=true
     - BUILD_TARGERT=android QMAKE=qmake BUILD_THIRDLIBARY=true ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
 
 install:

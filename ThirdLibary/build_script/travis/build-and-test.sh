@@ -44,7 +44,7 @@ case ${BUILD_TARGERT} in
     unix)
         function_unix
         ;;
-    unix_mingw)
+    windows_mingw)
         function_mingw
         ;;
     *)
