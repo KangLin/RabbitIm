@@ -73,12 +73,6 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
     ;;
     windows_mingw)
-        cd ${BUILD_DIR}
-        sh ${SOURCE_DIR}/runConfigureICU MinGW --prefix=${RABBITIM_BUILD_PREFIX}
-        make ${RABBITIM_MAKE_JOB_PARA} && make install
-        cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
-        ;;
-	unix_mingw)
 		cd ${CONFIG_DIR}
 		sh ${SOURCE_DIR}/runConfigureICU MinGW #--prefix=${RABBITIM_BUILD_PREFIX}
 		make ${RABBITIM_MAKE_JOB_PARA}
