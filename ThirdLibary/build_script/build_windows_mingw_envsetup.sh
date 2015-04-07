@@ -2,7 +2,9 @@
 #需要设置下面变量：
 #QT_ROOT=/home/k/Qt5.4.1/5.4/gcc_64 #QT 安装根目录
 JOM=make #设置 QT make 工具 JOM
-#RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数
+RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数
+
+#RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32  #编译工具链前缀
 
 #   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
@@ -24,5 +26,11 @@ QT_BIN=${QT_ROOT}/bin       #设置用于 android 平台编译的 qt bin 目录
 QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
                             #这里设置的是自动编译时的配置，你需要修改为你本地qt编译环境的配置.
 
-export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
 export PATH=${RABBITIM_BUILD_PREFIX}/bin:${QT_BIN}:$PATH
+export PKG_CONFIG=/usr/bin/pkg-config
+export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
+
+if [ -z "${RABBITIM_BUILD_CROSS_HOST}" ]; then
+	RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32 #编译工具链前缀
+fi
+RABBITIM_BUILD_CROSS_PREFIX=${RABBITIM_BUILD_CROSS_HOST}- 

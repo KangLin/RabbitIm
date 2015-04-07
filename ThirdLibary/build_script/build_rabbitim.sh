@@ -2,21 +2,21 @@
 
 #作者：康林
 #参数:
-#    $1:编译目标(android、windows_msvc、windows_mingw、unix、unix_mingw)
+#    $1:编译目标(android、windows_msvc、windows_mingw、unix)
 #    $2:源码的位置 
 
 #运行本脚本前,先运行 build_$1_envsetup.sh 进行环境变量设置,需要先设置下面变量:
-#   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix、unix_mingw）
+#   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix）
 #   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
 #   RABBITIM_BUILD_SOURCE_CODE    #源码目录
 #   RABBITIM_BUILD_CROSS_PREFIX   #交叉编译前缀
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
 set -e
-HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) [SOURCE_CODE_ROOT_DIRECTORY] [qmake]"
+HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY] [qmake]"
 
 case $1 in
-    android|windows_msvc|windows_mingw|unix|unix_mingw)
+    android|windows_msvc|windows_mingw|unix)
     RABBITIM_BUILD_TARGERT=$1
     ;;
     *)
@@ -84,9 +84,7 @@ if [ "$3" != "qmake" ]; then
             PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=OFF -DOPTION_RABBITIM_USER_OPENSSL=OFF"
             ;;
         windows_mingw)
-            ;;
-        unix_mingw)
-            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-mingw-linux.cmake"
+            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-mingw.cmake"
             PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON"
             ;;
         *)
@@ -114,9 +112,6 @@ else
             MAKE=${JOM}
             ;;
         windows_mingw)
-            PARA="-spec win32-g++"
-            ;;
-        unix_mingw)
             PARA="-spec win32-g++"
             ;;
         *)

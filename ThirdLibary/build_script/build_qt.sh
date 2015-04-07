@@ -2,11 +2,11 @@
 
 #作者：康林
 #参数:
-#    $1:编译目标(android、windows_msvc、windows_mingw、unix、unix_mingw)
+#    $1:编译目标(android、windows_msvc、windows_mingw、unix)
 #    $2:源码的位置 
 
 #运行本脚本前,先运行 build_$1_envsetup.sh 进行环境变量设置,需要先设置下面变量:
-#   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix、unix_mingw）
+#   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix)
 #   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
 #   RABBITIM_BUILD_SOURCE_CODE    #源码目录
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀
@@ -14,10 +14,10 @@
 
 set -e
 QT_CLEAN="clean"
-HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix|unix_mingw) [SOURCE_CODE_ROOT_DIRECTORY]"
+HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
-    android|windows_msvc|windows_mingw|unix|unix_mingw)
+    android|windows_msvc|windows_mingw|unix)
     RABBITIM_BUILD_TARGERT=$1
     ;;
     *)
@@ -133,12 +133,15 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
     	;;
     windows_mingw)
-        CONFIG_PARA="${CONFIG_PARA} -release -platform win32-g++ -no-rpath"
-        CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"
-        ;;
-	unix_mingw)
 		export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
 		export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
+        case `uname -s` in
+            MINGW*|MSYS*|CYGWIN*)
+                CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
+                ;;
+            Linux*|Unix*|*)
+                ;;
+        esac
 		CONFIG_PARA="${CONFIG_PARA} -release -xplatform win32-g++"
 		CONFIG_PARA="${CONFIG_PARA} -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
 		CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"
