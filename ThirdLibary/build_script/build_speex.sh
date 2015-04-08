@@ -42,7 +42,8 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -b 6aab25c http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone -b 6aab25c http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}

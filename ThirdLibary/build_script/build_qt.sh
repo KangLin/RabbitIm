@@ -97,7 +97,7 @@ echo "configure ..."
 CONFIG_PARA="-opensource -confirm-license -nomake examples -nomake tests -no-compile-examples"
 CONFIG_PARA="${CONFIG_PARA} -no-sql-sqlite -no-sql-odbc"
 CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples -skip qt3d -skip qtcanvas3d"
-CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt"
+CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt -shared -release"
 CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
 
 case ${RABBITIM_BUILD_TARGERT} in
@@ -140,16 +140,16 @@ case ${RABBITIM_BUILD_TARGERT} in
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
                 ;;
             Linux*|Unix*|*)
+				CONFIG_PARA="${CONFIG_PARA} -skip qtwebkit"
                 ;;
         esac
-		CONFIG_PARA="${CONFIG_PARA} -release -xplatform win32-g++"
+		CONFIG_PARA="${CONFIG_PARA} -xplatform win32-g++"
 		CONFIG_PARA="${CONFIG_PARA} -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
 		CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"
-		CONFIG_PARA="${CONFIG_PARA} -skip qtwebkit"
 		;;
     *)
 		echo "${HELP_STRING}"
-		return 2
+		exit 3
 		;;
 esac
 

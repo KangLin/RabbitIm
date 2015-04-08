@@ -42,7 +42,8 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=curl-7_41_0 git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone --branch=curl-7_41_0 git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         CUR_FILE=curl-7.41.0
         echo "wget http://curl.haxx.se/download/${CUR_FILE}.tar.gz"

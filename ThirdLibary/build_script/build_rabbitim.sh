@@ -66,36 +66,7 @@ rm -fr *
 echo "CUR_DIR:`pwd`"
 echo ""
 
-if [ "$3" != "qmake" ]; then
-    GENERATORS="Unix Makefiles" 
-    CMAKE_PARA="--target package"
-    PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5"
-    case $1 in
-        android)
-            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-android.cmake -DOPTION_RABBITIM_USER_OPENCV=ON"
-            PARA="${PARA} -DANT=${ANT} "
-            CMAKE_PARA=""
-            ;;
-        unix)
-            PARA="-DCMAKE_INSTALL_PREFIX=/usr/local/RabbitIm"
-            ;;
-        windows_msvc)
-            GENERATORS="NMake Makefiles"
-            PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=OFF -DOPTION_RABBITIM_USER_OPENSSL=OFF"
-            ;;
-        windows_mingw)
-            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-mingw.cmake"
-            PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON"
-            ;;
-        *)
-            echo "${HELP_STRING}"
-            exit 1
-            ;;
-    esac
-    echo "cmake .. -G\"${GENERATORS}\" $PARA"
-    cmake .. -G"${GENERATORS}" $PARA
-    cmake --build .  --config Release ${CMAKE_PARA} -- ${RABBITIM_MAKE_JOB_PARA}
-else
+if [ "$3" = "qmake" ]; then
     MAKE="make ${RABBITIM_MAKE_JOB_PARA}"
     case $1 in
         android)
@@ -132,6 +103,37 @@ else
     else
         $MAKE -f Makefile install -j 2
     fi
+else
+    GENERATORS="Unix Makefiles" 
+    CMAKE_PARA="--target package"
+    PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5"
+    MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA}  VERBOSE=1"
+    case $1 in
+        android)
+            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-android.cmake -DOPTION_RABBITIM_USER_OPENCV=ON"
+            PARA="${PARA} -DANT=${ANT} "
+            CMAKE_PARA=""
+            ;;
+        unix)
+            PARA="-DCMAKE_INSTALL_PREFIX=/usr/local/RabbitIm"
+            ;;
+        windows_msvc)
+            GENERATORS="NMake Makefiles"
+            PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=OFF -DOPTION_RABBITIM_USER_OPENSSL=OFF"
+            MAKE_PARA=""
+            ;;
+        windows_mingw)
+            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-mingw.cmake"
+            PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON"
+            ;;
+        *)
+            echo "${HELP_STRING}"
+            exit 1
+            ;;
+    esac
+    echo "cmake .. -G\"${GENERATORS}\" $PARA"
+    cmake .. -G"${GENERATORS}" $PARA
+    cmake --build .  --config Release ${CMAKE_PARA} ${MAKE_PARA}
 fi
 
 cd $CUR_DIR

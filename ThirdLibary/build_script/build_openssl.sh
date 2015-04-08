@@ -43,7 +43,8 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     OPENSLL_BRANCH=OpenSSL_1_0_2-stable
     if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
     else
 		mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}

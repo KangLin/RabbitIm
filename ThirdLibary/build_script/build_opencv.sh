@@ -43,7 +43,8 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     OPENCV_VERSION=2.4.11
     if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://github.com/Itseez/opencv.git  ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
@@ -85,6 +86,7 @@ case `uname -s` in
 esac
 
 CMAKE_PARA="-DBUILD_SHARED_LIBS=ON"
+MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
         export ANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}
@@ -97,10 +99,10 @@ case ${RABBITIM_BUILD_TARGERT} in
         fi
         ;;
     unix)
-        CMAKE_PARA="-DWITH_LIBV4L=ON -DWITH_V4L=ON"
         ;;
     windows_msvc)
         GENERATORS="Visual Studio 12 2013"
+        MAKE_PARA=""
         ;;
     windows_mingw)
         CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw.cmake"
@@ -120,18 +122,15 @@ CMAKE_PARA="${CMAKE_PARA} -DWITH_TIFF=OFF -DWITH_JPEG=OFF -DWITH_PNG=OFF -DWITH_
 CMAKE_PARA="${CMAKE_PARA} -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_VTK=OFF -DWITH_VFW=OFF -DWITH_IPP=OFF"
 CMAKE_PARA="${CMAKE_PARA} -DWITH_PVAPI=OFF -DWITH_JASPER=OFF -DWITH_OPENCLAMDFFT=OFF -DWITH_OPENCLAMDBLAS=OFF"
 CMAKE_PARA="${CMAKE_PARA} -DWITH_GIGEAPI=OFF -DWITH_GSTREAMER=OFF -DWITH_GTK=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_video=OFF -DBUILD_opencv_videoio=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_highgui=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_videoio=ON -DWITH_WEBP=OFF -DWITH_EIGEN=OFF -DWITH_IPP_A=OFF"
+CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_video=ON -DBUILD_opencv_videoio=ON"
+CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_highgui=ON"
+CMAKE_PARA="${CMAKE_PARA} -DWITH_WEBP=OFF -DWITH_EIGEN=OFF -DWITH_IPP_A=OFF"
 
 cmake .. \
     -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
     -DCMAKE_BUILD_TYPE="Release" \
     -G"${GENERATORS}" ${CMAKE_PARA} 
-if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
-    cmake --build . --target install --config Release -- ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1
-else
-    cmake --build . --target install --config Release
-fi
+
+cmake --build . --target install --config Release ${MAKE_PARA}
 
 cd $CUR_DIR

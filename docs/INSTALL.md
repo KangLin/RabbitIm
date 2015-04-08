@@ -150,7 +150,7 @@ http://www.perl.org/
 12. [libicu](http://site.icu-project.org/)
 下载：`svn co http://source.icu-project.org/repos/icu/icu/trunk/ icu`
 当前使用版本：
-    Revision: 37303
+    Revision: 37321
 
 本项目：
 ---------

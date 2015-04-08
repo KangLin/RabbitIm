@@ -42,7 +42,8 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone http://git.xiph.org/speexdsp.git  ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -b 887ac10 http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone -b 887ac10 http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget http://downloads.xiph.org/releases/speex/speexdsp-1.2rc3.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
@@ -95,7 +96,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
          CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc"
          CONFIG_PARA="${CONFIG_PARA} --enable-vbr --enable-sse --with-gnu-ld"
-         CONFIG_PARA="${CONFIG_PARA}--host=${RABBITIM_BUILD_CROSS_HOST}"
+         CONFIG_PARA="${CONFIG_PARA} --host=${RABBITIM_BUILD_CROSS_HOST}"
         ;;
     *)
         echo "${HELP_STRING}"

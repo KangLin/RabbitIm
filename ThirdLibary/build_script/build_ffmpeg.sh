@@ -53,7 +53,8 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     FFMPEG_VERSION=2.6.1
     if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=n${FFMPEG_VERSION} git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone --branch=n${FFMPEG_VERSION} git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_FILE}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}

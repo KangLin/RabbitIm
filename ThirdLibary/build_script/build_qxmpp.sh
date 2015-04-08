@@ -92,7 +92,7 @@ case $RABBITIM_BUILD_TARGERT in
         ;;
     *)
         echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
-        return 1
+        exit 2
         ;;
 esac
 
@@ -104,10 +104,14 @@ $QMAKE -o Makefile \
        ${PARA} \
        .. #"CONFIG+=debug" #QXMPP_LIBRARY_TYPE=staticlib #静态库
 
-${MAKE} -f Makefile install 
+${MAKE} -f Makefile install
 if [ "$RABBITIM_BUILD_TARGERT" = "android" ]; then
     ${MAKE} -f Makefile install ${MAKE_PARA}
     cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
+else
+    if [ ! -f "${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/qxmpp.pc" ]; then
+        cp -fr `pwd`/src/pkgconfig/* ${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/.
+    fi
 fi
 
 cd $CUR_DIR

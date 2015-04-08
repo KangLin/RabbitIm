@@ -181,8 +181,7 @@ SET(THIRD_PACKAGE_DIR ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME})   #第�
 SET(THIRD_LIB_DIR ${THIRD_PACKAGE_DIR}/lib) #第三方库目录
 LINK_DIRECTORIES(${THIRD_LIB_DIR})
 #设置库的搜索路径  
-SET(CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME} ${THIRD_PACKAGE_DIR} ${CMAKE_PREFIX_PATH})
-#MESSAGE("CMAKE_PREFIX_PATH:${CMAKE_PREFIX_PATH}/lib/pkgconfig")
+SET(CMAKE_PREFIX_PATH ${THIRD_PACKAGE_DIR} ${CMAKE_PREFIX_PATH})
 #允许 pkg-config 在 CMAKE_PREFIX_PATH 中搜索库
 SET(PKG_CONFIG_USE_CMAKE_PREFIX_PATH TRUE)
 #设置 find_XXX.cmake 搜索目录  
@@ -249,7 +248,7 @@ IF(OPTION_RABBITIM_USER_FFMPEG)
             INCLUDE_DIRECTORIES("${FFMPEG_INCLUDE_DIRS}")
         ENDIF(FFMPEG_FOUND)
     ELSEIF(PKG_CONFIG_FOUND)
-        #message("Must use pkg-config, please install it.")
+        message("Use pkg-config fail, Manually it.")
         SET(FFMPEG_LIBRARIES -lavcodec -lavformat -lavutil -lswscale -lswresample -lx264 -lpthread)
     ENDIF(PKG_CONFIG_FOUND)
 
@@ -259,10 +258,9 @@ MESSAGE("Use ffmpeg library:${RABBITIM_USER_FFMPEG}\n")
 #增加检测opencv库
 OPTION(OPTION_RABBITIM_USER_OPENCV "Use opencv library" ON)
 IF(OPTION_RABBITIM_USER_OPENCV)
-    add_definitions("-DRABBITIM_USER_OPENCV")
     SET(RABBITIM_USER_OPENCV ON)
     IF(PKG_CONFIG_FOUND)
-		find_package(OpenCV COMPONENTS core imgproc video videoio)
+		find_package(OpenCV COMPONENTS core imgproc) # video videoio)
 		if(NOT OpenCV_FOUND)
 			SET(OPTION_RABBITIM_USER_OPENCV OFF)
 			SET(RABBITIM_USER_OPENCV OFF)
@@ -298,6 +296,9 @@ ELSEIF(OPTION_RABBITIM_USER_OPENCV)
         message("android must opencv library, please install library, and -DOPTION_RABBITIM_USER_OPENCV=ON .")
     ENDIF(ANDROID)
 ENDIF(OPTION_RABBITIM_USER_OPENCV)
+IF(RABBITIM_USER_OPENCV)
+	add_definitions("-DRABBITIM_USER_OPENCV")
+ENDIF(RABBITIM_USER_OPENCV)
 MESSAGE("Use opencv library:${RABBITIM_USER_OPENCV}\n")
 
 #检测libcurl库
@@ -536,7 +537,9 @@ ENDIF(ANDROID)
 SET(CMAKE_INSTALL_RPATH ".") #设置链接库的搜索路径
 #复制第三方依赖库的动态库到编译目录下
 IF(WIN32)
-    FILE(GLOB THIRD_DLL_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/*.dll")
+    FILE(GLOB THIRD_DLL_LIBRARY_BIN "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/*.dll")
+    FILE(GLOB THIRD_DLL_LIBRARY_LIB "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/lib/*.dll")
+    SET(THIRD_DLL_LIBRARY "${THIRD_DLL_LIBRARY_BIN} ${THIRD_DLL_LIBRARY_LIB}")
     #安装4:第三方动态库
     INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/" 
                      DESTINATION .
