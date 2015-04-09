@@ -74,10 +74,7 @@ echo ""
 
 #需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
 case `uname -s` in
-    MINGW*)
-        GENERATORS="MinGW Makefiles"
-        ;;
-    MSYS*)
+    MINGW*|MSYS*)
         GENERATORS="MSYS Makefiles"
         ;;
     Linux*|Unix*|CYGWIN*|*)
@@ -105,7 +102,13 @@ case ${RABBITIM_BUILD_TARGERT} in
         MAKE_PARA=""
         ;;
     windows_mingw)
-        CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw.cmake"
+        case `uname -s` in
+            Linux*|Unix*)
+                CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw.cmake"
+                ;;
+            *)
+            ;;
+        esac
         ;;
     *)
     echo "${HELP_STRING}"
@@ -129,7 +132,7 @@ CMAKE_PARA="${CMAKE_PARA} -DWITH_WEBP=OFF -DWITH_EIGEN=OFF -DWITH_IPP_A=OFF"
 cmake .. \
     -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
     -DCMAKE_BUILD_TYPE="Release" \
-    -G"${GENERATORS}" ${CMAKE_PARA} 
+    -G"${GENERATORS}" ${CMAKE_PARA}
 
 cmake --build . --target install --config Release ${MAKE_PARA}
 

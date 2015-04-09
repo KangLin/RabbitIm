@@ -82,9 +82,9 @@ case ${RABBITIM_BUILD_TARGERT} in
 		#cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
 		;;
     *)
-    echo "${HELP_STRING}"
-    return 2
-    ;;
+        echo "${HELP_STRING}"
+        exit 2
+        ;;
 esac
 
 cd $CUR_DIR

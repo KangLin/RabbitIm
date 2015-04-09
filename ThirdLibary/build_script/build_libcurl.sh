@@ -57,7 +57,7 @@ fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-if [ ! -f configure ]; then
+if [ ! -f configure -a "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
     echo "sh buildconf"
     sh buildconf
 fi
@@ -90,9 +90,12 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse "
 		;;
     windows_msvc)
-        echo "build_libcurl.sh don't support windows_msvc. "
-        exit 2
-		;;
+        cmake .. -G"Visual Studio 12 2013" \
+            -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
+            -DCMAKE_BUILD_TYPE="Release" \
+            -DBUILD_CURL_TESTS=OFF \
+            -DCURL_STATICLIB=OFF
+        ;;
     windows_mingw)
 		CONFIG_PARA="${CONFIG_PARA}  CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse "
 		;;
@@ -102,12 +105,16 @@ case ${RABBITIM_BUILD_TARGERT} in
 		;;
 esac
 
-CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --disable-debug --disable-curldebug --disable-manual"
-CONFIG_PARA="${CONFIG_PARA} --with-ssl=$RABBITIM_BUILD_PREFIX" 
-echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
-../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
-
 echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} && make install
+if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
+    cmake --build . --target install --config Release
+else
+    CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --disable-debug --disable-curldebug --disable-manual"
+    CONFIG_PARA="${CONFIG_PARA} --with-ssl=$RABBITIM_BUILD_PREFIX" 
+    echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
+    ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
+    
+    make ${RABBITIM_MAKE_JOB_PARA} && make install
+fi
 
 cd $CUR_DIR

@@ -73,26 +73,26 @@ case ${RABBITIM_BUILD_TARGERT} in
         ${RABBITIM_BUILD_CROSS_PREFIX}gcc -I${RABBITIM_BUILD_CROSS_SYSROOT}/usr/include -c ${ANDROID_NDK_ROOT}/sources/android/cpufeatures/cpu-features.c
         ${RABBITIM_BUILD_CROSS_PREFIX}ar rcs  libcpu-features.a cpu-features.o
         cp libcpu-features.a ${RABBITIM_BUILD_PREFIX}/lib/.
-		;;
+        ;;
     unix)
-		;;
+        ;;
     windows_msvc)
-        CONFIG_PARA="--target=x86-win32-vs12" # --enable-static-msvcrt
-		;;
+        CONFIG_PARA="--target=x86-win32-vs12 --enable-static-msvcrt"
+        ;;
     windows_mingw)
-		export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
-		export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
-		export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
-		export LD=${RABBITIM_BUILD_CROSS_PREFIX}gcc
-		export AS=yasm
-		export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
-		export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
-		CONFIG_PARA=" --target=x86-win32-gcc"
-		;;
+        export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
+        export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
+        export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
+        export LD=${RABBITIM_BUILD_CROSS_PREFIX}gcc
+        export AS=yasm
+        export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
+        export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
+        CONFIG_PARA=" --target=x86-win32-gcc"
+        ;;
     *)
-		echo "${HELP_STRING}"
-		exit 2
-		;;
+        echo "${HELP_STRING}"
+        exit 2
+        ;;
 esac
 
 CONFIG_PARA="${CONFIG_PARA} --enable-libs --prefix=${RABBITIM_BUILD_PREFIX}"
@@ -105,5 +105,10 @@ echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS=}\""
 
 echo "make install"
 make ${RABBITIM_MAKE_JOB_PARA} && make install
+
+if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
+    cp ${RABBITIM_BUILD_PREFIX}/lib/Win32/vpxmt.lib ${RABBITIM_BUILD_PREFIX}/lib/vpx.lib
+    rm -fr ${RABBITIM_BUILD_PREFIX}/lib/Win32
+fi
 
 cd $CUR_DIR

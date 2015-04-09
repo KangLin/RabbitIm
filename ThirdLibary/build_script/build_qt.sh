@@ -100,6 +100,9 @@ CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples -skip qt3d -skip
 CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt -shared -release"
 CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
 
+CONFIGURE="./configure"
+MAKE="make"
+MAKE_PARA="${RABBITIM_MAKE_JOB_PARA}"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
 		export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
@@ -116,9 +119,9 @@ case ${RABBITIM_BUILD_TARGERT} in
             Linux* | Unix*)
                 ;;
             *)
-            echo "Please see build_qt.sh"
-            exit 2
-            ;;
+                echo "Please see build_qt.sh"
+                exit 2
+                ;;
         esac
         CONFIG_PARA="${CONFIG_PARA} -xplatform android-g++" 
         CONFIG_PARA="${CONFIG_PARA} -android-sdk ${ANDROID_SDK_ROOT} -android-ndk ${ANDROID_NDK_ROOT}"
@@ -126,39 +129,48 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} -android-toolchain-version ${RABBITIM_BUILD_TOOLCHAIN_VERSION}"
         CONFIG_PARA="${CONFIG_PARA} -android-ndk-platform android-${RABBITIM_BUILD_PLATFORMS_VERSION}"
         MODULE_PARA="${MODULE_PARA} module-qtandroidextras"
-    	;;
+        ;;
     unix)
-		CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtandroidextras -skip qtmacextras -skip qtwinextras"
-		;;
+        CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtandroidextras -skip qtmacextras -skip qtwinextras"
+        ;;
     windows_msvc)
-    	;;
+        #CONFIGURE="configure.bat"
+        CONFIG_PARA="${CONFIG_PARA} -platform win32-msvc2013"
+        MAKE_PARA=""
+        MAKE="nmake"
+        ;;
     windows_mingw)
-		export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
-		export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
+        export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
+        export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
         case `uname -s` in
-            MINGW*|MSYS*|CYGWIN*)
+            MINGW*|MSYS*)
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
+                MAKE="mingw32-make"
+                ;;
+            CYGWIN*)
+                CONFIG_PARA="${CONFIG_PARA} -platform win32-g++ -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
+                CONFIG_PARA="${CONFIG_PARA} -xplatform win32-g++ -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
                 ;;
             Linux*|Unix*|*)
-				CONFIG_PARA="${CONFIG_PARA} -skip qtwebkit"
+                CONFIG_PARA="${CONFIG_PARA} -xplatform win32-g++"
+                CONFIG_PARA="${CONFIG_PARA} -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
+                CONFIG_PARA="${CONFIG_PARA} -skip qtwebkit"
                 ;;
         esac
-		CONFIG_PARA="${CONFIG_PARA} -xplatform win32-g++"
-		CONFIG_PARA="${CONFIG_PARA} -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
-		CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"
-		;;
+        CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"
+        ;;
     *)
-		echo "${HELP_STRING}"
-		exit 3
-		;;
+        echo "${HELP_STRING}"
+        exit 3
+        ;;
 esac
 
-echo "./configure ${CONFIG_PARA}" 
-./configure ${CONFIG_PARA}
+echo "$CONFIGURE ${CONFIG_PARA}" 
+$CONFIGURE ${CONFIG_PARA}
 
-echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} \
-	&& make install \
-	&& cp qtbase/bin/qt.conf ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf
+echo "$MAKE install"
+$MAKE ${MAKE_PARA} \
+    && $MAKE install \
+    && cp qtbase/bin/qt.conf ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf
 
 cd $CUR_DIR

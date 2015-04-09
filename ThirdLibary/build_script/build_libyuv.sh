@@ -65,10 +65,7 @@ echo ""
 
 #需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
 case `uname -s` in
-    MINGW*)
-        GENERATORS="MinGW Makefiles"
-        ;;
-    MSYS*)
+    MINGW*|MSYS*)
         GENERATORS="MSYS Makefiles"
         ;;
     Linux*|Unix*|CYGWIN*|*)
@@ -76,6 +73,7 @@ case `uname -s` in
         ;;
 esac
 
+MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA}"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
         if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
@@ -86,7 +84,9 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
     ;;
     windows_msvc)
-    ;;
+        GENERATORS="Visual Studio 12 2013"
+        MAKE_PARA=""
+        ;;
     windows_mingw)
 		CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw.cmake"
 		;;
@@ -102,6 +102,6 @@ cmake .. \
     -DCMAKE_BUILD_TYPE="Release" \
     -G"${GENERATORS}" ${CMAKE_PARA} 
 
-cmake --build . --target install --config Release -- ${RABBITIM_MAKE_JOB_PARA}
+cmake --build . --target install --config Release #{MAKE_PARA}
 
 cd $CUR_DIR

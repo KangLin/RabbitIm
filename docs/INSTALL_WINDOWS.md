@@ -137,7 +137,7 @@ https://github.com/ruby/ruby
 先从菜单栏中起动vs2013编译命令行工具：  
 `C:\Program Files\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts VS2013 x86`
 本机工具命令提示。在命令行下，启动msys。 
-`c:\MinGW\msys\1.0\bin\sh.exe --login -i`  
+`c:\MinGW\msys\1.0\msys.bat`  
 注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。
     
 ### 4. 编译第三方依赖库(脚本中包括qt)
