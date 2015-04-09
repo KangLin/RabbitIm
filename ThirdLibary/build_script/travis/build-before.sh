@@ -48,17 +48,12 @@ function function_android()
     mv sdk android-sdk
  
 	function_common
+	cd ${SOURCE_DIR}/ThirdLibary
 	
 	if [ -z "$BUILD_THIRDLIBARY" ]; then
 		#下载第三方依赖库
 		wget http://182.254.185.29/download/travis/android.tar.gz
 		tar xzf android.tar.gz 
-		
-		#cd ${SOURCE_DIR}/ThirdLibary/android
-		#下载qt for android
-		wget http://182.254.185.29/download/travis/qt_android.tar.gz
-		tar xzf qt_android.tar.gz 
-		mv android_armv7 qt
     fi
     
     cd ${SOURCE_DIR}/ThirdLibary
@@ -77,12 +72,6 @@ function function_unix()
         #下载第三方依赖库
 		wget http://182.254.185.29/download/travis/unix.tar.gz
 		tar xzf unix.tar.gz
-
-		cd ${SOURCE_DIR}/ThirdLibary/unix
-		#下载qt for linux
-		wget http://182.254.185.29/download/travis/qt_linux.tar.gz
-		tar xzf qt_linux.tar.gz 
-		mv gcc_64 qt
     fi
     cd ${SOURCE_DIR}/ThirdLibary
   
@@ -93,8 +82,12 @@ function function_mingw()
 	#汇编工具yasm
 	function_install_yasm
 
+	cd ${SOURCE_DIR}/ThirdLibary
 	if [ -z "$BUILD_THIRDLIBARY" ]; then
 		echo "Download third library"
+		#下载第三方依赖库
+		wget http://182.254.185.29/download/travis/windows_mingw.tar.gz
+		tar xzf windows_mingw.tar.gz
 	else
 		export RABBITIM_BUILD_CROSS_HOST=i586-mingw32msvc
     fi
