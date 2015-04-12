@@ -62,7 +62,7 @@ cd ${RABBITIM_BUILD_SOURCE_CODE}
 if [ -n "$QT_CLEAN" ]; then
     if [ -d ".git" ]; then
         qtrepotools/bin/qt5_tool -c
-        
+
         #git clean -xdf
         #git submodule foreach --recursive "git clean -dfx"
         #echo $1

@@ -88,8 +88,14 @@ case ${RABBITIM_BUILD_TARGERT} in
         MAKE_PARA=""
         ;;
     windows_mingw)
-		CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw.cmake"
-		;;
+        case `uname -s` in
+            Linux*|Unix*)
+                CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw.cmake"
+                ;;
+            *)
+            ;;
+        esac
+        ;;
     *)
     echo "${HELP_STRING}"
     return 2

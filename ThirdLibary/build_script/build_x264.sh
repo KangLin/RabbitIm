@@ -75,8 +75,14 @@ case ${RABBITIM_BUILD_TARGERT} in
         exit 2
     ;;
     windows_mingw)
-		CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-shared --host=$RABBITIM_BUILD_CROSS_HOST"
-		;;
+        case `uname -s` in
+            Linux*|Unix*)
+            CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-shared --host=$RABBITIM_BUILD_CROSS_HOST"
+            ;;
+        *)
+            ;;
+        esac
+        ;;
     *)
     echo "${HELP_STRING}"
     exit 2
