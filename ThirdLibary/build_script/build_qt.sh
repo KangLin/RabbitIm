@@ -47,7 +47,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
         git checkout ${QT_VERSION}
-        perl init-repository -f -no-qtcanvas3d -no-qt3d
+        perl init-repository -f --branch -f -no-qtcanvas3d -no-qt3d
         cd ${CUR_DIR}
     else
         wget http://ftp.jaist.ac.jp/pub/qtproject/archive/qt/5.4/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
@@ -105,8 +105,8 @@ MAKE="make"
 MAKE_PARA="${RABBITIM_MAKE_JOB_PARA}"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-		export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
-		export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
+        #export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
+        #export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
         #platform:本机工具链(configure工具会自动检测)；xplatform：目标机工具链
         #qt工具和库分为本机工具和目标机工具、库两部分
         #qmake、uic、rcc、lrelease、lupdate 均为本机工具，需要用本机工具链编译
@@ -115,6 +115,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         case $TARGET_OS in
             MINGW* | CYGWIN* | MSYS*)
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
+                MAKE="mingw32-make"
                 ;;
             Linux* | Unix*)
                 ;;
@@ -134,14 +135,12 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtandroidextras -skip qtmacextras -skip qtwinextras"
         ;;
     windows_msvc)
-        #CONFIGURE="configure.bat"
+        CONFIGURE="./configure.bat"
         CONFIG_PARA="${CONFIG_PARA} -platform win32-msvc2013"
         MAKE_PARA=""
         MAKE="nmake"
         ;;
     windows_mingw)
-        export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
-        export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
         case `uname -s` in
             MINGW*|MSYS*)
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
@@ -152,6 +151,8 @@ case ${RABBITIM_BUILD_TARGERT} in
                 CONFIG_PARA="${CONFIG_PARA} -xplatform win32-g++ -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
                 ;;
             Linux*|Unix*|*)
+                #export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
+                #export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
                 CONFIG_PARA="${CONFIG_PARA} -xplatform win32-g++"
                 CONFIG_PARA="${CONFIG_PARA} -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
                 CONFIG_PARA="${CONFIG_PARA} -skip qtwebkit"

@@ -241,13 +241,22 @@ https://github.com/ruby/ruby
 
         pacman -S mingw-w64-i686-gcc
 
-### 3. 第三方依赖库
-#### 3.1. 编译第三方依赖库(脚本中包括qt)
+### 3. 编译
+#### 3.1 启动下列环境之一：
+* 启动 msys 环境：
+
+        c:\MinGW\msys\1.0\msys.bat
+
+* 启动 msys2 环境:
+
+        c:\msys32\msys2_shell.bat
+
+#### 3.2. 编译第三方依赖库(脚本中包括qt)
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build.sh android [source_code_directory]
 
-### 4. 编译本项目:
+#### 3.3. 编译本项目:
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build_rabbitim.sh android [source_code_directory] [qmake]

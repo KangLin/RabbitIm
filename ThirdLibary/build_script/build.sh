@@ -49,12 +49,12 @@ if [ -n "$2" ]; then
         sh build_speex.sh ${RABBITIM_BUILD_TARGERT} $2/speex && \
         sh build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264
     fi
+    sh build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl && \
+    sh build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl && \
     sh build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx && \
     sh build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv && \
     sh build_opencv.sh ${RABBITIM_BUILD_TARGERT} $2/opencv && \
     sh build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg && \
-    sh build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl && \
-    sh build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl && \
     sh build_icu.sh ${RABBITIM_BUILD_TARGERT} $2/icu && \
     sh build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
     sh build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp
@@ -64,12 +64,12 @@ else
         sh build_speex.sh ${RABBITIM_BUILD_TARGERT} && \
         sh build_x264.sh ${RABBITIM_BUILD_TARGERT}
     fi
+    sh build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
+    sh build_libcurl.sh ${RABBITIM_BUILD_TARGERT} && \
     sh build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \
     sh build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
     sh build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \
     sh build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_libcurl.sh ${RABBITIM_BUILD_TARGERT} && \
     sh build_icu.sh ${RABBITIM_BUILD_TARGERT} && \
     sh build_qt.sh ${RABBITIM_BUILD_TARGERT} && \
     sh build_qxmpp.sh ${RABBITIM_BUILD_TARGERT}

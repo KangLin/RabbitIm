@@ -152,6 +152,21 @@ http://www.perl.org/
 当前使用版本：
     Revision: 37321
 
+13. qt
+
+        cd /home
+        git clone git://git.gitorious.org/qt/qt5.git #（或者：git clone https://git.gitorious.org/qt/qt5.git）
+        cd qt5
+        git checkout 5.5
+        perl init-repository
+        
+
+更新已有qt：
+
+        cd /home/qt5
+        git pull
+        perl init-repository -f --branch
+
 本项目：
 ---------
 

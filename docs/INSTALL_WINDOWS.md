@@ -136,8 +136,8 @@ https://github.com/ruby/ruby
 ### 3. 使用:
 先从菜单栏中起动vs2013编译命令行工具：  
 `C:\Program Files\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts VS2013 x86`
-本机工具命令提示。在命令行下，启动msys。 
-`c:\MinGW\msys\1.0\msys.bat`  
+本机工具命令提示。在命令行下，启动msys:`c:\MinGW\msys\1.0\msys.bat`  
+如果用msys2：`c:\msys32\msys2_shell.bat`  
 注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。
     
 ### 4. 编译第三方依赖库(脚本中包括qt)
@@ -274,13 +274,27 @@ https://github.com/ruby/ruby
 #### 2.9. 安装工具
 主页：http://nsis.sourceforge.net/Main_Page
 
-### 3. 第三方依赖库(脚本中包括qt)
+### 3. 编译
+#### 3.1 启动下列环境之一：
+* 启动 msys 环境：
+
+        c:\MinGW\msys\1.0\msys.bat
+
+* 启动 msys2 32环境:
+
+        c:\msys32\mingw32_shell.bat #32位编译环境
+
+* 启动 msys2 64环境:
+
+        c:\msys32\mingw64_shell.bat #64位编译环境
+
+#### 3.2 第三方依赖库(脚本中包括qt)
 * 编译：
 
         cd ${RabbitImRoot}/ThirdLibary/build_script
         ./build.sh unix_mingw [source_code_directory]
 
-### 4. 编译本项目:
+#### 3.3. 编译本项目:
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build_rabbitim.sh unix_mingw [source_code_directory] [qmake]
