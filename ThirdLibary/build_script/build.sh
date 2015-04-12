@@ -38,15 +38,17 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo ". `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    . `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
+    . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
 fi
 
 if [ -n "$2" ]; then
 	echo "Source dir:$2"
-    sh build_speexdsp.sh ${RABBITIM_BUILD_TARGERT}  $2/speexdsp && \
-    sh build_speex.sh ${RABBITIM_BUILD_TARGERT} $2/speex && \
-    sh build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264 && \
+    if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
+        sh build_speexdsp.sh ${RABBITIM_BUILD_TARGERT}  $2/speexdsp && \
+        sh build_speex.sh ${RABBITIM_BUILD_TARGERT} $2/speex && \
+        sh build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264
+    fi
     sh build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx && \
     sh build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv && \
     sh build_opencv.sh ${RABBITIM_BUILD_TARGERT} $2/opencv && \
@@ -57,9 +59,11 @@ if [ -n "$2" ]; then
     sh build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
     sh build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp
 else
-    sh build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_speex.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_x264.sh ${RABBITIM_BUILD_TARGERT} && \
+    if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
+        sh build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} && \
+        sh build_speex.sh ${RABBITIM_BUILD_TARGERT} && \
+        sh build_x264.sh ${RABBITIM_BUILD_TARGERT}
+    fi
     sh build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \
     sh build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
     sh build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \

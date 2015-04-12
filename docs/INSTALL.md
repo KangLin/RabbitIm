@@ -186,9 +186,6 @@ http://www.perl.org/
         ｜------unix            # unix 平台的第三方库
         ｜       ｜-----include
         ｜       ｜-----lib
-        ｜------unix_mingw      # unix  平台 mingw 交叉编译的第三方库
-        ｜       ｜-----include
-        ｜       ｜-----lib
         ｜------ ios            # ios 平台的第三方库
         ｜       ｜------include
         ｜       ｜------lib
@@ -204,7 +201,7 @@ windows 下需要安装 cygwin 或者 msys 环境。
     export RabbitImRoot=/home/rabbitim    #本工程源码根目录
     
 所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。
-为了避免这个问题。你也可以把环境变量保到 build_${PLATFORM}_envsetup.sh 文件中。
+为了避免这个问题。你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。
 
 脚本只编译第三方依赖库的发行版本。如果你需要调试版本，请手工编译。
 
@@ -222,12 +219,12 @@ windows 下需要安装 cygwin 或者 msys 环境。
     + export JAVA_HOME=                     #jdk根目录 
     + QMAKE=                                #设置用于 mingw 平台编译的 QMAKE
     所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。
-    为了避免这个问题。你也可以把环境变量保到 build_${PLATFORM}_envsetup.sh 文件中。  
+    为了避免这个问题。你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。  
 
 2. windows 平台：
    windows 平台有两种方法编译：
    1. ) msvc 工具链：
-      * build_windows_msvc_envsetup.sh:设置编译时需要的变量  
+      * build_envsetup_windows_msvc.sh:设置编译时需要的变量  
       * build.sh windows_msvc [source_code_directory] : 编译第三方库脚本
         环境变量说明：  
    msvc 工具链的环境变量可用下面方法设置：  
@@ -237,9 +234,9 @@ windows 下需要安装 cygwin 或者 msys 环境。
    在命令行下，启动msys。 
    `c:\MinGW\msys\1.0\msys.bat`  
    注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。  
-   然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibary/build_script`。再运行你想运行的编译脚本。例如： `./build_windows_mscv.sh` 。
+   然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibary/build_script`。再运行你想运行的编译脚本。例如： `./build.sh` 。
    2. )mingw 工具链
-      * build_windows_mingw_envsetup.sh:设置编译时需要的变量
+      * build_envsetup_windows_mingw.sh:设置编译时需要的变量
       * build.sh windows_mingw [source_code_directory] : 编译第三方库脚本
 
 3. windows phone 平台：
@@ -262,7 +259,7 @@ windows 下需要安装 cygwin 或者 msys 环境。
 
 可以把上面环境变量保存到  ~/.profile 文件中。  
 如果编译 android 平台的库，也可以把上面环境变量保存在：
-${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
+${RabbitImRoot}/ThirdLibary/build_script/build_envsetup_android.sh 中。
 可以运行 ${RabbitImRoot}/ThirdLibary/build_script/build_android.sh 进行第三方依赖库编译。
 
 1. 编解码库(libvpx)编译：  
@@ -303,17 +300,17 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
     * 打开“文件->打开文件或项目”。
     * 在弹出的对话框中选中qxmpp.pro，打开qxmpp工程。
     * 点左边工具栏中的“项目”，选择qxmpp标签，在相应平台“构建套件”中修改“构建步骤”参数，
-           在“构建步骤”中的“额外参数”中，加入 “PREFIX=$(RabbitImRoot)/ThirdLibary/${Platform}”，
+           在“构建步骤”中的“额外参数”中，加入 “PREFIX=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}”，
            其中$(RabbitImRoot)是本项目源码的根目录，在下面的“构建环境”变量中添加这个环境变量。
            当然，也可以直接在“额外参数”中把$(RabbitImRoot)替换成本项目源码根目录路径。
-           ${Platform}为相应的平台，可以为windows、android、unix、ios。
+           ${RABBITIM_BUILD_TARGERT}为相应的平台，可以为windows、android、unix、ios。
            如果需要编译成静态库，需要在额外参数中加入：
            QXMPP_LIBRARY_TYPE=staticlib 。在本项目编译时连接静态 qxmpp 库需要增加 -DQXMPP_STATIC 。
     * 设置编解码器：现在QXMPP支持vpx、THEORA视频编解码器；G711u、SPEEX音频编解码器。音频默认为G711u。
            视频无默认编解码器，所以如果需要视频，必须指定第三方视频编解码器。
            以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
-           并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${Platform}/include
-           LIBS+=-L$(RabbitImRoot)/ThirdLibary/${Platform}/lib
+           并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/include
+           LIBS+=-L$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/lib
     * 选择windows或linux平台，在相应平台“构建套件”中的“运行”标签，
            部署->详情->部署->添加部署步骤->选择make命令->Make参数中加上"install"。
            其它平台可能会有平台自己的部署步骤，所以不能在部署这里安装。可以用下面方法：
@@ -334,9 +331,9 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_android_envsetup.sh 中。
      * 设置 qmake 路径到环境变量 PATH 中：`export PATH=$PATH:$QMAKE_PATH`  
      * 建立编译目录：`mkdir build; cd build`
      * 生成工程文：`qmake -o Makefile QXMPP_LIBRARY_TYPE=staticlib \
-                 PREFIX=$(RabbitImRoot)/ThirdLibary/${Platform} \
-                 INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${Platform}/include \
-                 LIBS+=-L$(RabbitImRoot)/ThirdLibary/${Platform}/lib \
+                 PREFIX=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT} \
+                 INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/include \
+                 LIBS+=-L$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/lib \
                  QXMPP_USE_VPX=1 \
                  ${RabbitImRoot}/Rabbitim.pro`
      * 编译：`$(MAKE)`  

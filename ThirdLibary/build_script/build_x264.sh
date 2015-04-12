@@ -26,8 +26,8 @@ case $1 in
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo ". `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh"
-    . `pwd`/build_${RABBITIM_BUILD_TARGERT}_envsetup.sh
+    echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
+    . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
 fi
 
 if [ -n "$2" ]; then
@@ -71,6 +71,8 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
     ;;
     windows_msvc)
+        echo "build_x264.sh don't support windows_msvc. "
+        exit 2
     ;;
     windows_mingw)
 		CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-shared --host=$RABBITIM_BUILD_CROSS_HOST"
