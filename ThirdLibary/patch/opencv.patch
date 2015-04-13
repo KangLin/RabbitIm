@@ -1,0 +1,26 @@
+diff --git a/cmake/OpenCVCompilerOptions.cmake b/cmake/OpenCVCompilerOptions.cmake
+index 9477d9c..f3b50a8 100644
+--- a/cmake/OpenCVCompilerOptions.cmake
++++ b/cmake/OpenCVCompilerOptions.cmake
+@@ -68,7 +68,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
+   add_extra_compiler_option(-W)
+   add_extra_compiler_option(-Wall)
+   add_extra_compiler_option(-Werror=return-type)
+-  if(OPENCV_CAN_BREAK_BINARY_COMPATIBILITY)
++  if(NOT MINGW AND OPENCV_CAN_BREAK_BINARY_COMPATIBILITY)
+     add_extra_compiler_option(-Werror=non-virtual-dtor)
+   endif()
+   add_extra_compiler_option(-Werror=address)
+diff --git a/cmake/OpenCVPCHSupport.cmake b/cmake/OpenCVPCHSupport.cmake
+index a7f8198..9741762 100644
+--- a/cmake/OpenCVPCHSupport.cmake
++++ b/cmake/OpenCVPCHSupport.cmake
+@@ -24,7 +24,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
+     ENDIF()
+ 
+     SET(_PCH_include_prefix "-I")
+-    SET(_PCH_isystem_prefix "-isystem")
++	SET(_PCH_isystem_prefix "-I")
+     SET(_PCH_define_prefix "-D")
+ 
+ ELSEIF(CMAKE_GENERATOR MATCHES "^Visual.*$")
