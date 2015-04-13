@@ -47,7 +47,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
         git checkout ${QT_VERSION}
-        perl init-repository -f --branch -f -no-qtcanvas3d -no-qt3d
+        perl init-repository -f --branch -no-qtcanvas3d -no-qt3d
         cd ${CUR_DIR}
     else
         wget http://ftp.jaist.ac.jp/pub/qtproject/archive/qt/5.4/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
@@ -141,6 +141,10 @@ case ${RABBITIM_BUILD_TARGERT} in
         MAKE="nmake"
         ;;
     windows_mingw)
+        #platform:本机工具链(configure工具会自动检测)；xplatform：目标机工具链
+        #qt工具和库分为本机工具和目标机工具、库两部分
+        #qmake、uic、rcc、lrelease、lupdate 均为本机工具，需要用本机工具链编译
+        #库都是目标机的库，所以需要目标机的工具链
         case `uname -s` in
             MINGW*|MSYS*)
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
