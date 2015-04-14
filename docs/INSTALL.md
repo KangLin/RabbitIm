@@ -1,182 +1,221 @@
-环境：
------
-
-1. [ubuntu](INSTALL_UBUNTU.md)
-
-2. [android](INSTALL_ANDROID.md)
-
-3. [windows](INSTALL_WINDOWS.md)
-
-* 开发工具：git、svn、autoconf、automake、make、cmake、python、perl、bash、
-* Windows 下开发环境:Mingw、msys（或者cygwin）、msvc
-* android 开发工具：android ndk、android sdk、jdk、ant
-* 汇编工具：yasm、nasm(windows)
-* UI：QT
-* 即时通信协议（XMPP）：QXMPP
-* 视频通信：webrtc
-* 编解码库：ffmpeg、x264（可选）、libvpx、libyuv（可选）、libspeexdsp（可选）、
-           libspeex（可选）
-* 图形处理库：opencv（可选）
-
 工具：
 -----
 
-1. QT：
-主页：http://qt-project.org/  
-下载：http://qt-project.org/downloads  
-当前使用版本：5.3.0  
-QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html  
-[QT编译](http://blog.csdn.net/kl222/article/details/44216951)
+##### 1. bash 环境:
 
-2. cmake：
-主页：http://www.cmake.org/
-当前使用版本：3.1 
+* windows下：msys（msys2） 或者 cygwin
+    * msys: http://www.mingw.org/wiki/MSYS
+    * msys2: http://sourceforge.net/projects/msys2/
+        代码位置: https://github.com/Alexpux/MSYS2-packages
+    * cygwin主页: http://www.cygwin.org/
 
-3. autoconf、automake、libtool、m4：
-mingw用msys中的相关工具
+##### 2. 下载工具：
 
-4. windows平台工具
+* wget：
 
-    4.1. msvc：
-主页：http://msdn.microsoft.com/zh-cn/vstudio
-当前使用版本：vs 2013 update 4
+##### 3. 脚本工具：
 
-    4.2. windows sdk(The Microsoft® Windows® Software Development Kit (SDK) for Windows 8.1):
+* python:2.7.6  版本 2.7 或以后
+    + 主页: https://www.python.org/  http://www.activestate.com/activepython/
+* perl：5.18.2  版本 5.12 或以后
+    + 主页： http://www.perl.org/  http://www.activestate.com/activeperl/
+* bash:msys或cygwin
+* ruby:qtwebkit编译需要 版本 1.9.3 或以后
+    * 主页：
+        * http://www.ruby-lang.org/
+        * http://rubyinstaller.org/  
+        * https://github.com/ruby/ruby
+
+##### 4. cmake：
+
+* 主页：http://www.cmake.org/
+* 当前使用版本：3.1 
+
+##### 5. 安装auto工具：
+
+1. automake: http://www.gnu.org/software/automake/
+2. autoconf: http://www.gnu.org/software/autoconf/
+3. libtool: http://www.gnu.org/software/libtool/
+4. m4: http://www.gnu.org/software/m4
+5. pkg-config: http://www.freedesktop.org/wiki/Software/pkg-config/
+6. make:根据bash系统的不同，有msys make（msys bash）、mingw make、gnu make（cygwin bash）
+
+##### 6. 版本控制工具：
+
+* subversion: http://subversion.apache.org/
+* git: http://www.git-scm.com/
+
+##### 7. windows平台工具：
+
+1. msvc：
+    * 主页：http://msdn.microsoft.com/zh-cn/vstudio
+    * 当前使用版本：vs 2013 update 4
+2. windows sdk(The Microsoft® Windows® Software Development Kit (SDK) for Windows 8.1):
 https://msdn.microsoft.com/zh-cn/windows/desktop/bg162891
-
-    4.3. Windows Driver Kit:
+3. Windows Driver Kit:
 http://www.microsoft.com/en-us/download/confirmation.aspx?id=42273
+4. mingw、msys（或者cygwin）：
+    * mingw主页：http://www.mingw.org/ 。这个主页好象不是最新的，请用：http://sourceforge.net/projects/mingw-w64/  
+    * cygwin主页：http://www.cygwin.org/  
+    * 当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
 
-    4.4. mingw、msys（或者cygwin）：
-mingw主页：http://www.mingw.org/ 。这个主页好象不是最新的，请用：http://sourceforge.net/projects/mingw-w64/  
-cygwin主页：http://www.cygwin.org/  
-当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
+##### 8. 汇编工具（yasm、nasm）：
 
-    4.5. 汇编工具（yasm、nasm）
-[yasm](http://yasm.tortall.net/)
-[nasm](http://www.nasm.us/)  
-下载并安装，并且设置路径到环境变量PATH
+* [yasm](http://yasm.tortall.net/)
+* [nasm](http://www.nasm.us/)  
+    下载并安装，并且设置路径到环境变量PATH
 
-5. gun 编译工具：
-    5.1. gcc、g++
+##### 9. 编译工具：
+
+1. windows
+    * msvc
+    * mingw gcc
+2. linux
+    * gcc、g++
     当前使用版本：4.8
+3. android
+    * android ndk
 
-5. perl 工具
-http://www.perl.org/
+##### 10. android工具：
 
-6. Java
-[jdk](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-安装，并设置环境变量 JAVA_HOME
-并把 %JAVA_HOME%/bin 加到环境变量 PATH 中
+1. Java jdk：http://www.oracle.com/technetwork/java/javase/downloads/index.html
+2. ant：http://ant.apache.org/
+3. android sdk：http://developer.android.com/sdk/index.html
+4. android ndk：http://developer.android.com/ndk/index.html
 
-7. 安装工具
+##### 11. 安装工具
 
-    7.1. deb打包工具：dh_make、 debhelper
-    7.2. rpm打包工具:
-	7.3. windows安装工具:nsis
+1. deb打包工具：dh_make、 debhelper
+2. rpm打包工具:
+3. windows安装工具:nsis
 
-8. icu工具，编译 QtWebkit 需要
+##### 12. icu工具，编译 QtWebkit 需要
 
-9. [Qt工具与版本](http://qt-project.org/wiki/Qt-5.5.0-tools-and-versions)
+##### 13. [Qt工具与版本](http://qt-project.org/wiki/Qt-5.5.0-tools-and-versions)
+
+##### 14. QT：
+
+* 主页：http://qt-project.org/
+* 下载：http://qt-project.org/downloads
+* 当前使用版本：5.3.0
+    + QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
+    + [QT编译](http://blog.csdn.net/kl222/article/details/44216951)
 
 第三方库：
 --------
 
-1. XMPP协议（QXMPP）：
-主页：http://code.google.com/p/qxmpp  
-需要用我修改的版本：https://github.com/KangLin/qxmpp
-下载：
-`git clone https://github.com/KangLin/qxmpp.git`
-当前使用版本：  
+#### 1. XMPP协议（QXMPP）：
+
+* 主页：http://code.google.com/p/qxmpp  
+* 需要用我修改的版本：https://github.com/KangLin/qxmpp
+* 下载：
+
+    git clone https://github.com/KangLin/qxmpp.git
+
+* 当前使用版本：  
     git库版本 —— 0b49b87c2c4e38a6d2fd9983949e34782575955c  
-编译方法参考源码根目录下的README文件。
+    编译方法参考源码根目录下的README文件。
 
-2. webrtc库：
-主页：http://www.webrtc.org/  
-下载：  
-        gclient config http://webrtc.googlecode.com/svn/trunk  
-        gclient sync --force  
-当前使用版本：svn库版本——r5663  
-编译参考：http://blog.csdn.net/kl222/article/details/17198873
+#### 2. webrtc库：
 
-3. 编解码库（ffmpeg）：  
-主页：http://www.ffmpeg.org/  
-下载：
-        git clone git://source.ffmpeg.org/ffmpeg.git
-当前使用版本：  
-    git库版本 —— n2.6.1  
+* 主页：http://www.webrtc.org/  
+* 下载：
 
-4. 编解码库(x264)
-下载：`git clone git://git.videolan.org/x264.git`  
-当前使用版本：  
+    gclient config http://webrtc.googlecode.com/svn/trunk  
+    gclient sync --force  
+
+* 当前使用版本：svn库版本——r5663  
+* 编译参考：http://blog.csdn.net/kl222/article/details/17198873
+
+#### 3. 编解码库（ffmpeg）：
+
+* 主页：http://www.ffmpeg.org/  
+* 下载：
+
+    git clone git://source.ffmpeg.org/ffmpeg.git
+
+*当前使用版本：
+    git库版本 —— n2.6.1
+
+#### 4. 编解码库(x264)
+
+* 下载：`git clone git://git.videolan.org/x264.git`  
+* 当前使用版本：  
     git库版本 —— 121396c
 
-5. 解码库(libvpx)
-下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
-当前使用版本:  
+#### 5. 解码库(libvpx)
+
+* 下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
+* 当前使用版本:  
     git库版本 —— 9b99eb2
 
-6. 音频处理库(libspeexdsp)
-下载：`git clone http://git.xiph.org/speexdsp.git`  
-当前使用版本:  
+#### 6. 音频处理库(libspeexdsp)
+
+* 下载：`git clone http://git.xiph.org/speexdsp.git`  
+* 当前使用版本:  
     git库版本 —— 887ac10
 
-7. 音频编解码库（libspeex）
-下载：`git clone http://git.xiph.org/speex.git`  
-当前使用版本：  
+#### 7. 音频编解码库（libspeex）
+
+* 下载：`git clone http://git.xiph.org/speex.git`  
+* 当前使用版本：  
     git库版本 —— 6aab25c
 
-8. [图像处理库(opencv)](http://opencv.org/)
-下载：`git clone git://github.com/Itseez/opencv.git`  
-当前使用版本:  
+#### 8. [图像处理库(opencv)](http://opencv.org/)
+
+* 下载：`git clone git://github.com/Itseez/opencv.git`  
+* 当前使用版本:  
     git库版本 —— 2.4.11
 
-9. libyuv  
-下载:`git clone http://git.chromium.org/external/libyuv.git`
-当前使用版本:  
+#### 9. libyuv
+
+* 下载:`git clone http://git.chromium.org/external/libyuv.git`
+* 当前使用版本:  
     git库版本 —— 416c48d
 
-10. [openssl](http://www.openssl.org/)
-下载：`git clone  https://github.com/openssl/openssl`  
-当前使用版本：  
+#### 10. [openssl](http://www.openssl.org/)
+
+* 下载：`git clone  https://github.com/openssl/openssl`  
+* 当前使用版本：  
     git库版本 —— c8ece53  
 	remotes/origin/OpenSSL_1_0_2-stable
 
-11. [libcurl](http://curl.haxx.se)
-下载：`git://github.com/bagder/curl.git`  
-当前使用版本：  
+#### 11. [libcurl](http://curl.haxx.se)
+
+* 下载：`git://github.com/bagder/curl.git`  
+* 当前使用版本：  
     git库版本 —— curl-7_41_0
 
-12. [libicu](http://site.icu-project.org/)
-下载：`svn co http://source.icu-project.org/repos/icu/icu/trunk/ icu`
-当前使用版本：
+#### 12. [libicu](http://site.icu-project.org/)
+
+* 下载：`svn co http://source.icu-project.org/repos/icu/icu/trunk/ icu`
+* 当前使用版本：
     Revision: 37321
 
-13. qt
+#### 13. qt
 
-        cd /home
-        git clone git://git.gitorious.org/qt/qt5.git #（或者：git clone https://git.gitorious.org/qt/qt5.git）
-        cd qt5
-        git checkout 5.5
-        perl init-repository
-        
+    cd /home
+    git clone git://git.gitorious.org/qt/qt5.git #（或者：git clone https://git.gitorious.org/qt/qt5.git）
+    cd qt5
+    git checkout 5.5
+    perl init-repository
 
 更新已有qt：
 
-        cd /home/qt5
-        git pull
-        perl init-repository -f --branch
+    cd /home/qt5
+    git pull
+    perl init-repository -f --branch
 
 本项目：
 ---------
 
-主页：https://github.com/KangLin/rabbitim  
-下载：`git clone https://github.com/KangLin/rabbitim.git `
+* 主页：https://github.com/KangLin/rabbitim
+* 下载：`git clone https://github.com/KangLin/rabbitim.git `
 
 编译：
 -----
 
-### 第三方依赖库编译
+### 第三方依赖库目录：
 
 在源码根目录下建立第三方库目录：ThirdLibary  
 把第三方依赖库编译成功后，放到ThirdLibary目录下,ThirdLibary目录结构如下：
@@ -185,36 +224,36 @@ http://www.perl.org/
         ｜
         ｜-----patch            #补丁包目录
         ｜-----build_script     #第三方库编译脚本目录
-        ｜-----src              #源码目录
+        ｜-----src              #第三方库源码目录
         ｜-----windows_msvc     # Windows 平台 msvc 编译的第三方库
         ｜       ｜-----include #头文件
         ｜       ｜-----lib     #库文
         ｜-----windows_mingw    # Windows 平台 mingw 交叉编译的第三方库
         ｜       ｜-----include
         ｜       ｜-----lib
-        ｜------windows_phone   #Windows Phone 平台的第三方库
-        ｜       ｜------include
-        ｜       ｜------lib
-        ｜-----android          # android 平台的第三方库
-        ｜       ｜-----include
-        ｜       ｜-----lib
         ｜------unix            # unix 平台的第三方库
         ｜       ｜-----include
         ｜       ｜-----lib
+        ｜-----android          # android 平台的第三方库
+        ｜       ｜-----include
+        ｜       ｜-----lib
+        ｜------windows_phone   #Windows Phone 平台的第三方库
+        ｜       ｜------include
+        ｜       ｜------lib
         ｜------ ios            # ios 平台的第三方库
         ｜       ｜------include
         ｜       ｜------lib
 
 可以在 http://pan.baidu.com/s/1ntA0t5n 中下载本项目依赖的预编译好的第三方库。
 
-#### 第三方库编译脚本说明
+### 第三方依赖库编译脚本
 第三库编译脚本是 bash 脚本。运行这些脚本时，需要有 bash 环境。linux、unix 默认安装了 bash 环境。
 windows 下需要安装 cygwin 或者 msys 环境。  
 
 环境变量：
 
     export RabbitImRoot=/home/rabbitim    #本工程源码根目录
-    
+
 所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。
 为了避免这个问题。你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。
 
@@ -222,9 +261,8 @@ windows 下需要安装 cygwin 或者 msys 环境。
 
 第三方库编译脚本位于：${RabbitImRoot}/ThirdLibary/build_script 目录下。  
 
-1. android 平台：
-    * build_android.sh : 编译所有第三方依赖库
-    * build_android_envsetup.sh : 设置编译时需要的变量  
+##### 1. android 平台：
+    * build_envsetup_android.sh : 设置编译时需要的变量  
     * build.sh android [source_code_directory] : 编译第三方库脚本
         环境变量说明:
     + export ANDROID_NDK_ROOT=              #android ndk 根目录
@@ -232,85 +270,79 @@ windows 下需要安装 cygwin 或者 msys 环境。
     + export ANDROID_SDK=                   #android sdk 根目录
     + export ANDROID_SDK_ROOT=$ANDROID_SDK    
     + export JAVA_HOME=                     #jdk根目录 
-    + QMAKE=                                #设置用于 mingw 平台编译的 QMAKE
+    + export ANT_ROOT=                      #ant工具的目录
+    + QT_ROOT=                              #qt的安装位置
+    + RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
+    + JOM=make #设置 QT make 工具 JOM
     所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。
     为了避免这个问题。你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。  
+    再运行:
 
-2. windows 平台：
+    ${RabbitImRoot}/ThirdLibary/build_script/build.sh android [source_code_directory] #进行第三方依赖库编译
+
+##### 2. windows 平台：
    windows 平台有两种方法编译：
    1. ) msvc 工具链：
       * build_envsetup_windows_msvc.sh:设置编译时需要的变量  
       * build.sh windows_msvc [source_code_directory] : 编译第三方库脚本
-        环境变量说明：  
+        环境变量说明： 
+        + QT_ROOT=/home/k/Qt5.4.1/5.4/gcc_64 #QT 安装根目录
+        + RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
+        + JOM=nmake #设置 QT make 工具 JOM
    msvc 工具链的环境变量可用下面方法设置：  
    先从菜单栏中起动vs2013编译命令行工具：  
    C:\Program Files\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts  
    VS2013 x86 本机工具命令提示  
    在命令行下，启动msys。 
-   `c:\MinGW\msys\1.0\msys.bat`  
+   `c:\MinGW\msys\1.0\msys.bat` 
+   如果用msys2：`c:\msys32\mingw32_shell.bat`  
    注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。  
    然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibary/build_script`。再运行你想运行的编译脚本。例如： `./build.sh` 。
    2. )mingw 工具链
-      * build_envsetup_windows_mingw.sh:设置编译时需要的变量
       * build.sh windows_mingw [source_code_directory] : 编译第三方库脚本
+      * build_envsetup_windows_mingw.sh:设置编译时需要的变量
+        环境变量说明： 
+            + QT_ROOT=/home/k/Qt5.4.1/5.4/gcc_64 #QT 安装根目录
+            + RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
+            + JOM=make #设置 QT make 工具 JOM
 
-3. windows phone 平台：
+##### 3. windows phone 平台：
 
-#### mingw工具链编译：
-第三库编译脚本参见：${RabbitImRoot}/ThirdLibary/build_script  
-设置环境变量：
-
-    export RabbitImRoot=/home/rabbitim    #本工程源码根目录
-
-如果要编译 android 平台的库,还需要下面环境变量:
-
-    export ANDROID_NDK_ROOT=     #android ndk 根目录
-    export ANDROID_NDK=$ANDROID_NDK_ROOT
-    export ANDROID_SDK=    #android sdk 根目录
-    export ANDROID_SDK_ROOT=$ANDROID_SDK    
-    export JAVA_HOME=         #jdk根目录
-    export ANT_ROOT=          #ant工具的目录
-    export PATH=$PATH:%ANT_ROOT/bin
-
-可以把上面环境变量保存到  ~/.profile 文件中。  
-如果编译 android 平台的库，也可以把上面环境变量保存在：
-${RabbitImRoot}/ThirdLibary/build_script/build_envsetup_android.sh 中。
-可以运行 ${RabbitImRoot}/ThirdLibary/build_script/build_android.sh 进行第三方依赖库编译。
-
-1. 编解码库(libvpx)编译：  
+### 第三方依赖库编译
+##### 1. 编解码库(libvpx)编译：  
 详见：http://blog.csdn.net/kl222/article/details/23101115  
 安装装到：
 
         make PREFIX=${RabbitImRoot}/ThirdLiabary/${Platform}
 
-2. ffmpeg编译：  
+##### 2. ffmpeg编译：  
 详见《ffmpeg教程》
 
-3. opencv编译：  
+##### 3. opencv编译：  
 [Building OpenCV4Android from trunk](http://code.opencv.org/projects/opencv/wiki/Building_OpenCV4Android_from_trunk)  
 详见:[http://blog.csdn.net/kl222/article/details/27223791](http://blog.csdn.net/kl222/article/details/27223791)  
 编译完成后,安装到:${RabbitImRoot}/ThirdLiabary/${Platform}  
 
-4. libspeex、libspeexdsp编译:
+##### 4. libspeex、libspeexdsp编译:
 
        ./autogen.sh  
        configure --prefix=${RabbitImRoot}/ThirdLiabary/${Platform}  
        make install  
 
-5. webrtc编译：
+##### 5. webrtc编译：
 详见[《webrtc教程》](http://blog.csdn.net/kl222/article/details/17198873)
 
-6. libyuv 编译：
+##### 6. libyuv 编译：
 官网：https://code.google.com/p/libyuv/wiki/GettingStarted  
 详见：[《libyuv编译》](http://blog.csdn.net/kl222/article/details/41309541)  
 或者： [libyuv编译.txt](./Books/libyuv编译.txt)
 
-7. [openssl编译](http://blog.csdn.net/kl222/article/details/41787529)
+##### 7. [openssl编译](http://blog.csdn.net/kl222/article/details/41787529)
 
-8. [libcurl 编译](http://blog.csdn.net/kl222/article/details/41898025)
+##### 8. [libcurl 编译](http://blog.csdn.net/kl222/article/details/41898025)
 
-9. QXMPP编译：  
-    1)用 Qt Creator 进行编译（详见源码根目录下的README文件）：
+##### 9. QXMPP编译：  
+1. 用 Qt Creator 进行编译（详见源码根目录下的README文件）：
     * 用 Qt Creator 打开本工程。
     * 打开“文件->打开文件或项目”。
     * 在弹出的对话框中选中qxmpp.pro，打开qxmpp工程。
@@ -342,7 +374,7 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_envsetup_android.sh 中。
           + 应用补丁:`git am $(RabbitImRoot)/ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch `
           + 切换到主分支：`git checkout master`
           + 把 patch 分支合并到master 分支中 :`git merge patch`
-    2)用命令行编译：  
+2. 用命令行编译：  
      * 设置 qmake 路径到环境变量 PATH 中：`export PATH=$PATH:$QMAKE_PATH`  
      * 建立编译目录：`mkdir build; cd build`
      * 生成工程文：`qmake -o Makefile QXMPP_LIBRARY_TYPE=staticlib \
@@ -358,14 +390,14 @@ ${RabbitImRoot}/ThirdLibary/build_script/build_envsetup_android.sh 中。
         + mingw32-make：mingw 环境下用
         + msys-make：msys 环境下用
 
-10. [qt编译](http://blog.csdn.net/kl222/article/details/44216951)
+##### 10. [qt编译](http://blog.csdn.net/kl222/article/details/44216951)
 
 本工程编译
 --------
 
-如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。
+如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。  
 用脚本  $(RabbitImRoot)/ThirdLibary/build_rabbitim.sh 进行编译：
-. build_rabbitim.sh (android|windows_msvc|windows_mingw|unix) SOURCE_CODE_ROOT [cmake]
+. build_rabbitim.sh (android|windows_msvc|windows_mingw|unix) SOURCE_CODE_ROOT [qmake]
 
 #### 1. 用Qt Creator 编译 
 
@@ -563,3 +595,10 @@ Call Stack (most recent call first):
 
 xmpp服务配置域名（rabbitim.com），客户端如果没有域名，连接服务器时，则直接设置主机IP，同时设置域名。  
 当然，也可以修改系统hosts文件配置域名解析。这个域名实质上是xmpp应用程序用于区别不同域。
+
+各目标编译详细说明：
+----------------
+
+1. [ubuntu](INSTALL_UBUNTU.md)
+2. [android](INSTALL_ANDROID.md)
+3. [windows](INSTALL_WINDOWS.md)

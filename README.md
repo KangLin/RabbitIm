@@ -1,19 +1,18 @@
 ![Logon](Resource/png/AppIcon.png)玉兔即时通信![Logon](Resource/png/AppIcon.png)
 =============================================================================
 
-作者：康林（msn、email:kl222@126.com；QQ:16614119)  
-博客：http://blog.csdn.net/kl222  
-     http://blog.csdn.net/kl222/article/details/37597807  
-项目位置：https://github.com/KangLin/rabbitim  
-邮件组地址为：https://groups.yahoo.com/group/rabbitim  
-你可以做以下操作：  
-  1. 要在此论坛中发帖，请发送电子邮件至 rabbitim@yahoogroups.com  
-  2. 订阅本邮件组，请发送邮件到：rabbitim-subscribe@yahoogroups.com  
-  3. 取消订阅本邮件组，请发送邮件到：rabbitim-unsubscribe@yahoogroups.com  
-  4. 通过以下网址访问此论坛：https://groups.yahoo.com/neo/groups/rabbitim/conversations/messages  
-QQ群：68046752
-
-当前编译状态: [![Build Status](https://travis-ci.org/KangLin/rabbitim.png)](https://travis-ci.org/KangLin/rabbitim)
+* 作者：康林（msn、email:kl222@126.com；QQ:16614119)
+* 博客：http://blog.csdn.net/kl222  
+    http://blog.csdn.net/kl222/article/details/37597807  
+* 项目位置：https://github.com/KangLin/rabbitim  
+* 邮件组地址为：https://groups.yahoo.com/group/rabbitim  
+    你可以做以下操作：  
+    1. 要在此论坛中发帖，请发送电子邮件至 rabbitim@yahoogroups.com
+    2. 订阅本邮件组，请发送邮件到：rabbitim-subscribe@yahoogroups.com
+    3. 取消订阅本邮件组，请发送邮件到：rabbitim-unsubscribe@yahoogroups.com
+    4. 通过以下网址访问此论坛：https://groups.yahoo.com/neo/groups/rabbitim/conversations/messages
+* QQ群：68046752（本人不常上QQ）。有问题或好的想法，尽量用邮件组。
+* 当前编译状态: [![Build Status](https://travis-ci.org/KangLin/rabbitim.png)](https://travis-ci.org/KangLin/rabbitim)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -37,16 +36,16 @@ QQ群：68046752
 
 有偿服务：
 --------
-* 公司培训，技术支持，解决使用过程中出现的全部疑难问题
-* IM 系统设计、咨询
-* 搭建整个系统（包括前端、服务器）
-* 定制化开发
+1. 公司培训，技术支持，解决使用过程中出现的全部疑难问题
+2. IM 系统设计、咨询
+3. 搭建整个系统（包括前端、服务器）
+4. 定制化开发
 
 合作联系方式:
 -----------
-电话：13034802883  
-QQ: 16614119  
-邮箱：kl222@126.com  
+* 电话：13034802883
+* QQ: 16614119
+* 邮箱：kl222@126.com
 
 文档:
 ----

@@ -44,13 +44,13 @@ windows原生编译
         pacman -S mingw-w64-i686-gcc
 
 + 可能会出现的问题：
-[出现资源不足](http://sourceforge.net/p/msys2/tickets/74/)：
+[出现资源不足](http://sourceforge.net/p/msys2/tickets/74/)：  
 39 [main] make 7628 child_info_fork::abort: C:\Users\AndreaZ\Documents\msys2_32\usr\bin\msys-unistring-2.dll: Loaded to different address: parent(0x440000) != child(0x630000)  
-make: fork: Resource temporarily unavailable
-解决方法：
-. 关闭所有msys2进程
-. 运行 autorebase.bat
-. 重启 MSYS2
+make: fork: Resource temporarily unavailable  
+解决方法： 
+. 关闭所有msys2进程  
+. 运行 autorebase.bat  
+. 重启 MSYS2  
 
 最好在 pacman -Su 后就做 autorebase.bat
 
@@ -137,7 +137,7 @@ https://github.com/ruby/ruby
 先从菜单栏中起动vs2013编译命令行工具：  
 `C:\Program Files\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts VS2013 x86`
 本机工具命令提示。在命令行下，启动msys:`c:\MinGW\msys\1.0\msys.bat`  
-如果用msys2：`c:\msys32\msys2_shell.bat`  
+如果用msys2：`c:\msys32\mingw32_shell.bat`  
 注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。
     
 ### 4. 编译第三方依赖库(脚本中包括qt)
@@ -187,7 +187,7 @@ make: fork: Resource temporarily unavailable
 解决方法：
 . 关闭所有msys2进程
 . 运行 autorebase.bat
-. 重启 MSYS2
+. 重启 MSYS2:`c:\msys32\mingw32_shell.bat`
 
 最好在 pacman -Su 后就做 autorebase.bat
 
