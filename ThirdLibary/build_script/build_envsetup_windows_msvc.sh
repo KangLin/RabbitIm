@@ -7,15 +7,15 @@
 # 启动 msys 环境：
 #        c:\MinGW\msys\1.0\msys.bat
 # 或者启动 msys2 环境:
-#        c:\msys32\msys2_shell.bat
+#        c:\msys32\ming32_shell.bat
 #   注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。  
 #   然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibary/build_script`。再运行你想运行的编译脚本。例如： `./build.sh` 
 
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
 #QT_ROOT=/home/k/Qt5.4.1/5.4/gcc_64 #QT 安装根目录
+RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
 JOM=make #设置 QT make 工具 JOM
-RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数
 
 #   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀

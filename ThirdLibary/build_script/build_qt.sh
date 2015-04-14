@@ -61,6 +61,7 @@ cd ${RABBITIM_BUILD_SOURCE_CODE}
 #清理
 if [ -n "$QT_CLEAN" ]; then
     if [ -d ".git" ]; then
+        echo "clean ..."
         qtrepotools/bin/qt5_tool -c
 
         #git clean -xdf
@@ -68,10 +69,10 @@ if [ -n "$QT_CLEAN" ]; then
         #echo $1
         #for i in `ls $1`;
         #do
-        #    	if [ -d $1/${i} ]; then
-        #            	echo "$1/${i}"
+        #       if [ -d $1/${i} ]; then
+        #               echo "$1/${i}"
         #                cd $1/${i}
-        #    	        git clean -xdf
+        #               git clean -xdf
         #        fi
         #done
     else
@@ -96,16 +97,50 @@ echo "configure ..."
 
 CONFIG_PARA="-opensource -confirm-license -nomake examples -nomake tests -no-compile-examples"
 CONFIG_PARA="${CONFIG_PARA} -no-sql-sqlite -no-sql-odbc"
-CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples -skip qt3d -skip qtcanvas3d"
+CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples"
 CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt -shared -release"
 CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
+if [ -d qt3d ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qt3d";
+fi
+if [ -d qtcanvas3d ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qtcanvas3d";
+fi
+if [ -d qtwebengine ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qtwebengine"
+fi
+if [ -d qtserialport ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qtserialport"
+fi
+if [ -d qtenginio ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qtenginio"
+fi
+if [ -d qtqa ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qtqa"
+fi
+if [ -d qtscript ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qtscript"
+fi
+if [ -d qtwayland ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qtwayland"
+fi
+if [ -d qtconnectivity ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qtconnectivity"
+fi
+if [ -d qtgraphicaleffects ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qtgraphicaleffects"
+fi
+if [ -d qtimageformats ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qtimageformats"
+fi
 
 CONFIGURE="./configure"
-MAKE="make"
 MAKE_PARA="${RABBITIM_MAKE_JOB_PARA}"
+MAKE="make"
+MODULE_PARA="qtwebkit"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-        #export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX} #qt编译时需要
+        #export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_CROSS_SYSROOT} #qt编译时需要
         #export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
         #platform:本机工具链(configure工具会自动检测)；xplatform：目标机工具链
         #qt工具和库分为本机工具和目标机工具、库两部分
@@ -115,12 +150,12 @@ case ${RABBITIM_BUILD_TARGERT} in
         case $TARGET_OS in
             MINGW* | CYGWIN* | MSYS*)
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
-                MAKE="mingw32-make"
                 ;;
             Linux* | Unix*)
                 ;;
             *)
-                echo "Please see build_qt.sh"
+                echo "Don't support target:$TARGET_OS, Please see build_qt.sh"
+                cd $CUR_DIR
                 exit 2
                 ;;
         esac
@@ -136,7 +171,8 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     windows_msvc)
         CONFIGURE="./configure.bat"
-        CONFIG_PARA="${CONFIG_PARA} -platform win32-msvc2013"
+        CONFIG_PARA="${CONFIG_PARA} -platform win32-msvc2013" #  -icu -opengl desktop"
+        CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"
         MAKE_PARA=""
         MAKE="nmake"
         ;;
@@ -148,7 +184,6 @@ case ${RABBITIM_BUILD_TARGERT} in
         case `uname -s` in
             MINGW*|MSYS*)
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
-                MAKE="mingw32-make"
                 ;;
             CYGWIN*)
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++ -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
@@ -159,19 +194,25 @@ case ${RABBITIM_BUILD_TARGERT} in
                 #export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
                 CONFIG_PARA="${CONFIG_PARA} -xplatform win32-g++"
                 CONFIG_PARA="${CONFIG_PARA} -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
-                CONFIG_PARA="${CONFIG_PARA} -skip qtwebkit"
+                #CONFIG_PARA="${CONFIG_PARA} -skip qtwebkit"
                 ;;
         esac
         CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"
         ;;
     *)
         echo "${HELP_STRING}"
+        cd $CUR_DIR
         exit 3
         ;;
 esac
 
-echo "$CONFIGURE ${CONFIG_PARA}" 
+echo "$CONFIGURE ${CONFIG_PARA}"
 $CONFIGURE ${CONFIG_PARA}
+
+for PARA_VER in ${MODULE_PARA}
+do
+    INSTALL_MODULE_PARA="${INSTALL_MODULE_PARA} module-${PARA_VER}-install_subtargets"
+done
 
 echo "$MAKE install"
 $MAKE ${MAKE_PARA} \

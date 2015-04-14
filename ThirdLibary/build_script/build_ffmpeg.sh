@@ -105,13 +105,23 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} --enable-cross-compile --toolchain=msvc"
         ;;
     windows_mingw)
-		CONFIG_PARA="${CONFIG_PARA} --enable-cross-compile --target-os=mingw32 --arch=i686 --cpu=i686"
-		CONFIG_PARA="${CONFIG_PARA} --cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX}"
+        CONFIG_PARA="${CONFIG_PARA} --enable-cross-compile --target-os=mingw32 --arch=i686 --cpu=i686"
         CONFIG_PARA="${CONFIG_PARA} ${THIRD_LIB}"
+        case `uname -s` in
+            MINGW*|MSYS*)
+                ;;
+            Linux*|Unix*|CYGWIN*|*)
+                CONFIG_PARA="${CONFIG_PARA} --cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX}"
+                ;;
+            *)
+            echo "Don't support tagert:`uname -s`, please see build_ffmpeg.sh"
+            exit 3
+        esac
 		;;
     *)
     echo "${HELP_STRING}"
-    return 2
+    cd $CUR_DIR
+    exit 2
     ;;
 esac
 

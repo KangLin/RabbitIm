@@ -29,19 +29,19 @@ windows原生编译
 + 安装，启动msys2
 + 同步：
 
-        pacman -Sy
+    pacman -Sy
 
 + 更新系统：
 
-        pacman -Su
+    pacman -Su
 
 + 下载工具：
 
-        pacman -S wget svn git autoconf automake m4 libtool pkg-config make bison flex gperf
+    pacman -S wget subversion git autoconf automake m4 libtool pkg-config make bison flex gperf
 
 + 下载本地编译器gcc（版本：4.9.2）：
 
-        pacman -S mingw-w64-i686-gcc
+    pacman -S mingw-w64-i686-gcc
 
 + 可能会出现的问题：
 [出现资源不足](http://sourceforge.net/p/msys2/tickets/74/)：  
@@ -66,7 +66,7 @@ http://www.microsoft.com/en-us/download/confirmation.aspx?id=42273
 
 #### 2.5. 下载工具：
 
-        pacman -S wget
+    pacman -S wget
 
 #### 2.6. 安装auto工具：
 主页:
@@ -79,7 +79,7 @@ http://www.microsoft.com/en-us/download/confirmation.aspx?id=42273
 
 或者：
 
-        pacman -S autoconf automake m4 libtool pkg-config make
+    pacman -S autoconf automake m4 libtool pkg-config make
 
 #### 2.7. 版本管理工具:
 * subversion: http://subversion.apache.org/
@@ -87,7 +87,7 @@ http://www.microsoft.com/en-us/download/confirmation.aspx?id=42273
 
 或者：
 
-        pacman -S svn git
+    pacman -S subversion git
 
 #### 2.8. 脚本工具
 * python:2.7.6  版本 2.7 或以后
@@ -101,7 +101,7 @@ https://github.com/ruby/ruby
 
 或者：
 
-        pacman -S python perl ruby
+    pacman -S python perl ruby
 
 #### 2.9. 汇编工具（yasm、nasm）
 [yasm](http://yasm.tortall.net/)  
@@ -110,24 +110,24 @@ https://github.com/ruby/ruby
 
 或者：
 
-        pacman yasm nasm
+    pacman yasm nasm
 
 #### 2.10. cmake 工具
 主页：www.cmake.org
 
-        cd /tools
-        wget http://www.cmake.org/files/v3.1/cmake-3.1.0-rc1-win32-x86.zip
-        unzip cmake-3.1.0-rc1-win32-x86.zip
-        mv cmake-3.1.0-rc1-win32-x86 cmake
-        export PATH=/tools/cmake/bin:$PATH
+    cd /tools
+    wget http://www.cmake.org/files/v3.1/cmake-3.1.0-rc1-win32-x86.zip
+    unzip cmake-3.1.0-rc1-win32-x86.zip
+    mv cmake-3.1.0-rc1-win32-x86 cmake
+    export PATH=/tools/cmake/bin:$PATH
 
 或者：
 
-        pacman -S mingw-w64-i686-cmake
+    pacman -S mingw-w64-i686-cmake
 
 #### 2.11. 语法分析工具：bison, flex and gperf（用于Qt编译）
 
-        pacman -S bison flex gperf
+    pacman -S bison flex gperf
 
 #### 2.12. 安装工具
 主页：http://nsis.sourceforge.net/Main_Page
@@ -142,16 +142,22 @@ https://github.com/ruby/ruby
     
 ### 4. 编译第三方依赖库(脚本中包括qt)
 
-        cd ${RabbitImRoot}/ThirdLibary/build_script
-        ./build.sh unix_mingw [source_code_directory]
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build.sh windows_msvc [source_code_directory]
+
+如果只编译其中一个库：
+
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build_XXX.sh windows_msvc [source_code_directory]
 
 ### 5. 编译本项目:
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
-    ./build_rabbitim.sh unix_mingw [source_code_directory] [qmake]
+    ./build_rabbitim.sh windows_msvc [source_code_directory] [qmake]
 
 windows下用mingw交叉编译
--------------------------
+----------------------
+
 ### 1. 环境
 #### 1.1. 操作系统:windows 7 旗舰版 版本：6.1 (内部版本 7601 Service Pack 1)
 #### 1.2. bash 环境: msys（msys2） 或者 cygwin
@@ -166,19 +172,19 @@ windows下用mingw交叉编译
 + 安装，启动msys2
 + 同步：
 
-        pacman -Sy
+    pacman -Sy
 
 + 更新系统：
 
-        pacman -Su
+    pacman -Su
 
 + 下载工具：
 
-        pacman -S wget svn git autoconf automake m4 libtool pkg-config make bison flex gperf
+    pacman -S wget subversion git autoconf automake m4 libtool pkg-config make mingw-w64-i686-make bison flex gperf
 
 + 下载本地编译器gcc（版本：4.9.2）：
 
-        pacman -S mingw-w64-i686-gcc
+    pacman -S mingw-w64-i686-gcc
 
 + 可能会出现的问题：
 [出现资源不足](http://sourceforge.net/p/msys2/tickets/74/)：
@@ -202,13 +208,13 @@ gcc version 4.8.2 (i686-posix-dwarf-rev3, Built by MinGW-W64 project)
 
 msys2中有自带的mingw：gcc.exe (Rev5, Built by MSYS2 project) 4.9.2
 
-        pacman -S mingw-w64-i686-gcc
+    pacman -S mingw-w64-i686-gcc
 
 cygwin中安装也自带有的mingw：i686-w64-mingw32-gcc (GCC) 4.8.3
 
 #### 2.2. 下载工具：
 
-        pacman -S wget
+    pacman -S wget
 
 #### 2.3. 安装auto工具：
 主页:
@@ -217,11 +223,11 @@ cygwin中安装也自带有的mingw：i686-w64-mingw32-gcc (GCC) 4.8.3
 * libtool: http://www.gnu.org/software/libtool/
 * m4: http://www.gnu.org/software/m4
 * pkg-config: http://www.freedesktop.org/wiki/Software/pkg-config/
-* make:根据bash系统的不同，有msys make（msys bash）、mingw make、gnu make（cygwin bash）
+* make:根据bash系统的不同，有msys make（msys bash）、mingw32-make、gnu make（cygwin bash）
 
 或者：
 
-        pacman -S autoconf automake m4 libtool pkg-config make
+    pacman -S autoconf automake m4 libtool pkg-config make mingw-w64-i686-make
 
 #### 2.4. 版本管理工具:
 * subversion: http://subversion.apache.org/
@@ -229,7 +235,7 @@ cygwin中安装也自带有的mingw：i686-w64-mingw32-gcc (GCC) 4.8.3
 
 或者：
 
-        pacman -S svn git
+    pacman -S subversion git
 
 #### 2.5. 脚本工具
 * python:2.7.6  版本 2.7 或以后
@@ -243,7 +249,7 @@ https://github.com/ruby/ruby
 
 或者：
 
-        pacman -S python perl ruby
+    pacman -S python perl ruby
 
 #### 2.6. 汇编工具（yasm、nasm）
 [yasm](http://yasm.tortall.net/)  
@@ -252,24 +258,24 @@ https://github.com/ruby/ruby
 
 或者：
 
-        pacman yasm nasm
+    pacman yasm nasm
 
 #### 2.7. cmake 工具
 主页：www.cmake.org
 
-        cd /tools
-        wget http://www.cmake.org/files/v3.1/cmake-3.1.0-rc1-win32-x86.zip
-        unzip cmake-3.1.0-rc1-win32-x86.zip
-        mv cmake-3.1.0-rc1-win32-x86 cmake
-        export PATH=/tools/cmake/bin:$PATH
+    cd /tools
+    wget http://www.cmake.org/files/v3.1/cmake-3.1.0-rc1-win32-x86.zip
+    unzip cmake-3.1.0-rc1-win32-x86.zip
+    mv cmake-3.1.0-rc1-win32-x86 cmake
+    export PATH=/tools/cmake/bin:$PATH
 
 或者：
 
-        pacman -S mingw-w64-i686-cmake
+    pacman -S mingw-w64-i686-cmake
 
 #### 2.8. 语法分析工具：bison, flex and gperf（用于Qt编译）
 
-        pacman -S bison flex gperf
+    pacman -S bison flex gperf
 
 #### 2.9. 安装工具
 主页：http://nsis.sourceforge.net/Main_Page
@@ -278,45 +284,51 @@ https://github.com/ruby/ruby
 #### 3.1 启动下列环境之一：
 * 启动 msys 环境：
 
-        c:\MinGW\msys\1.0\msys.bat
+    c:\MinGW\msys\1.0\msys.bat
 
 * 启动 msys2 32环境:
 
-        c:\msys32\mingw32_shell.bat #32位编译环境
+    c:\msys32\mingw32_shell.bat #32位编译环境
 
 * 启动 msys2 64环境:
 
-        c:\msys32\mingw64_shell.bat #64位编译环境
+    c:\msys32\mingw64_shell.bat #64位编译环境
 
 #### 3.2 第三方依赖库(脚本中包括qt)
 * 编译：
 
-        cd ${RabbitImRoot}/ThirdLibary/build_script
-        ./build.sh unix_mingw [source_code_directory]
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build.sh windows_mingw [source_code_directory]
+
+如果只编译其中一个库：
+
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build_XXX.sh windows_mingw [source_code_directory]
 
 #### 3.3. 编译本项目:
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
-    ./build_rabbitim.sh unix_mingw [source_code_directory] [qmake]
+    ./build_rabbitim.sh windows_mingw [source_code_directory] [qmake]
 
 ubuntu 下用 mingw 交叉编译
----------------------------
+------------------------
+
 ### 1. [环境](INSTALL_UBUNTU.md#user-content-环境)
 
 ### 2. 工具
 
 #### 2.1. 安装交叉编译工具 mingw ,当前使用版本:4.8.2
 
-        sudo apt-get install mingw-w64
+    sudo apt-get install mingw-w64
 
 #### 2.2. auto工具：
 
-        sudo apt-get install autoconf automake libtool m4
-        sudo apt-get install pkg-config
+    sudo apt-get install autoconf automake libtool m4
+    sudo apt-get install pkg-config
 
 #### 2.3. 版本管理工具：
 
-        sudo apt-get install subversion git
+    sudo apt-get install subversion git
 
 #### 2.4. 脚本工具：
 * python:2.7.6
@@ -324,42 +336,47 @@ ubuntu 下用 mingw 交叉编译
 * bash:
 * ruby:qtwebkit编译需要
 
-        sudo apt-get install ruby build-essential perl python 
+    sudo apt-get install ruby build-essential perl python 
 
 #### 2.5. 汇编工具：
 
-        sudo apt-get install yasm
+    sudo apt-get install yasm
 
 #### 2.6. 下载工具
 
-        sudo apt-get install wget
+    sudo apt-get install wget
 
 #### 2.7. cmake 工具
 
-        cd /home
-        wget http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
-        tar xf cmake-3.1.0-Linux-x86_64.tar.gz
-        mv cmake-3.1.0-Linux-x86_64 cmake
-        export PATH=/home/cmake/bin:$PATH
+    cd /home
+    wget http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
+    tar xf cmake-3.1.0-Linux-x86_64.tar.gz
+    mv cmake-3.1.0-Linux-x86_64 cmake
+    export PATH=/home/cmake/bin:$PATH
 
 #### 2.8. 安装工具
 
-        sudo apt-get install nsis
+    sudo apt-get install nsis
 
 #### 2.9. 语法分析工具：bison, flex and gperf（用于Qt编译）
 
-        sudo apt-get install bison flex gperf
+    sudo apt-get install bison flex gperf
 
 #### 2.10. icu(qtwebkit编译需要)
 
-        sudo apt-get install icu-devtools #脚本
+    sudo apt-get install icu-devtools #脚本
 
 ### 3. 编译第三方依赖库(脚本中包括qt)
 
-        cd ${RabbitImRoot}/ThirdLibary/build_script
-        ./build.sh unix_mingw [source_code_directory]
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build.sh windows_mingw [source_code_directory]
+    
+如果只编译其中一个库：
+
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build_XXX.sh windows_mingw [source_code_directory]
 
 ### 4. 编译本项目:
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
-    ./build_rabbitim.sh unix_mingw [source_code_directory] [qmake]
+    ./build_rabbitim.sh windows_mingw [source_code_directory] [qmake]

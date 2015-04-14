@@ -85,13 +85,14 @@ case $RABBITIM_BUILD_TARGERT in
     unix)
         ;;
     windows_msvc)
-        MAKE=${JOM}
+        MAKE=nmake
         ;;
     windows_mingw)
         #PARA="-r -spec win32-g++ CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
         ;;
     *)
         echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
+        cd $CUR_DIR
         exit 2
         ;;
 esac
@@ -109,7 +110,7 @@ if [ "$RABBITIM_BUILD_TARGERT" = "android" ]; then
     ${MAKE} -f Makefile install ${MAKE_PARA}
     cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
 else
-    if [ ! -f "${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/qxmpp.pc" ]; then
+    if [ ! -f "${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/qxmpp.pc" -a -d `pwd`/src/pkgconfig ]; then
         cp -fr `pwd`/src/pkgconfig/* ${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/.
     fi
 fi

@@ -128,6 +128,7 @@ else
             ;;
         *)
             echo "${HELP_STRING}"
+            cd $CUR_DIR
             exit 1
             ;;
     esac

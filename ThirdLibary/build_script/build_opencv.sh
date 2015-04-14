@@ -112,6 +112,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     *)
     echo "${HELP_STRING}"
+    cd $CUR_DIR
     exit 2
     ;;
 esac

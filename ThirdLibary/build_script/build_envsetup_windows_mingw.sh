@@ -1,8 +1,8 @@
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
 #QT_ROOT=/home/k/Qt5.4.1/5.4/gcc_64 #QT 安装根目录
-JOM=make #设置 QT make 工具 JOM
-RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数
+#RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
+JOM=nmake #设置 QT make 工具 JOM
 
 #RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32  #编译工具链前缀
 
@@ -18,6 +18,22 @@ fi
 if [ ! -d ${RABBITIM_BUILD_PREFIX} ]; then
     mkdir -p ${RABBITIM_BUILD_PREFIX}
 fi
+
+#自动判断主机类型，目前只做了linux、windows判断
+TARGET_OS=`uname -s`
+case $TARGET_OS in
+    MINGW* | CYGWIN* | MSYS*)
+        ;;
+    Linux* | Unix*)
+        if [ -z $RABBITIM_MAKE_JOB_PARA ]; then
+            RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
+        fi
+        ;;
+    *)
+    echo "Please set RABBITIM_BUILD_HOST. see build_envsetup_windows_mingw.sh"
+    return 2
+    ;;
+esac
 
 if [ -z "$QT_ROOT" ]; then
         QT_ROOT=${RABBITIM_BUILD_PREFIX}/qt

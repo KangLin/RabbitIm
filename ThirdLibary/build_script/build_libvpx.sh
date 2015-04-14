@@ -67,7 +67,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     android)
         CONFIG_PARA="--target=armv7-android-gcc --sdk-path=${ANDROID_NDK_ROOT} --disable-shared --enable-static"
         CFLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=neon "
-    
+
         #编译 cpufeatures
         echo "${RABBITIM_BUILD_CROSS_PREFIX}gcc -I${RABBITIM_BUILD_CROSS_SYSROOT}/usr/include -c ${ANDROID_NDK_ROOT}/sources/android/cpufeatures/cpu-features.c"
         ${RABBITIM_BUILD_CROSS_PREFIX}gcc -I${RABBITIM_BUILD_CROSS_SYSROOT}/usr/include -c ${ANDROID_NDK_ROOT}/sources/android/cpufeatures/cpu-features.c
@@ -91,6 +91,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     *)
         echo "${HELP_STRING}"
+        cd $CUR_DIR
         exit 2
         ;;
 esac
@@ -100,7 +101,7 @@ CONFIG_PARA="${CONFIG_PARA} --disable-docs --disable-examples --disable-install-
 CONFIG_PARA="${CONFIG_PARA} --disable-install-bins --enable-install-libs"
 CONFIG_PARA="${CONFIG_PARA} --disable-unit-tests --disable-debug --disable-debug-libs"
 
-echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS=}\""
+echo "../configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS=}\""
 ../configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}"
 
 echo "make install"

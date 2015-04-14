@@ -72,6 +72,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     ;;
     windows_msvc)
         echo "build_x264.sh don't support windows_msvc. "
+        cd $CUR_DIR
         exit 2
     ;;
     windows_mingw)
@@ -85,6 +86,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     *)
     echo "${HELP_STRING}"
+    cd $CUR_DIR
     exit 2
     ;;
 esac

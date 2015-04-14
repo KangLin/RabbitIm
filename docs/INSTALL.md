@@ -51,13 +51,14 @@
     * 主页：http://msdn.microsoft.com/zh-cn/vstudio
     * 当前使用版本：vs 2013 update 4
 2. windows sdk(The Microsoft® Windows® Software Development Kit (SDK) for Windows 8.1):
-https://msdn.microsoft.com/zh-cn/windows/desktop/bg162891
+    https://msdn.microsoft.com/zh-cn/windows/desktop/bg162891
 3. Windows Driver Kit:
-http://www.microsoft.com/en-us/download/confirmation.aspx?id=42273
-4. mingw、msys（或者cygwin）：
-    * mingw主页：http://www.mingw.org/ 。这个主页好象不是最新的，请用：http://sourceforge.net/projects/mingw-w64/  
-    * cygwin主页：http://www.cygwin.org/  
-    * 当前使用的是 mingw ，因为 QT for android in windows 预编译包中已包含了 mingw 。只需要下载 msys 。
+    http://www.microsoft.com/en-us/download/confirmation.aspx?id=42273
+4. bash 环境
+    * msys: http://www.mingw.org/wiki/MSYS
+    * msys2: http://sourceforge.net/projects/msys2/
+        代码位置: https://github.com/Alexpux/MSYS2-packages
+    * cygwin主页: http://www.cygwin.org/
 
 ##### 8. 汇编工具（yasm、nasm）：
 
@@ -135,7 +136,7 @@ http://www.microsoft.com/en-us/download/confirmation.aspx?id=42273
     git clone git://source.ffmpeg.org/ffmpeg.git
 
 *当前使用版本：
-    git库版本 —— n2.6.1
+    git库版本 —— n2.6.2
 
 #### 4. 编解码库(x264)
 

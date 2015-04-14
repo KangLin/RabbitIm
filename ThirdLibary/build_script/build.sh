@@ -37,40 +37,40 @@ case $1 in
     ;;
 esac
 
-if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
-    . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-fi
+#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+#    echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
+#    . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
+#fi
 
 if [ -n "$2" ]; then
-	echo "Source dir:$2"
+    echo "Source dir:$2"
     if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
-        sh build_speexdsp.sh ${RABBITIM_BUILD_TARGERT}  $2/speexdsp && \
-        sh build_speex.sh ${RABBITIM_BUILD_TARGERT} $2/speex && \
-        sh build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264
+        ./build_speexdsp.sh ${RABBITIM_BUILD_TARGERT}  $2/speexdsp && \
+        ./build_speex.sh ${RABBITIM_BUILD_TARGERT} $2/speex && \
+        ./build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264
     fi
-    sh build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl && \
-    sh build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl && \
-    sh build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx && \
-    sh build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv && \
-    sh build_opencv.sh ${RABBITIM_BUILD_TARGERT} $2/opencv && \
-    sh build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg && \
-    sh build_icu.sh ${RABBITIM_BUILD_TARGERT} $2/icu && \
-    sh build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
-    sh build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp
+    ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx && \
+    ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv && \
+    ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl && \
+    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl && \
+    ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} $2/opencv && \
+    ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg && \
+    ./build_icu.sh ${RABBITIM_BUILD_TARGERT} $2/icu && \
+    ./build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
+    ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp
 else
     if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
-        sh build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} && \
-        sh build_speex.sh ${RABBITIM_BUILD_TARGERT} && \
-        sh build_x264.sh ${RABBITIM_BUILD_TARGERT}
+        ./build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} && \
+        ./build_speex.sh ${RABBITIM_BUILD_TARGERT} && \
+        ./build_x264.sh ${RABBITIM_BUILD_TARGERT}
     fi
-    sh build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_libcurl.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_icu.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_qt.sh ${RABBITIM_BUILD_TARGERT} && \
-    sh build_qxmpp.sh ${RABBITIM_BUILD_TARGERT}
+    ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_icu.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_qt.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT}
 fi

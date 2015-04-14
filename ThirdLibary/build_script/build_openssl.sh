@@ -79,16 +79,16 @@ fi
 echo "configure ..."
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-		export ANDROID_DEV="${RABBITIM_BUILD_CROSS_SYSROOT}/usr"
-		perl Configure --cross-compile-prefix=${RABBITIM_BUILD_CROSS_PREFIX} \
-				--prefix=${RABBITIM_BUILD_PREFIX} \
-				--openssldir=${RABBITIM_BUILD_PREFIX} \
-				android-armv7 \
-				--sysroot="${RABBITIM_BUILD_CROSS_SYSROOT}"
-		;;
+        export ANDROID_DEV="${RABBITIM_BUILD_CROSS_SYSROOT}/usr"
+        perl Configure --cross-compile-prefix=${RABBITIM_BUILD_CROSS_PREFIX} \
+                --prefix=${RABBITIM_BUILD_PREFIX} \
+                --openssldir=${RABBITIM_BUILD_PREFIX} \
+                android-armv7 \
+                --sysroot="${RABBITIM_BUILD_CROSS_SYSROOT}"
+        ;;
     unix)
-		./config --prefix=${RABBITIM_BUILD_PREFIX} --openssldir=${RABBITIM_BUILD_PREFIX} shared
-		;;
+        ./config --prefix=${RABBITIM_BUILD_PREFIX} --openssldir=${RABBITIM_BUILD_PREFIX} shared
+        ;;
     windows_msvc)
         perl Configure \
             --prefix=${RABBITIM_BUILD_PREFIX} \
@@ -104,19 +104,28 @@ case ${RABBITIM_BUILD_TARGERT} in
         exit 0
         ;;
     windows_mingw)
-		perl Configure  --prefix=${RABBITIM_BUILD_PREFIX} \
-			--openssldir=${RABBITIM_BUILD_PREFIX} \
-			--cross-compile-prefix=${RABBITIM_BUILD_CROSS_PREFIX} \
-			shared mingw
-		;;
+        case `uname -s` in
+            MINGW*|MSYS*)
+                perl Configure  --prefix=${RABBITIM_BUILD_PREFIX} \
+                    --openssldir=${RABBITIM_BUILD_PREFIX} \
+                    shared mingw
+                ;;
+            Linux*|Unix*|CYGWIN*|*)
+                perl Configure  --prefix=${RABBITIM_BUILD_PREFIX} \
+                    --openssldir=${RABBITIM_BUILD_PREFIX} \
+                    --cross-compile-prefix=${RABBITIM_BUILD_CROSS_PREFIX} \
+                    shared mingw
+                ;;
+        esac
+        ;;
     *)
-		echo "${HELP_STRING}"
-		exit 3
-		;;
+        echo "${HELP_STRING}"
+        cd $CUR_DIR
+        exit 3
+        ;;
 esac
 
 echo "make install"
-#make ${RABBITIM_MAKE_JOB_PARA} && make install
-make && make install
+make ${RABBITIM_MAKE_JOB_PARA} && make install
 
 cd $CUR_DIR
