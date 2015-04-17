@@ -194,23 +194,21 @@ FIND_PACKAGE(PkgConfig)
 
 # 依赖的第三方库
 OPTION(OPTION_RABBITIM_USE_VPX "Use vpx library" ON)
-MESSAGE("Use vpx library:${OPTION_RABBITIM_USE_VPX}\n")
 IF(OPTION_RABBITIM_USE_VPX)
     SET(USE_VPX ON)
 
-    IF(PKG_CONFIG_FOUND)
+    IF(NOT MSVC AND PKG_CONFIG_FOUND)
         pkg_check_modules(VPX REQUIRED vpx)
         IF(VPX_FOUND)
             add_compile_options(${VPX_CFLAGS})
-        ELSEIF(VPX_FOUND)
-            SET(VPX_LIBRARIES -lvpx)
         ENDIF(VPX_FOUND)
-    ELSE(PKG_CONFIG_FOUND)
+    ELSE()
+        MESSAGE("Use vpx library:${OPTION_RABBITIM_USE_VPX}\n")
         SET(VPX_LIBRARIES -lvpx)
         IF(ANDROID)
             SET(VPX_LIBRARIES ${VPX_LIBRARIES} cpu-features)
         ENDIF(ANDROID)
-    ENDIF(PKG_CONFIG_FOUND)
+    ENDIF()
 
     SET(RABBITIM_PACKAGE_REQUIRES ${RABBITIM_PACKAGE_REQUIRES} libvpx-dev)
 ELSE(OPTION_RABBITIM_USE_VPX)
@@ -301,38 +299,6 @@ IF(RABBITIM_USER_OPENCV)
 ENDIF(RABBITIM_USER_OPENCV)
 MESSAGE("Use opencv library:${RABBITIM_USER_OPENCV}\n")
 
-#检测libcurl库
-OPTION(OPTION_RABBITIM_USER_LIBCURL "Use curl library" ON)
-IF(OPTION_RABBITIM_USER_LIBCURL)
-    SET(RABBITIM_USER_LIBCURL ON)
-    add_definitions("-DRABBITIM_USER_LIBCURL")
-    SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libcurl4-openssl-dev")
-
-    IF(MSVC)
-        SET(CURL_LIBRARIES -llibcurl)
-    ELSE(MSVC)
-
-        IF(PKG_CONFIG_FOUND)
-            pkg_check_modules(CURL REQUIRED libcurl)
-            IF(CURL_FOUND)
-                add_compile_options(${CURL_CFLAGS})
-            ELSE(CURL_FOUND)
-                SET(CURL_LIBRARIES -lcurl -lssl -lcrypto -lz)
-            ENDIF(CURL_FOUND)
-        ELSE(PKG_CONFIG_FOUND)
-            find_package(CURL REQUIRED)
-            if(CURL_FOUND)
-                include_directories(${CURL_INCLUDE_DIR})
-            endif(CURL_FOUND)
-        ENDIF(PKG_CONFIG_FOUND)
-
-    ENDIF(MSVC)
-
-    include_directories(${CURL_INCLUDE_DIRS})
-
-ENDIF(OPTION_RABBITIM_USER_LIBCURL)
-MESSAGE("Use curl library:${OPTION_RABBITIM_USER_LIBCURL}\n")
-
 #检测openssl库
 OPTION(OPTION_RABBITIM_USER_OPENSSL "Use openssl library" ON)
 IF(OPTION_RABBITIM_USER_OPENSSL)
@@ -341,15 +307,14 @@ IF(OPTION_RABBITIM_USER_OPENSSL)
     SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libssl-dev")
 
     IF(MSVC)
+        MESSAGE("Use openssl library:${OPTION_RABBITIM_USER_OPENSSL}\n")
         SET(OPENSSL_LIBRARIES -llibeay32 -lssleay32)
     ELSE(MSVC)
- 
+
        IF(PKG_CONFIG_FOUND)
             pkg_check_modules(OPENSSL REQUIRED openssl)
             IF(OPENSSL_FOUND)
                 add_compile_options(${OPENSSL_CFLAGS})
-            ELSE()
-                SET(OPENSSL_LIBRARIES -lcrypto -lssl)
             ENDIF(OPENSSL_FOUND)
         ELSE(PKG_CONFIG_FOUND)
             find_package(OpenSSL REQUIRED)
@@ -361,21 +326,42 @@ IF(OPTION_RABBITIM_USER_OPENSSL)
     ENDIF(MSVC)
 
 ENDIF(OPTION_RABBITIM_USER_OPENSSL)
-MESSAGE("Use openssl library:${OPTION_RABBITIM_USER_OPENSSL}\n")
+
+#检测libcurl库  
+OPTION(OPTION_RABBITIM_USER_LIBCUR "Use curl library" ON)
+IF(OPTION_RABBITIM_USER_LIBCUR)
+    SET(RABBITIM_USER_LIBCURL ON)
+    add_definitions("-DRABBITIM_USER_LIBCURL")
+    SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libcurl4-openssl-dev")
+
+    IF(PKG_CONFIG_FOUND)
+        pkg_check_modules(CURL REQUIRED libcurl)
+        IF(CURL_FOUND)
+            add_compile_options(${CURL_CFLAGS})
+        ENDIF(CURL_FOUND)
+    ELSE(PKG_CONFIG_FOUND)
+        find_package(CURL REQUIRED)
+        if(CURL_FOUND)
+            include_directories(${CURL_INCLUDE_DIR})
+        endif(CURL_FOUND)
+    ENDIF(PKG_CONFIG_FOUND)
+
+    include_directories(${CURL_INCLUDE_DIRS})
+
+ENDIF(OPTION_RABBITIM_USER_LIBCUR)
+MESSAGE("Use curl library:${OPTION_RABBITIM_USER_LIBCUR}\n")
 
 #qxmpp库
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 ADD_DEFINITIONS("-DQXMPP") # -DQXMPP_STATIC")
-IF(PKG_CONFIG_FOUND)
+IF(PKG_CONFIG_FOUND AND NOT MSVC)
     pkg_check_modules(QXMPP REQUIRED qxmpp)
     IF(QXMPP_FOUND)
             add_compile_options(${QXMPP_CFLAGS})
-    ELSE(QXMPP_FOUND)
-            SET(QXMPP_LIBRARIES -lqxmpp)
     ENDIF(QXMPP_FOUND)
-ELSE(PKG_CONFIG_FOUND)
-    SET(QXMPP_LIBRARIES -lqxmpp)
-ENDIF(PKG_CONFIG_FOUND)
+ELSE()
+    SET(QXMPP_LIBRARIES -lqxmpp0)
+ENDIF()
 
 SET(RABBITIM_LIBS
     ${RABBITIM_LIBS}
