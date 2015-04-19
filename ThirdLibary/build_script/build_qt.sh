@@ -13,7 +13,6 @@
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
 set -e
-QT_CLEAN="clean"
 HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
@@ -42,13 +41,13 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     QT_VERSION=5.4.1
+    mkdir  -p ${RABBITIM_BUILD_SOURCE_CODE}
     cd ${RABBITIM_BUILD_SOURCE_CODE}
     if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
         git checkout ${QT_VERSION}
         perl init-repository -f --branch -no-qtcanvas3d -no-qt3d
-        cd ${CUR_DIR}
     else
         wget http://ftp.jaist.ac.jp/pub/qtproject/archive/qt/5.4/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         tar xzf qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
@@ -59,7 +58,7 @@ fi
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 #清理
-if [ -n "$QT_CLEAN" ]; then
+if [ -n "$RABBITIM_CLEAN" ]; then
     if [ -d ".git" ]; then
         echo "clean ..."
         qtrepotools/bin/qt5_tool -c

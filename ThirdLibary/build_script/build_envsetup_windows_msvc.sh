@@ -16,6 +16,7 @@
 #QT_ROOT=/home/k/Qt5.4.1/5.4/gcc_64 #QT 安装根目录
 RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
 JOM=make #设置 QT make 工具 JOM
+RABBITIM_CLEAN=TRUE #编译前清理
 
 #   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
 #   RABBITIM_BUILD_CROSS_PREFIX     #交叉编译前缀

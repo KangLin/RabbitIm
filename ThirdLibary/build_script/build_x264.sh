@@ -57,7 +57,13 @@ echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
-git clean -xdf
+if [ -n "$RABBITIM_CLEAN" ]; then
+    if [ -d ".git" ]; then
+        git clean -xdf
+    else
+        make distclean
+    fi
+fi
 
 echo "configure ..."
 CONFIG_PARA="--enable-shared"

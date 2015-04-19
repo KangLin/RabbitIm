@@ -68,11 +68,13 @@ echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
-if [ -d ".git" ]; then
-    git clean -xdf
-else
-    if [ -f Makefile ]; then
-        make distclean
+if [ -n "$RABBITIM_CLEAN" ]; then
+    if [ -d ".git" ]; then
+        git clean -xdf
+    else
+        if [ -f Makefile ]; then
+            make distclean
+        fi
     fi
 fi
 
@@ -126,6 +128,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 esac
 
 echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} && make install
+#make ${RABBITIM_MAKE_JOB_PARA} && make install
+make && make install
 
 cd $CUR_DIR

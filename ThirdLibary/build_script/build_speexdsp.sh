@@ -49,7 +49,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget http://downloads.xiph.org/releases/speex/speexdsp-1.2rc3.tar.gz
-        tar xvf speexdsp-1.2rc3.tar.gz
+        tar xzf speexdsp-1.2rc3.tar.gz
         RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/speexdsp-1.2rc3
     fi
 fi
@@ -63,7 +63,9 @@ fi
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
 cd build_${RABBITIM_BUILD_TARGERT}
-rm -fr *
+if [ -n "$RABBITIM_CLEAN" ]; then
+    rm -fr *
+fi
 
 echo ""
 echo "RABBITIM_BUILD_TARGERT:${RABBITIM_BUILD_TARGERT}"

@@ -63,7 +63,9 @@ fi
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
 cd build_${RABBITIM_BUILD_TARGERT}
-rm -fr *
+if [ -n "$RABBITIM_CLEAN" ]; then
+    rm -fr *
+fi
 
 echo ""
 echo "RABBITIM_BUILD_TARGERT:${RABBITIM_BUILD_TARGERT}"

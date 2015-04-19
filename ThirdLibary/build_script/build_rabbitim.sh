@@ -61,7 +61,9 @@ echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
 cd build_${RABBITIM_BUILD_TARGERT}
-rm -fr *
+if [ -n "$RABBITIM_CLEAN" ]; then
+    rm -fr *
+fi
 
 echo "CUR_DIR:`pwd`"
 echo ""

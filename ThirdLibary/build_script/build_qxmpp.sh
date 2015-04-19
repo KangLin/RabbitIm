@@ -60,7 +60,9 @@ cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
 cd build_${RABBITIM_BUILD_TARGERT}
-rm -fr *
+if [ -n "$RABBITIM_CLEAN" ]; then
+    rm -fr *
+fi
 
 echo ""
 echo "RABBITIM_BUILD_TARGERT:${RABBITIM_BUILD_TARGERT}"
@@ -105,11 +107,12 @@ $QMAKE -o Makefile \
        ${PARA} \
        .. #"CONFIG+=debug" #QXMPP_LIBRARY_TYPE=staticlib #静态库
 
-${MAKE} -f Makefile install
+${MAKE} -f Makefile 
 if [ "$RABBITIM_BUILD_TARGERT" = "android" ]; then
     ${MAKE} -f Makefile install ${MAKE_PARA}
     cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
 else
+    ${MAKE} install
     if [ ! -f "${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/qxmpp.pc" -a -d `pwd`/src/pkgconfig ]; then
         cp -fr `pwd`/src/pkgconfig/* ${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/.
     fi

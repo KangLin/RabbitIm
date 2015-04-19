@@ -60,7 +60,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_FILE}.tar.gz
-        tar xzvf ffmpeg-${FFMPEG_FILE}.tar.gz
+        tar xzf ffmpeg-${FFMPEG_FILE}.tar.gz
         RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/ffmpeg-${FFMPEG_VERSION}
     fi
 fi
@@ -78,10 +78,12 @@ echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
-if [ -d ".git" ]; then
-    git clean -xdf
-else
-    make distclean
+if [ -n "$RABBITIM_CLEAN" ]; then
+    if [ -d ".git" ]; then
+        git clean -xdf
+    else
+        make distclean
+    fi
 fi
 
 echo "configure ..."
