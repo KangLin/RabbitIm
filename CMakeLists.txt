@@ -39,7 +39,7 @@ FIND_PACKAGE(Qt5 5.3 CONFIG REQUIRED Gui Core Network Xml Multimedia Widgets Lin
 SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
 FIND_PACKAGE(Qt5WebKitWidgets)
 IF(Qt5WebKitWidgets_FOUND)
-	ADD_DEFINITIONS(-DRABBITIM_WEBKIT)
+    ADD_DEFINITIONS(-DRABBITIM_WEBKIT)
 ENDIF(Qt5WebKitWidgets_FOUND)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -187,7 +187,7 @@ SET(PKG_CONFIG_USE_CMAKE_PREFIX_PATH TRUE)
 #设置 find_XXX.cmake 搜索目录  
 SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${THIRD_PACKAGE_DIR} ${CMAKE_MODULE_PATH})
 IF(ANDROID)
-	SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} THIRD_LIB_DIR/sdk/native/jni)
+    SET(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${THIRD_PACKAGE_DIR}/sdk/native/jni)
 ENDIF()
 #pkgconfig模块
 FIND_PACKAGE(PkgConfig)
@@ -205,11 +205,11 @@ IF(OPTION_RABBITIM_USE_VPX)
     ELSE()
         MESSAGE("Use vpx library:${OPTION_RABBITIM_USE_VPX}\n")
         SET(VPX_LIBRARIES -lvpx)
-        IF(ANDROID)
-            SET(VPX_LIBRARIES ${VPX_LIBRARIES} cpu-features)
-        ENDIF(ANDROID)
     ENDIF()
-
+    
+    IF(ANDROID)
+        SET(VPX_LIBRARIES ${VPX_LIBRARIES} cpu-features)
+    ENDIF(ANDROID)
     SET(RABBITIM_PACKAGE_REQUIRES ${RABBITIM_PACKAGE_REQUIRES} libvpx-dev)
 ELSE(OPTION_RABBITIM_USE_VPX)
     message("Must use libvpx, please install libvpx")
@@ -258,36 +258,38 @@ OPTION(OPTION_RABBITIM_USER_OPENCV "Use opencv library" ON)
 IF(OPTION_RABBITIM_USER_OPENCV)
     SET(RABBITIM_USER_OPENCV ON)
     IF(PKG_CONFIG_FOUND)
-		find_package(OpenCV COMPONENTS core imgproc) # video videoio)
-		if(NOT OpenCV_FOUND)
-			SET(OPTION_RABBITIM_USER_OPENCV OFF)
-			SET(RABBITIM_USER_OPENCV OFF)
-		ENDIF()
+        find_package(OpenCV COMPONENTS core imgproc) # video videoio)
+        IF(OpenCV_FOUND)
+            INCLUDE_DIRECTORIES("${OpenCV_INCLUDE_DIRS}")
+        ELSE()
+            SET(OPTION_RABBITIM_USER_OPENCV OFF)
+            SET(RABBITIM_USER_OPENCV OFF)
+        ENDIF()
     ELSE(PKG_CONFIG_FOUND)
-		IF(WIN32)
-			SET(OPENCV_VERSION 300)
-		ENDIF(WIN32)
-		SET(OPENCV_LIBS 
-				opencv_imgproc${OPENCV_VERSION}
-				opencv_videoio${OPENCV_VERSION}
-				opencv_video${OPENCV_VERSION}
-				opencv_core${OPENCV_VERSION}
-				)
-		IF(ANDROID)
-			SET(OPENCV_LIBS ${OPENCV_LIBS}
-							opencv_androidcamera
-							opencv_imgcodecs 
-							opencv_info 
-							libjpeg
-					)
+        IF(WIN32)
+            SET(OPENCV_VERSION 300)
+        ENDIF(WIN32)
+        SET(OpenCV_LIBS 
+                opencv_imgproc${OPENCV_VERSION}
+                opencv_videoio${OPENCV_VERSION}
+                opencv_video${OPENCV_VERSION}
+                opencv_core${OPENCV_VERSION}
+                )
+        IF(ANDROID)
+            SET(OpenCV_LIBS ${OpenCV_LIBS}
+                            opencv_androidcamera
+                            opencv_imgcodecs 
+                            opencv_info 
+                            libjpeg
+                    )
 
-			SET(ANDROID_EXTRA_LIBS #第三方信赖库
-					"${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libopencv_info.so,${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libnative_camera_r4.2.0.so"  #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
-					)
-		ELSE(ANDROID)
-			SET(OPENCV_LIBS  ${OPENCV_LIBS} zlib)
-			SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libopencv-dev")
-		ENDIF(ANDROID)
+            SET(ANDROID_EXTRA_LIBS #第三方信赖库
+                    "${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libopencv_info.so,${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libnative_camera_r4.2.0.so"  #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
+                    )
+        ELSE(ANDROID)
+            SET(OpenCV_LIBS  ${OpenCV_LIBS} zlib)
+            SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libopencv-dev")
+        ENDIF(ANDROID)
     ENDIF(PKG_CONFIG_FOUND)
 ELSEIF(OPTION_RABBITIM_USER_OPENCV)
     IF(ANDROID)
@@ -295,7 +297,7 @@ ELSEIF(OPTION_RABBITIM_USER_OPENCV)
     ENDIF(ANDROID)
 ENDIF(OPTION_RABBITIM_USER_OPENCV)
 IF(RABBITIM_USER_OPENCV)
-	add_definitions("-DRABBITIM_USER_OPENCV")
+    add_definitions("-DRABBITIM_USER_OPENCV")
 ENDIF(RABBITIM_USER_OPENCV)
 MESSAGE("Use opencv library:${RABBITIM_USER_OPENCV}\n")
 
@@ -366,7 +368,7 @@ ENDIF()
 SET(RABBITIM_LIBS
     ${RABBITIM_LIBS}
     ${QXMPP_LIBRARIES}
-    ${OPENCV_LIBS}
+    ${OpenCV_LIBS}
     ${FFMPEG_LIBRARIES}
     ${VPX_LIBRARIES}
     ${SPEEX_LIBRARIES}
@@ -495,9 +497,9 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
                            Qt5Multimedia_PLUGINS
                            Qt5Xml_PLUGINS)
         IF(Qt5WebKitWidgets_FOUND)
-			SET(QT_LIBS ${QT_LIBS} Qt5::WebKitWidgets)
-			SET(QT_PLUGINS ${QT_PLUGINS} Qt5WebKitWidgets_PLUGINS)
-		ENDIF(Qt5WebKitWidgets_FOUND)
+            SET(QT_LIBS ${QT_LIBS} Qt5::WebKitWidgets)
+            SET(QT_PLUGINS ${QT_PLUGINS} Qt5WebKitWidgets_PLUGINS)
+        ENDIF(Qt5WebKitWidgets_FOUND)
         INSTALL_QT_LIBRARYS(${QT_LIBS})
         INSTALL_QT_PLUGINS(${QT_PLUGINS})
     ENDIF(WIN32)

@@ -112,6 +112,7 @@ else
     MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA}  VERBOSE=1"
     case $1 in
         android)
+            export ANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
             PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-android.cmake -DOPTION_RABBITIM_USER_OPENCV=ON"
             PARA="${PARA} -DANT=${ANT} "
             CMAKE_PARA=""
