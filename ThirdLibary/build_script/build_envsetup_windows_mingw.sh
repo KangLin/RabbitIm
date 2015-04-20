@@ -1,6 +1,6 @@
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
-#QT_ROOT=/home/k/Qt5.4.1/5.4/gcc_64 #QT 安装根目录
+QT_ROOT=/c/Qt/Qt5.4.1/5.4/mingw491_32 #QT 安装根目录
 #RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
 JOM=nmake #设置 QT make 工具 JOM
 RABBITIM_CLEAN=TRUE #编译前清理
@@ -13,7 +13,7 @@ RABBITIM_CLEAN=TRUE #编译前清理
 if [ -n "${RabbitImRoot}" ]; then
     RABBITIM_BUILD_PREFIX=${RabbitImRoot}/ThirdLibary/windows_mingw
 else
-    RABBITIM_BUILD_PREFIX=`pwd`/../windows_mingw    #修改这里为安装前缀 
+    RABBITIM_BUILD_PREFIX=`pwd`/../windows_mingw    #修改这里为安装前缀
 fi
 if [ ! -d ${RABBITIM_BUILD_PREFIX} ]; then
     mkdir -p ${RABBITIM_BUILD_PREFIX}
@@ -47,6 +47,6 @@ export PKG_CONFIG=/usr/bin/pkg-config
 export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH
 
 if [ -z "${RABBITIM_BUILD_CROSS_HOST}" ]; then
-	RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32 #编译工具链前缀
+    RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32 #编译工具链前缀
 fi
-RABBITIM_BUILD_CROSS_PREFIX=${RABBITIM_BUILD_CROSS_HOST}- 
+RABBITIM_BUILD_CROSS_PREFIX=${RABBITIM_BUILD_CROSS_HOST}-

@@ -97,9 +97,15 @@ case ${RABBITIM_BUILD_TARGERT} in
         exit 2
         ;;
     windows_mingw)
-         CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc"
-         CONFIG_PARA="${CONFIG_PARA} --enable-vbr --enable-sse --with-gnu-ld"
-         CONFIG_PARA="${CONFIG_PARA} --host=${RABBITIM_BUILD_CROSS_HOST}"
+        case `uname -s` in
+            Linux*|Unix*)
+                CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc"
+                CONFIG_PARA="${CONFIG_PARA} --host=${RABBITIM_BUILD_CROSS_HOST}"
+                ;;
+            *)
+            ;;
+        esac
+        CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse"
         ;;
     *)
         echo "${HELP_STRING}"

@@ -139,5 +139,7 @@ echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\
 
 echo "make install"
 make ${RABBITIM_MAKE_JOB_PARA} && make install
-
+if [ "${RABBITIM_BUILD_TARGERT}"="windows_msvc" ]; then
+    mv ${RABBITIM_BUILD_PREFIX}/bin/*.lib ${RABBITIM_BUILD_PREFIX}/lib/.
+fi
 cd $CUR_DIR
