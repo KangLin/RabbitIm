@@ -177,18 +177,19 @@ INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/Widgets/FrmCustom
     ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/include)
 
-SET(THIRD_PACKAGE_DIR ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME})   #第三方开发包目录  
+SET(THIRD_PACKAGE_DIR ${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}) #第三方开发包目录
 SET(THIRD_LIB_DIR ${THIRD_PACKAGE_DIR}/lib) #第三方库目录
 LINK_DIRECTORIES(${THIRD_LIB_DIR})
-#设置库的搜索路径  
-SET(CMAKE_PREFIX_PATH ${THIRD_PACKAGE_DIR} ${CMAKE_PREFIX_PATH})
+#设置库的搜索路径
+SET(CMAKE_PREFIX_PATH ${THIRD_LIB_DIR}/pkgconfig ${THIRD_PACKAGE_DIR} ${THIRD_LIB_DIR} ${CMAKE_PREFIX_PATH})
 #允许 pkg-config 在 CMAKE_PREFIX_PATH 中搜索库
 SET(PKG_CONFIG_USE_CMAKE_PREFIX_PATH TRUE)
-#设置 find_XXX.cmake 搜索目录  
-SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${THIRD_PACKAGE_DIR} ${CMAKE_MODULE_PATH})
+#设置 find_XXX.cmake 搜索目录
+SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${THIRD_PACKAGE_DIR} ${CMAKE_MODULE_PATH})
 IF(ANDROID)
     SET(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${THIRD_PACKAGE_DIR}/sdk/native/jni)
-ENDIF()
+ENDIF(ANDROID)
+message("CMAKE_PREFIX_PATH:${CMAKE_PREFIX_PATH}")
 #pkgconfig模块
 FIND_PACKAGE(PkgConfig)
 
@@ -204,9 +205,9 @@ IF(OPTION_RABBITIM_USE_VPX)
         ENDIF(VPX_FOUND)
     ELSE()
         MESSAGE("Use vpx library:${OPTION_RABBITIM_USE_VPX}\n")
-        SET(VPX_LIBRARIES -lvpx)
+        SET(VPX_LIBRARIES vpx)
     ENDIF()
-    
+
     IF(ANDROID)
         SET(VPX_LIBRARIES ${VPX_LIBRARIES} cpu-features)
     ENDIF(ANDROID)
@@ -254,7 +255,8 @@ ENDIF(OPTION_RABBITIM_USER_FFMPEG)
 MESSAGE("Use ffmpeg library:${RABBITIM_USER_FFMPEG}\n")
 
 #增加检测opencv库
-OPTION(OPTION_RABBITIM_USER_OPENCV "Use opencv library" ON)
+OPTION(OPTION_RABBITIM_USER_OPENCV "Use opencv library" OFF)
+SET(RABBITIM_USER_OPENCV OFF)
 IF(OPTION_RABBITIM_USER_OPENCV)
     SET(RABBITIM_USER_OPENCV ON)
     IF(PKG_CONFIG_FOUND)
@@ -277,15 +279,15 @@ IF(OPTION_RABBITIM_USER_OPENCV)
                 )
         IF(ANDROID)
             SET(OpenCV_LIBS ${OpenCV_LIBS}
-                            opencv_androidcamera
-                            opencv_imgcodecs 
-                            opencv_info 
-                            libjpeg
-                    )
+                opencv_androidcamera
+                opencv_imgcodecs
+                opencv_info
+                libjpeg
+                )
 
             SET(ANDROID_EXTRA_LIBS #第三方信赖库
-                    "${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libopencv_info.so,${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libnative_camera_r4.2.0.so"  #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
-                    )
+                "${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libopencv_info.so,${CMAKE_SOURCE_DIR}/ThirdLibary/android/lib/libnative_camera_r4.2.0.so"  #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
+                )
         ELSE(ANDROID)
             SET(OpenCV_LIBS  ${OpenCV_LIBS} zlib)
             SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libopencv-dev")
@@ -293,7 +295,7 @@ IF(OPTION_RABBITIM_USER_OPENCV)
     ENDIF(PKG_CONFIG_FOUND)
 ELSEIF(OPTION_RABBITIM_USER_OPENCV)
     IF(ANDROID)
-        message("android must opencv library, please install library, and -DOPTION_RABBITIM_USER_OPENCV=ON .")
+        message("android must opencv library, please install library, and -DOPTION_RABBITIM_USER_OPENCV=ON")
     ENDIF(ANDROID)
 ENDIF(OPTION_RABBITIM_USER_OPENCV)
 IF(RABBITIM_USER_OPENCV)
@@ -303,66 +305,78 @@ MESSAGE("Use opencv library:${RABBITIM_USER_OPENCV}\n")
 
 #检测openssl库
 OPTION(OPTION_RABBITIM_USER_OPENSSL "Use openssl library" ON)
+SET(RABBITIM_USER_OPENSSL OFF)
 IF(OPTION_RABBITIM_USER_OPENSSL)
     SET(RABBITIM_USER_OPENSSL ON)
     ADD_DEFINITIONS("-DRABBITIM_USER_OPENSSL")
     SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libssl-dev")
 
     IF(MSVC)
-        MESSAGE("Use openssl library:${OPTION_RABBITIM_USER_OPENSSL}\n")
         SET(OPENSSL_LIBRARIES -llibeay32 -lssleay32)
     ELSE(MSVC)
 
        IF(PKG_CONFIG_FOUND)
-            pkg_check_modules(OPENSSL REQUIRED openssl)
+            pkg_check_modules(OPENSSL openssl)
             IF(OPENSSL_FOUND)
                 add_compile_options(${OPENSSL_CFLAGS})
+            ELSE(OPENSSL_FOUND)
+                SET(RABBITIM_USER_OPENSSL OFF)
             ENDIF(OPENSSL_FOUND)
         ELSE(PKG_CONFIG_FOUND)
-            find_package(OpenSSL REQUIRED)
-            if(OPENSSL_FOUND)
+            find_package(OpenSSL)
+            IF(OPENSSL_FOUND)
                 include_directories(${OPENSSL_INCLUDE_DIR})
-            endif(OPENSSL_FOUND)
+            ELSE(OPENSSL_FOUND)
+                SET(RABBITIM_USER_OPENSSL OFF)
+            ENDIF(OPENSSL_FOUND)
         ENDIF(PKG_CONFIG_FOUND)
 
     ENDIF(MSVC)
 
 ENDIF(OPTION_RABBITIM_USER_OPENSSL)
+MESSAGE("Use openssl library:${RABBITIM_USER_OPENSSL}\n")
 
 #检测libcurl库  
 OPTION(OPTION_RABBITIM_USER_LIBCUR "Use curl library" ON)
+SET(RABBITIM_USER_LIBCURL OFF)
 IF(OPTION_RABBITIM_USER_LIBCUR)
     SET(RABBITIM_USER_LIBCURL ON)
     add_definitions("-DRABBITIM_USER_LIBCURL")
     SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libcurl4-openssl-dev")
 
     IF(PKG_CONFIG_FOUND)
-        pkg_check_modules(CURL REQUIRED libcurl)
+        pkg_check_modules(CURL libcurl)
         IF(CURL_FOUND)
             add_compile_options(${CURL_CFLAGS})
+            message("CURL_CFLAGS:${CURL_CFLAGS}")
+        ELSE(CURL_FOUND)
+            SET(RABBITIM_USER_LIBCURL OFF)
         ENDIF(CURL_FOUND)
     ELSE(PKG_CONFIG_FOUND)
-        find_package(CURL REQUIRED)
+        find_package(CURL)
         if(CURL_FOUND)
             include_directories(${CURL_INCLUDE_DIR})
+        ELSE(CURL_FOUND)
+            SET(RABBITIM_USER_LIBCURL OFF)
         endif(CURL_FOUND)
     ENDIF(PKG_CONFIG_FOUND)
 
-    include_directories(${CURL_INCLUDE_DIRS})
-
 ENDIF(OPTION_RABBITIM_USER_LIBCUR)
-MESSAGE("Use curl library:${OPTION_RABBITIM_USER_LIBCUR}\n")
+MESSAGE("Use curl library:${RABBITIM_USER_LIBCURL}\n")
 
 #qxmpp库
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 ADD_DEFINITIONS("-DQXMPP") # -DQXMPP_STATIC")
+IF(ANDROID)
+    ADD_DEFINITIONS("-DQXMPP_STATIC")
+ENDIF(ANDROID)
 IF(PKG_CONFIG_FOUND AND NOT MSVC)
     pkg_check_modules(QXMPP REQUIRED qxmpp)
     IF(QXMPP_FOUND)
             add_compile_options(${QXMPP_CFLAGS})
     ENDIF(QXMPP_FOUND)
 ELSE()
-    SET(QXMPP_LIBRARIES -lqxmpp0)
+    SET(QXMPP_LIBRARIES qxmpp0)
 ENDIF()
 
 SET(RABBITIM_LIBS
@@ -530,16 +544,16 @@ IF(WIN32)
     SET(THIRD_DLL_LIBRARY "${THIRD_DLL_LIBRARY_BIN} ${THIRD_DLL_LIBRARY_LIB}")
     #安装4:第三方动态库
     INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/bin/" 
-                     DESTINATION .
-                     FILES_MATCHING PATTERN "*.dll")
+            DESTINATION .
+            FILES_MATCHING PATTERN "*.dll")
 ELSEIF(NOT ANDROID)
     FILE(GLOB THIRD_DLL_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/lib/*.so")
     #安装4:第三方动态库
     INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/ThirdLibary/${TOOLCHAIN_NAME}/lib/"
-                     DESTINATION "."
-                     FILES_MATCHING PATTERN "*.so*")
+            DESTINATION "."
+            FILES_MATCHING PATTERN "*.so*")
 ENDIF(WIN32)
-MESSAGE("THIRD_DLL_LIBRARY:${THIRD_DLL_LIBRARY}")
+#MESSAGE("THIRD_DLL_LIBRARY:${THIRD_DLL_LIBRARY}")
 FOREACH(file ${THIRD_DLL_LIBRARY})
     IF(EXISTS "${file}")
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

@@ -108,14 +108,24 @@ $QMAKE -o Makefile \
        .. #"CONFIG+=debug" #QXMPP_LIBRARY_TYPE=staticlib #静态库
 
 ${MAKE} -f Makefile 
-if [ "$RABBITIM_BUILD_TARGERT" = "android" ]; then
-    ${MAKE} -f Makefile install ${MAKE_PARA}
-    cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
-else
-    ${MAKE} install
-    if [ ! -f "${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/qxmpp.pc" -a -d `pwd`/src/pkgconfig ]; then
-        cp -fr `pwd`/src/pkgconfig/* ${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/.
-    fi
-fi
+case $RABBITIM_BUILD_TARGERT in
+    android)
+        ${MAKE} -f Makefile install ${MAKE_PARA}
+        cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
+    ;;
+    windows_mingw|windows_msvc)
+        ${MAKE} install
+        QXMPP_DLL="${RABBITIM_BUILD_PREFIX}/lib/qxmpp0.dll"
+        if [ -f "${QXMPP_DLL}" ]; then
+            mv ${QXMPP_DLL} ${RABBITIM_BUILD_PREFIX}/bin/.
+        fi
+    ;;
+    *)
+        ${MAKE} install
+        if [ ! -f "${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/qxmpp.pc" -a -d `pwd`/src/pkgconfig ]; then
+            cp -fr `pwd`/src/pkgconfig/* ${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/.
+        fi
+    ;;
+esac
 
 cd $CUR_DIR

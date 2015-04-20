@@ -78,7 +78,7 @@ echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
-if [ -n "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" ]; then
     if [ -d ".git" ]; then
         git clean -xdf
     else
@@ -139,5 +139,7 @@ echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\
 
 echo "make install"
 make ${RABBITIM_MAKE_JOB_PARA} && make install
-
+if [ "${RABBITIM_BUILD_TARGERT}"="windows_msvc" ]; then
+    mv ${RABBITIM_BUILD_PREFIX}/bin/*.lib ${RABBITIM_BUILD_PREFIX}/lib/.
+fi
 cd $CUR_DIR

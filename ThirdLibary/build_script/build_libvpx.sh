@@ -82,13 +82,19 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="--target=x86-win32-vs12 --enable-static-msvcrt"
         ;;
     windows_mingw)
-        export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
-        export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
-        export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
-        export LD=${RABBITIM_BUILD_CROSS_PREFIX}gcc
-        export AS=yasm
-        export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
-        export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
+        case `uname -s` in
+            Linux*|Unix*)
+                export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
+                export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
+                export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
+                export LD=${RABBITIM_BUILD_CROSS_PREFIX}gcc
+                export AS=yasm
+                export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
+                export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
+                ;;
+            *)
+            ;;
+        esac
         CONFIG_PARA=" --target=x86-win32-gcc"
         ;;
     *)

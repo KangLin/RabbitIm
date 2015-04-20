@@ -99,8 +99,14 @@ case ${RABBITIM_BUILD_TARGERT} in
             -DCURL_STATICLIB=OFF
         ;;
     windows_mingw)
-		CONFIG_PARA="${CONFIG_PARA}  CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse "
-		;;
+        case `uname -s` in
+            Linux*|Unix*)
+                CONFIG_PARA="${CONFIG_PARA}  CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse "
+                ;;
+            *)
+            ;;
+        esac
+        ;;
     *)
 		echo "${HELP_STRING}"
         cd $CUR_DIR

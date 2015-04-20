@@ -29,8 +29,8 @@ int CCameraOpencv::Start()
         return -1;
     }
 
-    m_nFrameWidth = m_videoCapture.get(cv::CAP_PROP_FRAME_WIDTH);
-    m_nFrameHeight = m_videoCapture.get(cv::CAP_PROP_FRAME_WIDTH);
+    m_nFrameWidth = m_videoCapture.get(cv::CV_CAP_PROP_FRAME_WIDTH);
+    m_nFrameHeight = m_videoCapture.get(cv::CV_CAP_PROP_FRAME_WIDTH);
 
     m_Timer.start(m_tmCapture);
     return nRet;
@@ -54,7 +54,7 @@ void CCameraOpencv::slotTimeOut()
 #ifdef ANDROID
     if(!m_videoCapture.grab())
         return;
-     m_videoCapture.retrieve(frame, cv::CAP_ANDROID_COLOR_FRAME_RGB);
+     m_videoCapture.retrieve(frame, cv::CV_CAP_ANDROID_COLOR_FRAME_RGB);
 #else
     m_videoCapture >> frame;
     //因为opencv会在内部把图像转化为BGR格式  

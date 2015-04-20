@@ -58,6 +58,7 @@ echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
+echo "PKG_CONFIG_PATH:$PKG_CONFIG_PATH"
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
 cd build_${RABBITIM_BUILD_TARGERT}
@@ -69,12 +70,13 @@ echo "CUR_DIR:`pwd`"
 echo ""
 
 if [ "$3" = "qmake" ]; then
+
     MAKE="make ${RABBITIM_MAKE_JOB_PARA}"
     case $1 in
         android)
             PARA="-r -spec android-g++ " #RABBITIM_USER_OPENCV=1
             if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
-                MAKE="$RABBITIM_CMAKE_MAKE_PROGRAM" 
+                MAKE="$RABBITIM_CMAKE_MAKE_PROGRAM"
             fi
             ;;
         unix)
@@ -98,18 +100,27 @@ if [ "$3" = "qmake" ]; then
            QXMPP_USE_VPX=1 \
            RABBITIM_USER_FFMPEG=1 \
            RABBITIM_USER_LIBCURL=1 \
-           RABBITIM_USER_OPENSSL=1 
+           RABBITIM_USER_OPENSSL=1
     if [ "$1" == "android" ]; then
         $MAKE -f Makefile install INSTALL_ROOT="`pwd`/android-build"
         ${QT_BIN}/androiddeployqt --input "`pwd`/android-libRabbitIm.so-deployment-settings.json" --output "`pwd`/android-build" --verbose
     else
         $MAKE -f Makefile install -j 2
     fi
-else
-    GENERATORS="Unix Makefiles" 
+
+else #cmake编译
+
+    case `uname -s` in
+        MINGW*|MSYS*)
+            GENERATORS="MSYS Makefiles"
+            ;;
+        Linux*|Unix*|CYGWIN*|*)
+            GENERATORS="Unix Makefiles" 
+            ;;
+    esac
     CMAKE_PARA="--target package"
     PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5"
-    MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA}  VERBOSE=1"
+    MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
     case $1 in
         android)
             export ANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
@@ -121,13 +132,19 @@ else
             PARA="-DCMAKE_INSTALL_PREFIX=/usr/local/RabbitIm"
             ;;
         windows_msvc)
-            GENERATORS="NMake Makefiles"
-            PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=OFF -DOPTION_RABBITIM_USER_OPENSSL=OFF"
+            #因为用Visual Studio 2013生成的目标路径与配置有关，这影响到安装文件的生成，所以用nmake生成
+            GENERATORS="NMake Makefiles" #GENERATORS="Visual Studio 12 2013"
+            #PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=OFF -DOPTION_RABBITIM_USER_OPENSSL=OFF"
             MAKE_PARA=""
             ;;
         windows_mingw)
-            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-mingw.cmake"
-            PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=ON -DOPTION_RABBITIM_USER_OPENSSL=ON"
+            case `uname -s` in
+                Linux*|Unix*)
+                    PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-mingw.cmake"
+                ;;
+                *)
+                ;;
+            esac
             ;;
         *)
             echo "${HELP_STRING}"
@@ -137,7 +154,7 @@ else
     esac
     echo "cmake .. -G\"${GENERATORS}\" $PARA"
     cmake .. -G"${GENERATORS}" $PARA
-    cmake --build .  --config Release ${CMAKE_PARA} ${MAKE_PARA}
+    cmake --build . --config Release ${CMAKE_PARA} ${MAKE_PARA}
 fi
 
 cd $CUR_DIR
