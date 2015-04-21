@@ -57,15 +57,31 @@ fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-if [ ! -f configure -a "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
-    echo "sh buildconf"
-    sh buildconf
+if [ "$RABBITIM_CLEAN" ]; then
+    if [ -d ".git" ]; then
+        git clean -xdf
+    fi
 fi
 
-mkdir -p build_${RABBITIM_BUILD_TARGERT}
-cd build_${RABBITIM_BUILD_TARGERT}
-if [ -n "$RABBITIM_CLEAN" ]; then
-    rm -fr *
+if [ ! -f configure ]; then
+    echo "sh buildconf"
+    if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
+        ./buildconf.bat
+    else
+        ./buildconf
+    fi
+fi
+
+if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
+    if [ -n "$RABBITIM_CLEAN" ]; then
+        rm -fr builds
+    fi
+else
+    mkdir -p build_${RABBITIM_BUILD_TARGERT}
+    cd build_${RABBITIM_BUILD_TARGERT}
+    if [ -n "$RABBITIM_CLEAN" ]; then
+        rm -fr *
+    fi
 fi
 
 echo ""
@@ -87,43 +103,48 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --disable-shared -enable-static --host=${RABBITIM_BUILD_CROSS_HOST}"
         CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-		;;
+        ;;
     unix)
-        CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse "
-		;;
+        CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse"
+        ;;
     windows_msvc)
-        cmake .. -G"Visual Studio 12 2013" \
-            -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
-            -DCMAKE_BUILD_TYPE="Release" \
-            -DBUILD_CURL_TESTS=OFF \
-            -DCURL_STATICLIB=OFF
+        #cmake .. -G"Visual Studio 12 2013" \
+        #    -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
+        #    -DCMAKE_BUILD_TYPE="Release" \
+        #    -DBUILD_CURL_TESTS=OFF \
+        #    -DCURL_STATICLIB=OFF
+        #;;
+        cd ${RABBITIM_BUILD_SOURCE_CODE}
+        ./buildconf.bat
+        cd winbuild
+        nmake -f Makefile.vc mode=dll VC=12 WITH_DEVEL=$RABBITIM_BUILD_PREFIX
+        cp -fr ${RABBITIM_BUILD_SOURCE_CODE}/builds/libcurl-vc12-x86-release-dll-ipv6-sspi-winssl/* ${RABBITIM_BUILD_PREFIX}
+        cd $CUR_DIR
+        exit 0
         ;;
     windows_mingw)
         case `uname -s` in
             Linux*|Unix*)
-                CONFIG_PARA="${CONFIG_PARA}  CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse "
+                CONFIG_PARA="${CONFIG_PARA}  CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse"
                 ;;
             *)
             ;;
         esac
         ;;
     *)
-		echo "${HELP_STRING}"
+        echo "${HELP_STRING}"
         cd $CUR_DIR
-		exit 3
-		;;
+        exit 3
+        ;;
 esac
 
 echo "make install"
-if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
-    cmake --build . --target install --config Release
-else
-    CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --disable-debug --disable-curldebug --disable-manual"
-    CONFIG_PARA="${CONFIG_PARA} --with-ssl=$RABBITIM_BUILD_PREFIX" 
-    echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
-    ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
-    
-    make ${RABBITIM_MAKE_JOB_PARA} && make install
-fi
+echo "pwd:`pwd`"
+CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --disable-debug --disable-curldebug --disable-manual"
+CONFIG_PARA="${CONFIG_PARA} --with-ssl=$RABBITIM_BUILD_PREFIX"
+echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
+../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
+
+make ${RABBITIM_MAKE_JOB_PARA} && make install
 
 cd $CUR_DIR

@@ -4,12 +4,12 @@
 #
 #-------------------------------------------------
 
-QXMPP_USE_VPX=1             #使用 vpx
+QXMPP_USE_VPX=1              #使用 vpx
 #QXMPP_USE_SPEEX=1            #使用 speex
 #RABBITIM_USER_OPENCV=1       #使用 opencv
 RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
 #RABBITIM_USER_LIBCURL=1      #使用 libcurl
-#RABBITIM_USER_OPENSSL=1   #使用openssl
+#RABBITIM_USER_OPENSSL=1      #使用openssl
 
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets 
@@ -35,7 +35,7 @@ win32{
 }
 
 CONFIG += c++0x
-QMAKE_CXXFLAGS += " -std=c++0x "
+#QMAKE_CXXFLAGS += " -std=c++0x "
 
 #安装
 isEmpty(PREFIX){
