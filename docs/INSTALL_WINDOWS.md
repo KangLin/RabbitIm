@@ -5,13 +5,11 @@
 ----
 
 1. [windows原生编译](#user-content-windows原生编译)
-
 2. [windows下用mingw交叉编译](#user-content-windows下用mingw交叉编译)
-
 3. [ubuntu下用mingw交叉编译](#user-content-ubuntu下用mingw交叉编译)
 
 windows原生编译
------------------
+--------------
 
 ### 1. 环境
 #### 1.1. 操作系统:windows 7 旗舰版 版本：6.1 (内部版本 7601 Service Pack 1)
@@ -142,13 +140,28 @@ https://github.com/ruby/ruby
     
 ### 4. 编译第三方依赖库(脚本中包括qt)
 
+1. build_envsetup_windows_msvc.sh:设置编译时需要的变量  
+2. build.sh windows_msvc [source_code_directory] : 编译第三方库脚本
+3. build_XXX.sh windows_msvc [source_code_directory] : 编译指定的 XXX 第三方库脚本
+
+编译所有依赖的第三方库：
+
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build.sh windows_msvc [source_code_directory]
 
-如果只编译其中一个库：
+或者只编译其中一个库，例如：libvpx 
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
-    ./build_XXX.sh windows_msvc [source_code_directory]
+    ./build_libvpx.sh windows_msvc [source_code_directory]
+
+环境变量说明：
+
+1. QT_ROOT=                         #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_msvc/qt
+2. RABBITIM_MAKE_JOB_PARA="-j2"     #make 同时工作进程参数,建议设置为你机器CUP个数
+3. RABBITIM_BUILD_STATIC="static"   #设置编译静态库，注释掉，则为编译动态库
+4. JOM=make                         #设置 QT make 工具 JOM
+5. RABBITIM_USE_REPOSITORIES="TRUE" #下载开发库。省略，则下载指定的压缩包
+6. RABBITIM_CLEAN=TRUE              #编译前清理
 
 ### 5. 编译本项目:
 
@@ -294,16 +307,32 @@ https://github.com/ruby/ruby
 
     c:\msys32\mingw64_shell.bat #64位编译环境
 
-#### 3.2 第三方依赖库(脚本中包括qt)
-* 编译：
+#### 3.2 编译第三方依赖库(脚本中包括qt)
+
+编译脚本：
+
+1. build.sh windows_mingw [source_code_directory] : 编译第三方库脚本
+2. build_envsetup_windows_mingw.sh:设置编译时需要的变量
+3. build_XXX.sh windows_mingw [source_code_directory] : 编译指定的 XXX 第三方库脚本
+
+环境变量说明： 
+
+1. QT_ROOT=                         #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
+2. RABBITIM_MAKE_JOB_PARA="-j2"     #make 同时工作进程参数,建议设置为你机器CUP个数
+3. RABBITIM_BUILD_STATIC="static"   #设置编译静态库，注释掉，则为编译动态库
+4. JOM=make                         #设置 QT make 工具 JOM
+5. RABBITIM_USE_REPOSITORIES="TRUE" #下载开发库。省略，则下载指定的压缩包
+6. RABBITIM_CLEAN=TRUE              #编译前清理
+
+编译所有依赖的第三方库：
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build.sh windows_mingw [source_code_directory]
 
-如果只编译其中一个库：
+或者只编译其中一个库，例如：libvpx
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
-    ./build_XXX.sh windows_mingw [source_code_directory]
+    ./build_libvpx.sh windows_mingw [source_code_directory]
 
 #### 3.3. 编译本项目:
 
@@ -367,14 +396,31 @@ ubuntu 下用 mingw 交叉编译
     sudo apt-get install icu-devtools #脚本
 
 ### 3. 编译第三方依赖库(脚本中包括qt)
+编译脚本：
+
+1. build.sh windows_mingw [source_code_directory] : 编译第三方库脚本
+2. build_envsetup_windows_mingw.sh:设置编译时需要的变量
+3. build_XXX.sh windows_mingw [source_code_directory] : 编译指定的 XXX 第三方库脚本
+
+环境变量说明： 
+
+1. QT_ROOT=                         #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
+2. RABBITIM_MAKE_JOB_PARA="-j2"     #make 同时工作进程参数,建议设置为你机器CUP个数
+3. RABBITIM_BUILD_STATIC="static"   #设置编译静态库，注释掉，则为编译动态库
+4. JOM=make                         #设置 QT make 工具 JOM
+5. RABBITIM_USE_REPOSITORIES="TRUE" #下载开发库。省略，则下载指定的压缩包
+6. RABBITIM_CLEAN=TRUE              #编译前清理
+7. RABBITIM_BUILD_CROSS_HOST=       #编译工具链前缀,用于交叉编译，默认为：i686-w64-mingw32
+
+编译所有依赖的第三方库：
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build.sh windows_mingw [source_code_directory]
-    
-如果只编译其中一个库：
+
+或者只编译其中一个库，例如：libvpx
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
-    ./build_XXX.sh windows_mingw [source_code_directory]
+    ./build_libvpx.sh windows_mingw [source_code_directory]
 
 ### 4. 编译本项目:
 

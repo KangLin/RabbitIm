@@ -92,35 +92,64 @@
 
 ## 第三方库
 
-### 1. 编解码库(libvpx)安装：
+### 1. 安装第三方库开发包
+
+#### 1.1. 编解码库(libvpx)安装：
 
     sudo apt-get install libvpx-dev
 
-### 2. ffmpeg安装：
+#### 1.2. ffmpeg安装：
 
     sudo apt-get install libavcodec-dev libavformat-dev libavutil-dev libswscale-dev
 
-### 3. opencv安装：
+#### 1.3. opencv安装：
 
     sudo apt-get install libopencv-dev
 
 安装opencv时，会自动安装ffmpeg库
     
-### 4. libspeex 安装:
+#### 1.4. libspeex 安装:
 
     sudo apt-get install libspeex-dev libspeexdsp-dev 
 
-### 5. openssl:
+#### 1.5. openssl:
 
     sudo apt-get install libssl-dev 
 
-### 6. libcurl:
+#### 1.6. libcurl:
 
     sudo apt-get install libcurl4-openssl-dev
 
-### 7. qt 编译：
-* openssl:
 
+### 2. 编译第三方依赖库(脚本中包括qt)
+
+编译脚本：
+
+1. build.sh unix [source_code_directory] : 编译第三方库脚本
+2. build_envsetup_unix.sh: 设置编译时需要的变量
+3. build_XXX.sh unix [source_code_directory] : 编译指定的 XXX 第三方库脚本
+
+环境变量说明： 
+
+1. QT_ROOT=                         #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/unix/qt
+2. RABBITIM_MAKE_JOB_PARA="-j2"     #make 同时工作进程参数,建议设置为你机器CUP个数
+3. RABBITIM_BUILD_STATIC="static"   #设置编译静态库，注释掉，则为编译动态库
+4. JOM=make                         #设置 QT make 工具 JOM
+5. RABBITIM_USE_REPOSITORIES="TRUE" #下载开发库。省略，则下载指定的压缩包
+6. RABBITIM_CLEAN=TRUE              #编译前清理
+
+编译所有依赖的第三方库：
+
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build.sh unix [source_code_directory]
+
+或者只编译其中一个库，例如：libvpx
+
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build_libvpx.sh unix [source_code_directory]
+
+#### 2.1. qt 编译：
+* openssl:
 * Libxcb:
 
     sudo apt-get install "^libxcb.*" libx11-xcb-dev libxrender-dev libxi-dev
@@ -148,7 +177,7 @@
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build_qt.sh unix [source_code_directory]
 
-### 8. qxmpp:
+#### 2.2. qxmpp:
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build_qxmpp.sh unix [source_code_directory]

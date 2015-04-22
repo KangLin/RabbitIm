@@ -11,6 +11,7 @@
     2. 订阅本邮件组，请发送邮件到：rabbitim-subscribe@yahoogroups.com
     3. 取消订阅本邮件组，请发送邮件到：rabbitim-unsubscribe@yahoogroups.com
     4. 通过以下网址访问此论坛：https://groups.yahoo.com/neo/groups/rabbitim/conversations/messages
+    5. 提问前先查看文档与邮件组。当不能解决时，再向邮件组提交问题。
 * QQ群：68046752（本人不常上QQ）。有问题或好的想法，尽量用邮件组。
 * 当前编译状态: [![Build Status](https://travis-ci.org/KangLin/rabbitim.png)](https://travis-ci.org/KangLin/rabbitim)
 

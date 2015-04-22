@@ -4,9 +4,44 @@
 目录
 ----
 
-1. [ubuntu下交叉编译](#user-content-ubuntu下交叉编译)
+1. [编译脚本与变量](#user-content-编译脚本与变量)
+2. [ubuntu下交叉编译](#user-content-ubuntu下交叉编译)
+3. [windows下交叉编译](#user-content-windows下交叉编译)
 
-2. [windows下交叉编译](#user-content-windows下交叉编译)
+编译脚本与变量
+-----------
+
+1. build_envsetup_android.sh : 设置编译时需要的变量  
+2. build.sh android [source_code_directory] : 编译第三方库脚本
+3. build_XXX.sh android [source_code_directory] : 编译指定的 XXX 第三方库脚本
+
+环境变量说明:
+
+1. export ANDROID_NDK_ROOT=              #android ndk 根目录
+2. export ANDROID_NDK=$ANDROID_NDK_ROOT
+3. export ANDROID_SDK=                   #android sdk 根目录
+4. export ANDROID_SDK_ROOT=$ANDROID_SDK    
+5. export JAVA_HOME=                     #jdk根目录 
+6. export ANT_ROOT=                      #ant工具的目录
+7. ANT=/usr/bin/ant                      #ant 程序
+8. QT_ROOT=                              #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/android/qt
+9. RABBITIM_MAKE_JOB_PARA="-j2"          #make 同时工作进程参数,建议设置为你机器CUP个数
+10. RABBITIM_BUILD_STATIC="static"       #设置编译静态库，注释掉，则为编译动态库
+11. JOM=make                             #设置 QT make 工具 JOM
+12. RABBITIM_USE_REPOSITORIES="TRUE"     #下载开发库。省略，则下载指定的压缩包
+13. RABBITIM_CLEAN=TRUE                  #编译前清理
+
+所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。
+为了避免这个问题。你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。  
+再运行:
+
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build.sh android [source_code_directory] #进行第三方依赖库编译
+
+或者只编译某个库，例如：ffmpeg库
+
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build_ffmpeg.sh android [source_code_directory] #进行第三方依赖库编译
 
 ubuntu下交叉编译
 --------------

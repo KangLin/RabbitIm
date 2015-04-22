@@ -69,7 +69,7 @@
 ##### 9. 编译工具：
 
 1. windows
-    * msvc
+    * msvc (vs 2013 update 4)
     * mingw gcc
 2. linux
     * gcc、g++
@@ -92,14 +92,14 @@
 
 ##### 12. icu工具，编译 QtWebkit 需要
 
-##### 13. [Qt工具与版本](http://qt-project.org/wiki/Qt-5.5.0-tools-and-versions)
+##### 13. [Qt工具与版本](http://wiki.qt.io/Qt-5.5.0-tools-and-versions)
 
 ##### 14. QT：
 
 * 主页：http://qt-project.org/
 * 下载：http://qt-project.org/downloads
 * 当前使用版本：5.3.0
-    + QT开发工具参考：http://qt-project.org/doc/qt-4.8/developing-with-qt.html
+    + QT开发工具参考：http://doc.qt.io/qt-4.8/developing-with-qt.html
     + [QT编译](http://blog.csdn.net/kl222/article/details/44216951)
 
 第三方库：
@@ -218,8 +218,7 @@
 
 ### 第三方依赖库目录：
 
-在源码根目录下建立第三方库目录：ThirdLibary  
-把第三方依赖库编译成功后，放到ThirdLibary目录下,ThirdLibary目录结构如下：
+在源码根目录下有第三方库目录：ThirdLibary 。其目录结构如下：
 
     ThirdLibary
         ｜
@@ -246,10 +245,11 @@
         ｜       ｜------lib
 
 可以在 http://pan.baidu.com/s/1ntA0t5n 中下载本项目依赖的预编译好的第三方库。
+下载后解压，按上面目录结构放置。
 
 ### 第三方依赖库编译脚本
 第三库编译脚本是 bash 脚本。运行这些脚本时，需要有 bash 环境。linux、unix 默认安装了 bash 环境。
-windows 下需要安装 cygwin 或者 msys 环境。  
+windows 下需要安装 cygwin 或者 msys(msys2) 环境。  
 
 环境变量：
 
@@ -260,54 +260,21 @@ windows 下需要安装 cygwin 或者 msys 环境。
 
 脚本只编译第三方依赖库的发行版本。如果你需要调试版本，请手工编译。
 
-第三方库编译脚本位于：${RabbitImRoot}/ThirdLibary/build_script 目录下。  
+第三方库编译脚本位于：${RabbitImRoot}/ThirdLibary/build_script 目录下。 
 
-##### 1. android 平台：
-    * build_envsetup_android.sh : 设置编译时需要的变量  
-    * build.sh android [source_code_directory] : 编译第三方库脚本
-        环境变量说明:
-    + export ANDROID_NDK_ROOT=              #android ndk 根目录
-    + export ANDROID_NDK=$ANDROID_NDK_ROOT
-    + export ANDROID_SDK=                   #android sdk 根目录
-    + export ANDROID_SDK_ROOT=$ANDROID_SDK    
-    + export JAVA_HOME=                     #jdk根目录 
-    + export ANT_ROOT=                      #ant工具的目录
-    + QT_ROOT=                              #qt的安装位置
-    + RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
-    + JOM=make #设置 QT make 工具 JOM
-    所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。
-    为了避免这个问题。你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。  
-    再运行:
+**注意**:
+执行脚本时，请先进入 ${RabbitImRoot}/ThirdLibary/build_script 目录。
 
-    ${RabbitImRoot}/ThirdLibary/build_script/build.sh android [source_code_directory] #进行第三方依赖库编译
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    ./build.sh (unix|android|windows_msvc|windows_mingw) [source_code_directory]
 
-##### 2. windows 平台：
-   windows 平台有两种方法编译：
-   1. ) msvc 工具链：
-      * build_envsetup_windows_msvc.sh:设置编译时需要的变量  
-      * build.sh windows_msvc [source_code_directory] : 编译第三方库脚本
-        环境变量说明： 
-        + QT_ROOT=/home/k/Qt5.4.1/5.4/gcc_64 #QT 安装根目录
-        + RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
-        + JOM=nmake #设置 QT make 工具 JOM
-   msvc 工具链的环境变量可用下面方法设置：  
-   先从菜单栏中起动vs2013编译命令行工具：  
-   C:\Program Files\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts  
-   VS2013 x86 本机工具命令提示  
-   在命令行下，启动msys。 
-   `c:\MinGW\msys\1.0\msys.bat` 
-   如果用msys2：`c:\msys32\mingw32_shell.bat`  
-   注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。  
-   然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibary/build_script`。再运行你想运行的编译脚本。例如： `./build.sh` 。
-   2. )mingw 工具链
-      * build.sh windows_mingw [source_code_directory] : 编译第三方库脚本
-      * build_envsetup_windows_mingw.sh:设置编译时需要的变量
-        环境变量说明： 
-            + QT_ROOT=/home/k/Qt5.4.1/5.4/gcc_64 #QT 安装根目录
-            + RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
-            + JOM=make #设置 QT make 工具 JOM
+如果省略源码目录，则脚本自动下载源码到 cd ${RabbitImRoot}/ThirdLibary/src 目录下。
 
-##### 3. windows phone 平台：
+各目标编译详细说明：
+
+1. [ubuntu](INSTALL_UBUNTU.md)
+2. [android](INSTALL_ANDROID.md)
+3. [windows](INSTALL_WINDOWS.md)
 
 ### 第三方依赖库编译
 ##### 1. 编解码库(libvpx)编译：  
@@ -596,10 +563,3 @@ Call Stack (most recent call first):
 
 xmpp服务配置域名（rabbitim.com），客户端如果没有域名，连接服务器时，则直接设置主机IP，同时设置域名。  
 当然，也可以修改系统hosts文件配置域名解析。这个域名实质上是xmpp应用程序用于区别不同域。
-
-各目标编译详细说明：
-----------------
-
-1. [ubuntu](INSTALL_UBUNTU.md)
-2. [android](INSTALL_ANDROID.md)
-3. [windows](INSTALL_WINDOWS.md)
