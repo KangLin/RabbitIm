@@ -76,6 +76,7 @@ echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
+echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 if [ "$RABBITIM_CLEAN" ]; then
@@ -87,7 +88,11 @@ if [ "$RABBITIM_CLEAN" ]; then
 fi
 
 echo "configure ..."
-CONFIG_PARA="--disable-static --enable-shared"
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    CONFIG_PARA="--enable-static --disable-shared"
+else
+    CONFIG_PARA="--disable-static --enable-shared"
+fi
 THIRD_LIB="--enable-libx264"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
@@ -119,12 +124,12 @@ case ${RABBITIM_BUILD_TARGERT} in
             echo "Don't support tagert:`uname -s`, please see build_ffmpeg.sh"
             exit 3
         esac
-		;;
+        ;;
     *)
-    echo "${HELP_STRING}"
-    cd $CUR_DIR
-    exit 2
-    ;;
+        echo "${HELP_STRING}"
+        cd $CUR_DIR
+        exit 2
+        ;;
 esac
 
 CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --enable-gpl --enable-pic --disable-doc --disable-htmlpages"
@@ -140,6 +145,8 @@ echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\
 echo "make install"
 make ${RABBITIM_MAKE_JOB_PARA} && make install
 if [ "${RABBITIM_BUILD_TARGERT}"="windows_msvc" ]; then
-    mv ${RABBITIM_BUILD_PREFIX}/bin/*.lib ${RABBITIM_BUILD_PREFIX}/lib/.
+    if [ -f "${RABBITIM_BUILD_PREFIX}/bin/*.lib" ]; then
+        mv ${RABBITIM_BUILD_PREFIX}/bin/*.lib ${RABBITIM_BUILD_PREFIX}/lib/.
+    fi
 fi
 cd $CUR_DIR

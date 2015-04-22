@@ -93,11 +93,16 @@ echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
+echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 echo "configure ..."
 
-CONFIG_PARA="--disable-static --enable-shared"
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    CONFIG_PARA="--enable-static --disable-shared"
+else
+    CONFIG_PARA="--disable-static --enable-shared"
+fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
         CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --disable-shared -enable-static --host=${RABBITIM_BUILD_CROSS_HOST}"
@@ -117,8 +122,13 @@ case ${RABBITIM_BUILD_TARGERT} in
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         ./buildconf.bat
         cd winbuild
-        nmake -f Makefile.vc mode=dll VC=12 WITH_DEVEL=$RABBITIM_BUILD_PREFIX
-        cp -fr ${RABBITIM_BUILD_SOURCE_CODE}/builds/libcurl-vc12-x86-release-dll-ipv6-sspi-winssl/* ${RABBITIM_BUILD_PREFIX}
+        if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+            MODE=static
+        else
+            MODE=dll
+        fi
+        nmake -f Makefile.vc mode=$MODE VC=12 WITH_DEVEL=$RABBITIM_BUILD_PREFIX
+        cp -fr ${RABBITIM_BUILD_SOURCE_CODE}/builds/libcurl-vc12-x86-release-${MODE}-ipv6-sspi-winssl/* ${RABBITIM_BUILD_PREFIX}
         cd $CUR_DIR
         exit 0
         ;;

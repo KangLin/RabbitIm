@@ -66,6 +66,7 @@ echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
+echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 if [ -n "$RABBITIM_CLEAN" ]; then
@@ -78,6 +79,9 @@ if [ -n "$RABBITIM_CLEAN" ]; then
     fi
 fi
 
+if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
+    MODE=shared
+fi
 echo "configure ..."
 case ${RABBITIM_BUILD_TARGERT} in
     android)
@@ -89,7 +93,7 @@ case ${RABBITIM_BUILD_TARGERT} in
                 --sysroot="${RABBITIM_BUILD_CROSS_SYSROOT}"
         ;;
     unix)
-        ./config --prefix=${RABBITIM_BUILD_PREFIX} --openssldir=${RABBITIM_BUILD_PREFIX} shared
+        ./config --prefix=${RABBITIM_BUILD_PREFIX} --openssldir=${RABBITIM_BUILD_PREFIX} $MODE
         ;;
     windows_msvc)
         perl Configure \
@@ -98,10 +102,13 @@ case ${RABBITIM_BUILD_TARGERT} in
             VC-WIN32
         ms/do_nasm.bat
         echo "make install"
-        #静态库
-        #nmake -f ms/nt.mak install﻿﻿
-        #动态库  
-        nmake -f ms/ntdll.mak install
+        if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+            #静态库  
+            nmake -f ms/nt.mak install
+        else
+            #动态库  
+            nmake -f ms/ntdll.mak install
+        fi
         cd $CUR_DIR
         exit 0
         ;;
@@ -110,13 +117,13 @@ case ${RABBITIM_BUILD_TARGERT} in
             MINGW*|MSYS*)
                 perl Configure  --prefix=${RABBITIM_BUILD_PREFIX} \
                     --openssldir=${RABBITIM_BUILD_PREFIX} \
-                    shared mingw
+                    $MODE mingw
                 ;;
             Linux*|Unix*|CYGWIN*|*)
                 perl Configure  --prefix=${RABBITIM_BUILD_PREFIX} \
                     --openssldir=${RABBITIM_BUILD_PREFIX} \
                     --cross-compile-prefix=${RABBITIM_BUILD_CROSS_PREFIX} \
-                    shared mingw
+                    $MODE mingw
                 ;;
         esac
         ;;

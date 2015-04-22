@@ -21,6 +21,7 @@ ANT=/usr/bin/ant         #ant 程序
 QT_ROOT=/home/k/Qt5.3.0/5.3/android_armv7         #QT 安装根目录
 JOM=make #/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom       #设置 QT make 工具 JOM
 RABBITIM_CLEAN=TRUE #编译前清理
+#RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库
 
 if [ -z "$ANDROID_NDK_ROOT" -o -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" -o -z "$ANDROID_SDK_ROOT"	-o -z "$JAVA_HOME" ]; then
 	echo "Please set ANDROID_NDK_ROOT and ANDROID_NDK and ANDROID_SDK and ANDROID_SDK_ROOT and JAVA_HOME"

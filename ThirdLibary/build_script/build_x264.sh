@@ -66,7 +66,11 @@ if [ -n "$RABBITIM_CLEAN" ]; then
 fi
 
 echo "configure ..."
-CONFIG_PARA="--enable-shared"
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    CONFIG_PARA="--enable-static"
+else
+    CONFIG_PARA="--enable-shared"
+fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
     CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
@@ -84,7 +88,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
         case `uname -s` in
             Linux*|Unix*)
-            CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-shared --host=$RABBITIM_BUILD_CROSS_HOST"
+            CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --host=$RABBITIM_BUILD_CROSS_HOST"
             ;;
         *)
             ;;

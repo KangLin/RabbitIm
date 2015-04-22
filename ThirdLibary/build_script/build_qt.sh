@@ -90,6 +90,7 @@ echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
+echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 echo "configure ..."
@@ -97,8 +98,14 @@ echo "configure ..."
 CONFIG_PARA="-opensource -confirm-license -nomake examples -nomake tests -no-compile-examples"
 CONFIG_PARA="${CONFIG_PARA} -no-sql-sqlite -no-sql-odbc"
 CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples"
-CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt -shared -debug-and-release "
+CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt -debug-and-release"
 CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    CONFIG_PARA="${CONFIG_PARA} -shared"
+else
+    CONFIG_PARA="${CONFIG_PARA} -static"
+fi
+
 if [ -d qt3d ]; then
     CONFIG_PARA="${CONFIG_PARA} -skip qt3d";
 fi

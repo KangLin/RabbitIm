@@ -17,12 +17,12 @@ HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix) [SOURCE
 
 case $1 in
     android|windows_msvc|windows_mingw|unix)
-    RABBITIM_BUILD_TARGERT=$1
-    ;;
+        RABBITIM_BUILD_TARGERT=$1
+        ;;
     *)
-    echo "${HELP_STRING}"
-    exit 1
-    ;;
+        echo "${HELP_STRING}"
+        exit 1
+        ;;
 esac
 
 if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then

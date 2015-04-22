@@ -73,6 +73,7 @@ echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
+echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 MAKE="make ${RABBITIM_MAKE_JOB_PARA}"
@@ -81,8 +82,8 @@ case $RABBITIM_BUILD_TARGERT in
         PARA=" -r -spec android-g++"
         MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
         #MAKE=mingw32-make #mingw 中编译
-        #MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make"  #在windows下编译
-        #make -f Makefile install INSTALL_ROOT="${RABBITIM_BUILD_PREFIX}"      #在linux下编译
+        #MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make"     #在windows下编译
+        #make -f Makefile install INSTALL_ROOT="${RABBITIM_BUILD_PREFIX}" #在linux下编译
          ;;
     unix)
         ;;
@@ -99,13 +100,17 @@ case $RABBITIM_BUILD_TARGERT in
         ;;
 esac
 
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    PARA="${PARA} QXMPP_LIBRARY_TYPE=staticlib" #静态库
+fi
+
 $QMAKE -o Makefile \
        PREFIX=${RABBITIM_BUILD_PREFIX} \
        INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include \
        LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib \
        QXMPP_USE_VPX=1 \
        ${PARA} \
-       .. #"CONFIG+=debug" #QXMPP_LIBRARY_TYPE=staticlib #静态库
+       .. #"CONFIG+=debug"
 
 ${MAKE} -f Makefile 
 case $RABBITIM_BUILD_TARGERT in
