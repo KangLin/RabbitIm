@@ -91,7 +91,7 @@ case $RABBITIM_BUILD_TARGERT in
         MAKE=nmake
         ;;
     windows_mingw)
-        #PARA="-r -spec win32-g++ CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
+        #PARA="-r -spec win32-g++" # CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
         ;;
     *)
         echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
@@ -109,8 +109,8 @@ $QMAKE -o Makefile \
        INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include \
        LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib \
        QXMPP_USE_VPX=1 \
-       ${PARA} \
-       .. #"CONFIG+=debug"
+       ${PARA} CONFIG+=release \
+       ..
 
 ${MAKE} -f Makefile 
 case $RABBITIM_BUILD_TARGERT in

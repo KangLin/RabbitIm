@@ -29,9 +29,10 @@ int CCameraOpencv::Start()
         return -1;
     }
 
-    m_nFrameWidth = m_videoCapture.get(cv::CV_CAP_PROP_FRAME_WIDTH);
-    m_nFrameHeight = m_videoCapture.get(cv::CV_CAP_PROP_FRAME_WIDTH);
-
+    m_nFrameWidth = m_videoCapture.get(CV_CAP_PROP_FRAME_WIDTH);
+    m_nFrameHeight = m_videoCapture.get(CV_CAP_PROP_FRAME_WIDTH);
+    //m_nFrameWidth = m_videoCapture.get(cv::CAP_PROP_FRAME_WIDTH);
+    //m_nFrameHeight = m_videoCapture.get(cv::CAP_PROP_FRAME_WIDTH);
     m_Timer.start(m_tmCapture);
     return nRet;
 }

@@ -59,6 +59,7 @@ echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 echo "PKG_CONFIG_PATH:$PKG_CONFIG_PATH"
+echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
 cd build_${RABBITIM_BUILD_TARGERT}
@@ -94,7 +95,7 @@ if [ "$3" = "qmake" ]; then
             exit 1
             ;;
     esac
-    $QMAKE .. $PARA PREFIX=`pwd`/install \
+    $QMAKE .. $PARA CONFIG+=release PREFIX=`pwd`/install \
            INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include \
            LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib \
            QXMPP_USE_VPX=1 \
@@ -119,7 +120,10 @@ else #cmake编译
             ;;
     esac
     CMAKE_PARA="--target package"
-    PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5"
+    PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 -DCMAKE_VERBOSE=ON"
+    if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
+        PARA="${PARA} -DOPTION_STATIC=ON"
+    fi
     MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
     case $1 in
         android)

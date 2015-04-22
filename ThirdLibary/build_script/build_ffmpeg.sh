@@ -144,9 +144,19 @@ echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\
 
 echo "make install"
 make ${RABBITIM_MAKE_JOB_PARA} && make install
-if [ "${RABBITIM_BUILD_TARGERT}"="windows_msvc" ]; then
+if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
     if [ -f "${RABBITIM_BUILD_PREFIX}/bin/*.lib" ]; then
         mv ${RABBITIM_BUILD_PREFIX}/bin/*.lib ${RABBITIM_BUILD_PREFIX}/lib/.
+    fi
+    if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
+        cd ${RABBITIM_BUILD_PREFIX}/lib
+        mv libavcodec.a avcodec.lib
+        mv libavutil.a avutil.lib
+        mv libpostproc.a postproc.lib
+        mv libavfilter.a avfilter.lib
+        mv libswresample.a swresample.lib
+        mv libavformat.a avformat.lib
+        mv libswscale.a swscale.lib
     fi
 fi
 cd $CUR_DIR
