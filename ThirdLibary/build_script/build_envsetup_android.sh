@@ -54,6 +54,8 @@ QT_BIN=${QT_ROOT}/bin       #设置用于 android 平台编译的 qt bin 目录
 QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
                             #这里设置的是自动编译时的配置，你需要修改为你本地qt编译环境的配置.
 
+echo "QT_BIN:$QT_BIN"
+
 #自动判断主机类型，目前只做了linux、windows判断
 TARGET_OS=`uname -s`
 case $TARGET_OS in

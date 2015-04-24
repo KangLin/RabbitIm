@@ -91,10 +91,18 @@ else
 fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
+        export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
+        export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
+        export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
+        export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
+        export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
+        export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
+        export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
         CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --disable-shared -enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
         CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        CONFIG_PARA="${CONFIG_PARA} --disable-epoll"
         CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-        CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        CPPFLAGS="${CFLAGS}"
     ;;
     unix)
         ;;
@@ -122,6 +130,7 @@ esac
 
 CONFIG_PARA="${CONFIG_PARA} --with-dependency-search=${RABBITIM_BUILD_PREFIX}"
 CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX "
+CONFIG_PARA="${CONFIG_PARA} --disable-rt --disable-tests --disable-testing"
 echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
 ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
 

@@ -47,7 +47,10 @@ if [ -n "$2" ]; then
     if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
         ./build_speexdsp.sh ${RABBITIM_BUILD_TARGERT}  $2/speexdsp && \
         ./build_speex.sh ${RABBITIM_BUILD_TARGERT} $2/speex && \
-        ./build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264
+        ./build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264 && \
+        ./build_libopus.sh ${RABBITIM_BUILD_TARGERT} $2/libopus && \
+        ./build_libsodium.sh ${RABBITIM_BUILD_TARGERT} $2/libsodium && \
+        ./build_toxcore.sh ${RABBITIM_BUILD_TARGERT} $2/toxcore
     fi
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx && \
     ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv && \
@@ -62,7 +65,10 @@ else
     if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
         ./build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_speex.sh ${RABBITIM_BUILD_TARGERT} && \
-        ./build_x264.sh ${RABBITIM_BUILD_TARGERT}
+        ./build_x264.sh ${RABBITIM_BUILD_TARGERT} && \
+        ./build_libopus.sh ${RABBITIM_BUILD_TARGERT} && \
+        ./build_libsodium.sh ${RABBITIM_BUILD_TARGERT} && \
+        ./build_toxcore.sh ${RABBITIM_BUILD_TARGERT}
     fi
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \

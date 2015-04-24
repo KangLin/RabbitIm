@@ -156,6 +156,7 @@ else #cmake编译
             exit 1
             ;;
     esac
+    
     echo "cmake .. -G\"${GENERATORS}\" $PARA"
     cmake .. -G"${GENERATORS}" $PARA
     cmake --build . --config Release ${CMAKE_PARA} ${MAKE_PARA}

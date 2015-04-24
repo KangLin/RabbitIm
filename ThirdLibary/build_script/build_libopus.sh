@@ -42,8 +42,8 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     LIBOPUS_VERSION=1.1
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone git://git.opus-codec.org/opus.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone git://git.opus-codec.org/opus.git ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone -b v${LIBOPUS_VERSION} git://git.opus-codec.org/opus.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -b v${LIBOPUS_VERSION} git://git.opus-codec.org/opus.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget http://downloads.xiph.org/releases/opus/opus-${LIBOPUS_VERSION}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
@@ -96,15 +96,14 @@ case ${RABBITIM_BUILD_TARGERT} in
         export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
         export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
         export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
-        export AS=$CC
+        export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
         export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
         export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
         CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc LD=${RABBITIM_BUILD_CROSS_PREFIX}ld --host=$RABBITIM_BUILD_CROSS_HOST"
         CONFIG_PARA="${CONFIG_PARA} --disable-shared -enable-static"
         CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-        CONFIG_PARA="--enable-intrinsics --enable-float-approx"
-        #CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-        #CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        CPPFLAGS="${CFLAGS}"
     ;;
     unix)
         ;;
@@ -119,8 +118,8 @@ case ${RABBITIM_BUILD_TARGERT} in
                 export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
                 export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
                 export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
-                export LD=${RABBITIM_BUILD_CROSS_PREFIX}gcc
-                export AS=yasm
+                export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
+                export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
                 export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
                 export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
                 CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc"
@@ -137,11 +136,11 @@ case ${RABBITIM_BUILD_TARGERT} in
     ;;
 esac
 
-CFLAGS="${CFLAGS} CFLAGS=-I$RABBITIM_BUILD_PREFIX/include CPPFLAGS=-I$RABBITIM_BUILD_PREFIX/include"
-CFLAGS="${CFLAGS} LDFLAGS=-L$RABBITIM_BUILD_PREFIX/lib"
+CFLAGS="${CFLAGS} -I$RABBITIM_BUILD_PREFIX/include"
+LDFLAGS="${LDFLAGS} -L$RABBITIM_BUILD_PREFIX/lib"
 CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX "
-echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
-../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
+echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\" LDFLAGS=\"${LDFLAGS}\""
+../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
 
 echo "make install"
 make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1 && make install

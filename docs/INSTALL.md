@@ -209,6 +209,15 @@
 
 #### 14. libsodium
 * 下载: `git clone https://github.com/jedisct1/libsodium.git`
+* 当前使用版本：1.0.2
+
+#### 15. opus
+* 下载： `git clone git://git.opus-codec.org/opus.git`
+* 当前使用版本：v1.1
+
+#### 16. toxcore
+* 下载： `git clone git://github.com/irungentoo/toxcore.git`
+* 当前使用版本：fc549805c1abfeac3d73f88aa95c1f58dc5ef499
 
 本项目：
 ---------
