@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone -b 6aab25c http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
         git clone http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
@@ -50,7 +50,11 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz
         tar xzf speex-1.2rc1.tar.gz
-        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/speex-1.2rc1
+        mv speex-1.2rc1 ..
+        rm -fr *
+        cd ..
+        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
+        mv -f speex-1.2rc1 ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 
@@ -58,7 +62,7 @@ cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 if [ ! -f configure ]; then
     echo "sh autogen.sh"
-    sh autogen.sh 
+    sh autogen.sh
 fi
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
@@ -88,7 +92,8 @@ else
 fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --disable-shared -enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
+        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc LD=${RABBITIM_BUILD_CROSS_PREFIX}ld"
+        CONFIG_PARA="${CONFIG_PARA} --disable-shared -enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
         CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
@@ -97,7 +102,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse "
         ;;
     windows_msvc)
-        echo "build_speex.sh don't support windows_msvc. "
+        echo "build_speex.sh don't support windows_msvc. please manually use msvc ide complie"
         cd $CUR_DIR
         exit 2
         ;;

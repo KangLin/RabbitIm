@@ -41,7 +41,7 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     OPENSLL_BRANCH=OpenSSL_1_0_2-stable
-    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
         git clone https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
@@ -51,7 +51,10 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}-stable.zip"
         wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip
         unzip ${OPENSLL_BRANCH}.zip
-        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/openssl-${OPENSLL_BRANCH}
+        mv openssl-${OPENSLL_BRANCH} ..
+        rm -fr *
+        cd ..
+        mv -f openssl-${OPENSLL_BRANCH} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 

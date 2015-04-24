@@ -28,7 +28,7 @@
 9. RABBITIM_MAKE_JOB_PARA="-j2"          #make 同时工作进程参数,建议设置为你机器CUP个数
 10. RABBITIM_BUILD_STATIC="static"       #设置编译静态库，注释掉，则为编译动态库
 11. JOM=make                             #设置 QT make 工具 JOM
-12. RABBITIM_USE_REPOSITORIES="TRUE"     #下载开发库。省略，则下载指定的压缩包
+12. RABBITIM_USE_REPOSITORIES="FALSE"    #下载指定的压缩包。省略，则下载开发库。
 13. RABBITIM_CLEAN=TRUE                  #编译前清理
 
 所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。
@@ -165,7 +165,7 @@ windows下交叉编译
 
 + 下载工具：
 
-    pacman -S wget subversion git autoconf automake m4 libtool pkg-config make bison flex gperf
+    pacman -S wget subversion git autoconf automake m4 libtool pkg-config make bison flex gperf unzip
 
 + 下载本地编译器gcc（版本：4.9.2）：
 
@@ -275,6 +275,10 @@ https://github.com/ruby/ruby
 #### 2.11. 本地编译器gcc（版本：4.9.2）：
 
     pacman -S mingw-w64-i686-gcc
+
+#### 2.12. 解压缩工具：unzip
+
+    pacman -S unzip
 
 ### 3. 编译
 #### 3.1 启动下列环境之一：

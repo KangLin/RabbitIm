@@ -131,12 +131,12 @@
 
 环境变量说明： 
 
-1. QT_ROOT=                         #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/unix/qt
-2. RABBITIM_MAKE_JOB_PARA="-j2"     #make 同时工作进程参数,建议设置为你机器CUP个数
-3. RABBITIM_BUILD_STATIC="static"   #设置编译静态库，注释掉，则为编译动态库
-4. JOM=make                         #设置 QT make 工具 JOM
-5. RABBITIM_USE_REPOSITORIES="TRUE" #下载开发库。省略，则下载指定的压缩包
-6. RABBITIM_CLEAN=TRUE              #编译前清理
+1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/unix/qt
+2. RABBITIM_MAKE_JOB_PARA="-j2"      #make 同时工作进程参数,建议设置为你机器CUP个数
+3. RABBITIM_BUILD_STATIC="static"    #设置编译静态库，注释掉，则为编译动态库
+4. JOM=make                          #设置 QT make 工具 JOM
+5. RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。
+6. RABBITIM_CLEAN=TRUE               #编译前清理
 
 编译所有依赖的第三方库：
 

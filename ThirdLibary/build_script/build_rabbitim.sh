@@ -120,7 +120,7 @@ else #cmake编译
             ;;
     esac
     CMAKE_PARA="--target package"
-    PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 -DCMAKE_VERBOSE=ON"
+    PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 -DCMAKE_VERBOSE_MAKEFILE=TRUE"
     if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
         PARA="${PARA} -DOPTION_STATIC=ON"
     fi

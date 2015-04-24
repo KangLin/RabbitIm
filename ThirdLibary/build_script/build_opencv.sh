@@ -41,7 +41,7 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     OPENCV_VERSION=2.4.11
-    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://github.com/Itseez/opencv.git  ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
         git clone git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
@@ -51,7 +51,10 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip
         unzip ${OPENCV_VERSION}.zip
-        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/opencv-${OPENCV_VERSION} 
+        mv opencv-${OPENCV_VERSION} ..
+        rm -fr *
+        cd ..
+        mv -f opencv-${OPENCV_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 
@@ -136,9 +139,9 @@ CMAKE_PARA="${CMAKE_PARA} -DWITH_GIGEAPI=OFF -DWITH_GSTREAMER=OFF -DWITH_GTK=OFF
 CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_video=ON"
 CMAKE_PARA="${CMAKE_PARA} -DWITH_JPEG=ON -DWITH_PNG=ON -DBUILD_opencv_videostab=ON"
 CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_highgui=ON"
-CMAKE_PARA="${CMAKE_PARA} -DWITH_EIGEN=OFF -DWITH_VFW=OFF"
-#CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_videoio=ON -DWITH_WEBP=OFF -DWITH_IPP_A=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DCMAKE_VERBOSE=ON" #显示编译详细信息
+CMAKE_PARA="${CMAKE_PARA} -DWITH_EIGEN=OFF"
+CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_videoio=ON -DWITH_WEBP=OFF -DWITH_IPP_A=OFF"
+CMAKE_PARA="${CMAKE_PARA} -DCMAKE_VERBOSE_MAKEFILE=TRUE" #显示编译详细信息
 
 echo "cmake .. -DCMAKE_INSTALL_PREFIX=$RABBITIM_BUILD_PREFIX -DCMAKE_BUILD_TYPE=Release -G\"${GENERATORS}\" ${CMAKE_PARA}"
 cmake .. \

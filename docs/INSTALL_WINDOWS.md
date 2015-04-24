@@ -35,7 +35,7 @@ windows原生编译
 
 + 下载工具：
 
-    pacman -S wget subversion git autoconf automake m4 libtool pkg-config make bison flex gperf
+    pacman -S wget subversion git autoconf automake m4 libtool pkg-config make bison flex gperf unzip
 
 + 下载本地编译器gcc（版本：4.9.2）：
 
@@ -127,9 +127,12 @@ https://github.com/ruby/ruby
 
     pacman -S bison flex gperf
 
-#### 2.12. 安装工具
-主页：http://nsis.sourceforge.net/Main_Page
+#### 2.12. 解压缩工具：unzip
 
+    pacman -S unzip
+
+#### 2.13. 安装工具
+主页：http://nsis.sourceforge.net/Main_Page
 
 ### 3. 使用:
 先从菜单栏中起动vs2013编译命令行工具：  
@@ -156,12 +159,12 @@ https://github.com/ruby/ruby
 
 环境变量说明：
 
-1. QT_ROOT=                         #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_msvc/qt
-2. RABBITIM_MAKE_JOB_PARA="-j2"     #make 同时工作进程参数,建议设置为你机器CUP个数
-3. RABBITIM_BUILD_STATIC="static"   #设置编译静态库，注释掉，则为编译动态库
-4. JOM=make                         #设置 QT make 工具 JOM
-5. RABBITIM_USE_REPOSITORIES="TRUE" #下载开发库。省略，则下载指定的压缩包
-6. RABBITIM_CLEAN=TRUE              #编译前清理
+1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_msvc/qt
+2. RABBITIM_MAKE_JOB_PARA="-j2"      #make 同时工作进程参数,建议设置为你机器CUP个数
+3. RABBITIM_BUILD_STATIC="static"    #设置编译静态库，注释掉，则为编译动态库
+4. JOM=make                          #设置 QT make 工具 JOM
+5. RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。
+6. RABBITIM_CLEAN=TRUE               #编译前清理
 
 ### 5. 编译本项目:
 
@@ -290,7 +293,11 @@ https://github.com/ruby/ruby
 
     pacman -S bison flex gperf
 
-#### 2.9. 安装工具
+#### 2.9. 解压缩工具：unzip
+
+    pacman -S unzip
+
+#### 2.10. 安装工具
 主页：http://nsis.sourceforge.net/Main_Page
 
 ### 3. 编译
@@ -317,12 +324,12 @@ https://github.com/ruby/ruby
 
 环境变量说明： 
 
-1. QT_ROOT=                         #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
-2. RABBITIM_MAKE_JOB_PARA="-j2"     #make 同时工作进程参数,建议设置为你机器CUP个数
-3. RABBITIM_BUILD_STATIC="static"   #设置编译静态库，注释掉，则为编译动态库
-4. JOM=make                         #设置 QT make 工具 JOM
-5. RABBITIM_USE_REPOSITORIES="TRUE" #下载开发库。省略，则下载指定的压缩包
-6. RABBITIM_CLEAN=TRUE              #编译前清理
+1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
+2. RABBITIM_MAKE_JOB_PARA="-j2"      #make 同时工作进程参数,建议设置为你机器CUP个数
+3. RABBITIM_BUILD_STATIC="static"    #设置编译静态库，注释掉，则为编译动态库
+4. JOM=make                          #设置 QT make 工具 JOM
+5. RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。
+6. RABBITIM_CLEAN=TRUE               #编译前清理
 
 编译所有依赖的第三方库：
 
@@ -404,13 +411,13 @@ ubuntu 下用 mingw 交叉编译
 
 环境变量说明： 
 
-1. QT_ROOT=                         #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
-2. RABBITIM_MAKE_JOB_PARA="-j2"     #make 同时工作进程参数,建议设置为你机器CUP个数
-3. RABBITIM_BUILD_STATIC="static"   #设置编译静态库，注释掉，则为编译动态库
-4. JOM=make                         #设置 QT make 工具 JOM
-5. RABBITIM_USE_REPOSITORIES="TRUE" #下载开发库。省略，则下载指定的压缩包
-6. RABBITIM_CLEAN=TRUE              #编译前清理
-7. RABBITIM_BUILD_CROSS_HOST=       #编译工具链前缀,用于交叉编译，默认为：i686-w64-mingw32
+1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
+2. RABBITIM_MAKE_JOB_PARA="-j2"      #make 同时工作进程参数,建议设置为你机器CUP个数
+3. RABBITIM_BUILD_STATIC="static"    #设置编译静态库，注释掉，则为编译动态库
+4. JOM=make                          #设置 QT make 工具 JOM
+5. RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。
+6. RABBITIM_CLEAN=TRUE               #编译前清理
+7. RABBITIM_BUILD_CROSS_HOST=        #编译工具链前缀,用于交叉编译，默认为：i686-w64-mingw32
 
 编译所有依赖的第三方库：
 

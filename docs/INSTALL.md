@@ -207,6 +207,9 @@
     git pull
     perl init-repository -f --branch
 
+#### 14. libsodium
+* 下载: `git clone https://github.com/jedisct1/libsodium.git`
+
 本项目：
 ---------
 

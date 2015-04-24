@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone --branch=curl-7_41_0 git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
         git clone git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
@@ -51,7 +51,10 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget http://curl.haxx.se/download/${CUR_FILE}.tar.gz
         tar xzf ${CUR_FILE}.tar.gz
-        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/${CUR_FILE}
+        mv ${CUR_FILE} ..
+        rm -fr *
+        cd ..
+        mv -f ${CUR_FILE} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 

@@ -22,11 +22,11 @@ ANT=/usr/bin/ant         #ant 程序
 JOM=make #/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom   #设置 QT make 工具 JOM
 RABBITIM_CLEAN=TRUE #编译前清理
 RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库
-#RABBITIM_USE_REPOSITORIES="TRUE" #下载开发库。省略，则下载指定的压缩包
+#RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。
 
 if [ -z "$ANDROID_NDK_ROOT" -o -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" -o -z "$ANDROID_SDK_ROOT"	-o -z "$JAVA_HOME" ]; then
-	echo "Please set ANDROID_NDK_ROOT and ANDROID_NDK and ANDROID_SDK and ANDROID_SDK_ROOT and JAVA_HOME"
-	exit 1
+    echo "Please set ANDROID_NDK_ROOT and ANDROID_NDK and ANDROID_SDK and ANDROID_SDK_ROOT and JAVA_HOME"
+    exit 1
 fi
 
 #   RABBITIM_BUILD_PREFIX=`pwd`/../${RABBITIM_BUILD_TARGERT}  #修改这里为安装前缀
@@ -40,6 +40,10 @@ else
 fi
 if [ ! -d ${RABBITIM_BUILD_PREFIX} ]; then
     mkdir -p ${RABBITIM_BUILD_PREFIX}
+fi
+
+if [ -z "$RABBITIM_USE_REPOSITORIES" ]; then
+    RABBITIM_USE_REPOSITORIES="TRUE" #下载开发库。省略，则下载指定的压缩包
 fi
 
 #设置qt安装位置
@@ -73,7 +77,7 @@ RABBITIM_BUILD_PLATFORMS_VERSION=18 #android api (平台)版本号
 RABBITIM_BUILD_CROSS_PREFIX=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}/prebuilt/${RABBITIM_BUILD_HOST}/bin/arm-linux-androideabi-
 RABBITIM_BUILD_CROSS_SYSROOT=$ANDROID_NDK_ROOT/platforms/android-${RABBITIM_BUILD_PLATFORMS_VERSION}/arch-arm
 if [ -z "${RABBITIM_BUILD_CROSS_HOST}" ]; then
-	RABBITIM_BUILD_CROSS_HOST=arm-linux-androideabi
+    RABBITIM_BUILD_CROSS_HOST=arm-linux-androideabi
 fi
 export ANDROID_API_VERSION=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
 export PATH=${QT_BIN}:$PATH

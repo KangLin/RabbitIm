@@ -43,7 +43,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     QT_VERSION=5.4.1
     mkdir  -p ${RABBITIM_BUILD_SOURCE_CODE}
     cd ${RABBITIM_BUILD_SOURCE_CODE}
-    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
         git checkout ${QT_VERSION}
@@ -51,7 +51,10 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     else
         wget http://ftp.jaist.ac.jp/pub/qtproject/archive/qt/5.4/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         tar xzf qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
-        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/qt-everywhere-opensource-src-${QT_VERSION} 
+        mv qt-everywhere-opensource-src-${QT_VERSION} ..
+        rm -fr *
+        cd ..
+        mv -f qt-everywhere-opensource-src-${QT_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 

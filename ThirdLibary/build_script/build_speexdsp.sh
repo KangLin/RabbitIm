@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone http://git.xiph.org/speexdsp.git  ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone -b 887ac10 http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
         git clone http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
@@ -50,7 +50,10 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget http://downloads.xiph.org/releases/speex/speexdsp-1.2rc3.tar.gz
         tar xzf speexdsp-1.2rc3.tar.gz
-        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/speexdsp-1.2rc3
+        mv speexdsp-1.2rc3 ..
+        rm -fr *
+        cd ..
+        mv -f speexdsp-1.2rc3 ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 
@@ -88,7 +91,8 @@ else
 fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --disable-shared -enable-static --with-gnu-ld --host=${RABBITIM_BUILD_CROSS_HOST}"
+        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc LD=${RABBITIM_BUILD_CROSS_PREFIX}ld"
+        CONFIG_PARA="${CONFIG_PARA} --disable-shared -enable-static --with-gnu-ld --host=${RABBITIM_BUILD_CROSS_HOST}"
         CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
@@ -97,7 +101,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} --enable-vbr --enable-sse"
         ;;
     windows_msvc)
-        echo "build_speexdsp.sh don't support windows_msvc. "
+        echo "build_speex.sh don't support windows_msvc. please manually use msvc ide complie"
         cd $CUR_DIR
         exit 2
         ;;

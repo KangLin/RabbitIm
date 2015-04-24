@@ -44,15 +44,18 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    if [ -n "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone https://github.com/KangLin/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-		mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
-		cd ${RABBITIM_BUILD_SOURCE_CODE}
+        mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
+        cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget https://github.com/KangLin/qxmpp/archive/master.zip
         unzip master.zip
-        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/qxmpp-master
+        mv qxmpp-master ..
+        rm -fr *
+        cd ..
+        mv -f qxmpp-master ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 
