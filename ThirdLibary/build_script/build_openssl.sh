@@ -46,7 +46,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         #git clone --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
         git clone https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
     else
-		mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
+        mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         echo "wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}-stable.zip"
         wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip
