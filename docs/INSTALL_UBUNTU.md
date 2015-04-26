@@ -39,7 +39,7 @@
 
 ### 2. auto工具：
 
-    sudo apt-get install autoconf automake libtool m4
+    sudo apt-get install autoconf automake libtool m4 make
     sudo apt-get install pkg-config
 
 ### 3. 版本管理工具：
