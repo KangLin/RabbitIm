@@ -185,7 +185,7 @@
 
 * 下载：`git://github.com/bagder/curl.git`  
 * 当前使用版本：  
-    git库版本 —— curl-7_41_0
+    git库版本 —— curl-7_42_0
 
 #### 12. [libicu](http://site.icu-project.org/)
 

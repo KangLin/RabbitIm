@@ -128,7 +128,9 @@ else #cmake编译
     case $1 in
         android)
             export ANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
-            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-android.cmake -DOPTION_RABBITIM_USER_OPENCV=ON"
+            export ANDROID_TOOLCHAIN_NAME=${RABBITIM_BUILD_CROSS_HOST}-${RABBITIM_BUILD_TOOLCHAIN_VERSION}
+            PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-android.cmake"
+            PARA="${PARA} -DOPTION_RABBITIM_USER_OPENCV=ON"
             PARA="${PARA} -DANT=${ANT} "
             CMAKE_PARA=""
             ;;
@@ -156,7 +158,7 @@ else #cmake编译
             exit 1
             ;;
     esac
-    
+
     echo "cmake .. -G\"${GENERATORS}\" $PARA"
     cmake .. -G"${GENERATORS}" $PARA
     cmake --build . --config Release ${CMAKE_PARA} ${MAKE_PARA}
