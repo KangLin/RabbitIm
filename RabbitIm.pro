@@ -35,12 +35,13 @@ win32{
 }
 
 CONFIG += c++0x
-#QMAKE_CXXFLAGS += " -std=c++0x "
+QMAKE_CXXFLAGS += " -std=c++0x "
 
 #安装
 isEmpty(PREFIX){
     android{
        PREFIX=/.
+
     }
     else{
         PREFIX = $$PWD/$${TARGET}
@@ -58,8 +59,10 @@ isEmpty(PREFIX){
 #}
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
-DEFINES += QXMPP #QXMPP_STATIC
-QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
+#packagesExist(qxmpp) {
+    DEFINES += QXMPP #QXMPP_STATIC
+    QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
+#}
 
 CONFIG(debug, debug|release) {
     #调试宏

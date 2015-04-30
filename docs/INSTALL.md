@@ -217,7 +217,7 @@
 
 #### 16. toxcore
 * 下载： `git clone git://github.com/irungentoo/toxcore.git`
-* 当前使用版本：fc549805c1abfeac3d73f88aa95c1f58dc5ef499
+* 当前使用版本：3454bc7da78e467f55f6b7fea4e03775d2649a63
 
 本项目：
 ---------

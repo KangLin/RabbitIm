@@ -64,6 +64,7 @@ ubuntu下交叉编译
     tar xf android-ndk-r9c-linux-x86_64.tar.bz2
     mv android-ndk-r9c android-ndk
 
+
 * 设置环境变量
 
     export ANDROID_NDK=/home/android-ndk
@@ -79,7 +80,7 @@ ubuntu下交叉编译
     mv sdk android-sdk
 
 * 设置环境变量
-    
+
     export ANDROID_SDK=/home/android-sdk/sdk
     export ANDROID_SDK_ROOT=$ANDROID_SDK
     export PATH=$PATH:$ANDROID_SDK/platform-tools
@@ -195,8 +196,8 @@ make: fork: Resource temporarily unavailable
 * 下载:
 
     cd /home
-    wget http://dl.google.com/android/ndk/android-ndk-r9c-linux-x86_64.tar.bz2
-    tar xf android-ndk-r9c-linux-x86_64.tar.bz2
+    wget http://dl.google.com/android/ndk/android-ndk-r9c-windows-x86.zip
+    unzip android-ndk32-r9c-windows-x86.zip
     mv android-ndk-r9c android-ndk
 
 * 设置环境变量

@@ -55,7 +55,7 @@ void CCameraOpencv::slotTimeOut()
 #ifdef ANDROID
     if(!m_videoCapture.grab())
         return;
-     m_videoCapture.retrieve(frame, cv::CV_CAP_ANDROID_COLOR_FRAME_RGB);
+     m_videoCapture.retrieve(frame, CV_CAP_ANDROID_COLOR_FRAME_RGB);//cv::CAP_ANDROID_COLOR_FRAME_RGB
 #else
     m_videoCapture >> frame;
     //因为opencv会在内部把图像转化为BGR格式  

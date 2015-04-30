@@ -118,6 +118,7 @@ $QMAKE -o Makefile \
 ${MAKE} -f Makefile 
 case $RABBITIM_BUILD_TARGERT in
     android)
+        make -f Makefile install
         ${MAKE} -f Makefile install ${MAKE_PARA}
         cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
     ;;

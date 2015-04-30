@@ -18,10 +18,10 @@
 #export JAVA_HOME=/home/jdk1.7.0_51              #指定 jdk 根目录
 
 ANT=/usr/bin/ant         #ant 程序
-#QT_ROOT=/home/k/Qt5.3.0/5.3/android_armv7         #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/android/qt
+#QT_ROOT=/home/k/Qt5.4.1/5.4/android_armv7         #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/android/qt
 JOM=make #/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom   #设置 QT make 工具 JOM
 RABBITIM_CLEAN=TRUE #编译前清理
-RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库
+#RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库
 #RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。
 
 if [ -z "$ANDROID_NDK_ROOT" -o -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" -o -z "$ANDROID_SDK_ROOT"	-o -z "$JAVA_HOME" ]; then
@@ -73,8 +73,8 @@ case $TARGET_OS in
     ;;
 esac
 
-RABBITIM_BUILD_TOOLCHAIN_VERSION=4.8   #工具链版本号 
-RABBITIM_BUILD_PLATFORMS_VERSION=18 #android api (平台)版本号 
+RABBITIM_BUILD_TOOLCHAIN_VERSION=4.8  #工具链版本号 
+RABBITIM_BUILD_PLATFORMS_VERSION=18    #android ndk api (平台)版本号 
 
 RABBITIM_BUILD_CROSS_PREFIX=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}/prebuilt/${RABBITIM_BUILD_HOST}/bin/arm-linux-androideabi-
 RABBITIM_BUILD_CROSS_SYSROOT=$ANDROID_NDK_ROOT/platforms/android-${RABBITIM_BUILD_PLATFORMS_VERSION}/arch-arm
