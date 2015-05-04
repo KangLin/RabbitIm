@@ -128,12 +128,12 @@ case $RABBITIM_BUILD_TARGERT in
         if [ -f "${QXMPP_DLL}" ]; then
             mv ${QXMPP_DLL} ${RABBITIM_BUILD_PREFIX}/bin/.
         fi
-    ;;
-    *)
-        ${MAKE} install
         if [ ! -f "${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/qxmpp.pc" -a -d `pwd`/src/pkgconfig ]; then
             cp -fr `pwd`/src/pkgconfig/* ${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/.
         fi
+    ;;
+    *)
+        ${MAKE} install
     ;;
 esac
 

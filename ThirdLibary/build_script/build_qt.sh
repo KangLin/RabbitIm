@@ -202,7 +202,7 @@ case ${RABBITIM_BUILD_TARGERT} in
                 #export PKG_CONFIG_LIBDIR=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
                 CONFIG_PARA="${CONFIG_PARA} -xplatform win32-g++"
                 CONFIG_PARA="${CONFIG_PARA} -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
-                #CONFIG_PARA="${CONFIG_PARA} -skip qtwebkit"
+                CONFIG_PARA="${CONFIG_PARA} -skip qtwebkit"
                 ;;
         esac
         CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"

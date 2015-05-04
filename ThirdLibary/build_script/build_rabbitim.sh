@@ -127,9 +127,9 @@ else #cmake编译
     MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
     case $1 in
         android)
-            export ANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
-            export ANDROID_TOOLCHAIN_NAME=${RABBITIM_BUILD_CROSS_HOST}-${RABBITIM_BUILD_TOOLCHAIN_VERSION}
-            export ANDROID_NDK_ABI_NAME="armeabi-v7a with NEON"
+            #export ANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
+            #export ANDROID_TOOLCHAIN_NAME=${RABBITIM_BUILD_CROSS_HOST}-${RABBITIM_BUILD_TOOLCHAIN_VERSION}
+            #export ANDROID_NDK_ABI_NAME="armeabi-v7a with NEON"
             PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-android.cmake"
             PARA="${PARA} -DANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}"
             PARA="${PARA} -DANDROID_TOOLCHAIN_NAME=${RABBITIM_BUILD_CROSS_HOST}-${RABBITIM_BUILD_TOOLCHAIN_VERSION}"
@@ -153,7 +153,8 @@ else #cmake编译
             case `uname -s` in
                 Linux*|Unix*)
                     PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-mingw.cmake"
-                ;;
+                    CMAKE_PARA=""
+                    ;;
                 *)
                 ;;
             esac
