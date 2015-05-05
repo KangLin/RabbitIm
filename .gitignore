@@ -112,3 +112,5 @@ ThirdLibary/windows_mingw/
 ThirdLibary/src/
 rabbitim.kdev4
 *.pro.user.*
+Doxygen/
+Doxyfile

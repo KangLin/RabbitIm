@@ -3,6 +3,11 @@ SET(MAJOR_VERSION_NUMBER 0)      #主版本
 SET(MINOR_VERSION_NUMBER 1)       #次版本
 SET(REVISION_VERSION_NUMBER 0)  #修订号
 
+SET(VERSION_NUMBER_STRING "${MAJOR_VERSION_NUMBER}.${MINOR_VERSION_NUMBER}.${REVISION_VERSION_NUMBER}")
+IF(BUILD_VERSION)
+    SET(VERSION_NUMBER_STRING "${VERSION_NUMBER_STRING}.${BUILD_VERSION}")
+ENDIF()
+
 # Project Info
 SET(PROJECT_DESCRIPTION  "Rabbit instant messaging")
 SET(PROJECT_COPYRIGHT    "Copyright (C) 2009-2015 KangLin studio")
@@ -12,14 +17,20 @@ SET(PROJECT_WEBSITE      "https://github.com/KangLin/rabbitim")
 SET(PROJECT_LICENSE      "GPLv2+ License")
 SET(PROJECT_VERSION      "${MAJOR_VERSION_NUMBER}.${MINOR_VERSION_NUMBER}.${REVISION_VERSION_NUMBER}")
 
+#更新版本头文件
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/Update/Version.h.template.cmake
   ${CMAKE_CURRENT_SOURCE_DIR}/Version.h
 )
-
+#更新更新文件中的版本信息
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/Update/Update.xml.template.cmake
   ${CMAKE_CURRENT_SOURCE_DIR}/Update/Update_${RABBITIM_SYSTEM}.xml
+)
+#更新 Doxygen 文件中的版本信息
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.template.cmake
+  ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
 )
 
 # Compiler Runtime DLLs

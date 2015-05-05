@@ -233,8 +233,9 @@ OTHER_FILES += README.md \
     cmake/* \
     cmake/platforms/* \
     platforms/android/* \
-    Update/Update*.xml* \
-    Version.h.template
+    Update/*template* \
+    Update/*.xml \
+    Doxyfile*
 
 # Rules for creating/updating {ts|qm}-files
 include(Resource/translations/translations.pri)

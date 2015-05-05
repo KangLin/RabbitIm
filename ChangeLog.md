@@ -1,3 +1,7 @@
+版本：0.1.1
+--------------
+1. 修改好友信息抽象层
+
 版本：0.1.0
 --------------
 1. 跨平台(Windows、linux、unix、Android），已测试：Windows7、Ubuntu、Android
