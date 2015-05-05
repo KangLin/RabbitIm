@@ -11,6 +11,8 @@
 编译脚本与变量
 -----------
 
+编译脚本说明：
+
 1. build_envsetup_android.sh : 设置编译时需要的变量  
 2. build.sh android [source_code_directory] : 编译第三方库脚本
 3. build_XXX.sh android [source_code_directory] : 编译指定的 XXX 第三方库脚本
@@ -42,6 +44,15 @@
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build_ffmpeg.sh android [source_code_directory] #进行第三方依赖库编译
+
+
+预编译第三方库：
+
+从　http://pan.baidu.com/s/1mgwx8y0，下载你主机操作系统相同的预编译的第三方依赖库。
+并解压到　${RabbitImRoot}/ThirdLibary　下。例如你主机操作系统为ubuntu系统。
+
+    cd ${RabbitImRoot}/ThirdLibary
+    7z x ThirdLibary_linux.7z 
 
 ubuntu下交叉编译
 --------------

@@ -1,4 +1,19 @@
-工具：
+目录
+------
+
+1. [工具](#user-content-工具)
+2. [第三方库](#user-content-第三方库)
+3. [本项目](#user-content-本项目)
+4. [编译](#user-content-编译)  
+    各目标编译详细说明：
+    1. [ubuntu](INSTALL_UBUNTU.md)
+    2. [android](INSTALL_ANDROID.md)
+    3. [windows](INSTALL_WINDOWS.md)
+5. [本工程编译](#user-content-本工程编译)
+6. [翻译文件部署](#user-content-翻译文件部署)
+7. [调试](#user-content-调试)
+
+工具
 -----
 
 ##### 1. bash 环境:
@@ -102,7 +117,7 @@
     + QT开发工具参考：http://doc.qt.io/qt-4.8/developing-with-qt.html
     + [QT编译](http://blog.csdn.net/kl222/article/details/44216951)
 
-第三方库：
+第三方库
 --------
 
 #### 1. XMPP协议（QXMPP）：
@@ -219,13 +234,13 @@
 * 下载： `git clone git://github.com/irungentoo/toxcore.git`
 * 当前使用版本：3454bc7da78e467f55f6b7fea4e03775d2649a63
 
-本项目：
+本项目
 ---------
 
 * 主页：https://github.com/KangLin/rabbitim
 * 下载：`git clone https://github.com/KangLin/rabbitim.git `
 
-编译：
+编译
 -----
 
 ### 第三方依赖库目录：
@@ -256,7 +271,7 @@
         ｜       ｜------include
         ｜       ｜------lib
 
-可以在 http://pan.baidu.com/s/1ntA0t5n 中下载本项目依赖的预编译好的第三方库。
+可以在 http://pan.baidu.com/s/1mgwx8y0 中，选择与你主机操作系统相同的包下载本项目依赖的预编译好的第三方库。
 下载后解压，按上面目录结构放置。
 
 ### 第三方依赖库编译脚本
@@ -565,12 +580,12 @@ Call Stack (most recent call first):
 * 解决办法：
 把 c:/Qt/Qt5.3.1/5.3/android_armv7/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake 中第 58 行注释掉。
 
-翻译文件部署：
+翻译文件部署
 ------------
 1. 工具->外部->Qt 语言家->发布翻译(lrelease)，生成 *.pm 文件。
 2. 把 pm 文件复制到安装目录的 translate 目录下。
 
-调试：
+调试
 -----
 
 xmpp服务配置域名（rabbitim.com），客户端如果没有域名，连接服务器时，则直接设置主机IP，同时设置域名。  

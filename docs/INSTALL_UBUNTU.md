@@ -120,8 +120,16 @@
 
     sudo apt-get install libcurl4-openssl-dev
 
+#### 1.7. 下载预编译第三方库:
+
+从　http://pan.baidu.com/s/1hqAINHy　下载linux操作系统的预编译的第三方库，并解压到　${RabbitImRoot}/ThirdLibary　下。
+
+    cd ${RabbitImRoot}/ThirdLibary
+    7z x ThirdLibary_linux.7z 
 
 ### 2. 编译第三方依赖库(脚本中包括qt)
+
+如果没有你主机操作系统相同的预编译第三方库，或者你用着出错时，那你需要自己编译第三方依赖库。
 
 编译脚本：
 
@@ -185,6 +193,7 @@
 ## 本项目录编译
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
+    vim build_envsetup_unix.sh           #设置编译时需要的变量(可选)
     ./build_rabbitim.sh unix [source_code_directory] [qmake]
 
 第四个参数如果是qmake，则用qmake编译。默认为cmake编译

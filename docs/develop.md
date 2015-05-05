@@ -57,6 +57,17 @@
 6. alpha版本发布，公测
 7. 把 Develop 分支代码 merge 到 master 分支，stable 版本发布
 
+        git checkout master #切换到Master分支
+        git merge Develop   #对Develop分支进行合并
+
+8. 打tag
+
+        git tag -a vX.X.X -m 'Release version X.X.X
+
+将本地tag　push到服务器：
+
+        git push origin vX.X.X
+
 ### 版本号约定
 * 本项同时支持 Qt 和 CMake 项目文件，所以需要**同时修改以下文件中的版本号**：
     1. 用Qt project发行时需要修改：[RabbitIm.prf](./../RabbitIm.prf)
