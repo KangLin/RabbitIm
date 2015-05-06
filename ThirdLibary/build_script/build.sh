@@ -1,15 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
 #bash用法：
 #   在用一sh进程中执行脚本script.sh:
 #   source script.sh
 #   . script.sh
-#   注意这种用法，script.sh开头一行不能包含 #!/bin/sh
+#   注意这种用法，script.sh开头一行不能包含 #!/bin/bash
 
 #   新建一个sh进程执行脚本script.sh:
 #   sh script.sh
 #   ./script.sh
-#   注意这种用法，script.sh开头一行必须包含 #!/bin/sh
+#   注意这种用法，script.sh开头一行必须包含 #!/bin/bash
 
 #作者：康林
 

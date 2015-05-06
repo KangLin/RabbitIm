@@ -35,11 +35,17 @@ ENDIF()
 MESSAGE("\n")
 
 #判断 qt 版本
-FIND_PACKAGE(Qt5 5.3 CONFIG REQUIRED Gui Core Network Xml Multimedia Widgets LinguistTools)
 SET(QT_INSTALL_DIR "${Qt5_DIR}/../../..")
+SET(QT_COMPONENTS Core Gui Widgets Network Xml Multimedia)
+FIND_PACKAGE(Qt5 CONFIG REQUIRED ${QT_COMPONENTS} LinguistTools)
+FOREACH(_COMPONENT ${QT_COMPONENTS})
+    FIND_PACKAGE(Qt5${_COMPONENT} REQUIRED)
+    SET(QT_LIBRARIES ${QT_LIBRARIES} ${Qt5${_COMPONENT}_LIBRARIES})
+ENDFOREACH()
 FIND_PACKAGE(Qt5WebKitWidgets)
 IF(Qt5WebKitWidgets_FOUND)
     ADD_DEFINITIONS(-DRABBITIM_WEBKIT)
+    SET(QT_LIBRARIES ${QT_LIBRARIES} ${Qt5WebKitWidgets_LIBRARIES})
 ENDIF(Qt5WebKitWidgets_FOUND)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -167,7 +173,8 @@ ELSEIF(ANDROID)
     SET(TOOLCHAIN_NAME android)
     ADD_DEFINITIONS(-DMOBILE)
     INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/android/jni)
-    FIND_PACKAGE(Qt5 CONFIG REQUIRED  AndroidExtras)
+    FIND_PACKAGE(Qt5AndroidExtras REQUIRED)
+    SET(QT_LIBRARIES ${QT_LIBRARIES} ${Qt5AndroidExtras_LIBRARIES})
     #SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -Wno-psabi -march=armv7-a -mfloat-abi=softfp -mfpu=vfp -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums  -Wa,--noexecstack -gdwarf-2 -marm -fno-omit-frame-pointer -Wall -Wno-psabi -W -fPIE)
     SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined -Wl,-z,noexecstack -shared --sysroot=${ANDROID_SYSROOT}")
 ELSE(LINUX OR UNIX)
@@ -366,11 +373,8 @@ SET(RABBITIM_LIBS
     ${SPEEX_LIBRARIES}
     ${CURL_LIBRARIES}
     ${OPENSSL_LIBRARIES}
-    Qt5::Widgets
-    Qt5::Network
-    Qt5::Multimedia
-    Qt5::Xml
-    Qt5::Core)
+    ${QT_LIBRARIES}
+    )
 
 include(cmake/install_version.cmake)
 include(cmake/cmake_build_file.cmake)
@@ -384,10 +388,7 @@ IF(ANDROID)
         ${RABBITIM_RCC_FILES}
         ${RABBITIM_UIS}
         )
-    SET(RABBITIM_LIBS
-        ${RABBITIM_LIBS} 
-        Qt5::AndroidExtras)
-    qt5_wrap_ui(RABBITIM_UIS ${RABBITIM_UIS})
+    #qt5_wrap_ui(RABBITIM_UIS ${RABBITIM_UIS})
 ELSEIF(WIN32)
     add_executable(${PROJECT_NAME} WIN32
         ${RABBITIM_SOURCES}
@@ -401,11 +402,6 @@ ELSE()
         ${RABBITIM_UIS}
         )
 ENDIF()
-IF(Qt5WebKitWidgets_FOUND)
-    SET(RABBITIM_LIBS
-        ${RABBITIM_LIBS} 
-        Qt5::WebKitWidgets)
-ENDIF(Qt5WebKitWidgets_FOUND)
 message("RABBITIM_LIBS:${RABBITIM_LIBS}\n")
 #链接库
 target_link_libraries(${PROJECT_NAME} 
@@ -457,7 +453,7 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
     #安装3:qt库
     IF(WIN32 AND CMAKE_HOST_WIN32)
         IF(MINGW)
-            #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本
+            #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
             add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND strip "${PROJECT_BINARY_DIR}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}"
                 )
@@ -482,20 +478,18 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
         #                    WORKING_DIRECTORY .)"
         #        )
     ELSEIF(NOT ANDROID)
-        SET(QT_LIBS Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network Qt5::Multimedia Qt5::Xml)
         SET(QT_PLUGINS Qt5Core_PLUGINS 
-                           Qt5Gui_PLUGINS
-                           Qt5Widgets_PLUGINS
-                           Qt5Network_PLUGINS
-                           Qt5Multimedia_PLUGINS
-                           Qt5Xml_PLUGINS)
+                       Qt5Gui_PLUGINS
+                       Qt5Widgets_PLUGINS
+                       Qt5Network_PLUGINS
+                       Qt5Multimedia_PLUGINS
+                       Qt5Xml_PLUGINS)
         IF(Qt5WebKitWidgets_FOUND)
-            SET(QT_LIBS ${QT_LIBS} Qt5::WebKitWidgets)
             SET(QT_PLUGINS ${QT_PLUGINS} Qt5WebKitWidgets_PLUGINS)
         ENDIF(Qt5WebKitWidgets_FOUND)
-        INSTALL_QT_LIBRARYS(${QT_LIBS})
+        INSTALL_QT_LIBRARYS(${QT_LIBRARIES})
         INSTALL_QT_PLUGINS(${QT_PLUGINS})
-    ENDIF(WIN32)
+    ENDIF()
 ENDIF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
 
 IF(ANDROID)

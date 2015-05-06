@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #bash用法：
 #   在用一sh进程中执行脚本script.sh:
 #   source script.sh

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #作者：康林
 #参数:
@@ -141,7 +141,7 @@ else #cmake编译
             CMAKE_PARA=""
             ;;
         unix)
-            PARA="-DCMAKE_INSTALL_PREFIX=/usr/local/RabbitIm"
+            PARA="${PARA} -DCMAKE_INSTALL_PREFIX=/usr/local/RabbitIm"  #设置打包的安装路径
             ;;
         windows_msvc)
             #因为用Visual Studio 2013生成的目标路径与配置有关，这影响到安装文件的生成，所以用nmake生成

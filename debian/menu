@@ -1,2 +1,2 @@
-?package(rabbitim):needs="X11|text|vc|wm" section="Applications/Network/Communication"\
+?package(RabbitIm):needs="X11|text|vc|wm" section="Applications/Network/Communication"\
   title="RabbitIm" command="/usr/bin/RabbitIm"

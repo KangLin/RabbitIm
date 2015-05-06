@@ -4,6 +4,10 @@
 重构好友消息抽象
 重构系统提示TIP抽象
 用doxygen文档化
+linux下deb安装包:
+	qt依赖库安装 qtwebkitwidge 有依赖其它qt库,插件找不到
+	应用程序快捷图标
+	rpm安装包建立
 
 v0.2.0
 ---------

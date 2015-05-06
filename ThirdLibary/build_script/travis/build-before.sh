@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #下载编译好的第三方依赖库
 
 set -e

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # postinst script for rabbitim
 #
 # see: dh_installdeb(1)
@@ -17,16 +17,32 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+function EnumerateDicectory(){
+	for _file in `ls $1`
+	do
+		if [ -d "$1/${_file}" ]; then
+			echo "$1/${_file}" >> /etc/ld.so.conf.d/RabbitIm.conf
+			EnumerateDicectory "$1/${_file}"
+		fi
+	done
+}
 
 case "$1" in
     configure)
-    ;;
+        RABBITIM_INSTALL_PREFIX="/usr/local/RabbitIm"
+        echo "${RABBITIM_INSTALL_PREFIX}" > /etc/ld.so.conf.d/RabbitIm.conf
+        echo "${RABBITIM_INSTALL_PREFIX}/plugins" >> /etc/ld.so.conf.d/RabbitIm.conf
+        EnumerateDicectory "${RABBITIM_INSTALL_PREFIX}/plugins"
+        ldconfig
+        ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
+        rm -f /etc/ld.so.conf.d/RabbitIm.conf
+        ldconfig
     ;;
 
     *)
-        echo "postinst called with unknown argument \`$1'" >&2
+        echo "postinst called with unknown argument '$1'" >&2
         exit 1
     ;;
 esac

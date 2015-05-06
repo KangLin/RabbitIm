@@ -10,7 +10,7 @@ ENDIF()
 
 # Project Info
 SET(PROJECT_DESCRIPTION  "Rabbit instant messaging")
-SET(PROJECT_COPYRIGHT    "Copyright (C) 2009-2015 KangLin studio")
+SET(PROJECT_COPYRIGHT    "Copyright (C) 2014-2015 KangLin studio") #TODO:修改日期
 SET(PROJECT_CONTACT      "kl222@126.com")
 SET(PROJECT_VENDOR       "KangLin studio")
 SET(PROJECT_WEBSITE      "https://github.com/KangLin/rabbitim")
@@ -112,17 +112,18 @@ IF(DPKG_FOUND AND NOT WIN32 AND NOT ANDROID)
     SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "${PROJECT_VENDOR} <${PROJECT_CONTACT}>")
     SET(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
     SET(CPACK_DEBIAN_PACKAGE_DEBUG OFF)
+    SET(RABBITIM_PACKAGE_REQUIRES "libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev, libc6 (>= 2.14), libcurl3 (>= 7.16.2), libegl1-mesa (>= 7.8.1) | libegl1-x11, libfontconfig1 (>= 2.9.0), libfreetype6 (>= 2.3.5), libgcc1 (>= 1:4.1.1), libgl1-mesa-glx | libgl1, libglib2.0-0 (>= 2.22.0), libgtk2.0-0 (>= 2.24.0), libice6 (>= 1:1.0.0), libicu52 (>= 52~m1-1~), libpango-1.0-0 (>= 1.14.0), libpulse0 (>= 1:0.99.1), libsm6, libssl1.0.0 (>= 1.0.0), libstdc++6 (>= 4.6), libvpx1 (>= 1.0.0), libx11-6, libx11-xcb1, libxcb1, libxi6 (>= 2:1.2.99.4), libxrender1")
     SET(CPACK_DEBIAN_PACKAGE_DEPENDS "${RABBITIM_PACKAGE_REQUIRES}")
-    SET(CPACK_DEBIAN_PACKAGE_SECTION "x11")
+    SET(CPACK_DEBIAN_PACKAGE_SECTION "Applications/Network/Communication")
     SET(CPACK_SET_DESTDIR TRUE)
 
-    configure_file(
-      ${CMAKE_CURRENT_SOURCE_DIR}/debian/control.template.cmake
-      ${PROJECT_BINARY_DIR}/control
-      @ONLY
-    )
-    SET(CONTROL_EXTRA
-            "${CMAKE_SOURCE_DIR}/debian/menu;${PROJECT_BINARY_DIR}/control")
+    #configure_file(
+    #  ${CMAKE_CURRENT_SOURCE_DIR}/debian/control.template.cmake
+    #  ${PROJECT_BINARY_DIR}/control
+    #  @ONLY
+    #)
+    SET(CONTROL_EXTRA "${CMAKE_SOURCE_DIR}/debian/menu")
+    #SET(CONTROL_EXTRA "${CONTROL_EXTRA};${PROJECT_BINARY_DIR}/control")
     SET(CONTROL_EXTRA 
             "${CONTROL_EXTRA};${CMAKE_SOURCE_DIR}/debian/preinst;${CMAKE_SOURCE_DIR}/debian/postinst")
     SET(CONTROL_EXTRA 
