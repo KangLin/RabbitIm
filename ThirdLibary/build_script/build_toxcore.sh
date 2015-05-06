@@ -113,14 +113,14 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     windows_mingw)
         case `uname -s` in
-            Linux*|Unix*)
-            export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
-            export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
-            export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
-            export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
-            export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
-            export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
-            export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
+            Linux*|Unix*|CYGWIN*)
+                export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
+                export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
+                export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
+                export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
+                export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
+                export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
+                export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
                 CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc"
                 CONFIG_PARA="${CONFIG_PARA} --host=${RABBITIM_BUILD_CROSS_HOST}"
                 ;;

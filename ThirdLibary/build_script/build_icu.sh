@@ -89,7 +89,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     windows_mingw)
         case `uname -s` in
-            Linux*|Unix*)
+            Linux*|Unix*|CYGWIN*)
                 cd ${CONFIG_DIR}
                 ${SOURCE_DIR}/runConfigureICU MinGW
                 make ${RABBITIM_MAKE_JOB_PARA}

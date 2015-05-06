@@ -113,7 +113,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     windows_mingw)
         case `uname -s` in
-            Linux*|Unix*)
+            Linux*|Unix*|CYGWIN*)
                 export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
                 export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
                 export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar

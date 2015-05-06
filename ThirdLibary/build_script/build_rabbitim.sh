@@ -151,7 +151,7 @@ else #cmake编译
             ;;
         windows_mingw)
             case `uname -s` in
-                Linux*|Unix*)
+                Linux*|Unix*|CYGWIN*)
                     PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-mingw.cmake"
                     CMAKE_PARA=""
                     ;;

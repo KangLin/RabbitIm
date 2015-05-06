@@ -115,7 +115,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     windows_mingw)
         case `uname -s` in
-            Linux*|Unix*)
+            Linux*|Unix*|CYGWIN*)
                 CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw.cmake"
                 ;;
             *)
