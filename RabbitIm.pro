@@ -61,7 +61,7 @@ isEmpty(PREFIX){
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 #packagesExist(qxmpp) {
     DEFINES += QXMPP #QXMPP_STATIC
-    QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
+    QXMPP_LIBRARY_NAME = -lqxmpp0 # qxmpp 库名
 #}
 
 CONFIG(debug, debug|release) {
@@ -138,12 +138,10 @@ android{
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmt
         }
-        QXMPP_LIBRARY_NAME = -lqxmpp0   #qxmpp 库名
     } else:CONFIG(debug, debug|release){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
         }
-        QXMPP_LIBRARY_NAME = -lqxmpp_d0 #qxmpp 库名
     }
 
     WEBRTC_LIBRARY_DIR = .

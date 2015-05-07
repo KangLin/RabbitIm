@@ -77,12 +77,12 @@ case ${RABBITIM_BUILD_TARGERT} in
     ;;
     unix)
         cd ${CONFIG_DIR}
-        ${SOURCE_DIR}/runConfigureICU Linux/gcc --prefix=${RABBITIM_BUILD_PREFIX}
+        ${SOURCE_DIR}/runConfigureICU Linux/gcc --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
         make ${RABBITIM_MAKE_JOB_PARA} && make install
         ;;
     windows_msvc)
         cd ${CONFIG_DIR}
-        ${SOURCE_DIR}/runConfigureICU MSYS/MSVC --prefix=${RABBITIM_BUILD_PREFIX}
+        ${SOURCE_DIR}/runConfigureICU MSYS/MSVC --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
         make ${RABBITIM_MAKE_JOB_PARA} \
             && make install \
             && cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
@@ -94,14 +94,16 @@ case ${RABBITIM_BUILD_TARGERT} in
                 ${SOURCE_DIR}/runConfigureICU MinGW
                 make ${RABBITIM_MAKE_JOB_PARA}
                 cd ${BUILD_DIR}
-                ${SOURCE_DIR}/configure --host=${RABBITIM_BUILD_CROSS_HOST} --with-cross_build=${CONFIG_DIR} --prefix=${RABBITIM_BUILD_PREFIX}
+                ${SOURCE_DIR}/configure --host=${RABBITIM_BUILD_CROSS_HOST} --with-cross_build=${CONFIG_DIR} --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
                 make ${RABBITIM_MAKE_JOB_PARA} \
-                    && make install \
-                    && cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+                    && make install 
+                if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
+                    cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+                fi
                 ;;
             MINGW*|MSYS*)
                 cd ${CONFIG_DIR}
-                ${SOURCE_DIR}/runConfigureICU MinGW --prefix=${RABBITIM_BUILD_PREFIX}
+                ${SOURCE_DIR}/runConfigureICU MinGW --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
                 make ${RABBITIM_MAKE_JOB_PARA} \
                     && make install \
                     && cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.

@@ -39,6 +39,7 @@
     达到一个 milestone 的 stable 状态，才把 Develop 分支合并到 master 分支
 4. 有时开发者可能想实现一个比较 cool 的功能，可以建立一个 feature_x 分支，
     测试稳定后再合并到 master 分支
+5. 有好的主意或发现BUG、讨论等，请到 https://github.com/KangLin/rabbitim/issues
 
 ### 贡献者流程
 
@@ -47,6 +48,7 @@
     再通过 Pull Request 把修改通知给项目开发者（**注意** pull Request 前必须先合并当前 master 到本地，解决所有可能的冲突），
     由开发者审查代码后，决定是否合并进入 master 分支， 具体可参考: 
     [github协作流程](http://www.worldhello.net/gotgithub/04-work-with-others/010-fork-and-pull.html)
+3. 有好的主意或发现BUG、讨论等，请到 https://github.com/KangLin/rabbitim/issues
 
 ### 版本迭代流程
 1. 版本迭代周期暂定为3个月

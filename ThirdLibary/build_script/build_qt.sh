@@ -194,7 +194,7 @@ case ${RABBITIM_BUILD_TARGERT} in
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
                 ;;
             CYGWIN*)
-                CONFIG_PARA="${CONFIG_PARA} -platform cygwin-g++"
+                CONFIG_PARA="${CONFIG_PARA} -platform  win32-g++"
                 CONFIG_PARA="${CONFIG_PARA} -xplatform win32-g++ -device-option CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
                 ;;
             Linux*|Unix*|*)

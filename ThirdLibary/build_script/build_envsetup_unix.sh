@@ -16,6 +16,9 @@ if [ -n "${RabbitImRoot}" ]; then
 else
     RABBITIM_BUILD_PREFIX=`pwd`/../unix    #修改这里为安装前缀 
 fi
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    RABBITIM_BUILD_PREFIX=${RABBITIM_BUILD_PREFIX}_static
+fi
 if [ ! -d ${RABBITIM_BUILD_PREFIX} ]; then
     mkdir -p ${RABBITIM_BUILD_PREFIX}
 fi

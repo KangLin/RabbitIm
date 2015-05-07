@@ -64,7 +64,6 @@ echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
 echo "configure ..."
-CONFIG_PARA="--enable-shared --disable-static"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
         CONFIG_PARA="--target=armv7-android-gcc --sdk-path=${ANDROID_NDK_ROOT} --disable-shared --enable-static"
@@ -77,6 +76,11 @@ case ${RABBITIM_BUILD_TARGERT} in
         cp libcpu-features.a ${RABBITIM_BUILD_PREFIX}/lib/.
         ;;
     unix)
+        if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+            CONFIG_PARA="--enable-static --disable-shared"
+        else
+            CONFIG_PARA="--disable-static --enable-shared"
+        fi
         ;;
     windows_msvc)
         CONFIG_PARA="--target=x86-win32-vs12 --enable-static-msvcrt"

@@ -29,6 +29,9 @@ if [ -n "${RabbitImRoot}" ]; then
 else
     RABBITIM_BUILD_PREFIX=`pwd`/../windows_msvc    #修改这里为安装前缀 
 fi
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    RABBITIM_BUILD_PREFIX=${RABBITIM_BUILD_PREFIX}_static
+fi
 if [ ! -d ${RABBITIM_BUILD_PREFIX} ]; then
     mkdir -p ${RABBITIM_BUILD_PREFIX}
 fi
@@ -38,7 +41,7 @@ if [ -z "$RABBITIM_USE_REPOSITORIES" ]; then
 fi
 
 if [ -z "$QT_ROOT" ]; then
-        QT_ROOT=${RABBITIM_BUILD_PREFIX}/qt
+    QT_ROOT=${RABBITIM_BUILD_PREFIX}/qt
 fi
 QT_BIN=${QT_ROOT}/bin       #设置用于 android 平台编译的 qt bin 目录
 QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。

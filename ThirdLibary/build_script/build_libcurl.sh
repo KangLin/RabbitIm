@@ -145,7 +145,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
         case `uname -s` in
             Linux*|Unix*|CYGWIN*)
-                CONFIG_PARA="${CONFIG_PARA}  CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse"
+                CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse"
                 ;;
             *)
             ;;
