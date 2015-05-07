@@ -274,6 +274,12 @@
 可以在 http://pan.baidu.com/s/1mgwx8y0 中，选择与你主机操作系统相同的包下载本项目依赖的预编译好的第三方库。
 下载后解压，按上面目录结构放置。
 
+    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cp ${RabbitImRoot}/ThirdLibary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibary/${Platform}/change_prefix.sh
+    cd ${RabbitImRoot}/ThirdLibary/${Platform}
+    ./change_prefix ${old_prefix} ${new_prefix}  #old_prefix是原来的前缀，你可打开一个配置文件查看；
+                                                 #new_prefix可以省略，省略时用当前目录
+
 ### 第三方依赖库编译脚本
 第三库编译脚本是 bash 脚本。运行这些脚本时，需要有 bash 环境。linux、unix 默认安装了 bash 环境。
 windows 下需要安装 cygwin 或者 msys(msys2) 环境。  

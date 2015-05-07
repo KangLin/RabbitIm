@@ -127,6 +127,14 @@
     cd ${RabbitImRoot}/ThirdLibary
     7z x ThirdLibary_linux.7z 
 
+修改前缀
+
+    cd ${RabbitImRoot}/ThirdLibary/unix
+    cp ${RabbitImRoot}/ThirdLibary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibary/unix/change_prefix.sh
+    cd ${RabbitImRoot}/ThirdLibary/unix
+    ./change_prefix ${old_prefix} ${new_prefix}  #old_prefix是原来的前缀，你可打开一个配置文件查看；
+                                                 #new_prefix可以省略，省略时用当前目录
+
 ### 2. 编译第三方依赖库(脚本中包括qt)
 
 如果没有你主机操作系统相同的预编译第三方库，或者你用着出错时，那你需要自己编译第三方依赖库。
