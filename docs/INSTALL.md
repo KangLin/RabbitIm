@@ -249,16 +249,25 @@
 
     ThirdLibary
         ｜
-        ｜-----patch            #补丁包目录
-        ｜-----build_script     #第三方库编译脚本目录
-        ｜-----src              #第三方库源码目录
-        ｜-----windows_msvc     # Windows 平台 msvc 编译的第三方库
-        ｜       ｜-----include #头文件
-        ｜       ｜-----lib     #库文
+        ｜-----patch               #补丁包目录
+        ｜-----build_script        #第三方库编译脚本目录
+        ｜-----src                 #第三方库源码目录
+        ｜-----windows_msvc        # Windows 平台 msvc 编译的第三方库
+        ｜       ｜-----include    #头文件
+        ｜       ｜-----lib        #库文
+        ｜-----windows_msvc_static # Windows 平台 msvc 编译的第三方静态库
+        ｜       ｜-----include     #头文件
+        ｜       ｜-----lib         #库文
         ｜-----windows_mingw    # Windows 平台 mingw 交叉编译的第三方库
         ｜       ｜-----include
         ｜       ｜-----lib
+        ｜-----windows_mingw_static  # Windows 平台 mingw 交叉编译的第三方静态库
+        ｜       ｜-----include
+        ｜       ｜-----lib
         ｜------unix            # unix 平台的第三方库
+        ｜       ｜-----include
+        ｜       ｜-----lib
+        ｜------unix_static     # unix 平台的第三方静态库
         ｜       ｜-----include
         ｜       ｜-----lib
         ｜-----android          # android 平台的第三方库
@@ -409,10 +418,11 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
   * 设置可选参数
          + QXMPP_USE_VPX=1              #使用 vpx
          + QXMPP_USE_SPEEX=1            #使用 speex
-         + RABBITIM_USER_OPENCV=1       #使用 opencv
-         + RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
-         + RABBITIM_USER_LIBCURL=1      #使用 libcurl
-         + RABBITIM_USER_OPENSSL=1      #使用openssl
+         + RABBITIM_USE_OPENCV=1       #使用 opencv
+         + RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
+         + RABBITIM_USE_LIBCURL=1      #使用 libcurl
+         + RABBITIM_USE_OPENSSL=1      #使用openssl
+         + RABBITIM_USE_STATIC=1       #使用静态编译
   * 构建->构建项目"RabbitIm"。编译本项目。
 
 ##### 1.2. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
@@ -424,9 +434,10 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug 
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release 
     + 其它可选参数：
-    -DOPTION_RABBITIM_USER_LIBCURL=ON
-    -DOPTION_RABBITIM_USER_OPENSSL=ON
-    -DOPTION_RABBITIM_USER_OPENCV=ON
+    -DOPTION_RABBITIM_USE_LIBCURL=ON
+    -DOPTION_RABBITIM_USE_OPENSSL=ON
+    -DOPTION_RABBITIM_USE_OPENCV=ON
+    -DOPTION_RABBITIM_USE_STATIC=ON
   * 选择相应的创建器,这里不能选错。
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功，点完成就会打开项目。
   * 点调试，就可以编译，并调试程序
@@ -439,9 +450,9 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
     + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
     + 其它可选参数：
-        -DOPTION_RABBITIM_USER_LIBCURL=ON
-        -DOPTION_RABBITIM_USER_OPENSSL=ON
-        -DOPTION_RABBITIM_USER_OPENCV=ON
+        -DOPTION_RABBITIM_USE_LIBCURL=ON
+        -DOPTION_RABBITIM_USE_OPENSSL=ON
+        -DOPTION_RABBITIM_USE_OPENCV=ON
     + 还要填入编译器参数：-DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
     ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
   * 选择相应的创建器

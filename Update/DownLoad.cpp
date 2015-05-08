@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <sstream>
 
-#ifdef RABBITIM_USER_LIBCURL
+#ifdef RABBITIM_USE_LIBCURL
     #include "Global/Global.h"
 #else
     #define LOG_MODEL_ERROR(mod, fmt, ...) printf(fmt, ##__VA_ARGS__);

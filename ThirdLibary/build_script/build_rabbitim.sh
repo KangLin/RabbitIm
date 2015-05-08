@@ -75,7 +75,7 @@ if [ "$3" = "qmake" ]; then
     MAKE="make ${RABBITIM_MAKE_JOB_PARA}"
     case $1 in
         android)
-            PARA="-r -spec android-g++ " #RABBITIM_USER_OPENCV=1
+            PARA="-r -spec android-g++ " #RABBITIM_USE_OPENCV=1
             if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
                 MAKE="$RABBITIM_CMAKE_MAKE_PROGRAM"
             fi
@@ -85,7 +85,7 @@ if [ "$3" = "qmake" ]; then
             ;;
         windows_msvc)
             PARA="-r -spec win32-msvc2013"
-            MAKE=${JOM}
+            MAKE=nmake
             ;;
         windows_mingw)
             PARA="-spec win32-g++"
@@ -99,14 +99,15 @@ if [ "$3" = "qmake" ]; then
            INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include \
            LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib \
            QXMPP_USE_VPX=1 \
-           RABBITIM_USER_FFMPEG=1 \
-           RABBITIM_USER_LIBCURL=1 \
-           RABBITIM_USER_OPENSSL=1
+           RABBITIM_USE_FFMPEG=1 \
+           RABBITIM_USE_LIBCURL=1 \
+           RABBITIM_USE_OPENSSL=1
     if [ "$1" == "android" ]; then
         $MAKE -f Makefile install INSTALL_ROOT="`pwd`/android-build"
         ${QT_BIN}/androiddeployqt --input "`pwd`/android-libRabbitIm.so-deployment-settings.json" --output "`pwd`/android-build" --verbose
     else
-        $MAKE -f Makefile install -j 2
+        $MAKE -f Makefile
+        $MAKE install
     fi
 
 else #cmake编译
@@ -122,7 +123,7 @@ else #cmake编译
     CMAKE_PARA="--target package"
     PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 -DCMAKE_VERBOSE_MAKEFILE=TRUE"
     if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
-        PARA="${PARA} -DOPTION_STATIC=ON"
+        PARA="${PARA} -DOPTION_RABBITIM_USE_STATIC=ON"
     fi
     MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
     case $1 in
@@ -135,8 +136,8 @@ else #cmake编译
             PARA="${PARA} -DANDROID_TOOLCHAIN_NAME=${RABBITIM_BUILD_CROSS_HOST}-${RABBITIM_BUILD_TOOLCHAIN_VERSION}"
             PARA="${PARA} -DANDROID_NDK_ABI_NAME=armeabi-v7a"
             PARA="${PARA} -DLIBRARY_OUTPUT_PATH:PATH=`pwd`"
-            PARA="${PARA} -DOPTION_RABBITIM_USER_OPENCV=OFF"
-            #PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=OFF -DOPTION_RABBITIM_USER_OPENSSL=OFF"
+            PARA="${PARA} -DOPTION_RABBITIM_USE_OPENCV=OFF"
+            #PARA="${PARA} -DOPTION_RABBITIM_USE_LIBCURL=OFF -DOPTION_RABBITIM_USE_OPENSSL=OFF"
             PARA="${PARA} -DANT=${ANT}"
             CMAKE_PARA=""
             ;;
@@ -146,7 +147,8 @@ else #cmake编译
         windows_msvc)
             #因为用Visual Studio 2013生成的目标路径与配置有关，这影响到安装文件的生成，所以用nmake生成
             GENERATORS="NMake Makefiles" #GENERATORS="Visual Studio 12 2013"
-            #PARA="${PARA} -DOPTION_RABBITIM_USER_LIBCURL=OFF -DOPTION_RABBITIM_USER_OPENSSL=OFF"
+            #PARA="${PARA} -DOPTION_RABBITIM_USE_LIBCURL=OFF -DOPTION_RABBITIM_USE_OPENSSL=OFF"
+            PARA="${PARA} -DOPTION_RABBITIM_USE_OPENCV=OFF"
             MAKE_PARA=""
             ;;
         windows_mingw)

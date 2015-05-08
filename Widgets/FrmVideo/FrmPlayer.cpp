@@ -6,7 +6,7 @@
 #include "DataVideoBuffer.h"
 #include "../../Global/Global.h"
 #include "CaptureVideoFrame.h"
-#ifdef RABBITIM_USER_OPENCV
+#ifdef RABBITIM_USE_OPENCV
 #include "CameraOpencv.h"
 #else
 #include "Camera.h"
@@ -100,7 +100,7 @@ int CFrmPlayer::TestCamera()
         pCamera = NULL;
     }
 
-#ifdef RABBITIM_USER_OPENCV
+#ifdef RABBITIM_USE_OPENCV
     pCamera = new CCameraOpencv;
 #else
     pCamera = new CCamera;

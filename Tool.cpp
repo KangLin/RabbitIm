@@ -36,7 +36,7 @@ int CTool::SetFFmpegLog()
     return 0;
 }
 
-#ifdef RABBITIM_USER_FFMPEG
+#ifdef RABBITIM_USE_FFMPEG
 AVPixelFormat CTool::QVideoFrameFormatToFFMpegPixFormat(const QVideoFrame::PixelFormat format)
 {
     if(QVideoFrame::Format_RGB32 == format)
@@ -191,7 +191,7 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
 }
 #endif
 
-#ifdef RABBITIM_USER_OPENCV
+#ifdef RABBITIM_USE_OPENCV
 cv::Mat CTool::ImageRotate(cv::Mat & src, const cv::Point &_center, double angle, double scale)
 {
     cv::Point2f center;

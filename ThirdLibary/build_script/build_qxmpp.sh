@@ -79,10 +79,10 @@ echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
-MAKE="make ${RABBITIM_MAKE_JOB_PARA}"
+MAKE="make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
 case $RABBITIM_BUILD_TARGERT in
     android)
-        PARA=" -r -spec android-g++"
+        PARA="-r -spec android-g++"
         MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
         #MAKE=mingw32-make #mingw 中编译
         #MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make"     #在windows下编译
@@ -91,10 +91,11 @@ case $RABBITIM_BUILD_TARGERT in
     unix)
         ;;
     windows_msvc)
+        PARA="-r -spec win32-msvc2013"
         MAKE=nmake
         ;;
     windows_mingw)
-        #PARA="-r -spec win32-g++" # CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
+        PARA="-r -spec win32-g++" # CROSS_COMPILE=${RABBITIM_BUILD_CROSS_PREFIX}"
         ;;
     *)
         echo "Usage $0 PLATFORM(android/windows_msvc/windows_mingw/unix) SOURCE_CODE_ROOT"
@@ -107,13 +108,10 @@ if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     PARA="${PARA} QXMPP_LIBRARY_TYPE=staticlib" #静态库
 fi
 
-$QMAKE -o Makefile \
-       PREFIX=${RABBITIM_BUILD_PREFIX} \
-       INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include \
-       LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib \
-       QXMPP_USE_VPX=1 \
-       ${PARA} CONFIG+=release \
-       ..
+PARA="${PARA} -o Makefile PREFIX=${RABBITIM_BUILD_PREFIX} INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
+PARA="${PARA} LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib QXMPP_USE_VPX=1 CONFIG+=release"
+echo "$QMAKE ${PARA} .."
+$QMAKE ${PARA} ..
 
 ${MAKE} -f Makefile 
 case $RABBITIM_BUILD_TARGERT in
@@ -123,7 +121,8 @@ case $RABBITIM_BUILD_TARGERT in
         cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
     ;;
     windows_mingw|windows_msvc)
-        ${MAKE} install
+        ${MAKE}
+        ${MAKE} install 
         QXMPP_DLL="${RABBITIM_BUILD_PREFIX}/lib/qxmpp0.dll"
         if [ -f "${QXMPP_DLL}" ]; then
             mv ${QXMPP_DLL} ${RABBITIM_BUILD_PREFIX}/bin/.

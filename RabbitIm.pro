@@ -6,17 +6,18 @@
 
 QXMPP_USE_VPX=1              #使用 vpx
 #QXMPP_USE_SPEEX=1            #使用 speex
-#RABBITIM_USER_OPENCV=1       #使用 opencv
-RABBITIM_USER_FFMPEG=1       #使用 ffmpeg
-RABBITIM_USER_LIBCURL=1      #使用 libcurl
-RABBITIM_USER_OPENSSL=1      #使用openssl
+#RABBITIM_USE_OPENCV=1       #使用 opencv
+RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
+#RABBITIM_USE_LIBCURL=1      #使用 libcurl
+#RABBITIM_USE_OPENSSL=1      #使用openssl
+#RABBITIM_USE_STATIC=1       #使用静态编译
 
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets 
 
 qtHaveModule(webkit){
     QT += webkitwidgets
-	DEFINES += RABBITIM_WEBKIT
+    DEFINES += RABBITIM_WEBKIT
 }
 
 lessThan(QT_VERSION, 5.3) : error("version is $$QT_VERSION, please qt is used greater then 5.3")
@@ -35,8 +36,9 @@ win32{
 }
 
 CONFIG += c++0x
-QMAKE_CXXFLAGS += " -std=c++0x "
-
+!msvc{
+    QMAKE_CXXFLAGS += " -std=c++0x "
+}
 #安装
 isEmpty(PREFIX){
     android{
@@ -60,8 +62,13 @@ isEmpty(PREFIX){
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 #packagesExist(qxmpp) {
-    DEFINES += QXMPP #QXMPP_STATIC
-    QXMPP_LIBRARY_NAME = -lqxmpp0 # qxmpp 库名
+    DEFINES += QXMPP
+    equals(RABBITIM_USE_STATIC, 1){
+       DEFINES += QXMPP_STATIC
+       QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
+    } else {
+        QXMPP_LIBRARY_NAME = -lqxmpp0 # qxmpp 库名
+    }
 #}
 
 CONFIG(debug, debug|release) {
@@ -69,31 +76,35 @@ CONFIG(debug, debug|release) {
     DEFINES += DEBUG DEBUG_VIDEO_TIME 
 } 
 
-!isEmpty(QXMPP_USE_SPEEX) {
+equals(QXMPP_USE_SPEEX, 1) {
     CODEC_LIBRARY += -lspeex
 }
 
-!isEmpty(QXMPP_USE_VPX) {
+equals(QXMPP_USE_VPX, 1) {
     CODEC_LIBRARY += -lvpx
     android {
         CODEC_LIBRARY += -lcpu-features
     }
 }
 
-!isEmpty(RABBITIM_USER_OPENSSL){
-    DEFINES += RABBITIM_USER_OPENSSL
+equals(RABBITIM_USE_OPENSSL, 1){
+    DEFINES += RABBITIM_USE_OPENSSL
+}else{
+    RABBITIM_USE_LIBCURL=0
 }
 
-!isEmpty(RABBITIM_USER_LIBCURL){
-    DEFINES += RABBITIM_USER_LIBCURL CURL_STATICLIB#用静态库时需要加这个，可以用 ./curl-config --cflags 得到
+equals(RABBITIM_USE_LIBCURL, 1){
+    DEFINES += RABBITIM_USE_LIBCURL
+    equals(RABBITIM_USE_STATIC, 1) {
+        CURL_STATICLIB#用静态库时需要加这个，可以用 ./curl-config --cflags 得到
+    }
     LIBCURL_LIBRARY = -lcurl #可以用 ./curl-config --libs 得到
 }
 
-!isEmpty(RABBITIM_USER_FFMPEG) {
-    DEFINES += RABBITIM_USER_FFMPEG
+equals(RABBITIM_USE_FFMPEG, 1) {
+    DEFINES += RABBITIM_USE_FFMPEG
     FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lavutil
 }
-INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom 
 
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android{
@@ -101,9 +112,10 @@ android{
     DEFINES += ANDROID MOBILE
 
     RABBITIM_SYSTEM="android"
-    !isEmpty(RABBITIM_USER_LIBCURL){
+    equals(RABBITIM_USE_LIBCURL, 1){
         LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lz#可以用 ./curl-config --libs 得到
-    }else:!isEmpty(RABBITIM_USER_OPENSSL){
+    }
+    equals(RABBITIM_USE_OPENSSL, 1){
         LIBOPENSSL_LIBRARY = -lssl -lcrypto
     }
 } else:win32{
@@ -115,9 +127,14 @@ android{
         LDFLAGS += -ladvapi32
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_msvc
 
-        !isEmpty(RABBITIM_USER_LIBCURL){
-            LIBCURL_LIBRARY = -llibcurl 
-        }else:!isEmpty(RABBITIM_USER_OPENSSL){
+        equals(RABBITIM_USE_LIBCURL, 1){
+            equals(RABBITIM_USE_STATIC, 1) {
+                LIBCURL_LIBRARY = -llibcurl_a
+            }else{
+                LIBCURL_LIBRARY = -llibcurl 
+            }
+        }
+        equals(RABBITIM_USE_OPENSSL, 1){
             LIBOPENSSL_LIBRARY = -lssleay32 -llibeay32
         }
     }
@@ -125,22 +142,21 @@ android{
         RABBITIM_PLATFORM="mingw"
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_mingw
 
-        !isEmpty(RABBITIM_USER_LIBCURL){
+        equals(RABBITIM_USE_LIBCURL, 1){
             LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lwldap32 -lws2_32 #可以用 ./curl-config --libs 得到
-        }else{
-            !isEmpty(RABBITIM_USER_OPENSSL){
-                LIBOPENSSL_LIBRARY = -lssl -lcrypto
-            }
+        }
+        equals(RABBITIM_USE_OPENSSL, 1){
+            LIBOPENSSL_LIBRARY = -lssl -lcrypto
         }
     }
 
     CONFIG(release, debug|release){
         msvc{
-            LDFLAGS += /NODEFAULTLIB:libcmt
+            LDFLAGS += /NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS",5.01"
         }
     } else:CONFIG(debug, debug|release){
         msvc{
-            LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt
+            LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS",5.01"
         }
     }
 
@@ -151,19 +167,24 @@ android{
     DEFINES += UNIX
     THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/unix
 
-    !isEmpty(RABBITIM_USER_LIBCURL){
+    equals(RABBITIM_USE_LIBCURL, 1){
         LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lz  #可以用 ./curl-config --libs 得到
-    }else:!isEmpty(RABBITIM_USER_OPENSSL){
+    }
+    equals(RABBITIM_USE_OPENSSL, 1){
         LIBOPENSSL_LIBRARY = -lssl -lcrypto
     }
 }
-
+equals(RABBITIM_USE_STATIC, 1):exists("$${THIRD_LIBRARY_PATH}_static"){
+    THIRD_LIBRARY_PATH=$${THIRD_LIBRARY_PATH}_static
+    message("THIRD_LIBRARY_PATH:$${THIRD_LIBRARY_PATH}")
+}
+INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom
 INCLUDEPATH += $${THIRD_LIBRARY_PATH}/include $$WEBRTC_ROOT
 DEPENDPATH += $${THIRD_LIBRARY_PATH}/include $$WEBRTC_ROOT
 LIBS += -L$${THIRD_LIBRARY_PATH}/lib  
 
-!isEmpty(RABBITIM_USER_OPENCV) {
-    DEFINES += RABBITIM_USER_OPENCV
+equals(RABBITIM_USE_OPENCV, 1) {
+    DEFINES += RABBITIM_USE_OPENCV
     OPENCV_LIBRARY= -lopencv_video$$OPENCV_VERSION \
                     -lopencv_videoio$$OPENCV_VERSION \
                     -lopencv_imgproc$$OPENCV_VERSION \
@@ -185,7 +206,7 @@ LIBS += -L$${THIRD_LIBRARY_PATH}/lib
         OPENCV_LIBRARY += -lOle32 -lolepro32 -loleaut32 -luuid #dshow依赖库
     }
 }else:android{
-    message("android video capture need opencv, please set RABBITIM_USER_OPENCV=1")
+    message("android video capture need opencv, please set RABBITIM_USE_OPENCV=1")
 }
 
 LIBS += $$LDFLAGS $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY \
@@ -199,7 +220,7 @@ include(RabbitIm.pri)
 #发行版本才更新更新配置
 CONFIG(release, debug|release) {
     include(RabbitIm.prf)
-    isEmpty(RABBITIM_USER_LIBCURL){
+    !equals(RABBITIM_USE_LIBCURL, 1){
         warning("don't update function")
     }
 }
@@ -251,7 +272,7 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a){
 
     ANDROID_FEATURES += \
         android.hardware.camera
-    !isEmpty(RABBITIM_USER_OPENCV){
+    equals(RABBITIM_USE_OPENCV, 1){
         ANDROID_EXTRA_LIBS = \
             $$PWD/ThirdLibary/android/lib/libnative_camera_r4.2.0.so  \ #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本
             $$PWD/ThirdLibary/android/lib/libopencv_info.so #\
@@ -282,14 +303,14 @@ win32{
                     "$${PREFIX}/$${TARGET}.exe"
     #安装第三方依赖库
     Deployment_third_lib.target = Deployment_third_lib
-    Deployment_third_lib.files = $${THIRD_LIBRARY_PATH}/bin/*.dll
+    Deployment_third_lib.files = $$files($${THIRD_LIBRARY_PATH}/bin/*.dll)
     Deployment_third_lib.path = $$PREFIX
     Deployment_third_lib.CONFIG += directory no_check_exist
 
     INSTALLS += Deployment_qtlib Deployment_third_lib
 
     #复制第三方依赖库动态库到编译输出目录 
-    THIRD_LIBRARY_DLL =  $${THIRD_LIBRARY_PATH}/bin/*.dll
+    THIRD_LIBRARY_DLL =  $$files($${THIRD_LIBRARY_PATH}/bin/*.dll)
     msvc{
         THIRD_LIBRARY_DLL =  $$replace(THIRD_LIBRARY_DLL, /, \\)
         TARGET_PATH = $$replace(TARGET_PATH, /, \\)

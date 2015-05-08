@@ -177,7 +177,7 @@ QString gPassword("RabbitIm.KangLin");
 //加密密码  
 QString CFrmLogin::EncryptPassword(QString szPassword)
 {
-#ifdef RABBITIM_USER_OPENSSL
+#ifdef RABBITIM_USE_OPENSSL
     CEncrypt  e;
     char* pOut = NULL;
     int nLen = 0;
@@ -195,7 +195,7 @@ QString CFrmLogin::DecryptPassword(QString szPassword)
 {
     if(szPassword.isEmpty())
         return szPassword;
-#ifdef RABBITIM_USER_OPENSSL
+#ifdef RABBITIM_USE_OPENSSL
     CEncrypt  e;
     QByteArray ba;
     ba = QByteArray::fromHex(QByteArray(szPassword.toStdString().c_str(), szPassword.toStdString().size()));

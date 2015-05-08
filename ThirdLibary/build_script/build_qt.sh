@@ -214,6 +214,10 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
 esac
 
+if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
+    CONFIG_PARA="${CONFIG_PARA} -verbose"
+fi
+
 echo "$CONFIGURE ${CONFIG_PARA}"
 $CONFIGURE ${CONFIG_PARA}
 

@@ -141,7 +141,7 @@ private:
     CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口  
 
 //程序更新功能  
-#ifdef RABBITIM_USER_LIBCURL
+#ifdef RABBITIM_USE_LIBCURL
 public:
 signals:
     void sigUpdateExec(int nError, const QString &szFile);

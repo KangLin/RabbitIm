@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QApplication>
 #include <QTranslator>
-#ifdef RABBITIM_USER_LIBCURL
+#ifdef RABBITIM_USE_LIBCURL
 #include "Update/DownLoadHandle.h"
 #endif
 
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 #endif
     w.show();//*/
 
-#ifdef RABBITIM_USER_LIBCURL
+#ifdef RABBITIM_USE_LIBCURL
     //检查版本更新  
     CDownLoadHandleVersionFile update;
     update.Start();

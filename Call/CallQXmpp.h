@@ -12,7 +12,7 @@
 #include "Widgets/FrmVideo/FrameProcess.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
 
-#if ANDROID && RABBITIM_USER_OPENCV
+#if ANDROID && RABBITIM_USE_OPENCV
     #include "Widgets/FrmVideo/CameraOpencv.h"
 #else
     #include "Widgets/FrmVideo/Camera.h"
@@ -85,7 +85,7 @@ private:
     CFrameProcess m_CaptureToRemoteFrameProcess;//发送到网络  
     CFrameProcess m_ReciveFrameProcess;//从网络接收  
     QThread m_VideoThread;
-#if ANDROID && RABBITIM_USER_OPENCV
+#if ANDROID && RABBITIM_USE_OPENCV
     CCameraOpencv m_Camera;
 #else
     CCamera m_Camera;

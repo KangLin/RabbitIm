@@ -5,7 +5,7 @@
 #pragma execution_character_set("utf-8")
 #endif
 
-#ifdef RABBITIM_USER_FFMPEG
+#ifdef RABBITIM_USE_FFMPEG
 extern "C" {
 #include "libavformat/avformat.h"
 #include "libswscale/swscale.h"
@@ -18,7 +18,7 @@ extern "C" {
 #include <QVideoFrame>
 #include "qxmpp/QXmppRtpChannel.h"
 
-#ifdef RABBITIM_USER_OPENCV
+#ifdef RABBITIM_USE_OPENCV
 #include "opencv2/opencv.hpp"
 #endif
 
@@ -33,7 +33,7 @@ public:
     //设置ffmpeg日志输出  
     static int SetFFmpegLog();
 
-#ifdef RABBITIM_USER_FFMPEG
+#ifdef RABBITIM_USE_FFMPEG
     /* 格式转换
      * 如果转换成功，则调用者使用完 outFrame 后，需要调用 avpicture_free(&outFrame) 释放内存
      * 成功返回0，不成功返回非0 */
@@ -61,7 +61,7 @@ public:
     static AVPixelFormat QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFrame::PixelFormat format);
 #endif
 
-#ifdef RABBITIM_USER_OPENCV
+#ifdef RABBITIM_USE_OPENCV
     /* 对图像进行旋转  
      * 参数:
      *   src:源图像

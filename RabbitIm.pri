@@ -168,12 +168,12 @@ android{
     FORMS += 
 }
 
-!isEmpty(RABBITIM_USER_OPENCV) {
+equals(RABBITIM_USE_OPENCV, 1){
     SOURCES += Widgets/FrmVideo/CameraOpencv.cpp 
     HEADERS += Widgets/FrmVideo/CameraOpencv.h 
 }
 
-!isEmpty(RABBITIM_USER_LIBCURL){
+equals(RABBITIM_USE_LIBCURL, 1){
     SOURCES += \
     Update/DownLoad.cpp \
     Update/DownLoadHandle.cpp \
@@ -187,7 +187,7 @@ android{
     FORMS += Update/DlgUpdate.ui
 }
 
-!isEmpty(RABBITIM_USER_OPENSSL){
+equals(RABBITIM_USE_OPENSSL, 1){
     SOURCES += Global/Encrypt.cpp
     HEADERS += Global/Encrypt.h
 }
