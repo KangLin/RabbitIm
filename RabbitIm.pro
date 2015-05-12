@@ -20,7 +20,7 @@ qtHaveModule(webkit){
     DEFINES += RABBITIM_WEBKIT
 }
 
-lessThan(QT_VERSION, 5.3) : error("version is $$QT_VERSION, please qt is used greater then 5.3")
+lessThan(QT_VERSION, 5.0) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
 
 TARGET = RabbitIm
 TEMPLATE = app
@@ -65,10 +65,8 @@ isEmpty(PREFIX){
     DEFINES += QXMPP
     equals(RABBITIM_USE_STATIC, 1){
        DEFINES += QXMPP_STATIC
-       QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
-    } else {
-        QXMPP_LIBRARY_NAME = -lqxmpp0 # qxmpp 库名
     }
+    QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
 #}
 
 CONFIG(debug, debug|release) {
@@ -150,13 +148,17 @@ android{
         }
     }
 
+    !equals(RABBITIM_USE_STATIC, 1) {
+        QXMPP_LIBRARY_NAME = -lqxmpp0 # qxmpp 库名
+    }
+
     CONFIG(release, debug|release){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS",5.01"
         }
-    } else:CONFIG(debug, debug|release){
+    } else:CONFIG(debug, release|debug){
         msvc{
-            LDFLAGS += /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS",5.01"
+            LDFLAGS += /NODEFAULTLIB:libcmtd /SUBSYSTEM:WINDOWS",5.01"
         }
     }
 
