@@ -40,13 +40,15 @@ int main(int argc, char *argv[])
     w.resize(Width, Height);
     w.move(left, top);
 #endif
-    w.show();//*/
+    w.show();
 
 #ifdef RABBITIM_USE_LIBCURL
     //检查版本更新  
     CDownLoadHandleVersionFile update;
     update.Start();
 #endif
+    //*/
+    
     /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())  
     CFrmPlayer player;
     player.TestCamera();

@@ -1,6 +1,8 @@
 #include "Camera.h"
 #include "../../Global/Global.h"
-#include <QCameraInfo>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
+    #include <QCameraInfo>
+#endif
 #include <QApplication>
 #include <QScreen>
 
@@ -80,8 +82,10 @@ int CCamera::SetDefaultCamera()
     for(it = device.begin(); it != device.end(); it++)
     {
         LOG_MODEL_DEBUG("Video", "Camera:%s", qPrintable(QCamera::deviceDescription(*it)));
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
         QCameraInfo info(*it);
         if(info.position() == QCamera::FrontFace)
+#endif
         {
             m_CameraPosition = *it;
             break;
@@ -120,8 +124,12 @@ QList<QString> CCamera::GetAvailableDevices()
 #ifdef MOBILE
 CCamera::Position CCamera::GetCameraPoistion()
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
     QCameraInfo info(m_CameraPosition);
     return (Position)info.position();
+#else
+    return CCamera::BackFace;
+#endif
 }
 #endif
 
@@ -167,11 +175,13 @@ int CCamera::GetOrientation()
     QScreen *screen = QGuiApplication::primaryScreen();
     int screenAngle = screen->angleBetween(screen->nativeOrientation(), screen->orientation());
     QCamera camera(m_CameraPosition);
-    QCameraInfo cameraInfo(camera);
     int rotation = 0;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
+    QCameraInfo cameraInfo(camera);
     rotation = (cameraInfo.orientation() - screenAngle) % 360;
     LOG_MODEL_DEBUG("main", "screen angle:%d;rotation:%d;cameraInfo.orientation():%d",
                     screenAngle, rotation, cameraInfo.orientation());
+#endif
     return rotation;
 }
 

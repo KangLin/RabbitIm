@@ -85,8 +85,13 @@ case $RABBITIM_BUILD_TARGERT in
         PARA="-r -spec android-g++"
         MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
         #MAKE=mingw32-make #mingw 中编译
-        #MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make"     #在windows下编译
-        #make -f Makefile install INSTALL_ROOT="${RABBITIM_BUILD_PREFIX}" #在linux下编译
+        case $TARGET_OS in
+            MINGW* | CYGWIN* | MSYS*)
+                MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1" #在windows下编译
+                ;;
+            *)
+            ;;
+         esac
          ;;
     unix)
         ;;
@@ -116,9 +121,11 @@ $QMAKE ${PARA} ..
 ${MAKE} -f Makefile 
 case $RABBITIM_BUILD_TARGERT in
     android)
-        make -f Makefile install
-        ${MAKE} -f Makefile install ${MAKE_PARA}
-        cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
+        ${MAKE} -f Makefile install
+       # ${MAKE} -f Makefile install ${MAKE_PARA}
+        if [ -d "${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/" ]; then
+            cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
+        fi
     ;;
     windows_mingw|windows_msvc)
         ${MAKE}
