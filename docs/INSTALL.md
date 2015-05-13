@@ -113,9 +113,15 @@
 
 * 主页：http://qt-project.org/
 * 下载：http://qt-project.org/downloads
-* 当前使用版本：5.3.0
+* 当前使用版本：5.2.1
     + QT开发工具参考：http://doc.qt.io/qt-4.8/developing-with-qt.html
     + [QT编译](http://blog.csdn.net/kl222/article/details/44216951)
+
+各版本的问题：
+* 5.2.1可以正常使用（windows、linux、android）
+* 5.3.0以上版本有以下问题：
+    + qt翻译资源没有相应更新
+    + android平台下，不能捕获视频
 
 第三方库
 --------
@@ -163,7 +169,7 @@
 
 * 下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
 * 当前使用版本:  
-    git库版本 —— 9b99eb2
+    git库版本 —— v1.4.0
 
 #### 6. 音频处理库(libspeexdsp)
 
@@ -280,14 +286,18 @@
         ｜       ｜------include
         ｜       ｜------lib
 
-可以在 http://pan.baidu.com/s/1mgwx8y0 中，选择与你主机操作系统相同的包下载本项目依赖的预编译好的第三方库。
+可以在 http://pan.baidu.com/s/1mgwx8y0 中，
+选择与你**主机操作系统相同、编译器版本相同**的包下载本项目依赖的预编译好的第三方库。
 下载后解压，按上面目录结构放置。
+如果目录下有change_prefix.sh，则执行change_prefix.sh就可以。
+如果没有，则需要按下面步骤执行：
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
     cp ${RabbitImRoot}/ThirdLibary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibary/${Platform}/change_prefix.sh
     cd ${RabbitImRoot}/ThirdLibary/${Platform}
-    ./change_prefix ${old_prefix} ${new_prefix}  #old_prefix是原来的前缀，你可打开一个配置文件查看；
-                                                 #new_prefix可以省略，省略时用当前目录
+    ./change_prefix.sh ${old_prefix} ${new_prefix}  #old_prefix是原来的前缀，你可打开一个配置文件查看；
+
+如果第三方库是你自己编译的，那就不需要这一步。
 
 ### 第三方依赖库编译脚本
 第三库编译脚本是 bash 脚本。运行这些脚本时，需要有 bash 环境。linux、unix 默认安装了 bash 环境。
@@ -297,8 +307,9 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 
     export RabbitImRoot=/home/rabbitim    #本工程源码根目录
 
-所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。
-为了避免这个问题。你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。
+所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。
+但这可能会与其它工程需要的环境变量冲突。为了避免这个问题。
+你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。
 
 脚本只编译第三方依赖库的发行版本。如果你需要调试版本，请手工编译。
 

@@ -90,6 +90,9 @@ case ${RABBITIM_BUILD_TARGERT} in
             Linux*|Unix*|CYGWIN*)
                 CONFIG_PARA="${CONFIG_PARA} --cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --host=$RABBITIM_BUILD_CROSS_HOST"
                 ;;
+            MSYS*)
+                CONFIG_PARA="${CONFIG_PARA} --host=$RABBITIM_BUILD_CROSS_HOST"
+                ;;
         *)
             ;;
         esac

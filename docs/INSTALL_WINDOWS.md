@@ -198,7 +198,7 @@ windows下用mingw交叉编译
 
     pacman -S wget subversion git autoconf automake m4 libtool pkg-config make mingw-w64-i686-make bison flex gperf
 
-+ 下载本地编译器gcc（版本：4.9.2）：
++ 下载本地编译器gcc：
 
     pacman -S mingw-w64-i686-gcc
 
@@ -218,7 +218,7 @@ make: fork: Resource temporarily unavailable
 * mingw主页： http://www.mingw.org/ 。这个主页好象不是最新的，
 * mingw-w64: http://sourceforge.net/projects/mingw-w64/
 * mingwbuilds: http://sourceforge.net/projects/mingwbuilds/
-因为 QT for android in windows 预编译包中已包含了 mingw 。  
+
 当前使用版本：
 gcc version 4.8.2 (i686-posix-dwarf-rev3, Built by MinGW-W64 project)
 
@@ -227,6 +227,18 @@ msys2中有自带的mingw：gcc.exe (Rev5, Built by MSYS2 project) 4.9.2
     pacman -S mingw-w64-i686-gcc
 
 cygwin中安装也自带有的mingw：i686-w64-mingw32-gcc (GCC) 4.8.3
+
+**需要注意gcc版本与你qt的使用的gcc版本相同，否则可能会出现不明错误。**
+例如：
+qt5.2.0 ~ qt5.3.X ,使用的版本是：4.8.X。qt安装包中自带了gcc。
+如果你使用官方发行版本qt，请使用qt自带的gcc
+例如使用qt5.2.1自带的gcc
+
+    vim /etc/fstab
+
+增加下面挂载点：
+
+    C:\Qt\Qt5.2.1\Tools\mingw48_32 /mingw32
 
 #### 2.2. 下载工具：
 
