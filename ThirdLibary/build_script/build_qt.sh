@@ -229,6 +229,9 @@ done
 echo "$MAKE install"
 $MAKE ${MAKE_PARA} \
     && $MAKE install \
-    && cp qtbase/bin/qt.conf ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf
+    && cat > ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf << EOF
+[Paths]
+Prefix=..
+EOF
 
 cd $CUR_DIR
