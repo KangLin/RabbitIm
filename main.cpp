@@ -50,9 +50,11 @@ int main(int argc, char *argv[])
     //*/
     
     /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())  
+#ifdef DEBUG
     CFrmPlayer player;
     player.TestCamera();
-    player.show();//*/
-
+    player.show();
+#endif
+    //*/
     return a.exec();
 }

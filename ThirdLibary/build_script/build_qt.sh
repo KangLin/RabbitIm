@@ -100,7 +100,7 @@ echo "configure ..."
 CONFIG_PARA="-opensource -confirm-license -nomake examples -nomake tests -no-compile-examples"
 CONFIG_PARA="${CONFIG_PARA} -no-sql-sqlite -no-sql-odbc"
 CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples"
-CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt -release" # -debug-and-release"
+CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt -debug-and-release"
 CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     CONFIG_PARA="${CONFIG_PARA} -static"

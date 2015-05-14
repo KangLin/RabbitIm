@@ -577,10 +577,12 @@ void CClientXmpp::slotRosterReceived()
             r = m_User->AddUserInfoRoster(jid);
             QXmppRosterIq::Item item = m_Client.rosterManager().getRosterEntry(jid);
             m_User->UpdateUserInfoRoster(item);
-            //因为openfire当用户信息改变时，不会广播改变通知，所以当程序启动时要查询所有信息。这里会影响性能  
-            //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
+            //在原来好友列表中不存在的好友，需要得到其详细信息  
             RequestUserInfoRoster(jid);
         }
+        //因为openfire当用户信息改变时，不会广播改变通知，所以当程序启动时要查询所有信息。这里会影响性能  
+        //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
+        //RequestUserInfoRoster(jid); 
     }
 }
 

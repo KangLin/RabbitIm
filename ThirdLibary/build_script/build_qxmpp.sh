@@ -122,19 +122,30 @@ ${MAKE} -f Makefile
 case $RABBITIM_BUILD_TARGERT in
     android)
         ${MAKE} -f Makefile install
-       # ${MAKE} -f Makefile install ${MAKE_PARA}
+        ${MAKE} -f Makefile install ${MAKE_PARA}
         if [ -d "${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/" ]; then
             cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
         fi
     ;;
     windows_mingw|windows_msvc)
-        ${MAKE}
-        ${MAKE} install 
-        QXMPP_DLL="${RABBITIM_BUILD_PREFIX}/lib/qxmpp0.dll"
+        ${MAKE} install
+        PARA="${PARA} CONFIG+=debug"
+        $QMAKE ${PARA} ..
+        ${MAKE} install
+        QXMPP_DLL="${RABBITIM_BUILD_PREFIX}/lib/qxmpp.dll"
         if [ -f "${QXMPP_DLL}" ]; then
             mv ${QXMPP_DLL} ${RABBITIM_BUILD_PREFIX}/bin/.
         fi
-        if [ ! -f "${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/qxmpp.pc" -a -d `pwd`/src/pkgconfig ]; then
+        if [ -f "${RABBITIM_BUILD_PREFIX}/lib/qxmpp0.dll" ]; then
+            mv "${RABBITIM_BUILD_PREFIX}/lib/qxmpp0.dll" ${RABBITIM_BUILD_PREFIX}/bin/.
+        fi
+        if [ -f "${RABBITIM_BUILD_PREFIX}/lib/qxmpp_d0.dll" ]; then
+            mv "${RABBITIM_BUILD_PREFIX}/lib/qxmpp_d0.dll" ${RABBITIM_BUILD_PREFIX}/bin/.
+        fi
+        if [ -f "${RABBITIM_BUILD_PREFIX}/lib/qxmpp_d.dll" ]; then
+            mv "${RABBITIM_BUILD_PREFIX}/lib/qxmpp_d.dll" ${RABBITIM_BUILD_PREFIX}/bin/.
+        fi
+        if [ ! -f "${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/qxmpp*.pc" -a -d `pwd`/src/pkgconfig ]; then
             cp -fr `pwd`/src/pkgconfig/* ${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/.
         fi
     ;;

@@ -66,7 +66,11 @@ isEmpty(PREFIX){
     equals(RABBITIM_USE_STATIC, 1){
        DEFINES += QXMPP_STATIC
     }
-    QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
+    CONFIG(debug, debug|release) {
+        QXMPP_LIBRARY_NAME = -lqxmpp_d # qxmpp 库名
+    }else{
+        QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
+    }
 #}
 
 CONFIG(debug, debug|release) {
@@ -148,17 +152,25 @@ android{
         }
     }
 
-    !equals(RABBITIM_USE_STATIC, 1) {
-        QXMPP_LIBRARY_NAME = -lqxmpp0 # qxmpp 库名
-    }
-
     CONFIG(release, debug|release){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS",5.01"
         }
+
+        equals(RABBITIM_USE_STATIC, 1) {
+            QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
+        }else{
+            QXMPP_LIBRARY_NAME = -lqxmpp0 # qxmpp 库名
+        }
     } else:CONFIG(debug, release|debug){
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /SUBSYSTEM:WINDOWS",5.01"
+        }
+
+        equals(RABBITIM_USE_STATIC, 1) {
+            QXMPP_LIBRARY_NAME = -lqxmpp_d # qxmpp 库名
+        }else{
+            QXMPP_LIBRARY_NAME = -lqxmpp_d0 # qxmpp 库名
         }
     }
 
@@ -305,16 +317,16 @@ win32{
                     "$${PREFIX}/$${TARGET}.exe"
     #安装第三方依赖库
     Deployment_third_lib.target = Deployment_third_lib
-    Deployment_third_lib.files = $$files($${THIRD_LIBRARY_PATH}/bin/*.dll)
+    Deployment_third_lib.files = $${THIRD_LIBRARY_PATH}/bin/*.dll
     Deployment_third_lib.path = $$PREFIX
     Deployment_third_lib.CONFIG += directory no_check_exist
 
     INSTALLS += Deployment_qtlib Deployment_third_lib
 
     #复制第三方依赖库动态库到编译输出目录 
-    THIRD_LIBRARY_DLL =  $$files($${THIRD_LIBRARY_PATH}/bin/*.dll)
-    #equals(QMAKE_HOST.os, Windows) {
-    msvc{
+    THIRD_LIBRARY_DLL = $${THIRD_LIBRARY_PATH}/bin/*.dll
+    #msvc{
+    equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
         THIRD_LIBRARY_DLL =  $$replace(THIRD_LIBRARY_DLL, /, \\)
         TARGET_PATH = $$replace(TARGET_PATH, /, \\)
         TARGET_PATH = $${TARGET_PATH}\.
@@ -324,7 +336,7 @@ win32{
 
     exists($${THIRD_LIBRARY_DLL}){
         ThirdLibraryDll.commands =  \
-            $(COPY) $$THIRD_LIBRARY_DLL $${TARGET_PATH}
+            $${QMAKE_COPY} $$THIRD_LIBRARY_DLL $${TARGET_PATH}
         ThirdLibraryDll.CONFIG += directory no_link no_clean no_check_exist
         ThirdLibraryDll.target = ThirdLibraryDll
         QMAKE_EXTRA_TARGETS += ThirdLibraryDll

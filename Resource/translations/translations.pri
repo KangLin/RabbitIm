@@ -34,21 +34,22 @@ QMAKE_EXTRA_COMPILERS += updateqm
 
 TRANSLATIONS_OUTPUT_PATH = $${TARGET_PATH}/translations
 mytranslations.target = mytranslations
-#equals(QMAKE_HOST.os, Windows) {
-msvc{
+equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
+#msvc{
     TRANSLATIONS_OUTPUT_PATH = $$replace(TRANSLATIONS_OUTPUT_PATH, /, \\)
     QT_QM = $$[QT_INSTALL_TRANSLATIONS]\qt_zh_CN.qm
     QT_QM = $$replace(QT_QM, /, \\)
     mkpath($${TRANSLATIONS_OUTPUT_PATH})
     mytranslations.commands =  \
-        $(COPY) $$replace(PWD, /, \\)\app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}\app_zh_CN.qm && \
-        $(COPY) $$QT_QM $${TRANSLATIONS_OUTPUT_PATH}\qt_zh_CN.qm
+        $${QMAKE_COPY} $$replace(PWD, /, \\)\app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}\app_zh_CN.qm && \
+        $${QMAKE_COPY} $$QT_QM $${TRANSLATIONS_OUTPUT_PATH}\qt_zh_CN.qm
     #mytranslations.depends = mytranslations_path
 }
 else {
-    mytranslations.commands = $(MKDIR) $${TRANSLATIONS_OUTPUT_PATH} && \
-        $(COPY_DIR) $${PWD}/app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/app_zh_CN.qm && \
-        $(COPY_DIR) $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/qt_zh_CN.qm
+    mkpath($${TRANSLATIONS_OUTPUT_PATH})
+    mytranslations.commands = \
+        $${QMAKE_COPY_DIR} $${PWD}/app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/app_zh_CN.qm && \
+        $${QMAKE_COPY_DIR} $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/qt_zh_CN.qm
 }
 !android{#手机平台不需要
     QMAKE_EXTRA_TARGETS += mytranslations

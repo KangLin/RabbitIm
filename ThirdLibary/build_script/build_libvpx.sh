@@ -67,7 +67,7 @@ echo "configure ..."
 case ${RABBITIM_BUILD_TARGERT} in
     android)
         CONFIG_PARA="--target=armv7-android-gcc --sdk-path=${ANDROID_NDK_ROOT} --disable-shared --enable-static"
-        CFLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=neon "
+        CFLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
 
         #编译 cpufeatures
         echo "${RABBITIM_BUILD_CROSS_PREFIX}gcc -I${RABBITIM_BUILD_CROSS_SYSROOT}/usr/include -c ${ANDROID_NDK_ROOT}/sources/android/cpufeatures/cpu-features.c"
