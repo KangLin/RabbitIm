@@ -6,6 +6,9 @@
 #include <QSharedPointer>
 #include <QTimer>
 
+/**
+ * @brief 呼叫动作类  
+ */
 class CCallAction : public CChatAction
 {
     Q_OBJECT

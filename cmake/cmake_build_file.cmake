@@ -16,18 +16,19 @@ SET(RABBITIM_SOURCES
     Widgets/FrmVideo/RecordAudio.cpp 
     Widgets/FrmCustom/Label.cpp  
     Widgets/FrmMain/FrmMain.cpp  
-    Manager/Manager.cpp 
-    Manager/ManagerXmpp.cpp 
-    Manager/ManageMessageDialog.cpp 
+    Manage/Manager.cpp 
+    Manage/Manage.cpp 
+    Manage/ManagerXmpp.cpp 
+    Manage/ManageMessageDialog.cpp 
     Widgets/FrmMessage/FrmMessage.cpp 
     Widgets/FrmCustom/MenuMessageSend.cpp  
-    Manager/ManageMessageDialogBigScreen.cpp 
+    Manage/ManageMessageDialogBigScreen.cpp 
     Widgets/FrmMessage/FrmContainer.cpp 
     Message/ChatActions/ChatAction.cpp 
     Message/ChatActions/MessageAction.cpp 
     UserInfo/User.cpp 
-    Manager/ManageUser.cpp 
-    Manager/ManageUserQXmpp.cpp 
+    Manage/ManageUser.cpp 
+    Manage/ManageUserQXmpp.cpp 
     Message/SmileyPack.cpp 
     Message/EmoticonsWidget.cpp 
     Message/style.cpp 

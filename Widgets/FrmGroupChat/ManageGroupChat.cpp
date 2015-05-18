@@ -4,7 +4,7 @@
 #include <QFile>
 
 CManageGroupChat::CManageGroupChat(QObject *parent) :
-    QObject(parent)
+    CManage(parent)
 {
 }
 

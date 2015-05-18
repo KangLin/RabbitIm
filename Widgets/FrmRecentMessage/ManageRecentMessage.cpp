@@ -5,7 +5,7 @@
 #include <QFile>
 #include "Widgets/FrmGroupChat/GroupChat.h"
 
-CManageRecentMessage::CManageRecentMessage() : QObject()
+CManageRecentMessage::CManageRecentMessage() : CManage()
 {
 }
 
@@ -15,7 +15,6 @@ CManageRecentMessage::~CManageRecentMessage()
 
 int CManageRecentMessage::Init(const QString &szId)
 {
-    Q_UNUSED(szId);
     bool check = connect(GET_CLIENT.data(), SIGNAL(sigMessageUpdate(const QString&)),
                     SLOT(slotMessageUpdate(const QString&)));
     Q_ASSERT(check);

@@ -6,6 +6,16 @@
 #include <QTime>
 #include <QSound>
 
+/**
+  * @defgroup RABBITIM_INTERFACE_CALLOBJECT 呼叫接口类模块  
+  * @ingroup RABBITIM_INTERFACE_MANGECALL
+  * @brief 呼叫接口类模块  
+  */
+
+/**
+ * @ingroup RABBITIM_INTERFACE_CALLOBJECT RABBITIM_INTERFACE
+ * @brief 呼叫接口类
+ */
 class CCallObject : public QObject
 {
     Q_OBJECT

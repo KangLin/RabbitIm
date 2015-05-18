@@ -6,6 +6,12 @@
 #include <list>
 #include "Widgets/FrmMessage/FrmContainer.h"
 
+/**
+ * @class CManageMessageDialogBigScreen
+ * @ingroup RABBITIM_INTERFACE_MANAGEMESSAGEDIALOG
+ * @brief 消息对活框管理类(手机屏幕管理)，用于管理消息对话框。  
+ * @see CManager CManageMessageDialog
+ */
 class CManageMessageDialogBigScreen : public CManageMessageDialog
 {
     Q_OBJECT

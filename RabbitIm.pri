@@ -14,18 +14,19 @@ SOURCES += main.cpp\
     Widgets/FrmVideo/RecordAudio.cpp \
     Widgets/FrmCustom/Label.cpp \ 
     Widgets/FrmMain/FrmMain.cpp \ 
-    Manager/Manager.cpp \
-    Manager/ManagerXmpp.cpp \
-    Manager/ManageMessageDialog.cpp \
+    Manage/Manager.cpp \
+    Manage/ManagerXmpp.cpp \
+    Manage/ManageMessageDialog.cpp \
     Widgets/FrmMessage/FrmMessage.cpp \
     Widgets/FrmCustom/MenuMessageSend.cpp \ 
-    Manager/ManageMessageDialogBigScreen.cpp \
+    Manage/ManageMessageDialogBigScreen.cpp \
     Widgets/FrmMessage/FrmContainer.cpp \
     Message/ChatActions/ChatAction.cpp \
     Message/ChatActions/MessageAction.cpp \
     UserInfo/User.cpp \
-    Manager/ManageUser.cpp \
-    Manager/ManageUserQXmpp.cpp \
+    Manage/ManageUser.cpp \
+    Manage/ManageUserQXmpp.cpp \
+    Manage/Manage.cpp \
     Message/SmileyPack.cpp \
     Message/EmoticonsWidget.cpp \
     Message/style.cpp \
@@ -82,19 +83,20 @@ HEADERS += Version.h \
     Widgets/FrmCustom/CustomTreeView.h \
     Widgets/FrmVideo/RecordAudio.h \
     Widgets/FrmCustom/Label.h \ 
-    Manager/Manager.h \
-    Manager/ManagerXmpp.h \
-    Manager/ManageMessageDialog.h \
+    Manage/Manager.h \
+    Manage/Manage.h \
+    Manage/ManagerXmpp.h \
+    Manage/ManageMessageDialog.h \
     Widgets/FrmCustom/MenuMessageSend.h \
     Widgets/FrmMessage/FrmMessage.h \
-    Manager/ManageMessageDialogBigScreen.h \
+    Manage/ManageMessageDialogBigScreen.h \
     Widgets/FrmMessage/FrmContainer.h \
     Message/SmileyPack.h \
     Message/ChatActions/ChatAction.h \
     Message/ChatActions/MessageAction.h \
     UserInfo/User.h \
-    Manager/ManageUser.h \
-    Manager/ManageUserQXmpp.h \
+    Manage/ManageUser.h \
+    Manage/ManageUserQXmpp.h \
     Message/EmoticonsWidget.h \
     Message/style.h \
     Widgets/FrmRecentMessage/FrmRecentMsgList.h \

@@ -9,7 +9,7 @@
 #include "qxmpp/QXmppRegisterIq.h"
 #include "qxmpp/QXmppTransferManager.h"
 #include "UserInfo/UserInfoXmpp.h"
-#include "Manager/ManageUserQXmpp.h"
+#include "Manage/ManageUserQXmpp.h"
 #include "Global/Global.h"
 #include <QImageWriter>
 #include <QBuffer>

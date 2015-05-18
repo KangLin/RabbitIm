@@ -4,14 +4,24 @@
 #include <QObject>
 #include <QMap>
 #include <QSharedPointer>
-
+#include "Manage/Manage.h"
 #ifdef QXMPP
 #include "FileTransferQXmpp.h"
 #else
 #include "FileTransfer.h"
 #endif
 
-class CManageFileTransfer : public QObject
+/**
+  *@defgroup RABBITIM_INTERFACE_MANGEFILETRANSFER 文件传输管理类模块  
+  *@ingroup RABBITIM_INTERFACE_MANAGER
+  *@brief 文件传输管理类模块  
+  */
+
+/**
+ * @ingroup RABBITIM_INTERFACE_MANGEFILETRANSFER RABBITIM_INTERFACE
+ * @brief 文件传输管理类接口  
+ */
+class CManageFileTransfer : public CManage
 {
     Q_OBJECT
 
@@ -26,7 +36,7 @@ public:
      * @param szId:登录用户名  
      * @return int
      */
-    virtual int Init(QString szId);
+    virtual int Init(const QString &szId);
     /**
      * @brief 用户登出时调用,用于清理工作   
      *
@@ -64,8 +74,9 @@ public:
      * @brief 根据命令串执行操作  
      *
      * @param szId
-     * @param szCommand
+     * @param szCommand：accept、saveas、cancel
      * @return int
+     * @see CFrmMessage::slotAnchorClicked
      */
     int ProcessCommand(const QString& szId, const QString& szCommand);
 
@@ -82,6 +93,11 @@ public slots:
      * @param file
      */
     void slotFileReceived(const QString& szId, QSharedPointer<CFileTransfer> file);
+    /**
+     * @brief 文件传输完成后触发  
+     * @param szId：好友 ID  
+     * @param szFileTransferId：文件传输ID  
+     */
     void slotFinished(const QString& szId, const QString& szFileTransferId);
 
 private:

@@ -7,6 +7,18 @@
 #include "ChatActions/ChatAction.h"
 #include <vector>
 
+/**
+ * @defgroup RABBITIM_INTERFACE_MANAGEMESSAGE 消息管理接口类模块  
+ * @ingroup RABBITIM_INTERFACE_USER
+ * @brief 消息管理接口类模块。用于管理好友消息。  
+ */
+
+/**
+ * @class CManageMessage
+ * @ingroup RABBITIM_INTERFACE_MANAGEMESSAGE RABBITIM_INTERFACE 
+ * @brief 消息管理接口类。用于管理好友消息。  
+ * @see CUser
+ */
 class CManageMessage : public QObject
 {
     Q_OBJECT

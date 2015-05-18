@@ -40,10 +40,21 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    #echo "git clone https://github.com/svn2github/libicu.git ${RABBITIM_BUILD_SOURCE_CODE}/source"
-    #git clone https://github.com/svn2github/libicu.git ${RABBITIM_BUILD_SOURCE_CODE}
-    echo "svn co http://source.icu-project.org/repos/icu/icu/trunk/ ${RABBITIM_BUILD_SOURCE_CODE}"
-    svn co http://source.icu-project.org/repos/icu/icu/trunk/ ${RABBITIM_BUILD_SOURCE_CODE}
+    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
+        #echo "git clone https://github.com/svn2github/libicu.git ${RABBITIM_BUILD_SOURCE_CODE}/source"
+        #git clone https://github.com/svn2github/libicu.git ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "svn co http://source.icu-project.org/repos/icu/icu/trunk/ ${RABBITIM_BUILD_SOURCE_CODE}"
+        svn co http://source.icu-project.org/repos/icu/icu/trunk/ ${RABBITIM_BUILD_SOURCE_CODE}
+    else
+        mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
+        cd ${RABBITIM_BUILD_SOURCE_CODE}
+        wget http://download.icu-project.org/files/icu4c/55.1/icu4c-55_1-src.tgz ${RABBITIM_BUILD_SOURCE_CODE}
+        tar xf icu4c-55_1-src.tgz
+        mv icu ..
+        rm -fr *
+        cd ..
+        mv -f icu ${RABBITIM_BUILD_SOURCE_CODE}
+    fi
 fi
 
 SOURCE_DIR=${RABBITIM_BUILD_SOURCE_CODE}/source     #源代码目录
@@ -83,9 +94,9 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
         cd ${CONFIG_DIR}
         ${SOURCE_DIR}/runConfigureICU MSYS/MSVC --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
-        make ${RABBITIM_MAKE_JOB_PARA} \
-            && make install \
-            && cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+        make
+        make install 
+        cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
         ;;
     windows_mingw)
         case `uname -s` in
@@ -104,9 +115,9 @@ case ${RABBITIM_BUILD_TARGERT} in
             MINGW*|MSYS*)
                 cd ${CONFIG_DIR}
                 ${SOURCE_DIR}/runConfigureICU MinGW --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
-                make ${RABBITIM_MAKE_JOB_PARA} \
-                    && make install \
-                    && cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+                make 
+                make install 
+                cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
                 ;;
         esac
         ;;

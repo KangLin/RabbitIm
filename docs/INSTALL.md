@@ -362,7 +362,13 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 
 ##### 8. [libcurl 编译](http://blog.csdn.net/kl222/article/details/41898025)
 
-##### 9. QXMPP编译：  
+##### 9. icu编译
+* [用 mingw 编译](http://wiki.qt.io/Compiling-ICU-with-MinGW)
+* [用 msvc 编译](http://wiki.qt.io/Compiling-ICU-with-MSVC)
+
+##### 10. [qt编译](http://blog.csdn.net/kl222/article/details/44216951)
+
+##### 11. QXMPP编译：  
 1. 用 Qt Creator 进行编译（详见源码根目录下的README文件）：
     * 用 Qt Creator 打开本工程。
     * 打开“文件->打开文件或项目”。
@@ -411,8 +417,6 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
         + mingw32-make：mingw 环境下用
         + msys-make：msys 环境下用
 
-##### 10. [qt编译](http://blog.csdn.net/kl222/article/details/44216951)
-
 本工程编译
 --------
 
@@ -434,6 +438,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
          + RABBITIM_USE_LIBCURL=1      #使用 libcurl
          + RABBITIM_USE_OPENSSL=1      #使用openssl
          + RABBITIM_USE_STATIC=1       #使用静态编译
+         + RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档 
   * 构建->构建项目"RabbitIm"。编译本项目。
 
 ##### 1.2. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
@@ -449,6 +454,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     -DOPTION_RABBITIM_USE_OPENSSL=ON
     -DOPTION_RABBITIM_USE_OPENCV=ON
     -DOPTION_RABBITIM_USE_STATIC=ON
+    -OPTION_RABBITIM_DOXYGEN=ON  #使用doxygen生成文档，doxygen必须在环境变量PATH中
   * 选择相应的创建器,这里不能选错。
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功，点完成就会打开项目。
   * 点调试，就可以编译，并调试程序
@@ -464,6 +470,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
         -DOPTION_RABBITIM_USE_LIBCURL=ON
         -DOPTION_RABBITIM_USE_OPENSSL=ON
         -DOPTION_RABBITIM_USE_OPENCV=ON
+        -OPTION_RABBITIM_DOXYGEN=ON  #使用doxygen生成文档，doxygen必须在环境变量PATH中
     + 还要填入编译器参数：-DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
     ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
   * 选择相应的创建器

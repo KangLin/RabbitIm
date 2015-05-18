@@ -218,6 +218,10 @@ if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
     CONFIG_PARA="${CONFIG_PARA} -verbose"
 fi
 
+export PATH="$PATH:${RABBITIM_BUILD_PREFIX}/lib"
+export INCLUDE="$INCLUDE:${RABBITIM_BUILD_PREFIX}/include"
+export LIB="$LIB:${RABBITIM_BUILD_PREFIX}/lib"
+
 echo "$CONFIGURE ${CONFIG_PARA}"
 $CONFIGURE ${CONFIG_PARA}
 

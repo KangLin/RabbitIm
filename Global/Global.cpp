@@ -12,8 +12,8 @@
 #ifdef QXMPP
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppRtpChannel.h"
-#include "Manager/ManageUserQXmpp.h"
-#include "Manager/ManagerXmpp.h"
+#include "Manage/ManageUserQXmpp.h"
+#include "Manage/ManagerXmpp.h"
 #endif
 
 CGlobal::CGlobal(QObject *parent) :

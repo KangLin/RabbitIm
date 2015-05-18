@@ -4,6 +4,16 @@
 #include <QObject>
 #include <QUrl>
 
+/**
+  *@defgroup RABBITIM_INTERFACE_FILETRASFER 文件传输接口类模块  
+  *@ingroup RABBITIM_INTERFACE_MANGEFILETRANSFER
+  *@brief 文件传输接口类模块  
+  */
+
+/**
+ * @ingroup RABBITIM_INTERFACE_FILETRASFER RABBITIM_INTERFACE
+ * @brief 文件传输接口类  
+ */
 class CFileTransfer : public QObject
 {
     Q_OBJECT

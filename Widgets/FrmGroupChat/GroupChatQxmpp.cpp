@@ -4,7 +4,7 @@
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppMessage.h"
 #include "ChatActionGroupChat.h"
-#include "Manager/Manager.h"
+#include "Manage/Manager.h"
 #include "MainWindow.h"
 #include "Client/ClientXmpp.h"
 #include "qxmpp/QXmppDiscoveryManager.h"

@@ -6,8 +6,7 @@
 #include "MainWindow.h"
 
 #undef GetMessage
-CManageCall::CManageCall(QObject *parent) :
-    QObject(parent)
+CManageCall::CManageCall(QObject *parent) : CManage(parent)
 {
     m_bVideoCall = false;
 }
@@ -17,7 +16,7 @@ CManageCall::~CManageCall()
     LOG_MODEL_DEBUG("CManageCall", "CManageCall::~CManageCall");
 }
 
-int CManageCall::Init(QString szId)
+int CManageCall::Init(const QString &szId)
 {
     bool check = false;
     Q_UNUSED(szId);

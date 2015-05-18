@@ -5,8 +5,19 @@
 #include <QMap>
 #include <QSharedPointer>
 #include "GroupChat.h"
+#include "Manage/Manage.h"
 
-class CManageGroupChat : public QObject
+/**
+  *@defgroup RABBITIM_INTERFACE_MANAGEGROUPCHAT 组管理接口类  
+  *@ingroup RABBITIM_INTERFACE_MANAGER
+  *@brief 组管理接口类  
+  */
+
+/**
+ * @ingroup RABBITIM_INTERFACE_MANAGEGROUPCHAT RABBITIM_INTERFACE
+ * @brief 组管理接口类  
+ */
+class CManageGroupChat : public CManage
 {
     Q_OBJECT
 public:

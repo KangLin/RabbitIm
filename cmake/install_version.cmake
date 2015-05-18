@@ -27,11 +27,23 @@ configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/Update/Update.xml.template.cmake
   ${CMAKE_CURRENT_SOURCE_DIR}/Update/Update_${RABBITIM_SYSTEM}.xml
 )
-#更新 Doxygen 文件中的版本信息
-configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.template.cmake
-  ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
-)
+
+OPTION(OPTION_RABBITIM_DOXYGEN "Build statically" OFF)
+IF(OPTION_RABBITIM_DOXYGEN)
+    #更新 Doxygen 文件中的版本信息
+    configure_file(
+      ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.template.cmake
+      ${CMAKE_BINARY_DIR}/Doxyfile
+    )
+    FIND_PROGRAM(DOXYGEN doxygen)
+    IF(DOXYGEN)
+        EXECUTE_PROCESS(
+                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                COMMAND ${DOXYGEN} ${CMAKE_BINARY_DIR}/Doxyfile
+                #OUTPUT_VARIABLE BUILD_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    ENDIF(DOXYGEN)
+ENDIF(OPTION_RABBITIM_DOXYGEN)
 
 # Compiler Runtime DLLs
 #IF(MSVC)

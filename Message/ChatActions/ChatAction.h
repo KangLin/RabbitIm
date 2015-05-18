@@ -7,6 +7,18 @@
 #include <QTextEdit>
 #include <QObject>
 
+/**
+ * @defgroup RABBITIM_INTERFACE_CHATACTION 动作接口类模块  
+ * @ingroup RABBITIM_INTERFACE_MANAGEMESSAGE
+ * @brief 动作接口类模块。消息界面调用此接口得到相应动作的描述  
+ */
+
+/**
+ * @class CChatAction
+ * @ingroup RABBITIM_INTERFACE_CHATACTION RABBITIM_INTERFACE
+ * @brief 动作接口类。消息界面调用此接口得到相应动作的描述  
+ * @see CManageMessage
+ */
 class CChatAction : public QObject
 {
     Q_OBJECT
@@ -16,6 +28,10 @@ public:
     virtual void setup(QTextCursor cursor, QTextEdit* textEdit); ///< Call once, and then you MUST let the object update itself
 
     virtual QString getName();
+    /**
+     * @brief 消息界面调用此接口得到相应动作的描述。具体功能由派生类实现。  
+     * @return 
+     */
     virtual QString getMessage() = 0;
     virtual QString getDate();
 

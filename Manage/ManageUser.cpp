@@ -4,7 +4,7 @@
 #include "Global/Global.h"
 
 CManageUser::CManageUser(QObject *parent) :
-    QObject(parent)
+    CManage(parent)
 {
     m_bModify = false;
 }
@@ -14,7 +14,7 @@ CManageUser::~CManageUser()
     Clean();
 }
 
-int CManageUser::Init(QString szId)
+int CManageUser::Init(const QString &szId)
 {
     int nRet = 0;
     m_bModify = false;

@@ -11,6 +11,7 @@ RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
 #RABBITIM_USE_LIBCURL=1      #使用 libcurl
 #RABBITIM_USE_OPENSSL=1      #使用openssl
 #RABBITIM_USE_STATIC=1       #使用静态编译
+#RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档  
 
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets 

@@ -4,8 +4,19 @@
 #include <QObject>
 #include <QSharedPointer>
 #include "CallObject.h"
+#include "Manage/Manage.h"
 
-class CManageCall : public QObject
+/**
+  *@defgroup RABBITIM_INTERFACE_MANGECALL 呼叫管理类模块  
+  *@ingroup RABBITIM_INTERFACE_MANAGER
+  *@brief 呼叫管理类模块  
+  */
+
+/**
+ * @ingroup RABBITIM_INTERFACE_MANGECALL RABBITIM_INTERFACE
+ * @brief 呼叫管理类接口  
+ */
+class CManageCall : public CManage
 {
     Q_OBJECT
 public:
@@ -18,7 +29,7 @@ public:
      * @param szId:登录用户名  
      * @return int
      */
-    virtual int Init(QString szId);
+    virtual int Init(const QString &szId);
     /**
      * @brief 用户登出时调用,用于清理工作   
      *
@@ -37,6 +48,14 @@ public:
 
     virtual bool IsRun();
     virtual int Stop();
+    /**
+     * @brief 根据命令串执行操作  
+     *
+     * @param szId
+     * @param szCommand: accept、cancel、call
+     * @return int
+     * @see CFrmMessage::slotAnchorClicked
+     */
     virtual int ProcessCommandCall(const QString &szId, const QString &szCommand);
 
 signals:

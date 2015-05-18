@@ -5,10 +5,19 @@
 #include <QColor>
 #include <QSharedPointer>
 #include <QDateTime>
-#include "Manager/Manager.h"
+#include "Manage/Manager.h"
 #include "Tool.h"
 
 class MainWindow;
+
+/**
+  * @defgroup RABBITIM_GLOBAL 全局变更类模块  
+  */
+
+/**
+ * @brief The CGlobal class
+ * @ingroup RABBITIM_GLOBAL
+ */
 class CGlobal : public QObject
 {
     Q_OBJECT
@@ -50,13 +59,13 @@ public:
     /**
      * @brief 用户配置目录  
      *
-     * @param  szId:本地用户id,默认为本地用户   
+     * @param szId:本地用户id,默认为本地用户   
      */
     QString GetDirUserConfigure(const QString &szId = QString());
     /**
      * @brief 用户数据存放目录  
      *
-     * @param  szId:本地用户id,默认为本地用户   
+     * @param szId:本地用户id,默认为本地用户   
      */
     QString GetDirUserData(const QString &szId = QString());
     //翻译文件目录  
@@ -66,46 +75,46 @@ public:
     /**
      * @brief 得到用户的配置文件  
      *
-     * @param  szId:本地用户id,默认为本地用户   
+     * @param szId:本地用户id,默认为本地用户   
      */
     QString GetUserConfigureFile(const QString &szId = QString());
     /**
      * @brief 得到用户头像目录  
      *
-     * @param  szId:本地用户id,默认为本地用户   
+     * @param szId:本地用户id,默认为本地用户   
      */
     QString GetDirUserAvatar(const QString &szId = QString());
     /**
      * @brief 得到指定用户的头像文件  
      *
-     * @param  szId:好友的ID   
-     *                    szLocalId:本地用户的ID,如果为空,则会是登录用户  
+     * @param szId:好友的ID   
+     * @param szLocalId:本地用户的ID,如果为空,则会是登录用户  
      */
     QString GetFileUserAvatar(const QString &szId, const QString &szLocalId = QString());
     /**
      * @brief 得到接收文件保存的目录  
      *
-     * @param  szId:本地用户id,默认为本地用户   
+     * @param szId:本地用户id,默认为本地用户   
      */
     QString GetDirReceiveFile(const QString &szId = QString());
-    //得到表情图片文件  
+    /// 得到表情图片文件  
     QString GetFileSmileyPack();
 
 private:
     QString m_szDocumentPath;
 public:
-    //只保存用户登录时的状态,在用户登录对话框中设置  
+    /// 只保存用户登录时的状态,在用户登录对话框中设置  
     CUserInfo::USER_INFO_STATUS GetStatus();//得到本地用户状态  
     int SetStatus(CUserInfo::USER_INFO_STATUS status);
 private:
-    CUserInfo::USER_INFO_STATUS m_LocalStatus;//本地用户的状态  
+    CUserInfo::USER_INFO_STATUS m_LocalStatus;///< 本地用户的状态  
 
 public:
-    //好友状态文本表示  
+    /// 好友状态文本表示  
     QString GetRosterStatusText(CUserInfo::USER_INFO_STATUS status);
-    //好友状态图标资源字符串  
+    /// 好友状态图标资源字符串  
     QString GetRosterStatusIcon(CUserInfo::USER_INFO_STATUS status);
-    //好友状态颜色表示  
+    /// 好友状态颜色表示  
     QColor GetRosterStatusColor(CUserInfo::USER_INFO_STATUS status);
 
 public:

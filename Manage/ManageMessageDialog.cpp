@@ -2,7 +2,7 @@
 #include "Global/Global.h"
 #include "Widgets/FrmGroupChat/FrmGroupChat.h"
 
-CManageMessageDialog::CManageMessageDialog(QObject *parent) : QObject(parent)
+CManageMessageDialog::CManageMessageDialog(QObject *parent) : CManage(parent)
 {
 }
 

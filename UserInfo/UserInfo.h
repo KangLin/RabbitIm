@@ -7,6 +7,18 @@
 #include <QDataStream>
 #include <QSet>
 
+/**
+ * @defgroup RABBITIM_INTERFACE_USERINFO 用户信息接口类模块  
+ * @ingroup RABBITIM_INTERFACE_USER
+ * @brief 用户信息接口类模块，用于描述用户信息  
+ */
+
+/**
+ * @class CUserInfo
+ * @ingroup RABBITIM_INTERFACE_USERINFO RABBITIM_INTERFACE
+ * @brief 用户信息接口类，用于描述用户信息 
+ * @see CUser
+ */
 class CUserInfo : public QObject
 {
     Q_OBJECT
@@ -24,12 +36,12 @@ public:
         Invisible        ///< obsolete XEP-0018: 隐形状态  
     };
 
-    virtual QString GetShowName() = 0; //根据配置显示用户名称  
-    virtual QString GetId() = 0;       //用户ID，由具体协议实现  
+    virtual QString GetShowName() = 0; ///< 根据配置显示用户名称  
+    virtual QString GetId() = 0;       ///< 用户ID，由具体协议实现  
     virtual int SetId(QString szId) = 0;
-    virtual QString GetName() = 0;     //用户的名称，由用户设置  
+    virtual QString GetName() = 0;     ///< 用户的名称，由用户设置  
     virtual int SetName(const QString& szName) = 0;
-    virtual QString GetNick();     //呢称，由好友设置  
+    virtual QString GetNick();     ///< 呢称，由好友设置  
     virtual int SetNick(const QString& szNick);
     virtual QDate GetBirthday();
     virtual int SetBirthday(const QDate &d);
@@ -43,7 +55,7 @@ public:
     virtual QImage GetPhoto();
     virtual int SetPhoto(QImage img);
     virtual int SetPhoto(QByteArray img);
-    virtual USER_INFO_STATUS GetStatus();//用户状态  
+    virtual USER_INFO_STATUS GetStatus();///< 用户状态  
     virtual int SetStatus(USER_INFO_STATUS status);
 
     QSet<QString> &GetGroups();

@@ -5,24 +5,34 @@
 #include "Message/ManageMessage.h"
 #include <QIcon>
 
+/**
+  * @defgroup RABBITIM_INTERFACE_GROUPCHAT 组接口类模块  
+  * @ingroup RABBITIM_INTERFACE_MANAGEGROUPCHAT
+  * @brief 组接口类模块  
+  */
+
+/**
+ * @ingroup RABBITIM_INTERFACE_GROUPCHAT RABBITIM_INTERFACE
+ * @brief 组接口类  
+ */
 class CGroupChat : public QObject
 {
     Q_OBJECT
 public:
     explicit CGroupChat(QObject *parent = 0);
-    virtual QString Id() = 0;//房间ID  
-    virtual QString ShowName() = 0;//显示的房间  
-    virtual QString Nick() = 0;//呢称  
-    virtual QString Subject() = 0;//房间主题  
-    virtual QString Description() = 0;//房间描述  
-    virtual QDateTime Date() = 0;//房间建立时间  
-    virtual QStringList Participants() = 0;//房间成员  
-    virtual QString ParticipantId(const QString &szId) = 0;//成员ID  
-    virtual QString ParticipantNick(const QString &szId) = 0;//成员呢称  
-    virtual QIcon Icon();//房间图标  
-    virtual bool IsProtracted() = 0;//是否是执久房间  
-    virtual bool IsPrivate() = 0; //是否是私有  
-    virtual int NumberOfPeople() = 0; //房间人数  
+    virtual QString Id() = 0;         ///< 房间ID  
+    virtual QString ShowName() = 0;   ///< 显示的房间  
+    virtual QString Nick() = 0;       ///< 呢称  
+    virtual QString Subject() = 0;    ///< 房间主题  
+    virtual QString Description() = 0;///< 房间描述  
+    virtual QDateTime Date() = 0;     ///< 房间建立时间  
+    virtual QStringList Participants() = 0;///< 房间成员  
+    virtual QString ParticipantId(const QString &szId) = 0;///< 成员ID  
+    virtual QString ParticipantNick(const QString &szId) = 0;///<成员呢称  
+    virtual QIcon Icon();///< 房间图标  
+    virtual bool IsProtracted() = 0;///< 是否是执久房间  
+    virtual bool IsPrivate() = 0; ///< 是否是私有  
+    virtual int NumberOfPeople() = 0; ///< 房间人数  
 
     enum ENUM_Affiliation {
         UnspecifiedAffiliation,

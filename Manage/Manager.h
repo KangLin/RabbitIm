@@ -10,6 +10,31 @@
 #include "Widgets/FrmGroupChat/ManageGroupChat.h"
 
 class CManageFileTransfer;
+
+/**
+ * @defgroup RABBITIM_INTERFACE 接口类模块  
+ * @brief 接口类模块  
+ * 
+ */
+
+/**
+ * @defgroup RABBITIM_INTERFACE_MANAGER 管理者接口类模块  
+ * @ingroup RABBITIM_INTERFACE
+ * @brief 管理者接口类模块  
+ */
+
+/**
+ * @class CManager
+ * @ingroup RABBITIM_INTERFACE_MANAGER RABBITIM_INTERFACE
+ * @brief 管理者接口类  
+ * @see CClient
+ * @see CManageUser
+ * @see CManageMessageDialog
+ * @see CManageRecentMessage
+ * @see CManageFileTransfer
+ * @see CManageCall
+ * @see CManageGroupChat
+ */
 class CManager
 {
 public:
@@ -21,9 +46,13 @@ public:
     virtual QSharedPointer<CManageUser> GetManageUser() = 0;
     ///< 消息对话框管理对象  
     virtual QSharedPointer<CManageMessageDialog> GetManageMessageDialog();
+    ///< 最近消息管理对象  
     virtual QSharedPointer<CManageRecentMessage> GetRecentMessage();
+    ///< 文件传输管理对象  
     virtual QSharedPointer<CManageFileTransfer> GetFileTransfer();
+    ///< 呼叫管理对象  
     virtual QSharedPointer<CManageCall> GetCall();
+    ///< 组管理对象  
     virtual QSharedPointer<CManageGroupChat> GetManageGroupChat() = 0;
     /**
      * @brief 登录后初始化  

@@ -2,15 +2,34 @@
 #define MANAGERECENTMESSAGE_H
 #include <QList>
 #include <QObject>
+#include "Manage/Manage.h"
 
-class CManageRecentMessage : public QObject
+/**
+ * @brief 管理最近消息类  
+ * @ingroup RABBITIM_INTERFACE
+ * @see CManager
+ */
+class CManageRecentMessage : public CManage
 {
     Q_OBJECT
 public:
     CManageRecentMessage();
-    ~CManageRecentMessage();
-    int Init(const QString &szId);
-    int Clean();
+    virtual ~CManageRecentMessage();
+
+    /**
+     * @brief 用户登录成功后调用,用于初始化工作  
+     *
+     * @param szId:登录用户名  
+     * @return int
+     */
+    virtual int Init(const QString &szId);
+    /**
+     * @brief 用户登出时调用,用于清理工作   
+     *
+     * @return int
+     */
+    virtual int Clean();
+
 
     /**
      * @brief 还有未读消息的好友数  

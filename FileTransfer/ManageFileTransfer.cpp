@@ -12,7 +12,7 @@
 #undef GetMessage
 
 CManageFileTransfer::CManageFileTransfer(QObject *parent) :
-    QObject(parent)
+    CManage(parent)
 {
 }
 
@@ -22,7 +22,7 @@ CManageFileTransfer::~CManageFileTransfer()
     LOG_MODEL_DEBUG("CManageFileTransfer", "CManageFileTransfer::~CManageFileTransfer");
 }
 
-int CManageFileTransfer::Init(QString szId)
+int CManageFileTransfer::Init(const QString &szId)
 {
     bool check = false;
     check = connect(GET_CLIENT.data(), SIGNAL(sigFileReceived(QString,QSharedPointer<CFileTransfer>)),

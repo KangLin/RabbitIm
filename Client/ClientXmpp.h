@@ -11,6 +11,10 @@
 #include "Client.h"
 
 class CManageUserQXmpp;
+
+/**
+ * @brief xmpp 协议客户端通信实现类  
+ */
 class CClientXmpp : public CClient
 {
     Q_OBJECT
@@ -21,53 +25,87 @@ public:
 
     /**
      * @brief 注册新用户  
-     *
      * @param szId:用户id  
      * @param szName:用户名  
      * @param szPassword:密码  
      * @param szEmail:email  
      * @param szDescript:描述  
-     * @return int
+     * @return int：成功返回0，失败返回非0  
+     * @see Login()  
      */
     virtual int Register(const QString &szId,
                          const QString &szName,
                          const QString &szPassword, 
                          const QString& szEmail = QString(),
                          const QString& szDescript = QString());
-    virtual int Register(QSharedPointer<CUserInfo> userInfo, const QString &szPassword);
+    virtual int Register(QSharedPointer<CUserInfo> userInfo,
+                         const QString &szPassword);
 
     /**
-     * @brief 登录  
-     *
+     * @brief 登录，成功登录后会触发信号 sigClientConnected，  
+     *        错误会触发信号 sigClientError  
      * @param szUserName：用户名  
      * @param szPassword：登录密码  
      * @param status：登录状态  
      * @return int：成功返回0，失败返回非0  
+     * @see sigClientConnected
+     * @see sigClientError
      */
     virtual int Login(const QString& szUserName = QString(), 
                       const QString &szPassword = QString(),
                       CUserInfo::USER_INFO_STATUS status = CUserInfo::Online);
+    /**
+     * @brief 登出,成功会触发信号 sigClientDisconnected  
+     *        错误会触发信号 sigClientError  
+     * @return int：成功返回0，失败返回非0  
+     * @see sigClientDisconnected
+     */
     virtual int Logout();
-    //请求本地用户信息  
+
+    /**
+     * @brief 请求本地用户信息，会触发信号 sigUpdateLocaleUserInfo  
+     *
+     * @return int：成功返回0，失败返回非0  
+     * @see sigUpdateLocaleUserInfo  
+     */
     virtual int RequestUserInfoLocale();
-    //请求指定好友的信息  
+    /**
+     * @brief 请求指定好友的信息，会触发信号 sigUpdateRosterUserInfo  
+     *
+     * @param szId：好友ID
+     * @return int：成功返回0，失败返回非0  
+     * @see sigUpdateRosterUserInfo  
+     */
     virtual int RequestUserInfoRoster(const QString& szId);
-    //设置用户状态· 
+    /**
+     * @brief 设置用户状态，会触发信号 sigChangedStatus· 
+     *
+     * @param status：状态  
+     * @return int：成功返回0，失败返回非0  
+     * @see sigChangedStatus
+     */
     virtual int setClientStatus(CUserInfo::USER_INFO_STATUS status);
 
     /**
-     * @brief //增加好友  
+     * @brief 增加好友，会触发 sigRosterAddReceived  
      *
      * @param szId：好友id
-     * @return int：成功返回0，失败返回非0  
+     * @param type：订阅类型 @see SUBSCRIBE_TYPE
+     * @param szName：好友名称  
+     * @param groups：好友所在的组  
+     * @return int：成功返回0，失败返回非0；-1:好友已经存在  
+     * @see sigRosterAddReceived
      */
-    virtual int RosterAdd(const QString& szId, SUBSCRIBE_TYPE type = SUBSCRIBE_REQUEST,
-                          const QString &szName = QString(), const QSet<QString> &groups = QSet<QString>());
+    virtual int RosterAdd(const QString& szId, 
+                          SUBSCRIBE_TYPE type = SUBSCRIBE_REQUEST,
+                          const QString &szName = QString(),
+                          const QSet<QString> &groups = QSet<QString>());
     /**
-     * @brief 删除好友  
+     * @brief 删除好友，会触发信号 sigRosterRemoveReceived   
      *
      * @param szId：好友Id
      * @return int：成功返回0，失败返回非0  
+     * @see sigRosterRemoveReceived
      */
     virtual int RosterRemove(const QString& szId);
     /**
@@ -80,11 +118,12 @@ public:
     virtual int RosterRename(const QString& szId, const QString& szName);
 
     /**
-     * @brief 向好友发送消息  
+     * @brief 向好友发送消息，会触发信号 sigMessageUpdate  
      *
      * @param szId:好友id  
      * @param szMsg:消息内容  
-     * @return QSharedPointer<CChatAction>  
+     * @return int  
+     * @see sigMessageUpdate
      */
     virtual int SendMessage(const QString& szId, const QString &szMsg);
 
@@ -92,7 +131,7 @@ public:
      * @brief 设置登录用户信息  
      *
      * @param userInfo
-     * @return int
+     * @return int：成功返回0，失败返回非0  
      */
     virtual int setlocaleUserInfo(QSharedPointer<CUserInfo> userInfo);
 
@@ -105,6 +144,7 @@ public:
      * @param szFile：要传送的文件 
      * @param szDescription：描述信息  
      * @return QSharedPointer<CFileTransfer>：返回 CFileTransfer 对象指针  
+     * @see sigFileReceived
      */
     virtual QSharedPointer<CFileTransfer> SendFile(const QString szId, const QString &szFile, const QString &szDescription);
 
@@ -113,7 +153,8 @@ public:
      *
      * @param szId：用户id  
      * @param bVideo:是否是视频呼叫  
-     * @return QSharedPointer<CCallObject>  
+     * @return QSharedPointer<CCallObject>
+     * @see sigCallReceived
      */
     virtual QSharedPointer<CCallObject> Call(const QString szId, bool bVideo = false);
 
