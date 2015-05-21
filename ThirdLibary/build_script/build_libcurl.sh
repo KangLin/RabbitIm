@@ -62,15 +62,14 @@ cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 if [ "$RABBITIM_CLEAN" ]; then
     if [ -d ".git" ]; then
+        echo "git clean -xdf"
         git clean -xdf
     fi
 fi
 
 if [ ! -f configure ]; then
     echo "sh buildconf"
-    if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
-        ./buildconf.bat
-    else
+    if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
         ./buildconf
     fi
 fi
