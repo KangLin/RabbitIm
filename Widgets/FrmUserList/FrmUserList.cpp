@@ -114,6 +114,7 @@ CFrmUserList::~CFrmUserList()
 
 int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfo> roster, void *para)
 {
+    Q_UNUSED(para);
     int nRet = 0;
     nRet = ItemUpdateRoster(roster->GetId());
     return nRet;
@@ -743,6 +744,7 @@ void CFrmUserList::doubleClicked(const QModelIndex &index)
 
 void CFrmUserList::resizeEvent(QResizeEvent *e)
 {
+    Q_UNUSED(e);
     /*LOG_MODEL_DEBUG("CFrmUserList", "CFrmUserList::resizeEvent:e.size:%d;genmetry.size:%d;userlist.framewidth:%d;width:%d",
                     e->size().width(),
                     geometry().size().width(),

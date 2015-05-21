@@ -70,6 +70,7 @@ CFrmMain::~CFrmMain()
 
 void CFrmMain::resizeEvent(QResizeEvent *e)
 {
+    Q_UNUSED(e);
     /*LOG_MODEL_DEBUG("CWdgTableMain", "CWdgTableMain::resizeEvent:e.size:%d;genmetry.size:%d",
                     e->size().width(),
                     geometry().size().width());*/

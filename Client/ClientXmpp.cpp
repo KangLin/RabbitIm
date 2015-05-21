@@ -434,7 +434,7 @@ void CClientXmpp::slotClientConnected()
     if(!IsLogin())
     {
         //数据层在界面之前初始化  
-        nRet = CGlobal::Instance()->GetManager()->Init(szId);
+        nRet = CGlobal::Instance()->GetManager()->LoginInit(szId);
         if(nRet)
         {
             LOG_MODEL_ERROR("CClientXmpp", "Init GlobalUser fail");
@@ -482,7 +482,7 @@ void CClientXmpp::slotClientDisConnected()
     {
         //注意:这个顺序不能变  
         emit sigClientDisconnected();
-        CGlobal::Instance()->GetManager()->Clean();
+        CGlobal::Instance()->GetManager()->LogoutClean();
     }
 }
 

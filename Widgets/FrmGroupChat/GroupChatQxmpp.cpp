@@ -107,6 +107,7 @@ void CGroupChatQxmpp::slotAllowedActionsChanged(QXmppMucRoom::Actions actions)
 
 void CGroupChatQxmpp::slotConfigurationReceived(const QXmppDataForm &configuration)
 {
+    Q_UNUSED(configuration);
     LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotConfigurationReceived");
 }
 
@@ -128,6 +129,7 @@ void CGroupChatQxmpp::slotError(const QXmppStanza::Error &error)
 
 void CGroupChatQxmpp::slotKicked(const QString &jid, const QString &reason)
 {
+    Q_UNUSED(reason);
     LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotKicked:%s", qPrintable(jid));
 }
 
@@ -339,6 +341,7 @@ int CGroupChatQxmpp::NumberOfPeople()
 
 CGroupChat::ENUM_Affiliation CGroupChatQxmpp::Affiliation(const QString &szId) 
 {
+    Q_UNUSED(szId);
     if(m_Permissions.isEmpty())
         return UnspecifiedAffiliation;
     return (ENUM_Affiliation)m_Permissions.at(0).affiliation();
@@ -374,6 +377,7 @@ int CGroupChatQxmpp::Kick(const QString &szId, const QString &reason)
 
 int CGroupChatQxmpp::SetConfigure(const QString &szName, const QString &szSubject, const QString &szPassword, const QString &szDescription, bool bProtracted, bool bPrivated, const QString &szNick)
 {
+    Q_UNUSED(szNick);
     QXmppDataForm form(QXmppDataForm::Submit);
     QList<QXmppDataForm::Field> fields;
     {

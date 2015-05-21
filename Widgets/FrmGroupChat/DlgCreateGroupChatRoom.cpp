@@ -109,6 +109,7 @@ void CDlgCreateGroupChatRoom::on_pbCancel_clicked()
 
 void CDlgCreateGroupChatRoom::slotError(const QString &szId, CGroupChat::Condition c, int ErrCode)
 {
+    Q_UNUSED(szId);
     QString szText = tr("Unknow error.");
     switch (c) {
     case CGroupChat::NotAuthorized:

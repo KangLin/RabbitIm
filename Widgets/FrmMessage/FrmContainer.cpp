@@ -136,6 +136,7 @@ int CFrmContainer::ShowDialog(const QString &szId)
 
 void CFrmContainer::resizeEvent(QResizeEvent *e)
 {
+    Q_UNUSED(e);
     m_tabWidget.resize(this->geometry().size());
 }
 

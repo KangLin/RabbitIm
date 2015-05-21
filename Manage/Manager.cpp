@@ -1,6 +1,7 @@
 #include "Manager.h"
 #include "ManageMessageDialogBigScreen.h"
 #include "FileTransfer/ManageFileTransfer.h"
+#include "ManagerXmpp.h"
 
 CManager::CManager()
 {
@@ -10,7 +11,38 @@ CManager::~CManager()
 {
 }
 
-int CManager::Init(const QString &szId)
+CManager *CManager::Instance(MANAGER_TYPE type, bool bReset)
+{
+    static CManager* pManager = NULL;
+    if(!pManager && bReset)
+    {
+        delete pManager;
+    }
+
+    if(!pManager)
+    {
+        switch(type)
+        {
+        case XMPP:
+            pManager = (CManager*)new CManagerXmpp;
+        default:
+            ;
+        }
+    }
+    return pManager;
+}
+
+int CManager::Init()
+{
+    return 0;
+}
+
+int CManager::Clean()
+{
+    return 0;
+}
+
+int CManager::LoginInit(const QString &szId)
 {
     //注意:初始化顺序  
     GetManageUser()->Init(szId);
@@ -22,7 +54,7 @@ int CManager::Init(const QString &szId)
     return 0;
 }
 
-int CManager::Clean()
+int CManager::LogoutClean()
 {
     //注意:清理顺序  
     GetCall()->Clean();

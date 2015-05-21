@@ -149,6 +149,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent * e)
 {
+    Q_UNUSED(e);
     /*
     LOG_MODEL_DEBUG("MainWindow", "\ngeometry:top:%d;left:%d;right:%d;bottom:%d;\nheight:%d;width:%d;\nframegeometry:top:%d;left:%d;right:%d;bottom:%d",
                     geometry().top(), geometry().left(),
@@ -286,6 +287,7 @@ void MainWindow::leaveEvent(QEvent *event)
 
 void MainWindow::moveEvent(QMoveEvent *event)
 {
+    Q_UNUSED(event);
     //LOG_MODEL_DEBUG("MainWindow", "MainWindow::moveEvent");
     //this->setWindowOpacity(0.5);
 

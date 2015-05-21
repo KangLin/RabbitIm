@@ -127,5 +127,8 @@ int CManageGroupChat::slotError(const QString &szId, CGroupChat::Condition c, in
 
 void CManageGroupChat::slotInvitationReceived(const QString &Id, const QString &inviter, const QString &reason)
 {
+    Q_UNUSED(Id);
+    Q_UNUSED(inviter);
+    Q_UNUSED(reason);
     return;
 }

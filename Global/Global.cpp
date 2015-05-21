@@ -158,12 +158,9 @@ int CGlobal::SetMainWindow(MainWindow *pWnd)
     return 0;
 }
 
-QSharedPointer<CManager> CGlobal::GetManager()
+CManager *CGlobal::GetManager(CManager::MANAGER_TYPE type, bool bReset)
 {
-    static QSharedPointer<CManager> manager((CManager*)new CManagerXmpp);
-    if(manager.isNull())
-        manager = QSharedPointer<CManager>((CManager*)new CManagerXmpp);
-    return manager;
+    return CManager::Instance(type, bReset);
 }
 
 CUserInfo::USER_INFO_STATUS CGlobal::GetStatus()

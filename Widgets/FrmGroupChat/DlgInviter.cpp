@@ -104,6 +104,7 @@ QStandardItem*  CDlgInviter::ItemInsertGroup(QString szGroup)
 
 int CDlgInviter::ProcessRoster(QSharedPointer<CUserInfo> roster, void *para)
 {
+    Q_UNUSED(para);
     int nRet = 0;
     nRet = ItemInsertRoster(roster->GetId());
     return nRet;

@@ -193,6 +193,7 @@ void CFrmVideo::on_pbCancel_clicked()
 void CFrmVideo::on_cmbCamera_currentIndexChanged(int index)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::on_cmbCamera_currentIndexChanged");
+    Q_UNUSED(index);
 }
 
 void CFrmVideo::slotRefresh()

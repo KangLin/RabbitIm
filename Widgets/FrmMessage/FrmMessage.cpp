@@ -240,6 +240,7 @@ void CFrmMessage::changeEvent(QEvent *e)
 
 void CFrmMessage::dropEvent(QDropEvent *event)
 {
+    Q_UNUSED(event);
     LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::dropEvent");
 }
 

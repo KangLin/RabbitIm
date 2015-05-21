@@ -243,6 +243,7 @@ void CFrmGroupChatList::on_actionInviter_triggered()
 
 void CFrmGroupChatList::slotClicked(const QModelIndex &index)
 {
+    Q_UNUSED(index);
 #ifdef MOBILE
     this->on_actionOpen_chat_room_triggered();
 #endif
@@ -250,6 +251,7 @@ void CFrmGroupChatList::slotClicked(const QModelIndex &index)
 
 void CFrmGroupChatList::slotDoubleClicked(const QModelIndex &index)
 {
+    Q_UNUSED(index);
 #ifndef ANDROID
     this->on_actionOpen_chat_room_triggered();
 #endif

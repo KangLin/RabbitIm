@@ -152,6 +152,7 @@ void CFrmGroupChat::closeEvent(QCloseEvent *)
 
 void CFrmGroupChat::resizeEvent(QResizeEvent *e)
 {
+    Q_UNUSED(e);
 }
 
 void CFrmGroupChat::changeEvent(QEvent *e)
@@ -182,6 +183,7 @@ void CFrmGroupChat::on_pbMember_clicked()
 
 void CFrmGroupChat::on_lstMembers_clicked(const QModelIndex &index)
 {
+    Q_UNUSED(index);
 #ifdef MOBILE
     //on_lstMembers_doubleClicked(index);
 #endif

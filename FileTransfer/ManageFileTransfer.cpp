@@ -25,6 +25,7 @@ CManageFileTransfer::~CManageFileTransfer()
 int CManageFileTransfer::Init(const QString &szId)
 {
     bool check = false;
+    Q_UNUSED(szId);
     check = connect(GET_CLIENT.data(), SIGNAL(sigFileReceived(QString,QSharedPointer<CFileTransfer>)),
                     SLOT(slotFileReceived(QString,QSharedPointer<CFileTransfer>)));
     Q_ASSERT(check);

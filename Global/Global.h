@@ -40,7 +40,10 @@ public:
     //得到主窗口  
     MainWindow* GetMainWindow();
     int SetMainWindow(MainWindow* pWnd);
-    QSharedPointer<CManager> GetManager();
+    CManager* GetManager(
+            CManager::MANAGER_TYPE type = CManager::XMPP, ///< 协议类型  
+            bool bReset = false                           ///< 是否重新生成管理者  
+            );
 private:
     MainWindow* m_pMainWindow;
 
