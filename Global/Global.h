@@ -10,8 +10,15 @@
 
 class MainWindow;
 
+/** 
+ * @mainpage
+ * 
+ *
+ */
+
 /**
   * @defgroup RABBITIM_GLOBAL 全局变更类模块  
+  * @brief 全局变量模块  
   */
 
 /**
@@ -28,16 +35,19 @@ private:
 public:
     static CGlobal* Instance();
 
-    //日志  
-    //参数：  
-    //    pszFile:打印日志处文件名  
-    //    nLine:打印日志处行号  
-    //    nLevel:打印日志错误级别  
-    //....pszModelName:打印日志的模块范围  
+    /**
+     * @brief 日志  
+     * @param pszFile:打印日志处文件名  
+     * @param nLine:打印日志处行号  
+     * @param nLevel:打印日志错误级别  
+     * @param pszModelName:打印日志的模块范围  
+     * @param pFormatString:格式化字符串  
+     * @return 
+     */
     int Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...);
 
 public:
-    //得到主窗口  
+    /// 得到主窗口  
     MainWindow* GetMainWindow();
     int SetMainWindow(MainWindow* pWnd);
     CManager* GetManager(
@@ -48,16 +58,16 @@ private:
     MainWindow* m_pMainWindow;
 
 public:
-    //应用程序目录  
+    /// 应用程序目录  
     QString GetDirApplication();
-    //文档目录，默认是系统文档目录  
+    /// 文档目录，默认是系统文档目录  
     QString GetDirDocument();
     int SetDirDocument(QString szPath);
-    //应用程序配置目录  
+    /// 应用程序配置目录  
     QString GetDirApplicationConfigure();
-    //应用程序数据目录  
+    /// 应用程序数据目录  
     QString GetDirApplicationData();
-    //应用程序下载目录  
+    /// 应用程序下载目录  
     QString GetDirApplicationDownLoad();
     /**
      * @brief 用户配置目录  
@@ -71,9 +81,9 @@ public:
      * @param szId:本地用户id,默认为本地用户   
      */
     QString GetDirUserData(const QString &szId = QString());
-    //翻译文件目录  
+    /// 翻译文件目录  
     QString GetDirTranslate();
-    //应用程序配置文件  
+    /// 应用程序配置文件  
     QString GetApplicationConfigureFile();
     /**
      * @brief 得到用户的配置文件  
@@ -100,14 +110,16 @@ public:
      * @param szId:本地用户id,默认为本地用户   
      */
     QString GetDirReceiveFile(const QString &szId = QString());
-    /// 得到表情图片文件  
+    /** 
+     * 得到表情图片文件  
+     */
     QString GetFileSmileyPack();
 
 private:
     QString m_szDocumentPath;
 public:
-    /// 只保存用户登录时的状态,在用户登录对话框中设置  
-    CUserInfo::USER_INFO_STATUS GetStatus();//得到本地用户状态  
+    // 只保存用户登录时的状态,在用户登录对话框中设置  
+    CUserInfo::USER_INFO_STATUS GetStatus();///< 得到本地用户状态  
     int SetStatus(CUserInfo::USER_INFO_STATUS status);
 private:
     CUserInfo::USER_INFO_STATUS m_LocalStatus;///< 本地用户的状态  
@@ -121,36 +133,39 @@ public:
     QColor GetRosterStatusColor(CUserInfo::USER_INFO_STATUS status);
 
 public:
-    //设置本地用户的显示颜色  
+    /// 设置本地用户的显示颜色  
     int SetUserColor(const QColor &color);
     QColor GetUserColor();
-    //设置好友的显示颜色  
+    /// 设置好友的显示颜色  
     int SetRosterColor(const QColor &color);
     QColor GetRosterColor();
-    //设置消息字体颜色  
+    /// 设置消息字体颜色  
     int SetUserMessageColor(const QColor &color);
     QColor GetUserMessageColor();
-    //设置好友消息字体颜色  
+    /// 设置好友消息字体颜色  
     int SetRosterMessageColor(const QColor &color);
     QColor GetRosterMessageColor();
-    //设置未读消息记数颜色  
+    /// 设置未读消息记数颜色  
     int SetUnreadMessageCountColor(const QColor &color);
     QColor GetUnreadMessageCountColor();
 private:
-    QColor m_UserColor;   //本地用户颜色  
-    QColor m_RosterColor; //好友颜色  
+    QColor m_UserColor;   ///< 本地用户颜色  
+    QColor m_RosterColor; ///< 好友颜色  
     QColor m_UserMessageColor;
     QColor m_RosterMessageColor;
-    QColor m_UnreadMessageCountColor;//未读消息记数颜色  
+    QColor m_UnreadMessageCountColor;///< 未读消息记数颜色  
     QColor GetColorFormConf(const QString &Key, const QColor &def);
     int SetColorToConf(const QString &Key, const QColor &color);
 
 public:
+    /**
+     * @brief 主窗口关闭类型  
+     */
     enum E_CLOSE_TYPE
     {
         E_CLOSE_TYPE_NO,
-        E_CLOSE_TYPE_CLOSE_PROGRAME,
-        E_CLOSE_TYPE_LOGOUT
+        E_CLOSE_TYPE_CLOSE_PROGRAME, ///< 退出程序  
+        E_CLOSE_TYPE_LOGOUT          ///< 登出  
     };
     E_CLOSE_TYPE GetCloseType();
     int SetCloseType(E_CLOSE_TYPE type);
@@ -159,10 +174,13 @@ private:
     E_CLOSE_TYPE m_CloseType;
 
 public:
+    /**
+     * @brief 消息对话框发送消息快捷键  
+     */
     enum E_MESSAGE_SEND_TYPE
     {
-        E_MESSAGE_SEND_TYPE_ENTER,
-        E_MESSAGE_SEND_TYPE_CTRL_ENTER
+        E_MESSAGE_SEND_TYPE_ENTER,     ///< enter 发送消息  
+        E_MESSAGE_SEND_TYPE_CTRL_ENTER ///< ctrl+enter 发送消息  
     };
     int SetMessageSendType(E_MESSAGE_SEND_TYPE type);
     E_MESSAGE_SEND_TYPE GetMessageSendType();
@@ -210,39 +228,41 @@ public:
     int SetNotifiationBarShowMessage(bool bShowMessage);
     bool IsNotifiationBarShowMessage();
     //设置通知栏弹出消息显示的时间  
-    int SetNotifiationBarShowMessageDelay(int nMs);//单位：ms  
-    int GetNotifiationBarShowMessageDelay();//单位：ms  
+    int SetNotifiationBarShowMessageDelay(int nMs); ///< 单位：ms  
+    int GetNotifiationBarShowMessageDelay();        ///< 单位：ms  
     //设置通知栏图标是否闪烁  
     int SetNotifiationFlashs(bool bFlashs);
     bool IsNotifiationFlashs();
     //设置闪烁间隔时间  
-    int SetNotifiationFlashInterval(int nMs);//单位：ms  
-    int GetNotifiationFlashInterval();//单位：ms  
+    int SetNotifiationFlashInterval(int nMs); ///< 单位：ms  
+    int GetNotifiationFlashInterval();        ///< 单位：ms  
     //是否提示接收消息提示音  
     int SetMessageSound(bool bSound);
     bool GetMessageSound();
     //主窗口在边界自动隐藏的延时  
-    int SetAnimationHideMainWindow(int nMs);//单位:ms  
-    int GetAnimationHideMainWindow();//单位:ms  
-    int SetAnimationDuration(int nMs);//单位:ms  
-    int GetAnimationDuration();//单位:ms  
-    bool IsAnimationHideMainWindow();//是否自动隐藏主窗口  
+    int SetAnimationHideMainWindow(int nMs); ///< 单位:ms  
+    int GetAnimationHideMainWindow();        ///< 单位:ms  
+    int SetAnimationDuration(int nMs);       ///< 单位:ms  
+    int GetAnimationDuration();              ///< 单位:ms  
+    bool IsAnimationHideMainWindow();        ///< 是否自动隐藏主窗口  
     int SetIsAnimationHideMainWindow(bool bHide);
 
 private:
-    bool m_AutoLogin;//自动登录  
+    bool m_AutoLogin;               ///< 自动登录  
     int m_nAutoLoginDelayTime;
     bool m_bNotifiationBarShowMessage;
     int m_nShowMessageDelay;
     bool m_bNotifiationBarFlashs;
     int m_nFlashInterval;
-    bool m_bMessageSound;//是否提示接收消息提示音  
-    int m_nAnimationHideMainWindow;//单位:ms  
-    int m_nAnimationDuration;//动画时长.单位:ms  
+    bool m_bMessageSound;           ///< 是否提示接收消息提示音  
+    int m_nAnimationHideMainWindow; ///< 单位:ms  
+    int m_nAnimationDuration;       ///< 动画时长.单位:ms  
     bool m_bAnimationHideMainWindows;
 
 public:
-    //配置好友显示名称  
+    /** 
+     * 配置好友显示名称  
+     */
     enum E_ROSTER_SHOW_TYPE
     {
         E_ROSTER_SHOW_JID,

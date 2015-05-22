@@ -46,7 +46,7 @@ RABBITIM_UPDATE_CONTENTS=$$replace(RABBITIM_UPDATE_CONTENTS, "%RABBITIM_MIN_COMP
 write_file($$UPDATE_FILENAME, RABBITIM_UPDATE_CONTENTS)
 
 #doxygen必须位于的环境变量PATH中
-equals(RABBITIM_USE_DOXYGEN, 1) {
+equals(RABBITIM_USE_DOXYGEN, 1):!android {
     #更新Doxyfile中的版本信息
     DOXYFILE_FILENAME=$$OUT_PWD/Doxyfile
     TEMPLATE_DOXYFILE_FILENAME=Doxyfile.template
@@ -57,5 +57,6 @@ equals(RABBITIM_USE_DOXYGEN, 1) {
     #message($$RABBITIM_DOXYFILE_CONTENTS)
     write_file($$DOXYFILE_FILENAME, RABBITIM_DOXYFILE_CONTENTS)
     message("Generate doxygen documents ......")
-    system(doxygen $$DOXYFILE_FILENAME)
+    DOXYGEN_RETURN=$$system(doxygen $$DOXYFILE_FILENAME)
+    #message("DOXYGEN_RETURN:$$DOXYGEN_RETURN")
 }

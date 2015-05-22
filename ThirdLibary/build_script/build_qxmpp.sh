@@ -87,7 +87,7 @@ case $RABBITIM_BUILD_TARGERT in
         #MAKE=mingw32-make #mingw 中编译
         case $TARGET_OS in
             MINGW* | CYGWIN* | MSYS*)
-                MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1" #在windows下编译
+        #        MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1" #在windows下编译
                 ;;
             *)
             ;;
@@ -113,24 +113,31 @@ if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     PARA="${PARA} QXMPP_LIBRARY_TYPE=staticlib" #静态库
 fi
 
-PARA="${PARA} -o Makefile PREFIX=${RABBITIM_BUILD_PREFIX} INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
-PARA="${PARA} LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib QXMPP_USE_VPX=1 CONFIG+=release"
-echo "$QMAKE ${PARA} .."
-$QMAKE ${PARA} ..
+PARA="${PARA} .. -o Makefile PREFIX=${RABBITIM_BUILD_PREFIX} INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
+PARA="${PARA} LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib QXMPP_USE_VPX=1"
+DEBUG_PARA="${PARA} CONFIG+=debug"
+RELEASE_PARA="${PARA} CONFIG+=release"
+
+echo "$QMAKE ${RELEASE_PARA}"
+$QMAKE ${RELEASE_PARA}
 
 ${MAKE} -f Makefile 
 case $RABBITIM_BUILD_TARGERT in
     android)
         ${MAKE} -f Makefile install
         ${MAKE} -f Makefile install ${MAKE_PARA}
-        if [ -d "${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/" ]; then
-            cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
+        echo "$QMAKE ${DEBUG_PARA}"
+        ${QMAKE} ${DEBUG_PARA}
+        ${MAKE} -f Makefile install
+        ${MAKE} -f Makefile install ${MAKE_PARA}
+        if [ -d "$RABBITIM_BUILD_PREFIX/libs/armeabi-v7a" ]; then
+            cp -fr $RABBITIM_BUILD_PREFIX/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
         fi
     ;;
     windows_mingw|windows_msvc)
         ${MAKE} install
-        PARA="${PARA} CONFIG+=debug"
-        $QMAKE ${PARA} ..
+        echo "$QMAKE ${DEBUG_PARA}"
+        ${QMAKE} ${DEBUG_PARA}
         ${MAKE} install
         QXMPP_DLL="${RABBITIM_BUILD_PREFIX}/lib/qxmpp.dll"
         if [ -f "${QXMPP_DLL}" ]; then
@@ -150,6 +157,9 @@ case $RABBITIM_BUILD_TARGERT in
         fi
     ;;
     *)
+        ${MAKE} install
+        echo "$QMAKE ${DEBUG_PARA}"
+        ${QMAKE} ${DEBUG_PARA}
         ${MAKE} install
     ;;
 esac

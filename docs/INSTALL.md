@@ -31,9 +31,11 @@
 ##### 3. 脚本工具：
 
 * python:2.7.6  版本 2.7 或以后
-    + 主页: https://www.python.org/  http://www.activestate.com/activepython/
+    + 主页: https://www.python.org/  
+    http://www.activestate.com/activepython/
 * perl：5.18.2  版本 5.12 或以后
-    + 主页： http://www.perl.org/  http://www.activestate.com/activeperl/
+    + 主页： http://www.perl.org/  
+    http://www.activestate.com/activeperl/
 * bash:msys或cygwin
 * ruby:qtwebkit编译需要 版本 1.9.3 或以后
     * 主页：

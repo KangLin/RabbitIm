@@ -1,3 +1,6 @@
+libyuv编译
+=========
+
 ## 下载代码(要翻墙)：
 
     git clone http://git.chromium.org/external/libyuv.git    

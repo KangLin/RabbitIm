@@ -53,8 +53,8 @@
 
 [许可协议](License.md)
 [变更日志](ChangeLog.md)
-[开发](./docs/develop.md)
-[编译](./docs/INSTALL.md)
+[开发](docs/develop.md)
+[编译](docs/INSTALL.md)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
