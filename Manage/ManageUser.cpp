@@ -11,7 +11,6 @@ CManageUser::CManageUser(QObject *parent) :
 
 CManageUser::~CManageUser()
 {
-    Clean();
 }
 
 int CManageUser::Init(const QString &szId)

@@ -18,7 +18,9 @@
  * @class CUser
  * @ingroup RABBITIM_INTERFACE_USER RABBITIM_INTERFACE
  * @brief 用户类  
- * 包括用户信息和用户消息,由 CManageUser 管理  
+ *               包括用户信息和用户消息,由 CManageUser 管理
+ *               不同协议的用户信息由具体协议派生 CUserInfo 类实现,
+ *               使用者调用 CManager::NewUserInfo() 接口得到.  
  * @see CManageUser
  * @see CUserInfo
  * @see CManageMessage

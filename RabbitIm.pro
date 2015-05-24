@@ -63,7 +63,7 @@ isEmpty(PREFIX){
 
 #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
 #packagesExist(qxmpp) {
-    DEFINES += QXMPP
+    DEFINES += RABBITIM_USE_QXMPP
     equals(RABBITIM_USE_STATIC, 1){
        DEFINES += QXMPP_STATIC
     }

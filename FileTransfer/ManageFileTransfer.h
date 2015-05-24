@@ -5,7 +5,7 @@
 #include <QMap>
 #include <QSharedPointer>
 #include "Manage/Manage.h"
-#ifdef QXMPP
+#ifdef RABBITIM_USE_QXMPP
 #include "FileTransferQXmpp.h"
 #else
 #include "FileTransfer.h"

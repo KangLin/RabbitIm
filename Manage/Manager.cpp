@@ -2,6 +2,7 @@
 #include "ManageMessageDialogBigScreen.h"
 #include "FileTransfer/ManageFileTransfer.h"
 #include "ManagerXmpp.h"
+#include "Global/Global.h"
 
 CManager::CManager()
 {
@@ -9,6 +10,7 @@ CManager::CManager()
 
 CManager::~CManager()
 {
+    LOG_MODEL_DEBUG("CManager", "CManager::~CManager()");
 }
 
 CManager *CManager::Instance(MANAGER_TYPE type, bool bReset)
@@ -44,6 +46,7 @@ int CManager::Clean()
 
 int CManager::LoginInit(const QString &szId)
 {
+    LOG_MODEL_DEBUG("CManager", "CManager::LoginInit()");
     //注意:初始化顺序  
     GetManageUser()->Init(szId);
     GetManageMessageDialog()->Init(szId);
@@ -56,6 +59,7 @@ int CManager::LoginInit(const QString &szId)
 
 int CManager::LogoutClean()
 {
+    LOG_MODEL_DEBUG("CManager", "CManager::LogoutClean()");
     //注意:清理顺序  
     GetCall()->Clean();
     GetFileTransfer()->Clean();

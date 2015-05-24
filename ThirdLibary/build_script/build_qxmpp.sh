@@ -158,6 +158,7 @@ case $RABBITIM_BUILD_TARGERT in
     ;;
     *)
         ${MAKE} install
+        rm -fr *
         echo "$QMAKE ${DEBUG_PARA}"
         ${QMAKE} ${DEBUG_PARA}
         ${MAKE} install

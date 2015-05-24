@@ -43,6 +43,7 @@ CClientXmpp::CClientXmpp(QObject *parent)
 
 CClientXmpp::~CClientXmpp()
 {
+    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::~CClientXmpp()");
 }
 
 int CClientXmpp::InitConnect()
@@ -478,6 +479,8 @@ void CClientXmpp::slotClientConnected()
  */
 void CClientXmpp::slotClientDisConnected()
 {
+    LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotClientDisConnected()");
+    //Logout()中先设置了false,才触发此信号的  
     if(!IsLogin())
     {
         //注意:这个顺序不能变  

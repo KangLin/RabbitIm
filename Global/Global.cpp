@@ -9,7 +9,7 @@
 #include <string>
 #include <QSettings>
 
-#ifdef QXMPP
+#ifdef RABBITIM_USE_QXMPP
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppRtpChannel.h"
 #include "Manage/ManageUserQXmpp.h"
@@ -83,7 +83,9 @@ CGlobal::CGlobal(QObject *parent) :
     m_szStyleMenu = conf.value("UI/MenuStyleSheet", "Dark").toString();
 
     //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用 
+#ifdef RABBITIM_USE_QXMPP
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
+#endif
 }
 
 CGlobal::~CGlobal()
@@ -586,9 +588,11 @@ QString CGlobal::GetDirReceiveFile(const QString &szId)
 
 QString CGlobal::GetFileUserAvatar(const QString &szId, const QString &szLocalId)
 {
-    QString id;
+    QString id = szId;
+#ifdef RABBITIM_USE_QXMPP
     if(!szId.isEmpty())
-        id = QXmppUtils::jidToBareJid(szId);
+        id = QXmppUtils::jidToBareJid(id);
+#endif
     id = id.replace("@", ".");
 
     return GetDirUserAvatar(szLocalId) + QDir::separator() + id + ".png";

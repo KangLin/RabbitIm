@@ -9,7 +9,6 @@ CManageMessageDialog::CManageMessageDialog(QObject *parent) : CManage(parent)
 CManageMessageDialog::~CManageMessageDialog()
 {
     LOG_MODEL_DEBUG("CManageMessageDialog", "CManageMessageDialog::~CManageMessageDialog()");
-    Clean();
 }
 
 int CManageMessageDialog::Init(const QString &szId)

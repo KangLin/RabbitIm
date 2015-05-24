@@ -5,7 +5,25 @@
 #include "qxmpp/QXmppVCardIq.h"
 #include "qxmpp/QXmppRosterIq.h"
 
+/**
+ * @defgroup RABBITIM_IMPLEMENT_QXMPP_MANAGEUSER 用户管理接口类模块  
+ * @ingroup RABBITIM_IMPLEMENT_QXMPP_MANAGER
+ * @brief 用户管理类接口类模块。
+ */
+
 class CClientXmpp;
+/**
+ * @class CManageUser
+ * @ingroup RABBITIM_IMPLEMENT_QXMPP_MANAGEUSER RABBITIM_IMPLEMENT_QXMPP
+ * @brief 用户管理类接口xmpp实现类。此类管理用户信息 (CUser),包括登录用户与好友。\n  
+ *          由接口 CManager::GetManageUser() 访问此接口对象。\n
+ *          登录成功后调用 Init\n  
+ *          GetUserInfoLocale 需要访问登录用户信息\n  
+ *          GetUserInfoRoster 需要访问好友用户信息\n  
+ *          登出后调用 Clean  
+ * @see CManager 
+ * @see CUser  
+ */
 class CManageUserQXmpp : public CManageUser
 {
     Q_OBJECT

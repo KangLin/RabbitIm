@@ -174,7 +174,8 @@ void MainWindow::closeEvent(QCloseEvent *e)
     if(!m_bLogin)
     {
         LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent QApplication::quit()");
-        QApplication::quit();
+        e->accept(); 
+        //QApplication::quit();
         return;
     }
 
@@ -187,8 +188,9 @@ void MainWindow::closeEvent(QCloseEvent *e)
                         tr("Close"),
                         tr("Is close the programe or logout?"),
                         QMessageBox::Ok | QMessageBox::Yes | QMessageBox::Cancel);
-        msg.setButtonText(QMessageBox::Ok , tr("close"));
-        msg.setButtonText(QMessageBox::Yes, tr("logout"));
+        msg.setButtonText(QMessageBox::Ok , tr("Close"));
+        msg.setButtonText(QMessageBox::Yes, tr("Logout"));
+        msg.setButtonText(QMessageBox::Cancel, tr("Cancel"));
         msg.setDefaultButton(QMessageBox::Yes);
         /*QMessageBox msg;
         msg.setIcon(QMessageBox::Question);
@@ -204,9 +206,14 @@ void MainWindow::closeEvent(QCloseEvent *e)
         {
             CGlobal::Instance()->SetCloseType(CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME);
             //退出程序  
-            GET_CLIENT->Logout();
+            slotLogout();
             e->accept();
-            QApplication::closeAllWindows();
+            //因为程序退出时,还不能接收到服务返回的登出消息,  
+            //所以就不能触发sigClientDisconnected信号  
+            //所以就直接释放资源  
+            GETMANAGER->LogoutClean();
+            GETMANAGER->Clean();
+            //QApplication::closeAllWindows();
         }
         //else if(msg.clickedButton() == pLogout)
         else if(QMessageBox::Yes == nRet)
@@ -221,9 +228,14 @@ void MainWindow::closeEvent(QCloseEvent *e)
         break;
     case CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME:
         //退出程序  
-        GET_CLIENT->Logout();
+        slotLogout();
         e->accept();
-        QApplication::closeAllWindows();
+        //因为程序退出时,还不能接收到服务返回的登出消息,  
+        //所以就不能触发sigClientDisconnected信号  
+        //所以就直接释放资源  
+        GETMANAGER->LogoutClean();
+        GETMANAGER->Clean();
+        //QApplication::closeAllWindows();
         break;
     case CGlobal::E_CLOSE_TYPE_LOGOUT:
         slotLogout();

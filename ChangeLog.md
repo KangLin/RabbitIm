@@ -1,3 +1,8 @@
+版本：0.1.1
+--------------
+1. 添加 doxygen 文档
+2. 根据协议类型动态使用相应的协议
+
 版本：0.1.0
 --------------
 1. 跨平台(Windows、linux、unix、Android），已测试：Windows7、Ubuntu、Android

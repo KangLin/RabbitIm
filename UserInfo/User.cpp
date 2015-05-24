@@ -6,12 +6,7 @@ CUser::CUser(QObject *parent) :
     QObject(parent),
     m_Message(new CManageMessage)
 {
-#ifdef QXMPP
-    QSharedPointer<CUserInfo> Info = QSharedPointer<CUserInfo>(new CUserInfoXmpp);
-#else
-    QSharedPointer<CUserInfo> Info = QSharedPointer<CUserInfo>(new CUserInfo);
-#endif
-    m_Info = Info;
+    m_Info = GETMANAGER->NewUserInfo();
 }
 
 CUser::~CUser()

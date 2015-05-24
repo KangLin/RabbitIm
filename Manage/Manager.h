@@ -50,9 +50,9 @@ private:
     friend class CGlobal;
     /**
      * @brief 生成管理者实例。  
-     * 注意：如果要重新生成新的管理者，使用者必须保证原来的管理者已经调用 Clean 。  
+     * 注意：如果要重新生成新的管理者，使用者必须保证原来的管理者已经调用 LogoutClean()、Clean() 。  
      * 本接口不对外开放，只由 CGlobal::GetManager 访问。 
-     * @see CGlobal::GetManager 
+     * @see CGlobal::GetManager  
      * @param type：生成管理者类型  
      * @param bReset：是否重新生成管理者  
      * @return 返回管理者对象  
@@ -74,6 +74,12 @@ public:
     virtual QSharedPointer<CManageCall> GetCall();
     ///< 组管理对象  
     virtual QSharedPointer<CManageGroupChat> GetManageGroupChat() = 0;
+
+    /**
+     * 新建用户信息对象  
+     * @see CUser
+     */
+    virtual QSharedPointer<CUserInfo> NewUserInfo() = 0;
 
     /**
      * @brief 实例初始化  

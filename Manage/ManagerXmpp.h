@@ -5,6 +5,22 @@
 #include "ManageUserQXmpp.h"
 #include "Widgets/FrmGroupChat/ManageGroupChatQxmpp.h"
 
+/**
+ * @defgroup RABBITIM_IMPLEMENT_QXMPP  接口类模块  
+ * @brief 接口类模块  
+ * 
+ */
+
+/**
+ * @defgroup RABBITIM_IMPLEMENT_QXMPP_MANAGER 管理者接口类模块  
+ * @ingroup RABBITIM_IMPLEMENT_QXMPP
+ * @brief 管理者接口类模块  
+ */
+
+/**
+ * @brief 管理者接口xmpp实现类
+ * @ingroup RABBITIM_IMPLEMENT_QXMPP_MANAGER
+ */
 class CManagerXmpp : public CManager
 {
 public:
@@ -13,7 +29,10 @@ public:
     virtual QSharedPointer<CClient> GetClient();
     virtual QSharedPointer<CManageUser> GetManageUser();
     virtual QSharedPointer<CManageGroupChat> GetManageGroupChat();
-    
+
+    ///< 新建用户信息对象  
+    virtual QSharedPointer<CUserInfo> NewUserInfo();
+
 private:
     QSharedPointer<CClientXmpp> m_Client;
     QSharedPointer<CManageUserQXmpp> m_User;

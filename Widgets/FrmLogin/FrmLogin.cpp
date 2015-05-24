@@ -111,7 +111,7 @@ void CFrmLogin::on_pbRegitster_clicked()
                SLOT(slotClientConnected()));
     CDlgRegister r(this);
     int nRet = r.exec();
-#ifdef QXMPP
+#ifdef RABBITIM_USE_QXMPP
     if(QDialog::Accepted == nRet)
         on_pbOk_clicked();
 #endif
@@ -322,7 +322,7 @@ void CFrmLogin::ComposeAvatar(const QString &id)
 {
     LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::ComposeAvatar:%s", qPrintable(id));
     QString szId = id;
-#ifdef QXMPP
+#ifdef RABBITIM_USE_QXMPP
     if(szId.indexOf("@") == -1)
     {
         szId = szId + "@" + CGlobal::Instance()->GetXmppDomain();

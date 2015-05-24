@@ -1,4 +1,5 @@
 #include "ManagerXmpp.h"
+#include "UserInfo/UserInfoXmpp.h"
 
 CManagerXmpp::CManagerXmpp() :
     CManager(),
@@ -22,4 +23,9 @@ QSharedPointer<CManageUser> CManagerXmpp::GetManageUser()
 QSharedPointer<CManageGroupChat> CManagerXmpp::GetManageGroupChat()
 {
     return m_GroupChat;
+}
+
+QSharedPointer<CUserInfo> CManagerXmpp::NewUserInfo()
+{
+    return QSharedPointer<CUserInfo>(new CUserInfoXmpp);
 }

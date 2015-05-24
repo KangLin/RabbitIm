@@ -16,8 +16,11 @@
 /**
  * @class CUserInfo
  * @ingroup RABBITIM_INTERFACE_USERINFO RABBITIM_INTERFACE
- * @brief 用户信息接口类，用于描述用户信息 
+ * @brief 用户信息接口类，用于描述用户信息.
+ *               不同协议的用户信息由具体协议派生此类实现,
+ *               使用者调用 CManager::NewUserInfo() 接口得到.
  * @see CUser
+ * @see CManager
  */
 class CUserInfo : public QObject
 {
