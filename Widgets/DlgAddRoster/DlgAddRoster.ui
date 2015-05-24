@@ -301,14 +301,6 @@
     </layout>
    </item>
   </layout>
-  <zorder>layoutWidget</zorder>
-  <zorder>layoutWidget_2</zorder>
-  <zorder>layoutWidget_3</zorder>
-  <zorder>lbPrompt</zorder>
-  <zorder>layoutWidget_4</zorder>
-  <zorder>verticalSpacer</zorder>
-  <zorder>horizontalSpacer</zorder>
-  <zorder>verticalSpacer_2</zorder>
  </widget>
  <resources>
   <include location="../../Resource/Resource.qrc"/>
