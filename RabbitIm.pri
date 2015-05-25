@@ -1,10 +1,8 @@
 SOURCES += main.cpp\
     MainWindow.cpp \
     Tool.cpp \
-    Client/ClientXmpp.cpp \
     Client/Client.cpp \
     UserInfo/UserInfo.cpp \
-    UserInfo/UserInfoXmpp.cpp \
     UserInfo/COperateRoster.cpp \
     Global/Global.cpp \
     Widgets/FrmLogin/FrmLogin.cpp \
@@ -15,7 +13,6 @@ SOURCES += main.cpp\
     Widgets/FrmCustom/Label.cpp \ 
     Widgets/FrmMain/FrmMain.cpp \ 
     Manage/Manager.cpp \
-    Manage/ManagerXmpp.cpp \
     Manage/ManageMessageDialog.cpp \
     Widgets/FrmMessage/FrmMessage.cpp \
     Widgets/FrmCustom/MenuMessageSend.cpp \ 
@@ -25,7 +22,6 @@ SOURCES += main.cpp\
     Message/ChatActions/MessageAction.cpp \
     UserInfo/User.cpp \
     Manage/ManageUser.cpp \
-    Manage/ManageUserQXmpp.cpp \
     Manage/Manage.cpp \
     Message/SmileyPack.cpp \
     Message/EmoticonsWidget.cpp \
@@ -35,7 +31,6 @@ SOURCES += main.cpp\
     Widgets/DlgAddRoster/DlgAddRoster.cpp \
     FileTransfer/ManageFileTransfer.cpp \
     FileTransfer/FileTransfer.cpp \
-    FileTransfer/FileTransferQXmpp.cpp \  
     FileTransfer/FileTransferAction.cpp \
     Widgets/FrmVideo/DataVideoBuffer.cpp \
     Widgets/FrmVideo/FrameProcess.cpp \
@@ -45,7 +40,6 @@ SOURCES += main.cpp\
     Call/CallObject.cpp \
     Call/ManageCall.cpp \
     Call/CallAction.cpp \
-    Call/CallQXmpp.cpp \
     Widgets/FrmVideo/FrmVideo.cpp \ 
     Widgets/DlgRegister/DlgRegister.cpp \
     Widgets/DlgScreenShot/DlgScreenShot.cpp \ 
@@ -54,9 +48,7 @@ SOURCES += main.cpp\
     Widgets/FrmLogin/DlgLoginSettings.cpp \
     Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp \
     Widgets/FrmGroupChat/ManageGroupChat.cpp \
-    Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp \
     Widgets/FrmGroupChat/GroupChat.cpp \
-    Widgets/FrmGroupChat/GroupChatQxmpp.cpp \
     Widgets/FrmGroupChat/DlgJoinGroupChat.cpp \
     Widgets/FrmGroupChat/FrmGroupChat.cpp \
     Widgets/FrmGroupChat/ChatActionGroupChat.cpp \
@@ -73,8 +65,6 @@ HEADERS += Version.h \
     Global/Global.h \
     UserInfo/UserInfo.h \
     Client/Client.h \
-    UserInfo/UserInfoXmpp.h \
-    Client/ClientXmpp.h \
     UserInfo/COperateRoster.h \
     Widgets/FrmMain/FrmMain.h \
     Tool.h \
@@ -85,7 +75,7 @@ HEADERS += Version.h \
     Widgets/FrmCustom/Label.h \ 
     Manage/Manager.h \
     Manage/Manage.h \
-    Manage/ManagerXmpp.h \
+    Manage/ManageUser.h \
     Manage/ManageMessageDialog.h \
     Widgets/FrmCustom/MenuMessageSend.h \
     Widgets/FrmMessage/FrmMessage.h \
@@ -95,8 +85,6 @@ HEADERS += Version.h \
     Message/ChatActions/ChatAction.h \
     Message/ChatActions/MessageAction.h \
     UserInfo/User.h \
-    Manage/ManageUser.h \
-    Manage/ManageUserQXmpp.h \
     Message/EmoticonsWidget.h \
     Message/style.h \
     Widgets/FrmRecentMessage/FrmRecentMsgList.h \
@@ -104,7 +92,6 @@ HEADERS += Version.h \
     Widgets/DlgAddRoster/DlgAddRoster.h \
     FileTransfer/ManageFileTransfer.h \
     FileTransfer/FileTransfer.h \
-    FileTransfer/FileTransferQXmpp.h \
     FileTransfer/FileTransferAction.h \
     Widgets/FrmVideo/CaptureVideoFrame.h \
     Widgets/FrmVideo/DataVideoBuffer.h \
@@ -114,7 +101,6 @@ HEADERS += Version.h \
     Call/CallObject.h \
     Call/ManageCall.h \
     Call/CallAction.h \ 
-    Call/CallQXmpp.h \
     Widgets/FrmVideo/FrmVideo.h \ 
     Widgets/DlgRegister/DlgRegister.h \
     Widgets/DlgScreenShot/DlgScreenShot.h \ 
@@ -123,9 +109,7 @@ HEADERS += Version.h \
     Widgets/FrmLogin/DlgLoginSettings.h \  
     Widgets/FrmGroupChat/DlgCreateGroupChatRoom.h \
     Widgets/FrmGroupChat/ManageGroupChat.h \
-    Widgets/FrmGroupChat/ManageGroupChatQxmpp.h \
     Widgets/FrmGroupChat/GroupChat.h \
-    Widgets/FrmGroupChat/GroupChatQxmpp.h \
     Widgets/FrmGroupChat/DlgJoinGroupChat.h \
     Widgets/FrmGroupChat/FrmGroupChat.h \ 
     Widgets/FrmGroupChat/ChatActionGroupChat.h \
@@ -161,6 +145,26 @@ FORMS += MainWindow.ui \
 RESOURCES += \
     Resource/Resource.qrc \
     Resource/sink/dark/style.qrc
+
+equals(RABBITIM_USE_QXMPP, 1){
+    SOURCES += Client/ClientXmpp.cpp \
+    Manage/ManageUserQXmpp.cpp \
+    Manage/ManagerXmpp.cpp \
+    UserInfo/UserInfoXmpp.cpp \
+    FileTransfer/FileTransferQXmpp.cpp \  
+    Call/CallQXmpp.cpp \
+    Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp \
+    Widgets/FrmGroupChat/GroupChatQxmpp.cpp
+
+    HEADERS += Client/ClientXmpp.h \
+    Manage/ManageUserQXmpp.h \
+    Manage/ManagerXmpp.h \
+    UserInfo/UserInfoXmpp.h \
+    FileTransfer/FileTransferQXmpp.h \
+    Call/CallQXmpp.h \
+    Widgets/FrmGroupChat/ManageGroupChatQxmpp.h \
+    Widgets/FrmGroupChat/GroupChatQxmpp.h \
+}
 
 android{
     RESOURCES += Resource/translations/Translations.qrc \

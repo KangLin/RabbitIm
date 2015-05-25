@@ -3,10 +3,8 @@ SET(RABBITIM_SOURCES
     main.cpp
     MainWindow.cpp 
     Tool.cpp 
-    Client/ClientXmpp.cpp 
     Client/Client.cpp 
     UserInfo/UserInfo.cpp 
-    UserInfo/UserInfoXmpp.cpp 
     UserInfo/COperateRoster.cpp 
     Global/Global.cpp 
     Widgets/FrmLogin/FrmLogin.cpp 
@@ -18,7 +16,7 @@ SET(RABBITIM_SOURCES
     Widgets/FrmMain/FrmMain.cpp  
     Manage/Manager.cpp 
     Manage/Manage.cpp 
-    Manage/ManagerXmpp.cpp 
+    Manage/ManageUser.cpp 
     Manage/ManageMessageDialog.cpp 
     Widgets/FrmMessage/FrmMessage.cpp 
     Widgets/FrmCustom/MenuMessageSend.cpp  
@@ -27,8 +25,6 @@ SET(RABBITIM_SOURCES
     Message/ChatActions/ChatAction.cpp 
     Message/ChatActions/MessageAction.cpp 
     UserInfo/User.cpp 
-    Manage/ManageUser.cpp 
-    Manage/ManageUserQXmpp.cpp 
     Message/SmileyPack.cpp 
     Message/EmoticonsWidget.cpp 
     Message/style.cpp 
@@ -37,7 +33,6 @@ SET(RABBITIM_SOURCES
     Widgets/DlgAddRoster/DlgAddRoster.cpp 
     FileTransfer/ManageFileTransfer.cpp 
     FileTransfer/FileTransfer.cpp 
-    FileTransfer/FileTransferQXmpp.cpp   
     FileTransfer/FileTransferAction.cpp 
     Widgets/FrmVideo/DataVideoBuffer.cpp 
     Widgets/FrmVideo/FrameProcess.cpp 
@@ -47,7 +42,6 @@ SET(RABBITIM_SOURCES
     Call/CallObject.cpp 
     Call/ManageCall.cpp 
     Call/CallAction.cpp 
-    Call/CallQXmpp.cpp 
     Widgets/FrmVideo/FrmVideo.cpp  
     Widgets/DlgRegister/DlgRegister.cpp 
     Widgets/DlgScreenShot/DlgScreenShot.cpp  
@@ -56,9 +50,7 @@ SET(RABBITIM_SOURCES
     Widgets/FrmLogin/DlgLoginSettings.cpp 
     Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp 
     Widgets/FrmGroupChat/ManageGroupChat.cpp 
-    Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp 
     Widgets/FrmGroupChat/GroupChat.cpp 
-    Widgets/FrmGroupChat/GroupChatQxmpp.cpp 
     Widgets/FrmGroupChat/DlgJoinGroupChat.cpp 
     Widgets/FrmGroupChat/FrmGroupChat.cpp 
     Widgets/FrmGroupChat/ChatActionGroupChat.cpp 
@@ -70,6 +62,20 @@ SET(RABBITIM_SOURCES
     Widgets/DlgOptions/DlgOptions.cpp   
     Message/ManageMessage.cpp
 )
+
+IF(OPTION_RABBITIM_USE_QXMPP)
+    SET(RABBITIM_SOURCES
+        ${RABBITIM_SOURCES}
+        Manage/ManagerXmpp.cpp 
+        Manage/ManageUserQXmpp.cpp 
+        UserInfo/UserInfoXmpp.cpp 
+        Client/ClientXmpp.cpp 
+        FileTransfer/FileTransferQXmpp.cpp   
+        Call/CallQXmpp.cpp 
+        Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp 
+        Widgets/FrmGroupChat/GroupChatQxmpp.cpp 
+    )
+ENDIF(OPTION_RABBITIM_USE_QXMPP)
 
 SET(RABBITIM_UIS
     MainWindow.ui 

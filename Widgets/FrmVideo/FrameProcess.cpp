@@ -192,7 +192,7 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
         nHeight = inFrame.height();
 
     do{
-#ifdef  RABBITIM_USE_FFMPEG
+#if  RABBITIM_USE_FFMPEG && RABBITIM_USE_QXMPP
         //转换图片格式
         AVPicture pic;
         int nRet = 0;
@@ -214,8 +214,8 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
 
         avpicture_free(&pic);
 #else
-#error "Must use ffmpeg library"
-#endif//#ifdef  RABBITIM_USE_FFMPEG
+#error "Must use ffmpeg library and qxmpp library"
+#endif//#ifdef  RABBITIM_USE_FFMPEG && RABBITIM_USE_QXMPP
     }while(0);
 
     inFrame.unmap();
@@ -272,6 +272,7 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect
     emit sigFrameConvertedToRGB32Frame(outFrame);
 }
 
+#ifdef RABBITIM_USE_QXMPP
 void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, QRect rect)
 {
 #ifdef DEBUG_VIDEO_TIME
@@ -298,6 +299,7 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, QRec
 #endif
     emit sigFrameConvertedToRGB32Frame(outFrame);
 }
+#endif
 
 #ifdef RABBITIM_USE_FFMPEG
 int CFrameProcess::FillFrame(const AVPicture &pic, const QRect &rect, QVideoFrame &frame)

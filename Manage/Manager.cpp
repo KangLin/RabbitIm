@@ -1,7 +1,9 @@
 #include "Manager.h"
 #include "ManageMessageDialogBigScreen.h"
 #include "FileTransfer/ManageFileTransfer.h"
-#include "ManagerXmpp.h"
+#ifdef RABBITIM_USE_QXMPP
+    #include "ManagerXmpp.h"
+#endif
 #include "Global/Global.h"
 
 CManager::CManager()
@@ -25,9 +27,12 @@ CManager *CManager::Instance(MANAGER_TYPE type, bool bReset)
     {
         switch(type)
         {
+#ifdef RABBITIM_USE_QXMPP
         case XMPP:
             pManager = (CManager*)new CManagerXmpp;
+#endif
         default:
+            LOG_MODEL_ERROR("CManager", "Don't support manager type:%d", type);
             ;
         }
     }

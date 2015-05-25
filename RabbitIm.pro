@@ -4,6 +4,7 @@
 #
 #-------------------------------------------------
 
+RABBITIM_USE_QXMPP=1  #使用 qxmpp 库
 QXMPP_USE_VPX=1              #使用 vpx
 #QXMPP_USE_SPEEX=1            #使用 speex
 #RABBITIM_USE_OPENCV=1       #使用 opencv
@@ -61,18 +62,21 @@ isEmpty(PREFIX){
 #    CONFIG += staticlib #生成静态库
 #}
 
-#连接静态QXMPP库时，必须加上-DQXMPP_STATIC。生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
-#packagesExist(qxmpp) {
-    DEFINES += RABBITIM_USE_QXMPP
-    equals(RABBITIM_USE_STATIC, 1){
-       DEFINES += QXMPP_STATIC
-    }
-    CONFIG(debug, debug|release) {
-        QXMPP_LIBRARY_NAME = -lqxmpp_d # qxmpp 库名
-    }else{
-        QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
-    }
-#}
+equals(RABBITIM_USE_QXMPP, 1) {
+    #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。
+    #生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
+    #packagesExist(qxmpp) {
+        DEFINES += RABBITIM_USE_QXMPP
+        equals(RABBITIM_USE_STATIC, 1){
+           DEFINES += QXMPP_STATIC
+        }
+        CONFIG(debug, debug|release) {
+            QXMPP_LIBRARY_NAME = -lqxmpp_d # qxmpp 库名
+        }else{
+            QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
+        }
+    #}
+}
 
 CONFIG(debug, debug|release) {
     #调试宏

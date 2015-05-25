@@ -21,7 +21,9 @@ public slots:
     void slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidth = 320, int nHeight = 240);
     //转换帧格式到RGB32,转换完成后,触发信号sigConvertedToRGB32Frame  
     void slotFrameConvertedToRGB32(const QVideoFrame &inFrame, QRect rect = QRect());
+#ifdef RABBITIM_USE_QXMPP
     void slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, QRect rect = QRect());
+#endif
 
 signals:
     //帧被处理完后的信号  
