@@ -8,12 +8,16 @@
 
 /**
  * @brief 呼叫动作类  
+ * @see CCallObject
  */
 class CCallAction : public CChatAction
 {
     Q_OBJECT
 public:
-    explicit CCallAction(QSharedPointer<CCallObject> call, const QString &szId, const QTime &date, const bool &me);
+    explicit CCallAction(QSharedPointer<CCallObject> call,
+                         const QString &szId,
+                         const QTime &date,
+                         const bool &me);
     virtual ~CCallAction();
 
     virtual QString getMessage();
@@ -22,6 +26,7 @@ private slots:
     void slotUpdateHtml();
 
 protected:
+    virtual QString getDescriptionCallState();
     virtual QString getDescriptionConnectingState();
     virtual QString getDescriptionActiveState();
     virtual QString getDescriptionDisconnectingState();

@@ -14,6 +14,7 @@ build_unix_mingw/
 build_windows_mingw/
 build_unix/
 build_windows_msvc/
+RabbitIm/
 *.ncb
 .metadata/
 *~
@@ -110,6 +111,8 @@ ThirdLibary/android/
 ThirdLibary/windows_msvc/
 ThirdLibary/windows_mingw/
 ThirdLibary/src/
+ThirdLibary/windows_mingw_static/
+ThirdLibary/windows_msvc_static/
 rabbitim.kdev4
 *.pro.user.*
 Doxygen/

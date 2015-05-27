@@ -87,7 +87,7 @@ case $RABBITIM_BUILD_TARGERT in
         #MAKE=mingw32-make #mingw 中编译
         case $TARGET_OS in
             MINGW* | CYGWIN* | MSYS*)
-        #        MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1" #在windows下编译
+                MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1" #在windows下编译
                 ;;
             *)
             ;;
@@ -125,17 +125,19 @@ ${MAKE} -f Makefile
 case $RABBITIM_BUILD_TARGERT in
     android)
         ${MAKE} -f Makefile install
-        ${MAKE} -f Makefile install ${MAKE_PARA}
-        echo "$QMAKE ${DEBUG_PARA}"
-        ${QMAKE} ${DEBUG_PARA}
-        ${MAKE} -f Makefile install
-        ${MAKE} -f Makefile install ${MAKE_PARA}
-        if [ -d "$RABBITIM_BUILD_PREFIX/libs/armeabi-v7a" ]; then
-            cp -fr $RABBITIM_BUILD_PREFIX/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
-        fi
+        #${MAKE} -f Makefile install ${MAKE_PARA}
+        #rm -fr *
+        #echo "$QMAKE ${DEBUG_PARA}"
+        #${QMAKE} ${DEBUG_PARA}
+        #${MAKE} -f Makefile install
+        #${MAKE} -f Makefile install ${MAKE_PARA}
+        #if [ -d "$RABBITIM_BUILD_PREFIX/libs/armeabi-v7a" ]; then
+        #    cp -fr $RABBITIM_BUILD_PREFIX/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
+        #fi
     ;;
     windows_mingw|windows_msvc)
         ${MAKE} install
+        rm -fr *
         echo "$QMAKE ${DEBUG_PARA}"
         ${QMAKE} ${DEBUG_PARA}
         ${MAKE} install

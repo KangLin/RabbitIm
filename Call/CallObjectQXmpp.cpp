@@ -1,11 +1,14 @@
-#include "CallQXmpp.h"
+#include "CallObjectQXmpp.h"
 #include "qxmpp/QXmppUtils.h"
 #include "Global/Global.h"
 #include "qxmpp/QXmppRtpChannel.h"
 #include <QAudioDeviceInfo>
 #include "MainWindow.h"
 
-CCallQXmpp::CCallQXmpp(QXmppCall* pCall, bool bVideo, QObject *parent) : CCallObject(bVideo, parent)
+CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
+                                   bool bVideo,
+                                   QObject *parent)
+    : CCallObject(bVideo, parent)
 {
     m_pAudioInput = NULL;
     m_pAudioOutput = NULL;
@@ -26,19 +29,20 @@ CCallQXmpp::CCallQXmpp(QXmppCall* pCall, bool bVideo, QObject *parent) : CCallOb
     m_CaptureFrameProcess.moveToThread(&m_VideoThread);
     m_CaptureToRemoteFrameProcess.moveToThread(&m_VideoThread);
     m_ReciveFrameProcess.moveToThread(&m_VideoThread);
-*/
+    */
     bool check = connect(GET_MAINWINDOW, SIGNAL(sigRefresh()),
                          SLOT(slotUpdateOption()));
     Q_ASSERT(check);
 }
 
-CCallQXmpp::~CCallQXmpp()
+CCallObjectQXmpp::~CCallObjectQXmpp()
 {
     //TODO:多线程在运行时直接关闭窗口会core  
-    LOG_MODEL_DEBUG("CCallQXmpp", "CCallQXmpp status:%d", GetState());
+    LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp status:%d",
+                    GetState());
     if(this->GetState() == ActiveState)
     {
-        this->Cancel();
+        this->Stop();
         slotFinished();
     }
     if(GetState() == DisconnectingState)
@@ -52,10 +56,12 @@ CCallQXmpp::~CCallQXmpp()
     if(m_pFrmVideo)
         m_pFrmVideo->close();
 
-    LOG_MODEL_DEBUG("CCallQXmpp", "CCallQXmpp::~CCallQXmpp.id:%d", qPrintable(GetId()));
+    LOG_MODEL_DEBUG("CCallObjectQXmpp",
+                    "CCallObjectQXmpp::~CCallObjectQXmpp.id:%d",
+                    qPrintable(GetId()));
 }
 
-int CCallQXmpp::ConnectionCallSlot(QXmppCall *pCall)
+int CCallObjectQXmpp::ConnectionCallSlot(QXmppCall *pCall)
 {
     bool check = false;
     //只有主叫方才有的事件  
@@ -90,7 +96,7 @@ int CCallQXmpp::ConnectionCallSlot(QXmppCall *pCall)
     return -1;
 }
 
-int CCallQXmpp::Accept()
+int CCallObjectQXmpp::Accept()
 {
     int nRet = 0;
     StopCallSound();
@@ -101,7 +107,7 @@ int CCallQXmpp::Accept()
     return nRet;
 }
 
-int CCallQXmpp::Cancel()
+int CCallObjectQXmpp::Stop()
 {
     int nRet = 0;
     StopCallSound();
@@ -112,17 +118,9 @@ int CCallQXmpp::Cancel()
     return nRet;
 }
 
-CCallObject::State CCallQXmpp::GetState()
+void CCallObjectQXmpp::slotConnection()
 {
-    if(m_pCall)
-        return (State)m_pCall->state();
-    else
-        return ConnectingState;
-}
-
-void CCallQXmpp::slotConnection()
-{
-    LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallQXmpp::slotConnection");
+    LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallObjectQXmpp::slotConnection");
     StopCallSound();
 
     //初始始化音频设备  
@@ -132,13 +130,14 @@ void CCallQXmpp::slotConnection()
         StartVideo();
 }
 
-void CCallQXmpp::slotStateChanged(QXmppCall::State state)
+void CCallObjectQXmpp::slotStateChanged(QXmppCall::State state)
 {
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "State:%d", state);
+    m_State = (State) state;
     emit sigUpdate();
 }
 
-void CCallQXmpp::slotFinished()
+void CCallObjectQXmpp::slotFinished()
 {
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallVideoQXmpp::slotFinished");
     StopAudioDevice();
@@ -151,7 +150,7 @@ void CCallQXmpp::slotFinished()
 }
 
 //音频模式改变  
-void CCallQXmpp::slotAudioModeChanged(QIODevice::OpenMode mode)
+void CCallObjectQXmpp::slotAudioModeChanged(QIODevice::OpenMode mode)
 {
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "CFrmVideo::audioModeChanged:%x", mode);
 
@@ -248,12 +247,12 @@ void ShowAudioDevices()
     ShowAudioDeviceSupportCodec(out, "default output");
 }
 
-int CCallQXmpp::StartAudioDevice()
+int CCallObjectQXmpp::StartAudioDevice()
 {
     int nRet = 0;
     if(!m_pCall)
     {
-        LOG_MODEL_ERROR("CCallQXmpp", "CCallQXmpp::StartAudioDevice is null");
+        LOG_MODEL_ERROR("CCallObjectQXmpp", "CCallObjectQXmpp::StartAudioDevice is null");
         return -1;
     }
 
@@ -324,7 +323,7 @@ int CCallQXmpp::StartAudioDevice()
 }
 
 //停止设备，并删除对象  
-int CCallQXmpp::StopAudioDevice()
+int CCallObjectQXmpp::StopAudioDevice()
 {
     if(m_pAudioInput)
     {
@@ -344,11 +343,11 @@ int CCallQXmpp::StopAudioDevice()
 }
 
 //视频模式改变  
-void CCallQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
+void CCallObjectQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
 {
     if(!m_pCall)
         return;
-    LOG_MODEL_DEBUG("CCallQXmpp", "CCallQXmpp::slotVideoModeChanged:mode:%d", mode);
+    LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp::slotVideoModeChanged:mode:%d", mode);
     if(!m_bVideo && this->GetDirection() == IncomingDirection)
     {
         m_bVideo = true;
@@ -365,7 +364,7 @@ void CCallQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
     }
 }
 
-void CCallQXmpp::slotCaptureFrame(const QXmppVideoFrame &frame)
+void CCallObjectQXmpp::slotCaptureFrame(const QXmppVideoFrame &frame)
 {
     if(!m_pCall)
     {
@@ -393,7 +392,7 @@ void CCallQXmpp::slotCaptureFrame(const QXmppVideoFrame &frame)
     pChannel->writeFrame(frame);
 }
 
-void CCallQXmpp::slotReciveFrame()
+void CCallObjectQXmpp::slotReciveFrame()
 {
     if(!m_pCall->videoChannel())
         return;
@@ -410,7 +409,7 @@ void CCallQXmpp::slotReciveFrame()
     }
 }
 
-int CCallQXmpp::SetVideoFormat()
+int CCallObjectQXmpp::SetVideoFormat()
 {
     QXmppVideoFormat videoFormat;
     // QXmpp uses this defaults formats for Encoder/Decoder:
@@ -429,7 +428,7 @@ int CCallQXmpp::SetVideoFormat()
     //     pixelFormat =  21
     // }
     videoFormat.setFrameRate(m_Camera.GetFrameRate());
-    LOG_MODEL_DEBUG("CCallQXmpp", "CCallQXmpp::SetVideoFormat:width:%d, height:%d", m_Camera.GetWidth(), m_Camera.GetHeight());
+    LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp::SetVideoFormat:width:%d, height:%d", m_Camera.GetWidth(), m_Camera.GetHeight());
     videoFormat.setFrameSize(QSize(m_Camera.GetWidth(), m_Camera.GetHeight()));
     // QXmpp allow the following pixel formats for video encoding:
     //
@@ -458,14 +457,14 @@ int CCallQXmpp::SetVideoFormat()
     return 0;
 }
 
-int CCallQXmpp::StartVideo()
+int CCallObjectQXmpp::StartVideo()
 {
     if(!m_bVideo)
     {
         return -1;
     }
 #ifdef DEBUG_VIDEO_TIME
-    LOG_MODEL_DEBUG("CCallQXmpp", "CCallQXmpp::StartVideo threadid:0x%X",
+    LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp::StartVideo threadid:0x%X",
            QThread::currentThreadId());
 #endif
 
@@ -503,7 +502,7 @@ int CCallQXmpp::StartVideo()
     return OpenVideoWindow();
 }
 
-int CCallQXmpp::StopVideo()
+int CCallObjectQXmpp::StopVideo()
 {
     if(!m_bVideo)
         return -1;
@@ -523,16 +522,16 @@ int CCallQXmpp::StopVideo()
     return 0;
 }
 
-void CCallQXmpp::slotFrmVideoClose()
+void CCallObjectQXmpp::slotFrmVideoClose()
 {
     if(m_pFrmVideo)
     {
         m_pFrmVideo = NULL;
     }
-    this->Cancel();
+    this->Stop();
 }
 
-int CCallQXmpp::ConnectLocaleVideo()
+int CCallObjectQXmpp::ConnectLocaleVideo()
 {
     if(!m_bVideo || !m_pFrmVideo)
         return -1;
@@ -550,7 +549,7 @@ int CCallQXmpp::ConnectLocaleVideo()
     return 0;
 }
 
-int CCallQXmpp::DisconnectLocaleVideo()
+int CCallObjectQXmpp::DisconnectLocaleVideo()
 {
     if(!m_bVideo)
         return -1;
@@ -559,7 +558,7 @@ int CCallQXmpp::DisconnectLocaleVideo()
     return 0;
 }
 
-void CCallQXmpp::slotUpdateOption()
+void CCallObjectQXmpp::slotUpdateOption()
 {
     DisconnectLocaleVideo();
     if(CGlobal::Instance()->GetIsShowLocaleVideo())
@@ -568,7 +567,7 @@ void CCallQXmpp::slotUpdateOption()
     }
 }
 
-int CCallQXmpp::OpenVideoWindow()
+int CCallObjectQXmpp::OpenVideoWindow()
 {
     //打开显示对话框  
     if(m_pFrmVideo)
@@ -602,7 +601,7 @@ int CCallQXmpp::OpenVideoWindow()
     return 0;
 }
 
-int CCallQXmpp::CloseVideoWindow()
+int CCallObjectQXmpp::CloseVideoWindow()
 {
     if(m_pFrmVideo)
     {
@@ -612,12 +611,12 @@ int CCallQXmpp::CloseVideoWindow()
     return 0;
 }
 
-bool CCallQXmpp::IsMonitor()
+bool CCallObjectQXmpp::IsMonitor()
 {
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(this->GetId());
     if(roster.isNull())
     {
-        LOG_MODEL_DEBUG("CCallQXmpp", "roster is null");
+        LOG_MODEL_DEBUG("CCallObjectQXmpp", "roster is null");
         return false;
     }
     if(this->GetDirection() == CCallObject::IncomingDirection

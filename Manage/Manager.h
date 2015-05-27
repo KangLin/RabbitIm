@@ -71,7 +71,7 @@ public:
     ///< 文件传输管理对象  
     virtual QSharedPointer<CManageFileTransfer> GetFileTransfer();
     ///< 呼叫管理对象  
-    virtual QSharedPointer<CManageCall> GetCall();
+    virtual QSharedPointer<CManageCall> GetCall() = 0;
     ///< 组管理对象  
     virtual QSharedPointer<CManageGroupChat> GetManageGroupChat() = 0;
 

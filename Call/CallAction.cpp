@@ -3,15 +3,19 @@
 #include <QTextEdit>
 #include <QScrollBar>
 
-CCallAction::CCallAction(QSharedPointer<CCallObject> call, const QString &szId, const QTime &date, const bool &me) 
+CCallAction::CCallAction(QSharedPointer<CCallObject> call,
+                         const QString &szId,
+                         const QTime &date,
+                         const bool &me)
     : CChatAction(me, szId, date)
 {
     m_Call = call;
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(m_szId);
     if(!roster.isNull())
     {
-        if(roster->GetInfo()->GetIsMonitor() 
-                && CGlobal::Instance()->GetIsMonitor() && !m_isMe)
+        if(roster->GetInfo()->GetIsMonitor()
+                && CGlobal::Instance()->GetIsMonitor()
+                && !m_isMe)
             m_tmStart = date;
     }
     bool check = connect(m_Call.data(), SIGNAL(sigUpdate()),this, SLOT(slotUpdateHtml()));
@@ -37,6 +41,9 @@ QString CCallAction::getMessage()
         return QString();
     switch(m_Call->GetState())
     {
+    case CCallObject::CallState:
+        szMsg += getDescriptionCallState();
+        break;
     case CCallObject::ConnectingState:
         szMsg += getDescriptionConnectingState();
         break;
@@ -75,18 +82,27 @@ QString CCallAction::getMessage()
     return szMsg;
 }
 
-QString CCallAction::getDescriptionConnectingState()
+QString CCallAction::getDescriptionCallState()
 {
     QString szMsg;
     szMsg = "<tr>";
-    if(m_isMe)
-        szMsg += "<td align='center'>" + tr("Be launching a call");
-    else
-        szMsg += "<td colspan='2' align='center'>" + getPrompt();
+    szMsg += "<td colspan='2' align='center'>" + getPrompt();
     szMsg += "</td></tr>";
     szMsg += "<tr>";
     if(!m_isMe)
         szMsg += drawAccept("rabbitim://call?command=accept");
+    szMsg += drawCancel("rabbitim://call?command=cancel");
+    szMsg += "</tr>";
+    return szMsg;
+}
+
+QString CCallAction::getDescriptionConnectingState()
+{
+    QString szMsg;
+    szMsg = "<tr>";
+    szMsg += "<td colspan='2' align='center'>" + getPrompt();
+    szMsg += "</td></tr>";
+    szMsg += "<tr>";
     szMsg += drawCancel("rabbitim://call?command=cancel");
     szMsg += "</tr>";
     return szMsg;
@@ -106,24 +122,23 @@ QString CCallAction::getDescriptionActiveState()
 
 QString CCallAction::getDescriptionDisconnectingState()
 {
-    QString szMsg;
-    szMsg = "<tr>";
-    szMsg += "<td align='center'>" + getPrompt();
-    szMsg += "</td></tr>";
-    szMsg += "<tr>";
-    szMsg += drawButton("rabbitim://call?command=call", tr("Call"));
-    szMsg += "</tr>";
-    return szMsg;
+    return getDescriptionFinishedState();
 }
 
 QString CCallAction::getDescriptionFinishedState()
 {
     QString szMsg;
+    QString szCommand;
+    if(m_Call->IsVideo())
+        szCommand = "rabbitim://call?command=call&video=true";
+    else
+        szCommand = "rabbitim://call?command=call&video=false";
+
     szMsg = "<tr>";
     szMsg += "<td align='center'>" + getPrompt();
     szMsg += "</td></tr>";
     szMsg += "<tr>";
-    szMsg += drawButton("rabbitim://call?command=call", tr("Call"));
+    szMsg += drawButton(szCommand, tr("Call"));
     szMsg += "</tr>";
     return szMsg;
 }
@@ -133,28 +148,35 @@ QString CCallAction::getPrompt()
     QString szMsg;
     switch(m_Call->GetState())
     {
+    case CCallObject::CallState:
+        if(m_Call->IsVideo())
+            szMsg = tr("Being a video ringing ......");
+        else
+            szMsg = tr("Being a ringing ......");
+        break;
     case CCallObject::ConnectingState:
-        szMsg = tr("Be receiving a call");
+        szMsg = tr("Be connecting ......");
         break;
     case CCallObject::ActiveState:
         if(m_Call->IsVideo())
-            szMsg = tr("Be a video calling..., ");
+            szMsg = tr("Be a video talking ...... ; ");
         else
-            szMsg = tr("Be talking ..., ");
-        szMsg += tr("talk time:") + QString::number(m_tmStart.secsTo(QTime::currentTime()));
+            szMsg = tr("Be talking ...... ; ");
+        szMsg += tr("Talk time: ") + QString::number(m_tmStart.secsTo(QTime::currentTime())) + tr("s");
         break;
     case CCallObject::DisconnectingState:
         if(m_Call->IsVideo())
-            szMsg = tr("Video is disconnected");
+            szMsg = tr("Video talk is disconnected");
         else
-            szMsg = tr("talk is disconnected");
+            szMsg = tr("Talk is disconnected");
+        szMsg += tr("Talk time: ") + QString::number(m_tmStart.secsTo(QTime::currentTime())) + tr("s");
         break;
     case CCallObject::FinishedState:
         if(m_Call->IsVideo())
             szMsg = tr("Video talk over.");
         else
             szMsg = tr("Talk over.");
-        szMsg += tr("talk time:") + QString::number(m_tmStart.secsTo(QTime::currentTime()));
+        szMsg += tr("Talk time: ") + QString::number(m_tmStart.secsTo(QTime::currentTime())) + tr("s");
         break;
     default:
         break;

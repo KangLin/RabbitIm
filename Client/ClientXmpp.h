@@ -4,7 +4,6 @@
 #include <QObject>
 #include "qxmpp/QXmppClient.h"
 #include "qxmpp/QXmppLogger.h"
-#include "qxmpp/QXmppCallManager.h"
 #include "qxmpp/QXmppTransferManager.h"
 #include "qxmpp/QXmppMucManager.h"
 #include "qxmpp/QXmppVCardIq.h"
@@ -148,16 +147,6 @@ public:
      */
     virtual QSharedPointer<CFileTransfer> SendFile(const QString szId, const QString &szFile, const QString &szDescription);
 
-    /**
-     * @brief 语音呼叫  
-     *
-     * @param szId：用户id  
-     * @param bVideo:是否是视频呼叫  
-     * @return QSharedPointer<CCallObject>
-     * @see sigCallReceived
-     */
-    virtual QSharedPointer<CCallObject> Call(const QString szId, bool bVideo = false);
-
 private:
     QXmppPresence::AvailableStatusType StatusToPresence(CUserInfo::USER_INFO_STATUS status);
     CUserInfo::USER_INFO_STATUS StatusFromPresence(QXmppPresence::AvailableStatusType status);
@@ -189,19 +178,15 @@ private slots:
       * @param job
       */
      void slotFileReceived(QXmppTransferJob *job);
-     /**
-      * @brief 接收到视频呼叫  
-      *
-      * @param call
-      */
-     void slotCallReceived(QXmppCall *pCall);
+
 private:
     QXmppClient m_Client;
     QSharedPointer<CManageUserQXmpp> m_User;
-    QXmppCallManager m_CallManager;
     QXmppMucManager m_MucManager;
     QXmppTransferManager m_TransferManager;
     QSharedPointer<CUserInfo> m_RegisterUserInfo;//用户注册信息  
+    
+    friend class CManageCallXmpp;
     friend class CManageGroupChatQxmpp;
     friend class CGroupChatQxmpp;
 };

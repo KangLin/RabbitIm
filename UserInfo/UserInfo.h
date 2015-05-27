@@ -32,10 +32,10 @@ public:
     enum USER_INFO_STATUS
     {
         Online = 0,      ///< 在线  
-        Away,               ///< 临时离开  
-        OffLine,          ///< 不在线，本程序增加的。 相当于qxmpp中的XA状态  
+        Away,            ///< 临时离开  
+        OffLine,         ///< 不在线，本程序增加的。 相当于qxmpp中的XA状态  
         DO_NOT_DISTURB,  ///< 别打扰  
-        Chat,               ///< 正在聊天  
+        Chat,            ///< 正在聊天  
         Invisible        ///< obsolete XEP-0018: 隐形状态  
     };
 

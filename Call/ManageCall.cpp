@@ -4,85 +4,106 @@
 #include "CallAction.h"
 #include <QMessageBox>
 #include "MainWindow.h"
+#include "UserInfo/UserInfoXmpp.h"
 
 #undef GetMessage
 CManageCall::CManageCall(QObject *parent) : CManage(parent)
 {
-    m_bVideoCall = false;
 }
 
 CManageCall::~CManageCall()
 {
-    LOG_MODEL_DEBUG("CManageCall", "CManageCall::~CManageCall");
+    LOG_MODEL_DEBUG("Call", "CManageCall::~CManageCall");
 }
 
 int CManageCall::Init(const QString &szId)
 {
-    bool check = false;
     Q_UNUSED(szId);
-    check = connect(GET_CLIENT.data(), SIGNAL(sigCallReceived(QSharedPointer<CCallObject>)),
-                    SLOT(slotCallVideoReceived(QSharedPointer<CCallObject>)));
-    Q_ASSERT(check);
+    //TODO:初始化音视频设备  
+    
     return 0;
 }
 
 int CManageCall::Clean()
 {
-    int nRet = 0;
-    GET_CLIENT->disconnect(this);
-    return nRet;
+    //TODO:清理音视频设备  
+    
+    return 0;
 }
 
-int CManageCall::Call(QString szId, bool bVideo)
+int CManageCall::Call(const QString &szId, bool bVideo)
 {
-    m_bVideoCall = bVideo;
+    int nRet = 0;
+
+    //检查是否是好友  
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
         LOG_MODEL_ERROR("CManageCall", "Don't get roster:%s", qPrintable(szId));
         return -1;
     }
-    //检查是否正在视频  
-    if(!m_Call.isNull())
+    //检查被叫方是否在线  
+    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)roster->GetInfo().data();
+    if(pInfo->GetResource().isEmpty() || (pInfo->GetStatus() == CUserInfo::OffLine))
     {
-        QString szCallId = m_Call->GetId();
-        QString szShowName = szCallId;
-        QSharedPointer<CUser> callRoster = GLOBAL_USER->GetUserInfoRoster(szCallId);
-        if(!callRoster.isNull())
-            szShowName = callRoster->GetInfo()->GetShowName();
-        roster->GetMessage()->AddMessage(szId, tr("Being talk with %1, please stop it.").arg(szShowName ), true);
+        LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster resource is null");
+        roster->GetMessage()->AddMessage(szId, 
+                tr("The roster is offline, don't launch a call."), true);
         emit GET_CLIENT->sigMessageUpdate(szId);
         return -2;
     }
 
-    QSharedPointer<CCallObject> call = GET_CLIENT->Call(szId, bVideo);
-    if(call.isNull())
+    //检查是否正在视频  
+    if(m_Call.find(szId) != m_Call.end())
     {
-        LOG_MODEL_DEBUG("CManageCall", "CManageCall::CallVideo fail");
+        QString szShowName = szId;
+        QSharedPointer<CUser> callRoster = GLOBAL_USER->GetUserInfoRoster(szId);
+        if(!callRoster.isNull())
+            szShowName = callRoster->GetInfo()->GetShowName();
+        roster->GetMessage()->AddMessage(szId, 
+                tr("Being talk with %1, please stop it.").arg(szShowName ),
+                true);
+        emit GET_CLIENT->sigMessageUpdate(szId);
         return -3;
     }
-    m_Call = call;
-    bool check = connect(call.data(), SIGNAL(sigFinished(CCallObject*)),
-                         SLOT(slotCallFinished(CCallObject*)));
-    Q_ASSERT(check);
-    QSharedPointer<CCallAction> action(new CCallAction(call, szId, QTime::currentTime(), true));
-    roster->GetMessage()->AddMessage(action);
-    emit GET_CLIENT->sigMessageUpdate(szId);
-    return 0;
+
+    //具体协议实现呼叫  
+    nRet = OnCall(szId, bVideo);
+    if(nRet)
+        return nRet;
+
+    //增加一个呼叫消息，并增加到管理 map 中  
+    QMap<QString, QSharedPointer<CCallObject> >::iterator it = m_Call.find(szId);
+    if(m_Call.end() != it)
+    {
+        //增加一个呼叫通知消息  
+        QSharedPointer<CCallAction> action(new CCallAction(it.value(),
+                                   szId, QTime::currentTime(), true));
+        roster->GetMessage()->AddMessage(action);
+        emit GET_CLIENT->sigMessageUpdate(szId);
+    }
+    return nRet;
 }
 
-void CManageCall::slotCallVideoReceived(QSharedPointer<CCallObject> call)
+/**
+ * @brief 用于完成接收到呼叫消息的动作。  
+ *        由具体的协议调用此方法。
+ * @param call
+ */
+void CManageCall::slotCallReceived(QSharedPointer<CCallObject> call)
 {
+    //检查是否是好友  
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(call->GetId());
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("CManageCall", "Don't get roster:%s", qPrintable(call->GetId()));
+        LOG_MODEL_ERROR("Call", "Don't get roster:%s", qPrintable(call->GetId()));
         return;
     }
     //检查是否正在视频  
-    if(!m_Call.isNull())
+    if(m_Call.find(call->GetId()) != m_Call.end())
     {
-        QString szCallId = m_Call->GetId();
+        /*只允许单个呼叫  
+        QString szCallId = call->GetId();
         QString szShowName = szCallId;
         QSharedPointer<CUser> callRoster = GLOBAL_USER->GetUserInfoRoster(szCallId);
         if(!callRoster.isNull())
@@ -91,22 +112,26 @@ void CManageCall::slotCallVideoReceived(QSharedPointer<CCallObject> call)
         roster->GetMessage()->AddMessage(call->GetId(), szMsg, true);
         GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName(), szMsg);
         emit GET_CLIENT->sigMessageUpdate(call->GetId());
+        //*/
+        LOG_MODEL_ERROR("Call", "The call [%s] is exist.", qPrintable(call->GetId()));
         return;
     }
 
-    m_Call = call;
-    bool check = connect(m_Call.data(), SIGNAL(sigFinished(CCallObject*)),
+    //新建一个呼叫对象  
+    m_Call.insert(call->GetId(), call);
+    //关联信号  
+    bool check = connect(call.data(), SIGNAL(sigFinished(CCallObject*)),
                          SLOT(slotCallFinished(CCallObject*)));
     Q_ASSERT(check);
 
     //监控模式下自动接收  
     if(roster->GetInfo()->GetIsMonitor() && CGlobal::Instance()->GetIsMonitor())
     {
-        m_Call->Accept();
+        call->Accept();
     }
 
-    QSharedPointer<CCallAction> action(new CCallAction(m_Call, m_Call->GetId(), QTime::currentTime(), false));
-
+    //添加通知消息  
+    QSharedPointer<CCallAction> action(new CCallAction(call, call->GetId(), QTime::currentTime(), false));
     roster->GetMessage()->AddMessage(action);
     GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName(), 
                                         roster->GetInfo()->GetShowName() + tr(" is calling"));
@@ -116,43 +141,81 @@ void CManageCall::slotCallVideoReceived(QSharedPointer<CCallObject> call)
 void CManageCall::slotCallFinished(CCallObject *pCall)
 {
     LOG_MODEL_DEBUG("CManageCall", "CManageCall::slotCallFinished");
-    if(m_Call == pCall)
-        m_Call.clear();
+    m_Call.remove(pCall->GetId());
 }
 
-bool CManageCall::IsRun()
+bool CManageCall::IsRun(QString szId)
 {
-    if(!m_Call.isNull())
+    QMap<QString, QSharedPointer<CCallObject> >::iterator it = m_Call.find(szId);
+    if(m_Call.end() != it)
+    {
         return true;
+    }
     return false;
 }
 
-int CManageCall::Stop()
+int CManageCall::Accept(QString szId)
 {
-    if(!m_Call.isNull())
-        m_Call->Cancel();
-    return 0;
+    QMap<QString, QSharedPointer<CCallObject> >::iterator it = m_Call.find(szId);
+    if(m_Call.end() != it)
+        return it.value()->Accept();
+    return -1;
 }
 
+int CManageCall::Stop(QString szId)
+{
+    QMap<QString, QSharedPointer<CCallObject> >::iterator it = m_Call.find(szId);
+    if(m_Call.end() != it)
+        return it.value()->Stop();
+    return -1;
+}
+
+/**
+ * @brief 根据命令串执行操作  
+ * @param szId
+ * @param szCommand: accept、cancel、call
+ * @return int
+ * @see CFrmMessage::slotAnchorClicked
+ * @see CCallAction:包含命令  
+ */
 int CManageCall::ProcessCommandCall(const QString &szId, const QString &szCommand)
 {
-    QString szCmd;
-    szCmd = szCommand.split("=").at(1);
+    QString szCmd, szVideo;
+    QStringList lstCommand = szCommand.split("&");
+    szCmd = lstCommand.at(0).split("=").at(1);
+    if(lstCommand.size() >= 2)
+        szVideo = lstCommand.at(1).split("=").at(1);
 
-    if(m_Call.isNull() && "call" != szCmd)
+    if("call" == szCmd)
     {
-        LOG_MODEL_ERROR("CManageCall", "m_Call is null or command is error. szCmd:%s", qPrintable(szCmd));
+        if("true" == szVideo)
+            return Call(szId, true);
+        else
+            return Call(szId);
+    }
+
+    QMap<QString, QSharedPointer<CCallObject> >::iterator it = m_Call.find(szId);
+    if(m_Call.end() == it)
+    {
+        LOG_MODEL_ERROR("Call", "Hasn't the call:%s", qPrintable(szId));
         return -1;
     }
+
+    QSharedPointer<CCallObject> call = it.value();
+    if(call.isNull())
+    {
+        LOG_MODEL_ERROR("Call", "Hasn't the call:%s. szCmd:%s",
+                        qPrintable(szId), qPrintable(szCmd));
+        return -1;
+    }
+
     if("accept" == szCmd)
-        m_Call->Accept();
+        call->Accept();
     else if("cancel" == szCmd)
-        m_Call->Cancel();
-    else if("call" == szCmd)
-        Call(szId, m_bVideoCall);
+        call->Stop();
     else
     {
-        LOG_MODEL_DEBUG("CManageCall", "command isn't exist.szCmd:%s", qPrintable(szCmd));
+        LOG_MODEL_DEBUG("Call", "command isn't exist.szCmd:%s", qPrintable(szCmd));
         return -1;
     }
     return 0;

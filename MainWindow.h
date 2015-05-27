@@ -27,28 +27,30 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    //在通知栏上显示消息  
+    /// 在通知栏上显示消息  
     int ShowTrayIconMessage(const QString &szTitle, const QString &szMessage);
 
-    //组合头像图片  
-    static int ComposeAvatarStatus(QSharedPointer<CUserInfo> info, QPixmap &outPixmap);
+    /// 组合头像图片  
+    static int ComposeAvatarStatus(QSharedPointer<CUserInfo> info,
+                                   QPixmap &outPixmap);
 
 signals:
-    //初始化菜单  
+    ///初始化菜单  
     void sigMenuInitOperator(QMenu* m);
-    //删除菜单  
+    ///删除菜单  
     void sigMenuRemoveOperator(QMenu* m);
-    void sigRefresh();//选项窗体更新后，刷新内容  
+    /// 选项窗体更新后触发。用于刷新与选项相关的内容  
+    void sigRefresh();
 
 protected slots:
     void slotAbout();
     void slotClientConnected();
     void slotClientDisconnected();
-    //更新本地用户信息  
+    ///更新本地用户信息  
     void slotUpdateLocaleUserInfo();
 
     //通知栏  
-    void slotTrayIconActive(QSystemTrayIcon::ActivationReason e);//通知栏图标槽  
+    void slotTrayIconActive(QSystemTrayIcon::ActivationReason e);///<通知栏图标槽  
     void slotMessageClicked();
     void slotTrayIconMenuUpdate();
     void slotTrayTimeOut();
@@ -64,7 +66,7 @@ protected slots:
 public slots:
     //编辑登录用户详细信息  
     void slotEditInformation();
-    
+
 protected:
     virtual void resizeEvent(QResizeEvent *e);
     virtual void showEvent(QShowEvent *);
@@ -135,7 +137,8 @@ private:
     //加载翻译资源  
     int LoadTranslate(QString szLocale = QString());
 private slots:
-    void slotActionGroupTranslateTriggered(QAction* pAct);//翻译菜单组点击触发 
+    //翻译菜单组点击触发  
+    void slotActionGroupTranslateTriggered(QAction* pAct);
 
 private:
     CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口  

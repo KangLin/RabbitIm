@@ -30,6 +30,7 @@ CManager *CManager::Instance(MANAGER_TYPE type, bool bReset)
 #ifdef RABBITIM_USE_QXMPP
         case XMPP:
             pManager = (CManager*)new CManagerXmpp;
+            break;
 #endif
         default:
             LOG_MODEL_ERROR("CManager", "Don't support manager type:%d", type);
@@ -96,10 +97,4 @@ QSharedPointer<CManageFileTransfer> CManager::GetFileTransfer()
 {
     static QSharedPointer<CManageFileTransfer> file(new CManageFileTransfer);
     return file;
-}
-
-QSharedPointer<CManageCall> CManager::GetCall()
-{
-    static QSharedPointer<CManageCall> call(new CManageCall);
-    return call;
 }

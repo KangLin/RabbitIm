@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-RABBITIM_USE_QXMPP=1  #使用 qxmpp 库
+RABBITIM_USE_QXMPP=1         #使用 qxmpp 库
 QXMPP_USE_VPX=1              #使用 vpx
-#QXMPP_USE_SPEEX=1            #使用 speex
+#QXMPP_USE_SPEEX=1           #使用 speex
 #RABBITIM_USE_OPENCV=1       #使用 opencv
 RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
 #RABBITIM_USE_LIBCURL=1      #使用 libcurl
@@ -48,13 +48,9 @@ isEmpty(PREFIX){
 
     }
     else{
-        PREFIX = $$PWD/$${TARGET}
+        PREFIX = $$OUT_PWD/$${TARGET}
     }
 }
-
-#预编译
-#CONFIG += precompiled_header
-#PRECOMPILED_HEADER = pch.h
 
 #equals(RABBITIM_LIBRARY_TYPE, shared) {
 #    CONFIG += shared    #生成动态库
@@ -70,17 +66,17 @@ equals(RABBITIM_USE_QXMPP, 1) {
         equals(RABBITIM_USE_STATIC, 1){
            DEFINES += QXMPP_STATIC
         }
-        CONFIG(debug, debug|release) {
-            QXMPP_LIBRARY_NAME = -lqxmpp_d # qxmpp 库名
-        }else{
+        CONFIG(release, debug|release) {
             QXMPP_LIBRARY_NAME = -lqxmpp # qxmpp 库名
+        }else{
+            QXMPP_LIBRARY_NAME = -lqxmpp_d # qxmpp 库名
         }
     #}
 }
 
 CONFIG(debug, debug|release) {
     #调试宏
-    DEFINES += DEBUG DEBUG_VIDEO_TIME 
+    DEFINES += DEBUG #DEBUG_VIDEO_TIME 
 } 
 
 equals(QXMPP_USE_SPEEX, 1) {
@@ -119,10 +115,10 @@ android{
     DEFINES += ANDROID MOBILE
 
     RABBITIM_SYSTEM="android"
-    equals(RABBITIM_USE_LIBCURL, 1){
-        LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lz#可以用 ./curl-config --libs 得到
+    equals(RABBITIM_USE_LIBCURL, 1) {
+        LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lz #可以用 ./curl-config --libs 得到
     }
-    equals(RABBITIM_USE_OPENSSL, 1){
+    equals(RABBITIM_USE_OPENSSL, 1) {
         LIBOPENSSL_LIBRARY = -lssl -lcrypto
     }
 } else:win32{
@@ -167,7 +163,7 @@ android{
         }else{
             QXMPP_LIBRARY_NAME = -lqxmpp0 # qxmpp 库名
         }
-    } else:CONFIG(debug, release|debug){
+    } else:CONFIG(debug, debug|release) {
         msvc{
             LDFLAGS += /NODEFAULTLIB:libcmtd /SUBSYSTEM:WINDOWS",5.01"
         }

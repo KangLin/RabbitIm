@@ -207,12 +207,12 @@ void MainWindow::closeEvent(QCloseEvent *e)
             CGlobal::Instance()->SetCloseType(CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME);
             //退出程序  
             slotLogout();
-            e->accept();
             //因为程序退出时,还不能接收到服务返回的登出消息,  
             //所以就不能触发sigClientDisconnected信号  
             //所以就直接释放资源  
             GETMANAGER->LogoutClean();
             GETMANAGER->Clean();
+            e->accept();
             //QApplication::closeAllWindows();
         }
         //else if(msg.clickedButton() == pLogout)
@@ -229,12 +229,12 @@ void MainWindow::closeEvent(QCloseEvent *e)
     case CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME:
         //退出程序  
         slotLogout();
-        e->accept();
         //因为程序退出时,还不能接收到服务返回的登出消息,  
         //所以就不能触发sigClientDisconnected信号  
         //所以就直接释放资源  
         GETMANAGER->LogoutClean();
         GETMANAGER->Clean();
+        e->accept();
         //QApplication::closeAllWindows();
         break;
     case CGlobal::E_CLOSE_TYPE_LOGOUT:

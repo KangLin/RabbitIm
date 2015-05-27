@@ -7,6 +7,7 @@ CCallObject::CCallObject(bool bVideo, QObject *parent) :
     m_Direction = IncomingDirection;
     m_bVideo = bVideo;
     m_pSound = NULL;
+    m_State = CallState;
 }
 
 CCallObject::~CCallObject()
@@ -32,25 +33,9 @@ int CCallObject::SetDirection(Direction d)
     return 0;
 }
 
-int CCallObject::Accept()
-{
-    LOG_MODEL_WARNING("CCallObject", "The CCallObject::Accept function must be implemented by derived classes");
-    Q_ASSERT(false);
-    return 0;
-}
-
-int CCallObject::Cancel()
-{
-    LOG_MODEL_WARNING("CCallObject", "The CCallObject::Cancel function must be implemented by derived classes");
-    Q_ASSERT(false);
-    return 0;
-}
-
 CCallObject::State CCallObject::GetState()
 {
-    LOG_MODEL_WARNING("CCallObject", "The CCallObject::GetState function must be implemented by derived classes");
-    Q_ASSERT(false);
-    return ConnectingState;
+    return m_State;
 }
 
 CCallObject::Direction CCallObject::GetDirection()
@@ -87,8 +72,8 @@ void CCallObject::StopCallSound()
     LOG_MODEL_DEBUG("CCallObject", "CCallObject::StopCallSound");
     if(m_pSound)
     {
-            m_pSound->stop();
-            delete m_pSound;
-            m_pSound = NULL;
+        m_pSound->stop();
+        delete m_pSound;
+        m_pSound = NULL;
     }
 }

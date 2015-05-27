@@ -29,6 +29,8 @@ public:
     virtual QSharedPointer<CClient> GetClient();
     virtual QSharedPointer<CManageUser> GetManageUser();
     virtual QSharedPointer<CManageGroupChat> GetManageGroupChat();
+    ///< 呼叫管理对象  
+    virtual QSharedPointer<CManageCall> GetCall();
 
     ///< 新建用户信息对象  
     virtual QSharedPointer<CUserInfo> NewUserInfo();
@@ -37,6 +39,7 @@ private:
     QSharedPointer<CClientXmpp> m_Client;
     QSharedPointer<CManageUserQXmpp> m_User;
     QSharedPointer<CManageGroupChatQxmpp> m_GroupChat;
+    QSharedPointer<CManageCall> m_Call;
 };
 
 #endif // MANAGERXMPP_H

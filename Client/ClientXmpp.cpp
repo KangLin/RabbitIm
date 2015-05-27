@@ -15,7 +15,6 @@
 #include <QBuffer>
 #include "MainWindow.h"
 #include "FileTransfer/FileTransferQXmpp.h"
-#include "Call/CallQXmpp.h"
 #include <QHostAddress>
 #include "Version.h"
 
@@ -28,12 +27,11 @@ CClientXmpp::CClientXmpp(QObject *parent)
     : CClient(parent),
       m_User(NULL)
 {
-    //初始化qxmpp log
+    //初始化qxmpp log  
     m_Client.logger()->setLoggingType(QXmppLogger::StdoutLogging);
 
-    m_Client.addExtension(&m_CallManager);
     m_Client.addExtension(&m_MucManager);
-    //TODO:增加文件代理的查找,如果用发现服务查找， 
+    //TODO:增加文件代理的查找,如果用发现服务查找，  
     //则可能引起大量查询包，导制服务器忙。目前解决方案就是直接设置代理  
     m_TransferManager.setProxy("proxy." + CGlobal::Instance()->GetXmppDomain());
     m_Client.addExtension(&m_TransferManager);
@@ -79,7 +77,8 @@ int CClientXmpp::InitConnect()
                     SLOT(slotClientVCardReceived()));
     Q_ASSERT(check);
 
-    check = connect(&m_Client.vCardManager(), SIGNAL(vCardReceived(const QXmppVCardIq&)),
+    check = connect(&m_Client.vCardManager(),
+                    SIGNAL(vCardReceived(const QXmppVCardIq&)),
                     SLOT(slotvCardReceived(const QXmppVCardIq&)));
     Q_ASSERT(check);
 
@@ -87,7 +86,8 @@ int CClientXmpp::InitConnect()
                     SLOT(slotPresenceReceived(QXmppPresence)));
     Q_ASSERT(check);
 
-    check = connect(&m_Client.rosterManager(), SIGNAL(subscriptionReceived(const QString&)),
+    check = connect(&m_Client.rosterManager(),
+                    SIGNAL(subscriptionReceived(const QString&)),
                     SLOT(slotSubscriptionReceived(const QString&)));
     Q_ASSERT(check);
 
@@ -107,12 +107,9 @@ int CClientXmpp::InitConnect()
                     SLOT(slotMessageReceived(const QXmppMessage&)));
     Q_ASSERT(check);
 
-    check = connect(&this->m_TransferManager, SIGNAL(fileReceived(QXmppTransferJob*)),
+    check = connect(&this->m_TransferManager,
+                    SIGNAL(fileReceived(QXmppTransferJob*)),
                     SLOT(slotFileReceived(QXmppTransferJob*)));
-    Q_ASSERT(check);
-
-    check = connect(&m_CallManager, SIGNAL(callReceived(QXmppCall*)),
-                    SLOT(slotCallReceived(QXmppCall*)));
     Q_ASSERT(check);
 
     return 0;
@@ -124,7 +121,11 @@ int CClientXmpp::ClearConnect()
     return 0;
 }
 
-int CClientXmpp::Register(const QString &szId, const QString &szName, const QString &szPassword, const QString &szEmail, const QString &szDescript)
+int CClientXmpp::Register(const QString &szId,
+                          const QString &szName,
+                          const QString &szPassword,
+                          const QString &szEmail,
+                          const QString &szDescript)
 {
     QXmppRegisterIq registerIq;
     registerIq.setType(QXmppIq::Set);
@@ -137,7 +138,8 @@ int CClientXmpp::Register(const QString &szId, const QString &szName, const QStr
     return 0;
 }
 
-int CClientXmpp::Register(QSharedPointer<CUserInfo> userInfo, const QString &szPassword)
+int CClientXmpp::Register(QSharedPointer<CUserInfo> userInfo,
+                          const QString &szPassword)
 {
     if(userInfo.isNull())
     {
@@ -148,11 +150,14 @@ int CClientXmpp::Register(QSharedPointer<CUserInfo> userInfo, const QString &szP
     //因为xmpp注册与用户信息设置分为两步，所以需要在注册完成后立即登录进行用户信息设置，位于（slotClientConnected)   
     m_RegisterUserInfo = userInfo;
 
-    Register(userInfo->GetId(), userInfo->GetName(), szPassword, userInfo->GetEmail(), userInfo->GetDescription());
+    Register(userInfo->GetId(), userInfo->GetName(),
+             szPassword, userInfo->GetEmail(), userInfo->GetDescription());
     return 0;
 }
 
-int CClientXmpp::Login(const QString &szUserName, const QString &szPassword, CUserInfo::USER_INFO_STATUS status)
+int CClientXmpp::Login(const QString &szUserName, 
+                       const QString &szPassword,
+                       CUserInfo::USER_INFO_STATUS status)
 {
     LOG_MODEL_DEBUG("CClientXmpp", "Client state:%d", m_Client.state());
     if(m_Client.state() != QXmppClient::DisconnectedState)
@@ -207,7 +212,8 @@ int CClientXmpp::setClientStatus(CUserInfo::USER_INFO_STATUS status)
     return 0;
 }
 
-int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type, const QString &szName, const QSet<QString> &groups)
+int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type,
+                           const QString &szName, const QSet<QString> &groups)
 {
     QString id = szId;
     if(-1 == szId.indexOf("@"))
@@ -221,11 +227,13 @@ int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type, const QStri
     //如果请求者是自己,则退出  
     if(USER_INFO_LOCALE->GetInfo()->GetId() == id)
     {
-        LOG_MODEL_ERROR("Roster", "CClientXmpp::RosterAdd:Roster [%s] is self", id.toStdString().c_str());
+        LOG_MODEL_ERROR("Roster", "CClientXmpp::RosterAdd:Roster [%s] is self",
+                        id.toStdString().c_str());
         return -1;
     }
 
-    LOG_MODEL_DEBUG("Roster", "CClientXmpp::RosterAdd:szId:%s", id.toStdString().c_str());
+    LOG_MODEL_DEBUG("Roster", "CClientXmpp::RosterAdd:szId:%s",
+                    id.toStdString().c_str());
     switch(type)
     {
     case SUBSCRIBE_REQUEST:
@@ -319,52 +327,6 @@ QSharedPointer<CFileTransfer> CClientXmpp::SendFile(const QString szId, const QS
     pJob->setLocalFileUrl(QUrl::fromLocalFile(szFile));
     QSharedPointer<CFileTransfer> file(new CFileTransferQXmpp(pJob));
     return file;
-}
-
-QSharedPointer<CCallObject> CClientXmpp::Call(const QString szId, bool bVideo)
-{
-    //检查被叫方是否在线  
-    QSharedPointer<CUser> r = m_User->GetUserInfoRoster(szId);
-    if(r.isNull())
-    {
-        LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster is null");
-        return QSharedPointer<CCallObject>();
-    }
-    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)r->GetInfo().data();
-    if(pInfo->GetResource().isEmpty())
-    {
-        LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster resource is null");
-        r->GetMessage()->AddMessage(szId, tr("The roster is offline, don't launch a call."), true);
-        emit sigMessageUpdate(szId);
-        return QSharedPointer<CCallObject>();
-    }
-
-    //设置ice服务器参数  
-    m_CallManager.setStunServer(
-                QHostAddress(CGlobal::Instance()->GetStunServer()),
-                CGlobal::Instance()->GetStunServerPort()
-                );
-    m_CallManager.setTurnServer(
-                QHostAddress(CGlobal::Instance()->GetTurnServer()),
-                CGlobal::Instance()->GetTurnServerPort()
-                );
-    m_CallManager.setTurnUser(
-                CGlobal::Instance()->GetTurnServerUser()
-                );
-    m_CallManager.setTurnPassword(
-                CGlobal::Instance()->GetTurnServerPassword()
-                );
-
-    //返回QXmppCall的引用,这个会由QXmppCallManager管理.用户层不要释放此指针  
-    QXmppCall* m_pCall = m_CallManager.call(pInfo->GetJid());
-    if(NULL == m_pCall)
-    {
-        LOG_MODEL_ERROR("Call",  "call %s fail", qPrintable(pInfo->GetJid()));
-        return QSharedPointer<CCallObject>();
-    }
-
-    QSharedPointer<CCallObject> call(new CCallQXmpp(m_pCall, bVideo));
-    return call;
 }
 
 QXmppPresence::AvailableStatusType CClientXmpp::StatusToPresence(CUserInfo::USER_INFO_STATUS status)
@@ -731,10 +693,4 @@ void CClientXmpp::slotFileReceived(QXmppTransferJob *job)
 {
     QSharedPointer<CFileTransfer> file(new CFileTransferQXmpp(job));
     emit sigFileReceived(QXmppUtils::jidToBareJid(job->jid()), file);
-}
-
-void CClientXmpp::slotCallReceived(QXmppCall *pCall)
-{
-    QSharedPointer<CCallObject> call(new CCallQXmpp(pCall));
-    emit sigCallReceived(call);
 }

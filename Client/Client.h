@@ -172,16 +172,6 @@ public:
     virtual QSharedPointer<CFileTransfer> SendFile(const QString szId, 
              const QString &szFile, const QString &szDescription) = 0;
 
-    /**
-     * @brief 语音呼叫  
-     *
-     * @param szId：用户id  
-     * @param bVideo:是否是视频呼叫  
-     * @return QSharedPointer<CCallObject>
-     * @see sigCallReceived
-     */
-    virtual QSharedPointer<CCallObject> Call(const QString szId,
-                                             bool bVideo = false) = 0;
     enum ERROR_TYPE
     {
         NoError,             ///< 没有错误.  
@@ -291,13 +281,6 @@ signals:
      * @param file
      */
     void sigFileReceived(const QString &szId, QSharedPointer<CFileTransfer> file);
-
-    /**
-     * @brief 视频接收时触发  
-     *
-     * @param call
-     */
-    void sigCallReceived(QSharedPointer<CCallObject> call);
 
 public slots:
 

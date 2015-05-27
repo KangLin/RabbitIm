@@ -8,7 +8,6 @@
 #include <QObject>
 #include <QTimer>
 #include <QThread>
-#include "CallQXmpp.h"
 #include "Widgets/FrmVideo/FrameProcess.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
 
@@ -18,24 +17,26 @@
     #include "Widgets/FrmVideo/Camera.h"
 #endif
 
-class CCallQXmpp : public CCallObject
+/**
+ * @brief 呼叫qxmpp实现类  
+ * @ingroup RABBITIM_IMPLEMENT_QXMPP
+ */
+class CCallObjectQXmpp : public CCallObject
 {
     Q_OBJECT
+
 public:
-    explicit CCallQXmpp(QXmppCall* pCall, bool bVideo = false, QObject *parent = 0);
-    virtual ~CCallQXmpp();
+    explicit CCallObjectQXmpp(QXmppCall* pCall, bool bVideo = false, QObject *parent = 0);
+    virtual ~CCallObjectQXmpp();
 
 public slots:
     virtual int Accept();
-    virtual int Cancel();
-
-public:
-    virtual State GetState();
+    virtual int Stop();
 
 protected:
     //连接与 call 相关的信号  
     virtual int ConnectionCallSlot(QXmppCall *pCall);
-    
+
 protected slots:
     virtual void slotConnection();
     virtual void slotStateChanged(QXmppCall::State state);
@@ -52,8 +53,8 @@ private:
     int DisconnectLocaleVideo();
 
 private:
-    QAudioInput*  m_pAudioInput; //音频输入设备  
-    QAudioOutput* m_pAudioOutput;//音频输出设备  
+    QAudioInput*  m_pAudioInput; ///< 音频输入设备  
+    QAudioOutput* m_pAudioOutput;///< 音频输出设备  
 
 protected:
     QXmppCall* m_pCall;

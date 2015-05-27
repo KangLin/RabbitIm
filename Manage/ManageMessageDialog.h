@@ -8,7 +8,7 @@
 #include "Manage.h"
 
 /**
-  * @defgroup RABBITIM_INTERFACE_MANAGEMESSAGEDIALOG 消息对活框管理类模块 
+  * @defgroup RABBITIM_INTERFACE_MANAGEMESSAGEDIALOG 消息对活框管理类模块  
   * @ingroup RABBITIM_INTERFACE_MANAGER
   * @brief 消息对活框管理类模块，用于管理消息对话框。现在有PC屏幕和手机屏幕管理  
   */

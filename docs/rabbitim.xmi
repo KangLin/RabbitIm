@@ -3985,7 +3985,7 @@
       <UML:Dependency visibility="public" isSpecification="false" namespace="Logical View" supplier="ldlchswrjGXE" xmi.id="YDJ4cEM72MKg" client="RP7FJ5xTTwZh" name=""/>
       <UML:Generalization discriminator="" visibility="public" isSpecification="false" namespace="Logical View" child="9ucQuqv6AgL4" xmi.id="nuW5m3zrtxv8" parent="Y8EgggmoRvuS" name=""/>
       <UML:Class visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="c9DaVrR6PS59" name="QSound"/>
-      <UML:Class visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="6YSfVBjIItTs" name="CCallQXmpp">
+      <UML:Class visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="6YSfVBjIItTs" name="CCallObjectQXmpp">
        <UML:GeneralizableElement.generalization>
         <UML:Generalization xmi.idref="4msEdwD5FHAc"/>
        </UML:GeneralizableElement.generalization>
@@ -4000,14 +4000,14 @@
         <UML:Attribute visibility="private" isSpecification="false" xmi.id="1ZdzBETWxAYC" type="2OEuYOksQAZK" name="m_VideoThread"/>
         <UML:Attribute visibility="private" isSpecification="false" xmi.id="5GN28BZ9Yn36" type="LPMZy4PxJX1O" name="m_Camera"/>
         <UML:Attribute visibility="private" isSpecification="false" xmi.id="hLieVHpYVCae" type="9lwYvWqv5TuE" name="m_pFrmVideo"/>
-        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="TgbgylIp0sRw" name="CCallQXmpp">
+        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="TgbgylIp0sRw" name="CCallObjectQXmpp">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="FNuBkZaIvH58" type="Q0jruTOgas7O" value="" name="pCall"/>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="NkRGHvlkbMRZ" type="jR9Qt6n5fQfS" value="" name="bVideo"/>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="7hM6Zn0pBvyv" type="DT1Hyb09vXhB" value="" name="parent"/>
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
-        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="SWCOlFW8zwOG" name="~ CCallQXmpp"/>
+        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="SWCOlFW8zwOG" name="~ CCallObjectQXmpp"/>
         <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="r8ySUN0a5Mge" name="Accept">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter kind="return" xmi.id="8gRJbNC4tMQe" type="BZeaoLvGoGp4"/>

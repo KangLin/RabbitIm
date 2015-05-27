@@ -119,7 +119,7 @@ HEADERS += Version.h \
     Widgets/DlgUservCard/DlgUservCard.h \ 
     Widgets/DlgAbout/DlgAbout.h \
     Widgets/DlgOptions/DlgOptions.h \ 
-    Message/ManageMessage.h 
+    Message/ManageMessage.h
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
@@ -151,19 +151,21 @@ equals(RABBITIM_USE_QXMPP, 1){
     Manage/ManageUserQXmpp.cpp \
     Manage/ManagerXmpp.cpp \
     UserInfo/UserInfoXmpp.cpp \
-    FileTransfer/FileTransferQXmpp.cpp \  
-    Call/CallQXmpp.cpp \
+    FileTransfer/FileTransferQXmpp.cpp \
     Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp \
-    Widgets/FrmGroupChat/GroupChatQxmpp.cpp
+    Widgets/FrmGroupChat/GroupChatQxmpp.cpp \
+    Call/ManageCallXmpp.cpp \
+    Call/CallObjectQXmpp.cpp
 
     HEADERS += Client/ClientXmpp.h \
     Manage/ManageUserQXmpp.h \
     Manage/ManagerXmpp.h \
     UserInfo/UserInfoXmpp.h \
     FileTransfer/FileTransferQXmpp.h \
-    Call/CallQXmpp.h \
     Widgets/FrmGroupChat/ManageGroupChatQxmpp.h \
     Widgets/FrmGroupChat/GroupChatQxmpp.h \
+    Call/ManageCallXmpp.h \
+    Call/CallObjectQXmpp.h
 }
 
 android{

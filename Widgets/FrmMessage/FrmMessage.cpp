@@ -212,7 +212,7 @@ void CFrmMessage::closeEvent(QCloseEvent *e)
         }
         GETMANAGER->GetFileTransfer()->CancelSend(m_User->GetInfo()->GetId());
     }
-    if(GETMANAGER->GetCall()->IsRun())
+    if(GETMANAGER->GetCall()->IsRun(m_User->GetInfo()->GetId()))
     {
         QMessageBox msg(QMessageBox::Question,
                         tr("Close message dialog"),
@@ -223,7 +223,7 @@ void CFrmMessage::closeEvent(QCloseEvent *e)
             e->ignore();
             return;
         }
-        GETMANAGER->GetCall()->Stop();
+        GETMANAGER->GetCall()->Stop(m_User->GetInfo()->GetId());
     }
     emit sigClose(this);
 }
