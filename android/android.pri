@@ -4,4 +4,6 @@ include(jni/android_jni.pri)
 
 OTHER_FILES +=  \
     $$PWD/*  \
-    $$PWD/src/org/KangLinStudio/RabbitIm/*
+    $$PWD/src/org/KangLinStudio/RabbitIm/* \
+    $$PWD/res/values/* \
+    $$PWD/res/values-zh/* 
