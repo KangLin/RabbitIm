@@ -1,6 +1,6 @@
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
-#QT_ROOT=/c/Qt/Qt5.4.1/5.4/mingw491_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
+#QT_ROOT=/c/Qt/Qt5.4.2/5.4/mingw491_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
 #RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
 JOM=nmake #设置 QT make 工具 JOM
 RABBITIM_CLEAN=TRUE #编译前清理

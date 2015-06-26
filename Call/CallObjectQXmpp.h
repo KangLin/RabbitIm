@@ -9,19 +9,15 @@
 #include <QTimer>
 #include <QThread>
 #include "Widgets/FrmVideo/FrameProcess.h"
+#include "Widgets/FrmVideo/FrmPlayer.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
-
-#if ANDROID && RABBITIM_USE_OPENCV
-    #include "Widgets/FrmVideo/CameraOpencv.h"
-#else
-    #include "Widgets/FrmVideo/Camera.h"
-#endif
+#include "Media/Camera/CameraFactory.h"
 
 /**
  * @brief 呼叫qxmpp实现类  
  * @ingroup RABBITIM_IMPLEMENT_QXMPP
  */
-class CCallObjectQXmpp : public CCallObject
+class CCallObjectQXmpp : public CCallObject, CCamera::CHanderFrame
 {
     Q_OBJECT
 
@@ -79,18 +75,16 @@ private:
     int OpenVideoWindow();
     int CloseVideoWindow();
     bool IsMonitor();//是否是监控模式  
-
+    virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame);
+    
 private:
     QTimer m_tmRecive;
     CFrameProcess m_CaptureFrameProcess;//本地显示  
-    CFrameProcess m_CaptureToRemoteFrameProcess;//发送到网络  
     CFrameProcess m_ReciveFrameProcess;//从网络接收  
     QThread m_VideoThread;
-#if ANDROID && RABBITIM_USE_OPENCV
-    CCameraOpencv m_Camera;
-#else
-    CCamera m_Camera;
-#endif
+
+    CCamera* m_pCamera;
+
     CFrmVideo *m_pFrmVideo;
 };
 

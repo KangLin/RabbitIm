@@ -37,7 +37,8 @@ int CTool::SetFFmpegLog()
 }
 
 #ifdef RABBITIM_USE_FFMPEG
-AVPixelFormat CTool::QVideoFrameFormatToFFMpegPixFormat(const QVideoFrame::PixelFormat format)
+AVPixelFormat CTool::QVideoFrameFormatToFFMpegPixFormat(
+        const QVideoFrame::PixelFormat format)
 {
     if(QVideoFrame::Format_RGB32 == format)
         return AV_PIX_FMT_RGB32;
@@ -51,12 +52,102 @@ AVPixelFormat CTool::QVideoFrameFormatToFFMpegPixFormat(const QVideoFrame::Pixel
         return AV_PIX_FMT_UYVY422;
     else if(QVideoFrame::Format_NV21 == format)
         return AV_PIX_FMT_NV21;
-    else
-        return AV_PIX_FMT_NONE;
+    else if(QVideoFrame::Format_NV12 == format)
+        return AV_PIX_FMT_NV12;
+    else if(QVideoFrame::Format_YUV444 == format)
+        return AV_PIX_FMT_YUYV422;
+
+    return AV_PIX_FMT_NONE;
+}
+
+VideoFormat CTool::QVideoFrameFormatToVideoFormat(
+        const QVideoFrame::PixelFormat format)
+{
+    if(QVideoFrame::Format_RGB32 == format)
+        return VIDEO_FORMAT_RGB32;
+    else if(QVideoFrame::Format_RGB24 == format)
+        return VIDEO_FORMAT_RGB24;
+    else if(QVideoFrame::Format_UYVY == format)
+        return VIDEO_FORMAT_UYVY;
+    else if(QVideoFrame::Format_NV21 == format)
+        return VIDEO_FORMAT_NV21;
+    else if(QVideoFrame::Format_NV12 == format)
+        return VIDEO_FORMAT_I420;
+    else if(QVideoFrame::Format_YUYV == format)
+        return VIDEO_FORMAT_YUY2;
+    return VIDEO_FORMAT_NONE;
+}
+
+AVPixelFormat CTool::VideoFormatToFFMpegPixFormat(
+        const VideoFormat format)
+{
+    if(VIDEO_FORMAT_RGB24 == format)
+        return AV_PIX_FMT_RGB24;
+    else if(VIDEO_FORMAT_DIB == format)
+        return AV_PIX_FMT_RGB24;
+    else if(VIDEO_FORMAT_GBRP == format)
+        return AV_PIX_FMT_GBRP;
+    else if(VIDEO_FORMAT_BGRA == format)
+        return AV_PIX_FMT_BGRA;
+    else if(VIDEO_FORMAT_RGB32 == format)
+        return AV_PIX_FMT_RGB32;
+    else if(VIDEO_FORMAT_RGBA == format)
+        return AV_PIX_FMT_RGBA;
+    else if(VIDEO_FORMAT_NV21 == format)
+        return AV_PIX_FMT_NV21;
+    else if(VIDEO_FORMAT_YUY2 == format)
+        return AV_PIX_FMT_YUYV422;
+    else if(VIDEO_FORMAT_UYVY == format)
+        return AV_PIX_FMT_UYVY422;
+    else if(VIDEO_FORMAT_YVYU == format)
+        return AV_PIX_FMT_YVYU422;
+
+    return AV_PIX_FMT_NONE;
+}
+
+QImage::Format CTool::VideoFormatToQImageFormat(const VideoFormat format)
+{
+    if(VIDEO_FORMAT_RGB24 == format)
+        return QImage::Format_RGB888;
+    else if(VIDEO_FORMAT_DIB == format)
+        return QImage::Format_RGB888;
+    else if(VIDEO_FORMAT_RGB32 == format)
+        return QImage::Format_RGB32;
+    else if(VIDEO_FORMAT_RGBA == format)
+        return QImage::Format_RGB32;
+    return QImage::Format_Invalid;
+}
+
+QVideoFrame::PixelFormat CTool::VideoFormatToQVideoFrameFormat(
+        const VideoFormat format)
+{
+    if(VIDEO_FORMAT_RGB24 == format)
+        return QVideoFrame::Format_RGB24;
+    else if(VIDEO_FORMAT_DIB == format)
+        return QVideoFrame::Format_RGB24;
+    else if(VIDEO_FORMAT_RGB32 == format)
+        return QVideoFrame::Format_RGB32;
+    else if(VIDEO_FORMAT_RGBA == format)
+        return QVideoFrame::Format_RGB32;
+    else if(VIDEO_FORMAT_YV12 == format)
+        return QVideoFrame::Format_YV12;
+    else if(VIDEO_FORMAT_NV21 == format)
+        return QVideoFrame::Format_NV21;
+    else if(VIDEO_FORMAT_YUY2 == format)
+        return QVideoFrame::Format_YUYV;
+    return QVideoFrame::Format_Invalid;
+}
+
+AVPixelFormat CTool::QImageFormatToFFMpegPixFormat(const QImage::Format format)
+{
+    if(QImage::Format_RGB32 == format)
+        return AV_PIX_FMT_RGB32;
+    return AV_PIX_FMT_NONE;
 }
 
 #ifdef RABBITIM_USE_QXMPP
-AVPixelFormat CTool::QXmppVideoFrameFormatToFFMpegPixFormat(const QXmppVideoFrame::PixelFormat format)
+AVPixelFormat CTool::QXmppVideoFrameFormatToFFMpegPixFormat(
+        const QXmppVideoFrame::PixelFormat format)
 {
     if(QXmppVideoFrame::Format_RGB32 == format)
         return AV_PIX_FMT_RGB32;
@@ -82,19 +173,19 @@ int CTool::ConvertFormat(/*[in]*/ const QXmppVideoFrame &inFrame,
 
     AVPicture pic;
     nRet = avpicture_fill(&pic, (uint8_t*)inFrame.bits(),
-                   QXmppVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
-                   inFrame.width(),
-                   inFrame.height());
+              QXmppVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
+              inFrame.width(),
+              inFrame.height());
     if(nRet < 0)
     {
         LOG_MODEL_ERROR("Tool", "avpicture_fill fail:%x", nRet);
         return nRet;
     }
-
+    
     nRet = ConvertFormat(pic, inFrame.width(), inFrame.height(),
-                         QXmppVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
-                         outFrame, nOutWidth, nOutHeight,
-                         pixelFormat);
+              QXmppVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
+              outFrame, nOutWidth, nOutHeight,
+              pixelFormat);
 
     return nRet;
 }
@@ -109,21 +200,21 @@ int CTool::ConvertFormat(/*[in]*/ const QVideoFrame &inFrame,
                          /*[in]*/ AVPixelFormat pixelFormat)
 {
     int nRet = 0;
-
+    
     AVPicture pic;
     nRet = avpicture_fill(&pic, (uint8_t*) inFrame.bits(),
-                   QVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
-                   inFrame.width(),
-                   inFrame.height());
+                  QVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
+                  inFrame.width(),
+                  inFrame.height());
     if(nRet < 0)
     {
         LOG_MODEL_DEBUG("Tool", "avpicture_fill fail:%x", nRet);
         return nRet;
     }
-
+    
     nRet = ConvertFormat(pic, inFrame.width(), inFrame.height(),
-                         QVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
-                         outFrame, nOutWidth, nOutHeight, pixelFormat);
+                  QVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
+                  outFrame, nOutWidth, nOutHeight, pixelFormat);
 
     return nRet;
 }
@@ -139,7 +230,7 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
 {
     int nRet = 0;
     struct SwsContext* pSwsCtx = NULL;
-
+    
     //分配输出空间  
     nRet = avpicture_alloc(&outFrame, outPixelFormat, nOutWidth, nOutHeight);
     if(nRet)
@@ -147,15 +238,16 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
         LOG_MODEL_ERROR("Tool", "avpicture_alloc fail:%x", nRet);
         return nRet;
     }
-
+    
     if(inPixelFormat == outPixelFormat
             && nInWidth == nOutWidth
             && nInHeight == nOutHeight)
     {
-        av_picture_copy(&outFrame, &inFrame, inPixelFormat, nInWidth, nInHeight);
+        av_picture_copy(&outFrame, &inFrame, inPixelFormat,
+                        nInWidth, nInHeight);
         return 0;
     }
-
+    
     //设置图像转换上下文  
     pSwsCtx = sws_getCachedContext (NULL,
                                     nInWidth,                //源宽度  
@@ -172,7 +264,7 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
         avpicture_free(&outFrame);
         return -3;
     }
-
+    
     //进行图片转换  
     nRet = sws_scale(pSwsCtx,
                      inFrame.data, inFrame.linesize,
@@ -187,30 +279,84 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     {
         nRet = 0;
     }
-
+    
     sws_freeContext(pSwsCtx);
     return nRet;
 }
+
+int CTool::ConvertFormat(/*[in]*/const std::shared_ptr<CVideoFrame> &inFrame,
+              /*[out]*/ std::shared_ptr<CVideoFrame> &outFrame, /** 转换后图像 */
+              /*[in]*/  int nOutWidth,               /** 转换后的帧的宽度 */
+              /*[in]*/  int nOutHeight,              /** 转换后的帧的高度 */
+              /*[in]*/  VideoFormat format)
+{
+    int nRet = 0;
+
+    if(!inFrame)
+    {
+        LOG_MODEL_ERROR("CTool", "frame is null");
+        return -1;
+    }
+    AVPixelFormat inFormat, outFormat;
+    inFormat = VideoFormatToFFMpegPixFormat(inFrame->m_VideoInfo.Format);
+    outFormat = VideoFormatToFFMpegPixFormat(format);
+    AVPicture pic;
+    nRet = avpicture_fill(&pic, (uint8_t*)inFrame->GetData(),
+                          inFormat,
+                          inFrame->m_VideoInfo.nWidth,
+                          inFrame->m_VideoInfo.nHeight);
+    if(nRet < 0)
+    {
+        LOG_MODEL_ERROR("Tool", "avpicture_fill fail:%x", nRet);
+        return nRet;
+    }
+
+    AVPicture outPic;
+    nRet = ConvertFormat(pic, inFrame->m_VideoInfo.nWidth,
+                         inFrame->m_VideoInfo.nHeight,
+                         inFormat,
+                         outPic, nOutWidth, nOutHeight,
+                         outFormat);
+    if(nRet)
+        return nRet;
+    int nLen = avpicture_get_size(outFormat, nOutWidth, nOutHeight);
+    VideoInfo vi;
+    vi.Format = format;
+    vi.nHeight = nOutHeight;
+    vi.nWidth = nOutWidth;
+    vi.nRatio = inFrame->m_VideoInfo.nRatio;
+    std::shared_ptr<CVideoFrame> frame(
+                new CVideoFrame(outPic.data[0], nLen, 
+                vi, inFrame->m_Timestamp));
+    outFrame = frame;
+    avpicture_free(&pic);
+    avpicture_free(&outPic);
+    return nRet;
+}
+
 #endif
 
 #ifdef RABBITIM_USE_OPENCV
-cv::Mat CTool::ImageRotate(cv::Mat & src, const cv::Point &_center, double angle, double scale)
+cv::Mat CTool::ImageRotate(cv::Mat & src, const cv::Point &_center,
+                           double angle, double scale)
 {
     cv::Point2f center;
     center.x = float(_center.x);
     center.y = float(_center.y);
-
+    
     //计算二维旋转的仿射变换矩阵  
     cv::Mat M = cv::getRotationMatrix2D(center, angle, scale);
-
+    
     // rotate
     cv::Mat dst;
-    cv::warpAffine(src, dst, M, cv::Size(src.cols, src.rows), cv::INTER_LINEAR);
+    cv::warpAffine(src, dst, M, cv::Size(src.cols, src.rows),
+                   cv::INTER_LINEAR);
     return dst;
 }
 #endif
 
-void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int srcWidth, int srcHeight)
+void CTool::YUV420spRotate90(uchar *dst, const uchar *src,
+                             int srcWidth, int srcHeight)
 {
     static int nWidth = 0, nHeight = 0;
     static int wh = 0;
@@ -222,7 +368,7 @@ void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int srcWidth, int src
         wh = srcWidth * srcHeight;
         uvHeight = srcHeight >> 1;//uvHeight = height / 2
     }
-
+    
     //旋转Y  
     int k = 0;
     for(int i = 0; i < srcWidth; i++) {
@@ -233,7 +379,7 @@ void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int srcWidth, int src
             nPos += srcWidth;
         }
     }
-
+    
     for(int i = 0; i < srcWidth; i+=2){
         int nPos = wh;
         for(int j = 0; j < uvHeight; j++) {
@@ -246,7 +392,8 @@ void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int srcWidth, int src
     return;
 }
 
-void CTool::YUV420spRotateNegative90(uchar *dst, const uchar *src, int srcWidth, int height)
+void CTool::YUV420spRotateNegative90(uchar *dst, const uchar *src,
+                                     int srcWidth, int height)
 {
     static int nWidth = 0, nHeight = 0;
     static int wh = 0;
@@ -258,7 +405,7 @@ void CTool::YUV420spRotateNegative90(uchar *dst, const uchar *src, int srcWidth,
         wh = srcWidth * height;
         uvHeight = height >> 1;//uvHeight = height / 2
     }
-
+    
     //旋转Y  
     int k = 0;
     for(int i = 0; i < srcWidth; i++){
@@ -270,7 +417,7 @@ void CTool::YUV420spRotateNegative90(uchar *dst, const uchar *src, int srcWidth,
             nPos += srcWidth;
         }
     }
-
+    
     for(int i = 0; i < srcWidth; i+=2){
         int nPos = wh + srcWidth - 1;
         for(int j = 0; j < uvHeight; j++) {
@@ -280,11 +427,12 @@ void CTool::YUV420spRotateNegative90(uchar *dst, const uchar *src, int srcWidth,
             nPos += srcWidth;
         }
     }
-
+    
     return;
 }
 
-void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int srcWidth, int height, int mode)
+void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int srcWidth,
+                             int height, int mode)
 {
     switch (mode) {
     case 1:
@@ -300,7 +448,8 @@ void CTool::YUV420spRotate90(uchar *dst, const uchar *src, int srcWidth, int hei
 }
 
 //以Y轴做镜像  
-void CTool::YUV420spMirrorY(uchar *dst, const uchar *src, int srcWidth, int srcHeight)
+void CTool::YUV420spMirrorY(uchar *dst, const uchar *src, int srcWidth,
+                            int srcHeight)
 {
     //镜像Y  
     int k = 0;
@@ -313,7 +462,7 @@ void CTool::YUV420spMirrorY(uchar *dst, const uchar *src, int srcWidth, int srcH
             k++;
         }
     }
-
+    
     int uvHeight = srcHeight >> 1; // uvHeight = height / 2
     for(int j = 0; j < uvHeight; j ++) {
         nPos += srcWidth;
@@ -327,7 +476,8 @@ void CTool::YUV420spMirrorY(uchar *dst, const uchar *src, int srcWidth, int srcH
 }
 
 //以XY轴做镜像  
-void CTool::YUV420spMirrorXY(uchar *dst, const uchar *src, int width, int srcHeight)
+void CTool::YUV420spMirrorXY(uchar *dst, const uchar *src,
+                             int width, int srcHeight)
 {
     static int nWidth = 0, nHeight = 0;
     static int wh = 0;
@@ -337,12 +487,12 @@ void CTool::YUV420spMirrorXY(uchar *dst, const uchar *src, int width, int srcHei
     {
         nWidth = width;
         nHeight = srcHeight;
-
+        
         wh = width * srcHeight;
         uvHeight = srcHeight >> 1; //uvHeight = height / 2
         nUVPos = wh + uvHeight * width - 1;
     }
-
+    
     //镜像Y  
     int k = 0;
     int nPos = wh - 1;
@@ -354,7 +504,7 @@ void CTool::YUV420spMirrorXY(uchar *dst, const uchar *src, int width, int srcHei
         }
         nPos -= width;
     }
-
+    
     nPos = nUVPos;
     for(int j = 0; j < uvHeight; j ++) {
         for(int i = 0; i < width; i += 2)
@@ -368,7 +518,8 @@ void CTool::YUV420spMirrorXY(uchar *dst, const uchar *src, int width, int srcHei
 }
 
 //以X轴做镜像  
-void CTool::YUV420spMirrorX(uchar *dst, const uchar *src, int width, int srcHeight)
+void CTool::YUV420spMirrorX(uchar *dst, const uchar *src,
+                            int width, int srcHeight)
 {
     static int nWidth = 0, nHeight = 0;
     static int wh = 0;
@@ -378,12 +529,12 @@ void CTool::YUV420spMirrorX(uchar *dst, const uchar *src, int width, int srcHeig
     {
         nWidth = width;
         nHeight = srcHeight;
-
+        
         wh = width * srcHeight;
         uvHeight = srcHeight >> 1; //uvHeight = height / 2
         nUVPos = wh + uvHeight * width;
     }
-
+    
     //镜像Y  
     int k = 0;
     int nPos = wh - 1;
@@ -395,7 +546,7 @@ void CTool::YUV420spMirrorX(uchar *dst, const uchar *src, int width, int srcHeig
             k++;
         }
     }
-
+    
     nPos = nUVPos;
     for(int j = 0; j < uvHeight; j ++) {
         nPos -= width;
@@ -408,7 +559,8 @@ void CTool::YUV420spMirrorX(uchar *dst, const uchar *src, int width, int srcHeig
     }
 }
 
-void CTool::YUV420spMirror(uchar *dst, const uchar *src, int srcWidth, int srcHeight, int mode)
+void CTool::YUV420spMirror(uchar *dst, const uchar *src, int srcWidth,
+                           int srcHeight, int mode)
 {
     switch (mode) {
     case 0:
@@ -436,34 +588,34 @@ bool CTool::isImageFile(const QString &szFile)
 
 bool CTool::removeDirectory(QString dirName)
 {
-  QDir dir(dirName);
-  QString tmpdir ="";
-  if(!dir.exists()){
-    return false;
-  }
-
-  QFileInfoList fileInfoList = dir.entryInfoList();
-  foreach(QFileInfo fileInfo, fileInfoList){
-    if(fileInfo.fileName()=="."|| fileInfo.fileName()=="..")
-      continue;
+    QDir dir(dirName);
+    QString tmpdir ="";
+    if(!dir.exists()){
+        return false;
+    }
     
-    if(fileInfo.isDir()){
-      tmpdir = dirName +("/")+ fileInfo.fileName();
-      removeDirectory(tmpdir);
-      dir.rmdir(fileInfo.fileName());/**< 移除子目录 */
+    QFileInfoList fileInfoList = dir.entryInfoList();
+    foreach(QFileInfo fileInfo, fileInfoList){
+        if(fileInfo.fileName()=="."|| fileInfo.fileName()=="..")
+            continue;
+        
+        if(fileInfo.isDir()){
+            tmpdir = dirName +("/")+ fileInfo.fileName();
+            removeDirectory(tmpdir);
+            dir.rmdir(fileInfo.fileName());/**< 移除子目录 */
+        }
+        else if(fileInfo.isFile()){
+            QFile tmpFile(fileInfo.fileName());
+            dir.remove(tmpFile.fileName());/**< 删除临时文件 */
+        }
     }
-    else if(fileInfo.isFile()){
-      QFile tmpFile(fileInfo.fileName());
-      dir.remove(tmpFile.fileName());/**< 删除临时文件 */
+    
+    dir.cdUp();            /**< 返回上级目录，因为只有返回上级目录，才可以删除这个目录 */
+    if(dir.exists(dirName)){
+        if(!dir.rmdir(dirName))
+            return false;
     }
-  }
-
-  dir.cdUp();            /**< 返回上级目录，因为只有返回上级目录，才可以删除这个目录 */
-  if(dir.exists(dirName)){
-    if(!dir.rmdir(dirName))
-      return false;
-  }
-  return true;
+    return true;
 }
 
 int CTool::SetWindowsGeometry(QWidget *pWindow)
@@ -495,13 +647,14 @@ int CTool::SetWindowsGeometry(QWidget *pWindow)
     pWindow->setGeometry(pScreen->availableGeometry());
 #else
     pWindow->move((pScreen->availableGeometry().width() - pWindow->width()) >> 1,
-         (pScreen->availableGeometry().height() - pWindow->height()) >> 1);
+                  (pScreen->availableGeometry().height() - pWindow->height()) >> 1);
 #endif
     //*/
     return 0;
 }
 
-QString CTool::FileDialog(QWidget *pParent, const QString &szDir, const QString &szFilter, const QString &szTilte)
+QString CTool::FileDialog(QWidget *pParent, const QString &szDir,
+                          const QString &szFilter, const QString &szTilte)
 {
     QString szFile;
     QFileDialog dlg(pParent, szTilte, szDir, szFilter);
@@ -532,24 +685,24 @@ std::string CTool::DoubleToString(double d)
 QByteArray CTool::GetFileMd5Sum(QString filePath)
 {
     QFile localFile(filePath);
-
+    
     if (!localFile.open(QFile::ReadOnly))
     {
         LOG_MODEL_ERROR("CTool", "file open error.");
         return 0;
     }
-
+    
     QCryptographicHash ch(QCryptographicHash::Md5);
-
+    
     quint64 totalBytes = 0;
     quint64 bytesWritten = 0;
     quint64 bytesToWrite = 0;
     quint64 loadSize = 1024 * 4;
     QByteArray buf;
-
+    
     totalBytes = localFile.size();
     bytesToWrite = totalBytes;
-
+    
     while (1)
     {
         if(bytesToWrite > 0)
@@ -564,13 +717,13 @@ QByteArray CTool::GetFileMd5Sum(QString filePath)
         {
             break;
         }
-
+        
         if(bytesWritten == totalBytes)
         {
             break;
         }
     }
-
+    
     localFile.close();
     QByteArray md5 = ch.result();
     return md5;
@@ -600,14 +753,16 @@ int CTool::ComposePixmap(QPixmap &src1, const QPixmap &src2)
 int CTool::ComposeAvatarStatus(QPixmap &src1, const QPixmap &src2)
 {
     QPainter painter(&src1);
-    painter.drawPixmap((src1.width() * 3) >> 2,  (src1.height() * 3) >> 2, src1.width() >> 2, src1.height() >> 2,  src2);
+    painter.drawPixmap((src1.width() * 3) >> 2,  (src1.height() * 3) >> 2,
+                       src1.width() >> 2, src1.height() >> 2,  src2);
     return 0;
 }
 
 uchar RGBtoGRAY(uchar r, uchar g, uchar b)  
 {  
-    return (uchar)((((qint32)((r << 5) + (r << 2) + (r << 1)))+ (qint32)((g << 6) + (g << 3) + (g << 1) + g)  +
-                                   (qint32)((b << 4) - b)) >> 7);  
+    return (uchar)((((qint32)((r << 5) + (r << 2) + (r << 1)))
+                    + (qint32)((g << 6) + (g << 3) + (g << 1) + g) 
+                    + (qint32)((b << 4) - b)) >> 7);  
 }  
 //转为灰度图  
 QImage CTool::ConvertToGray(QImage image)
@@ -643,7 +798,7 @@ QImage CTool::ConvertToGray(QImage image)
         rgbImageData = backup1 + realWidth1 * i;
         grayImageData = backup2 + realWidth2 * i;
     }
-
+    
     return grayImage;
     //下面算法可以达到效果，但性能很差  
     //    outGrayImage = rgbImage;

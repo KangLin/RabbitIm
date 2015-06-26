@@ -1,26 +1,15 @@
 #include "FrmPlayer.h"
 #include <QPainter>
 #include <QImage>
-#include <QThread>
-#include <QEvent>
-#include "DataVideoBuffer.h"
 #include "../../Global/Global.h"
-#include "CaptureVideoFrame.h"
-#ifdef RABBITIM_USE_OPENCV
-#include "CameraOpencv.h"
-#else
-#include "Camera.h"
-#endif
+#include "Media/Camera/CameraFactory.h"
 
 CFrmPlayer::CFrmPlayer(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f)
 {
-    bool check = true;
-    check = connect(this, SIGNAL(sigConverteToRGB32Frame(const QVideoFrame&, const QRect&)),
-                    &m_FrameProcess, SLOT(slotFrameConvertedToRGB32(const QVideoFrame&, const QRect&)));
-    Q_ASSERT(check);
-    check = connect(&m_FrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(const QVideoFrame&)),
-                        SLOT(slotPaint(const QVideoFrame&)));
+    bool check = connect(&m_Process,
+                         SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
+                         SLOT(slotPresentRGB32(QVideoFrame)));
     Q_ASSERT(check);
 }
 
@@ -29,14 +18,43 @@ CFrmPlayer::~CFrmPlayer()
     LOG_MODEL_DEBUG("Video", "CFrmPlayer::~CFrmPlayer");
 }
 
+void CFrmPlayer::changeEvent(QEvent *)
+{}
+
 void CFrmPlayer::paintEvent(QPaintEvent *)
 {
+    if(m_Frame)
+    {
+        QPainter painter(this);
+        if(VIDEO_FORMAT_NONE == m_Frame->m_VideoInfo.Format)
+            return;
+        std::shared_ptr<CVideoFrame> outFrame;
+        if (VIDEO_FORMAT_RGB32 != m_Frame->m_VideoInfo.Format)
+        {
+            CTool::ConvertFormat(m_Frame, outFrame,
+                                 this->rect().width(),
+                                 this->rect().height(),
+                                 VIDEO_FORMAT_RGB32);
+        }
+        else
+        {
+            outFrame = m_Frame;
+        }
+        QImage img((const uchar*)outFrame->GetData(),
+                   outFrame->m_VideoInfo.nWidth,
+                   outFrame->m_VideoInfo.nHeight,
+                   QImage::Format_RGB32);
+        painter.drawImage(this->rect(), img);
+        return;
+    }
+
     if(!m_VideoFrame.isValid())
         return;
     if(!m_VideoFrame.map(QAbstractVideoBuffer::ReadOnly))
         return;
     QPainter painter(this);
-    QImage::Format f = QVideoFrame::imageFormatFromPixelFormat(m_VideoFrame.pixelFormat());
+    QImage::Format f = QVideoFrame::imageFormatFromPixelFormat(
+                m_VideoFrame.pixelFormat());
     if(QImage::Format_Invalid == f)
         return;
     QImage image(m_VideoFrame.bits(),
@@ -44,37 +62,38 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
                  m_VideoFrame.height(),
                  m_VideoFrame.bytesPerLine(),
                  f);
-    //TODO:这个函数画RGB24位图在MINGW下会出错  
     painter.drawImage(this->rect(), image);
     m_VideoFrame.unmap();
 }
 
-void CFrmPlayer::changeEvent(QEvent *e)
+void CFrmPlayer::slotPresent(std::shared_ptr<CVideoFrame> frame)
 {
-    switch(e->type())
-    {
-    case QEvent::LanguageChange:
-        
-        break;
-    }
+    LOG_MODEL_DEBUG("CFrmPlayer", "id:%d;name:%s;width:%d;height:%d,Ratio:%d;time:%d",
+                    frame->m_VideoInfo.Format,
+                    VideoFormatToName(frame->m_VideoInfo.Format).c_str(),
+                    frame->m_VideoInfo.nWidth,
+                    frame->m_VideoInfo.nHeight,
+                    frame->m_VideoInfo.nRatio,
+                    frame->m_Timestamp);//*/
+    m_Frame = frame;
+    update();
 }
 
-void CFrmPlayer::slotPaint(const QVideoFrame &frame)
+void CFrmPlayer::slotPresent(const QVideoFrame &frame)
 {
+    if(frame.pixelFormat() != QVideoFrame::Format_BGR32)
+    {
+        m_Process.slotFrameConvertedToRGB32(frame);
+        return;
+    }
     m_VideoFrame = frame;
     update();
 }
 
-//从摄像头捕获的帧  
-void CFrmPlayer::slotPresent(const QVideoFrame &frame)
+void CFrmPlayer::slotPresentRGB32(const QVideoFrame &frame)
 {
-    if(QVideoFrame::Format_RGB32 != frame.pixelFormat())
-    {
-        QRect rect = this->rect();
-        emit sigConverteToRGB32Frame(frame, rect);
-    }
-    else
-        slotPaint(frame);
+    m_VideoFrame = frame;
+    update();
 }
 
 void CFrmPlayer::mouseReleaseEvent(QMouseEvent *)
@@ -85,31 +104,69 @@ void CFrmPlayer::mouseReleaseEvent(QMouseEvent *)
 }
 
 #ifdef DEBUG
-int CFrmPlayer::TestCamera()
+#include <vector>
+#include "FrameProcess.h"
+/***********************************************************************/
+/* 视频处理类                                                            */
+/***********************************************************************/
+class Hander : public CCamera::CHanderFrame
 {
-#ifdef DEBUG_VIDEO_TIME
-    LOG_MODEL_DEBUG("CFrmPlayer", "CFrmPlayer::TestCamera threadid:0x%X",
-           QThread::currentThreadId());
-#endif
-    //以下为视频捕获、显示测试代码  
-    static CCamera *pCamera = NULL;
-    if(pCamera)
+public:
+    Hander(CFrmPlayer* player, CFrameProcess* pProcess)
     {
-        pCamera->Stop();
-        delete pCamera;
-        pCamera = NULL;
+        m_pPlayer = player;
+        m_pProcess = pProcess;
     }
 
-#ifdef RABBITIM_USE_OPENCV
-    pCamera = new CCameraOpencv;
-#else
-    pCamera = new CCamera;
-#endif
-    //pCamera->SetDeviceIndex(0);
-    pCamera->GetAvailableDevices();
-    connect(pCamera, SIGNAL(sigCaptureFrame(const QVideoFrame&)),
-            SLOT(slotPresent(const QVideoFrame&)));
-    pCamera->Start();
-    return 0;
+    virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame)
+    {
+        //直接调用  
+        m_pPlayer->slotPresent(frame);
+        //通过信号调用  
+        //m_pProcess->slotCaptureFrame(frame);
+        LOG_MODEL_DEBUG("CFrmPlayer", "Hander:format:%s,width:%d,height:%d",
+                VideoFormatToName(frame->m_VideoInfo.Format).c_str(),
+                frame->m_VideoInfo.nWidth,
+                frame->m_VideoInfo.nHeight);
+        return 0;
+    }
+private:
+    CFrmPlayer* m_pPlayer;
+    CFrameProcess* m_pProcess;
+};
+
+int CFrmPlayer::TestCamera()
+{
+    static Hander* pHander = NULL;
+    if(pHander)
+        return 0;
+    std::vector<CCameraInfo::CamerInfo> lstInfo;
+    int nRet = CCameraFactory::Instance()->EnumDevice(lstInfo);
+    std::vector<CCameraInfo::CamerInfo>::iterator it;
+    for (it = lstInfo.begin(); it != lstInfo.end(); it++)
+    {
+        LOG_MODEL_DEBUG("CFrmPlayer", "index:%d;name:%s",
+                        it->nIndex,
+                        it->szName.c_str()
+                        );
+        
+    }
+    CFrameProcess* pProcess = new CFrameProcess();
+    bool check = connect(
+                pProcess, SIGNAL(sigCaptureFrame(QVideoFrame)),
+            /*pProcess, SLOT(slotFrameConvertedToRGB32(QVideoFrame)));
+    Q_ASSERT(check);
+    check = connect(pProcess,
+                    SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),*/
+                    this, SLOT(slotPresent(QVideoFrame)));
+    pHander = new Hander(this, pProcess);
+    VideoInfo vi;
+    vi.Format = VIDEO_FORMAT_RGB24;
+    vi.nHeight = 480;
+    vi.nWidth = 640;
+    vi.nRatio = 15;
+    CCameraFactory::Instance()->GetCamera(0)->Open(pHander);
+    CCameraFactory::Instance()->GetCamera(0)->Start();
 }
+
 #endif

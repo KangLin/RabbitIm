@@ -53,7 +53,7 @@ int CManageCall::Call(const QString &szId, bool bVideo)
         return -2;
     }
 
-    //检查是否正在视频  
+    //检查呼叫是否已存在  
     if(m_Call.find(szId) != m_Call.end())
     {
         QString szShowName = szId;
@@ -67,17 +67,18 @@ int CManageCall::Call(const QString &szId, bool bVideo)
         return -3;
     }
 
+    QSharedPointer<CCallObject> call;
     //具体协议实现呼叫  
-    nRet = OnCall(szId, bVideo);
+    nRet = OnCall(szId, call, bVideo);
     if(nRet)
         return nRet;
 
-    //增加一个呼叫消息，并增加到管理 map 中  
-    QMap<QString, QSharedPointer<CCallObject> >::iterator it = m_Call.find(szId);
-    if(m_Call.end() != it)
+    if(!call.isNull())
     {
+        //增加一个呼叫消息，并增加到管理 map 中  
+        m_Call.insert(szId, call);
         //增加一个呼叫通知消息  
-        QSharedPointer<CCallAction> action(new CCallAction(it.value(),
+        QSharedPointer<CCallAction> action(new CCallAction(call,
                                    szId, QTime::currentTime(), true));
         roster->GetMessage()->AddMessage(action);
         emit GET_CLIENT->sigMessageUpdate(szId);

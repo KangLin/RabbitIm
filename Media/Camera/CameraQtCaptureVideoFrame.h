@@ -41,20 +41,26 @@
 #define CAPTUREVIDEOFRAME_H
 
 #include <QAbstractVideoSurface>
+#ifdef ANDROID
 #include <QVideoProbe>
+#endif
 #include <QCamera>
 
-class CCamera;
-class CCaptureVideoFrame : public QAbstractVideoSurface
+class CCameraQt;
+/**
+ * @brief The CCameraQtCaptureVideoFrame class
+ * @ingroup RABBITIM_IMPLEMENT_CAMERA_QT
+ */
+class CCameraQtCaptureVideoFrame : public QAbstractVideoSurface
 {
     Q_OBJECT
 public:
-    explicit CCaptureVideoFrame(CCamera* pCamera = NULL, QObject *parent = 0);
-    virtual ~CCaptureVideoFrame();
+    explicit CCameraQtCaptureVideoFrame(QObject *parent = 0);
+    virtual ~CCameraQtCaptureVideoFrame();
 
-    //设置捕获源
-    bool setSource(QCamera *pCamera);
-    //设置支持的捕获格式
+    //设置捕获源  
+    bool setSource(CCameraQt* pCamera);
+    //设置支持的捕获格式  
     virtual QList<QVideoFrame::PixelFormat> supportedPixelFormats(
             QAbstractVideoBuffer::HandleType handleType = QAbstractVideoBuffer::NoHandle) const;
     //bool isFormatSupported(const QVideoSurfaceFormat &format) const;
@@ -67,8 +73,10 @@ private slots:
     virtual bool present(const QVideoFrame &frame);
 
 private:
+#ifdef ANDROID
      QVideoProbe m_Probe;//android下,目前只能用probe捕获视频  
-     CCamera *m_pCamera;
+#endif
+     CCameraQt* m_pCamera;
 };
 
 #endif // CAPTUREVIDEOFRAME_H

@@ -33,7 +33,9 @@ private:
      * @param bVideo：是否包含视频  
      * @return 成功返回0，失败返回非0  
      */
-    virtual int OnCall(const QString &szId, bool bVideo = false);
+    virtual int OnCall(const QString &szId, 
+                       QSharedPointer<CCallObject> &call,
+                       bool bVideo = false);
 
 private slots:
     void slotReceived(QXmppCall* pCall);

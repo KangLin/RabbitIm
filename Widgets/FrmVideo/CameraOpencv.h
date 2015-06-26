@@ -3,11 +3,11 @@
 
 #include <QObject>
 #include <QTimer>
-#include "Camera.h"
+#include "CameraQt.h"
 #include "opencv2/opencv.hpp"
 #include "FrameProcess.h"
 
-class CCameraOpencv : public CCamera
+class CCameraOpencv : public CCameraQt
 {
     Q_OBJECT
 public:

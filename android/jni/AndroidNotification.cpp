@@ -52,11 +52,12 @@ CAndroidNotification::CAndroidNotification(QObject *parent)
 
 CAndroidNotification::~CAndroidNotification()
 {
-    QAndroidJniObject::callStaticMethod<void>("org/KangLinStudio/RabbitIm/NotificationClient",
-                                       "CancelAll");
+    QAndroidJniObject::callStaticMethod<void>(
+                "org/KangLinStudio/RabbitIm/NotificationClient", "CancelAll");
 }
 
-void CAndroidNotification::setNotification(const QString &szMessage, const QString &szTitle)
+void CAndroidNotification::setNotification(
+        const QString &szMessage, const QString &szTitle)
 {
     QString s = szTitle;
     if(szTitle.isEmpty())
@@ -64,13 +65,16 @@ void CAndroidNotification::setNotification(const QString &szMessage, const QStri
     emit sigNotificationChanged(szMessage, s);
 }
 
-void CAndroidNotification::slotUpdateAndroidNotification(const QString &szMessage, const QString &szTitle)
+void CAndroidNotification::slotUpdateAndroidNotification(
+        const QString &szMessage, const QString &szTitle)
 {
-    QAndroidJniObject javaNotification = QAndroidJniObject::fromString(szMessage);
+    QAndroidJniObject javaNotification =
+            QAndroidJniObject::fromString(szMessage);
     QAndroidJniObject javaTitle = QAndroidJniObject::fromString(szTitle);
-    QAndroidJniObject::callStaticMethod<void>("org/KangLinStudio/RabbitIm/NotificationClient",
-                                       "notify",
-                                       "(Ljava/lang/String;Ljava/lang/String;)V",
-                                       javaNotification.object<jstring>(),
-                                       javaTitle.object<jstring>());
+    QAndroidJniObject::callStaticMethod<void>(
+                "org/KangLinStudio/RabbitIm/NotificationClient",
+                "notify",
+                "(Ljava/lang/String;Ljava/lang/String;)V",
+                javaNotification.object<jstring>(),
+                javaTitle.object<jstring>());
 }

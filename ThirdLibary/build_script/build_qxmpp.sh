@@ -83,7 +83,6 @@ MAKE="make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
 case $RABBITIM_BUILD_TARGERT in
     android)
         PARA="-r -spec android-g++"
-        MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
         #MAKE=mingw32-make #mingw 中编译
         case $TARGET_OS in
             MINGW* | CYGWIN* | MSYS*)
@@ -124,16 +123,19 @@ $QMAKE ${RELEASE_PARA}
 ${MAKE} -f Makefile 
 case $RABBITIM_BUILD_TARGERT in
     android)
+        MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
         ${MAKE} -f Makefile install
         #${MAKE} -f Makefile install ${MAKE_PARA}
-        #rm -fr *
-        #echo "$QMAKE ${DEBUG_PARA}"
-        #${QMAKE} ${DEBUG_PARA}
-        #${MAKE} -f Makefile install
+        echo "$QMAKE ${DEBUG_PARA}"
+        ${QMAKE} ${DEBUG_PARA}
+        ${MAKE} -f Makefile install
         #${MAKE} -f Makefile install ${MAKE_PARA}
-        #if [ -d "$RABBITIM_BUILD_PREFIX/libs/armeabi-v7a" ]; then
-        #    cp -fr $RABBITIM_BUILD_PREFIX/libs/armeabi-v7a/* ${RABBITIM_BUILD_PREFIX}/lib
-        #fi
+        if [ -f "`pwd`/src/libqxmpp.a" ]; then
+            cp -fr `pwd`/src/libqxmpp.a ${RABBITIM_BUILD_PREFIX}/lib
+        fi
+        if [ -f "`pwd`/src/libqxmpp_d.a" ]; then
+            cp -fr `pwd`/src/libqxmpp_d.a ${RABBITIM_BUILD_PREFIX}/lib
+        fi
     ;;
     windows_mingw|windows_msvc)
         ${MAKE} install

@@ -107,7 +107,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
         ;;
     windows_msvc)
-        echo "build_speex.sh don't support windows_msvc. please manually use msvc ide complie"
+        echo "build_libsodium.sh don't support windows_msvc. please manually use msvc ide complie"
         cd $CUR_DIR
         exit 2
         ;;

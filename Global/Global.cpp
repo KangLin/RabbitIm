@@ -21,35 +21,46 @@ CGlobal::CGlobal(QObject *parent) :
 {
     m_pMainWindow = NULL;
     //注意这个必须的在最前  
-    m_szDocumentPath =  QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    m_szDocumentPath =  QStandardPaths::writableLocation(
+                QStandardPaths::DocumentsLocation);
     if(m_szDocumentPath.isEmpty())
     {
         LOG_MODEL_ERROR("CGlobal", "document path is empty");
     }
 
     QSettings conf(GetApplicationConfigureFile(), QSettings::IniFormat);
-    m_LocalStatus = (CUserInfo::USER_INFO_STATUS)conf.value("Login/LoginState", CUserInfo::Online).toInt();
-    m_UserColor = GetColorFormConf("Options/User/LocalColor", QColor(255, 0, 0));
-    m_RosterColor = GetColorFormConf("Options/User/RosterColor", QColor(0, 0, 255));
-    m_UserMessageColor = GetColorFormConf("Options/User/LocalMessageColor", QColor(0, 0, 0));
-    m_RosterMessageColor = GetColorFormConf("Options/User/RosterMessageColor", QColor(0, 0, 0));
-    m_UnreadMessageCountColor = GetColorFormConf("Options/User/UnreadMessageCountColor", QColor(255, 0, 0));
+    m_LocalStatus = (CUserInfo::USER_INFO_STATUS)conf.value(
+                "Login/LoginState", CUserInfo::Online).toInt();
+    m_UserColor = GetColorFormConf("Options/User/LocalColor",
+                                   QColor(255, 0, 0));
+    m_RosterColor = GetColorFormConf("Options/User/RosterColor",
+                                     QColor(0, 0, 255));
+    m_UserMessageColor = GetColorFormConf("Options/User/LocalMessageColor",
+                                          QColor(0, 0, 0));
+    m_RosterMessageColor = GetColorFormConf("Options/User/RosterMessageColor",
+                                            QColor(0, 0, 0));
+    m_UnreadMessageCountColor = GetColorFormConf(
+                "Options/User/UnreadMessageCountColor", QColor(255, 0, 0));
 
-    m_CloseType =  (E_CLOSE_TYPE)conf.value("Logout/type", E_CLOSE_TYPE_NO).toInt();
+    m_CloseType =  (E_CLOSE_TYPE)conf.value("Logout/type",
+                                            E_CLOSE_TYPE_NO).toInt();
 #ifdef MOBILE
-    m_MessageSendType = (E_MESSAGE_SEND_TYPE)conf.value("Options/Message/SendType", E_MESSAGE_SEND_TYPE_ENTER).toInt();
+    m_MessageSendType = (E_MESSAGE_SEND_TYPE)conf.value(
+                "Options/Message/SendType", E_MESSAGE_SEND_TYPE_ENTER).toInt();
 #else
-    m_MessageSendType = (E_MESSAGE_SEND_TYPE)conf.value("Options/Message/SendType", E_MESSAGE_SEND_TYPE_CTRL_ENTER).toInt();
+    m_MessageSendType = (E_MESSAGE_SEND_TYPE)conf.value(
+                "Options/Message/SendType",
+                E_MESSAGE_SEND_TYPE_CTRL_ENTER).toInt();
 #endif
 
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
-    //m_szXmppServer = conf.value("Login/XmppServer", "183.233.149.120").toString();
-    m_szXmppServer = conf.value("Login/XmppServer", "182.254.185.29").toString();
+    //m_szXmppServer = conf.value("Login/XmppServer", "rabbitim.wicp.net").toString();
+    m_szXmppServer = conf.value("Login/XmppServer", "rabbitim.wicp.net").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
     //m_szStunServer = conf.value("Login/StunServer", "stun.l.google.com").toString();
-    m_szStunServer = conf.value("Login/StunServer", "182.254.185.29").toString();
+    m_szStunServer = conf.value("Login/StunServer", "rabbitim.wicp.net").toString();
     //m_szTurnServer = conf.value("Login/TurnServer", "turn.l.google.com").toString();
-    m_szTurnServer = conf.value("Login/TurnServer", "182.254.185.29").toString();
+    m_szTurnServer = conf.value("Login/TurnServer", "rabbitim.wicp.net").toString();
     m_nStunServerPort = conf.value("Login/StunServerPort", 3478).toInt();
     m_nTurnServerPort = conf.value("Login/TurnServerPort", 3478).toInt();
     m_szTurnUser = conf.value("Login/TurnServerUser", "1").toString();
@@ -57,20 +68,32 @@ CGlobal::CGlobal(QObject *parent) :
 
     m_AutoLogin = conf.value("Login/AutoLogin", false).toBool();
     m_nAutoLoginDelayTime = conf.value("Login/AutoLoginDelayTime", "3").toInt();
-    m_bNotifiationBarShowMessage = conf.value("Options/NotifiationBar/ShowMessage", true).toBool();
-    m_nShowMessageDelay = conf.value("Options/NotifiationBar/ShowMessageDelay", 10000).toInt();
-    m_bNotifiationBarFlashs =  conf.value("Options/NotifiationBar/Flashs", true).toBool();
-    m_nFlashInterval = conf.value("Options/NotifiationBar/FlashsInterval", 500).toInt();
-    m_bMessageSound = conf.value("Options/Message/ReceiveMessageSound", true).toBool();
-    m_nAnimationHideMainWindow = conf.value("UI/MainWindow/AnimationHide", 3000).toInt();
-    m_nAnimationDuration = conf.value("UI/MainWindow/AnimationDuration", 250).toInt();
-    m_bAnimationHideMainWindows = conf.value("UI/MainWindow/AutoHide", true).toBool();
+    m_bNotifiationBarShowMessage = conf.value(
+                "Options/NotifiationBar/ShowMessage", true).toBool();
+    m_nShowMessageDelay = conf.value(
+                "Options/NotifiationBar/ShowMessageDelay", 10000).toInt();
+    m_bNotifiationBarFlashs =  conf.value(
+                "Options/NotifiationBar/Flashs", true).toBool();
+    m_nFlashInterval = conf.value(
+                "Options/NotifiationBar/FlashsInterval", 500).toInt();
+    m_bMessageSound = conf.value(
+                "Options/Message/ReceiveMessageSound", true).toBool();
+    m_nAnimationHideMainWindow = conf.value(
+                "UI/MainWindow/AnimationHide", 3000).toInt();
+    m_nAnimationDuration = conf.value(
+                "UI/MainWindow/AnimationDuration", 250).toInt();
+    m_bAnimationHideMainWindows = conf.value(
+                "UI/MainWindow/AutoHide", true).toBool();
 
-    m_RosterShowType = (E_ROSTER_SHOW_TYPE)conf.value("Options/Roster/ShowType", E_ROSTER_SHOW_NAME).toInt();
-    m_ScreenShotToType = (E_SCREEN_SHOT_TO_TYPE)conf.value("Options/ScreenShot/ToType", E_TO_SEND).toInt();
-    m_bHideMessageBox = conf.value("Options/ScreenShot/HideMessageBox", false).toBool();
+    m_RosterShowType = (E_ROSTER_SHOW_TYPE)conf.value(
+                "Options/Roster/ShowType", E_ROSTER_SHOW_NAME).toInt();
+    m_ScreenShotToType = (E_SCREEN_SHOT_TO_TYPE)conf.value(
+                "Options/ScreenShot/ToType", E_TO_SEND).toInt();
+    m_bHideMessageBox = conf.value(
+                "Options/ScreenShot/HideMessageBox", false).toBool();
 
-    m_Update = (E_UPDATE)conf.value("Options/Update", E_UPDATE_EVERY_TIME).toInt();
+    m_Update = (E_UPDATE)conf.value(
+                "Options/Update", E_UPDATE_EVERY_TIME).toInt();
 
     m_nVideoCaptureDevice = conf.value("Device/Video/Capture", 0).toInt();
     m_nAudioInputDevice = conf.value("Device/Audio/Input", 0).toInt();
@@ -79,10 +102,12 @@ CGlobal::CGlobal(QObject *parent) :
     m_bShowLocaleVideo = conf.value("Video/Locale/Show", true).toBool();
     m_bMonitor = conf.value("Video/Monitor", false).toBool();
 
-    m_szStyleFile = conf.value("UI/StyleSheet", ":/qdarkstyle/style.qss").toString();
+    m_szStyleFile = conf.value(
+                "UI/StyleSheet", ":/qdarkstyle/style.qss").toString();
     m_szStyleMenu = conf.value("UI/MenuStyleSheet", "Dark").toString();
 
-    //如果不同线程间信号发送中的参数有自定义的数据类型，那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用 
+    //如果不同线程间信号发送中的参数有自定义的数据类型，  
+    //那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用  
 #ifdef RABBITIM_USE_QXMPP
     qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
 #endif
@@ -102,7 +127,8 @@ CGlobal* CGlobal::Instance()
 
 
 #define LOG_BUFFER_LENGTH 1024
-int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...)
+int CGlobal::Log(const char *pszFile, int nLine, int nLevel,
+                 const char* pszModelName, const char *pFormatString, ...)
 {
     char buf[LOG_BUFFER_LENGTH];
     std::string szTemp = pszFile;
@@ -135,7 +161,9 @@ int CGlobal::Log(const char *pszFile, int nLine, int nLevel, const char* pszMode
     va_end (args);
     if(nRet < 0 || nRet >= LOG_BUFFER_LENGTH)
     {
-        LOG_MODEL_ERROR("Global", "vsprintf buf is short, %d > %d. Truncated it:%d", nRet > LOG_BUFFER_LENGTH, LOG_BUFFER_LENGTH);
+        LOG_MODEL_ERROR("Global",
+                        "vsprintf buf is short, %d > %d. Truncated it:%d",
+                        nRet > LOG_BUFFER_LENGTH, LOG_BUFFER_LENGTH);
         buf[LOG_BUFFER_LENGTH - 1] = 0;
         //return nRet;
     }
@@ -173,7 +201,8 @@ CUserInfo::USER_INFO_STATUS CGlobal::GetStatus()
 int CGlobal::SetStatus(CUserInfo::USER_INFO_STATUS status)
 {
     m_LocalStatus = status;
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(),
+                   QSettings::IniFormat);
     conf.setValue("Login/LoginState", status);
     return 0;
 }

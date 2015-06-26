@@ -13,6 +13,7 @@ CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
     m_pAudioInput = NULL;
     m_pAudioOutput = NULL;
     m_pFrmVideo = NULL;
+    m_pCamera = NULL;
     m_pCall = pCall;
     if(pCall)
     {
@@ -364,6 +365,34 @@ void CCallObjectQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
     }
 }
 
+//摄像头捕获帧  
+int CCallObjectQXmpp::OnFrame(const std::shared_ptr<CVideoFrame> frame)
+{
+    //处理捕获到的帧  
+    m_CaptureFrameProcess.slotCaptureFrame(frame);
+    return 0;
+}
+
+//从网络上接收视频帧  
+void CCallObjectQXmpp::slotReciveFrame()
+{
+    if(!m_pCall->videoChannel())
+        return;
+    QList<QXmppVideoFrame> f = m_pCall->videoChannel()->readFrames();
+    //监控模式下接收后直接返回  
+    if(IsMonitor())
+        return;
+
+    foreach(QXmppVideoFrame frame, f)
+    {
+        if(!frame.isValid())
+            continue;
+        m_ReciveFrameProcess.slotFrameConvertedToRGB32(
+                    frame, QRect(0, 0, frame.width(), frame.height()));
+    }
+}
+
+//向网络发送视频帧  
 void CCallObjectQXmpp::slotCaptureFrame(const QXmppVideoFrame &frame)
 {
     if(!m_pCall)
@@ -392,23 +421,6 @@ void CCallObjectQXmpp::slotCaptureFrame(const QXmppVideoFrame &frame)
     pChannel->writeFrame(frame);
 }
 
-void CCallObjectQXmpp::slotReciveFrame()
-{
-    if(!m_pCall->videoChannel())
-        return;
-    QList<QXmppVideoFrame> f = m_pCall->videoChannel()->readFrames();
-    //监控模式下接收后直接返回  
-    if(IsMonitor())
-        return;
-
-    foreach(QXmppVideoFrame frame, f)
-    {
-        if(!frame.isValid())
-            continue;
-        m_ReciveFrameProcess.slotFrameConvertedToRGB32(frame, QRect(0, 0, frame.width(), frame.height()));
-    }
-}
-
 int CCallObjectQXmpp::SetVideoFormat()
 {
     QXmppVideoFormat videoFormat;
@@ -427,9 +439,9 @@ int CCallObjectQXmpp::SetVideoFormat()
     //     frameSize =  QSize(320, 240)
     //     pixelFormat =  21
     // }
-    videoFormat.setFrameRate(m_Camera.GetFrameRate());
+    /*videoFormat.setFrameRate(m_Camera.GetFrameRate());
     LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp::SetVideoFormat:width:%d, height:%d", m_Camera.GetWidth(), m_Camera.GetHeight());
-    videoFormat.setFrameSize(QSize(m_Camera.GetWidth(), m_Camera.GetHeight()));
+    videoFormat.setFrameSize(QSize(m_Camera.GetWidth(), m_Camera.GetHeight()));*/
     // QXmpp allow the following pixel formats for video encoding:
     //
     // PixelFormat
@@ -471,29 +483,33 @@ int CCallObjectQXmpp::StartVideo()
     bool check = false;
     m_VideoThread.start();//开始视频处理线程  
 
-    //从本地到网络  
-    check = connect(&m_Camera, SIGNAL(sigCaptureFrame(QVideoFrame)),
-                    &m_CaptureToRemoteFrameProcess, SLOT(slotFrameConvertedToYUYV(QVideoFrame)));
+    //从摄像头到网络  
+    check = connect(&m_CaptureFrameProcess, SIGNAL(sigCaptureFrame(QVideoFrame)),
+                    &m_CaptureFrameProcess,
+                    SLOT(slotFrameConvertedToYUYV(QVideoFrame)));
     Q_ASSERT(check);
-    check = connect(&m_CaptureToRemoteFrameProcess, SIGNAL(sigFrameConvertedToYUYVFrame(QXmppVideoFrame)),
+    check = connect(&m_CaptureFrameProcess,
+                    SIGNAL(sigFrameConvertedToYUYVFrame(QXmppVideoFrame)),
                     SLOT(slotCaptureFrame(QXmppVideoFrame)));
-    Q_ASSERT(check);
+
+    //初始化视频设备，并开始视频  
+    m_pCamera = CCameraFactory::Instance()->GetCamera(
+                CGlobal::Instance()->GetVideoCaptureDevice());
+    m_pCamera->Open(this);
+    m_pCamera->Start();
+    if(m_pCall->direction() == QXmppCall::OutgoingDirection)
+        m_pCall->startVideo();
+
     //从网络到本地  
     //接收定时器  
     check = connect(&m_tmRecive, SIGNAL(timeout()),
                     SLOT(slotReciveFrame()));
     Q_ASSERT(check);
-
-    //初始化视频设备，并开始视频  
-    m_Camera.SetDeviceIndex(CGlobal::Instance()->GetVideoCaptureDevice());
-    m_Camera.Start();
-    if(m_pCall->direction() == QXmppCall::OutgoingDirection)
-        m_pCall->startVideo();
-
     //启动接收定时器  
     int t = 1000 / m_pCall->videoChannel()->encoderFormat().frameRate();
     m_tmRecive.start(t);
 
+    //如果是监控模式，则不用打开视频窗口  
     if(IsMonitor())
     {
         return 0;
@@ -507,15 +523,18 @@ int CCallObjectQXmpp::StopVideo()
     if(!m_bVideo)
         return -1;
 
-    m_Camera.disconnect();
     m_CaptureFrameProcess.disconnect();
-    m_CaptureToRemoteFrameProcess.disconnect();
     m_ReciveFrameProcess.disconnect();
 
     if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->stopVideo();
 
-    m_Camera.Stop();
+    if(m_pCamera)
+    {
+        m_pCamera->Stop();
+        m_pCamera->Close();
+        m_pCamera = NULL;
+    }
     m_tmRecive.stop();
     m_VideoThread.quit();
     CloseVideoWindow();
@@ -538,11 +557,17 @@ int CCallObjectQXmpp::ConnectLocaleVideo()
     //显示本地视频  
     if(CGlobal::Instance()->GetIsShowLocaleVideo())
     {
-        bool check = connect(&m_Camera, SIGNAL(sigCaptureFrame(QVideoFrame)),
-                        &m_CaptureFrameProcess, SLOT(slotFrameConvertedToRGB32(QVideoFrame)));
+        bool check = connect(&m_CaptureFrameProcess,
+                        SIGNAL(sigCaptureFrame(QVideoFrame)),
+                        &m_CaptureFrameProcess,
+               SLOT(slotFrameConvertedToRGB32(QVideoFrame)));
         Q_ASSERT(check);
-        check = connect(&m_CaptureFrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
-                        m_pFrmVideo, SLOT(slotDisplayLoacleVideo(QVideoFrame)));
+        check = connect(&m_CaptureFrameProcess,
+                        SIGNAL(sigFrameConvertedToRGB32Frame(
+                                  const QVideoFrame&)),
+                        m_pFrmVideo,
+                        SLOT(slotDisplayLoacleVideo(
+                                 const QVideoFrame&)));
         Q_ASSERT(check);
     }
 
@@ -553,7 +578,6 @@ int CCallObjectQXmpp::DisconnectLocaleVideo()
 {
     if(!m_bVideo)
         return -1;
-    m_Camera.disconnect(&m_CaptureFrameProcess);
     m_CaptureFrameProcess.disconnect(m_pFrmVideo);
     return 0;
 }
@@ -589,8 +613,10 @@ int CCallObjectQXmpp::OpenVideoWindow()
     m_pFrmVideo->activateWindow();
 
     //接收后会发送信号进行转换,显示网络视频    
-    check = connect(&m_ReciveFrameProcess, SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
-                    m_pFrmVideo, SLOT(slotDisplayRemoteVideo(QVideoFrame)));
+    check = connect(&m_ReciveFrameProcess, 
+                    SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
+                    m_pFrmVideo,
+                    SLOT(slotDisplayRemoteVideo(QVideoFrame)));
     Q_ASSERT(check);
 
     //显示本地视频  

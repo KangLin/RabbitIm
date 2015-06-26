@@ -10,6 +10,7 @@
 
 #include <QFrame>
 #include "FrmPlayer.h"
+#include <QVideoFrame>
 
 namespace Ui {
 class CFrmVideo;
@@ -27,7 +28,7 @@ public slots:
     //显示本地视频  
     void slotDisplayLoacleVideo(const QVideoFrame& frame);
     //显示远端视频  
-    void slotDisplayRemoteVideo(const QVideoFrame& frame);
+    void slotDisplayRemoteVideo(const QVideoFrame &frame);
 
 protected slots:
 private:

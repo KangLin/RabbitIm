@@ -76,7 +76,8 @@ int CManageCallXmpp::Clean()
     return CManageCall::Clean();
 }
 
-int CManageCallXmpp::OnCall(const QString &szId, bool bVideo)
+int CManageCallXmpp::OnCall(const QString &szId,
+            QSharedPointer<CCallObject> &call, bool bVideo)
 {
     CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
     if(!pClient)
@@ -105,17 +106,16 @@ int CManageCallXmpp::OnCall(const QString &szId, bool bVideo)
     CUserInfoXmpp* info = (CUserInfoXmpp*)roster->GetInfo().data();
     QXmppCall* pCall = pCallManager->call(info->GetJid());
     //新建呼叫对象,并增加到管理 map 中  
-    QSharedPointer<CCallObject> call(new CCallObjectQXmpp(pCall, bVideo));
-    if(call.isNull())
+    QSharedPointer<CCallObject> callObject(new CCallObjectQXmpp(pCall, bVideo));
+    if(callObject.isNull())
     {
         LOG_MODEL_DEBUG("CManageCall", "CManageCall::CallVideo fail");
         return -3;
     }
-    m_Call.insert(szId, call);
-
+    call = callObject;
     //关联信号  
     bool check = false;
-    check = connect(call.data(), SIGNAL(sigFinished(CCallObject*)),
+    check = connect(callObject.data(), SIGNAL(sigFinished(CCallObject*)),
                          SLOT(slotCallFinished(CCallObject*)));
     Q_ASSERT(check);
 

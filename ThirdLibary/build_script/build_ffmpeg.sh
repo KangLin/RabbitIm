@@ -137,7 +137,7 @@ esac
 
 CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --enable-gpl --enable-pic --disable-doc --disable-htmlpages"
 CONFIG_PARA="${CONFIG_PARA} --disable-manpages --disable-podpages --disable-txtpages --disable-programs --disable-ffprobe"
-CONFIG_PARA="${CONFIG_PARA} --disable-ffserver --disable-ffplay --disable-avdevice"
+CONFIG_PARA="${CONFIG_PARA} --disable-ffserver --disable-ffplay"
 CONFIG_PARA="${CONFIG_PARA} --enable-runtime-cpudetect"
 CFLAGS="${CFLAGS} -I$RABBITIM_BUILD_PREFIX/include" 
 LDFLAGS="${LDFLAGS} -L$RABBITIM_BUILD_PREFIX/lib" 
@@ -147,10 +147,10 @@ echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\
 
 echo "make install"
 make ${RABBITIM_MAKE_JOB_PARA} && make install
-if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
-    if [ -f "${RABBITIM_BUILD_PREFIX}/bin/*.lib" ]; then
+if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" -o "${RABBITIM_BUILD_TARGERT}" = "windows_mingw" ]; then
+#    if [ -f "${RABBITIM_BUILD_PREFIX}/bin/*.lib" ]; then
         mv ${RABBITIM_BUILD_PREFIX}/bin/*.lib ${RABBITIM_BUILD_PREFIX}/lib/.
-    fi
+#    fi
     if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
         cd ${RABBITIM_BUILD_PREFIX}/lib
         mv libavcodec.a avcodec.lib

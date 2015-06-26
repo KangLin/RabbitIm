@@ -23,7 +23,8 @@ int main(int argc, char *argv[])
 
     //设置插件路径(msvc 下没有用）   
     a.addLibraryPath(CGlobal::Instance()->GetDirApplication());
-    a.addLibraryPath(CGlobal::Instance()->GetDirApplication() + QDir::separator() + "plugins");
+    a.addLibraryPath(CGlobal::Instance()->GetDirApplication()
+                     + QDir::separator() + "plugins");
 
     CTool::SetFFmpegLog();
 
@@ -31,12 +32,16 @@ int main(int argc, char *argv[])
     MainWindow w;
 #ifndef MOBILE
     //加载窗口位置  
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(),
+                   QSettings::IniFormat);
     QScreen *pScreen = QGuiApplication::primaryScreen();
-    int top = conf.value("UI/MainWindow/top", (pScreen->availableGeometry().height() - w.height()) >> 1).toInt();
-    int left = conf.value("UI/MainWindow/left", (pScreen->availableGeometry().width() - w.width()) >> 1).toInt();
+    int top = conf.value("UI/MainWindow/top",
+           (pScreen->availableGeometry().height() - w.height()) >> 1).toInt();
+    int left = conf.value("UI/MainWindow/left",
+           (pScreen->availableGeometry().width() - w.width()) >> 1).toInt();
     int Width = conf.value("UI/MainWindow/width", w.geometry().width()).toInt();
-    int Height = conf.value("UI/MainWindow/height", w.geometry().height()).toInt();
+    int Height = conf.value("UI/MainWindow/height",
+                            w.geometry().height()).toInt();
     w.resize(Width, Height);
     w.move(left, top);
 #endif
@@ -48,7 +53,7 @@ int main(int argc, char *argv[])
     update.Start();
 #endif
     //*/
-    
+
     /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())  
 #ifdef DEBUG
     CFrmPlayer player;

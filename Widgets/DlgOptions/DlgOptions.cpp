@@ -2,13 +2,13 @@
 #include "ui_DlgOptions.h"
 #include "../../Global/Global.h"
 #include "../../MainWindow.h"
-#include "Widgets/FrmVideo/Camera.h"
 #include <QDesktopWidget>
 #include <QColorDialog>
 #include <QAudioInput>
 #include <QAudioOutput>
 #include <QDir>
 #include "Tool.h"
+#include "Media/Camera/CameraFactory.h"
 
 CDlgOptions::CDlgOptions(QWidget *parent) :
     QDialog(parent),
@@ -148,10 +148,13 @@ void CDlgOptions::showEvent(QShowEvent *)
         break;
     }
 
-    CCamera camera;
-    QList<QString> lstVideoDevices = camera.GetAvailableDevices();
-    foreach (QString cam, lstVideoDevices) {
-        ui->cbVideo->addItem(cam);
+    std::vector<CCameraInfo::CamerInfo> info;
+    CCameraFactory::Instance()->EnumDevice(info);
+    std::vector<CCameraInfo::CamerInfo>::iterator it;
+    for(it = info.begin(); it != info.end(); it++)
+    {
+        CCameraInfo::CamerInfo ci = *it;
+        ui->cbVideo->addItem(ci.szName.c_str());
     }
     ui->cbVideo->addItem(tr("no device"));
     ui->cbVideo->setCurrentIndex(CGlobal::Instance()->GetVideoCaptureDevice());

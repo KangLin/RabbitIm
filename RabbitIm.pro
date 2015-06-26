@@ -13,6 +13,8 @@ RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
 #RABBITIM_USE_OPENSSL=1      #使用openssl
 #RABBITIM_USE_STATIC=1       #使用静态编译
 #RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档  
+#RABBITIM_USE_PJSIP=1        #使用 pjsip 库
+#RABBITIM_USE_PJSIP_CAMERA=1
 
 # 注意：Qt 版本必须大于 5.0  
 QT += core gui network xml multimedia widgets 
@@ -41,6 +43,7 @@ CONFIG += c++0x
 !msvc{
     QMAKE_CXXFLAGS += " -std=c++0x "
 }
+CONFIG += link_pkgconfig
 #安装
 isEmpty(PREFIX){
     android{
@@ -109,19 +112,64 @@ equals(RABBITIM_USE_FFMPEG, 1) {
     FFMPEG_LIBRARY= -lavcodec -lavformat -lswscale -lavutil
 }
 
+equals(RABBITIM_USE_PJSIP, 1){
+    DEFINES += RABBITIM_USE_PJSIP
+
+    equals(RABBITIM_USE_PJSIP_CAMERA, 1) {
+        DEFINES += RABBITIM_USE_PJSIP_CAMERA
+    }
+
+    #PKGCONFIG += libpjproject
+    mingw{
+    QMAKE_CXXFLAGS+=" -DPJ_AUTOCONF=1 -O2 -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1 "
+    PJSIP_LIBRARY=-LD:\msys32\mingw32\lib -lpjsua2-i686-pc-mingw32 \
+        -lstdc++ -lpjsua-i686-pc-mingw32 -lpjsip-ua-i686-pc-mingw32 \
+        -lpjsip-simple-i686-pc-mingw32 -lpjsip-i686-pc-mingw32 \
+        -lpjmedia-codec-i686-pc-mingw32 -lpjmedia-i686-pc-mingw32 \
+        -lpjmedia-videodev-i686-pc-mingw32 -lpjmedia-audiodev-i686-pc-mingw32 \
+        -lpjmedia-i686-pc-mingw32 -lpjnath-i686-pc-mingw32 -lpjlib-util-i686-pc-mingw32 \
+        -lsrtp-i686-pc-mingw32 -lresample-i686-pc-mingw32 -lgsmcodec-i686-pc-mingw32 \
+        -lspeex-i686-pc-mingw32 -lilbccodec-i686-pc-mingw32 -lg7221codec-i686-pc-mingw32 \
+        -lportaudio-i686-pc-mingw32 -lpj-i686-pc-mingw32 -lssl -lcrypto -lyuv -lm -lwinmm \
+        -lole32 -lws2_32 -lwsock32 -lpthread  \
+        -L/d/source/rabbitim/ThirdLibary/build_script/../windows_mingw/lib \
+        -lavformat -lavicap32 -lgdi32 -lpsapi -lole32 -lstrmiids -luuid -loleaut32 \
+        -lws2_32 -liconv -lx264 -lpthread -lm -llzma -lbz2 -lz -lpsapi -ladvapi32 \
+        -lshell32 -lavcodec -lavicap32 -lgdi32 -lpsapi -lole32 -lstrmiids -luuid \
+        -loleaut32 -lws2_32 -liconv -lx264 -lpthread -lm -llzma -lbz2 -lz -lpsapi \
+        -ladvapi32 -lshell32 -lswresample -lm -lswscale -lm -lavutil -lm 
+    }else:msvc{
+        INCLUDEPATH+="D:\source\pjsip\pjmedia\include" "D:\source\pjsip\pjlib\include" "D:\source\pjsip\include" "D:\source\pjsip/pjnath/include" "D:\source\pjsip/pjlib-util/include"
+        PJSIP_LIBRARY=D:\source\pjsip\lib\libpjproject-i386-Win32-vc8-Debug.lib "winmm.lib" "dsound.lib" "dxguid.lib" "netapi32.lib" "mswsock.lib" "ws2_32.lib" "odbc32.lib" "odbccp32.lib" "ole32.lib" "user32.lib" "kernel32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "oleaut32.lib" "uuid.lib" 
+    }else:android{
+        QMAKE_CXXFLAGS +=" -DPJ_AUTOCONF=1 -fpic -ffunction-sections -funwind-tables -no-canonical-prefixes -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -mthumb -Os -g -DNDEBUG -fomit-frame-pointer -finline-limit=64 -O0 -UNDEBUG -marm -fno-omit-frame-pointer -Ijni -DANDROID -Wa,--noexecstack -Wformat -Werror=format-security -ID:/software/android-ndk-r9/platforms/android-18/arch-arm/usr/include  -I/d/software/android-ndk-r9/sources/cxx-stl/gnu-libstdc++/4.8/include -I/d/software/android-ndk-r9/sources/cxx-stl/gnu-libstdc++/4.8/libs/armeabi-v7a/include -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1"
+        PJSIP_LIBRARY=-lpjsua2-arm-unknown-linux-androideabi -lstdc++ \
+            -lpjsua-arm-unknown-linux-androideabi -lpjsip-ua-arm-unknown-linux-androideabi \
+            -lpjsip-simple-arm-unknown-linux-androideabi -lpjsip-arm-unknown-linux-androideabi \
+            -lpjmedia-codec-arm-unknown-linux-androideabi -lpjmedia-arm-unknown-linux-androideabi \
+            -lpjmedia-videodev-arm-unknown-linux-androideabi -lpjmedia-audiodev-arm-unknown-linux-androideabi \
+            -lpjmedia-arm-unknown-linux-androideabi -lpjnath-arm-unknown-linux-androideabi \
+            -lpjlib-util-arm-unknown-linux-androideabi  -lsrtp-arm-unknown-linux-androideabi \
+            -lresample-arm-unknown-linux-androideabi -lgsmcodec-arm-unknown-linux-androideabi \
+            -lspeex-arm-unknown-linux-androideabi -lilbccodec-arm-unknown-linux-androideabi \
+            -lg7221codec-arm-unknown-linux-androideabi  -lpj-arm-unknown-linux-androideabi -lm \
+            -lgnustl_static  -lc -lgcc -ldl -lOpenSLES -llog -lGLESv2 -lEGL -landroid
+    }
+}
+
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android{
     THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/android
     DEFINES += ANDROID MOBILE
 
     RABBITIM_SYSTEM="android"
-    equals(RABBITIM_USE_LIBCURL, 1) {
-        LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lz #可以用 ./curl-config --libs 得到
+    equals(RABBITIM_USE_LIBCURL, 1){
+        LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lz #可以用 ./curl-config --libs 得到  
     }
-    equals(RABBITIM_USE_OPENSSL, 1) {
+    equals(RABBITIM_USE_OPENSSL, 1){
         LIBOPENSSL_LIBRARY = -lssl -lcrypto
     }
-} else:win32{
+}else:win32{
     RABBITIM_SYSTEM="windows"
     OPENCV_VERSION=300
     msvc {
@@ -131,7 +179,7 @@ android{
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_msvc
 
         equals(RABBITIM_USE_LIBCURL, 1){
-            equals(RABBITIM_USE_STATIC, 1) {
+            equals(RABBITIM_USE_STATIC, 1){
                 LIBCURL_LIBRARY = -llibcurl_a
             }else{
                 LIBCURL_LIBRARY = -llibcurl 
@@ -177,7 +225,7 @@ android{
 
     WEBRTC_LIBRARY_DIR = .
     #WEBRTC_LIBRARY = -L$$WEBRTC_LIBRARY_DIR -llibjingle -llibjingle_media -llibjingle_p2p -lwebrtc
-} else:unix {
+}else:unix{
     RABBITIM_SYSTEM=unix
     DEFINES += UNIX
     THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/unix
@@ -224,9 +272,9 @@ equals(RABBITIM_USE_OPENCV, 1) {
     message("android video capture need opencv, please set RABBITIM_USE_OPENCV=1")
 }
 
-LIBS += $$LDFLAGS $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY \
+LIBS += $$LDFLAGS $$PJSIP_LIBRARY $$QXMPP_LIBRARY_NAME $$WEBRTC_LIBRARY \
         $$OPENCV_LIBRARY $$FFMPEG_LIBRARY $$CODEC_LIBRARY \
-        $$LIBCURL_LIBRARY $$LIBOPENSSL_LIBRARY
+        $$LIBCURL_LIBRARY $$LIBOPENSSL_LIBRARY 
 message("Libs:$$LIBS")
 
 DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
@@ -326,7 +374,6 @@ win32{
 
     #复制第三方依赖库动态库到编译输出目录 
     THIRD_LIBRARY_DLL = $${THIRD_LIBRARY_PATH}/bin/*.dll
-    #msvc{
     equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
         THIRD_LIBRARY_DLL =  $$replace(THIRD_LIBRARY_DLL, /, \\)
         TARGET_PATH = $$replace(TARGET_PATH, /, \\)

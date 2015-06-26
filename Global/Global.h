@@ -44,7 +44,8 @@ public:
      * @param pFormatString:格式化字符串  
      * @return 
      */
-    int Log(const char *pszFile, int nLine, int nLevel, const char* pszModelName, const char *pFormatString, ...);
+    int Log(const char *pszFile, int nLine, int nLevel,
+            const char* pszModelName, const char *pFormatString, ...);
 
 public:
     /// 得到主窗口  

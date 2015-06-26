@@ -3,12 +3,10 @@
 #include "DataVideoBuffer.h"
 #include "../../Global/Global.h"
 #include "FrmVideo.h"
-#include "Camera.h"
 #include <QThread>
 
-CFrameProcess::CFrameProcess(CCamera* pCamera, QObject *parent) :
-    QObject(parent),
-    m_pCamera(pCamera)
+CFrameProcess::CFrameProcess(QObject *parent) :
+    QObject(parent)
 {
 }
 
@@ -19,25 +17,23 @@ CFrameProcess::~CFrameProcess()
 #ifdef ANDROID
 //捕获视频帧。android下是图像格式是NV21,背景摄像头要顺时针旋转90度  
 //前景摄像头要逆时针旋转90度  
-void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
+void CFrameProcess::slotCaptureFrame(
+        const std::shared_ptr<CVideoFrame> frame)
 {
 #ifdef DEBUG_VIDEO_TIME
     LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotCaptureFrame threadid:0x%X",
            QThread::currentThreadId());
 #endif
-#ifdef DEBUG
-    Q_ASSERT(m_pCamera);//需要初始指针  
-#endif
-    QVideoFrame inFrame(frame);
-    if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
+
+    if(!frame)
     {
-        LOG_MODEL_ERROR("Video", "CCaptureVideoFrame::present map error");
+        LOG_MODEL_ERROR("CFrameProcess", "frame is null");
         return;
     }
 
     do{
-
-        if(frame.pixelFormat() == QVideoFrame::Format_RGB24)
+        //用opencv捕获摄像头时，进行的处理  
+        if(VIDEO_FORMAT_RGB24 == frame->m_VideoInfo.Format)
         {
 /*
             //用opencv库做图像镜像  
@@ -61,37 +57,50 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
             //dst = CTool::ImageRotate(src, cv::Point(src.cols >> 1, src.rows >> 1), m_pCamera->GetOrientation());//有黑边  
             QImage img((uchar*)(dst.data), dst.cols, dst.rows, QImage::Format_RGB888);  //RGB888就是RGB24即RGB  
 */
-            QImage img(inFrame.bits(), 
-                       inFrame.width(), 
-                       inFrame.height(),
-                       QVideoFrame::imageFormatFromPixelFormat(inFrame.pixelFormat()));
+            QImage img((const uchar*)frame->GetData(), 
+                       frame->m_VideoInfo.nWidth,
+                       frame->m_VideoInfo.nHeight,
+                       CTool::VideoFormatToQImageFormat(
+                           frame->m_VideoInfo.Format));
             QMatrix m;
-            img = img.transformed(m.rotate(360 - m_pCamera->GetOrientation()));
+            img = img.transformed(m.rotate(270));
 
             QVideoFrame outFrame(img);
             emit sigCaptureFrame(outFrame);
             break;
         }
 
-        if(frame.pixelFormat() != QVideoFrame::Format_NV21)
+        if(VIDEO_FORMAT_NV21 != frame->m_VideoInfo.Format)
         {
-            LOG_MODEL_WARNING("Video", "CCaptureVideoFrame::present:don't Format_NV21");
-            QVideoFrame outFrame(frame);
+            LOG_MODEL_WARNING("Video",
+                 "CFrameProcess::slotCaptureFrame:don't Format_NV21");
+            CDataVideoBuffer *pBuffer = NULL;
+            pBuffer = new CDataVideoBuffer(
+                        QByteArray((const char*)frame->GetData(),
+                                   frame->GetLength()),
+                        frame->m_VideoInfo.nWidth,
+                        frame->m_VideoInfo.nHeight);
+            QVideoFrame outFrame(pBuffer,
+                                 QSize(frame->m_VideoInfo.nWidth,
+                                       frame->m_VideoInfo.nHeight),
+                                 CTool::VideoFormatToQVideoFrameFormat(
+                                     frame->m_VideoInfo.Format));
             emit sigCaptureFrame(outFrame);
             break;
         }
 
-        int nWidth = inFrame.width();
-        int nHeight = inFrame.height();
-        QByteArray mirror, rotate;
+        int nWidth = frame->m_VideoInfo.nWidth;
+        int nHeight = frame->m_VideoInfo.nHeight;
         CDataVideoBuffer *pBuffer = NULL;
-        mirror.resize(inFrame.mappedBytes());
-        rotate.resize(inFrame.mappedBytes());
+        QByteArray mirror, rotate;
+        mirror.resize(frame->GetLength());
+        rotate.resize(frame->GetLength());
 
-        if(m_pCamera->GetCameraPoistion() == CCamera::BackFace)
+        if(CGlobal::Instance()->GetAudioInputDevice() == 1)
         {
             //背景摄像头要顺时针旋转90度,再做Y轴镜像  
-            CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, 1);
+            CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()),
+                                    (const uchar*)frame->GetData(), nWidth, nHeight, 1);
             CTool::YUV420spMirror(reinterpret_cast<uchar *> (mirror.data()),
                                   reinterpret_cast<uchar *>(rotate.data()),
                                   nHeight, nWidth, 0);
@@ -100,41 +109,36 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
         else
         {
             //前景摄像头要逆时针旋转90度  
-            CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()), inFrame.bits(), nWidth, nHeight, -1);
+            CTool::YUV420spRotate90(
+                        reinterpret_cast<uchar *> (
+                            rotate.data()), (const uchar*)frame->GetData(),
+                        nWidth, nHeight, -1);
             pBuffer = new CDataVideoBuffer(rotate, nHeight, nWidth);
         }
-
-        QVideoFrame outFrame(pBuffer, QSize( nHeight, nWidth), QVideoFrame::Format_NV21);
-
+        QVideoFrame outFrame(pBuffer, QSize( nHeight, nWidth),
+                             QVideoFrame::Format_NV21);
         emit sigCaptureFrame(outFrame);
 
     }while(0);
-
-    inFrame.unmap();
 
     return;
 }
 #else
 //捕获视频帧。windows下格式是RGB32,做Y轴镜像  
-void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
+void CFrameProcess::slotCaptureFrame(const std::shared_ptr<CVideoFrame> frame)
 {
 #ifdef DEBUG_VIDEO_TIME
-    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotCaptureFrame threadid:0x%X",
+    LOG_MODEL_DEBUG("CFrameProcess",
+                    "CFrameProcess::slotCaptureFrame threadid:0x%X",
            QThread::currentThreadId());
 #endif
-#ifdef DEBUG
-    Q_ASSERT(m_pCamera);//需要初始指针  
-#endif
-    QVideoFrame inFrame(frame);
-    if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
-    {
-        LOG_MODEL_ERROR("Video", "CCaptureVideoFrame::present map error");
+
+    if(!frame)
         return;
-    }
 
     do{
-        //windows下要镜像
-        /*if(inFrame.pixelFormat() != QVideoFrame::Format_RGB32)
+        //windows下要镜像  
+        /*if(frame->m_VideoInfo.Format != VIDEO_FORMAT_RGB32)
         {
             emit sigCaptureFrame(frame);
             break;
@@ -143,15 +147,19 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
 #ifdef RABBITIM_USE_OPENCV
         //*用opencv库做图像镜像  
         int nType = CV_8UC4;
-        if(inFrame.pixelFormat() == QVideoFrame::Format_RGB24)
+        if(VIDEO_FORMAT_RGB24 == frame->m_VideoInfo.Format)
             nType = CV_8UC3;
         QByteArray outData;
-        outData.resize(inFrame.mappedBytes());//dst.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()  
-        cv::Mat src(inFrame.height(), inFrame.width(), nType, inFrame.bits());
-        cv::Mat dst(inFrame.height(), inFrame.width(), nType, outData.data());
+        outData.resize(frame->GetLength());//dst.total指图片像素个数，总字节数(dst.data)=dst.total*dst.channels()  
+        cv::Mat src(frame->m_VideoInfo.nHeight,
+                    frame->m_VideoInfo.nWidth,
+                    nType, frame->GetData());
+        cv::Mat dst(frame->m_VideoInfo.nHeight,
+                    frame->m_VideoInfo.nWidth,
+                    nType, outData.data());
         cv::flip(src, dst, 1);  //最后一个参数flip_mode = 0 沿X-轴翻转, flip_mode > 0 (如 1) 沿Y-轴翻转， flip_mode < 0 (如 -1) 沿X-轴和Y-轴翻转  
         //dst = CTool::ImageRotate(src, cv::Point(inFrame.width() >> 1, inFrame.height() >> 1), m_pCamera->GetOrientation());  
-        
+
         //由QVideoFrame进行释放  
         CDataVideoBuffer* pBuffer = new CDataVideoBuffer(outData,
                                                          dst.cols,
@@ -159,27 +167,42 @@ void CFrameProcess::slotCaptureFrame(const QVideoFrame &frame)
         QVideoFrame outFrame(pBuffer,
                              QSize(dst.cols,
                                    dst.rows),
-                             inFrame.pixelFormat());//*/
+                             CTool::VideoFormatToQVideoFrameFormat(
+                                       frame->m_VideoInfo.Format));//*/
 #else
         //用QImage做图像镜像  
-        QImage img(inFrame.bits(), inFrame.width(), inFrame.height(),
-                   QVideoFrame::imageFormatFromPixelFormat(inFrame.pixelFormat()));
+        QImage img((const uchar*)frame->GetData(),
+                   frame->m_VideoInfo.nWidth,
+                   frame->m_VideoInfo.nHeight,
+                   CTool::VideoFormatToQImageFormat(
+                       frame->m_VideoInfo.Format));
         img = img.mirrored(false, false);
-        QVideoFrame outFrame(img);
+        //由QVideoFrame进行释放  
+        CDataVideoBuffer* pBuffer = new CDataVideoBuffer(
+                    QByteArray((const char*)img.bits(),
+                               img.byteCount()),
+                    frame->m_VideoInfo.nWidth,
+                    frame->m_VideoInfo.nHeight
+                    );
+        QVideoFrame outFrame(pBuffer,
+                             QSize(frame->m_VideoInfo.nWidth,
+                                 frame->m_VideoInfo.nHeight),
+                       CTool::VideoFormatToQVideoFrameFormat(
+                                 frame->m_VideoInfo.Format));
 #endif
         emit sigCaptureFrame(outFrame);
     }while(0);
-
-    inFrame.unmap();
 
     return;
 }
 #endif
 
-void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidth, int nHeight)
+void CFrameProcess::slotFrameConvertedToYUYV(
+        const QVideoFrame &frame, int nWidth, int nHeight)
 {
 #ifdef DEBUG_VIDEO_TIME
-    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotFrameConvertedToYUYV threadid:0x%X",
+    LOG_MODEL_DEBUG("CFrameProcess",
+                    "CFrameProcess::slotFrameConvertedToYUYV threadid:0x%X",
            QThread::currentThreadId());
 #endif
     QVideoFrame inFrame(frame);
@@ -196,7 +219,8 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
         //转换图片格式
         AVPicture pic;
         int nRet = 0;
-        nRet = CTool::ConvertFormat(inFrame, pic, nWidth, nHeight, AV_PIX_FMT_YUYV422);
+        nRet = CTool::ConvertFormat(inFrame, pic, nWidth, nHeight,
+                                    AV_PIX_FMT_YUYV422);
         if(nRet)
         {
             LOG_MODEL_ERROR("Video", "CTool::ConvertFormat fail");
@@ -205,8 +229,10 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
 
         int size = avpicture_get_size(AV_PIX_FMT_YUYV422, nWidth, nHeight);
         QSize sizeFrame(nWidth, nHeight);
-        QXmppVideoFrame f(size, sizeFrame, size / nHeight, QXmppVideoFrame::Format_YUYV);
-        nRet = avpicture_layout(&pic, AV_PIX_FMT_YUYV422, nWidth, nHeight, f.bits(), size);
+        QXmppVideoFrame f(size, sizeFrame, size / nHeight,
+                          QXmppVideoFrame::Format_YUYV);
+        nRet = avpicture_layout(&pic, AV_PIX_FMT_YUYV422,
+                                nWidth, nHeight, f.bits(), size);
         if(nRet > 0)
         {
             emit sigFrameConvertedToYUYVFrame(f);
@@ -221,25 +247,27 @@ void CFrameProcess::slotFrameConvertedToYUYV(const QVideoFrame &frame, int nWidt
     inFrame.unmap();
 }
 
-void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect rect)
+void CFrameProcess::slotFrameConvertedToRGB32(
+        const QVideoFrame &inFrame, QRect rect)
 {
 #ifdef DEBUG_VIDEO_TIME
-    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotFrameConvertedToRGB32 threadid:0x%X",
+    LOG_MODEL_DEBUG("CFrameProcess",
+                    "CFrameProcess::slotFrameConvertedToRGB32 threadid:0x%X",
            QThread::currentThreadId());
 #endif
     QVideoFrame outFrame;
     QVideoFrame f(inFrame);
 
-    if(inFrame.pixelFormat() == QVideoFrame::Format_BGR32 
+    if(inFrame.pixelFormat() == QVideoFrame::Format_BGR32
             && (rect.isEmpty()
-                || (rect.width() == f.width() 
+                || (rect.width() == f.width()
                     && rect.height() == f.height())))
     {
         emit sigFrameConvertedToRGB32Frame(inFrame);
         return;
     }
 
-    //QVideoFrame使用bits前一定要先map，bits才会生效
+    //QVideoFrame使用bits前一定要先map，bits才会生效  
     if(!f.map(QAbstractVideoBuffer::ReadOnly))
         return;
 
@@ -252,10 +280,13 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect
     do
     {
 #ifdef RABBITIM_USE_FFMPEG
-        //图片格式转换
+        //图片格式转换  
         AVPicture pic;
-        LOG_MODEL_DEBUG("CFrmeProcess", "width:%d;height:%d;f.width:%d;height:%d", rect.width(), rect.height(), f.width(), f.height());
-        int nRet = CTool::ConvertFormat(f, pic, rect.width(), rect.height(), AV_PIX_FMT_RGB32);
+        LOG_MODEL_DEBUG("CFrmeProcess",
+                        "width:%d;height:%d;f.width:%d;height:%d",
+                        rect.width(), rect.height(), f.width(), f.height());
+        int nRet = CTool::ConvertFormat(f, pic, rect.width(), rect.height(),
+                                        AV_PIX_FMT_RGB32);
         if(nRet)
             break;
 
@@ -273,10 +304,12 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QVideoFrame &inFrame,  QRect
 }
 
 #ifdef RABBITIM_USE_QXMPP
-void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, QRect rect)
+void CFrameProcess::slotFrameConvertedToRGB32(
+        const QXmppVideoFrame &frame, QRect rect)
 {
 #ifdef DEBUG_VIDEO_TIME
-    LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::slotFrameConvertedToRGB32 threadid:0x%X",
+    LOG_MODEL_DEBUG("CFrameProcess",
+                    "CFrameProcess::slotFrameConvertedToRGB32 threadid:0x%X",
            QThread::currentThreadId());
 #endif
     if(rect.isEmpty())
@@ -289,7 +322,8 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, QRec
 #ifdef RABBITIM_USE_FFMPEG
     //图片格式转换  
     AVPicture pic;
-    int nRet = CTool::ConvertFormat(frame, pic, rect.width(), rect.height(), AV_PIX_FMT_RGB32);
+    int nRet = CTool::ConvertFormat(frame, pic, rect.width(),
+                                    rect.height(), AV_PIX_FMT_RGB32);
     if(nRet)
         return;
     FillFrame(pic, rect, outFrame);
@@ -302,19 +336,23 @@ void CFrameProcess::slotFrameConvertedToRGB32(const QXmppVideoFrame &frame, QRec
 #endif
 
 #ifdef RABBITIM_USE_FFMPEG
-int CFrameProcess::FillFrame(const AVPicture &pic, const QRect &rect, QVideoFrame &frame)
+int CFrameProcess::FillFrame(const AVPicture &pic,
+                             const QRect &rect, QVideoFrame &frame)
 {
 #ifdef DEBUG_VIDEO_TIME
     LOG_MODEL_DEBUG("CFrameProcess", "CFrameProcess::FillFrame threadid:0x%X",
            QThread::currentThreadId());
 #endif
     int nRet = 0;
-    int size = avpicture_get_size(AV_PIX_FMT_RGB32, rect.width(), rect.height());
+    int size = avpicture_get_size(AV_PIX_FMT_RGB32,
+                                  rect.width(), rect.height());
 
     QByteArray outFrame;
     outFrame.resize(size);
-    CDataVideoBuffer *pBuf = new CDataVideoBuffer(outFrame, rect.width(), rect.height());
-    QVideoFrame f(pBuf, QSize(rect.width(), rect.height()), QVideoFrame::Format_RGB32);
+    CDataVideoBuffer *pBuf = new CDataVideoBuffer(outFrame,
+                                                  rect.width(), rect.height());
+    QVideoFrame f(pBuf, QSize(rect.width(), rect.height()),
+                  QVideoFrame::Format_RGB32);
     frame = f;
     if(frame.map(QAbstractVideoBuffer::WriteOnly))
     {
@@ -327,4 +365,19 @@ int CFrameProcess::FillFrame(const AVPicture &pic, const QRect &rect, QVideoFram
         return -1;
     return nRet;
 }
+
+int CFrameProcess::FillFrame(const std::shared_ptr<CVideoFrame> inFrame,
+                             QVideoFrame &outFrame)
+{
+    QByteArray ba((const char*)inFrame->GetData(), inFrame->GetLength());
+    CDataVideoBuffer *pBuf = new CDataVideoBuffer(ba,
+                                 inFrame->m_VideoInfo.nWidth,
+                                 inFrame->m_VideoInfo.nHeight);
+    QVideoFrame f(pBuf, QSize(inFrame->m_VideoInfo.nWidth,
+                              inFrame->m_VideoInfo.nHeight),
+                  QVideoFrame::Format_RGB32);
+    outFrame = f;
+    return 0;
+}
+
 #endif

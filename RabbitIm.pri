@@ -34,9 +34,7 @@ SOURCES += main.cpp\
     FileTransfer/FileTransferAction.cpp \
     Widgets/FrmVideo/DataVideoBuffer.cpp \
     Widgets/FrmVideo/FrameProcess.cpp \
-    Widgets/FrmVideo/CaptureVideoFrame.cpp \
     Widgets/FrmVideo/FrmPlayer.cpp \ 
-    Widgets/FrmVideo/Camera.cpp \
     Call/CallObject.cpp \
     Call/ManageCall.cpp \
     Call/CallAction.cpp \
@@ -58,7 +56,14 @@ SOURCES += main.cpp\
     Widgets/DlgUservCard/DlgUservCard.cpp \ 
     Widgets/DlgAbout/DlgAbout.cpp \
     Widgets/DlgOptions/DlgOptions.cpp \  
-    Message/ManageMessage.cpp
+    Message/ManageMessage.cpp \
+    Media/Camera/Camera.cpp \
+    Media/Camera/CameraInfo.cpp \
+    Media/Camera/CameraFactory.cpp \
+    Media/Camera/VideoFrame.cpp \
+    Media/Camera/CameraQt.cpp \
+    Media/Camera/CameraFactoryQt.cpp \
+    Media/Camera/CameraQtCaptureVideoFrame.cpp
 
 HEADERS += Version.h \
     MainWindow.h \
@@ -93,11 +98,9 @@ HEADERS += Version.h \
     FileTransfer/ManageFileTransfer.h \
     FileTransfer/FileTransfer.h \
     FileTransfer/FileTransferAction.h \
-    Widgets/FrmVideo/CaptureVideoFrame.h \
     Widgets/FrmVideo/DataVideoBuffer.h \
     Widgets/FrmVideo/FrameProcess.h \
     Widgets/FrmVideo/FrmPlayer.h \    
-    Widgets/FrmVideo/Camera.h \
     Call/CallObject.h \
     Call/ManageCall.h \
     Call/CallAction.h \ 
@@ -119,7 +122,15 @@ HEADERS += Version.h \
     Widgets/DlgUservCard/DlgUservCard.h \ 
     Widgets/DlgAbout/DlgAbout.h \
     Widgets/DlgOptions/DlgOptions.h \ 
-    Message/ManageMessage.h
+    Message/ManageMessage.h \
+    Media/Camera/Camera.h \
+    Media/Camera/CameraInfo.h \
+    Media/Camera/VideoType.h \
+    Media/Camera/CameraFactory.h \
+    Media/Camera/VideoFrame.h \
+    Media/Camera/CameraQt.h \
+    Media/Camera/CameraFactoryQt.h \
+    Media/Camera/CameraQtCaptureVideoFrame.h
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
@@ -176,10 +187,10 @@ android{
     FORMS += 
 }
 
-equals(RABBITIM_USE_OPENCV, 1){
-    SOURCES += Widgets/FrmVideo/CameraOpencv.cpp 
-    HEADERS += Widgets/FrmVideo/CameraOpencv.h 
-}
+#equals(RABBITIM_USE_OPENCV, 1){
+#    SOURCES += Widgets/FrmVideo/CameraOpencv.cpp 
+#    HEADERS += Widgets/FrmVideo/CameraOpencv.h 
+#}
 
 equals(RABBITIM_USE_LIBCURL, 1){
     SOURCES += \
@@ -198,4 +209,14 @@ equals(RABBITIM_USE_LIBCURL, 1){
 equals(RABBITIM_USE_OPENSSL, 1){
     SOURCES += Global/Encrypt.cpp
     HEADERS += Global/Encrypt.h
+}
+
+equals(RABBITIM_USE_PJSIP, 1) {
+    SOURCES += \
+        Media/Camera/CameraPjsip.cpp \
+        Media/Camera/CameraFactoryPjsip.cpp
+    HEADERS += \
+        Media/Camera/CameraPjsip.h \
+        Media/Camera/CameraFactoryPjsip.h
+        
 }

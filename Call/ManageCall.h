@@ -50,8 +50,23 @@ public slots:
      * @return int
      */
     virtual int Call(const QString &szId, bool bVideo = false);
+    /**
+     * @brief 接收呼叫  
+     * @param szId:用户ID
+     * @return 
+     */
     virtual int Accept(QString szId);
+    /**
+     * @brief 结束呼叫  
+     * @param szId:用户ID
+     * @return 
+     */
     virtual int Stop(QString szId);
+    /**
+     * @brief 判断呼叫是否正在进行  
+     * @param szId:用户ID
+     * @return 
+     */
     virtual bool IsRun(QString szId);
 
     /**
@@ -82,11 +97,14 @@ private:
     /**
      * @brief 具体协议实现呼叫  
      * @param szId：用户 Id  
+     * @param call:如果成功,包含新建的呼叫实例  
      * @param bVideo：是否包含视频  
      * @return 成功返回0，失败返回非0  
      * @see CManageCall::Call
      */
-    virtual int OnCall(const QString &szId, bool bVideo = false) = 0;
+    virtual int OnCall(const QString &szId,
+              /*[out]*/QSharedPointer<CCallObject> &call,
+              /*[in]*/ bool bVideo = false) = 0;
 
 protected:
     /**

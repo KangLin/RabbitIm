@@ -321,3 +321,7 @@ https://github.com/ruby/ruby
     ./build_rabbitim.sh android [source_code_directory] [qmake]
 
 第四个参数如果是qmake，则用qmake编译。默认为cmake编译
+
+### 4. 调试
+下载 ministro  
+https://necessitas.kde.org/necessitas/ministro.php

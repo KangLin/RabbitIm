@@ -4,7 +4,7 @@
 #include <QImage>
 
 CCameraOpencv::CCameraOpencv(QObject *parent) :
-    CCamera(parent)
+    CCameraQt(parent)
 {
     m_tmCapture = 1000 / GetFrameRate();
     bool check = connect(&m_Timer, SIGNAL(timeout()),

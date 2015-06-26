@@ -65,6 +65,7 @@ if [ -n "$2" ]; then
     ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl && \
     ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} $2/opencv && \
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg && \
+    ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} $2/pjsip && \
     ./build_icu.sh ${RABBITIM_BUILD_TARGERT} $2/icu && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
     ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp
@@ -83,6 +84,7 @@ else
     ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_icu.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT}
