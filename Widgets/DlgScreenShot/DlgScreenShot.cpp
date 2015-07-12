@@ -44,6 +44,13 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
     resize(qApp->desktop()->size());
     setAttribute(Qt::WA_TranslucentBackground,true);
     setCursor(Qt::CrossCursor);
+
+#ifdef ANDROID
+    QDesktopWidget *pScreen = qApp->desktop();
+    QPixmap pix;
+    pScreen->render(&pix);
+    m_imgDesktop = pix.toImage();
+#else
     WId id = qApp->desktop()->winId();
     QScreen *pScreen = QGuiApplication::primaryScreen();
     m_imgDesktop = pScreen->grabWindow(id,
@@ -52,6 +59,7 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
                                        pScreen->geometry().width(),//pScreen->availableGeometry().width(),
                                        pScreen->geometry().height()//pScreen->availableGeometry().height()
                                        ).toImage();
+#endif
     initSelectParam();
 
     m_Editor.hide();
@@ -73,7 +81,6 @@ QPixmap CDlgScreenShot::getSelectedImg()
 void CDlgScreenShot::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
-    drawWindow();
     QPainter painter(this);
     painter.drawImage(rect(),drawWindow());
 }
@@ -82,6 +89,8 @@ QImage CDlgScreenShot::drawWindow()
 {
     QImage img;
     img = m_imgDesktop;
+    if(img.isNull())
+        return img;
     QPainter painter(&img);
     painter.setCompositionMode(QPainter::CompositionMode_Source);
     painter.fillRect(img.rect(),QColor(0,0,0,70));
