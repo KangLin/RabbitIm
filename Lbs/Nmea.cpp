@@ -111,7 +111,7 @@ std::string CNmea::NMEACheckSum(std::string msg)
         chk ^= msg.at(i);
     }
     char buf[4];
-    sprintf(buf, "%2X", chk);
+    sprintf(buf, "%02X", chk);
     return buf;
 }
 
@@ -136,8 +136,14 @@ bool CNmea::SendHttpOpenGts(std::string szUrl,
         
         /* Now specify the POST data */ 
         std::string szData;;
-        szData = "acct=" + szUser;
+        szData += "id=" + szDevice;
         szData += "&dev=" + szDevice;
+        szData += "&acct=" + szUser;
+        //OpenGTS 2.5.5 requires batt param or it throws exception...
+        szData += "&batt=0&code=0xF020";
+        double dbAlt = info.coordinate().altitude();
+        if(!qIsNaN(dbAlt))
+            szData += "&alt=" + QString::number(dbAlt).toStdString();
         szData += "&gprmc=" + EncodeGMC(info);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, szData.c_str());
         

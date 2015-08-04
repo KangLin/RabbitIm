@@ -16,10 +16,15 @@ CLbsTrack::CLbsTrack(QWidget *parent) :
     ui->setupUi(this);
     
     m_bStart = false;
-    /*m_NmeaSaveFile = 
+    /*默认 nmea 保存文件  
+    m_NmeaSaveFile = 
             QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
             + QDir::separator() + "gps.nmea"; //*/
-    
+    /*默认 opents gprmc 上传   
+    m_szUrl = "http://182.254.185.29:8080/gprmc/Data";
+    m_szUser = "root";
+    m_szDevice = "123456";//*/
+
 #ifdef MOBILE
     m_Source = QGeoPositionInfoSource::createDefaultSource(this);
 #else
@@ -30,7 +35,10 @@ CLbsTrack::CLbsTrack(QWidget *parent) :
     {
         m_NmeaFile.setFileName(":/file/gps.nmea");
         if(m_NmeaFile.open(QIODevice::ReadOnly))
+        {   
             p->setDevice(&m_NmeaFile);
+            //p->setUpdateInterval(1000);
+        }
         else
             LOG_MODEL_ERROR("CLbsTrack", "don't open file:%s",
                             m_NmeaFile.fileName().toStdString().c_str());
@@ -78,6 +86,13 @@ void CLbsTrack::positionUpdated(const QGeoPositionInfo &info)
     if (out.is_open()) 
         out << CNmea::EncodeGMC(info).c_str() << std::endl;
     out.close();
+    
+    //上传到opengts gprmce服务器  
+    if(!(m_szUrl.isEmpty() || m_szUser.isEmpty() || m_szDevice.isEmpty()))
+        CNmea::SendHttpOpenGts(m_szUrl.toStdString().c_str(),
+                           m_szUser.toStdString().c_str(),
+                           m_szDevice.toStdString().c_str(),
+                           info);
 }
 
 void CLbsTrack::on_pbStart_clicked()

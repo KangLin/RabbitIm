@@ -30,6 +30,11 @@ private:
     bool m_bStart;
     QFile m_NmeaFile;//Name模拟文件  
     QString m_NmeaSaveFile;//Nmea保存文件  
+    //用于opengts gprmc 传送  
+    QString m_szUrl;   //opengts gprmc服务器URL  
+    QString m_szUser;  //用户名  
+    QString m_szDevice;//设备ID  
+    
 };
 
 #endif // LBSMAIN_H
