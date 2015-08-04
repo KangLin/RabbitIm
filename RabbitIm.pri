@@ -63,7 +63,8 @@ SOURCES += main.cpp\
     Media/Camera/VideoFrame.cpp \
     Media/Camera/CameraQt.cpp \
     Media/Camera/CameraFactoryQt.cpp \
-    Media/Camera/CameraQtCaptureVideoFrame.cpp
+    Media/Camera/CameraQtCaptureVideoFrame.cpp \
+    Global/Log.cpp
 
 HEADERS += Version.h \
     MainWindow.h \
@@ -130,7 +131,8 @@ HEADERS += Version.h \
     Media/Camera/VideoFrame.h \
     Media/Camera/CameraQt.h \
     Media/Camera/CameraFactoryQt.h \
-    Media/Camera/CameraQtCaptureVideoFrame.h
+    Media/Camera/CameraQtCaptureVideoFrame.h \
+    Global/Log.h
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \

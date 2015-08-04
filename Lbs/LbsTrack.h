@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QGeoPositionInfoSource>
 #include <QGeoPositionInfo>
+#include <string>
 
 namespace Ui {
 class CLbsTrack;

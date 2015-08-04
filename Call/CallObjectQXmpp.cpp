@@ -38,7 +38,7 @@ CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
 
 CCallObjectQXmpp::~CCallObjectQXmpp()
 {
-    //TODO:多线程在运行时直接关闭窗口会core  
+    //TODO:多线程在运行时直接关闭主窗口会core，原因是主窗口关闭后QXMPP库已析构？  
     LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp status:%d",
                     GetState());
     if(this->GetState() == ActiveState)

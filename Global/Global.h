@@ -7,6 +7,7 @@
 #include <QDateTime>
 #include "Manage/Manager.h"
 #include "Tool.h"
+#include "Log.h"
 
 class MainWindow;
 
@@ -34,18 +35,6 @@ private:
 
 public:
     static CGlobal* Instance();
-
-    /**
-     * @brief 日志  
-     * @param pszFile:打印日志处文件名  
-     * @param nLine:打印日志处行号  
-     * @param nLevel:打印日志错误级别  
-     * @param pszModelName:打印日志的模块范围  
-     * @param pFormatString:格式化字符串  
-     * @return 
-     */
-    int Log(const char *pszFile, int nLine, int nLevel,
-            const char* pszModelName, const char *pFormatString, ...);
 
 public:
     /// 得到主窗口  
@@ -353,39 +342,12 @@ public slots:
 #define RABBITIM_ICON_SIZE 24 //头像的大小  
 #define RABBITIM_AVATAR_SIZE 64 //头像的大小  
 
-#define LM_DEBUG 0
-#define LM_INFO 1
-#define LM_WARNING 2
-#define LM_ERROR 3
-
 #ifdef DEBUG
-#define LOG_ERROR(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, "", fmt, ##__VA_ARGS__)
-#define LOG_WARNING(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, "", fmt, ##__VA_ARGS__)
-#define LOG_DEBUG(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_DEBUG, "", fmt, ##__VA_ARGS__)
-#define LOG_INFO(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, "", fmt, ##__VA_ARGS__)
-
-#define LOG_MODEL_ERROR(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_WARNING(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_DEBUG(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_DEBUG, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_INFO(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, model, fmt, ##__VA_ARGS__)
-
-#define RABBITIM_ASSERT(x, ret) Q_ASSERT(x)
-
+    #define RABBITIM_ASSERT(x, ret) Q_ASSERT(x)
 #else
-
-#define LOG_ERROR(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, "", fmt, ##__VA_ARGS__)
-#define LOG_DEBUG(fmt, ...)
-#define LOG_WARNING(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, "", fmt, ##__VA_ARGS__)
-#define LOG_INFO(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, "", fmt, ##__VA_ARGS__)
-
-#define LOG_MODEL_ERROR(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_WARNING(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_DEBUG(model, fmt, ...)
-#define LOG_MODEL_INFO(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, model, fmt, ##__VA_ARGS__)
-
-#define RABBITIM_ASSERT(x, ret) \
-    if(!(x))                    \
-        return (ret);
-#endif//#ifdef DEBUG
+    #define RABBITIM_ASSERT(x, ret) \
+        if(!(x))                    \
+            return (ret);
+#endif //DEBUG
 
 #endif // GLOBAL_H

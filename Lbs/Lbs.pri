@@ -1,10 +1,14 @@
 
 
 SOURCES += \
-    $$PWD/LbsTrack.cpp
+    LbsTrack.cpp \
+    Nmea.cpp \
+    ../Global/Log.cpp
 
 HEADERS  += \
-    $$PWD/LbsTrack.h
+    LbsTrack.h \
+    Nmea.h \
+    ../Global/Log.h
 
 FORMS    += \
-    $$PWD/LbsTrack.ui
+    LbsTrack.ui
