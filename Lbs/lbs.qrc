@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/file">
+        <file>gps.nmea</file>
+    </qresource>
+</RCC>

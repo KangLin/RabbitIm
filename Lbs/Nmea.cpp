@@ -1,6 +1,7 @@
 #include "Nmea.h"
 #include "curl/curl.h"
 #include "../Global/Log.h"
+#include <math.h>
 
 CNmea::CNmea()
 {
@@ -47,14 +48,14 @@ std::string CNmea::EncodeGMC(const QGeoPositionInfo &info)
 {
     std::string szRmc;
     szRmc = "$GPRMC,"
-            + info.timestamp().toString("HHmmss").toStdString()
+            + info.timestamp().toUTC().toString("HHmmss.zzz").toStdString()
             + ",A," 
-            +  NMEAGPRMCCoord(abs(info.coordinate().latitude()));
+            +  NMEAGPRMCCoord(fabs(info.coordinate().latitude()));
     if(info.coordinate().latitude() >= 0)
         szRmc += ",N,";
     else
         szRmc += ",S,";
-    szRmc += NMEAGPRMCCoord(abs(info.coordinate().longitude()));
+    szRmc += NMEAGPRMCCoord(fabs(info.coordinate().longitude()));
     if(info.coordinate().longitude() >= 0)
         szRmc += ",E,";
     else
@@ -75,7 +76,7 @@ std::string CNmea::EncodeGMC(const QGeoPositionInfo &info)
     }else
         szRmc += ",";
     
-    szRmc += info.timestamp().toString("ddMMyy").toStdString();
+    szRmc += info.timestamp().toUTC().toString("ddMMyy").toStdString();
     szRmc += ",";
     if(info.hasAttribute(QGeoPositionInfo::MagneticVariation))
     {
@@ -96,9 +97,9 @@ std::string CNmea::NMEAGPRMCCoord(double coord)
     // “DDDMM.MMMMM”
     int degrees = (int) coord;
     double minutes = (coord - degrees) * 60;
-    
+
     char buf[10];
-    sprintf(buf, "%d%8.5f", degrees, minutes);
+    sprintf(buf, "%d%.5f", degrees, minutes);
     
     return buf;
 }

@@ -5,6 +5,7 @@
 #include <QGeoPositionInfoSource>
 #include <QGeoPositionInfo>
 #include <string>
+#include <QFile>
 
 namespace Ui {
 class CLbsTrack;
@@ -21,9 +22,14 @@ public:
 private slots:
     void positionUpdated(const QGeoPositionInfo &info);
 
+    void on_pbStart_clicked();
+    
 private:
     Ui::CLbsTrack *ui;
     QGeoPositionInfoSource *m_Source;
+    bool m_bStart;
+    QFile m_NmeaFile;//Name模拟文件  
+    QString m_NmeaSaveFile;//Nmea保存文件  
 };
 
 #endif // LBSMAIN_H
