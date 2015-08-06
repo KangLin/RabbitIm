@@ -1,7 +1,12 @@
 #include "Nmea.h"
 #include "curl/curl.h"
+#include <QDebug>
 #include "../Global/Log.h"
 #include <math.h>
+#include <QJsonDocument>
+#include <QVariant>
+#include <QVariantMap>
+#include <QByteArray>
 
 CNmea::CNmea()
 {
@@ -97,7 +102,7 @@ std::string CNmea::NMEAGPRMCCoord(double coord)
     // “DDDMM.MMMMM”
     int degrees = (int) coord;
     double minutes = (coord - degrees) * 60;
-
+    
     char buf[10];
     sprintf(buf, "%d%.5f", degrees, minutes);
     
@@ -115,10 +120,10 @@ std::string CNmea::NMEACheckSum(std::string msg)
     return buf;
 }
 
-bool CNmea::SendHttpOpenGts(std::string szUrl,
-                            std::string szUser,
-                            std::string szDevice,
-                            const QGeoPositionInfo &info)
+int CNmea::SendHttpOpenGts(const std::string &szUrl,
+                           const std::string &szUser,
+                           const std::string &szDevice,
+                           const QGeoPositionInfo &info)
 {
     CURL *curl;
     CURLcode res;
@@ -144,6 +149,12 @@ bool CNmea::SendHttpOpenGts(std::string szUrl,
         double dbAlt = info.coordinate().altitude();
         if(!qIsNaN(dbAlt))
             szData += "&alt=" + QString::number(dbAlt).toStdString();
+        if(info.hasAttribute(QGeoPositionInfo::HorizontalAccuracy))
+           szData += "&hacc=" + QString::number(info.attribute(
+                     QGeoPositionInfo::HorizontalAccuracy)).toStdString();
+        if(info.hasAttribute(QGeoPositionInfo::VerticalAccuracy))
+            szData += "&vacc=" + QString::number(info.attribute(
+                     QGeoPositionInfo::VerticalAccuracy)).toStdString();
         szData += "&gprmc=" + EncodeGMC(info);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, szData.c_str());
         
@@ -153,7 +164,7 @@ bool CNmea::SendHttpOpenGts(std::string szUrl,
         if(res != CURLE_OK)
         {
             LOG_MODEL_ERROR("Nmea", "curl_easy_perform() failed: %s\n",
-                    curl_easy_strerror(res));
+                            curl_easy_strerror(res));
         }
         
         /* always cleanup */ 
@@ -162,6 +173,141 @@ bool CNmea::SendHttpOpenGts(std::string szUrl,
     curl_global_cleanup();
     
     if(res != CURLE_OK)
-        return false;
-    return true;
+        return -1;
+    return 0;
+}
+
+static size_t
+WriteMemoryCallback(void *buffer, size_t size, size_t nmemb, void *userp)
+{
+    size_t realsize = size * nmemb;
+    QByteArray *p = (QByteArray*)userp;
+    p->append((char*)buffer, realsize);
+    return realsize;
+}
+
+int CNmea::GetHttpOpenGts(std::list<QGeoPositionInfo> &lstInfo,
+                          const std::string &szUrl,
+                          const std::string &szUser,
+                          const std::string &szPassword,
+                          const std::string &szDevice,
+                          const unsigned int limit,
+                          const unsigned long startTime,
+                          const unsigned long endTime)
+{
+    CURLcode res = CURLE_OK;
+    QByteArray data;
+    
+    CURL *pCurl;
+    
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    
+    pCurl = curl_easy_init();
+    if(!pCurl)
+        return -1;
+    
+    /*
+     * You better replace the URL with one that works!
+     */
+    std::string url(szUrl);
+    url += "events/data.json?a=" + szUser + "&p=" + szPassword + "&d=" + szDevice;
+    url += "&l=" + QString::number(limit).toStdString();
+    if(startTime)
+        url += "&tf=" + QDateTime::fromTime_t(startTime).toUTC().toString("yyyy/mm/dd/HH:MM:SS").toStdString();
+    if(endTime)
+        url += "&tt=" + QDateTime::fromTime_t(endTime).toUTC().toString("yyyy/mm/dd/HH:MM:SS").toStdString();
+    LOG_MODEL_DEBUG("CNmea", "GetHttpOpenGts url:%s", url.c_str());
+    curl_easy_setopt(pCurl, CURLOPT_URL, url.c_str());
+    /* Define our callback to get called when there's data to be written */
+    curl_easy_setopt(pCurl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
+    /* Set a pointer to our struct to pass to the callback */
+    curl_easy_setopt(pCurl, CURLOPT_WRITEDATA, &data);
+    curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, 10000);   //设置超时
+    
+#ifdef SKIP_PEER_VERIFICATION
+    /*
+     * If you want to connect to a site who isn't using a certificate that is
+     * signed by one of the certs in the CA bundle you have, you can skip the
+     * verification of the server's certificate. This makes the connection
+     * A LOT LESS SECURE.
+     *
+     * If you have a CA cert for the server stored someplace else than in the
+     * default bundle, then the CURLOPT_CAPATH option might come handy for
+     * you.
+     */
+    curl_easy_setopt(pCurl, CURLOPT_SSL_VERIFYPEER, 0L);
+#endif
+    
+#ifdef SKIP_HOSTNAME_VERIFICATION
+    /*
+     * If the site you're connecting to uses a different host name that what
+     * they have mentioned in their server certificate's commonName (or
+     * subjectAltName) fields, libcurl will refuse to connect. You can skip
+     * this check, but this will make the connection less secure.
+     */
+    curl_easy_setopt(pCurl, CURLOPT_SSL_VERIFYHOST, 0L);
+#endif
+    
+#ifdef DEBUG
+    /* Switch on full protocol/debug output */
+    curl_easy_setopt(pCurl, CURLOPT_VERBOSE, 1L);
+#endif
+    
+    
+    res = curl_easy_perform(pCurl);
+    
+    /* always cleanup */
+    curl_easy_cleanup(pCurl);
+    
+    if(CURLE_OK != res) {
+        LOG_MODEL_ERROR("CNmea", "GetHttpOpenGts error:url:%s", szUrl.c_str());
+        return -1;
+    }
+    curl_global_cleanup();
+    LOG_MODEL_DEBUG("CNmea", "GetHttpOpenGts:%s", data.toStdString().c_str());
+    
+    QJsonParseError error;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
+    if(error.error != QJsonParseError::NoError)
+    {
+        LOG_MODEL_ERROR("CNmea", "GetHttpOpenGts::fromJson error.");
+        return -2;
+    }
+    
+    if(!jsonDoc.isObject())
+    {
+        LOG_MODEL_ERROR("CNmea", "isn't object error.");
+        return -3;
+    }
+    
+    QVariantMap result = jsonDoc.toVariant().toMap();
+    QList<QVariant> lstDevice = result["DeviceList"].toList();
+    foreach (QVariant device, lstDevice)
+    {
+        QVariantMap devMap = device.toMap();
+        LOG_MODEL_DEBUG("CNmea", "device:%s",
+                        devMap["Device"].toString().toStdString().c_str());
+        QList<QVariant> lstEvent = devMap["EventData"].toList();
+        foreach(QVariant eventData, lstEvent)
+        {
+            QVariantMap eventMap = eventData.toMap();
+            QGeoPositionInfo info;
+            QGeoCoordinate coord;
+            coord.setLatitude(eventMap["GPSPoint_lat"].toDouble());
+            coord.setLongitude(eventMap["GPSPoint_lon"].toDouble());
+            coord.setAltitude(eventMap["Altitude_meters"].toDouble());
+            info.setCoordinate(coord);
+            info.setTimestamp(QDateTime::fromTime_t(
+                                  eventMap["Timestamp"].toLongLong(),
+                              Qt::UTC));
+            info.setAttribute(QGeoPositionInfo::GroundSpeed,
+                              eventMap["Speed"].toDouble() * 1.609344 * 0.28);
+            info.setAttribute(QGeoPositionInfo::HorizontalAccuracy,
+                              eventMap["GPSPoint_accuracy"].toDouble());
+            
+            lstInfo.push_back(info);
+        }
+    }
+    
+    return 0;
 }

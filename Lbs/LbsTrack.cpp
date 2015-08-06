@@ -68,15 +68,23 @@ CLbsTrack::~CLbsTrack()
 
 void CLbsTrack::positionUpdated(const QGeoPositionInfo &info)
 {
-    qDebug() << "Position updated:" << info;
+    if(!info.isValid())
+    {   
+        ui->textBrowser->append(tr("QGeoPositionInfo is invalid\n"));
+        return;
+    }
+
     QString szMsg;
     szMsg = "latitude:" + QString::number(info.coordinate().latitude())
           + "\nlongitude:" + QString::number(info.coordinate().longitude())
           + "\naltitude:" + QString::number(info.coordinate().altitude())
           + "\ntime:" + info.timestamp().toString()
           + "\nspeed:" + QString::number(info.attribute(QGeoPositionInfo::GroundSpeed))
+          + "\nVerticalSpeed:" + QString::number(info.attribute(QGeoPositionInfo::VerticalSpeed))
           + "\nDirection:" + QString::number(info.attribute(QGeoPositionInfo::Direction))
-          + "\nHorizontalAccuracy" + QString::number(info.attribute(QGeoPositionInfo::HorizontalAccuracy));
+          + "\nHorizontalAccuracy:" + QString::number(info.attribute(QGeoPositionInfo::HorizontalAccuracy))
+          + "\nVerticalAccuracy:" + QString::number(info.attribute(QGeoPositionInfo::VerticalAccuracy))
+          + "\n" + QString::number(info.attribute(QGeoPositionInfo::MagneticVariation));
     szMsg += "\n" + QString(CNmea::EncodeGMC(info).c_str());
     szMsg += "\n";
     ui->textBrowser->append(szMsg);
@@ -97,6 +105,16 @@ void CLbsTrack::positionUpdated(const QGeoPositionInfo &info)
 
 void CLbsTrack::on_pbStart_clicked()
 {
+    /*测试opengts gprmc 下载gps数据  
+    std::list<QGeoPositionInfo> info;
+    CNmea::GetHttpOpenGts(info, "http://182.254.185.29:8080/", "root", "123456", "123456");
+    std::list<QGeoPositionInfo>::iterator it;
+    for(it = info.begin(); it != info.end(); it++)
+    {
+        positionUpdated(*it);
+    }
+    return;//*/
+    
     if(m_Source)
     {
         if(m_bStart)

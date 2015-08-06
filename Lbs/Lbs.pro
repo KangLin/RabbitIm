@@ -18,6 +18,11 @@ TEMPLATE = app
 CONFIG += mobility
 MOBILITY = 
 
+CONFIG(debug, debug|release) {
+    #调试宏
+    DEFINES += DEBUG #DEBUG_VIDEO_TIME 
+} 
+
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android{
     THIRD_LIBRARY_PATH = $$PWD/../ThirdLibary/android

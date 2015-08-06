@@ -7,6 +7,7 @@
 #include <QDateTime>
 #include "Manage/Manager.h"
 #include "Tool.h"
+#include <QDebug>
 #include "Log.h"
 
 class MainWindow;

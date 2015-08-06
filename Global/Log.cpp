@@ -1,6 +1,7 @@
 #include "Log.h"
 #include <string>
 #include <stdarg.h>
+#include <QDebug>
 
 CLog::CLog()
 {
@@ -57,10 +58,6 @@ int CLog::Log(const char *pszFile, int nLine, int nLevel,
     }
     szTemp += buf;
 
-#ifdef qDebug
     qDebug() << szTemp.c_str();
-#else
-    printf("%s", szTemp.c_str());
-#endif
     return 0;
 }
