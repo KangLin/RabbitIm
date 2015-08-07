@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QNmeaPositionInfoSource>
 #include "../Global/Log.h"
+#include "LbsPositionLogger.h"
 
 CLbsTrack::CLbsTrack(QWidget *parent) :
     QWidget(parent),
@@ -16,8 +17,8 @@ CLbsTrack::CLbsTrack(QWidget *parent) :
     ui->setupUi(this);
     
     m_bStart = false;
-    /*默认 nmea 保存文件  
-    m_NmeaSaveFile = 
+    //*默认 nmea 保存文件  
+    m_SaveFile = 
             QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
             + QDir::separator() + "gps.nmea"; //*/
     /*默认 opents gprmc 上传   
@@ -28,21 +29,28 @@ CLbsTrack::CLbsTrack(QWidget *parent) :
 #ifdef MOBILE
     m_Source = QGeoPositionInfoSource::createDefaultSource(this);
 #else
+    /*
     QNmeaPositionInfoSource* p = new QNmeaPositionInfoSource(
                 QNmeaPositionInfoSource::SimulationMode, this);
     m_Source = p;
     if(m_Source)
     {
-        m_NmeaFile.setFileName(":/file/gps.nmea");
-        if(m_NmeaFile.open(QIODevice::ReadOnly))
+        m_inFile.setFileName(":/file/gps.nmea");
+        if(m_inFile.open(QIODevice::ReadOnly))
         {   
-            p->setDevice(&m_NmeaFile);
+            p->setDevice(&m_inFile);
             //p->setUpdateInterval(1000);
         }
         else
             LOG_MODEL_ERROR("CLbsTrack", "don't open file:%s",
-                            m_NmeaFile.fileName().toStdString().c_str());
-    }
+                            m_inFile.fileName().toStdString().c_str());
+    }//*/
+    
+    //*
+    CLbsPositionLogger* p = new CLbsPositionLogger(
+                "d:/gps.txt");
+    m_Source = p;//*/
+    
 #endif
     
     if (m_Source) {
@@ -56,9 +64,9 @@ CLbsTrack::CLbsTrack(QWidget *parent) :
 CLbsTrack::~CLbsTrack()
 {
 #ifndef MOBILE
-    if(m_NmeaFile.isOpen())
+    if(m_inFile.isOpen())
     {
-        m_NmeaFile.close();
+        m_inFile.close();
     }
     if(m_Source)
         delete m_Source;
@@ -90,11 +98,11 @@ void CLbsTrack::positionUpdated(const QGeoPositionInfo &info)
     ui->textBrowser->append(szMsg);
 
     //保存到本地文件中  
-    std::ofstream out(m_NmeaSaveFile.toStdString().c_str(), std::ios::app);
-    if (out.is_open()) 
-        out << CNmea::EncodeGMC(info).c_str() << std::endl;
-    out.close();
-    
+    CLbsPositionLogger logger(m_SaveFile.toStdString().c_str());
+    logger.startUpdates();
+    logger.Write(info);
+    logger.stopUpdates();
+
     //上传到opengts gprmce服务器  
     if(!(m_szUrl.isEmpty() || m_szUser.isEmpty() || m_szDevice.isEmpty()))
         CNmea::SendHttpOpenGts(m_szUrl.toStdString().c_str(),

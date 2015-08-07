@@ -28,8 +28,9 @@ private:
     Ui::CLbsTrack *ui;
     QGeoPositionInfoSource *m_Source;
     bool m_bStart;
-    QFile m_NmeaFile;//Name模拟文件  
-    QString m_NmeaSaveFile;//Nmea保存文件  
+    
+    QFile m_inFile;//Name模拟文件  
+    QString m_SaveFile;//Nmea保存文件  
     //用于opengts gprmc 传送  
     QString m_szUrl;   //opengts gprmc服务器URL  
     QString m_szUser;  //用户名  
