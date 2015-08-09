@@ -15,3 +15,6 @@ FORMS    += \
 
 RESOURCES += \
     $$PWD/lbs.qrc
+
+DISTFILES += \
+    $$PWD/Map.qml

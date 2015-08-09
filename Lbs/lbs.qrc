@@ -1,5 +1,3 @@
 <RCC>
-    <qresource prefix="/file">
-        <file>gps.nmea</file>
-    </qresource>
+    <qresource prefix="/qml"/>
 </RCC>

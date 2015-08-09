@@ -15,7 +15,7 @@ CLbsTrack::CLbsTrack(QWidget *parent) :
     ui(new Ui::CLbsTrack)
 {
     ui->setupUi(this);
-    
+    ui->quickWidget->setSource(QStringLiteral("qrc:///qml/Map.qml"));
     m_bStart = false;
     //*默认 nmea 保存文件  
     m_SaveFile = 

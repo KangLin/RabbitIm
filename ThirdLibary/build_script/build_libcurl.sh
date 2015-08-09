@@ -144,7 +144,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
         case `uname -s` in
             Linux*|Unix*|CYGWIN*)
-                CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse"
+                #CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse"
                 ;;
             *)
             ;;
@@ -161,8 +161,13 @@ echo "make install"
 echo "pwd:`pwd`"
 CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --disable-debug --disable-curldebug --disable-manual"
 CONFIG_PARA="${CONFIG_PARA} --with-ssl=$RABBITIM_BUILD_PREFIX"
-echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
-../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
+if[ "${RABBITIM_BUILD_TARGERT}" = android ]; then
+    echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
+    ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
+else
+    echo "../configure ${CONFIG_PARA}"
+    ../configure
+fi
 
 make ${RABBITIM_MAKE_JOB_PARA} && make install
 
