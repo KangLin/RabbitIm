@@ -8,19 +8,19 @@
 #include <QDir>
 #include <QNmeaPositionInfoSource>
 #include "../Global/Log.h"
-#include "LbsPositionLogger.h"
+#include <QQuickItem>
 
 CLbsTrack::CLbsTrack(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CLbsTrack)
 {
     ui->setupUi(this);
+    ui->quickWidget->setSource(QStringLiteral("qrc:///qml/Map.qml"));
     
     m_bStart = false;
-    //*默认 nmea 保存文件  
-    m_SaveFile = 
-            QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
-            + QDir::separator() + "gps.nmea"; //*/
+    m_Source = NULL;
+    m_pLogger = NULL;
+    
     /*默认 opents gprmc 上传   
     m_szUrl = "http://182.254.185.29:8080/gprmc/Data";
     m_szUser = "root";
@@ -29,13 +29,13 @@ CLbsTrack::CLbsTrack(QWidget *parent) :
 #ifdef MOBILE
     m_Source = QGeoPositionInfoSource::createDefaultSource(this);
 #else
-    /*
+    //*
     QNmeaPositionInfoSource* p = new QNmeaPositionInfoSource(
                 QNmeaPositionInfoSource::SimulationMode, this);
     m_Source = p;
     if(m_Source)
     {
-        m_inFile.setFileName(":/file/gps.nmea");
+        m_inFile.setFileName("D:/temp/gps.nmea");
         if(m_inFile.open(QIODevice::ReadOnly))
         {   
             p->setDevice(&m_inFile);
@@ -46,7 +46,7 @@ CLbsTrack::CLbsTrack(QWidget *parent) :
                             m_inFile.fileName().toStdString().c_str());
     }//*/
     
-    //*
+    /*
     CLbsPositionLogger* p = new CLbsPositionLogger(
                 "d:/gps.txt");
     m_Source = p;//*/
@@ -70,7 +70,13 @@ CLbsTrack::~CLbsTrack()
     }
     if(m_Source)
         delete m_Source;
-#endif    
+#endif
+    
+    if(m_pLogger)
+    {
+        m_pLogger->stopUpdates();
+        delete m_pLogger;
+    }
     delete ui;
 }
 
@@ -78,7 +84,7 @@ void CLbsTrack::positionUpdated(const QGeoPositionInfo &info)
 {
     if(!info.isValid())
     {   
-        ui->textBrowser->append(tr("QGeoPositionInfo is invalid\n"));
+        ui->txtLogger->append(tr("QGeoPositionInfo is invalid\n"));
         return;
     }
 
@@ -95,13 +101,11 @@ void CLbsTrack::positionUpdated(const QGeoPositionInfo &info)
           + "\n" + QString::number(info.attribute(QGeoPositionInfo::MagneticVariation));
     szMsg += "\n" + QString(CNmea::EncodeGMC(info).c_str());
     szMsg += "\n";
-    ui->textBrowser->append(szMsg);
+    ui->txtLogger->append(szMsg);
 
     //保存到本地文件中  
-    CLbsPositionLogger logger(m_SaveFile.toStdString().c_str());
-    logger.startUpdates();
-    logger.Write(info);
-    logger.stopUpdates();
+    if(m_pLogger)
+        m_pLogger->Write(info);
 
     //上传到opengts gprmce服务器  
     if(!(m_szUrl.isEmpty() || m_szUser.isEmpty() || m_szDevice.isEmpty()))
@@ -109,10 +113,20 @@ void CLbsTrack::positionUpdated(const QGeoPositionInfo &info)
                            m_szUser.toStdString().c_str(),
                            m_szDevice.toStdString().c_str(),
                            info);
+    //在地图上显示轨迹  
+    QQuickItem * pRoot = ui->quickWidget->rootObject();
+    QObject* pMap = pRoot->findChild<QObject*>("objNameMap");
+    if(pMap)
+    {
+        pMap->setProperty("center", QVariant::fromValue(info.coordinate()));
+        QMetaObject::invokeMethod(pMap, "addPolylinePoint",
+                   Q_ARG(QVariant, QVariant::fromValue(info.coordinate())));
+    }
 }
 
 void CLbsTrack::on_pbStart_clicked()
 {
+#ifndef MOBILE
     /*测试opengts gprmc 下载gps数据  
     std::list<QGeoPositionInfo> info;
     CNmea::GetHttpOpenGts(info, "http://182.254.185.29:8080/", "root", "123456", "123456");
@@ -122,6 +136,7 @@ void CLbsTrack::on_pbStart_clicked()
         positionUpdated(*it);
     }
     return;//*/
+#endif
     
     if(m_Source)
     {
@@ -129,12 +144,36 @@ void CLbsTrack::on_pbStart_clicked()
         {   
             m_Source->stopUpdates();
             ui->pbStart->setText(tr("Start"));
+            
+            if(m_pLogger)
+            {
+                m_pLogger->stopUpdates();
+                delete m_pLogger;
+                m_pLogger = NULL;
+            }
         }
         else
         {
+            if(NULL == m_pLogger)
+            {
+                QString szFile =
+                        QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
+                        + QDir::separator() + "RabbitMotion";
+                QDir d;
+                if(!d.exists(szFile))
+                    d.mkdir(szFile);
+                szFile += QDir::separator()
+                     + QDateTime::currentDateTime().toString("yyyyMMddHHmmss")
+                     + ".dat";
+                m_pLogger = new CLbsPositionLogger(szFile.toStdString().c_str());
+                if(m_pLogger)
+                    m_pLogger->startUpdates();
+            }
+
             m_Source->startUpdates();
             ui->pbStart->setText(tr("Stop"));
         }
         m_bStart = !m_bStart;
     }
+    
 }

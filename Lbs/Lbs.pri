@@ -3,15 +3,18 @@
 SOURCES += \
     LbsTrack.cpp \
     Nmea.cpp \
-    $$PWD/LbsPositionLogger.cpp
+    LbsPositionLogger.cpp
 
 HEADERS  += \
     LbsTrack.h \
     Nmea.h \
-    $$PWD/LbsPositionLogger.h
+    LbsPositionLogger.h
 
 FORMS    += \
     LbsTrack.ui
 
 RESOURCES += \
-    $$PWD/lbs.qrc
+    lbs.qrc
+
+OTHER_FILES += \
+    res/Map.qml 
