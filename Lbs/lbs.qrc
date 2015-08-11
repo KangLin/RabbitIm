@@ -10,5 +10,7 @@
         <file alias="scale.png">res/png/scale.png</file>
         <file alias="scale_end.png">res/png/scale_end.png</file>
         <file alias="marker.png">res/png/marker.png</file>
+        <file alias="down">res/png/down.png</file>
+        <file alias="up">res/png/up.png</file>
     </qresource>
 </RCC>

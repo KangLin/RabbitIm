@@ -177,3 +177,7 @@ SOURCES += main.cpp \
 
 HEADERS  += \
     ../Global/Log.h 
+
+RESOURCES += \
+    ../Resource/Resource.qrc \
+    ../Resource/sink/dark/style.qrc

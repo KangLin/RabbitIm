@@ -46,6 +46,7 @@ CFrmMain::CFrmMain(QWidget *parent) :
     ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
     ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
     ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"), tr("Recent messages"));
+    ui->tabWidget->addTab(&m_Lbs, QIcon(), tr("Motion"));
 
     if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
     {

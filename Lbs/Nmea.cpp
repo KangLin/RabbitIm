@@ -127,7 +127,9 @@ int CNmea::SendHttpOpenGts(const std::string &szUrl,
 {
     CURL *curl;
     CURLcode res;
-    
+    if(!info.isValid())
+        return -1;
+
     /* In windows, this will init the winsock stuff */ 
     curl_global_init(CURL_GLOBAL_ALL);
     
@@ -157,6 +159,7 @@ int CNmea::SendHttpOpenGts(const std::string &szUrl,
                      QGeoPositionInfo::VerticalAccuracy)).toStdString();
         szData += "&gprmc=" + EncodeGMC(info);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, szData.c_str());
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5);   //设置超时  
         
         /* Perform the request, res will get the return code */ 
         res = curl_easy_perform(curl);

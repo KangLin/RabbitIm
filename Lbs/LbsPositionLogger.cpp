@@ -1,6 +1,7 @@
 #include "LbsPositionLogger.h"
 #include <QDateTime>
 #include "../Global/Log.h"
+#include "Nmea.h"
 
 CLbsPositionLogger::CLbsPositionLogger(QObject *parent)
     : QGeoPositionInfoSource(parent)
@@ -37,14 +38,6 @@ int CLbsPositionLogger::minimumUpdateInterval() const
 
 void CLbsPositionLogger::startUpdates()
 {
-    m_logFile.setFileName(m_szFile);
-    if(!m_logFile.open(QIODevice::ReadOnly | QIODevice::WriteOnly))
-    {
-        LOG_MODEL_ERROR("CLbsPositionLogger", "open file fail:%s",
-                        m_szFile.toStdString().c_str());
-        return;
-    }
-    
     int interval = updateInterval();
     if (interval < minimumUpdateInterval())
         interval = minimumUpdateInterval();
@@ -55,7 +48,27 @@ void CLbsPositionLogger::startUpdates()
 void CLbsPositionLogger::stopUpdates()
 {
     m_timer.stop();
-    m_logFile.close();
+}
+
+int CLbsPositionLogger::OpenFile(const char *pszFile)
+{
+    if(pszFile)
+        m_szFile = pszFile;
+    m_logFile.setFileName(m_szFile);
+    if(!m_logFile.open(QIODevice::ReadOnly | QIODevice::WriteOnly))
+    {
+        LOG_MODEL_ERROR("CLbsPositionLogger", "open file fail:%s",
+                        m_szFile.toStdString().c_str());
+        return -1;
+    }
+
+    return 0;
+}
+
+int CLbsPositionLogger::CloseFile()
+{
+    m_logFile.close();    
+    return 0;
 }
 
 void CLbsPositionLogger::requestUpdate(int timeout)
@@ -162,4 +175,23 @@ void CLbsPositionLogger::readNextPosition()
         m_lastPosition = info;
         emit positionUpdated(info);
     }
+}
+
+int CLbsPositionLogger::UploadServer(QString szUrl, QString szUser,
+                                     QString szPassword, QString szDevice)
+{
+    int nRet = 0;
+    this->OpenFile();
+    while(!m_logFile.atEnd())
+    {
+        readNextPosition();
+        nRet = CNmea::SendHttpOpenGts(szUrl.toStdString(),
+                                          szUser.toStdString(),
+                                          szDevice.toStdString(),
+                                          m_lastPosition);
+        if(nRet)
+         break;
+    }
+    this->CloseFile();
+    return nRet;
 }

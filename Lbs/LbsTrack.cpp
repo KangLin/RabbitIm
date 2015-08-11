@@ -74,7 +74,7 @@ CLbsTrack::~CLbsTrack()
     
     if(m_pLogger)
     {
-        m_pLogger->stopUpdates();
+        m_pLogger->CloseFile();
         delete m_pLogger;
     }
     delete ui;
@@ -84,7 +84,7 @@ void CLbsTrack::positionUpdated(const QGeoPositionInfo &info)
 {
     if(!info.isValid())
     {   
-        ui->txtLogger->append(tr("QGeoPositionInfo is invalid\n"));
+        ui->txtLogger->append("QGeoPositionInfo is invalid\n");
         return;
     }
 
@@ -147,7 +147,7 @@ void CLbsTrack::on_pbStart_clicked()
             
             if(m_pLogger)
             {
-                m_pLogger->stopUpdates();
+                m_pLogger->CloseFile();
                 delete m_pLogger;
                 m_pLogger = NULL;
             }
@@ -167,7 +167,7 @@ void CLbsTrack::on_pbStart_clicked()
                      + ".dat";
                 m_pLogger = new CLbsPositionLogger(szFile.toStdString().c_str());
                 if(m_pLogger)
-                    m_pLogger->startUpdates();
+                    m_pLogger->OpenFile();
             }
 
             m_Source->startUpdates();

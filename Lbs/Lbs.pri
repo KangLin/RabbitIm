@@ -1,20 +1,26 @@
  QT += positioning quickwidgets
 
 SOURCES += \
-    LbsTrack.cpp \
-    Nmea.cpp \
-    LbsPositionLogger.cpp
+    $$PWD/LbsTrack.cpp \
+    $$PWD/Nmea.cpp \
+    $$PWD/LbsPositionLogger.cpp \
+    $$PWD/LbsMotion.cpp \
+    $$PWD/FrmLbsMain.cpp
 
 HEADERS  += \
-    LbsTrack.h \
-    Nmea.h \
-    LbsPositionLogger.h
+    $$PWD/LbsTrack.h \
+    $$PWD/Nmea.h \
+    $$PWD/LbsPositionLogger.h \
+    $$PWD/LbsMotion.h \
+    $$PWD/FrmLbsMain.h
 
 FORMS    += \
-    LbsTrack.ui
+    $$PWD/LbsTrack.ui \
+    $$PWD/LbsMotion.ui \
+    $$PWD/FrmLbsMain.ui
 
 RESOURCES += \
-    lbs.qrc
+    $$PWD/lbs.qrc
 
 OTHER_FILES += \
-    res/Map.qml 
+    $$PWD/res/Map.qml 
