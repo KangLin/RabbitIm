@@ -161,7 +161,7 @@ echo "make install"
 echo "pwd:`pwd`"
 CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --disable-debug --disable-curldebug --disable-manual"
 CONFIG_PARA="${CONFIG_PARA} --with-ssl=$RABBITIM_BUILD_PREFIX"
-if[ "${RABBITIM_BUILD_TARGERT}" = android ]; then
+if [ "${RABBITIM_BUILD_TARGERT}" = android ]; then
     echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
     ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
 else
