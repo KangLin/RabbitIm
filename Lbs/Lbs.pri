@@ -1,20 +1,32 @@
- QT += positioning quickwidgets
+QT += positioning quickwidgets 
 
 SOURCES += \
-    LbsTrack.cpp \
-    Nmea.cpp \
-    $$PWD/LbsPositionLogger.cpp
+    $$PWD/LbsTrack.cpp \
+    $$PWD/Nmea.cpp \
+    $$PWD/LbsPositionLogger.cpp \
+    $$PWD/LbsMotion.cpp \
+    $$PWD/FrmLbsMain.cpp \
+    $$PWD/LbsCamera.cpp
 
 HEADERS  += \
-    LbsTrack.h \
-    Nmea.h \
-    $$PWD/LbsPositionLogger.h
+    $$PWD/LbsTrack.h \
+    $$PWD/Nmea.h \
+    $$PWD/LbsPositionLogger.h \
+    $$PWD/LbsMotion.h \
+    $$PWD/FrmLbsMain.h \
+    $$PWD/LbsCamera.h
 
 FORMS    += \
-    LbsTrack.ui
+    $$PWD/LbsTrack.ui \
+    $$PWD/LbsMotion.ui \
+    $$PWD/FrmLbsMain.ui
 
 RESOURCES += \
     $$PWD/lbs.qrc
 
-DISTFILES += \
-    $$PWD/Map.qml
+OTHER_FILES += \
+    $$PWD/res/Map.qml 
+
+android{
+    include($$PWD/Android/Android.pri)
+}

@@ -4,7 +4,7 @@
 <context>
     <name>CAndroidNotification</name>
     <message>
-        <location filename="../../android/jni/AndroidNotification.cpp" line="63"/>
+        <location filename="../../android/jni/AndroidNotification.cpp" line="64"/>
         <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>
     </message>
@@ -92,7 +92,7 @@
 <context>
     <name>CClientXmpp</name>
     <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="307"/>
+        <location filename="../../Client/ClientXmpp.cpp" line="321"/>
         <source>The roster is offline, don&apos;t send the file.</source>
         <translation>好友离线状态，不能发送文件。</translation>
     </message>
@@ -896,9 +896,9 @@ Email or MSN:kl222@126.com</source>
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="156"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="163"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="169"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="159"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="166"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="172"/>
         <source>no device</source>
         <translation>无</translation>
     </message>
@@ -1447,6 +1447,30 @@ Email or MSN:kl222@126.com</source>
     </message>
 </context>
 <context>
+    <name>CFrmLbsMain</name>
+    <message>
+        <location filename="../../Lbs/FrmLbsMain.ui" line="14"/>
+        <location filename="../../Lbs/FrmLbsMain.cpp" line="11"/>
+        <source>Motion</source>
+        <translation type="unfinished">运动</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/FrmLbsMain.ui" line="30"/>
+        <source>Tab 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/FrmLbsMain.ui" line="35"/>
+        <source>Tab 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/FrmLbsMain.cpp" line="12"/>
+        <source>Track</source>
+        <translation>轨迹</translation>
+    </message>
+</context>
+<context>
     <name>CFrmLogin</name>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="26"/>
@@ -1576,19 +1600,24 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="46"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="88"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="89"/>
         <source>Rosters</source>
         <translation>好友</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="48"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="89"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="90"/>
         <source>Recent messages</source>
         <translation>最近消息</translation>
     </message>
     <message>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="49"/>
+        <source>Motion</source>
+        <translation >运动</translation>
+    </message>
+    <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="47"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="90"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="91"/>
         <source>Group Chat</source>
         <translation>群聊</translation>
     </message>
@@ -1935,33 +1964,33 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="378"/>
+        <location filename="../../Global/Global.cpp" line="356"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="380"/>
+        <location filename="../../Global/Global.cpp" line="358"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="382"/>
+        <location filename="../../Global/Global.cpp" line="360"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="384"/>
+        <location filename="../../Global/Global.cpp" line="362"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="386"/>
-        <location filename="../../Global/Global.cpp" line="390"/>
+        <location filename="../../Global/Global.cpp" line="364"/>
+        <location filename="../../Global/Global.cpp" line="368"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="388"/>
+        <location filename="../../Global/Global.cpp" line="366"/>
         <source>OffLine</source>
         <translation>离线</translation>
     </message>
@@ -1972,6 +2001,108 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../Widgets/FrmGroupChat/GroupChatQxmpp.cpp" line="249"/>
         <source>[temporary]</source>
         <translation>[临时的]</translation>
+    </message>
+</context>
+<context>
+    <name>CLbsMotion</name>
+    <message>
+        <location filename="../../Lbs/LbsMotion.ui" line="14"/>
+        <source>Motion</source>
+        <translation>运动</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsMotion.ui" line="130"/>
+        <location filename="../../Lbs/LbsMotion.cpp" line="154"/>
+        <source>Start</source>
+        <translation>开始</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsMotion.ui" line="137"/>
+        <location filename="../../Lbs/LbsMotion.cpp" line="201"/>
+        <location filename="../../Lbs/LbsMotion.cpp" line="227"/>
+        <source>Pause</source>
+        <translation>暂停</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsMotion.cpp" line="19"/>
+        <location filename="../../Lbs/LbsMotion.cpp" line="20"/>
+        <location filename="../../Lbs/LbsMotion.cpp" line="271"/>
+        <location filename="../../Lbs/LbsMotion.cpp" line="273"/>
+        <source>%1
+Distance(km)</source>
+        <translation>%1
+距离（千米）</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsMotion.cpp" line="22"/>
+        <location filename="../../Lbs/LbsMotion.cpp" line="270"/>
+        <source>%1
+Duration</source>
+        <translation>%1
+用时</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsMotion.cpp" line="23"/>
+        <location filename="../../Lbs/LbsMotion.cpp" line="106"/>
+        <source>%1
+Accuracy(m)</source>
+        <translation>%1
+精度（米）</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsMotion.cpp" line="24"/>
+        <location filename="../../Lbs/LbsMotion.cpp" line="275"/>
+        <source>%1
+Speed(km/h)</source>
+        <translation>%1
+速度（千米/小时）</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsMotion.cpp" line="25"/>
+        <location filename="../../Lbs/LbsMotion.cpp" line="111"/>
+        <source>%1
+Real Time Speed(m/s)</source>
+        <translation>%1
+实时速度（米/秒）</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsMotion.cpp" line="169"/>
+        <source>Upload</source>
+        <translation>上传</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsMotion.cpp" line="170"/>
+        <source>Upload to server ......</source>
+        <translation>上传到服务器 ......</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsMotion.cpp" line="199"/>
+        <source>Stop</source>
+        <translation>停止</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsMotion.cpp" line="225"/>
+        <source>Continue</source>
+        <translation>继续</translation>
+    </message>
+</context>
+<context>
+    <name>CLbsTrack</name>
+    <message>
+        <location filename="../../Lbs/LbsTrack.ui" line="14"/>
+        <source>CLbsMain</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsTrack.ui" line="45"/>
+        <location filename="../../Lbs/LbsTrack.cpp" line="146"/>
+        <source>Start</source>
+        <translation>开始</translation>
+    </message>
+    <message>
+        <location filename="../../Lbs/LbsTrack.cpp" line="174"/>
+        <source>Stop</source>
+        <translation>停止</translation>
     </message>
 </context>
 <context>
@@ -1987,7 +2118,7 @@ Email or MSN:kl222@126.com</source>
         <translation>正在与 %1 通话，请停止它。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="137"/>
+        <location filename="../../Call/ManageCall.cpp" line="138"/>
         <source> is calling</source>
         <translation>正在呼叫</translation>
     </message>
@@ -2040,7 +2171,7 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CTool</name>
     <message>
-        <location filename="../../Tool.h" line="179"/>
+        <location filename="../../Tool.h" line="210"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>

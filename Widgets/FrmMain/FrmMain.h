@@ -8,6 +8,7 @@
 #include "../FrmUserList/FrmUserList.h"
 #include "../FrmGroupChat/FrmGroupChatList.h"
 #include "../FrmRecentMessage/FrmRecentMsgList.h"
+#include "../../Lbs/FrmLbsMain.h"
 
 namespace Ui {
 class CFrmMain;
@@ -44,6 +45,7 @@ private:
     CFrmRecentMsgList m_MessageList;
     CFrmUserList m_UserList;
     CFrmGroupChatList m_GroupChatList;
+    CFrmLbsMain m_Lbs;
 };
 
 #endif // FRMMAIN_H

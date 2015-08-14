@@ -27,7 +27,9 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ActionGroupTranslator(this),
     m_ActionGroupStyle(this),
     m_Login(new CFrmLogin(this)),
+#ifndef MOBILE
     m_Animation(this, "geometry"),
+#endif
     ui(new Ui::MainWindow)
 {
     CGlobal::Instance()->SetMainWindow(this);
@@ -41,11 +43,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     m_nWidth = conf.value("UI/MainWindow/width", geometry().width()).toInt();
     m_nHeight = conf.value("UI/MainWindow/height", geometry().height()).toInt();
-#endif
-    m_bLogin = false;
+    
     m_bAnimationHide = false;
     m_nHideSize = 5;
-    m_nBorderSize = 30;
+    m_nBorderSize = 30;    
+#endif
+    m_bLogin = false;
 
     bool check;
     check = connect(ui->actionAbout_A, SIGNAL(triggered()),
@@ -118,10 +121,12 @@ MainWindow::MainWindow(QWidget *parent) :
         m_TrayIcon.show();
     }
 
+#ifndef MOBILE
     //检测隐藏窗口定时器  
     check = connect(&m_timerAnimation, SIGNAL(timeout()),
                     SLOT(slotCheckHideWindows()));
     Q_ASSERT(check);
+#endif
 
     //安装事件监听器  
     //this->installEventFilter(this);
@@ -730,7 +735,11 @@ void MainWindow::slotTrayIconMenuUpdate()
     m_TrayIconMenu.addMenu(&m_MenuTranslate);
 
     QString szTitle;
-    if(this->isHidden() || this->isMinimized() || m_bAnimationHide)
+    if(this->isHidden() || this->isMinimized()
+        #ifndef MOBILE
+            || m_bAnimationHide
+        #endif
+            )
         szTitle = tr("Show Main Windows");
     else
         szTitle = tr("Hide Main Windows");
@@ -771,10 +780,16 @@ void MainWindow::slotMessageClean(const QString&)
 
 void MainWindow::on_actionNotifiation_show_main_windows_triggered()
 {
-    if(isHidden() || isMinimized() || m_bAnimationHide)
+    if(isHidden() || isMinimized()
+        #ifndef MOBILE
+            || m_bAnimationHide
+        #endif
+            )
      {
+#ifndef MOBILE
         QRect rect;
         this->CheckShowWindows(rect);
+#endif
         this->show();
         this->activateWindow();
     }
@@ -905,6 +920,7 @@ void MainWindow::slotUpdateExec(int nError, const QString &szFile)
 }
 #endif
 
+#ifndef MOBILE
 int MainWindow::AnimationWindows(const QRect &startRect, const QRect &endRect)
 {
     /*
@@ -1095,6 +1111,7 @@ int MainWindow::CheckShowWindows(QRect &endRect)
 
     return 0;
 }
+#endif
 
 int MainWindow::ComposeAvatarStatus(QSharedPointer<CUserInfo> info, QPixmap &outPixmap)
 {

@@ -28,6 +28,8 @@ public:
     virtual int minimumUpdateInterval() const;
     virtual Error error() const;
 
+    virtual int UploadServer(QString szUrl, QString szUser, QString szPassword, QString szDevice);
+    
     /**
      * @brief 把位置信息写入文件  
      * @param info：位置信息  
@@ -39,6 +41,9 @@ public:
 public slots:
     virtual void startUpdates();
     virtual void stopUpdates();
+    
+    virtual int OpenFile(const char *pszFile = NULL);
+    virtual int CloseFile();
 
     virtual void requestUpdate(int timeout = 1000);
 

@@ -1,5 +1,7 @@
 #include "Nmea.h"
+#ifdef RABBITIM_USE_LIBCURL
 #include "curl/curl.h"
+#endif
 #include <QDebug>
 #include "../Global/Log.h"
 #include <math.h>
@@ -125,9 +127,12 @@ int CNmea::SendHttpOpenGts(const std::string &szUrl,
                            const std::string &szDevice,
                            const QGeoPositionInfo &info)
 {
+#ifdef RABBITIM_USE_LIBCURL
     CURL *curl;
     CURLcode res;
-    
+    if(!info.isValid())
+        return -1;
+
     /* In windows, this will init the winsock stuff */ 
     curl_global_init(CURL_GLOBAL_ALL);
     
@@ -157,6 +162,7 @@ int CNmea::SendHttpOpenGts(const std::string &szUrl,
                      QGeoPositionInfo::VerticalAccuracy)).toStdString();
         szData += "&gprmc=" + EncodeGMC(info);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, szData.c_str());
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5);   //设置超时  
         
         /* Perform the request, res will get the return code */ 
         res = curl_easy_perform(curl);
@@ -174,6 +180,7 @@ int CNmea::SendHttpOpenGts(const std::string &szUrl,
     
     if(res != CURLE_OK)
         return -1;
+#endif
     return 0;
 }
 
@@ -195,9 +202,9 @@ int CNmea::GetHttpOpenGts(std::list<QGeoPositionInfo> &lstInfo,
                           const unsigned long startTime,
                           const unsigned long endTime)
 {
-    CURLcode res = CURLE_OK;
     QByteArray data;
-    
+#ifdef RABBITIM_USE_LIBCURL
+    CURLcode res = CURLE_OK;
     CURL *pCurl;
     
     curl_global_init(CURL_GLOBAL_DEFAULT);
@@ -265,6 +272,7 @@ int CNmea::GetHttpOpenGts(std::list<QGeoPositionInfo> &lstInfo,
     }
     curl_global_cleanup();
     LOG_MODEL_DEBUG("CNmea", "GetHttpOpenGts:%s", data.toStdString().c_str());
+#endif
     
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
