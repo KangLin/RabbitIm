@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Motion</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="lbs.qrc">
+    <normaloff>:/png/motioin</normaloff>:/png/motioin</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <widget class="QWidget" name="wdgPrompt" native="true">
@@ -234,8 +238,8 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="lbs.qrc"/>
   <include location="../Resource/Resource.qrc"/>
+  <include location="lbs.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -46,7 +46,7 @@ CFrmMain::CFrmMain(QWidget *parent) :
     ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
     ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
     ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"), tr("Recent messages"));
-    ui->tabWidget->addTab(&m_Lbs, QIcon(), tr("Motion"));
+    ui->tabWidget->addTab(&m_Lbs, QIcon(":/png/motion"), tr("Motion"));
 
     if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
     {
@@ -60,6 +60,8 @@ CFrmMain::CFrmMain(QWidget *parent) :
 
 CFrmMain::~CFrmMain()
 {
+    GET_CLIENT.data()->disconnect(this);
+    
     if(!USER_INFO_LOCALE.isNull())
     {
         QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
@@ -67,6 +69,7 @@ CFrmMain::~CFrmMain()
     }
 
     delete ui;
+    ui = NULL;
 }
 
 void CFrmMain::resizeEvent(QResizeEvent *e)

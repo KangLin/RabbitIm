@@ -35,6 +35,7 @@ private:
 private slots:
     void slotExitMessageBox(int nRet);
     void on_pbCamera_clicked();
+    void slotPhotograph(const QString &szFile);
     
 signals:
     void sigExitMessageBox(int nRet);
@@ -65,6 +66,7 @@ private:
     QPropertyAnimation m_Animation;//动画提示隐藏，没完成    
     QMessageBox m_MessageBox;
     friend class UploadTask;
+ 
 };
 
 class UploadTask : public QRunnable

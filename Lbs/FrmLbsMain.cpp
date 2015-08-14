@@ -8,7 +8,7 @@ CFrmLbsMain::CFrmLbsMain(QWidget *parent) :
     ui->setupUi(this);
     ui->tabWidget->clear();
     
-    ui->tabWidget->addTab(&m_Motion, QIcon(), tr("Motion"));
+    ui->tabWidget->addTab(&m_Motion, QIcon(":/png/motion"), tr("Motion"));
     ui->tabWidget->addTab(&m_Track, QIcon(), tr("Track"));
    
 }

@@ -12,5 +12,6 @@
         <file alias="marker.png">res/png/marker.png</file>
         <file alias="down">res/png/down.png</file>
         <file alias="up">res/png/up.png</file>
+        <file alias="motion">res/png/motion.png</file>
     </qresource>
 </RCC>

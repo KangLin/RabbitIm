@@ -23,6 +23,20 @@ CONFIG(debug, debug|release) {
     DEFINES += DEBUG #DEBUG_VIDEO_TIME 
 } 
 
+equals(RABBITIM_USE_OPENSSL, 1){
+    DEFINES += RABBITIM_USE_OPENSSL
+}else{
+    RABBITIM_USE_LIBCURL=0
+}
+
+equals(RABBITIM_USE_LIBCURL, 1){
+    DEFINES += RABBITIM_USE_LIBCURL
+    equals(RABBITIM_USE_STATIC, 1) {
+        CURL_STATICLIB#用静态库时需要加这个，可以用 ./curl-config --cflags 得到
+    }
+    LIBCURL_LIBRARY = -lcurl #可以用 ./curl-config --libs 得到
+}
+
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前
 android{
     THIRD_LIBRARY_PATH = $$PWD/../ThirdLibary/android

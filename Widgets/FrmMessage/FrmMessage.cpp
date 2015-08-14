@@ -39,6 +39,7 @@ CFrmMessage::~CFrmMessage()
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::~CFrmMessage");
     CGlobal::Instance()->GetMainWindow()->disconnect(this);
+    GET_CLIENT.data()->disconnect(this);
     delete ui;
 }
 

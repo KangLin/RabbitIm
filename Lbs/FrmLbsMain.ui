@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Motion</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="lbs.qrc">
+    <normaloff>:/png/motioin</normaloff>:/png/motioin</iconset>
+  </property>
   <layout class="QGridLayout">
    <property name="bottomMargin">
     <number>4</number>
@@ -39,6 +43,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="lbs.qrc"/>
+ </resources>
  <connections/>
 </ui>

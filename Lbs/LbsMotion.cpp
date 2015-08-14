@@ -6,6 +6,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QThreadPool>
+#include "LbsCamera.h"
 
 CLbsMotion::CLbsMotion(QWidget *parent) :
     QWidget(parent),
@@ -45,15 +46,15 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
     m_Source = QGeoPositionInfoSource::createDefaultSource(this);
 #else
     //*
-    QNmeaPositionInfoSource* p = new QNmeaPositionInfoSource(
+    QNmeaPositionInfoSource* pSource = new QNmeaPositionInfoSource(
                 QNmeaPositionInfoSource::SimulationMode, this);
-    m_Source = p;
+    m_Source = pSource;
     if(m_Source)
     {
         m_inFile.setFileName("D:/temp/gps.nmea");
         if(m_inFile.open(QIODevice::ReadOnly))
         {   
-            p->setDevice(&m_inFile);
+            pSource->setDevice(&m_inFile);
             //p->setUpdateInterval(1000);
         }
         else
@@ -76,6 +77,14 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
     check = connect(this, SIGNAL(sigExitMessageBox(int)),
                     SLOT(slotExitMessageBox(int)));
     Q_ASSERT(check);
+    
+    CLbsCamera* pCamera = CLbsCamera::Instance();
+    if(pCamera)
+    {
+        check = connect(pCamera, SIGNAL(sigPhotograph(QString)),
+                        SLOT(slotPhotograph(QString)));
+        Q_ASSERT(check);
+    }
 }
 
 CLbsMotion::~CLbsMotion()
@@ -83,6 +92,13 @@ CLbsMotion::~CLbsMotion()
     if(m_bStart)
         on_pbStart_clicked();
 
+    CLbsCamera* p = CLbsCamera::Instance();
+    if(p)
+        p->disconnect(this);
+
+    //TODO:
+    QThreadPool::globalInstance()->waitForDone();
+    
     delete ui;
 }
 
@@ -171,13 +187,14 @@ void CLbsMotion::on_pbStart_clicked()
     {
         if(NULL == m_pLogger)
         {
+            //TODO:用统一函数实现  
             m_szSaveFile =
                     QStandardPaths::writableLocation(
                         QStandardPaths::DocumentsLocation)
-                    + QDir::separator() + "RabbitMotion";
+                    + QDir::separator() + "Rabbit/Motion";
             QDir d;
             if(!d.exists(m_szSaveFile))
-                d.mkdir(m_szSaveFile);
+                d.mkpath(m_szSaveFile);
             m_szSaveFile += QDir::separator()
                     + QDateTime::currentDateTime().toString("yyyyMMddHHmmss")
                     + ".dat";
@@ -227,9 +244,10 @@ void CLbsMotion::on_pbPause_clicked()
 
 void CLbsMotion::on_pbShow_clicked()
 {
-    QRect startRect, endRect;
+    /*QRect startRect, endRect;
     startRect = ui->wdgPrompt->geometry();
-    
+    */
+
     m_bHide = !m_bHide;
     if(m_bHide)
     {
@@ -249,12 +267,13 @@ void CLbsMotion::on_pbShow_clicked()
     ui->lbSpeed->setVisible(!m_bHide);
     ui->lbAccuracy->setVisible(!m_bHide);
     ui->lbRealTimeSpeed->setVisible(!m_bHide);
-    
+
+    /*
     endRect = ui->wdgPrompt->geometry();
     m_Animation.setStartValue(startRect);
     m_Animation.setEndValue(endRect);
     m_Animation.setDuration(1000);
-    m_Animation.start();
+    m_Animation.start();*/
 }
 
 void CLbsMotion::OnTimeOut()
@@ -313,5 +332,13 @@ void CLbsMotion::slotExitMessageBox(int nRet)
 
 void CLbsMotion::on_pbCamera_clicked()
 {
-    
+    CLbsCamera* p = CLbsCamera::Instance();
+    if(p)
+        p->slotOpen();
+    LOG_MODEL_DEBUG("CLbsMotion", "on_pbCamera_clicked");
+}
+
+void CLbsMotion::slotPhotograph(const QString &szFile)
+{
+    LOG_MODEL_DEBUG("CLbsMotion", "slotPhotograph:%s", szFile.toStdString().c_str());
 }
