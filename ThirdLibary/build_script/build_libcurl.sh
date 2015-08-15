@@ -99,7 +99,7 @@ echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 echo "configure ..."
-
+MAKE=make
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     CONFIG_PARA="--enable-static --disable-shared"
 else
@@ -146,6 +146,9 @@ case ${RABBITIM_BUILD_TARGERT} in
             Linux*|Unix*|CYGWIN*)
                 #CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse"
                 ;;
+            MINGW* | MSYS*)
+                MAKE=mingw32-make.exe
+                ;;
             *)
             ;;
         esac
@@ -169,6 +172,6 @@ else
     ../configure
 fi
 
-make ${RABBITIM_MAKE_JOB_PARA} && make install
+${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
 
 cd $CUR_DIR
