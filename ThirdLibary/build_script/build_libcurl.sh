@@ -99,7 +99,7 @@ echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 echo "configure ..."
-
+MAKE=make
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     CONFIG_PARA="--enable-static --disable-shared"
 else
@@ -114,7 +114,8 @@ case ${RABBITIM_BUILD_TARGERT} in
         export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
         export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
         export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
-        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --disable-shared -enable-static --host=${RABBITIM_BUILD_CROSS_HOST}"
+        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --disable-shared -enable-static"
+        CONFIG_PARA="$CONFIG_PARA --host=${RABBITIM_BUILD_CROSS_HOST} "
         CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         ;;
@@ -142,9 +143,13 @@ case ${RABBITIM_BUILD_TARGERT} in
         exit 0
         ;;
     windows_mingw)
+        CONFIG_PARA="--enable-static --disable-shared  --enable-sse "
         case `uname -s` in
             Linux*|Unix*|CYGWIN*)
-                #CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} --enable-sse"
+                CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST}"
+                ;;
+            MINGW* | MSYS*)
+                #MAKE=mingw32-make.exe
                 ;;
             *)
             ;;
@@ -159,16 +164,16 @@ esac
 
 echo "make install"
 echo "pwd:`pwd`"
-CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --disable-debug --disable-curldebug --disable-manual"
-CONFIG_PARA="${CONFIG_PARA} --with-ssl=$RABBITIM_BUILD_PREFIX"
+CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} --disable-debug --disable-curldebug --disable-manual"
+CONFIG_PARA="${CONFIG_PARA} --with-ssl=${RABBITIM_BUILD_PREFIX}"
 if [ "${RABBITIM_BUILD_TARGERT}" = android ]; then
     echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
     ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
 else
     echo "../configure ${CONFIG_PARA}"
-    ../configure
+    ../configure ${CONFIG_PARA}
 fi
 
-make ${RABBITIM_MAKE_JOB_PARA} && make install
+${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
 
 cd $CUR_DIR

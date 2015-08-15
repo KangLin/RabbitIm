@@ -443,12 +443,12 @@ QString CGlobal::GetDirApplication()
 
 QString CGlobal::GetDirDocument()
 {
-    return m_szDocumentPath + QDir::separator() + "RabbitIm";
+    return m_szDocumentPath + QDir::separator() + "Rabbit" + QDir::separator() + "Im";
 }
 
 int CGlobal::SetDirDocument(QString szPath)
 {
-    m_szDocumentPath = szPath + QDir::separator() + "RabbitIm";
+    m_szDocumentPath = szPath + QDir::separator() + "Rabbit" + QDir::separator() + "Im";
     return 0;
 }
 

@@ -25,7 +25,8 @@ RESOURCES += \
     $$PWD/lbs.qrc
 
 OTHER_FILES += \
-    $$PWD/res/Map.qml 
+    $$PWD/res/Map.qml \
+    $$PWD/res/Marker.qml 
 
 android{
     include($$PWD/Android/Android.pri)
