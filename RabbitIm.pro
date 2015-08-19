@@ -102,8 +102,9 @@ equals(RABBITIM_USE_OPENSSL, 1){
 equals(RABBITIM_USE_LIBCURL, 1){
     DEFINES += RABBITIM_USE_LIBCURL
     equals(RABBITIM_USE_STATIC, 1) {
-        CURL_STATICLIB#用静态库时需要加这个，可以用 ./curl-config --cflags 得到
+        DEFINES += CURL_STATICLIB #用静态库时需要加这个，可以用 ./curl-config --cflags 得到
     }
+    DEFINES += CURL_STATICLIB#用静态库时需要加这个，可以用 ./curl-config --cflags 得到
     LIBCURL_LIBRARY = -lcurl #可以用 ./curl-config --libs 得到
 }
 
@@ -194,8 +195,8 @@ android{
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_mingw
 
         equals(RABBITIM_USE_LIBCURL, 1){
-            LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lwldap32 -lws2_32 #可以用 ./curl-config --libs 得到
-        }
+            LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lcrypt32 -lwldap32 -lz -lws2_32 #可以用 ./curl-config --libs 得到
+         }
         equals(RABBITIM_USE_OPENSSL, 1){
             LIBOPENSSL_LIBRARY = -lssl -lcrypto
         }

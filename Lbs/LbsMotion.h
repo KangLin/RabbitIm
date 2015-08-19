@@ -5,7 +5,7 @@
 #include <QGeoPositionInfoSource>
 #include <QGeoPositionInfo>
 #include <QTimer>
-#include <QPropertyAnimation>
+//#include <QPropertyAnimation>
 #include <QMessageBox>
 #include <QRunnable>
 #include "LbsPositionLogger.h"
@@ -63,7 +63,7 @@ private:
     QString m_szUser;
     QString m_szDevice;
 
-    QPropertyAnimation m_Animation;//动画提示隐藏，没完成    
+    //QPropertyAnimation m_Animation;//动画提示隐藏，没完成
     QMessageBox m_MessageBox;
     friend class UploadTask;
  

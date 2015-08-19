@@ -4,7 +4,9 @@
 #include <QtWidgets>
 #include <QMainWindow>
 #include <QSystemTrayIcon>
-#include <QPropertyAnimation>
+#ifndef MOBILE
+    #include <QPropertyAnimation>
+#endif
 #include "Widgets/FrmMain/FrmMain.h"
 
 #ifdef ANDROID

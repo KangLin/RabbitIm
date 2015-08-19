@@ -193,7 +193,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         case `uname -s` in
             MINGW*|MSYS*)
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
-                MAKE=mingw32-make.exe
+                #MAKE=mingw32-make.exe
                 ;;
             CYGWIN*)
                 CONFIG_PARA="${CONFIG_PARA} -platform  win32-g++"
