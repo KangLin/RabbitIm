@@ -60,6 +60,7 @@ int CManager::LoginInit(const QString &szId)
     GetRecentMessage()->Init(szId);
     GetFileTransfer()->Init(szId);
     GetCall()->Init(szId);
+    GetManagePlugins()->Init(szId);
     return 0;
 }
 
@@ -67,6 +68,7 @@ int CManager::LogoutClean()
 {
     LOG_MODEL_DEBUG("CManager", "CManager::LogoutClean()");
     //注意:清理顺序  
+    GetManagePlugins()->Clean();
     GetCall()->Clean();
     GetFileTransfer()->Clean();
     GetRecentMessage()->Clean();
@@ -97,4 +99,10 @@ QSharedPointer<CManageFileTransfer> CManager::GetFileTransfer()
 {
     static QSharedPointer<CManageFileTransfer> file(new CManageFileTransfer);
     return file;
+}
+
+QSharedPointer<CManagePlugin> CManager::GetManagePlugins()
+{
+    static QSharedPointer<CManagePlugin> plugin(new CManagePlugin());
+    return plugin;
 }

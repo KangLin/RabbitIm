@@ -18,12 +18,14 @@ public:
      *
      * @param szId:登录用户名  
      * @return int
+     * @see CManager::LoginInit
      */
     virtual int Init(const QString &szId) = 0;
     /**
      * @brief 用户登出时调用,用于清理工作   
      *
      * @return int
+     * @see CManager::LogoutClean
      */
     virtual int Clean() = 0;
 

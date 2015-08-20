@@ -17,7 +17,7 @@
 #endif
 
 CFrmUserList::CFrmUserList(QWidget *parent) :
-    QFrame(parent),
+    QWidget(parent),
     COperateRoster(),
     m_UserList(this),
     ui(new Ui::CFrmUserList)
@@ -33,6 +33,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
         m_pModel->setHorizontalHeaderLabels(QStringList() << tr("User name or group")<< tr("Information"));
     }
 
+    //ui->gridLayout->addWidget(&m_UserList);
     m_UserList.setModel(m_pModel);
     m_UserList.show();
 
@@ -472,11 +473,11 @@ void CFrmUserList::slotRosterAddReceived(const QString &szId, const CClient::SUB
     dlgAddRoster.exec();
 }
 
-QStandardItem*  CFrmUserList::ItemInsertGroup(QString szGroup)
+QStandardItem* CFrmUserList::ItemInsertGroup(QString szGroup)
 {
     QStandardItem* lstGroup = NULL;
     lstGroup = new QStandardItem(szGroup);
-    lstGroup->setEditable(false);  //禁止双击编辑 
+    lstGroup->setEditable(false);  //禁止双击编辑  
     lstGroup->setData(PROPERTIES_GROUP, USERLIST_ITEM_ROLE_PROPERTIES);
     lstGroup->setData("", USERLIST_ITEM_ROLE_JID);
     m_pModel->appendRow(lstGroup);
@@ -755,6 +756,7 @@ void CFrmUserList::resizeEvent(QResizeEvent *e)
     int nWidth = m_UserList.width() * 4/ 5;
     m_UserList.setColumnWidth(0, nWidth);
     m_UserList.setColumnWidth(1, m_UserList.width() - nWidth - 5);
+    
 }
 
 void CFrmUserList::changeEvent(QEvent *e)

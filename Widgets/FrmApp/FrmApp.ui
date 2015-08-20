@@ -1,28 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CFrmLbsMain</class>
- <widget class="QWidget" name="CFrmLbsMain">
+ <class>CFrmApp</class>
+ <widget class="QWidget" name="CFrmApp">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>500</height>
+    <width>200</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Motion</string>
+   <string>Application</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="lbs.qrc">
-    <normaloff>:/png/motioin</normaloff>:/png/motioin</iconset>
-  </property>
-  <layout class="QGridLayout">
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
    <property name="bottomMargin">
-    <number>4</number>
+    <number>0</number>
    </property>
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="tabPosition">
       <enum>QTabWidget::South</enum>
      </property>
@@ -33,6 +44,7 @@
       <attribute name="title">
        <string>Tab 1</string>
       </attribute>
+      <layout class="QGridLayout" name="gridLayout_2"/>
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
@@ -43,8 +55,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="lbs.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

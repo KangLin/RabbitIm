@@ -1,20 +1,22 @@
 #ifndef LBSMOTION_H
 #define LBSMOTION_H
 
-#include <QWidget>
+#include <QFrame>
 #include <QGeoPositionInfoSource>
 #include <QGeoPositionInfo>
 #include <QTimer>
 //#include <QPropertyAnimation>
 #include <QMessageBox>
 #include <QRunnable>
+#include <thread>
+#include <memory>
 #include "LbsPositionLogger.h"
 
 namespace Ui {
 class CLbsMotion;
 }
 
-class CLbsMotion : public QWidget
+class CLbsMotion : public QFrame
 {
     Q_OBJECT
     
@@ -32,6 +34,9 @@ private slots:
 private:
     //从记录文件中上传数据到服务器  
     int onUploadServer();
+    static int onRunUpload(void* pThis);
+    std::thread* m_pUploadThread;       //上传线程   
+
 private slots:
     void slotExitMessageBox(int nRet);
     void on_pbCamera_clicked();
@@ -64,19 +69,7 @@ private:
     QString m_szDevice;
 
     //QPropertyAnimation m_Animation;//动画提示隐藏，没完成
-    QMessageBox m_MessageBox;
-    friend class UploadTask;
- 
+    QMessageBox m_MessageBox; 
 };
-
-class UploadTask : public QRunnable
-{
-public:
-    UploadTask(CLbsMotion* pThis);
-    void run();
-private:
-    CLbsMotion* m_pThis;
-};
-
 
 #endif // LBSMOTION_H

@@ -10,7 +10,7 @@
 #endif
 
 CFrmRecentMsgList::CFrmRecentMsgList(QWidget *parent) :
-    QFrame(parent),
+    QWidget(parent),
     m_MsgList(this),
     ui(new Ui::CFrmRecentMsgList)
 {

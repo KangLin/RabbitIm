@@ -49,11 +49,12 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget http://download.icu-project.org/files/icu4c/55.1/icu4c-55_1-src.tgz ${RABBITIM_BUILD_SOURCE_CODE}
-        tar xf icu4c-55_1-src.tgz
-        mv icu ..
-        rm -fr *
+        mv icu4c-55_1-src.tgz ..
         cd ..
-        mv -f icu ${RABBITIM_BUILD_SOURCE_CODE}
+        rm -fr icu
+        tar xf icu4c-55_1-src.tgz
+        cd icu
+        rm icu4c-55_1-src.tgz
     fi
 fi
 

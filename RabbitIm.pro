@@ -281,7 +281,7 @@ message("Libs:$$LIBS")
 DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
 
 include(RabbitIm.pri)
-include(Lbs/Lbs.pri)
+include(Plugin/Lbs/Lbs.pri)
 #发行版本才更新更新配置
 CONFIG(release, debug|release) {
     include(RabbitIm.prf)

@@ -121,7 +121,7 @@ equals(RABBITIM_USE_STATIC, 1):exists("$${THIRD_LIBRARY_PATH}_static"){
     THIRD_LIBRARY_PATH=$${THIRD_LIBRARY_PATH}_static
     message("THIRD_LIBRARY_PATH:$${THIRD_LIBRARY_PATH}")
 }
-INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom
+INCLUDEPATH += $$PWD $$PWD/../.. $$PWD/Widgets/FrmCustom
 INCLUDEPATH += $${THIRD_LIBRARY_PATH}/include $$WEBRTC_ROOT
 DEPENDPATH += $${THIRD_LIBRARY_PATH}/include $$WEBRTC_ROOT
 LIBS += -L$${THIRD_LIBRARY_PATH}/lib  
@@ -187,11 +187,13 @@ win32{
 
 include(Lbs.pri)
 SOURCES += main.cpp \
-    ../Global/Log.cpp 
+    ../../Global/Log.cpp \
+    ../../Plugin/PluginApp.cpp
 
 HEADERS  += \
-    ../Global/Log.h 
+    ../../Global/Log.h \
+    ../../Plugin/PluginApp.h
 
 RESOURCES += \
-    ../Resource/Resource.qrc \
-    ../Resource/sink/dark/style.qrc
+    ../../Resource/Resource.qrc \
+    ../../Resource/sink/dark/style.qrc

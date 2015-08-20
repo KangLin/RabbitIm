@@ -1,7 +1,7 @@
 #ifndef FRMLBSMAIN_H
 #define FRMLBSMAIN_H
 
-#include <QWidget>
+#include <QFrame>
 #include "LbsMotion.h"
 #include "LbsTrack.h"
 
@@ -9,7 +9,7 @@ namespace Ui {
 class CFrmLbsMain;
 }
 
-class CFrmLbsMain : public QWidget
+class CFrmLbsMain : public QFrame
 {
     Q_OBJECT
     

@@ -16,7 +16,7 @@ namespace Ui {
 class CFrmUserList;
 }
 
-class CFrmUserList : public QFrame, COperateRoster
+class CFrmUserList : public QWidget, COperateRoster
 {
     Q_OBJECT
 

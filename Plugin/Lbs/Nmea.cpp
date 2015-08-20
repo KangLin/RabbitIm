@@ -3,7 +3,7 @@
 #include "curl/curl.h"
 #endif
 #include <QDebug>
-#include "../Global/Log.h"
+#include "Global/Log.h"
 #include <math.h>
 #include <QJsonDocument>
 #include <QVariant>
@@ -271,8 +271,11 @@ int CNmea::GetHttpOpenGts(std::list<QGeoPositionInfo> &lstInfo,
         return -1;
     }
     curl_global_cleanup();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
     LOG_MODEL_DEBUG("CNmea", "GetHttpOpenGts:%s", data.toStdString().c_str());
-#endif
+#endif //#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+
+#endif //RABBITIM_USE_LIBCURL
     
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);

@@ -1,7 +1,7 @@
 #include "LbsMotion.h"
 #include "ui_LbsMotion.h"
 #include <QNmeaPositionInfoSource>
-#include "../Global/Log.h"
+#include "Global/Log.h"
 #include <QQuickItem>
 #include <QStandardPaths>
 #include <QDir>
@@ -9,7 +9,7 @@
 #include "LbsCamera.h"
 
 CLbsMotion::CLbsMotion(QWidget *parent) :
-    QWidget(parent),
+    QFrame(parent),
     ui(new Ui::CLbsMotion),
     m_MessageBox(this)
 {
@@ -36,6 +36,7 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
     m_StartTime = 0;
     m_PauseTime = 0;
     m_Distance = 0;
+    m_pUploadThread = NULL;
     
     //*默认 opents gprmc 上传   
     m_szUrl = "http://182.254.185.29:8080/gprmc/Data";
@@ -89,6 +90,8 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
 
 CLbsMotion::~CLbsMotion()
 {
+    //TODO:会两次调用，引起core   
+    LOG_MODEL_DEBUG("CLbsMotion", "~CLbsMotion");
     if(m_bStart)
         on_pbStart_clicked();
 
@@ -96,8 +99,11 @@ CLbsMotion::~CLbsMotion()
     if(p)
         p->disconnect(this);
 
-    //TODO:
-    QThreadPool::globalInstance()->waitForDone();
+    if(m_pUploadThread && m_pUploadThread->joinable())
+    {
+        m_pUploadThread->join();
+        delete m_pUploadThread;
+    }
     
     delete ui;
 }
@@ -174,9 +180,13 @@ void CLbsMotion::on_pbStart_clicked()
         }
 
         //上传到服务器  
-        UploadTask* pTask = new UploadTask(this);
-        pTask->setAutoDelete(true);
-        QThreadPool::globalInstance()->start(pTask);
+        if(m_pUploadThread)
+        {
+            m_pUploadThread->join();
+            delete m_pUploadThread;
+            m_pUploadThread = NULL;
+        }
+        m_pUploadThread = new std::thread(onRunUpload, this);
 
         m_MessageBox.setWindowTitle(tr("Upload"));
         m_MessageBox.setText(tr("Upload to server ......"));
@@ -297,14 +307,11 @@ void CLbsMotion::OnTimeOut()
                     m_Distance / sec);*/
 }
 
-UploadTask::UploadTask(CLbsMotion *pThis)
+int CLbsMotion::onRunUpload(void *pThis)
 {
-    m_pThis = pThis;
-}
-
-void UploadTask::run()
-{
-    m_pThis->onUploadServer();
+    CLbsMotion* p = (CLbsMotion*)pThis;
+    p->onUploadServer();
+    return 0;
 }
 
 int CLbsMotion::onUploadServer()

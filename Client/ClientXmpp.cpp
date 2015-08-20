@@ -445,7 +445,7 @@ void CClientXmpp::slotClientDisConnected()
     //Logout()中先设置了false,才触发此信号的  
     if(!IsLogin())
     {
-        //注意:这个顺序不能变  
+        //注意:这个顺序不能变,先清理界面，再清理数据    
         emit sigClientDisconnected();
         CGlobal::Instance()->GetManager()->LogoutClean();
     }

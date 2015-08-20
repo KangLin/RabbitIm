@@ -6,7 +6,8 @@ SOURCES += \
     $$PWD/LbsPositionLogger.cpp \
     $$PWD/LbsMotion.cpp \
     $$PWD/FrmLbsMain.cpp \
-    $$PWD/LbsCamera.cpp
+    $$PWD/LbsCamera.cpp \
+    $$PWD/PluginAppMotion.cpp
 
 HEADERS  += \
     $$PWD/LbsTrack.h \
@@ -14,7 +15,8 @@ HEADERS  += \
     $$PWD/LbsPositionLogger.h \
     $$PWD/LbsMotion.h \
     $$PWD/FrmLbsMain.h \
-    $$PWD/LbsCamera.h
+    $$PWD/LbsCamera.h \
+    $$PWD/PluginAppMotion.h
 
 FORMS    += \
     $$PWD/LbsTrack.ui \

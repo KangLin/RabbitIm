@@ -56,6 +56,8 @@
         <file alias="Message">png/message.png</file>
         <file alias="SendFile">png/send_file_24x24.png</file>
         <file alias="Monitor">png/monitor.jpg</file>
+        <file alias="Favoris">png/favoris.png</file>
+        <file alias="Application">png/Application.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

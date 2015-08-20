@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CFrmRecentMsgList</class>
- <widget class="QFrame" name="CFrmRecentMsgList">
+ <widget class="QWidget" name="CFrmRecentMsgList">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,12 +12,6 @@
   </property>
   <property name="windowTitle">
    <string>Recent Message</string>
-  </property>
-  <property name="frameShape">
-   <enum>QFrame::StyledPanel</enum>
-  </property>
-  <property name="frameShadow">
-   <enum>QFrame::Raised</enum>
   </property>
   <action name="actionOpenMessage">
    <property name="icon">

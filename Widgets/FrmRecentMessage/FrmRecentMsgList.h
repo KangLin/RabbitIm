@@ -16,7 +16,7 @@ namespace Ui {
 class CFrmRecentMsgList;
 }
 
-class CFrmRecentMsgList : public QFrame
+class CFrmRecentMsgList : public QWidget
 {
     Q_OBJECT
     

@@ -237,6 +237,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
         //因为程序退出时,还不能接收到服务返回的登出消息,  
         //所以就不能触发sigClientDisconnected信号  
         //所以就直接释放资源  
+        this->slotClientDisconnected();
         GETMANAGER->LogoutClean();
         GETMANAGER->Clean();
         e->accept();
@@ -342,7 +343,7 @@ void MainWindow::slotClientConnected()
 
     if(m_TableMain.isNull())
     {
-        QSharedPointer<CFrmMain> main(new CFrmMain);
+        QSharedPointer<CFrmMain> main(new CFrmMain(this));
         m_TableMain = main;
     }
     if(!m_TableMain.isNull())

@@ -2,7 +2,9 @@
 #include "ui_FrmLbsMain.h"
 
 CFrmLbsMain::CFrmLbsMain(QWidget *parent) :
-    QWidget(parent),
+    QFrame(parent),
+    m_Motion(this),
+    m_Track(this),
     ui(new Ui::CFrmLbsMain)
 {
     ui->setupUi(this);
@@ -10,7 +12,6 @@ CFrmLbsMain::CFrmLbsMain(QWidget *parent) :
     
     ui->tabWidget->addTab(&m_Motion, QIcon(":/png/motion"), tr("Motion"));
     ui->tabWidget->addTab(&m_Track, QIcon(), tr("Track"));
-   
 }
 
 CFrmLbsMain::~CFrmLbsMain()

@@ -1,6 +1,6 @@
 #include "LbsPositionLogger.h"
 #include <QDateTime>
-#include "../Global/Log.h"
+#include "Global/Log.h"
 #include "Nmea.h"
 
 CLbsPositionLogger::CLbsPositionLogger(QObject *parent)

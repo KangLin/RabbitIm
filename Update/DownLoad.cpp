@@ -75,6 +75,7 @@ CDownLoad::~CDownLoad()
     if(m_pMainThread &&m_pMainThread->joinable())
     {
         m_pMainThread->join();
+        delete m_pMainThread;
         m_pMainThread = NULL;
     }
     curl_global_cleanup();
@@ -85,6 +86,7 @@ int CDownLoad::Init()
     if(m_pMainThread &&m_pMainThread->joinable())
     {
         m_pMainThread->join();
+        delete m_pMainThread;
         m_pMainThread = NULL;
     }
     m_dbFileLength = 0;

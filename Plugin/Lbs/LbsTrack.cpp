@@ -7,11 +7,11 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QNmeaPositionInfoSource>
-#include "../Global/Log.h"
+#include "Global/Log.h"
 #include <QQuickItem>
 
 CLbsTrack::CLbsTrack(QWidget *parent) :
-    QWidget(parent),
+    QFrame(parent),
     ui(new Ui::CLbsTrack)
 {
     ui->setupUi(this);

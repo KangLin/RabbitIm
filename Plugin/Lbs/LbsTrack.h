@@ -1,7 +1,7 @@
 #ifndef LBSMAIN_H
 #define LBSMAIN_H
 
-#include <QWidget>
+#include <QFrame>
 #include <QGeoPositionInfoSource>
 #include <QGeoPositionInfo>
 #include <string>
@@ -12,7 +12,7 @@ namespace Ui {
 class CLbsTrack;
 }
 
-class CLbsTrack : public QWidget
+class CLbsTrack : public QFrame
 {
     Q_OBJECT
     
