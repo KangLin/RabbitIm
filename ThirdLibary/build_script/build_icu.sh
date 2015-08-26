@@ -94,7 +94,15 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     windows_msvc)
         cd ${CONFIG_DIR}
-        ${SOURCE_DIR}/runConfigureICU MSYS/MSVC --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
+        case `uname -s` in
+            CYGWIN*)
+            platform=Cygwin/MSVC
+            ;;
+            MINGW*|MSYS*)
+            platform=MSYS/MSVC
+            ;;
+        esac
+        ${SOURCE_DIR}/runConfigureICU ${platform} --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
         make
         make install 
         cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.

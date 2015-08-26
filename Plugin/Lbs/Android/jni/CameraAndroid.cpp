@@ -4,7 +4,7 @@
 #include <QDateTime>
 #include <QStandardPaths>
 #include <QDir>
-#include "../../../Global/Log.h"
+#include "Global/Log.h"
 
 #define CHECK_EXCEPTION() \
     if(env->ExceptionCheck())\

@@ -7,7 +7,6 @@
 #include <QTimer>
 //#include <QPropertyAnimation>
 #include <QMessageBox>
-#include <QRunnable>
 #include <thread>
 #include <memory>
 #include "LbsPositionLogger.h"
@@ -60,7 +59,7 @@ private:
     
     long m_StartTime; //开始时间  
     long m_PauseTime; //暂停时间  
-    QTimer m_Timer;   //刷新定时器
+    QTimer m_Timer;   //时间刷新定时器
     qreal m_Distance;  //运动距离  
     QGeoPositionInfo m_lastPostion;  //上一个位置点，用于计算距离  
     

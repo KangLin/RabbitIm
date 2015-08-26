@@ -8,10 +8,13 @@ Rectangle {
     width: 102
     height: 100
     border.width: 1
-    
+        
     Plugin {
         id: mapPlugin
-        name: "osm"
+        //name: "google"
+        preferred:["google", "osm"]
+        PluginParameter { name: "google.mapping.host"; value: "www.google.cn" }
+        //PluginParameter { name: "google.mapping.locale"; value: "cn" }
     }
 
     Map {
@@ -62,14 +65,15 @@ Rectangle {
         
         function addPolylinePoint(coor) {
             mapPolyline.addCoordinate(coor);
+            map.center = coor
             moveMarker(coor)
         }
 
         anchors.fill: parent
         plugin: mapPlugin
         center {
-            latitude: -27
-            longitude: 153
+            latitude: 27.745549
+            longitude: 111.296072
         }
         gesture.enabled: true
         onZoomLevelChanged:{
@@ -77,6 +81,22 @@ Rectangle {
                 zoomSlider.value = zoomLevel
             }
             map.calculateScale()
+        }
+        Keys.onPressed: {
+            if (event.key === Qt.Key_Plus) {
+                map.zoomLevel++
+            } else if (event.key === Qt.Key_Minus) {
+                map.zoomLevel--
+            }
+        }
+        Component.onCompleted: {
+            for(var i = 0; i < map.supportedMapTypes.length; i++) {
+                if(MapType.HybridMap === map.supportedMapTypes[i]) {
+                    map.activeMapType = map.supportedMapTypes[i]
+                    map.mapPolyline.line.color = "red"
+                }
+            }
+            //moveMarker(map.center)
         }
 
         MouseArea{

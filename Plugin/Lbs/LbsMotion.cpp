@@ -5,7 +5,6 @@
 #include <QQuickItem>
 #include <QStandardPaths>
 #include <QDir>
-#include <QThreadPool>
 #include "LbsCamera.h"
 
 CLbsMotion::CLbsMotion(QWidget *parent) :
@@ -71,14 +70,15 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
                         SLOT(positionUpdated(QGeoPositionInfo)));
         Q_ASSERT(check);
     }
-    
+    else
+        LOG_MODEL_ERROR("CLbsMotion", "QGeoPositionInfoSource is null");
+
     check = connect(&m_Timer, SIGNAL(timeout()),
                          SLOT(OnTimeOut()));
     Q_ASSERT(check);
     check = connect(this, SIGNAL(sigExitMessageBox(int)),
                     SLOT(slotExitMessageBox(int)));
     Q_ASSERT(check);
-    
     CLbsCamera* pCamera = CLbsCamera::Instance();
     if(pCamera)
     {
@@ -90,7 +90,6 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
 
 CLbsMotion::~CLbsMotion()
 {
-    //TODO:会两次调用，引起core   
     LOG_MODEL_DEBUG("CLbsMotion", "~CLbsMotion");
     if(m_bStart)
         on_pbStart_clicked();
@@ -103,9 +102,11 @@ CLbsMotion::~CLbsMotion()
     {
         m_pUploadThread->join();
         delete m_pUploadThread;
+        m_pUploadThread = NULL;
     }
-    
+
     delete ui;
+    
 }
 
 void CLbsMotion::positionUpdated(const QGeoPositionInfo &info)
@@ -310,6 +311,7 @@ void CLbsMotion::OnTimeOut()
 int CLbsMotion::onRunUpload(void *pThis)
 {
     CLbsMotion* p = (CLbsMotion*)pThis;
+    
     p->onUploadServer();
     return 0;
 }
@@ -317,7 +319,7 @@ int CLbsMotion::onRunUpload(void *pThis)
 int CLbsMotion::onUploadServer()
 {
     int nRet = 0;
-    
+
     CLbsPositionLogger up(m_szSaveFile.toStdString().c_str());
     nRet = up.UploadServer(m_szUrl, m_szUser, "", m_szDevice);
 
@@ -327,8 +329,10 @@ int CLbsMotion::onUploadServer()
 
 void CLbsMotion::slotExitMessageBox(int nRet)
 {
+    LOG_MODEL_DEBUG("CLbsMotion", "CLbsMotion::slotExitMessageBox, nRet=%d", nRet);
     if(0 == nRet)
     {
+        m_MessageBox.setText(tr("Upload succeed"));
         m_MessageBox.accept();
         return ;
     }
