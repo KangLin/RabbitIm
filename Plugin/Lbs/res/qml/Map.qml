@@ -96,7 +96,7 @@ Rectangle {
                     map.mapPolyline.line.color = "red"
                 }
             }
-            //moveMarker(map.center)
+            moveMarker(map.center)
         }
 
         MouseArea{

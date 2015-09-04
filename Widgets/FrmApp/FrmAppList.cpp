@@ -127,7 +127,7 @@ int CFrmAppList::InitList()
 
 void CFrmAppList::clicked(const QModelIndex &index)
 {
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::clicked, row:%d; column:%d",
+    LOG_MODEL_DEBUG("CFrmAppList", "CFrmAppList::clicked, row:%d; column:%d",
            index.row(), index.column());
 
 #ifdef MOBILE
@@ -138,7 +138,10 @@ void CFrmAppList::clicked(const QModelIndex &index)
 
     const QAbstractItemModel *m = index.model();
     if(!m)
+    {
+        LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::clicked model is null");   
         return;
+    }
 
     slotOpenApp();
 #endif
@@ -146,7 +149,7 @@ void CFrmAppList::clicked(const QModelIndex &index)
 
 void CFrmAppList::doubleClicked(const QModelIndex &index)
 {
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::doubleClicked, row:%d; column:%d",
+    LOG_MODEL_DEBUG("CFrmAppList", "CFrmAppList::doubleClicked, row:%d; column:%d",
            index.row(), index.column());
 
 #ifndef MOBILE
@@ -157,7 +160,10 @@ void CFrmAppList::doubleClicked(const QModelIndex &index)
 
     const QAbstractItemModel *m = index.model();
     if(!m)
+    {
+        LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::doubleClicked model is null");
         return;
+    }
 
     slotOpenApp();
 #endif
@@ -182,7 +188,10 @@ void CFrmAppList::slotOpenApp()
     QModelIndex index = m_AppList.currentIndex();
     const QAbstractItemModel *m = index.model();
     if(!m)
+    {
+        LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::slotOpenApp model is null");
         return;
+    }
 
     //是用户结点  
     QString szApp;
@@ -192,14 +201,18 @@ void CFrmAppList::slotOpenApp()
         szApp = v.value<QString>();
     }
     if(szApp.isEmpty())
+    {
+        LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::slotOpenApp App name is empty");
         return;
-
+    }
     QSharedPointer<CManagePlugin> plugin = GETMANAGER->GetManagePlugins();
     if(plugin.isNull())
+    {
+        LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::slotOpenApp plugin is null");
         return;
+    }
     plugin->GetPlugin(szApp)->Open(this);
 }
-
 
 void CFrmAppList::slotCloseApp()
 {

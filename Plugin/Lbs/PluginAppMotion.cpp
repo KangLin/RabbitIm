@@ -32,7 +32,10 @@ int CPluginAppMotion::Open(QWidget *parent)
     if(m_Main.isNull())
         m_Main = QSharedPointer<CFrmLbsMain>(new CFrmLbsMain());
     if(!m_Main.isNull())
+    {
         m_Main->show();
+        m_Main->activateWindow();
+    }
     return 0;
 }
 

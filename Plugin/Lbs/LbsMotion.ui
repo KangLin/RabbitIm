@@ -14,7 +14,7 @@
    <string>Motion</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="lbs.qrc">
+   <iconset>
     <normaloff>:/png/motioin</normaloff>:/png/motioin</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -129,6 +129,17 @@
          </spacer>
         </item>
         <item>
+         <widget class="QPushButton" name="pbBack">
+          <property name="text">
+           <string>Back</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../Resource/Resource.qrc">
+            <normaloff>:/icon/Left</normaloff>:/icon/Left</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="pbStart">
           <property name="text">
            <string>Start</string>
@@ -165,7 +176,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="../Resource/Resource.qrc">
+           <iconset resource="../../Resource/Resource.qrc">
             <normaloff>:/icon/Video</normaloff>:/icon/Video</iconset>
           </property>
          </widget>
@@ -238,8 +249,8 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../Resource/Resource.qrc"/>
   <include location="lbs.qrc"/>
+  <include location="../../Resource/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -28,6 +28,7 @@ private slots:
     void on_pbStart_clicked();
     void on_pbPause_clicked();
     void on_pbShow_clicked();
+    void on_pbBack_clicked();
     void OnTimeOut();
     
 private:
@@ -43,6 +44,7 @@ private slots:
     
 signals:
     void sigExitMessageBox(int nRet);
+    void sigClose(); //退出消息  
     
 private:
     Ui::CLbsMotion *ui;

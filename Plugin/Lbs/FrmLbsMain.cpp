@@ -12,6 +12,10 @@ CFrmLbsMain::CFrmLbsMain(QWidget *parent) :
     
     ui->tabWidget->addTab(&m_Motion, QIcon(":/png/motion"), tr("Motion"));
     ui->tabWidget->addTab(&m_Track, QIcon(), tr("Track"));
+    
+    bool check = connect(&m_Motion, SIGNAL(sigClose()),
+                 SLOT(close()));
+    Q_ASSERT(check);
 }
 
 CFrmLbsMain::~CFrmLbsMain()

@@ -16,18 +16,18 @@ class CPluginAppMotion : public CPluginApp
 public:
     explicit CPluginAppMotion(QObject* parent = 0);
     virtual ~CPluginAppMotion();
-    
+
     virtual int Init(const QString &szId);
     virtual int Clean();
 
     virtual int Open(QWidget* parent = 0);
     virtual int Close();
-    
+
     virtual QString Name();
     virtual QSet<QString> Group();
     virtual QIcon Icon();
-    
-private:    
+
+private:
     QSharedPointer<CFrmLbsMain> m_Main;
 };
 

@@ -69,6 +69,15 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
                         SIGNAL(positionUpdated(QGeoPositionInfo)),
                         SLOT(positionUpdated(QGeoPositionInfo)));
         Q_ASSERT(check);
+        
+        //在地图上显示轨迹  
+        QQuickItem * pRoot = ui->qwMap->rootObject();
+        QObject* pMap = pRoot->findChild<QObject*>("objNameMap");
+        if(pMap)
+        {
+            QGeoPositionInfo pos = m_Source->lastKnownPosition();
+            pMap->setProperty("center", QVariant::fromValue(pos.coordinate()));
+        }
     }
     else
         LOG_MODEL_ERROR("CLbsMotion", "QGeoPositionInfoSource is null");
@@ -85,7 +94,7 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
         check = connect(pCamera, SIGNAL(sigPhotograph(QString)),
                         SLOT(slotPhotograph(QString)));
         Q_ASSERT(check);
-    }
+    }   
 }
 
 CLbsMotion::~CLbsMotion()
@@ -352,4 +361,9 @@ void CLbsMotion::on_pbCamera_clicked()
 void CLbsMotion::slotPhotograph(const QString &szFile)
 {
     LOG_MODEL_DEBUG("CLbsMotion", "slotPhotograph:%s", szFile.toStdString().c_str());
+}
+
+void CLbsMotion::on_pbBack_clicked()
+{
+    emit sigClose();
 }

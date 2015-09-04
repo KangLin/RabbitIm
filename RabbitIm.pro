@@ -17,7 +17,7 @@ RABBITIM_USE_OPENSSL=1      #使用openssl
 #RABBITIM_USE_PJSIP_CAMERA=1
 
 # 注意：Qt 版本必须大于 5.0  
-QT += core gui network xml multimedia widgets 
+QT += core gui network xml multimedia widgets
 
 qtHaveModule(webkit){
     QT += webkitwidgets
