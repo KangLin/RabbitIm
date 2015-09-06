@@ -39,7 +39,7 @@ int CManageRecentMessage::Clean()
 int CManageRecentMessage::LoadFromStorage(const QString &szId)
 {
     int nRet = 0;
-    QString szFile = CGlobal::Instance()->GetDirUserData(szId) 
+    QString szFile = CGlobalDir::Instance()->GetDirUserData(szId) 
             + QDir::separator() + "RecentMessage.dat";
 
     QFile in(szFile);
@@ -89,7 +89,7 @@ int CManageRecentMessage::SaveToStorage()
         LOG_MODEL_ERROR("CManageRecentMessage", "USER_INFO_LOCALE is null");
         return -1;
     }
-    QString szFile = CGlobal::Instance()->GetDirUserData(USER_INFO_LOCALE->GetInfo()->GetId()) 
+    QString szFile = CGlobalDir::Instance()->GetDirUserData(USER_INFO_LOCALE->GetInfo()->GetId()) 
             + QDir::separator() + "RecentMessage.dat";
 
     QFile out(szFile);

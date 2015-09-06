@@ -35,11 +35,11 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     szFile = ":/file/Authors";
     AppendFile(ui->txtThinks, szFile);
 #else
-    szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "ChangeLog.md";
+    szFile = CGlobalDir::Instance()->GetDirApplication() + QDir::separator() + "ChangeLog.md";
     AppendFile(ui->txtChange, szFile);
-    szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "License.md";
+    szFile = CGlobalDir::Instance()->GetDirApplication() + QDir::separator() + "License.md";
     AppendFile(ui->txtLicense, szFile);
-    szFile = CGlobal::Instance()->GetDirApplication() + QDir::separator() + "Authors.txt";
+    szFile = CGlobalDir::Instance()->GetDirApplication() + QDir::separator() + "Authors.txt";
     AppendFile(ui->txtThinks, szFile);
 #endif
 }

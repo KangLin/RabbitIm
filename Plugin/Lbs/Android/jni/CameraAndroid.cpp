@@ -5,6 +5,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include "Global/Log.h"
+#include "Global/GlobalDir.h"
 
 #define CHECK_EXCEPTION() \
     if(env->ExceptionCheck())\
@@ -32,11 +33,8 @@ void CCameraAndroid::slotOpen(const QString &szSaveFile)
     if(szFile.isEmpty())
     {
         //setup saved image location
-        //TODO:修改文件  
-        szFile =
-                QStandardPaths::writableLocation(
-                    QStandardPaths::DocumentsLocation)
-                + QDir::separator() + "Rabbit/photo";
+        szFile = CGlobalDir::Instance()->GetDirMotion()
+                         + QDir::separator() + "photo";
         QDir d;
         if(!d.exists(szFile))
             d.mkpath(szFile);

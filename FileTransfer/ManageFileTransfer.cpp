@@ -152,7 +152,7 @@ int CManageFileTransfer::ProcessCommand(const QString &szId, const QString &szCo
 int CManageFileTransfer::Accept(QSharedPointer<CFileTransfer> file)
 {
     int nRet = 0;
-    QString szTmp = CGlobal::Instance()->GetDirReceiveFile()//QStandardPaths::writableLocation(QStandardPaths::TempLocation) 
+    QString szTmp = CGlobalDir::Instance()->GetDirReceiveFile()//QStandardPaths::writableLocation(QStandardPaths::TempLocation) 
             + QDir::separator() 
             + file->GetFile();
     nRet = file->Accept(szTmp);
@@ -163,8 +163,8 @@ int CManageFileTransfer::SaveAs(QSharedPointer<CFileTransfer> file)
 {
     int nRet = 0;
     QString szFile;
-    QString szDir = CGlobal::Instance()->GetDirReceiveFile()
-            + QDir::separator() + file->GetFile();
+    QString szDir = CGlobalDir::Instance()->GetDirReceiveFile()
+                         + QDir::separator() + file->GetFile();
 
     szFile = CTool::FileDialog(NULL, szDir, QString(), tr("Save as"));
     if(szFile.isEmpty())

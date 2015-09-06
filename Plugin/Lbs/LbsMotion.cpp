@@ -6,6 +6,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include "LbsCamera.h"
+#include "Global/GlobalDir.h"
 
 CLbsMotion::CLbsMotion(QWidget *parent) :
     QFrame(parent),
@@ -207,11 +208,7 @@ void CLbsMotion::on_pbStart_clicked()
     {
         if(NULL == m_pLogger)
         {
-            //TODO:用统一函数实现  
-            m_szSaveFile =
-                    QStandardPaths::writableLocation(
-                        QStandardPaths::DocumentsLocation)
-                    + QDir::separator() + "Rabbit/Motion";
+            m_szSaveFile = CGlobalDir::Instance()->GetDirMotion();
             QDir d;
             if(!d.exists(m_szSaveFile))
                 d.mkpath(m_szSaveFile);

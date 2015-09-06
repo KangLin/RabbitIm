@@ -17,7 +17,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
 
     ui->setupUi(this);
 
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     //加载所有用户  
     int userTotal = conf.value("Login/UserTotal", 0).toInt();
     for(int i = 0; i < userTotal; i++)
@@ -140,7 +140,7 @@ int CFrmLogin::SetLoginInformation(QString szName, QString szPassword)
 int CFrmLogin::SaveConf()
 {
     LOG_MODEL_DEBUG("Login", "CFrmLogin::SaveConf");
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     int total = conf.value("Login/UserTotal", 0).toInt();
     int i = 0;
     for(i = 0; i < total; i++)
@@ -275,7 +275,7 @@ void CFrmLogin::slotActionGroupStatusTriggered(QAction *pAct)
 
 void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
 {
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     ui->lnPassword->setText(this->DecryptPassword(conf.value("Login/Password" + QString::number(index + 1), "").toString()));
     if(ui->lnPassword->text() == "" || ui->lnPassword->text().isEmpty())
         ui->chkSave->setChecked(false);
@@ -328,7 +328,7 @@ void CFrmLogin::ComposeAvatar(const QString &id)
         szId = szId + "@" + CGlobal::Instance()->GetXmppDomain();
     }
 #endif
-    QString szFile = CGlobal::Instance()->GetFileUserAvatar(szId, szId);
+    QString szFile = CGlobalDir::Instance()->GetFileUserAvatar(szId, szId);
     QPixmap map(szFile);
     if(map.isNull())
         map.load(":/icon/AppIcon");

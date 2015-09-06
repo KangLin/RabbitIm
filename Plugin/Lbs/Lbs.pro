@@ -192,10 +192,12 @@ win32{
 include(Lbs.pri)
 SOURCES += main.cpp \
     ../../Global/Log.cpp \
+    ../../Global/GlobalDir.cpp \
     ../../Plugin/PluginApp.cpp
 
 HEADERS  += \
     ../../Global/Log.h \
+    ../../Global/GlobalDir.h \
     ../../Plugin/PluginApp.h
 
 RESOURCES += \

@@ -21,7 +21,7 @@ QT += core gui network xml multimedia widgets
 
 qtHaveModule(webkit){
     QT += webkitwidgets
-    DEFINES += RABBITIM_WEBKIT
+    DEFINES += RABBITIM_WEBKIT 
 }
 
 lessThan(QT_VERSION, 5.0) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
@@ -39,6 +39,7 @@ win32{
     TARGET_PATH=$${OUT_PWD}
 }
 
+DEFINES += RABBITIM
 CONFIG += c++0x
 !msvc{
     QMAKE_CXXFLAGS += " -std=c++0x "

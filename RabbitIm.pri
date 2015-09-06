@@ -69,7 +69,8 @@ SOURCES += main.cpp\
     Widgets/FrmApp/FrmAppList.cpp \
     Widgets/FrmApp/FrmFavorites.cpp \
     Plugin/PluginApp.cpp \
-    Plugin/ManagePlugin.cpp
+    Plugin/ManagePlugin.cpp \
+    Global/GlobalDir.cpp
 
 HEADERS += Version.h \
     MainWindow.h \
@@ -142,7 +143,8 @@ HEADERS += Version.h \
     Widgets/FrmApp/FrmAppList.h \
     Widgets/FrmApp/FrmFavorites.h \
     Plugin/PluginApp.h \
-    Plugin/ManagePlugin.h
+    Plugin/ManagePlugin.h \
+    Global/GlobalDir.h
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \

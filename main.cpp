@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
                     QTextCodec::codecForLocale()->name().data());
 
     //设置插件路径(msvc 下没有用）   
-    a.addLibraryPath(CGlobal::Instance()->GetDirApplication());
-    a.addLibraryPath(CGlobal::Instance()->GetDirApplication()
+    a.addLibraryPath(CGlobalDir::Instance()->GetDirApplication());
+    a.addLibraryPath(CGlobalDir::Instance()->GetDirApplication()
                      + QDir::separator() + "plugins");
 
     CTool::SetFFmpegLog();
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 #ifndef MOBILE
     //加载窗口位置  
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(),
+    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
                    QSettings::IniFormat);
     QScreen *pScreen = QGuiApplication::primaryScreen();
     int top = conf.value("UI/MainWindow/top",

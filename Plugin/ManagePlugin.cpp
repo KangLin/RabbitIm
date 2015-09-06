@@ -121,7 +121,7 @@ std::list<QString> CManagePlugin::GetFavorites()
 int CManagePlugin::LoadFromStorage(const QString &szId)
 {
     int nRet = 0;
-    QString szFile = CGlobal::Instance()->GetDirUserData(szId) 
+    QString szFile = CGlobalDir::Instance()->GetDirUserData(szId) 
             + QDir::separator() + "PluginFavorites.dat";
 
     QFile in(szFile);
@@ -164,7 +164,7 @@ int CManagePlugin::SaveToStorage()
         LOG_MODEL_ERROR("CManagePlugin", "USER_INFO_LOCALE is null");
         return -1;
     }
-    QString szFile = CGlobal::Instance()->GetDirUserData(USER_INFO_LOCALE->GetInfo()->GetId()) 
+    QString szFile = CGlobalDir::Instance()->GetDirUserData(USER_INFO_LOCALE->GetInfo()->GetId()) 
             + QDir::separator() + "PluginFavorites.dat";
 
     QFile out(szFile);

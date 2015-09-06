@@ -254,13 +254,13 @@ int CManageUser::RemoveUserInfoRoster(const QString &szId)
 
 QString CManageUser::GetLocaleFile(const QString &szId)
 {
-    return CGlobal::Instance()->GetDirUserData(szId) 
+    return CGlobalDir::Instance()->GetDirUserData(szId) 
             + QDir::separator() + "LocaleInfo.dat";
 }
 
 QString CManageUser::GetRosterFile(const QString &szId)
 {
-    return CGlobal::Instance()->GetDirUserData(szId) 
+    return CGlobalDir::Instance()->GetDirUserData(szId) 
             + QDir::separator() + "RosterInfo.dat";
 }
 

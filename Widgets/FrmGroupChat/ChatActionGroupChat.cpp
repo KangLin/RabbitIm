@@ -32,10 +32,10 @@ QString CChatActionGroupChat::getContent()
         msg += "<a href='rabbitim://userinfo'>";
    msg += "<img src='";
    if(m_isMe)
-        msg += CGlobal::Instance()->GetFileUserAvatar(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetId());
+        msg += CGlobalDir::Instance()->GetFileUserAvatar(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetId());
    else
    {
-       QString szFile = CGlobal::Instance()->GetFileUserAvatar(gc->ParticipantId(m_szSendId));
+       QString szFile = CGlobalDir::Instance()->GetFileUserAvatar(gc->ParticipantId(m_szSendId));
        QFile file(szFile);
        if(!file.exists())
            szFile = ":/icon/AppIcon";

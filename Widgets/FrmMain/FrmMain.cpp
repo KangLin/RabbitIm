@@ -57,7 +57,7 @@ CFrmMain::CFrmMain(QWidget *parent) :
         LOG_MODEL_ERROR("CFrmMain", "locale user is null");
         return;
     }
-    QSettings conf(CGlobal::Instance()->GetUserConfigureFile(
+    QSettings conf(CGlobalDir::Instance()->GetUserConfigureFile(
               USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
     int nIndex = conf.value("Widgets/Main", 0).toInt();
     ui->tabWidget->setCurrentIndex(nIndex);
@@ -69,7 +69,7 @@ CFrmMain::~CFrmMain()
     
     if(!USER_INFO_LOCALE.isNull())
     {
-        QSettings conf(CGlobal::Instance()->GetUserConfigureFile(
+        QSettings conf(CGlobalDir::Instance()->GetUserConfigureFile(
                   USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
         conf.setValue("Widgets/Main", ui->tabWidget->currentIndex());
     }

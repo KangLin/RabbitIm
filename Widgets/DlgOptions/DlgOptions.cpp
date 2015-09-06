@@ -21,12 +21,12 @@ CDlgOptions::CDlgOptions(QWidget *parent) :
     int nIndex = 0;
     if(USER_INFO_LOCALE.isNull())
     {
-        QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
         nIndex = conf.value("Widgets/Options", 0).toInt();
     }
     else
     {
-        QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
+        QSettings conf(CGlobalDir::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
         nIndex = conf.value("Widgets/Options", 0).toInt();
     }
     ui->tabWidget->setCurrentIndex(nIndex);
@@ -36,12 +36,12 @@ CDlgOptions::~CDlgOptions()
 {
     if(!USER_INFO_LOCALE.isNull())
     {
-        QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
+        QSettings conf(CGlobalDir::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
         conf.setValue("Widgets/Options", ui->tabWidget->currentIndex());
     }
     else
     {
-        QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
         conf.setValue("Widgets/Options", ui->tabWidget->currentIndex());
     }
     delete ui;
@@ -353,7 +353,7 @@ void CDlgOptions::on_pbUnreadMessageCountColor_clicked()
 void CDlgOptions::on_pbResetConfigure_clicked()
 {
     if(ui->cbConfigureFile->isChecked())
-        CTool::removeDirectory(CGlobal::Instance()->GetDirApplicationConfigure());
+        CTool::removeDirectory(CGlobalDir::Instance()->GetDirUserConfigure());
     if(ui->cbDataFile->isChecked())
-        CTool::removeDirectory(CGlobal::Instance()->GetDirApplicationData());
+        CTool::removeDirectory(CGlobalDir::Instance()->GetDirUserData());
 }

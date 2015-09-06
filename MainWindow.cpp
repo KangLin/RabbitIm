@@ -14,6 +14,7 @@
 #ifdef RABBITIM_USE_LIBCURL
     #include "Update/DlgUpdate.h"
 #endif
+#include "Global/Global.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent
@@ -40,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 #ifndef MOBILE
     //加载窗口位置,在main.cpp中设置窗口大小和位置  
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     m_nWidth = conf.value("UI/MainWindow/width", geometry().width()).toInt();
     m_nHeight = conf.value("UI/MainWindow/height", geometry().height()).toInt();
     
@@ -142,7 +143,7 @@ MainWindow::~MainWindow()
     //保存窗口位置  
     QRect rect = this->geometry();
     CheckShowWindows(rect);
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     conf.setValue("UI/MainWindow/top", rect.top());
     conf.setValue("UI/MainWindow/left", rect.left());
     conf.setValue("UI/MainWindow/width", rect.width());
@@ -582,7 +583,7 @@ int MainWindow::InitMenuTranslate()
                         SLOT(slotActionGroupTranslateTriggered(QAction*)));
     Q_ASSERT(check);
 
-    QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     QString szLocale = conf.value("Global/Language", "Default").toString();
     QAction* pAct = m_ActionTranslator[szLocale];
     if(pAct)
@@ -616,7 +617,7 @@ int MainWindow::LoadTranslate(QString szLocale)
     //初始化翻译  
     if(szLocale.isEmpty())
     {
-        QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
         szLocale = conf.value("Global/Language", QLocale::system().name()).toString();
     }
 
@@ -638,17 +639,17 @@ int MainWindow::LoadTranslate(QString szLocale)
         qApp->removeTranslator(m_TranslatorApp.data());
         m_TranslatorApp.clear();
     }
-    LOG_MODEL_DEBUG("MainWindow", "Translate dir:%s", qPrintable(CGlobal::Instance()->GetDirTranslate()));
+    LOG_MODEL_DEBUG("MainWindow", "Translate dir:%s", qPrintable(CGlobalDir::Instance()->GetDirTranslate()));
 
     m_TranslatorQt = QSharedPointer<QTranslator>(new QTranslator(this));
-    m_TranslatorQt->load("qt_" + szLocale + ".qm", CGlobal::Instance()->GetDirTranslate());
+    m_TranslatorQt->load("qt_" + szLocale + ".qm", CGlobalDir::Instance()->GetDirTranslate());
     qApp->installTranslator(m_TranslatorQt.data());
 
     m_TranslatorApp = QSharedPointer<QTranslator>(new QTranslator(this));
 #ifdef ANDROID
     m_TranslatorApp->load(":/translations/app_" + szLocale + ".qm");
 #else
-    m_TranslatorApp->load("app_" + szLocale + ".qm", CGlobal::Instance()->GetDirTranslate());
+    m_TranslatorApp->load("app_" + szLocale + ".qm", CGlobalDir::Instance()->GetDirTranslate());
 #endif
     qApp->installTranslator(m_TranslatorApp.data());
 
@@ -665,7 +666,7 @@ void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
         if(it.value() == pAct)
         {
             QString szLocale = it.key();
-            QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+            QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
             conf.setValue("Global/Language", szLocale);
             LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotActionGroupTranslateTriggered:%s", it.key().toStdString().c_str());
             LoadTranslate(it.key());
@@ -900,7 +901,7 @@ int MainWindow::OpenCustomStyleMenu()
         QString stylesheet= file.readAll();
         qApp->setStyleSheet(stylesheet);
         file.close();
-        QSettings conf(CGlobal::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
         conf.setValue("UI/StyleSheet", szFile);
         
         CGlobal::Instance()->SetStyleMenu("Custom", szFile);

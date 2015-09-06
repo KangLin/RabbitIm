@@ -112,9 +112,9 @@ QString CChatAction::getContent()
         msg += "<a href='rabbitim://userinfo'>";
    msg += "<img src='";
    if(m_isMe)
-        msg += CGlobal::Instance()->GetFileUserAvatar(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetId());
+        msg += CGlobalDir::Instance()->GetFileUserAvatar(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetId());
    else
-        msg += CGlobal::Instance()->GetFileUserAvatar(m_szId);
+        msg += CGlobalDir::Instance()->GetFileUserAvatar(m_szId);
    msg += "' width='" + QString::number(RABBITIM_ICON_SIZE) + "' height='" + QString::number(RABBITIM_ICON_SIZE) + "' />";
    msg += "<font color='";
    if(!m_isMe)
