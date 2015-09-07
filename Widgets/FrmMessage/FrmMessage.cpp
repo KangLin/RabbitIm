@@ -39,6 +39,7 @@ CFrmMessage::~CFrmMessage()
 {
     LOG_MODEL_DEBUG("Message", "CFrmMessage::~CFrmMessage");
     CGlobal::Instance()->GetMainWindow()->disconnect(this);
+    GET_CLIENT.data()->disconnect(this);
     delete ui;
 }
 
@@ -147,8 +148,9 @@ void CFrmMessage::on_pbShotScreen_clicked()
         {
             QString szFile;
             QString szFilter =  tr("Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)");
-            QString szDir = CGlobal::Instance()->GetDirReceiveFile()
-                    + QDir::separator() + "grabbedImage_" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".png";
+            QString szDir = CGlobalDir::Instance()->GetDirReceiveFile()
+                    + QDir::separator() + "grabbedImage_"
+                    + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".png";
             szFile = CTool::FileDialog(this, szDir, szFilter, tr("Save"));
             if(!szFile.isEmpty())
             {

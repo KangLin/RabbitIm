@@ -303,8 +303,9 @@ void CWdgScreenEditor::saveAs()
 {
     QString szFile;
     QString szFilter =  tr("Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)");
-    QString szDir = CGlobal::Instance()->GetDirReceiveFile()
-            + QDir::separator() + "grabbedImage_" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".png";
+    QString szDir = CGlobalDir::Instance()->GetDirReceiveFile()
+            + QDir::separator() + "grabbedImage_"
+            + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".png";
     szFile = CTool::FileDialog(this, szDir, szFilter, tr("Save"));
     if(!szFile.isEmpty()){
         QFile f(szFile);

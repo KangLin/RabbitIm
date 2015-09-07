@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CFrmGroupChatList</class>
- <widget class="QFrame" name="CFrmGroupChatList">
+ <widget class="QWidget" name="CFrmGroupChatList">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,12 +15,6 @@
   </property>
   <property name="windowTitle">
    <string>Group chat rooms</string>
-  </property>
-  <property name="frameShape">
-   <enum>QFrame::StyledPanel</enum>
-  </property>
-  <property name="frameShadow">
-   <enum>QFrame::Raised</enum>
   </property>
   <action name="actionNew_Search_group_chat_rooms">
    <property name="icon">

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CFrmAppList</class>
+ <widget class="QWidget" name="CFrmAppList">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>151</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+  </layout>
+  <action name="actionOpen_Application">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Operate</normaloff>:/icon/Operate</iconset>
+   </property>
+   <property name="text">
+    <string>Open Application</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Application</string>
+   </property>
+  </action>
+  <action name="actionClose_Application">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Close</normaloff>:/icon/Close</iconset>
+   </property>
+   <property name="text">
+    <string>Close Application</string>
+   </property>
+   <property name="toolTip">
+    <string>Close Application</string>
+   </property>
+  </action>
+  <action name="actionApplication_Infomation">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Information</normaloff>:/icon/Information</iconset>
+   </property>
+   <property name="text">
+    <string>Application Infomation</string>
+   </property>
+   <property name="toolTip">
+    <string>Application Infomation</string>
+   </property>
+  </action>
+  <action name="actionCollect_Application">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Favoris</normaloff>:/icon/Favoris</iconset>
+   </property>
+   <property name="text">
+    <string>Collect Application</string>
+   </property>
+   <property name="toolTip">
+    <string>Collect Application</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../../Resource/Resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

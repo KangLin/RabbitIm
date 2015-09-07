@@ -15,7 +15,7 @@
 
 CSmileyPack::CSmileyPack()
 {
-    load(CGlobal::Instance()->GetFileSmileyPack());
+    load(CGlobalDir::Instance()->GetFileSmileyPack());
 }
 
 CSmileyPack& CSmileyPack::getInstance()
@@ -205,5 +205,5 @@ QByteArray CSmileyPack::getCachedSmiley(const QString &key)
 
 void CSmileyPack::onSmileyPackChanged()
 {
-    load(CGlobal::Instance()->GetFileSmileyPack());
+    load(CGlobalDir::Instance()->GetFileSmileyPack());
 }

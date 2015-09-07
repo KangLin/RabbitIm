@@ -63,7 +63,14 @@ SOURCES += main.cpp\
     Media/Camera/VideoFrame.cpp \
     Media/Camera/CameraQt.cpp \
     Media/Camera/CameraFactoryQt.cpp \
-    Media/Camera/CameraQtCaptureVideoFrame.cpp
+    Media/Camera/CameraQtCaptureVideoFrame.cpp \
+    Global/Log.cpp \
+    Widgets/FrmApp/FrmApp.cpp \
+    Widgets/FrmApp/FrmAppList.cpp \
+    Widgets/FrmApp/FrmFavorites.cpp \
+    Plugin/PluginApp.cpp \
+    Plugin/ManagePlugin.cpp \
+    Global/GlobalDir.cpp
 
 HEADERS += Version.h \
     MainWindow.h \
@@ -130,7 +137,14 @@ HEADERS += Version.h \
     Media/Camera/VideoFrame.h \
     Media/Camera/CameraQt.h \
     Media/Camera/CameraFactoryQt.h \
-    Media/Camera/CameraQtCaptureVideoFrame.h
+    Media/Camera/CameraQtCaptureVideoFrame.h \
+    Global/Log.h \
+    Widgets/FrmApp/FrmApp.h \
+    Widgets/FrmApp/FrmAppList.h \
+    Widgets/FrmApp/FrmFavorites.h \
+    Plugin/PluginApp.h \
+    Plugin/ManagePlugin.h \
+    Global/GlobalDir.h
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
@@ -151,7 +165,10 @@ FORMS += MainWindow.ui \
     Widgets/FrmGroupChat/DlgInviter.ui \
     Widgets/DlgAbout/DlgAbout.ui \
     Widgets/DlgOptions/DlgOptions.ui \
-    Widgets/FrmMain/FrmMain.ui
+    Widgets/FrmMain/FrmMain.ui \
+    Widgets/FrmApp/FrmApp.ui \
+    Widgets/FrmApp/FrmAppList.ui \
+    Widgets/FrmApp/FrmFavorites.ui
 
 RESOURCES += \
     Resource/Resource.qrc \

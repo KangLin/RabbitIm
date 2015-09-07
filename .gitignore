@@ -1,3 +1,6 @@
+Plugin/build-Lbs*/
+Makefile.Debug
+Makefile.Release
 Version.h
 Update/Update_*.xml
 *~

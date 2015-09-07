@@ -29,7 +29,7 @@ int CManageGroupChat::Clean()
 int CManageGroupChat::LoadFromStorage(const QString &szId)
 {
     int nRet = 0;
-    QString szFile = CGlobal::Instance()->GetDirUserData(szId) 
+    QString szFile = CGlobalDir::Instance()->GetDirUserData(szId) 
             + QDir::separator() + "GroupChat.dat";
 
     QFile in(szFile);
@@ -72,7 +72,7 @@ int CManageGroupChat::SaveToStorage()
         LOG_MODEL_ERROR("CManageGroupChat", "USER_INFO_LOCALE is null");
         return -1;
     }
-    QString szFile = CGlobal::Instance()->GetDirUserData(USER_INFO_LOCALE->GetInfo()->GetId()) 
+    QString szFile = CGlobalDir::Instance()->GetDirUserData(USER_INFO_LOCALE->GetInfo()->GetId()) 
             + QDir::separator() + "GroupChat.dat";
 
     QFile out(szFile);

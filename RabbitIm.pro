@@ -9,19 +9,19 @@ QXMPP_USE_VPX=1              #使用 vpx
 #QXMPP_USE_SPEEX=1           #使用 speex
 #RABBITIM_USE_OPENCV=1       #使用 opencv
 RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
-#RABBITIM_USE_LIBCURL=1      #使用 libcurl
-#RABBITIM_USE_OPENSSL=1      #使用openssl
+RABBITIM_USE_LIBCURL=1      #使用 libcurl
+RABBITIM_USE_OPENSSL=1      #使用openssl
 #RABBITIM_USE_STATIC=1       #使用静态编译
 #RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档  
 #RABBITIM_USE_PJSIP=1        #使用 pjsip 库
 #RABBITIM_USE_PJSIP_CAMERA=1
 
 # 注意：Qt 版本必须大于 5.0  
-QT += core gui network xml multimedia widgets 
+QT += core gui network xml multimedia widgets
 
 qtHaveModule(webkit){
     QT += webkitwidgets
-    DEFINES += RABBITIM_WEBKIT
+    DEFINES += RABBITIM_WEBKIT 
 }
 
 lessThan(QT_VERSION, 5.0) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
@@ -39,6 +39,7 @@ win32{
     TARGET_PATH=$${OUT_PWD}
 }
 
+DEFINES += RABBITIM
 CONFIG += c++0x
 !msvc{
     QMAKE_CXXFLAGS += " -std=c++0x "
@@ -102,8 +103,9 @@ equals(RABBITIM_USE_OPENSSL, 1){
 equals(RABBITIM_USE_LIBCURL, 1){
     DEFINES += RABBITIM_USE_LIBCURL
     equals(RABBITIM_USE_STATIC, 1) {
-        CURL_STATICLIB#用静态库时需要加这个，可以用 ./curl-config --cflags 得到
+        DEFINES += CURL_STATICLIB #用静态库时需要加这个，可以用 ./curl-config --cflags 得到
     }
+    DEFINES += CURL_STATICLIB#用静态库时需要加这个，可以用 ./curl-config --cflags 得到
     LIBCURL_LIBRARY = -lcurl #可以用 ./curl-config --libs 得到
 }
 
@@ -194,8 +196,8 @@ android{
         THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_mingw
 
         equals(RABBITIM_USE_LIBCURL, 1){
-            LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lwldap32 -lws2_32 #可以用 ./curl-config --libs 得到
-        }
+            LIBCURL_LIBRARY = -lcurl -lssl -lcrypto -lgdi32 -lcrypt32 -lwldap32 -lz -lws2_32 #可以用 ./curl-config --libs 得到
+         }
         equals(RABBITIM_USE_OPENSSL, 1){
             LIBOPENSSL_LIBRARY = -lssl -lcrypto
         }
@@ -280,6 +282,7 @@ message("Libs:$$LIBS")
 DEFINES += __STDC_CONSTANT_MACROS #ffmpeg需要
 
 include(RabbitIm.pri)
+include(Plugin/Lbs/Lbs.pri)
 #发行版本才更新更新配置
 CONFIG(release, debug|release) {
     include(RabbitIm.prf)

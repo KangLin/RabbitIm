@@ -84,12 +84,12 @@ int CManageUserQXmpp::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString ji
 
 QString CManageUserQXmpp::GetLocaleFile(const QString &szLocaleJid)
 {
-    return CGlobal::Instance()->GetDirUserData(szLocaleJid) 
+    return CGlobalDir::Instance()->GetDirUserData(szLocaleJid) 
             + QDir::separator() + "XmppLocaleInfo.dat";
 }
 
 QString CManageUserQXmpp::GetRosterFile(const QString &szLocaleJid)
 {
-    return CGlobal::Instance()->GetDirUserData(szLocaleJid) 
+    return CGlobalDir::Instance()->GetDirUserData(szLocaleJid) 
             + QDir::separator() + "XmppRosterInfo.dat";
 }

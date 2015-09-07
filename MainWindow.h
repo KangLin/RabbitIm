@@ -4,7 +4,9 @@
 #include <QtWidgets>
 #include <QMainWindow>
 #include <QSystemTrayIcon>
-#include <QPropertyAnimation>
+#ifndef MOBILE
+    #include <QPropertyAnimation>
+#endif
 #include "Widgets/FrmMain/FrmMain.h"
 
 #ifdef ANDROID
@@ -152,8 +154,9 @@ private slots:
     void slotUpdateExec(int nError, const QString &szFile);
 #endif
 
+//窗口靠边界时自动隐藏
+#ifndef MOBILE
 private:
-    //窗口靠边界时自动隐藏  
     QPropertyAnimation m_Animation;
     bool m_bAnimationHide;//窗口靠边界时自动隐藏  
     int m_nWidth, m_nHeight;//窗口的宽和高  
@@ -165,6 +168,7 @@ private:
     QTimer m_timerAnimation;
 private slots:
     void slotCheckHideWindows();
+#endif
 
 };
 

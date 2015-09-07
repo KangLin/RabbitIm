@@ -117,7 +117,8 @@ void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode, const QString &szFile)
     CGlobal::Instance()->SetUpdateDate(QDateTime::currentDateTime());
 
     QUrl url(m_szDownLoadUrl);
-    m_szDownLoadFile= CGlobal::Instance()->GetDirApplicationDownLoad() + QDir::separator() + url.fileName();
+    m_szDownLoadFile= CGlobalDir::Instance()->GetDirApplicationDownLoad()
+            + QDir::separator() + url.fileName();
     QString szForce = startElem.firstChildElement("FORCE").text();
     if(szForce == "true")//强制更新  
     {

@@ -23,7 +23,7 @@ namespace Ui {
 class CFrmGroupChatList;
 }
 
-class CFrmGroupChatList : public QFrame
+class CFrmGroupChatList : public QWidget
 {
     Q_OBJECT
 public:

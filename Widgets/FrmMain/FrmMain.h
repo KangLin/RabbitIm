@@ -1,20 +1,21 @@
 #ifndef FRMMAIN_H
 #define FRMMAIN_H
 
-#include <QFrame>
+#include <QWidget>
 #ifdef RABBITIM_WEBKIT
     #include <QWebView>
 #endif
 #include "../FrmUserList/FrmUserList.h"
 #include "../FrmGroupChat/FrmGroupChatList.h"
 #include "../FrmRecentMessage/FrmRecentMsgList.h"
+#include "../FrmApp/FrmApp.h"
 
 namespace Ui {
 class CFrmMain;
 }
 
 class MainWindow;
-class CFrmMain : public QFrame
+class CFrmMain : public QWidget
 {
     Q_OBJECT
     friend class MainWindow;
@@ -44,6 +45,7 @@ private:
     CFrmRecentMsgList m_MessageList;
     CFrmUserList m_UserList;
     CFrmGroupChatList m_GroupChatList;
+    CFrmApp m_App;
 };
 
 #endif // FRMMAIN_H

@@ -8,8 +8,10 @@
 #include "Call/ManageCall.h"
 #include <QSharedPointer>
 #include "Widgets/FrmGroupChat/ManageGroupChat.h"
+#include "Plugin/ManagePlugin.h"
 
 class CManageFileTransfer;
+class CManagePlugin;
 
 /**
  * @defgroup RABBITIM_INTERFACE 接口类模块  
@@ -74,6 +76,8 @@ public:
     virtual QSharedPointer<CManageCall> GetCall() = 0;
     ///< 组管理对象  
     virtual QSharedPointer<CManageGroupChat> GetManageGroupChat() = 0;
+    ///< 插件管理对象  
+    virtual QSharedPointer<CManagePlugin> GetManagePlugins();
 
     /**
      * 新建用户信息对象  

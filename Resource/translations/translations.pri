@@ -51,7 +51,7 @@ else {
         $${QMAKE_COPY_DIR} $${PWD}/app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/app_zh_CN.qm && \
         $${QMAKE_COPY_DIR} $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/qt_zh_CN.qm
 }
-!android{#手机平台不需要
+!android{  #手机平台不需要
     QMAKE_EXTRA_TARGETS += mytranslations
     #TODO:需要调试编译后编译翻译  
     #POST_TARGETDEPS += mytranslations

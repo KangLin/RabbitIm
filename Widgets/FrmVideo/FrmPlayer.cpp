@@ -159,6 +159,7 @@ int CFrmPlayer::TestCamera()
     check = connect(pProcess,
                     SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),*/
                     this, SLOT(slotPresent(QVideoFrame)));
+    Q_ASSERT(check);
     pHander = new Hander(this, pProcess);
     VideoInfo vi;
     vi.Format = VIDEO_FORMAT_RGB24;

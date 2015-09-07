@@ -1,4 +1,4 @@
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD  #ANDROID包的源码目录  
+ANDROID_PACKAGE_SOURCE_DIR += $$PWD  #ANDROID包的源码目录  
 
 include(jni/android_jni.pri)
 

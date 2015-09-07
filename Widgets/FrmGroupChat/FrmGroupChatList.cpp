@@ -16,7 +16,7 @@
 #endif
 
 CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
-    QFrame(parent),
+    QWidget(parent),
     m_GroupList(this),
     ui(new Ui::CFrmGroupChatList)
 {

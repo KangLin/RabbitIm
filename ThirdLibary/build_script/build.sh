@@ -51,7 +51,8 @@ fi
 
 if [ -n "$2" ]; then
     echo "Source dir:$2"
-    ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl
+    ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl && \
+    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl
     if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
         ./build_libopus.sh ${RABBITIM_BUILD_TARGERT} $2/libopus && \
         ./build_speexdsp.sh ${RABBITIM_BUILD_TARGERT}  $2/speexdsp && \
@@ -62,7 +63,6 @@ if [ -n "$2" ]; then
     fi
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx && \
     ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv && \
-    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl && \
     ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} $2/opencv && \
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg && \
     ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} $2/pjsip && \
@@ -70,7 +70,8 @@ if [ -n "$2" ]; then
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
     ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp
 else
-    ./build_openssl.sh ${RABBITIM_BUILD_TARGERT}
+    ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} 
     if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
         ./build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_speex.sh ${RABBITIM_BUILD_TARGERT} && \
@@ -81,7 +82,6 @@ else
     fi
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} && \

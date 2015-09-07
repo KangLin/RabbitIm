@@ -49,11 +49,12 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget http://download.icu-project.org/files/icu4c/55.1/icu4c-55_1-src.tgz ${RABBITIM_BUILD_SOURCE_CODE}
-        tar xf icu4c-55_1-src.tgz
-        mv icu ..
-        rm -fr *
+        mv icu4c-55_1-src.tgz ..
         cd ..
-        mv -f icu ${RABBITIM_BUILD_SOURCE_CODE}
+        rm -fr icu
+        tar xf icu4c-55_1-src.tgz
+        cd icu
+        rm icu4c-55_1-src.tgz
     fi
 fi
 
@@ -93,7 +94,15 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     windows_msvc)
         cd ${CONFIG_DIR}
-        ${SOURCE_DIR}/runConfigureICU MSYS/MSVC --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
+        case `uname -s` in
+            CYGWIN*)
+            platform=Cygwin/MSVC
+            ;;
+            MINGW*|MSYS*)
+            platform=MSYS/MSVC
+            ;;
+        esac
+        ${SOURCE_DIR}/runConfigureICU ${platform} --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
         make
         make install 
         cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.

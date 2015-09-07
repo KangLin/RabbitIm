@@ -1,0 +1,19 @@
+<RCC>
+
+    <qresource prefix="/qml">
+        <file alias="Map.qml">res/qml/Map.qml</file>
+        <file alias="Marker.qml">res/qml/Marker.qml</file>
+    </qresource>
+    <qresource prefix="/js">
+        <file alias="helper.js">res/js/helper.js</file>
+    </qresource>
+    <qresource prefix="/png">
+        <file alias="scale.png">res/png/scale.png</file>
+        <file alias="scale_end.png">res/png/scale_end.png</file>
+        <file alias="marker.png">res/png/marker.png</file>
+        <file alias="down">res/png/down.png</file>
+        <file alias="up">res/png/up.png</file>
+        <file alias="motion">res/png/motion.png</file>
+    </qresource>
+
+</RCC>

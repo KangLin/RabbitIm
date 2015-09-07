@@ -7,6 +7,9 @@
 #include <QDateTime>
 #include "Manage/Manager.h"
 #include "Tool.h"
+#include <QDebug>
+#include "Log.h"
+#include "GlobalDir.h"
 
 class MainWindow;
 
@@ -35,18 +38,6 @@ private:
 public:
     static CGlobal* Instance();
 
-    /**
-     * @brief 日志  
-     * @param pszFile:打印日志处文件名  
-     * @param nLine:打印日志处行号  
-     * @param nLevel:打印日志错误级别  
-     * @param pszModelName:打印日志的模块范围  
-     * @param pFormatString:格式化字符串  
-     * @return 
-     */
-    int Log(const char *pszFile, int nLine, int nLevel,
-            const char* pszModelName, const char *pFormatString, ...);
-
 public:
     /// 得到主窗口  
     MainWindow* GetMainWindow();
@@ -58,66 +49,6 @@ public:
 private:
     MainWindow* m_pMainWindow;
 
-public:
-    /// 应用程序目录  
-    QString GetDirApplication();
-    /// 文档目录，默认是系统文档目录  
-    QString GetDirDocument();
-    int SetDirDocument(QString szPath);
-    /// 应用程序配置目录  
-    QString GetDirApplicationConfigure();
-    /// 应用程序数据目录  
-    QString GetDirApplicationData();
-    /// 应用程序下载目录  
-    QString GetDirApplicationDownLoad();
-    /**
-     * @brief 用户配置目录  
-     *
-     * @param szId:本地用户id,默认为本地用户   
-     */
-    QString GetDirUserConfigure(const QString &szId = QString());
-    /**
-     * @brief 用户数据存放目录  
-     *
-     * @param szId:本地用户id,默认为本地用户   
-     */
-    QString GetDirUserData(const QString &szId = QString());
-    /// 翻译文件目录  
-    QString GetDirTranslate();
-    /// 应用程序配置文件  
-    QString GetApplicationConfigureFile();
-    /**
-     * @brief 得到用户的配置文件  
-     *
-     * @param szId:本地用户id,默认为本地用户   
-     */
-    QString GetUserConfigureFile(const QString &szId = QString());
-    /**
-     * @brief 得到用户头像目录  
-     *
-     * @param szId:本地用户id,默认为本地用户   
-     */
-    QString GetDirUserAvatar(const QString &szId = QString());
-    /**
-     * @brief 得到指定用户的头像文件  
-     *
-     * @param szId:好友的ID   
-     * @param szLocalId:本地用户的ID,如果为空,则会是登录用户  
-     */
-    QString GetFileUserAvatar(const QString &szId, const QString &szLocalId = QString());
-    /**
-     * @brief 得到接收文件保存的目录  
-     *
-     * @param szId:本地用户id,默认为本地用户   
-     */
-    QString GetDirReceiveFile(const QString &szId = QString());
-    /** 
-     * 得到表情图片文件  
-     */
-    QString GetFileSmileyPack();
-
-private:
-    QString m_szDocumentPath;
 public:
     // 只保存用户登录时的状态,在用户登录对话框中设置  
     CUserInfo::USER_INFO_STATUS GetStatus();///< 得到本地用户状态  
@@ -353,39 +284,12 @@ public slots:
 #define RABBITIM_ICON_SIZE 24 //头像的大小  
 #define RABBITIM_AVATAR_SIZE 64 //头像的大小  
 
-#define LM_DEBUG 0
-#define LM_INFO 1
-#define LM_WARNING 2
-#define LM_ERROR 3
-
 #ifdef DEBUG
-#define LOG_ERROR(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, "", fmt, ##__VA_ARGS__)
-#define LOG_WARNING(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, "", fmt, ##__VA_ARGS__)
-#define LOG_DEBUG(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_DEBUG, "", fmt, ##__VA_ARGS__)
-#define LOG_INFO(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, "", fmt, ##__VA_ARGS__)
-
-#define LOG_MODEL_ERROR(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_WARNING(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_DEBUG(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_DEBUG, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_INFO(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, model, fmt, ##__VA_ARGS__)
-
-#define RABBITIM_ASSERT(x, ret) Q_ASSERT(x)
-
+    #define RABBITIM_ASSERT(x, ret) Q_ASSERT(x)
 #else
-
-#define LOG_ERROR(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, "", fmt, ##__VA_ARGS__)
-#define LOG_DEBUG(fmt, ...)
-#define LOG_WARNING(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, "", fmt, ##__VA_ARGS__)
-#define LOG_INFO(fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, "", fmt, ##__VA_ARGS__)
-
-#define LOG_MODEL_ERROR(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_ERROR, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_WARNING(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_WARNING, model, fmt, ##__VA_ARGS__)
-#define LOG_MODEL_DEBUG(model, fmt, ...)
-#define LOG_MODEL_INFO(model, fmt, ...) CGlobal::Instance()->Log(__FILE__, __LINE__, LM_INFO, model, fmt, ##__VA_ARGS__)
-
-#define RABBITIM_ASSERT(x, ret) \
-    if(!(x))                    \
-        return (ret);
-#endif//#ifdef DEBUG
+    #define RABBITIM_ASSERT(x, ret) \
+        if(!(x))                    \
+            return (ret);
+#endif //DEBUG
 
 #endif // GLOBAL_H

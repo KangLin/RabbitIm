@@ -5,9 +5,10 @@
 #include <QSettings>
 
 CFrmMain::CFrmMain(QWidget *parent) :
-    QFrame(parent),
+    QWidget(parent),
     m_UserList(parent),
     m_GroupChatList(parent),
+    m_App(parent),
 #ifdef RABBITIM_WEBKIT
     m_weather(new QWebView),
 #endif
@@ -44,28 +45,37 @@ CFrmMain::CFrmMain(QWidget *parent) :
     Q_ASSERT(check);
 
     ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
-    ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
-    ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"), tr("Recent messages"));
+    ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"),
+                          tr("Group Chat"));
+    ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"),
+                          tr("Recent messages"));
+    ui->tabWidget->addTab(&m_App, QIcon(":/icon/Application"),
+                          tr("Application"));
 
     if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
     {
         LOG_MODEL_ERROR("CFrmMain", "locale user is null");
         return;
     }
-    QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
+    QSettings conf(CGlobalDir::Instance()->GetUserConfigureFile(
+              USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
     int nIndex = conf.value("Widgets/Main", 0).toInt();
     ui->tabWidget->setCurrentIndex(nIndex);
 }
 
 CFrmMain::~CFrmMain()
 {
+    GET_CLIENT.data()->disconnect(this);
+    
     if(!USER_INFO_LOCALE.isNull())
     {
-        QSettings conf(CGlobal::Instance()->GetUserConfigureFile(USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
+        QSettings conf(CGlobalDir::Instance()->GetUserConfigureFile(
+                  USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
         conf.setValue("Widgets/Main", ui->tabWidget->currentIndex());
     }
 
     delete ui;
+    ui = NULL;
 }
 
 void CFrmMain::resizeEvent(QResizeEvent *e)
@@ -85,9 +95,14 @@ void CFrmMain::changeEvent(QEvent *e)
     {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
-        ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_UserList), tr("Rosters"));
-        ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_MessageList), tr("Recent messages"));
-        ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_GroupChatList), tr("Group Chat"));
+        ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_UserList),
+                                  tr("Rosters"));
+        ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_MessageList),
+                                  tr("Recent messages"));
+        ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_GroupChatList),
+                                  tr("Group Chat"));
+        ui->tabWidget->setTabText(ui->tabWidget->indexOf(&m_App),
+                                  tr("Application"));
         break;
     }
 }

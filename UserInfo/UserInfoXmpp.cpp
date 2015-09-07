@@ -92,7 +92,7 @@ int CUserInfoXmpp::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
     buffer.close();
 
     //保存头像到本地  
-    QImageWriter imageWriter(CGlobal::Instance()->GetFileUserAvatar(GetId()), "png");
+    QImageWriter imageWriter(CGlobalDir::Instance()->GetFileUserAvatar(GetId()), "png");
     if(!imageWriter.write(GetPhoto()))
         LOG_MODEL_ERROR("CUserInfo", "Save avater error, %s", imageWriter.errorString().toStdString().c_str());
 

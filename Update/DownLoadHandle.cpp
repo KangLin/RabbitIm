@@ -141,7 +141,8 @@ int CDownLoadHandleVersionFile::Start()
     QString szFile = "Update_";
     szFile += RABBITIM_SYSTEM;
     szFile += ".xml";
-    m_szFile = CGlobal::Instance()->GetDirApplicationDownLoad() + QDir::separator() + szFile;
+    m_szFile = CGlobalDir::Instance()->GetDirApplicationDownLoad()
+            + QDir::separator() + szFile;
     //TODO:设置下载版本文件  
     QString szUrl = "https://github.com/KangLin/rabbitim/blob/master/Update/" + szFile;
 
