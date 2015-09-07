@@ -372,75 +372,87 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 
 ##### 11. QXMPP编译：  
 1. 用 Qt Creator 进行编译（详见源码根目录下的README文件）：
-    * 用 Qt Creator 打开本工程。
-    * 打开“文件->打开文件或项目”。
-    * 在弹出的对话框中选中qxmpp.pro，打开qxmpp工程。
-    * 点左边工具栏中的“项目”，选择qxmpp标签，在相应平台“构建套件”中修改“构建步骤”参数，
-           在“构建步骤”中的“额外参数”中，加入 “PREFIX=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}”，
-           其中$(RabbitImRoot)是本项目源码的根目录，在下面的“构建环境”变量中添加这个环境变量。
-           当然，也可以直接在“额外参数”中把$(RabbitImRoot)替换成本项目源码根目录路径。
-           ${RABBITIM_BUILD_TARGERT}为相应的平台，可以为windows、android、unix、ios。
-           如果需要编译成静态库，需要在额外参数中加入：
-           QXMPP_LIBRARY_TYPE=staticlib 。在本项目编译时连接静态 qxmpp 库需要增加 -DQXMPP_STATIC 。
-    * 设置编解码器：现在QXMPP支持vpx、THEORA视频编解码器；G711u、SPEEX音频编解码器。音频默认为G711u。
-           视频无默认编解码器，所以如果需要视频，必须指定第三方视频编解码器。
-           以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
-           并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/include
-           LIBS+=-L$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/lib
-    * 选择windows或linux平台，在相应平台“构建套件”中的“运行”标签，
-           部署->详情->部署->添加部署步骤->选择make命令->Make参数中加上"install"。
-           其它平台可能会有平台自己的部署步骤，所以不能在部署这里安装。可以用下面方法：
-           在相应平台“构建套件”中的“构建”标签，“构建步骤”->“make”->“make参数”中加上install。
-           如果修改了代码，这种方法需要重编译。
-    * 在“项目”->本项目中的“依赖关系”标签中选中qxmpp。
-    * 在项目浏览器中选中qxmpp项目，右键点击“执行qmake”；再右键点击“构建”；再右键点击“部署”。
-           在部署时会出现":-1: error: [install_htmldocs] Error 4 (ignored)"错误。
-           这是由于没有安装doxygen，所以不能产生帮助文档。可以忽略。
-    * 当前版本有BUG，需要打下面补丁，或者直接下我改过的版本:`git clone git@github.com:KangLin/qxmpp.git`
-        $(RabbitImRoot)/ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch  
-          + 建立分支 patch:`git branch patch`
-          + 切换到分支 patch:`git checkout patch`
-          + 应用补丁:`git am $(RabbitImRoot)/ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch `
-          + 切换到主分支：`git checkout master`
-          + 把 patch 分支合并到master 分支中 :`git merge patch`
+  * 用 Qt Creator 打开本工程。
+  * 打开“文件->打开文件或项目”。
+  * 在弹出的对话框中选中qxmpp.pro，打开qxmpp工程。
+  * 点左边工具栏中的“项目”，选择qxmpp标签，在相应平台“构建套件”中修改“构建步骤”参数，
+       在“构建步骤”中的“额外参数”中，加入 “PREFIX=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}”，
+       其中$(RabbitImRoot)是本项目源码的根目录，在下面的“构建环境”变量中添加这个环境变量。
+       当然，也可以直接在“额外参数”中把$(RabbitImRoot)替换成本项目源码根目录路径。
+       ${RABBITIM_BUILD_TARGERT}为相应的平台，可以为windows、android、unix、ios。
+       如果需要编译成静态库，需要在额外参数中加入：
+       QXMPP_LIBRARY_TYPE=staticlib 。在本项目编译时连接静态 qxmpp 库需要增加 -DQXMPP_STATIC 。
+  * 设置编解码器：现在QXMPP支持vpx、THEORA视频编解码器；G711u、SPEEX音频编解码器。音频默认为G711u。
+       视频无默认编解码器，所以如果需要视频，必须指定第三方视频编解码器。
+       以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
+       并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/include
+       LIBS+=-L$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/lib
+  * 选择windows或linux平台，在相应平台“构建套件”中的“运行”标签，
+       部署->详情->部署->添加部署步骤->选择make命令->Make参数中加上"install"。
+       其它平台可能会有平台自己的部署步骤，所以不能在部署这里安装。可以用下面方法：
+       在相应平台“构建套件”中的“构建”标签，“构建步骤”->“make”->“make参数”中加上install。
+       如果修改了代码，这种方法需要重编译。
+  * 在“项目”->本项目中的“依赖关系”标签中选中qxmpp。
+  * 在项目浏览器中选中qxmpp项目，右键点击“执行qmake”；再右键点击“构建”；再右键点击“部署”。
+       在部署时会出现":-1: error: [install_htmldocs] Error 4 (ignored)"错误。
+       这是由于没有安装doxygen，所以不能产生帮助文档。可以忽略。
+  * 当前版本有BUG，需要打下面补丁，或者直接下我改过的版本:`git clone git@github.com:KangLin/qxmpp.git`
+       $(RabbitImRoot)/ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch  
+    + 建立分支 patch:`git branch patch`
+    + 切换到分支 patch:`git checkout patch`
+    + 应用补丁:`git am $(RabbitImRoot)/ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch `
+    + 切换到主分支：`git checkout master`
+    + 把 patch 分支合并到master 分支中 :`git merge patch`
 2. 用命令行编译：  
-     * 设置 qmake 路径到环境变量 PATH 中：`export PATH=$PATH:$QMAKE_PATH`  
-     * 建立编译目录：`mkdir build; cd build`
-     * 生成工程文：`qmake -o Makefile QXMPP_LIBRARY_TYPE=staticlib \
-                 PREFIX=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT} \
-                 INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/include \
-                 LIBS+=-L$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/lib \
-                 QXMPP_USE_VPX=1 \
+   * 设置 qmake 路径到环境变量 PATH 中：`export PATH=$PATH:$QMAKE_PATH`  
+   * 建立编译目录：`mkdir build; cd build`
+   * 生成工程文：`qmake -o Makefile QXMPP_LIBRARY_TYPE=staticlib 
+                 PREFIX=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT} 
+                 INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/include 
+                 LIBS+=-L$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/lib 
+                 QXMPP_USE_VPX=1 
                  ${RabbitImRoot}/Rabbitim.pro`
-     * 编译：`$(MAKE)`  
-        MAKE在不同的环境下有不同的命令：
-        + make：unix、linux gun环境下用
-        + nmake：msvc环境下用
-        + mingw32-make：mingw 环境下用
-        + msys-make：msys 环境下用
+   * 编译：`$(MAKE)`  
+     MAKE在不同的环境下有不同的命令：
+     + make：unix、linux gun环境下用
+     + nmake：msvc环境下用
+     + mingw32-make：mingw 环境下用
+     + msys-make：msys 环境下用
 
 本工程编译
 --------
 
 如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。  
 用脚本  $(RabbitImRoot)/ThirdLibary/build_rabbitim.sh 进行编译：
-. build_rabbitim.sh (android|windows_msvc|windows_mingw|unix) SOURCE_CODE_ROOT [qmake]
+
+  . build_rabbitim.sh *平台参数* *源码根目录* *[工程工具]*
+
++ 平台参数：必须选择下面之一
+    - android
+    - windows_msvc
+    - windows_mingw
+    - unix
++ 源码根目录
++ 工程工具：可以选择 qmake 或 cmake 。 默认为 cmake
+
+例如用qmake编译android平台：
+
+    . build_rabbitim.sh android $(RabbitImRoot) qmake
 
 #### 1. 用Qt Creator 编译 
-
 ##### 1.1. 用 Qt Creator 编译 Rabbitim.pro
 用 Qt Creator 打开本工程根目录下的 Rabbitim.pro 文件。
   * 下载(http://pan.baidu.com/s/1ntA0t5n )或自己编译第三方库，并放到 $(RabbitImRoot)/ThirdLibary 目录下。
   * 打开菜单：文件->打开文件，选中 Rabbitim.pro 文件
   * 设置可选参数
-         + QXMPP_USE_VPX=1              #使用 vpx
-         + QXMPP_USE_SPEEX=1            #使用 speex
-         + RABBITIM_USE_OPENCV=1       #使用 opencv
-         + RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
-         + RABBITIM_USE_LIBCURL=1      #使用 libcurl
-         + RABBITIM_USE_OPENSSL=1      #使用openssl
-         + RABBITIM_USE_STATIC=1       #使用静态编译
-         + RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档 
+    + QXMPP_USE_VPX=1              #使用 vpx
+    + QXMPP_USE_SPEEX=1            #使用 speex
+    + RABBITIM_USE_OPENCV=1       #使用 opencv
+    + RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
+    + RABBITIM_USE_LIBCURL=1      #使用 libcurl
+    + RABBITIM_USE_OPENSSL=1      #使用openssl
+    + RABBITIM_USE_STATIC=1       #使用静态编译
+    + RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档 
   * 构建->构建项目"RabbitIm"。编译本项目。
 
 ##### 1.2. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
@@ -449,14 +461,14 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
   * 打开菜单：文件->打开文件，选中 CMakeLists.txt 文件
   * 会弹出一个执行 CMake 对话框
-    + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug 
-    + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release 
-    + 其它可选参数：
-    -DOPTION_RABBITIM_USE_LIBCURL=ON
-    -DOPTION_RABBITIM_USE_OPENSSL=ON
-    -DOPTION_RABBITIM_USE_OPENCV=ON
-    -DOPTION_RABBITIM_USE_STATIC=ON
-    -OPTION_RABBITIM_DOXYGEN=ON  #使用doxygen生成文档，doxygen必须在环境变量PATH中
+    - 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug 
+    - 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release 
+    - 其它可选参数：
+      + -DOPTION_RABBITIM_USE_LIBCURL=ON
+      + -DOPTION_RABBITIM_USE_OPENSSL=ON
+      + -DOPTION_RABBITIM_USE_OPENCV=ON
+      + -DOPTION_RABBITIM_USE_STATIC=ON
+      + -OPTION_RABBITIM_DOXYGEN=ON  #使用doxygen生成文档，doxygen必须在环境变量PATH中
   * 选择相应的创建器,这里不能选错。
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功，点完成就会打开项目。
   * 点调试，就可以编译，并调试程序
@@ -466,22 +478,28 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
   * 选择项目-> 相应平台的构建套件
   * 会弹出一个执行 CMake 对话框
-    + 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
-    + 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
-    + 其它可选参数：
-        -DOPTION_RABBITIM_USE_LIBCURL=ON
-        -DOPTION_RABBITIM_USE_OPENSSL=ON
-        -DOPTION_RABBITIM_USE_OPENCV=ON
-        -OPTION_RABBITIM_DOXYGEN=ON  #使用doxygen生成文档，doxygen必须在环境变量PATH中
-    + 还要填入编译器参数：-DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake -DQt5_DIR=${Qt5_DIR}
+    - 如果是调试,在参数中填入:-DCMAKE_BUILD_TYPE=Debug
+    - 如果是发行,在参数中填入:-DCMAKE_BUILD_TYPE=Release
+    - 其它可选参数：
+      + -DOPTION_RABBITIM_USE_LIBCURL=ON
+      + -DOPTION_RABBITIM_USE_OPENSSL=ON
+      + -DOPTION_RABBITIM_USE_OPENCV=ON
+      + -OPTION_RABBITIM_DOXYGEN=ON  #使用doxygen生成文档，doxygen必须在环境变量PATH中
+    - 还要填入编译器参数：
+      + -DCMAKE_TOOLCHAIN_FILE=${RabbitImRoot}/platforms/android/android.toolchain.cmake
+      + -DQt5_DIR=${Qt5_DIR}
     ${Qt5_DIR}:qt for android 的 cmake 安装路径。例如：/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
   * 选择相应的创建器
   * 点执行 CMake 按钮,开始执行 CMake 。如果成功就会打开项目。
 
 #### 2. 用命令行编译
-
 ##### 2.1. 用 qmake 编译
-**设置 qmake 路径到环境变量 PATH 中**：`export PATH=$PATH:$QMAKE_PATH`，QMAKE_PATH=${QT_INSTALL_DIR}/bin
+设置 qmake 路径到环境变量 PATH 中：
+
+    QMAKE_PATH=${QT_INSTALL_DIR}/bin
+    export PATH=$PATH:$QMAKE_PATH
+
+编译：
 
     mkdir build
     cd build
@@ -489,61 +507,92 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     $(MAKE)
 
 MAKE在不同的环境下有不同的命令：  
-    * make：unix、linux gun环境下用  
-    * nmake：msvc环境下用  
-    * mingw32-make：mingw 环境下用  
-    * msys-make：msys 环境下用  
+  * make：unix、linux gun环境下用  
+  * nmake：msvc环境下用  
+  * mingw32-make：mingw 环境下用  
+  * msys-make：msys 环境下用  
 
 ##### 2.2. 用 CMake 编译
 ###### 2.2.1. windows、linux平台
-    * 用 G++ 编译
+* 用 G++ 编译
+  + 进入项目源码根目录
 
-    cd $(RabbitImRoot)    #进入项目源码根目录
-    mkdir rabbitim-build  #建立编译目录
-    cd rabbitim-build        #进入编译目录
-    ${QT_INSTALL_DIR}/bin/qtenv2.bat   #[可选]windows环境下可用这个批处理设置qt的环境变量，linux下直接设置环境变量
-    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=${Qt5_DIR}    #执行 camke
-    cmake --build .   --config Release      #执行编译
-    ./RabbitIm               #启动程序
+      cd $(RabbitImRoot)
 
-    Qt5_DIR:qt cmake 的安装路径。在qt安装目录的 ${QT_INSTALL_DIR}/lib/cmake/Qt5。
-    例如： /c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
+  + 建立编译目录
 
-    export PATH=$PATH:/c/Qt/Qt5.3.1/5.3/mingw482_32/bin #windows环境mingw下设置 qt 到环境变量 PATH
-    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
-    cmake --build . --config Release #编译
+      mkdir rabbitim-build
 
-    * 用 msvc 编译
+  + 进入编译目录
 
-    #启动 msvc 编译环境,可以在开始菜单栏->vs2013->visual studio tools->VS2013 x86 本机工具命令提示，也可以直接执行下面命令：
-    "C:\Program Files\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86
-    #windows 环境下可用这个批处理设置qt的环境变量
-    C:\Qt\Qt5.3.1\5.3\msvc2013\bin\qtenv2.bat
-    #也可以直接设置环境变量
-    set PATH=%PATH%;C:\Qt\Qt5.3.1\5.3\msvc2013\bin
-    #注意产生者用 NMake Makefiles，如果用 VS，则需要对 CMakeLists.txt 中的目标路径做些修改
-    cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=C:\Qt\Qt5.3.1\5.3\msvc2013\lib\cmake\Qt5
-    #编译
-    cmake --build . --config Release
+      cd rabbitim-build
+
+  + [可选]设置qt环境变量
+    - windows环境下可用这个批处理设置qt的环境变量  
+
+    ${QT_INSTALL_DIR}/bin/qtenv2.bat   
+
+    - linux下直接设置环境变量  
+
+    export PATH=$PATH:${Qt5_DIR} #windows环境mingw下设置 qt 到环境变量 PATH
+
+  + 执行 camke
+
+    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=${Qt5_DIR}  
+    cmake --build . --config Release   #执行编译
+
+  + 启动程序
+
+      ./RabbitIm
+
+  + 参数说明：
+    - Qt5_DIR:qt cmake 的安装路径。在qt安装目录的 ${QT_INSTALL_DIR}/lib/cmake/Qt5。
+         例如： /c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
+
+         cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5  
+         cmake --build . --config Release #编译
+
+* 用 msvc 编译
+  + 启动 msvc 编译环境
+    - 可以在开始菜单栏->vs2013->visual studio tools->VS2013 x86 本机工具命令提示
+    - 也可以直接执行下面命令：
+    
+        "C:\Program Files\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86
+    
+  + 设置qt的环境变量
+    - windows 环境下可用这个批处理设置qt的环境变量
+    
+        C:\Qt\Qt5.3.1\5.3\msvc2013\bin\qtenv2.bat
+    
+    - 也可以直接设置环境变量
+    
+        set PATH=%PATH%;C:\Qt\Qt5.3.1\5.3\msvc2013\bin
+        
+  + 设置产生者：注意用 NMake Makefiles，如果用 VS，则需要对 CMakeLists.txt 中的目标路径做些修改
+  
+      cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=C:\Qt\Qt5.3.1\5.3\msvc2013\lib\cmake\Qt5
+        
+  + 编译
+  
+      cmake --build . --config Release
 
 ###### 2.2.2. 打包
-    + windows 下
-        * 下载 nsis 并把它设置到环境变量（PATH）中（如果已经安装，请忽略此步)
+1. windows 下
+  * 下载 nsis 并把它设置到环境变量（PATH）中（如果已经安装，请忽略此步)
 
-    http://nsis.sourceforge.net/Download
+      http://nsis.sourceforge.net/Download
+      
+  * 再执行下面命令
+  
+      set PATH=%PATH%;${QT_INSTALL_DIR}/bin #把qt安装目录加到环境变量中  
+      cpack -G NSIS   #这个是编译完成后，单独打包的命令，或者也可用下面编译时打包命令  
+      cmake --build .  --config Release --target package  #编译时同时打包  
+      
+2. unix、linux 下
+  * rpm 需要安装 rpmbuilder
+  * 再执行下面命令
 
-        * 再执行下面命令
-
-    set PATH=%PATH%;${QT_INSTALL_DIR}/bin #把qt安装目录加到环境变量中
-    cpack -G NSIS   #这个是编译完成后，单独打包的命令，或者也可用下面编译时打包命令
-    cmake --build .  --config Release --target package     #编译时同时打包
-
-    + unix、linux 下
-        * rpm 需要安装 rpmbuilder
-    
-        * 再执行下面命令
-
-    export PATH=$PATH:${QT_INSTALL_DIR}/bin
+    export PATH=$PATH:${QT_INSTALL_DIR}/bin  
     cpack -G deb rmp
 
 ###### 2.2.3. android 平台:

@@ -139,7 +139,7 @@ https://github.com/ruby/ruby
 `C:\Program Files\Microsoft Visual Studio 12.0\Common7\Tools\Shortcuts VS2013 x86`
 本机工具命令提示。在命令行下，启动msys:`c:\MinGW\msys\1.0\msys.bat`  
 如果用msys2：`c:\msys32\mingw32_shell.bat`  
-注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。
+**注意**，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。
     
 ### 4. 编译第三方依赖库(脚本中包括qt)
 
@@ -358,7 +358,7 @@ https://github.com/ruby/ruby
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build_rabbitim.sh windows_mingw [source_code_directory] [qmake]
 
-ubuntu 下用 mingw 交叉编译
+ubuntu下用mingw交叉编译
 ------------------------
 
 ### 1. [环境](INSTALL_UBUNTU.md#user-content-环境)
