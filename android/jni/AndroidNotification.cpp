@@ -72,7 +72,7 @@ void CAndroidNotification::slotUpdateAndroidNotification(
             QAndroidJniObject::fromString(szMessage);
     QAndroidJniObject javaTitle = QAndroidJniObject::fromString(szTitle);
     QAndroidJniObject::callStaticMethod<void>(
-                "org/KangLinStudio/RabbitIm/NotificationClient",
+                "org/KangLinStudio/RabbitIm/RabbitImActivity",
                 "notify",
                 "(Ljava/lang/String;Ljava/lang/String;)V",
                 javaNotification.object<jstring>(),

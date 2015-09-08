@@ -9,7 +9,7 @@
          android:label="@string/app_name"
          android:icon="@drawable/icon">
         <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|locale|fontScale|keyboard|keyboardHidden|navigation"
-            android:name="org.qtproject.qt5.android.bindings.QtActivity"
+            android:name="org.KangLinStudio.RabbitIm.RabbitImActivity"
             android:label="@string/app_name"
             android:screenOrientation="unspecified"
             android:launchMode="singleTop">
@@ -43,12 +43,6 @@
             <meta-data android:name="android.app.splash_screen_drawable" android:resource="@drawable/logo"/>
             -->
             <!-- Splash screen -->
-        </activity>
-        <activity
-            android:name="org.KangLinStudio.RabbitIm.NotificationClient"
-            android:label="@string/app_name"
-            android:screenOrientation="unspecified"
-            android:launchMode="singleTop">
         </activity>
     </application>
     <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="18"/>
