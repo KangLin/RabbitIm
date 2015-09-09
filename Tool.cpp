@@ -17,6 +17,9 @@
 #ifdef ANDROID
     #include <QtAndroidExtras/QAndroidJniObject>
 #endif
+#ifdef WIN32
+    #include <windows.h>
+#endif
 
 CTool::CTool(QObject *parent) :
     QObject(parent)
@@ -819,6 +822,7 @@ QImage CTool::ConvertToGray(QImage image)
 
 bool CTool::EnableWake(bool bWake)
 {
+    static bool bSet = false;
 #ifdef ANDROID
     jboolean bPara = bWake;
     jboolean bRet = QAndroidJniObject::callStaticMethod<jboolean>(
@@ -827,6 +831,20 @@ bool CTool::EnableWake(bool bWake)
                 "(Z)Z",
                 bPara);
     return bRet;
-#else
+#elif WIN32
+    if(bWake)
+    {
+        BOOL bScrActive;
+        SystemParametersInfo(SPI_GETSCREENSAVEACTIVE,0,&bScrActive,0);
+        if(bScrActive)
+        {
+            bSet = true;
+            SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, FALSE, NULL, 0);
+        }
+    } else if(bSet) {
+        SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, TRUE, NULL, 0);
+        bSet = false;
+    }
+    return true;
 #endif
 }
