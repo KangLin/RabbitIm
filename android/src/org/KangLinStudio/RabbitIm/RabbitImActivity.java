@@ -13,6 +13,8 @@ import android.content.BroadcastReceiver;
 import android.app.PendingIntent;
 import android.util.Log;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.view.WindowManager;
 //import android.graphics.Bitmap;
 //import android.graphics.BitmapFactory;
 import org.qtproject.qt5.android.bindings.QtActivity;
@@ -22,9 +24,10 @@ public class RabbitImActivity
 {
     private static final String TAG = "NotificationClient";
     private static NotificationManager m_notificationManager = null;
+    private static final int m_nNotificationCount = 0; //R.drawable.icon;
     private static Notification.Builder m_builder = null;
     private static RabbitImActivity m_instance = null;
-    private static final int m_nNotificationCount = 0; //R.drawable.icon;
+    private PowerManager.WakeLock m_WakeLock = null;
     private String m_szKey;
     /** 通知栏点击事件对应的ACTION */
     private final static String ACTION_ON_CHICK = "org.KangLinStudio.RabbitIm.RabbitImActivity.OnClick";
@@ -39,8 +42,7 @@ public class RabbitImActivity
     }
         
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
+    public void onCreate(Bundle savedInstanceState) {                    
         super.onCreate(savedInstanceState);
         initReceiver();
     }
@@ -190,6 +192,29 @@ public class RabbitImActivity
            context.getApplicationContext().startActivity(it1);
            OnChickNotification(m_szKey);
        }       
+   }
+
+   /** 禁用锁屏功能
+    *  @para bWake:true,禁用锁屏，false允许锁屏
+    *  @return boolean 成功返回 true，否则返回 false
+    */
+   public static boolean EnableWake(boolean bWake){
+       if(null == m_instance)
+           return false;
+       if(null == m_instance.m_WakeLock) {
+           PowerManager pManager = ((PowerManager) m_instance.getSystemService(POWER_SERVICE));
+           m_instance.m_WakeLock = pManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+                   | PowerManager.ON_AFTER_RELEASE, TAG);
+       }
+       if(null == m_instance.m_WakeLock) return false;
+       if(bWake)
+           m_instance.m_WakeLock.acquire();
+       else
+       {   
+           m_instance.m_WakeLock.release();
+           m_instance.m_WakeLock = null;
+       }
+       return true;
    }
        
 }

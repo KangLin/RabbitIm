@@ -221,6 +221,13 @@ public:
     static int ComposeAvatarStatus(QPixmap &src1, const QPixmap& src2);
 
     static QImage ConvertToGray(QImage image);
+    
+    /**
+     * @brief 禁用锁屏  
+     * @param bWake：true，禁用锁屏，false，允许锁屏  
+     * @return 成功返回 true，否则返回 false
+     */
+    static bool EnableWake(bool bWake = true);
 signals:
 
 public slots:

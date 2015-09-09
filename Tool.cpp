@@ -14,6 +14,10 @@
 #include <QFile>
 #include <QPainter>
 
+#ifdef ANDROID
+    #include <QtAndroidExtras/QAndroidJniObject>
+#endif
+
 CTool::CTool(QObject *parent) :
     QObject(parent)
 {
@@ -811,4 +815,18 @@ QImage CTool::ConvertToGray(QImage image)
     //            outGrayImage.setPixel(x, y, grayPixel);
     //        }
     //return true;
+}
+
+bool CTool::EnableWake(bool bWake)
+{
+#ifdef ANDROID
+    jboolean bPara = bWake;
+    jboolean bRet = QAndroidJniObject::callStaticMethod<jboolean>(
+                "org/KangLinStudio/RabbitIm/RabbitImActivity",
+                "EnableWake",
+                "(Z)Z",
+                bPara);
+    return bRet;
+#else
+#endif
 }
