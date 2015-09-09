@@ -1,6 +1,6 @@
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
-#QT_ROOT=/c/Qt/Qt5.4.2/5.4/mingw491_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
+#QT_ROOT=/c/Qt/Qt5.5.0/5.5/mingw492_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
 #RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
 JOM=nmake #设置 QT make 工具 JOM
 RABBITIM_CLEAN=TRUE #编译前清理
@@ -54,8 +54,10 @@ QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
 echo "QT_BIN:$QT_BIN"
 
 export PATH=${RABBITIM_BUILD_PREFIX}/bin:${RABBITIM_BUILD_PREFIX}/lib:${QT_BIN}:$PATH
-export PKG_CONFIG=/usr/bin/pkg-config
-export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH
+export PKG_CONFIG=pkg-config    
+#export PKG_CONFIG=/mingw32/bin/pkg-config #msys2用这个
+export PKG_CONFIG_EXECUTABLE=$PKG_CONFIG
+export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig #:$PKG_CONFIG_PATH
 
 if [ -z "${RABBITIM_BUILD_CROSS_HOST}" ]; then
     RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32 #编译工具链前缀

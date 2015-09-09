@@ -157,6 +157,7 @@ IF(MSVC)
     SET(TOOLCHAIN_NAME windows_msvc)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")  #删除不是GBK字符的警告
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS\",5.01\"")
+    ADD_DEFINITIONS(-DWINDOWS)
 ELSEIF(MINGW)
     SET(RABBITIM_SYSTEM windows)
     SET(TOOLCHAIN_NAME windows_mingw)
@@ -164,6 +165,7 @@ ELSEIF(MINGW)
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
     # Statically link with libgcc
     # SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static -static-libgcc -static-libstdc++ ")
+    ADD_DEFINITIONS(-DWINDOWS)
 ELSEIF(ANDROID)
     SET(RABBITIM_SYSTEM android)
     SET(TOOLCHAIN_NAME android)
@@ -208,7 +210,7 @@ OPTION(OPTION_RABBITIM_USE_VPX "Use vpx library" ON)
 IF(OPTION_RABBITIM_USE_VPX)
     SET(USE_VPX ON)
 
-    IF(NOT MSVC AND PKG_CONFIG_FOUND)
+    IF(PKG_CONFIG_FOUND AND NOT MSVC)
         pkg_check_modules(VPX REQUIRED vpx)
         IF(VPX_FOUND)
             add_compile_options(${VPX_CFLAGS})
@@ -234,7 +236,7 @@ OPTION(OPTION_RABBITIM_USE_SPEEX "Use speex library" OFF)
 MESSAGE("Use speex library:${OPTION_RABBITIM_USE_SPEEX}")
 IF(OPTION_RABBITIM_USE_SPEEX)
 
-    IF(PKG_CONFIG_FOUND)
+    IF(PKG_CONFIG_FOUND AND NOT MSVC)
         pkg_check_modules(SPEEX REQUIRED speex)
         IF(SPEEX_FOUND)
             add_compile_options(${SPEEX_CFLAGS})
@@ -331,7 +333,11 @@ IF(OPTION_RABBITIM_USE_LIBCURL)
         pkg_check_modules(CURL libcurl)
         IF(CURL_FOUND)
             message("CURL_CFLAGS:${CURL_CFLAGS}")
+            message("CURL_CFLAGS_OTHER:${CURL_CFLAGS_OTHER}")
+            message("CURL_LDFLAGS:${CURL_LDFLAGS}")
+            message("CURL_LDFLAGS_OTHER:${CURL_LDFLAGS_OTHER}")
             add_compile_options(${CURL_CFLAGS})
+            SET(CURL_LIBRARIES ${CURL_LIBRARIES} -lcrypt32 -lwldap32 -lz -lws2_32)
         ELSE(CURL_FOUND)
             SET(RABBITIM_USE_LIBCURL OFF)
         ENDIF(CURL_FOUND)
@@ -340,6 +346,8 @@ IF(OPTION_RABBITIM_USE_LIBCURL)
         if(CURL_FOUND)
             message("CURL_INCLUDE_DIR:${CURL_INCLUDE_DIR}")
             include_directories(${CURL_INCLUDE_DIR})
+            message("CURL_CFLAGS:${CURL_CFLAGS}")
+            add_compile_options(-DCURL_STATICLIB)
         ELSE(CURL_FOUND)
             SET(RABBITIM_USE_LIBCURL OFF)
         endif(CURL_FOUND)
@@ -375,6 +383,25 @@ if(OPTION_RABBITIM_USE_QXMPP)
 ENDIF(OPTION_RABBITIM_USE_QXMPP)
 message("Use qxmpp library:${OPTION_RABBITIM_USE_QXMPP}")
 
+OPTION(OPTION_RABBITIM_USE_PJSIP "Use pjsip library" OFF)
+SET(RABBITIM_USE_PJSIP OFF)
+IF(OPTION_RABBITIM_USE_PJSIP)
+    SET(RABBITIM_USE_PJSIP ON)
+    IF(PKG_CONFIG_FOUND AND NOT MSVC)
+        pkg_check_modules(PJSIP REQUIRED libpjproject)
+        IF(PJSIP_FOUND)
+            add_compile_options(${PJSIP_CFLAGS})
+        ENDIF(PJSIP_FOUND)
+    ELSE()
+        SET(RABBITIM_USE_PJSIP OFF)
+    ENDIF()
+ENDIF()
+message("Use PJSIP library:${RABBITIM_USE_PJSIP}")
+
+include(cmake/install_version.cmake)
+include(cmake/cmake_build_file.cmake)
+include(Plugin/CMakeLists.txt)
+
 SET(RABBITIM_LIBS
     ${RABBITIM_LIBS}
     ${QXMPP_LIBRARIES}
@@ -387,10 +414,12 @@ SET(RABBITIM_LIBS
     ${QT_LIBRARIES}
     )
 
-include(cmake/install_version.cmake)
-include(cmake/cmake_build_file.cmake)
-
-SET(RABBITIM_RCC_FILES Resource/Resource.qrc Resource/sink/dark/style.qrc AppIcon.rc)
+#设置资源文件
+SET(RABBITIM_RCC_FILES
+    ${RABBITIM_RCC_FILES}
+    Resource/Resource.qrc
+    Resource/sink/dark/style.qrc
+    AppIcon.rc)
 
 #生成目标
 IF(ANDROID)
@@ -489,7 +518,7 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
         #                    WORKING_DIRECTORY .)"
         #        )
     ELSEIF(NOT ANDROID)
-        SET(QT_PLUGINS Qt5Core_PLUGINS 
+        SET(QT_PLUGINS ${QT_PLUGINS} Qt5Core_PLUGINS 
                        Qt5Gui_PLUGINS
                        Qt5Widgets_PLUGINS
                        Qt5Network_PLUGINS

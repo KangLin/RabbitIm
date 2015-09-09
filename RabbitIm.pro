@@ -172,6 +172,7 @@ android{
         LIBOPENSSL_LIBRARY = -lssl -lcrypto
     }
 }else:win32{
+    DEFINES += WINDOWS
     RABBITIM_SYSTEM="windows"
     OPENCV_VERSION=300
     msvc {
@@ -320,7 +321,8 @@ OTHER_FILES += README.md \
     platforms/android/* \
     Update/*template* \
     Update/*.xml \
-    Doxyfile*
+    Doxyfile* \
+    Plugin/CMakeLists.txt
 
 # Rules for creating/updating {ts|qm}-files
 include(Resource/translations/translations.pri)

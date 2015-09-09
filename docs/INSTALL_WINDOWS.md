@@ -198,6 +198,11 @@ windows下用mingw交叉编译
 
     pacman -S wget subversion git autoconf automake m4 libtool pkg-config make mingw-w64-i686-make bison flex gperf
 
+    
+当前msys2的pkg-config好象有BUG，用 mingw-w64-i686-pkg-config 
+
+    pacman -S mingw-w64-i686-pkg-config 
+
 + 下载本地编译器gcc：
 
     pacman -S mingw-w64-i686-gcc

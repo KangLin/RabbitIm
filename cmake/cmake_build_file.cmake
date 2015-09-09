@@ -1,66 +1,76 @@
 
 SET(RABBITIM_SOURCES
     main.cpp
-    MainWindow.cpp
-    Tool.cpp
-    Client/Client.cpp
-    UserInfo/UserInfo.cpp
-    UserInfo/COperateRoster.cpp
-    Global/Global.cpp
-    Widgets/FrmLogin/FrmLogin.cpp
-    Widgets/FrmUserList/FrmUserList.cpp
-    Widgets/FrmUserList/GroupItem.cpp
-    Widgets/FrmCustom/CustomTreeView.cpp
-    Widgets/FrmVideo/RecordAudio.cpp
-    Widgets/FrmCustom/Label.cpp
-    Widgets/FrmMain/FrmMain.cpp
-    Manage/Manager.cpp
-    Manage/Manage.cpp
-    Manage/ManageUser.cpp
-    Manage/ManageMessageDialog.cpp
-    Widgets/FrmMessage/FrmMessage.cpp
-    Widgets/FrmCustom/MenuMessageSend.cpp
-    Manage/ManageMessageDialogBigScreen.cpp
-    Widgets/FrmMessage/FrmContainer.cpp
-    Message/ChatActions/ChatAction.cpp
-    Message/ChatActions/MessageAction.cpp
-    UserInfo/User.cpp
-    Message/SmileyPack.cpp
-    Message/EmoticonsWidget.cpp
-    Message/style.cpp
-    Widgets/FrmRecentMessage/FrmRecentMsgList.cpp
-    Widgets/FrmRecentMessage/ManageRecentMessage.cpp
-    Widgets/DlgAddRoster/DlgAddRoster.cpp
-    FileTransfer/ManageFileTransfer.cpp
-    FileTransfer/FileTransfer.cpp
-    FileTransfer/FileTransferAction.cpp
-    Widgets/FrmVideo/DataVideoBuffer.cpp
-    Widgets/FrmVideo/FrameProcess.cpp
-    Widgets/FrmVideo/CaptureVideoFrame.cpp
-    Widgets/FrmVideo/FrmPlayer.cpp
-    Widgets/FrmVideo/Camera.cpp
-    Call/CallObject.cpp
+    MainWindow.cpp 
+    Tool.cpp 
+    Client/Client.cpp 
+    UserInfo/UserInfo.cpp 
+    UserInfo/COperateRoster.cpp 
+    Global/Global.cpp 
+    Widgets/FrmLogin/FrmLogin.cpp 
+    Widgets/FrmUserList/FrmUserList.cpp 
+    Widgets/FrmUserList/GroupItem.cpp 
+    Widgets/FrmCustom/CustomTreeView.cpp 
+    Widgets/FrmVideo/RecordAudio.cpp 
+    Widgets/FrmCustom/Label.cpp  
+    Widgets/FrmMain/FrmMain.cpp  
+    Manage/Manager.cpp 
+    Manage/ManageMessageDialog.cpp 
+    Widgets/FrmMessage/FrmMessage.cpp 
+    Widgets/FrmCustom/MenuMessageSend.cpp  
+    Manage/ManageMessageDialogBigScreen.cpp 
+    Widgets/FrmMessage/FrmContainer.cpp 
+    Message/ChatActions/ChatAction.cpp 
+    Message/ChatActions/MessageAction.cpp 
+    UserInfo/User.cpp 
+    Manage/ManageUser.cpp 
+    Manage/Manage.cpp 
+    Message/SmileyPack.cpp 
+    Message/EmoticonsWidget.cpp 
+    Message/style.cpp 
+    Widgets/FrmRecentMessage/FrmRecentMsgList.cpp 
+    Widgets/FrmRecentMessage/ManageRecentMessage.cpp 
+    Widgets/DlgAddRoster/DlgAddRoster.cpp 
+    FileTransfer/ManageFileTransfer.cpp 
+    FileTransfer/FileTransfer.cpp 
+    FileTransfer/FileTransferAction.cpp 
+    Widgets/FrmVideo/DataVideoBuffer.cpp 
+    Widgets/FrmVideo/FrameProcess.cpp 
+    Widgets/FrmVideo/FrmPlayer.cpp  
+    Call/CallObject.cpp 
     Call/ManageCall.cpp 
-    Call/CallAction.cpp
-    Widgets/FrmVideo/FrmVideo.cpp
-    Widgets/DlgRegister/DlgRegister.cpp
-    Widgets/DlgScreenShot/DlgScreenShot.cpp
-    Widgets/DlgScreenShot/WdgScreenEditor.cpp
-    Widgets/FrmGroupChat/FrmGroupChatList.cpp
-    Widgets/FrmLogin/DlgLoginSettings.cpp
-    Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp
-    Widgets/FrmGroupChat/ManageGroupChat.cpp
-    Widgets/FrmGroupChat/GroupChat.cpp
-    Widgets/FrmGroupChat/DlgJoinGroupChat.cpp
-    Widgets/FrmGroupChat/FrmGroupChat.cpp
-    Widgets/FrmGroupChat/ChatActionGroupChat.cpp
-    Widgets/FrmGroupChat/DlgGroupChatInfo.cpp
-    Widgets/FrmGroupChat/DlgInviter.cpp
-    Widgets/FrmCustom/ItemModelCustom.cpp
-    Widgets/DlgUservCard/DlgUservCard.cpp
-    Widgets/DlgAbout/DlgAbout.cpp
-    Widgets/DlgOptions/DlgOptions.cpp
-    Message/ManageMessage.cpp
+    Call/CallAction.cpp 
+    Widgets/FrmVideo/FrmVideo.cpp  
+    Widgets/DlgRegister/DlgRegister.cpp 
+    Widgets/DlgScreenShot/DlgScreenShot.cpp  
+    Widgets/DlgScreenShot/WdgScreenEditor.cpp 
+    Widgets/FrmGroupChat/FrmGroupChatList.cpp  
+    Widgets/FrmLogin/DlgLoginSettings.cpp 
+    Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp 
+    Widgets/FrmGroupChat/ManageGroupChat.cpp 
+    Widgets/FrmGroupChat/GroupChat.cpp 
+    Widgets/FrmGroupChat/DlgJoinGroupChat.cpp 
+    Widgets/FrmGroupChat/FrmGroupChat.cpp 
+    Widgets/FrmGroupChat/ChatActionGroupChat.cpp 
+    Widgets/FrmGroupChat/DlgGroupChatInfo.cpp 
+    Widgets/FrmGroupChat/DlgInviter.cpp 
+    Widgets/FrmCustom/ItemModelCustom.cpp 
+    Widgets/DlgUservCard/DlgUservCard.cpp  
+    Widgets/DlgAbout/DlgAbout.cpp 
+    Widgets/DlgOptions/DlgOptions.cpp   
+    Message/ManageMessage.cpp 
+    Media/Camera/Camera.cpp 
+    Media/Camera/CameraInfo.cpp 
+    Media/Camera/CameraFactory.cpp 
+    Media/Camera/VideoFrame.cpp 
+    Media/Camera/CameraQt.cpp 
+    Media/Camera/CameraFactoryQt.cpp 
+    Media/Camera/CameraQtCaptureVideoFrame.cpp 
+    Global/Log.cpp 
+    Widgets/FrmApp/FrmApp.cpp 
+    Widgets/FrmApp/FrmAppList.cpp 
+    Widgets/FrmApp/FrmFavorites.cpp 
+    Global/GlobalDir.cpp
 )
 
 IF(OPTION_RABBITIM_USE_QXMPP)
@@ -131,3 +141,11 @@ IF(ANDROID)
         android/jni/AndroidNotification.cpp
     )
 ENDIF(ANDROID)
+
+IF(RABBITIM_USE_PJSIP) 
+    SET(RABBITIM_SOURCES
+        ${RABBITIM_SOURCES}
+        Media/Camera/CameraPjsip.cpp 
+        Media/Camera/CameraFactoryPjsip.cpp
+    )       
+ENDIF(RABBITIM_USE_PJSIP)

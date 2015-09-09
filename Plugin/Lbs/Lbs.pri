@@ -26,10 +26,12 @@ FORMS    += \
 RESOURCES += \
     $$PWD/lbs.qrc
 
-OTHER_FILES += \
+DISTFILES += \
+    $$PWD/CMakeLists.txt \
     $$PWD/res/Map.qml \
     $$PWD/res/Marker.qml 
 
 android{
     include($$PWD/Android/Android.pri)
 }
+

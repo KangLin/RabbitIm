@@ -17,7 +17,7 @@
 #ifdef ANDROID
     #include <QtAndroidExtras/QAndroidJniObject>
 #endif
-#ifdef WIN32
+#ifdef WINDOWS
     #include <windows.h>
 #endif
 
@@ -831,7 +831,7 @@ bool CTool::EnableWake(bool bWake)
                 "(Z)Z",
                 bPara);
     return bRet;
-#elif WIN32
+#elif WINDOWS
     if(bWake)
     {
         BOOL bScrActive;

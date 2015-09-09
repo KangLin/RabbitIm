@@ -49,5 +49,6 @@ QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
 echo "QT_BIN:$QT_BIN"
 
 export PATH=${RABBITIM_BUILD_PREFIX}/bin:${RABBITIM_BUILD_PREFIX}/lib:${QT_BIN}:$PATH
-export PKG_CONFIG=/usr/bin/pkg-config
+export PKG_CONFIG=pkg-config
+export PKG_CONFIG_EXECUTABLE=$PKG_CONFIG
 export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig

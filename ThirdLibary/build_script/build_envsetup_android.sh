@@ -83,7 +83,8 @@ if [ -z "${RABBITIM_BUILD_CROSS_HOST}" ]; then
 fi
 export ANDROID_API_VERSION=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
 export PATH=${QT_BIN}:$PATH
-export PKG_CONFIG=/usr/bin/pkg-config
+export PKG_CONFIG=pkg-config
+export PKG_CONFIG_EXECUTABLE=$PKG_CONFIG
 export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
 
 
