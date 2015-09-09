@@ -143,6 +143,7 @@ void CManageCall::slotCallFinished(CCallObject *pCall)
 {
     LOG_MODEL_DEBUG("CManageCall", "CManageCall::slotCallFinished");
     m_Call.remove(pCall->GetId());
+    CTool::EnableWake(false);
 }
 
 bool CManageCall::IsRun(QString szId)

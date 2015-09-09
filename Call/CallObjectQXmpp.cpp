@@ -593,6 +593,7 @@ void CCallObjectQXmpp::slotUpdateOption()
 
 int CCallObjectQXmpp::OpenVideoWindow()
 {
+    //TODO:需要重构
     //打开显示对话框  
     if(m_pFrmVideo)
     {
@@ -603,7 +604,8 @@ int CCallObjectQXmpp::OpenVideoWindow()
     {
         return -1;
     }
-
+    CTool::EnableWake();
+    
     //窗口关闭时会自己释放内存  
     m_pFrmVideo->setAttribute(Qt::WA_DeleteOnClose, true);
     bool check = connect(m_pFrmVideo, SIGNAL(destroyed()),
