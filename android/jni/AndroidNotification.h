@@ -56,6 +56,7 @@ public:
 
 signals:
     void sigNotificationChanged(const QString &szMessage, const QString &szTitle);
+    void sigOnChick();
 
 private slots:
     void slotUpdateAndroidNotification(const QString &szMessage, const QString &szTitle);

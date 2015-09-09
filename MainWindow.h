@@ -103,9 +103,11 @@ private:
     bool m_bTrayShow;
     QTimer m_TrayTimer;
 #ifdef ANDROID
+public:
     CAndroidNotification m_AndroidNotify;
 #endif
 
+private:
     //样式菜单  
     QMenu m_MenuStyle;
     QActionGroup m_ActionGroupStyle;

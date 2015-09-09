@@ -121,7 +121,13 @@ MainWindow::MainWindow(QWidget *parent) :
         m_TrayIcon.setIcon(QIcon(":/icon/AppIcon"));
         m_TrayIcon.show();
     }
-
+    
+#ifdef ANDROID
+    check = connect(&m_AndroidNotify, SIGNAL(sigOnChick()),
+                    SLOT(slotMessageClicked()));
+    Q_ASSERT(check);
+#endif
+    
 #ifndef MOBILE
     //检测隐藏窗口定时器  
     check = connect(&m_timerAnimation, SIGNAL(timeout()),
