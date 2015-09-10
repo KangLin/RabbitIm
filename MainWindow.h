@@ -168,6 +168,7 @@ private:
     
     int CheckShowWindows(QRect &endRect);
     QTimer m_timerAnimation;
+    Qt::WindowFlags m_oldFlags;//保存隐藏前的窗口标志  
 private slots:
     void slotCheckHideWindows();
 #endif

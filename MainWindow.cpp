@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_Login(new CFrmLogin(this)),
 #ifndef MOBILE
     m_Animation(this, "geometry"),
+    m_oldFlags(0),
 #endif
     ui(new Ui::MainWindow)
 {
@@ -1038,8 +1039,10 @@ void MainWindow::slotCheckHideWindows()
     m_bAnimationHide = true;
     this->centralWidget()->hide();
     this->menuBar()->hide();
-    this->setWindowFlags(Qt::FramelessWindowHint 
-                       | Qt::WindowStaysOnTopHint);
+    m_oldFlags = this->windowFlags();
+    this->setWindowFlags(this->windowFlags() 
+                         | Qt::FramelessWindowHint 
+                         | Qt::WindowStaysOnTopHint);
     this->setGeometry(startRect);
     this->show();
 
@@ -1107,11 +1110,14 @@ int MainWindow::CheckShowWindows(QRect &endRect)
     }
 
     m_bAnimationHide = false;
+    this->setGeometry(startRect);
     this->centralWidget()->show();
     this->menuBar()->show();
-    this->setGeometry(startRect);
     this->hide();
-    this->setWindowFlags(Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint /*| Qt::X11BypassWindowManagerHint*/);
+    //this->setWindowFlags(Qt::WindowMinimizeButtonHint
+    //                     | Qt::WindowCloseButtonHint
+    //                     /*| Qt::X11BypassWindowManagerHint*/);
+    setWindowFlags(m_oldFlags);
     this->show();
     this->activateWindow();
     if(AnimationWindows(startRect, endRect))
