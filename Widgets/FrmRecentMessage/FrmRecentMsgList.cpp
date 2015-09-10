@@ -15,6 +15,8 @@ CFrmRecentMsgList::CFrmRecentMsgList(QWidget *parent) :
     ui(new Ui::CFrmRecentMsgList)
 {
     ui->setupUi(this);
+    ui->gridLayout->addWidget(&m_MsgList);
+
     m_pModel = new QStandardItemModel(this);//这里会产生内在泄漏，控件在romve操作时会自己释放内存。  
     if(m_pModel)
     {
@@ -297,7 +299,8 @@ void CFrmRecentMsgList::resizeEvent(QResizeEvent *e)
     LOG_MODEL_DEBUG("CFrmRecentMsgList", "CFrmUserList::resizeEvent:e.size:%d;genmetry.size:%d",
                     e->size().width(),
                     geometry().size().width());
-    m_MsgList.resize(this->geometry().size());
+    //m_MsgList.resize(this->geometry().size());
+
     //调整列的宽度  
     int nWidth = m_MsgList.geometry().width() * 4/ 5;
     m_MsgList.setColumnWidth(0, nWidth);

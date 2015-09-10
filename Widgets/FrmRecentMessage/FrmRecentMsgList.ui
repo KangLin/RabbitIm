@@ -13,6 +13,20 @@
   <property name="windowTitle">
    <string>Recent Message</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+  </layout>
   <action name="actionOpenMessage">
    <property name="icon">
     <iconset resource="../../Resource/Resource.qrc">

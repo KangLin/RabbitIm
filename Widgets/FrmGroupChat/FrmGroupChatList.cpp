@@ -21,6 +21,7 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     ui(new Ui::CFrmGroupChatList)
 {
     ui->setupUi(this);
+    ui->gridLayout->addWidget(&m_GroupList);
 
     QDesktopWidget *pDesk = QApplication::desktop();
     move((pDesk->width() - width()) / 2,
@@ -97,7 +98,7 @@ void CFrmGroupChatList::resizeEvent(QResizeEvent* e)
     LOG_MODEL_DEBUG("CFrmGroupChatList", "CFrmGroupChatList::resizeEvent:e.size:%d;genmetry.size:%d",
                     e->size().width(),
                     geometry().size().width());
-    m_GroupList.resize(this->geometry().size());
+    //m_GroupList.resize(this->geometry().size());
 
     //调整列的宽度  
     int nWidth = m_GroupList.geometry().width() * 4/ 5;

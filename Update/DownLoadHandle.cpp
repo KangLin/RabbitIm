@@ -51,6 +51,7 @@ CDownLoadHandleVersionFile::CDownLoadHandleVersionFile()
 
 int CDownLoadHandleVersionFile::OnError(int nErrorCode, const std::string &szErr)
 {
+    Q_UNUSED(szErr);
     LOG_MODEL_ERROR("CDownLoadHandleVersionFile", "Download version file error:%d", nErrorCode);
     return 0;
     emit GET_MAINWINDOW->sigUpdateExec(nErrorCode, m_szFile);

@@ -847,4 +847,5 @@ bool CTool::EnableWake(bool bWake)
     }
     return true;
 #endif
+    return false;
 }

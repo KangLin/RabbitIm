@@ -24,7 +24,10 @@ private slots:
     void clicked(const QModelIndex & index);
     //树形列表控件双击事件  
     void doubleClicked(const QModelIndex & index);
-    
+
+private:
+    void resizeEvent(QResizeEvent *e);
+
 private:
     QMenu m_Menu;      //列表操作菜单  
     int InitMenu();

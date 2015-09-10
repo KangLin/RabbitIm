@@ -21,6 +21,9 @@ public:
 public slots:
     void slotAddFavorites(const QString& szApp);
     void slotRemoveFavorites(const QString& szApp);
+
+private:
+    void resizeEvent(QResizeEvent *e);
     
 private:
     QMenu m_Menu;      //列表操作菜单  

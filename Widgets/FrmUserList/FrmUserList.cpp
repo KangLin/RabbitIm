@@ -23,6 +23,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     ui(new Ui::CFrmUserList)
 {
     ui->setupUi(this);
+    ui->gridLayout->addWidget(&m_UserList);
 
     InitMenu();
 
@@ -751,7 +752,8 @@ void CFrmUserList::resizeEvent(QResizeEvent *e)
                     geometry().size().width(),
                     m_UserList.frameGeometry().width(),
                     m_UserList.width());*/
-    m_UserList.resize(this->geometry().size());
+    //m_UserList.resize(this->geometry().size());
+
     //调整列的宽度  
     int nWidth = m_UserList.width() * 4/ 5;
     m_UserList.setColumnWidth(0, nWidth);

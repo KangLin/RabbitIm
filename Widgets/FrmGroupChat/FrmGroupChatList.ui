@@ -16,6 +16,20 @@
   <property name="windowTitle">
    <string>Group chat rooms</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+  </layout>
   <action name="actionNew_Search_group_chat_rooms">
    <property name="icon">
     <iconset resource="../../Resource/Resource.qrc">

@@ -8,8 +8,8 @@ CFrmAppList::CFrmAppList(QWidget *parent) :
     ui(new Ui::CFrmAppList)
 {
     ui->setupUi(this);
-
     ui->gridLayout->addWidget(&m_AppList);
+
     m_pModel = new QStandardItemModel(this);
     /*if(m_pModel)
     {
@@ -297,4 +297,12 @@ void CFrmAppList::slotCustomContextMenuRequested(const QPoint &pos)
     if(szApp.isEmpty())
         return;
     m_Menu.exec(QCursor::pos());
+}
+
+void CFrmAppList::resizeEvent(QResizeEvent *e)
+{
+    Q_UNUSED(e);
+    //调整列的宽度  
+    int nWidth = m_AppList.geometry().width();
+    m_AppList.setColumnWidth(0, nWidth);
 }

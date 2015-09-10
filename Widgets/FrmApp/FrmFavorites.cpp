@@ -9,6 +9,7 @@ CFrmFavorites::CFrmFavorites(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->gridLayout->addWidget(&m_List);
+
     m_pModel = new QStandardItemModel(this);
     m_List.setModel(m_pModel);
     m_List.show();
@@ -39,6 +40,14 @@ CFrmFavorites::CFrmFavorites(QWidget *parent) :
 CFrmFavorites::~CFrmFavorites()
 {
     delete ui;
+}
+
+void CFrmFavorites::resizeEvent(QResizeEvent *e)
+{
+    Q_UNUSED(e);
+    //调整列的宽度  
+    int nWidth = m_List.geometry().width();
+    m_List.setColumnWidth(0, nWidth);    
 }
 
 int CFrmFavorites::InitList()
@@ -80,7 +89,6 @@ void CFrmFavorites::slotAddFavorites(const QString &szApp)
 
 void CFrmFavorites::slotRemoveFavorites(const QString &szApp)
 {
-    QStandardItem* pItem = NULL;        
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                             Qt::DisplayRole, 
                                             szApp, 
@@ -240,6 +248,8 @@ void CFrmFavorites::clicked(const QModelIndex &index)
         return;
 
     slotOpenApp();
+#else
+    Q_UNUSED(index);
 #endif
 }
 
