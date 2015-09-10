@@ -168,7 +168,7 @@ case ${RABBITIM_BUILD_TARGERT} in
                 exit 2
                 ;;
         esac
-        CONFIG_PARA="${CONFIG_PARA} -xplatform android-g++" 
+        CONFIG_PARA="${CONFIG_PARA} -xplatform android-g++" #交叉平台编译工具
         CONFIG_PARA="${CONFIG_PARA} -android-sdk ${ANDROID_SDK_ROOT} -android-ndk ${ANDROID_NDK_ROOT}"
         CONFIG_PARA="${CONFIG_PARA} -android-ndk-host ${RABBITIM_BUILD_HOST}"
         CONFIG_PARA="${CONFIG_PARA} -android-toolchain-version ${RABBITIM_BUILD_TOOLCHAIN_VERSION}"

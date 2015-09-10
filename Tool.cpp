@@ -106,9 +106,10 @@ AVPixelFormat CTool::VideoFormatToFFMpegPixFormat(
         return AV_PIX_FMT_YUYV422;
     else if(VIDEO_FORMAT_UYVY == format)
         return AV_PIX_FMT_UYVY422;
+#ifdef AV_PIX_FMT_YVYU422
     else if(VIDEO_FORMAT_YVYU == format)
         return AV_PIX_FMT_YVYU422;
-
+#endif
     return AV_PIX_FMT_NONE;
 }
 
