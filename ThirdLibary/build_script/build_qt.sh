@@ -115,9 +115,6 @@ fi
 if [ -d qtcanvas3d ]; then
     CONFIG_PARA="${CONFIG_PARA} -skip qtcanvas3d";
 fi
-if [ -d qtwebengine ]; then
-    CONFIG_PARA="${CONFIG_PARA} -skip qtwebengine"
-fi
 if [ -d qtserialport ]; then
     CONFIG_PARA="${CONFIG_PARA} -skip qtserialport"
 fi
