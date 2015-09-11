@@ -230,6 +230,12 @@
     git pull
     perl init-repository -f --branch
 
+清理代码:
+
+    git submodule foreach --recursive "git clean -dfx" && git clean -dfx
+
+详见:[开发文档](./Books/开发笔记.md#user-content-Qt编译)
+
 #### 14. libsodium
 * 下载: `git clone https://github.com/jedisct1/libsodium.git`
 * 当前使用版本：1.0.2
