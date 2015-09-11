@@ -340,7 +340,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 ### 第三方依赖库编译
 ##### 1. 编解码库(libvpx)编译：  
 详见：http://blog.csdn.net/kl222/article/details/23101115  
-安装装到：
+安装到：
 
         make PREFIX=${RabbitImRoot}/ThirdLiabary/${Platform}
 
@@ -520,67 +520,70 @@ MAKE在不同的环境下有不同的命令：
 
 ##### 2.2. 用 CMake 编译
 ###### 2.2.1. windows、linux平台
+
 * 用 G++ 编译
-  + 进入项目源码根目录
+
+进入项目源码根目录
 
       cd $(RabbitImRoot)
 
-  + 建立编译目录
+建立编译目录
 
       mkdir rabbitim-build
 
-  + 进入编译目录
+进入编译目录
 
       cd rabbitim-build
 
-  + [可选]设置qt环境变量
-    - windows环境下可用这个批处理设置qt的环境变量  
+设置qt环境变量[可选]
+- windows环境下可用这个批处理设置qt的环境变量
 
-    ${QT_INSTALL_DIR}/bin/qtenv2.bat   
+        ${QT_INSTALL_DIR}/bin/qtenv2.bat
 
-    - linux下直接设置环境变量  
+- linux下直接设置环境变量
 
-    export PATH=$PATH:${Qt5_DIR} #windows环境mingw下设置 qt 到环境变量 PATH
+        export PATH=$PATH:${Qt5_DIR} #windows环境mingw下设置 qt 到环境变量 PATH
 
-  + 执行 camke
+执行 camke
 
     cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DQt5_DIR=${Qt5_DIR}  
     cmake --build . --config Release   #执行编译
 
-  + 启动程序
+启动程序
 
       ./RabbitIm
 
-  + 参数说明：
-    - Qt5_DIR:qt cmake 的安装路径。在qt安装目录的 ${QT_INSTALL_DIR}/lib/cmake/Qt5。
+参数说明：  
+Qt5_DIR:qt cmake 的安装路径。在qt安装目录的 ${QT_INSTALL_DIR}/lib/cmake/Qt5。
          例如： /c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
 
-         cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5  
-         cmake --build . --config Release #编译
+     cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
+     cmake --build . --config Release #编译
 
 * 用 msvc 编译
-  + 启动 msvc 编译环境
-    - 可以在开始菜单栏->vs2013->visual studio tools->VS2013 x86 本机工具命令提示
-    - 也可以直接执行下面命令：
-    
+
+启动 msvc 编译环境
+- 可以在开始菜单栏->vs2013->visual studio tools->VS2013 x86 本机工具命令提示
+- 也可以直接执行下面命令：
+
         "C:\Program Files\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86
-    
-  + 设置qt的环境变量
-    - windows 环境下可用这个批处理设置qt的环境变量
-    
+
+设置qt的环境变量
+- windows 环境下可用这个批处理设置qt的环境变量
+
         C:\Qt\Qt5.3.1\5.3\msvc2013\bin\qtenv2.bat
-    
-    - 也可以直接设置环境变量
-    
+
+- 也可以直接设置环境变量
+
         set PATH=%PATH%;C:\Qt\Qt5.3.1\5.3\msvc2013\bin
-        
-  + 设置产生者：注意用 NMake Makefiles，如果用 VS，则需要对 CMakeLists.txt 中的目标路径做些修改
-  
-      cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=C:\Qt\Qt5.3.1\5.3\msvc2013\lib\cmake\Qt5
-        
-  + 编译
-  
-      cmake --build . --config Release
+
+- 设置产生者：注意用 NMake Makefiles，如果用 VS，则需要对 CMakeLists.txt 中的目标路径做些修改
+
+        cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=C:\Qt\Qt5.3.1\5.3\msvc2013\lib\cmake\Qt5
+
+编译
+
+    cmake --build . --config Release
 
 ###### 2.2.2. 打包
 1. windows 下
