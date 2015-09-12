@@ -83,7 +83,7 @@ public:
     virtual bool GetIsMonitor();
     virtual int SetMonitor(bool bMonitor);
 
- #ifndef QT_NO_DATASTREAM
+#ifndef QT_NO_DATASTREAM
     virtual int LoadFromStorage(QDataStream &input);
     virtual int SaveToStorage(QDataStream &output);
 #endif

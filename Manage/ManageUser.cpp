@@ -71,7 +71,7 @@ int CManageUser::LoadLocaleFromStorage(const QString &szId)
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
-        LOG_MODEL_WARNING("CGlobalUser", "Don't open file:%s", szFile.toStdString().c_str());
+        LOG_MODEL_WARNING("CManageUser", "Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
 
@@ -82,7 +82,7 @@ int CManageUser::LoadLocaleFromStorage(const QString &szId)
         int nVersion = 0;
         s >> nVersion;
         //本地用户信息  
-        LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
+        LOG_MODEL_DEBUG("CManageUser", "Version:%d", nVersion);
         if(m_UserLocale.isNull())
          {
             m_UserLocale = NewUser();
@@ -92,7 +92,7 @@ int CManageUser::LoadLocaleFromStorage(const QString &szId)
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CGlobalUser", "CFrmUserList::LoadUserList exception");
+        LOG_MODEL_ERROR("CManageUser", "CManageUser::LoadLocaleFromStorage exception");
         nRet = -1;
     }
 
@@ -110,7 +110,7 @@ int CManageUser::SaveLocaleToStorage()
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
-        LOG_MODEL_WARNING("CGlobalUser", "Don't open file:%s", szFile.toStdString().c_str());
+        LOG_MODEL_WARNING("CManageUser", "Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
 
@@ -126,7 +126,7 @@ int CManageUser::SaveLocaleToStorage()
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CGlobalUser", "CFrmUserList::SaveUserList exception");
+        LOG_MODEL_ERROR("CManageUser", "CManageUser::SaveLocaleToStorage exception");
         return -1;
     }
 

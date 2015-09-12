@@ -38,7 +38,7 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
     m_UserList.setModel(m_pModel);
     m_UserList.show();
 
-    ItemInsertGroup(tr("My friends"));
+    LoadGroupNodeStateFromStorage();
 
     bool check = connect(&m_UserList, SIGNAL(clicked(QModelIndex)),
                          SLOT(clicked(QModelIndex)));
@@ -108,10 +108,140 @@ CFrmUserList::~CFrmUserList()
 
     //删除组 m_Groups，不需要删，列表控件析构时会自己删除  
 
+    SaveGroupNodeStateToStorage();
+
     delete ui;
 
     if(m_pModel)
         delete m_pModel;
+}
+
+int CFrmUserList::LoadGroupNodeStateFromStorage()
+{
+    QString szId;
+    if(!GLOBAL_USER.isNull()
+            && !USER_INFO_LOCALE.isNull())
+    {
+        szId = USER_INFO_LOCALE->GetInfo()->GetId();
+    }
+    QString szFile = CGlobalDir::Instance()->GetDirUserData(szId)
+            + QDir::separator() + "UserListGroupNodeState.dat";
+
+    QFile in(szFile);
+    if(!in.open(QFile::ReadOnly))
+    {
+        LOG_MODEL_WARNING("CFrmUserList", "Don't open file:%s", szFile.toStdString().c_str());
+        return -1;
+    }
+
+    QDataStream s(&in);
+    try{
+        //版本号  
+        int nVersion = 0;
+        s >> nVersion;
+        int nRowCount = 0;
+        s >> nRowCount;
+        if(0 == nRowCount)
+        {
+            ItemInsertGroup(tr("My friends"));
+        }
+        else
+            while(nRowCount--)
+            {
+                //本地用户信息  
+                LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
+                QString szGroup;
+                s >> szGroup;
+                ItemInsertGroup(szGroup);
+                bool bState;
+                s >> bState;
+                QModelIndexList lstIndexs = m_pModel->match(
+                            m_pModel->index(0, 0),
+                            USERLIST_ITEM_ROLE_PROPERTIES, 
+                            PROPERTIES_GROUP, 
+                            -1,
+                            Qt::MatchStartsWith
+                            | Qt::MatchWrap
+                            | Qt::MatchRecursive
+                            | Qt::MatchCaseSensitive);
+                QModelIndex index;
+                foreach(index, lstIndexs)
+                {
+                    QStandardItem* pItem = m_pModel->itemFromIndex(index);
+                    if(!pItem) continue;
+                    if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES)
+                            != PROPERTIES_GROUP)
+                        continue;
+                    if(pItem->text() != szGroup)
+                        continue;
+                    if(bState)
+                        m_UserList.expand(index);
+                    else
+                        m_UserList.collapse(index);
+                }
+            }
+    }
+    catch(...)
+    {
+        LOG_MODEL_ERROR("CFrmUserList",
+               "CFrmUserList::LoadGroupNodeStateFromStorage exception");
+        return -2;
+    }
+
+    in.close();    
+
+    return 0;
+}
+
+int CFrmUserList::SaveGroupNodeStateToStorage()
+{
+    QString szId;
+    if(!GLOBAL_USER.isNull()
+            && !USER_INFO_LOCALE.isNull())
+    {
+        szId = USER_INFO_LOCALE->GetInfo()->GetId();
+    }
+    QString szFile = CGlobalDir::Instance()->GetDirUserData(szId) 
+            + QDir::separator() + "UserListGroupNodeState.dat";
+
+    QFile out(szFile);
+    if(!out.open(QFile::WriteOnly))
+    {
+        LOG_MODEL_WARNING("CFrmUserList", "Don't open file:%s",
+                          szFile.toStdString().c_str());
+        return -3;
+    }
+
+    try
+    {
+        QDataStream s(&out);
+        //版本号  
+        int nVersion = 1;
+        s << nVersion;
+
+        int nRowCount = m_pModel->rowCount();
+        s << nRowCount;
+        for(int i = 0; i < nRowCount; i++)
+        {
+            QModelIndex index;
+            index = m_pModel->index(i, 0);
+            QStandardItem* item = m_pModel->itemFromIndex(index);
+            if(item->data(USERLIST_ITEM_ROLE_PROPERTIES) != PROPERTIES_GROUP)
+                continue;
+            LOG_MODEL_DEBUG("CFrmUserList", "text:%s", item->text().toStdString().c_str());
+            s << item->text()
+              << m_UserList.isExpanded(index);
+        }
+    }
+    catch(...)
+    {
+        LOG_MODEL_ERROR("CFrmUserList",
+                "CFrmUserList::SaveGroupNodeStateToStorage exception");
+        return -4;
+    }
+
+    out.close();
+    return 0;
 }
 
 int CFrmUserList::ProcessRoster(QSharedPointer<CUserInfo> roster, void *para)

@@ -58,7 +58,7 @@ private:
 
 private:
     //在组队列中插入组  
-    QStandardItem*  ItemInsertGroup(QString szGroup);
+    QStandardItem* ItemInsertGroup(QString szGroup);
     //更新组中用户  
     int ItemUpdateGroup(QSharedPointer<CUserInfo> info);
     //插入好友条目  
@@ -78,7 +78,6 @@ private:
     //如果是好友，则返回好友的barejid  
     //否则返回空QString  
     QString GetCurrentRoster();
-
     QSet<QString> GetGroupsName();
 
 private slots:
@@ -125,8 +124,14 @@ private slots:
     //树形列表控件双击事件  
     void doubleClicked(const QModelIndex & index);
 
-     void slotItemChanged(QStandardItem *item);
-     void slotEntered(const QModelIndex &index);
+    void slotItemChanged(QStandardItem *item);
+    void slotEntered(const QModelIndex &index);
+
+    //从存储中加载组节点的状态  
+    int LoadGroupNodeStateFromStorage();
+    //保存组节点状态到存储中  
+    int SaveGroupNodeStateToStorage();
+
 private:
     Ui::CFrmUserList *ui;
     //传给 ProcessRoster 中的参数类型  
