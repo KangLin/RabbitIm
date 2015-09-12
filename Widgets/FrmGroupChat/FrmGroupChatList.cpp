@@ -95,9 +95,9 @@ CFrmGroupChatList::~CFrmGroupChatList()
 
 void CFrmGroupChatList::resizeEvent(QResizeEvent* e)
 {
-    LOG_MODEL_DEBUG("CFrmGroupChatList", "CFrmGroupChatList::resizeEvent:e.size:%d;genmetry.size:%d",
+    /*LOG_MODEL_DEBUG("CFrmGroupChatList", "CFrmGroupChatList::resizeEvent:e.size:%d;genmetry.size:%d",
                     e->size().width(),
-                    geometry().size().width());
+                    geometry().size().width());*/
     //m_GroupList.resize(this->geometry().size());
 
     //调整列的宽度  

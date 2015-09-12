@@ -22,7 +22,7 @@ class CLbsMotion : public QFrame
 public:
     explicit CLbsMotion(QWidget *parent = 0);
     ~CLbsMotion();
-    
+
 private slots:
     void positionUpdated(const QGeoPositionInfo &info);
     void on_pbStart_clicked();

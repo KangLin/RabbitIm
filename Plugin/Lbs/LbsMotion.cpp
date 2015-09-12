@@ -5,6 +5,7 @@
 #include <QQuickItem>
 #include <QStandardPaths>
 #include <QDir>
+#include <QThread>
 #include "LbsCamera.h"
 #include "Global/GlobalDir.h"
 
@@ -122,7 +123,7 @@ CLbsMotion::~CLbsMotion()
 void CLbsMotion::positionUpdated(const QGeoPositionInfo &info)
 {
     if(!info.isValid())
-    {   
+    {
         LOG_MODEL_ERROR("CLbsMotion", "QGeoPositionInfo is invalid\n");
         return;
     }
@@ -132,6 +133,7 @@ void CLbsMotion::positionUpdated(const QGeoPositionInfo &info)
         m_lastPostion = QGeoPositionInfo();
         return;
     }
+
     //保存到本地轨迹文件中  
     if(m_pLogger)
         m_pLogger->Write(info);
@@ -168,14 +170,14 @@ void CLbsMotion::positionUpdated(const QGeoPositionInfo &info)
 }
 
 void CLbsMotion::on_pbStart_clicked()
-{  
+{
     if(NULL == m_Source)
     {
         return;
     }
 
-    if(m_bStart)
-    {   
+    if(m_bStart) //停止  
+    {
         m_Timer.stop();
         m_Source->stopUpdates();
         ui->pbStart->setText(tr("Start"));
@@ -190,6 +192,9 @@ void CLbsMotion::on_pbStart_clicked()
             m_pLogger = NULL;
         }
 
+        m_MessageBox.setWindowTitle(tr("Upload"));
+        m_MessageBox.setText(tr("Upload to server ......"));
+        m_MessageBox.setStandardButtons(QMessageBox::NoButton);
         //上传到服务器  
         if(m_pUploadThread)
         {
@@ -198,13 +203,9 @@ void CLbsMotion::on_pbStart_clicked()
             m_pUploadThread = NULL;
         }
         m_pUploadThread = new std::thread(onRunUpload, this);
-
-        m_MessageBox.setWindowTitle(tr("Upload"));
-        m_MessageBox.setText(tr("Upload to server ......"));
-        m_MessageBox.setStandardButtons(QMessageBox::NoButton);
         m_MessageBox.exec();
     }
-    else
+    else //开始  
     {
         if(NULL == m_pLogger)
         {
@@ -239,7 +240,7 @@ void CLbsMotion::on_pbStart_clicked()
         {
             QMetaObject::invokeMethod(pMap, "init");
         }
-        
+
         m_Source->startUpdates();
     }
     m_bStart = !m_bStart;
@@ -268,12 +269,10 @@ void CLbsMotion::on_pbShow_clicked()
     m_bHide = !m_bHide;
     if(m_bHide)
     {
-        //ui->pbShow->setText(tr("Show"));
         ui->pbShow->setIcon(QIcon(":/png/down"));
     }
     else
     {
-        //ui->pbShow->setText(tr("Hide"));
         ui->pbShow->setIcon(QIcon(":/png/up"));
     }
     if(m_bStart)
@@ -317,8 +316,11 @@ void CLbsMotion::OnTimeOut()
 int CLbsMotion::onRunUpload(void *pThis)
 {
     CLbsMotion* p = (CLbsMotion*)pThis;
-    
+
     p->onUploadServer();
+    //因为对话框在主线程中显示需要时间,  
+    //所以在没有数据要上传时,休眠等对话框显示    
+    QThread::msleep(500);
     return 0;
 }
 
@@ -362,5 +364,7 @@ void CLbsMotion::slotPhotograph(const QString &szFile)
 
 void CLbsMotion::on_pbBack_clicked()
 {
+    if(m_bStart)
+        on_pbStart_clicked();
     emit sigClose();
 }
