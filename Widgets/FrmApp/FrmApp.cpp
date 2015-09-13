@@ -11,9 +11,11 @@ CFrmApp::CFrmApp(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tabWidget->clear();
-    ui->tabWidget->addTab(&m_AppList, QIcon(":/icon/Application"), tr("Application"));
-    ui->tabWidget->addTab(&m_AppFavorites, QIcon(":/icon/Favoris"), tr("Favorites"));
-    
+    ui->tabWidget->addTab(&m_AppList, QIcon(":/icon/Application"),
+                          tr("Application"));
+    ui->tabWidget->addTab(&m_AppFavorites, QIcon(":/icon/Favoris"),
+                          tr("Favorites"));
+
     if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
     {
         LOG_MODEL_ERROR("CFrmMain", "locale user is null");

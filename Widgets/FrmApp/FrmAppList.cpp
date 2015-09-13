@@ -1,6 +1,9 @@
 #include "FrmAppList.h"
 #include "ui_FrmAppList.h"
 #include "../../Global/Global.h"
+#include <QDir>
+#include <QFile>
+#include <QDataStream>
 
 CFrmAppList::CFrmAppList(QWidget *parent) :
     QWidget(parent),
@@ -16,10 +19,10 @@ CFrmAppList::CFrmAppList(QWidget *parent) :
         //增加头，只有增加了这个后，下面才会显示内容  
         m_pModel->setHorizontalHeaderLabels(QStringList() << tr("group"));
     }*/
-
-    InitMenu();
-    InitList();
     m_AppList.setModel(m_pModel);
+    InitMenu();
+    LoadGroupNodeStateFromStorage();
+    InitList();
     m_AppList.show();
     
     bool check = connect(&m_AppList, SIGNAL(clicked(QModelIndex)),
@@ -37,7 +40,128 @@ CFrmAppList::CFrmAppList(QWidget *parent) :
 
 CFrmAppList::~CFrmAppList()
 {
+    SaveGroupNodeStateToStorage();
     delete ui;
+}
+
+int CFrmAppList::LoadGroupNodeStateFromStorage()
+{
+    QString szId;
+    if(!GLOBAL_USER.isNull()
+            && !USER_INFO_LOCALE.isNull())
+    {
+        szId = USER_INFO_LOCALE->GetInfo()->GetId();
+    }
+    QString szFile = CGlobalDir::Instance()->GetDirUserData(szId)
+            + QDir::separator() + "AppListGroupNodeState.dat";
+
+    QFile in(szFile);
+    if(!in.open(QFile::ReadOnly))
+    {
+        LOG_MODEL_WARNING("CFrmAppList", "Don't open file:%s",
+                          szFile.toStdString().c_str());
+        return -1;
+    }
+
+    QDataStream s(&in);
+    try{
+        //版本号  
+        int nVersion = 0;
+        s >> nVersion;
+        int nRowCount = 0;
+        s >> nRowCount;
+        while(nRowCount--)
+        {
+            //本地用户信息  
+            LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
+            QString szGroup;
+            s >> szGroup;
+            ItemInsertGroup(szGroup);
+            bool bState;
+            s >> bState;
+            QModelIndexList lstIndexs = m_pModel->match(
+                        m_pModel->index(0, 0),
+                        ROLE_GROUP,
+                        szGroup,
+                        -1,
+                        Qt::MatchStartsWith
+                        | Qt::MatchWrap
+                        | Qt::MatchRecursive
+                        | Qt::MatchCaseSensitive);
+            QModelIndex index;
+            foreach(index, lstIndexs)
+            {
+                QStandardItem* pItem = m_pModel->itemFromIndex(index);
+                if(!pItem) continue;
+                if(pItem->text() != szGroup)
+                    continue;
+                if(bState)
+                    m_AppList.expand(index);
+                else
+                    m_AppList.collapse(index);
+            }
+        }
+    }
+    catch(...)
+    {
+        LOG_MODEL_ERROR("CFrmAppList",
+               "CFrmAppList::LoadGroupNodeStateFromStorage exception");
+        return -2;
+    }
+
+    in.close();  
+
+    return 0;
+}
+
+int CFrmAppList::SaveGroupNodeStateToStorage()
+{
+    QString szId;
+    if(!GLOBAL_USER.isNull()
+            && !USER_INFO_LOCALE.isNull())
+    {
+        szId = USER_INFO_LOCALE->GetInfo()->GetId();
+    }
+    QString szFile = CGlobalDir::Instance()->GetDirUserData(szId)
+            + QDir::separator() + "AppListGroupNodeState.dat";
+
+    QFile out(szFile);
+    if(!out.open(QFile::WriteOnly))
+    {
+        LOG_MODEL_WARNING("CFrmAppList", "Don't open file:%s",
+                          szFile.toStdString().c_str());
+        return -3;
+    }
+
+    try
+    {
+        QDataStream s(&out);
+        //版本号  
+        int nVersion = 1;
+        s << nVersion;
+
+        int nRowCount = m_pModel->rowCount();
+        s << nRowCount;
+        for(int i = 0; i < nRowCount; i++)
+        {
+            QModelIndex index;
+            index = m_pModel->index(i, 0);
+            QStandardItem* item = m_pModel->itemFromIndex(index);
+            LOG_MODEL_DEBUG("CFrmAppList", "text:%s",
+                            item->text().toStdString().c_str());
+            s << item->text()
+              << m_AppList.isExpanded(index);
+        }
+    }
+    catch(...)
+    {
+        LOG_MODEL_ERROR("CFrmAppList",
+                "CFrmAppList::SaveGroupNodeStateToStorage exception");
+        return -4;
+    }
+
+    out.close();
+    return 0;
 }
 
 QStandardItem* CFrmAppList::ItemInsertGroup(QString szGroup)

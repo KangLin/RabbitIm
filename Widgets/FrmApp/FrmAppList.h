@@ -37,7 +37,7 @@ private slots:
     //如果设置为DefaultContextMenu，则触发右键菜单事件 void contextMenuEvent(QContextMenuEvent * event);  
     void slotCustomContextMenuRequested(const QPoint &pos);
     //打开应用  
-    void slotOpenApp();   
+    void slotOpenApp();
     void slotCloseApp();
     void slotAboutApp();
     void slotCollectApp();
@@ -47,7 +47,11 @@ private:
     int InitList();
     int InsertApp(QSharedPointer<CPluginApp> app);
     int InsertAppInGroup(QStandardItem* pGroupItem, QSharedPointer<CPluginApp> app);
-    
+    //从存储中加载组节点的状态  
+    int LoadGroupNodeStateFromStorage();
+    //保存组节点状态到存储中  
+    int SaveGroupNodeStateToStorage();
+
 private:
     Ui::CFrmAppList *ui;
 
@@ -56,7 +60,7 @@ private:
         ROLE_GROUP = Qt::UserRole + 1,
         ROLE_APPLICATION = ROLE_GROUP + 1
     };
-    
+
     CCustomTreeView m_AppList;
     QStandardItemModel *m_pModel;           //好友列表树型控件
 
