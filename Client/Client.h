@@ -282,7 +282,17 @@ signals:
      */
     void sigFileReceived(const QString &szId, QSharedPointer<CFileTransfer> file);
 
-public slots:
+protected slots:
+    /**
+     * @brief 客户端连接后进行初始化工作.注意:先初始化数据,再初始化界面  
+     *
+     */
+    virtual void slotClientConnected(const QString &szId);
+    /**
+     * @brief 客户端断开连接时清理操作.注意:先清理界面,再清理数据  
+     *
+     */
+    virtual void slotClientDisconnected();
 
 protected:
     virtual int SetLogin(bool bLogin);

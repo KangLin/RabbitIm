@@ -52,6 +52,8 @@ int CFrmAppList::LoadGroupNodeStateFromStorage()
     {
         szId = USER_INFO_LOCALE->GetInfo()->GetId();
     }
+    if(szId.isEmpty())
+        return 0;
     QString szFile = CGlobalDir::Instance()->GetDirUserData(szId)
             + QDir::separator() + "AppListGroupNodeState.dat";
 

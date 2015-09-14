@@ -124,6 +124,11 @@ int CFrmUserList::LoadGroupNodeStateFromStorage()
     {
         szId = USER_INFO_LOCALE->GetInfo()->GetId();
     }
+    if(szId.isEmpty())
+    {
+        ItemInsertGroup(tr("My friends"));
+        return 0;
+    }
     QString szFile = CGlobalDir::Instance()->GetDirUserData(szId)
             + QDir::separator() + "UserListGroupNodeState.dat";
 

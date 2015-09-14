@@ -66,7 +66,7 @@ int CClientXmpp::InitConnect()
     Q_ASSERT(check);
 
     check = connect(&m_Client, SIGNAL(disconnected()),
-                    SLOT(slotClientDisConnected()));
+                    SLOT(slotClientDisconnected()));
     Q_ASSERT(check);
 
     check = connect(&m_Client.rosterManager(), SIGNAL(rosterReceived()),
@@ -393,45 +393,19 @@ void CClientXmpp::slotClientConnected()
     LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotClientConnected");
     QString szId = m_Client.configuration().jidBare();
 
-    int nRet = 0;
     if(!IsLogin())
     {
-        //数据层在界面之前初始化  
-        nRet = CGlobal::Instance()->GetManager()->LoginInit(szId);
-        if(nRet)
+        //因为xmpp注册与用户信息设置分为两步，所以需要在注册完成后立即登录进行用户信息设置  
+        if(!m_RegisterUserInfo.isNull())
         {
-            LOG_MODEL_ERROR("CClientXmpp", "Init GlobalUser fail");
-            return;
+            if(QXmppUtils::jidToUser(szId) == m_RegisterUserInfo->GetId())
+            {
+                GET_CLIENT->setlocaleUserInfo(m_RegisterUserInfo);
+            }
+            m_RegisterUserInfo.clear();
         }
 
-        //因为openfire当用户信息改变时，不会广播改变通知，所以当程序启动时要查询所有信息。这里会影响性能  
-        //TODO:一种解决方案：只在查看用户信息时，才发送更新请求  
-        if(USER_INFO_LOCALE.isNull())
-        {
-            //因为xmpp注册与用户信息设置分为两步，所以需要在注册完成后立即登录进行用户信息设置  
-            if(!m_RegisterUserInfo.isNull())
-            {
-                if(QXmppUtils::jidToUser(szId) == m_RegisterUserInfo->GetId())
-                {
-                    GET_CLIENT->setlocaleUserInfo(m_RegisterUserInfo);
-                }
-                else
-                {
-                    //调用客户端操作，得到本地用户信息  
-                    GET_CLIENT->RequestUserInfoLocale();
-                }
-                m_RegisterUserInfo.clear();
-            }
-            else
-            {
-                //调用客户端操作，得到本地用户信息  
-                GET_CLIENT->RequestUserInfoLocale();
-            }
-        }
-
-        SetLogin(true);//设置登录标志  
-        emit sigClientConnected();//通知界面初始化  
-        emit sigLoadRosterFromStorage();//通知界面初始化数据  
+        CClient::slotClientConnected(szId);
     }
 }
 
@@ -439,17 +413,18 @@ void CClientXmpp::slotClientConnected()
  * @brief 客户端断开连接时清理操作.注意:先清理界面,再清理数据  
  *
  */
-void CClientXmpp::slotClientDisConnected()
+/*void CClientXmpp::slotClientDisConnected()
 {
     LOG_MODEL_DEBUG("CClientXmpp", "CClientXmpp::slotClientDisConnected()");
     //Logout()中先设置了false,才触发此信号的  
     if(!IsLogin())
     {
+        
         //注意:这个顺序不能变,先清理界面，再清理数据    
         emit sigClientDisconnected();
         CGlobal::Instance()->GetManager()->LogoutClean();
     }
-}
+}*/
 
 void CClientXmpp::slotClientError(QXmppClient::Error e)
 {
