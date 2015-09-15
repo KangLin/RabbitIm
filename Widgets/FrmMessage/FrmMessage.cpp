@@ -78,7 +78,6 @@ int CFrmMessage::Init(const QString &szId)
     ui->actionHideMessageBox->setCheckable(true);
     ui->actionHideMessageBox->setChecked(CGlobal::Instance()->IsHideMessageBox());
 
-
     check = connect(CGlobal::Instance()->GetMainWindow(), SIGNAL(sigRefresh()),
                     SLOT(slotRefresh()));
     Q_ASSERT(check);

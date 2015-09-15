@@ -28,6 +28,10 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
                     SLOT(slotRefresh()));
     Q_ASSERT(check);
 
+    check = connect(GET_CLIENT.data(), SIGNAL(sigChangedStatus(const QString&)),
+                    SLOT(SlotChangedStatus(const QString&)));
+    Q_ASSERT(check);
+
     check = connect(GET_CLIENT.data(), SIGNAL(sigRemoveRosterUserInfo(QString)),
                     SLOT(slotRemove(QString)));
     Q_ASSERT(check);
@@ -91,7 +95,7 @@ int CFrmContainer::ShowDialog(const QString &szId)
         QSharedPointer<CUserInfo> info = roster->GetInfo();
         pFrame = new CFrmMessage(szId, &m_tabWidget);
         QPixmap pixmap;
-        pixmap.convertFromImage(info->GetPhoto());
+        MainWindow::ComposeAvatarStatus(info, pixmap);
         nIndex = m_tabWidget.addTab(pFrame, QIcon(pixmap), info->GetShowName());
         if(nIndex < 0)
         {
@@ -223,6 +227,11 @@ void CFrmContainer::slotCurrentChanged(int index)
     this->setWindowTitle(m_tabWidget.tabText(index));
 }
 
+void CFrmContainer::SlotChangedStatus(const QString &szId)
+{
+    slotRefresh();
+}
+
 void CFrmContainer::slotRefresh()
 {
     int nIndex = m_tabWidget.currentIndex();
@@ -243,7 +252,7 @@ void CFrmContainer::slotRefresh()
             }
             QSharedPointer<CUserInfo> info = roster->GetInfo();
             QPixmap pixmap;
-            pixmap.convertFromImage(info->GetPhoto());
+            MainWindow::ComposeAvatarStatus(info, pixmap);
             m_tabWidget.setTabIcon(index, QIcon(pixmap));
             m_tabWidget.setTabText(index, info->GetShowName());
             continue;

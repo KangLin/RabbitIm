@@ -42,6 +42,7 @@ private slots:
     void slotCurrentChanged(int index);
     //刷新控件  
     void slotRefresh();
+    void SlotChangedStatus(const QString&szId);
     void slotDeleteFrame(QFrame *frame);
     void slotRemove(const QString& szId);
 private:
