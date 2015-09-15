@@ -164,9 +164,13 @@ int CClientXmpp::Login(const QString &szUserName,
         Logout();
     QXmppConfiguration config;
     //设置为非sasl验证  
-    config.setUseSASLAuthentication(true);
     if(szUserName.isNull())
+    {
         config.setUseNonSASLAuthentication(false);
+        config.setUseSASLAuthentication(false);
+    }
+    else
+        config.setUseSASLAuthentication(true);
     config.setHost(CGlobal::Instance()->GetXmppServer());
     config.setPort(CGlobal::Instance()->GetXmppServerPort());
     config.setDomain(CGlobal::Instance()->GetXmppDomain());
