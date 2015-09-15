@@ -241,8 +241,8 @@ int CClientXmpp::RosterAdd(const QString &szId, SUBSCRIBE_TYPE type,
     switch(type)
     {
     case SUBSCRIBE_REQUEST:
-        //m_Client.rosterManager().addItem(id, szName, groups);
         m_Client.rosterManager().subscribe(id);
+        //m_Client.rosterManager().addItem(id, szName, groups);
         break;
     case SUBSCRIBE_ACCEPT:
         if(m_User->GetUserInfoRoster(id).isNull())

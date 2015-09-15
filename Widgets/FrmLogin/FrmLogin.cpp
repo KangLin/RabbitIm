@@ -273,16 +273,6 @@ void CFrmLogin::slotActionGroupStatusTriggered(QAction *pAct)
     }
 }
 
-void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
-{
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
-    ui->lnPassword->setText(this->DecryptPassword(conf.value("Login/Password" + QString::number(index + 1), "").toString()));
-    if(ui->lnPassword->text() == "" || ui->lnPassword->text().isEmpty())
-        ui->chkSave->setChecked(false);
-    else
-        ui->chkSave->setChecked(true);
-}
-
 void CFrmLogin::slotRefresh()
 {
     ui->chkLogin->setChecked(CGlobal::Instance()->GetAutoLogin());
@@ -311,11 +301,28 @@ void CFrmLogin::slotClientError(CClient::ERROR_TYPE e)
     SetPrompt(szMsg);
 }
 
+void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
+{
+    LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::on_cmbUser_currentIndexChanged:%d", index);
+    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    ui->lnPassword->setText(this->DecryptPassword(conf.value("Login/Password" + QString::number(index + 1), "").toString()));
+    if(ui->lnPassword->text() == "" || ui->lnPassword->text().isEmpty())
+        ui->chkSave->setChecked(false);
+    else
+        ui->chkSave->setChecked(true);
+}
+
 void CFrmLogin::on_cmbUser_currentTextChanged(const QString &arg1)
 {
     LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::on_cmbUser_currentTextChanged:%s", qPrintable(arg1));
     QString szId = arg1;
     ComposeAvatar(szId);
+    //检查用户是否被保存过  
+    int nIndex = ui->cmbUser->findText(szId);
+    if(-1 == nIndex)
+        ui->lnPassword->setText("");
+    else
+        on_cmbUser_currentIndexChanged(nIndex);
 }
 
 void CFrmLogin::ComposeAvatar(const QString &id)
