@@ -37,6 +37,13 @@ CDlgUservCard::CDlgUservCard(QSharedPointer<CUserInfo> user, bool bModify, QWidg
     m_bModify(bModify)
 {
     Init();
+    m_szJid = user->GetId();
+    bool check = connect(GET_CLIENT.data(),
+                         SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUser>)),
+                         SLOT(slotUpdateRoster(QString, QSharedPointer<CUser>)));
+    Q_ASSERT(check);
+
+    GET_CLIENT->RequestUserInfoRoster(m_szJid);
 }
 
 CDlgUservCard::~CDlgUservCard()

@@ -28,6 +28,10 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
                     SLOT(slotRefresh()));
     Q_ASSERT(check);
 
+    check = connect(GET_CLIENT.data(), SIGNAL(sigUpdateRosterUserInfo(QString,QSharedPointer<CUser>)),
+                    SLOT(slotUpdateRoster(QString,QSharedPointer<CUser>)));
+    Q_ASSERT(check);
+
     check = connect(GET_CLIENT.data(), SIGNAL(sigChangedStatus(const QString&)),
                     SLOT(SlotChangedStatus(const QString&)));
     Q_ASSERT(check);
@@ -230,6 +234,37 @@ void CFrmContainer::slotCurrentChanged(int index)
 void CFrmContainer::SlotChangedStatus(const QString &szId)
 {
     slotRefresh();
+}
+
+void CFrmContainer::slotUpdateRoster(const QString& szId, QSharedPointer<CUser> user)
+{
+    int nIndex = m_tabWidget.currentIndex();
+    QMap<QString, QFrame* >::iterator it;
+    for(it = m_Frame.begin(); it != m_Frame.end(); it++)
+    {
+        QString id = it.key();
+        if(id != szId)
+            continue;
+        //是好友消息对话框  
+        QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+        if(!roster.isNull())
+        {
+            m_tabWidget.setCurrentWidget(it.value());
+            int index = m_tabWidget.currentIndex();
+            if(-1 == index)
+            {
+                LOG_MODEL_ERROR("CFrmContainer", "There isn't the widget");
+                continue;
+            }
+            QSharedPointer<CUserInfo> info = roster->GetInfo();
+            QPixmap pixmap;
+            MainWindow::ComposeAvatarStatus(info, pixmap);
+            m_tabWidget.setTabIcon(index, QIcon(pixmap));
+            m_tabWidget.setTabText(index, info->GetShowName());
+            continue;
+        }
+    }
+    m_tabWidget.setCurrentIndex(nIndex);
 }
 
 void CFrmContainer::slotRefresh()

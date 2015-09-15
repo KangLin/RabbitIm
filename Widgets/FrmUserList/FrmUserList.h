@@ -103,6 +103,8 @@ private slots:
     void slotRemoveRoster();
     //同意增加好友菜单槽  
     void slotAgreeAddRoster();
+    //更新好友列表  
+    void slotRefreshRosterList();
     //显示好友详细信息槽  
     void slotInformationRoster();
     //删除组槽  

@@ -2,7 +2,7 @@
 #include "Global/Global.h"
 
 CClient::CClient(QObject *parent) :
-    QObject(parent)
+    QObject(parent), COperateRoster()
 {
     m_bIsLogin = false;
 }
@@ -72,4 +72,16 @@ void CClient::slotClientDisconnected()
         CGlobal::Instance()->GetManager()->LogoutClean();
     }
     return;
+}
+
+int CClient::RefreshRosterList()
+{
+    return CGlobal::Instance()->GetManager()->GetManageUser()->ProcessRoster(this);
+}
+
+int CClient::ProcessRoster(QSharedPointer<CUserInfo> roster, void *para)
+{
+    if(roster.isNull())
+        return -1;
+    return RequestUserInfoRoster(roster->GetId());
 }

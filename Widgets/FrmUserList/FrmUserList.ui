@@ -165,6 +165,18 @@
     <string>Move roster</string>
    </property>
   </action>
+  <action name="actionRefresh_roster_list">
+   <property name="icon">
+    <iconset resource="../../Resource/Resource.qrc">
+     <normaloff>:/icon/Refresh</normaloff>:/icon/Refresh</iconset>
+   </property>
+   <property name="text">
+    <string>Refresh roster list</string>
+   </property>
+   <property name="toolTip">
+    <string>Refresh roster list</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../../Resource/Resource.qrc"/>

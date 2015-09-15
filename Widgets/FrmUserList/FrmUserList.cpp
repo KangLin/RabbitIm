@@ -323,6 +323,11 @@ int CFrmUserList::InitMenu()
                     SLOT(slotAgreeAddRoster()));
     Q_ASSERT(check);
 
+    m_Menu.addAction(ui->actionRefresh_roster_list);
+    check = connect(ui->actionRefresh_roster_list, SIGNAL(triggered()),
+                    SLOT(slotRefreshRosterList()));
+    Q_ASSERT(check);
+
     m_Menu.addAction(ui->actionInformation_I);
     check = connect(ui->actionInformation_I, SIGNAL(triggered()),
                     SLOT(slotInformationRoster()));
@@ -350,6 +355,7 @@ int CFrmUserList::EnableAllActioins(bool bEnable)
     EnableAction(ui->actionAudio, bEnable);
     EnableAction(ui->actionAllowMonitor, bEnable);
     EnableAction(ui->actionMove_roster, bEnable);
+    EnableAction(ui->actionRefresh_roster_list, bEnable);
     //TODO:2.新增菜单  
     return 0;
 }
@@ -394,6 +400,8 @@ void CFrmUserList::slotUpdateMenu()
 
     //如果是组上,显示增加好友  
     EnableAction(ui->actionAddRoster_A);
+    //更新好友列表  
+    EnableAction(ui->actionRefresh_roster_list);
 
     //判断是在组上还是在好友上  
     QString bareJid = GetCurrentRoster();
@@ -430,7 +438,6 @@ void CFrmUserList::slotUpdateMenu()
         EnableAction(ui->actionRename);
         //如果是好友上,显示删除好友  
         EnableAction(ui->actionRemoveRoster_R);
-
         //查看好友信息  
         EnableAction(ui->actionInformation_I);
         //移动到组  
@@ -538,6 +545,11 @@ void CFrmUserList::slotInformationRoster()
     QString bareJid = GetCurrentRoster();
     CDlgUservCard pvCard(GLOBAL_USER->GetUserInfoRoster(bareJid)->GetInfo());
     pvCard.exec();
+}
+
+void CFrmUserList::slotRefreshRosterList()
+{
+    GET_CLIENT->RefreshRosterList();
 }
 
 void CFrmUserList::slotRemoveGroup()

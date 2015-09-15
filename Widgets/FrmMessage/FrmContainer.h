@@ -4,6 +4,7 @@
 #include <QFrame>
 #include <QMap>
 #include <QTabWidget>
+#include "UserInfo/User.h"
 
 namespace Ui {
 class CFrmContainer;
@@ -43,6 +44,7 @@ private slots:
     //刷新控件  
     void slotRefresh();
     void SlotChangedStatus(const QString&szId);
+    void slotUpdateRoster(const QString& szId, QSharedPointer<CUser> user);
     void slotDeleteFrame(QFrame *frame);
     void slotRemove(const QString& szId);
 private:

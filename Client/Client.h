@@ -5,10 +5,11 @@
 #include "../UserInfo/User.h"
 #include "FileTransfer/FileTransfer.h"
 #include "Call/CallObject.h"
+#include "UserInfo/COperateRoster.h"
 
 /**
  * @defgroup RABBITIM_CLIENT 客户端通信抽象接口类模块  
- * @ingroup RABBITIM_INTERFACE_MANAGER
+ * @ingroup RABBITIM_INTERFACE_MANAGER  
  * @brief 客户端通信抽象接口类模块。\n  
  */
 
@@ -27,7 +28,7 @@
  * @see CManageFileTransfer
  * @see CManageCall
  */
-class CClient : public QObject
+class CClient : public QObject, COperateRoster
 {
     Q_OBJECT
 public:
@@ -90,6 +91,13 @@ public:
      * @see sigUpdateRosterUserInfo  
      */
     virtual int RequestUserInfoRoster(const QString& szId) = 0;
+    /**
+     * @brief 刷新好友列表  
+     * @return 
+     */
+    virtual int RefreshRosterList();
+    //内部使用  
+    virtual int ProcessRoster(QSharedPointer<CUserInfo> roster, void *para = NULL);
     /**
      * @brief 设置用户状态，会触发信号 sigChangedStatus· 
      *
