@@ -13,6 +13,7 @@ extern "C" {
 }
 #endif
 
+#include <QObject>
 #include <memory>
 #include <string>
 #include <QWidget>
@@ -42,10 +43,10 @@ public:
     ~CTool();
 
 public:
+#ifdef RABBITIM_USE_FFMPEG
     //设置ffmpeg日志输出  
     static int SetFFmpegLog();
 
-#ifdef RABBITIM_USE_FFMPEG
     /**
      * @brief 格式转换。  
      *        如果转换成功，则调用者使用完 outFrame 后，  

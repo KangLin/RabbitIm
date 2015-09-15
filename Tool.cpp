@@ -36,6 +36,7 @@ void Log(void*, int, const char* fmt, va_list vl)
     LOG_MODEL_DEBUG("ffmpeg", fmt, vl);
 }
 
+#ifdef RABBITIM_USE_FFMPEG
 int CTool::SetFFmpegLog()
 {
     //在程序初始化时设置ffmpeg日志的回调函数  
@@ -43,7 +44,6 @@ int CTool::SetFFmpegLog()
     return 0;
 }
 
-#ifdef RABBITIM_USE_FFMPEG
 AVPixelFormat CTool::QVideoFrameFormatToFFMpegPixFormat(
         const QVideoFrame::PixelFormat format)
 {

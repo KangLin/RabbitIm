@@ -9,7 +9,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 
 CONFIG += c++0x
 !msvc{
@@ -192,11 +192,13 @@ win32{
 include(Lbs.pri)
 SOURCES += main.cpp \
     ../../Global/Log.cpp \
+    ../../Tool.cpp \
     ../../Global/GlobalDir.cpp \
     ../../Plugin/PluginApp.cpp
 
 HEADERS  += \
     ../../Global/Log.h \
+    ../../Tool.h \
     ../../Global/GlobalDir.h \
     ../../Plugin/PluginApp.h
 
