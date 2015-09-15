@@ -44,13 +44,14 @@ CFrmMain::CFrmMain(QWidget *parent) :
                     GET_MAINWINDOW, SLOT(slotEditInformation()));
     Q_ASSERT(check);
 
-    ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
-    ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"),
-                          tr("Group Chat"));
-    ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"),
-                          tr("Recent messages"));
-    ui->tabWidget->addTab(&m_App, QIcon(":/icon/Application"),
-                          tr("Application"));
+    int nIndex = ui->tabWidget->addTab(&m_UserList, QIcon(":/icon/User"), tr("Rosters"));
+    ui->tabWidget->setTabToolTip(nIndex, tr("Rosters"));
+    nIndex = ui->tabWidget->addTab(&m_GroupChatList, QIcon(":/icon/Users"), tr("Group Chat"));
+    ui->tabWidget->setTabToolTip(nIndex, tr("Group Chat"));
+    nIndex = ui->tabWidget->addTab(&m_MessageList, QIcon(":/icon/Message"), tr("Recent messages"));
+    ui->tabWidget->setTabToolTip(nIndex, tr("Recent messages"));
+    nIndex = ui->tabWidget->addTab(&m_App, QIcon(":/icon/Application"), tr("Application"));
+    ui->tabWidget->setTabToolTip(nIndex, tr("Application"));
 
     if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
     {
@@ -59,7 +60,7 @@ CFrmMain::CFrmMain(QWidget *parent) :
     }
     QSettings conf(CGlobalDir::Instance()->GetUserConfigureFile(
               USER_INFO_LOCALE->GetInfo()->GetId()), QSettings::IniFormat);
-    int nIndex = conf.value("Widgets/Main", 0).toInt();
+    nIndex = conf.value("Widgets/Main", 0).toInt();
     ui->tabWidget->setCurrentIndex(nIndex);
 }
 
