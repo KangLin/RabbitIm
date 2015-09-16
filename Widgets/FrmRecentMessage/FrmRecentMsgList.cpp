@@ -17,7 +17,7 @@ CFrmRecentMsgList::CFrmRecentMsgList(QWidget *parent) :
     ui->setupUi(this);
     ui->gridLayout->addWidget(&m_MsgList);
 
-    m_pModel = new QStandardItemModel(this);//这里会产生内在泄漏，控件在romve操作时会自己释放内存。  
+    m_pModel = new QStandardItemModel(this);//这里不会产生内存泄漏，控件在romve操作时会自己释放内存。  
     if(m_pModel)
     {
         //增加头，只有增加了这个后，下面才会显示内容  
@@ -117,7 +117,9 @@ int CFrmRecentMsgList::InsertItem(const QString &szId, int nRow)
         szName = roster->GetInfo()->GetShowName() 
                 + roster->GetInfo()->GetSubscriptionTypeStr(roster->GetInfo()->GetSubScriptionType());
         nCount = roster->GetMessage()->GetUnReadCount();
-        icon = QIcon(CGlobal::Instance()->GetRosterStatusIcon(roster->GetInfo()->GetStatus()));
+        QPixmap pmp;
+        MainWindow::ComposeAvatarStatus(roster->GetInfo(), pmp);
+        icon = QIcon(pmp);
     }//是组消息  
     else if(!gc.isNull())
     {
