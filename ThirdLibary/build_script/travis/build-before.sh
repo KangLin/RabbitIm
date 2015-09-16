@@ -18,8 +18,8 @@ function function_install_yasm()
 function function_common()
 {
     #下载最新cmake程序
-    if [ -z "${QMAKE}" ]; then
-		cd ${SOURCE_DIR}/ThirdLibary
+    if [ "cmake" = "${QMAKE}" ]; then
+        cd ${SOURCE_DIR}/ThirdLibary
         wget http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
         tar xf cmake-3.1.0-Linux-x86_64.tar.gz
         mv cmake-3.1.0-Linux-x86_64 cmake
@@ -61,8 +61,8 @@ function function_android()
 
 function function_unix()
 {
-	#汇编工具yasm
-	function_install_yasm
+    #汇编工具yasm
+    function_install_yasm
 	
     function_common
     
@@ -70,8 +70,8 @@ function function_unix()
     
     if [ -z "$BUILD_THIRDLIBARY" ]; then
         #下载第三方依赖库
-		wget http://182.254.185.29/download/travis/unix.tar.gz
-		tar xzf unix.tar.gz
+        wget http://182.254.185.29/download/travis/unix.tar.gz
+        tar xzf unix.tar.gz
     fi
     cd ${SOURCE_DIR}/ThirdLibary
   
@@ -79,17 +79,17 @@ function function_unix()
 
 function function_mingw()
 {
-	#汇编工具yasm
-	function_install_yasm
+    #汇编工具yasm
+    function_install_yasm
 
-	cd ${SOURCE_DIR}/ThirdLibary
-	if [ -z "$BUILD_THIRDLIBARY" ]; then
-		echo "Download third library"
-		#下载第三方依赖库
-		wget http://182.254.185.29/download/travis/windows_mingw.tar.gz
-		tar xzf windows_mingw.tar.gz
-	else
-		export RABBITIM_BUILD_CROSS_HOST=i586-mingw32msvc
+    cd ${SOURCE_DIR}/ThirdLibary
+    if [ -z "$BUILD_THIRDLIBARY" ]; then
+        echo "Download third library"
+        #下载第三方依赖库
+        wget http://182.254.185.29/download/travis/windows_mingw.tar.gz
+        tar xzf windows_mingw.tar.gz
+    else
+        export RABBITIM_BUILD_CROSS_HOST=i586-mingw32msvc
     fi
     
     function_common

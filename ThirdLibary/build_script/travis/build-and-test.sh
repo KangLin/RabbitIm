@@ -3,8 +3,8 @@ set -e
 
 function function_common()
 {
-	#echo "PATH:$PATH"
-	cd ${SOURCE_DIR}/ThirdLibary/build_script
+    #echo "PATH:$PATH"
+    cd ${SOURCE_DIR}/ThirdLibary/build_script
     ./build_rabbitim.sh $BUILD_TARGERT ${SOURCE_DIR} $QMAKE
 }
 
@@ -22,19 +22,21 @@ function function_android()
 
 function function_unix()
 {
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${SOURCE_DIR}/ThirdLibary/unix/qt/lib
     function_common
 }
 
 function function_mingw()
 {
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${SOURCE_DIR}/ThirdLibary/windows_mingw/qt/lib
     function_common
 }
 
 SOURCE_DIR=`pwd`
 echo $SOURCE_DIR
 
-if [ -z "$QMAKE" ]; then
-	export PATH=`pwd`/ThirdLibary/cmake/bin:$PATH
+if [ "$QMAKE" = "cmake" ]; then
+    export PATH=`pwd`/ThirdLibary/cmake/bin:$PATH
 fi
 
 case ${BUILD_TARGERT} in
