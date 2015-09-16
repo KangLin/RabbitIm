@@ -144,7 +144,8 @@ HEADERS += Version.h \
     Widgets/FrmApp/FrmFavorites.h \
     Plugin/PluginApp.h \
     Plugin/ManagePlugin.h \
-    Global/GlobalDir.h
+    Global/GlobalDir.h \
+    Plugin/PluginAppFactory.h
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \

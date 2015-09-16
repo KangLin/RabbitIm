@@ -11,11 +11,7 @@ CManagePlugin::CManagePlugin(QObject *parent)
 int CManagePlugin::Init(const QString &szId)
 {
     int nRet = 0;
-   
-    //TODO:
-    QSharedPointer<CPluginApp> pluginMotion(new CPluginAppMotion());
-    RegisterPlugin(pluginMotion->Name(), pluginMotion);
-    
+
     LoadFromStorage(szId);
     std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
     for(it = m_Plugins.begin(); it != m_Plugins.end(); it++)

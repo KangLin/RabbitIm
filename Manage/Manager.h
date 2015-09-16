@@ -11,7 +11,6 @@
 #include "Plugin/ManagePlugin.h"
 
 class CManageFileTransfer;
-class CManagePlugin;
 
 /**
  * @defgroup RABBITIM_INTERFACE 接口类模块  
