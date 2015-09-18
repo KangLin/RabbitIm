@@ -34,33 +34,33 @@ int CManagePlugin::Clean()
     return 0;
 }
 
-int CManagePlugin::RegisterPlugin(const QString &szName,
+int CManagePlugin::RegisterPlugin(const QString &szId,
                                   QSharedPointer<CPluginApp> plugin)
 {
-    if(m_Plugins.find(szName) != m_Plugins.end())
+    if(m_Plugins.find(szId) != m_Plugins.end())
     {
         LOG_MODEL_ERROR("CManagePlugin", "Plugin [%s] is registered",
-                        szName.toStdString().c_str());
+                        szId.toStdString().c_str());
         return -1;
     }
-    m_Plugins.insert(std::pair<QString, QSharedPointer<CPluginApp> >(szName, plugin));
-    emit sigChangedAdd(szName);
+    m_Plugins.insert(std::pair<QString, QSharedPointer<CPluginApp> >(szId, plugin));
+    emit sigChangedAdd(szId);
     return 0;
 }
 
-int CManagePlugin::UnregisterPlugin(const QString &szName)
+int CManagePlugin::UnregisterPlugin(const QString &szId)
 {
-    if(m_Plugins.find(szName) == m_Plugins.end())
+    if(m_Plugins.find(szId) == m_Plugins.end())
         return 0;
-    m_Plugins.erase(szName);
-    emit sigChangedRemove(szName);
+    m_Plugins.erase(szId);
+    emit sigChangedRemove(szId);
     return 0;
 }
 
-QSharedPointer<CPluginApp> CManagePlugin::GetPlugin(const QString &szName)
+QSharedPointer<CPluginApp> CManagePlugin::GetPlugin(const QString &szId)
 {
     std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
-    it = m_Plugins.find(szName);
+    it = m_Plugins.find(szId);
     if(m_Plugins.end() == it)
         return QSharedPointer<CPluginApp>();
     return it->second;
@@ -75,13 +75,13 @@ std::list<QSharedPointer<CPluginApp> > CManagePlugin::GetAllPlugins()
     return lstPlugins;
 }
 
-int CManagePlugin::AddFavority(const QString &plugin)
+int CManagePlugin::AddFavority(const QString &szId)
 {
     bool bExist = false;
     std::list<QString>::iterator it;
     for(it = m_FavorityPlugins.begin(); it != m_FavorityPlugins.end(); it++)
     {
-        if(*it == plugin)
+        if(*it == szId)
         {
             bExist = true;
             break;
@@ -89,17 +89,17 @@ int CManagePlugin::AddFavority(const QString &plugin)
     }
     if(bExist)
         return -1;
-    m_FavorityPlugins.push_back(plugin);
-    emit sigAddFavority(plugin);
+    m_FavorityPlugins.push_back(szId);
+    emit sigAddFavority(szId);
     return 0;
 }
 
-int CManagePlugin::RemoveFavority(const QString &plugin)
+int CManagePlugin::RemoveFavority(const QString &szId)
 {
     std::list<QString>::iterator it;
     for(it = m_FavorityPlugins.begin(); it != m_FavorityPlugins.end(); it++)
     {
-        if(*it == plugin)
+        if(*it == szId)
         {
             m_FavorityPlugins.erase(it);
             //emit sigRemoveFavority(plugin);

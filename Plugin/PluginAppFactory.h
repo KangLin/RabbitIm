@@ -16,7 +16,7 @@ public:
     CPluginAppFactory()
     {
         QSharedPointer<CPluginApp> app(new T());
-        CGlobal::Instance()->GetManager()->GetManagePlugins()->RegisterPlugin(app->Name(), app);
+        CGlobal::Instance()->GetManager()->GetManagePlugins()->RegisterPlugin(app->ID(), app);
     }
 };
 

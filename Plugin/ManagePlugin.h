@@ -44,7 +44,7 @@ public:
      * @return 成功返回0，否则返回非0  
      * @see CPluginApp
      */
-    int RegisterPlugin(const QString &szName,
+    int RegisterPlugin(const QString &szId,
                        QSharedPointer<CPluginApp> plugin);
     /**
      * @brief 移除插件  
@@ -52,13 +52,13 @@ public:
      * @return 成功返回0，否则返回非0   
      * @see CPluginApp
      */
-    int UnregisterPlugin(const QString &szName);
+    int UnregisterPlugin(const QString &szId);
     /**
      * @brief 根据插件名称得到插件  
      * @param 插件名称  
      * @return 
      */
-    QSharedPointer<CPluginApp> GetPlugin(const QString &szName);
+    QSharedPointer<CPluginApp> GetPlugin(const QString &szId);
     /**
      * @brief 得到所有插件  
      * @return 
@@ -67,16 +67,16 @@ public:
 
     /**
      * @brief 添加插件到收藏中  
-     * @param plugin
+     * @param szId:插件ID  
      * @return 
      */
-    int AddFavority(const QString &plugin);
+    int AddFavority(const QString &szId);
     /**
      * @brief 从收藏中删除插件  
-     * @param plugin
+     * @param szId:插件ID  
      * @return 
      */
-    int RemoveFavority(const QString &plugin);
+    int RemoveFavority(const QString &szId);
     /**
      * @brief 得到所有收藏  
      * @return 
@@ -100,17 +100,17 @@ private:
 public:
 signals:
     //增加插件  
-    void sigChangedAdd(const QString& szName);
+    void sigChangedAdd(const QString& szId);
     //删除插件  
-    void sigChangedRemove(const QString &szName);
+    void sigChangedRemove(const QString &szId);
     //增加收藏  
-    void sigAddFavority(const QString& szName);
+    void sigAddFavority(const QString& szId);
     //删除收藏  
-    void sigRemoveFavority(const QString &szName);
+    void sigRemoveFavority(const QString &szId);
 
 private:
     std::map<QString, QSharedPointer<CPluginApp> > m_Plugins;
-    std::list<QString> m_FavorityPlugins;
+    std::list<QString> m_FavorityPlugins;  //收藏应用  
 };
 
 #endif // CMANAGEPLUGIN_H

@@ -47,6 +47,12 @@ private slots:
     
 private:
     int InitList();
+
+    enum _USERLIST_ROLE
+    {
+        ROLE_GROUP = Qt::UserRole + 1,
+        ROLE_APPLICATION = ROLE_GROUP + 1
+    };
 private:
     Ui::CFrmFavorites *ui;
 

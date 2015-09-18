@@ -64,7 +64,7 @@ int CFrmFavorites::InitList()
 void CFrmFavorites::slotAddFavorites(const QString &szApp)
 {       
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
-                                            Qt::DisplayRole, 
+                                            ROLE_APPLICATION, 
                                             szApp, 
                                             -1,
                                             Qt::MatchStartsWith
@@ -76,21 +76,22 @@ void CFrmFavorites::slotAddFavorites(const QString &szApp)
         return;
     }
     
-    QStandardItem* lstGroup = NULL;
+    QStandardItem* pItem = NULL;
     QSharedPointer<CPluginApp> app =
             GETMANAGER->GetManagePlugins()->GetPlugin(szApp);
     if(app.isNull())
         return;
-    lstGroup = new QStandardItem(app->Icon(), szApp);
-    lstGroup->setEditable(false);  //禁止双击编辑  
-    m_pModel->appendRow(lstGroup);
+    pItem = new QStandardItem(app->Icon(), app->Name());
+    pItem->setEditable(false);  //禁止双击编辑  
+    pItem->setData(app->ID(), ROLE_APPLICATION);
+    m_pModel->appendRow(pItem);
     return ;
 }
 
 void CFrmFavorites::slotRemoveFavorites(const QString &szApp)
 {
     QModelIndexList lstIndexs = m_pModel->match(m_pModel->index(0, 0),
-                                            Qt::DisplayRole, 
+                                            ROLE_APPLICATION, 
                                             szApp, 
                                             -1,
                                             Qt::MatchStartsWith
@@ -129,7 +130,7 @@ void CFrmFavorites::slotOpenApp()
 
     //是用户结点  
     QString szApp;
-    QVariant v = m->data(index, Qt::DisplayRole);
+    QVariant v = m->data(index, ROLE_APPLICATION);
     if(v.canConvert<QString>())
     {
         szApp = v.value<QString>();
@@ -153,7 +154,7 @@ void CFrmFavorites::slotCloseApp()
 
     //是用户结点  
     QString szApp;
-    QVariant v = m->data(index, Qt::DisplayRole);
+    QVariant v = m->data(index, ROLE_APPLICATION);
     if(v.canConvert<QString>())
     {
         szApp = v.value<QString>();
@@ -176,7 +177,7 @@ void CFrmFavorites::slotAboutApp()
 
     //是用户结点  
     QString szApp;
-    QVariant v = m->data(index, Qt::DisplayRole);
+    QVariant v = m->data(index, ROLE_APPLICATION);
     if(v.canConvert<QString>())
     {
         szApp = v.value<QString>();
@@ -199,7 +200,7 @@ void CFrmFavorites::slotRemoveApp()
 
     //是用户结点  
     QString szApp;
-    QVariant v = m->data(index, Qt::DisplayRole);
+    QVariant v = m->data(index, ROLE_APPLICATION);
     if(v.canConvert<QString>())
     {
         szApp = v.value<QString>();
@@ -225,7 +226,7 @@ void CFrmFavorites::slotCustomContextMenuRequested(const QPoint &pos)
 
     //是用户结点  
     QString szApp;
-    QVariant v = m->data(index, Qt::DisplayRole);
+    QVariant v = m->data(index, ROLE_APPLICATION);
     if(v.canConvert<QString>())
     {
         szApp = v.value<QString>();

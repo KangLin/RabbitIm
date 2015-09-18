@@ -49,6 +49,11 @@ int CPluginAppMotion::Close()
     return 0;
 }
 
+QString CPluginAppMotion::ID()
+{
+    return "App.Motion";
+}
+
 QString CPluginAppMotion::Name()
 {
     return tr("Motion");

@@ -23,6 +23,7 @@ public:
     virtual int Open(QWidget* parent = 0);
     virtual int Close();
 
+    virtual QString ID();
     virtual QString Name();
     virtual QSet<QString> Group();
     virtual QIcon Icon();

@@ -196,7 +196,7 @@ int CFrmAppList::InsertAppInGroup(QStandardItem *pGroupItem,
     QStandardItem* pItemApp = NULL;
     pItemApp = new QStandardItem(app->Icon(), app->Name());
     pItemApp->setEditable(false);  //禁止双击编辑  
-    pItemApp->setData(app->Name(), ROLE_APPLICATION);
+    pItemApp->setData(app->ID(), ROLE_APPLICATION);
     pGroupItem->appendRow(pItemApp);
     return 0;
 }

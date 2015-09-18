@@ -35,6 +35,8 @@ public:
     virtual int About();
     
     ///属性  
+    ///应用ID,应用以这个ID区分  
+    virtual QString ID() = 0;
     //应用名称  
     virtual QString Name() = 0;
     //应用所在组  
