@@ -54,11 +54,14 @@ if [ -n "$2" ]; then
     ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl && \
     ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl
     if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
+       echo "building ......"
         ./build_libopus.sh ${RABBITIM_BUILD_TARGERT} $2/libopus && \
-        ./build_speexdsp.sh ${RABBITIM_BUILD_TARGERT}  $2/speexdsp && \
+        ./build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} $2/speexdsp && \
         ./build_speex.sh ${RABBITIM_BUILD_TARGERT} $2/speex && \
         ./build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264 && \
+        ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} $2/libqrencode && \
         ./build_libsodium.sh ${RABBITIM_BUILD_TARGERT} $2/libsodium && \
+        ./build_filter_audio.sh ${RABBITIM_BUILD_TARGERT} $2/filter_audio && \
         ./build_toxcore.sh ${RABBITIM_BUILD_TARGERT} $2/toxcore
     fi
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx && \
@@ -68,7 +71,10 @@ if [ -n "$2" ]; then
     ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} $2/pjsip && \
     ./build_icu.sh ${RABBITIM_BUILD_TARGERT} $2/icu && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
-    ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp
+    ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp && \
+    ./build_gdal.sh ${RABBITIM_BUILD_TARGERT} $2/gdal && \
+    ./build_osg.sh ${RABBITIM_BUILD_TARGERT} $2/osg && \
+    ./build_osgearth.sh ${RABBITIM_BUILD_TARGERT} $2/osgearth
 else
     ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} 
@@ -76,6 +82,7 @@ else
         ./build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_speex.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_x264.sh ${RABBITIM_BUILD_TARGERT} && \
+        ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_libopus.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_libsodium.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_toxcore.sh ${RABBITIM_BUILD_TARGERT}
@@ -87,5 +94,8 @@ else
     ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_icu.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT}
+    ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_gdal.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_osg.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_osgearth.sh ${RABBITIM_BUILD_TARGERT}
 fi

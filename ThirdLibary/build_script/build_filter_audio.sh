@@ -33,7 +33,7 @@ fi
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
 else
-    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/toxcore
+    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/filter_audio
 fi
 
 CUR_DIR=`pwd`
@@ -41,33 +41,31 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone git://github.com/irungentoo/toxcore.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone git://github.com/irungentoo/toxcore.git ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone https://github.com/irungentoo/filter_audio.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone https://github.com/irungentoo/filter_audio.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget https://github.com/irungentoo/toxcore/archive/master.zip"
+        echo "wget https://github.com/irungentoo/filter_audio/archive/master.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget https://github.com/irungentoo/toxcore/archive/master.zip
+        wget https://github.com/irungentoo/filter_audio/archive/master.zip
         unzip master.zip
-        mv toxcore-master ..
+        mv filter_audio-master ..
         rm -fr *
         cd ..
         rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
-        mv -f toxcore-master ${RABBITIM_BUILD_SOURCE_CODE}
+        mv -f filter_audio-master ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-if [ ! -f configure ]; then
-    echo "sh autogen.sh"
-    sh autogen.sh
-fi
 
-mkdir -p build_${RABBITIM_BUILD_TARGERT}
-cd build_${RABBITIM_BUILD_TARGERT}
+#清理
 if [ -n "$RABBITIM_CLEAN" ]; then
-    rm -fr *
+    if [ -d ".git" ]; then
+        echo "clean ..."
+        git clean -xdf
+    fi
 fi
 
 echo ""
@@ -84,11 +82,6 @@ echo ""
 
 echo "configure ..."
 
-if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
-    CONFIG_PARA="--enable-static --disable-shared"
-else
-    CONFIG_PARA="--disable-static --enable-shared"
-fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
         export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
@@ -98,9 +91,6 @@ case ${RABBITIM_BUILD_TARGERT} in
         export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
         export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
         export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
-        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --disable-shared -enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
-        CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-        #CONFIG_PARA="${CONFIG_PARA} --disable-epoll"
         CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CPPFLAGS="${CFLAGS}"
     ;;
@@ -121,11 +111,6 @@ case ${RABBITIM_BUILD_TARGERT} in
                 export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
                 export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
                 export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
-                CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc"
-                CONFIG_PARA="${CONFIG_PARA} --host=${RABBITIM_BUILD_CROSS_HOST}"
-                ;;
-            *)
-            ;;
         esac
         ;;
     *)
@@ -135,13 +120,10 @@ case ${RABBITIM_BUILD_TARGERT} in
     ;;
 esac
 
-CONFIG_PARA="${CONFIG_PARA} --with-dependency-search=${RABBITIM_BUILD_PREFIX}"
-CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX "
-CONFIG_PARA="${CONFIG_PARA} --disable-rt --disable-tests --disable-testing"
-echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
-../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
-
 echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1 && make install
+make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1 && make install PREFIX=${RABBITIM_BUILD_PREFIX}
+if [ -f "${RABBITIM_BUILD_PREFIX}/lib/libfilteraudio.dll" ]; then
+    mv ${RABBITIM_BUILD_PREFIX}/lib/libfilteraudio.dll ${RABBITIM_BUILD_PREFIX}/bin
+fi
 
 cd $CUR_DIR

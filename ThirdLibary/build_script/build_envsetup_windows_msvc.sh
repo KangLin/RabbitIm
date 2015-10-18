@@ -13,7 +13,7 @@
 
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
-#QT_ROOT=/c/Qt/Qt5.3.1_msvc/5.3/msvc2013 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/windows_msvc/qt
+#QT_ROOT=/c/Qt/Qt5.5.0/5.5/msvc2013 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/windows_msvc/qt
 #RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
 JOM=make #设置 QT make 工具 JOM
 RABBITIM_CLEAN=TRUE #编译前清理

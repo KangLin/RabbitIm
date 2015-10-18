@@ -32,6 +32,8 @@
 11. JOM=make                             #设置 QT make 工具 JOM
 12. RABBITIM_USE_REPOSITORIES="FALSE"    #下载指定的压缩包。省略，则下载开发库。
 13. RABBITIM_CLEAN=TRUE                  #编译前清理
+14. RABBITIM_BUILD_TOOLCHAIN_VERSION=4.9   #工具链版本号，默认为4.8
+15. RABBITIM_BUILD_PLATFORMS_VERSION=23    #android ndk api (平台)版本号，默认为17
 
 所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。
 为了避免这个问题。你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。  
@@ -75,13 +77,13 @@ ubuntu下交叉编译
     export PATH=$JAVA_HOME/bin:$PATH
 
 #### 1.2. android ndk
-* 工具链版本：4.8
+* 工具链版本：4.9
 * 下载:
 
     cd /home
-    wget http://dl.google.com/android/ndk/android-ndk-r9c-linux-x86_64.tar.bz2
-    tar xf android-ndk-r9c-linux-x86_64.tar.bz2
-    mv android-ndk-r9c android-ndk
+    wget http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
+    ./android-ndk-r10e-linux-x86_64.bin
+    mv android-ndk-r10e android-ndk
 
 
 * 设置环境变量
@@ -90,7 +92,7 @@ ubuntu下交叉编译
     export ANDROID_NDK_ROOT=$ANDROID_NDK
 
 #### 1.3. android sdk 
-* 平台版本：18
+* 平台版本：21
 * 下载：
 
     cd /home
@@ -135,6 +137,7 @@ ubuntu下交叉编译
     sudo apt-get install ruby  build-essential perl python 
 
 #### 1.10. cmake 工具
+版本：大于等3.1.0
 
     cd /home
     wget http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
@@ -185,9 +188,9 @@ windows下交叉编译
 
 + 下载工具：
 
-    pacman -S wget subversion git autoconf automake m4 libtool pkg-config make bison flex gperf unzip
+    pacman -S wget subversion git autoconf automake m4 libtool mingw-w64-i686-pkg-config mingw-w64-i686-make bison flex gperf unzip
 
-+ 下载本地编译器gcc（版本：4.9.2）：
++ 下载本地编译器gcc（版本：5.2.0）：
 
     pacman -S mingw-w64-i686-gcc
 
@@ -211,13 +214,13 @@ make: fork: Resource temporarily unavailable
     export PATH=$JAVA_HOME/bin:$PATH
 
 #### 2.2. android ndk
-* 工具链版本：4.8
+* 工具链版本：4.9
 * 下载:
 
     cd /home
-    wget http://dl.google.com/android/ndk/android-ndk-r9c-windows-x86.zip
-    unzip android-ndk32-r9c-windows-x86.zip
-    mv android-ndk-r9c android-ndk
+    wget http://dl.google.com/android/ndk/android-ndk-r10e-windows-x86.exe
+    android-ndk-r10e-windows-x86.exe
+    mv android-ndk-r10e android-ndk
 
 * 设置环境变量
 
@@ -226,12 +229,12 @@ make: fork: Resource temporarily unavailable
     export PATH=$PATH::$ANDROID_SDK/platform-tools
 
 #### 2.3. android sdk 
-* 平台版本：18
+* 平台版本：21
 * 下载：
 
-    wget http://182.254.185.29/download/travis/android-sdk.tar.gz 
-    tar xzf android-sdk.tar.gz 
-    mv sdk android-sdk
+    wget https://dl.google.com/android/android-sdk_r23-windows.zip   
+    unzip android-sdk_r23-windows.zip
+    mv android-sdk-windows android-sdk
 
 * 设置环境变量
 
@@ -292,7 +295,7 @@ https://github.com/ruby/ruby
 
     pacman -S bison flex gperf
 
-#### 2.11. 本地编译器gcc（版本：4.9.2）：
+#### 2.11. 本地编译器gcc（版本：5.2.0）：
 
     pacman -S mingw-w64-i686-gcc
 

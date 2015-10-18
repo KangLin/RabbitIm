@@ -168,6 +168,7 @@ int CFrmPlayer::TestCamera()
     vi.nRatio = 15;
     CCameraFactory::Instance()->GetCamera(0)->Open(pHander);
     CCameraFactory::Instance()->GetCamera(0)->Start();
+    return nRet;
 }
 
 #endif

@@ -13,7 +13,7 @@
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
 set -e
-HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY]"
+HELP_STRING="Usage $0 PLATFORM(android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
     android|windows_msvc|windows_mingw|unix)
@@ -40,20 +40,21 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
+    SPEEXDSP_VERSION=SpeexDSP-1.2rc3
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone http://git.xiph.org/speexdsp.git  ${RABBITIM_BUILD_SOURCE_CODE}"
+        echo "git clone --branch=${SPEEXDSP_VERSION} http://git.xiph.org/speexdsp.git  ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone -b 887ac10 http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone --branch=${SPEEXDSP_VERSION} http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget http://downloads.xiph.org/releases/speex/speexdsp-1.2rc3.tar.gz"
+        echo "wget http://downloads.xiph.org/releases/speex/${SPEEXDSP_VERSION}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget http://downloads.xiph.org/releases/speex/speexdsp-1.2rc3.tar.gz
-        tar xzf speexdsp-1.2rc3.tar.gz
-        mv speexdsp-1.2rc3 ..
+        wget http://downloads.xiph.org/releases/speex/${SPEEXDSP_VERSION}.tar.gz
+        tar xzf ${SPEEXDSP_VERSION}.tar.gz
+        mv ${SPEEXDSP_VERSION} ..
         rm -fr *
         cd ..
-        mv -f speexdsp-1.2rc3 ${RABBITIM_BUILD_SOURCE_CODE}
+        mv -f ${SPEEXDSP_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 

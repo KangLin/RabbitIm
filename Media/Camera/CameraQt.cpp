@@ -1,6 +1,6 @@
 #include "CameraQt.h"
 
-CCameraQt::CCameraQt(int nIndex, QObject *parent)
+CCameraQt::CCameraQt(int nIndex)
     : CCamera(nIndex)
 {
 }

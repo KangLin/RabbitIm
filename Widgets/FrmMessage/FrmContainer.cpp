@@ -233,6 +233,7 @@ void CFrmContainer::slotCurrentChanged(int index)
 
 void CFrmContainer::SlotChangedStatus(const QString &szId)
 {
+    Q_UNUSED(szId);
     slotRefresh();
 }
 

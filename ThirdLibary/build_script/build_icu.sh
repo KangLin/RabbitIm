@@ -48,13 +48,13 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget http://download.icu-project.org/files/icu4c/55.1/icu4c-55_1-src.tgz ${RABBITIM_BUILD_SOURCE_CODE}
-        mv icu4c-55_1-src.tgz ..
+        wget http://download.icu-project.org/files/icu4c/56.1/icu4c-56_1-src.zip ${RABBITIM_BUILD_SOURCE_CODE}
+        mv icu4c-56_1-src.tgz ..
         cd ..
         rm -fr icu
-        tar xf icu4c-55_1-src.tgz
+        tar xf icu4c-56_1-src.tgz
         cd icu
-        rm icu4c-55_1-src.tgz
+        rm icu4c-56_1-src.tgz
     fi
 fi
 
@@ -81,16 +81,18 @@ echo ""
 echo "configure ..."
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     CONFIG_PARA="--enable-static --disable-shared"
+    LDFLAGS="-static"
 else
     CONFIG_PARA="--disable-static --enable-shared"
 fi
+MAKE=make
 case ${RABBITIM_BUILD_TARGERT} in
     android)
     ;;
     unix)
         cd ${CONFIG_DIR}
         ${SOURCE_DIR}/runConfigureICU Linux/gcc --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
-        make ${RABBITIM_MAKE_JOB_PARA} && make install
+        ${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
         ;;
     windows_msvc)
         cd ${CONFIG_DIR}
@@ -103,9 +105,11 @@ case ${RABBITIM_BUILD_TARGERT} in
             ;;
         esac
         ${SOURCE_DIR}/runConfigureICU ${platform} --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
-        make
-        make install 
-        cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+        ${MAKE} ${RABBITIM_MAKE_JOB_PARA} \
+            && ${MAKE} install 
+        if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
+            mv ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+        fi
         ;;
     windows_mingw)
         case `uname -s` in
@@ -115,18 +119,20 @@ case ${RABBITIM_BUILD_TARGERT} in
                 make ${RABBITIM_MAKE_JOB_PARA}
                 cd ${BUILD_DIR}
                 ${SOURCE_DIR}/configure --host=${RABBITIM_BUILD_CROSS_HOST} --with-cross_build=${CONFIG_DIR} --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
-                make ${RABBITIM_MAKE_JOB_PARA} \
-                    && make install 
+                ${MAKE} ${RABBITIM_MAKE_JOB_PARA} \
+                    && ${MAKE} install 
                 if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
-                    cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+                    mv ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
                 fi
                 ;;
             MINGW*|MSYS*)
                 cd ${CONFIG_DIR}
-                ${SOURCE_DIR}/runConfigureICU MinGW --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
-                make 
-                make install 
-                cp -lf ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+                ${SOURCE_DIR}/runConfigureICU MinGW --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA} LDFLAGS=${LDFLAGS}
+                ${MAKE} ${RABBITIM_MAKE_JOB_PARA} \
+                    && ${MAKE} install 
+                if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
+                    mv ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
+                fi
                 ;;
         esac
         ;;

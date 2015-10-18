@@ -81,6 +81,7 @@ int CClient::RefreshRosterList()
 
 int CClient::ProcessRoster(QSharedPointer<CUserInfo> roster, void *para)
 {
+    Q_UNUSED(para);
     if(roster.isNull())
         return -1;
     return RequestUserInfoRoster(roster->GetId());

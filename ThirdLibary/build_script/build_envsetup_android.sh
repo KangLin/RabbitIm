@@ -16,13 +16,16 @@
 #export ANDROID_SDK=/home/android-sdk/sdk        #指定 android sdk 根目录
 #export ANDROID_SDK_ROOT=$ANDROID_SDK
 #export JAVA_HOME=/home/jdk1.7.0_51              #指定 jdk 根目录
+export ANDROID_NDK_ABI_NAME=armeabi-v7a 
 
 ANT=/usr/bin/ant         #ant 程序
-#QT_ROOT=/home/k/Qt5.4.1/5.4/android_armv7         #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/android/qt
+#QT_ROOT=/C/Qt/Qt5.5.0/5.5/android_armv7        #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/android/qt
 JOM=make #/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom   #设置 QT make 工具 JOM
 RABBITIM_CLEAN=TRUE #编译前清理
 #RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库
 #RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。
+RABBITIM_BUILD_TOOLCHAIN_VERSION=4.9   #工具链版本号 
+RABBITIM_BUILD_PLATFORMS_VERSION=21    #android ndk api (平台)版本号 
 
 if [ -z "$ANDROID_NDK_ROOT" -o -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" -o -z "$ANDROID_SDK_ROOT"	-o -z "$JAVA_HOME" ]; then
     echo "Please set ANDROID_NDK_ROOT and ANDROID_NDK and ANDROID_SDK and ANDROID_SDK_ROOT and JAVA_HOME"
@@ -48,7 +51,7 @@ fi
 
 #设置qt安装位置
 if [ -z "$QT_ROOT" ]; then
-        QT_ROOT=${RABBITIM_BUILD_PREFIX}/qt
+    QT_ROOT=${RABBITIM_BUILD_PREFIX}/qt
 fi
 QT_BIN=${QT_ROOT}/bin       #设置用于 android 平台编译的 qt bin 目录
 QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
@@ -56,6 +59,7 @@ QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
 
 echo "QT_BIN:$QT_BIN"
 
+MAKE=make
 #自动判断主机类型，目前只做了linux、windows判断
 TARGET_OS=`uname -s`
 case $TARGET_OS in
@@ -73,18 +77,26 @@ case $TARGET_OS in
     ;;
 esac
 
-RABBITIM_BUILD_TOOLCHAIN_VERSION=4.8  #工具链版本号 
-RABBITIM_BUILD_PLATFORMS_VERSION=18    #android ndk api (平台)版本号 
+if [ -z "${RABBITIM_BUILD_TOOLCHAIN_VERSION}" ]; then
+    RABBITIM_BUILD_TOOLCHAIN_VERSION=4.8  #工具链版本号 
+fi
+if [ -z "${RABBITIM_BUILD_PLATFORMS_VERSION}" ]; then
+    RABBITIM_BUILD_PLATFORMS_VERSION=18    #android ndk api (平台)版本号 
+fi
 
-RABBITIM_BUILD_CROSS_PREFIX=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}/prebuilt/${RABBITIM_BUILD_HOST}/bin/arm-linux-androideabi-
+RABBITIM_BUILD_CROSS_ROOT=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}/prebuilt/${RABBITIM_BUILD_HOST}
+RABBITIM_BUILD_CROSS_PREFIX=${RABBITIM_BUILD_CROSS_ROOT}/bin/arm-linux-androideabi-
 RABBITIM_BUILD_CROSS_SYSROOT=$ANDROID_NDK_ROOT/platforms/android-${RABBITIM_BUILD_PLATFORMS_VERSION}/arch-arm
 if [ -z "${RABBITIM_BUILD_CROSS_HOST}" ]; then
     RABBITIM_BUILD_CROSS_HOST=arm-linux-androideabi
 fi
+RABBITIM_BUILD_CROSS_STL=${ANDROID_NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/${RABBITIM_BUILD_TOOLCHAIN_VERSION}
+RABBITIM_BUILD_CROSS_STL_INCLUDE=${RABBITIM_BUILD_CROSS_STL}/include
+RABBITIM_BUILD_CROSS_STL_LIBS=${RABBITIM_BUILD_CROSS_STL}/libs
+RABBITIM_BUILD_CROSS_STL_INCLUDE_FLAGS="-I${RABBITIM_BUILD_CROSS_STL_INCLUDE} -I${RABBITIM_BUILD_CROSS_STL_LIBS}/${ANDROID_NDK_ABI_NAME}/include"
+
 export ANDROID_API_VERSION=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
 export PATH=${QT_BIN}:$PATH
 export PKG_CONFIG=pkg-config
 export PKG_CONFIG_EXECUTABLE=$PKG_CONFIG
 export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
-
-

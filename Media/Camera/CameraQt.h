@@ -13,7 +13,7 @@
 class CCameraQt : public CCamera
 {
 public:
-    CCameraQt(int nIndex, QObject *parent = 0);
+    CCameraQt(int nIndex);
     virtual ~CCameraQt();
 
     virtual int Open(CHanderFrame* pHander, VideoInfo* pVideoInfo = NULL);

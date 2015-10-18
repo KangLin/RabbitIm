@@ -47,7 +47,7 @@ public class RabbitImActivity
         initReceiver();
     }
     
-//*
+/*
     @SuppressWarnings("deprecation")
     public static void notify(String szMessage, String szTitle) {
         if(null == m_instance){
@@ -119,10 +119,9 @@ public class RabbitImActivity
         notification.setLatestEventInfo(context, szTitle, szMessage, contentIntent);		
         //用mNotificationManager的notify方法通知用户生成标题栏消息通知
         m_notificationManager.notify(m_nNotificationCount, notification);
-    }
-  //*/       
+    } //*/       
 
-  /* 当 android sdk >= 16 时使用  
+  //* 当 android sdk >= 16 时使用  
     public static void notify(String szMessage, String szTitle)
     {
         Log.d(TAG, "notify:message:" + szMessage + ":title:" + szTitle);
@@ -148,7 +147,7 @@ public class RabbitImActivity
            //传递参数，标志此时是通知栏点击激活窗口  
            notificationIntent.putExtra("onChick", "true");           
            // 获取PendingIntent  
-           PendingIntent pi = PendingIntent.getActivity(m_instance, 0, intent, 0);
+           PendingIntent pi = PendingIntent.getActivity(m_instance, 0, notificationIntent, 0);
            m_builder.setContentIntent(pi); // 设置点击通知将要启动的Inent  
        }
 
@@ -162,8 +161,8 @@ public class RabbitImActivity
            m_notificationManager.notify(m_nNotificationCount, m_builder.build());
        else
            Log.e(TAG, "m_notificationManager is null");
-   }
-//*/
+   } //*/
+
    public static void CancelAll()
    {
        if(null != m_notificationManager)

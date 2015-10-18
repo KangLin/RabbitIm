@@ -40,21 +40,22 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
+    SPEEX_VERSION=Speex-1.2rc2
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        echo "git clone -b ${SPEEX_VERSION} http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone -b 6aab25c http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone --branch=${SPEEX_VERSION} http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz"
+        echo "wget http://downloads.xiph.org/releases/speex/${SPEEX_VERSION}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz
-        tar xzf speex-1.2rc1.tar.gz
-        mv speex-1.2rc1 ..
+        wget http://downloads.xiph.org/releases/speex/${SPEEX_VERSION}.tar.gz
+        tar xzf ${SPEEX_VERSION}.tar.gz
+        mv ${SPEEX_VERSION} ..
         rm -fr *
         cd ..
         rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
-        mv -f speex-1.2rc1 ${RABBITIM_BUILD_SOURCE_CODE}
+        mv -f ${SPEEX_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 
