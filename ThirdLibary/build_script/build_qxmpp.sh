@@ -144,6 +144,7 @@ case $RABBITIM_BUILD_TARGERT in
         ${QMAKE} ${DEBUG_PARA}
         ${MAKE} install
         QXMPP_DLL="${RABBITIM_BUILD_PREFIX}/lib/qxmpp.dll"
+        mkdir -p ${RABBITIM_BUILD_PREFIX}/bin
         if [ -f "${QXMPP_DLL}" ]; then
             mv ${QXMPP_DLL} ${RABBITIM_BUILD_PREFIX}/bin/.
         fi
