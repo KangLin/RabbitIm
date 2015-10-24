@@ -124,17 +124,20 @@ ${MAKE} -f Makefile
 case $RABBITIM_BUILD_TARGERT in
     android)
         MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
-        ${MAKE} -f Makefile install
-        #${MAKE} -f Makefile install ${MAKE_PARA}
+        ${MAKE} -f Makefile 
+        ${MAKE} -f Makefile install ${MAKE_PARA}
         echo "$QMAKE ${DEBUG_PARA}"
         ${QMAKE} ${DEBUG_PARA}
-        ${MAKE} -f Makefile install
-        #${MAKE} -f Makefile install ${MAKE_PARA}
+        ${MAKE} -f Makefile 
+        ${MAKE} -f Makefile install ${MAKE_PARA}
         if [ -f "`pwd`/src/libqxmpp.a" ]; then
             cp -fr `pwd`/src/libqxmpp.a ${RABBITIM_BUILD_PREFIX}/lib
         fi
         if [ -f "`pwd`/src/libqxmpp_d.a" ]; then
             cp -fr `pwd`/src/libqxmpp_d.a ${RABBITIM_BUILD_PREFIX}/lib
+        fi
+        if [ -f "" ]; then
+            cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/pkgconfig/* ${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
         fi
     ;;
     windows_mingw|windows_msvc)

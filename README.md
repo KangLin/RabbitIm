@@ -14,6 +14,8 @@
     5. 提问前先查看文档与邮件组。当不能解决时，再向邮件组提交问题。
 * QQ群：68046752（本人不常上QQ）。有问题或好的想法，尽量用邮件组。
 * 当前编译状态: [![Build Status](https://travis-ci.org/KangLin/rabbitim.png)](https://travis-ci.org/KangLin/rabbitim)
+* 微信公众号：rabbitim  
+![微信公众号:rabbitim](Resource/png/qrcode.jpg "微信公众号：rabbitim")
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -50,7 +52,15 @@
 
 捐赠：
 ----
+如果这个项目对您有用，我们欢迎各方任何形式的捐助，也包括参与到项目代码更新或意见反馈中来。谢谢！
+
+资金捐赠：
+
 qq手机钱包：16614119
+
+微信扫描下面二维码进行捐赠：
+
+![微信收款](Resource/png/weixinpay.jpg "微信收款")
 
 文档:
 ----
@@ -77,6 +87,6 @@ ubuntu 下截图:
 
 ![对话窗口截图](http://img.blog.csdn.net/20141029143326015?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2wyMjI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast "对话窗口截图")
 
-![视频截图] (http://img.blog.csdn.net/20140717141505988 "视频截图")
+![视频截图](http://img.blog.csdn.net/20140717141505988 "视频截图")
 
 

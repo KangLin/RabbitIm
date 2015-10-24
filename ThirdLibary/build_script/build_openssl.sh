@@ -13,7 +13,7 @@
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
 set -e
-HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY]"
+HELP_STRING="Usage $0 PLATFORM(android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
     android|windows_msvc|windows_mingw|unix)
@@ -40,15 +40,15 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    OPENSLL_BRANCH=OpenSSL_1_0_2-stable
+    OPENSLL_BRANCH=OpenSSL_1_0_2d
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
-        #git clone --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        echo "wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}-stable.zip"
+        echo "wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip"
         wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip
         unzip ${OPENSLL_BRANCH}.zip
         mv openssl-${OPENSLL_BRANCH} ..
@@ -77,7 +77,7 @@ if [ -n "$RABBITIM_CLEAN" ]; then
         git clean -xdf
     else
         if [ -f Makefile ]; then
-            make distclean
+            ${MAKE} distclean
         fi
     fi
 fi
@@ -86,6 +86,7 @@ if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
     MODE=shared
 fi
 echo "configure ..."
+
 case ${RABBITIM_BUILD_TARGERT} in
     android)
         export ANDROID_DEV="${RABBITIM_BUILD_CROSS_SYSROOT}/usr"
@@ -94,7 +95,7 @@ case ${RABBITIM_BUILD_TARGERT} in
                 --openssldir=${RABBITIM_BUILD_PREFIX} \
                 android-armv7 \
                 --sysroot="${RABBITIM_BUILD_CROSS_SYSROOT}"
-        ;;
+        ;;     
     unix)
         ./config --prefix=${RABBITIM_BUILD_PREFIX} --openssldir=${RABBITIM_BUILD_PREFIX} $MODE
         ;;
@@ -138,7 +139,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 esac
 
 echo "make install"
-#make ${RABBITIM_MAKE_JOB_PARA} && make install
-make && make install
+${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
+#${MAKE} && ${MAKE} install
 
 cd $CUR_DIR

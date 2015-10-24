@@ -13,7 +13,7 @@
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
 set -e
-HELP_STRING="Usage $0 PLATFORM (android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY]"
+HELP_STRING="Usage $0 PLATFORM(android|windows_msvc|windows_mingw|unix) [SOURCE_CODE_ROOT_DIRECTORY]"
 
 case $1 in
     android|windows_msvc|windows_mingw|unix)
@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-	CUR_FILE=curl-7.42.0
+	CUR_FILE=curl-7_45_0
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone --branch=$CUR_FILE git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
@@ -60,12 +60,12 @@ fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-if [ "$RABBITIM_CLEAN" ]; then
-    if [ -d ".git" ]; then
-        echo "git clean -xdf"
-        git clean -xdf
-    fi
-fi
+#if [ "$RABBITIM_CLEAN" ]; then
+#    if [ -d ".git" ]; then
+#        echo "git clean -xdf"
+#        git clean -xdf
+#    fi
+#fi
 
 if [ ! -f configure ]; then
     echo "sh buildconf"
@@ -99,9 +99,9 @@ echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 echo "configure ..."
-MAKE=make
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     CONFIG_PARA="--enable-static --disable-shared"
+    LDFLAGS="-static"
 else
     CONFIG_PARA="--disable-static --enable-shared"
 fi
@@ -143,13 +143,12 @@ case ${RABBITIM_BUILD_TARGERT} in
         exit 0
         ;;
     windows_mingw)
-        CONFIG_PARA="--enable-static --disable-shared  --enable-sse "
+        CONFIG_PARA="${CONFIG_PARA} --enable-sse "
         case `uname -s` in
             Linux*|Unix*|CYGWIN*)
                 CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST}"
                 ;;
             MINGW* | MSYS*)
-                #MAKE=mingw32-make.exe
                 ;;
             *)
             ;;
@@ -164,16 +163,17 @@ esac
 
 echo "make install"
 echo "pwd:`pwd`"
-CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} --disable-debug --disable-curldebug --disable-manual"
-CONFIG_PARA="${CONFIG_PARA} --with-ssl=${RABBITIM_BUILD_PREFIX}"
+CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} --disable-manual --enable-verbose"
+#CONFIG_PARA="${CONFIG_PARA} --enable-libgcc  "
+CONFIG_PARA="${CONFIG_PARA} --with-ssl=${RABBITIM_BUILD_PREFIX} --with-sysroot=${RABBITIM_BUILD_PREFIX}"
 if [ "${RABBITIM_BUILD_TARGERT}" = android ]; then
-    echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
-    ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
+    echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\" LDFLAGS=\"${LDFLAGS}\""
+    ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
 else
-    echo "../configure ${CONFIG_PARA}"
-    ../configure ${CONFIG_PARA}
+    echo "../configure ${CONFIG_PARA} LDFLAGS=\"${LDFLAGS}\""
+    ../configure ${CONFIG_PARA} LDFLAGS="${LDFLAGS}"
 fi
 
-${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
+${MAKE} ${RABBITIM_MAKE_JOB_PARA} V=1 && ${MAKE} install
 
 cd $CUR_DIR

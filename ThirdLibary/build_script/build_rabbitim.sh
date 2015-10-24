@@ -136,7 +136,7 @@ else #cmake编译
             PARA="${PARA} -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/cmake/platforms/toolchain-android.cmake"
             PARA="${PARA} -DANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}"
             PARA="${PARA} -DANDROID_TOOLCHAIN_NAME=${RABBITIM_BUILD_CROSS_HOST}-${RABBITIM_BUILD_TOOLCHAIN_VERSION}"
-            PARA="${PARA} -DANDROID_NDK_ABI_NAME=armeabi-v7a"
+            PARA="${PARA} -DANDROID_NDK_ABI_NAME=${ANDROID_NDK_ABI_NAME}"
             PARA="${PARA} -DLIBRARY_OUTPUT_PATH:PATH=`pwd`"
             PARA="${PARA} -DOPTION_RABBITIM_USE_OPENCV=OFF"
             #PARA="${PARA} -DOPTION_RABBITIM_USE_LIBCURL=OFF -DOPTION_RABBITIM_USE_OPENSSL=OFF"
@@ -172,6 +172,7 @@ else #cmake编译
 
     echo "cmake .. -G\"${GENERATORS}\" $PARA"
     cmake .. -G"${GENERATORS}" $PARA # --debug-output
+    echo "build ...."
     cmake --build . --config Release ${CMAKE_PARA} ${MAKE_PARA}
 fi
 

@@ -3,7 +3,7 @@
 #作者：康林
 #参数:
 #    $1:编译目标(android、windows_msvc、windows_mingw、unix)
-#    $2:源码的位置 
+#    $2:源码的位置
 
 #运行本脚本前,先运行 build_$1_envsetup.sh 进行环境变量设置,需要先设置下面变量:
 #   RABBITIM_BUILD_TARGERT   编译目标（android、windows_msvc、windows_mingw、unix)
@@ -33,31 +33,31 @@ fi
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
 else
-    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/opencv
+    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/osgearth
 fi
 
 CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    OPENCV_VERSION=2.4.11
+    OSG_VERSION=osgearth-2.7rc2
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone git://github.com/Itseez/opencv.git  ${RABBITIM_BUILD_SOURCE_CODE}"
-        #git clone --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone --branch=${OSG_VERSION} git@github.com:gwaldron/osgearth.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone --branch=$OSG_VERSION git@github.com:gwaldron/osgearth.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip"
+        echo "wget https://github.com/gwaldron/osgearth/archive/${OSG_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip
-        unzip ${OPENCV_VERSION}.zip
-        mv opencv-${OPENCV_VERSION} ..
+        wget wget https://github.com/gwaldron/osgearth/archive/${OSG_VERSION}.zip
+        unzip ${OSG_VERSION}.zip
+        mv osgearth-${OSG_VERSION} ..
         rm -fr *
         cd ..
-        mv -f opencv-${OPENCV_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
+        mv -f osgearth-${OSG_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 
+RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
@@ -89,19 +89,20 @@ case `uname -s` in
 esac
 
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
-    CMAKE_PARA="-DBUILD_SHARED_LIBS=OFF"
+    CMAKE_PARA="-DDYNAMIC_OSGEARTH=OFF" # -DCMAKE_EXE_LINKER_FLAGS=-static -DCMAKE_MODULE_LINKER_FLAGS_RELEASE=-static -DCMAKE_STATIC_LINKER_FLAGS=-static"
 else
-    CMAKE_PARA="-DBUILD_SHARED_LIBS=ON"
+    CMAKE_PARA="-DDYNAMIC_OSGEARTH=ON"
 fi
 MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
+
 case ${RABBITIM_BUILD_TARGERT} in
     android)
         export ANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}
         export ANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
-        CMAKE_PARA="-DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=${RABBITIM_BUILD_SOURCE_CODE}/platforms/android/android.toolchain.cmake"
+        CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-android.cmake"
         CMAKE_PARA="${CMAKE_PARA} -DANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}"
         CMAKE_PARA="${CMAKE_PARA} -DANDROID_TOOLCHAIN_NAME=${RABBITIM_BUILD_CROSS_HOST}-${RABBITIM_BUILD_TOOLCHAIN_VERSION}"
-        CMAKE_PARA="$CMAKE_PARA -DANDROID_NDK_ABI_NAME=${ANDROID_NDK_ABI_NAME}"
+        CMAKE_PARA="${CMAKE_PARA} -DANDROID_NDK_ABI_NAME=${ANDROID_NDK_ABI_NAME}"
 
         if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
             CMAKE_PARA="${CMAKE_PARA} -DCMAKE_MAKE_PROGRAM=$RABBITIM_CMAKE_MAKE_PROGRAM" 
@@ -129,21 +130,8 @@ case ${RABBITIM_BUILD_TARGERT} in
     ;;
 esac
 
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_DOCS=OFF -DBUILD_opencv_apps=OFF -DBUILD_EXAMPLES=OFF -DBUILD_ANDROID_EXAMPLES=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_TESTS=OFF -DBUILD_FAT_JAVA_LIB=OFF -DBUILD_JASPER=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_OPENEXR=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_PACKAGE=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_TBB=OFF -DBUILD_TIFF=OFF -DBUILD_WITH_DEBUG_INFO=OFF -DWITH_OPENCL=OFF "
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_ts=OFF -DBUILD_opencv_java=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DWITH_TIFF=OFF -DWITH_OPENEXR=OFF -DWITH_WIN32UI=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DWITH_FFMPEG=OFF -DWITH_1394=OFF -DWITH_VTK=OFF -DWITH_IPP=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DWITH_PVAPI=OFF -DWITH_JASPER=OFF -DWITH_OPENCLAMDFFT=OFF -DWITH_OPENCLAMDBLAS=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DWITH_GIGEAPI=OFF -DWITH_GSTREAMER=OFF -DWITH_GTK=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_video=ON"
-CMAKE_PARA="${CMAKE_PARA} -DWITH_JPEG=ON -DWITH_PNG=ON -DBUILD_opencv_videostab=ON"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_highgui=ON"
-CMAKE_PARA="${CMAKE_PARA} -DWITH_EIGEN=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_opencv_videoio=ON -DWITH_WEBP=OFF -DWITH_IPP_A=OFF"
-CMAKE_PARA="${CMAKE_PARA} -DCMAKE_VERBOSE_MAKEFILE=TRUE" #显示编译详细信息
+CMAKE_PARA="${CMAKE_PARA} -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 -DCMAKE_VERBOSE_MAKEFILE=TRUE"
+CMAKE_PARA="${CMAKE_PARA} -DTHIRD_PARTY_DIR=$RABBITIM_BUILD_PREFIX"
 
 echo "cmake .. -DCMAKE_INSTALL_PREFIX=$RABBITIM_BUILD_PREFIX -DCMAKE_BUILD_TYPE=Release -G\"${GENERATORS}\" ${CMAKE_PARA}"
 cmake .. \

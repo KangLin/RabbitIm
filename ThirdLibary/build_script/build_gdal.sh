@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    GDAL_VERSION
+    GDAL_VERSION=2.0
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone --branch=${GDAL_VERSION} https://github.com/OSGeo/gdal ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone --branch=$GDAL_VERSION https://github.com/OSGeo/gdal ${RABBITIM_BUILD_SOURCE_CODE}
@@ -48,7 +48,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "wget https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget wget https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip
+        wget https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip
         unzip ${GDAL_VERSION}.zip
         mv gdal-${GDAL_VERSION} ..
         rm -fr *
@@ -84,33 +84,42 @@ echo ""
 echo "configure ..."
 MAKE=make
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
-    CONFIG_PARA="--enable-static --disable-shared"
+    CONFIG_PARA="--enable-static --disable-shared --without-ld-shared"
+    export LDFLAGS="-static"
 else
     CONFIG_PARA="--disable-static --enable-shared"
 fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-        export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc
+        export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
         export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
         export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
         export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
         export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
         export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
         export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
-        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --disable-shared -enable-static"
-        CONFIG_PARA="$CONFIG_PARA --host=${RABBITIM_BUILD_CROSS_HOST} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-        CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-        CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        LIBS="-lstdc++"
+        CONFIG_PARA="CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++ LD=${RABBITIM_BUILD_CROSS_PREFIX}ld"
+        CONFIG_PARA="${CONFIG_PARA} --disable-shared -enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
+        #CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        CONFIG_PARA="$CONFIG_PARA --with-curl=$RABBITIM_BUILD_PREFIX/bin"
+        CFLAGS="-march=armv7-a --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT} "
+        CXXFLAGS="-march=armv7-a --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT} ${RABBITIM_BUILD_CROSS_STL_INCLUDE_FLAGS}"
+        CPPFLAGS=${CXXFLAGS}
+        if [ -n "${RABBITIM_BUILD_CROSS_STL_LIBS}" ]; then
+            LDFLAGS="-L${RABBITIM_BUILD_CROSS_STL_LIBS}"
+        fi
         ;;
     unix)
         ;;
     windows_msvc)
+        echo "don't implement"
         ;;
     windows_mingw)
         case `uname -s` in
             Linux*|Unix*|CYGWIN*)
                 CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} "
-                CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld"
+                CONFIG_PARA="${CONFIG_PARA}"
                 ;;
             MINGW* | MSYS*)
                 ;;
@@ -129,13 +138,12 @@ echo "make install"
 echo "pwd:`pwd`"
 CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} "
 
-if [ "${RABBITIM_BUILD_TARGERT}" = android ]; then
-    echo "./configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
-    ./configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
-else
-    echo "./configure ${CONFIG_PARA}"
-    ./configure ${CONFIG_PARA}
-fi
+echo "./configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" 
+     CPPFLAGS=\"${CPPFLAGS}\" CXXFLAGS=\"${CXXFLAGS}\" 
+     LDFLAGS=\"$LDFLAGS\" LIBS=\"$LIBS\""
+./configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" \
+    CPPFLAGS="${CPPFLAGS}" CXXFLAGS="${CXXFLAGS}" \
+    LDFLAGS="$LDFLAGS" LIBS="$LIBS"
 
 ${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
 

@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    QT_VERSION=5.4.1
+    QT_VERSION=5.5
     mkdir  -p ${RABBITIM_BUILD_SOURCE_CODE}
     cd ${RABBITIM_BUILD_SOURCE_CODE}
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
@@ -105,6 +105,8 @@ CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BU
 #CONFIG_PARA="${CONFIG_PARA} -developer-build  -debug-and-release"
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     CONFIG_PARA="${CONFIG_PARA} -static"
+    #需要加入到qtbase\mkspecs\win32-g++\qmake.conf中
+    QMAKE_LFLAGS="${QMAKE_LFLAGS} -static -static-libgcc"
 else
     CONFIG_PARA="${CONFIG_PARA} -shared"
 fi
@@ -139,6 +141,9 @@ fi
 if [ -d qtimageformats ]; then
     CONFIG_PARA="${CONFIG_PARA} -skip qtimageformats"
 fi
+if [ -d qtwebengine ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip qtwebengine"
+fi
 
 CONFIGURE="./configure"
 MAKE_PARA="${RABBITIM_MAKE_JOB_PARA}"
@@ -155,6 +160,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         TARGET_OS=`uname -s`
         case $TARGET_OS in
             MINGW* | CYGWIN* | MSYS*)
+                #export PATH=${RABBITIM_BUILD_SOURCE_CODE}/gnuwin32/bin:${PATH}
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
                 ;;
             Linux* | Unix*)
@@ -176,6 +182,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtandroidextras -skip qtmacextras -skip qtwinextras"
         ;;
     windows_msvc)
+        #export PATH=${RABBITIM_BUILD_SOURCE_CODE}/gnuwin32/bin:${PATH}
         CONFIGURE="./configure.bat"
         CONFIG_PARA="${CONFIG_PARA} -platform win32-msvc2013" #  -icu -opengl desktop"
         CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"
@@ -183,6 +190,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         MAKE="nmake"
         ;;
     windows_mingw)
+        #export PATH=${RABBITIM_BUILD_SOURCE_CODE}/gnuwin32/bin:${PATH}
         #platform:本机工具链(configure工具会自动检测)；xplatform：目标机工具链
         #qt工具和库分为本机工具和目标机工具、库两部分
         #qmake、uic、rcc、lrelease、lupdate 均为本机工具，需要用本机工具链编译
@@ -204,7 +212,7 @@ case ${RABBITIM_BUILD_TARGERT} in
                 CONFIG_PARA="${CONFIG_PARA} -skip qtwebkit"
                 ;;
         esac
-        CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras"
+        CONFIG_PARA="${CONFIG_PARA} -skip qtandroidextras -skip qtx11extras -skip qtmacextras  -no-rpath"
         ;;
     *)
         echo "${HELP_STRING}"

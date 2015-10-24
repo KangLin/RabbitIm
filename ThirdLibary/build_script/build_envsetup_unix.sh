@@ -2,6 +2,7 @@
 #需要设置下面变量：
 #QT_ROOT=/home/k/Qt5.3.0/5.3/gcc_64 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/unix/qt
 JOM=make #设置 QT make 工具 JOM
+MAKE=make
 RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数
 RABBITIM_CLEAN=TRUE #编译前清理
 #RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库
@@ -28,7 +29,7 @@ if [ -z "$RABBITIM_USE_REPOSITORIES" ]; then
 fi
 
 if [ -z "$QT_ROOT" ]; then
-        QT_ROOT=${RABBITIM_BUILD_PREFIX}/qt
+    QT_ROOT=${RABBITIM_BUILD_PREFIX}/qt
 fi
 QT_BIN=${QT_ROOT}/bin       #设置用于 android 平台编译的 qt bin 目录
 QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。

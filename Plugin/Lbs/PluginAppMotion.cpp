@@ -15,6 +15,7 @@ CPluginAppMotion::~CPluginAppMotion()
 
 int CPluginAppMotion::Init(const QString &szId)
 {
+    Q_UNUSED(szId);
     return 0;
 }
 
@@ -30,6 +31,7 @@ int CPluginAppMotion::Clean()
 
 int CPluginAppMotion::Open(QWidget *parent)
 {
+    Q_UNUSED(parent);
     if(m_Main.isNull())
         m_Main = QSharedPointer<CFrmLbsMain>(new CFrmLbsMain());
     if(!m_Main.isNull())

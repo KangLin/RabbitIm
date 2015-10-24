@@ -244,9 +244,27 @@
 * 下载： `git clone git://git.opus-codec.org/opus.git`
 * 当前使用版本：v1.1
 
-#### 16. toxcore
+#### 16. libqrencode
+* 官网：http://fukuchi.org/works/qrencode/index.html.en
+* 下载：`git clone https://github.com/fukuchi/libqrencode.git`
+* 当前使用版本：
+
+#### 17. toxcore
 * 下载： `git clone git://github.com/irungentoo/toxcore.git`
 * 当前使用版本：3454bc7da78e467f55f6b7fea4e03775d2649a63
+
+#### 18. gdal
+* 下载：`git clone https://github.com/OSGeo/gdal`
+* 当前使用版本：2.0
+
+#### 19. osg
+* 下载：`git clone https://github.com/openscenegraph/osg.git`
+* 当前使用版本: ca94bd0a65d6a4c32f458552bdca66d3d8ebc136
+
+#### 20. osgearth
+* 官网：http://osgearth.org/
+* 下载：`git clone https://github.com/gwaldron/osgearth.git`
+* 当前使用版本: osgearth-2.7rc2
 
 本项目
 ---------
@@ -448,7 +466,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 #### 1. 用Qt Creator 编译 
 ##### 1.1. 用 Qt Creator 编译 Rabbitim.pro
 用 Qt Creator 打开本工程根目录下的 Rabbitim.pro 文件。
-  * 下载(http://pan.baidu.com/s/1ntA0t5n )或自己编译第三方库，并放到 $(RabbitImRoot)/ThirdLibary 目录下。
+  * 下载(http://pan.baidu.com/s/1mgwx8y0 )或自己编译第三方库，并放到 $(RabbitImRoot)/ThirdLibary 目录下。
   * 打开菜单：文件->打开文件，选中 Rabbitim.pro 文件
   * 设置可选参数
     + QXMPP_USE_VPX=1              #使用 vpx

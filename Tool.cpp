@@ -19,6 +19,7 @@
 #endif
 #ifdef WINDOWS
     #include <windows.h>
+    #pragma comment(lib, "User32.lib")
 #endif
 
 CTool::CTool(QObject *parent) :

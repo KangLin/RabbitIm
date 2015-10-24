@@ -11,19 +11,19 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    a.setApplicationName("RabbitIm");
-    a.setOrganizationName("KangLin studio");
+    QApplication app(argc, argv);
+    app.setApplicationName("RabbitIm");
+    app.setOrganizationName("KangLin studio");
 
     //QFontDatabase::addApplicationFont("://DejaVuSans.ttf");
     //a.setFont(QFont(DejaVuSans));
     LOG_MODEL_DEBUG("main", "font:%s;codec:%s",
-                    a.font().family().toStdString().c_str(),
+                    app.font().family().toStdString().c_str(),
                     QTextCodec::codecForLocale()->name().data());
 
     //设置插件路径(msvc 下没有用）   
-    a.addLibraryPath(CGlobalDir::Instance()->GetDirApplication());
-    a.addLibraryPath(CGlobalDir::Instance()->GetDirApplication()
+    app.addLibraryPath(CGlobalDir::Instance()->GetDirApplication());
+    app.addLibraryPath(CGlobalDir::Instance()->GetDirApplication()
                      + QDir::separator() + "plugins");
 
     CTool::SetFFmpegLog();
@@ -61,5 +61,5 @@ int main(int argc, char *argv[])
     player.show();
 #endif
     //*/
-    return a.exec();
+    return app.exec();
 }

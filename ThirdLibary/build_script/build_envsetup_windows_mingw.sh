@@ -25,10 +25,12 @@ if [ ! -d ${RABBITIM_BUILD_PREFIX} ]; then
     mkdir -p ${RABBITIM_BUILD_PREFIX}
 fi
 
+MAKE=make
 #自动判断主机类型，目前只做了linux、windows判断
 TARGET_OS=`uname -s`
 case $TARGET_OS in
     MINGW* | CYGWIN* | MSYS*)
+        MAKE=make
         ;;
     Linux* | Unix*)
         if [ -z $RABBITIM_MAKE_JOB_PARA ]; then
@@ -46,7 +48,7 @@ if [ -z "$RABBITIM_USE_REPOSITORIES" ]; then
 fi
 
 if [ -z "$QT_ROOT" ]; then
-        QT_ROOT=${RABBITIM_BUILD_PREFIX}/qt
+    QT_ROOT=${RABBITIM_BUILD_PREFIX}/qt
 fi
 QT_BIN=${QT_ROOT}/bin       #设置用于 android 平台编译的 qt bin 目录
 QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
@@ -54,8 +56,11 @@ QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
 echo "QT_BIN:$QT_BIN"
 
 export PATH=${RABBITIM_BUILD_PREFIX}/bin:${RABBITIM_BUILD_PREFIX}/lib:${QT_BIN}:$PATH
-export PKG_CONFIG=pkg-config    
-#export PKG_CONFIG=/mingw32/bin/pkg-config #msys2用这个
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    export PKG_CONFIG="pkg-config" # --static" 
+else
+    export PKG_CONFIG=pkg-config 
+fi
 export PKG_CONFIG_EXECUTABLE=$PKG_CONFIG
 export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig #:$PKG_CONFIG_PATH
 

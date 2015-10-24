@@ -73,6 +73,7 @@ int CLbsPositionLogger::CloseFile()
 
 void CLbsPositionLogger::requestUpdate(int timeout)
 {
+    Q_UNUSED(timeout);
     // For simplicity, ignore timeout - assume that if data is not available
     // now, no data will be added to the file later
     if (m_logFile.canReadLine())
