@@ -53,6 +53,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mv osgearth-${OSG_VERSION} ..
         rm -fr *
         cd ..
+        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
         mv -f osgearth-${OSG_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi

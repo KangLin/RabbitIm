@@ -54,6 +54,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mv ${CUR_FILE} ..
         rm -fr *
         cd ..
+        rm -rf ${RABBITIM_BUILD_SOURCE_CODE}
         mv -f ${CUR_FILE} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi

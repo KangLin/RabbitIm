@@ -54,6 +54,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mv openssl-${OPENSLL_BRANCH} ..
         rm -fr *
         cd ..
+        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
         mv -f openssl-${OPENSLL_BRANCH} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi

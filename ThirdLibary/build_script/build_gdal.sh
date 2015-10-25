@@ -53,6 +53,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mv gdal-${GDAL_VERSION} ..
         rm -fr *
         cd ..
+        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
         mv -f gdal-${GDAL_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi

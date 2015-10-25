@@ -40,20 +40,22 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    QT_VERSION=5.5
+    QT_VERSION_DIR=5.5
+    QT_VERSION=5.5.1
     mkdir  -p ${RABBITIM_BUILD_SOURCE_CODE}
     cd ${RABBITIM_BUILD_SOURCE_CODE}
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
         git checkout ${QT_VERSION}
-        perl init-repository -f --branch -no-qtcanvas3d -no-qt3d
+        perl init-repository -f --branch 
     else
-        wget http://ftp.jaist.ac.jp/pub/qtproject/archive/qt/5.4/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
+        wget http://mirrors.ustc.edu.cn/qtproject/archive/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         tar xzf qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         mv qt-everywhere-opensource-src-${QT_VERSION} ..
         rm -fr *
         cd ..
+        rm -ft ${RABBITIM_BUILD_SOURCE_CODE}
         mv -f qt-everywhere-opensource-src-${QT_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
@@ -141,9 +143,9 @@ fi
 if [ -d qtimageformats ]; then
     CONFIG_PARA="${CONFIG_PARA} -skip qtimageformats"
 fi
-if [ -d qtwebengine ]; then
-    CONFIG_PARA="${CONFIG_PARA} -skip qtwebengine"
-fi
+#if [ -d qtwebengine ]; then
+#    CONFIG_PARA="${CONFIG_PARA} -skip qtwebengine"
+#fi
 
 CONFIGURE="./configure"
 MAKE_PARA="${RABBITIM_MAKE_JOB_PARA}"

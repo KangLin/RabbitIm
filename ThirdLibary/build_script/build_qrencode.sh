@@ -53,6 +53,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mv libqrencode-${VERSION} ..
         rm -fr *
         cd ..
+        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
         mv -f libqrencode-${VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi

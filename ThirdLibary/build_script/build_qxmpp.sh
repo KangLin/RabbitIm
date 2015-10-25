@@ -55,6 +55,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mv qxmpp-master ..
         rm -fr *
         cd ..
+        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
         mv -f qxmpp-master ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi

@@ -54,6 +54,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mv opencv-${OPENCV_VERSION} ..
         rm -fr *
         cd ..
+        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
         mv -f opencv-${OPENCV_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
