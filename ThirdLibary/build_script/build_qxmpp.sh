@@ -29,10 +29,10 @@ esac
 #   PREFIX= #修改这里为安装前缀
 #   QMAKE=  #设置用于相应平台编译的 QMAKE
 #   JOM=    #QT 自带的类似 make 的工具
-if [ -z "${PREFIX}" -o -z "${QMAKE}" -o -z "${JOM}" ]; then
+#if [ -z "${PREFIX}" -o -z "${QMAKE}" -o -z "${JOM}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-fi
+#fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -80,11 +80,9 @@ echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
-MAKE="make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
 case $RABBITIM_BUILD_TARGERT in
     android)
         PARA="-r -spec android-g++"
-        #MAKE=mingw32-make #mingw 中编译
         case $TARGET_OS in
             MINGW* | CYGWIN* | MSYS*)
                 MAKE="$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1" #在windows下编译
@@ -126,21 +124,28 @@ case $RABBITIM_BUILD_TARGERT in
     android)
         MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
         ${MAKE} -f Makefile 
-        ${MAKE} -f Makefile install ${MAKE_PARA}
-        echo "$QMAKE ${DEBUG_PARA}"
+        #${MAKE} -f Makefile install ${MAKE_PARA}
+        #echo "$QMAKE ${DEBUG_PARA}"
         ${QMAKE} ${DEBUG_PARA}
         ${MAKE} -f Makefile 
-        ${MAKE} -f Makefile install ${MAKE_PARA}
+        #${MAKE} -f Makefile install ${MAKE_PARA}
         if [ -f "`pwd`/src/libqxmpp.a" ]; then
             cp -fr `pwd`/src/libqxmpp.a ${RABBITIM_BUILD_PREFIX}/lib
+        fi
+        if [ -f "`pwd`/src/libqxmpp.prl" ]; then
+            cp -fr `pwd`/src/libqxmpp.prl ${RABBITIM_BUILD_PREFIX}/lib
         fi
         if [ -f "`pwd`/src/libqxmpp_d.a" ]; then
             cp -fr `pwd`/src/libqxmpp_d.a ${RABBITIM_BUILD_PREFIX}/lib
         fi
-        if [ -f "" ]; then
-            cp -fr ${RABBITIM_BUILD_PREFIX}/libs/armeabi-v7a/pkgconfig/* ${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
+        if [ -f "`pwd`/src/libqxmpp_d.prl" ]; then
+            cp -fr `pwd`/src/libqxmpp_d.prl ${RABBITIM_BUILD_PREFIX}/lib
         fi
-    ;;
+        if [ -d "`pwd`/src/pkgconfig" ]; then
+            cp -fr `pwd`/src/pkgconfig ${RABBITIM_BUILD_PREFIX}/lib/.
+        fi
+        ${MAKE} -f Makefile install
+        ;;
     windows_mingw|windows_msvc)
         ${MAKE} install
         rm -fr *

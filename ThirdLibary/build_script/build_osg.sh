@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-fi
+#fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -136,6 +136,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 esac
 
 CMAKE_PARA="${CMAKE_PARA} -DBUILD_DOCUMENTATION=OFF -DBUILD_OSG_EXAMPLES=OFF -DBUILD_OSG_APPLICATIONS=OFF"
+CMAKE_PARA="${CMAKE_PARA} -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5"
 
 echo "cmake .. -DCMAKE_INSTALL_PREFIX=$RABBITIM_BUILD_PREFIX -DCMAKE_BUILD_TYPE=Release -G\"${GENERATORS}\" ${CMAKE_PARA}"
 cmake .. \

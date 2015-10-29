@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-fi
+#fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -133,7 +133,7 @@ CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} "
 
 if [ "${RABBITIM_BUILD_TARGERT}" = android ]; then
     echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
-    CFLAGS="-mthumb" CXXFLAGS="-mthumb" LIBS="-lsupc++ -lstdc++"  ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
+    CFLAGS="-mthumb" CXXFLAGS="-mthumb" ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
 else
     echo "../configure ${CONFIG_PARA}"
     ../configure ${CONFIG_PARA}

@@ -210,8 +210,11 @@ make: fork: Resource temporarily unavailable
 * 下载：[jdk](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 * 设置环境变量：
 
-    export JAVA_HOME=/home/jdk1.7.0_51
+    vim ~/.bashrc
+    export JAVA_HOME="/C/Program Files/Java/jdk1.7.0_51" 
     export PATH=$JAVA_HOME/bin:$PATH
+
+注意：在msys2下需要注意路径符号,用unix型路径："/"
 
 #### 2.2. android ndk
 * 工具链版本：4.9
@@ -224,9 +227,12 @@ make: fork: Resource temporarily unavailable
 
 * 设置环境变量
 
-    export ANDROID_NDK=/home/android-ndk
+    vim ~/.bashrc
+    export ANDROID_NDK=/D/software/android-ndk-r10e
     export ANDROID_NDK_ROOT=$ANDROID_NDK
-    export PATH=$PATH::$ANDROID_SDK/platform-tools
+    export PATH=$ANDROID_SDK/platform-tools:$PATH
+
+注意：在msys2下需要注意路径符号,用unix型路径："/"
 
 #### 2.3. android sdk 
 * 平台版本：21
@@ -238,9 +244,11 @@ make: fork: Resource temporarily unavailable
 
 * 设置环境变量
 
-    cd /home
-    export ANDROID_SDK=/home/android-sdk/sdk
+    vim ~/.bashrc
+    export ANDROID_SDK=/D/software/android-sdk-windows  
     export ANDROID_SDK_ROOT=$ANDROID_SDK
+
+注意：在msys2下需要注意路径符号,用unix型路径："/"
 
 #### 2.4. 下载工具
 主页： http://www.gnu.org/software/wget/  
@@ -251,6 +259,7 @@ make: fork: Resource temporarily unavailable
 
     cd /tools
     wget http://apache.dataguru.cn//ant/binaries/apache-ant-1.9.4-bin.zip
+    vim ~/.bashrc
     #并把路径加到环境变量PATH中
     export PATH=/tools/ant/bin:$PATH
 

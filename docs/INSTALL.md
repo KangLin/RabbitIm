@@ -443,6 +443,9 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
      + mingw32-make：mingw 环境下用
      + msys-make：msys 环境下用
 
+
+**注意**：qxmpp库版本与qt版本相关，如果当前qt版本与编译的qxmpp用的qt版本不一样，那么需要用现在qt重新编译qxmpp库。
+
 本工程编译
 --------
 
@@ -477,7 +480,12 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     + RABBITIM_USE_OPENSSL=1      #使用openssl
     + RABBITIM_USE_STATIC=1       #使用静态编译
     + RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档 
+  * 项目->构建和运行->构建->构建环境，设置环境变更  
+    PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config  
+    PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
   * 构建->构建项目"RabbitIm"。编译本项目。
+  * 运行：如果是在mingw32， 项目->构建和运行->运行->运行环境中设置
+    PATH=${MSYS32_ROOT}/mingw32/bin;${RabbitImRoot}/ThirdLibary/${PLATFORM}/bin
 
 ##### 1.2. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
 

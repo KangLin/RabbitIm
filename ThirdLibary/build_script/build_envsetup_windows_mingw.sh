@@ -1,6 +1,6 @@
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
-#QT_ROOT=/c/Qt/Qt5.5.0/5.5/mingw492_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
+#QT_ROOT=/c/Qt/Qt5.5.1/5.5/mingw492_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
 #RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
 JOM=nmake #设置 QT make 工具 JOM
 RABBITIM_CLEAN=TRUE #编译前清理
@@ -61,8 +61,7 @@ if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
 else
     export PKG_CONFIG=pkg-config 
 fi
-export PKG_CONFIG_EXECUTABLE=$PKG_CONFIG
-export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig #:$PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH
 
 if [ -z "${RABBITIM_BUILD_CROSS_HOST}" ]; then
     RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32 #编译工具链前缀

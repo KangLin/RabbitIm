@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-fi
+#fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -42,20 +42,20 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     QT_VERSION_DIR=5.5
     QT_VERSION=5.5.1
-    mkdir  -p ${RABBITIM_BUILD_SOURCE_CODE}
+    mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
     cd ${RABBITIM_BUILD_SOURCE_CODE}
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone https://git.gitorious.org/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone https://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -b ${QT_VERSION_DIR} https://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
         git checkout ${QT_VERSION}
-        perl init-repository -f --branch 
+        perl init-repository -f --branch
     else
         wget http://mirrors.ustc.edu.cn/qtproject/archive/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         tar xzf qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         mv qt-everywhere-opensource-src-${QT_VERSION} ..
         rm -fr *
         cd ..
-        rm -ft ${RABBITIM_BUILD_SOURCE_CODE}
+        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
         mv -f qt-everywhere-opensource-src-${QT_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
@@ -164,6 +164,11 @@ case ${RABBITIM_BUILD_TARGERT} in
             MINGW* | CYGWIN* | MSYS*)
                 #export PATH=${RABBITIM_BUILD_SOURCE_CODE}/gnuwin32/bin:${PATH}
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
+                if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+                    sed "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS = -static/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
+                else
+                    sed "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS =/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
+                fi
                 ;;
             Linux* | Unix*)
                 ;;
@@ -197,6 +202,11 @@ case ${RABBITIM_BUILD_TARGERT} in
         #qt工具和库分为本机工具和目标机工具、库两部分
         #qmake、uic、rcc、lrelease、lupdate 均为本机工具，需要用本机工具链编译
         #库都是目标机的库，所以需要目标机的工具链
+        if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+            sed "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS = -static/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
+        else
+            sed "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS =/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
+        fi
         case `uname -s` in
             MINGW*|MSYS*)
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"

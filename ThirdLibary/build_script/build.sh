@@ -72,6 +72,7 @@ if [ -n "$2" ]; then
     ./build_icu.sh ${RABBITIM_BUILD_TARGERT} $2/icu && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
     ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp && \
+    ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} $2/wzxing && \
     ./build_gdal.sh ${RABBITIM_BUILD_TARGERT} $2/gdal && \
     ./build_osg.sh ${RABBITIM_BUILD_TARGERT} $2/osg && \
     ./build_osgearth.sh ${RABBITIM_BUILD_TARGERT} $2/osgearth
@@ -95,6 +96,7 @@ else
     ./build_icu.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_gdal.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_osg.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_osgearth.sh ${RABBITIM_BUILD_TARGERT}

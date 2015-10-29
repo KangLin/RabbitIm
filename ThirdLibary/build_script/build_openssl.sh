@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-fi
+#fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -140,7 +140,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 esac
 
 echo "make install"
-${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
-#${MAKE} && ${MAKE} install
+#${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
+${MAKE} && ${MAKE} install
 
 cd $CUR_DIR

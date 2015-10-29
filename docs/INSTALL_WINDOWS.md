@@ -209,7 +209,7 @@ windows下用mingw交叉编译
 
 + 下载工具：
 
-    pacman -S wget subversion mingw-w64-i686-git autoconf automake m4 libtool make bison flex gperf unzip \
+    pacman -S wget subversion git autoconf automake m4 libtool make bison flex gperf unzip \
         mingw-w64-i686-cmake mingw-w64-i686-python2 mingw-w64-i686-perl \
         mingw-w64-i686-ruby mingw-w64-i686-yasm mingw-w64-i686-nasm \
         mingw-w64-i686-pkg-config mingw-w64-i686-make mingw-w64-i686-gcc
@@ -244,14 +244,14 @@ make: fork: Resource temporarily unavailable
 * mingw-w64: http://sourceforge.net/projects/mingw-w64/
 * mingwbuilds: http://sourceforge.net/projects/mingwbuilds/
 
-1. 当前使用qt 5.5.0 自带的mingw-gcc版本：
+1. 当前使用qt 5.5.1 自带的mingw-gcc版本：
 
 	gcc version 4.9.2 (i686-posix-dwarf-rev3, Built by MinGW-W64 project)
 
-在安装qt5.5.0时，在选择组件中选中 MinGW 4.9.2
+在安装qt5.5.1时，在选择组件中选中 MinGW 4.9.2
 修改msys2中的配置文件：etc/fstab 加入
 
-    C:\Qt\Qt5.5.0\Tools\mingw492_32 /mingw49_32
+    C:\Qt\Qt5.5.1\Tools\mingw492_32 /mingw49_32
 
 修改 etc/profile 把      MINGW_MOUNT_POINT= 改成
 
@@ -356,12 +356,12 @@ https://github.com/ruby/ruby
 注意：需要把 nsis 路径加到环境变量 PATH 中。
 
 #### 2.12. qt
-当前版本：5.5.0
+当前版本：5.5.1
 
 #### 2.13. 第三方依赖库
 1. 预编译的第三方依赖库
 gcc version 5.2.0 (Rev4, Built by MSYS2 project)
-qt5.5.0
+qt5.5.1
 
 下载后解压到 ${RabbitImRoot}/ThirdLibary 目录下。然后执行脚本 change_prefix.sh
 
@@ -371,7 +371,7 @@ qt5.5.0
     pacman -S mingw-w64-i686-ffmpeg mingw-w64-i686-speexdsp mingw-w64-i686-speex 
     pacman -S mingw-w64-i686-libvpx mingw-w64-i686-opus
 
-3. 如果你用的Qt版本不是5.5.0，那么你需要按下面的方法重新编译qxmpp库。
+3. 如果你用的Qt版本不是5.5.1，那么你需要按下面的方法重新编译qxmpp库。
 
 ### 3. 编译
 #### 3.1 启动下列环境之一：
@@ -421,18 +421,23 @@ qt5.5.0
     ./build_rabbitim.sh windows_mingw [source_code_directory] [qmake]
 
 2. 用 QtCreator
-如果qt是自己编译的，需要做下列：
-* 把第三方库的依赖动态库复制到${RabbitImRoot}/ThirdLibary/windows_mingw/bin下.
+* 设置 pkg-config
+
+    export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+
+* 如果qt是自己编译的，需要做下列：
++ 把第三方库的依赖动态库复制到${RabbitImRoot}/ThirdLibary/windows_mingw/bin下.
 或者把本目录放到环境变量PATH中。
 
     export PATH=${RabbitImRoot}/ThirdLibary/windows_mingw/bin:$PATH
 
-* 把qmake、uic等程序的依赖工具链的动态库复制到${QT_DIR}/bin下.
++ 把qmake、uic等程序的依赖工具链的动态库复制到${QT_DIR}/bin下.
 或者把工具链的目录${MSYS32_ROOT}/mingw32/bin放到环境变量PATH中。
 
     export PATH=${MSYS32_ROOT}/mingw32/bin:$PATH
 
-* 如果是在windows下，还需要把${RabbitImRoot}/ThirdLibary/windows_mingw/qt/plugins/platforms复制到程序目录下
++ 如果是在windows下，还需要把${RabbitImRoot}/ThirdLibary/windows_mingw/qt/plugins/platforms复制到程序目录下
 
 ubuntu下用mingw交叉编译
 ------------------------
