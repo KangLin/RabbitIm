@@ -57,6 +57,7 @@ int CDlgUservCard::Init()
 {
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
+    ui->lbQrencode->setText("");
     return 0;
 }
 
@@ -84,6 +85,9 @@ void CDlgUservCard::showEvent(QShowEvent *)
     pixmap.convertFromImage(m_UserInfo->GetPhoto());
     ui->lbPhoto->setPixmap(pixmap);
     ui->lbPhoto->setScaledContents(true);
+
+    m_Image = CTool::QRcodeEncodeString("rabbitim://id/" + m_szJid);
+    ui->lbQrencode->setPixmap(QPixmap::fromImage(m_Image));
 
     ui->pbBrower->setVisible(m_bModify);
     ui->pbClear->setVisible(m_bModify);
@@ -164,4 +168,20 @@ void CDlgUservCard::slotUpdateRoster(const QString& szId, QSharedPointer<CUser> 
         }
         showEvent(NULL);
     }
+}
+
+void CDlgUservCard::on_pbSaveAs_clicked()
+{
+    QString szFile, szFilter("*.png");
+    szFile = CTool::FileDialog(this, m_szJid + ".png",
+                               szFilter, tr("Save as file"));
+    if(szFile.isEmpty())
+       return; 
+
+    if(m_Image.isNull())
+        return;
+
+    if(!m_Image.save(szFile))
+        LOG_MODEL_ERROR("CDlgAbout", "Save qrencode fail:%s",
+                        szFile.toStdString().c_str());
 }

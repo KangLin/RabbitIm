@@ -23,8 +23,12 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui->lbDate->setText(tr("Build date:%1 %2").arg(__DATE__, __TIME__));
     ui->lbAuthor->setText(tr("Author: KangLin\nEmail or MSN:kl222@126.com"));
     ui->lbHome->setOpenExternalLinks(true);
-    ui->lbHome->setText(tr("Home page:") + "<a href=\"https://github.com/KangLin/rabbitim\">https://github.com/KangLin/rabbitim</a>");
+    QString szHomePage = "https://github.com/KangLin/rabbitim";
+    ui->lbHome->setText(tr("Home page:") + "<a href=\"" + szHomePage + "\">" + szHomePage + "</a>");
     ui->lbCopyright->setText(tr(" Copyright (C) 2014 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
+    ui->lbQrencode->setText("");
+    m_Image = CTool::QRcodeEncodeString(szHomePage);
+    ui->lbQrencode->setPixmap(QPixmap::fromImage(m_Image));
 
     QString szFile;
 #ifdef MOBILE
@@ -62,4 +66,18 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
         readme.close();
     }
     return 0;
+}
+
+void CDlgAbout::on_pbSave_clicked()
+{
+    QString szFile, szFilter("*.png");
+    szFile = CTool::FileDialog(this, "QrRabbitim.png",
+                               szFilter, tr("Save as file"));
+    if(szFile.isEmpty())
+       return; 
+    if(m_Image.isNull())
+        return;
+    if(!m_Image.save(szFile))
+        LOG_MODEL_ERROR("CDlgAbout", "Save qrencode fail:%s",
+                        szFile.toStdString().c_str());
 }

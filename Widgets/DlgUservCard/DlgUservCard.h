@@ -38,13 +38,16 @@ private slots:
     //用于查询组成员信息,得到好友详细信息时触发  
     void slotUpdateRoster(const QString& szId, QSharedPointer<CUser> userInfo);
     int Init();
-
+    
+    void on_pbSaveAs_clicked();
+    
 private:
     Ui::CDlgUservCard *ui;
     QString m_szJid;
     QSharedPointer<CUserInfo> m_UserInfo;
     bool m_bModify;
     QBuffer m_PhotoBuffer;//头像  
+    QImage m_Image; //二维码图像  
 };
 
 #endif // FRMUSERVCARD_H

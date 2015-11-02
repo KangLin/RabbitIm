@@ -295,6 +295,13 @@ equals(QXMPP_USE_VPX, 1) {
     }
 }
 
+LIBQRENCODE = $$execPkgconfig(libqrencode, "--libs")
+!isEmpty(LIBQRENCODE) {
+    DEFINES *= RABBITIM_USE_LIBQRENCODE
+    QMAKE_CXXFLAGS *= $$execPkgconfig(libqrencode, "--cflags")
+    LIBS += $$LIBQRENCODE
+}
+
 LIBS += $$LDFLAGS $$OPENCV_LIBRARY 
 message("DEFINES:$$DEFINES")
 message("QMAKE_CXXFLAGS:$$QMAKE_CXXFLAGS")
@@ -399,21 +406,20 @@ win32{
     
     #复制第三方依赖库动态库到编译输出目录  
     THIRD_LIBRARY_DLL = $${THIRD_LIBRARY_PATH}/bin/*.dll
-    equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
-        THIRD_LIBRARY_DLL =  $$system_path(THIRD_LIBRARY_DLL)
-        TARGET_PATH = $$system_path(TARGET_PATH)
-    }
-
     exists($${THIRD_LIBRARY_DLL}){
+        equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
+            THIRD_LIBRARY_DLL = $$system_path($$THIRD_LIBRARY_DLL)
+            TARGET_PATH = $$system_path($$TARGET_PATH)
+        }
         ThirdLibraryDll.commands = \
-            $${QMAKE_COPY} $$THIRD_LIBRARY_DLL $${TARGET_PATH}
+            $${QMAKE_COPY} $${THIRD_LIBRARY_DLL} $${TARGET_PATH}
         ThirdLibraryDll.CONFIG += directory no_link no_clean no_check_exist
         ThirdLibraryDll.target = ThirdLibraryDll
         QMAKE_EXTRA_TARGETS += ThirdLibraryDll
         POST_TARGETDEPS += ThirdLibraryDll
     }
 
-    !exists($${TARGET_PATH}/platforms){
+    !exists($${TARGET_PATH}/platforms):equals(QMAKE_HOST.os, Windows){
         PlatformsPlugins.commands = \
             $(COPY_DIR) $$system_path($$[QT_INSTALL_PLUGINS]/platforms) $$system_path($${TARGET_PATH}/platforms)
         PlatformsPlugins.CONFIG += directory no_link no_clean no_check_exist

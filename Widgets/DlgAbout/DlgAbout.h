@@ -16,8 +16,12 @@ public:
     explicit CDlgAbout(QWidget *parent = 0);
     ~CDlgAbout();
     
+private slots:
+    void on_pbSave_clicked();
+    
 private:
     Ui::CDlgAbout *ui;
+    QImage m_Image;
 
     int AppendFile(QTextEdit *pEdit, const QString &szFile);
 };

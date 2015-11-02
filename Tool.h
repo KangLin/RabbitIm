@@ -211,7 +211,7 @@ public:
                               const QString &szTilte = tr("Save"));
     static std::string DoubleToString(double d);
     /**
-     * 得到文件的校验和
+     * 得到文件的校验和  
      */
     static QByteArray GetFileMd5Sum(QString filePath);
     static QString GetFileMd5SumString(QString filePath);
@@ -229,6 +229,14 @@ public:
      * @return 成功返回 true，否则返回 false
      */
     static bool EnableWake(bool bWake = true);
+    
+    /**
+     * @brief 生成二维码图片  
+     * @param szString
+     * @return 
+     */
+    static QImage QRcodeEncodeString(QString szData, const QSize &size = QSize(480, 480));
+
 signals:
 
 public slots:
