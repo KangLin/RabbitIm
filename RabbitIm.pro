@@ -302,6 +302,13 @@ LIBQRENCODE = $$execPkgconfig(libqrencode, "--libs")
     LIBS += $$LIBQRENCODE
 }
 
+LIBQZXING = $$execPkgconfig(QZXing, "--libs")
+!isEmpty(LIBQZXING) {
+    DEFINES *= RABBITIM_USE_QZXING
+    QMAKE_CXXFLAGS *= $$execPkgconfig(QZXing, "--cflags")
+    LIBS += $$LIBQZXING
+}
+
 LIBS += $$LDFLAGS $$OPENCV_LIBRARY 
 message("DEFINES:$$DEFINES")
 message("QMAKE_CXXFLAGS:$$QMAKE_CXXFLAGS")

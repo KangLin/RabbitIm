@@ -169,14 +169,14 @@ case $RABBITIM_BUILD_TARGERT in
         if [ ! -f "${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/qxmpp*.pc" -a -d `pwd`/src/pkgconfig ]; then
             cp -fr `pwd`/src/pkgconfig/* ${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/.
         fi
-    ;;
+        ;;
     *)
         ${MAKE} install
         rm -fr *
         echo "$QMAKE ${DEBUG_PARA}"
         ${QMAKE} ${DEBUG_PARA}
         ${MAKE} install
-    ;;
+        ;;
 esac
 
 cd $CUR_DIR

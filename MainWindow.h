@@ -85,6 +85,8 @@ protected:
 
 private slots:
     void on_actionOptions_O_triggered();
+    //扫描二维码  
+    void on_actionScan_qrencode_S_triggered();
 
 private:
     int ReInitMenuOperator(); //初始化菜单  
@@ -145,7 +147,7 @@ private slots:
     void slotActionGroupTranslateTriggered(QAction* pAct);
 
 private:
-    CDlgSendManage* m_pSendManageDlg;//0712文件发送管理窗口  
+    CDlgSendManage* m_pSendManageDlg;//文件发送管理窗口  
 
 //程序更新功能  
 #ifdef RABBITIM_USE_LIBCURL
@@ -172,7 +174,6 @@ private:
 private slots:
     void slotCheckHideWindows();
 #endif
-
 };
 
 #endif // MAINWINDOW_H

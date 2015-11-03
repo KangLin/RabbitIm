@@ -28,7 +28,7 @@ private slots:
     void on_pbCreate_clicked();
     void on_pbCancel_clicked();
 
-    void on_pbBrower_clicked();
+    void on_pbBrowse_clicked();
     
     void on_pbClear_clicked();
     

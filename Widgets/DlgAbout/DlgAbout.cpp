@@ -70,8 +70,8 @@ int CDlgAbout::AppendFile(QTextEdit* pEdit, const QString &szFile)
 
 void CDlgAbout::on_pbSave_clicked()
 {
-    QString szFile, szFilter("*.png");
-    szFile = CTool::FileDialog(this, "QrRabbitim.png",
+    QString szFile, szFilter("*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM");
+    szFile = CTool::FileDialog(this, "QrRabbitim.PNG",
                                szFilter, tr("Save as file"));
     if(szFile.isEmpty())
        return; 

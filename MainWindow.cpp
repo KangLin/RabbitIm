@@ -11,6 +11,7 @@
 #include "Widgets/DlgOptions/DlgOptions.h"
 #include "Widgets/FrmSendFile/DlgSendManage.h"
 #include "Widgets/DlgUservCard/DlgUservCard.h"
+#include "Widgets/DlgScanQRcode/DlgScanQRcode.h"
 #ifdef RABBITIM_USE_LIBCURL
     #include "Update/DlgUpdate.h"
 #endif
@@ -839,6 +840,12 @@ void MainWindow::slotLogout()
 void MainWindow::on_actionOptions_O_triggered()
 {
     CDlgOptions dlg(this);
+    dlg.exec();
+}
+
+void MainWindow::on_actionScan_qrencode_S_triggered()
+{
+    CDlgScanQRcode dlg(this);
     dlg.exec();
 }
 

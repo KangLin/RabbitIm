@@ -30,16 +30,15 @@ protected:
     virtual void changeEvent(QEvent*);
 
 private slots:
-    void on_pbBrower_clicked();    
+    void on_pbBrowse_clicked();
     void on_pbClear_clicked();    
     void on_pbOK_clicked();
     void on_pbCancel_clicked();
+    void on_pbSaveAs_clicked(); //二维码别存为  
 
     //用于查询组成员信息,得到好友详细信息时触发  
     void slotUpdateRoster(const QString& szId, QSharedPointer<CUser> userInfo);
     int Init();
-    
-    void on_pbSaveAs_clicked();
     
 private:
     Ui::CDlgUservCard *ui;

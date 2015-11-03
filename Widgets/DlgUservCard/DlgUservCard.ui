@@ -55,7 +55,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pbBrower">
+      <widget class="QPushButton" name="pbBrowse">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -63,7 +63,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Brower(&amp;B)</string>
+        <string>Browse(&amp;B)</string>
        </property>
       </widget>
      </item>

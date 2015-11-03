@@ -677,6 +677,7 @@ QString CTool::FileDialog(QWidget *pParent, const QString &szDir,
     if(fileNames.isEmpty())
         return szFile;
     szFile = *fileNames.begin();
+
     return szFile;
 }
 

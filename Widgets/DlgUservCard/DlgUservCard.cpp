@@ -89,7 +89,7 @@ void CDlgUservCard::showEvent(QShowEvent *)
     m_Image = CTool::QRcodeEncodeString("rabbitim://id/" + m_szJid);
     ui->lbQrencode->setPixmap(QPixmap::fromImage(m_Image));
 
-    ui->pbBrower->setVisible(m_bModify);
+    ui->pbBrowse->setVisible(m_bModify);
     ui->pbClear->setVisible(m_bModify);
     ui->pbOK->setVisible(m_bModify);
 }
@@ -108,9 +108,9 @@ void CDlgUservCard::changeEvent(QEvent *e)
     }
 }
 
-void CDlgUservCard::on_pbBrower_clicked()
+void CDlgUservCard::on_pbBrowse_clicked()
 {
-    QString szFile, szFilter("*.png *.jpg *.bmp *.gif *.jpeg");
+    QString szFile, szFilter("*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM");
     szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
     if(szFile.isEmpty())
        return; 
@@ -172,8 +172,8 @@ void CDlgUservCard::slotUpdateRoster(const QString& szId, QSharedPointer<CUser> 
 
 void CDlgUservCard::on_pbSaveAs_clicked()
 {
-    QString szFile, szFilter("*.png");
-    szFile = CTool::FileDialog(this, m_szJid + ".png",
+    QString szFile, szFilter("*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM");
+    szFile = CTool::FileDialog(this, "rabbitim_" + m_szJid + ".PNG",
                                szFilter, tr("Save as file"));
     if(szFile.isEmpty())
        return; 

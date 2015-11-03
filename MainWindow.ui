@@ -53,6 +53,7 @@
     <property name="title">
      <string>Tool(&amp;T)</string>
     </property>
+    <addaction name="actionScan_qrencode_S"/>
     <addaction name="actionOptions_O"/>
    </widget>
    <addaction name="menuOperator_O"/>
@@ -85,6 +86,15 @@
    </property>
    <property name="text">
     <string>Options(&amp;O)</string>
+   </property>
+  </action>
+  <action name="actionScan_qrencode_S">
+   <property name="icon">
+    <iconset resource="Resource/Resource.qrc">
+     <normaloff>:/icon/Scan</normaloff>:/icon/Scan</iconset>
+   </property>
+   <property name="text">
+    <string>Scan QR code(&amp;S)</string>
    </property>
   </action>
  </widget>

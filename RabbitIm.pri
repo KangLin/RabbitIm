@@ -70,7 +70,9 @@ SOURCES += main.cpp\
     Widgets/FrmApp/FrmFavorites.cpp \
     Plugin/PluginApp.cpp \
     Plugin/ManagePlugin.cpp \
-    Global/GlobalDir.cpp
+    Global/GlobalDir.cpp \
+    Widgets/DlgScanQRcode/DlgScanQRcode.cpp
+    
 
 HEADERS += Version.h \
     MainWindow.h \
@@ -145,7 +147,8 @@ HEADERS += Version.h \
     Plugin/PluginApp.h \
     Plugin/ManagePlugin.h \
     Global/GlobalDir.h \
-    Plugin/PluginAppFactory.h
+    Plugin/PluginAppFactory.h \
+    Widgets/DlgScanQRcode/DlgScanQRcode.h 
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \
@@ -169,7 +172,8 @@ FORMS += MainWindow.ui \
     Widgets/FrmMain/FrmMain.ui \
     Widgets/FrmApp/FrmApp.ui \
     Widgets/FrmApp/FrmAppList.ui \
-    Widgets/FrmApp/FrmFavorites.ui
+    Widgets/FrmApp/FrmFavorites.ui \
+    Widgets/DlgScanQRcode/DlgScanQRcode.ui
 
 RESOURCES += \
     Resource/Resource.qrc \

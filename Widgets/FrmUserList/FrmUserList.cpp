@@ -34,7 +34,6 @@ CFrmUserList::CFrmUserList(QWidget *parent) :
         m_pModel->setHorizontalHeaderLabels(QStringList() << tr("User name or group")<< tr("Information"));
     }
 
-    //ui->gridLayout->addWidget(&m_UserList);
     m_UserList.setModel(m_pModel);
     m_UserList.show();
 
