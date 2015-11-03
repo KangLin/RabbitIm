@@ -249,19 +249,23 @@
 * 下载：`git clone https://github.com/fukuchi/libqrencode.git`
 * 当前使用版本：
 
-#### 17. toxcore
+#### 17. qzxing
+* 主页：http://sourceforge.net/projects/qzxing
+* 下载:` git clone git://git.code.sf.net/p/qzxing/code`
+
+#### 18. toxcore
 * 下载： `git clone git://github.com/irungentoo/toxcore.git`
 * 当前使用版本：3454bc7da78e467f55f6b7fea4e03775d2649a63
 
-#### 18. gdal
+#### 19. gdal
 * 下载：`git clone https://github.com/OSGeo/gdal`
 * 当前使用版本：2.0
 
-#### 19. osg
+#### 20. osg
 * 下载：`git clone https://github.com/openscenegraph/osg.git`
 * 当前使用版本: ca94bd0a65d6a4c32f458552bdca66d3d8ebc136
 
-#### 20. osgearth
+#### 21. osgearth
 * 官网：http://osgearth.org/
 * 下载：`git clone https://github.com/gwaldron/osgearth.git`
 * 当前使用版本: osgearth-2.7rc2

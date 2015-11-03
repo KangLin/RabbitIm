@@ -6,6 +6,7 @@
 #include "Global/Global.h"
 #include <QDir>
 #include <QDateTime>
+#include "Widgets/DlgScanQRcode/QRCode.h"
 
 CDlgAbout::CDlgAbout(QWidget *parent) :
     QDialog(parent),
@@ -27,7 +28,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui->lbHome->setText(tr("Home page:") + "<a href=\"" + szHomePage + "\">" + szHomePage + "</a>");
     ui->lbCopyright->setText(tr(" Copyright (C) 2014 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
     ui->lbQrencode->setText("");
-    m_Image = CTool::QRcodeEncodeString(szHomePage);
+    m_Image = CQRCode::QRcodeEncodeString(szHomePage);
     ui->lbQrencode->setPixmap(QPixmap::fromImage(m_Image));
 
     QString szFile;

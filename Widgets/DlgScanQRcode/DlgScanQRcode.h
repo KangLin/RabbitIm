@@ -18,9 +18,6 @@ public:
     //识别二维码文件  
     int ProcessQRFile(QString szFile);
 
-private:
-    int ProcessMessage(QString szMessage);
-    
 private slots:
     void on_pushBrowse_clicked();
     

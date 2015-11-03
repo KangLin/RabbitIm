@@ -4,6 +4,7 @@
 #include <QImageWriter>
 #include <QDesktopWidget>
 #include "Tool.h"
+#include "Widgets/DlgScanQRcode/QRCode.h"
 
 CDlgUservCard::CDlgUservCard(QWidget *parent) :
     QDialog(parent),
@@ -86,7 +87,7 @@ void CDlgUservCard::showEvent(QShowEvent *)
     ui->lbPhoto->setPixmap(pixmap);
     ui->lbPhoto->setScaledContents(true);
 
-    m_Image = CTool::QRcodeEncodeString("rabbitim://id/" + m_szJid);
+    m_Image = CQRCode::QRcodeEncodeUserInfo(m_UserInfo->toString());
     ui->lbQrencode->setPixmap(QPixmap::fromImage(m_Image));
 
     ui->pbBrowse->setVisible(m_bModify);

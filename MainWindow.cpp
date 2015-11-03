@@ -20,7 +20,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent
 #ifndef MOBILE
-                , Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint
+                , Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint
 #endif
                 ),
     m_TrayIcon( this),
@@ -1048,9 +1048,7 @@ void MainWindow::slotCheckHideWindows()
     this->centralWidget()->hide();
     this->menuBar()->hide();
     m_oldFlags = this->windowFlags();
-    this->setWindowFlags(this->windowFlags() 
-                         | Qt::FramelessWindowHint 
-                         | Qt::WindowStaysOnTopHint);
+    this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     this->setGeometry(startRect);
     this->show();
 
@@ -1122,9 +1120,7 @@ int MainWindow::CheckShowWindows(QRect &endRect)
     this->centralWidget()->show();
     this->menuBar()->show();
     this->hide();
-    //this->setWindowFlags(Qt::WindowMinimizeButtonHint
-    //                     | Qt::WindowCloseButtonHint
-    //                     /*| Qt::X11BypassWindowManagerHint*/);
+    //this->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint);
     setWindowFlags(m_oldFlags);
     this->show();
     this->activateWindow();

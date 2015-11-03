@@ -71,7 +71,8 @@ SOURCES += main.cpp\
     Plugin/PluginApp.cpp \
     Plugin/ManagePlugin.cpp \
     Global/GlobalDir.cpp \
-    Widgets/DlgScanQRcode/DlgScanQRcode.cpp
+    Widgets/DlgScanQRcode/DlgScanQRcode.cpp \
+    Widgets/DlgScanQRcode/QRCode.cpp
     
 
 HEADERS += Version.h \
@@ -148,7 +149,8 @@ HEADERS += Version.h \
     Plugin/ManagePlugin.h \
     Global/GlobalDir.h \
     Plugin/PluginAppFactory.h \
-    Widgets/DlgScanQRcode/DlgScanQRcode.h 
+    Widgets/DlgScanQRcode/DlgScanQRcode.h \ 
+    Widgets/DlgScanQRcode/QRCode.h
 
 FORMS += MainWindow.ui \
     Widgets/FrmLogin/FrmLogin.ui \

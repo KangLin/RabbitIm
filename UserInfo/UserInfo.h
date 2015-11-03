@@ -60,6 +60,7 @@ public:
     virtual int SetPhoto(QByteArray img);
     virtual USER_INFO_STATUS GetStatus();///< 用户状态  
     virtual int SetStatus(USER_INFO_STATUS status);
+    virtual QString toString();
 
     QSet<QString> &GetGroups();
     enum SUBSCRIPTION_TYPE

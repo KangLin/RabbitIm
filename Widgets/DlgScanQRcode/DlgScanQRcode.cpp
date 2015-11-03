@@ -1,11 +1,7 @@
-#include <QDesktopServices>
-#include <QMessageBox>
 #include "DlgScanQRcode.h"
 #include "ui_DlgScanQRcode.h"
 #include "Tool.h"
-#ifdef RABBITIM_USE_QZXING
-    #include "qzxing.h"
-#endif
+#include "QRCode.h"
 
 CDlgScanQRcode::CDlgScanQRcode(QWidget *parent) :
     QDialog(parent),
@@ -45,60 +41,9 @@ int CDlgScanQRcode::ProcessQRFile(QString szFile)
         return -1;
     }
     ui->lbQRCode->setPixmap(QPixmap::fromImage(img));
-    
-#ifdef RABBITIM_USE_QZXING
-    QZXing decoder;
-    QString szMessage = decoder.decodeImage(img);
-    if(szMessage.isEmpty())
-    {
-        LOG_MODEL_ERROR("CDlgScanQRcode", "Scan file:%s",
-                        szFile.toStdString().c_str());
-        return -2;
-    }
-#endif
-    ui->lbText->setText(szMessage);
-    return ProcessMessage(szMessage);
-}
-
-int CDlgScanQRcode::ProcessMessage(QString szMessage)
-{
-    QUrl url(szMessage);
-    if("rabbitim" == url.scheme())
-    {
-        if("id" == url.host()) //增加好友  
-        {
-            QString szId;
-            szId = szMessage.right(szMessage.size()
-                                   - QString("rabbitim://id/").size());
-            LOG_MODEL_DEBUG("CDlgScanQRcode", "ID:%s", szId.toStdString().c_str());
-            if(szId.isEmpty())
-                return -1;
-            if(USER_INFO_LOCALE->GetInfo()->GetId() == szId)
-            {
-                LOG_MODEL_ERROR("CDlgScanQRcode", "Roster[%s] has exist.",
-                                szId.toStdString().c_str());
-                return -2;
-            }
-            QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoRoster(szId);
-            if(user.isNull())
-            {
-                GET_CLIENT->RosterAdd(szId);
-                return 0;
-            }
-        }
-    } else {
-        if(url.scheme() == "http"
-                || url.scheme() == "https"
-                || url.scheme() == "ftp"
-                || url.scheme() == "mailto")
-        {
-            QMessageBox msg(QMessageBox::Question, "",
-                            tr("Do open ") + szMessage + "?",
-                            QMessageBox::Ok | QMessageBox::No);
-            if(QMessageBox::Ok == msg.exec())
-                if(QDesktopServices::openUrl(url))
-                    return 0;
-        }
-    }
-    return -3;
+    QString szText = CQRCode::ProcessQImage(img);
+    ui->lbText->setText(szText);
+    if(szText.isEmpty())
+        return 0;
+    return -2;
 }

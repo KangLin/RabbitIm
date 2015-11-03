@@ -72,6 +72,7 @@ SET(RABBITIM_SOURCES
     Widgets/FrmApp/FrmFavorites.cpp 
     Global/GlobalDir.cpp
     Widgets/DlgScanQRcode/DlgScanQRcode.cpp
+    Widgets/DlgScanQRcode/QRCode.cpp
 )
 
 SET(RABBITIM_UIS

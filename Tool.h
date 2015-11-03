@@ -229,13 +229,6 @@ public:
      * @return 成功返回 true，否则返回 false
      */
     static bool EnableWake(bool bWake = true);
-    
-    /**
-     * @brief 生成二维码图片  
-     * @param szString
-     * @return 
-     */
-    static QImage QRcodeEncodeString(QString szData, const QSize &size = QSize(480, 480));
 
 signals:
 

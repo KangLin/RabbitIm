@@ -107,6 +107,17 @@ int CUserInfo::SetStatus(USER_INFO_STATUS status)
     return 0;
 }
 
+QString CUserInfo::toString()
+{
+    return "Id:" + GetId()
+            + ";Name:" + GetName()
+            + ";Nick:" + GetNick()
+            + ";Birthday:" + GetBirthday().toString()
+            + ";Email:" + GetEmail()
+            + ";Description:" + GetDescription()
+            + ";Url:" + GetUrl();
+}
+
 CUserInfo::USER_INFO_STATUS CUserInfo::GetStatus()
 {
     return m_Status;
