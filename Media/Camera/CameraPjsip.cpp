@@ -25,12 +25,11 @@ int CCameraPjsip::Clean()
     return 0;
 }
 
-int CCameraPjsip::Open(CHanderFrame* pHander, VideoInfo* pVideoInfo)
+int CCameraPjsip::OnOpen(VideoInfo* pVideoInfo)
 {
     int nRet = 0;
     pj_status_t status = PJ_FALSE;
-    m_pHander = pHander;
-    assert(m_pHander);
+    
     if (m_pVidDevStream)
     {
         LOG_MODEL_ERROR("CCamera", "camera has opened");
@@ -98,7 +97,7 @@ int CCameraPjsip::Open(CHanderFrame* pHander, VideoInfo* pVideoInfo)
     return nRet;
 }
 
-int CCameraPjsip::Close()
+int CCameraPjsip::OnClose()
 {
     int nRet = 0;
     pj_status_t status = PJ_FALSE;

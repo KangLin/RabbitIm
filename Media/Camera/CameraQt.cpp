@@ -30,7 +30,7 @@ bool CCameraQt::Present(const QVideoFrame &frame)
     return true;
 }
 
-int CCameraQt::Open(CHanderFrame *pHander, VideoInfo *pVideoInfo)
+int CCameraQt::OnOpen(VideoInfo *pVideoInfo)
 {
     if(NULL == m_Camera.get())
         m_Camera = std::auto_ptr<QCamera>(
@@ -41,7 +41,6 @@ int CCameraQt::Open(CHanderFrame *pHander, VideoInfo *pVideoInfo)
             #endif
                     );
 
-    m_pHander = pHander;
     if (pVideoInfo)
     {
         m_VideoInfo = *pVideoInfo;
@@ -49,7 +48,7 @@ int CCameraQt::Open(CHanderFrame *pHander, VideoInfo *pVideoInfo)
     return 0;
 }
 
-int CCameraQt::Close()
+int CCameraQt::OnClose()
 {
     if(m_Camera.get())
     {

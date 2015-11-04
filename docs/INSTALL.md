@@ -159,7 +159,7 @@
     git clone git://source.ffmpeg.org/ffmpeg.git
 
 *当前使用版本：
-    git库版本 —— n2.6.2
+    git库版本 —— n2.8.1
 
 #### 4. 编解码库(x264)
 

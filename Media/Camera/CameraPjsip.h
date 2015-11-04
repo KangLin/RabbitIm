@@ -15,13 +15,15 @@ public:
     CCameraPjsip(int nIndex);
     virtual ~CCameraPjsip();
 
-    virtual int Open(CHanderFrame* pHander, VideoInfo* pVideoInfo = NULL);
-    virtual int Close();
     virtual int Start();
     virtual int Stop();
     
     virtual int OnFrame(pjmedia_frame *frame);
 
+private:
+    virtual int OnOpen(VideoInfo* pVideoInfo = NULL);
+    virtual int OnClose();
+    
 private:
     pj_caching_pool m_Caching_pool;
     pjmedia_vid_dev_stream * m_pVidDevStream;

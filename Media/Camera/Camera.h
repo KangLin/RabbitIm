@@ -5,8 +5,9 @@
 
 /**
  * @brief 摄像头抽像类  
+ *    CCamera::CHanderFrame Hander;
  *    CCamera* pCamera = CCameraFactory::Instance()->GetCamera(0) //得到对象  
- *    pCamera->Open(pHander);
+ *    pCamera->Open(&Hander);
  *    pCamera->Start();
  *    ........
  *    pCamera->Stop();
@@ -31,7 +32,7 @@ public:
          * @param frame 捕获的帧  
          * @return 
          */
-        virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame) = 0;
+        virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame);
     };
 
     /**
@@ -51,12 +52,14 @@ public:
      * @param pVideoInfo:要捕获的视频信息  
      * @return 
      */
-    virtual int Open(CHanderFrame* pHander, VideoInfo* pVideoInfo = NULL) = 0;
+    int Open(CHanderFrame* pHander = NULL, VideoInfo* pVideoInfo = NULL);
+    
     /**
      * @brief 关闭摄像头设备  
      * @return 
      */
-    virtual int Close() = 0;
+    virtual int Close();
+    
     /**
      * @brief 开始捕获视频  
      * @return 
@@ -68,6 +71,10 @@ public:
      */
     virtual int Stop() = 0;
 
+private:
+    virtual int OnOpen(VideoInfo *pVideoInfo) = 0;
+    virtual int OnClose() = 0;
+    
 protected:
     CHanderFrame* m_pHander; ///< 处理者指针  
     VideoInfo m_VideoInfo;  ///< 视频格式  
@@ -75,4 +82,5 @@ protected:
     
 private:
     CCameraInfo* m_pCameraInfo;
+    CHanderFrame m_Hander;
 };

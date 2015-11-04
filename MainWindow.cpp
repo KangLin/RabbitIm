@@ -20,7 +20,10 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent
 #ifndef MOBILE
-                , Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint
+                , Qt::WindowCloseButtonHint 
+                #ifndef DEBUG
+                | Qt::WindowStaysOnTopHint
+                #endif
 #endif
                 ),
     m_TrayIcon( this),

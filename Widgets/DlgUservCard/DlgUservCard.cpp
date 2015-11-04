@@ -87,7 +87,7 @@ void CDlgUservCard::showEvent(QShowEvent *)
     ui->lbPhoto->setPixmap(pixmap);
     ui->lbPhoto->setScaledContents(true);
 
-    m_Image = CQRCode::QRcodeEncodeUserInfo(m_UserInfo->toString());
+    m_Image = CQRCode::QRcodeEncodeUserInfo(m_UserInfo->toString(), m_UserInfo->GetPhoto());
     ui->lbQrencode->setPixmap(QPixmap::fromImage(m_Image));
 
     ui->pbBrowse->setVisible(m_bModify);
@@ -175,7 +175,7 @@ void CDlgUservCard::on_pbSaveAs_clicked()
 {
     QString szFile, szFilter("*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM");
     szFile = CTool::FileDialog(this, "rabbitim_" + m_szJid + ".PNG",
-                               szFilter, tr("Save as file"));
+                               szFilter, tr("Save as"));
     if(szFile.isEmpty())
        return; 
 

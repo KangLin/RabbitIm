@@ -68,7 +68,7 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
 
 void CFrmPlayer::slotPresent(std::shared_ptr<CVideoFrame> frame)
 {
-    LOG_MODEL_DEBUG("CFrmPlayer", "id:%d;name:%s;width:%d;height:%d,Ratio:%d;time:%d",
+    /*LOG_MODEL_DEBUG("CFrmPlayer", "id:%d;name:%s;width:%d;height:%d,Ratio:%d;time:%d",
                     frame->m_VideoInfo.Format,
                     VideoFormatToName(frame->m_VideoInfo.Format).c_str(),
                     frame->m_VideoInfo.nWidth,

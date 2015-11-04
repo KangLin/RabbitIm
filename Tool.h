@@ -18,6 +18,7 @@ extern "C" {
 #include <string>
 #include <QWidget>
 #include <QVideoFrame>
+
 #ifdef RABBITIM_USE_QXMPP
     #include "qxmpp/QXmppRtpChannel.h"
 #endif
@@ -48,6 +49,23 @@ public:
     static int SetFFmpegLog();
 
     /**
+     * @brief 格式映射  
+     * @param format 
+     * @return 
+     */
+    static AVPixelFormat QVideoFrameFormatToFFMpegPixFormat(
+            const QVideoFrame::PixelFormat format);
+    static VideoFormat QVideoFrameFormatToVideoFormat(
+            const QVideoFrame::PixelFormat format);
+    static AVPixelFormat VideoFormatToFFMpegPixFormat(
+            const VideoFormat format);
+    static QImage::Format VideoFormatToQImageFormat(const VideoFormat format);
+    static QVideoFrame::PixelFormat VideoFormatToQVideoFrameFormat(
+            const VideoFormat format);
+    static AVPixelFormat QImageFormatToFFMpegPixFormat(
+            const QImage::Format format);
+    
+    /**
      * @brief 格式转换。  
      *        如果转换成功，则调用者使用完 outFrame 后，  
      *        需要调用 avpicture_free(&outFrame) 释放内存  
@@ -70,30 +88,13 @@ public:
                              AVPixelFormat inPixelFormat,   /** 要转换的帧的格式 */
                              AVPicture &outFrame,                /** 转换后的帧 */
                              int nOutWidth,                 /** 转换后的帧的宽度 */
-                             int nOutHeight,                /** 转换后的帧的高度 */
-                             AVPixelFormat outPixelFormat); /** 转换后的帧的格式 */
+                             int nOutHeight,                /** 转换后的帧的高度 */  
+                             AVPixelFormat outPixelFormat); /** 转换后的帧的格式 */  
     static int ConvertFormat(/*[in]*/const std::shared_ptr<CVideoFrame> &inFrame,
-          /*[out]*/ std::shared_ptr<CVideoFrame> &outFrame,      /** 转换后图像 */
-          /*[in]*/  int nOutWidth,                          /** 转换后的帧的宽度 */
-          /*[in]*/  int nOutHeight,                         /** 转换后的帧的高度 */
-          /*[in]*/  VideoFormat format = VIDEO_FORMAT_RGB32);/** 转换后的帧的格式 */
-
-    /**
-     * @brief 格式映射
-     * @param format 
-     * @return 
-     */
-    static AVPixelFormat QVideoFrameFormatToFFMpegPixFormat(
-            const QVideoFrame::PixelFormat format);
-    static VideoFormat QVideoFrameFormatToVideoFormat(
-            const QVideoFrame::PixelFormat format);
-    static AVPixelFormat VideoFormatToFFMpegPixFormat(
-            const VideoFormat format);
-    static QImage::Format VideoFormatToQImageFormat(const VideoFormat format);
-    static QVideoFrame::PixelFormat VideoFormatToQVideoFrameFormat(
-            const VideoFormat format);
-    static AVPixelFormat QImageFormatToFFMpegPixFormat(
-            const QImage::Format format);
+          /*[out]*/ std::shared_ptr<CVideoFrame> &outFrame,      /** 转换后图像 */  
+          /*[in]*/  int nOutWidth,                          /** 转换后的帧的宽度 */  
+          /*[in]*/  int nOutHeight,                         /** 转换后的帧的高度 */  
+          /*[in]*/  VideoFormat format = VIDEO_FORMAT_RGB32);/** 转换后的帧的格式 */  
 
  #ifdef RABBITIM_USE_QXMPP
     static int ConvertFormat(

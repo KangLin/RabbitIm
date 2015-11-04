@@ -26,7 +26,7 @@ public:
      * @param nIndex ： 摄像头索引号  
      * @return 成功返回摄像头对像指针；否则返回 NULL  
      */
-    CCamera * GetCamera(int nIndex);
+    CCamera * GetCamera(int nIndex = 0);
 
     /**
      * @brief 枚举系统中的摄像头设备  

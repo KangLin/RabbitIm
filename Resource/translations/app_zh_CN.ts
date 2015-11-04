@@ -4,7 +4,7 @@
 <context>
     <name>CAndroidNotification</name>
     <message>
-        <location filename="../../android/jni/AndroidNotification.cpp" line="64"/>
+        <location filename="../../android/jni/AndroidNotification.cpp" line="66"/>
         <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>
     </message>
@@ -92,7 +92,7 @@
 <context>
     <name>CClientXmpp</name>
     <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="321"/>
+        <location filename="../../Client/ClientXmpp.cpp" line="325"/>
         <source>The roster is offline, don&apos;t send the file.</source>
         <translation>好友离线状态，不能发送文件。</translation>
     </message>
@@ -110,71 +110,95 @@
         <translation>玉兔即时通信</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="144"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="173"/>
         <source>Version: 1.0.0.0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="173"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="144"/>
         <source>Author:KangLin</source>
         <translation>作者：康林</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="186"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="161"/>
+        <source>Informatioin</source>
+        <translation>信息</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="214"/>
         <source>Home page:https://github.com/KangLin/rabbitim</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="206"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="236"/>
+        <source>The following two-dimensional code scanning Go Home:</source>
+        <translation>扫描下面二维码访问项目主页：</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="328"/>
+        <source>Save As</source>
+        <translation>另存为 ...</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="364"/>
         <source>License</source>
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="220"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="378"/>
         <source>Change log</source>
         <translation>变更日志</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="234"/>
-        <source>Thinks</source>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="392"/>
+        <source>Thanks</source>
         <translation>致谢</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="269"/>
+        <source>Thinks</source>
+        <translation type="vanished">致谢</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="427"/>
         <source> Copyright (C) 2014 KangLin Studio</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="160"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="195"/>
         <source>Build Date:</source>
         <translation>编译时间：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="17"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="18"/>
         <source>Version:%1.%2.%3.%4</source>
         <translation>版本：%1.%2.%3.%4</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="23"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="24"/>
         <source>Build date:%1 %2</source>
         <translation>编译时间：%1 %2</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="24"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="25"/>
         <source>Author: KangLin
 Email or MSN:kl222@126.com</source>
         <translation>作者：康林
 电子邮箱、MSN:kl222@126.com</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="26"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="28"/>
         <source>Home page:</source>
         <translation>主页:</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="27"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="29"/>
         <source> Copyright (C) 2014 - %1 KangLin Studio</source>
         <translation>版权所有 (C) 2014 - %1 康林工作室</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="76"/>
+        <source>Save as</source>
+        <translation>另存为……</translation>
     </message>
 </context>
 <context>
@@ -911,9 +935,8 @@ Email or MSN:kl222@126.com</source>
         <translation>建立新用户</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="75"/>
         <source>Brower(&amp;B)</source>
-        <translation>浏览(&amp;B)</translation>
+        <translation type="vanished">浏览(&amp;B)</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="88"/>
@@ -974,6 +997,11 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="460"/>
         <source>Register new account</source>
         <translation>注册新用户</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="75"/>
+        <source>Browse(&amp;B)</source>
+        <translation>浏览(&amp;B)</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="463"/>
@@ -1073,6 +1101,44 @@ Email or MSN:kl222@126.com</source>
     </message>
 </context>
 <context>
+    <name>CDlgScanQRcode</name>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="14"/>
+        <source>Scan QR Code</source>
+        <translation>扫描二维码</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="20"/>
+        <source>With a camera at the two-dimensional code, you can scan</source>
+        <translation>用摄像头对准二维码扫描</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="88"/>
+        <source>Browse(&amp;B)</source>
+        <translation>浏览(&amp;B)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="99"/>
+        <source>Cancel(&amp;C)</source>
+        <translation>取消（&amp;C）</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="16"/>
+        <source>Back</source>
+        <translation>回退</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="27"/>
+        <source>The camera does not exist.</source>
+        <translation>摄像头不存在。</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="47"/>
+        <source>Open File</source>
+        <translation>打开文件</translation>
+    </message>
+</context>
+<context>
     <name>CDlgUpdate</name>
     <message>
         <location filename="../../Update/DlgUpdate.ui" line="14"/>
@@ -1164,82 +1230,97 @@ Email or MSN:kl222@126.com</source>
         <translation>用户信息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="40"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="46"/>
         <source>Photo</source>
         <translation>头像</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="66"/>
         <source>Brower(&amp;B)</source>
+        <translation type="vanished">浏览(&amp;B)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="72"/>
+        <source>Browse(&amp;B)</source>
         <translation>浏览(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="79"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="89"/>
         <source>Clear Avatar</source>
         <translation>清除头像</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="82"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="92"/>
         <source>Clear(&amp;L)</source>
         <translation>清除(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="105"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="128"/>
         <source>JID:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="141"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="164"/>
         <source>Name:</source>
         <translation>名字：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="174"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="197"/>
         <source>Nick:</source>
         <translation>呢称：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="207"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="230"/>
         <source>Birthday:</source>
         <translation>生日：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="220"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="243"/>
         <source>yyyy/MM/dd</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="243"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="266"/>
         <source>Description:</source>
         <translation>描述：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="276"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="299"/>
         <source>Email:</source>
         <translation>电子邮箱：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="316"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="321"/>
+        <source>QR Code</source>
+        <translation>二维码</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="370"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="178"/>
+        <source>Save as</source>
+        <translation>另存为……</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="403"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="319"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="406"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="336"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="423"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="339"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="426"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="103"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="115"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
@@ -1286,8 +1367,8 @@ Email or MSN:kl222@126.com</source>
     <name>CFrmApp</name>
     <message>
         <location filename="../../Widgets/FrmApp/FrmApp.ui" line="14"/>
-        <location filename="../../Widgets/FrmApp/FrmApp.cpp" line="14"/>
-        <location filename="../../Widgets/FrmApp/FrmApp.cpp" line="47"/>
+        <location filename="../../Widgets/FrmApp/FrmApp.cpp" line="15"/>
+        <location filename="../../Widgets/FrmApp/FrmApp.cpp" line="49"/>
         <source>Application</source>
         <translation>应用</translation>
     </message>
@@ -1302,8 +1383,8 @@ Email or MSN:kl222@126.com</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmApp/FrmApp.cpp" line="15"/>
-        <location filename="../../Widgets/FrmApp/FrmApp.cpp" line="49"/>
+        <location filename="../../Widgets/FrmApp/FrmApp.cpp" line="17"/>
+        <location filename="../../Widgets/FrmApp/FrmApp.cpp" line="51"/>
         <source>Favorites</source>
         <translation>收藏</translation>
     </message>
@@ -1467,66 +1548,66 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CFrmGroupChatList</name>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="38"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="39"/>
         <source>Rooms</source>
         <translation>群</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="38"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="39"/>
         <source>Information</source>
         <translation>消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="120"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.cpp" line="122"/>
         <source>Operator group chat(&amp;G)</source>
         <translation>操作群聊(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="25"/>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="28"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="39"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="42"/>
         <source>New/Search group chat rooms</source>
         <translation>新建/查找群</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="31"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="45"/>
         <source>Alt+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="40"/>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="43"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="54"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="57"/>
         <source>Leave room</source>
         <translation>离开群</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="46"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="60"/>
         <source>Alt+L</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="51"/>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="54"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="65"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="68"/>
         <source>Create chat room</source>
         <translation>建立群</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="59"/>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="62"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="73"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="76"/>
         <source>Join chat room</source>
         <translation>加入群</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="67"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="81"/>
         <source>Room infomation</source>
         <translation>群信息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="72"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="86"/>
         <source>Open chat room</source>
         <translation>打开群</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="77"/>
+        <location filename="../../Widgets/FrmGroupChat/FrmGroupChatList.ui" line="91"/>
         <source>Inviter</source>
         <translation>邀请</translation>
     </message>
@@ -1540,9 +1621,9 @@ Email or MSN:kl222@126.com</source>
     <name>CFrmLbsMain</name>
     <message>
         <location filename="../../Plugin/Lbs/FrmLbsMain.ui" line="14"/>
-        <location filename="../../Plugin/Lbs/FrmLbsMain.cpp" line="13"/>
+        <location filename="../../Plugin/Lbs/FrmLbsMain.cpp" line="15"/>
         <source>Motion</source>
-        <translation type="unfinished">运动</translation>
+        <translation>运动</translation>
     </message>
     <message>
         <location filename="../../Plugin/Lbs/FrmLbsMain.ui" line="34"/>
@@ -1555,7 +1636,7 @@ Email or MSN:kl222@126.com</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/FrmLbsMain.cpp" line="14"/>
+        <location filename="../../Plugin/Lbs/FrmLbsMain.cpp" line="16"/>
         <source>Track</source>
         <translation>轨迹</translation>
     </message>
@@ -1646,22 +1727,22 @@ Email or MSN:kl222@126.com</source>
         <translation>正在登录……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="297"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="287"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="300"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="290"/>
         <source>Keep active error</source>
         <translation>保持活动错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="303"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="293"/>
         <source>Login fail</source>
         <translation>登录失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="306"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="296"/>
         <source>Username or Password error</source>
         <translation>用户名或密码错误</translation>
     </message>
@@ -1690,19 +1771,22 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="47"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="99"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="48"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="100"/>
         <source>Rosters</source>
         <translation>好友</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="51"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="101"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="52"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="102"/>
         <source>Recent messages</source>
         <translation>最近消息</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="53"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="105"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="54"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="106"/>
         <source>Application</source>
         <translation>应用</translation>
     </message>
@@ -1712,7 +1796,8 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="49"/>
-        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="103"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="50"/>
+        <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="104"/>
         <source>Group Chat</source>
         <translation>群聊</translation>
     </message>
@@ -1782,29 +1867,29 @@ Email or MSN:kl222@126.com</source>
         <translation>发送(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="98"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="97"/>
         <source>Audio call</source>
         <translation>音频呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="150"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="149"/>
         <source>Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</source>
         <translation>图像(*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="154"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="161"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="153"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="160"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="475"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="474"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="207"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="220"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="206"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="219"/>
         <source>Close message dialog</source>
         <translation>关闭消息对话框</translation>
     </message>
@@ -1814,27 +1899,27 @@ Email or MSN:kl222@126.com</source>
         <translation>回退</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="162"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="161"/>
         <source>File is exists. Do you save it?</source>
         <translation>文件已经存在。你是否复盖它？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="208"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="207"/>
         <source>Sending files to determine whether you want to close?</source>
         <translation>有文件正在发送，你确定是否关闭消息对话框？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="221"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="220"/>
         <source>Is talking whether you want to close?</source>
         <translation>正在通话，是否关闭？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="337"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="336"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="337"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="336"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
@@ -1850,37 +1935,37 @@ Email or MSN:kl222@126.com</source>
     <name>CFrmRecentMsgList</name>
     <message>
         <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.ui" line="14"/>
-        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.cpp" line="22"/>
+        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.cpp" line="24"/>
         <source>Recent Message</source>
         <translation>最近消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.ui" line="22"/>
+        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.ui" line="36"/>
         <source>OpenMessage</source>
         <translation>打开消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.ui" line="25"/>
+        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.ui" line="39"/>
         <source>Open Message</source>
         <translation>打开消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.ui" line="34"/>
+        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.ui" line="48"/>
         <source>RemoveMessage</source>
         <translation>删除消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.ui" line="37"/>
+        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.ui" line="51"/>
         <source>Remove Message</source>
         <translation>删除消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.cpp" line="22"/>
+        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.cpp" line="24"/>
         <source>Information</source>
         <translation>最近消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.cpp" line="409"/>
+        <location filename="../../Widgets/FrmRecentMessage/FrmRecentMsgList.cpp" line="414"/>
         <source>Operator recent message(&amp;O)</source>
         <translation>操作最近消息</translation>
     </message>
@@ -1888,45 +1973,46 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CFrmUserList</name>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="33"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="34"/>
         <source>User name or group</source>
         <translation>用户名或组名</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="33"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="34"/>
         <source>Information</source>
         <translation>未读信息数</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="127"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="244"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="253"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="262"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="385"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="394"/>
         <source>Operator roster(&amp;O)</source>
         <translation>操作好友(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="342"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="484"/>
         <source>Roster[%1] rename</source>
         <translation>重命名好友[%1]</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="343"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="485"/>
         <source>Roster[%1] rename:</source>
         <translation>重命名好友[%1]</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="370"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="512"/>
         <source>Move roster %1 to group:</source>
         <translation>移动好友 %1 到组：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="427"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="574"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="40"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="493"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="128"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="150"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="640"/>
         <source>My friends</source>
         <translation>我的好友</translation>
     </message>
@@ -1936,91 +2022,97 @@ Email or MSN:kl222@126.com</source>
         <translation>好友列表</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="27"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="40"/>
         <source>AddRoster(&amp;A)</source>
         <translation>增加好友(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="30"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="43"/>
         <source>AddRoster</source>
         <translation>增加好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="39"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="52"/>
         <source>RemoveRoster(R)</source>
         <translation>删除好友(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="42"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="55"/>
         <source>RemoveRoster</source>
         <translation>删除好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="51"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="64"/>
         <source>Agree Add Roster(&amp;A)</source>
         <translation>同意增加为好友(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="54"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="67"/>
         <source>Agree Add Roster</source>
         <translation>同意增加为好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="63"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="76"/>
         <source>Information(&amp;I)</source>
         <translation>查看用户信息(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="72"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="85"/>
         <source>Rename roster</source>
         <translation>重命名好友</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="75"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="88"/>
         <source>Rename</source>
         <translation>重命名</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="84"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="87"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="97"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="100"/>
         <source>SendMessage</source>
         <translation>发送消息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="96"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="109"/>
         <source>SendFile</source>
         <translation>发送文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="105"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="108"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="118"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="121"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="117"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="120"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="130"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="133"/>
         <source>Audio</source>
         <translation>音频呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="129"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="132"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="142"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="145"/>
         <source>Allow Monitor</source>
         <translation>允许监控模式</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="141"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="144"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="154"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="157"/>
         <source>Remove Group</source>
         <translation>移除组</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="149"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="152"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="369"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="162"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="165"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="511"/>
         <source>Move roster</source>
         <translation>移动好友</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="174"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="177"/>
+        <source>Refresh roster list</source>
+        <translation>刷新好友列表</translation>
     </message>
 </context>
 <context>
@@ -2112,86 +2204,86 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Plugin/Lbs/LbsMotion.ui" line="145"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="181"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="183"/>
         <source>Start</source>
         <translation>开始</translation>
     </message>
     <message>
         <location filename="../../Plugin/Lbs/LbsMotion.ui" line="152"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="230"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="259"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="231"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="260"/>
         <source>Pause</source>
         <translation>暂停</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="20"/>
         <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="21"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="305"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="307"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="22"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="304"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="306"/>
         <source>%1
 Distance(km)</source>
         <translation>%1
 距离（千米）</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="23"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="304"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="24"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="303"/>
         <source>%1
 Duration</source>
         <translation>%1
 用时</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="24"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="141"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="25"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="143"/>
         <source>%1
 Accuracy(m)</source>
         <translation>%1
 精度（米）</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="25"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="309"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="26"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="308"/>
         <source>%1
 Speed(km/h)</source>
         <translation>%1
 速度（千米/小时）</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="26"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="146"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="27"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="148"/>
         <source>%1
 Real Time Speed(m/s)</source>
         <translation>%1
 实时速度（米/秒）</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="202"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="195"/>
         <source>Upload</source>
         <translation>上传</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="203"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="196"/>
         <source>Upload to server ......</source>
         <translation>上传到服务器 ......</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="229"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="230"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="257"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="258"/>
         <source>Continue</source>
         <translation>继续</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="341"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="343"/>
         <source>Upload succeed</source>
         <translation>上传成功</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="346"/>
+        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="348"/>
         <source>Upload fail</source>
         <translation>上传失败</translation>
     </message>
@@ -2294,21 +2386,34 @@ Real Time Speed(m/s)</source>
 <context>
     <name>CPluginAppMotion</name>
     <message>
-        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="54"/>
-        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="59"/>
+        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="61"/>
+        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="66"/>
         <source>Motion</source>
         <translation>运动</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="59"/>
+        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="66"/>
         <source>Lbs</source>
         <translation>定位</translation>
     </message>
 </context>
 <context>
+    <name>CQRCode</name>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/QRCode.cpp" line="211"/>
+        <source>Do you add roster </source>
+        <translation>是否增加好友 </translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/QRCode.cpp" line="230"/>
+        <source>Do open </source>
+        <translation>是否打开 </translation>
+    </message>
+</context>
+<context>
     <name>CTool</name>
     <message>
-        <location filename="../../Tool.h" line="210"/>
+        <location filename="../../Tool.h" line="212"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -2316,22 +2421,22 @@ Real Time Speed(m/s)</source>
 <context>
     <name>CUserInfo</name>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="132"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="143"/>
         <source>[none]</source>
         <translation>[未知]</translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="136"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="147"/>
         <source>[From]</source>
         <translation>[挂起]</translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="138"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="149"/>
         <source>[To]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="140"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="151"/>
         <source>[remove]</source>
         <translation>[删除]</translation>
     </message>
@@ -2424,8 +2529,8 @@ Real Time Speed(m/s)</source>
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="20"/>
-        <location filename="../../MainWindow.cpp" line="120"/>
-        <location filename="../../MainWindow.cpp" line="384"/>
+        <location filename="../../MainWindow.cpp" line="125"/>
+        <location filename="../../MainWindow.cpp" line="396"/>
         <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>
     </message>
@@ -2445,137 +2550,142 @@ Real Time Speed(m/s)</source>
         <translation>工具(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="68"/>
+        <location filename="../../MainWindow.ui" line="69"/>
         <source>About(&amp;A)</source>
         <translation>关于(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="73"/>
+        <location filename="../../MainWindow.ui" line="74"/>
         <source>English(&amp;E)</source>
         <translation>英文(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="78"/>
+        <location filename="../../MainWindow.ui" line="79"/>
         <source>Chinese(&amp;C)</source>
         <translation>中文(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.ui" line="87"/>
+        <location filename="../../MainWindow.ui" line="88"/>
         <source>Options(&amp;O)</source>
         <translation>选项(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="194"/>
-        <location filename="../../MainWindow.cpp" line="197"/>
-        <location filename="../../MainWindow.cpp" line="752"/>
+        <location filename="../../MainWindow.ui" line="97"/>
+        <source>Scan QR code(&amp;S)</source>
+        <translation>扫描二维码</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="205"/>
+        <location filename="../../MainWindow.cpp" line="208"/>
+        <location filename="../../MainWindow.cpp" line="764"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="464"/>
+        <location filename="../../MainWindow.cpp" line="476"/>
         <source>Close(&amp;E)</source>
         <translation>关闭(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="442"/>
-        <location filename="../../MainWindow.cpp" line="732"/>
+        <location filename="../../MainWindow.cpp" line="454"/>
+        <location filename="../../MainWindow.cpp" line="744"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation>编辑本地用户信息(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="548"/>
+        <location filename="../../MainWindow.cpp" line="560"/>
         <source>Status(&amp;S)</source>
         <translation>状态(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="567"/>
+        <location filename="../../MainWindow.cpp" line="579"/>
         <source>Language(&amp;L)</source>
         <translation>语言(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="569"/>
+        <location filename="../../MainWindow.cpp" line="581"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="571"/>
+        <location filename="../../MainWindow.cpp" line="583"/>
         <source>Chinese</source>
         <translation>简体中文</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="570"/>
+        <location filename="../../MainWindow.cpp" line="582"/>
         <source>English</source>
         <translation>英语</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="195"/>
+        <location filename="../../MainWindow.cpp" line="206"/>
         <source>Is close the programe or logout?</source>
         <translation>是关闭程序还是登出？</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="404"/>
-        <location filename="../../MainWindow.cpp" line="405"/>
+        <location filename="../../MainWindow.cpp" line="416"/>
+        <location filename="../../MainWindow.cpp" line="417"/>
         <source>RabbitIm:%1</source>
         <translation>玉兔即时通信：%1</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="198"/>
-        <location filename="../../MainWindow.cpp" line="461"/>
+        <location filename="../../MainWindow.cpp" line="209"/>
+        <location filename="../../MainWindow.cpp" line="473"/>
         <source>Logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="199"/>
+        <location filename="../../MainWindow.cpp" line="210"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="471"/>
+        <location filename="../../MainWindow.cpp" line="483"/>
         <source>Custom</source>
         <translation>自定义</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="472"/>
+        <location filename="../../MainWindow.cpp" line="484"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="473"/>
+        <location filename="../../MainWindow.cpp" line="485"/>
         <source>Blue</source>
         <translation>蓝色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="474"/>
+        <location filename="../../MainWindow.cpp" line="486"/>
         <source>Dark</source>
         <translation>黑色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="490"/>
+        <location filename="../../MainWindow.cpp" line="502"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation>扶肤(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="674"/>
+        <location filename="../../MainWindow.cpp" line="686"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="674"/>
+        <location filename="../../MainWindow.cpp" line="686"/>
         <source>Change language must reset program.</source>
         <translation>改变语言设置，必须重启程序才能生效。</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="745"/>
+        <location filename="../../MainWindow.cpp" line="757"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="747"/>
+        <location filename="../../MainWindow.cpp" line="759"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="894"/>
+        <location filename="../../MainWindow.cpp" line="912"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>

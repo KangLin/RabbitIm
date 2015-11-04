@@ -59,6 +59,7 @@
         <file alias="Favoris">png/favoris.png</file>
         <file alias="Application">png/Application.png</file>
         <file alias="Scan">png/scan.png</file>
+        <file alias="Browse">png/browse32.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>

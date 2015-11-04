@@ -170,12 +170,22 @@ int CFrmVideo::ShowToolBar(bool bShow)
     return 0;
 }
 
-void CFrmVideo::slotDisplayLoacleVideo(const QVideoFrame &frame)
+void CFrmVideo::slotDisplayLocaleVideo(const QVideoFrame &frame)
 {
-        m_LocalePlayer.slotPresent(frame);
+    m_LocalePlayer.slotPresent(frame);
+}
+
+void CFrmVideo::slotDisplayLocaleVideo(std::shared_ptr<CVideoFrame> frame)
+{
+    m_LocalePlayer.slotPresent(frame);
 }
 
 void CFrmVideo::slotDisplayRemoteVideo(const QVideoFrame &frame)
+{
+    m_RemotePlayer.slotPresent(frame);
+}
+
+void CFrmVideo::slotDisplayRemoteVideo(std::shared_ptr<CVideoFrame> frame)
 {
     m_RemotePlayer.slotPresent(frame);
 }

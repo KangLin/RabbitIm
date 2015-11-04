@@ -16,10 +16,12 @@ public:
     CCameraQt(int nIndex);
     virtual ~CCameraQt();
 
-    virtual int Open(CHanderFrame* pHander, VideoInfo* pVideoInfo = NULL);
-    virtual int Close();
     virtual int Start();
     virtual int Stop();
+
+private:
+    virtual int OnOpen(VideoInfo* pVideoInfo = NULL);
+    virtual int OnClose();
 
 private:
     std::auto_ptr<QCamera> m_Camera;

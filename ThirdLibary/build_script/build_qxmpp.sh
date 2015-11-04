@@ -107,7 +107,7 @@ case $RABBITIM_BUILD_TARGERT in
         ;;
 esac
 
-if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+if [ "$RABBITIM_BUILD_STATIC" = "static" -o "$RABBITIM_BUILD_TARGERT" = "android" ]; then
     PARA="${PARA} QXMPP_LIBRARY_TYPE=staticlib" #静态库
 fi
 

@@ -28,7 +28,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui->lbHome->setText(tr("Home page:") + "<a href=\"" + szHomePage + "\">" + szHomePage + "</a>");
     ui->lbCopyright->setText(tr(" Copyright (C) 2014 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
     ui->lbQrencode->setText("");
-    m_Image = CQRCode::QRcodeEncodeString(szHomePage);
+    m_Image = CQRCode::QRcodeEncodeString(szHomePage, QImage(":/icon/AppIcon"));
     ui->lbQrencode->setPixmap(QPixmap::fromImage(m_Image));
 
     QString szFile;
@@ -73,7 +73,7 @@ void CDlgAbout::on_pbSave_clicked()
 {
     QString szFile, szFilter("*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM");
     szFile = CTool::FileDialog(this, "QrRabbitim.PNG",
-                               szFilter, tr("Save as file"));
+                               szFilter, tr("Save as"));
     if(szFile.isEmpty())
        return; 
     if(m_Image.isNull())

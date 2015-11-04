@@ -66,8 +66,8 @@ if [ -n "$2" ]; then
     fi
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx && \
     ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv && \
-    ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} $2/opencv && \
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg && \
+    ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} $2/opencv && \
     ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} $2/pjsip && \
     ./build_icu.sh ${RABBITIM_BUILD_TARGERT} $2/icu && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
@@ -90,8 +90,8 @@ else
     fi
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_icu.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} && \

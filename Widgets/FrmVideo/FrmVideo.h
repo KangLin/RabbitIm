@@ -26,10 +26,12 @@ public:
 
 public slots:
     //显示本地视频  
-    void slotDisplayLoacleVideo(const QVideoFrame& frame);
+    void slotDisplayLocaleVideo(const QVideoFrame& frame);
+    void slotDisplayLocaleVideo(std::shared_ptr<CVideoFrame> frame);
     //显示远端视频  
     void slotDisplayRemoteVideo(const QVideoFrame &frame);
-
+    void slotDisplayRemoteVideo(std::shared_ptr<CVideoFrame> frame);
+    
 protected slots:
 private:
     virtual void closeEvent(QCloseEvent *e);

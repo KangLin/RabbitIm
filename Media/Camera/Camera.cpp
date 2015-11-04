@@ -32,3 +32,24 @@ CCameraInfo* CCamera::GetCameraInfo()
         m_pCameraInfo = new CCameraInfo(m_nIndex);
     return m_pCameraInfo;
 }
+
+int CCamera::CHanderFrame::OnFrame(const std::shared_ptr<CVideoFrame> frame)
+{
+    LOG_MODEL_ERROR("CCamera", "Please implement CCamera::CHanderFrame::OnFrame");
+    return 0;
+}
+
+int CCamera::Open(CHanderFrame *pHander, VideoInfo *pVideoInfo)
+{
+    m_pHander = pHander;
+    if(NULL == m_pHander)
+        m_pHander = &m_Hander;
+    return OnOpen(pVideoInfo);
+}
+
+int CCamera::Close()
+{
+    m_pHander = NULL;
+    OnClose();
+    return 0;
+}

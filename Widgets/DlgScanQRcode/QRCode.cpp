@@ -20,11 +20,11 @@ CQRCode::CQRCode() : QObject()
 }
 
 //http://stackoverflow.com/questions/21400254/how-to-draw-a-qr-code-with-qt-in-native-c-c
-QImage CQRCode::QRcodeEncodeString(const QString &szData, const QSize &size)
+QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage, const QSize &size)
 {
     QImage image(size, QImage::Format_RGB32);
     QPainter painter(&image);
-    
+ 
 #ifdef RABBITIM_USE_LIBQRENCODE
     //NOTE: I have hardcoded some parameters here that would make more sense as variables.
     // ECLEVEL_M is much faster recognizable by barcodescanner any any other type
@@ -62,6 +62,23 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QSize &size)
             }
         }
         QRcode_free(qr);
+        
+        //在二维码上画图片  
+        if(!inImage.isNull())
+        {
+            qreal x = (size.width() >> 1) - (size.width() / 10);
+            qreal y = (size.height() >> 1) - (size.height() / 10);
+            qreal w = size.width() / 5;
+            qreal h = size.height() / 5;
+            LOG_MODEL_DEBUG("CQRCode", "x:%f, y:%f", x, y);
+            int penw = 3;
+            painter.setBrush(QBrush(QColor(255, 255, 255)));
+            painter.drawRect(x - penw, y - penw, w + (penw << 1), h + (penw << 1));
+            painter.setPen(QPen(Qt::NoPen));
+            painter.setBrush(QBrush(Qt::NoBrush));
+            QRectF rect(x, y, w, h);
+            painter.drawImage(rect, inImage);
+        }
     }
     else
     {
@@ -73,52 +90,95 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QSize &size)
 
     qr = nullptr;
 #endif //RABBITIM_USE_LIBQRENCODE
+    
     return image;
 }
 
-QString CQRCode::ProcessQImage(QImage image)
+int CQRCode::ProcessQImage(QImage image, QString &szText)
 {
+    QString szMessage;
 #ifdef RABBITIM_USE_QZXING
     QZXing decoder;
-    QString szMessage = decoder.decodeImage(image);
+    decoder.setDecoder(QZXing::DecoderFormat_QR_CODE |
+                       QZXing::DecoderFormat_DATA_MATRIX |
+                       QZXing::DecoderFormat_UPC_E |
+                       QZXing::DecoderFormat_UPC_A |
+                       QZXing::DecoderFormat_EAN_8 |
+                       QZXing::DecoderFormat_EAN_13 |
+                       QZXing::DecoderFormat_CODE_128 |
+                       QZXing::DecoderFormat_CODE_39 |
+                       QZXing::DecoderFormat_ITF |
+                       QZXing::DecoderFormat_Aztec);
+    szMessage = decoder.decodeImage(image);
     if(szMessage.isEmpty())
     {
-        LOG_MODEL_ERROR("CDlgScanQRcode", "Scan image fail.");
-        return "";
+        LOG_MODEL_ERROR("CQRCode", "Scan image fail.");
+        return 1;
     }
     LOG_MODEL_DEBUG("CQRCode", "Decode:%s", szMessage.toStdString().c_str());
 #endif
 
-    if(!ProcessMessage(szMessage))
-        return "";
-
-    return szMessage;
+    szText = szMessage;
+    return ProcessMessage(szMessage);
 }
 
-QString CQRCode::ProcessQRFile(const QString &szFile)
+int CQRCode::ProcessQImage(const std::shared_ptr<CVideoFrame> &frame, QString &szText)
+{
+    if(VIDEO_FORMAT_NONE == frame->m_VideoInfo.Format)
+        return -1;
+    std::shared_ptr<CVideoFrame> outFrame;
+    if (VIDEO_FORMAT_RGB32 != frame->m_VideoInfo.Format)
+    {
+        CTool::ConvertFormat(frame, outFrame,
+                             frame->m_VideoInfo.nWidth,
+                             frame->m_VideoInfo.nHeight,
+                             VIDEO_FORMAT_RGB32);
+    }
+    else
+    {
+        outFrame = frame;
+    }
+    QImage img((const uchar*)outFrame->GetData(),
+               outFrame->m_VideoInfo.nWidth,
+               outFrame->m_VideoInfo.nHeight,
+               QImage::Format_RGB32);
+    if(img.isNull())
+    {
+        LOG_MODEL_ERROR("CQRCode", "Image is null");
+        return -1;
+    }
+    return ProcessQImage(img, szText);
+}
+
+int CQRCode::ProcessQRFile(const QString &szFile, QString &szText)
 {
     QImage img(szFile);
     if(img.isNull())
     {
-        LOG_MODEL_ERROR("CDlgScanQRcode", "This isn't image file:%s",
+        LOG_MODEL_ERROR("CQRCode", "This isn't image file:%s",
                         szFile.toStdString().c_str());
-        return "";
+        return 1;
     }
-    return ProcessQImage(img);
+    return ProcessQImage(img, szText);
 }
 
-QImage CQRCode::QRcodeEncodeUserInfo(const QString &szInfo)
+QImage CQRCode::QRcodeEncodeUserInfo(const QString &szInfo,
+                                     const QImage &inImage)
 {
     QString szData = RABBITIM_USERINFO + szInfo;
-    return QRcodeEncodeString(szData);
+    return QRcodeEncodeString(szData, inImage);
 }
 
-QImage CQRCode::QRcodeEncodeUserId(const QString &szId)
+QImage CQRCode::QRcodeEncodeUserId(const QString &szId, const QImage &inImage)
 {
     QString szData = RABBITIM_ID + szId;
-    return QRcodeEncodeString(szData);
+    return QRcodeEncodeString(szData, inImage);
 }
 
+/* > 0 ：
+ * = 0 ：成功处理
+ * < 0 : 错误
+ */
 int CQRCode::ProcessMessage(const QString &szMessage)
 {
     QUrl url(szMessage);
@@ -136,12 +196,12 @@ int CQRCode::ProcessMessage(const QString &szMessage)
             int nRight = szMessage.indexOf(";", nId);
             szId = szMessage.mid(nId, nRight - nId);
         }
-        LOG_MODEL_DEBUG("CDlgScanQRcode", "ID:%s", szId.toStdString().c_str());
+        LOG_MODEL_DEBUG("CQRCode", "ID:%s", szId.toStdString().c_str());
         if(szId.isEmpty())
             return -1;
         if(USER_INFO_LOCALE->GetInfo()->GetId() == szId)
         {
-            LOG_MODEL_ERROR("CDlgScanQRcode", "Roster[%s] is self.",
+            LOG_MODEL_ERROR("CQRCode", "Roster[%s] is self.",
                             szId.toStdString().c_str());
             return 0;
         }
@@ -155,12 +215,10 @@ int CQRCode::ProcessMessage(const QString &szMessage)
             if(QMessageBox::Ok == msg.exec())
             {
                 GET_CLIENT->RosterAdd(szId);
-                return 0;
             }
         } else  {
-            LOG_MODEL_ERROR("CDlgScanQRcode", "Roster[%s] has exist.",
+            LOG_MODEL_ERROR("CQRCode", "Roster[%s] has exist.",
                             szId.toStdString().c_str());
-            return 0;
         }
         return 0;
     } else {
@@ -176,6 +234,8 @@ int CQRCode::ProcessMessage(const QString &szMessage)
             if(QMessageBox::Ok == msg.exec())
                 if(QDesktopServices::openUrl(url))
                     return 0;
+            else
+                return 0;
         }
     }
     return -4;

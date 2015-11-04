@@ -456,19 +456,19 @@ SET(RABBITIM_RCC_FILES
     AppIcon.rc)
 
 #生成目标
-IF(ANDROID)
+IF(WIN32)
+    add_executable(${PROJECT_NAME} WIN32
+        ${RABBITIM_SOURCES}
+        ${RABBITIM_RCC_FILES}
+        ${RABBITIM_UIS}
+        )
+ELSEIF(ANDROID)
     add_library(${PROJECT_NAME} SHARED 
         ${RABBITIM_SOURCES}
         ${RABBITIM_RCC_FILES}
         ${RABBITIM_UIS}
         )
     #qt5_wrap_ui(RABBITIM_UIS ${RABBITIM_UIS})
-ELSEIF(WIN32)
-    add_executable(${PROJECT_NAME} WIN32
-        ${RABBITIM_SOURCES}
-        ${RABBITIM_RCC_FILES}
-        ${RABBITIM_UIS}
-        )
 ELSE()
     add_executable(${PROJECT_NAME} 
         ${RABBITIM_SOURCES}
