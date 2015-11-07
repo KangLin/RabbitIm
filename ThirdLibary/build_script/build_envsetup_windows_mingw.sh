@@ -31,11 +31,16 @@ TARGET_OS=`uname -s`
 case $TARGET_OS in
     MINGW* | CYGWIN* | MSYS*)
         MAKE=make
+        export PKG_CONFIG=pkg-config 
+        export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH
         ;;
     Linux* | Unix*)
         if [ -z $RABBITIM_MAKE_JOB_PARA ]; then
             RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
         fi
+        export PKG_CONFIG=pkg-config 
+        export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
+        export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
         ;;
     *)
     echo "Please set RABBITIM_BUILD_HOST. see build_envsetup_windows_mingw.sh"
@@ -56,12 +61,6 @@ QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
 echo "QT_BIN:$QT_BIN"
 
 export PATH=${RABBITIM_BUILD_PREFIX}/bin:${RABBITIM_BUILD_PREFIX}/lib:${QT_BIN}:$PATH
-if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
-    export PKG_CONFIG="pkg-config" # --static" 
-else
-    export PKG_CONFIG=pkg-config 
-fi
-export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH
 
 if [ -z "${RABBITIM_BUILD_CROSS_HOST}" ]; then
     RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32 #编译工具链前缀

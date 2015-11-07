@@ -48,7 +48,6 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://git.code.sf.net/p/qzxing/code ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone git://git.code.sf.net/p/qzxing/code ${RABBITIM_BUILD_SOURCE_CODE}
-        RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/source
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
@@ -57,6 +56,9 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     fi
 fi
 
+if [ -d "${RABBITIM_BUILD_SOURCE_CODE}/source" ]; then
+    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/source
+fi
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
