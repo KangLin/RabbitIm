@@ -416,22 +416,28 @@ qt5.5.1
 
 #### 3.3. 编译本项目:
 1. 命令行编译：
-
+    
+    ```sh
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build_rabbitim.sh windows_mingw [source_code_directory] [qmake]
+    ```
 
-2. 用 QtCreator
-* 设置 pkg-config
-
+2. 用 QtCreator  
+设置 pkg-config
+    
+    ```sh
     export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
     export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    ```
 
 * 如果qt是自己编译的，需要做下列：
 + 把第三方库的依赖动态库复制到${RabbitImRoot}/ThirdLibary/windows_mingw/bin下.
 或者把本目录放到环境变量PATH中。
 
+    ```sh
     export PATH=${RabbitImRoot}/ThirdLibary/windows_mingw/bin:$PATH
-
+    ```
+    
 + 把qmake、uic等程序的依赖工具链的动态库复制到${QT_DIR}/bin下.
 或者把工具链的目录${MSYS32_ROOT}/mingw32/bin放到环境变量PATH中。
 
@@ -523,6 +529,16 @@ ubuntu下用mingw交叉编译
     ./build_libvpx.sh windows_mingw [source_code_directory]
 
 ### 4. 编译本项目:
+1. 命令行编译：
 
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build_rabbitim.sh windows_mingw [source_code_directory] [qmake]
+
+2. 用 QtCreator  
+设置 pkg-config
+        
+    ```sh
+    export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
+    ```

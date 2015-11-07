@@ -157,11 +157,23 @@ ubuntu下交叉编译
     ./build.sh android [source_code_directory]
 
 ### 4. 编译本项目:
+1. 命令行编译：
 
+    ```sh
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build_rabbitim.sh android [source_code_directory] [qmake]
-
+    ```
+    
 第四个参数如果是qmake，则用qmake编译。默认为cmake编译
+
+2. 用 QtCreator  
+设置 pkg-config
+        
+    ```sh
+    export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
+    ```
 
 windows下交叉编译
 ---------------
@@ -328,11 +340,23 @@ https://github.com/ruby/ruby
     ./build.sh android [source_code_directory]
 
 #### 3.3. 编译本项目:
+1. 命令行编译：
 
+    ```sh
     cd ${RabbitImRoot}/ThirdLibary/build_script
     ./build_rabbitim.sh android [source_code_directory] [qmake]
-
+    ```
+    
 第四个参数如果是qmake，则用qmake编译。默认为cmake编译
+
+2. 用 QtCreator  
+  设置 pkg-config
+        
+    ```sh
+    export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
+    ```
 
 ### 4. 调试
 下载 ministro  

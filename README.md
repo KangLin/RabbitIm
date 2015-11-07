@@ -1,4 +1,4 @@
-![Logon](Resource/png/AppIcon.png)玉兔即时通信![Logon](Resource/png/AppIcon.png)
+[![Logon](Resource/png/AppIcon.png)玉兔即时通信![Logon](Resource/png/AppIcon.png)](https://github.com/KangLin/rabbitim)
 =============================================================================
 
 * 作者：康林（msn、email:kl222@126.com；QQ:16614119)
@@ -15,7 +15,7 @@
 * QQ群：68046752（本人不常上QQ）。有问题或好的想法，尽量用邮件组。
 * 当前编译状态: [![Build Status](https://travis-ci.org/KangLin/rabbitim.png)](https://travis-ci.org/KangLin/rabbitim)
 * 微信公众号：rabbitim  
-![微信公众号:rabbitim](Resource/png/qrcode.jpg "微信公众号：rabbitim")
+[![微信公众号:rabbitim](Resource/png/qrcode.jpg "微信公众号：rabbitim")](https://github.com/KangLin/rabbitim)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -34,8 +34,22 @@
 8. 支持白板、屏幕截图
 9. 支持文件传输
 10. 支持换肤功能
+11. 二维码
+12. 应用（运动、二维码识别）
+13. 更多功能，请查看[变更日志](ChangeLog.md)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+捐赠：
+----
+如果这个项目对您有用，我们欢迎各方任何形式的捐助，也包括参与到项目代码更新或意见反馈中来。谢谢！
+
+### 资金捐赠：
+
+* qq手机钱包：16614119
+* 微信扫描下面二维码进行捐赠：
+
+![微信收款](Resource/png/weixinpay.jpg "微信收款")
 
 有偿服务：
 --------
@@ -50,25 +64,12 @@
 * QQ: 16614119
 * 邮箱：kl222@126.com
 
-捐赠：
-----
-如果这个项目对您有用，我们欢迎各方任何形式的捐助，也包括参与到项目代码更新或意见反馈中来。谢谢！
-
-资金捐赠：
-
-qq手机钱包：16614119
-
-微信扫描下面二维码进行捐赠：
-
-![微信收款](Resource/png/weixinpay.jpg "微信收款")
-
 文档:
 ----
 
-[许可协议](License.md)
-[变更日志](ChangeLog.md)
-[开发](docs/develop.md)
-[编译](docs/INSTALL.md)
+| 许可协议 | 变更日志 | 开发 | 编译 |
+|:---:|:---:|:---:|:---:|
+|[许可协议](License.md)|[变更日志](ChangeLog.md)|[开发](docs/develop.md)|[编译](docs/INSTALL.md)|
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -77,16 +78,22 @@ qq手机钱包：16614119
 
 windows 下截图:
 
-![启动窗口截图](http://img.blog.csdn.net/20141015140459604?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2wyMjI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "启动窗口截图")
-![列表窗口](http://img.blog.csdn.net/20141015140619632?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2wyMjI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center “列表窗口”)
-![对话窗口截图](http://img.blog.csdn.net/20141015141036908?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2wyMjI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "对话窗口截图")
+||中文黑色样式|
+|:---:|:---:|
+|登录窗口|![登录窗口](http://img.my.csdn.net/uploads/201511/08/1446950242_4601.png "登录窗口")|
+|列表窗口|![列表窗口](http://img.my.csdn.net/uploads/201511/08/1446948753_6277.png "列表窗口")|
+|聊天窗口|![聊天窗口](http://img.my.csdn.net/uploads/201511/08/1446948752_4354.jpg "聊天窗口")|
+
+||英语蓝色样式|
+|:---:|:---:|
+|登录窗口|![登录窗口](http://img.my.csdn.net/uploads/201511/08/1446950242_8435.png "登录窗口")|
+|列表窗口|![列表窗口](http://img.my.csdn.net/uploads/201511/08/1446950242_3949.png "列表窗口")|
+|聊天窗口|![聊天窗口](http://img.my.csdn.net/uploads/201511/08/1446948753_7000.png "聊天窗口")|
 
 ubuntu 下截图:
 
 ![启动窗口截图](http://img.blog.csdn.net/20141029143200551?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2wyMjI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast "启动窗口截图")
-
 ![对话窗口截图](http://img.blog.csdn.net/20141029143326015?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2wyMjI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast "对话窗口截图")
-
 ![视频截图](http://img.blog.csdn.net/20140717141505988 "视频截图")
 
 

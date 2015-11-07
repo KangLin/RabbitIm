@@ -487,6 +487,8 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
   * 项目->构建和运行->构建->构建环境，设置环境变更  
     PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config  
     PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    如果是交叉编译，还需要设置：
+    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
   * 构建->构建项目"RabbitIm"。编译本项目。
   * 运行：如果是在mingw32， 项目->构建和运行->运行->运行环境中设置
     PATH=${MSYS32_ROOT}/mingw32/bin;${RabbitImRoot}/ThirdLibary/${PLATFORM}/bin
