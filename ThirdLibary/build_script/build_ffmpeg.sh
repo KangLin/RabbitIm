@@ -109,7 +109,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CONFIG_PARA="${CONFIG_PARA} ${THIRD_LIB}"
         CFLAGS="-march=armv7-a -mfpu=neon"
-        LDFLAGS="-lcpu-features" 
+        LDFLAGS="-lcpu-features --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}" 
         ;;
     unix)
         CONFIG_PARA="${CONFIG_PARA} ${THIRD_LIB}"

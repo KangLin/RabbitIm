@@ -117,6 +117,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
         CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --disable-shared -enable-static"
         CONFIG_PARA="$CONFIG_PARA --host=${RABBITIM_BUILD_CROSS_HOST} "
+        CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         ;;
