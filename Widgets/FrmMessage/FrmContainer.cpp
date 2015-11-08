@@ -296,5 +296,7 @@ void CFrmContainer::slotRefresh()
         //TODO:是组消息对话框  
         
     }
+    //当当前是自己时，setCurrentIndex 不会触发信号currentChanged  
+    slotCurrentChanged(nIndex);
     m_tabWidget.setCurrentIndex(nIndex);
 }
