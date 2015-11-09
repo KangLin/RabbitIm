@@ -137,7 +137,7 @@ equals(RABBITIM_USE_QXMPP, 1) {
     CXXFLAGS = $$execPkgconfig(qxmpp, "--cflags")
     isEmpty(CXXFLAGS){
         equals(RABBITIM_USE_STATIC, 1) {
-           CXXFLAGS = QXMPP_STATIC
+           CXXFLAGS = -DQXMPP_STATIC
         }
     }
     QMAKE_CXXFLAGS *= $$CXXFLAGS
@@ -180,7 +180,7 @@ equals(RABBITIM_USE_LIBCURL, 1){
     DEFINES *= RABBITIM_USE_LIBCURL
     CXXFLAGS = $$execPkgconfig(libcurl, "--cflags")
     isEmpty(CXXFLAGS) : equals(RABBITIM_USE_STATIC, 1) {
-        CXXFLAGS = CURL_STATICLIB #用静态库时需要加这个，可以用 ./curl-config --cflags 得到  
+        CXXFLAGS = -DCURL_STATICLIB #用静态库时需要加这个，可以用 ./curl-config --cflags 得到  
     }
     QMAKE_CXXFLAGS *= $$CXXFLAGS
     LIBRARY = $$execPkgconfig(libcurl, "--libs")

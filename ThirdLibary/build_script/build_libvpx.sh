@@ -66,6 +66,13 @@ echo ""
 echo "configure ..."
 case ${RABBITIM_BUILD_TARGERT} in
     android)
+        export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
+        export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
+        export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
+        export LD=${RABBITIM_BUILD_CROSS_PREFIX}gcc
+        export AS=yasm
+        export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
+        export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
         CONFIG_PARA="--target=armv7-android-gcc --sdk-path=${ANDROID_NDK_ROOT} --disable-shared --enable-static"
         CFLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
 
