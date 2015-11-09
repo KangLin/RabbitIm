@@ -47,7 +47,8 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     VERSION=2.3
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://git.code.sf.net/p/qzxing/code ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone git://git.code.sf.net/p/qzxing/code ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone git://git.code.sf.net/p/qzxing/code ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone git@github.com:KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}

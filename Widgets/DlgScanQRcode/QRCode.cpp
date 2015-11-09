@@ -9,7 +9,7 @@
 #endif
 
 #ifdef RABBITIM_USE_QZXING
-    #include "qzxing.h"
+    #include "QZXing.h"
 #endif
 
 #define RABBITIM_ID "rabbitim://id/"

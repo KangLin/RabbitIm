@@ -119,8 +119,12 @@
 #### 1.6. libcurl:
 
     sudo apt-get install libcurl4-openssl-dev
+    
+#### 1.7 libqrencode
 
-#### 1.7. 下载预编译第三方库:
+     sudo apt-get install libqrencode-dev 
+
+#### 1.8. 下载预编译第三方库:
 
 从　http://pan.baidu.com/s/1hqAINHy　下载linux操作系统的预编译的第三方库，并解压到　${RabbitImRoot}/ThirdLibary　下。
 
