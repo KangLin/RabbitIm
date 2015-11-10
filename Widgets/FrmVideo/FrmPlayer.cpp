@@ -31,10 +31,14 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
         std::shared_ptr<CVideoFrame> outFrame;
         if (VIDEO_FORMAT_RGB32 != m_Frame->m_VideoInfo.Format)
         {
-            CTool::ConvertFormat(m_Frame, outFrame,
+            #if  RABBITIM_USE_FFMPEG 
+                CTool::ConvertFormat(m_Frame, outFrame,
                                  this->rect().width(),
                                  this->rect().height(),
                                  VIDEO_FORMAT_RGB32);
+            #else
+                #error "Must use ffmpeg"
+            #endif
         }
         else
         {

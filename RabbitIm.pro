@@ -46,6 +46,8 @@ CONFIG += c++0x
     QMAKE_CXXFLAGS += " -std=c++0x "
 }
 
+CONFIG += link_pkgconfig link_prl
+
 #安装  
 isEmpty(PREFIX) {
     android {
@@ -80,6 +82,7 @@ win32 {
     }
 } else:android {
     isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/android
+    PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
     DEFINES += ANDROID MOBILE
     RABBITIM_SYSTEM = "android"
     RABBITIM_USE_STATIC=1
@@ -104,109 +107,9 @@ message("THIRD_LIBRARY_PATH:$${THIRD_LIBRARY_PATH}")
 INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom
 INCLUDEPATH += $${THIRD_LIBRARY_PATH}/include
 DEPENDPATH += $${THIRD_LIBRARY_PATH}/include
-LIBS += -L$${THIRD_LIBRARY_PATH}/lib
+LIBS += -L$${THIRD_LIBRARY_PATH}/lib $$LDFLAGS
 
-CONFIG += link_pkgconfig link_prl
-mingw {
-        equals(QMAKE_HOST.os, Windows){
-            PKG_CONFIG="PKG_CONFIG_PATH=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH) pkg-config"
-        } else {
-            PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
-            PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig
-        }
-} else : android {
-    PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
-    PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig
-} else : unix {
-    PKG_CONFIG="PKG_CONFIG_PATH=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH) pkg-config"
-}
-
-equals(RABBITIM_USE_QXMPP, 1) {
-    CONFIG(release, debug|release) {
-        packagesExist(qxmpp) {
-            DEFINES *= RABBITIM_USE_QXMPP
-            PKGCONFIG += qxmpp
-        }
-    } else {
-        packagesExist(qxmpp_d) {
-            DEFINES *= RABBITIM_USE_QXMPP
-            PKGCONFIG += qxmpp_d
-        }
-    }
-}
-
-equals(RABBITIM_USE_OPENSSL, 1) : packagesExist(openssl) {
-    DEFINES *= RABBITIM_USE_OPENSSL
-    PKGCONFIG *= openssl
-}
-
-equals(RABBITIM_USE_LIBCURL, 1) : packagesExist(libcurl) {
-    DEFINES *= RABBITIM_USE_LIBCURL
-    PKGCONFIG *= libcurl
-}
-
-equals(RABBITIM_USE_FFMPEG, 1) : packagesExist(libavcodec libavformat libswscale libavutil) {
-    DEFINES *= RABBITIM_USE_FFMPEG __STDC_CONSTANT_MACROS #ffmpeg需要  
-    PKGCONFIG *= libavcodec libavformat libswscale libavutil
-}
-
-equals(RABBITIM_USE_PJSIP, 1) : packagesExist(libpjproject){
-    DEFINES += RABBITIM_USE_PJSIP
-    equals(RABBITIM_USE_PJSIP_CAMERA, 1) {
-        DEFINES += RABBITIM_USE_PJSIP_CAMERA
-    }
-    PKGCONFIG *= libpjproject
-}
-
-equals(RABBITIM_USE_OPENCV, 1){
-    DEFINES *= RABBITIM_USE_OPENCV
-    OPENCV_LIBRARY= -lopencv_video$$OPENCV_VERSION -lopencv_videoio$$OPENCV_VERSION \
-                    -lopencv_imgproc$$OPENCV_VERSION \
-                    -lopencv_core$$OPENCV_VERSION
-
-    android{
-        OPENCV_LIBRARY += \
-                         -lopencv_androidcamera \
-                         -lopencv_imgcodecs \
-                         -lopencv_info \
-                         -llibjpeg
-    }else{
-        OPENCV_LIBRARY += -lzlib
-    }
-
-    win32{
-        OPENCV_LIBRARY += -lopencv_imgcodecs$$OPENCV_VERSION
-        OPENCV_LIBRARY += -lOle32 -lolepro32 -loleaut32 -luuid #dshow依赖库  
-    }
-}else:android{
-    message("android video capture need opencv, please set RABBITIM_USE_OPENCV=1")
-}
-
-equals(QXMPP_USE_SPEEX, 1) : packagesExist(speex) {
-    PKGCONFIG *= speex
-}
-
-equals(QXMPP_USE_VPX, 1) : packagesExist(vpx){
-    PKGCONFIG *= vpx
-    android {
-        LIBS += -lcpu-features
-    }
-}
-
-packagesExist(libqrencode) {
-    DEFINES *= RABBITIM_USE_LIBQRENCODE
-    PKGCONFIG *= libqrencode
-}
-
-packagesExist(QZXing) {
-    DEFINES *= RABBITIM_USE_QZXING
-    PKGCONFIG *= QZXing
-}
-
-LIBS += $$LDFLAGS $$OPENCV_LIBRARY 
-message("PKGCONFIG:$$PKGCONFIG")
-message("DEFINES:$$DEFINES")
-
+include(mkspecs/ThirdLibrary.prf)
 include(RabbitIm.pri)
 include(Plugin/Lbs/Lbs.pri)
 #发行版本才更新更新配置  
@@ -247,7 +150,8 @@ OTHER_FILES += README.md \
     Update/*template* \
     Update/*.xml \
     Doxyfile* \
-    Plugin/CMakeLists.txt
+    Plugin/CMakeLists.txt \
+    mkspecs/*
 
 # Rules for creating/updating {ts|qm}-files
 include(Resource/translations/translations.pri)

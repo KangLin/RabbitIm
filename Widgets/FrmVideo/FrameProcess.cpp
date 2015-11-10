@@ -57,6 +57,7 @@ void CFrameProcess::slotCaptureFrame(
             //dst = CTool::ImageRotate(src, cv::Point(src.cols >> 1, src.rows >> 1), m_pCamera->GetOrientation());//有黑边  
             QImage img((uchar*)(dst.data), dst.cols, dst.rows, QImage::Format_RGB888);  //RGB888就是RGB24即RGB  
 */
+#if  RABBITIM_USE_FFMPEG 
             QImage img((const uchar*)frame->GetData(), 
                        frame->m_VideoInfo.nWidth,
                        frame->m_VideoInfo.nHeight,
@@ -64,7 +65,7 @@ void CFrameProcess::slotCaptureFrame(
                            frame->m_VideoInfo.Format));
             QMatrix m;
             img = img.transformed(m.rotate(270));
-
+#endif
             QVideoFrame outFrame(img);
             emit sigCaptureFrame(outFrame);
             break;
