@@ -667,7 +667,7 @@ QString CTool::FileDialog(QWidget *pParent, const QString &szDir,
 {
     QString szFile;
     QFileDialog dlg(pParent, szTilte, szDir, szFilter);
-    dlg.setOption(QFileDialog::DontUseNativeDialog, false);
+    dlg.setOption(QFileDialog::DontUseNativeDialog, true);
     CTool::SetWindowsGeometry(&dlg);
     QStringList fileNames;
     if(dlg.exec())

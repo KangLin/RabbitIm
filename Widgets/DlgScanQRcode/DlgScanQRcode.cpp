@@ -43,7 +43,7 @@ void CDlgScanQRcode::on_pushBrowse_clicked()
     if(m_pCamera)
         m_pCamera->Stop();
 
-    QString szFile, szFilter("*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM");
+    QString szFile, szFilter(tr("Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)"));
     szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
     if(!szFile.isEmpty())
     {
