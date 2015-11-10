@@ -40,14 +40,17 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    VERSION=v1.6.9rc02
+    VERSION_MAJOR=16
+    VERSION=1.6.9rc02
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone --branch=${VERSION} git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=$VERSION  git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone --branch=v${VERSION} git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone --branch=v$VERSION  git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget http://nchc.dl.sourceforge.net/project/libpng/libpng16/1.6.18/libpng-1.6.18.tar.xz
+        wget http://sourceforge.net/projects/libpng/files/libpng${VERSION_MAJOR}/${VERSION}/libpng-${VERSION}.tar.gz/download
+        tar xzvf download
+        mv libpng-${VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 

@@ -46,8 +46,6 @@ CONFIG += c++0x
     QMAKE_CXXFLAGS += " -std=c++0x "
 }
 
-CONFIG += link_pkgconfig link_prl
-
 #安装  
 isEmpty(PREFIX) {
     android {
@@ -79,15 +77,9 @@ win32 {
     } else {
         RABBITIM_PLATFORM = "mingw"
         isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_mingw
-        equals(QMAKE_HOST.os, Windows){
-            PKG_CONFIG="PKG_CONFIG_PATH=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH) pkg-config"
-        } else {
-            PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
-        }
     }
 } else:android {
     isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/android
-    PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
     DEFINES += ANDROID MOBILE
     RABBITIM_SYSTEM = "android"
     RABBITIM_USE_STATIC=1
@@ -95,7 +87,6 @@ win32 {
     RABBITIM_SYSTEM = unix
     DEFINES += UNIX
     isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/unix
-    PKG_CONFIG="PKG_CONFIG_PATH=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH) pkg-config"
 }
 equals(RABBITIM_USE_STATIC, 1) {
     exists("$${THIRD_LIBRARY_PATH}_static"){
@@ -114,6 +105,21 @@ INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom
 INCLUDEPATH += $${THIRD_LIBRARY_PATH}/include
 DEPENDPATH += $${THIRD_LIBRARY_PATH}/include
 LIBS += -L$${THIRD_LIBRARY_PATH}/lib
+
+CONFIG += link_pkgconfig link_prl
+mingw {
+        equals(QMAKE_HOST.os, Windows){
+            PKG_CONFIG="PKG_CONFIG_PATH=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH) pkg-config"
+        } else {
+            PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
+            PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig
+        }
+} else : android {
+    PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
+    PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig
+} else : unix {
+    PKG_CONFIG="PKG_CONFIG_PATH=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH) pkg-config"
+}
 
 equals(RABBITIM_USE_QXMPP, 1) {
     CONFIG(release, debug|release) {
