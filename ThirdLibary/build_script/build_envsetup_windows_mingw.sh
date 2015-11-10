@@ -38,9 +38,11 @@ case $TARGET_OS in
         if [ -z $RABBITIM_MAKE_JOB_PARA ]; then
             RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
         fi
+        #pkg-config帮助文档：http://linux.die.net/man/1/pkg-config
         export PKG_CONFIG=pkg-config 
         export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
         export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
+        export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX}
         ;;
     *)
     echo "Please set RABBITIM_BUILD_HOST. see build_envsetup_windows_mingw.sh"

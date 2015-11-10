@@ -45,7 +45,9 @@ CONFIG += c++0x
 !msvc{
     QMAKE_CXXFLAGS += " -std=c++0x "
 }
+
 CONFIG += link_pkgconfig link_prl
+
 #安装  
 isEmpty(PREFIX) {
     android {
@@ -77,9 +79,15 @@ win32 {
     } else {
         RABBITIM_PLATFORM = "mingw"
         isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/windows_mingw
+        equals(QMAKE_HOST.os, Windows){
+            PKG_CONFIG="PKG_CONFIG_PATH=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH) pkg-config"
+        } else {
+            PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
+        }
     }
 } else:android {
     isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/android
+    PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
     DEFINES += ANDROID MOBILE
     RABBITIM_SYSTEM = "android"
     RABBITIM_USE_STATIC=1
@@ -87,6 +95,7 @@ win32 {
     RABBITIM_SYSTEM = unix
     DEFINES += UNIX
     isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/ThirdLibary/unix
+    PKG_CONFIG="PKG_CONFIG_PATH=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH) pkg-config"
 }
 equals(RABBITIM_USE_STATIC, 1) {
     exists("$${THIRD_LIBRARY_PATH}_static"){
@@ -106,156 +115,41 @@ INCLUDEPATH += $${THIRD_LIBRARY_PATH}/include
 DEPENDPATH += $${THIRD_LIBRARY_PATH}/include
 LIBS += -L$${THIRD_LIBRARY_PATH}/lib
 
-isEmpty(PKG_CONFIG){
-    PKG_CONFIG = $$(PKG_CONFIG)
-}
-message("PKG_CONFIG:$$PKG_CONFIG")
-message("PKG_CONFIG_PATH:$$PKG_CONFIG_PATH")
-#用 pkg-config 查找依赖库，需要环境变量 PKG_CONFIG 和 PKG_CONFIG_PATH  
-#使用 execPkgconfig(库名， 参数)  
-#例如： $$execPkgconfig(qxmpp, --libs)  
-defineReplace(execPkgconfig) {
-    LIBRARY_NAME = $$1
-    LIBRARY_PARA = $$2
-    isEmpty(PKG_CONFIG){
-        message("Don't find pkg-config. please set environment Variables PKG_CONFIG \
-         and export PKG_CONFIG_PATH=$$system_path($${THIRD_LIBRARY_PATH}/lib/pkgconfig)")
-    } else {
-        equals(RABBITIM_USE_STATIC, 1) {
-            LIBRARYS += $$system($$PKG_CONFIG --static $$LIBRARY_PARA $$LIBRARY_NAME)
-        } else {
-            LIBRARYS += $$system($$PKG_CONFIG $$LIBRARY_PARA $$LIBRARY_NAME)            
-        }
-    }
-    return($$LIBRARYS)
-}
-
 equals(RABBITIM_USE_QXMPP, 1) {
-    #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。  
-    #生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数  
-    DEFINES *= RABBITIM_USE_QXMPP
-    CXXFLAGS = $$execPkgconfig(qxmpp, "--cflags")
-    isEmpty(CXXFLAGS){
-        equals(RABBITIM_USE_STATIC, 1) {
-           CXXFLAGS = -DQXMPP_STATIC
-        }
-    }
-    QMAKE_CXXFLAGS *= $$CXXFLAGS
     CONFIG(release, debug|release) {
-        LIBRARY = $$execPkgconfig(qxmpp, "--libs")
+        packagesExist(qxmpp) {
+            DEFINES *= RABBITIM_USE_QXMPP
+            PKGCONFIG += qxmpp
+        }
     } else {
-        LIBRARY = $$execPkgconfig(qxmpp_d, "--libs")
-    }
-    isEmpty(LIBRARY) {
-        CONFIG(release, debug|release) {
-            win32 {
-                LIBRARY = -lqxmpp_d # qxmpp 库名  
-            }else{
-                LIBRARY = -lqxmpp # qxmpp 库名  
-            }            
-        } else {
-            win32 {
-                LIBRARY = -lqxmpp_d0 # qxmpp 库名  
-            }else{
-                LIBRARY = -lqxmpp0 # qxmpp 库名  
-            }
+        packagesExist(qxmpp_d) {
+            DEFINES *= RABBITIM_USE_QXMPP
+            PKGCONFIG += qxmpp_d
         }
     }
-    LIBS += $$LIBRARY
 }
 
-equals(RABBITIM_USE_OPENSSL, 1){
+equals(RABBITIM_USE_OPENSSL, 1) : packagesExist(openssl) {
     DEFINES *= RABBITIM_USE_OPENSSL
-    QMAKE_CXXFLAGS *= $$execPkgconfig(openssl, "--cflags")
-    LIBRARY += $$execPkgconfig(openssl, "--libs")
-    isEmpty(LIBRARY) {
-        LIBRARY = -lssl -lcrypto
-    }
-    LIBS += $$LIBRARY
-} else {
-    RABBITIM_USE_LIBCURL=0
+    PKGCONFIG *= openssl
 }
 
-equals(RABBITIM_USE_LIBCURL, 1){
+equals(RABBITIM_USE_LIBCURL, 1) : packagesExist(libcurl) {
     DEFINES *= RABBITIM_USE_LIBCURL
-    CXXFLAGS = $$execPkgconfig(libcurl, "--cflags")
-    isEmpty(CXXFLAGS) : equals(RABBITIM_USE_STATIC, 1) {
-        CXXFLAGS = -DCURL_STATICLIB #用静态库时需要加这个，可以用 ./curl-config --cflags 得到  
-    }
-    QMAKE_CXXFLAGS *= $$CXXFLAGS
-    LIBRARY = $$execPkgconfig(libcurl, "--libs")
-    isEmpty(LIBRARY) {
-        LIBRARY = -lcurl  #可以用 ./curl-config --libs 得到  
-        win32:msvc:equals(RABBITIM_USE_STATIC, 1){
-            LIBRARY = -llibcurl_a
-        }else{
-            LIBRARY = -llibcurl 
-        }
-        equals(RABBITIM_USE_OPENSSL, 1){
-            LIBRARY = -lssleay32 -llibeay32
-        }
-    }
-    LIBS += $$LIBRARY
+    PKGCONFIG *= libcurl
 }
 
-equals(RABBITIM_USE_FFMPEG, 1) {
+equals(RABBITIM_USE_FFMPEG, 1) : packagesExist(libavcodec libavformat libswscale libavutil) {
     DEFINES *= RABBITIM_USE_FFMPEG __STDC_CONSTANT_MACROS #ffmpeg需要  
-
-    QMAKE_CXXFLAGS *= $$execPkgconfig("libavcodec libavformat libswscale libavutil", "--cflags")
-    LIBRARY = $$execPkgconfig("libavcodec libavformat libswscale libavutil", --libs)
-    isEmpty(LIBRARY) : LIBRARY = -lavcodec -lavformat -lswscale -lavutil
-    LIBS += $$LIBRARY
+    PKGCONFIG *= libavcodec libavformat libswscale libavutil
 }
 
-equals(RABBITIM_USE_PJSIP, 1){
+equals(RABBITIM_USE_PJSIP, 1) : packagesExist(libpjproject){
     DEFINES += RABBITIM_USE_PJSIP
-
     equals(RABBITIM_USE_PJSIP_CAMERA, 1) {
         DEFINES += RABBITIM_USE_PJSIP_CAMERA
     }
-
-    QMAKE_CXXFLAGS *= $$execPkgconfig(libpjproject, "--cflags")
-    #PKGCONFIG += libpjproject
-    LIBRARY = $$execPkgconfig(libpjproject, --libs)
-    isEmpty(LIBRARY){
-        mingw{
-        QMAKE_CXXFLAGS+=" -DPJ_AUTOCONF=1 -O2 -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1 "
-        LIBRARY =-LD:\msys32\mingw32\lib -lpjsua2-i686-pc-mingw32 \
-            -lstdc++ -lpjsua-i686-pc-mingw32 -lpjsip-ua-i686-pc-mingw32 \
-            -lpjsip-simple-i686-pc-mingw32 -lpjsip-i686-pc-mingw32 \
-            -lpjmedia-codec-i686-pc-mingw32 -lpjmedia-i686-pc-mingw32 \
-            -lpjmedia-videodev-i686-pc-mingw32 -lpjmedia-audiodev-i686-pc-mingw32 \
-            -lpjmedia-i686-pc-mingw32 -lpjnath-i686-pc-mingw32 -lpjlib-util-i686-pc-mingw32 \
-            -lsrtp-i686-pc-mingw32 -lresample-i686-pc-mingw32 -lgsmcodec-i686-pc-mingw32 \
-            -lspeex-i686-pc-mingw32 -lilbccodec-i686-pc-mingw32 -lg7221codec-i686-pc-mingw32 \
-            -lportaudio-i686-pc-mingw32 -lpj-i686-pc-mingw32 -lssl -lcrypto -lyuv -lm -lwinmm \
-            -lole32 -lws2_32 -lwsock32 -lpthread  \
-            -L/d/source/rabbitim/ThirdLibary/build_script/../windows_mingw/lib \
-            -lavformat -lavicap32 -lgdi32 -lpsapi -lole32 -lstrmiids -luuid -loleaut32 \
-            -lws2_32 -liconv -lx264 -lpthread -lm -llzma -lbz2 -lz -lpsapi -ladvapi32 \
-            -lshell32 -lavcodec -lavicap32 -lgdi32 -lpsapi -lole32 -lstrmiids -luuid \
-            -loleaut32 -lws2_32 -liconv -lx264 -lpthread -lm -llzma -lbz2 -lz -lpsapi \
-            -ladvapi32 -lshell32 -lswresample -lm -lswscale -lm -lavutil -lm 
-        }else:msvc{
-            INCLUDEPATH+="D:\source\pjsip\pjmedia\include" "D:\source\pjsip\pjlib\include" "D:\source\pjsip\include" "D:\source\pjsip/pjnath/include" "D:\source\pjsip/pjlib-util/include"
-            LIBRARY=D:\source\pjsip\lib\libpjproject-i386-Win32-vc8-Debug.lib "winmm.lib" "dsound.lib" "dxguid.lib" "netapi32.lib" "mswsock.lib" "ws2_32.lib" "odbc32.lib" "odbccp32.lib" "ole32.lib" "user32.lib" "kernel32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "oleaut32.lib" "uuid.lib" 
-        }else:android{
-            QMAKE_CXXFLAGS +=" -DPJ_AUTOCONF=1 -fpic -ffunction-sections -funwind-tables -no-canonical-prefixes -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -mthumb -Os -g -DNDEBUG -fomit-frame-pointer -finline-limit=64 -O0 -UNDEBUG -marm -fno-omit-frame-pointer -Ijni -DANDROID -Wa,--noexecstack -Wformat -Werror=format-security -ID:/software/android-ndk-r9/platforms/android-18/arch-arm/usr/include  -I/d/software/android-ndk-r9/sources/cxx-stl/gnu-libstdc++/4.8/include -I/d/software/android-ndk-r9/sources/cxx-stl/gnu-libstdc++/4.8/libs/armeabi-v7a/include -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1"
-            LIBRARY=-lpjsua2-arm-unknown-linux-androideabi -lstdc++ \
-                -lpjsua-arm-unknown-linux-androideabi -lpjsip-ua-arm-unknown-linux-androideabi \
-                -lpjsip-simple-arm-unknown-linux-androideabi -lpjsip-arm-unknown-linux-androideabi \
-                -lpjmedia-codec-arm-unknown-linux-androideabi -lpjmedia-arm-unknown-linux-androideabi \
-                -lpjmedia-videodev-arm-unknown-linux-androideabi -lpjmedia-audiodev-arm-unknown-linux-androideabi \
-                -lpjmedia-arm-unknown-linux-androideabi -lpjnath-arm-unknown-linux-androideabi \
-                -lpjlib-util-arm-unknown-linux-androideabi  -lsrtp-arm-unknown-linux-androideabi \
-                -lresample-arm-unknown-linux-androideabi -lgsmcodec-arm-unknown-linux-androideabi \
-                -lspeex-arm-unknown-linux-androideabi -lilbccodec-arm-unknown-linux-androideabi \
-                -lg7221codec-arm-unknown-linux-androideabi  -lpj-arm-unknown-linux-androideabi -lm \
-                -lgnustl_static  -lc -lgcc -ldl -lOpenSLES -llog -lGLESv2 -lEGL -landroid
-        }
-    }
-
-    LIBS += $$LIBRARY
+    PKGCONFIG *= libpjproject
 }
 
 equals(RABBITIM_USE_OPENCV, 1){
@@ -282,38 +176,30 @@ equals(RABBITIM_USE_OPENCV, 1){
     message("android video capture need opencv, please set RABBITIM_USE_OPENCV=1")
 }
 
-equals(QXMPP_USE_SPEEX, 1) {
-    QMAKE_CXXFLAGS *= $$execPkgconfig(speex, "--cflags")
-    LIBS += $$execPkgconfig(speex, "--libs")
+equals(QXMPP_USE_SPEEX, 1) : packagesExist(speex) {
+    PKGCONFIG *= speex
 }
 
-equals(QXMPP_USE_VPX, 1) {
-    QMAKE_CXXFLAGS *= $$execPkgconfig(vpx, "--cflags")
-    LIBS += $$execPkgconfig(vpx, "--libs")
+equals(QXMPP_USE_VPX, 1) : packagesExist(vpx){
+    PKGCONFIG *= vpx
     android {
         LIBS += -lcpu-features
     }
 }
 
-LIBQRENCODE = $$execPkgconfig(libqrencode, "--libs")
-!isEmpty(LIBQRENCODE) {
+packagesExist(libqrencode) {
     DEFINES *= RABBITIM_USE_LIBQRENCODE
-    QMAKE_CXXFLAGS *= $$execPkgconfig(libqrencode, "--cflags")
-    LIBS += $$LIBQRENCODE
+    PKGCONFIG *= libqrencode
 }
 
-LIBQZXING = $$execPkgconfig(QZXing, "--libs")
-!isEmpty(LIBQZXING) {
+packagesExist(QZXing) {
     DEFINES *= RABBITIM_USE_QZXING
-    QMAKE_CXXFLAGS *= $$execPkgconfig(QZXing, "--cflags")
-    LIBS += $$LIBQZXING
+    PKGCONFIG *= QZXing
 }
 
 LIBS += $$LDFLAGS $$OPENCV_LIBRARY 
+message("PKGCONFIG:$$PKGCONFIG")
 message("DEFINES:$$DEFINES")
-message("QMAKE_CXXFLAGS:$$QMAKE_CXXFLAGS")
-message("QMAKE_LFLAGS:$$QMAKE_LFLAGS")
-message("Libs:$$LIBS")
 
 include(RabbitIm.pri)
 include(Plugin/Lbs/Lbs.pri)
