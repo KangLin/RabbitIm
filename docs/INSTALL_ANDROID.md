@@ -170,9 +170,9 @@ ubuntu下交叉编译
 设置 pkg-config
         
     ```sh
-    export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
     export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
     export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
+    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibary/${PLATFORM}
     ```
 
 windows下交叉编译
@@ -356,6 +356,7 @@ https://github.com/ruby/ruby
     export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
     export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
     export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
+    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibary/${PLATFORM}
     ```
 
 ### 4. 调试

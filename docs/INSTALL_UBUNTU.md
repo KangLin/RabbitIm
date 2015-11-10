@@ -203,9 +203,19 @@
     ./build_qxmpp.sh unix [source_code_directory]
 
 ## 本项目录编译
+1. 命令行编译：
 
+    ```sh
     cd ${RabbitImRoot}/ThirdLibary/build_script
     vim build_envsetup_unix.sh           #设置编译时需要的变量(可选)
     ./build_rabbitim.sh unix [source_code_directory] [qmake]
+    ```
 
 第四个参数如果是qmake，则用qmake编译。默认为cmake编译
+
+2. 用 QtCreator  
+设置 pkg-config
+        
+    ```sh
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    ```

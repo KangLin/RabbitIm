@@ -185,17 +185,17 @@ windows下用mingw交叉编译
 + 设置国内镜像：
 打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.msys
 
-    #中国科学技术
+    \#中国科学技术
     Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MSYS2/$arch
-
+     
 打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.mingw32
 
-    #中国科学技术
+    \#中国科学技术
     Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MINGW/i686/
     
 打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.mingw64
 
-    #中国科学技术
+    \#中国科学技术
     Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MINGW/x86_64/
 
 + 安装,启动msys2
@@ -538,7 +538,8 @@ ubuntu下用mingw交叉编译
 设置 pkg-config
         
     ```sh
-    export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
+    export PKG_CONFIG=pkg-config
     export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
     export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
+    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibary/${PLATFORM}
     ```

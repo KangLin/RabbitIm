@@ -270,6 +270,10 @@
 * 下载：`git clone https://github.com/gwaldron/osgearth.git`
 * 当前使用版本: osgearth-2.7rc2
 
+#### 22. libpng
+* 官网：http://sourceforge.net/projects/libpng/
+* 下载: `git clone git://git.code.sf.net/p/libpng/code`
+
 本项目
 ---------
 
@@ -489,6 +493,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
     如果是交叉编译，还需要设置：
     export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
+    export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_PATH}
   * 构建->构建项目"RabbitIm"。编译本项目。
   * 运行：如果是在mingw32， 项目->构建和运行->运行->运行环境中设置
     PATH=${MSYS32_ROOT}/mingw32/bin;${RabbitImRoot}/ThirdLibary/${PLATFORM}/bin
