@@ -1,6 +1,6 @@
 mingw{
         equals(QMAKE_HOST.os, Windows){
-            PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH)"
+            PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig;$$(PKG_CONFIG_PATH)"
         } else {
             PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
         }
@@ -11,22 +11,23 @@ mingw{
     PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH)"
 }
 
+isEmpty(PKG_CONFIG) : PKG_CONFIG=$$(PKG_CONFIG)
 defineReplace(myPkgConfigExecutable) {
     isEmpty(PKG_CONFIG) {
-        equals(RABBITIM_USE_STATIC, 1) {
-            PKG_CONFIG = pkg-config --static
-        } else {
-            PKG_CONFIG = pkg-config 
-        }
-
-        sysroot.name = PKG_CONFIG_SYSROOT_DIR
-        sysroot.value = $$PKG_CONFIG_SYSROOT_DIR
-        libdir.name = PKG_CONFIG_LIBDIR
-        libdir.value = $$PKG_CONFIG_LIBDIR
-        path.name = PKG_CONFIG_PATH
-        path.value = $$PKG_CONFIG_PATH
-        qtAddToolEnv(PKG_CONFIG, sysroot libdir path, SYS)
+        PKG_CONFIG = pkg-config 
     }
+
+    equals(RABBITIM_USE_STATIC, 1) {
+        PKG_CONFIG *= --static
+    }
+
+    sysroot.name = PKG_CONFIG_SYSROOT_DIR
+    sysroot.value = $$PKG_CONFIG_SYSROOT_DIR
+    libdir.name = PKG_CONFIG_LIBDIR
+    libdir.value = $$PKG_CONFIG_LIBDIR
+    path.name = PKG_CONFIG_PATH
+    path.value = $$PKG_CONFIG_PATH
+    qtAddToolEnv(PKG_CONFIG, sysroot libdir path, SYS)
 
     equals(QMAKE_HOST.os, Windows): \
         PKG_CONFIG += 2> NUL

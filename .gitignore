@@ -110,7 +110,9 @@ ipch/
 IncludeLocalDatabase.txt
 ThirdLibary/unix_mingw/
 ThirdLibary/unix/
+ThirdLibary/unix_static/
 ThirdLibary/android/
+ThirdLibary/android_static/
 ThirdLibary/windows_msvc/
 ThirdLibary/windows_mingw/
 ThirdLibary/src/

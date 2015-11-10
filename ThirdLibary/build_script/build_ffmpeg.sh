@@ -107,6 +107,8 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} --enable-static --disable-shared --disable-w32threads"
         CONFIG_PARA="${CONFIG_PARA} --cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX}"
         CONFIG_PARA="${CONFIG_PARA} --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        CONFIG_PARA="${CONFIG_PARA} --pkg-config=${PKG_CONFIG}"
+        CONFIG_PARA="${CONFIG_PARA} --pkgconfigdir=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig"
         CONFIG_PARA="${CONFIG_PARA} ${THIRD_LIB}"
         CFLAGS="-march=armv7-a -mfpu=neon"
         LDFLAGS="-lcpu-features --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}" 
@@ -126,6 +128,8 @@ case ${RABBITIM_BUILD_TARGERT} in
                 ;;
             Linux*|Unix*|CYGWIN*|*)
                 CONFIG_PARA="${CONFIG_PARA} --cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX}"
+                CONFIG_PARA="${CONFIG_PARA} --pkg-config=${PKG_CONFIG}"
+                CONFIG_PARA="${CONFIG_PARA} --pkgconfigdir=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig"
                 ;;
             *)
             echo "Don't support tagert:`uname -s`, please see build_ffmpeg.sh"

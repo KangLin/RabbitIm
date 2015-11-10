@@ -31,7 +31,6 @@ TARGET_OS=`uname -s`
 case $TARGET_OS in
     MINGW* | CYGWIN* | MSYS*)
         MAKE=make
-        export PKG_CONFIG=pkg-config 
         export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH
         ;;
     Linux* | Unix*)
@@ -39,7 +38,6 @@ case $TARGET_OS in
             RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
         fi
         #pkg-config帮助文档：http://linux.die.net/man/1/pkg-config
-        export PKG_CONFIG=pkg-config 
         export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
         export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
         export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX}
@@ -49,6 +47,11 @@ case $TARGET_OS in
     return 2
     ;;
 esac
+
+export PKG_CONFIG=pkg-config 
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    export PKG_CONFIG="pkg-config --static"
+fi
 
 if [ -z "$RABBITIM_USE_REPOSITORIES" ]; then
     RABBITIM_USE_REPOSITORIES="TRUE" #下载开发库。省略，则下载指定的压缩包
