@@ -85,7 +85,6 @@ win32 {
     PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
     DEFINES += ANDROID MOBILE
     RABBITIM_SYSTEM = "android"
-    RABBITIM_USE_STATIC=1
 }  else:unix {
     RABBITIM_SYSTEM = unix
     DEFINES += UNIX
@@ -95,7 +94,7 @@ equals(RABBITIM_USE_STATIC, 1) {
     exists("$${THIRD_LIBRARY_PATH}_static"){
         THIRD_LIBRARY_PATH=$${THIRD_LIBRARY_PATH}_static
     }
-    CONFIG+=link_prl static #生成静态程序  
+    CONFIG *= link_prl static #生成静态程序  
    # CONFIG += staticlib # this is needed if you create a static library, not a static executable
    # DEFINES+= STATIC
 #} else {

@@ -97,8 +97,7 @@ case ${RABBITIM_BUILD_TARGERT} in
                 --openssldir=${RABBITIM_BUILD_PREFIX} \
                 android-armv7 \
                 --sysroot="${RABBITIM_BUILD_CROSS_SYSROOT}"
-         
-        ;;     
+        ;;
     unix)
         ./config --prefix=${RABBITIM_BUILD_PREFIX} --openssldir=${RABBITIM_BUILD_PREFIX} $MODE
         ;;

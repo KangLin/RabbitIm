@@ -108,7 +108,8 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
         ;;
     windows_msvc)
-        echo "don't implement"
+        #https://folti.blogs.balabit.com/2009/08/compiling-autoconfmake-projects-under-msvc-part-one/
+        ../configure CC="cl -nologo" CFLAGS=-MD LD=link NM="dumpbin -symbols" STRIP=: RANLIB=: --enable-dependency-tracking
         ;;
     windows_mingw)
         case `uname -s` in

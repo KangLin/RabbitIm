@@ -68,8 +68,8 @@ if [ -n "$2" ]; then
     ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv && \
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg && \
     ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} $2/opencv && \
-    ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} $2/pjsip && \
-    ./build_icu.sh ${RABBITIM_BUILD_TARGERT} $2/icu && \
+   # ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} $2/pjsip && \
+   # ./build_icu.sh ${RABBITIM_BUILD_TARGERT} $2/icu && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
     ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp && \
     ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} $2/wzxing && \
@@ -92,8 +92,8 @@ else
     ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_icu.sh ${RABBITIM_BUILD_TARGERT} && \
+   # ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} && \
+   # ./build_icu.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} && \

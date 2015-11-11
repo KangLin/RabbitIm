@@ -58,10 +58,10 @@
 
 修改前缀
     
-        cd ${RabbitImRoot}/ThirdLibary/unix
-        cp ${RabbitImRoot}/ThirdLibary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibary/unix/change_prefix.sh
-        cd ${RabbitImRoot}/ThirdLibary/unix
-        ./change_prefix ${old_prefix} ${new_prefix}  #old_prefix是原来的前缀，你可打开一个配置文件查看；
+    cd ${RabbitImRoot}/ThirdLibary/unix
+    cp ${RabbitImRoot}/ThirdLibary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibary/unix/change_prefix.sh
+    cd ${RabbitImRoot}/ThirdLibary/unix
+    ./change_prefix ${old_prefix} ${new_prefix}  #old_prefix是原来的前缀，你可打开一个配置文件查看；
                                                      #new_prefix可以省略，省略时用当前目录
 
 ubuntu下交叉编译
@@ -170,9 +170,9 @@ ubuntu下交叉编译
 设置 pkg-config
         
     ```sh
-    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
-    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
-    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}         #可选
+    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}                            #可选
+    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibary/${PLATFORM}  #可选
     ```
 
 windows下交叉编译
@@ -244,7 +244,9 @@ make: fork: Resource temporarily unavailable
     export ANDROID_NDK_ROOT=$ANDROID_NDK
     export PATH=$ANDROID_SDK/platform-tools:$PATH
 
-注意：在msys2下需要注意路径符号,用unix型路径："/"
+注意：
+1. 在msys2下需要注意路径符号,用unix型路径："/"
+2. qt与第三方依赖库所使用的工具链版本需要一样。
 
 #### 2.3. android sdk 
 * 平台版本：21
@@ -260,7 +262,9 @@ make: fork: Resource temporarily unavailable
     export ANDROID_SDK=/D/software/android-sdk-windows  
     export ANDROID_SDK_ROOT=$ANDROID_SDK
 
-注意：在msys2下需要注意路径符号,用unix型路径："/"
+注意：
+1. 在msys2下需要注意路径符号,用unix型路径："/"。
+2. qt与第三方依赖库所使用的平台版本需要一样。
 
 #### 2.4. 下载工具
 主页： http://www.gnu.org/software/wget/  
@@ -354,9 +358,9 @@ https://github.com/ruby/ruby
         
     ```sh
     export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
-    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
-    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
-    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}        #可选
+    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}                           #可选
+    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibary/${PLATFORM} #可选
     ```
 
 ### 4. 调试

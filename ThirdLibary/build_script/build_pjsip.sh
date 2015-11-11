@@ -87,6 +87,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         echo "#define PJMEDIA_HAS_VIDEO 1" >> ${RABBITIM_BUILD_SOURCE_CODE}/pjlib/include/pj/config_site.h
         echo "#include <pj/config_site_sample.h>" >> ${RABBITIM_BUILD_SOURCE_CODE}/pjlib/include/pj/config_site.h
         export APP_PLATFORM=$ANDROID_API_VERSION
+        export ANDROID_NDK_PLATFORM=$ANDROID_API_VERSION
         export TARGET_ABI=armeabi-v7a
         echo "./configure-android --use-ndk-cflags ${CONFIG_PARA}"
         ./configure-android --use-ndk-cflags ${CONFIG_PARA} 

@@ -22,7 +22,7 @@ export ANDROID_NDK_ABI_NAME=armeabi-v7a
 #QT_ROOT=/C/Qt/Qt5.5.1/5.5/android_armv7        #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/android/qt  
 JOM=make #/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom   #设置 QT make 工具 JOM  
 RABBITIM_CLEAN=TRUE #编译前清理  
-RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库  
+#RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库  
 #RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。  
 RABBITIM_BUILD_TOOLCHAIN_VERSION=4.9   #工具链版本号  
 RABBITIM_BUILD_PLATFORMS_VERSION=21    #android ndk api (平台)版本号   
@@ -41,9 +41,7 @@ if [ -n "${RabbitImRoot}" ]; then
 else
     RABBITIM_BUILD_PREFIX=`pwd`/../android    #修改这里为安装前缀  
 fi
-if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
-    RABBITIM_BUILD_PREFIX=${RABBITIM_BUILD_PREFIX}_static
-fi
+
 if [ ! -d ${RABBITIM_BUILD_PREFIX} ]; then
     mkdir -p ${RABBITIM_BUILD_PREFIX}
 fi
@@ -101,10 +99,7 @@ RABBITIM_BUILD_CROSS_STL_INCLUDE_FLAGS="-I${RABBITIM_BUILD_CROSS_STL_INCLUDE} -I
 export ANDROID_API_VERSION=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
 export PATH=${QT_BIN}:$PATH
 #pkg-config帮助文档：http://linux.die.net/man/1/pkg-config
-export PKG_CONFIG=pkg-config 
-if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
-    export PKG_CONFIG="pkg-config --static"
-fi
+export PKG_CONFIG="pkg-config  --static"
 export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
 export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
 export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX}

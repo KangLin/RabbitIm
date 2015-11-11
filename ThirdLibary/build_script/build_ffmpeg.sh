@@ -107,7 +107,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} --enable-static --disable-shared --disable-w32threads"
         CONFIG_PARA="${CONFIG_PARA} --cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX}"
         CONFIG_PARA="${CONFIG_PARA} --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-        CONFIG_PARA="${CONFIG_PARA} --pkg-config=${PKG_CONFIG}"
+        #CONFIG_PARA="${CONFIG_PARA} --pkg-config="${PKG_CONFIG}"
         CONFIG_PARA="${CONFIG_PARA} --pkgconfigdir=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig"
         CONFIG_PARA="${CONFIG_PARA} ${THIRD_LIB}"
         CFLAGS="-march=armv7-a -mfpu=neon"
@@ -128,7 +128,7 @@ case ${RABBITIM_BUILD_TARGERT} in
                 ;;
             Linux*|Unix*|CYGWIN*|*)
                 CONFIG_PARA="${CONFIG_PARA} --cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX}"
-                CONFIG_PARA="${CONFIG_PARA} --pkg-config=${PKG_CONFIG}"
+                #CONFIG_PARA="${CONFIG_PARA} --pkg-config=${PKG_CONFIG}"
                 CONFIG_PARA="${CONFIG_PARA} --pkgconfigdir=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig"
                 ;;
             *)
@@ -150,8 +150,27 @@ CONFIG_PARA="${CONFIG_PARA} --enable-runtime-cpudetect"
 CFLAGS="${CFLAGS} -I$RABBITIM_BUILD_PREFIX/include" 
 LDFLAGS="${LDFLAGS} -L$RABBITIM_BUILD_PREFIX/lib" 
 
-echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS}\""
-./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-ldflags="${LDFLAGS}"
+
+case ${RABBITIM_BUILD_TARGERT} in
+    android)
+        echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS}\"" --pkg-config="\"${PKG_CONFIG}\""
+        ./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-ldflags="${LDFLAGS}" --pkg-config="${PKG_CONFIG}"
+        ;;
+    windows_mingw)
+        case `uname -s` in
+            Linux*|Unix*|CYGWIN*|*)
+            echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS}\"" --pkg-config="\"${PKG_CONFIG}\""
+            ./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-ldflags="${LDFLAGS}" --pkg-config="${PKG_CONFIG}"
+            ;;
+        esac
+        ;;
+    *)
+        echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS}\""
+        ./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-ldflags="${LDFLAGS}"
+        ;;
+esac
+
+
 
 echo "make install"
 make ${RABBITIM_MAKE_JOB_PARA} && make install

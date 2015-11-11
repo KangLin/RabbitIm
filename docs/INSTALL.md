@@ -490,10 +490,10 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     + RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档 
   * 项目->构建和运行->构建->构建环境，设置环境变更  
     PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config  
-    PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}  #可选
     如果是交叉编译，还需要设置：
-    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
-    export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_PATH}
+    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH} #可选
+    export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_PATH} #可选
   * 构建->构建项目"RabbitIm"。编译本项目。
   * 运行：如果是在mingw32， 项目->构建和运行->运行->运行环境中设置
     PATH=${MSYS32_ROOT}/mingw32/bin;${RabbitImRoot}/ThirdLibary/${PLATFORM}/bin
@@ -562,24 +562,24 @@ MAKE在不同的环境下有不同的命令：
 
 进入项目源码根目录
 
-      cd $(RabbitImRoot)
+    cd $(RabbitImRoot)
 
 建立编译目录
 
-      mkdir rabbitim-build
+    mkdir rabbitim-build
 
 进入编译目录
 
-      cd rabbitim-build
+    cd rabbitim-build
 
 设置qt环境变量[可选]
 - windows环境下可用这个批处理设置qt的环境变量
 
-        ${QT_INSTALL_DIR}/bin/qtenv2.bat
+    ${QT_INSTALL_DIR}/bin/qtenv2.bat
 
 - linux下直接设置环境变量
 
-        export PATH=$PATH:${Qt5_DIR} #windows环境mingw下设置 qt 到环境变量 PATH
+    export PATH=$PATH:${Qt5_DIR} #windows环境mingw下设置 qt 到环境变量 PATH
 
 执行 camke
 
@@ -588,14 +588,14 @@ MAKE在不同的环境下有不同的命令：
 
 启动程序
 
-      ./RabbitIm
+    ./RabbitIm
 
 参数说明：  
 Qt5_DIR:qt cmake 的安装路径。在qt安装目录的 ${QT_INSTALL_DIR}/lib/cmake/Qt5。
          例如： /c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
 
-     cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
-     cmake --build . --config Release #编译
+    cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=/c/Qt/Qt5.3.1/5.3/mingw482_32/lib/cmake/Qt5
+    cmake --build . --config Release #编译
 
 * 用 msvc 编译
 
@@ -603,20 +603,20 @@ Qt5_DIR:qt cmake 的安装路径。在qt安装目录的 ${QT_INSTALL_DIR}/lib/cm
 - 可以在开始菜单栏->vs2013->visual studio tools->VS2013 x86 本机工具命令提示
 - 也可以直接执行下面命令：
 
-        "C:\Program Files\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86
+    "C:\Program Files\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86
 
 设置qt的环境变量
 - windows 环境下可用这个批处理设置qt的环境变量
 
-        C:\Qt\Qt5.3.1\5.3\msvc2013\bin\qtenv2.bat
+    C:\Qt\Qt5.3.1\5.3\msvc2013\bin\qtenv2.bat
 
 - 也可以直接设置环境变量
 
-        set PATH=%PATH%;C:\Qt\Qt5.3.1\5.3\msvc2013\bin
+    set PATH=%PATH%;C:\Qt\Qt5.3.1\5.3\msvc2013\bin
 
 - 设置产生者：注意用 NMake Makefiles，如果用 VS，则需要对 CMakeLists.txt 中的目标路径做些修改
 
-        cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=C:\Qt\Qt5.3.1\5.3\msvc2013\lib\cmake\Qt5
+    cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DQt5_DIR=C:\Qt\Qt5.3.1\5.3\msvc2013\lib\cmake\Qt5
 
 编译
 
