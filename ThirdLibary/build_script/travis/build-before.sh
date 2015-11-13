@@ -26,7 +26,7 @@ function function_common()
         cd ${SOURCE_DIR}
     fi
     
-    if [ -n "${BUILD_THIRDLIBARY}" ]; then
+    if [ "true" = "${BUILD_THIRDLIBARY}" ]; then
 		#编译第三方库
 		cd ${SOURCE_DIR}/ThirdLibary/build_script
 		sh build.sh ${BUILD_TARGERT} ${SOURCE_DIR}/../src

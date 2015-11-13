@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>479</width>
-    <height>500</height>
+    <height>517</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -153,6 +153,9 @@
    </item>
    <item row="2" column="0">
     <widget class="QTabWidget" name="tabWidget">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -225,7 +228,7 @@
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="lbQrCodePrompt">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -276,7 +279,10 @@
             </size>
            </property>
            <property name="text">
-            <string notr="true">qrencode</string>
+            <string notr="true"/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../../Resource/Resource.qrc">:/icon/AppIcon</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>

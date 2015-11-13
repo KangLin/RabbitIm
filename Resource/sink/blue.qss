@@ -1,10 +1,10 @@
-QMainWindow, QFrame, QDialog, QMessageBox,  QTabWidget, QMenu, QToolTip, QTabBar::tab{
+QMainWindow, QFrame, QDialog, QMessageBox, QMenu, QToolTip, QTabBar::tab{
     background: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
         stop: 0 rgba(180, 255, 255, 100%),
         stop: 1 rgba(10, 144, 255, 100%));
 }
 
-QWebView {
+QWebView{
     background-color: transparent;
 }
 
@@ -210,5 +210,6 @@ QTabBar::tab:!selected {
 }
 
 QTabWidget {
-    border-width: 0px;
+    border-width: 2px;
+    background-color: transparent;
 }
