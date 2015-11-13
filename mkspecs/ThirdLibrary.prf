@@ -4,7 +4,7 @@ mingw{
         } else {
             PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
         }
-} else : android {
+} else : android|msvc {
         PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
         PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig
 } else {
@@ -56,11 +56,17 @@ equals(RABBITIM_USE_QXMPP, 1) {
         myPackagesExist(qxmpp) {
             DEFINES *= RABBITIM_USE_QXMPP
             MYPKGCONFIG += qxmpp
+        } else : msvc {
+            DEFINES *= RABBITIM_USE_QXMPP
+            LIBS += -lqxmpp0
         }
     } else {
         myPackagesExist(qxmpp_d) {
             DEFINES *= RABBITIM_USE_QXMPP
             MYPKGCONFIG += qxmpp_d
+        }else : msvc {
+            DEFINES *= RABBITIM_USE_QXMPP
+            LIBS += -lqxmpp_d0
         }
     }
 }
@@ -118,16 +124,29 @@ packagesExist(libqrencode) {
 packagesExist(QZXing) {
     DEFINES *= RABBITIM_USE_QZXING
     MYPKGCONFIG *= QZXing
+} else : msvc {
+    DEFINES *= RABBITIM_USE_QZXING
+    LIBS += -lQZXing2
 }
 
-equals(RABBITIM_USE_LIBCURL, 1) : packagesExist(libcurl) {
-    DEFINES *= RABBITIM_USE_LIBCURL
-    MYPKGCONFIG *= libcurl
+equals(RABBITIM_USE_LIBCURL, 1) {
+    packagesExist(libcurl) {
+        DEFINES *= RABBITIM_USE_LIBCURL
+        MYPKGCONFIG *= libcurl
+    } else : msvc {
+        DEFINES *= RABBITIM_USE_LIBCURL
+        LIBS += -llibcurl
+    }
 }
 
-equals(RABBITIM_USE_OPENSSL, 1) : packagesExist(openssl) {
-    DEFINES *= RABBITIM_USE_OPENSSL
-    MYPKGCONFIG *= openssl
+equals(RABBITIM_USE_OPENSSL, 1) {
+    packagesExist(openssl) {
+        DEFINES *= RABBITIM_USE_OPENSSL
+        MYPKGCONFIG *= openssl
+    } else : msvc {
+        DEFINES *= RABBITIM_USE_OPENSSL
+        LIBS += -llibeay32 -lssleay32 
+    }
 }
 
 #增加第三方依赖库到 LIBS 和 QMAKE_CXXFLAGS  

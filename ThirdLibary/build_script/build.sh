@@ -58,12 +58,12 @@ if [ -n "$2" ]; then
         ./build_libopus.sh ${RABBITIM_BUILD_TARGERT} $2/libopus && \
         ./build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} $2/speexdsp && \
         ./build_speex.sh ${RABBITIM_BUILD_TARGERT} $2/speex && \
-        ./build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264 && \
         ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} $2/libqrencode && \
         ./build_libsodium.sh ${RABBITIM_BUILD_TARGERT} $2/libsodium && \
         ./build_filter_audio.sh ${RABBITIM_BUILD_TARGERT} $2/filter_audio && \
         ./build_toxcore.sh ${RABBITIM_BUILD_TARGERT} $2/toxcore
     fi
+    ./build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264 && \
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx && \
     ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv && \
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg && \
@@ -82,12 +82,12 @@ else
     if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
         ./build_speexdsp.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_speex.sh ${RABBITIM_BUILD_TARGERT} && \
-        ./build_x264.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_libopus.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_libsodium.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_toxcore.sh ${RABBITIM_BUILD_TARGERT}
     fi
+    ./build_x264.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \

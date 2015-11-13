@@ -54,8 +54,8 @@ int CDownLoadHandleVersionFile::OnError(int nErrorCode, const std::string &szErr
     Q_UNUSED(szErr);
     LOG_MODEL_ERROR("CDownLoadHandleVersionFile", "Download version file error:%d", nErrorCode);
     return 0;
-    emit GET_MAINWINDOW->sigUpdateExec(nErrorCode, m_szFile);
-    return 0;
+    //emit GET_MAINWINDOW->sigUpdateExec(nErrorCode, m_szFile);
+    //return 0;
 }
 
 int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
@@ -109,8 +109,9 @@ int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
             }
         }
     }
-
+#ifdef RABBITIM_USE_LIBCURL
     emit GET_MAINWINDOW->sigUpdateExec(nErrorCode, m_szFile);
+#endif
     return 0;
 }
 

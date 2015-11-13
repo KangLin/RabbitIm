@@ -81,9 +81,8 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
     ;;
     windows_msvc)
-        echo "build_x264.sh don't support windows_msvc. "
-        cd $CUR_DIR
-        exit 2
+        export MSYSTEM=MINGW32
+        export CC=cl
     ;;
     windows_mingw)
         case `uname -s` in
