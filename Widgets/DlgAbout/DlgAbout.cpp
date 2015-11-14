@@ -30,9 +30,9 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui->lbQrencode->setText("");
     m_Image = CQRCode::QRcodeEncodeString(szHomePage, QImage(":/icon/AppIcon"));
     if(m_Image.isNull()) {
-        ui->lbQrCodePrompt->hide();
-        ui->lbQrencode->hide();
-        ui->pbSave->hide();
+        ui->lbQrCodePrompt->setVisible(false);
+        ui->lbQrencode->setVisible(false);
+        ui->pbSave->setVisible(false);
     } else {
         ui->lbQrencode->setPixmap(QPixmap::fromImage(m_Image));
     }

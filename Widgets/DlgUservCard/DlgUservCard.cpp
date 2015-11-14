@@ -88,7 +88,13 @@ void CDlgUservCard::showEvent(QShowEvent *)
     ui->lbPhoto->setScaledContents(true);
 
     m_Image = CQRCode::QRcodeEncodeUserInfo(m_UserInfo->toString(), m_UserInfo->GetPhoto());
-    ui->lbQrencode->setPixmap(QPixmap::fromImage(m_Image));
+    if(m_Image.isNull())
+        ui->gpQRCode->setVisible(false);
+    else
+    {
+        ui->gpQRCode->setVisible(true);
+        ui->lbQrencode->setPixmap(QPixmap::fromImage(m_Image));
+    }
 
     ui->pbBrowse->setVisible(m_bModify);
     ui->pbClear->setVisible(m_bModify);
