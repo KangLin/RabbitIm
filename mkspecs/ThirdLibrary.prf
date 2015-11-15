@@ -6,7 +6,7 @@ mingw{
         }
 } else : android|msvc {
         PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
-        PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig
+        PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig
 } else {
     PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH)"
 }

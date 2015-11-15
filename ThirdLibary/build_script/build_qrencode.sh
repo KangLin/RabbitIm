@@ -61,6 +61,9 @@ fi
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 if [ ! -f configure ]; then
+    if [ "${RABBITIM_BUILD_TARGERT}" == "android" ]; then
+        mkdir -p m4
+    fi
     echo "sh autogen.sh"
     sh autogen.sh
 fi
