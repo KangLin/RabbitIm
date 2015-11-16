@@ -39,6 +39,8 @@ private slots:
     void on_Cancel_clicked();
     void OnTimeOut();
     
+    void on_pushButton_clicked();
+    
 private:
     Ui::CDlgScanQRcode *ui;
     CCamera* m_pCamera;

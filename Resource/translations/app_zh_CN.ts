@@ -110,7 +110,7 @@
         <translation>玉兔即时通信</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="173"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="176"/>
         <source>Version: 1.0.0.0</source>
         <translation></translation>
     </message>
@@ -120,51 +120,47 @@
         <translation>作者：康林</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="161"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="164"/>
         <source>Informatioin</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="214"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="217"/>
         <source>Home page:https://github.com/KangLin/rabbitim</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="236"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="239"/>
         <source>The following two-dimensional code scanning Go Home:</source>
         <translation>扫描下面二维码访问项目主页：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="328"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="334"/>
         <source>Save As</source>
         <translation>另存为 ...</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="364"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="370"/>
         <source>License</source>
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="378"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="384"/>
         <source>Change log</source>
         <translation>变更日志</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="392"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="398"/>
         <source>Thanks</source>
         <translation>致谢</translation>
     </message>
     <message>
-        <source>Thinks</source>
-        <translation type="vanished">致谢</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="427"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="433"/>
         <source> Copyright (C) 2014 KangLin Studio</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="195"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="198"/>
         <source>Build Date:</source>
         <translation>编译时间：</translation>
     </message>
@@ -196,7 +192,7 @@ Email or MSN:kl222@126.com</source>
         <translation>版权所有 (C) 2014 - %1 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="76"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="82"/>
         <source>Save as</source>
         <translation>另存为……</translation>
     </message>
@@ -935,10 +931,6 @@ Email or MSN:kl222@126.com</source>
         <translation>建立新用户</translation>
     </message>
     <message>
-        <source>Brower(&amp;B)</source>
-        <translation type="vanished">浏览(&amp;B)</translation>
-    </message>
-    <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="88"/>
         <source>Clear Avatar</source>
         <translation>清除头像</translation>
@@ -1119,21 +1111,31 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="99"/>
+        <source>Recognition(&amp;R)</source>
+        <translation>识别(&amp;R)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="110"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="16"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="18"/>
         <source>Back</source>
         <translation>回退</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="27"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="32"/>
         <source>The camera does not exist.</source>
         <translation>摄像头不存在。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="47"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="52"/>
+        <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
+        <translation>图像文件 (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="53"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
@@ -1230,97 +1232,93 @@ Email or MSN:kl222@126.com</source>
         <translation>用户信息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="46"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="332"/>
         <source>Photo</source>
         <translation>头像</translation>
     </message>
     <message>
-        <source>Brower(&amp;B)</source>
-        <translation type="vanished">浏览(&amp;B)</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="72"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="358"/>
         <source>Browse(&amp;B)</source>
         <translation>浏览(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="89"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="375"/>
         <source>Clear Avatar</source>
         <translation>清除头像</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="92"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="378"/>
         <source>Clear(&amp;L)</source>
         <translation>清除(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="128"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="46"/>
         <source>JID:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="164"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="82"/>
         <source>Name:</source>
         <translation>名字：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="197"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="115"/>
         <source>Nick:</source>
         <translation>呢称：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="230"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="148"/>
         <source>Birthday:</source>
         <translation>生日：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="243"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="161"/>
         <source>yyyy/MM/dd</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="266"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="184"/>
         <source>Description:</source>
         <translation>描述：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="299"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="217"/>
         <source>Email:</source>
         <translation>电子邮箱：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="321"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="239"/>
         <source>QR Code</source>
         <translation>二维码</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="370"/>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="178"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="288"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="184"/>
         <source>Save as</source>
         <translation>另存为……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="403"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="415"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="406"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="418"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="423"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="435"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="426"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="438"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="115"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="121"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
@@ -1645,73 +1643,73 @@ Email or MSN:kl222@126.com</source>
     <name>CFrmLogin</name>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="26"/>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="371"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="377"/>
         <source>Login</source>
         <translation>登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="169"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="175"/>
         <source>User:</source>
         <translation>用户名：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="409"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="415"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="229"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="235"/>
         <source>Password:</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="99"/>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="102"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="105"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="108"/>
         <source>Change logon status</source>
         <translation>改变登录状态</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="451"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="457"/>
         <source>Register new account</source>
         <translation>注册新用户</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="489"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="495"/>
         <source>Set Server</source>
         <translation>设置服务器</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="492"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="498"/>
         <source>Set(&amp;S)</source>
         <translation>设置(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="521"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="527"/>
         <source> Copyright (C) 2014 KangLin Studio</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="317"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="323"/>
         <source>Save password</source>
         <translation>保存密码</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="342"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="348"/>
         <source>Auto login</source>
         <translation>自动登录</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="374"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="380"/>
         <source>Login(&amp;L)</source>
         <translation>登录(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="454"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="460"/>
         <source>Register(&amp;R)</source>
         <translation>注册(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="412"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="418"/>
         <source>Close(&amp;C)</source>
         <translation>关闭（&amp;C）</translation>
     </message>
@@ -1789,10 +1787,6 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="106"/>
         <source>Application</source>
         <translation>应用</translation>
-    </message>
-    <message>
-        <source>Motion</source>
-        <translation type="vanished">运动</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMain/FrmMain.cpp" line="49"/>
@@ -2400,12 +2394,12 @@ Real Time Speed(m/s)</source>
 <context>
     <name>CQRCode</name>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/QRCode.cpp" line="211"/>
+        <location filename="../../Widgets/DlgScanQRcode/QRCode.cpp" line="215"/>
         <source>Do you add roster </source>
         <translation>是否增加好友 </translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/QRCode.cpp" line="230"/>
+        <location filename="../../Widgets/DlgScanQRcode/QRCode.cpp" line="234"/>
         <source>Do open </source>
         <translation>是否打开 </translation>
     </message>

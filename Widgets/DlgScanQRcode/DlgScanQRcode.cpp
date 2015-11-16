@@ -22,7 +22,7 @@ CDlgScanQRcode::CDlgScanQRcode(QWidget *parent) :
 
     bool check = connect(&m_Timer, SIGNAL(timeout()), SLOT(OnTimeOut()));
     Q_ASSERT(check);
-    
+
     m_pCamera = CCameraFactory::Instance()->GetCamera(0);
     if(m_pCamera)
     {
@@ -35,6 +35,7 @@ CDlgScanQRcode::CDlgScanQRcode(QWidget *parent) :
 
 CDlgScanQRcode::~CDlgScanQRcode()
 {
+    LOG_MODEL_DEBUG("CDlgScanQRcode", "CDlgScanQRcode::~CDlgScanQRcode");
     if(m_pCamera)
     {
         Stop();
@@ -109,12 +110,7 @@ int CDlgScanQRcode::OnCapture(const std::string szFile)
 
 void CDlgScanQRcode::OnTimeOut()
 {
-    if(m_pCamera)
-    {
-        QString szFile =  QStandardPaths::writableLocation(QStandardPaths::TempLocation)
-                + QDir::separator() + "CaptureQRCode" + ".png";
-        m_pCamera->Capture(szFile.toStdString());
-    }
+    on_pushButton_clicked();
 }
 
 int CDlgScanQRcode::Start()
@@ -122,7 +118,7 @@ int CDlgScanQRcode::Start()
     if(m_pCamera)
     {
         m_pCamera->Start();
-        m_Timer.start(1000);
+        //m_Timer.start(1000);
     }
     return 0;
 }
@@ -135,4 +131,14 @@ int CDlgScanQRcode::Stop()
         m_pCamera->Stop();
     }
     return 0;
+}
+
+void CDlgScanQRcode::on_pushButton_clicked()
+{
+    if(m_pCamera)
+    {
+        QString szFile =  QStandardPaths::writableLocation(QStandardPaths::TempLocation)
+                + QDir::separator() + "CaptureQRCode" + ".png";
+        m_pCamera->Capture(szFile.toStdString());
+    }
 }

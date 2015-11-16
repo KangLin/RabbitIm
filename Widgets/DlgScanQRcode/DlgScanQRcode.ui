@@ -94,6 +94,17 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Recognition(&amp;R)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../Resource/Resource.qrc">
+         <normaloff>:/icon/Scan</normaloff>:/icon/Scan</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="Cancel">
        <property name="text">
         <string>Cancel(&amp;C)</string>
