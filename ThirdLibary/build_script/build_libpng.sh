@@ -49,7 +49,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q http://sourceforge.net/projects/libpng/files/libpng${VERSION_MAJOR}/${VERSION}/libpng-${VERSION}.tar.gz/download
-        tar xzvf download
+        tar xzf download
         mv libpng-${VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi

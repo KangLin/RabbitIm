@@ -49,7 +49,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q wget https://github.com/gwaldron/osgearth/archive/${OSG_VERSION}.zip
-        unzip ${OSG_VERSION}.zip
+        unzip -q ${OSG_VERSION}.zip
         mv osgearth-${OSG_VERSION} ..
         rm -fr *
         cd ..

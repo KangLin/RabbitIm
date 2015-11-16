@@ -50,7 +50,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q https://github.com/bagder/curl/archive/${CURL_FILE}.zip
-        unzip ${CURL_FILE}.zip
+        unzip -q ${CURL_FILE}.zip
         mv curl-${CURL_FILE} ..
         rm -fr *
         cd ..

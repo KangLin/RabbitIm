@@ -48,7 +48,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q https://github.com/irungentoo/filter_audio/archive/master.zip
-        unzip master.zip
+        unzip -q master.zip
         mv filter_audio-master ..
         rm -fr *
         cd ..

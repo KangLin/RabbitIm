@@ -49,7 +49,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q https://github.com/jedisct1/libsodium/archive/${LIBSODIUM_VERSION}.zip
-        unzip ${LIBSODIUM_VERSION}.zip
+        unzip -q ${LIBSODIUM_VERSION}.zip
         mv libsodium-${LIBSODIUM_VERSION} ..
         rm -fr *
         cd ..

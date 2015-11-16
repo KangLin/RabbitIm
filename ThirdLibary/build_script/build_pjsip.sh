@@ -51,7 +51,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q http://www.pjsip.org/release/${PJSIP_VERSION}/pjproject-${PJSIP_VERSION}.tar.bz2
-        tar -jxvf pjproject-${PJSIP_VERSION}.tar.bz2
+        tar -jxf pjproject-${PJSIP_VERSION}.tar.bz2
         mv pjproject-${PJSIP_VERSION} ..
         rm -fr *
         cd ..

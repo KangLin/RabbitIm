@@ -200,6 +200,8 @@ int CQRCode::ProcessMessage(const QString &szMessage)
         LOG_MODEL_DEBUG("CQRCode", "ID:%s", szId.toStdString().c_str());
         if(szId.isEmpty())
             return -1;
+        if(USER_INFO_LOCALE.isNull())
+            return -2;
         if(USER_INFO_LOCALE->GetInfo()->GetId() == szId)
         {
             LOG_MODEL_ERROR("CQRCode", "Roster[%s] is self.",
@@ -211,7 +213,7 @@ int CQRCode::ProcessMessage(const QString &szMessage)
         {
             QMessageBox msg(QMessageBox::Question, "",
                             tr("Do you add roster ") + szId + "?",
-                            QMessageBox::Ok | QMessageBox::No,
+                            QMessageBox::Yes | QMessageBox::No,
                             NULL, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |Qt::WindowStaysOnTopHint);
             if(QMessageBox::Ok == msg.exec())
             {

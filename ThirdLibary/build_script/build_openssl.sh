@@ -50,7 +50,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         echo "wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip"
         wget -q https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip
-        unzip ${OPENSLL_BRANCH}.zip
+        unzip -q ${OPENSLL_BRANCH}.zip
         mv openssl-${OPENSLL_BRANCH} ..
         rm -fr *
         cd ..

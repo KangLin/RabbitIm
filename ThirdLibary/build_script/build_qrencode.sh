@@ -49,7 +49,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q https://github.com/fukuchi/libqrencode/archive/$VERSION.zip
-        unzip ${VERSION}.zip
+        unzip -q ${VERSION}.zip
         mv libqrencode-${VERSION} ..
         rm -fr *
         cd ..

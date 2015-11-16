@@ -49,7 +49,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q wget https://github.com/openscenegraph/osg/archive/${OSG_VERSION}.zip
-        unzip ${OSG_VERSION}.zip
+        unzip -q ${OSG_VERSION}.zip
         mv osg-${OSG_VERSION} ..
         rm -fr *
         cd ..

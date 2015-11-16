@@ -50,7 +50,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip
-        unzip ${OPENCV_VERSION}.zip
+        unzip -q ${OPENCV_VERSION}.zip
         mv opencv-${OPENCV_VERSION} ..
         rm -fr *
         cd ..

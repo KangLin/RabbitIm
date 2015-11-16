@@ -51,7 +51,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q https://github.com/KangLin/qxmpp/archive/master.zip
-        unzip master.zip
+        unzip -q master.zip
         mv qxmpp-master ..
         rm -fr *
         cd ..

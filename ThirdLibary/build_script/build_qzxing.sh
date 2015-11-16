@@ -53,7 +53,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q http://sourceforge.net/projects/qzxing/files/v${VERSION}/QZXing_sourceV${VERSION}.zip/download
-        unzip download #${RABBITIM_BUILD_SOURCE_CODE}
+        unzip -q download #${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 

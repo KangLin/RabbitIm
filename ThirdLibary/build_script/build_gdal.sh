@@ -49,7 +49,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip
-        unzip ${GDAL_VERSION}.zip
+        unzip -q ${GDAL_VERSION}.zip
         mv gdal-${GDAL_VERSION} ..
         rm -fr *
         cd ..
