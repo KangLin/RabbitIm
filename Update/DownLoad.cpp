@@ -471,8 +471,6 @@ int CDownLoad::progress_callback(void *clientp, double dltotal, double dlnow, do
 
 int CDownLoad::xferinfo(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
 {
-    Q_UNUSED(ultotal);
-    Q_UNUSED(ulnow);
     /*LOG_MODEL_DEBUG("CDwonLoad", "UP: %" CURL_FORMAT_CURL_OFF_T " of %" CURL_FORMAT_CURL_OFF_T
                     "  DOWN: %" CURL_FORMAT_CURL_OFF_T " of %" CURL_FORMAT_CURL_OFF_T,
                     ulnow, ultotal, dlnow, dltotal);*/

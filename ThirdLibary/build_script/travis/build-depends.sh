@@ -37,16 +37,16 @@ function function_unix()
     sudo apt-get install libasound2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev -y -qq
     
     #安装第三方库
-    #if [ -z "$BUILD_THIRDLIBARY" ]; then
-	#	sudo apt-get install -y libspeex-dev libtheora-dev libvpx-dev -qq
-	#	sudo apt-get install -y libx264-dev -qq
-	#	sudo apt-get install libspeex-dev libspeexdsp-dev -qq
-	#	sudo apt-get install -y libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavfilter-dev -qq
-	#	sudo apt-get install -y libopencv-dev -qq
-	#	sudo apt-get install -y libssl-dev -qq
-	#	sudo apt-get install -y libcurl4-openssl-dev -qq
-	#	sudo apt-get install libicu-dev -qq
-    #fi
+    if [ "true" != "$BUILD_THIRDLIBARY" ]; then
+		sudo apt-get install -y libspeex-dev libtheora-dev libvpx-dev -qq
+		sudo apt-get install -y libx264-dev -qq
+		sudo apt-get install libspeex-dev libspeexdsp-dev -qq
+		sudo apt-get install -y libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavfilter-dev -qq
+		sudo apt-get install -y libopencv-dev -qq
+		sudo apt-get install -y libssl-dev -qq
+		sudo apt-get install -y libcurl4-openssl-dev -qq
+		sudo apt-get install libicu-dev -qq
+    fi
 
     #安装工具
     sudo apt-get install -y dh-make debhelper -qq

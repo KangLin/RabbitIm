@@ -61,6 +61,9 @@ fi
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 if [ ! -f configure ]; then
+    if [ "${RABBITIM_BUILD_TARGERT}" == "android" ]; then
+        mkdir -p m4
+    fi
     echo "sh autogen.sh"
     sh autogen.sh
 fi
@@ -109,7 +112,9 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     windows_msvc)
         #https://folti.blogs.balabit.com/2009/08/compiling-autoconfmake-projects-under-msvc-part-one/
-        ../configure CC="cl -nologo" CFLAGS=-MD LD=link NM="dumpbin -symbols" STRIP=: RANLIB=: --enable-dependency-tracking
+        ../configure CXX="cl -nologo" CC="cl -nologo" CFLAGS=-MD \
+            LD=link NM="dumpbin -symbols" STRIP=: RANLIB=: \
+            --enable-dependency-tracking 
         ;;
     windows_mingw)
         case `uname -s` in
@@ -143,5 +148,10 @@ else
 fi
 
 ${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
+
+if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
+    cd ${RABBITIM_BUILD_PREFIX}/lib
+    mv libqrencode.a qrencode.lib
+fi
 
 cd $CUR_DIR

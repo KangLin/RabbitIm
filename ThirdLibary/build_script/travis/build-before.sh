@@ -9,7 +9,7 @@ function function_install_yasm()
 	mkdir -p ${SOURCE_DIR}/ThirdLibary/src
     cd ${SOURCE_DIR}/ThirdLibary/src
 	wget http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz 
-	tar xzvf yasm-1.3.0.tar.gz 
+	tar xzf yasm-1.3.0.tar.gz 
 	cd yasm-1.3.0/
 	./configure && sudo make install -j2
 	cd ${SOURCE_DIR}
@@ -26,10 +26,10 @@ function function_common()
         cd ${SOURCE_DIR}
     fi
     
-    if [ -n "${BUILD_THIRDLIBARY}" ]; then
+    if [ "true" = "${BUILD_THIRDLIBARY}" ]; then
 		#编译第三方库
 		cd ${SOURCE_DIR}/ThirdLibary/build_script
-		sh build.sh ${BUILD_TARGERT} ${SOURCE_DIR}/../src
+		./build.sh ${BUILD_TARGERT} ${SOURCE_DIR}/../src
 	fi
 }
 

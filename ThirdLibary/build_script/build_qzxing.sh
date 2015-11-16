@@ -107,7 +107,7 @@ case $RABBITIM_BUILD_TARGERT in
         ;;
 esac
 
-PARA="${PARA} .. -o Makefile PREFIX=${RABBITIM_BUILD_PREFIX} INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
+PARA="${PARA} .. -o Makefile INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
 PARA="${PARA} LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib QXMPP_USE_VPX=1"
 DEBUG_PARA="${PARA} CONFIG+=debug"
 RELEASE_PARA="${PARA} CONFIG+=release"
@@ -120,17 +120,8 @@ echo "$QMAKE ${RELEASE_PARA}"
 $QMAKE ${RELEASE_PARA}
 
 ${MAKE} -f Makefile 
-case $RABBITIM_BUILD_TARGERT in
-    android)
-        MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
-        ${MAKE} -f Makefile install  ${MAKE_PARA}
-        ;;
-    windows_mingw|windows_msvc)
-        ${MAKE} install
-        ;;
-    *)
-        ${MAKE} install
-        ;;
-esac
+
+MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
+${MAKE} -f Makefile install  ${MAKE_PARA}
 
 cd $CUR_DIR

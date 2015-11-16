@@ -22,10 +22,10 @@ CQRCode::CQRCode() : QObject()
 //http://stackoverflow.com/questions/21400254/how-to-draw-a-qr-code-with-qt-in-native-c-c
 QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage, const QSize &size)
 {
+#ifdef RABBITIM_USE_LIBQRENCODE
     QImage image(size, QImage::Format_RGB32);
     QPainter painter(&image);
- 
-#ifdef RABBITIM_USE_LIBQRENCODE
+
     //NOTE: I have hardcoded some parameters here that would make more sense as variables.
     // ECLEVEL_M is much faster recognizable by barcodescanner any any other type
     // https://fukuchi.org/works/qrencode/manual/qrencode_8h.html#a4cebc3c670efe1b8866b14c42737fc8f
@@ -89,9 +89,10 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage,
     }
 
     qr = nullptr;
-#endif //RABBITIM_USE_LIBQRENCODE
-    
     return image;
+#endif //RABBITIM_USE_LIBQRENCODE
+
+    return QImage();
 }
 
 int CQRCode::ProcessQImage(QImage image, QString &szText)

@@ -46,7 +46,7 @@ CONFIG += c++0x
     QMAKE_CXXFLAGS += " -std=c++0x "
 }
 
-CONFIG += link_pkgconfig link_prl
+CONFIG += link_prl
 
 #安装  
 isEmpty(PREFIX) {
@@ -106,7 +106,7 @@ message("THIRD_LIBRARY_PATH:$${THIRD_LIBRARY_PATH}")
 INCLUDEPATH += $$PWD $$PWD/Widgets/FrmCustom
 INCLUDEPATH += $${THIRD_LIBRARY_PATH}/include
 DEPENDPATH += $${THIRD_LIBRARY_PATH}/include
-LIBS += -L$${THIRD_LIBRARY_PATH}/lib $$LDFLAGS
+LIBS += -L$${THIRD_LIBRARY_PATH}/lib -L$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH} $$LDFLAGS
 
 include(mkspecs/ThirdLibrary.prf)
 include(RabbitIm.pri)

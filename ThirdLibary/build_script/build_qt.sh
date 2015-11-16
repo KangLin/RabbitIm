@@ -250,7 +250,7 @@ done
 
 echo "$MAKE install"
 $MAKE ${MAKE_PARA} \
-    && $MAKE install \
+    &&  $MAKE install \
     && cat > ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf << EOF
 [Paths]
 Prefix=..

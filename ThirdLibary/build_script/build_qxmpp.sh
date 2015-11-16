@@ -111,7 +111,7 @@ if [ "$RABBITIM_BUILD_STATIC" = "static" -o "$RABBITIM_BUILD_TARGERT" = "android
     PARA="${PARA} QXMPP_LIBRARY_TYPE=staticlib" #静态库
 fi
 
-PARA="${PARA} .. -o Makefile PREFIX=${RABBITIM_BUILD_PREFIX} INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
+PARA="${PARA} .. -o Makefile INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
 PARA="${PARA} LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib QXMPP_USE_VPX=1"
 DEBUG_PARA="${PARA} CONFIG+=debug"
 RELEASE_PARA="${PARA} CONFIG+=release"
@@ -120,63 +120,12 @@ echo "$QMAKE ${RELEASE_PARA}"
 $QMAKE ${RELEASE_PARA}
 
 ${MAKE} -f Makefile 
-case $RABBITIM_BUILD_TARGERT in
-    android)
-        MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
-        ${MAKE} -f Makefile 
-        #${MAKE} -f Makefile install ${MAKE_PARA}
-        #echo "$QMAKE ${DEBUG_PARA}"
-        ${QMAKE} ${DEBUG_PARA}
-        ${MAKE} -f Makefile 
-        #${MAKE} -f Makefile install ${MAKE_PARA}
-        if [ -f "`pwd`/src/libqxmpp.a" ]; then
-            cp -fr `pwd`/src/libqxmpp.a ${RABBITIM_BUILD_PREFIX}/lib
-        fi
-        if [ -f "`pwd`/src/libqxmpp.prl" ]; then
-            cp -fr `pwd`/src/libqxmpp.prl ${RABBITIM_BUILD_PREFIX}/lib
-        fi
-        if [ -f "`pwd`/src/libqxmpp_d.a" ]; then
-            cp -fr `pwd`/src/libqxmpp_d.a ${RABBITIM_BUILD_PREFIX}/lib
-        fi
-        if [ -f "`pwd`/src/libqxmpp_d.prl" ]; then
-            cp -fr `pwd`/src/libqxmpp_d.prl ${RABBITIM_BUILD_PREFIX}/lib
-        fi
-        if [ -d "`pwd`/src/pkgconfig" ]; then
-            cp -fr `pwd`/src/pkgconfig ${RABBITIM_BUILD_PREFIX}/lib/.
-        fi
-        ${MAKE} -f Makefile install
-        ;;
-    windows_mingw|windows_msvc)
-        ${MAKE} install
-        rm -fr *
-        echo "$QMAKE ${DEBUG_PARA}"
-        ${QMAKE} ${DEBUG_PARA}
-        ${MAKE} install
-        QXMPP_DLL="${RABBITIM_BUILD_PREFIX}/lib/qxmpp.dll"
-        mkdir -p ${RABBITIM_BUILD_PREFIX}/bin
-        if [ -f "${QXMPP_DLL}" ]; then
-            mv ${QXMPP_DLL} ${RABBITIM_BUILD_PREFIX}/bin/.
-        fi
-        if [ -f "${RABBITIM_BUILD_PREFIX}/lib/qxmpp0.dll" ]; then
-            mv "${RABBITIM_BUILD_PREFIX}/lib/qxmpp0.dll" ${RABBITIM_BUILD_PREFIX}/bin/.
-        fi
-        if [ -f "${RABBITIM_BUILD_PREFIX}/lib/qxmpp_d0.dll" ]; then
-            mv "${RABBITIM_BUILD_PREFIX}/lib/qxmpp_d0.dll" ${RABBITIM_BUILD_PREFIX}/bin/.
-        fi
-        if [ -f "${RABBITIM_BUILD_PREFIX}/lib/qxmpp_d.dll" ]; then
-            mv "${RABBITIM_BUILD_PREFIX}/lib/qxmpp_d.dll" ${RABBITIM_BUILD_PREFIX}/bin/.
-        fi
-        if [ ! -f "${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/qxmpp*.pc" -a -d `pwd`/src/pkgconfig ]; then
-            cp -fr `pwd`/src/pkgconfig/* ${RABBITIM_BUILD_PREFIX}/lib/pkgconfig/.
-        fi
-        ;;
-    *)
-        ${MAKE} install
-        rm -fr *
-        echo "$QMAKE ${DEBUG_PARA}"
-        ${QMAKE} ${DEBUG_PARA}
-        ${MAKE} install
-        ;;
-esac
+MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
+${MAKE} -f Makefile install ${MAKE_PARA}
+rm -fr *
+echo "$QMAKE ${DEBUG_PARA}"
+${QMAKE} ${DEBUG_PARA}
+${MAKE} -f Makefile 
+${MAKE} -f Makefile install ${MAKE_PARA}
 
 cd $CUR_DIR

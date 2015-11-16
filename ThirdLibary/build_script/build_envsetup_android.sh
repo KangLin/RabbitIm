@@ -19,13 +19,13 @@
 export ANDROID_NDK_ABI_NAME=armeabi-v7a 
 
 #ANT=/usr/bin/ant         #ant 程序  
-#QT_ROOT=/C/Qt/Qt5.5.1/5.5/android_armv7        #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/android/qt  
+#QT_ROOT=/home/l/Qt5.5.0/5.5/android_armv7        #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/android/qt  
 JOM=make #/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom   #设置 QT make 工具 JOM  
 RABBITIM_CLEAN=TRUE #编译前清理  
 #RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库  
 #RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。  
-RABBITIM_BUILD_TOOLCHAIN_VERSION=4.9   #工具链版本号  
-RABBITIM_BUILD_PLATFORMS_VERSION=21    #android ndk api (平台)版本号   
+RABBITIM_BUILD_TOOLCHAIN_VERSION=4.8   #工具链版本号,默认 4.8  
+RABBITIM_BUILD_PLATFORMS_VERSION=18    #android ndk api (平台)版本号,默认 9   
 
 if [ -z "$ANDROID_NDK_ROOT" -o -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" -o -z "$ANDROID_SDK_ROOT"	-o -z "$JAVA_HOME" ]; then
     echo "Please set ANDROID_NDK_ROOT and ANDROID_NDK and ANDROID_SDK and ANDROID_SDK_ROOT and JAVA_HOME"
