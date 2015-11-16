@@ -1,6 +1,9 @@
 #include "Camera.h"
 
 CCamera::CCamera(int nIndex)
+#ifdef QT_CORE_LIB
+    : QObject()
+#endif
 {
     m_pHander = NULL;
     m_nIndex = nIndex;
@@ -36,6 +39,12 @@ CCameraInfo* CCamera::GetCameraInfo()
 int CCamera::CHanderFrame::OnFrame(const std::shared_ptr<CVideoFrame> frame)
 {
     LOG_MODEL_ERROR("CCamera", "Please implement CCamera::CHanderFrame::OnFrame");
+    return 0;
+}
+
+int CCamera::CHanderFrame::OnCapture(const std::string szFile)
+{
+    LOG_MODEL_ERROR("CCamera", "Please implement CCamera::OnCapture::OnFrame");
     return 0;
 }
 

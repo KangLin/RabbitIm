@@ -3,6 +3,9 @@
 #include "VideoFrame.h"
 #include <memory>
 
+#ifdef QT_CORE_LIB
+    #include <QObject>
+#endif
 /**
  * @brief 摄像头抽像类  
  *    CCamera::CHanderFrame Hander;
@@ -16,7 +19,13 @@
  * @see CCameraFactory
  */
 class CCamera
+        #ifdef QT_CORE_LIB
+        : public QObject
+        #endif
 {
+#ifdef QT_CORE_LIB
+    Q_OBJECT
+#endif
 public:
     CCamera(int nIndex);
     virtual ~CCamera();
@@ -33,6 +42,7 @@ public:
          * @return 
          */
         virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame);
+        virtual int OnCapture(const std::string szFile);
     };
 
     /**
@@ -70,6 +80,11 @@ public:
      * @return 
      */
     virtual int Stop() = 0;
+    /**
+     * @brief Capture
+     * @return 
+     */
+    virtual int Capture(const std::string &szFileName) = 0;
 
 private:
     virtual int OnOpen(VideoInfo *pVideoInfo) = 0;

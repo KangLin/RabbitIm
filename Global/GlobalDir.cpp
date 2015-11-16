@@ -185,6 +185,16 @@ QString CGlobalDir::GetDirUserData(const QString &szId)
     return path;
 }
 
+QString CGlobalDir::GetDirTempDir(const QString &szId)
+{
+    QString dirHeads = GetDirUserData(szId) + QDir::separator() + "Temp";
+    QDir d;
+    if(!d.exists(dirHeads))
+        if(!d.mkdir(dirHeads))
+            LOG_MODEL_ERROR("CGlobal", "mkdir GetDirTempDir error:%s", qPrintable(dirHeads));
+    return dirHeads;
+}
+
 QString CGlobalDir::GetDirUserAvatar(const QString &szId)
 {
     QString dirHeads = GetDirUserData(szId) + QDir::separator() + "Avatars";

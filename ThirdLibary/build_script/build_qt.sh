@@ -46,7 +46,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     cd ${RABBITIM_BUILD_SOURCE_CODE}
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone https://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q -b ${QT_VERSION_DIR} https://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q https://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
         git checkout ${QT_VERSION}
         perl init-repository -f --branch
     else

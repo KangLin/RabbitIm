@@ -3,6 +3,8 @@
 #include "Tool.h"
 #include "QRCode.h"
 #include <QPainter>
+#include <QDir>
+#include <QStandardPaths>
 
 CDlgScanQRcode::CDlgScanQRcode(QWidget *parent) :
     QDialog(parent),
@@ -18,11 +20,14 @@ CDlgScanQRcode::CDlgScanQRcode(QWidget *parent) :
     ui->glayPlay->addWidget(&m_Play);
     ui->lbText->setText("");
 
+    bool check = connect(&m_Timer, SIGNAL(timeout()), SLOT(OnTimeOut()));
+    Q_ASSERT(check);
+    
     m_pCamera = CCameraFactory::Instance()->GetCamera(0);
     if(m_pCamera)
     {
         m_pCamera->Open(this);
-        m_pCamera->Start();
+        Start();
     } else {
         ui->lbText->setText(tr("The camera does not exist."));
     }
@@ -32,16 +37,16 @@ CDlgScanQRcode::~CDlgScanQRcode()
 {
     if(m_pCamera)
     {
-        m_pCamera->Stop();
+        Stop();
         m_pCamera->Close();
+        m_pCamera = NULL;
     }
     delete ui;
 }
 
 void CDlgScanQRcode::on_pushBrowse_clicked()
 {
-    if(m_pCamera)
-        m_pCamera->Stop();
+    Stop();
 
     QString szFile, szFilter(tr("Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)"));
     szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
@@ -58,8 +63,7 @@ void CDlgScanQRcode::on_pushBrowse_clicked()
             return;
         }
     }
-    if(m_pCamera)
-        m_pCamera->Start();
+    Start();
 }
 
 void CDlgScanQRcode::on_Cancel_clicked()
@@ -86,15 +90,49 @@ int CDlgScanQRcode::ProcessQRFile(QString szFile)
 int CDlgScanQRcode::OnFrame(const std::shared_ptr<CVideoFrame> frame)
 {
     QString szText;
-    int nRet = CQRCode::ProcessQImage(frame, szText);
-    if(!szText.isEmpty())
-        ui->lbText->setText(szText);
+    m_Play.slotDisplayRemoteVideo(frame);
+    return 0;
+}
+
+int CDlgScanQRcode::OnCapture(const std::string szFile)
+{
+    Stop();
+    int nRet = ProcessQRFile(QString(szFile.c_str()));
     if(nRet <= 0)
     {
-        if(m_pCamera)
-            m_pCamera->Stop();
         this->reject();
+    } else {
+        Start();
     }
-    m_Play.slotDisplayRemoteVideo(frame);
+    return nRet;    
+}
+
+void CDlgScanQRcode::OnTimeOut()
+{
+    if(m_pCamera)
+    {
+        QString szFile =  QStandardPaths::writableLocation(QStandardPaths::TempLocation)
+                + QDir::separator() + "CaptureQRCode" + ".png";
+        m_pCamera->Capture(szFile.toStdString());
+    }
+}
+
+int CDlgScanQRcode::Start()
+{
+    if(m_pCamera)
+    {
+        m_pCamera->Start();
+        m_Timer.start(1000);
+    }
+    return 0;
+}
+
+int CDlgScanQRcode::Stop()
+{
+    if(m_pCamera)
+    {
+        m_Timer.stop();
+        m_pCamera->Stop();
+    }
     return 0;
 }

@@ -45,11 +45,26 @@ int CCameraQt::OnOpen(VideoInfo *pVideoInfo)
     {
         m_VideoInfo = *pVideoInfo;
     }
+
+    m_CameraImageCapture = std::auto_ptr<QCameraImageCapture>(
+                new QCameraImageCapture(m_Camera.get()));
+    if(m_CameraImageCapture.get())
+    {
+        bool check = this->connect(m_CameraImageCapture.get(),
+                             SIGNAL(imageSaved(int,QString)),
+                             SLOT(imageSaved(int,QString)));
+        Q_ASSERT(check);
+    }
     return 0;
 }
 
 int CCameraQt::OnClose()
 {
+    if(m_CameraImageCapture.get())
+    {
+        this->disconnect(m_CameraImageCapture.get());
+        m_CameraImageCapture.release();
+    }
     if(m_Camera.get())
     {
         m_Camera.release();
@@ -81,6 +96,35 @@ int CCameraQt::Stop()
     m_Camera->stop();
 
     return 0;
+}
+
+int CCameraQt::Capture(const std::string &szFileName)
+{
+    if(NULL == m_Camera.get())
+    {
+        LOG_MODEL_ERROR("CCameraQt", "camera don't open");
+        return -1;
+    }
+    m_Camera->setCaptureMode(QCamera::CaptureStillImage);
+    if(QCamera::ActiveStatus != m_Camera->status())
+    {
+        Start();
+    }
+    m_Camera->searchAndLock();
+    m_CameraImageCaptureID = m_CameraImageCapture->capture(QString(szFileName.c_str()));
+    m_Camera->unlock();
+    return 0;
+}
+
+void CCameraQt::imageSaved(int id, const QString &fileName)
+{
+    if(m_CameraImageCaptureID != id)
+        return;
+    if (m_pHander)
+    {
+        int nRet = 0;
+        nRet = m_pHander->OnCapture(fileName.toStdString());
+    }
 }
 
 VideoFormat CCameraQt::QVideoFrameFormatToVideoFormat(const QVideoFrame::PixelFormat format)

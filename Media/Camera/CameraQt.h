@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "CameraQtCaptureVideoFrame.h"
 #include <QCamera>
+#include <QCameraImageCapture>
 
 /**
  * @brief The CCameraQt class
@@ -12,19 +13,25 @@
  */
 class CCameraQt : public CCamera
 {
+    Q_OBJECT
 public:
     CCameraQt(int nIndex);
     virtual ~CCameraQt();
 
     virtual int Start();
     virtual int Stop();
+    virtual int Capture(const std::string &szFileName);
 
 private:
     virtual int OnOpen(VideoInfo* pVideoInfo = NULL);
     virtual int OnClose();
-
+private slots:
+    void imageSaved(int id, const QString & fileName);
+    
 private:
     std::auto_ptr<QCamera> m_Camera;
+    std::auto_ptr<QCameraImageCapture> m_CameraImageCapture;
+    int m_CameraImageCaptureID;
     CCameraQtCaptureVideoFrame m_CaptureFrame;
     friend class CCameraQtCaptureVideoFrame;
     bool Present(const QVideoFrame &frame);

@@ -36,6 +36,13 @@ public:
      * @param szId:本地用户id,默认为本地用户   
      */
     QString GetDirUserData(const QString &szId = QString());
+    /**
+     * @brief 用户临时目录  
+     * @param szId
+     * @return 
+     */
+    QString GetDirTempDir(const QString &szId = QString());
+    
     /// 翻译文件目录  
     QString GetDirTranslate();
     /// 应用程序配置文件  
@@ -65,6 +72,7 @@ public:
      * @param szId:本地用户id,默认为本地用户   
      */
     QString GetDirReceiveFile(const QString &szId = QString());
+    
     /** 
      * 得到表情图片文件  
      */
