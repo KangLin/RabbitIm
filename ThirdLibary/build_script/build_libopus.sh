@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    LIBOPUS_VERSION=1.1
+    LIBOPUS_VERSION=v1.1.1-rc
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone -b v${LIBOPUS_VERSION} git://git.opus-codec.org/opus.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone -q -b v${LIBOPUS_VERSION} git://git.opus-codec.org/opus.git ${RABBITIM_BUILD_SOURCE_CODE}

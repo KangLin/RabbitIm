@@ -59,7 +59,8 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "wget https://github.com/FFmpeg/FFmpeg/archive/${FFMPEG_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q wget https://github.com/FFmpeg/FFmpeg/archive/${FFMPEG_VERSION}.zip
+        wget -q https://github.com/FFmpeg/FFmpeg/archive/${FFMPEG_VERSION}.zip
+        echo "unzip ${FFMPEG_VERSION}.zip"
         unzip -q ${FFMPEG_VERSION}.zip
         mv FFmpeg-${FFMPEG_VERSION} ..
         rm -fr *
@@ -88,7 +89,7 @@ echo ""
 if [ "$RABBITIM_CLEAN" ]; then
     if [ -d ".git" ]; then
         git clean -xdf
-    else
+    elif [ -f "config.mak" ]; then
         make distclean
     fi
 fi
@@ -153,24 +154,22 @@ LDFLAGS="${LDFLAGS} -L$RABBITIM_BUILD_PREFIX/lib"
 
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-        echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS}\"" --pkg-config="\"${PKG_CONFIG}\""
+        echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS}\"" --pkg-config="\"${PKG_CONFIG}\""
         ./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-ldflags="${LDFLAGS}" --pkg-config="${PKG_CONFIG}"
         ;;
     windows_mingw)
         case `uname -s` in
             Linux*|Unix*|CYGWIN*|*)
-            echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS}\"" --pkg-config="\"${PKG_CONFIG}\""
+            echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS}\"" --pkg-config="\"${PKG_CONFIG}\""
             ./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-ldflags="${LDFLAGS}" --pkg-config="${PKG_CONFIG}"
             ;;
         esac
         ;;
     *)
-        echo "./configure ${CONFIG_PARA}  --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS}\""
+        echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS}\" --extra-ldflags=\"${LDFLAGS}\""
         ./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-ldflags="${LDFLAGS}"
         ;;
 esac
-
-
 
 echo "make install"
 make ${RABBITIM_MAKE_JOB_PARA} && make install
@@ -194,4 +193,5 @@ if [ "${RABBITIM_BUILD_TARGERT}" = "windows_mingw" ]; then
         mv ${RABBITIM_BUILD_PREFIX}/bin/*.lib ${RABBITIM_BUILD_PREFIX}/lib/.
     fi
 fi
+
 cd $CUR_DIR

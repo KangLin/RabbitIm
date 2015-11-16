@@ -138,6 +138,7 @@ esac
 echo "make install"
 echo "pwd:`pwd`"
 CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} "
+CONFIG_PARA="${CONFIG_PARA} --without-png"
 
 if [ "${RABBITIM_BUILD_TARGERT}" = android ]; then
     echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""

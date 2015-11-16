@@ -91,6 +91,7 @@ ubuntu下交叉编译
     export ANDROID_NDK=/home/android-ndk
     export ANDROID_NDK_ROOT=$ANDROID_NDK
 
+
 #### 1.3. android sdk 
 * 平台版本：21
 * 下载：
@@ -105,6 +106,10 @@ ubuntu下交叉编译
     export ANDROID_SDK=/home/android-sdk/sdk
     export ANDROID_SDK_ROOT=$ANDROID_SDK
     export PATH=$PATH:$ANDROID_SDK/platform-tools
+
+注意：
+1. qt与第三方依赖库所使用的工具链版本需要一样。(当前Qt5.5.1用的android ndk 9）。
+构建->构建环境变量:设置 ANDROID_NDK_PLATFORM 到 android-18
 
 #### 1.4. 安装32位库(可选): ubuntu 64位下 android sdk 需要
 
@@ -246,7 +251,8 @@ make: fork: Resource temporarily unavailable
 
 注意：
 1. 在msys2下需要注意路径符号,用unix型路径："/"
-2. qt与第三方依赖库所使用的工具链版本需要一样。
+2. qt与第三方依赖库所使用的工具链版本需要一样。(当前Qt5.5.1用的android ndk 9）。
+构建->构建环境变量:设置 ANDROID_NDK_PLATFORM 到 android-18
 
 #### 2.3. android sdk 
 * 平台版本：21
@@ -264,7 +270,8 @@ make: fork: Resource temporarily unavailable
 
 注意：
 1. 在msys2下需要注意路径符号,用unix型路径："/"。
-2. qt与第三方依赖库所使用的平台版本需要一样。
+2. qt与第三方依赖库所使用的工具链版本需要一样。(当前Qt5.5.1用的android ndk 9）。
+构建->构建环境变量:设置 ANDROID_NDK_PLATFORM 到 android-18
 
 #### 2.4. 下载工具
 主页： http://www.gnu.org/software/wget/  

@@ -159,7 +159,7 @@
     git clone git://source.ffmpeg.org/ffmpeg.git
 
 *当前使用版本：
-    git库版本 —— n2.8.1
+    git库版本 —— n2.8.2
 
 #### 4. 编解码库(x264)
 
@@ -208,7 +208,7 @@
 
 * 下载：`git://github.com/bagder/curl.git`  
 * 当前使用版本：  
-    git库版本 —— curl-7_42_0
+    git库版本 —— curl-7_45_0
 
 #### 12. [libicu](http://site.icu-project.org/)
 
@@ -238,11 +238,11 @@
 
 #### 14. libsodium
 * 下载: `git clone https://github.com/jedisct1/libsodium.git`
-* 当前使用版本：1.0.2
+* 当前使用版本：1.0.6
 
 #### 15. opus
 * 下载： `git clone git://git.opus-codec.org/opus.git`
-* 当前使用版本：v1.1
+* 当前使用版本：v1.1.1-rc
 
 #### 16. libqrencode
 * 官网：http://fukuchi.org/works/qrencode/index.html.en
@@ -255,7 +255,7 @@
 
 #### 18. toxcore
 * 下载： `git clone git://github.com/irungentoo/toxcore.git`
-* 当前使用版本：3454bc7da78e467f55f6b7fea4e03775d2649a63
+* 当前使用版本：e1089c1779fb1c58f17937108a6ba8c3d39573ae
 
 #### 19. gdal
 * 下载：`git clone https://github.com/OSGeo/gdal`
