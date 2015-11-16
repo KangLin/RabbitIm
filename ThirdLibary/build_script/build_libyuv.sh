@@ -38,9 +38,9 @@ fi
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    echo "git clone http://git.chromium.org/external/libyuv.git  ${RABBITIM_BUILD_SOURCE_CODE}"
-    #git clone --branch=416c48d http://git.chromium.org/external/libyuv.git ${RABBITIM_BUILD_SOURCE_CODE}
-    git clone http://git.chromium.org/external/libyuv.git ${RABBITIM_BUILD_SOURCE_CODE}
+    echo "git clone https://chromium.googlesource.com/external/libyuv  ${RABBITIM_BUILD_SOURCE_CODE}"
+    #git clone --branch=416c48d https://chromium.googlesource.com/external/libyuv ${RABBITIM_BUILD_SOURCE_CODE}
+    git clone https://chromium.googlesource.com/external/libyuv ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`
