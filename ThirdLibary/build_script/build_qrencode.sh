@@ -42,13 +42,13 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     VERSION=v3.4.3
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone --branch=${VERSION} https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=$VERSION https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=${VERSION} https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -q --branch=$VERSION https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget https://github.com/fukuchi/libqrencode/archive/$VERSION.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget https://github.com/fukuchi/libqrencode/archive/$VERSION.zip
+        wget -q https://github.com/fukuchi/libqrencode/archive/$VERSION.zip
         unzip ${VERSION}.zip
         mv libqrencode-${VERSION} ..
         rm -fr *

@@ -42,14 +42,14 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     OPENSLL_BRANCH=OpenSSL_1_0_2d
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
-        #git clone https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -q --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone -q https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         echo "wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip"
-        wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip
+        wget -q https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip
         unzip ${OPENSLL_BRANCH}.zip
         mv openssl-${OPENSLL_BRANCH} ..
         rm -fr *

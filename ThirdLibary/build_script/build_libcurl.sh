@@ -40,22 +40,22 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-	CUR_FILE=curl-7_45_0
+	CURL_FILE=curl-7_45_0
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        #git clone --branch=$CUR_FILE git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone --branch=$CUR_FILE git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone --branch=$CURL_FILE git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q --branch=$CURL_FILE git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget http://curl.haxx.se/download/${CUR_FILE}.tar.gz"
+        echo "wget https://github.com/bagder/curl/archive/${CURL_FILE}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget http://curl.haxx.se/download/${CUR_FILE}.tar.gz
-        tar xzf ${CUR_FILE}.tar.gz
-        mv ${CUR_FILE} ..
+        wget -q https://github.com/bagder/curl/archive/${CURL_FILE}.zip
+        unzip ${CURL_FILE}.zip
+        mv curl-${CURL_FILE} ..
         rm -fr *
         cd ..
-        rm -rf ${RABBITIM_BUILD_SOURCE_CODE}
-        mv -f ${CUR_FILE} ${RABBITIM_BUILD_SOURCE_CODE}
+        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
+        mv -f curl-${CURL_FILE} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 

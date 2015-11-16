@@ -44,12 +44,12 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone -b ${SPEEX_VERSION} http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone -b 6aab25c http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone --branch=${SPEEX_VERSION} http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q --branch=${SPEEX_VERSION} http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget http://downloads.xiph.org/releases/speex/${SPEEX_VERSION}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget http://downloads.xiph.org/releases/speex/${SPEEX_VERSION}.tar.gz
+        wget -q http://downloads.xiph.org/releases/speex/${SPEEX_VERSION}.tar.gz
         tar xzf ${SPEEX_VERSION}.tar.gz
         mv ${SPEEX_VERSION} ..
         rm -fr *

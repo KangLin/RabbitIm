@@ -75,7 +75,7 @@ if [ -n "$2" ]; then
     ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} $2/wzxing && \
     ./build_gdal.sh ${RABBITIM_BUILD_TARGERT} $2/gdal && \
     ./build_osg.sh ${RABBITIM_BUILD_TARGERT} $2/osg && \
-    ./build_osgearth.sh ${RABBITIM_BUILD_TARGERT} $2/osgearth
+   ./build_osgearth.sh ${RABBITIM_BUILD_TARGERT} $2/osgearth
 else
     ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} 

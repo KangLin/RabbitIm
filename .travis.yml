@@ -16,15 +16,15 @@ os:
 
 env:
   matrix:
-    BUILD_TARGERT=unix QMAKE=qmake BUILD_THIRDLIBARY=true RABBITIM_USE_REPOSITORIES=FALSE
-    BUILD_TARGERT=windows_mingw QMAKE=qmake BUILD_THIRDLIBARY=true RABBITIM_USE_REPOSITORIES=FALSE
-    BUILD_TARGERT=android QMAKE=qmake BUILD_THIRDLIBARY=true RABBITIM_USE_REPOSITORIES=FALSE ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
-    BUILD_TARGERT=unix QMAKE=qmake
-    BUILD_TARGERT=windows_mingw QMAKE=qmake  
-    BUILD_TARGERT=android QMAKE=qmake  ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
+    - BUILD_TARGERT=unix QMAKE=qmake BUILD_THIRDLIBARY=true RABBITIM_USE_REPOSITORIES="FALSE"
+    - BUILD_TARGERT=windows_mingw QMAKE=qmake BUILD_THIRDLIBARY=true RABBITIM_USE_REPOSITORIES="FALSE"
+    - BUILD_TARGERT=android QMAKE=qmake BUILD_THIRDLIBARY=true RABBITIM_USE_REPOSITORIES="FALSE" ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
+    - BUILD_TARGERT=unix QMAKE=qmake BUILD_THIRDLIBARY=true
+    - BUILD_TARGERT=windows_mingw QMAKE=qmake BUILD_THIRDLIBARY=true
+    - BUILD_TARGERT=android QMAKE=qmake BUILD_THIRDLIBARY=true ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
     #- BUILD_TARGERT=unix QMAKE=cmake
-    # BUILD_TARGERT=windows_mingw QMAKE=cmake
-    # BUILD_TARGERT=android QMAKE=cmake ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a
+    #- BUILD_TARGERT=windows_mingw QMAKE=cmake
+    #- BUILD_TARGERT=android QMAKE=cmake ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a
 
 install:
   - source ThirdLibary/build_script/travis/build-depends.sh

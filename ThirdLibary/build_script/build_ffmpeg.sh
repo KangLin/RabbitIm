@@ -53,14 +53,14 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     FFMPEG_VERSION=n2.8.1
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        #git clone --branch=n${FFMPEG_VERSION} git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone --branch=${FFMPEG_VERSION} git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q --branch=${FFMPEG_VERSION} git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_FILE}.tar.gz"
+        echo "wget https://github.com/FFmpeg/FFmpeg/archive/${FFMPEG_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_FILE}.tar.gz
-        tar xzf ffmpeg-${FFMPEG_FILE}.tar.gz
+        wget -q wget https://github.com/FFmpeg/FFmpeg/archive/${FFMPEG_VERSION}.zip
+        unzip ${FFMPEG_VERSION}.zip
         mv ffmpeg-${FFMPEG_VERSION} ..
         rm -fr *
         cd ..

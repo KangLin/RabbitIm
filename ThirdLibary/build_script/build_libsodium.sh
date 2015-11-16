@@ -43,12 +43,12 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     LIBSODIUM_VERSION=1.0.2
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone -b ${LIBSODIUM_VERSION} https://github.com/jedisct1/libsodium.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -b ${LIBSODIUM_VERSION} https://github.com/jedisct1/libsodium.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q -b ${LIBSODIUM_VERSION} https://github.com/jedisct1/libsodium.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget https://github.com/jedisct1/libsodium/archive/${LIBSODIUM_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget https://github.com/jedisct1/libsodium/archive/${LIBSODIUM_VERSION}.zip
+        wget -q https://github.com/jedisct1/libsodium/archive/${LIBSODIUM_VERSION}.zip
         unzip ${LIBSODIUM_VERSION}.zip
         mv libsodium-${LIBSODIUM_VERSION} ..
         rm -fr *

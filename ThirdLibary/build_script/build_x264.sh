@@ -40,7 +40,7 @@ fi
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     echo "git clone  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}"
     #git clone --branch=121396c git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
-    git clone git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
+    git clone -q git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`

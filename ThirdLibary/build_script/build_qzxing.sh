@@ -48,11 +48,11 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://git.code.sf.net/p/qzxing/code ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone git://git.code.sf.net/p/qzxing/code ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone git@github.com:KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q git@github.com:KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget http://sourceforge.net/projects/qzxing/files/v${VERSION}/QZXing_sourceV${VERSION}.zip/download
+        wget -q http://sourceforge.net/projects/qzxing/files/v${VERSION}/QZXing_sourceV${VERSION}.zip/download
         unzip download #${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi

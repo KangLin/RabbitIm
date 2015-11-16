@@ -44,11 +44,11 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     VERSION=1.6.9rc02
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone --branch=v${VERSION} git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=v$VERSION  git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q --branch=v$VERSION  git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget http://sourceforge.net/projects/libpng/files/libpng${VERSION_MAJOR}/${VERSION}/libpng-${VERSION}.tar.gz/download
+        wget -q http://sourceforge.net/projects/libpng/files/libpng${VERSION_MAJOR}/${VERSION}/libpng-${VERSION}.tar.gz/download
         tar xzvf download
         mv libpng-${VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi

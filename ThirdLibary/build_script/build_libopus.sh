@@ -43,12 +43,12 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     LIBOPUS_VERSION=1.1
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone -b v${LIBOPUS_VERSION} git://git.opus-codec.org/opus.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -b v${LIBOPUS_VERSION} git://git.opus-codec.org/opus.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q -b v${LIBOPUS_VERSION} git://git.opus-codec.org/opus.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget http://downloads.xiph.org/releases/opus/opus-${LIBOPUS_VERSION}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget http://downloads.xiph.org/releases/opus/opus-${LIBOPUS_VERSION}.tar.gz
+        wget -q http://downloads.xiph.org/releases/opus/opus-${LIBOPUS_VERSION}.tar.gz
         tar xzf opus-${LIBOPUS_VERSION}.tar.gz
         mv opus-${LIBOPUS_VERSION} ..
         rm -fr *

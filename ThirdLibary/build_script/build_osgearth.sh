@@ -42,13 +42,13 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     OSG_VERSION=osgearth-2.7rc2
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone --branch=${OSG_VERSION} git@github.com:gwaldron/osgearth.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=$OSG_VERSION git@github.com:gwaldron/osgearth.git ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=${OSG_VERSION} git@github.com:gwaldron/osgearth.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -q --branch=$OSG_VERSION git@github.com:gwaldron/osgearth.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget https://github.com/gwaldron/osgearth/archive/${OSG_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget wget https://github.com/gwaldron/osgearth/archive/${OSG_VERSION}.zip
+        wget -q wget https://github.com/gwaldron/osgearth/archive/${OSG_VERSION}.zip
         unzip ${OSG_VERSION}.zip
         mv osgearth-${OSG_VERSION} ..
         rm -fr *

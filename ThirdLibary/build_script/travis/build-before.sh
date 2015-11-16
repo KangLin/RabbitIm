@@ -47,6 +47,11 @@ function function_android()
     tar xzf android-sdk.tar.gz 
     mv sdk android-sdk
  
+    export ANDROID_NDK_ROOT=${SOURCE_DIR}/ThirdLibary/android-ndk
+    export ANDROID_NDK=$ANDROID_NDK_ROOT
+    export ANDROID_SDK_ROOT=${SOURCE_DIR}/ThirdLibary/android-sdk
+    export ANDROID_SDK=$ANDROID_SDK_ROOT
+    
 	function_common
 	cd ${SOURCE_DIR}/ThirdLibary
 	

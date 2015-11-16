@@ -42,13 +42,13 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     OSG_VERSION=2.0
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone --branch=${OSG_VERSION} https://github.com/openscenegraph/osg.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=$OSG_VERSION https://github.com/openscenegraph/osg.git ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=${OSG_VERSION} https://github.com/openscenegraph/osg.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -q --branch=$OSG_VERSION https://github.com/openscenegraph/osg.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget https://github.com/openscenegraph/osg/archive/${OSG_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget wget https://github.com/openscenegraph/osg/archive/${OSG_VERSION}.zip
+        wget -q wget https://github.com/openscenegraph/osg/archive/${OSG_VERSION}.zip
         unzip ${OSG_VERSION}.zip
         mv osg-${OSG_VERSION} ..
         rm -fr *

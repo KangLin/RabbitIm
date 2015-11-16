@@ -42,12 +42,12 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone https://github.com/irungentoo/filter_audio.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone https://github.com/irungentoo/filter_audio.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q https://github.com/irungentoo/filter_audio.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget https://github.com/irungentoo/filter_audio/archive/master.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget https://github.com/irungentoo/filter_audio/archive/master.zip
+        wget -q https://github.com/irungentoo/filter_audio/archive/master.zip
         unzip master.zip
         mv filter_audio-master ..
         rm -fr *

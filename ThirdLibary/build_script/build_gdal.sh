@@ -43,12 +43,12 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     GDAL_VERSION=2.0
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone --branch=${GDAL_VERSION} https://github.com/OSGeo/gdal ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone --branch=$GDAL_VERSION https://github.com/OSGeo/gdal ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q --branch=$GDAL_VERSION https://github.com/OSGeo/gdal ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip
+        wget -q https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip
         unzip ${GDAL_VERSION}.zip
         mv gdal-${GDAL_VERSION} ..
         rm -fr *

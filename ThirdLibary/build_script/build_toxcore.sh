@@ -42,12 +42,12 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://github.com/irungentoo/toxcore.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone git://github.com/irungentoo/toxcore.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q git://github.com/irungentoo/toxcore.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget https://github.com/irungentoo/toxcore/archive/master.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget https://github.com/irungentoo/toxcore/archive/master.zip
+        wget -q https://github.com/irungentoo/toxcore/archive/master.zip
         unzip master.zip
         mv toxcore-master ..
         rm -fr *

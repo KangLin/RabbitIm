@@ -43,7 +43,7 @@ fi
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     echo "git clone git@github.com:KangLin/rabbitim.git"
-    git clone git@github.com:KangLin/rabbitim.git ${RABBITIM_BUILD_SOURCE_CODE}
+    git clone -q git@github.com:KangLin/rabbitim.git ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`
