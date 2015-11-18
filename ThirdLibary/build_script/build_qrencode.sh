@@ -40,30 +40,28 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    VERSION=v3.4.3
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone -q --branch=${VERSION} https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q --branch=$VERSION https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}
-    else
-        echo "wget https://github.com/fukuchi/libqrencode/archive/$VERSION.zip"
-        mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
-        cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q https://github.com/fukuchi/libqrencode/archive/$VERSION.zip
-        unzip -q ${VERSION}.zip
-        mv libqrencode-${VERSION} ..
-        rm -fr *
-        cd ..
-        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
-        mv -f libqrencode-${VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
-    fi
+    VERSION=3.4.4
+   # if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
+        echo "git clone -q https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -q https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}
+   # else
+   #     echo "wget http://fukuchi.org/works/qrencode/qrencode-${VERSION}.tar.gz"
+   #     mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
+   #    cd ${RABBITIM_BUILD_SOURCE_CODE}
+   #     wget -q  http://fukuchi.org/works/qrencode/qrencode-${VERSION}.tar.gz
+   #     tar xvf qrencode-${VERSION}.tar.gz
+   #     mv qrencode-${VERSION} ..
+   #     rm -fr *
+   #     cd ..
+   #     rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
+   #     mv -f qrencode-${VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
+   #fi
 fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 if [ ! -f configure ]; then
-    if [ "${RABBITIM_BUILD_TARGERT}" == "android" ]; then
-        mkdir -p m4
-    fi
+    mkdir -p m4
     echo "sh autogen.sh"
     sh autogen.sh
 fi

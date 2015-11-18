@@ -102,6 +102,19 @@ case ${RABBITIM_BUILD_TARGERT} in
         exit 2
         ;;
     windows_mingw)
+    case `uname -s` in
+        Linux*|Unix*|CYGWIN*)
+            export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
+            export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
+            export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
+            export LD=${RABBITIM_BUILD_CROSS_PREFIX}gcc
+            export AS=yasm
+            export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
+            export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
+            ;;
+        *)
+        ;;
+    esac
         echo "#define PJMEDIA_HAS_VIDEO 1" > ${RABBITIM_BUILD_SOURCE_CODE}/pjlib/include/pj/config_site.h
         #echo "#define PJMEDIA_VIDEO_DEV_HAS_DSHOW 1" >> ${RABBITIM_BUILD_SOURCE_CODE}/pjlib/include/pj/config_site.h
         echo "#define PJMEDIA_HAS_FFMPEG 1" >> ${RABBITIM_BUILD_SOURCE_CODE}/pjlib/include/pj/config_site.h

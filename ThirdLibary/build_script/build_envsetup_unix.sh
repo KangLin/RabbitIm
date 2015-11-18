@@ -36,10 +36,17 @@ QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
                             #这里设置的是自动编译时的配置，你需要修改为你本地qt编译环境的配置.
 echo "QT_BIN:$QT_BIN"
 
+#pkg-config帮助文档：http://linux.die.net/man/1/pkg-config
 export PKG_CONFIG=pkg-config 
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     export PKG_CONFIG="pkg-config --static"
 fi
-export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig:${PKG_CONFIG_PATH}
+#如果用系统的库,就用下面  
+#export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig:${PKG_CONFIG_PATH}
+#不用系统的第三方库,用下面
+export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig 
+export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
+export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX}
+
 export PATH=${QT_BIN}:$PATH
 

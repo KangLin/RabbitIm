@@ -115,12 +115,9 @@ if [ "$RABBITIM_BUILD_STATIC" = "static" -o "$RABBITIM_BUILD_TARGERT" = "android
     RELEASE_PARA="${RELEASE_PARA} CONFIG+=staticlib"
 fi
 
+MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
 echo "$QMAKE ${RELEASE_PARA}"
 $QMAKE ${RELEASE_PARA}
-
-${MAKE} -f Makefile 
-
-MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
-${MAKE} -f Makefile install  ${MAKE_PARA}
+${MAKE} -f Makefile install ${MAKE_PARA}
 
 cd $CUR_DIR

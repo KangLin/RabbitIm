@@ -100,8 +100,8 @@ echo ""
 
 echo "configure ..."
 CONFIG_PARA="-opensource -confirm-license -nomake examples -nomake tests -no-compile-examples"
-CONFIG_PARA="${CONFIG_PARA} -no-sql-sqlite -no-sql-odbc"
-CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples"
+CONFIG_PARA="${CONFIG_PARA} -no-sql-sqlite -no-sql-odbc "
+CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples -no-warnings-are-errors"
 CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt"
 CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
 #CONFIG_PARA="${CONFIG_PARA} -developer-build  -debug-and-release"
@@ -142,6 +142,9 @@ if [ -d qtgraphicaleffects ]; then
 fi
 if [ -d qtimageformats ]; then
     CONFIG_PARA="${CONFIG_PARA} -skip qtimageformats"
+fi
+if [ -d qtwebkit-examples ]; then
+    CONFIG_PARA="${CONFIG_PARA} -skip -skip qtwebkit-examples"
 fi
 #if [ -d qtwebengine ]; then
 #    CONFIG_PARA="${CONFIG_PARA} -skip qtwebengine"
@@ -233,9 +236,10 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
 esac
 
-if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
-    CONFIG_PARA="${CONFIG_PARA} -verbose"
-fi
+#显示编译详细信息
+#if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
+#    CONFIG_PARA="${CONFIG_PARA} -verbose"
+#fi
 
 #export INCLUDE="$INCLUDE:${RABBITIM_BUILD_PREFIX}/include"
 #export LIB="$LIB:${RABBITIM_BUILD_PREFIX}/lib"

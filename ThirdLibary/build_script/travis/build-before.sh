@@ -20,23 +20,23 @@ function function_common()
     #下载最新cmake程序
     if [ "cmake" = "${QMAKE}" ]; then
         cd ${SOURCE_DIR}/ThirdLibary
-        wget http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
+        wget --no-check-certificate http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
         tar xf cmake-3.1.0-Linux-x86_64.tar.gz
         mv cmake-3.1.0-Linux-x86_64 cmake
         cd ${SOURCE_DIR}
     fi
-    
-    if [ "true" = "${BUILD_THIRDLIBARY}" ]; then
+
+    if [ "true" = "${RABBITIM_BUILD_THIRDLIBARY}" ]; then
 		#编译第三方库
 		cd ${SOURCE_DIR}/ThirdLibary/build_script
-		./build.sh ${BUILD_TARGERT} ${SOURCE_DIR}/../src
+		./build.sh ${BUILD_TARGERT} ${SOURCE_DIR}/ThirdLibary/src
 	fi
 }
 
 function function_android()
 {
     cd ${SOURCE_DIR}/ThirdLibary
-    
+
     #下载android ndk
     wget http://dl.google.com/android/ndk/android-ndk-r9c-linux-x86_64.tar.bz2
     tar xf android-ndk-r9c-linux-x86_64.tar.bz2
@@ -51,16 +51,18 @@ function function_android()
     export ANDROID_NDK=$ANDROID_NDK_ROOT
     export ANDROID_SDK_ROOT=${SOURCE_DIR}/ThirdLibary/android-sdk
     export ANDROID_SDK=$ANDROID_SDK_ROOT
-    
+
 	function_common
 	cd ${SOURCE_DIR}/ThirdLibary
-	
-	if [ -z "$BUILD_THIRDLIBARY" ]; then
+
+	if [ -z "$RABBITIM_BUILD_THIRDLIBARY" ]; then
 		#下载第三方依赖库
 		wget http://182.254.185.29/download/travis/android.tar.gz
 		tar xzf android.tar.gz 
+        cd android
+        ./change_prefix.sh
     fi
-    
+
     cd ${SOURCE_DIR}/ThirdLibary
 }
 
@@ -68,18 +70,21 @@ function function_unix()
 {
     #汇编工具yasm
     function_install_yasm
-	
+
     function_common
-    
+
     cd ${SOURCE_DIR}/ThirdLibary
-    
-    if [ -z "$BUILD_THIRDLIBARY" ]; then
+
+    if [ -z "$RABBITIM_BUILD_THIRDLIBARY" ]; then
         #下载第三方依赖库
         wget http://182.254.185.29/download/travis/unix.tar.gz
         tar xzf unix.tar.gz
+        export LD_LIBRARY_PATH=`pwd`/${BUILD_TARGERT}/qt/bin:`pwd`/${BUILD_TARGERT}/qt/lib:`pwd`/${BUILD_TARGERT}/lib
+        cd unix
+        ./change_prefix.sh
     fi
     cd ${SOURCE_DIR}/ThirdLibary
-  
+
 }
 
 function function_mingw()
@@ -88,15 +93,17 @@ function function_mingw()
     function_install_yasm
 
     cd ${SOURCE_DIR}/ThirdLibary
-    if [ -z "$BUILD_THIRDLIBARY" ]; then
+    if [ -z "$RABBITIM_BUILD_THIRDLIBARY" ]; then
         echo "Download third library"
         #下载第三方依赖库
         wget http://182.254.185.29/download/travis/windows_mingw.tar.gz
         tar xzf windows_mingw.tar.gz
+        cd windows_mingw
+        ./change_prefix.sh
     else
         export RABBITIM_BUILD_CROSS_HOST=i586-mingw32msvc
     fi
-    
+
     function_common
     cd ${SOURCE_DIR}/ThirdLibary
 }

@@ -15,7 +15,7 @@ mingw{
             PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig
         }
 } else {
-    PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH)"
+        PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$$(PKG_CONFIG_PATH)"
 }
 
 isEmpty(PKG_CONFIG) : PKG_CONFIG=$$(PKG_CONFIG)
@@ -80,7 +80,7 @@ equals(RABBITIM_USE_QXMPP, 1) {
 
 equals(RABBITIM_USE_FFMPEG, 1) : packagesExist(libavcodec libavformat libswscale libavutil) {
     DEFINES *= RABBITIM_USE_FFMPEG __STDC_CONSTANT_MACROS #ffmpeg需要  
-    MYPKGCONFIG *= libavcodec libavformat libswscale libavutil
+    MYPKGCONFIG *= libavcodec libavformat libswscale libavutil 
 }
 
 equals(RABBITIM_USE_PJSIP, 1) : packagesExist(libpjproject){
