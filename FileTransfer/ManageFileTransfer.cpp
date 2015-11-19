@@ -166,7 +166,7 @@ int CManageFileTransfer::SaveAs(QSharedPointer<CFileTransfer> file)
     QString szDir = CGlobalDir::Instance()->GetDirReceiveFile()
                          + QDir::separator() + file->GetFile();
 
-    szFile = CTool::FileDialog(NULL, szDir, QString(), tr("Save as"));
+    szFile = CTool::FileDialog(NULL, szDir, QString(), tr("Save as"), QFileDialog::AcceptSave);
     if(szFile.isEmpty())
         return -1;
     QFile f(szFile);

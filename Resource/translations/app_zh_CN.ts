@@ -1096,28 +1096,67 @@ Email or MSN:kl222@126.com</source>
     <name>CDlgScanQRcode</name>
     <message>
         <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="14"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="153"/>
         <source>Scan QR Code</source>
         <translation>扫描二维码</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="20"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="24"/>
+        <source>Scan</source>
+        <translation>扫描</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="30"/>
         <source>With a camera at the two-dimensional code, you can scan</source>
         <translation>用摄像头对准二维码扫描</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="88"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="91"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="201"/>
         <source>Browse(&amp;B)</source>
         <translation>浏览(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="99"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="102"/>
         <source>Recognition(&amp;R)</source>
         <translation>识别(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="110"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="113"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="308"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="134"/>
+        <source>Generate</source>
+        <translation>生成</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="140"/>
+        <source>Enter generated content:</source>
+        <translation>输入生成内容:</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="159"/>
+        <source>Logon image:</source>
+        <translation>标志图像:</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="178"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="243"/>
+        <source>TextLabel</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="286"/>
+        <source>Generate(&amp;G)</source>
+        <translation>生成(&amp;G)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="297"/>
+        <source>Save As(&amp;S)</source>
+        <translation>另存为(&amp;S)</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="18"/>
@@ -1125,19 +1164,31 @@ Email or MSN:kl222@126.com</source>
         <translation>回退</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="32"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="34"/>
         <source>The camera does not exist.</source>
         <translation>摄像头不存在。</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="52"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="54"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="192"/>
         <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
         <translation>图像文件 (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="53"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="55"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="193"/>
         <source>Open File</source>
         <translation>打开文件</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="156"/>
+        <source>Generate QR Code</source>
+        <translation>生成QR码</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="177"/>
+        <source>Save as</source>
+        <translation>另存为……</translation>
     </message>
 </context>
 <context>
@@ -2407,9 +2458,9 @@ Real Time Speed(m/s)</source>
 <context>
     <name>CTool</name>
     <message>
-        <location filename="../../Tool.h" line="212"/>
-        <source>Save</source>
-        <translation>保存</translation>
+        <location filename="../../Tool.h" line="213"/>
+        <source>Open file</source>
+        <translation>打开文件</translation>
     </message>
 </context>
 <context>

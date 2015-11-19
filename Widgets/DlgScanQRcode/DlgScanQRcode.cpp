@@ -1,6 +1,6 @@
 #include "DlgScanQRcode.h"
 #include "ui_DlgScanQRcode.h"
-#include "Tool.h"
+#include "Global/Global.h"
 #include "QRCode.h"
 #include <QPainter>
 #include <QDir>
@@ -19,6 +19,8 @@ CDlgScanQRcode::CDlgScanQRcode(QWidget *parent) :
 #endif
     ui->glayPlay->addWidget(&m_Play);
     ui->lbText->setText("");
+    ui->lbQRCode->setText("");
+    ui->lbLogon->setText("");
 
     bool check = connect(&m_Timer, SIGNAL(timeout()), SLOT(OnTimeOut()));
     Q_ASSERT(check);
@@ -140,5 +142,60 @@ void CDlgScanQRcode::on_pushButton_clicked()
         QString szFile =  QStandardPaths::writableLocation(QStandardPaths::TempLocation)
                 + QDir::separator() + "CaptureQRCode" + ".png";
         m_pCamera->Capture(szFile.toStdString());
+    }
+}
+
+void CDlgScanQRcode::on_tabWidget_currentChanged(int index)
+{
+    switch(index)
+    {
+    case 0:
+        this->setWindowTitle(tr("Scan QR Code"));
+        break;
+    case 1:
+        this->setWindowTitle(tr("Generate QR Code"));
+        break;
+    default:
+        break;
+    }
+}
+
+void CDlgScanQRcode::on_pbGenerate_clicked()
+{
+    m_Generate = CQRCode::QRcodeEncodeString(ui->txtContent->toPlainText(), m_Logon);
+    if(m_Generate.isNull())
+        return;
+    ui->lbQRCode->setPixmap(QPixmap::fromImage(m_Generate));
+}
+
+void CDlgScanQRcode::on_pbSaveAs_clicked()
+{
+    if(m_Generate.isNull())
+        return;
+    QString szFile, szFilter("*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM");
+    szFile = CTool::FileDialog(this, "Generate.PNG",
+                               szFilter, tr("Save as"), QFileDialog::AcceptSave);
+    if(szFile.isEmpty())
+       return; 
+    if(!m_Generate.save(szFile))
+        LOG_MODEL_ERROR("CDlgScanQRcode", "Save qrencode fail:%s",
+                        szFile.toStdString().c_str());
+}
+
+void CDlgScanQRcode::on_Cancel_2_clicked()
+{
+    this->accept();
+}
+
+void CDlgScanQRcode::on_pbBrowse_clicked()
+{
+    QString szFile, szFilter(tr("Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)"));
+    szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
+    if(!szFile.isEmpty())
+    {
+        if(m_Logon.load(szFile))
+        {
+            ui->lbLogon->setPixmap(QPixmap::fromImage(m_Logon));
+        }
     }
 }

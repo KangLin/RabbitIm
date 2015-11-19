@@ -79,7 +79,7 @@ void CDlgAbout::on_pbSave_clicked()
 {
     QString szFile, szFilter("*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM");
     szFile = CTool::FileDialog(this, "QrRabbitim.PNG",
-                               szFilter, tr("Save as"));
+                               szFilter, tr("Save as"), QFileDialog::AcceptSave);
     if(szFile.isEmpty())
        return; 
     if(m_Image.isNull())

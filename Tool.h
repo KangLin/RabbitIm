@@ -18,6 +18,7 @@ extern "C" {
 #include <string>
 #include <QWidget>
 #include <QVideoFrame>
+#include <QFileDialog>
 
 #ifdef RABBITIM_USE_QXMPP
     #include "qxmpp/QXmppRtpChannel.h"
@@ -209,7 +210,7 @@ public:
     
     static QString FileDialog(QWidget* pParent, const QString &szDir,
                               const QString &szFilter,
-                              const QString &szTilte = tr("Save"));
+                              const QString &szTilte = tr("Open file"), const QFileDialog::AcceptMode mode = QFileDialog::AcceptOpen);
     static std::string DoubleToString(double d);
     /**
      * 得到文件的校验和  

@@ -41,12 +41,24 @@ private slots:
     
     void on_pushButton_clicked();
     
+    void on_tabWidget_currentChanged(int index);
+    
+    void on_pbGenerate_clicked();
+    
+    void on_pbSaveAs_clicked();
+    
+    void on_Cancel_2_clicked();
+    
+    void on_pbBrowse_clicked();
+    
 private:
     Ui::CDlgScanQRcode *ui;
     CCamera* m_pCamera;
     CFrmVideo m_Play;
     QCameraImageCapture* m_pCameraImageCapture;
     QTimer m_Timer;
+    QImage m_Generate;
+    QImage m_Logon;
 };
 
 #endif // DLGSCANQRCODE_H

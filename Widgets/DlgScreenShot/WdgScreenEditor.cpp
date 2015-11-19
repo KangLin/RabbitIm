@@ -306,7 +306,7 @@ void CWdgScreenEditor::saveAs()
     QString szDir = CGlobalDir::Instance()->GetDirReceiveFile()
             + QDir::separator() + "grabbedImage_"
             + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".png";
-    szFile = CTool::FileDialog(this, szDir, szFilter, tr("Save"));
+    szFile = CTool::FileDialog(this, szDir, szFilter, tr("Save"), QFileDialog::AcceptSave);
     if(!szFile.isEmpty()){
         QFile f(szFile);
         if(f.exists())

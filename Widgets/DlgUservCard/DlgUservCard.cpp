@@ -181,7 +181,7 @@ void CDlgUservCard::on_pbSaveAs_clicked()
 {
     QString szFile, szFilter("*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM");
     szFile = CTool::FileDialog(this, "rabbitim_" + m_szJid + ".PNG",
-                               szFilter, tr("Save as"));
+                               szFilter, tr("Save as"), QFileDialog::AcceptSave);
     if(szFile.isEmpty())
        return; 
 

@@ -663,10 +663,11 @@ int CTool::SetWindowsGeometry(QWidget *pWindow)
 }
 
 QString CTool::FileDialog(QWidget *pParent, const QString &szDir,
-                          const QString &szFilter, const QString &szTilte)
+                          const QString &szFilter, const QString &szTilte, const QFileDialog::AcceptMode mode)
 {
     QString szFile;
     QFileDialog dlg(pParent, szTilte, szDir, szFilter);
+    dlg.setAcceptMode(mode);
 #ifdef MOBILE
     dlg.setOption(QFileDialog::DontUseNativeDialog, true);
 #endif
