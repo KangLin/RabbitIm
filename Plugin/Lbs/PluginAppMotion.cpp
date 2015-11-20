@@ -2,9 +2,7 @@
 #include <QMessageBox>
 #include "Plugin/PluginAppFactory.h"
 
-static CPluginAppFactory<CPluginAppMotion> g_PluginAppMotioin;
-
-CPluginAppMotion::CPluginAppMotion(QObject *parent) : CPluginApp(parent)
+CPluginAppMotion::CPluginAppMotion(QObject *parent) : QObject(parent), CPluginApp()
 {
 }
 

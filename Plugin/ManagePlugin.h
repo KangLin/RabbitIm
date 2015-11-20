@@ -6,6 +6,7 @@
 #include <QSharedPointer>
 #include <map>
 #include <list>
+#include <QDir>
 
 /**
   * @defgroup RABBITIM_INTERFACE_MANAGEPLUGIN 插件管理类模块  
@@ -40,6 +41,7 @@ public:
 
     /**
      * @brief 注册插件,插件必须在用户登录前进行注册,否则不会调用插件的 Init() 进行初始化    
+     * @param szId:插件ID  
      * @param plugin：要注册的插件  
      * @return 成功返回0，否则返回非0  
      * @see CPluginApp
@@ -48,14 +50,14 @@ public:
                        QSharedPointer<CPluginApp> plugin);
     /**
      * @brief 移除插件  
-     * @param plugin：要移除的插件  
+     * @param szId:插件ID  
      * @return 成功返回0，否则返回非0   
      * @see CPluginApp
      */
     int UnregisterPlugin(const QString &szId);
     /**
      * @brief 根据插件名称得到插件  
-     * @param 插件名称  
+     * @param szId:插件ID  
      * @return 
      */
     QSharedPointer<CPluginApp> GetPlugin(const QString &szId);
@@ -99,18 +101,29 @@ private:
 
 public:
 signals:
-    //增加插件  
+    /**增加插件  
+    * @param szId:插件ID
+    */
     void sigChangedAdd(const QString& szId);
-    //删除插件  
+    /**删除插件  
+     *  @param szId:插件ID
+    */
     void sigChangedRemove(const QString &szId);
-    //增加收藏  
+    /**增加收藏  
+     * @param szId:插件ID
+    */
     void sigAddFavority(const QString& szId);
-    //删除收藏  
+    /**删除收藏  
+    * @param szId:插件ID
+    */
     void sigRemoveFavority(const QString &szId);
 
 private:
     std::map<QString, QSharedPointer<CPluginApp> > m_Plugins;
     std::list<QString> m_FavorityPlugins;  //收藏应用  
+    
+    //查找插件  
+    int FindPlugins(QDir dir);
 };
 
 #endif // CMANAGEPLUGIN_H

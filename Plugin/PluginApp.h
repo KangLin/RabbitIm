@@ -2,23 +2,25 @@
 #define CPLUGINAPP_H
 
 #include <QString>
-#include <QWidget>
-#include <QObject>
 #include <QIcon>
+#include <QtPlugin>
+#include <QSet>
 
 /**
  * @brief 插件接口类  
  * 插件的生命周期:
+ * 注意插件工程.pro文件需要包含：
+    SOURCES += PluginApp.cpp 
+    
  - 初始化：Init
  - 操作：Open、About、Close
  - 清理：Clean
  * @ingroup RABBITIM_INTERFACE_MANAGEPLUGIN RABBITIM_INTERFACE
  */
-class CPluginApp : public QObject
+class CPluginApp
 {
-    Q_OBJECT
 public:
-    explicit CPluginApp(QObject* parent = 0);
+    CPluginApp();
     virtual ~CPluginApp();
 
     //登录初始化  
@@ -44,5 +46,8 @@ public:
     //应用图标  
     virtual QIcon Icon();
 };
+
+#define rabbitim_plugin_application_iid "rabbitim.plugin.application"
+Q_DECLARE_INTERFACE(CPluginApp, rabbitim_plugin_application_iid)
 
 #endif // CPLUGINAPP_H

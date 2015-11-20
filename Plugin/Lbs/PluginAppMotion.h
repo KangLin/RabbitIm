@@ -5,14 +5,20 @@
 #include "FrmLbsMain.h"
 #include <QSet>
 #include <QSharedPointer>
+#include <QObject>
 
 /**
  * @brief 运动插件实现   
  * @ingroup RABBITIM_INTERFACE_MANAGEPLUGIN
  */
-class CPluginAppMotion : public CPluginApp
+class CPluginAppMotion : public QObject, CPluginApp
 {
     Q_OBJECT
+#if QT_VERSION >= 0x050000
+    Q_PLUGIN_METADATA(IID rabbitim_plugin_application_iid FILE "Lbs.json")
+#endif // QT_VERSION >= 0x050000
+    Q_INTERFACES(CPluginApp)
+    
 public:
     explicit CPluginAppMotion(QObject* parent = 0);
     virtual ~CPluginAppMotion();

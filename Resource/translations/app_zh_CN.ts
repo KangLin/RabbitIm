@@ -6,7 +6,7 @@
     <message>
         <location filename="../../android/jni/AndroidNotification.cpp" line="66"/>
         <source>RabbitIm</source>
-        <translation>玉兔即时通信</translation>
+        <translation>玉兔即时通讯</translation>
     </message>
 </context>
 <context>
@@ -107,7 +107,7 @@
     <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="104"/>
         <source>Rabbit Immediate Communicate</source>
-        <translation>玉兔即时通信</translation>
+        <translation>玉兔即时通讯</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="176"/>
@@ -1096,7 +1096,6 @@ Email or MSN:kl222@126.com</source>
     <name>CDlgScanQRcode</name>
     <message>
         <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="14"/>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="153"/>
         <source>Scan QR Code</source>
         <translation>扫描二维码</translation>
     </message>
@@ -1157,38 +1156,6 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="297"/>
         <source>Save As(&amp;S)</source>
         <translation>另存为(&amp;S)</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="18"/>
-        <source>Back</source>
-        <translation>回退</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="34"/>
-        <source>The camera does not exist.</source>
-        <translation>摄像头不存在。</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="54"/>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="192"/>
-        <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
-        <translation>图像文件 (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="55"/>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="193"/>
-        <source>Open File</source>
-        <translation>打开文件</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="156"/>
-        <source>Generate QR Code</source>
-        <translation>生成QR码</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="177"/>
-        <source>Save as</source>
-        <translation>另存为……</translation>
     </message>
 </context>
 <context>
@@ -1442,8 +1409,8 @@ Email or MSN:kl222@126.com</source>
     <name>CFrmAppList</name>
     <message>
         <location filename="../../Widgets/FrmApp/FrmAppList.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
+        <source>Application</source>
+        <translation>应用</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmApp/FrmAppList.ui" line="36"/>
@@ -1482,8 +1449,8 @@ Email or MSN:kl222@126.com</source>
     <name>CFrmFavorites</name>
     <message>
         <location filename="../../Widgets/FrmApp/FrmFavorites.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
+        <source>Favorites</source>
+        <translation>收藏</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmApp/FrmFavorites.ui" line="36"/>
@@ -1687,7 +1654,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Plugin/Lbs/FrmLbsMain.cpp" line="16"/>
         <source>Track</source>
-        <translation>轨迹</translation>
+        <translation>跟踪</translation>
     </message>
 </context>
 <context>
@@ -2016,6 +1983,118 @@ Email or MSN:kl222@126.com</source>
     </message>
 </context>
 <context>
+    <name>CFrmScanQRcode</name>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="18"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="18"/>
+        <source>Back</source>
+        <translation>回退</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="34"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="34"/>
+        <source>The camera does not exist.</source>
+        <translation>摄像头不存在。</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="54"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="192"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="54"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="192"/>
+        <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
+        <translation>图像文件 (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="55"/>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="193"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="55"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="193"/>
+        <source>Open File</source>
+        <translation>打开文件</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="153"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="153"/>
+        <source>Scan QR Code</source>
+        <translation>扫描二维码</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="156"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="156"/>
+        <source>Generate QR Code</source>
+        <translation>生成QR码</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.cpp" line="177"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="177"/>
+        <source>Save as</source>
+        <translation>另存为……</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="14"/>
+        <source>Recognition QR Code</source>
+        <translation>识别 QR 码</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="24"/>
+        <source>Recognition</source>
+        <translation>识别</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="30"/>
+        <source>With a camera at the two-dimensional code, you can scan</source>
+        <translation>用摄像头对准二维码扫描</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="91"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="201"/>
+        <source>Browse(&amp;B)</source>
+        <translation>浏览(&amp;B)</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="102"/>
+        <source>Recognition(&amp;R)</source>
+        <translation>识别(&amp;R)</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="113"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="308"/>
+        <source>Cancel(&amp;C)</source>
+        <translation>取消（&amp;C）</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="134"/>
+        <source>Generate</source>
+        <translation>生成</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="140"/>
+        <source>Enter generated content:</source>
+        <translation>输入生成内容:</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="159"/>
+        <source>Logon image:</source>
+        <translation>标志图像:</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="178"/>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="243"/>
+        <source>TextLabel</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="286"/>
+        <source>Generate(&amp;G)</source>
+        <translation>生成(&amp;G)</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="297"/>
+        <source>Save As(&amp;S)</source>
+        <translation>另存为(&amp;S)</translation>
+    </message>
+</context>
+<context>
     <name>CFrmUserList</name>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="34"/>
@@ -2268,7 +2347,7 @@ Email or MSN:kl222@126.com</source>
         <source>%1
 Distance(km)</source>
         <translation>%1
-距离（千米）</translation>
+距离(公里)</translation>
     </message>
     <message>
         <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="24"/>
@@ -2276,7 +2355,7 @@ Distance(km)</source>
         <source>%1
 Duration</source>
         <translation>%1
-用时</translation>
+间隔</translation>
     </message>
     <message>
         <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="25"/>
@@ -2284,7 +2363,7 @@ Duration</source>
         <source>%1
 Accuracy(m)</source>
         <translation>%1
-精度（米）</translation>
+精度(米)</translation>
     </message>
     <message>
         <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="26"/>
@@ -2292,7 +2371,7 @@ Accuracy(m)</source>
         <source>%1
 Speed(km/h)</source>
         <translation>%1
-速度（千米/小时）</translation>
+速度(公里/小时)</translation>
     </message>
     <message>
         <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="27"/>
@@ -2300,7 +2379,7 @@ Speed(km/h)</source>
         <source>%1
 Real Time Speed(m/s)</source>
         <translation>%1
-实时速度（米/秒）</translation>
+实时速度(米/秒)</translation>
     </message>
     <message>
         <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="195"/>
@@ -2337,8 +2416,8 @@ Real Time Speed(m/s)</source>
     <name>CLbsTrack</name>
     <message>
         <location filename="../../Plugin/Lbs/LbsTrack.ui" line="14"/>
-        <source>CLbsMain</source>
-        <translation></translation>
+        <source>Track</source>
+        <translation>跟踪</translation>
     </message>
     <message>
         <location filename="../../Plugin/Lbs/LbsTrack.ui" line="45"/>
@@ -2416,30 +2495,30 @@ Real Time Speed(m/s)</source>
     </message>
 </context>
 <context>
-    <name>CPluginApp</name>
-    <message>
-        <location filename="../../Plugin/PluginApp.cpp" line="16"/>
-        <source>Application Infomation</source>
-        <translation>应用信息</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/PluginApp.cpp" line="17"/>
-        <source>Application:</source>
-        <translation>应用：</translation>
-    </message>
-</context>
-<context>
     <name>CPluginAppMotion</name>
     <message>
-        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="61"/>
-        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="66"/>
+        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="59"/>
+        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="64"/>
         <source>Motion</source>
         <translation>运动</translation>
     </message>
     <message>
-        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="66"/>
+        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="64"/>
         <source>Lbs</source>
         <translation>定位</translation>
+    </message>
+</context>
+<context>
+    <name>CPluginQRCode</name>
+    <message>
+        <location filename="../../Plugin/QRCode/CPluginQRCode.cpp" line="39"/>
+        <source>QRcode</source>
+        <translation>二维码</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/QRCode/CPluginQRCode.cpp" line="44"/>
+        <source>Tools</source>
+        <translation>工具</translation>
     </message>
 </context>
 <context>
@@ -2478,7 +2557,7 @@ Real Time Speed(m/s)</source>
     <message>
         <location filename="../../UserInfo/UserInfo.cpp" line="149"/>
         <source>[To]</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../UserInfo/UserInfo.cpp" line="151"/>
@@ -2733,6 +2812,19 @@ Real Time Speed(m/s)</source>
         <location filename="../../MainWindow.cpp" line="912"/>
         <source>Open File</source>
         <translation>打开文件</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../../Plugin/PluginApp.cpp" line="16"/>
+        <source>Application Infomation</source>
+        <translation>应用信息</translation>
+    </message>
+    <message>
+        <location filename="../../Plugin/PluginApp.cpp" line="17"/>
+        <source>Application:</source>
+        <translation>应用：</translation>
     </message>
 </context>
 </TS>

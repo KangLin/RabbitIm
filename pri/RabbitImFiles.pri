@@ -1,4 +1,4 @@
-SOURCES += main.cpp\
+SOURCES += \
     MainWindow.cpp \
     Tool.cpp \
     Client/Client.cpp \
@@ -73,7 +73,6 @@ SOURCES += main.cpp\
     Global/GlobalDir.cpp \
     Widgets/DlgScanQRcode/DlgScanQRcode.cpp \
     Widgets/DlgScanQRcode/QRCode.cpp
-    
 
 HEADERS += Version.h \
     MainWindow.h \

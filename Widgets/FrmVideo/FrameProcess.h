@@ -3,9 +3,11 @@
 
 #include <QObject>
 #include <QVideoFrame>
-#include "qxmpp/QXmppRtpChannel.h"
 #include "../../Tool.h"
 #include "Media/Camera/Camera.h"
+#ifdef RABBITIM_USE_QXMPP
+    #include "qxmpp/QXmppRtpChannel.h"
+#endif
 
 class CCameraQt;
 class CFrameProcess : public QObject
@@ -32,8 +34,10 @@ public slots:
 signals:
     //摄像头捕获帧被处理完后的信号  
     void sigCaptureFrame(const QVideoFrame &frame);
+#ifdef RABBITIM_USE_QXMPP
     //转换视频帧格式后触发的信号，由函数slotFrameConvertedToYUYV转换完成后触发,用于视频压缩发送  
     void sigFrameConvertedToYUYVFrame(const QXmppVideoFrame &frame);
+#endif
     //转换到RGB32格式的帧,由函数slotFrameConvertedToRGB32转换完成后触发  
     void sigFrameConvertedToRGB32Frame(const QVideoFrame &frame);
 

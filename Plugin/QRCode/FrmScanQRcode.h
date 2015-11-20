@@ -1,17 +1,17 @@
 #ifndef DLGSCANQRCODE_H
 #define DLGSCANQRCODE_H
 
-#include <QDialog>
+#include <QFrame>
 #include <QTimer>
 #include <QCameraImageCapture>
 #include "Media/Camera/CameraFactory.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
 
 namespace Ui {
-class CDlgScanQRcode;
+class CFrmScanQRcode;
 }
 
-class CFrmScanQRcode : public QDialog, CCamera::CHanderFrame
+class CFrmScanQRcode : public QFrame, CCamera::CHanderFrame
 {
     Q_OBJECT
     
@@ -52,7 +52,7 @@ private slots:
     void on_pbBrowse_clicked();
     
 private:
-    Ui::CDlgScanQRcode *ui;
+    Ui::CFrmScanQRcode *ui;
     CCamera* m_pCamera;
     CFrmVideo m_Play;
     QCameraImageCapture* m_pCameraImageCapture;

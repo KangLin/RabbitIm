@@ -1,5 +1,5 @@
-#include "DlgScanQRcode.h"
-#include "ui_DlgScanQRcode.h"
+#include "FrmScanQRcode.h"
+#include "ui_FrmScanQRcode.h"
 #include "Global/Global.h"
 #include "QRCode.h"
 #include <QPainter>
@@ -7,10 +7,10 @@
 #include <QStandardPaths>
 
 CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
-    QDialog(parent),
+    QFrame(parent),
     m_Play(this),
     m_pCamera(NULL),
-    ui(new Ui::CDlgScanQRcode)
+    ui(new Ui::CFrmScanQRcode)
 {
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
@@ -62,7 +62,7 @@ void CFrmScanQRcode::on_pushBrowse_clicked()
             this->accept();//*/
         if(ProcessQRFile(szFile) == 0)
         {
-            this->accept();
+            this->close();
             return;
         }
     }
@@ -71,7 +71,7 @@ void CFrmScanQRcode::on_pushBrowse_clicked()
 
 void CFrmScanQRcode::on_Cancel_clicked()
 {
-    this->reject();
+    this->close();
 }
 
 int CFrmScanQRcode::ProcessQRFile(QString szFile)
@@ -103,7 +103,7 @@ int CFrmScanQRcode::OnCapture(const std::string szFile)
     int nRet = ProcessQRFile(QString(szFile.c_str()));
     if(nRet <= 0)
     {
-        this->reject();
+        this->close();
     } else {
         Start();
     }
@@ -184,7 +184,7 @@ void CFrmScanQRcode::on_pbSaveAs_clicked()
 
 void CFrmScanQRcode::on_Cancel_2_clicked()
 {
-    this->accept();
+    this->close();
 }
 
 void CFrmScanQRcode::on_pbBrowse_clicked()

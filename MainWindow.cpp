@@ -848,7 +848,7 @@ void MainWindow::on_actionOptions_O_triggered()
 
 void MainWindow::on_actionScan_qrencode_S_triggered()
 {
-    CDlgScanQRcode dlg(this);
+    CFrmScanQRcode dlg(this);
     dlg.exec();
 }
 

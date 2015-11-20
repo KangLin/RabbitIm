@@ -9,11 +9,11 @@
 # 或者启动 msys2 环境:
 #        c:\msys32\ming32_shell.bat
 #   注意，msys中不要装link工具，否则会导致出错。如果有link工具，暂时把它命名成其它名称。  
-#   然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibary/build_script`。再运行你想运行的编译脚本。例如： `./build.sh` 
+#   然后再进入脚本目录：`cd ${RabbitImRoot}/ThirdLibrary/build_script`。再运行你想运行的编译脚本。例如： `./build.sh` 
 
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
-#QT_ROOT=/c/Qt/Qt5.5.1_msvc/5.5/msvc2013 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/windows_msvc/qt
+#QT_ROOT=/c/Qt/Qt5.5.1_msvc/5.5/msvc2013 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_msvc/qt
 #RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
 JOM=make #设置 QT make 工具 JOM
 MAKE="nmake"
@@ -26,7 +26,7 @@ RABBITIM_CLEAN=TRUE #编译前清理
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
 if [ -n "${RabbitImRoot}" ]; then
-    RABBITIM_BUILD_PREFIX=${RabbitImRoot}/ThirdLibary/windows_msvc
+    RABBITIM_BUILD_PREFIX=${RabbitImRoot}/ThirdLibrary/windows_msvc
 else
     RABBITIM_BUILD_PREFIX=`pwd`/../windows_msvc    #修改这里为安装前缀 
 fi

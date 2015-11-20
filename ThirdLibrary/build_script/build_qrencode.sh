@@ -88,9 +88,12 @@ echo ""
 
 echo "configure ..."
 MAKE=make
-#只能用静态库  
-CONFIG_PARA="--enable-static --disable-shared"
 
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    CONFIG_PARA="--enable-static --disable-shared"
+else
+    CONFIG_PARA="--disable-static --enable-shared"
+fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
         export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 

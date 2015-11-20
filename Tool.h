@@ -97,7 +97,7 @@ public:
           /*[in]*/  int nOutHeight,                         /** 转换后的帧的高度 */  
           /*[in]*/  VideoFormat format = VIDEO_FORMAT_RGB32);/** 转换后的帧的格式 */  
 
- #ifdef RABBITIM_USE_QXMPP
+#ifdef RABBITIM_USE_QXMPP
     static int ConvertFormat(
             /*[in]*/const QXmppVideoFrame &inFrame, /** 要转换的帧 */
             /*[out]*/AVPicture &outFrame,           /** 转换后的帧 */

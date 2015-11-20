@@ -1,11 +1,54 @@
 #include "ManagePlugin.h"
 #include "Global/Global.h"
-#include "Plugin/Lbs/PluginAppMotion.h"
-#include <QDir>
+#include <QPluginLoader>
+#include <QApplication>
 
 CManagePlugin::CManagePlugin(QObject *parent)
     : CManage(parent)
 {
+    foreach (QObject *plugin, QPluginLoader::staticInstances())
+    {
+        QSharedPointer<CPluginApp> pluginApp(qobject_cast<CPluginApp *>(plugin));
+        this->RegisterPlugin(pluginApp->ID(), pluginApp);
+    }
+
+    QDir pluginsDir = QDir(qApp->applicationDirPath());
+
+#if defined(Q_OS_WIN)
+    if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
+        pluginsDir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (pluginsDir.dirName() == "MacOS") {
+        pluginsDir.cdUp();
+        pluginsDir.cdUp();
+        pluginsDir.cdUp();
+    }
+#endif
+    if(pluginsDir.cd("plugins"))
+        FindPlugins(pluginsDir);
+}
+
+int CManagePlugin::FindPlugins(QDir dir) 
+{
+    QString fileName;
+    foreach (fileName, dir.entryList(QDir::Files)) {
+        QString szPlugins = dir.absoluteFilePath(fileName);
+        QPluginLoader loader(szPlugins);
+        QObject *plugin = loader.instance();
+        if (plugin) {
+            QSharedPointer<CPluginApp> pluginApp(qobject_cast<CPluginApp *>(plugin));
+            if(!pluginApp.isNull())
+                this->RegisterPlugin(pluginApp->ID(), pluginApp);
+        }
+    }
+    
+    foreach (fileName, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+        QDir pluginDir = dir;
+        if(pluginDir.cd(fileName))
+            FindPlugins(pluginDir);
+    }
+
+    return 0;
 }
 
 int CManagePlugin::Init(const QString &szId)
@@ -50,8 +93,11 @@ int CManagePlugin::RegisterPlugin(const QString &szId,
 
 int CManagePlugin::UnregisterPlugin(const QString &szId)
 {
-    if(m_Plugins.find(szId) == m_Plugins.end())
+    std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
+    it = m_Plugins.find(szId);
+    if(m_Plugins.end() == it)
         return 0;
+
     m_Plugins.erase(szId);
     emit sigChangedRemove(szId);
     return 0;

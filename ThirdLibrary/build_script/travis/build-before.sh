@@ -6,8 +6,8 @@ set -e
 function function_install_yasm()
 {
 	#安装 yasm
-	mkdir -p ${SOURCE_DIR}/ThirdLibary/src
-    cd ${SOURCE_DIR}/ThirdLibary/src
+	mkdir -p ${SOURCE_DIR}/ThirdLibrary/src
+    cd ${SOURCE_DIR}/ThirdLibrary/src
 	wget http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz 
 	tar xzf yasm-1.3.0.tar.gz 
 	cd yasm-1.3.0/
@@ -19,23 +19,23 @@ function function_common()
 {
     #下载最新cmake程序
     if [ "cmake" = "${QMAKE}" ]; then
-        cd ${SOURCE_DIR}/ThirdLibary
+        cd ${SOURCE_DIR}/ThirdLibrary
         wget --no-check-certificate http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
         tar xf cmake-3.1.0-Linux-x86_64.tar.gz
         mv cmake-3.1.0-Linux-x86_64 cmake
         cd ${SOURCE_DIR}
     fi
 
-    if [ "true" = "${RABBITIM_BUILD_THIRDLIBARY}" ]; then
+    if [ "true" = "${RABBITIM_BUILD_THIRDLIBRARY}" ]; then
 		#编译第三方库
-		cd ${SOURCE_DIR}/ThirdLibary/build_script
-		./build.sh ${BUILD_TARGERT} ${SOURCE_DIR}/ThirdLibary/src
+		cd ${SOURCE_DIR}/ThirdLibrary/build_script
+		./build.sh ${BUILD_TARGERT} ${SOURCE_DIR}/ThirdLibrary/src
 	fi
 }
 
 function function_android()
 {
-    cd ${SOURCE_DIR}/ThirdLibary
+    cd ${SOURCE_DIR}/ThirdLibrary
 
     #下载android ndk
     wget http://dl.google.com/android/ndk/android-ndk-r9c-linux-x86_64.tar.bz2
@@ -47,15 +47,15 @@ function function_android()
     tar xzf android-sdk.tar.gz 
     mv sdk android-sdk
  
-    export ANDROID_NDK_ROOT=${SOURCE_DIR}/ThirdLibary/android-ndk
+    export ANDROID_NDK_ROOT=${SOURCE_DIR}/ThirdLibrary/android-ndk
     export ANDROID_NDK=$ANDROID_NDK_ROOT
-    export ANDROID_SDK_ROOT=${SOURCE_DIR}/ThirdLibary/android-sdk
+    export ANDROID_SDK_ROOT=${SOURCE_DIR}/ThirdLibrary/android-sdk
     export ANDROID_SDK=$ANDROID_SDK_ROOT
 
 	function_common
-	cd ${SOURCE_DIR}/ThirdLibary
+	cd ${SOURCE_DIR}/ThirdLibrary
 
-	if [ -z "$RABBITIM_BUILD_THIRDLIBARY" ]; then
+	if [ -z "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
 		#下载第三方依赖库
 		wget http://182.254.185.29/download/travis/android.tar.gz
 		tar xzf android.tar.gz 
@@ -63,7 +63,7 @@ function function_android()
         ./change_prefix.sh
     fi
 
-    cd ${SOURCE_DIR}/ThirdLibary
+    cd ${SOURCE_DIR}/ThirdLibrary
 }
 
 function function_unix()
@@ -73,9 +73,9 @@ function function_unix()
 
     function_common
 
-    cd ${SOURCE_DIR}/ThirdLibary
+    cd ${SOURCE_DIR}/ThirdLibrary
 
-    if [ -z "$RABBITIM_BUILD_THIRDLIBARY" ]; then
+    if [ -z "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
         #下载第三方依赖库
         wget http://182.254.185.29/download/travis/unix.tar.gz
         tar xzf unix.tar.gz
@@ -83,7 +83,7 @@ function function_unix()
         cd unix
         ./change_prefix.sh
     fi
-    cd ${SOURCE_DIR}/ThirdLibary
+    cd ${SOURCE_DIR}/ThirdLibrary
 
 }
 
@@ -92,8 +92,8 @@ function function_mingw()
     #汇编工具yasm
     function_install_yasm
 
-    cd ${SOURCE_DIR}/ThirdLibary
-    if [ -z "$RABBITIM_BUILD_THIRDLIBARY" ]; then
+    cd ${SOURCE_DIR}/ThirdLibrary
+    if [ -z "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
         echo "Download third library"
         #下载第三方依赖库
         wget http://182.254.185.29/download/travis/windows_mingw.tar.gz
@@ -105,7 +105,7 @@ function function_mingw()
     fi
 
     function_common
-    cd ${SOURCE_DIR}/ThirdLibary
+    cd ${SOURCE_DIR}/ThirdLibrary
 }
 
 SOURCE_DIR="`pwd`"

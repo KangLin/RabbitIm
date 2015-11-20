@@ -21,7 +21,7 @@ CFrmAppList::CFrmAppList(QWidget *parent) :
     }*/
     m_AppList.setModel(m_pModel);
     InitMenu();
-    LoadGroupNodeStateFromStorage();
+    //LoadGroupNodeStateFromStorage();
     InitList();
     m_AppList.show();
     
@@ -40,7 +40,7 @@ CFrmAppList::CFrmAppList(QWidget *parent) :
 
 CFrmAppList::~CFrmAppList()
 {
-    SaveGroupNodeStateToStorage();
+    //SaveGroupNodeStateToStorage();
     delete ui;
 }
 

@@ -19,7 +19,7 @@
 export ANDROID_NDK_ABI_NAME=armeabi-v7a 
 
 #ANT=/usr/bin/ant         #ant 程序  
-#QT_ROOT=/home/l/Qt5.5.0/5.5/android_armv7        #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/android/qt  
+#QT_ROOT=/home/l/Qt5.5.0/5.5/android_armv7        #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/android/qt  
 JOM=make #/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom   #设置 QT make 工具 JOM  
 RABBITIM_CLEAN=TRUE #编译前清理  
 #RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库  
@@ -37,7 +37,7 @@ fi
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot  
 
 if [ -n "${RabbitImRoot}" ]; then
-    RABBITIM_BUILD_PREFIX=${RabbitImRoot}/ThirdLibary/android
+    RABBITIM_BUILD_PREFIX=${RabbitImRoot}/ThirdLibrary/android
 else
     RABBITIM_BUILD_PREFIX=`pwd`/../android    #修改这里为安装前缀  
 fi

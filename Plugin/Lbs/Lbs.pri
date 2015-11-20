@@ -1,5 +1,7 @@
 QT += positioning quickwidgets 
 
+include(../config.pri)
+
 SOURCES += \
     $$PWD/LbsTrack.cpp \
     $$PWD/Nmea.cpp \

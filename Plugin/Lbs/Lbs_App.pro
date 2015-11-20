@@ -17,13 +17,7 @@ CONFIG += c++0x
 }
 
 TARGET = lbs
-TEMPLATE = lib
-
-DESTDIR = $$OUT_PWD/../../plugins/App
-
-CONFIG += mobility
-MOBILITY = 
+TEMPLATE = app
 
 include(Lbs.pri)
-
-DISTFILES += Lbs.json
+SOURCES += main.cpp 

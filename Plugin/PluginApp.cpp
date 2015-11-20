@@ -2,7 +2,7 @@
 #include <QMessageBox>
 #include "Global/Log.h"
 
-CPluginApp::CPluginApp(QObject *parent) : QObject(parent)
+CPluginApp::CPluginApp()
 {  
 }
 
@@ -13,8 +13,8 @@ CPluginApp::~CPluginApp()
 
 int CPluginApp::About()
 {
-    QMessageBox::information(NULL, tr("Application Infomation"),
-                             tr("Application:") + Name());
+    QMessageBox::information(NULL, QObject::tr("Application Infomation"),
+                             QObject::tr("Application:") + Name());
     return 0;
 }
 

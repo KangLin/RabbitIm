@@ -100,7 +100,7 @@ if [ "$3" = "qmake" ]; then
     if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
         PARA="$PARA RABBITIM_USE_STATIC=1"
     fi
-    $QMAKE .. $PARA "CONFIG+=release" \ PREFIX=`pwd`/install \
+    $QMAKE ../RabbitIm.pro  $PARA "CONFIG+=release" \ PREFIX=`pwd`/install \
            INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include \
            LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib \
            QXMPP_USE_VPX=1 \

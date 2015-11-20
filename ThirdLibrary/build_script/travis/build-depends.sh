@@ -37,7 +37,7 @@ function function_unix()
     sudo apt-get install libasound2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev -y -qq
     
     #安装第三方库
-    if [ "true" != "$RABBITIM_BUILD_THIRDLIBARY" ]; then
+    if [ "true" != "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
 		sudo apt-get install -y libspeex-dev libtheora-dev libvpx-dev -qq
 		sudo apt-get install -y libx264-dev -qq
 		sudo apt-get install libspeex-dev libspeexdsp-dev -qq

@@ -1,6 +1,6 @@
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
-#QT_ROOT=/c/Qt/Qt5.5.1/5.5/mingw492_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
+#QT_ROOT=/c/Qt/Qt5.5.1/5.5/mingw492_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_mingw/qt
 #RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
 JOM=nmake #设置 QT make 工具 JOM
 RABBITIM_CLEAN=TRUE #编译前清理
@@ -14,7 +14,7 @@ RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你�
 #   RABBITIM_BUILD_CROSS_SYSROOT  #交叉编译平台的 sysroot
 
 if [ -n "${RabbitImRoot}" ]; then
-    RABBITIM_BUILD_PREFIX=${RabbitImRoot}/ThirdLibary/windows_mingw
+    RABBITIM_BUILD_PREFIX=${RabbitImRoot}/ThirdLibrary/windows_mingw
 else
     RABBITIM_BUILD_PREFIX=`pwd`/../windows_mingw    #修改这里为安装前缀
 fi
