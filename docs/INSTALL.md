@@ -285,9 +285,9 @@
 
 ### 第三方依赖库目录：
 
-在源码根目录下有第三方库目录：ThirdLibary 。其目录结构如下：
+在源码根目录下有第三方库目录：ThirdLibrary 。其目录结构如下：
 
-    ThirdLibary
+    ThirdLibrary
         ｜
         ｜-----patch               #补丁包目录
         ｜-----build_script        #第三方库编译脚本目录
@@ -326,9 +326,9 @@
 如果目录下有change_prefix.sh，则执行change_prefix.sh就可以。
 如果没有，则需要按下面步骤执行：
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
-    cp ${RabbitImRoot}/ThirdLibary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibary/${Platform}/change_prefix.sh
-    cd ${RabbitImRoot}/ThirdLibary/${Platform}
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
+    cp ${RabbitImRoot}/ThirdLibrary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibrary/${Platform}/change_prefix.sh
+    cd ${RabbitImRoot}/ThirdLibrary/${Platform}
     ./change_prefix.sh ${old_prefix} ${new_prefix}  #old_prefix是原来的前缀，你可打开一个配置文件查看；
 
 如果第三方库是你自己编译的，那就不需要这一步。
@@ -347,15 +347,15 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 
 脚本只编译第三方依赖库的发行版本。如果你需要调试版本，请手工编译。
 
-第三方库编译脚本位于：${RabbitImRoot}/ThirdLibary/build_script 目录下。 
+第三方库编译脚本位于：${RabbitImRoot}/ThirdLibrary/build_script 目录下。 
 
 **注意**:
-执行脚本时，请先进入 ${RabbitImRoot}/ThirdLibary/build_script 目录。
+执行脚本时，请先进入 ${RabbitImRoot}/ThirdLibrary/build_script 目录。
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build.sh (unix|android|windows_msvc|windows_mingw) [source_code_directory]
 
-如果省略源码目录，则脚本自动下载源码到 cd ${RabbitImRoot}/ThirdLibary/src 目录下。
+如果省略源码目录，则脚本自动下载源码到 cd ${RabbitImRoot}/ThirdLibrary/src 目录下。
 
 各目标编译详细说明：
 
@@ -408,7 +408,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
   * 打开“文件->打开文件或项目”。
   * 在弹出的对话框中选中qxmpp.pro，打开qxmpp工程。
   * 点左边工具栏中的“项目”，选择qxmpp标签，在相应平台“构建套件”中修改“构建步骤”参数，
-       在“构建步骤”中的“额外参数”中，加入 “PREFIX=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}”，
+       在“构建步骤”中的“额外参数”中，加入 “PREFIX=$(RabbitImRoot)/ThirdLibrary/${RABBITIM_BUILD_TARGERT}”，
        其中$(RabbitImRoot)是本项目源码的根目录，在下面的“构建环境”变量中添加这个环境变量。
        当然，也可以直接在“额外参数”中把$(RabbitImRoot)替换成本项目源码根目录路径。
        ${RABBITIM_BUILD_TARGERT}为相应的平台，可以为windows、android、unix、ios。
@@ -417,8 +417,8 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
   * 设置编解码器：现在QXMPP支持vpx、THEORA视频编解码器；G711u、SPEEX音频编解码器。音频默认为G711u。
        视频无默认编解码器，所以如果需要视频，必须指定第三方视频编解码器。
        以libvpx为例：在额外参数中填入QXMPP_USE_VPX=1
-       并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/include
-       LIBS+=-L$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/lib
+       并且添加libvpx库位置:INCLUDEPATH+=$(RabbitImRoot)/ThirdLibrary/${RABBITIM_BUILD_TARGERT}/include
+       LIBS+=-L$(RabbitImRoot)/ThirdLibrary/${RABBITIM_BUILD_TARGERT}/lib
   * 选择windows或linux平台，在相应平台“构建套件”中的“运行”标签，
        部署->详情->部署->添加部署步骤->选择make命令->Make参数中加上"install"。
        其它平台可能会有平台自己的部署步骤，所以不能在部署这里安装。可以用下面方法：
@@ -429,19 +429,19 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
        在部署时会出现":-1: error: [install_htmldocs] Error 4 (ignored)"错误。
        这是由于没有安装doxygen，所以不能产生帮助文档。可以忽略。
   * 当前版本有BUG，需要打下面补丁，或者直接下我改过的版本:`git clone git@github.com:KangLin/qxmpp.git`
-       $(RabbitImRoot)/ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch  
+       $(RabbitImRoot)/ThirdLibrary/patch/0001-add-handle-non-sasl-authentication-error-response.patch  
     + 建立分支 patch:`git branch patch`
     + 切换到分支 patch:`git checkout patch`
-    + 应用补丁:`git am $(RabbitImRoot)/ThirdLibary/patch/0001-add-handle-non-sasl-authentication-error-response.patch `
+    + 应用补丁:`git am $(RabbitImRoot)/ThirdLibrary/patch/0001-add-handle-non-sasl-authentication-error-response.patch `
     + 切换到主分支：`git checkout master`
     + 把 patch 分支合并到master 分支中 :`git merge patch`
 2. 用命令行编译：  
    * 设置 qmake 路径到环境变量 PATH 中：`export PATH=$PATH:$QMAKE_PATH`  
    * 建立编译目录：`mkdir build; cd build`
    * 生成工程文：`qmake -o Makefile QXMPP_LIBRARY_TYPE=staticlib 
-                 PREFIX=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT} 
-                 INCLUDEPATH+=$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/include 
-                 LIBS+=-L$(RabbitImRoot)/ThirdLibary/${RABBITIM_BUILD_TARGERT}/lib 
+                 PREFIX=$(RabbitImRoot)/ThirdLibrary/${RABBITIM_BUILD_TARGERT} 
+                 INCLUDEPATH+=$(RabbitImRoot)/ThirdLibrary/${RABBITIM_BUILD_TARGERT}/include 
+                 LIBS+=-L$(RabbitImRoot)/ThirdLibrary/${RABBITIM_BUILD_TARGERT}/lib 
                  QXMPP_USE_VPX=1 
                  ${RabbitImRoot}/Rabbitim.pro`
    * 编译：`$(MAKE)`  
@@ -458,7 +458,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 --------
 
 如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。  
-用脚本  $(RabbitImRoot)/ThirdLibary/build_rabbitim.sh 进行编译：
+用脚本  $(RabbitImRoot)/ThirdLibrary/build_rabbitim.sh 进行编译：
 
   . build_rabbitim.sh *平台参数* *源码根目录* *[工程工具]*
 
@@ -477,7 +477,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 #### 1. 用Qt Creator 编译 
 ##### 1.1. 用 Qt Creator 编译 Rabbitim.pro
 用 Qt Creator 打开本工程根目录下的 Rabbitim.pro 文件。
-  * 下载(http://pan.baidu.com/s/1mgwx8y0 )或自己编译第三方库，并放到 $(RabbitImRoot)/ThirdLibary 目录下。
+  * 下载(http://pan.baidu.com/s/1mgwx8y0 )或自己编译第三方库，并放到 $(RabbitImRoot)/ThirdLibrary 目录下。
   * 打开菜单：文件->打开文件，选中 Rabbitim.pro 文件
   * 设置可选参数
     + QXMPP_USE_VPX=1              #使用 vpx
@@ -490,13 +490,13 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     + RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档 
   * 项目->构建和运行->构建->构建环境，设置环境变更  
     PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config  
-    PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}  #可选
+    PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}  #可选
     如果是交叉编译，还需要设置：
     export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH} #可选
     export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_PATH} #可选
   * 构建->构建项目"RabbitIm"。编译本项目。
   * 运行：如果是在mingw32， 项目->构建和运行->运行->运行环境中设置
-    PATH=${MSYS32_ROOT}/mingw32/bin;${RabbitImRoot}/ThirdLibary/${PLATFORM}/bin
+    PATH=${MSYS32_ROOT}/mingw32/bin;${RabbitImRoot}/ThirdLibrary/${PLATFORM}/bin
 
 ##### 1.2. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
 

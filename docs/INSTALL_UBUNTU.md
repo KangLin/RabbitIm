@@ -126,16 +126,16 @@
 
 #### 1.8. 下载预编译第三方库:
 
-从　http://pan.baidu.com/s/1hqAINHy　下载linux操作系统的预编译的第三方库，并解压到　${RabbitImRoot}/ThirdLibary　下。
+从　http://pan.baidu.com/s/1hqAINHy　下载linux操作系统的预编译的第三方库，并解压到　${RabbitImRoot}/ThirdLibrary　下。
 
-    cd ${RabbitImRoot}/ThirdLibary
-    7z x ThirdLibary_linux.7z 
+    cd ${RabbitImRoot}/ThirdLibrary
+    7z x ThirdLibrary_linux.7z 
 
 修改前缀
 
-    cd ${RabbitImRoot}/ThirdLibary/unix
-    cp ${RabbitImRoot}/ThirdLibary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibary/unix/change_prefix.sh
-    cd ${RabbitImRoot}/ThirdLibary/unix
+    cd ${RabbitImRoot}/ThirdLibrary/unix
+    cp ${RabbitImRoot}/ThirdLibrary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibrary/unix/change_prefix.sh
+    cd ${RabbitImRoot}/ThirdLibrary/unix
     ./change_prefix ${old_prefix} ${new_prefix}  #old_prefix是原来的前缀，你可打开一个配置文件查看；
                                                  #new_prefix可以省略，省略时用当前目录
 
@@ -151,7 +151,7 @@
 
 环境变量说明： 
 
-1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/unix/qt
+1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibrary/unix/qt
 2. RABBITIM_MAKE_JOB_PARA="-j2"      #make 同时工作进程参数,建议设置为你机器CUP个数
 3. RABBITIM_BUILD_STATIC="static"    #设置编译静态库，注释掉，则为编译动态库
 4. JOM=make                          #设置 QT make 工具 JOM
@@ -160,12 +160,12 @@
 
 编译所有依赖的第三方库：
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build.sh unix [source_code_directory]
 
 或者只编译其中一个库，例如：libvpx
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_libvpx.sh unix [source_code_directory]
 
 #### 2.1. qt 编译：
@@ -194,19 +194,19 @@
 
 * 编译
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_qt.sh unix [source_code_directory]
 
 #### 2.2. qxmpp:
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_qxmpp.sh unix [source_code_directory]
 
 ## 本项目录编译
 1. 命令行编译：
 
     ```sh
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     vim build_envsetup_unix.sh           #设置编译时需要的变量(可选)
     ./build_rabbitim.sh unix [source_code_directory] [qmake]
     ```
@@ -217,5 +217,5 @@
 设置 pkg-config
         
     ```sh
-    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}
     ```

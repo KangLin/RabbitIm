@@ -26,7 +26,7 @@
 5. export JAVA_HOME=                     #jdk根目录 
 6. export ANT_ROOT=                      #ant工具的目录
 7. ANT=/usr/bin/ant                      #ant 程序
-8. QT_ROOT=                              #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/android/qt
+8. QT_ROOT=                              #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibrary/android/qt
 9. RABBITIM_MAKE_JOB_PARA="-j2"          #make 同时工作进程参数,建议设置为你机器CUP个数
 10. RABBITIM_BUILD_STATIC="static"       #设置编译静态库，注释掉，则为编译动态库
 11. JOM=make                             #设置 QT make 工具 JOM
@@ -39,28 +39,28 @@
 为了避免这个问题。你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。  
 再运行:
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build.sh android [source_code_directory] #进行第三方依赖库编译
 
 或者只编译某个库，例如：ffmpeg库
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_ffmpeg.sh android [source_code_directory] #进行第三方依赖库编译
 
 
 预编译第三方库：
 
 从　http://pan.baidu.com/s/1mgwx8y0，下载你主机操作系统相同的预编译的第三方依赖库。
-并解压到　${RabbitImRoot}/ThirdLibary　下。例如你主机操作系统为ubuntu系统。
+并解压到　${RabbitImRoot}/ThirdLibrary　下。例如你主机操作系统为ubuntu系统。
 
-    cd ${RabbitImRoot}/ThirdLibary
-    7z x ThirdLibary_linux.7z 
+    cd ${RabbitImRoot}/ThirdLibrary
+    7z x ThirdLibrary_linux.7z 
 
 修改前缀
     
-    cd ${RabbitImRoot}/ThirdLibary/unix
-    cp ${RabbitImRoot}/ThirdLibary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibary/unix/change_prefix.sh
-    cd ${RabbitImRoot}/ThirdLibary/unix
+    cd ${RabbitImRoot}/ThirdLibrary/unix
+    cp ${RabbitImRoot}/ThirdLibrary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibrary/unix/change_prefix.sh
+    cd ${RabbitImRoot}/ThirdLibrary/unix
     ./change_prefix ${old_prefix} ${new_prefix}  #old_prefix是原来的前缀，你可打开一个配置文件查看；
                                                      #new_prefix可以省略，省略时用当前目录
 
@@ -158,14 +158,14 @@ ubuntu下交叉编译
 
 ### 3. 编译第三方依赖库(脚本中包括qt)
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build.sh android [source_code_directory]
 
 ### 4. 编译本项目:
 1. 命令行编译：
 
     ```sh
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_rabbitim.sh android [source_code_directory] [qmake]
     ```
     
@@ -175,9 +175,9 @@ ubuntu下交叉编译
 设置 pkg-config
         
     ```sh
-    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}         #可选
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}         #可选
     export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}                            #可选
-    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibary/${PLATFORM}  #可选
+    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibrary/${PLATFORM}  #可选
     ```
 
 windows下交叉编译
@@ -347,14 +347,14 @@ https://github.com/ruby/ruby
 
 #### 3.2. 编译第三方依赖库(脚本中包括qt)
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build.sh android [source_code_directory]
 
 #### 3.3. 编译本项目:
 1. 命令行编译：
 
     ```sh
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_rabbitim.sh android [source_code_directory] [qmake]
     ```
     
@@ -365,9 +365,9 @@ https://github.com/ruby/ruby
         
     ```sh
     export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
-    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}        #可选
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}        #可选
     export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}                           #可选
-    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibary/${PLATFORM} #可选
+    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibrary/${PLATFORM} #可选
     ```
 
 ### 4. 调试

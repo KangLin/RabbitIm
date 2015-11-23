@@ -146,17 +146,17 @@ https://github.com/ruby/ruby
 
 编译所有依赖的第三方库：
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build.sh windows_msvc [source_code_directory]
 
 或者只编译其中一个库，例如：libvpx 
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_libvpx.sh windows_msvc [source_code_directory]
 
 环境变量说明：
 
-1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_msvc/qt
+1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibrary/windows_msvc/qt
 2. RABBITIM_MAKE_JOB_PARA="-j2"      #make 同时工作进程参数,建议设置为你机器CUP个数
 3. RABBITIM_BUILD_STATIC="static"    #设置编译静态库，注释掉，则为编译动态库
 4. JOM=make                          #设置 QT make 工具 JOM
@@ -165,7 +165,7 @@ https://github.com/ruby/ruby
 
 ### 5. 编译本项目:
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_rabbitim.sh windows_msvc [source_code_directory] [qmake]
 
 windows下用mingw交叉编译
@@ -363,7 +363,7 @@ https://github.com/ruby/ruby
 gcc version 5.2.0 (Rev4, Built by MSYS2 project)
 qt5.5.1
 
-下载后解压到 ${RabbitImRoot}/ThirdLibary 目录下。然后执行脚本 change_prefix.sh
+下载后解压到 ${RabbitImRoot}/ThirdLibrary 目录下。然后执行脚本 change_prefix.sh
 
 2. 也可以用mingw32预编译的第三方库
 
@@ -397,7 +397,7 @@ qt5.5.1
 
 环境变量说明： 
 
-1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
+1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibrary/windows_mingw/qt
 2. RABBITIM_MAKE_JOB_PARA="-j2"      #make 同时工作进程参数,建议设置为你机器CUP个数
 3. RABBITIM_BUILD_STATIC="static"    #设置编译静态库，注释掉，则为编译动态库
 4. JOM=make                          #设置 QT make 工具 JOM
@@ -406,19 +406,19 @@ qt5.5.1
 
 编译所有依赖的第三方库：
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build.sh windows_mingw [source_code_directory]
 
 或者只编译其中一个库，例如：libvpx
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_libvpx.sh windows_mingw [source_code_directory]
 
 #### 3.3. 编译本项目:
 1. 命令行编译：
     
     ```sh
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_rabbitim.sh windows_mingw [source_code_directory] [qmake]
     ```
 
@@ -427,15 +427,15 @@ qt5.5.1
     
     ```sh
     export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
-    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}
     ```
 
 * 如果qt是自己编译的，需要做下列：
-+ 把第三方库的依赖动态库复制到${RabbitImRoot}/ThirdLibary/windows_mingw/bin下.
++ 把第三方库的依赖动态库复制到${RabbitImRoot}/ThirdLibrary/windows_mingw/bin下.
 或者把本目录放到环境变量PATH中。
 
     ```sh
-    export PATH=${RabbitImRoot}/ThirdLibary/windows_mingw/bin:$PATH
+    export PATH=${RabbitImRoot}/ThirdLibrary/windows_mingw/bin:$PATH
     ```
     
 + 把qmake、uic等程序的依赖工具链的动态库复制到${QT_DIR}/bin下.
@@ -443,7 +443,7 @@ qt5.5.1
 
     export PATH=${MSYS32_ROOT}/mingw32/bin:$PATH
 
-+ 如果是在windows下，还需要把${RabbitImRoot}/ThirdLibary/windows_mingw/qt/plugins/platforms复制到程序目录下
++ 如果是在windows下，还需要把${RabbitImRoot}/ThirdLibrary/windows_mingw/qt/plugins/platforms复制到程序目录下
 
 ubuntu下用mingw交叉编译
 ------------------------
@@ -510,7 +510,7 @@ ubuntu下用mingw交叉编译
 
 环境变量说明： 
 
-1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibary/windows_mingw/qt
+1. QT_ROOT=                          #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibrary/windows_mingw/qt
 2. RABBITIM_MAKE_JOB_PARA="-j2"      #make 同时工作进程参数,建议设置为你机器CUP个数
 3. RABBITIM_BUILD_STATIC="static"    #设置编译静态库，注释掉，则为编译动态库
 4. JOM=make                          #设置 QT make 工具 JOM
@@ -520,18 +520,18 @@ ubuntu下用mingw交叉编译
 
 编译所有依赖的第三方库：
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build.sh windows_mingw [source_code_directory]
 
 或者只编译其中一个库，例如：libvpx
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_libvpx.sh windows_mingw [source_code_directory]
 
 ### 4. 编译本项目:
 1. 命令行编译：
 
-    cd ${RabbitImRoot}/ThirdLibary/build_script
+    cd ${RabbitImRoot}/ThirdLibrary/build_script
     ./build_rabbitim.sh windows_mingw [source_code_directory] [qmake]
 
 2. 用 QtCreator  
@@ -539,7 +539,7 @@ ubuntu下用mingw交叉编译
         
     ```sh
     export PKG_CONFIG=pkg-config
-    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}
     export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
-    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibary/${PLATFORM}
+    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibrary/${PLATFORM}
     ```

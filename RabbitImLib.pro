@@ -67,30 +67,6 @@ RC_FILE = AppIcon.rc
 
 CONFIG += localize_deployment  #本地语言部署  
 
-OTHER_FILES += README.md \
-    .gitignore \
-    .travis.yml \
-    debian/* \
-    ThirdLibrary/build_script/travis/*.sh \
-    ThirdLibrary/build_script/*.sh \
-    AppIcon.rc \
-    Resource/translations/app_zh_CN.ts \
-    docs/* \
-    docs/Books/* \
-    docs/QXmpp音视频呼叫流程.txt \
-    License.md \
-    ChangeLog.md \
-    Authors.txt \
-    CMakeLists.txt \
-    cmake/* \
-    cmake/platforms/* \
-    platforms/android/* \
-    Update/*template* \
-    Update/*.xml \
-    Doxyfile* \
-    Plugin/CMakeLists.txt \
-    pri/*
-
 #ANDROID 平台相关内容  
 android{
     include(android/android.pri)
