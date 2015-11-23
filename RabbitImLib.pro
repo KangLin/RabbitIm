@@ -69,5 +69,6 @@ CONFIG += localize_deployment  #本地语言部署
 
 #ANDROID 平台相关内容  
 android{
+    CONFIG *= static
     include(android/android.pri)
 }

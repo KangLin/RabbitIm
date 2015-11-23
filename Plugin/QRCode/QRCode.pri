@@ -8,7 +8,6 @@ CONFIG += c++0x
 include(../config.pri)
 
 SOURCES += CPluginQRCode.cpp \
-    ../PluginApp.cpp  \
     FrmScanQRcode.cpp
 
 HEADERS += CPluginQRCode.h \
