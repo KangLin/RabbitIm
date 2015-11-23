@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QVideoFrame>
-#include "../../Tool.h"
+#include "common/Tool.h"
 #include "Media/Camera/Camera.h"
 #ifdef RABBITIM_USE_QXMPP
     #include "qxmpp/QXmppRtpChannel.h"

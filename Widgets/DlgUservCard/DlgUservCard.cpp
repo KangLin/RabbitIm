@@ -3,8 +3,8 @@
 #include "../../Global/Global.h"
 #include <QImageWriter>
 #include <QDesktopWidget>
-#include "Tool.h"
-#include "Widgets/DlgScanQRcode/QRCode.h"
+#include "common/Tool.h"
+#include "common/QRCode.h"
 
 CDlgUservCard::CDlgUservCard(QWidget *parent) :
     QDialog(parent),

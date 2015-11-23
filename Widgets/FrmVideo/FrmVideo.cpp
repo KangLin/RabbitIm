@@ -5,7 +5,7 @@
  * 注意：本对象是一个单例对象
  */
 
-#include "../../Tool.h"
+#include "Tool.h"
 #include "FrmVideo.h"
 #include "ui_FrmVideo.h"
 #include "../../Global/Global.h"

@@ -1,6 +1,6 @@
 #include "../FrmCustom/CustomTreeView.h"
 #include "../../Global/Global.h"
-#include "../../Tool.h"
+#include "Tool.h"
 #include <QResizeEvent>
 
 CCustomTreeView::CCustomTreeView(QWidget *parent) :

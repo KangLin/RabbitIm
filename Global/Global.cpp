@@ -1,5 +1,5 @@
 #include "Global.h"
-#include "../Tool.h"
+#include "common/Tool.h"
 #include "../MainWindow.h"
 #include "GlobalDir.h"
 #include <QMetaType>

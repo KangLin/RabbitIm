@@ -11,7 +11,6 @@
 #include "Widgets/DlgOptions/DlgOptions.h"
 #include "Widgets/FrmSendFile/DlgSendManage.h"
 #include "Widgets/DlgUservCard/DlgUservCard.h"
-#include "Widgets/DlgScanQRcode/DlgScanQRcode.h"
 #ifdef RABBITIM_USE_LIBCURL
     #include "Update/DlgUpdate.h"
 #endif
@@ -848,8 +847,10 @@ void MainWindow::on_actionOptions_O_triggered()
 
 void MainWindow::on_actionScan_qrencode_S_triggered()
 {
-    CFrmScanQRcode dlg(this);
-    dlg.exec();
+    QSharedPointer<CPluginApp> plugin = GETMANAGER->GetManagePlugins()->GetPlugin("QRCode");
+    if(plugin.isNull())
+        return;
+    plugin->Open(this);
 }
 
 void MainWindow::slotAbout()

@@ -1,210 +1,208 @@
 SOURCES += \
-    MainWindow.cpp \
-    Tool.cpp \
-    Client/Client.cpp \
-    UserInfo/UserInfo.cpp \
-    UserInfo/COperateRoster.cpp \
-    Global/Global.cpp \
-    Widgets/FrmLogin/FrmLogin.cpp \
-    Widgets/FrmUserList/FrmUserList.cpp \
-    Widgets/FrmUserList/GroupItem.cpp \
-    Widgets/FrmCustom/CustomTreeView.cpp \
-    Widgets/FrmVideo/RecordAudio.cpp \
-    Widgets/FrmCustom/Label.cpp \ 
-    Widgets/FrmMain/FrmMain.cpp \ 
-    Manage/Manager.cpp \
-    Manage/ManageMessageDialog.cpp \
-    Widgets/FrmMessage/FrmMessage.cpp \
-    Widgets/FrmCustom/MenuMessageSend.cpp \ 
-    Manage/ManageMessageDialogBigScreen.cpp \
-    Widgets/FrmMessage/FrmContainer.cpp \
-    Message/ChatActions/ChatAction.cpp \
-    Message/ChatActions/MessageAction.cpp \
-    UserInfo/User.cpp \
-    Manage/ManageUser.cpp \
-    Manage/Manage.cpp \
-    Message/SmileyPack.cpp \
-    Message/EmoticonsWidget.cpp \
-    Message/style.cpp \
-    Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
-    Widgets/FrmRecentMessage/ManageRecentMessage.cpp \
-    Widgets/DlgAddRoster/DlgAddRoster.cpp \
-    FileTransfer/ManageFileTransfer.cpp \
-    FileTransfer/FileTransfer.cpp \
-    FileTransfer/FileTransferAction.cpp \
-    Widgets/FrmVideo/DataVideoBuffer.cpp \
-    Widgets/FrmVideo/FrameProcess.cpp \
-    Widgets/FrmVideo/FrmPlayer.cpp \ 
-    Call/CallObject.cpp \
-    Call/ManageCall.cpp \
-    Call/CallAction.cpp \
-    Widgets/FrmVideo/FrmVideo.cpp \ 
-    Widgets/DlgRegister/DlgRegister.cpp \
-    Widgets/DlgScreenShot/DlgScreenShot.cpp \ 
-    Widgets/DlgScreenShot/WdgScreenEditor.cpp \
-    Widgets/FrmGroupChat/FrmGroupChatList.cpp \ 
-    Widgets/FrmLogin/DlgLoginSettings.cpp \
-    Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp \
-    Widgets/FrmGroupChat/ManageGroupChat.cpp \
-    Widgets/FrmGroupChat/GroupChat.cpp \
-    Widgets/FrmGroupChat/DlgJoinGroupChat.cpp \
-    Widgets/FrmGroupChat/FrmGroupChat.cpp \
-    Widgets/FrmGroupChat/ChatActionGroupChat.cpp \
-    Widgets/FrmGroupChat/DlgGroupChatInfo.cpp \
-    Widgets/FrmGroupChat/DlgInviter.cpp \
-    Widgets/FrmCustom/ItemModelCustom.cpp \
-    Widgets/DlgUservCard/DlgUservCard.cpp \ 
-    Widgets/DlgAbout/DlgAbout.cpp \
-    Widgets/DlgOptions/DlgOptions.cpp \  
-    Message/ManageMessage.cpp \
-    Media/Camera/Camera.cpp \
-    Media/Camera/CameraInfo.cpp \
-    Media/Camera/CameraFactory.cpp \
-    Media/Camera/VideoFrame.cpp \
-    Media/Camera/CameraQt.cpp \
-    Media/Camera/CameraFactoryQt.cpp \
-    Media/Camera/CameraQtCaptureVideoFrame.cpp \
-    Global/Log.cpp \
-    Widgets/FrmApp/FrmApp.cpp \
-    Widgets/FrmApp/FrmAppList.cpp \
-    Widgets/FrmApp/FrmFavorites.cpp \
-    Plugin/PluginApp.cpp \
-    Plugin/ManagePlugin.cpp \
-    Global/GlobalDir.cpp \
-    Widgets/DlgScanQRcode/DlgScanQRcode.cpp \
-    Widgets/DlgScanQRcode/QRCode.cpp
+    $$PWD/../MainWindow.cpp \
+    $$PWD/../common/Tool.cpp \
+    $$PWD/../common/QRCode.cpp \
+    $$PWD/../Client/Client.cpp \
+    $$PWD/../UserInfo/UserInfo.cpp \
+    $$PWD/../UserInfo/COperateRoster.cpp \
+    $$PWD/../Global/Global.cpp \
+    $$PWD/../Widgets/FrmLogin/FrmLogin.cpp \
+    $$PWD/../Widgets/FrmUserList/FrmUserList.cpp \
+    $$PWD/../Widgets/FrmUserList/GroupItem.cpp \
+    $$PWD/../Widgets/FrmCustom/CustomTreeView.cpp \
+    $$PWD/../Widgets/FrmVideo/RecordAudio.cpp \
+    $$PWD/../Widgets/FrmCustom/Label.cpp \ 
+    $$PWD/../Widgets/FrmMain/FrmMain.cpp \ 
+    $$PWD/../Manage/Manager.cpp \
+    $$PWD/../Manage/ManageMessageDialog.cpp \
+    $$PWD/../Widgets/FrmMessage/FrmMessage.cpp \
+    $$PWD/../Widgets/FrmCustom/MenuMessageSend.cpp \ 
+    $$PWD/../Manage/ManageMessageDialogBigScreen.cpp \
+    $$PWD/../Widgets/FrmMessage/FrmContainer.cpp \
+    $$PWD/../Message/ChatActions/ChatAction.cpp \
+    $$PWD/../Message/ChatActions/MessageAction.cpp \
+    $$PWD/../UserInfo/User.cpp \
+    $$PWD/../Manage/ManageUser.cpp \
+    $$PWD/../Manage/Manage.cpp \
+    $$PWD/../Message/SmileyPack.cpp \
+    $$PWD/../Message/EmoticonsWidget.cpp \
+    $$PWD/../Message/style.cpp \
+    $$PWD/../Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
+    $$PWD/../Widgets/FrmRecentMessage/ManageRecentMessage.cpp \
+    $$PWD/../Widgets/DlgAddRoster/DlgAddRoster.cpp \
+    $$PWD/../FileTransfer/ManageFileTransfer.cpp \
+    $$PWD/../FileTransfer/FileTransfer.cpp \
+    $$PWD/../FileTransfer/FileTransferAction.cpp \
+    $$PWD/../Widgets/FrmVideo/DataVideoBuffer.cpp \
+    $$PWD/../Widgets/FrmVideo/FrameProcess.cpp \
+    $$PWD/../Widgets/FrmVideo/FrmPlayer.cpp \ 
+    $$PWD/../Call/CallObject.cpp \
+    $$PWD/../Call/ManageCall.cpp \
+    $$PWD/../Call/CallAction.cpp \
+    $$PWD/../Widgets/FrmVideo/FrmVideo.cpp \ 
+    $$PWD/../Widgets/DlgRegister/DlgRegister.cpp \
+    $$PWD/../Widgets/DlgScreenShot/DlgScreenShot.cpp \ 
+    $$PWD/../Widgets/DlgScreenShot/WdgScreenEditor.cpp \
+    $$PWD/../Widgets/FrmGroupChat/FrmGroupChatList.cpp \ 
+    $$PWD/../Widgets/FrmLogin/DlgLoginSettings.cpp \
+    $$PWD/../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp \
+    $$PWD/../Widgets/FrmGroupChat/ManageGroupChat.cpp \
+    $$PWD/../Widgets/FrmGroupChat/GroupChat.cpp \
+    $$PWD/../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp \
+    $$PWD/../Widgets/FrmGroupChat/FrmGroupChat.cpp \
+    $$PWD/../Widgets/FrmGroupChat/ChatActionGroupChat.cpp \
+    $$PWD/../Widgets/FrmGroupChat/DlgGroupChatInfo.cpp \
+    $$PWD/../Widgets/FrmGroupChat/DlgInviter.cpp \
+    $$PWD/../Widgets/FrmCustom/ItemModelCustom.cpp \
+    $$PWD/../Widgets/DlgUservCard/DlgUservCard.cpp \ 
+    $$PWD/../Widgets/DlgAbout/DlgAbout.cpp \
+    $$PWD/../Widgets/DlgOptions/DlgOptions.cpp \  
+    $$PWD/../Message/ManageMessage.cpp \
+    $$PWD/../Media/Camera/Camera.cpp \
+    $$PWD/../Media/Camera/CameraInfo.cpp \
+    $$PWD/../Media/Camera/CameraFactory.cpp \
+    $$PWD/../Media/Camera/VideoFrame.cpp \
+    $$PWD/../Media/Camera/CameraQt.cpp \
+    $$PWD/../Media/Camera/CameraFactoryQt.cpp \
+    $$PWD/../Media/Camera/CameraQtCaptureVideoFrame.cpp \
+    $$PWD/../Global/Log.cpp \
+    $$PWD/../Widgets/FrmApp/FrmApp.cpp \
+    $$PWD/../Widgets/FrmApp/FrmAppList.cpp \
+    $$PWD/../Widgets/FrmApp/FrmFavorites.cpp \
+    $$PWD/../Plugin/PluginApp.cpp \
+    $$PWD/../Plugin/ManagePlugin.cpp \
+    $$PWD/../Global/GlobalDir.cpp 
 
-HEADERS += Version.h \
-    MainWindow.h \
-    Global/Global.h \
-    UserInfo/UserInfo.h \
-    Client/Client.h \
-    UserInfo/COperateRoster.h \
-    Widgets/FrmMain/FrmMain.h \
-    Tool.h \
-    Widgets/FrmLogin/FrmLogin.h \
-    Widgets/FrmUserList/FrmUserList.h \
-    Widgets/FrmCustom/CustomTreeView.h \
-    Widgets/FrmVideo/RecordAudio.h \
-    Widgets/FrmCustom/Label.h \ 
-    Manage/Manager.h \
-    Manage/Manage.h \
-    Manage/ManageUser.h \
-    Manage/ManageMessageDialog.h \
-    Widgets/FrmCustom/MenuMessageSend.h \
-    Widgets/FrmMessage/FrmMessage.h \
-    Manage/ManageMessageDialogBigScreen.h \
-    Widgets/FrmMessage/FrmContainer.h \
-    Message/SmileyPack.h \
-    Message/ChatActions/ChatAction.h \
-    Message/ChatActions/MessageAction.h \
-    UserInfo/User.h \
-    Message/EmoticonsWidget.h \
-    Message/style.h \
-    Widgets/FrmRecentMessage/FrmRecentMsgList.h \
-    Widgets/FrmRecentMessage/ManageRecentMessage.h \
-    Widgets/DlgAddRoster/DlgAddRoster.h \
-    FileTransfer/ManageFileTransfer.h \
-    FileTransfer/FileTransfer.h \
-    FileTransfer/FileTransferAction.h \
-    Widgets/FrmVideo/DataVideoBuffer.h \
-    Widgets/FrmVideo/FrameProcess.h \
-    Widgets/FrmVideo/FrmPlayer.h \    
-    Call/CallObject.h \
-    Call/ManageCall.h \
-    Call/CallAction.h \ 
-    Widgets/FrmVideo/FrmVideo.h \ 
-    Widgets/DlgRegister/DlgRegister.h \
-    Widgets/DlgScreenShot/DlgScreenShot.h \ 
-    Widgets/DlgScreenShot/WdgScreenEditor.h \
-    Widgets/FrmGroupChat/FrmGroupChatList.h \ 
-    Widgets/FrmLogin/DlgLoginSettings.h \  
-    Widgets/FrmGroupChat/DlgCreateGroupChatRoom.h \
-    Widgets/FrmGroupChat/ManageGroupChat.h \
-    Widgets/FrmGroupChat/GroupChat.h \
-    Widgets/FrmGroupChat/DlgJoinGroupChat.h \
-    Widgets/FrmGroupChat/FrmGroupChat.h \ 
-    Widgets/FrmGroupChat/ChatActionGroupChat.h \
-    Widgets/FrmGroupChat/DlgGroupChatInfo.h \
-    Widgets/FrmGroupChat/DlgInviter.h \
-    Widgets/FrmCustom/ItemModelCustom.h \
-    Widgets/DlgUservCard/DlgUservCard.h \ 
-    Widgets/DlgAbout/DlgAbout.h \
-    Widgets/DlgOptions/DlgOptions.h \ 
-    Message/ManageMessage.h \
-    Media/Camera/Camera.h \
-    Media/Camera/CameraInfo.h \
-    Media/Camera/VideoType.h \
-    Media/Camera/CameraFactory.h \
-    Media/Camera/VideoFrame.h \
-    Media/Camera/CameraQt.h \
-    Media/Camera/CameraFactoryQt.h \
-    Media/Camera/CameraQtCaptureVideoFrame.h \
-    Global/Log.h \
-    Widgets/FrmApp/FrmApp.h \
-    Widgets/FrmApp/FrmAppList.h \
-    Widgets/FrmApp/FrmFavorites.h \
-    Plugin/PluginApp.h \
-    Plugin/ManagePlugin.h \
-    Global/GlobalDir.h \
-    Plugin/PluginAppFactory.h \
-    Widgets/DlgScanQRcode/DlgScanQRcode.h \ 
-    Widgets/DlgScanQRcode/QRCode.h
+HEADERS += $$PWD/../Version.h \
+    $$PWD/../MainWindow.h \
+    $$PWD/../Global/Global.h \
+    $$PWD/../UserInfo/UserInfo.h \
+    $$PWD/../Client/Client.h \
+    $$PWD/../UserInfo/COperateRoster.h \
+    $$PWD/../Widgets/FrmMain/FrmMain.h \
+    $$PWD/../common/Tool.h \
+    $$PWD/../common/QRCode.h \
+    $$PWD/../Widgets/FrmLogin/FrmLogin.h \
+    $$PWD/../Widgets/FrmUserList/FrmUserList.h \
+    $$PWD/../Widgets/FrmCustom/CustomTreeView.h \
+    $$PWD/../Widgets/FrmVideo/RecordAudio.h \
+    $$PWD/../Widgets/FrmCustom/Label.h \ 
+    $$PWD/../Manage/Manager.h \
+    $$PWD/../Manage/Manage.h \
+    $$PWD/../Manage/ManageUser.h \
+    $$PWD/../Manage/ManageMessageDialog.h \
+    $$PWD/../Widgets/FrmCustom/MenuMessageSend.h \
+    $$PWD/../Widgets/FrmMessage/FrmMessage.h \
+    $$PWD/../Manage/ManageMessageDialogBigScreen.h \
+    $$PWD/../Widgets/FrmMessage/FrmContainer.h \
+    $$PWD/../Message/SmileyPack.h \
+    $$PWD/../Message/ChatActions/ChatAction.h \
+    $$PWD/../Message/ChatActions/MessageAction.h \
+    $$PWD/../UserInfo/User.h \
+    $$PWD/../Message/EmoticonsWidget.h \
+    $$PWD/../Message/style.h \
+    $$PWD/../Widgets/FrmRecentMessage/FrmRecentMsgList.h \
+    $$PWD/../Widgets/FrmRecentMessage/ManageRecentMessage.h \
+    $$PWD/../Widgets/DlgAddRoster/DlgAddRoster.h \
+    $$PWD/../FileTransfer/ManageFileTransfer.h \
+    $$PWD/../FileTransfer/FileTransfer.h \
+    $$PWD/../FileTransfer/FileTransferAction.h \
+    $$PWD/../Widgets/FrmVideo/DataVideoBuffer.h \
+    $$PWD/../Widgets/FrmVideo/FrameProcess.h \
+    $$PWD/../Widgets/FrmVideo/FrmPlayer.h \    
+    $$PWD/../Call/CallObject.h \
+    $$PWD/../Call/ManageCall.h \
+    $$PWD/../Call/CallAction.h \ 
+    $$PWD/../Widgets/FrmVideo/FrmVideo.h \ 
+    $$PWD/../Widgets/DlgRegister/DlgRegister.h \
+    $$PWD/../Widgets/DlgScreenShot/DlgScreenShot.h \ 
+    $$PWD/../Widgets/DlgScreenShot/WdgScreenEditor.h \
+    $$PWD/../Widgets/FrmGroupChat/FrmGroupChatList.h \ 
+    $$PWD/../Widgets/FrmLogin/DlgLoginSettings.h \  
+    $$PWD/../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.h \
+    $$PWD/../Widgets/FrmGroupChat/ManageGroupChat.h \
+    $$PWD/../Widgets/FrmGroupChat/GroupChat.h \
+    $$PWD/../Widgets/FrmGroupChat/DlgJoinGroupChat.h \
+    $$PWD/../Widgets/FrmGroupChat/FrmGroupChat.h \ 
+    $$PWD/../Widgets/FrmGroupChat/ChatActionGroupChat.h \
+    $$PWD/../Widgets/FrmGroupChat/DlgGroupChatInfo.h \
+    $$PWD/../Widgets/FrmGroupChat/DlgInviter.h \
+    $$PWD/../Widgets/FrmCustom/ItemModelCustom.h \
+    $$PWD/../Widgets/DlgUservCard/DlgUservCard.h \ 
+    $$PWD/../Widgets/DlgAbout/DlgAbout.h \
+    $$PWD/../Widgets/DlgOptions/DlgOptions.h \ 
+    $$PWD/../Message/ManageMessage.h \
+    $$PWD/../Media/Camera/Camera.h \
+    $$PWD/../Media/Camera/CameraInfo.h \
+    $$PWD/../Media/Camera/VideoType.h \
+    $$PWD/../Media/Camera/CameraFactory.h \
+    $$PWD/../Media/Camera/VideoFrame.h \
+    $$PWD/../Media/Camera/CameraQt.h \
+    $$PWD/../Media/Camera/CameraFactoryQt.h \
+    $$PWD/../Media/Camera/CameraQtCaptureVideoFrame.h \
+    $$PWD/../Global/Log.h \
+    $$PWD/../Widgets/FrmApp/FrmApp.h \
+    $$PWD/../Widgets/FrmApp/FrmAppList.h \
+    $$PWD/../Widgets/FrmApp/FrmFavorites.h \
+    $$PWD/../Plugin/PluginApp.h \
+    $$PWD/../Plugin/ManagePlugin.h \
+    $$PWD/../Global/GlobalDir.h \
+    $$PWD/../Plugin/PluginAppFactory.h 
 
-FORMS += MainWindow.ui \
-    Widgets/FrmLogin/FrmLogin.ui \
-    Widgets/FrmUserList/FrmUserList.ui \
-    Widgets/DlgUservCard/DlgUservCard.ui \
-    Widgets/FrmMessage/FrmMessage.ui \
-    Widgets/FrmMessage/FrmContainer.ui \
-    Widgets/FrmRecentMessage/FrmRecentMsgList.ui \
-    Widgets/DlgAddRoster/DlgAddRoster.ui \
-    Widgets/FrmVideo/FrmVideo.ui \ 
-    Widgets/DlgRegister/DlgRegister.ui \
-    Widgets/FrmGroupChat/FrmGroupChatList.ui \ 
-    Widgets/FrmLogin/DlgLoginSettings.ui \ 
-    Widgets/FrmGroupChat/DlgCreateGroupChatRoom.ui \
-    Widgets/FrmGroupChat/FrmGroupChat.ui \
-    Widgets/FrmGroupChat/DlgJoinGroupChat.ui \
-    Widgets/FrmGroupChat/DlgGroupChatInfo.ui \
-    Widgets/FrmGroupChat/DlgInviter.ui \
-    Widgets/DlgAbout/DlgAbout.ui \
-    Widgets/DlgOptions/DlgOptions.ui \
-    Widgets/FrmMain/FrmMain.ui \
-    Widgets/FrmApp/FrmApp.ui \
-    Widgets/FrmApp/FrmAppList.ui \
-    Widgets/FrmApp/FrmFavorites.ui \
-    Widgets/DlgScanQRcode/DlgScanQRcode.ui
+FORMS += $$PWD/../MainWindow.ui \
+    $$PWD/../Widgets/FrmLogin/FrmLogin.ui \
+    $$PWD/../Widgets/FrmUserList/FrmUserList.ui \
+    $$PWD/../Widgets/DlgUservCard/DlgUservCard.ui \
+    $$PWD/../Widgets/FrmMessage/FrmMessage.ui \
+    $$PWD/../Widgets/FrmMessage/FrmContainer.ui \
+    $$PWD/../Widgets/FrmRecentMessage/FrmRecentMsgList.ui \
+    $$PWD/../Widgets/DlgAddRoster/DlgAddRoster.ui \
+    $$PWD/../Widgets/FrmVideo/FrmVideo.ui \ 
+    $$PWD/../Widgets/DlgRegister/DlgRegister.ui \
+    $$PWD/../Widgets/FrmGroupChat/FrmGroupChatList.ui \ 
+    $$PWD/../Widgets/FrmLogin/DlgLoginSettings.ui \ 
+    $$PWD/../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.ui \
+    $$PWD/../Widgets/FrmGroupChat/FrmGroupChat.ui \
+    $$PWD/../Widgets/FrmGroupChat/DlgJoinGroupChat.ui \
+    $$PWD/../Widgets/FrmGroupChat/DlgGroupChatInfo.ui \
+    $$PWD/../Widgets/FrmGroupChat/DlgInviter.ui \
+    $$PWD/../Widgets/DlgAbout/DlgAbout.ui \
+    $$PWD/../Widgets/DlgOptions/DlgOptions.ui \
+    $$PWD/../Widgets/FrmMain/FrmMain.ui \
+    $$PWD/../Widgets/FrmApp/FrmApp.ui \
+    $$PWD/../Widgets/FrmApp/FrmAppList.ui \
+    $$PWD/../Widgets/FrmApp/FrmFavorites.ui 
 
 RESOURCES += \
-    Resource/Resource.qrc \
-    Resource/sink/dark/style.qrc
+    $$PWD/../Resource/Resource.qrc \
+    $$PWD/../Resource/sink/dark/style.qrc
 
 equals(RABBITIM_USE_QXMPP, 1){
-    SOURCES += Client/ClientXmpp.cpp \
-    Manage/ManageUserQXmpp.cpp \
-    Manage/ManagerXmpp.cpp \
-    UserInfo/UserInfoXmpp.cpp \
-    FileTransfer/FileTransferQXmpp.cpp \
-    Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp \
-    Widgets/FrmGroupChat/GroupChatQxmpp.cpp \
-    Call/ManageCallXmpp.cpp \
-    Call/CallObjectQXmpp.cpp
+    SOURCES += $$PWD/../Client/ClientXmpp.cpp \
+    $$PWD/../Manage/ManageUserQXmpp.cpp \
+    $$PWD/../Manage/ManagerXmpp.cpp \
+    $$PWD/../UserInfo/UserInfoXmpp.cpp \
+    $$PWD/../FileTransfer/FileTransferQXmpp.cpp \
+    $$PWD/../Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp \
+    $$PWD/../Widgets/FrmGroupChat/GroupChatQxmpp.cpp \
+    $$PWD/../Call/ManageCallXmpp.cpp \
+    $$PWD/../Call/CallObjectQXmpp.cpp
 
-    HEADERS += Client/ClientXmpp.h \
-    Manage/ManageUserQXmpp.h \
-    Manage/ManagerXmpp.h \
-    UserInfo/UserInfoXmpp.h \
-    FileTransfer/FileTransferQXmpp.h \
-    Widgets/FrmGroupChat/ManageGroupChatQxmpp.h \
-    Widgets/FrmGroupChat/GroupChatQxmpp.h \
-    Call/ManageCallXmpp.h \
-    Call/CallObjectQXmpp.h
+    HEADERS += $$PWD/../Client/ClientXmpp.h \
+    $$PWD/../Manage/ManageUserQXmpp.h \
+    $$PWD/../Manage/ManagerXmpp.h \
+    $$PWD/../UserInfo/UserInfoXmpp.h \
+    $$PWD/../FileTransfer/FileTransferQXmpp.h \
+    $$PWD/../Widgets/FrmGroupChat/ManageGroupChatQxmpp.h \
+    $$PWD/../Widgets/FrmGroupChat/GroupChatQxmpp.h \
+    $$PWD/../Call/ManageCallXmpp.h \
+    $$PWD/../Call/CallObjectQXmpp.h
 }
 
 android{
-    RESOURCES += Resource/translations/Translations.qrc \
-        Resource/Android.qrc
+    RESOURCES += \
+        $$PWD/../Resource/translations/Translations.qrc \
+        $$PWD/../Resource/Android.qrc
     FORMS +=
 }else{
     FORMS += 
@@ -217,29 +215,28 @@ android{
 
 equals(RABBITIM_USE_LIBCURL, 1){
     SOURCES += \
-    Update/DownLoad.cpp \
-    Update/DownLoadHandle.cpp \
-    Update/DlgUpdate.cpp
+        $$PWD/../Update/DownLoad.cpp \
+        $$PWD/../Update/DownLoadHandle.cpp \
+        $$PWD/../Update/DlgUpdate.cpp
 
     HEADERS += \
-    Update/DownLoad.h \
-    Update/DownLoadHandle.h \
-    Update/DlgUpdate.h
+        $$PWD/../Update/DownLoad.h \
+        $$PWD/../Update/DownLoadHandle.h \
+        $$PWD/../Update/DlgUpdate.h
 
-    FORMS += Update/DlgUpdate.ui
+    FORMS += $$PWD/../Update/DlgUpdate.ui
 }
 
 equals(RABBITIM_USE_OPENSSL, 1){
-    SOURCES += Global/Encrypt.cpp
-    HEADERS += Global/Encrypt.h
+    SOURCES += $$PWD/../Global/Encrypt.cpp
+    HEADERS += $$PWD/../Global/Encrypt.h
 }
 
 equals(RABBITIM_USE_PJSIP, 1) {
     SOURCES += \
-        Media/Camera/CameraPjsip.cpp \
-        Media/Camera/CameraFactoryPjsip.cpp
+        $$PWD/../Media/Camera/CameraPjsip.cpp \
+        $$PWD/../Media/Camera/CameraFactoryPjsip.cpp
     HEADERS += \
-        Media/Camera/CameraPjsip.h \
-        Media/Camera/CameraFactoryPjsip.h
-        
+        $$PWD/../Media/Camera/CameraPjsip.h \
+        $$PWD/../Media/Camera/CameraFactoryPjsip.h
 }

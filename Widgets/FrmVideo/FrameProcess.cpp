@@ -1,5 +1,5 @@
 #include "FrameProcess.h"
-#include "../../Tool.h"
+#include "Tool.h"
 #include "DataVideoBuffer.h"
 #include "../../Global/Global.h"
 #include "FrmVideo.h"

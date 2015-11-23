@@ -1,12 +1,12 @@
 #include "DlgAbout.h"
 #include "ui_DlgAbout.h"
-#include "Tool.h"
+#include "common/Tool.h"
+#include "common/QRCode.h"
 #include "Version.h"
 #include <QFile>
 #include "Global/Global.h"
 #include <QDir>
 #include <QDateTime>
-#include "Widgets/DlgScanQRcode/QRCode.h"
 
 CDlgAbout::CDlgAbout(QWidget *parent) :
     QDialog(parent),

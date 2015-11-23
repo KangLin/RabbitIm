@@ -1,6 +1,6 @@
 # For autocompiling qm-files.
 
-TRANSLATIONS = Resource/translations/app_zh_CN.ts 
+TRANSLATIONS = $$PWD/../Resource/translations/app_zh_CN.ts 
 
 #rules to generate ts
 isEmpty(QMAKE_LUPDATE) {
@@ -62,7 +62,7 @@ else {
 }
 
 wince |android {
-    mytranslat.files = Resource/translations/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
+    mytranslat.files = $$PWD/../Resource/translations/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
     mytranslat.path = $$PREFIX/translations
     DEPLOYMENT += mytranslat
 }else{
