@@ -28,7 +28,8 @@ win32{
     TARGET_PATH=$$OUT_PWD
 }
 
-LIBS += -L$${TARGET_PATH}
+LIBS += -L$${TARGET_PATH} 
+CONFIG(static, static|shared) : include($$PWD/Plugin/PluginStatic.pri)
 include(pri/ThirdLibraryConfig.pri)
 include(pri/ThirdLibrary.pri)
 MYPKGCONFIG *= RabbitIm

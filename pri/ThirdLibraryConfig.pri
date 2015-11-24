@@ -49,7 +49,7 @@ win32 {
     DEFINES += UNIX
     isEmpty(THIRD_LIBRRARY_PATH) : THIRD_LIBRRARY_PATH = $$PWD/../ThirdLibrary/unix
 }
-equals(RABBITIM_USE_STATIC, 1) {
+CONFIG(static, static|shared) {
     exists("$${THIRD_LIBRRARY_PATH}_static"){
         THIRD_LIBRRARY_PATH=$${THIRD_LIBRRARY_PATH}_static
     }
@@ -94,7 +94,7 @@ defineReplace(myPkgConfigExecutable) {
         PKG_CONFIG = pkg-config 
     }
 
-    equals(RABBITIM_USE_STATIC, 1) {
+    CONFIG(static, static|shared) {
         PKG_CONFIG *= --static
     }
 

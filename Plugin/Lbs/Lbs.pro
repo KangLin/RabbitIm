@@ -7,7 +7,7 @@
 #RABBITIM_USE_LIBCURL=1      #使用 libcurl
 #RABBITIM_USE_OPENSSL=1      #使用openssl
 
-TARGET = lbs
+TARGET = Lbs
 TEMPLATE = lib
 
 DESTDIR = $$OUT_PWD/../../plugins/App
@@ -15,6 +15,7 @@ DESTDIR = $$OUT_PWD/../../plugins/App
 CONFIG += mobility
 MOBILITY = 
 
+RABBITIM_PLUG_NAME=CPluginAppMotion
 include(Lbs.pri)
 
 DISTFILES += Lbs.json

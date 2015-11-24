@@ -200,6 +200,7 @@ equals(RABBITIM_USE_QXMPP, 1){
 }
 
 android{
+    DEFINES += ANDROID
     RESOURCES += \
         $$PWD/../Resource/translations/Translations.qrc \
         $$PWD/../Resource/Android.qrc

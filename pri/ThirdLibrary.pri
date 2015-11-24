@@ -5,7 +5,6 @@ QXMPP_USE_VPX=1              #使用 vpx
 RABBITIM_USE_FFMPEG=1       #使用 ffmpeg  
 RABBITIM_USE_LIBCURL=1      #使用 libcurl  
 RABBITIM_USE_OPENSSL=1      #使用openssl    
-#RABBITIM_USE_STATIC=1       #使用静态编译  
 #RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档  
 #RABBITIM_USE_PJSIP=1        #使用 pjsip 库  
 #RABBITIM_USE_PJSIP_CAMERA=1  

@@ -11,6 +11,13 @@
 
 int main(int argc, char *argv[])
 {
+    Q_INIT_RESOURCE(Resource);
+    Q_INIT_RESOURCE(style);
+#ifdef ANDROID
+    Q_INIT_RESOURCE(Android);
+    Q_INIT_RESOURCE(Traslations);
+#endif
+
     QApplication app(argc, argv);
     app.setApplicationName("RabbitIm");
     app.setOrganizationName("KangLin studio");

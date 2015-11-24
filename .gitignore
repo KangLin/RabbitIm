@@ -1,3 +1,5 @@
+Plugin/PluginStatic.cpp
+Plugin/PluginStatic.pri
 Plugin/build-Lbs*/
 Makefile.Debug
 Makefile.Release

@@ -486,7 +486,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     + RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
     + RABBITIM_USE_LIBCURL=1      #使用 libcurl
     + RABBITIM_USE_OPENSSL=1      #使用openssl
-    + RABBITIM_USE_STATIC=1       #使用静态编译
+    + CONFIG+=static       #使用静态编译
     + RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档 
   * 项目->构建和运行->构建->构建环境，设置环境变更  
     PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config  

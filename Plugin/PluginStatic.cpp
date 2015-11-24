@@ -1,0 +1,2 @@
+#include <QtPlugin>
+#include <QObject>

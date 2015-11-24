@@ -2,13 +2,14 @@ TEMPLATE = subdirs
 
 RabbitImLib.file = RabbitImLib.pro
 RabbitImApp.file = RabbitImApp.pro
-#RabbitImApp.depends = RabbitImLib
-#Plugin.depends = RabbitImLib
+Plugin.depends = RabbitImLib
+RabbitImApp.depends = RabbitImLib Plugin
 
 CONFIG *= ordered
 SUBDIRS +=  RabbitImLib \
-   RabbitImApp \
-   Plugin
+   Plugin \
+   RabbitImApp 
+   
 
 #设置目标输出目录  
 win32{

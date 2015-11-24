@@ -98,7 +98,7 @@ if [ "$3" = "qmake" ]; then
             ;;
     esac
     if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
-        PARA="$PARA RABBITIM_USE_STATIC=1"
+        PARA="$PARA CONFIG+=static"
     fi
     $QMAKE ../RabbitIm.pro  $PARA "CONFIG+=release" \ PREFIX=`pwd`/install \
            INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include \

@@ -10,7 +10,8 @@
  * @brief 插件接口类  
  * 插件的生命周期:
  * 注意插件工程.pro文件需要包含：
-    SOURCES += PluginApp.cpp 
+    RABBITIM_PLUG_NAME=插件的类名
+    include(../config.pri)
     
  - 初始化：Init
  - 操作：Open、About、Close
