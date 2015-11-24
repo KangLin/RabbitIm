@@ -17,6 +17,7 @@ lessThan(QT_VERSION, 5.0) : error("version is $$QT_VERSION, please qt is used gr
 TARGET = RabbitIm
 TEMPLATE = lib 
 
+android : CONFIG *= static
 CONFIG += create_pc create_prl link_prl
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
@@ -62,13 +63,7 @@ CONFIG += mobility
 
 MOBILITY = 
 
-#应用程序图标  
-RC_FILE = AppIcon.rc
-
-CONFIG += localize_deployment  #本地语言部署  
-
 #ANDROID 平台相关内容  
 android{
-    CONFIG *= static
     include(android/android.pri)
 }

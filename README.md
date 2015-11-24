@@ -94,7 +94,13 @@ ubuntu 下截图:
 
 ||英文黑色样式|
 |:---:|:---:|
-|登录窗口|![登录窗口](http://img.my.csdn.net/uploads/201511/10/1447124934_7534.png)|
-|列表窗口|![列表窗口](http://img.my.csdn.net/uploads/201511/20/1447981832_9001.png)|
-|聊天窗口|![聊天窗口](http://img.blog.csdn.net/20141029143326015?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2wyMjI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast "聊天窗口")|
+|登录窗口|![登录窗口](http://img.my.csdn.net/uploads/201511/10/1447124934_7534.png "登录窗口")|
+|列表窗口|![列表窗口](http://img.my.csdn.net/uploads/201511/24/1448325576_3263.png "列表窗口")|
+|聊天窗口|![聊天窗口](http://img.my.csdn.net/uploads/201511/24/1448327027_4969.png "聊天窗口")|
 |视频|![视频](http://img.blog.csdn.net/20140717141505988 "视频")|
+
+||中文系统默认样式|
+|:---:|:---:|
+|登录窗口|![登录窗口](http://img.my.csdn.net/uploads/201511/24/1448327026_1330.png "登录窗口")|
+|列表窗口|![列表窗口](http://img.my.csdn.net/uploads/201511/24/1448327027_8721.png "列表窗口")|
+|聊天窗口|![聊天窗口](http://img.my.csdn.net/uploads/201511/24/1448327027_9088.png "聊天窗口")|

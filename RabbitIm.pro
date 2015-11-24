@@ -7,8 +7,8 @@ RabbitImApp.file = RabbitImApp.pro
 
 CONFIG *= ordered
 SUBDIRS +=  RabbitImLib \
-    RabbitImApp \
-    Plugin
+   RabbitImApp \
+   Plugin
 
 #设置目标输出目录  
 win32{

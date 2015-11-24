@@ -80,9 +80,9 @@ mingw{
 } else : android {
     PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRRARY_PATH}
     equals(QMAKE_HOST.os, Windows){
-        PKG_CONFIG_LIBDIR=$${THIRD_LIBRRARY_PATH}/lib/pkgconfig;$${TARGET_PATH}/pkgconfig;$${THIRD_LIBRRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig
+        PKG_CONFIG_LIBDIR=$${THIRD_LIBRRARY_PATH}/lib/pkgconfig;$${THIRD_LIBRRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig;$${TARGET_PATH}/pkgconfig
     } else {
-        PKG_CONFIG_LIBDIR=$${THIRD_LIBRRARY_PATH}/lib/pkgconfig:$${TARGET_PATH}/pkgconfig:$${THIRD_LIBRRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig
+        PKG_CONFIG_LIBDIR=$${THIRD_LIBRRARY_PATH}/lib/pkgconfig:$${THIRD_LIBRRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig:$${TARGET_PATH}/pkgconfig
     }
 } else {
     PKG_CONFIG_PATH="$${THIRD_LIBRRARY_PATH}/lib/pkgconfig:$${TARGET_PATH}/pkgconfig:$$(PKG_CONFIG_PATH)"
