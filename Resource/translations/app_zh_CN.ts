@@ -1093,72 +1093,6 @@ Email or MSN:kl222@126.com</source>
     </message>
 </context>
 <context>
-    <name>CDlgScanQRcode</name>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="14"/>
-        <source>Scan QR Code</source>
-        <translation>扫描二维码</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="24"/>
-        <source>Scan</source>
-        <translation>扫描</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="30"/>
-        <source>With a camera at the two-dimensional code, you can scan</source>
-        <translation>用摄像头对准二维码扫描</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="91"/>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="201"/>
-        <source>Browse(&amp;B)</source>
-        <translation>浏览(&amp;B)</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="102"/>
-        <source>Recognition(&amp;R)</source>
-        <translation>识别(&amp;R)</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="113"/>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="308"/>
-        <source>Cancel(&amp;C)</source>
-        <translation>取消（&amp;C）</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="134"/>
-        <source>Generate</source>
-        <translation>生成</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="140"/>
-        <source>Enter generated content:</source>
-        <translation>输入生成内容:</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="159"/>
-        <source>Logon image:</source>
-        <translation>标志图像:</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="178"/>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="243"/>
-        <source>TextLabel</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="286"/>
-        <source>Generate(&amp;G)</source>
-        <translation>生成(&amp;G)</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScanQRcode/DlgScanQRcode.ui" line="297"/>
-        <source>Save As(&amp;S)</source>
-        <translation>另存为(&amp;S)</translation>
-    </message>
-</context>
-<context>
     <name>CDlgUpdate</name>
     <message>
         <location filename="../../Update/DlgUpdate.ui" line="14"/>
@@ -2515,12 +2449,12 @@ Real Time Speed(m/s)</source>
 <context>
     <name>CQRCode</name>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/QRCode.cpp" line="215"/>
+        <location filename="../../common/QRCode.cpp" line="215"/>
         <source>Do you add roster </source>
         <translation>是否增加好友 </translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgScanQRcode/QRCode.cpp" line="234"/>
+        <location filename="../../common/QRCode.cpp" line="234"/>
         <source>Do open </source>
         <translation>是否打开 </translation>
     </message>
@@ -2528,7 +2462,7 @@ Real Time Speed(m/s)</source>
 <context>
     <name>CTool</name>
     <message>
-        <location filename="../../Tool.h" line="213"/>
+        <location filename="../../common/Tool.h" line="213"/>
         <source>Open file</source>
         <translation>打开文件</translation>
     </message>

@@ -1,6 +1,6 @@
 # For autocompiling qm-files.
 
-TRANSLATIONS = $$PWD/../Resource/translations/app_zh_CN.ts 
+TRANSLATIONS = $$PWD/app_zh_CN.ts 
 
 #rules to generate ts
 isEmpty(QMAKE_LUPDATE) {
@@ -29,13 +29,9 @@ updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_OUT}
 updateqm.CONFIG += no_link  no_clean target_predeps 
 QMAKE_EXTRA_COMPILERS += updateqm
 
-# Release all the .ts files at once
-#updateallqm = $$QMAKE_LRELEASE -silent $$TRANSLATIONS
-
 TRANSLATIONS_OUTPUT_PATH = $${TARGET_PATH}/translations
 mytranslations.target = mytranslations
 equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
-#msvc{
     TRANSLATIONS_OUTPUT_PATH = $$replace(TRANSLATIONS_OUTPUT_PATH, /, \\)
     QT_QM = $$[QT_INSTALL_TRANSLATIONS]\qt_zh_CN.qm
     QT_QM = $$replace(QT_QM, /, \\)
@@ -43,7 +39,6 @@ equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
     mytranslations.commands =  \
         $${QMAKE_COPY} $$replace(PWD, /, \\)\app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}\app_zh_CN.qm && \
         $${QMAKE_COPY} $$QT_QM $${TRANSLATIONS_OUTPUT_PATH}\qt_zh_CN.qm
-    #mytranslations.depends = mytranslations_path
 }
 else {
     mkpath($${TRANSLATIONS_OUTPUT_PATH})
@@ -57,12 +52,12 @@ else {
     #POST_TARGETDEPS += mytranslations
     #发行版本才更新更新配置  
     CONFIG(release, debug|release) {
-        POST_TARGETDEPS += mytranslations
+        PRE_TARGETDEPS += mytranslations
     }
 }
 
 wince |android {
-    mytranslat.files = $$PWD/../Resource/translations/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
+    mytranslat.files = $$PWD/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
     mytranslat.path = $$PREFIX/translations
     DEPLOYMENT += mytranslat
 }else{
@@ -72,7 +67,7 @@ wince |android {
     other.path = $$PREFIX
     other.CONFIG += directory no_check_exist 
 
-    mytranslat.files =  Resource/translations/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
+    mytranslat.files =  $$PWD/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
     mytranslat.path = $$PREFIX/translations
     mytranslat.CONFIG += directory no_check_exist 
 

@@ -144,7 +144,7 @@ if [ -d qtimageformats ]; then
     CONFIG_PARA="${CONFIG_PARA} -skip qtimageformats"
 fi
 if [ -d qtwebkit-examples ]; then
-    CONFIG_PARA="${CONFIG_PARA} -skip -skip qtwebkit-examples"
+    CONFIG_PARA="${CONFIG_PARA} -skip qtwebkit-examples"
 fi
 #if [ -d qtwebengine ]; then
 #    CONFIG_PARA="${CONFIG_PARA} -skip qtwebengine"
