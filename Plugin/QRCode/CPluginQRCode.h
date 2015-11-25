@@ -34,6 +34,8 @@ public:
     virtual QString Name();
     //应用所在组  
     virtual QSet<QString> Group();
+    //应用图标  
+    virtual QIcon Icon();
     
 private:
     CFrmScanQRcode m_FrmScanQRCode;

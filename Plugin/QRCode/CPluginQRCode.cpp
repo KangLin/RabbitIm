@@ -44,6 +44,12 @@ QSet<QString> CPluginQRCode::Group()
     return QSet<QString>() << tr("Tools");
 }
 
+//应用图标  
+QIcon CPluginQRCode::Icon()
+{
+    return QIcon(":/icon/Scan");
+}
+
 #if QT_VERSION < 0x050000
 Q_EXPORT_PLUGIN2(QRCode, CPluginQRCode)
 #endif // QT_VERSION < 0x050000
