@@ -1,5 +1,5 @@
 
-#增加第三方依赖库到 LIBS 和 QMAKE_CXXFLAGS  
+#用 pkg-config 机制增加第三方依赖库到 LIBS 和 QMAKE_CXXFLAGS  
 PKG_CONFIG = $$myPkgConfigExecutable()
 message("PKG_CONFIG:$$PKG_CONFIG")
 # qmake supports no empty list elements, so the outer loop is a bit arcane
@@ -36,3 +36,9 @@ LIBS +=  $$OPENCV_LIBRARY
 message("MYPKGCONFIG:$$MYPKGCONFIG")
 message("DEFINES:$$DEFINES")
 message("LIBS:$$LIBS")
+
+equals(QXMPP_USE_VPX, 1) : myPackagesExist(vpx){
+    android {
+        LIBS += -lcpu-features
+    }
+}

@@ -21,6 +21,16 @@ android : CONFIG *= static
 CONFIG += create_pc create_prl link_prl
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
+#发行版本才更新更新配置  
+CONFIG(release, debug|release) {
+    include(pri/RabbitImOther.pri)
+    !equals(RABBITIM_USE_LIBCURL, 1){
+        warning("don't update function")
+    }
+}
+
+VERSION = $${MAJOR_VERSION_NUMBER}.$${MINOR_VERSION_NUMBER}.$${REVISION_VERSION_NUMBER}
+
 #设置目标输出目录  
 win32{
     CONFIG(debug, debug|release) {
@@ -50,13 +60,6 @@ CONFIG(debug, debug|release) {
 include(pri/ThirdLibraryConfig.pri)
 include(pri/ThirdLibrary.pri)
 include(pri/ThirdLibraryJoin.pri)
-
-equals(QXMPP_USE_VPX, 1) : packagesExist(vpx){
-    android {
-        LIBS += -lcpu-features
-    }
-}
-
 include(pri/RabbitImFiles.pri)
 
 CONFIG += mobility

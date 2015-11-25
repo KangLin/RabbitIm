@@ -45,6 +45,15 @@ public:
     ~CTool();
 
 public:
+    /**
+     * @brief 格式映射  
+     * @param format 
+     * @return 
+     */
+    static QImage::Format VideoFormatToQImageFormat(const VideoFormat format);
+    static QVideoFrame::PixelFormat VideoFormatToQVideoFrameFormat(
+            const VideoFormat format);
+
 #ifdef RABBITIM_USE_FFMPEG
     //设置ffmpeg日志输出  
     static int SetFFmpegLog();
@@ -59,9 +68,6 @@ public:
     static VideoFormat QVideoFrameFormatToVideoFormat(
             const QVideoFrame::PixelFormat format);
     static AVPixelFormat VideoFormatToFFMpegPixFormat(
-            const VideoFormat format);
-    static QImage::Format VideoFormatToQImageFormat(const VideoFormat format);
-    static QVideoFrame::PixelFormat VideoFormatToQVideoFrameFormat(
             const VideoFormat format);
     static AVPixelFormat QImageFormatToFFMpegPixFormat(
             const QImage::Format format);

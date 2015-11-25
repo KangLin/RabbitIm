@@ -1,3 +1,5 @@
+#第三方依赖库  
+
 RABBITIM_USE_QXMPP=1         #使用 qxmpp 库  
 QXMPP_USE_VPX=1              #使用 vpx  
 #QXMPP_USE_SPEEX=1           #使用 speex  
@@ -9,12 +11,11 @@ RABBITIM_USE_OPENSSL=1      #使用openssl
 #RABBITIM_USE_PJSIP=1        #使用 pjsip 库  
 #RABBITIM_USE_PJSIP_CAMERA=1  
 
-#第三方依赖库  
 equals(RABBITIM_USE_QXMPP, 1) {
     CONFIG(release, debug|release) {
         myPackagesExist(qxmpp) {
             DEFINES *= RABBITIM_USE_QXMPP
-            MYPKGCONFIG += qxmpp
+            MYPKGCONFIG *= qxmpp
         } else : msvc {
             DEFINES *= RABBITIM_USE_QXMPP
             LIBS += -lqxmpp0
@@ -22,7 +23,7 @@ equals(RABBITIM_USE_QXMPP, 1) {
     } else {
         myPackagesExist(qxmpp_d) {
             DEFINES *= RABBITIM_USE_QXMPP
-            MYPKGCONFIG += qxmpp_d
+            MYPKGCONFIG *= qxmpp_d
         }else : msvc {
             DEFINES *= RABBITIM_USE_QXMPP
             LIBS += -lqxmpp_d0
@@ -30,12 +31,12 @@ equals(RABBITIM_USE_QXMPP, 1) {
     }
 }
 
-equals(RABBITIM_USE_FFMPEG, 1) : packagesExist(libavcodec libavformat libswscale libavutil) {
+equals(RABBITIM_USE_FFMPEG, 1) : myPackagesExist(libavcodec libavformat libswscale libavutil) {
     DEFINES *= RABBITIM_USE_FFMPEG __STDC_CONSTANT_MACROS #ffmpeg需要  
     MYPKGCONFIG *= libavcodec libavformat libswscale libavutil 
 }
 
-equals(RABBITIM_USE_PJSIP, 1) : packagesExist(libpjproject){
+equals(RABBITIM_USE_PJSIP, 1) : myPackagesExist(libpjproject){
     DEFINES += RABBITIM_USE_PJSIP
     equals(RABBITIM_USE_PJSIP_CAMERA, 1) {
         DEFINES += RABBITIM_USE_PJSIP_CAMERA
@@ -67,20 +68,20 @@ equals(RABBITIM_USE_OPENCV, 1){
     message("android video capture need opencv, please set RABBITIM_USE_OPENCV=1")
 }
 
-equals(QXMPP_USE_SPEEX, 1) : packagesExist(speex) {
+equals(QXMPP_USE_SPEEX, 1) : myPackagesExist(speex) {
     MYPKGCONFIG *= speex
 }
 
-equals(QXMPP_USE_VPX, 1) : packagesExist(vpx){
+equals(QXMPP_USE_VPX, 1) : myPackagesExist(vpx){
     MYPKGCONFIG *= vpx
 }
 
-packagesExist(libqrencode) {
+myPackagesExist(libqrencode) {
     DEFINES *= RABBITIM_USE_LIBQRENCODE
     MYPKGCONFIG *= libqrencode
 }
 
-packagesExist(QZXing) {
+myPackagesExist(QZXing) {
     DEFINES *= RABBITIM_USE_QZXING
     MYPKGCONFIG *= QZXing
 } else : msvc {
@@ -89,7 +90,7 @@ packagesExist(QZXing) {
 }
 
 equals(RABBITIM_USE_LIBCURL, 1) {
-    packagesExist(libcurl) {
+    myPackagesExist(libcurl) {
         DEFINES *= RABBITIM_USE_LIBCURL
         MYPKGCONFIG *= libcurl
     } else : msvc {
@@ -99,7 +100,7 @@ equals(RABBITIM_USE_LIBCURL, 1) {
 }
 
 equals(RABBITIM_USE_OPENSSL, 1) {
-    packagesExist(openssl) {
+    myPackagesExist(openssl) {
         DEFINES *= RABBITIM_USE_OPENSSL
         MYPKGCONFIG *= openssl
     } else : msvc {

@@ -37,7 +37,7 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
                                  this->rect().height(),
                                  VIDEO_FORMAT_RGB32);
             #else
-                #error "Must use ffmpeg"
+                #pragma message("Must use ffmpeg")
             #endif
         }
         else

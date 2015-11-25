@@ -253,11 +253,19 @@ do
 done
 
 echo "$MAKE install"
-$MAKE ${MAKE_PARA} \
-    &&  $MAKE install \
-    && cat > ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf << EOF
+#if [ "${RABBITIM_BUILD_TARGERT}" = "android" ]; then
+#    $MAKE ${MAKE_PARA} \
+#        &&  $MAKE install 
+        
+#else
+    $MAKE ${MAKE_PARA} \
+        &&  $MAKE install 
+#fi
+
+cat > ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf << EOF
 [Paths]
 Prefix=..
 EOF
+
 
 cd $CUR_DIR

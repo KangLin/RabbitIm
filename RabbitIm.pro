@@ -7,9 +7,11 @@ RabbitImApp.depends = RabbitImLib Plugin
 
 CONFIG *= ordered
 SUBDIRS +=  RabbitImLib \
-   Plugin \
-   RabbitImApp 
-   
+    Plugin \
+    RabbitImApp
+
+
+android : CONFIG*=static
 
 #设置目标输出目录  
 win32{

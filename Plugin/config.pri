@@ -1,4 +1,5 @@
 CONFIG *= plugin 
+android : CONFIG*=static
 
 TARGET_PATH=$$OUT_PWD/../..
 #设置目标输出目录  
@@ -9,14 +10,14 @@ win32{
         TARGET_PATH=$${TARGET_PATH}/Release
     }
 }
-LIBS += -L$${TARGET_PATH}
+LIBS += -L$${TARGET_PATH}   #包含 RabbitIm 库位置  
 !exists("$$OUT_PWD") : mkpath($$OUT_PWD)
 #message("TARGET_PATH:$${TARGET_PATH}")
 
 SOURCES += ../PluginApp.cpp
 
 include($$PWD/../pri/ThirdLibraryConfig.pri)
-MYPKGCONFIG *= RabbitIm
+myPackagesExist(RabbitIm) : MYPKGCONFIG *= RabbitIm
 include($$PWD/../pri/ThirdLibrary.pri)
 include($$PWD/../pri/ThirdLibraryJoin.pri)
 

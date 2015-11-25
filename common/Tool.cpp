@@ -37,6 +37,39 @@ void Log(void*, int, const char* fmt, va_list vl)
     LOG_MODEL_DEBUG("ffmpeg", fmt, vl);
 }
 
+QImage::Format CTool::VideoFormatToQImageFormat(const VideoFormat format)
+{
+    if(VIDEO_FORMAT_RGB24 == format)
+        return QImage::Format_RGB888;
+    else if(VIDEO_FORMAT_DIB == format)
+        return QImage::Format_RGB888;
+    else if(VIDEO_FORMAT_RGB32 == format)
+        return QImage::Format_RGB32;
+    else if(VIDEO_FORMAT_RGBA == format)
+        return QImage::Format_RGB32;
+    return QImage::Format_Invalid;
+}
+
+QVideoFrame::PixelFormat CTool::VideoFormatToQVideoFrameFormat(
+        const VideoFormat format)
+{
+    if(VIDEO_FORMAT_RGB24 == format)
+        return QVideoFrame::Format_RGB24;
+    else if(VIDEO_FORMAT_DIB == format)
+        return QVideoFrame::Format_RGB24;
+    else if(VIDEO_FORMAT_RGB32 == format)
+        return QVideoFrame::Format_RGB32;
+    else if(VIDEO_FORMAT_RGBA == format)
+        return QVideoFrame::Format_RGB32;
+    else if(VIDEO_FORMAT_YV12 == format)
+        return QVideoFrame::Format_YV12;
+    else if(VIDEO_FORMAT_NV21 == format)
+        return QVideoFrame::Format_NV21;
+    else if(VIDEO_FORMAT_YUY2 == format)
+        return QVideoFrame::Format_YUYV;
+    return QVideoFrame::Format_Invalid;
+}
+
 #ifdef RABBITIM_USE_FFMPEG
 int CTool::SetFFmpegLog()
 {
@@ -112,39 +145,6 @@ AVPixelFormat CTool::VideoFormatToFFMpegPixFormat(
         return AV_PIX_FMT_YVYU422;
 #endif
     return AV_PIX_FMT_NONE;
-}
-
-QImage::Format CTool::VideoFormatToQImageFormat(const VideoFormat format)
-{
-    if(VIDEO_FORMAT_RGB24 == format)
-        return QImage::Format_RGB888;
-    else if(VIDEO_FORMAT_DIB == format)
-        return QImage::Format_RGB888;
-    else if(VIDEO_FORMAT_RGB32 == format)
-        return QImage::Format_RGB32;
-    else if(VIDEO_FORMAT_RGBA == format)
-        return QImage::Format_RGB32;
-    return QImage::Format_Invalid;
-}
-
-QVideoFrame::PixelFormat CTool::VideoFormatToQVideoFrameFormat(
-        const VideoFormat format)
-{
-    if(VIDEO_FORMAT_RGB24 == format)
-        return QVideoFrame::Format_RGB24;
-    else if(VIDEO_FORMAT_DIB == format)
-        return QVideoFrame::Format_RGB24;
-    else if(VIDEO_FORMAT_RGB32 == format)
-        return QVideoFrame::Format_RGB32;
-    else if(VIDEO_FORMAT_RGBA == format)
-        return QVideoFrame::Format_RGB32;
-    else if(VIDEO_FORMAT_YV12 == format)
-        return QVideoFrame::Format_YV12;
-    else if(VIDEO_FORMAT_NV21 == format)
-        return QVideoFrame::Format_NV21;
-    else if(VIDEO_FORMAT_YUY2 == format)
-        return QVideoFrame::Format_YUYV;
-    return QVideoFrame::Format_Invalid;
 }
 
 AVPixelFormat CTool::QImageFormatToFFMpegPixFormat(const QImage::Format format)

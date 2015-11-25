@@ -31,19 +31,11 @@ win32{
 LIBS += -L$${TARGET_PATH} 
 CONFIG(static, static|shared) : include($$PWD/Plugin/PluginStatic.pri)
 include(pri/ThirdLibraryConfig.pri)
+myPackagesExist(RabbitIm) : MYPKGCONFIG *= RabbitIm
 include(pri/ThirdLibrary.pri)
-MYPKGCONFIG *= RabbitIm
 include(pri/ThirdLibraryJoin.pri)
 
 SOURCES += main.cpp
-
-#发行版本才更新更新配置  
-CONFIG(release, debug|release) {
-    include(pri/RabbitImOther.pri)
-    !equals(RABBITIM_USE_LIBCURL, 1){
-        warning("don't update function")
-    }
-}
 
 CONFIG += mobility
 

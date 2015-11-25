@@ -130,10 +130,14 @@ int CQRCode::ProcessQImage(const std::shared_ptr<CVideoFrame> &frame, QString &s
     std::shared_ptr<CVideoFrame> outFrame;
     if (VIDEO_FORMAT_RGB32 != frame->m_VideoInfo.Format)
     {
+#ifdef RABBITIM_USE_FFMPEG
         CTool::ConvertFormat(frame, outFrame,
                              frame->m_VideoInfo.nWidth,
                              frame->m_VideoInfo.nHeight,
                              VIDEO_FORMAT_RGB32);
+#else
+    #error "Must use ffmpeg library"
+#endif
     }
     else
     {
