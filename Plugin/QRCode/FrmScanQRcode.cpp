@@ -24,12 +24,10 @@ CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
 
     bool check = connect(&m_Timer, SIGNAL(timeout()), SLOT(OnTimeOut()));
     Q_ASSERT(check);
-
     m_pCamera = CCameraFactory::Instance()->GetCamera(0);
     if(m_pCamera)
     {
         m_pCamera->Open(this);
-        Start();
     } else {
         ui->lbText->setText(tr("The camera does not exist."));
     }
@@ -45,6 +43,17 @@ CFrmScanQRcode::~CFrmScanQRcode()
         m_pCamera = NULL;
     }
     delete ui;
+    LOG_MODEL_DEBUG("CDlgScanQRcode", "CDlgScanQRcode::~CDlgScanQRcode end");
+}
+
+void CFrmScanQRcode::showEvent(QShowEvent *)
+{
+    Start();
+}
+
+void CFrmScanQRcode::hideEvent(QHideEvent *)
+{
+    Stop();
 }
 
 void CFrmScanQRcode::on_pushBrowse_clicked()

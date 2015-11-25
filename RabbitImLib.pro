@@ -23,7 +23,7 @@ QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
 #发行版本才更新更新配置  
 CONFIG(release, debug|release) {
-    include(pri/RabbitImOther.pri)
+    include(pri/RabbitImVersion.pri)
     !equals(RABBITIM_USE_LIBCURL, 1){
         warning("don't update function")
     }

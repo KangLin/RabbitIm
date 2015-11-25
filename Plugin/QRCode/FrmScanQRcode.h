@@ -33,6 +33,8 @@ public:
 private:
     int Start();
     int Stop();
+    virtual void showEvent(QShowEvent *);
+    virtual void hideEvent(QHideEvent * event);
     
 private slots:
     void on_pushBrowse_clicked();
