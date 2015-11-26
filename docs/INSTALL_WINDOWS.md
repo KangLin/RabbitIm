@@ -427,7 +427,6 @@ qt5.5.1
     
     ```sh
     export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
-    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}
     ```
 
 * 如果qt是自己编译的，需要做下列：
@@ -539,7 +538,4 @@ ubuntu下用mingw交叉编译
         
     ```sh
     export PKG_CONFIG=pkg-config
-    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}
-    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
-    export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibrary/${PLATFORM}
     ```
