@@ -124,6 +124,7 @@ case ${RABBITIM_BUILD_TARGERT} in
                 CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld"
                 ;;
             MINGW* | MSYS*)
+                CONFIG_PARA="--enable-static --disable-shared"
                 ;;
             *)
             ;;
