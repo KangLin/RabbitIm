@@ -9,7 +9,10 @@ CManagePlugin::CManagePlugin(QObject *parent)
     foreach (QObject *plugin, QPluginLoader::staticInstances())
     {
         QSharedPointer<CPluginApp> pluginApp(qobject_cast<CPluginApp *>(plugin));
-        this->RegisterPlugin(pluginApp->ID(), pluginApp);
+        if(!pluginApp.isNull())
+        {
+            this->RegisterPlugin(pluginApp->ID(), pluginApp);
+        }
     }
 
     QDir pluginsDir = QDir(qApp->applicationDirPath());
@@ -38,7 +41,10 @@ int CManagePlugin::FindPlugins(QDir dir)
         if (plugin) {
             QSharedPointer<CPluginApp> pluginApp(qobject_cast<CPluginApp *>(plugin));
             if(!pluginApp.isNull())
+            {
+                pluginApp->InitInstance(dir.absolutePath());
                 this->RegisterPlugin(pluginApp->ID(), pluginApp);
+            }
         }
     }
     
@@ -49,6 +55,10 @@ int CManagePlugin::FindPlugins(QDir dir)
     }
 
     return 0;
+}
+
+CManagePlugin::~CManagePlugin()
+{
 }
 
 int CManagePlugin::Init(const QString &szId)

@@ -1568,30 +1568,6 @@ Email or MSN:kl222@126.com</source>
     </message>
 </context>
 <context>
-    <name>CFrmLbsMain</name>
-    <message>
-        <location filename="../../Plugin/Lbs/FrmLbsMain.ui" line="14"/>
-        <location filename="../../Plugin/Lbs/FrmLbsMain.cpp" line="15"/>
-        <source>Motion</source>
-        <translation>运动</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/FrmLbsMain.ui" line="34"/>
-        <source>Tab 1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/FrmLbsMain.ui" line="39"/>
-        <source>Tab 2</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/FrmLbsMain.cpp" line="16"/>
-        <source>Track</source>
-        <translation>跟踪</translation>
-    </message>
-</context>
-<context>
     <name>CFrmLogin</name>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="26"/>
@@ -1917,109 +1893,6 @@ Email or MSN:kl222@126.com</source>
     </message>
 </context>
 <context>
-    <name>CFrmScanQRcode</name>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="18"/>
-        <source>Back</source>
-        <translation>回退</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="34"/>
-        <source>The camera does not exist.</source>
-        <translation>摄像头不存在。</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="54"/>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="192"/>
-        <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
-        <translation>图像文件 (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="55"/>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="193"/>
-        <source>Open File</source>
-        <translation>打开文件</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="153"/>
-        <source>Scan QR Code</source>
-        <translation>扫描二维码</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="156"/>
-        <source>Generate QR Code</source>
-        <translation>生成QR码</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.cpp" line="177"/>
-        <source>Save as</source>
-        <translation>另存为……</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="14"/>
-        <source>Recognition QR Code</source>
-        <translation>识别 QR 码</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="24"/>
-        <source>Recognition</source>
-        <translation>识别</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="30"/>
-        <source>With a camera at the two-dimensional code, you can scan</source>
-        <translation>用摄像头对准二维码扫描</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="91"/>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="201"/>
-        <source>Browse(&amp;B)</source>
-        <translation>浏览(&amp;B)</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="102"/>
-        <source>Recognition(&amp;R)</source>
-        <translation>识别(&amp;R)</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="113"/>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="308"/>
-        <source>Cancel(&amp;C)</source>
-        <translation>取消（&amp;C）</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="134"/>
-        <source>Generate</source>
-        <translation>生成</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="140"/>
-        <source>Enter generated content:</source>
-        <translation>输入生成内容:</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="159"/>
-        <source>Logon image:</source>
-        <translation>标志图像:</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="178"/>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="243"/>
-        <source>TextLabel</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="286"/>
-        <source>Generate(&amp;G)</source>
-        <translation>生成(&amp;G)</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/FrmScanQRcode.ui" line="297"/>
-        <source>Save As(&amp;S)</source>
-        <translation>另存为(&amp;S)</translation>
-    </message>
-</context>
-<context>
     <name>CFrmUserList</name>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="34"/>
@@ -2240,123 +2113,6 @@ Email or MSN:kl222@126.com</source>
     </message>
 </context>
 <context>
-    <name>CLbsMotion</name>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.ui" line="14"/>
-        <source>Motion</source>
-        <translation>运动</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.ui" line="134"/>
-        <source>Back</source>
-        <translation>回退</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.ui" line="145"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="183"/>
-        <source>Start</source>
-        <translation>开始</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.ui" line="152"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="231"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="260"/>
-        <source>Pause</source>
-        <translation>暂停</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="21"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="22"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="304"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="306"/>
-        <source>%1
-Distance(km)</source>
-        <translation>%1
-距离(公里)</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="24"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="303"/>
-        <source>%1
-Duration</source>
-        <translation>%1
-间隔</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="25"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="143"/>
-        <source>%1
-Accuracy(m)</source>
-        <translation>%1
-精度(米)</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="26"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="308"/>
-        <source>%1
-Speed(km/h)</source>
-        <translation>%1
-速度(公里/小时)</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="27"/>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="148"/>
-        <source>%1
-Real Time Speed(m/s)</source>
-        <translation>%1
-实时速度(米/秒)</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="195"/>
-        <source>Upload</source>
-        <translation>上传</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="196"/>
-        <source>Upload to server ......</source>
-        <translation>上传到服务器 ......</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="230"/>
-        <source>Stop</source>
-        <translation>停止</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="258"/>
-        <source>Continue</source>
-        <translation>继续</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="343"/>
-        <source>Upload succeed</source>
-        <translation>上传成功</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsMotion.cpp" line="348"/>
-        <source>Upload fail</source>
-        <translation>上传失败</translation>
-    </message>
-</context>
-<context>
-    <name>CLbsTrack</name>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsTrack.ui" line="14"/>
-        <source>Track</source>
-        <translation>跟踪</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsTrack.ui" line="45"/>
-        <location filename="../../Plugin/Lbs/LbsTrack.cpp" line="146"/>
-        <source>Start</source>
-        <translation>开始</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/LbsTrack.cpp" line="174"/>
-        <source>Stop</source>
-        <translation>停止</translation>
-    </message>
-</context>
-<context>
     <name>CManageCall</name>
     <message>
         <location filename="../../Call/ManageCall.cpp" line="51"/>
@@ -2420,41 +2176,14 @@ Real Time Speed(m/s)</source>
     </message>
 </context>
 <context>
-    <name>CPluginAppMotion</name>
-    <message>
-        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="59"/>
-        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="64"/>
-        <source>Motion</source>
-        <translation>运动</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/Lbs/PluginAppMotion.cpp" line="64"/>
-        <source>Lbs</source>
-        <translation>定位</translation>
-    </message>
-</context>
-<context>
-    <name>CPluginQRCode</name>
-    <message>
-        <location filename="../../Plugin/QRCode/CPluginQRCode.cpp" line="39"/>
-        <source>QRcode</source>
-        <translation>二维码</translation>
-    </message>
-    <message>
-        <location filename="../../Plugin/QRCode/CPluginQRCode.cpp" line="44"/>
-        <source>Tools</source>
-        <translation>工具</translation>
-    </message>
-</context>
-<context>
     <name>CQRCode</name>
     <message>
-        <location filename="../../common/QRCode.cpp" line="215"/>
+        <location filename="../../common/QRCode.cpp" line="219"/>
         <source>Do you add roster </source>
         <translation>是否增加好友 </translation>
     </message>
     <message>
-        <location filename="../../common/QRCode.cpp" line="234"/>
+        <location filename="../../common/QRCode.cpp" line="238"/>
         <source>Do open </source>
         <translation>是否打开 </translation>
     </message>
@@ -2462,7 +2191,7 @@ Real Time Speed(m/s)</source>
 <context>
     <name>CTool</name>
     <message>
-        <location filename="../../common/Tool.h" line="213"/>
+        <location filename="../../common/Tool.h" line="219"/>
         <source>Open file</source>
         <translation>打开文件</translation>
     </message>
@@ -2742,12 +2471,12 @@ Real Time Speed(m/s)</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../Plugin/PluginApp.cpp" line="16"/>
+        <location filename="../../Plugin/PluginApp.cpp" line="20"/>
         <source>Application Infomation</source>
         <translation>应用信息</translation>
     </message>
     <message>
-        <location filename="../../Plugin/PluginApp.cpp" line="17"/>
+        <location filename="../../Plugin/PluginApp.cpp" line="21"/>
         <source>Application:</source>
         <translation>应用：</translation>
     </message>

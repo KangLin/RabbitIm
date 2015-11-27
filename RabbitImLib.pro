@@ -8,7 +8,7 @@ TARGET = RabbitIm
 TEMPLATE = lib 
 
 android : CONFIG *= static
-CONFIG += create_pc create_prl link_prl
+CONFIG += create_pc create_prl link_prl no_install_pc no_install_prl
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
 #发行版本才更新更新配置  

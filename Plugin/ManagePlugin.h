@@ -25,6 +25,8 @@ class CManagePlugin : public CManage
     Q_OBJECT
 public:
     explicit CManagePlugin(QObject *parent = 0);
+    virtual ~CManagePlugin();
+    
     /**
      * @brief 用户登录成功后调用,用于初始化工作  
      *

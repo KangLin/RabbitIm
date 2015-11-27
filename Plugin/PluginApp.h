@@ -5,6 +5,7 @@
 #include <QIcon>
 #include <QtPlugin>
 #include <QSet>
+#include <QTranslator>
 
 /**
  * @brief 插件接口类  
@@ -23,6 +24,8 @@ class CPluginApp
 public:
     CPluginApp();
     virtual ~CPluginApp();
+
+    virtual int InitInstance(const QString &szDir);
 
     //登录初始化  
     virtual int Init(const QString &szId) = 0;
@@ -46,6 +49,11 @@ public:
     virtual QSet<QString> Group() = 0;
     //应用图标  
     virtual QIcon Icon();
+    
+private:
+    ///加载翻译  
+    virtual int LoadTranslate(const QString &szDir = QString());
+    QSharedPointer<QTranslator> m_TranslatorPlugin;
 };
 
 #define rabbitim_plugin_application_iid "rabbitim.plugin.application"
