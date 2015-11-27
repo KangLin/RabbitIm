@@ -37,4 +37,9 @@ contains(TEMPLATE, lib){
         PLUG_CONTENT = "LIBS += -l$${TARGET}"
         write_file($$FILE_NAME, PLUG_CONTENT, append)
     }
-} 
+
+    DESTDIR = $$OUT_PWD/../../plugins/App/$${TARGET}
+    target.path = $$PREFIX/plugins
+} else : target.path = $$PREFIX
+
+INSTALLS += target

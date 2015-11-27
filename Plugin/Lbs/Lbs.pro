@@ -10,8 +10,6 @@
 TARGET = Lbs
 TEMPLATE = lib
 
-DESTDIR = $$OUT_PWD/../../plugins/App
-
 CONFIG += mobility
 MOBILITY = 
 

@@ -4,16 +4,6 @@
 #
 #-------------------------------------------------
 
-# 注意：Qt 版本必须大于 5.0  
-QT += core gui network xml multimedia widgets
-
-qtHaveModule(webkit) {
-    QT += webkitwidgets
-    DEFINES += RABBITIM_WEBKIT 
-}
-
-lessThan(QT_VERSION, 5.0) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
-
 TARGET = RabbitIm
 TEMPLATE = lib 
 
@@ -65,6 +55,9 @@ include(pri/RabbitImFiles.pri)
 # Rules for creating/updating {ts|qm}-files
 include(Resource/translations/translations.pri)
 
+target.path = $$PREFIX
+INSTALLS += target
+
 CONFIG += mobility
 
 MOBILITY = 
@@ -72,4 +65,15 @@ MOBILITY =
 #ANDROID 平台相关内容  
 android{
     include(android/android.pri)
+}
+
+win32{
+    #安装qt依赖库  
+    Deployment_qtlib.target = Deployment_qtlib
+    Deployment_qtlib.path = $${PREFIX}
+    Deployment_qtlib.commands = "$$[QT_INSTALL_BINS]/windeployqt" \
+                    --compiler-runtime \
+                    --verbose 7 \
+                    "$${PREFIX}/${TARGET}"
+    INSTALLS += Deployment_qtlib
 }

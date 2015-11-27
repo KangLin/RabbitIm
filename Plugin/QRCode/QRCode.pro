@@ -7,6 +7,5 @@
 TARGET = QRCode
 TEMPLATE = lib
 
-DESTDIR = $$OUT_PWD/../../plugins/App
 RABBITIM_PLUG_NAME=CPluginQRCode
 include(QRCode.pri)

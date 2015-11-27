@@ -4,16 +4,6 @@
 #
 #-------------------------------------------------
 
-# 注意：Qt 版本必须大于 5.0  
-QT += core gui network xml multimedia widgets
-
-qtHaveModule(webkit) {
-    QT += webkitwidgets
-    DEFINES += RABBITIM_WEBKIT 
-}
-
-lessThan(QT_VERSION, 5.0) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
-
 TARGET = RabbitIm
 TEMPLATE = app 
 
@@ -85,21 +75,30 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a){
 }
 
 win32{
+    #mingw{  #手机平台不需要  
+    #    RABBITIM_STRIP.target = RABBITIM_STRIP
+    #    RABBITIM_STRIP.commands = "strip $${PREFIX}/${TARGET}"
+    #}
     #安装qt依赖库  
     Deployment_qtlib.target = Deployment_qtlib
     Deployment_qtlib.path = $${PREFIX}
     Deployment_qtlib.commands = "$$[QT_INSTALL_BINS]/windeployqt" \
                     --compiler-runtime \
                     --verbose 7 \
-                    "$${PREFIX}/$${TARGET}.exe"
+                    "$${PREFIX}/${TARGET}"
+                    #$$join(QT, ' -', -) "$${PREFIX}/$${TARGET}.exe"
     #安装第三方依赖库  
     Deployment_third_lib.target = Deployment_third_lib
-    Deployment_third_lib.files = $${THIRD_LIBRARY_PATH}/bin/*.dll
+    Deployment_third_lib.files = $${THIRD_LIBRARY_PATH}/lib/*.dll
     Deployment_third_lib.path = $$PREFIX
     Deployment_third_lib.CONFIG += directory no_check_exist
 
-    INSTALLS += Deployment_qtlib Deployment_third_lib
-    #QMAKE_EXTRA_TARGETS += Deployment_qtlib Deployment_third_lib
+    Deployment_third_bin.target = Deployment_third_bin
+    Deployment_third_bin.files = $${THIRD_LIBRARY_PATH}/bin/*.dll
+    Deployment_third_bin.path = $$PREFIX
+    Deployment_third_bin.CONFIG += directory no_check_exist
+    INSTALLS += RABBITIM_STRIP Deployment_qtlib Deployment_third_lib Deployment_third_bin
+    #QMAKE_EXTRA_TARGETS += Deployment_qtlib Deployment_third_lib Deployment_third_bin
     
     #复制第三方依赖库动态库到编译输出目录  
     THIRD_LIBRARY_DLL = $${THIRD_LIBRARY_PATH}/bin/*.dll
