@@ -110,6 +110,20 @@ win32{
         POST_TARGETDEPS += ThirdLibraryDll
     }
 
+    THIRD_LIBRARY_LIB = $${THIRD_LIBRARY_PATH}/lib/*.dll
+    exists($${THIRD_LIBRARY_LIB}){
+        equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
+            THIRD_LIBRARY_LIB = $$system_path($$THIRD_LIBRARY_LIB)
+            TARGET_PATH = $$system_path($$TARGET_PATH)
+        }
+        ThirdLibraryLib.commands = \
+            $${QMAKE_COPY} $${THIRD_LIBRARY_LIB} $${TARGET_PATH}
+        ThirdLibraryLib.CONFIG += directory no_link no_clean no_check_exist
+        ThirdLibraryLib.target = ThirdLibraryLib
+        QMAKE_EXTRA_TARGETS += ThirdLibraryLib
+        POST_TARGETDEPS += ThirdLibraryLib
+    }
+
     !exists($${TARGET_PATH}/platforms):equals(QMAKE_HOST.os, Windows){
         PlatformsPlugins.commands = \
             $(COPY_DIR) $$system_path($$[QT_INSTALL_PLUGINS]/platforms) $$system_path($${TARGET_PATH}/platforms)
