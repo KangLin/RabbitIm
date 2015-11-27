@@ -48,11 +48,11 @@ else {
 }
 !android{  #手机平台不需要  
     QMAKE_EXTRA_TARGETS += mytranslations
-    #TODO:需要调试编译后编译翻译   
-    #POST_TARGETDEPS += mytranslations
+    #TODO:需要调试编译前编译翻译   
+    #PRE_TARGETDEPS += mytranslations
     #发行版本才更新更新配置  
     CONFIG(release, debug|release) {
-        PRE_TARGETDEPS += mytranslations
+        POST_TARGETDEPS += mytranslations
     }
 }
 
@@ -61,15 +61,9 @@ wince |android {
     mytranslat.path = $$PREFIX/translations
     DEPLOYMENT += mytranslat
 }else{
-    target.path = $$PREFIX
-
-    other.files = License.md Authors.txt ChangeLog.md
-    other.path = $$PREFIX
-    other.CONFIG += directory no_check_exist 
-
     mytranslat.files =  $$PWD/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
     mytranslat.path = $$PREFIX/translations
     mytranslat.CONFIG += directory no_check_exist 
 
-    INSTALLS +=  other mytranslat  target
+    INSTALLS += mytranslat
 }

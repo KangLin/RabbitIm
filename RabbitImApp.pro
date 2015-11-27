@@ -46,6 +46,12 @@ RC_FILE = AppIcon.rc
 
 CONFIG += localize_deployment  #本地语言部署  
 
+other.files = License.md Authors.txt ChangeLog.md
+other.path = $$PREFIX
+other.CONFIG += directory no_check_exist 
+target.path = $$PREFIX
+INSTALLS += other target
+
 #ANDROID 平台相关内容  
 android{
     include(android/android.pri)

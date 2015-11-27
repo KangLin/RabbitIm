@@ -62,6 +62,9 @@ include(pri/ThirdLibrary.pri)
 include(pri/ThirdLibraryJoin.pri)
 include(pri/RabbitImFiles.pri)
 
+# Rules for creating/updating {ts|qm}-files
+include(Resource/translations/translations.pri)
+
 CONFIG += mobility
 
 MOBILITY = 

@@ -1,3 +1,4 @@
+
 TEMPLATE = subdirs
 
 RabbitImLib.file = RabbitImLib.pro
@@ -32,11 +33,6 @@ isEmpty(PREFIX) {
        PREFIX = $$OUT_PWD/$$TARGET
     } 
 }
-
-# Rules for creating/updating {ts|qm}-files
-include(Resource/translations/translations.pri)
-# Build all the qm files now, to make RCC happy
-#system($$fromfile(Resource/translations/translations.pri, updateallqm))
 
 OTHER_FILES += README.md \
     .gitignore \
