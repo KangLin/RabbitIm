@@ -146,8 +146,7 @@ HEADERS += $$PWD/../Version.h \
     $$PWD/../Widgets/FrmApp/FrmFavorites.h \
     $$PWD/../Plugin/PluginApp.h \
     $$PWD/../Plugin/ManagePlugin.h \
-    $$PWD/../Global/GlobalDir.h \
-    $$PWD/../Plugin/PluginAppFactory.h 
+    $$PWD/../Global/GlobalDir.h
 
 FORMS += $$PWD/../MainWindow.ui \
     $$PWD/../Widgets/FrmLogin/FrmLogin.ui \

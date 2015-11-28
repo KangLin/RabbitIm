@@ -1,6 +1,6 @@
 #include "PluginAppMotion.h"
 #include <QMessageBox>
-#include "Plugin/PluginAppFactory.h"
+#include "Global/Log.h"
 
 CPluginAppMotion::CPluginAppMotion(QObject *parent) : QObject(parent), CPluginApp()
 {

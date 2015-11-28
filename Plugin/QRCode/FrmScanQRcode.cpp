@@ -160,9 +160,11 @@ void CFrmScanQRcode::on_tabWidget_currentChanged(int index)
     {
     case 0:
         this->setWindowTitle(tr("Scan QR Code"));
+        Start();
         break;
     case 1:
         this->setWindowTitle(tr("Generate QR Code"));
+        Stop();
         break;
     default:
         break;
