@@ -206,9 +206,9 @@ case ${RABBITIM_BUILD_TARGERT} in
         #qmake、uic、rcc、lrelease、lupdate 均为本机工具，需要用本机工具链编译
         #库都是目标机的库，所以需要目标机的工具链
         if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
-            sed "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS = -static/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
+            sed -i "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS = -static/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
         else
-            sed "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS =/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
+            sed -i "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS =/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
         fi
         case `uname -s` in
             MINGW*|MSYS*)

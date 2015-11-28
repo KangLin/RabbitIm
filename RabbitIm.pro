@@ -1,4 +1,3 @@
-
 TEMPLATE = subdirs
 
 RabbitImLib.file = RabbitImLib.pro

@@ -7,7 +7,7 @@
 #RABBITIM_USE_LIBCURL=1      #使用 libcurl
 #RABBITIM_USE_OPENSSL=1      #使用openssl
 
-TARGET = lbs
+TARGET = LbsApp
 TEMPLATE = app
 
 include(Lbs.pri)

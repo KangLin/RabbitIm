@@ -64,9 +64,9 @@ else {
     #TODO:需要调试编译前编译翻译   
     #POST_TARGETDEPS += mytranslations
     #发行版本才更新更新配置  
-    #CONFIG(release, debug|release) {
+    CONFIG(release, debug|release) {
         POST_TARGETDEPS += mytranslations
-    #}
+    }
 }
 
 mytranslat.files = $$TRANSLATIONS_QM_FILES

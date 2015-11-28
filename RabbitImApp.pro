@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-TARGET = RabbitIm
+TARGET = RabbitImApp
 TEMPLATE = app 
 
 #设置目标输出目录  
@@ -18,7 +18,8 @@ win32{
     TARGET_PATH=$$OUT_PWD
 }
 
-LIBS += -L$${TARGET_PATH} 
+LIBS += -L$${TARGET_PATH}
+
 CONFIG(static, static|shared) : include($$PWD/Plugin/PluginStatic.pri)
 include(pri/ThirdLibraryConfig.pri)
 myPackagesExist(RabbitIm) : MYPKGCONFIG *= RabbitIm
@@ -40,12 +41,10 @@ other.files = License.md Authors.txt ChangeLog.md
 other.path = $$PREFIX
 other.CONFIG += directory no_check_exist 
 target.path = $$PREFIX
-INSTALLS += other target
+!android : INSTALLS += other target
 
 #ANDROID 平台相关内容  
-android{
-    include(android/android.pri)
-}
+android : include(android/android.pri)
 
 contains(ANDROID_TARGET_ARCH,armeabi-v7a){
     ANDROID_PERMISSIONS += \
@@ -86,7 +85,7 @@ win32{
                     --compiler-runtime \
                     --verbose 7 \
                     "$${PREFIX}/${TARGET}"
-                    #$$join(QT, ' -', -) "$${PREFIX}/$${TARGET}.exe"
+
     #安装第三方依赖库  
     Deployment_third_lib.target = Deployment_third_lib
     Deployment_third_lib.files = $${THIRD_LIBRARY_PATH}/lib/*.dll

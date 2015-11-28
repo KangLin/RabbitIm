@@ -1,5 +1,4 @@
 CONFIG *= plugin 
-android : CONFIG*=static
 
 TARGET_PATH=$$OUT_PWD/../..
 #设置目标输出目录  
@@ -31,6 +30,10 @@ include($$PWD/../pri/ThirdLibrary.pri)
 include($$PWD/../pri/ThirdLibraryJoin.pri)
 
 contains(TEMPLATE, lib){
+    #插件安装路径  
+    DESTDIR = $$OUT_PWD/../../plugins/App/$${TARGET}
+    mkpath($$DESTDIR)
+
     #为静态插件生成必要的文件  
     isEmpty(RABBITIM_PLUG_NAME) : message("Please set RABBITIM_PLUG_NAME to plug class name")
     FILE_NAME=$$PWD/PluginStatic.cpp
@@ -44,13 +47,9 @@ contains(TEMPLATE, lib){
     PLUG_CONTENT = "-l$${TARGET}"
     FILE_CONTENT = $$cat($$FILE_NAME) 
     !contains(FILE_CONTENT, $$PLUG_CONTENT){
-        PLUG_CONTENT = "LIBS += -l$${TARGET}"
+        PLUG_CONTENT = "LIBS *= -L\$\${OUT_PWD}/plugins/App/$${TARGET} -l$${TARGET}"
         write_file($$FILE_NAME, PLUG_CONTENT, append)
     }
-
-    #插件安装路径  
-    DESTDIR = $$OUT_PWD/../../plugins/App/$${TARGET}
-    mkpath($$DESTDIR)
 
     #翻译  
     include($$PWD/translations.pri)
@@ -59,4 +58,4 @@ contains(TEMPLATE, lib){
     target.path = $$PREFIX/plugins/App/$${TARGET}
 } else : target.path = $$PREFIX
 
-INSTALLS += target
+!android : INSTALLS += target

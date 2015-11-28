@@ -21,5 +21,3 @@ RESOURCES += \
 DISTFILES += QRCode.json
 
 INCLUDEPATH += $$PWD/../..
-
-INSTALLS += target

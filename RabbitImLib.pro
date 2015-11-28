@@ -7,7 +7,6 @@
 TARGET = RabbitIm
 TEMPLATE = lib 
 
-android : CONFIG *= static
 CONFIG += create_pc create_prl link_prl no_install_pc no_install_prl
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
@@ -56,16 +55,14 @@ include(pri/RabbitImFiles.pri)
 include(Resource/translations/translations.pri)
 
 target.path = $$PREFIX
-INSTALLS += target
+!android : INSTALLS += target
 
 CONFIG += mobility
 
 MOBILITY = 
 
 #ANDROID 平台相关内容  
-android{
-    include(android/android.pri)
-}
+android : include(android/jni/android_jni.pri)
 
 win32{
     #安装qt依赖库  

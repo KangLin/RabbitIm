@@ -77,6 +77,7 @@ if [ "$3" = "qmake" ]; then
     MAKE="make ${RABBITIM_MAKE_JOB_PARA}"
     case $1 in
         android)
+            export ANDROID_NDK_PLATFORM=$ANDROID_API_VERSION
             PARA="-r -spec android-g++ " #RABBITIM_USE_OPENCV=1
             if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
                 MAKE="$RABBITIM_CMAKE_MAKE_PROGRAM"

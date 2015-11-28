@@ -1,4 +1,4 @@
-TARGET = QRCode
+TARGET = QRCodeApp
 TEMPLATE = app
 
 include(QRCode.pri)

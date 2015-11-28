@@ -27,7 +27,9 @@ CManagePlugin::CManagePlugin(QObject *parent)
         pluginsDir.cdUp();
     }
 #endif
+#ifndef Q_OS_ANDROID
     if(pluginsDir.cd("plugins"))
+#endif
         FindPlugins(pluginsDir);
 }
 
