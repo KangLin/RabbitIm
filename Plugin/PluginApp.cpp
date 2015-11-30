@@ -54,20 +54,24 @@ int CPluginApp::LoadTranslate(const QString &szDir)
     }
 
     LOG_MODEL_DEBUG("CPluginApp", "Translate dir:%s", qPrintable(szDir));
-
     m_TranslatorPlugin = QSharedPointer<QTranslator>(new QTranslator());
-   
-#ifdef ANDROID
-    m_TranslatorPlugin->load(":/translations/Plugin_" + szLocale + ".qm");
-#else
-    QString szPlugin = szDir + QDir::separator() + "translations"
-            + QDir::separator() + "Plugin_" + szLocale + ".qm";
+
+    QString szPlugin;
+    if(szDir.isEmpty())
+    {
+        szPlugin = ":/translations/Plugin_" + szLocale + ".qm";
+    }
+    else
+    {
+        szPlugin = szDir + QDir::separator() + "translations"
+                + QDir::separator() + "Plugin_" + szLocale + ".qm";
+    }
+
     bool bRet = m_TranslatorPlugin->load(szPlugin);
     if(!bRet)
         LOG_MODEL_ERROR("CPluginApp", "load translator[%s] fail",
                         szPlugin.toStdString().c_str());
-
-#endif
+    
     qApp->installTranslator(m_TranslatorPlugin.data());
 
     return 0;

@@ -36,6 +36,24 @@ updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_OUT}
 updateqm.CONFIG += no_link  no_clean target_predeps 
 QMAKE_EXTRA_COMPILERS += updateqm
 
+android | CONFIG(static, static|shared) {
+    TRANSLATIONS_RESOURCES_FILE = $$_PRO_FILE_PWD_/translations/Translations.qrc
+    #生成资源文件  
+    TRANSLATIONS_RESOURCES_CONTENT = "</qresource></RCC>"
+    FILE_CONTENT = $$cat($$TRANSLATIONS_RESOURCES_FILE) 
+    !contains(FILE_CONTENT, $$TRANSLATIONS_RESOURCES_CONTENT){
+        TRANSLATIONS_RESOURCES_CONTENT = "<RCC><qresource prefix='/translations'>"
+        for(file, TRANSLATIONS_QM_FILES) {
+            TRANSLATIONS_RESOURCES_CONTENT += "<file>$$replace(file, "$$_PRO_FILE_PWD_/translations/", "")</file>"
+        }
+        TRANSLATIONS_RESOURCES_CONTENT += "</qresource></RCC>"
+        write_file($$TRANSLATIONS_RESOURCES_FILE, TRANSLATIONS_RESOURCES_CONTENT, append)
+    }
+    #包含资源文件  
+    RESOURCES += $$TRANSLATIONS_RESOURCES_FILE
+}
+
+#复制翻译文件到编译目录  
 TRANSLATIONS_OUTPUT_PATH = $${DESTDIR}/translations
 mytranslations.target = mytranslations
 equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
@@ -69,9 +87,9 @@ else {
     }
 }
 
+#安装资源文件  
 mytranslat.files = $$TRANSLATIONS_QM_FILES
 mytranslat.path = $$PREFIX/plugins/App/$${TARGET}/translations
-
 wince |android {
     DEPLOYMENT += mytranslat
 }else{

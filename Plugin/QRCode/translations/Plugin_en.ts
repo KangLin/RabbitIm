@@ -78,13 +78,13 @@
     </message>
     <message>
         <location filename="../FrmScanQRcode.cpp" line="63"/>
-        <location filename="../FrmScanQRcode.cpp" line="201"/>
+        <location filename="../FrmScanQRcode.cpp" line="203"/>
         <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FrmScanQRcode.cpp" line="64"/>
-        <location filename="../FrmScanQRcode.cpp" line="202"/>
+        <location filename="../FrmScanQRcode.cpp" line="204"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -94,12 +94,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="165"/>
+        <location filename="../FrmScanQRcode.cpp" line="166"/>
         <source>Generate QR Code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="186"/>
+        <location filename="../FrmScanQRcode.cpp" line="188"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>

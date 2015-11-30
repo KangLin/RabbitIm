@@ -25,7 +25,7 @@ public:
     CPluginApp();
     virtual ~CPluginApp();
 
-    virtual int InitInstance(const QString &szDir);
+    virtual int InitInstance(const QString &szDir = QString());
 
     //登录初始化  
     virtual int Init(const QString &szId) = 0;

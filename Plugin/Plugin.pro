@@ -1,4 +1,4 @@
-#RABBITIM_USE_PLUGIN_APP=1 #生成插件应用程序  
+RABBITIM_USE_PLUGIN_APP=1 #生成插件应用程序  
 
 TEMPLATE = subdirs
 

@@ -78,13 +78,13 @@
     </message>
     <message>
         <location filename="../FrmScanQRcode.cpp" line="63"/>
-        <location filename="../FrmScanQRcode.cpp" line="201"/>
+        <location filename="../FrmScanQRcode.cpp" line="203"/>
         <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
         <translation type="unfinished">图像文件(*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</translation>
     </message>
     <message>
         <location filename="../FrmScanQRcode.cpp" line="64"/>
-        <location filename="../FrmScanQRcode.cpp" line="202"/>
+        <location filename="../FrmScanQRcode.cpp" line="204"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
@@ -94,12 +94,12 @@
         <translation>扫描二维码</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="165"/>
+        <location filename="../FrmScanQRcode.cpp" line="166"/>
         <source>Generate QR Code</source>
         <translation>生成二维码</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="186"/>
+        <location filename="../FrmScanQRcode.cpp" line="188"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>

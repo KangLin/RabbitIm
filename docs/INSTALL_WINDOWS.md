@@ -104,7 +104,7 @@ https://github.com/ruby/ruby
 
 或者：
 
-    pacman yasm nasm
+    pacman -S yasm nasm
 
 #### 2.10. cmake 工具
 主页：www.cmake.org  
@@ -185,18 +185,15 @@ windows下用mingw交叉编译
 + 设置国内镜像：
 打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.msys
 
-    \#中国科学技术
-    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MSYS2/$arch
+    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MSYS2/$arch #中国科学技术
      
 打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.mingw32
 
-    \#中国科学技术
-    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MINGW/i686/
+    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MINGW/i686/ #中国科学技术
     
 打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.mingw64
 
-    \#中国科学技术
-    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MINGW/x86_64/
+    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MINGW/x86_64/ #中国科学技术
 
 + 安装,启动msys2
 + 同步：
@@ -209,9 +206,9 @@ windows下用mingw交叉编译
 
 + 下载工具：
 
-    pacman -S wget subversion git autoconf automake m4 libtool make bison flex gperf unzip \
-        mingw-w64-i686-cmake mingw-w64-i686-python2 mingw-w64-i686-perl \
-        mingw-w64-i686-ruby mingw-w64-i686-yasm mingw-w64-i686-nasm \
+    pacman -S wget subversion git autoconf automake m4 libtool make bison flex gperf unzip
+        mingw-w64-i686-cmake mingw-w64-i686-python2 mingw-w64-i686-perl
+        mingw-w64-i686-ruby mingw-w64-i686-yasm mingw-w64-i686-nasm
         mingw-w64-i686-pkg-config mingw-w64-i686-make mingw-w64-i686-gcc
 
 当前msys2的pkg-config好象有BUG，用 mingw-w64-i686-pkg-config 

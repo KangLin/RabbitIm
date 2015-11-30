@@ -20,8 +20,11 @@ win32{
 
 LIBS += -L$${TARGET_PATH}
 
-CONFIG(static, static|shared) : include($$PWD/Plugin/PluginStatic.pri)
 include(pri/ThirdLibraryConfig.pri)
+CONFIG(static, static|shared) {
+    CONFIG *= link_prl
+    include($$PWD/Plugin/PluginStatic.pri)
+}
 myPackagesExist(RabbitIm) : MYPKGCONFIG *= RabbitIm
 include(pri/ThirdLibrary.pri)
 include(pri/ThirdLibraryJoin.pri)

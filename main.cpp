@@ -15,6 +15,8 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(style);
 #ifdef ANDROID
     Q_INIT_RESOURCE(Android);
+#endif
+#if defined(ANDROID) || defined(RABBITIM_STATIC)
     Q_INIT_RESOURCE(Translations);
 #endif
 

@@ -73,7 +73,7 @@ else
     ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} 
 fi
 
-if ["${RABBITIM_BUILD_THIRDLIBARY}" = "true" ]; then
+if [ "${RABBITIM_BUILD_THIRDLIBARY}" = "true" ]; then
     exit 0
 fi
 

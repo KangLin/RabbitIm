@@ -58,6 +58,7 @@ win32 {
     isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/unix
 }
 CONFIG(static, static|shared) {
+    DEFINES += RABBITIM_STATIC
     exists("$${THIRD_LIBRARY_PATH}_static"){
         THIRD_LIBRARY_PATH=$${THIRD_LIBRARY_PATH}_static
     }

@@ -35,7 +35,7 @@ FORMS    += \
     $$PWD/FrmLbsMain.ui
 
 RESOURCES += \
-    $$PWD/lbs.qrc
+    $$PWD/Resource.qrc
 
 DISTFILES += \
     $$PWD/CMakeLists.txt \

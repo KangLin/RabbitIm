@@ -11,6 +11,7 @@ CManagePlugin::CManagePlugin(QObject *parent)
         QSharedPointer<CPluginApp> pluginApp(qobject_cast<CPluginApp *>(plugin));
         if(!pluginApp.isNull())
         {
+            pluginApp->InitInstance();
             this->RegisterPlugin(pluginApp->ID(), pluginApp);
         }
     }

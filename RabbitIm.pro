@@ -10,9 +10,6 @@ SUBDIRS +=  RabbitImLib \
     Plugin \
     RabbitImApp
 
-
-android : CONFIG*=static
-
 #设置目标输出目录  
 win32{
     CONFIG(debug, debug|release) {
@@ -43,7 +40,7 @@ OTHER_FILES += README.md \
     Resource/translations/app_zh_CN.ts \
     docs/* \
     docs/Books/* \
-    docs/QXmpp音视频呼叫流程.txt \
+    docs/QXmpp音视频呼叫流程.txt \  
     License.md \
     ChangeLog.md \
     Authors.txt \
