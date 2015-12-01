@@ -2,7 +2,19 @@ mkpath($$_PRO_FILE_PWD_/translations) #插件需要建立此目录
 
 # For autocompiling qm-files.
 TRANSLATIONS = translations/Plugin_zh_CN.ts \
-    translations/Plugin_en.ts
+    translations/Plugin_zh_TW.ts \
+    translations/Plugin_cs.ts \
+    translations/Plugin_da.ts \
+    translations/Plugin_de.ts \
+    translations/Plugin_fr.ts \
+    translations/Plugin_hu.ts \
+    translations/Plugin_ja.ts \
+    translations/Plugin_ko.ts \
+    translations/Plugin_pl.ts \
+    translations/Plugin_ru.ts \
+    translations/Plugin_sk.ts \
+    translations/Plugin_sl.ts \
+    translations/Plugin_uk.ts
 
 for(file, TRANSLATIONS) {
     TRANSLATIONS_TS_FILES += $$_PRO_FILE_PWD_/$${file}
@@ -36,6 +48,7 @@ updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_OUT}
 updateqm.CONFIG += no_link  no_clean target_predeps 
 QMAKE_EXTRA_COMPILERS += updateqm
 
+#静态库或android下生成翻译资源文件  
 android | CONFIG(static, static|shared) {
     TRANSLATIONS_RESOURCES_FILE = $$_PRO_FILE_PWD_/translations/Translations.qrc
     #生成资源文件  
@@ -82,7 +95,12 @@ else {
     #TODO:需要调试编译前编译翻译   
     #POST_TARGETDEPS += mytranslations
     #发行版本才更新更新配置  
-    CONFIG(release, debug|release) {
+    #CONFIG(release, debug|release) {
+    TRANSLATIONS_FILE = $${TRANSLATIONS_OUTPUT_PATH}/Plugin_zh_CN.qm
+    equals(QMAKE_HOST.os, Windows){
+        TRANSLATIONS_FILE = $$replace(TRANSLATIONS_FILE, /, \\)
+    }
+    !exists($${TRANSLATIONS_FILE}){
         POST_TARGETDEPS += mytranslations
     }
 }
@@ -92,7 +110,7 @@ mytranslat.files = $$TRANSLATIONS_QM_FILES
 mytranslat.path = $$PREFIX/plugins/App/$${TARGET}/translations
 wince |android {
     DEPLOYMENT += mytranslat
-}else{
+}else : !CONFIG(static, static|shared){
     mytranslat.CONFIG += directory no_check_exist 
     INSTALLS += mytranslat
 }

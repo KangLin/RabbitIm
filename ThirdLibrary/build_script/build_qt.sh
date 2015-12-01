@@ -252,7 +252,7 @@ do
     INSTALL_MODULE_PARA="${INSTALL_MODULE_PARA} module-${PARA_VER}-install_subtargets"
 done
 
-echo "$MAKE install"
+echo "$MAKE ${MAKE_PARA} install"
 #if [ "${RABBITIM_BUILD_TARGERT}" = "android" ]; then
 #    $MAKE ${MAKE_PARA} \
 #        &&  $MAKE install 

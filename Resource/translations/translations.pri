@@ -1,6 +1,19 @@
 # For autocompiling qm-files.
 
-TRANSLATIONS = $$PWD/app_zh_CN.ts 
+TRANSLATIONS = $$PWD/app_zh_CN.ts \
+    $$PWD/app_zh_TW.ts \
+    $$PWD/app_cs.ts \
+    $$PWD/app_da.ts \
+    $$PWD/app_de.ts \
+    $$PWD/app_fr.ts \
+    $$PWD/app_hu.ts \
+    $$PWD/app_ja.ts \
+    $$PWD/app_ko.ts \
+    $$PWD/app_pl.ts \
+    $$PWD/app_ru.ts \
+    $$PWD/app_sk.ts \
+    $$PWD/app_sl.ts \
+    $$PWD/app_uk.ts
 
 #rules to generate ts
 isEmpty(QMAKE_LUPDATE) {
@@ -51,8 +64,12 @@ else {
     #TODO:需要调试编译前编译翻译   
     #PRE_TARGETDEPS += mytranslations
     #发行版本才更新更新配置  
-    CONFIG(release, debug|release) {
-        POST_TARGETDEPS += mytranslations
+    TRANSLATIONS_FILE = $${TRANSLATIONS_OUTPUT_PATH}/app_zh_CN.qm
+    equals(QMAKE_HOST.os, Windows){
+        TRANSLATIONS_FILE = $$replace(TRANSLATIONS_FILE, /, \\)
+    }
+    !exists($${TRANSLATIONS_FILE}){
+       POST_TARGETDEPS += mytranslations
     }
 }
 

@@ -15,7 +15,7 @@ class CPluginQRCode : public QObject,  CPluginApp
 
 public:
     CPluginQRCode(QObject *parent = 0);
-    
+
     //登录初始化  
     virtual int Init(const QString &szId);
     //登出清理  
@@ -26,7 +26,7 @@ public:
     virtual int Open(QWidget* parent = 0);
     //关闭应用  
     virtual int Close();
-    
+
     ///属性  
     ///应用ID,应用以这个ID区分  
     virtual QString ID();
@@ -36,9 +36,9 @@ public:
     virtual QSet<QString> Group();
     //应用图标  
     virtual QIcon Icon();
-    
+
 private:
-    CFrmScanQRcode m_FrmScanQRCode;
+    QSharedPointer<CFrmScanQRcode> m_FrmScanQRCode;
 };
 
 #endif // CPLUGINQRCODE_H

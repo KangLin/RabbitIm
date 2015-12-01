@@ -35,22 +35,24 @@ contains(TEMPLATE, lib){
     #QMAKE_PKGCONFIG_DESTDIR = ../pkgconfig
 
     #为静态插件生成必要的文件  
-    isEmpty(RABBITIM_PLUG_NAME) : message("Please set RABBITIM_PLUG_NAME to plug class name")
-    FILE_NAME=$$PWD/PluginStatic.cpp
-    PLUG_CONTENT = "Q_IMPORT_PLUGIN($${RABBITIM_PLUG_NAME})"
-    FILE_CONTENT = $$cat($$FILE_NAME)
-    !contains(FILE_CONTENT, $$PLUG_CONTENT){
-        PLUG_CONTENT = "    Q_IMPORT_PLUGIN($${RABBITIM_PLUG_NAME})"
-        write_file($$FILE_NAME, PLUG_CONTENT, append)
-    }
-
-    FILE_NAME=$$PWD/PluginStatic.pri
-    PLUG_CONTENT = "-l$${TARGET}"
-    FILE_CONTENT = $$cat($$FILE_NAME) 
-    !contains(FILE_CONTENT, $$PLUG_CONTENT){
-        PLUG_CONTENT = "LIBS *= -L\$\${OUT_PWD}/plugins/App/$${TARGET} -l$${TARGET} "
-        #PLUG_CONTENT += "myPackagesExist($${TARGET}) : MYPKGCONFIG *= $${TARGET}"
-        write_file($$FILE_NAME, PLUG_CONTENT, append)
+    CONFIG(static, static|shared) {
+        isEmpty(RABBITIM_PLUG_NAME) : message("Please set RABBITIM_PLUG_NAME to plug class name")
+        FILE_NAME=$$PWD/PluginStatic.cpp
+        PLUG_CONTENT = "Q_IMPORT_PLUGIN($${RABBITIM_PLUG_NAME})"
+        FILE_CONTENT = $$cat($$FILE_NAME)
+        !contains(FILE_CONTENT, $$PLUG_CONTENT){
+            PLUG_CONTENT = "    Q_IMPORT_PLUGIN($${RABBITIM_PLUG_NAME})"
+            write_file($$FILE_NAME, PLUG_CONTENT, append)
+        }
+    
+        FILE_NAME=$$PWD/PluginStatic.pri
+        PLUG_CONTENT = "-l$${TARGET}"
+        FILE_CONTENT = $$cat($$FILE_NAME) 
+        !contains(FILE_CONTENT, $$PLUG_CONTENT){
+            PLUG_CONTENT = "LIBS *= -L\$\${OUT_PWD}/plugins/App/$${TARGET} -l$${TARGET} "
+            #PLUG_CONTENT += "myPackagesExist($${TARGET}) : MYPKGCONFIG *= $${TARGET}"
+            write_file($$FILE_NAME, PLUG_CONTENT, append)
+        }
     }
 
     #插件安装路径  

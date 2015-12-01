@@ -1,5 +1,17 @@
 <RCC>
     <qresource prefix="/translations">
         <file>app_zh_CN.qm</file>
+        <file>app_zh_TW.qm</file>
+	<file>app_cs.qm</file>
+	<file>app_da.qm</file>
+	<file>app_fr.qm</file>
+	<file>app_hu.qm</file>
+	<file>app_ja.qm</file>
+	<file>app_ko.qm</file>
+	<file>app_pl.qm</file>
+	<file>app_ru.qm</file>
+	<file>app_sk.qm</file>
+	<file>app_sl.qm</file>
+	<file>app_uk.qm</file>
     </qresource>
 </RCC>

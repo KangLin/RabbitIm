@@ -76,7 +76,7 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a){
     }
 }
 
-win32{
+win32 : equals(QMAKE_HOST.os, Windows){
     #mingw{  #手机平台不需要  
     #    RABBITIM_STRIP.target = RABBITIM_STRIP
     #    RABBITIM_STRIP.commands = "strip $${PREFIX}/${TARGET}"
@@ -102,35 +102,7 @@ win32{
     INSTALLS += RABBITIM_STRIP Deployment_qtlib Deployment_third_lib Deployment_third_bin
     #QMAKE_EXTRA_TARGETS += Deployment_qtlib Deployment_third_lib Deployment_third_bin
     
-    #复制第三方依赖库动态库到编译输出目录  
-    THIRD_LIBRARY_DLL = $${THIRD_LIBRARY_PATH}/bin/*.dll
-    exists($${THIRD_LIBRARY_DLL}){
-        equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
-            THIRD_LIBRARY_DLL = $$system_path($$THIRD_LIBRARY_DLL)
-            TARGET_PATH = $$system_path($$TARGET_PATH)
-        }
-        ThirdLibraryDll.commands = \
-            $${QMAKE_COPY} $${THIRD_LIBRARY_DLL} $${TARGET_PATH}
-        ThirdLibraryDll.CONFIG += directory no_link no_clean no_check_exist
-        ThirdLibraryDll.target = ThirdLibraryDll
-        QMAKE_EXTRA_TARGETS += ThirdLibraryDll
-        POST_TARGETDEPS += ThirdLibraryDll
-    }
-
-    THIRD_LIBRARY_LIB = $${THIRD_LIBRARY_PATH}/lib/*.dll
-    exists($${THIRD_LIBRARY_LIB}){
-        equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
-            THIRD_LIBRARY_LIB = $$system_path($$THIRD_LIBRARY_LIB)
-            TARGET_PATH = $$system_path($$TARGET_PATH)
-        }
-        ThirdLibraryLib.commands = \
-            $${QMAKE_COPY} $${THIRD_LIBRARY_LIB} $${TARGET_PATH}
-        ThirdLibraryLib.CONFIG += directory no_link no_clean no_check_exist
-        ThirdLibraryLib.target = ThirdLibraryLib
-        QMAKE_EXTRA_TARGETS += ThirdLibraryLib
-        POST_TARGETDEPS += ThirdLibraryLib
-    }
-
+    #为调试环境复制动态库  
     !exists($${TARGET_PATH}/platforms):equals(QMAKE_HOST.os, Windows){
         PlatformsPlugins.commands = \
             $(COPY_DIR) $$system_path($$[QT_INSTALL_PLUGINS]/platforms) $$system_path($${TARGET_PATH}/platforms)
@@ -138,5 +110,34 @@ win32{
         PlatformsPlugins.target = PlatformsPlugins
         QMAKE_EXTRA_TARGETS += PlatformsPlugins
         POST_TARGETDEPS += PlatformsPlugins
+
+        #复制第三方依赖库动态库到编译输出目录  
+        THIRD_LIBRARY_DLL = $${THIRD_LIBRARY_PATH}/bin/*.dll
+        exists($${THIRD_LIBRARY_DLL}){
+            equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
+                THIRD_LIBRARY_DLL = $$system_path($$THIRD_LIBRARY_DLL)
+                TARGET_PATH = $$system_path($$TARGET_PATH)
+            }
+            ThirdLibraryDll.commands = \
+                $${QMAKE_COPY} $${THIRD_LIBRARY_DLL} $${TARGET_PATH}
+            ThirdLibraryDll.CONFIG += directory no_link no_clean no_check_exist
+            ThirdLibraryDll.target = ThirdLibraryDll
+            QMAKE_EXTRA_TARGETS += ThirdLibraryDll
+            POST_TARGETDEPS += ThirdLibraryDll
+        }
+    
+        THIRD_LIBRARY_LIB = $${THIRD_LIBRARY_PATH}/lib/*.dll
+        exists($${THIRD_LIBRARY_LIB}){
+            equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
+                THIRD_LIBRARY_LIB = $$system_path($$THIRD_LIBRARY_LIB)
+                TARGET_PATH = $$system_path($$TARGET_PATH)
+            }
+            ThirdLibraryLib.commands = \
+                $${QMAKE_COPY} $${THIRD_LIBRARY_LIB} $${TARGET_PATH}
+            ThirdLibraryLib.CONFIG += directory no_link no_clean no_check_exist
+            ThirdLibraryLib.target = ThirdLibraryLib
+            QMAKE_EXTRA_TARGETS += ThirdLibraryLib
+            POST_TARGETDEPS += ThirdLibraryLib
+        }
     }
 }

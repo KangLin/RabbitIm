@@ -53,6 +53,8 @@ public:
 private:
     ///加载翻译  
     virtual int LoadTranslate(const QString &szDir = QString());
+    ///更新插件翻译资源  
+    virtual int OnTranslate();
     QSharedPointer<QTranslator> m_TranslatorPlugin;
 };
 
