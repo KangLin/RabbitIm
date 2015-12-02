@@ -7,7 +7,7 @@
 TARGET = RabbitIm
 TEMPLATE = lib 
 
-CONFIG += create_pc create_prl no_install_pc no_install_prl
+CONFIG += create_prl no_install_prl create_pc no_install_pc 
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
 #发行版本才更新更新配置  

@@ -60,13 +60,14 @@ if [ -n "$2" ]; then
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
     ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp && \
-    ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} $2/wzxing
+    ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} $2/qzxing
 else
     ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} 
-    #./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_x264.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qt.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} && \
@@ -88,7 +89,6 @@ if [ -n "$2" ]; then
         ./build_filter_audio.sh ${RABBITIM_BUILD_TARGERT} $2/filter_audio && \
         ./build_toxcore.sh ${RABBITIM_BUILD_TARGERT} $2/toxcore
     fi
-    ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv && \
     ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} $2/opencv && \
     # ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} $2/pjsip && \
     # ./build_icu.sh ${RABBITIM_BUILD_TARGERT} $2/icu && \
@@ -103,7 +103,6 @@ else
         ./build_libsodium.sh ${RABBITIM_BUILD_TARGERT} && \
         ./build_toxcore.sh ${RABBITIM_BUILD_TARGERT}
     fi
-    ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_opencv.sh ${RABBITIM_BUILD_TARGERT} && \
     # ./build_pjsip.sh ${RABBITIM_BUILD_TARGERT} && \
     # ./build_icu.sh ${RABBITIM_BUILD_TARGERT} && \

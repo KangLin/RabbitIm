@@ -30,6 +30,7 @@ CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
         m_pCamera->Open(this);
     } else {
         ui->lbText->setText(tr("The camera does not exist."));
+        LOG_MODEL_ERROR("CFrmScanQRcode", "The camera does not exist.");
     }
 }
 

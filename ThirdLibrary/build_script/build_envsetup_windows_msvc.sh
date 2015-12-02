@@ -14,7 +14,7 @@
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
 #QT_ROOT=/c/Qt/Qt5.5.1_msvc/5.5/msvc2013 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_msvc/qt
-#RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数,建议设置为你机器CUP个数
+#RABBITIM_MAKE_JOB_PARA="-j8"  #make 同时工作进程参数,建议设置为你机器CUP个数
 JOM=make #设置 QT make 工具 JOM
 MAKE="nmake"
 RABBITIM_CLEAN=TRUE #编译前清理
@@ -52,3 +52,4 @@ echo "QT_BIN:$QT_BIN"
 export PATH=${RABBITIM_BUILD_PREFIX}/bin:${RABBITIM_BUILD_PREFIX}/lib:${QT_BIN}:$PATH
 export PKG_CONFIG=pkg-config
 export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
+export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
