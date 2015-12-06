@@ -24,7 +24,7 @@ CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
 
     bool check = connect(&m_Timer, SIGNAL(timeout()), SLOT(OnTimeOut()));
     Q_ASSERT(check);
-    m_pCamera = CCameraFactory::Instance()->GetCamera(0);
+    m_pCamera = CCameraFactory::Instance()->GetCamera(CGlobal::Instance()->GetVideoCaptureDevice());
     if(m_pCamera)
     {
         m_pCamera->Open(this);
