@@ -56,8 +56,8 @@ include(Resource/translations/translations.pri)
 
 target.path = $$PREFIX
 !android : INSTALLS += target
-
-CONFIG += mobility
+else : CONFIG += static   #TODO：android < 18时，动态库加载会失败（可能是有未支持的函数），原因不明   
+CONFIG += mobility 
 
 MOBILITY = 
 

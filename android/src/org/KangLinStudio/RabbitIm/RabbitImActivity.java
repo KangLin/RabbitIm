@@ -47,7 +47,7 @@ public class RabbitImActivity
         initReceiver();
     }
     
-/*
+//* 当 android sdk < 16 时使用 
     @SuppressWarnings("deprecation")
     public static void notify(String szMessage, String szTitle) {
         if(null == m_instance){
@@ -121,7 +121,7 @@ public class RabbitImActivity
         m_notificationManager.notify(m_nNotificationCount, notification);
     } //*/       
 
-  //* 当 android sdk >= 16 时使用  
+  /* 当 android sdk >= 16 时使用  
     public static void notify(String szMessage, String szTitle)
     {
         Log.d(TAG, "notify:message:" + szMessage + ":title:" + szTitle);

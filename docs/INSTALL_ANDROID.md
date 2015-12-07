@@ -33,7 +33,7 @@
 12. RABBITIM_USE_REPOSITORIES="FALSE"    #下载指定的压缩包。省略，则下载开发库。
 13. RABBITIM_CLEAN=TRUE                  #编译前清理
 14. RABBITIM_BUILD_TOOLCHAIN_VERSION=4.9   #工具链版本号，默认为4.8
-15. RABBITIM_BUILD_PLATFORMS_VERSION=23    #android ndk api (平台)版本号，默认为17
+15. RABBITIM_BUILD_PLATFORMS_VERSION=15    #android ndk api (平台)版本号，默认为9
 
 所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。
 为了避免这个问题。你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。  
@@ -93,7 +93,7 @@ ubuntu下交叉编译
 
 
 #### 1.3. android sdk 
-* 平台版本：21
+* 平台版本：15
 * 下载：
 
     cd /home
@@ -109,7 +109,7 @@ ubuntu下交叉编译
 
 注意：
 1. qt与第三方依赖库所使用的工具链版本需要一样。(当前Qt5.5.1用的android ndk 9）。
-构建->构建环境变量:设置 ANDROID_NDK_PLATFORM 到 android-18
+构建->构建环境变量:设置 ANDROID_NDK_PLATFORM 到 android-15
 
 #### 1.4. 安装32位库(可选): ubuntu 64位下 android sdk 需要
 
@@ -234,7 +234,7 @@ make: fork: Resource temporarily unavailable
 注意：在msys2下需要注意路径符号,用unix型路径："/"
 
 #### 2.2. android ndk
-* 工具链版本：4.9
+* 工具链版本：4.8
 * 下载:
 
     cd /home

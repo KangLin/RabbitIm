@@ -55,7 +55,7 @@ CAndroidNotification::CAndroidNotification(QObject *parent)
 CAndroidNotification::~CAndroidNotification()
 {
     QAndroidJniObject::callStaticMethod<void>(
-                "org/KangLinStudio/RabbitIm/NotificationClient", "CancelAll");
+                "org/KangLinStudio/RabbitIm/RabbitImActivity", "CancelAll");
 }
 
 void CAndroidNotification::setNotification(
