@@ -13,15 +13,6 @@ LIBS += -L$${TARGET_PATH}   #包含 RabbitIm 库位置
 !exists("$$OUT_PWD") : mkpath($$OUT_PWD)
 #message("TARGET_PATH:$${TARGET_PATH}")
 
-#安装  
-isEmpty(PREFIX) {
-    android {
-       PREFIX = /.
-    } else {
-       PREFIX = $$OUT_PWD/$$TARGET
-    } 
-}
-
 SOURCES += ../PluginApp.cpp
 
 include($$PWD/../pri/ThirdLibraryConfig.pri)
@@ -29,6 +20,14 @@ myPackagesExist(RabbitIm) : MYPKGCONFIG *= RabbitIm
 include($$PWD/../pri/ThirdLibrary.pri)
 include($$PWD/../pri/ThirdLibraryJoin.pri)
 
+#安装前缀  
+isEmpty(PREFIX) {
+    android {
+       PREFIX = /.
+    } else {
+        PREFIX = $$OUT_PWD/../../install
+    } 
+}
 contains(TEMPLATE, lib){
 
     CONFIG += create_prl link_prl #create_pc no_install_pc no_install_prl

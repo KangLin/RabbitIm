@@ -17,7 +17,6 @@ win32{
 }else{
     TARGET_PATH=$$OUT_PWD
 }
-
 LIBS += -L$${TARGET_PATH}
 
 include(pri/ThirdLibraryConfig.pri)
@@ -40,6 +39,14 @@ RC_FILE = AppIcon.rc
 
 CONFIG += localize_deployment  #本地语言部署  
 
+#安装前缀  
+isEmpty(PREFIX) {
+    android {
+       PREFIX = /.
+    } else {
+        PREFIX = $$OUT_PWD/install
+    } 
+}
 other.files = License.md Authors.txt ChangeLog.md
 other.path = $$PREFIX
 other.CONFIG += directory no_check_exist 
@@ -77,9 +84,16 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a){
 }
 
 win32 : equals(QMAKE_HOST.os, Windows){
+    isEmpty(QMAKE_SH){
+        INSTALL_TARGET = $$system_path($${PREFIX}/${TARGET})
+    } else {
+        INSTALL_TARGET = $${PREFIX}/${TARGET}
+    }
+
     #mingw{  #手机平台不需要  
     #    RABBITIM_STRIP.target = RABBITIM_STRIP
-    #    RABBITIM_STRIP.commands = "strip $${PREFIX}/${TARGET}"
+    #    RABBITIM_STRIP.commands = "strip $$INSTALL_TARGET"
+    #    INSTALLS += RABBITIM_STRIP
     #}
     #安装qt依赖库  
     Deployment_qtlib.target = Deployment_qtlib
@@ -87,7 +101,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
     Deployment_qtlib.commands = "$$[QT_INSTALL_BINS]/windeployqt" \
                     --compiler-runtime \
                     --verbose 7 \
-                    "$${PREFIX}/${TARGET}"
+                    "$${INSTALL_TARGET}"
 
     #安装第三方依赖库  
     Deployment_third_lib.target = Deployment_third_lib
@@ -99,7 +113,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
     Deployment_third_bin.files = $${THIRD_LIBRARY_PATH}/bin/*.dll
     Deployment_third_bin.path = $$PREFIX
     Deployment_third_bin.CONFIG += directory no_check_exist
-    INSTALLS += RABBITIM_STRIP Deployment_qtlib Deployment_third_lib Deployment_third_bin
+    INSTALLS += Deployment_qtlib Deployment_third_lib Deployment_third_bin
     #QMAKE_EXTRA_TARGETS += Deployment_qtlib Deployment_third_lib Deployment_third_bin
     
     #为调试环境复制动态库  

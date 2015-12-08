@@ -6,4 +6,4 @@ SET(RABBITIM_SOURCES
     ${PLUGIN_DIR}/ManagePlugin.cpp 
 )
 
-include(${PLUGIN_DIR}/Lbs/CMakeLists.txt)
+#include(${PLUGIN_DIR}/Lbs/CMakeLists.txt)

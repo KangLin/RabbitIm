@@ -27,7 +27,7 @@ int CPluginAppMotion::Clean()
     return 0;
 }
 
-int CPluginAppMotion::Open(QWidget *parent)
+int CPluginAppMotion::Open(void *pPara, QWidget *parent)
 {
     Q_UNUSED(parent);
     if(m_Main.isNull())

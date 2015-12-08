@@ -1,8 +1,8 @@
 
 SET(RABBITIM_SOURCES
-    main.cpp
     MainWindow.cpp 
-    Tool.cpp 
+    common/Tool.cpp 
+    common/QRCode.cpp 
     Client/Client.cpp 
     UserInfo/UserInfo.cpp 
     UserInfo/COperateRoster.cpp 
@@ -70,33 +70,35 @@ SET(RABBITIM_SOURCES
     Widgets/FrmApp/FrmApp.cpp 
     Widgets/FrmApp/FrmAppList.cpp 
     Widgets/FrmApp/FrmFavorites.cpp 
-    Global/GlobalDir.cpp
-    Widgets/DlgScanQRcode/DlgScanQRcode.cpp
-    Widgets/DlgScanQRcode/QRCode.cpp
+    Plugin/PluginApp.cpp 
+    Plugin/ManagePlugin.cpp 
+    Global/GlobalDir.cpp 
 )
 
 SET(RABBITIM_UIS
-    MainWindow.ui
-    Widgets/FrmLogin/FrmLogin.ui
-    Widgets/FrmUserList/FrmUserList.ui
-    Widgets/DlgUservCard/DlgUservCard.ui
-    Widgets/FrmMessage/FrmMessage.ui
-    Widgets/FrmMessage/FrmContainer.ui
-    Widgets/FrmRecentMessage/FrmRecentMsgList.ui
-    Widgets/DlgAddRoster/DlgAddRoster.ui
-    Widgets/FrmVideo/FrmVideo.ui
-    Widgets/DlgRegister/DlgRegister.ui
-    Widgets/FrmGroupChat/FrmGroupChatList.ui
-    Widgets/FrmLogin/DlgLoginSettings.ui
-    Widgets/FrmGroupChat/DlgCreateGroupChatRoom.ui
-    Widgets/FrmGroupChat/FrmGroupChat.ui
-    Widgets/FrmGroupChat/DlgJoinGroupChat.ui
-    Widgets/FrmGroupChat/DlgGroupChatInfo.ui
-    Widgets/FrmGroupChat/DlgInviter.ui
-    Widgets/DlgAbout/DlgAbout.ui
-    Widgets/DlgOptions/DlgOptions.ui
-    Widgets/FrmMain/FrmMain.ui
-    Widgets/DlgScanQRcode/DlgScanQRcode.ui
+    MainWindow.ui 
+    Widgets/FrmLogin/FrmLogin.ui 
+    Widgets/FrmUserList/FrmUserList.ui 
+    Widgets/DlgUservCard/DlgUservCard.ui 
+    Widgets/FrmMessage/FrmMessage.ui 
+    Widgets/FrmMessage/FrmContainer.ui 
+    Widgets/FrmRecentMessage/FrmRecentMsgList.ui 
+    Widgets/DlgAddRoster/DlgAddRoster.ui 
+    Widgets/FrmVideo/FrmVideo.ui  
+    Widgets/DlgRegister/DlgRegister.ui 
+    Widgets/FrmGroupChat/FrmGroupChatList.ui  
+    Widgets/FrmLogin/DlgLoginSettings.ui  
+    Widgets/FrmGroupChat/DlgCreateGroupChatRoom.ui 
+    Widgets/FrmGroupChat/FrmGroupChat.ui 
+    Widgets/FrmGroupChat/DlgJoinGroupChat.ui 
+    Widgets/FrmGroupChat/DlgGroupChatInfo.ui 
+    Widgets/FrmGroupChat/DlgInviter.ui 
+    Widgets/DlgAbout/DlgAbout.ui 
+    Widgets/DlgOptions/DlgOptions.ui 
+    Widgets/FrmMain/FrmMain.ui 
+    Widgets/FrmApp/FrmApp.ui 
+    Widgets/FrmApp/FrmAppList.ui 
+    Widgets/FrmApp/FrmFavorites.ui 
 )
 
 IF(OPTION_RABBITIM_USE_QXMPP)

@@ -20,26 +20,6 @@ CONFIG(release, debug|release) {
 
 VERSION = $${MAJOR_VERSION_NUMBER}.$${MINOR_VERSION_NUMBER}.$${REVISION_VERSION_NUMBER}
 
-#设置目标输出目录  
-win32{
-    CONFIG(debug, debug|release) {
-        TARGET_PATH=$${OUT_PWD}/Debug
-    } else {
-        TARGET_PATH=$${OUT_PWD}/Release
-    }
-}else{
-    TARGET_PATH=$$OUT_PWD
-}
-
-#安装  
-isEmpty(PREFIX) {
-    android {
-       PREFIX = /.
-    } else {
-       PREFIX = $$OUT_PWD/$$TARGET
-    } 
-}
-
 CONFIG(debug, debug|release) {
     #调试宏   
     DEFINES += DEBUG #DEBUG_VIDEO_TIME  
@@ -54,9 +34,17 @@ include(pri/RabbitImFiles.pri)
 # Rules for creating/updating {ts|qm}-files
 include(Resource/translations/translations.pri)
 
+#安装前缀  
+isEmpty(PREFIX) {
+    android {
+       PREFIX = /.
+    } else {
+        PREFIX = $$OUT_PWD/install
+    } 
+}
 target.path = $$PREFIX
 !android : INSTALLS += target
-else : CONFIG += static   #TODO：android < 18时，动态库加载会失败（可能是有未支持的函数），原因不明   
+android : CONFIG += static   #TODO：android < 18时，动态库加载会失败（可能是有未支持的函数），原因不明   
 CONFIG += mobility 
 
 MOBILITY = 
@@ -64,13 +52,24 @@ MOBILITY =
 #ANDROID 平台相关内容  
 android : include(android/jni/android_jni.pri)
 
-win32{
+win32:equals(QMAKE_HOST.os, Windows){
+    isEmpty(QMAKE_SH){
+        INSTALL_TARGET = $$system_path($${PREFIX}/${TARGET})
+    } else {
+        INSTALL_TARGET = $${PREFIX}/${TARGET}
+    }
+    #mingw{  #手机平台不需要  
+    #    RABBITIM_STRIP.target = RABBITIM_STRIP
+    #    RABBITIM_STRIP.commands = "strip $$INSTALL_TARGET"
+    #    INSTALLS += RABBITIM_STRIP
+    #}
     #安装qt依赖库  
     Deployment_qtlib.target = Deployment_qtlib
     Deployment_qtlib.path = $${PREFIX}
     Deployment_qtlib.commands = "$$[QT_INSTALL_BINS]/windeployqt" \
                     --compiler-runtime \
                     --verbose 7 \
-                    "$${PREFIX}/${TARGET}"
+                    "$${INSTALL_TARGET}"
+    
     INSTALLS += Deployment_qtlib
 }

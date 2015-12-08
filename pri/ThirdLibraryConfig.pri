@@ -16,15 +16,6 @@ CONFIG += c++0x
 
 CONFIG += link_prl
 
-#安装  
-isEmpty(PREFIX) {
-    android {
-       PREFIX = /.
-    } else {
-       PREFIX = $$OUT_PWD/$$TARGET
-    } 
-}
-
 CONFIG(debug, debug|release) {
     #调试宏   
     DEFINES += DEBUG #DEBUG_VIDEO_TIME  

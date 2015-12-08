@@ -10,26 +10,6 @@ SUBDIRS +=  RabbitImLib \
     Plugin \
     RabbitImApp
 
-#设置目标输出目录  
-win32{
-    CONFIG(debug, debug|release) {
-        TARGET_PATH=$${OUT_PWD}/Debug
-    } else {
-        TARGET_PATH=$${OUT_PWD}/Release
-    }
-}else{
-    TARGET_PATH=$$OUT_PWD
-}
-
-#安装  
-isEmpty(PREFIX) {
-    android {
-       PREFIX = /.
-    } else {
-       PREFIX = $$OUT_PWD/$$TARGET
-    } 
-}
-
 OTHER_FILES += README.md \
     .gitignore \
     .travis.yml \

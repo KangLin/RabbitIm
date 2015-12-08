@@ -26,7 +26,7 @@ public:
     virtual int Init(const QString &szId);
     virtual int Clean();
 
-    virtual int Open(QWidget* parent = 0);
+    virtual int Open(void *pPara = 0, QWidget* parent = 0);
     virtual int Close();
 
     virtual QString ID();

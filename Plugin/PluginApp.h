@@ -27,14 +27,17 @@ public:
 
     virtual int InitInstance(const QString &szDir = QString());
 
-    //登录初始化  
+    /**
+     * 登录初始化  
+     * @para szId:本地用户ID  
+     */
     virtual int Init(const QString &szId) = 0;
     //登出清理  
     virtual int Clean() = 0;
 
     ///操作  
     //打开应用  
-    virtual int Open(QWidget* parent = 0) = 0;
+    virtual int Open(void *pPara = 0, QWidget* parent = 0) = 0;
     //关闭应用  
     virtual int Close() = 0;
     //应用信息  

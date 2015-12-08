@@ -23,7 +23,7 @@ public:
 
     ///操作  
     //打开应用  
-    virtual int Open(QWidget* parent = 0);
+    virtual int Open(void *pPara = 0, QWidget* parent = 0);
     //关闭应用  
     virtual int Close();
 

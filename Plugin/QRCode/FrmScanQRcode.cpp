@@ -49,6 +49,9 @@ CFrmScanQRcode::~CFrmScanQRcode()
 
 void CFrmScanQRcode::showEvent(QShowEvent *)
 {
+    ui->lbText->setText("");
+    ui->lbQRCode->setText("");
+    ui->lbLogon->setText("");
     Start();
 }
 
