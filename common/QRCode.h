@@ -4,7 +4,7 @@
 #include "Global/Global.h"
 #include <QObject>
 
-class CQRCode : public QObject
+class RABBITIM_SHARED_LIBRARY CQRCode : public QObject
 {
     Q_OBJECT
 public:

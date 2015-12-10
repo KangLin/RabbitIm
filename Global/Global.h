@@ -1,6 +1,7 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#include "GlobalDir.h"
 #include <QObject>
 #include <QColor>
 #include <QSharedPointer>
@@ -9,9 +10,9 @@
 #include "Tool.h"
 #include <QDebug>
 #include "Log.h"
-#include "GlobalDir.h"
 
-class MainWindow;
+class RABBITIM_SHARED_LIBRARY MainWindow;
+class RABBITIM_SHARED_LIBRARY CLog;
 
 /** 
  * @mainpage
@@ -28,7 +29,7 @@ class MainWindow;
  * @brief The CGlobal class
  * @ingroup RABBITIM_GLOBAL
  */
-class CGlobal : public QObject
+class RABBITIM_SHARED_LIBRARY CGlobal : public QObject
 {
     Q_OBJECT
 private:

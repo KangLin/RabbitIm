@@ -12,28 +12,29 @@ RABBITIM_USE_OPENSSL=1      #使用openssl
 #RABBITIM_USE_PJSIP_CAMERA=1  
 
 equals(RABBITIM_USE_QXMPP, 1) {
+    DEFINES *= RABBITIM_USE_QXMPP
     CONFIG(release, debug|release) {
         myPackagesExist(qxmpp) {
-            DEFINES *= RABBITIM_USE_QXMPP
             MYPKGCONFIG *= qxmpp
         } else : msvc {
-            DEFINES *= RABBITIM_USE_QXMPP
             LIBS += -lqxmpp0
         }
     } else {
         myPackagesExist(qxmpp_d) {
-            DEFINES *= RABBITIM_USE_QXMPP
             MYPKGCONFIG *= qxmpp_d
         }else : msvc {
-            DEFINES *= RABBITIM_USE_QXMPP
             LIBS += -lqxmpp_d0
         }
     }
 }
 
-equals(RABBITIM_USE_FFMPEG, 1) : myPackagesExist(libavcodec libavformat libswscale libavutil) {
+equals(RABBITIM_USE_FFMPEG, 1) {
     DEFINES *= RABBITIM_USE_FFMPEG __STDC_CONSTANT_MACROS #ffmpeg需要  
-    MYPKGCONFIG *= libavcodec libavformat libswscale libavutil 
+    myPackagesExist(libavcodec libavformat libswscale libavutil) {
+        MYPKGCONFIG *= libavcodec libavformat libswscale libavutil 
+    } else : msvc {
+        LIBS += -lavcodec -lavformat -lswscale -lavutil 
+    }
 }
 
 equals(RABBITIM_USE_PJSIP, 1) : myPackagesExist(libpjproject){
@@ -72,8 +73,12 @@ equals(QXMPP_USE_SPEEX, 1) : myPackagesExist(speex) {
     MYPKGCONFIG *= speex
 }
 
-equals(QXMPP_USE_VPX, 1) : myPackagesExist(vpx){
-    MYPKGCONFIG *= vpx
+equals(QXMPP_USE_VPX, 1) {
+    myPackagesExist(vpx){
+        MYPKGCONFIG *= vpx
+    } else : msvc {
+        LIBS += -lvpx
+    }
 }
 
 myPackagesExist(libqrencode) {

@@ -33,12 +33,15 @@ for(ever) {
 }
 
 LIBS +=  $$OPENCV_LIBRARY 
-message("MYPKGCONFIG:$$MYPKGCONFIG")
-message("DEFINES:$$DEFINES")
-message("LIBS:$$LIBS")
 
 equals(QXMPP_USE_VPX, 1) : myPackagesExist(vpx){
     android {
         LIBS += -lcpu-features
     }
 }
+
+!msvc{
+    message("MYPKGCONFIG:$$MYPKGCONFIG")
+    message("DEFINES:$$DEFINES")
+}
+message("LIBS:$$LIBS")

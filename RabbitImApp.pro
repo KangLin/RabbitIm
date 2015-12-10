@@ -24,7 +24,11 @@ CONFIG(static, static|shared) {
     CONFIG *= link_prl
     include($$PWD/Plugin/PluginStatic.pri)
 }
-myPackagesExist(RabbitIm) : MYPKGCONFIG *= RabbitIm
+myPackagesExist(RabbitIm) {
+    MYPKGCONFIG *= RabbitIm
+} else:msvc {
+    LIBS += -lRabbitIm0
+}
 include(pri/ThirdLibrary.pri)
 include(pri/ThirdLibraryJoin.pri)
 
@@ -85,9 +89,9 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a){
 
 win32 : equals(QMAKE_HOST.os, Windows){
     isEmpty(QMAKE_SH){
-        INSTALL_TARGET = $$system_path($${PREFIX}/${TARGET})
+        INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET))
     } else {
-        INSTALL_TARGET = $${PREFIX}/${TARGET}
+        INSTALL_TARGET = $${PREFIX}/$(TARGET)
     }
 
     #mingw{  #手机平台不需要  
@@ -117,7 +121,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
     #QMAKE_EXTRA_TARGETS += Deployment_qtlib Deployment_third_lib Deployment_third_bin
     
     #为调试环境复制动态库  
-    !exists($${TARGET_PATH}/platforms):equals(QMAKE_HOST.os, Windows){
+    !exists($${TARGET_PATH}/platforms){
         PlatformsPlugins.commands = \
             $(COPY_DIR) $$system_path($$[QT_INSTALL_PLUGINS]/platforms) $$system_path($${TARGET_PATH}/platforms)
         PlatformsPlugins.CONFIG += directory no_link no_clean no_check_exist

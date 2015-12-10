@@ -3,7 +3,17 @@
 
 #include <QString>
 
-class CGlobalDir
+#ifdef RABBITIM_STATIC
+    #  define RABBITIM_SHARED_LIBRARY
+#else
+    #if defined(RABBITIM_SHARED_LIBRARY)
+    #  define RABBITIM_SHARED_LIBRARY Q_DECL_EXPORT
+    #else
+    #  define RABBITIM_SHARED_LIBRARY Q_DECL_IMPORT
+    #endif
+#endif
+
+class RABBITIM_SHARED_LIBRARY CGlobalDir
 {
 public:
     CGlobalDir();

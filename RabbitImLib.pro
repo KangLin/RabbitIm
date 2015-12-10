@@ -6,23 +6,22 @@
 
 TARGET = RabbitIm
 TEMPLATE = lib 
+!CONFIG(static, static|shared) : DEFINES += RABBITIM_SHARED_LIBRARY
 
 CONFIG += create_prl no_install_prl create_pc no_install_pc 
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
+#TODO:发行版本时，需要修改下列值  
+MAJOR_VERSION_NUMBER=0       #主版本  
+MINOR_VERSION_NUMBER=1       #次版本  
+REVISION_VERSION_NUMBER=1    #修订号  
+VERSION = $${MAJOR_VERSION_NUMBER}.$${MINOR_VERSION_NUMBER}.$${REVISION_VERSION_NUMBER}
 #发行版本才更新更新配置  
-CONFIG(release, debug|release) {
+!CONFIG(debug, debug|release){
     include(pri/RabbitImVersion.pri)
     !equals(RABBITIM_USE_LIBCURL, 1){
         warning("don't update function")
     }
-}
-
-VERSION = $${MAJOR_VERSION_NUMBER}.$${MINOR_VERSION_NUMBER}.$${REVISION_VERSION_NUMBER}
-
-CONFIG(debug, debug|release) {
-    #调试宏   
-    DEFINES += DEBUG #DEBUG_VIDEO_TIME  
 }
 
 #修改文件中的第三方库配置  
@@ -44,8 +43,8 @@ isEmpty(PREFIX) {
 }
 target.path = $$PREFIX
 !android : INSTALLS += target
-android : CONFIG += static   #TODO：android < 18时，动态库加载会失败（可能是有未支持的函数），原因不明   
-CONFIG += mobility 
+#android : CONFIG += static   #TODO：android < 18时，动态库加载会失败（可能是有未支持的函数），原因不明   
+CONFIG += mobility
 
 MOBILITY = 
 
@@ -54,9 +53,9 @@ android : include(android/jni/android_jni.pri)
 
 win32:equals(QMAKE_HOST.os, Windows){
     isEmpty(QMAKE_SH){
-        INSTALL_TARGET = $$system_path($${PREFIX}/${TARGET})
+        INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET))
     } else {
-        INSTALL_TARGET = $${PREFIX}/${TARGET}
+        INSTALL_TARGET = $${PREFIX}/$(TARGET)
     }
     #mingw{  #手机平台不需要  
     #    RABBITIM_STRIP.target = RABBITIM_STRIP

@@ -30,10 +30,10 @@ win32 {
         LDFLAGS += -ladvapi32
         RABBITIM_PLATFORM = "msvc"
         isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/windows_msvc
-        CONFIG(release, debug|release){
+        CONFIG(debug, debug|release) {
+            LDFLAGS += /NODEFAULTLIB:libcmtd /SUBSYSTEM:WINDOWS",5.01"
+        }else{
             LDFLAGS += /NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS",5.01"
-        } else:CONFIG(debug, debug|release) {
-            LDFLAGS += /NODEFAULTLIB:libcmtd /SUBSYSTEM:WINDOWS",5.01"      
         }
     } else {
         RABBITIM_PLATFORM = "mingw"
@@ -121,7 +121,7 @@ defineTest(myPackagesExist) {
 
     for(package, ARGS) {
         !system($$pkg_config --exists $$package) {
-            message("Warring: package $$package is not exist.")
+            !msvc : message("Warring: package $$package is not exist.")
             return(false)
         }
     }

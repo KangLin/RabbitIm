@@ -1,7 +1,6 @@
 #include "DownLoadHandle.h"
 #include "Version.h"
 #include "DlgUpdate.h"
-#include "Global/Global.h"
 #include "MainWindow.h"
 #include <QDir>
 #include <QtXml>

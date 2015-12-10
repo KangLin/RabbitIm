@@ -28,16 +28,17 @@ extern "C" {
     #include "opencv2/opencv.hpp"
 #endif
 #include "Media/Camera/VideoFrame.h"
+#include "Global/Global.h"
 
 /**
   * @defgroup RABBITIM_TOOL 工具类模块  
   */
-class CVideoFrame;
+class RABBITIM_SHARED_LIBRARY CVideoFrame;
 /**
  * @brief 工具类。提供一此工具函数  
  * @ingroup RABBITIM_TOOL
  */
-class CTool : public QObject
+class RABBITIM_SHARED_LIBRARY CTool : public QObject
 {
     Q_OBJECT
 public:

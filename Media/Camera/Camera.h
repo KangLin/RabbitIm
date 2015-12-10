@@ -18,7 +18,7 @@
  * @ingroup RABBITIM_INTERFACE RABBITIM_INTERFACE_CAMERA
  * @see CCameraFactory
  */
-class CCamera
+class RABBITIM_SHARED_LIBRARY CCamera
         #ifdef QT_CORE_LIB
         : public QObject
         #endif
@@ -34,7 +34,7 @@ public:
      * @brief 捕获视频帧处理类  
      * @ingroup RABBITIM_INTERFACE RABBITIM_INTERFACE_CAMERA
      */
-    class CHanderFrame{
+    class RABBITIM_SHARED_LIBRARY CHanderFrame{
     public:
         /**
          * @brief 重载此函数进行帧处理  

@@ -3,12 +3,13 @@
 
 #pragma once
 #include "VideoType.h"
+#include "Global/Global.h"
 
 /**
  * @brief The CVideoFrame class
  * @ingroup RABBITIM_INTERFACE RABBITIM_INTERFACE_CAMERA
  */
-class CVideoFrame
+class RABBITIM_SHARED_LIBRARY CVideoFrame
 {
 public:
     CVideoFrame(const void* pData, const long &nLen, 

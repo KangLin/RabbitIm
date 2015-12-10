@@ -13,7 +13,7 @@
  * 
  * @see main.cpp
  */
-class CCameraFactory
+class RABBITIM_SHARED_LIBRARY CCameraFactory
 {
 public:
     /**

@@ -5,9 +5,10 @@
 #include <QString>
 #include <QProcess>
 #include <QObject>
+#include "Global/Global.h"
 
 class CDlgUpdate;
-class CDownLoadHandleFile : public CDownLoadHandle, QObject
+class RABBITIM_SHARED_LIBRARY CDownLoadHandleFile : public CDownLoadHandle, QObject
 {
 public:
     CDownLoadHandleFile(CDlgUpdate* pDlgUpdate = NULL);
@@ -25,7 +26,7 @@ private:
     QString m_szFileMd5sum;//安装文件的md5校验和  
 };
 
-class CDownLoadHandleVersionFile : public CDownLoadHandle
+class RABBITIM_SHARED_LIBRARY CDownLoadHandleVersionFile : public CDownLoadHandle
 {
 public:
     CDownLoadHandleVersionFile();

@@ -5,7 +5,7 @@
 #include <Media/Camera/Camera.h>
 #include "Widgets/FrmVideo/FrameProcess.h"
 
-class CFrmPlayer : public QWidget
+class RABBITIM_SHARED_LIBRARY CFrmPlayer : public QWidget
 {
     Q_OBJECT
 

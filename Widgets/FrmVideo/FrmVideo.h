@@ -16,7 +16,7 @@ namespace Ui {
 class CFrmVideo;
 }
 
-class CFrmVideo : public QFrame
+class RABBITIM_SHARED_LIBRARY CFrmVideo : public QFrame
 {
     Q_OBJECT
 

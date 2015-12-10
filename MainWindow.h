@@ -12,6 +12,7 @@
 #ifdef ANDROID
     #include "AndroidNotification.h"
 #endif
+#include "Global/Global.h"
 
 class CFrmLogin;
 class CFrmUserList;
@@ -21,7 +22,7 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class RABBITIM_SHARED_LIBRARY MainWindow : public QMainWindow
 {
     Q_OBJECT
 

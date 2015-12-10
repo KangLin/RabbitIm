@@ -1,7 +1,9 @@
 #ifndef CLOG_H
 #define CLOG_H
 
-class CLog
+#include "Global.h"
+
+class RABBITIM_SHARED_LIBRARY CLog
 {
 public:
     CLog();

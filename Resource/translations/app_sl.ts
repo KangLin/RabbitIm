@@ -2190,7 +2190,7 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CTool</name>
     <message>
-        <location filename="../../common/Tool.h" line="219"/>
+        <location filename="../../common/Tool.h" line="220"/>
         <source>Open file</source>
         <translation type="unfinished"></translation>
     </message>

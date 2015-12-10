@@ -16,7 +16,11 @@ LIBS += -L$${TARGET_PATH}   #包含 RabbitIm 库位置
 SOURCES += ../PluginApp.cpp
 
 include($$PWD/../pri/ThirdLibraryConfig.pri)
-myPackagesExist(RabbitIm) : MYPKGCONFIG *= RabbitIm
+myPackagesExist(RabbitIm){
+    MYPKGCONFIG *= RabbitIm 
+}else : msvc {
+    LIBS += -lRabbitIm0
+}
 include($$PWD/../pri/ThirdLibrary.pri)
 include($$PWD/../pri/ThirdLibraryJoin.pri)
 
