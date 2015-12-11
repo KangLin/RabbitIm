@@ -145,13 +145,13 @@ Real Time Speed(m/s)</source>
 <context>
     <name>CPluginAppMotion</name>
     <message>
-        <location filename="../PluginAppMotion.cpp" line="59"/>
-        <location filename="../PluginAppMotion.cpp" line="64"/>
+        <location filename="../PluginAppMotion.cpp" line="60"/>
+        <location filename="../PluginAppMotion.cpp" line="65"/>
         <source>Motion</source>
         <translation>运动</translation>
     </message>
     <message>
-        <location filename="../PluginAppMotion.cpp" line="64"/>
+        <location filename="../PluginAppMotion.cpp" line="65"/>
         <source>Lbs</source>
         <translation>定位</translation>
     </message>
@@ -159,14 +159,12 @@ Real Time Speed(m/s)</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../PluginApp.cpp" line="20"/>
         <source>Application Infomation</source>
-        <translation>应用信息</translation>
+        <translation type="vanished">应用信息</translation>
     </message>
     <message>
-        <location filename="../../PluginApp.cpp" line="21"/>
         <source>Application:</source>
-        <translation>应用:</translation>
+        <translation type="vanished">应用:</translation>
     </message>
 </context>
 </TS>

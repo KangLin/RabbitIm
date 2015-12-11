@@ -5,6 +5,7 @@
 #include <QSharedPointer>
 #include "UserInfo.h"
 #include "Message/ManageMessage.h"
+#include "Global/GlobalDir.h"
 
 #undef GetMessage
 
@@ -25,7 +26,7 @@
  * @see CUserInfo
  * @see CManageMessage
  */
-class CUser : public QObject
+class RABBITIM_SHARED_LIBRARY CUser : public QObject
 {
     Q_OBJECT
 public:

@@ -62,6 +62,7 @@ void CWdgScreenEditor::initToolBar(){
     rectBtn.setCheckable(true);
     rectBtn.setCursor(Qt::ArrowCursor);
     rectBtn.setText(tr("rect tool"));
+    rectBtn.setToolTip(tr("rect tool"));
     toolBar.addWidget(&rectBtn);
     connect(&rectBtn,SIGNAL(clicked()),this,SLOT(curOptionChanged()));
 

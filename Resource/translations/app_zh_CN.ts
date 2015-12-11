@@ -1789,59 +1789,43 @@ Email or MSN:kl222@126.com</source>
         <translation>发送(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="97"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="99"/>
         <source>Audio call</source>
         <translation>音频呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="149"/>
-        <source>Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</source>
-        <translation>图像(*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="153"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="160"/>
-        <source>Save</source>
-        <translation>保存</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="474"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="423"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="206"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="219"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="155"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="168"/>
         <source>Close message dialog</source>
         <translation>关闭消息对话框</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="74"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="76"/>
         <source>Back</source>
         <translation>回退</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="161"/>
-        <source>File is exists. Do you save it?</source>
-        <translation>文件已经存在。你是否复盖它？</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="207"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="156"/>
         <source>Sending files to determine whether you want to close?</source>
         <translation>有文件正在发送，你确定是否关闭消息对话框？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="220"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="169"/>
         <source>Is talking whether you want to close?</source>
         <translation>正在通话，是否关闭？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="336"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="285"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="336"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="285"/>
         <source>There is empty, please input.</source>
         <translation>这里是空的，请输入。</translation>
     </message>
@@ -2178,12 +2162,12 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CQRCode</name>
     <message>
-        <location filename="../../common/QRCode.cpp" line="219"/>
+        <location filename="../../common/QRCode.cpp" line="223"/>
         <source>Do you add roster </source>
         <translation>是否增加好友 </translation>
     </message>
     <message>
-        <location filename="../../common/QRCode.cpp" line="238"/>
+        <location filename="../../common/QRCode.cpp" line="242"/>
         <source>Do open </source>
         <translation>是否打开 </translation>
     </message>
@@ -2217,90 +2201,6 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../UserInfo/UserInfo.cpp" line="151"/>
         <source>[remove]</source>
         <translation>[删除]</translation>
-    </message>
-</context>
-<context>
-    <name>CWdgScreenEditor</name>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="40"/>
-        <source>pen</source>
-        <translation>笔</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="54"/>
-        <source>ellipse tool</source>
-        <translation>椭圆</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="64"/>
-        <source>rect tool</source>
-        <translation>矩形</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="71"/>
-        <source>undo</source>
-        <translation>撤消</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="77"/>
-        <source>color</source>
-        <translation>颜色</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="93"/>
-        <source>cancel</source>
-        <translation>取消</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="96"/>
-        <source>Clipboard</source>
-        <translation>保存到剪切板</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="99"/>
-        <source>Save As</source>
-        <translation>另存为 ...</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="102"/>
-        <source>Send file</source>
-        <translation>发送文件</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="114"/>
-        <source>ok</source>
-        <translation>确定</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="305"/>
-        <source>Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</source>
-        <translation>图像(*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="309"/>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="315"/>
-        <source>Save</source>
-        <translation>保存</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="316"/>
-        <source>File is exists. Do you save it?</source>
-        <translation>文件已经存在。你是否复盖它？</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="325"/>
-        <source>Failed to save</source>
-        <translation>保存失败</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="325"/>
-        <source>Sorry! Save failed! Please check save path!</source>
-        <translation>对不起！文件保存错误！请检查保存路径！</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="347"/>
-        <source>select color</source>
-        <translation>选择颜色</translation>
     </message>
 </context>
 <context>

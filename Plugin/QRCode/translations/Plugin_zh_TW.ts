@@ -77,29 +77,29 @@
         <translation>沒有攝像頭。</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="63"/>
-        <location filename="../FrmScanQRcode.cpp" line="203"/>
+        <location filename="../FrmScanQRcode.cpp" line="67"/>
+        <location filename="../FrmScanQRcode.cpp" line="207"/>
         <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
         <translation type="unfinished">影像檔(*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="64"/>
-        <location filename="../FrmScanQRcode.cpp" line="204"/>
+        <location filename="../FrmScanQRcode.cpp" line="68"/>
+        <location filename="../FrmScanQRcode.cpp" line="208"/>
         <source>Open File</source>
         <translation>打開文件</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="162"/>
+        <location filename="../FrmScanQRcode.cpp" line="166"/>
         <source>Scan QR Code</source>
         <translation>掃描二維碼</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="166"/>
+        <location filename="../FrmScanQRcode.cpp" line="170"/>
         <source>Generate QR Code</source>
         <translation>生成二維碼</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="188"/>
+        <location filename="../FrmScanQRcode.cpp" line="192"/>
         <source>Save as</source>
         <translation>另存為</translation>
     </message>
@@ -107,12 +107,12 @@
 <context>
     <name>CPluginQRCode</name>
     <message>
-        <location filename="../CPluginQRCode.cpp" line="39"/>
+        <location filename="../CPluginQRCode.cpp" line="48"/>
         <source>QRcode</source>
         <translation>二維碼</translation>
     </message>
     <message>
-        <location filename="../CPluginQRCode.cpp" line="44"/>
+        <location filename="../CPluginQRCode.cpp" line="53"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>
@@ -120,14 +120,12 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../PluginApp.cpp" line="20"/>
         <source>Application Infomation</source>
-        <translation>應用資訊</translation>
+        <translation type="vanished">應用資訊</translation>
     </message>
     <message>
-        <location filename="../../PluginApp.cpp" line="21"/>
         <source>Application:</source>
-        <translation>應用：</translation>
+        <translation type="vanished">應用：</translation>
     </message>
 </context>
 </TS>

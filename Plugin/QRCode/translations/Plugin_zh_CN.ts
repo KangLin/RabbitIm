@@ -77,29 +77,29 @@
         <translation>摄像头不存在。</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="63"/>
-        <location filename="../FrmScanQRcode.cpp" line="203"/>
+        <location filename="../FrmScanQRcode.cpp" line="67"/>
+        <location filename="../FrmScanQRcode.cpp" line="207"/>
         <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
         <translation>图像文件(*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;所有文件 (*.*)</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="64"/>
-        <location filename="../FrmScanQRcode.cpp" line="204"/>
+        <location filename="../FrmScanQRcode.cpp" line="68"/>
+        <location filename="../FrmScanQRcode.cpp" line="208"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="162"/>
+        <location filename="../FrmScanQRcode.cpp" line="166"/>
         <source>Scan QR Code</source>
         <translation>扫描二维码</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="166"/>
+        <location filename="../FrmScanQRcode.cpp" line="170"/>
         <source>Generate QR Code</source>
         <translation>生成二维码</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="188"/>
+        <location filename="../FrmScanQRcode.cpp" line="192"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
@@ -107,12 +107,12 @@
 <context>
     <name>CPluginQRCode</name>
     <message>
-        <location filename="../CPluginQRCode.cpp" line="39"/>
+        <location filename="../CPluginQRCode.cpp" line="48"/>
         <source>QRcode</source>
         <translation>二维码</translation>
     </message>
     <message>
-        <location filename="../CPluginQRCode.cpp" line="44"/>
+        <location filename="../CPluginQRCode.cpp" line="53"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>
@@ -120,14 +120,12 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../PluginApp.cpp" line="20"/>
         <source>Application Infomation</source>
-        <translation>应用信息</translation>
+        <translation type="vanished">应用信息</translation>
     </message>
     <message>
-        <location filename="../../PluginApp.cpp" line="21"/>
         <source>Application:</source>
-        <translation>应用：</translation>
+        <translation type="vanished">应用：</translation>
     </message>
 </context>
 </TS>

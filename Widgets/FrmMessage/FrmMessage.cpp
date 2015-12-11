@@ -8,7 +8,6 @@
 #include "Message/SmileyPack.h"
 #include "Message/EmoticonsWidget.h"
 #include "FileTransfer/ManageFileTransfer.h"
-#include "Widgets/DlgScreenShot/DlgScreenShot.h"
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QDropEvent>
@@ -67,6 +66,9 @@ int CFrmMessage::Init(const QString &szId)
         return -1;
     }
 
+    QSharedPointer<CPluginApp>  plugin = GETMANAGER->GetManagePlugins()->GetPlugin("ScreenShot");
+    if(plugin.isNull())
+        ui->pbShotScreen->setVisible(false);
 #ifndef MOBILE
     ui->pbSend->setMenu(&m_MessageSendMenu);
     ui->pbSend->setPopupMode(QToolButton::MenuButtonPopup);
@@ -132,62 +134,9 @@ void CFrmMessage::on_pbShotScreen_clicked()
 {
     if(CGlobal::Instance()->IsHideMessageBox())
         GETMANAGER->GetManageMessageDialog()->Hide();
-    CDlgScreenShot dlg;
-    if(dlg.exec() ==  QDialog::Accepted)
-    {
-        QImage image = dlg.getSelectedImg().toImage();
-        CGlobal::E_SCREEN_SHOT_TO_TYPE type = CGlobal::Instance()->GetScreenShotToType();
-        if(type == CGlobal::E_TO_CLIPBOARD)
-        {
-            //TODO:剪切板操作会引起警告：QImage::pixel: coordinate (308,398) out of range  
-            QClipboard* clipboard = QApplication::clipboard();
-            clipboard->setImage(image);//参数是否合适TODO  
-        }
-        else if(type == CGlobal::E_TO_SAVE)
-        {
-            QString szFile;
-            QString szFilter =  tr("Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)");
-            QString szDir = CGlobalDir::Instance()->GetDirReceiveFile()
-                    + QDir::separator() + "grabbedImage_"
-                    + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".png";
-            szFile = CTool::FileDialog(this, szDir, szFilter, tr("Save"), QFileDialog::AcceptSave);
-            if(!szFile.isEmpty())
-            {
-                QFile f(szFile);
-                if(f.exists())
-                {
-                    if(QMessageBox::No ==
-                            QMessageBox::warning(this, tr("Save"), 
-                                                 tr("File is exists. Do you save it?"),
-                                                 QMessageBox::Ok, 
-                                                 QMessageBox::No))
-                    {
-                        return;
-                    }
-                }
-                bool isOk = image.save(szFile);
-                if(!isOk)
-                {
-                    LOG_MODEL_ERROR("Message", "save file [%s] is error", szFile.toStdString().c_str());
-                }
-            }
-        }
-        else
-        {
-            QString fileName = "ShotScreen" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss.png");
-            QString filePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) +QDir::separator() +  fileName;
-            LOG_MODEL_DEBUG("Message", QString("filePath = %1").arg(filePath).toLocal8Bit().data());
-            bool isOk = image.save(filePath);
-            if(isOk)
-            {
-                GETMANAGER->GetFileTransfer()->SendFile(m_User->GetInfo()->GetId(), filePath);
-            }
-            else
-            {
-                LOG_MODEL_ERROR("Message", "save file [%s] is error", filePath.toStdString().c_str());
-            }
-        }
-    }
+    QSharedPointer<CPluginApp>  plugin = GETMANAGER->GetManagePlugins()->GetPlugin("ScreenShot");
+    if(!plugin.isNull())
+        plugin->Open(m_User.data());
     if(CGlobal::Instance()->IsHideMessageBox())
         GETMANAGER->GetManageMessageDialog()->Show();
 }

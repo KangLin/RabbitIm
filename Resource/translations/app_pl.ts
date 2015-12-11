@@ -1795,59 +1795,43 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="74"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="76"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="97"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="99"/>
         <source>Audio call</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="149"/>
-        <source>Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="153"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="160"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="161"/>
-        <source>File is exists. Do you save it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="206"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="219"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="155"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="168"/>
         <source>Close message dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="207"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="156"/>
         <source>Sending files to determine whether you want to close?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="220"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="169"/>
         <source>Is talking whether you want to close?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="336"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="285"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="336"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="285"/>
         <source>There is empty, please input.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="474"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="423"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2177,12 +2161,12 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CQRCode</name>
     <message>
-        <location filename="../../common/QRCode.cpp" line="219"/>
+        <location filename="../../common/QRCode.cpp" line="223"/>
         <source>Do you add roster </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../common/QRCode.cpp" line="238"/>
+        <location filename="../../common/QRCode.cpp" line="242"/>
         <source>Do open </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2215,90 +2199,6 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../UserInfo/UserInfo.cpp" line="151"/>
         <source>[remove]</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CWdgScreenEditor</name>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="40"/>
-        <source>pen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="54"/>
-        <source>ellipse tool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="64"/>
-        <source>rect tool</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="71"/>
-        <source>undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="77"/>
-        <source>color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="93"/>
-        <source>cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="96"/>
-        <source>Clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="99"/>
-        <source>Save As</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="102"/>
-        <source>Send file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="114"/>
-        <source>ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="305"/>
-        <source>Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="309"/>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="315"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="316"/>
-        <source>File is exists. Do you save it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="325"/>
-        <source>Failed to save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="325"/>
-        <source>Sorry! Save failed! Please check save path!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgScreenShot/WdgScreenEditor.cpp" line="347"/>
-        <source>select color</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

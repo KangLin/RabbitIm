@@ -41,8 +41,6 @@ SOURCES += \
     $$PWD/../Call/CallAction.cpp \
     $$PWD/../Widgets/FrmVideo/FrmVideo.cpp \ 
     $$PWD/../Widgets/DlgRegister/DlgRegister.cpp \
-    $$PWD/../Widgets/DlgScreenShot/DlgScreenShot.cpp \ 
-    $$PWD/../Widgets/DlgScreenShot/WdgScreenEditor.cpp \
     $$PWD/../Widgets/FrmGroupChat/FrmGroupChatList.cpp \ 
     $$PWD/../Widgets/FrmLogin/DlgLoginSettings.cpp \
     $$PWD/../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp \
@@ -115,8 +113,6 @@ HEADERS += $$PWD/../Version.h \
     $$PWD/../Call/CallAction.h \ 
     $$PWD/../Widgets/FrmVideo/FrmVideo.h \ 
     $$PWD/../Widgets/DlgRegister/DlgRegister.h \
-    $$PWD/../Widgets/DlgScreenShot/DlgScreenShot.h \ 
-    $$PWD/../Widgets/DlgScreenShot/WdgScreenEditor.h \
     $$PWD/../Widgets/FrmGroupChat/FrmGroupChatList.h \ 
     $$PWD/../Widgets/FrmLogin/DlgLoginSettings.h \  
     $$PWD/../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.h \

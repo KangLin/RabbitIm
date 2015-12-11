@@ -10,6 +10,7 @@
 #else
 #include "FileTransfer.h"
 #endif
+#include "Global/GlobalDir.h"
 
 /**
   *@defgroup RABBITIM_INTERFACE_MANGEFILETRANSFER 文件传输管理类模块  
@@ -21,7 +22,7 @@
  * @ingroup RABBITIM_INTERFACE_MANGEFILETRANSFER RABBITIM_INTERFACE
  * @brief 文件传输管理类接口  
  */
-class CManageFileTransfer : public CManage
+class RABBITIM_SHARED_LIBRARY CManageFileTransfer : public CManage
 {
     Q_OBJECT
 

@@ -77,29 +77,29 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="63"/>
-        <location filename="../FrmScanQRcode.cpp" line="203"/>
+        <location filename="../FrmScanQRcode.cpp" line="67"/>
+        <location filename="../FrmScanQRcode.cpp" line="207"/>
         <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="64"/>
-        <location filename="../FrmScanQRcode.cpp" line="204"/>
+        <location filename="../FrmScanQRcode.cpp" line="68"/>
+        <location filename="../FrmScanQRcode.cpp" line="208"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="162"/>
+        <location filename="../FrmScanQRcode.cpp" line="166"/>
         <source>Scan QR Code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="166"/>
+        <location filename="../FrmScanQRcode.cpp" line="170"/>
         <source>Generate QR Code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="188"/>
+        <location filename="../FrmScanQRcode.cpp" line="192"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
@@ -107,26 +107,13 @@
 <context>
     <name>CPluginQRCode</name>
     <message>
-        <location filename="../CPluginQRCode.cpp" line="39"/>
+        <location filename="../CPluginQRCode.cpp" line="48"/>
         <source>QRcode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CPluginQRCode.cpp" line="44"/>
+        <location filename="../CPluginQRCode.cpp" line="53"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <location filename="../../PluginApp.cpp" line="20"/>
-        <source>Application Infomation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../PluginApp.cpp" line="21"/>
-        <source>Application:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -337,7 +337,7 @@ void CFrmAppList::slotOpenApp()
         LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::slotOpenApp plugin is null");
         return;
     }
-    plugin->GetPlugin(szApp)->Open(this);
+    plugin->GetPlugin(szApp)->Open(NULL, this);
 }
 
 void CFrmAppList::slotCloseApp()

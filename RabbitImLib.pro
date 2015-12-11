@@ -11,6 +11,17 @@ TEMPLATE = lib
 CONFIG += create_prl no_install_prl create_pc no_install_pc 
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
+#设置目标输出目录  
+win32{
+    CONFIG(debug, debug|release) {
+        TARGET_PATH=$${OUT_PWD}/Debug
+    } else {
+        TARGET_PATH=$${OUT_PWD}/Release
+    }
+}else{
+    TARGET_PATH=$$OUT_PWD
+}
+
 #TODO:发行版本时，需要修改下列值  
 MAJOR_VERSION_NUMBER=0       #主版本  
 MINOR_VERSION_NUMBER=1       #次版本  
