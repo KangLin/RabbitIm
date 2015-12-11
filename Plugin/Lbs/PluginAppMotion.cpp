@@ -45,6 +45,7 @@ int CPluginAppMotion::Close()
     if(!m_Main.isNull())
     {  
         m_Main->close();
+        m_Main.clear();
     }
     return 0;
 }

@@ -99,24 +99,28 @@ int CQRCode::ProcessQImage(QImage image, QString &szText)
 {
     QString szMessage;
 #ifdef RABBITIM_USE_QZXING
-    QZXing decoder;
-    decoder.setDecoder(QZXing::DecoderFormat_QR_CODE |
-                       QZXing::DecoderFormat_DATA_MATRIX |
-                       QZXing::DecoderFormat_UPC_E |
-                       QZXing::DecoderFormat_UPC_A |
-                       QZXing::DecoderFormat_EAN_8 |
-                       QZXing::DecoderFormat_EAN_13 |
-                       QZXing::DecoderFormat_CODE_128 |
-                       QZXing::DecoderFormat_CODE_39 |
-                       QZXing::DecoderFormat_ITF |
-                       QZXing::DecoderFormat_Aztec);
-    szMessage = decoder.decodeImage(image);
-    if(szMessage.isEmpty())
-    {
-        LOG_MODEL_ERROR("CQRCode", "Scan image fail.");
+    try{
+        QZXing decoder;
+        decoder.setDecoder(QZXing::DecoderFormat_QR_CODE |
+                           QZXing::DecoderFormat_DATA_MATRIX |
+                           QZXing::DecoderFormat_UPC_E |
+                           QZXing::DecoderFormat_UPC_A |
+                           QZXing::DecoderFormat_EAN_8 |
+                           QZXing::DecoderFormat_EAN_13 |
+                           QZXing::DecoderFormat_CODE_128 |
+                           QZXing::DecoderFormat_CODE_39 |
+                           QZXing::DecoderFormat_ITF |
+                           QZXing::DecoderFormat_Aztec);
+        szMessage = decoder.decodeImage(image);
+        if(szMessage.isEmpty())
+        {
+            LOG_MODEL_ERROR("CQRCode", "Scan image fail.");
+            return 1;
+        }
+        LOG_MODEL_DEBUG("CQRCode", "Decode:%s", szMessage.toStdString().c_str());
+    }catch(...){
         return 1;
     }
-    LOG_MODEL_DEBUG("CQRCode", "Decode:%s", szMessage.toStdString().c_str());
 #endif
 
     szText = szMessage;

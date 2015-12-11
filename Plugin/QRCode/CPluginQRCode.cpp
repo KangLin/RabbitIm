@@ -31,7 +31,10 @@ int CPluginQRCode::Open(void *pPara, QWidget *parent)
 int CPluginQRCode::Close()
 {
     if(!m_FrmScanQRCode.isNull())
+    {  
         m_FrmScanQRCode->close();
+        m_FrmScanQRCode.clear();
+    }
     return 0;
 }
 

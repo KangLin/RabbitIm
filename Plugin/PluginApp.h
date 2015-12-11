@@ -6,6 +6,7 @@
 #include <QtPlugin>
 #include <QSet>
 #include <QTranslator>
+#include "Global/GlobalDir.h"
 
 /**
  * @brief 插件接口类  
@@ -19,7 +20,7 @@
  - 清理：Clean
  * @ingroup RABBITIM_INTERFACE_MANAGEPLUGIN RABBITIM_INTERFACE
  */
-class CPluginApp
+class RABBITIM_SHARED_LIBRARY CPluginApp
 {
 public:
     CPluginApp();
