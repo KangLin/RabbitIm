@@ -40,15 +40,16 @@ int CPluginScreenShot::Open(void *pPara, QWidget *parent)
         }
         else if(CGlobal::E_TO_QRCODE)
         {
-            QString fileName = "ShotScreen" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss.PNG");
+            QString szText;
+            /*QString fileName = "ShotScreen" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss.PNG");
             QString filePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) +QDir::separator() +  fileName;
             LOG_MODEL_DEBUG("Message", QString("filePath = %1").arg(filePath).toLocal8Bit().data());
             bool isOk = image.save(filePath);
             if(isOk)
             {
-                QString szText;
                 return CQRCode::ProcessQRFile(filePath, szText);
-            }
+             }*/
+            return CQRCode::ProcessQImage(image, szText);
         }
         else if(type == CGlobal::E_TO_SAVE)
         {

@@ -20,7 +20,7 @@
  * @brief 插件管理类  
  * @see CManager
  */
-class CManagePlugin : public CManage
+class RABBITIM_SHARED_LIBRARY CManagePlugin : public CManage
 {
     Q_OBJECT
 public:
