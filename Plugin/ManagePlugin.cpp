@@ -177,7 +177,7 @@ int CManagePlugin::LoadFromStorage(const QString &szId)
 {
     int nRet = 0;
     QString szFile = CGlobalDir::Instance()->GetDirUserData(szId) 
-            + QDir::separator() + "PluginFavorites.dat";
+            + QDir::separator() + "PluginAppFavorites.dat";
 
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
@@ -220,7 +220,7 @@ int CManagePlugin::SaveToStorage()
         return -1;
     }
     QString szFile = CGlobalDir::Instance()->GetDirUserData(USER_INFO_LOCALE->GetInfo()->GetId()) 
-            + QDir::separator() + "PluginFavorites.dat";
+            + QDir::separator() + "PluginAppFavorites.dat";
 
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))

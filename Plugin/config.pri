@@ -65,6 +65,9 @@ contains(TEMPLATE, lib){
 
     #插件安装路径  
     target.path = $$PREFIX/plugins/App/$${TARGET}
-} else : target.path = $$PREFIX
+} else {
+    target.path = $$PREFIX
+    DESTDIR = $$TARGET_PATH
+}
 
 !android : INSTALLS += target

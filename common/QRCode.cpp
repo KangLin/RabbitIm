@@ -91,6 +91,15 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage,
     qr = nullptr;
     return image;
 #endif //RABBITIM_USE_LIBQRENCODE
+    
+#ifdef RABBITIM_USE_QZXING
+    try{
+        QZXing encoder;
+        return encoder.encodeData(szData);
+    }catch(...){
+        ;
+    }
+#endif
 
     return QImage();
 }
