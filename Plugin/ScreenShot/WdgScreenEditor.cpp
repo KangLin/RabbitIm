@@ -94,15 +94,21 @@ void CWdgScreenEditor::initToolBar(){
     cancelBtn.setToolTip(tr("cancel"));
     connect(&cancelBtn,SIGNAL(clicked()),this,SLOT(onCancelBtnClicked()));
 
-    QAction* pAction = m_menuCompleteBtu.addAction(tr("Clipboard"));
+    QAction* pAction = m_menuCompleteBtu.addAction(QIcon(":/icon/Cut"), tr("Clipboard"));
     m_ActionGroupComplete.addAction(pAction);
     m_ActionsComplete.insert(CGlobal::E_TO_CLIPBOARD, pAction);
-    pAction = m_menuCompleteBtu.addAction(tr("Save As"));
+    pAction = m_menuCompleteBtu.addAction(QIcon(":/icon/SaveAs"), tr("Save As"));
     m_ActionGroupComplete.addAction(pAction);
     m_ActionsComplete.insert(CGlobal::E_TO_SAVE, pAction);
-    pAction = m_menuCompleteBtu.addAction(tr("Send file"));
+    pAction = m_menuCompleteBtu.addAction(QIcon(":/icon/SendFile"), tr("Send file"));
     m_ActionGroupComplete.addAction(pAction);
     m_ActionsComplete.insert(CGlobal::E_TO_SEND, pAction);
+    if(!GETMANAGER->GetManagePlugins()->GetPlugin("QRCode").isNull())
+    {
+        pAction = m_menuCompleteBtu.addAction(QIcon(":/icon/Scan"), tr("Recognition QRCode"));
+        m_ActionGroupComplete.addAction(pAction);
+        m_ActionsComplete.insert(CGlobal::E_TO_QRCODE, pAction);
+    }
     bool check = connect(&m_ActionGroupComplete, SIGNAL(triggered(QAction*)),
                          SLOT(slotActionGroupCompleteTriggered(QAction*)));
     Q_ASSERT(check);
@@ -111,6 +117,8 @@ void CWdgScreenEditor::initToolBar(){
     m_IconComplete.insert(CGlobal::E_TO_CLIPBOARD, QIcon(":/icon/Cut"));
     m_IconComplete.insert(CGlobal::E_TO_SAVE, QIcon(":/icon/SaveAs"));
     m_IconComplete.insert(CGlobal::E_TO_SEND, QIcon(":/icon/SendFile"));
+    if(!GETMANAGER->GetManagePlugins()->GetPlugin("QRCode").isNull())
+        m_IconComplete.insert(CGlobal::E_TO_QRCODE, QIcon(":/icon/Scan"));
     completeBtn.setIcon(m_IconComplete[CGlobal::Instance()->GetScreenShotToType()]);
     completeBtn.setToolTip(tr("ok"));
     completeBtn.setCursor(Qt::ArrowCursor);

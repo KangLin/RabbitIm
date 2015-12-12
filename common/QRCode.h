@@ -39,12 +39,14 @@ public:
     /**
      * @brief 识别图片文件  
      * @param szFile
+     * @param szText :识别出来的文本  
      * @return 
      */
     static int ProcessQRFile(const QString &szFile, QString &szText);
     /**
      * @brief 识别图片  
      * @param image
+     * @param szText :识别出来的文本  
      * @return >0:解码失败  
      *         =0:解码处理均成功  
      *         <0:处理出错  

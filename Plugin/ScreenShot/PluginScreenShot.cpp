@@ -6,6 +6,7 @@
 #include <QStandardPaths>
 #include "Tool.h"
 #include "FileTransfer/ManageFileTransfer.h"
+#include "QRCode.h"
 
 CPluginScreenShot::CPluginScreenShot(QObject *parent) :
     QObject(parent), 
@@ -37,13 +38,25 @@ int CPluginScreenShot::Open(void *pPara, QWidget *parent)
             QClipboard* clipboard = QApplication::clipboard();
             clipboard->setImage(image);//参数是否合适TODO  
         }
+        else if(CGlobal::E_TO_QRCODE)
+        {
+            QString fileName = "ShotScreen" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss.PNG");
+            QString filePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) +QDir::separator() +  fileName;
+            LOG_MODEL_DEBUG("Message", QString("filePath = %1").arg(filePath).toLocal8Bit().data());
+            bool isOk = image.save(filePath);
+            if(isOk)
+            {
+                QString szText;
+                return CQRCode::ProcessQRFile(filePath, szText);
+            }
+        }
         else if(type == CGlobal::E_TO_SAVE)
         {
             QString szFile;
-            QString szFilter =  tr("Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)");
+            QString szFilter =  tr("Images (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)");
             QString szDir = CGlobalDir::Instance()->GetDirReceiveFile()
                     + QDir::separator() + "grabbedImage_"
-                    + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".png";
+                    + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".PNG";
             szFile = CTool::FileDialog(&dlg, szDir, szFilter, tr("Save"), QFileDialog::AcceptSave);
             if(!szFile.isEmpty())
             {
@@ -68,7 +81,7 @@ int CPluginScreenShot::Open(void *pPara, QWidget *parent)
         }
         else
         {
-            QString fileName = "ShotScreen" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss.png");
+            QString fileName = "ShotScreen" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss.PNG");
             QString filePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) +QDir::separator() +  fileName;
             LOG_MODEL_DEBUG("Message", QString("filePath = %1").arg(filePath).toLocal8Bit().data());
             bool isOk = image.save(filePath);

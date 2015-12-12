@@ -78,7 +78,6 @@
     </message>
     <message>
         <location filename="../FrmScanQRcode.cpp" line="67"/>
-        <location filename="../FrmScanQRcode.cpp" line="207"/>
         <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
         <translation>图像文件(*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;所有文件 (*.*)</translation>
     </message>
@@ -102,6 +101,11 @@
         <location filename="../FrmScanQRcode.cpp" line="192"/>
         <source>Save as</source>
         <translation>另存为</translation>
+    </message>
+    <message>
+        <location filename="../FrmScanQRcode.cpp" line="207"/>
+        <source>Image Files (*.PNG *.png *.BMP *.bmp *.JPG *.jpg *.JPEG *.jpeg *.PBM *.pbm *.PGM *.pgm *.PPM *.ppm *.XBM *.xbm *.XPM *.xpm);;All Files  (*.*)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

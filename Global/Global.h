@@ -209,7 +209,8 @@ public:
     {
         E_TO_CLIPBOARD,
         E_TO_SEND,
-        E_TO_SAVE
+        E_TO_SAVE,
+        E_TO_QRCODE
     };
     
     E_SCREEN_SHOT_TO_TYPE GetScreenShotToType();
