@@ -4,30 +4,30 @@
 <context>
     <name>CPluginScreenShot</name>
     <message>
-        <location filename="../PluginScreenShot.cpp" line="56"/>
+        <location filename="../PluginScreenShot.cpp" line="57"/>
         <source>Images (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</source>
-        <translation type="unfinished"></translation>
+        <translation>圖像 (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</translation>
     </message>
     <message>
-        <location filename="../PluginScreenShot.cpp" line="60"/>
-        <location filename="../PluginScreenShot.cpp" line="67"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../PluginScreenShot.cpp" line="61"/>
         <location filename="../PluginScreenShot.cpp" line="68"/>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <location filename="../PluginScreenShot.cpp" line="69"/>
         <source>File is exists. Do you save it?</source>
-        <translation type="unfinished"></translation>
+        <translation>文件已存在。你是否繼續保存?</translation>
     </message>
     <message>
-        <location filename="../PluginScreenShot.cpp" line="115"/>
+        <location filename="../PluginScreenShot.cpp" line="116"/>
         <source>ScreenShot</source>
-        <translation type="unfinished"></translation>
+        <translation>截屏</translation>
     </message>
     <message>
-        <location filename="../PluginScreenShot.cpp" line="120"/>
+        <location filename="../PluginScreenShot.cpp" line="121"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>工具</translation>
     </message>
 </context>
 <context>
@@ -35,89 +35,108 @@
     <message>
         <location filename="../WdgScreenEditor.cpp" line="40"/>
         <source>pen</source>
-        <translation type="unfinished"></translation>
+        <translation>筆</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="54"/>
         <source>ellipse tool</source>
-        <translation type="unfinished"></translation>
+        <translation>橢圓</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="64"/>
         <location filename="../WdgScreenEditor.cpp" line="65"/>
         <source>rect tool</source>
-        <translation type="unfinished"></translation>
+        <translation>矩形</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="72"/>
         <source>undo</source>
-        <translation type="unfinished"></translation>
+        <translation>撤銷</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="78"/>
         <source>color</source>
-        <translation type="unfinished"></translation>
+        <translation>顏色</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="94"/>
         <source>cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="97"/>
         <source>Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>剪切板</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="100"/>
         <source>Save As</source>
-        <translation type="unfinished"></translation>
+        <translation>另存為...</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="103"/>
         <source>Send file</source>
-        <translation type="unfinished"></translation>
+        <translation>發送文件</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="108"/>
         <source>Recognition QRCode</source>
-        <translation type="unfinished"></translation>
+        <translation>識別二維碼</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="123"/>
         <source>ok</source>
-        <translation type="unfinished"></translation>
+        <translation>確定</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="314"/>
         <source>Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</source>
-        <translation type="unfinished"></translation>
+        <translation>圖像 (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="318"/>
         <location filename="../WdgScreenEditor.cpp" line="324"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="325"/>
         <source>File is exists. Do you save it?</source>
-        <translation type="unfinished"></translation>
+        <translation>文件已存在。你是否繼續保存?</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="334"/>
         <source>Failed to save</source>
-        <translation type="unfinished"></translation>
+        <translation>保存失敗</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="334"/>
         <source>Sorry! Save failed! Please check save path!</source>
-        <translation type="unfinished"></translation>
+        <translation>對不起!保存失敗!請檢查保存路徑!</translation>
     </message>
     <message>
         <location filename="../WdgScreenEditor.cpp" line="356"/>
         <source>select color</source>
-        <translation type="unfinished"></translation>
+        <translation>選擇顏色</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../main.cpp" line="58"/>
+        <source>Images (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</source>
+        <translation type="unfinished">圖像 (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="62"/>
+        <location filename="../main.cpp" line="69"/>
+        <source>Save</source>
+        <translation type="unfinished">保存</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="70"/>
+        <source>File is exists. Do you save it?</source>
+        <translation type="unfinished">文件已存在。你是否繼續保存?</translation>
     </message>
 </context>
 </TS>

@@ -22,28 +22,6 @@ win32{
     TARGET_PATH=$$OUT_PWD
 }
 
-#TODO:发行版本时，需要修改下列值  
-MAJOR_VERSION_NUMBER=0       #主版本  
-MINOR_VERSION_NUMBER=1       #次版本  
-REVISION_VERSION_NUMBER=1    #修订号  
-VERSION = $${MAJOR_VERSION_NUMBER}.$${MINOR_VERSION_NUMBER}.$${REVISION_VERSION_NUMBER}
-#发行版本才更新更新配置  
-!CONFIG(debug, debug|release){
-    include(pri/RabbitImVersion.pri)
-    !equals(RABBITIM_USE_LIBCURL, 1){
-        warning("don't update function")
-    }
-}
-
-#修改文件中的第三方库配置  
-include(pri/ThirdLibraryConfig.pri)
-include(pri/ThirdLibrary.pri)
-include(pri/ThirdLibraryJoin.pri)
-include(pri/RabbitImFiles.pri)
-
-# Rules for creating/updating {ts|qm}-files
-include(Resource/translations/translations.pri)
-
 #安装前缀  
 isEmpty(PREFIX) {
     android {
@@ -52,6 +30,30 @@ isEmpty(PREFIX) {
         PREFIX = $$OUT_PWD/install
     } 
 }
+
+#TODO:发行版本时，需要修改下列值  
+MAJOR_VERSION_NUMBER=0       #主版本  
+MINOR_VERSION_NUMBER=1       #次版本  
+REVISION_VERSION_NUMBER=1    #修订号  
+VERSION = $${MAJOR_VERSION_NUMBER}.$${MINOR_VERSION_NUMBER}.$${REVISION_VERSION_NUMBER}
+
+#修改文件中的第三方库配置  
+include(pri/ThirdLibraryConfig.pri)
+include(pri/ThirdLibrary.pri)
+include(pri/ThirdLibraryJoin.pri)
+include(pri/RabbitImFiles.pri)
+
+#发行版本才更新更新配置  
+!CONFIG(debug, debug|release){
+    include(pri/RabbitImVersion.pri)
+    !equals(RABBITIM_USE_LIBCURL, 1){
+        warning("don't update function")
+    }
+}
+
+# Rules for creating/updating {ts|qm}-files
+include(Resource/translations/translations.pri)
+
 target.path = $$PREFIX
 !android : INSTALLS += target
 #android : CONFIG += static   #TODO：android < 18时，动态库加载会失败（可能是有未支持的函数），原因不明   

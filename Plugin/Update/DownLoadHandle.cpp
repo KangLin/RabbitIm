@@ -4,6 +4,7 @@
 #include "MainWindow.h"
 #include <QDir>
 #include <QtXml>
+#include "PluginUpdate.h"
 
 CDownLoadHandleFile::CDownLoadHandleFile(CDlgUpdate *parent):QObject(parent)
 {
@@ -44,8 +45,9 @@ int CDownLoadHandleFile::OnEnd(int nErrorCode)
     return 0;
 }
 
-CDownLoadHandleVersionFile::CDownLoadHandleVersionFile()
+CDownLoadHandleVersionFile::CDownLoadHandleVersionFile(CDlgUpdate *pDlgUpdate)
 {
+    m_pDlgUpdate = pDlgUpdate;
 }
 
 int CDownLoadHandleVersionFile::OnError(int nErrorCode, const std::string &szErr)
@@ -53,7 +55,8 @@ int CDownLoadHandleVersionFile::OnError(int nErrorCode, const std::string &szErr
     Q_UNUSED(szErr);
     LOG_MODEL_ERROR("CDownLoadHandleVersionFile", "Download version file error:%d", nErrorCode);
     return 0;
-    //emit GET_MAINWINDOW->sigUpdateExec(nErrorCode, m_szFile);
+    //if(m_pDlgUpdate)
+    //    emit m_pDlgUpdate->sigUpdateExec(nErrorCode, m_szFile);
     //return 0;
 }
 
@@ -109,7 +112,8 @@ int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
         }
     }
 #ifdef RABBITIM_USE_LIBCURL
-    emit GET_MAINWINDOW->sigUpdateExec(nErrorCode, m_szFile);
+    if(m_pDlgUpdate)
+        emit m_pDlgUpdate->sigUpdateExec(nErrorCode, m_szFile);
 #endif
     return 0;
 }
@@ -146,7 +150,7 @@ int CDownLoadHandleVersionFile::Start()
             + QDir::separator() + szFile;
     //TODO:设置下载版本文件  
     QString szUrl = "https://github.com/KangLin/rabbitim/blob/master/Update/" + szFile;
-
+    //QString szUrl = "http://182.254.185.29/" + szFile;
     m_DownLoad.Start(szUrl.toStdString(),
                      m_szFile.toStdString(),
                      this, 

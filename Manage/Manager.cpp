@@ -8,6 +8,7 @@
 
 CManager::CManager()
 {
+    GetManagePlugins();
 }
 
 CManager::~CManager()

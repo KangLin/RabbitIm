@@ -8,20 +8,28 @@
 #include <QtXml>
 #include "MainWindow.h"
 
-CDlgUpdate::CDlgUpdate(int nError, const QString &szFile, QWidget *parent) :
+CDlgUpdate::CDlgUpdate(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgUpdate),
-    m_HandleDownLoad(this)
+    m_HandleDownLoad(this),
+    m_Update(this)
 {
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
 
-    ui->lbPrompt->setText(tr("Be checking update version ..."));
+    ui->lbCurrentVersion->setText(tr("Current version:")
+                                  + QString::number(MAJOR_VERSION_NUMBER)
+                                  + "."
+                                  + QString::number(MINOR_VERSION_NUMBER)
+                                  + "."
+                                  + QString::number(REVISION_VERSION_NUMBER));
+    ui->lbPrompt->setText(tr("The new version is not detected."));
     ui->lbError->setVisible(false);
     ui->lbError->setText("");
     ui->progressBar->setVisible(false);
     ui->progressBar->setValue(0);
-    ui->pbOk->setEnabled(false);
+    ui->pbOk->setVisible(false);
+    ui->pbRefresh->setVisible(true);
 
     m_bDownloading = false;
 
@@ -36,7 +44,13 @@ CDlgUpdate::CDlgUpdate(int nError, const QString &szFile, QWidget *parent) :
                     SLOT(slotProcess(double,double)));
     Q_ASSERT(check);
 
-    slotDownLoadVersionFile(nError, szFile);
+#ifdef RABBITIM_USE_LIBCURL
+    check = connect(this, SIGNAL(sigUpdateExec(int,QString)),
+                    SLOT(slotUpdateExec(int,QString)));
+    Q_ASSERT(check);
+    //检查版本更新  
+    on_pbRefresh_clicked();
+#endif
     return ;
 }
 
@@ -45,10 +59,23 @@ CDlgUpdate::~CDlgUpdate()
     delete ui;
 }
 
+#ifdef RABBITIM_USE_LIBCURL
+void CDlgUpdate::slotUpdateExec(int nError, const QString &szFile)
+{
+    slotDownLoadVersionFile(nError, szFile);
+    if(this->isHidden())
+        exec();
+}
+#endif
+
 void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode, const QString &szFile)
 {
+    ui->lbPrompt->setText(tr("Be checking update version ..."));
     if(szFile.isEmpty())
+    {
+        slotError(-1, tr("The new version is not detected."));
         return ;
+    }
 
     if(nErrorCode)
     {
@@ -110,14 +137,14 @@ void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode, const QString &szFile)
     m_szDownloadMd5sum = startElem.firstChildElement("MD5SUM").text();
     if(m_szDownLoadUrl.isEmpty() || m_szDownloadMd5sum.isEmpty())
     {
-        slotError(-5, tr("Version file is error"));
+        slotError(-5, tr("Version file is error. DownLoadUrl or md5sum is empty."));
         return;
     }
 
     CGlobal::Instance()->SetUpdateDate(QDateTime::currentDateTime());
 
     QUrl url(m_szDownLoadUrl);
-    m_szDownLoadFile= CGlobalDir::Instance()->GetDirApplicationDownLoad()
+    m_szDownLoadFile = CGlobalDir::Instance()->GetDirApplicationDownLoad()
             + QDir::separator() + url.fileName();
     QString szForce = startElem.firstChildElement("FORCE").text();
     if(szForce == "true")//强制更新  
@@ -160,11 +187,12 @@ void CDlgUpdate::slotDownLoadStart(bool bPrompt)
             szMsg += "\n" + m_szDownloadInfo;
         ui->lbPrompt->setText(szMsg);
         ui->progressBar->setVisible(false);
-        ui->pbOk->setEnabled(true);
+        ui->pbOk->setVisible(true);
+        ui->pbRefresh->setVisible(true);
     }
     else
     {
-        ui->pbOk->setEnabled(false);
+        ui->pbOk->setVisible(false);
         DownloadFile();
     }
 
@@ -175,6 +203,7 @@ void CDlgUpdate::slotDownLoadStart(bool bPrompt)
 void CDlgUpdate::slotError(int nErr, const QString &szErr)
 {
     Q_UNUSED(nErr);
+    ui->pbRefresh->setVisible(true);
     ui->lbError->setVisible(true);
     ui->lbError->setText(szErr);
 }
@@ -190,7 +219,8 @@ int CDlgUpdate::DownloadFile()
     ui->progressBar->setVisible(true);
     ui->lbError->setText("");
     ui->lbError->setVisible(true);
-    ui->pbOk->setEnabled(false);
+    ui->pbOk->setVisible(false);
+    ui->pbRefresh->setVisible(false);
     m_bDownloading = true;
 
     QFile f(m_szDownLoadFile);
@@ -199,6 +229,7 @@ int CDlgUpdate::DownloadFile()
         //检查文件是否正确，计算md5校验和  
         if(CTool::GetFileMd5SumString(m_szDownLoadFile) == m_szDownloadMd5sum)
         {
+            ui->progressBar->setValue(100);
             slotDownLoadEnd(0);
             return 0;
         }
@@ -213,6 +244,7 @@ int CDlgUpdate::DownloadFile()
 
 void CDlgUpdate::slotDownLoadEnd(int nErr)
 {
+    ui->pbRefresh->setVisible(true);
     QString szMsg;
     if(nErr)
     {
@@ -272,7 +304,7 @@ void CDlgUpdate::on_pbCancel_clicked()
     {
         m_DownLoadFile.Exit();
         m_bDownloading = false;
-        ui->pbOk->setEnabled(true);
+        ui->pbOk->setVisible(true);
         return;
     }
     this->reject();
@@ -287,4 +319,16 @@ void CDlgUpdate::changeEvent(QEvent *e)
         ui->retranslateUi(this);
         break;
     }
+}
+
+void CDlgUpdate::showEvent(QShowEvent *)
+{
+}
+
+void CDlgUpdate::on_pbRefresh_clicked()
+{
+#ifdef RABBITIM_USE_LIBCURL
+    //检查版本更新  
+    m_Update.Start();
+#endif
 }

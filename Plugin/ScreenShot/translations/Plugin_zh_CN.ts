@@ -4,28 +4,28 @@
 <context>
     <name>CPluginScreenShot</name>
     <message>
-        <location filename="../PluginScreenShot.cpp" line="56"/>
+        <location filename="../PluginScreenShot.cpp" line="57"/>
         <source>Images (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</source>
         <translation>图像 (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</translation>
     </message>
     <message>
-        <location filename="../PluginScreenShot.cpp" line="60"/>
-        <location filename="../PluginScreenShot.cpp" line="67"/>
+        <location filename="../PluginScreenShot.cpp" line="61"/>
+        <location filename="../PluginScreenShot.cpp" line="68"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../PluginScreenShot.cpp" line="68"/>
+        <location filename="../PluginScreenShot.cpp" line="69"/>
         <source>File is exists. Do you save it?</source>
         <translation>文件已存在。你是否继续保存?</translation>
     </message>
     <message>
-        <location filename="../PluginScreenShot.cpp" line="115"/>
+        <location filename="../PluginScreenShot.cpp" line="116"/>
         <source>ScreenShot</source>
         <translation>截屏</translation>
     </message>
     <message>
-        <location filename="../PluginScreenShot.cpp" line="120"/>
+        <location filename="../PluginScreenShot.cpp" line="121"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>
@@ -118,6 +118,25 @@
         <location filename="../WdgScreenEditor.cpp" line="356"/>
         <source>select color</source>
         <translation>选择颜色</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../main.cpp" line="58"/>
+        <source>Images (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</source>
+        <translation type="unfinished">图像 (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="62"/>
+        <location filename="../main.cpp" line="69"/>
+        <source>Save</source>
+        <translation type="unfinished">保存</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="70"/>
+        <source>File is exists. Do you save it?</source>
+        <translation type="unfinished">文件已存在。你是否继续保存?</translation>
     </message>
 </context>
 </TS>

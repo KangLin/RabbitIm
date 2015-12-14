@@ -10,7 +10,7 @@
 #include "Widgets/FrmMain/FrmMain.h"
 
 #ifdef ANDROID
-    #include "AndroidNotification.h"
+    #include "android/jni/AndroidNotification.h"
 #endif
 #include "Global/Global.h"
 
@@ -149,15 +149,6 @@ private slots:
 
 private:
     CDlgSendManage* m_pSendManageDlg;//文件发送管理窗口  
-
-//程序更新功能  
-#ifdef RABBITIM_USE_LIBCURL
-public:
-signals:
-    void sigUpdateExec(int nError, const QString &szFile);
-private slots:
-    void slotUpdateExec(int nError, const QString &szFile);
-#endif
 
 //窗口靠边界时自动隐藏
 #ifndef MOBILE

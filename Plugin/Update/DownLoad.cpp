@@ -1,6 +1,12 @@
 #include "DownLoad.h"
 #include <stdio.h>
 #include <sstream>
+#ifdef RABBITIM_USE_LIBCURL
+    #include "Global/Global.h"
+#else
+    #define LOG_MODEL_ERROR(mod, fmt, ...) printf(fmt, ##__VA_ARGS__);
+    #define LOG_MODEL_DEBUG(mod, fmt, ...) printf(fmt, ##__VA_ARGS__);
+#endif
 
 #define SKIP_PEER_VERIFICATION 1
 #define SKIP_HOSTNAME_VERIFICATION 1

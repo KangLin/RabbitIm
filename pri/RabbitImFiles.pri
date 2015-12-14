@@ -209,20 +209,6 @@ android{
 #    HEADERS += Widgets/FrmVideo/CameraOpencv.h 
 #}
 
-equals(RABBITIM_USE_LIBCURL, 1){
-    SOURCES += \
-        $$PWD/../Update/DownLoad.cpp \
-        $$PWD/../Update/DownLoadHandle.cpp \
-        $$PWD/../Update/DlgUpdate.cpp
-
-    HEADERS += \
-        $$PWD/../Update/DownLoad.h \
-        $$PWD/../Update/DownLoadHandle.h \
-        $$PWD/../Update/DlgUpdate.h
-
-    FORMS += $$PWD/../Update/DlgUpdate.ui
-}
-
 equals(RABBITIM_USE_OPENSSL, 1){
     SOURCES += $$PWD/../Global/Encrypt.cpp
     HEADERS += $$PWD/../Global/Encrypt.h

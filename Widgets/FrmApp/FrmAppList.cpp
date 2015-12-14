@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QFile>
 #include <QDataStream>
+#include <QSettings>
 
 CFrmAppList::CFrmAppList(QWidget *parent) :
     QWidget(parent),
@@ -21,8 +22,7 @@ CFrmAppList::CFrmAppList(QWidget *parent) :
     }*/
     m_AppList.setModel(m_pModel);
     InitMenu();
-    LoadGroupNodeStateFromStorage();
-    InitList();
+    InitList(); //在 changeEvent 中的 ui 语言改变事件中调用  
     m_AppList.show();
     
     bool check = connect(&m_AppList, SIGNAL(clicked(QModelIndex)),
@@ -44,7 +44,7 @@ CFrmAppList::~CFrmAppList()
     delete ui;
 }
 
-int CFrmAppList::LoadGroupNodeStateFromStorage()
+QString CFrmAppList::GetNodeStateFile()
 {
     QString szId;
     if(!GLOBAL_USER.isNull()
@@ -53,10 +53,21 @@ int CFrmAppList::LoadGroupNodeStateFromStorage()
         szId = USER_INFO_LOCALE->GetInfo()->GetId();
     }
     if(szId.isEmpty())
-        return 0;
-    QString szFile = CGlobalDir::Instance()->GetDirUserData(szId)
-            + QDir::separator() + "AppListGroupNodeState.dat";
+        return QString();
 
+    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QString szLocale = conf.value("Global/Language", QLocale::system().name()).toString();
+    if("Default" == szLocale)
+    {
+        szLocale = QLocale::system().name();
+    }
+    return CGlobalDir::Instance()->GetDirUserData(szId)
+            + QDir::separator() + "AppListGroupNodeState_" + szLocale + ".dat";
+}
+
+int CFrmAppList::LoadGroupNodeStateFromStorage()
+{
+    QString szFile = GetNodeStateFile();
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
@@ -70,17 +81,18 @@ int CFrmAppList::LoadGroupNodeStateFromStorage()
         //版本号  
         int nVersion = 0;
         s >> nVersion;
+        LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
         int nRowCount = 0;
         s >> nRowCount;
         while(nRowCount--)
         {
             //本地用户信息  
-            LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
             QString szGroup;
             s >> szGroup;
-            ItemInsertGroup(szGroup);
             bool bState;
             s >> bState;
+            LOG_MODEL_DEBUG("CFrmUserList", "Group:%s; State:%d", szGroup.toStdString().c_str(), bState);
+            QStandardItem* pItem = NULL;
             QModelIndexList lstIndexs = m_pModel->match(
                         m_pModel->index(0, 0),
                         ROLE_GROUP,
@@ -90,17 +102,27 @@ int CFrmAppList::LoadGroupNodeStateFromStorage()
                         | Qt::MatchWrap
                         | Qt::MatchRecursive
                         | Qt::MatchCaseSensitive);
-            QModelIndex index;
-            foreach(index, lstIndexs)
+            if(lstIndexs.isEmpty())
             {
-                QStandardItem* pItem = m_pModel->itemFromIndex(index);
-                if(!pItem) continue;
-                if(pItem->text() != szGroup)
-                    continue;
+                pItem = ItemInsertGroup(szGroup);
+                QModelIndex index = m_pModel->indexFromItem(pItem);
                 if(bState)
                     m_AppList.expand(index);
                 else
                     m_AppList.collapse(index);
+            }else{                
+                QModelIndex index;
+                foreach(index, lstIndexs)
+                {
+                    pItem = m_pModel->itemFromIndex(index);
+                    if(!pItem) continue;
+                    if(pItem->text() != szGroup)
+                        continue;
+                    if(bState)
+                        m_AppList.expand(index);
+                    else
+                        m_AppList.collapse(index);
+                }
             }
         }
     }
@@ -118,15 +140,7 @@ int CFrmAppList::LoadGroupNodeStateFromStorage()
 
 int CFrmAppList::SaveGroupNodeStateToStorage()
 {
-    QString szId;
-    if(!GLOBAL_USER.isNull()
-            && !USER_INFO_LOCALE.isNull())
-    {
-        szId = USER_INFO_LOCALE->GetInfo()->GetId();
-    }
-    QString szFile = CGlobalDir::Instance()->GetDirUserData(szId)
-            + QDir::separator() + "AppListGroupNodeState.dat";
-
+    QString szFile = GetNodeStateFile();
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
@@ -242,6 +256,8 @@ int CFrmAppList::InitList()
     QSharedPointer<CManagePlugin> plugin = GETMANAGER->GetManagePlugins();
     if(plugin.isNull())
         return -1;
+    m_pModel->clear();
+    LoadGroupNodeStateFromStorage();
     std::list<QSharedPointer<CPluginApp> > lstPlugin = plugin->GetAllPlugins();
     std::list<QSharedPointer<CPluginApp> >::iterator it;
     for(it = lstPlugin.begin(); it != lstPlugin.end(); it++)
@@ -431,4 +447,15 @@ void CFrmAppList::resizeEvent(QResizeEvent *e)
     //调整列的宽度  
     int nWidth = m_AppList.geometry().width();
     m_AppList.setColumnWidth(0, nWidth);
+}
+
+void CFrmAppList::changeEvent(QEvent *e)
+{
+    switch(e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        InitList();
+        break;
+    }
 }

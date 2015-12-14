@@ -21,15 +21,9 @@
 #include <mutex>
 #include <fstream>
 #include <curl/curl.h>
-#ifdef RABBITIM_USE_LIBCURL
-    #include "Global/Global.h"
-#else
-    #define LOG_MODEL_ERROR(mod, fmt, ...) printf(fmt, ##__VA_ARGS__);
-    #define LOG_MODEL_DEBUG(mod, fmt, ...) printf(fmt, ##__VA_ARGS__);
-#endif
 
 //下载处理类  
-class RABBITIM_SHARED_LIBRARY CDownLoadHandle
+class CDownLoadHandle
 {
 public:
     CDownLoadHandle();
@@ -45,7 +39,7 @@ public:
     virtual int OnError(int nErrorCode, const std::string &szErr);
 };
 
-class RABBITIM_SHARED_LIBRARY CDownLoad
+class CDownLoad
 {
 public:
     CDownLoad(const std::string &szUrl = std::string(), const std::string &szFile = std::string(), CDownLoadHandle* pHandle = NULL);

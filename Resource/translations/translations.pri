@@ -15,6 +15,11 @@ TRANSLATIONS = $$PWD/app_zh_CN.ts \
     $$PWD/app_sl.ts \
     $$PWD/app_uk.ts
 
+for(file, TRANSLATIONS) {
+    TRANSLATIONS_TS_FILES += $${file}
+}
+TRANSLATIONS_QM_FILES = $$replace(TRANSLATIONS_TS_FILES, ".ts", ".qm")
+
 #rules to generate ts
 isEmpty(QMAKE_LUPDATE) {
     win32: QMAKE_LUPDATE = $$[QT_INSTALL_BINS]/lupdate.exe
@@ -42,22 +47,33 @@ updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_OUT}
 updateqm.CONFIG += no_link  no_clean target_predeps 
 QMAKE_EXTRA_COMPILERS += updateqm
 
+#复制翻译文件到编译目录  
 TRANSLATIONS_OUTPUT_PATH = $${TARGET_PATH}/translations
 mytranslations.target = mytranslations
 equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
     TRANSLATIONS_OUTPUT_PATH = $$replace(TRANSLATIONS_OUTPUT_PATH, /, \\)
-    QT_QM = $$[QT_INSTALL_TRANSLATIONS]\qt_zh_CN.qm
+    QT_QM = $$[QT_INSTALL_TRANSLATIONS]\qt_*.qm
     QT_QM = $$replace(QT_QM, /, \\)
     mkpath($${TRANSLATIONS_OUTPUT_PATH})
-    mytranslations.commands =  \
-        $${QMAKE_COPY} $$replace(PWD, /, \\)\app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}\app_zh_CN.qm && \
-        $${QMAKE_COPY} $$QT_QM $${TRANSLATIONS_OUTPUT_PATH}\qt_zh_CN.qm
+    TRANSLATIONS_QM_FILES = $$replace(TRANSLATIONS_QM_FILES, /, \\)
+    for(file, TRANSLATIONS_QM_FILES){
+        isEmpty(mytranslations_commands){
+            mytranslations_commands += $${QMAKE_COPY} $${file} \
+                                    $${TRANSLATIONS_OUTPUT_PATH}\. 
+        }
+        else {
+            mytranslations_commands += && $${QMAKE_COPY} $${file} \
+                                    $${TRANSLATIONS_OUTPUT_PATH}\. 
+        }
+    }
+    mytranslations_commands += && $${QMAKE_COPY} $$QT_QM $${TRANSLATIONS_OUTPUT_PATH}\.
+    mytranslations.commands = $$mytranslations_commands 
 }
 else {
     mkpath($${TRANSLATIONS_OUTPUT_PATH})
     mytranslations.commands = \
-        $${QMAKE_COPY_DIR} $${PWD}/app_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/app_zh_CN.qm && \
-        $${QMAKE_COPY_DIR} $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm $${TRANSLATIONS_OUTPUT_PATH}/qt_zh_CN.qm
+        $${QMAKE_COPY} $${TRANSLATIONS_QM_FILES} $${TRANSLATIONS_OUTPUT_PATH}/. && \
+        $${QMAKE_COPY_DIR} $$[QT_INSTALL_TRANSLATIONS]/qt_*.qm $${TRANSLATIONS_OUTPUT_PATH}/.
 }
 !android{  #手机平台不需要  
     QMAKE_EXTRA_TARGETS += mytranslations
@@ -73,14 +89,12 @@ else {
     }
 }
 
+#安装资源文件  
+mytranslat.files = $$TRANSLATIONS_QM_FILES $$[QT_INSTALL_TRANSLATIONS]/qt_*.qm
+mytranslat.path = $$PREFIX/translations
 wince |android {
-    mytranslat.files = $$PWD/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
-    mytranslat.path = $$PREFIX/translations
     DEPLOYMENT += mytranslat
 }else{
-    mytranslat.files =  $$PWD/app_zh_CN.qm $$[QT_INSTALL_TRANSLATIONS]/qt_zh_CN.qm
-    mytranslat.path = $$PREFIX/translations
     mytranslat.CONFIG += directory no_check_exist 
-
     INSTALLS += mytranslat
 }

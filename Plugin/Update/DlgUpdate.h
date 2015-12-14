@@ -13,9 +13,20 @@ class CDlgUpdate : public QDialog
     Q_OBJECT
 
 public:
-    explicit CDlgUpdate(int nError, const QString &szFile, QWidget *parent = 0);
+    explicit CDlgUpdate(QWidget *parent = 0);
     ~CDlgUpdate();
 
+    //程序更新功能 
+#ifdef RABBITIM_USE_LIBCURL
+signals:
+   void sigUpdateExec(int nError, const QString &szFile);
+private slots:
+   void slotUpdateExec(int nError, const QString &szFile);
+private:
+   //检查版本更新  
+   CDownLoadHandleVersionFile m_Update;
+#endif
+   
 signals:
     //安装文件下载后触发  
     void sigDownLoadEnd(int nErr);
@@ -24,19 +35,22 @@ signals:
     //下载进度,默认一秒一次  
     void sigProcess(double nTotal, double nNow);
 
-private slots:
+public slots:
     void slotDownLoadVersionFile(int nErrorCode, const QString &szFile);
+private slots:
     void slotDownLoadStart(bool bPrompt);
     void slotDownLoadEnd(int nErr);
     void slotError(int nErr, const QString &szErr);
     void slotProcess(double nTotal, double nNow);
 
     void on_pbOk_clicked();
-    
     void on_pbCancel_clicked();
+    void on_pbRefresh_clicked();
     
 private:
     virtual void changeEvent(QEvent* e);
+    virtual void showEvent(QShowEvent *);
+    
     int DownloadFile();
     Ui::CDlgUpdate *ui;
 

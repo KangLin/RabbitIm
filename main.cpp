@@ -5,9 +5,6 @@
 #include <QDebug>
 #include <QApplication>
 #include <QTranslator>
-#ifdef RABBITIM_USE_LIBCURL
-#include "Update/DownLoadHandle.h"
-#endif
 
 int main(int argc, char *argv[])
 {
@@ -58,11 +55,6 @@ int main(int argc, char *argv[])
 #endif
     w.show();
 
-#ifdef RABBITIM_USE_LIBCURL
-    //检查版本更新  
-    CDownLoadHandleVersionFile update;
-    update.Start();
-#endif
     //*/
 
     /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())  

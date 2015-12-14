@@ -43,11 +43,19 @@ QString CGlobalDir::GetDirApplication()
 
 QString CGlobalDir::GetDirDocument()
 {
-    return m_szDocumentPath + QDir::separator() + "Rabbit"
+    QString szPath;
+    if(m_szDocumentPath.right(1) == "/"
+            || m_szDocumentPath.right(1) == "\\")
+        szPath = m_szDocumentPath.left(m_szDocumentPath.size() - 1);
+    else
+        szPath = m_szDocumentPath;
+    szPath += QDir::separator();
+    szPath = szPath + "Rabbit"
 #ifdef RABBITIM
              + QDir::separator() + "Im"
 #endif
             ;
+    return szPath;
 }
 
 int CGlobalDir::SetDirDocument(QString szPath)

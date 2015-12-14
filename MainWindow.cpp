@@ -11,9 +11,6 @@
 #include "Widgets/DlgOptions/DlgOptions.h"
 #include "Widgets/FrmSendFile/DlgSendManage.h"
 #include "Widgets/DlgUservCard/DlgUservCard.h"
-#ifdef RABBITIM_USE_LIBCURL
-    #include "Update/DlgUpdate.h"
-#endif
 #include "Global/Global.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -63,12 +60,6 @@ MainWindow::MainWindow(QWidget *parent) :
     LoadStyle();
     LoadTranslate();
     ReInitMenuOperator();
-
-#ifdef RABBITIM_USE_LIBCURL
-    check = connect(this, SIGNAL(sigUpdateExec(int,QString)),
-                    SLOT(slotUpdateExec(int,QString)));
-    Q_ASSERT(check);
-#endif
 
     //初始化子窗体  
     if(!m_Login.isNull())
@@ -203,7 +194,8 @@ void MainWindow::closeEvent(QCloseEvent *e)
         QMessageBox msg(QMessageBox::Question,
                         tr("Close"),
                         tr("Is close the programe or logout?"),
-                        QMessageBox::Ok | QMessageBox::Yes | QMessageBox::Cancel);
+                        QMessageBox::Ok | QMessageBox::Yes | QMessageBox::Cancel,
+                        this);
         msg.setButtonText(QMessageBox::Ok , tr("Close"));
         msg.setButtonText(QMessageBox::Yes, tr("Logout"));
         msg.setButtonText(QMessageBox::Cancel, tr("Cancel"));
@@ -580,6 +572,7 @@ int MainWindow::InitMenuTranslate()
     m_ActionTranslator["Default"] = m_MenuTranslate.addAction(QIcon(":/icon/Language"), tr("Default"));
     m_ActionTranslator["English"] = m_MenuTranslate.addAction(QIcon(":/icon/English"), tr("English"));
     m_ActionTranslator["zh_CN"] = m_MenuTranslate.addAction(QIcon(":/icon/China"), tr("Chinese"));
+    m_ActionTranslator["zh_TW"] = m_MenuTranslate.addAction(QIcon(":/icon/China"), tr("Chinese(TaiWan)"));
 
     QMap<QString, QAction*>::iterator it;
     for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
@@ -932,14 +925,6 @@ int MainWindow::OpenCustomStyleMenu()
     }
     return 0;
 }
-
-#ifdef RABBITIM_USE_LIBCURL
-void MainWindow::slotUpdateExec(int nError, const QString &szFile)
-{
-    CDlgUpdate dlg(nError, szFile, this);
-    dlg.exec();
-}
-#endif
 
 #ifndef MOBILE
 int MainWindow::AnimationWindows(const QRect &startRect, const QRect &endRect)

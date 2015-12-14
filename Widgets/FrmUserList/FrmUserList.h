@@ -129,6 +129,7 @@ private slots:
     void slotItemChanged(QStandardItem *item);
     void slotEntered(const QModelIndex &index);
 
+    QString GetNodeStateFile();
     //从存储中加载组节点的状态  
     int LoadGroupNodeStateFromStorage();
     //保存组节点状态到存储中  

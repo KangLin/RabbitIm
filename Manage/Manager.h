@@ -35,6 +35,7 @@ class CManageFileTransfer;
  * @see CManageFileTransfer
  * @see CManageCall
  * @see CManageGroupChat
+ * @see CManagePlugin
  */
 class CManager
 {

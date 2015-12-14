@@ -8,7 +8,7 @@
 #include "Global/Global.h"
 
 class CDlgUpdate;
-class RABBITIM_SHARED_LIBRARY CDownLoadHandleFile : public CDownLoadHandle, QObject
+class CDownLoadHandleFile : public CDownLoadHandle, QObject
 {
 public:
     CDownLoadHandleFile(CDlgUpdate* pDlgUpdate = NULL);
@@ -26,10 +26,10 @@ private:
     QString m_szFileMd5sum;//安装文件的md5校验和  
 };
 
-class RABBITIM_SHARED_LIBRARY CDownLoadHandleVersionFile : public CDownLoadHandle
+class CDownLoadHandleVersionFile : public CDownLoadHandle
 {
 public:
-    CDownLoadHandleVersionFile();
+    CDownLoadHandleVersionFile(CDlgUpdate *pDlgUpdate = NULL);
 
     //开始更新  
     int Start();
@@ -42,6 +42,7 @@ private:
     //下载版本更新  
     CDownLoad m_DownLoad;
     QString m_szFile;//版本文件  
+    CDlgUpdate* m_pDlgUpdate;
 };
 
 #endif // DOWNLOADHANDLE_H

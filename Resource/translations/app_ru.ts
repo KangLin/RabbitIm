@@ -1092,90 +1092,6 @@ Email or MSN:kl222@126.com</source>
     </message>
 </context>
 <context>
-    <name>CDlgUpdate</name>
-    <message>
-        <location filename="../../Update/DlgUpdate.ui" line="14"/>
-        <source>Update</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.ui" line="46"/>
-        <source>prompt</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.ui" line="97"/>
-        <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.ui" line="108"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="19"/>
-        <source>Be checking update version ...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="55"/>
-        <source>Get version configure file fail:%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="64"/>
-        <source>Don&apos;t open version configure file:%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="74"/>
-        <location filename="../../Update/DlgUpdate.cpp" line="82"/>
-        <source>version configure file format error.%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="105"/>
-        <source>New version:%1.%2.%3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="113"/>
-        <source>Version file is error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="158"/>
-        <source>Do you update new version?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="189"/>
-        <source>Downloading </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="219"/>
-        <source>Download fail.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="224"/>
-        <source>Download success.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="232"/>
-        <source>Download file md5sum error:%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Update/DlgUpdate.cpp" line="254"/>
-        <source>Execute install program error.%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>CDlgUservCard</name>
     <message>
         <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="14"/>
@@ -1965,7 +1881,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="162"/>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="165"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="511"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="506"/>
         <source>Move roster</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1986,36 +1902,35 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="128"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="150"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="640"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="153"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="635"/>
         <source>My friends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="262"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="385"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="394"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="257"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="380"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="389"/>
         <source>Operator roster(&amp;O)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="484"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="479"/>
         <source>Roster[%1] rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="485"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="480"/>
         <source>Roster[%1] rename:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="512"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="507"/>
         <source>Move roster %1 to group:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="574"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="569"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2161,12 +2076,12 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CQRCode</name>
     <message>
-        <location filename="../../common/QRCode.cpp" line="223"/>
+        <location filename="../../common/QRCode.cpp" line="232"/>
         <source>Do you add roster </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../common/QRCode.cpp" line="242"/>
+        <location filename="../../common/QRCode.cpp" line="251"/>
         <source>Do open </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2206,8 +2121,8 @@ Email or MSN:kl222@126.com</source>
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="20"/>
-        <location filename="../../MainWindow.cpp" line="124"/>
-        <location filename="../../MainWindow.cpp" line="395"/>
+        <location filename="../../MainWindow.cpp" line="115"/>
+        <location filename="../../MainWindow.cpp" line="387"/>
         <source>RabbitIm</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2252,117 +2167,122 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="204"/>
-        <location filename="../../MainWindow.cpp" line="207"/>
-        <location filename="../../MainWindow.cpp" line="763"/>
+        <location filename="../../MainWindow.cpp" line="195"/>
+        <location filename="../../MainWindow.cpp" line="199"/>
+        <location filename="../../MainWindow.cpp" line="756"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="205"/>
+        <location filename="../../MainWindow.cpp" line="196"/>
         <source>Is close the programe or logout?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="208"/>
-        <location filename="../../MainWindow.cpp" line="472"/>
+        <location filename="../../MainWindow.cpp" line="200"/>
+        <location filename="../../MainWindow.cpp" line="464"/>
         <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="209"/>
+        <location filename="../../MainWindow.cpp" line="201"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="415"/>
-        <location filename="../../MainWindow.cpp" line="416"/>
+        <location filename="../../MainWindow.cpp" line="407"/>
+        <location filename="../../MainWindow.cpp" line="408"/>
         <source>RabbitIm:%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="453"/>
-        <location filename="../../MainWindow.cpp" line="743"/>
+        <location filename="../../MainWindow.cpp" line="445"/>
+        <location filename="../../MainWindow.cpp" line="736"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="475"/>
+        <location filename="../../MainWindow.cpp" line="467"/>
         <source>Close(&amp;E)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="482"/>
+        <location filename="../../MainWindow.cpp" line="474"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="483"/>
+        <location filename="../../MainWindow.cpp" line="475"/>
         <source>System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="484"/>
+        <location filename="../../MainWindow.cpp" line="476"/>
         <source>Blue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="485"/>
+        <location filename="../../MainWindow.cpp" line="477"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="501"/>
+        <location filename="../../MainWindow.cpp" line="493"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="559"/>
+        <location filename="../../MainWindow.cpp" line="551"/>
         <source>Status(&amp;S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="578"/>
+        <location filename="../../MainWindow.cpp" line="570"/>
         <source>Language(&amp;L)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="580"/>
+        <location filename="../../MainWindow.cpp" line="572"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="581"/>
+        <location filename="../../MainWindow.cpp" line="573"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="582"/>
+        <location filename="../../MainWindow.cpp" line="574"/>
         <source>Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="685"/>
+        <location filename="../../MainWindow.cpp" line="575"/>
+        <source>Chinese(TaiWan)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="678"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="685"/>
+        <location filename="../../MainWindow.cpp" line="678"/>
         <source>Change language must reset program.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="756"/>
+        <location filename="../../MainWindow.cpp" line="749"/>
         <source>Show Main Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="758"/>
+        <location filename="../../MainWindow.cpp" line="751"/>
         <source>Hide Main Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="913"/>
+        <location filename="../../MainWindow.cpp" line="906"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>

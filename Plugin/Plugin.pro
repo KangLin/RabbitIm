@@ -2,7 +2,8 @@
 
 TEMPLATE = subdirs
 
-SUBDIRS += QRCode Lbs ScreenShot 
+SUBDIRS += QRCode Lbs ScreenShot \ 
+    Update
 
 equals(RABBITIM_USE_PLUGIN_APP, 1) {
     for(app, SUBDIRS){

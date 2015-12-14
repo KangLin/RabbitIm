@@ -26,7 +26,8 @@ private slots:
     void doubleClicked(const QModelIndex & index);
 
 private:
-    void resizeEvent(QResizeEvent *e);
+    virtual void resizeEvent(QResizeEvent *e);
+    virtual void changeEvent(QEvent* e);
 
 private:
     QMenu m_Menu;      //列表操作菜单  
@@ -51,6 +52,7 @@ private:
     int LoadGroupNodeStateFromStorage();
     //保存组节点状态到存储中  
     int SaveGroupNodeStateToStorage();
+    QString GetNodeStateFile();
 
 private:
     Ui::CFrmAppList *ui;

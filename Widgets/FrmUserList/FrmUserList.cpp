@@ -115,7 +115,7 @@ CFrmUserList::~CFrmUserList()
         delete m_pModel;
 }
 
-int CFrmUserList::LoadGroupNodeStateFromStorage()
+QString CFrmUserList::GetNodeStateFile()
 {
     QString szId;
     if(!GLOBAL_USER.isNull()
@@ -125,12 +125,15 @@ int CFrmUserList::LoadGroupNodeStateFromStorage()
     }
     if(szId.isEmpty())
     {
-        ItemInsertGroup(tr("My friends"));
-        return 0;
+        return QString();
     }
-    QString szFile = CGlobalDir::Instance()->GetDirUserData(szId)
+    return CGlobalDir::Instance()->GetDirUserData(szId)
             + QDir::separator() + "UserListGroupNodeState.dat";
+}
 
+int CFrmUserList::LoadGroupNodeStateFromStorage()
+{
+    QString szFile = GetNodeStateFile();
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
@@ -199,15 +202,7 @@ int CFrmUserList::LoadGroupNodeStateFromStorage()
 
 int CFrmUserList::SaveGroupNodeStateToStorage()
 {
-    QString szId;
-    if(!GLOBAL_USER.isNull()
-            && !USER_INFO_LOCALE.isNull())
-    {
-        szId = USER_INFO_LOCALE->GetInfo()->GetId();
-    }
-    QString szFile = CGlobalDir::Instance()->GetDirUserData(szId) 
-            + QDir::separator() + "UserListGroupNodeState.dat";
-
+    QString szFile = GetNodeStateFile();
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
