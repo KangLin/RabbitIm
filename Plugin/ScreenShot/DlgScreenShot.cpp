@@ -47,7 +47,7 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
 
 #ifdef ANDROID
     QDesktopWidget *pScreen = qApp->desktop();
-    QPixmap pix;
+    QPixmap pix(pScreen->geometry().size());
     pScreen->render(&pix);
     m_imgDesktop = pix.toImage();
 #else
@@ -170,23 +170,40 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         setCursor(Qt::ArrowCursor);
         WId id = qApp->desktop()->winId();
         QRect rect = QRect(m_x,m_y,m_width,m_height).normalized();
-        LOG_MODEL_DEBUG("screen shot", "width:%d", rect.width());
+        LOG_MODEL_ERROR("screen shot", "x:%d;y:%d;width:%d;height:%d;DlgWidth:%d;DlgHeight:%d",
+                        rect.x(),
+                        rect.y(),
+                        rect.width(),
+                        rect.height(),
+                        this->width(),
+                        this->height());
         QPixmap pix = QPixmap();
         QScreen *pScreen = QGuiApplication::primaryScreen();
         pix = pScreen->grabWindow(id, rect.x(), rect.y(), rect.width(), rect.height());
 
         int x = rect.x(), y = rect.y() + rect.height();
+        m_Editor.toolBar.show(); //需要先显示，才能得到正确的大小  
         QRect rectToolBar = m_Editor.toolBar.frameGeometry();
-        if(y + rectToolBar.height() > this->height())
+        LOG_MODEL_ERROR("screen shot", "x:%d;y:%d;width:%d;height:%d",
+                        rectToolBar.x(),
+                        rectToolBar.y(),
+                        rectToolBar.width(),
+                        rectToolBar.height());
+        if(y + rectToolBar.height() >= this->height())
         {
             y = rect.y() - rectToolBar.height();
         }
-        else if(x + rectToolBar.width() > this->width())
+        else if(x + rectToolBar.width() >= this->width())
         {
             x = this->width() - rectToolBar.width();
+            LOG_MODEL_ERROR("screen shot", "x:%d;y:%d;width:%d;height:%d;toolx:%d",
+                            rectToolBar.x(),
+                            rectToolBar.y(),
+                            rectToolBar.width(),
+                            rectToolBar.height(),
+                            x);
         }
         m_Editor.toolBar.move(x, y);
-        m_Editor.toolBar.show();
         m_Editor.resetByImg(pix);
         m_Editor.move(rect.topLeft());//移动到当前选择的rect的左上角  
         m_Editor.show();

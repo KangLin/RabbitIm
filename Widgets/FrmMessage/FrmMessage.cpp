@@ -136,7 +136,7 @@ void CFrmMessage::on_pbShotScreen_clicked()
         GETMANAGER->GetManageMessageDialog()->Hide();
     QSharedPointer<CPluginApp>  plugin = GETMANAGER->GetManagePlugins()->GetPlugin("ScreenShot");
     if(!plugin.isNull())
-        plugin->Open(m_User.data());
+        plugin->Open(m_User.data(), this);
     if(CGlobal::Instance()->IsHideMessageBox())
         GETMANAGER->GetManageMessageDialog()->Show();
 }
