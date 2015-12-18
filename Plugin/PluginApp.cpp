@@ -76,11 +76,5 @@ int CPluginApp::LoadTranslate(const QString &szDir)
                         szPlugin.toStdString().c_str());
     
     qApp->installTranslator(m_TranslatorPlugin.data());
-    OnTranslate();
-    return 0;
-}
-
-int CPluginApp::OnTranslate()
-{
     return 0;
 }

@@ -4,6 +4,7 @@
 #include <QObject>
 #include "Message/ManageMessage.h"
 #include <QIcon>
+#include "Global/GlobalDir.h"
 
 /**
   * @defgroup RABBITIM_INTERFACE_GROUPCHAT 组接口类模块  
@@ -15,7 +16,7 @@
  * @ingroup RABBITIM_INTERFACE_GROUPCHAT RABBITIM_INTERFACE
  * @brief 组接口类  
  */
-class CGroupChat : public QObject
+class RABBITIM_SHARED_LIBRARY CGroupChat : public QObject
 {
     Q_OBJECT
 public:

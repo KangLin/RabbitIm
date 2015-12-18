@@ -104,7 +104,11 @@ https://github.com/ruby/ruby
 
 或者：
 
-    pacman -S yasm nasm
+    pacman -S mingw-w64-i686-yasm mingw-w64-i686-nasm
+
+x64 平台：
+
+    pacman -S  mingw-w64-x86_64-nasm mingw-w64-x86_64-yasm
 
 #### 2.10. cmake 工具
 主页：www.cmake.org  

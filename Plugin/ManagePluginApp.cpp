@@ -1,70 +1,17 @@
-#include "ManagePlugin.h"
+#include "ManagePluginApp.h"
 #include "Global/Global.h"
-#include <QPluginLoader>
-#include <QApplication>
 
-CManagePlugin::CManagePlugin(QObject *parent)
+
+CManagePluginApp::CManagePluginApp(QObject *parent)
     : CManage(parent)
 {
-    foreach (QObject *plugin, QPluginLoader::staticInstances())
-    {
-        QSharedPointer<CPluginApp> pluginApp(qobject_cast<CPluginApp *>(plugin));
-        if(!pluginApp.isNull())
-        {
-            pluginApp->InitInstance();
-            this->RegisterPlugin(pluginApp->ID(), pluginApp);
-        }
-    }
-
-    QDir pluginsDir = QDir(qApp->applicationDirPath());
-
-#if defined(Q_OS_WIN)
-    if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
-        pluginsDir.cdUp();
-#elif defined(Q_OS_MAC)
-    if (pluginsDir.dirName() == "MacOS") {
-        pluginsDir.cdUp();
-        pluginsDir.cdUp();
-        pluginsDir.cdUp();
-    }
-#endif
-#ifndef Q_OS_ANDROID
-    if(pluginsDir.cd("plugins"))
-#endif
-        FindPlugins(pluginsDir);
 }
 
-int CManagePlugin::FindPlugins(QDir dir) 
-{
-    QString fileName;
-    foreach (fileName, dir.entryList(QDir::Files)) {
-        QString szPlugins = dir.absoluteFilePath(fileName);
-        QPluginLoader loader(szPlugins);
-        QObject *plugin = loader.instance();
-        if (plugin) {
-            QSharedPointer<CPluginApp> pluginApp(qobject_cast<CPluginApp *>(plugin));
-            if(!pluginApp.isNull())
-            {
-                pluginApp->InitInstance(dir.absolutePath());
-                this->RegisterPlugin(pluginApp->ID(), pluginApp);
-            }
-        }
-    }
-    
-    foreach (fileName, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-        QDir pluginDir = dir;
-        if(pluginDir.cd(fileName))
-            FindPlugins(pluginDir);
-    }
-
-    return 0;
-}
-
-CManagePlugin::~CManagePlugin()
+CManagePluginApp::~CManagePluginApp()
 {
 }
 
-int CManagePlugin::Init(const QString &szId)
+int CManagePluginApp::Init(const QString &szId)
 {
     int nRet = 0;
 
@@ -78,7 +25,7 @@ int CManagePlugin::Init(const QString &szId)
     return nRet;
 }
 
-int CManagePlugin::Clean()
+int CManagePluginApp::Clean()
 {
     SaveToStorage();
     std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
@@ -90,7 +37,7 @@ int CManagePlugin::Clean()
     return 0;
 }
 
-int CManagePlugin::RegisterPlugin(const QString &szId,
+int CManagePluginApp::RegisterPlugin(const QString &szId,
                                   QSharedPointer<CPluginApp> plugin)
 {
     if(m_Plugins.find(szId) != m_Plugins.end())
@@ -104,7 +51,7 @@ int CManagePlugin::RegisterPlugin(const QString &szId,
     return 0;
 }
 
-int CManagePlugin::UnregisterPlugin(const QString &szId)
+int CManagePluginApp::UnregisterPlugin(const QString &szId)
 {
     std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
     it = m_Plugins.find(szId);
@@ -116,7 +63,7 @@ int CManagePlugin::UnregisterPlugin(const QString &szId)
     return 0;
 }
 
-QSharedPointer<CPluginApp> CManagePlugin::GetPlugin(const QString &szId)
+QSharedPointer<CPluginApp> CManagePluginApp::GetPlugin(const QString &szId)
 {
     std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
     it = m_Plugins.find(szId);
@@ -125,7 +72,7 @@ QSharedPointer<CPluginApp> CManagePlugin::GetPlugin(const QString &szId)
     return it->second;
 }
 
-std::list<QSharedPointer<CPluginApp> > CManagePlugin::GetAllPlugins()
+std::list<QSharedPointer<CPluginApp> > CManagePluginApp::GetAllPlugins()
 {
     std::list<QSharedPointer<CPluginApp> > lstPlugins;
     std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
@@ -134,7 +81,7 @@ std::list<QSharedPointer<CPluginApp> > CManagePlugin::GetAllPlugins()
     return lstPlugins;
 }
 
-int CManagePlugin::AddFavority(const QString &szId)
+int CManagePluginApp::AddFavority(const QString &szId)
 {
     bool bExist = false;
     std::list<QString>::iterator it;
@@ -153,7 +100,7 @@ int CManagePlugin::AddFavority(const QString &szId)
     return 0;
 }
 
-int CManagePlugin::RemoveFavority(const QString &szId)
+int CManagePluginApp::RemoveFavority(const QString &szId)
 {
     std::list<QString>::iterator it;
     for(it = m_FavorityPlugins.begin(); it != m_FavorityPlugins.end(); it++)
@@ -168,12 +115,12 @@ int CManagePlugin::RemoveFavority(const QString &szId)
     return 0;
 }
 
-std::list<QString> CManagePlugin::GetFavorites()
+std::list<QString> CManagePluginApp::GetFavorites()
 {
     return m_FavorityPlugins;
 }
 
-int CManagePlugin::LoadFromStorage(const QString &szId)
+int CManagePluginApp::LoadFromStorage(const QString &szId)
 {
     int nRet = 0;
     QString szFile = CGlobalDir::Instance()->GetDirUserData(szId) 
@@ -211,7 +158,7 @@ int CManagePlugin::LoadFromStorage(const QString &szId)
     return nRet;
 }
 
-int CManagePlugin::SaveToStorage()
+int CManagePluginApp::SaveToStorage()
 {
     int nRet = 0;
     if(USER_INFO_LOCALE.isNull())

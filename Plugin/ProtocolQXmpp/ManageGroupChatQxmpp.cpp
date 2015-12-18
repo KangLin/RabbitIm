@@ -1,6 +1,6 @@
 #include "ManageGroupChatQxmpp.h"
 #include "Global/Global.h"
-#include "Client/ClientXmpp.h"
+#include "ClientXmpp.h"
 #include "GroupChatQxmpp.h"
 #include "qxmpp/QXmppUtils.h"
 #include <QMessageBox>

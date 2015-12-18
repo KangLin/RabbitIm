@@ -8,7 +8,8 @@
 #include "Call/ManageCall.h"
 #include <QSharedPointer>
 #include "Widgets/FrmGroupChat/ManageGroupChat.h"
-#include "Plugin/ManagePlugin.h"
+#include "Plugin/ManagePluginApp.h"
+#include "Plugin/ManagePluginProtocol.h"
 
 class CManageFileTransfer;
 
@@ -62,10 +63,11 @@ private:
     static CManager* Instance(MANAGER_TYPE type = XMPP, bool bReset = false);
 
 public:
+    virtual int ChangeProtolcol(QString szProtocol);
     ///< 协议客户端  
-    virtual QSharedPointer<CClient> GetClient() = 0;
+    virtual QSharedPointer<CClient> GetClient();
     ///< 用户信息管理对象  
-    virtual QSharedPointer<CManageUser> GetManageUser() = 0;
+    virtual QSharedPointer<CManageUser> GetManageUser();
     ///< 消息对话框管理对象  
     virtual QSharedPointer<CManageMessageDialog> GetManageMessageDialog();
     ///< 最近消息管理对象  
@@ -73,17 +75,17 @@ public:
     ///< 文件传输管理对象  
     virtual QSharedPointer<CManageFileTransfer> GetFileTransfer();
     ///< 呼叫管理对象  
-    virtual QSharedPointer<CManageCall> GetCall() = 0;
+    virtual QSharedPointer<CManageCall> GetCall();
     ///< 组管理对象  
-    virtual QSharedPointer<CManageGroupChat> GetManageGroupChat() = 0;
+    virtual QSharedPointer<CManageGroupChat> GetManageGroupChat();
     ///< 插件管理对象  
-    virtual QSharedPointer<CManagePlugin> GetManagePlugins();
-
+    virtual QSharedPointer<CManagePluginApp> GetManagePluginApp();
+    virtual QSharedPointer<CManagePluginProtocol> GetManagePluginProtocol();
     /**
      * 新建用户信息对象  
      * @see CUser
      */
-    virtual QSharedPointer<CUserInfo> NewUserInfo() = 0;
+    virtual QSharedPointer<CUserInfo> NewUserInfo();
 
     /**
      * @brief 实例初始化  
@@ -104,6 +106,12 @@ public:
      */
     virtual int LoginInit(const QString& szId);
     virtual int LogoutClean();
+
+private:
+    QSharedPointer<CPluginProtocol> m_PluginProtocol;
+
+    //查找插件
+    int FindPlugins(QDir dir);
 };
 
 #endif // MANAGER_H

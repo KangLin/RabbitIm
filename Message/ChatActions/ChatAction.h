@@ -6,6 +6,7 @@
 #include <QDate>
 #include <QTextEdit>
 #include <QObject>
+#include "Global/GlobalDir.h"
 
 /**
  * @defgroup RABBITIM_INTERFACE_CHATACTION 动作接口类模块  
@@ -19,7 +20,7 @@
  * @brief 动作接口类。消息界面调用此接口得到相应动作的描述  
  * @see CManageMessage
  */
-class CChatAction : public QObject
+class RABBITIM_SHARED_LIBRARY CChatAction : public QObject
 {
     Q_OBJECT
 public:

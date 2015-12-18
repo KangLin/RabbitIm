@@ -92,9 +92,8 @@
 <context>
     <name>CClientXmpp</name>
     <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="325"/>
         <source>The roster is offline, don&apos;t send the file.</source>
-        <translation>好友離線狀態，不能發送檔。</translation>
+        <translation type="vanished">好友離線狀態，不能發送檔。</translation>
     </message>
 </context>
 <context>
@@ -1972,33 +1971,33 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="349"/>
+        <location filename="../../Global/Global.cpp" line="342"/>
         <source>OnLine</source>
         <translation>線上</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="351"/>
+        <location filename="../../Global/Global.cpp" line="344"/>
         <source>Temporarily away</source>
         <translation>臨時離開</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="353"/>
+        <location filename="../../Global/Global.cpp" line="346"/>
         <source>Chat</source>
         <translation>空閒</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="355"/>
+        <location filename="../../Global/Global.cpp" line="348"/>
         <source>Do not disturb</source>
         <translation>請勿打擾</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="357"/>
-        <location filename="../../Global/Global.cpp" line="361"/>
+        <location filename="../../Global/Global.cpp" line="350"/>
+        <location filename="../../Global/Global.cpp" line="354"/>
         <source>Invisible</source>
         <translation>離線</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="359"/>
+        <location filename="../../Global/Global.cpp" line="352"/>
         <source>OffLine</source>
         <translation>離線</translation>
     </message>
@@ -2006,25 +2005,23 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CGroupChatQxmpp</name>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/GroupChatQxmpp.cpp" line="249"/>
         <source>[temporary]</source>
-        <translation>[臨時的]</translation>
+        <translation type="vanished">[臨時的]</translation>
     </message>
 </context>
 <context>
     <name>CManageCall</name>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="51"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
-        <translation>好友離線狀態，不能發起呼叫。</translation>
+        <translation type="vanished">好友離線狀態，不能發起呼叫。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="64"/>
+        <location filename="../../Call/ManageCall.cpp" line="65"/>
         <source>Being talk with %1, please stop it.</source>
         <translation>正在與 %1 通話，請停止它。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="138"/>
+        <location filename="../../Call/ManageCall.cpp" line="139"/>
         <source> is calling</source>
         <translation>正在呼叫</translation>
     </message>
@@ -2051,14 +2048,12 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CManageGroupChatQxmpp</name>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp" line="125"/>
         <source>%1 inviter you join group chat %2</source>
-        <translation>%1 邀請你加入到群 %2</translation>
+        <translation type="vanished">%1 邀請你加入到群 %2</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp" line="128"/>
         <source>Inviter join group chat</source>
-        <translation>邀請加入到群</translation>
+        <translation type="vanished">邀請加入到群</translation>
     </message>
 </context>
 <context>

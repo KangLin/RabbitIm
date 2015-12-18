@@ -20,12 +20,12 @@
  * @brief 插件管理类  
  * @see CManager
  */
-class RABBITIM_SHARED_LIBRARY CManagePlugin : public CManage
+class RABBITIM_SHARED_LIBRARY CPluginAppManage : public CManage
 {
     Q_OBJECT
 public:
-    explicit CManagePlugin(QObject *parent = 0);
-    virtual ~CManagePlugin();
+    explicit CPluginAppManage(QObject *parent = 0);
+    virtual ~CPluginAppManage();
     
     /**
      * @brief 用户登录成功后调用,用于初始化工作  

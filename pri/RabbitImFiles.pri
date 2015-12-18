@@ -64,12 +64,14 @@ SOURCES += \
     $$PWD/../Media/Camera/CameraFactoryQt.cpp \
     $$PWD/../Media/Camera/CameraQtCaptureVideoFrame.cpp \
     $$PWD/../Global/Log.cpp \
+    $$PWD/../Global/GlobalDir.cpp \
     $$PWD/../Widgets/FrmApp/FrmApp.cpp \
     $$PWD/../Widgets/FrmApp/FrmAppList.cpp \
     $$PWD/../Widgets/FrmApp/FrmFavorites.cpp \
     $$PWD/../Plugin/PluginApp.cpp \
-    $$PWD/../Plugin/ManagePlugin.cpp \
-    $$PWD/../Global/GlobalDir.cpp 
+    $$PWD/../Plugin/PluginProtocol.cpp \
+    $$PWD/../Plugin/ManagePluginApp.cpp \
+    $$PWD/../Plugin/ManagePluginProtocol.cpp
 
 HEADERS += $$PWD/../Version.h \
     $$PWD/../MainWindow.h \
@@ -137,12 +139,15 @@ HEADERS += $$PWD/../Version.h \
     $$PWD/../Media/Camera/CameraFactoryQt.h \
     $$PWD/../Media/Camera/CameraQtCaptureVideoFrame.h \
     $$PWD/../Global/Log.h \
+    $$PWD/../Global/GlobalDir.h \
     $$PWD/../Widgets/FrmApp/FrmApp.h \
     $$PWD/../Widgets/FrmApp/FrmAppList.h \
     $$PWD/../Widgets/FrmApp/FrmFavorites.h \
     $$PWD/../Plugin/PluginApp.h \
-    $$PWD/../Plugin/ManagePlugin.h \
-    $$PWD/../Global/GlobalDir.h
+    $$PWD/../Plugin/PluginProtocol.h \
+    $$PWD/../Plugin/ManagePluginApp.h \
+    $$PWD/../Plugin/ManagePluginProtocol.h
+
 
 FORMS += $$PWD/../MainWindow.ui \
     $$PWD/../Widgets/FrmLogin/FrmLogin.ui \
@@ -171,28 +176,6 @@ FORMS += $$PWD/../MainWindow.ui \
 RESOURCES += \
     $$PWD/../Resource/Resource.qrc \
     $$PWD/../Resource/sink/dark/style.qrc
-
-equals(RABBITIM_USE_QXMPP, 1){
-    SOURCES += $$PWD/../Client/ClientXmpp.cpp \
-    $$PWD/../Manage/ManageUserQXmpp.cpp \
-    $$PWD/../Manage/ManagerXmpp.cpp \
-    $$PWD/../UserInfo/UserInfoXmpp.cpp \
-    $$PWD/../FileTransfer/FileTransferQXmpp.cpp \
-    $$PWD/../Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp \
-    $$PWD/../Widgets/FrmGroupChat/GroupChatQxmpp.cpp \
-    $$PWD/../Call/ManageCallXmpp.cpp \
-    $$PWD/../Call/CallObjectQXmpp.cpp
-
-    HEADERS += $$PWD/../Client/ClientXmpp.h \
-    $$PWD/../Manage/ManageUserQXmpp.h \
-    $$PWD/../Manage/ManagerXmpp.h \
-    $$PWD/../UserInfo/UserInfoXmpp.h \
-    $$PWD/../FileTransfer/FileTransferQXmpp.h \
-    $$PWD/../Widgets/FrmGroupChat/ManageGroupChatQxmpp.h \
-    $$PWD/../Widgets/FrmGroupChat/GroupChatQxmpp.h \
-    $$PWD/../Call/ManageCallXmpp.h \
-    $$PWD/../Call/CallObjectQXmpp.h
-}
 
 android{
     DEFINES += ANDROID

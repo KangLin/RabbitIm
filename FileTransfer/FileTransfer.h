@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QUrl>
+#include "Global/GlobalDir.h"
 
 /**
   *@defgroup RABBITIM_INTERFACE_FILETRASFER 文件传输接口类模块  
@@ -14,7 +15,7 @@
  * @ingroup RABBITIM_INTERFACE_FILETRASFER RABBITIM_INTERFACE
  * @brief 文件传输接口类  
  */
-class CFileTransfer : public QObject
+class RABBITIM_SHARED_LIBRARY CFileTransfer : public QObject
 {
     Q_OBJECT
 public:

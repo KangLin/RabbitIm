@@ -8,9 +8,10 @@
 #ifdef RABBITIM_USE_QXMPP
     #include "qxmpp/QXmppRtpChannel.h"
 #endif
+#include "Global/GlobalDir.h"
 
 class CCameraQt;
-class CFrameProcess : public QObject
+class RABBITIM_SHARED_LIBRARY CFrameProcess : public QObject
 {
     Q_OBJECT
 public:

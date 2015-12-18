@@ -66,7 +66,7 @@ int CFrmMessage::Init(const QString &szId)
         return -1;
     }
 
-    QSharedPointer<CPluginApp>  plugin = GETMANAGER->GetManagePlugins()->GetPlugin("ScreenShot");
+    QSharedPointer<CPluginApp>  plugin = GETMANAGER->GetManagePluginApp()->GetPlugin("ScreenShot");
     if(plugin.isNull())
         ui->pbShotScreen->setVisible(false);
 #ifndef MOBILE
@@ -134,7 +134,7 @@ void CFrmMessage::on_pbShotScreen_clicked()
 {
     if(CGlobal::Instance()->IsHideMessageBox())
         GETMANAGER->GetManageMessageDialog()->Hide();
-    QSharedPointer<CPluginApp>  plugin = GETMANAGER->GetManagePlugins()->GetPlugin("ScreenShot");
+    QSharedPointer<CPluginApp>  plugin = GETMANAGER->GetManagePluginApp()->GetPlugin("ScreenShot");
     if(!plugin.isNull())
         plugin->Open(m_User.data(), this);
     if(CGlobal::Instance()->IsHideMessageBox())

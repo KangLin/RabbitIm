@@ -7,7 +7,7 @@
 #include "qxmpp/QXmppTransferManager.h"
 #include "qxmpp/QXmppMucManager.h"
 #include "qxmpp/QXmppVCardIq.h"
-#include "Client.h"
+#include "Client/Client.h"
 
 class CManageUserQXmpp;
 

@@ -6,6 +6,7 @@
 #include <QVideoFrame>
 #include "CallObject.h"
 #include "Manage/Manage.h"
+#include "Global/GlobalDir.h"
 
 /**
   *@defgroup RABBITIM_INTERFACE_MANGECALL 呼叫管理类模块  
@@ -19,7 +20,7 @@
  *        和其相关的界面通信接口。\n
  *        在此类中实现音频、视频捕获。   
  */
-class CManageCall : public CManage
+class RABBITIM_SHARED_LIBRARY CManageCall : public CManage
 {
     Q_OBJECT
 
@@ -43,7 +44,7 @@ public:
 
 public slots:
     /**
-     * @brief 呼叫  
+     * @brief 主动呼叫  
      *
      * @param szId：用户ID  
      * @param bVideo:是否是视频呼叫  
@@ -90,7 +91,16 @@ signals:
     void sigRemoteVideoFrame(const QString &szId, const QVideoFrame &frame);
 
 protected slots:
+    /**
+     * @brief 用于完成接收到呼叫消息的动作。  
+     *        由具体的协议调用此方法。
+     * @param call
+     */
     void slotCallReceived(QSharedPointer<CCallObject> call);
+    /**
+     * @brief 呼叫结束处理  
+     * @param pCall
+     */
     void slotCallFinished(CCallObject* pCall);
 
 private:

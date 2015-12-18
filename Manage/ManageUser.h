@@ -9,6 +9,7 @@
 #include "Client/Client.h"
 #include "UserInfo/User.h"
 #include "Manage.h"
+#include "Global/GlobalDir.h"
 
 /**
  * @defgroup RABBITIM_INTERFACE_MANAGEUSER 用户管理接口类模块  
@@ -28,7 +29,7 @@
  * @see CManager 
  * @see CUser  
  */
-class CManageUser : public CManage
+class RABBITIM_SHARED_LIBRARY CManageUser : public CManage
 {
     Q_OBJECT
 public:

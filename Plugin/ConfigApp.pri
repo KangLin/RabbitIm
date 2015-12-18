@@ -1,4 +1,9 @@
 CONFIG *= plugin 
+INCLUDEPATH += $$PWD/..
+CONFIG += c++0x
+!msvc{
+    QMAKE_CXXFLAGS += " -std=c++0x "
+}
 
 TARGET_PATH=$$OUT_PWD/../..
 #设置目标输出目录  

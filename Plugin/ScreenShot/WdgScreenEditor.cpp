@@ -103,7 +103,7 @@ void CWdgScreenEditor::initToolBar(){
     pAction = m_menuCompleteBtu.addAction(QIcon(":/icon/SendFile"), tr("Send file"));
     m_ActionGroupComplete.addAction(pAction);
     m_ActionsComplete.insert(CGlobal::E_TO_SEND, pAction);
-    if(!GETMANAGER->GetManagePlugins()->GetPlugin("QRCode").isNull())
+    if(!GETMANAGER->GetManagePluginApp()->GetPlugin("QRCode").isNull())
     {
         pAction = m_menuCompleteBtu.addAction(QIcon(":/icon/Scan"), tr("Recognition QRCode"));
         m_ActionGroupComplete.addAction(pAction);
@@ -117,7 +117,7 @@ void CWdgScreenEditor::initToolBar(){
     m_IconComplete.insert(CGlobal::E_TO_CLIPBOARD, QIcon(":/icon/Cut"));
     m_IconComplete.insert(CGlobal::E_TO_SAVE, QIcon(":/icon/SaveAs"));
     m_IconComplete.insert(CGlobal::E_TO_SEND, QIcon(":/icon/SendFile"));
-    if(!GETMANAGER->GetManagePlugins()->GetPlugin("QRCode").isNull())
+    if(!GETMANAGER->GetManagePluginApp()->GetPlugin("QRCode").isNull())
         m_IconComplete.insert(CGlobal::E_TO_QRCODE, QIcon(":/icon/Scan"));
     completeBtn.setIcon(m_IconComplete[CGlobal::Instance()->GetScreenShotToType()]);
     completeBtn.setToolTip(tr("ok"));

@@ -2,8 +2,13 @@
 
 TEMPLATE = subdirs
 
-SUBDIRS += QRCode Lbs ScreenShot \ 
-    Update
+greaterThan(QT_VERSION, 5.4) {
+    SUBDIRS += Lbs
+}
+
+SUBDIRS += QRCode ScreenShot \
+    Update \
+    ProtocolQXmpp
 
 equals(RABBITIM_USE_PLUGIN_APP, 1) {
     for(app, SUBDIRS){

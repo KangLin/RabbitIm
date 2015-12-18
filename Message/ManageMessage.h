@@ -6,6 +6,7 @@
 #include <QSharedPointer>
 #include "ChatActions/ChatAction.h"
 #include <vector>
+#include "Global/GlobalDir.h"
 
 /**
  * @defgroup RABBITIM_INTERFACE_MANAGEMESSAGE 消息管理接口类模块  
@@ -19,7 +20,7 @@
  * @brief 消息管理接口类。用于管理好友消息。  
  * @see CUser
  */
-class CManageMessage : public QObject
+class RABBITIM_SHARED_LIBRARY CManageMessage : public QObject
 {
     Q_OBJECT
 public:

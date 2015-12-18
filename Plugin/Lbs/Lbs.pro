@@ -9,11 +9,10 @@
 
 TARGET = Lbs
 TEMPLATE = lib
+DISTFILES += Lbs.json
 
-CONFIG += mobility
+CONFIG *= mobility
 MOBILITY = 
 
 RABBITIM_PLUG_NAME=CPluginAppMotion
 include(Lbs.pri)
-
-DISTFILES += Lbs.json

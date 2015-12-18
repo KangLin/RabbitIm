@@ -6,6 +6,7 @@
 #include <QSharedPointer>
 #include "GroupChat.h"
 #include "Manage/Manage.h"
+#include "Global/GlobalDir.h"
 
 /**
   *@defgroup RABBITIM_INTERFACE_MANAGEGROUPCHAT 组管理接口类  
@@ -17,7 +18,7 @@
  * @ingroup RABBITIM_INTERFACE_MANAGEGROUPCHAT RABBITIM_INTERFACE
  * @brief 组管理接口类  
  */
-class CManageGroupChat : public CManage
+class RABBITIM_SHARED_LIBRARY CManageGroupChat : public CManage
 {
     Q_OBJECT
 public:

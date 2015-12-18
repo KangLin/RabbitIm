@@ -17,7 +17,7 @@ CFrmFavorites::CFrmFavorites(QWidget *parent) :
     InitMenu();
     InitList();
     bool check = false;
-    check = connect(GETMANAGER->GetManagePlugins().data(),
+    check = connect(GETMANAGER->GetManagePluginApp().data(),
                     SIGNAL(sigAddFavority(QString)),
                     SLOT(slotAddFavorites(QString)));
     Q_ASSERT(check);
@@ -52,7 +52,7 @@ void CFrmFavorites::resizeEvent(QResizeEvent *e)
 
 int CFrmFavorites::InitList()
 {
-    std::list<QString> lstFavorites = GETMANAGER->GetManagePlugins()->GetFavorites();
+    std::list<QString> lstFavorites = GETMANAGER->GetManagePluginApp()->GetFavorites();
     std::list<QString>::iterator it;
     for(it = lstFavorites.begin(); it != lstFavorites.end(); it++)
     {
@@ -78,7 +78,7 @@ void CFrmFavorites::slotAddFavorites(const QString &szApp)
     
     QStandardItem* pItem = NULL;
     QSharedPointer<CPluginApp> app =
-            GETMANAGER->GetManagePlugins()->GetPlugin(szApp);
+            GETMANAGER->GetManagePluginApp()->GetPlugin(szApp);
     if(app.isNull())
         return;
     pItem = new QStandardItem(app->Icon(), app->Name());
@@ -138,7 +138,7 @@ void CFrmFavorites::slotOpenApp()
     if(szApp.isEmpty())
         return;
 
-    QSharedPointer<CManagePlugin> plugin = GETMANAGER->GetManagePlugins();
+    QSharedPointer<CManagePluginApp> plugin = GETMANAGER->GetManagePluginApp();
     if(plugin.isNull())
         return;
     plugin->GetPlugin(szApp)->Open(this);
@@ -162,7 +162,7 @@ void CFrmFavorites::slotCloseApp()
     if(szApp.isEmpty())
         return;
 
-    QSharedPointer<CManagePlugin> plugin = GETMANAGER->GetManagePlugins();
+    QSharedPointer<CManagePluginApp> plugin = GETMANAGER->GetManagePluginApp();
     if(plugin.isNull())
         return;
     plugin->GetPlugin(szApp)->Close();
@@ -185,7 +185,7 @@ void CFrmFavorites::slotAboutApp()
     if(szApp.isEmpty())
         return;
 
-    QSharedPointer<CManagePlugin> plugin = GETMANAGER->GetManagePlugins();
+    QSharedPointer<CManagePluginApp> plugin = GETMANAGER->GetManagePluginApp();
     if(plugin.isNull())
         return;
     plugin->GetPlugin(szApp)->About();
@@ -210,7 +210,7 @@ void CFrmFavorites::slotRemoveApp()
 
     m_pModel->removeRow(index.row());
 
-    QSharedPointer<CManagePlugin> plugin = GETMANAGER->GetManagePlugins();
+    QSharedPointer<CManagePluginApp> plugin = GETMANAGER->GetManagePluginApp();
     if(plugin.isNull())
         return;
     plugin->RemoveFavority(szApp);

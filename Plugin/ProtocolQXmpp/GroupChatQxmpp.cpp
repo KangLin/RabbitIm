@@ -3,10 +3,10 @@
 #include "ManageGroupChatQxmpp.h"
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppMessage.h"
-#include "ChatActionGroupChat.h"
+#include "Widgets/FrmGroupChat/ChatActionGroupChat.h"
 #include "Manage/Manager.h"
 #include "MainWindow.h"
-#include "Client/ClientXmpp.h"
+#include "ClientXmpp.h"
 #include "qxmpp/QXmppDiscoveryManager.h"
 
 #ifdef WIN32

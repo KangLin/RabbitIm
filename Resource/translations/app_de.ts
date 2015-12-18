@@ -90,14 +90,6 @@
     </message>
 </context>
 <context>
-    <name>CClientXmpp</name>
-    <message>
-        <location filename="../../Client/ClientXmpp.cpp" line="325"/>
-        <source>The roster is offline, don&apos;t send the file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>CDlgAbout</name>
     <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="14"/>
@@ -1971,59 +1963,46 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="349"/>
+        <location filename="../../Global/Global.cpp" line="342"/>
         <source>OnLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="351"/>
+        <location filename="../../Global/Global.cpp" line="344"/>
         <source>Temporarily away</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="353"/>
+        <location filename="../../Global/Global.cpp" line="346"/>
         <source>Chat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="355"/>
+        <location filename="../../Global/Global.cpp" line="348"/>
         <source>Do not disturb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="357"/>
-        <location filename="../../Global/Global.cpp" line="361"/>
+        <location filename="../../Global/Global.cpp" line="350"/>
+        <location filename="../../Global/Global.cpp" line="354"/>
         <source>Invisible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="359"/>
+        <location filename="../../Global/Global.cpp" line="352"/>
         <source>OffLine</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CGroupChatQxmpp</name>
-    <message>
-        <location filename="../../Widgets/FrmGroupChat/GroupChatQxmpp.cpp" line="249"/>
-        <source>[temporary]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CManageCall</name>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="51"/>
-        <source>The roster is offline, don&apos;t launch a call.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Call/ManageCall.cpp" line="64"/>
+        <location filename="../../Call/ManageCall.cpp" line="65"/>
         <source>Being talk with %1, please stop it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="138"/>
+        <location filename="../../Call/ManageCall.cpp" line="139"/>
         <source> is calling</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2044,19 +2023,6 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="177"/>
         <source>File is exists. Do you save it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CManageGroupChatQxmpp</name>
-    <message>
-        <location filename="../../Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp" line="125"/>
-        <source>%1 inviter you join group chat %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp" line="128"/>
-        <source>Inviter join group chat</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

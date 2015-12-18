@@ -28,7 +28,7 @@
  * @see CManageFileTransfer
  * @see CManageCall
  */
-class CClient : public QObject, COperateRoster
+class RABBITIM_SHARED_LIBRARY CClient : public QObject, COperateRoster
 {
     Q_OBJECT
 public:

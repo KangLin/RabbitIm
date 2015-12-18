@@ -1,7 +1,7 @@
 #include "ManageCallXmpp.h"
 #include "Global/Global.h"
-#include "Client/ClientXmpp.h"
-#include "UserInfo/UserInfoXmpp.h"
+#include "ClientXmpp.h"
+#include "UserInfoXmpp.h"
 #include "CallObjectQXmpp.h"
 
 CManageCallXmpp::CManageCallXmpp(QObject *parent) : CManageCall(parent)
@@ -74,6 +74,28 @@ int CManageCallXmpp::Clean()
     }
 
     return CManageCall::Clean();
+}
+
+int CManageCallXmpp::Call(const QString &szId, bool bVideo)
+{
+    //检查是否是好友  
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+    if(roster.isNull())
+    {
+        LOG_MODEL_ERROR("CManageCall", "Don't get roster:%s", qPrintable(szId));
+        return -1;
+    }
+    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)roster->GetInfo().data();
+    if(pInfo->GetResource().isEmpty())
+    {
+        LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster resource is null");
+        roster->GetMessage()->AddMessage(szId,
+                tr("The roster is offline, don't launch a call."), true);
+        emit GET_CLIENT->sigMessageUpdate(szId);
+        return -2;
+    }
+
+    return CManageCall::Call(szId, bVideo);
 }
 
 int CManageCallXmpp::OnCall(const QString &szId,

@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include "Message/ChatActions/MessageAction.h"
+#include "Global/GlobalDir.h"
 
-class CChatActionGroupChat : public CMessageAction
+class RABBITIM_SHARED_LIBRARY CChatActionGroupChat : public CMessageAction
 {
     Q_OBJECT
 public:

@@ -5,6 +5,7 @@
 #include <QIODevice>
 #include <QTime>
 #include <QSound>
+#include "Global/GlobalDir.h"
 
 /**
   * @defgroup RABBITIM_INTERFACE_CALLOBJECT 呼叫接口类模块  
@@ -17,7 +18,7 @@
  * @brief 呼叫接口类  
  * 在其派生类中实现信令协议、实现音视频数据的发送接收  
  */
-class CCallObject : public QObject
+class RABBITIM_SHARED_LIBRARY CCallObject : public QObject
 {
     Q_OBJECT
 public:

@@ -1,15 +1,10 @@
-QT       += core gui
+QT *= core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
+greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets multimedia
 
-CONFIG += c++0x
-!msvc{
-    QMAKE_CXXFLAGS += " -std=c++0x "
-}
+QT *= positioning quickwidgets
 
-QT += positioning quickwidgets 
-
-include(../config.pri)
+include(../ConfigApp.pri)
 
 SOURCES += \
     $$PWD/LbsTrack.cpp \

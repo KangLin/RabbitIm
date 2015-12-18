@@ -4,7 +4,6 @@
 #include "CallAction.h"
 #include <QMessageBox>
 #include "MainWindow.h"
-#include "UserInfo/UserInfoXmpp.h"
 
 #undef GetMessage
 CManageCall::CManageCall(QObject *parent) : CManage(parent)
@@ -42,11 +41,11 @@ int CManageCall::Call(const QString &szId, bool bVideo)
         LOG_MODEL_ERROR("CManageCall", "Don't get roster:%s", qPrintable(szId));
         return -1;
     }
+
     //检查被叫方是否在线  
-    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)roster->GetInfo().data();
-    if(pInfo->GetResource().isEmpty() || (pInfo->GetStatus() == CUserInfo::OffLine))
+    if(roster->GetInfo()->GetStatus() == CUserInfo::OffLine)
     {
-        LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster resource is null");
+        LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster status is OffLine");
         roster->GetMessage()->AddMessage(szId, 
                 tr("The roster is offline, don't launch a call."), true);
         emit GET_CLIENT->sigMessageUpdate(szId);

@@ -8,13 +8,13 @@
 #include "qxmpp/QXmppUtils.h"
 #include "qxmpp/QXmppRegisterIq.h"
 #include "qxmpp/QXmppTransferManager.h"
-#include "UserInfo/UserInfoXmpp.h"
-#include "Manage/ManageUserQXmpp.h"
+#include "UserInfoXmpp.h"
+#include "ManageUserQXmpp.h"
 #include "Global/Global.h"
 #include <QImageWriter>
 #include <QBuffer>
 #include "MainWindow.h"
-#include "FileTransfer/FileTransferQXmpp.h"
+#include "FileTransferQXmpp.h"
 #include <QHostAddress>
 #include "Version.h"
 

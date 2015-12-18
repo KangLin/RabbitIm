@@ -1,5 +1,4 @@
 #include "User.h"
-#include "UserInfoXmpp.h"
 #include "Global/Global.h"
 
 CUser::CUser(QObject *parent) :

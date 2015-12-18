@@ -4,7 +4,7 @@
 #include "qxmpp/QXmppCallManager.h"
 #include <QAudioInput>
 #include <QAudioOutput>
-#include "CallObject.h"
+#include "Call/CallObject.h"
 #include <QObject>
 #include <QTimer>
 #include <QThread>

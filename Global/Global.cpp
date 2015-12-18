@@ -9,13 +9,6 @@
 #include <string>
 #include <QSettings>
 
-#ifdef RABBITIM_USE_QXMPP
-#include "qxmpp/QXmppUtils.h"
-#include "qxmpp/QXmppRtpChannel.h"
-#include "Manage/ManageUserQXmpp.h"
-#include "Manage/ManagerXmpp.h"
-#endif
-
 CGlobal::CGlobal(QObject *parent) :
     QObject(parent)
 {

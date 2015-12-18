@@ -2,7 +2,7 @@
 #define FILETRANSFERQXMPP_H
 
 #include <QObject>
-#include "FileTransfer.h"
+#include "FileTransfer/FileTransfer.h"
 #include "qxmpp/QXmppTransferManager.h"
 #include <QDateTime>
 

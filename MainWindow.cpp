@@ -840,7 +840,7 @@ void MainWindow::on_actionOptions_O_triggered()
 
 void MainWindow::on_actionScan_qrencode_S_triggered()
 {
-    QSharedPointer<CPluginApp> plugin = GETMANAGER->GetManagePlugins()->GetPlugin("QRCode");
+    QSharedPointer<CPluginApp> plugin = GETMANAGER->GetManagePluginApp()->GetPlugin("QRCode");
     if(plugin.isNull())
         return;
     plugin->Open(this);

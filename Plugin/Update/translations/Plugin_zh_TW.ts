@@ -34,69 +34,69 @@
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="73"/>
+        <location filename="../DlgUpdate.cpp" line="74"/>
         <source>Be checking update version ...</source>
         <translation>正在檢查更新版本號……</translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="82"/>
+        <location filename="../DlgUpdate.cpp" line="83"/>
         <source>Get version configure file fail:%1</source>
         <translation>得到版本號設定檔失敗：%1</translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="91"/>
+        <location filename="../DlgUpdate.cpp" line="92"/>
         <source>Don&apos;t open version configure file:%1</source>
         <translation>不能打開版本號設定檔：%1</translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="101"/>
-        <location filename="../DlgUpdate.cpp" line="109"/>
+        <location filename="../DlgUpdate.cpp" line="102"/>
+        <location filename="../DlgUpdate.cpp" line="110"/>
         <source>version configure file format error.%1</source>
         <translation>版本號設定檔格式錯誤:%1</translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="132"/>
+        <location filename="../DlgUpdate.cpp" line="133"/>
         <source>New version:%1.%2.%3</source>
         <translation>新版本號:%1.%2.%3</translation>
     </message>
     <message>
         <location filename="../DlgUpdate.cpp" line="26"/>
-        <location filename="../DlgUpdate.cpp" line="76"/>
+        <location filename="../DlgUpdate.cpp" line="77"/>
         <source>The new version is not detected.</source>
         <translation>未檢測到新版本。</translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="140"/>
+        <location filename="../DlgUpdate.cpp" line="141"/>
         <source>Version file is error. DownLoadUrl or md5sum is empty.</source>
         <translation>版本號檔錯誤。下載url或md5校驗和為空。</translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="185"/>
+        <location filename="../DlgUpdate.cpp" line="186"/>
         <source>Do you update new version?</source>
         <translation>是否升級新版本?</translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="217"/>
+        <location filename="../DlgUpdate.cpp" line="219"/>
         <source>Downloading </source>
         <translation>正在下載 </translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="250"/>
+        <location filename="../DlgUpdate.cpp" line="252"/>
         <source>Download fail.</source>
         <translation>下載失敗.</translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="255"/>
+        <location filename="../DlgUpdate.cpp" line="257"/>
         <source>Download success.</source>
         <translation>下載成功.</translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="263"/>
+        <location filename="../DlgUpdate.cpp" line="265"/>
         <source>Download file md5sum error:%1</source>
         <translation>下載檔案 md5 核對總和錯誤：%1</translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="285"/>
+        <location filename="../DlgUpdate.cpp" line="287"/>
         <source>Execute install program error.%1</source>
         <translation>執行安裝程式錯誤.%1</translation>
     </message>

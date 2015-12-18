@@ -2,8 +2,9 @@
 #define MESSAGEACTION_H
 
 #include "ChatAction.h"
+#include "Global/GlobalDir.h"
 
-class CMessageAction : public CChatAction
+class RABBITIM_SHARED_LIBRARY CMessageAction : public CChatAction
 {
 public:
     CMessageAction(const QString &szId, const QString &message, const QTime &date, const bool &me);

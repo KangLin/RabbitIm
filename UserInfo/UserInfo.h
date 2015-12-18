@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QDataStream>
 #include <QSet>
+#include "Global/GlobalDir.h"
 
 /**
  * @defgroup RABBITIM_INTERFACE_USERINFO 用户信息接口类模块  
@@ -22,7 +23,7 @@
  * @see CUser
  * @see CManager
  */
-class CUserInfo : public QObject
+class RABBITIM_SHARED_LIBRARY CUserInfo : public QObject
 {
     Q_OBJECT
 public:

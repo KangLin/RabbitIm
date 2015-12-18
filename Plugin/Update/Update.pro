@@ -4,20 +4,16 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT *= core gui
 
 TARGET = Update
 TEMPLATE = lib
 CONFIG += plugin
+DISTFILES += Update.json
 
 RABBITIM_PLUG_NAME=CPluginUpdate
 
-CONFIG += c++0x
-!msvc{
-    QMAKE_CXXFLAGS += " -std=c++0x "
-}
-
-include(../config.pri)
+include(../ConfigApp.pri)
 
 equals(RABBITIM_USE_LIBCURL, 1){
     SOURCES += PluginUpdate.cpp \
@@ -34,6 +30,3 @@ equals(RABBITIM_USE_LIBCURL, 1){
     #RESOURCES += $$PWD/../../Resource/Resource.qrc
 }
 
-DISTFILES += Update.json
-
-INCLUDEPATH += $$PWD/../..

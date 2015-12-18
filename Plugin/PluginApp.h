@@ -9,11 +9,11 @@
 #include "Global/GlobalDir.h"
 
 /**
- * @brief 插件接口类  
+ * @brief 应用插件接口类
  * 插件的生命周期:
  * 注意插件工程.pro文件需要包含：
     RABBITIM_PLUG_NAME=插件的类名
-    include(../config.pri)
+    include(../ConfigApp.pri)
     
  - 初始化：Init
  - 操作：Open、About、Close
@@ -57,8 +57,6 @@ public:
 private:
     ///加载翻译  
     virtual int LoadTranslate(const QString &szDir = QString());
-    ///更新插件翻译资源  
-    virtual int OnTranslate();
     QSharedPointer<QTranslator> m_TranslatorPlugin;
 };
 

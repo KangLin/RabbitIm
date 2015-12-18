@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "qxmpp/QXmppMucManager.h"
-#include "GroupChat.h"
+#include "Widgets/FrmGroupChat/GroupChat.h"
 
 #ifdef WIN32
 #undef GetMessage

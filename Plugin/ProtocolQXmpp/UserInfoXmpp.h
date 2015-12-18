@@ -4,7 +4,7 @@
 #include <QObject>
 #include "qxmpp/QXmppVCardIq.h"
 #include "qxmpp/QXmppRosterIq.h"
-#include "UserInfo.h"
+#include "UserInfo/UserInfo.h"
 
 /**
  * @defgroup RABBITIM_IMPLEMENT_QXMPP_USERINFO 用户信息接口实现类模块  

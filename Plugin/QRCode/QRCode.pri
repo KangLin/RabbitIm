@@ -1,11 +1,6 @@
-QT       += core gui widgets multimedia
+QT *= core gui widgets multimedia
 
-CONFIG += c++0x
-!msvc{
-    QMAKE_CXXFLAGS += " -std=c++0x "
-}
-
-include(../config.pri)
+include(../ConfigApp.pri)
 
 SOURCES += CPluginQRCode.cpp \
     FrmScanQRcode.cpp
@@ -19,5 +14,3 @@ RESOURCES += \
     ../../Resource/Resource.qrc 
 
 DISTFILES += QRCode.json
-
-INCLUDEPATH += $$PWD/../..

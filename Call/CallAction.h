@@ -5,12 +5,13 @@
 #include "CallObject.h"
 #include <QSharedPointer>
 #include <QTimer>
+#include "Global/GlobalDir.h"
 
 /**
  * @brief 呼叫动作类  
  * @see CCallObject
  */
-class CCallAction : public CChatAction
+class RABBITIM_SHARED_LIBRARY CCallAction : public CChatAction
 {
     Q_OBJECT
 public:

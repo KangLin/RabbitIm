@@ -253,7 +253,7 @@ int CFrmAppList::InsertApp(QSharedPointer<CPluginApp> app)
 int CFrmAppList::InitList()
 {
     int nRet = 0;
-    QSharedPointer<CManagePlugin> plugin = GETMANAGER->GetManagePlugins();
+    QSharedPointer<CManagePluginApp> plugin = GETMANAGER->GetManagePluginApp();
     if(plugin.isNull())
         return -1;
     m_pModel->clear();
@@ -347,7 +347,7 @@ void CFrmAppList::slotOpenApp()
         LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::slotOpenApp App name is empty");
         return;
     }
-    QSharedPointer<CManagePlugin> plugin = GETMANAGER->GetManagePlugins();
+    QSharedPointer<CManagePluginApp> plugin = GETMANAGER->GetManagePluginApp();
     if(plugin.isNull())
     {
         LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::slotOpenApp plugin is null");
@@ -373,7 +373,7 @@ void CFrmAppList::slotCloseApp()
     if(szApp.isEmpty())
         return;
 
-    QSharedPointer<CManagePlugin> plugin = GETMANAGER->GetManagePlugins();
+    QSharedPointer<CManagePluginApp> plugin = GETMANAGER->GetManagePluginApp();
     if(plugin.isNull())
         return;
     plugin->GetPlugin(szApp)->Close();
@@ -396,7 +396,7 @@ void CFrmAppList::slotAboutApp()
     if(szApp.isEmpty())
         return;
 
-    QSharedPointer<CManagePlugin> plugin = GETMANAGER->GetManagePlugins();
+    QSharedPointer<CManagePluginApp> plugin = GETMANAGER->GetManagePluginApp();
     if(plugin.isNull())
         return;
     plugin->GetPlugin(szApp)->About();
@@ -418,7 +418,7 @@ void CFrmAppList::slotCollectApp()
     if(szApp.isEmpty())
         return;
     //增加到收藏中  
-    GETMANAGER->GetManagePlugins()->AddFavority(szApp);
+    GETMANAGER->GetManagePluginApp()->AddFavority(szApp);
 }
 
 void CFrmAppList::slotCustomContextMenuRequested(const QPoint &pos)

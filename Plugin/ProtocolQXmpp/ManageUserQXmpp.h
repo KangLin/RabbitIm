@@ -1,7 +1,7 @@
 #ifndef GLOBALUSERQXMPP_H
 #define GLOBALUSERQXMPP_H
 
-#include "ManageUser.h"
+#include "Manage/ManageUser.h"
 #include "qxmpp/QXmppVCardIq.h"
 #include "qxmpp/QXmppRosterIq.h"
 

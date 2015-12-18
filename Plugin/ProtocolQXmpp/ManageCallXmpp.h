@@ -1,7 +1,7 @@
 #ifndef MANAGECALLXMPP_H
 #define MANAGECALLXMPP_H
 
-#include "ManageCall.h"
+#include "Call/ManageCall.h"
 #include "qxmpp/QXmppCallManager.h"
 
 class CManageCallXmpp : public CManageCall
@@ -25,6 +25,16 @@ public:
      * @return int
      */
     virtual int Clean();
+
+public slots:
+    /**
+     * @brief 呼叫  
+     *
+     * @param szId：用户ID  
+     * @param bVideo:是否是视频呼叫  
+     * @return int
+     */
+    virtual int Call(const QString &szId, bool bVideo = false);
 
 private:
     /**

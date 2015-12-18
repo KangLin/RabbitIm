@@ -170,7 +170,7 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         setCursor(Qt::ArrowCursor);
         WId id = qApp->desktop()->winId();
         QRect rect = QRect(m_x,m_y,m_width,m_height).normalized();
-        LOG_MODEL_ERROR("screen shot", "x:%d;y:%d;width:%d;height:%d;DlgWidth:%d;DlgHeight:%d",
+        LOG_MODEL_DEBUG("screen shot", "x:%d;y:%d;width:%d;height:%d;DlgWidth:%d;DlgHeight:%d",
                         rect.x(),
                         rect.y(),
                         rect.width(),
@@ -184,7 +184,7 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         int x = rect.x(), y = rect.y() + rect.height();
         m_Editor.toolBar.show(); //需要先显示，才能得到正确的大小  
         QRect rectToolBar = m_Editor.toolBar.frameGeometry();
-        LOG_MODEL_ERROR("screen shot", "x:%d;y:%d;width:%d;height:%d",
+        LOG_MODEL_DEBUG("screen shot", "x:%d;y:%d;width:%d;height:%d",
                         rectToolBar.x(),
                         rectToolBar.y(),
                         rectToolBar.width(),

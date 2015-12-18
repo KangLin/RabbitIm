@@ -34,69 +34,69 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="73"/>
+        <location filename="../DlgUpdate.cpp" line="74"/>
         <source>Be checking update version ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="82"/>
+        <location filename="../DlgUpdate.cpp" line="83"/>
         <source>Get version configure file fail:%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="91"/>
+        <location filename="../DlgUpdate.cpp" line="92"/>
         <source>Don&apos;t open version configure file:%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="101"/>
-        <location filename="../DlgUpdate.cpp" line="109"/>
+        <location filename="../DlgUpdate.cpp" line="102"/>
+        <location filename="../DlgUpdate.cpp" line="110"/>
         <source>version configure file format error.%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="132"/>
+        <location filename="../DlgUpdate.cpp" line="133"/>
         <source>New version:%1.%2.%3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../DlgUpdate.cpp" line="26"/>
-        <location filename="../DlgUpdate.cpp" line="76"/>
+        <location filename="../DlgUpdate.cpp" line="77"/>
         <source>The new version is not detected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="140"/>
+        <location filename="../DlgUpdate.cpp" line="141"/>
         <source>Version file is error. DownLoadUrl or md5sum is empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="185"/>
+        <location filename="../DlgUpdate.cpp" line="186"/>
         <source>Do you update new version?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="217"/>
+        <location filename="../DlgUpdate.cpp" line="219"/>
         <source>Downloading </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="250"/>
+        <location filename="../DlgUpdate.cpp" line="252"/>
         <source>Download fail.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="255"/>
+        <location filename="../DlgUpdate.cpp" line="257"/>
         <source>Download success.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="263"/>
+        <location filename="../DlgUpdate.cpp" line="265"/>
         <source>Download file md5sum error:%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DlgUpdate.cpp" line="285"/>
+        <location filename="../DlgUpdate.cpp" line="287"/>
         <source>Execute install program error.%1</source>
         <translation type="unfinished"></translation>
     </message>

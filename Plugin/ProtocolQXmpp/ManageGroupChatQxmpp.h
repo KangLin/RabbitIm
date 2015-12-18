@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QMap>
 #include "GroupChatQxmpp.h"
-#include "ManageGroupChat.h"
+#include "Widgets/FrmGroupChat/ManageGroupChat.h"
 
 class CManageGroupChatQxmpp : public CManageGroupChat
 {

@@ -4,17 +4,13 @@
 #
 #-------------------------------------------------
 
-QT += core gui widgets 
+QT *= core gui widgets
 
 TARGET = ScreenShot
 TEMPLATE = app
+DISTFILES += PluginScreenShot.json
 
-CONFIG += c++0x
-!msvc{
-    QMAKE_CXXFLAGS += " -std=c++0x "
-}
-
-include(../config.pri)
+include(../ConfigApp.pri)
 
 SOURCES += PluginScreenShot.cpp \
     WdgScreenEditor.cpp \
@@ -26,7 +22,3 @@ HEADERS += PluginScreenShot.h \
     DlgScreenShot.h
 
 #RESOURCES += $$PWD/../../Resource/Resource.qrc #资源已在libRabbitIm中存在  
-
-DISTFILES += PluginScreenShot.json
-
-INCLUDEPATH += $$PWD/../..
