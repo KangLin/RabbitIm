@@ -42,8 +42,6 @@ SET(RABBITIM_SOURCES
     Call/CallAction.cpp 
     Widgets/FrmVideo/FrmVideo.cpp  
     Widgets/DlgRegister/DlgRegister.cpp 
-    Widgets/DlgScreenShot/DlgScreenShot.cpp  
-    Widgets/DlgScreenShot/WdgScreenEditor.cpp 
     Widgets/FrmGroupChat/FrmGroupChatList.cpp  
     Widgets/FrmLogin/DlgLoginSettings.cpp 
     Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp 
@@ -67,12 +65,14 @@ SET(RABBITIM_SOURCES
     Media/Camera/CameraFactoryQt.cpp 
     Media/Camera/CameraQtCaptureVideoFrame.cpp 
     Global/Log.cpp 
+    Global/GlobalDir.cpp 
     Widgets/FrmApp/FrmApp.cpp 
     Widgets/FrmApp/FrmAppList.cpp 
     Widgets/FrmApp/FrmFavorites.cpp 
     Plugin/PluginApp.cpp 
-    Plugin/ManagePlugin.cpp 
-    Global/GlobalDir.cpp 
+    Plugin/PluginProtocol.cpp 
+    Plugin/ManagePluginApp.cpp 
+    Plugin/ManagePluginProtocol.cpp
 )
 
 SET(RABBITIM_UIS
@@ -101,37 +101,9 @@ SET(RABBITIM_UIS
     Widgets/FrmApp/FrmFavorites.ui 
 )
 
-IF(OPTION_RABBITIM_USE_QXMPP)
-    SET(RABBITIM_SOURCES
-        ${RABBITIM_SOURCES}
-        Manage/ManagerXmpp.cpp
-        Manage/ManageUserQXmpp.cpp
-        UserInfo/UserInfoXmpp.cpp
-        Client/ClientXmpp.cpp
-        FileTransfer/FileTransferQXmpp.cpp
-        Call/CallObjectQXmpp.cpp
-        Call/ManageCallXmpp.cpp
-        Widgets/FrmGroupChat/ManageGroupChatQxmpp.cpp
-        Widgets/FrmGroupChat/GroupChatQxmpp.cpp
-    )
-ENDIF(OPTION_RABBITIM_USE_QXMPP)
-
 IF(RABBITIM_USE_OPENCV) 
     SET(RABBITIM_SOURCES ${RABBITIM_SOURCES} Widgets/FrmVideo/CameraOpencv.cpp)
 ENDIF(RABBITIM_USE_OPENCV)
-
-IF(RABBITIM_USE_LIBCURL)
-    SET(RABBITIM_SOURCES
-        ${RABBITIM_SOURCES}
-        Update/DownLoad.cpp
-        Update/DownLoadHandle.cpp
-        Update/DlgUpdate.cpp
-    )
-    SET(RABBITIM_UIS
-            ${RABBITIM_UIS}
-            Update/DlgUpdate.ui
-    )
-ENDIF(RABBITIM_USE_LIBCURL)
 
 IF(RABBITIM_USE_OPENSSL)
     SET(RABBITIM_SOURCES

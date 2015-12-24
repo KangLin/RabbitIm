@@ -6,7 +6,13 @@ IF(OPTION_RABBITIM_USE_VPX)
     IF(PKG_CONFIG_FOUND AND NOT MSVC)
         pkg_check_modules(VPX REQUIRED vpx)
         IF(VPX_FOUND)
-            add_compile_options(${VPX_CFLAGS})
+            IF(OPTION_RABBITIM_USE_STATIC)
+                add_compile_options(${VPX_STATIC_CFLAGS})
+                SET(VPX_LIBRARIES ${VPX_STATIC_LIBRARIES})
+                SET(VPX_LIBRARY_DIRS ${VPX_STATIC_LIBRARY_DIRS})
+            ELSE()
+                add_compile_options(${VPX_CFLAGS})
+            ENDIF()
         ENDIF(VPX_FOUND)
     ELSE()
         MESSAGE("Use vpx library:${OPTION_RABBITIM_USE_VPX}")
@@ -32,7 +38,13 @@ IF(OPTION_RABBITIM_USE_SPEEX)
     IF(PKG_CONFIG_FOUND AND NOT MSVC)
         pkg_check_modules(SPEEX REQUIRED speex)
         IF(SPEEX_FOUND)
-            add_compile_options(${SPEEX_CFLAGS})
+            IF(OPTION_RABBITIM_USE_STATIC)
+                add_compile_options(${SPEEX_STATIC_CFLAGS})
+                SET(SPEEX_LIBRARIES ${SPEEX_STATIC_LIBRARIES})
+                SET(SPEEX_LIBRARY_DIRS ${SPEEX_STATIC_LIBRARY_DIRS})
+            ELSE()
+                add_compile_options(${SPEEX_CFLAGS})
+            ENDIF()
         ELSEIF(SPEEX_FOUND)
             FIND_LIBRARY(SPEEX_LIBRARIES NAMES speex speexdsp)
         ENDIF(SPEEX_FOUND)
@@ -50,6 +62,7 @@ IF(PKG_CONFIG_FOUND AND NOT MSVC)
         IF(OPTION_RABBITIM_USE_STATIC)
             add_compile_options(${LIBQRENCODE_STATIC_CFLAGS})
             SET(LIBQRENCODE_LIBRARIES ${LIBQRENCODE_STATIC_LIBRARIES})
+            SET(LIBQRENCODE_LIBRARY_DIRS ${LIBQRENCODE_STATIC_LIBRARY_DIRS})
         ELSE()
             add_compile_options(${LIBQRENCODE_CFLAGS})
         ENDIF()
@@ -65,6 +78,7 @@ IF(PKG_CONFIG_FOUND AND NOT MSVC)
         IF(OPTION_RABBITIM_USE_STATIC)
             add_compile_options(${QZXING_STATIC_CFLAGS})
             SET(QZXING_LIBRARIES ${QZXING_STATIC_LIBRARIES})
+            SET(QZXING_LIBRARY_DIRS ${QZXING_STATIC_LIBRARY_DIRS})
         ELSE()
             add_compile_options(${QZXING_CFLAGS})
         ENDIF()
@@ -77,7 +91,7 @@ ENDIF()
 OPTION(OPTION_RABBITIM_USE_FFMPEG "Use ffmpeg library" ON)
 IF(OPTION_RABBITIM_USE_FFMPEG)
     SET(RABBITIM_USE_FFMPEG ON)
-    SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libavcodec-dev, libavformat-dev, libavutil-dev, libswscale-dev")
+    SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libavcodec-dev, libavformat-dev, libavutil-dev")
 
     ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS" "-DRABBITIM_USE_FFMPEG") #ffmpeg需要
     IF(PKG_CONFIG_FOUND AND NOT MSVC)
@@ -87,13 +101,14 @@ IF(OPTION_RABBITIM_USE_FFMPEG)
             IF(OPTION_RABBITIM_USE_STATIC)
                 #INCLUDE_DIRECTORIES("${FFMPEG_STATIC_INCLUDE_DIRS}")
                 SET(FFMPEG_LIBRARIES ${FFMPEG_STATIC_LIBRARIES})
+                SET(FFMPEG_LIBRARY_DIRS ${FFMPEG_STATIC_LIBRARY_DIRS})
             ENDIF()
         ELSE()
             find_package(FFMPEG REQUIRED avcodec avformat avutil swscale)
         ENDIF(FFMPEG_FOUND)
     ELSEIF()
         message("Use pkg-config fail, Manually set ffmpeg library.")
-        FIND_LIBRARY(FFMPEG_LIBRARIES NAMES avcodec avformat avutil swscale swresample x264 pthread)
+        FIND_LIBRARY(FFMPEG_LIBRARIES NAMES avcodec avformat avutil swscale x264 pthread)
     ENDIF()
 
 ENDIF(OPTION_RABBITIM_USE_FFMPEG)
@@ -133,6 +148,7 @@ IF(OPTION_RABBITIM_USE_OPENSSL)
             IF(OPTION_RABBITIM_USE_STATIC)
                 add_compile_options(${OPENSSL_STATIC_CFLAGS})
                 SET(OPENSSL_LIBRARIES ${OPENSSL_STATIC_LIBRARIES})
+                SET(OPENSSL_LIBRARY_DIRS ${OPENSSL_STATIC_LIBRARY_DIRS})
             ELSE()
                 add_compile_options(${OPENSSL_CFLAGS})
             ENDIF()
@@ -167,6 +183,7 @@ IF(OPTION_RABBITIM_USE_LIBCURL)
             IF(OPTION_RABBITIM_USE_STATIC)
                 add_compile_options(${CURL_STATIC_CFLAGS})
                 SET(CURL_LIBRARIES ${CURL_LIBRARIES} ${CURL_STATIC_LIBRARIES})
+                SET(CURL_LIBRARY_DIRS ${CURL_STATIC_LIBRARY_DIRS})
             ELSE()
                 add_compile_options(${CURL_CFLAGS})
             ENDIF()
@@ -208,6 +225,7 @@ if(OPTION_RABBITIM_USE_QXMPP)
             IF(OPTION_RABBITIM_USE_STATIC)
                 add_compile_options(${QXMPP_STATIC_CFLAGS})
                 SET(QXMPP_LIBRARIES ${QXMPP_STATIC_LIBRARIES})
+                SET(QXMPP_LIBRARY_DIRS ${QXMPP_STATIC_LIBRARY_DIRS})
             ELSE()
                 add_compile_options(${QXMPP_CFLAGS})
             ENDIF()
@@ -236,3 +254,29 @@ IF(OPTION_RABBITIM_USE_PJSIP)
     ENDIF()
 ENDIF()
 message("Use PJSIP library:${RABBITIM_USE_PJSIP}")
+
+SET(RABBITIM_LIBS
+    ${RABBITIM_LIBS}
+    ${QXMPP_LIBRARIES}
+    ${LIBQRENCODE_LIBRARIES}
+    ${QZXING_LIBRARIES}
+    ${OpenCV_LIBS}
+    ${FFMPEG_LIBRARIES}
+    ${VPX_LIBRARIES}
+    ${SPEEX_LIBRARIES}
+    ${CURL_LIBRARIES}
+    ${OPENSSL_LIBRARIES}
+    ${QT_LIBRARIES}
+    )
+
+LINK_DIRECTORIES(
+    ${QXMPP_LIBRARY_DIRS}
+    ${LIBQRENCODE_LIBRARY_DIRS}
+    ${QZXING_LIBRARY_DIRS}
+    ${FFMPEG_LIBRARY_DIRS}
+    ${VPX_LIBRARY_DIRS}
+    ${SPEEX_LIBRARY_DIRS}
+    ${CURL_LIBRARY_DIRS}
+    ${OPENSSL_LIBRARY_DIRS}
+    ${QT_LIBRARY_DIRS}
+    )

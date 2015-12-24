@@ -1,6 +1,6 @@
 #TODO:发行版本时，需要修改下列值  
-SET(MAJOR_VERSION_NUMBER 0)      #主版本
-SET(MINOR_VERSION_NUMBER 1)       #次版本
+SET(MAJOR_VERSION_NUMBER 0)     #主版本
+SET(MINOR_VERSION_NUMBER 1)     #次版本
 SET(REVISION_VERSION_NUMBER 0)  #修订号
 
 SET(VERSION_NUMBER_STRING "${MAJOR_VERSION_NUMBER}.${MINOR_VERSION_NUMBER}.${REVISION_VERSION_NUMBER}")
@@ -8,9 +8,18 @@ IF(BUILD_VERSION)
     SET(VERSION_NUMBER_STRING "${VERSION_NUMBER_STRING}.${BUILD_VERSION}")
 ENDIF()
 
+set(BUILD_TIMESTAMP "")
+execute_process(COMMAND "date" "+%Y" OUTPUT_VARIABLE BUILD_TIMESTAMP)
+
+if(NOT BUILD_TIMESTAMP)
+  set(BUILD_TIMESTAMP "")
+else()
+  string(REGEX REPLACE "\n" "" BUILD_TIMESTAMP ${BUILD_TIMESTAMP})
+endif()
+
 # Project Info
 SET(PROJECT_DESCRIPTION  "Rabbit instant messaging")
-SET(PROJECT_COPYRIGHT    "Copyright (C) 2014-2015 KangLin studio") #TODO:修改日期
+SET(PROJECT_COPYRIGHT    "Copyright (C) 2014-${BUILD_TIMESTAMP} KangLin studio") #TODO:修改日期
 SET(PROJECT_CONTACT      "kl222@126.com")
 SET(PROJECT_VENDOR       "KangLin studio")
 SET(PROJECT_WEBSITE      "https://github.com/KangLin/rabbitim")
@@ -19,12 +28,12 @@ SET(PROJECT_VERSION      "${MAJOR_VERSION_NUMBER}.${MINOR_VERSION_NUMBER}.${REVI
 
 #更新版本头文件
 configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/Update/Version.h.template.cmake
+  ${CMAKE_CURRENT_SOURCE_DIR}/Plugin/Update/Version.h.template.cmake
   ${CMAKE_CURRENT_SOURCE_DIR}/Version.h
 )
 #更新更新文件中的版本信息
 configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/Update/Update.xml.template.cmake
+  ${CMAKE_CURRENT_SOURCE_DIR}/Plugin/Update/Update.xml.template.cmake
   ${CMAKE_CURRENT_SOURCE_DIR}/Update/Update_${RABBITIM_SYSTEM}.xml
 )
 

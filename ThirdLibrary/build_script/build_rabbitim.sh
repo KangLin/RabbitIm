@@ -177,6 +177,7 @@ else #cmake编译
     echo "cmake .. -G\"${GENERATORS}\" $PARA"
     cmake .. -G"${GENERATORS}" $PARA # --debug-output
     echo "build ...."
+    echo "cmake --build . --config Release ${CMAKE_PARA} ${MAKE_PARA}"
     cmake --build . --config Release ${CMAKE_PARA} ${MAKE_PARA}
 fi
 

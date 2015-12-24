@@ -1,6 +1,6 @@
 #注意：修改后的本文件不要上传代码库中
 #需要设置下面变量：
-#QT_ROOT=/home/l/Qt5.5.0/5.5/gcc_64 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/unix/qt
+#QT_ROOT=/home/l/Qt5.5.1/5.5/gcc_64  #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/unix/qt
 JOM=make #设置 QT make 工具 JOM
 MAKE=make
 RABBITIM_MAKE_JOB_PARA="-j2"  #make 同时工作进程参数
@@ -38,9 +38,6 @@ echo "QT_BIN:$QT_BIN"
 
 #pkg-config帮助文档：http://linux.die.net/man/1/pkg-config
 export PKG_CONFIG=pkg-config 
-if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
-    export PKG_CONFIG="pkg-config --static"
-fi
 if [ "${RABBITIM_BUILD_THIRDLIBRARY}" = " true" ]; then
     #不用系统的第三方库,用下面
     export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig 

@@ -1,0 +1,1 @@
+SET(RABBITIM_SOURCES ${CMAKE_SOURCE_DIR}/Plugin/PluginStatic.cpp)

@@ -20,3 +20,5 @@ equals(RABBITIM_USE_PLUGIN_APP, 1) {
     }
     SUBDIRS += $$APPLICATIONS
 }
+
+OTHER_FILES += CMakeLists.txt

@@ -2012,16 +2012,17 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CManageCall</name>
     <message>
+        <location filename="../../Call/ManageCall.cpp" line="50"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
-        <translation type="vanished">好友離線狀態，不能發起呼叫。</translation>
+        <translation>好友離線狀態，不能發起呼叫。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="65"/>
+        <location filename="../../Call/ManageCall.cpp" line="63"/>
         <source>Being talk with %1, please stop it.</source>
         <translation>正在與 %1 通話，請停止它。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="139"/>
+        <location filename="../../Call/ManageCall.cpp" line="137"/>
         <source> is calling</source>
         <translation>正在呼叫</translation>
     </message>

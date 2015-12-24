@@ -12,7 +12,6 @@ IF(Qt5WebKitWidgets_FOUND)
     ADD_DEFINITIONS(-DRABBITIM_WEBKIT)
     SET(QT_LIBRARIES ${QT_LIBRARIES} ${Qt5WebKitWidgets_LIBRARIES})
 ENDIF(Qt5WebKitWidgets_FOUND)
-FIND_PACKAGE(Qt5 CONFIG REQUIRED LinguistTools) #语言工具  
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
@@ -22,6 +21,12 @@ include(CheckCXXCompilerFlag)
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(cmake/RabbitImUtils.cmake)
+
+if(CMAKE_SIZEOF_VOID_P MATCHES 8)
+  message(STATUS "64-bit build")
+else()
+  message(STATUS "32-bit build")
+endif()
 
 # Exit for blacklisted compilers (those that don't support C++11 very well)
 #  MSVC++ 8.0  _MSC_VER == 1400 (Visual Studio 2005)

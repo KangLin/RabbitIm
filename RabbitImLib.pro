@@ -6,7 +6,7 @@
 
 TARGET = RabbitIm
 TEMPLATE = lib 
-!CONFIG(static, static|shared) : DEFINES += RABBITIM_SHARED_LIBRARY
+!CONFIG(static, static|shared) : DEFINES += RABBITIM_SHARED_LIBRARY #windows下动态库导出
 
 CONFIG += create_prl no_install_prl create_pc no_install_pc 
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig

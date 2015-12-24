@@ -1,9 +1,7 @@
-SET(PLUGIN_DIR ${CMAKE_SOURCE_DIR}/Plugin)
-
-SET(RABBITIM_SOURCES
-    ${RABBITIM_SOURCES}
-    ${PLUGIN_DIR}/PluginApp.cpp 
-    ${PLUGIN_DIR}/ManagePlugin.cpp 
-)
-
-#include(${PLUGIN_DIR}/Lbs/CMakeLists.txt)
+file(GLOB dirs *)
+foreach(d ${dirs})
+    IF(IS_DIRECTORY ${d})
+        file(RELATIVE_PATH relative_dir ${CMAKE_CURRENT_SOURCE_DIR} ${d})
+        add_subdirectory(${relative_dir})
+    ENDIF()
+endforeach(d)

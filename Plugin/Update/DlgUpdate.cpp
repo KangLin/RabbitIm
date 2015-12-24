@@ -317,6 +317,13 @@ void CDlgUpdate::changeEvent(QEvent *e)
     {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+        ui->lbCurrentVersion->setText(tr("Current version:")
+                                      + QString::number(MAJOR_VERSION_NUMBER)
+                                      + "."
+                                      + QString::number(MINOR_VERSION_NUMBER)
+                                      + "."
+                                      + QString::number(REVISION_VERSION_NUMBER));
+        ui->lbPrompt->setText(tr("The new version is not detected."));
         break;
     }
 }

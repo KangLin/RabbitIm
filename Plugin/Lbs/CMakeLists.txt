@@ -1,32 +1,39 @@
+PROJECT(Lbs)
+
 SET(QT_COMPONENTS Positioning QuickWidgets)
 FIND_PACKAGE(Qt5 CONFIG REQUIRED ${QT_COMPONENTS})
 FOREACH(_COMPONENT ${QT_COMPONENTS})
     FIND_PACKAGE(Qt5${_COMPONENT} REQUIRED)
-    SET(QT_LIBRARIES ${QT_LIBRARIES} ${Qt5${_COMPONENT}_LIBRARIES})
+    SET(RABBITIM_LIBS ${RABBITIM_LIBS} ${Qt5${_COMPONENT}_LIBRARIES})
 ENDFOREACH()
 
+SET(RABBITIM_PLUG_NAME CPluginAppMotion)
 
 SET(QT_PLUGINS ${QT_PLUGINS} Qt5Positioning_PLUGINS Qt5QuickWidgets_PLUGINS)
 
-SET(LBS_DIR ${CMAKE_SOURCE_DIR}/Plugin/Lbs)
+SET(PLUGIN_SOURCES
+    LbsTrack.cpp
+    Nmea.cpp
+    LbsPositionLogger.cpp
+    LbsMotion.cpp
+    FrmLbsMain.cpp
+    LbsCamera.cpp
+    PluginAppMotion.cpp
+    )
 
-SET(RABBITIM_RCC_FILES ${RABBITIM_RCC_FILES} ${LBS_DIR}/lbs.qrc)
+SET(PLUGIN_UIS
+    LbsTrack.ui
+    LbsMotion.ui
+    )
 
-SET(RABBITIM_SOURCES
-    ${RABBITIM_SOURCES}
-    ${LBS_DIR}/LbsTrack.cpp 
-    ${LBS_DIR}/Nmea.cpp 
-    ${LBS_DIR}/LbsPositionLogger.cpp 
-    ${LBS_DIR}/LbsMotion.cpp 
-    ${LBS_DIR}/FrmLbsMain.cpp 
-    ${LBS_DIR}/LbsCamera.cpp 
-    ${LBS_DIR}/PluginAppMotion.cpp
-)
+SET(PLUGIN_RESOURCE_FILES Resource.qrc)
 
 IF(ANDROID)
-    SET(RABBITIM_SOURCES
-        ${RABBITIM_SOURCES}
-        ${LBS_DIR}/android/jni/CameraAndroid.cpp 
-        ${LBS_DIR}/android/jni/CameraAndroidResultReceiver.cpp
+    SET(PLUGIN_SOURCES
+        ${PLUGIN_SOURCES}
+        android/jni/CameraAndroid.cpp 
+        android/jni/CameraAndroidResultReceiver.cpp
     )
 ENDIF(ANDROID)
+
+include(${CMAKE_SOURCE_DIR}/cmake/PluginCommon.cmake)

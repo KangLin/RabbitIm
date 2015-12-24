@@ -38,7 +38,7 @@ int CPluginScreenShot::Open(void *pPara, QWidget *parent)
             QClipboard* clipboard = QApplication::clipboard();
             clipboard->setImage(image);//参数是否合适TODO  
         }
-        else if(CGlobal::E_TO_QRCODE)
+        else if(CGlobal::E_TO_QRCODE == type)
         {
             QString szText;
             /*QString fileName = "ShotScreen" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss.PNG");
