@@ -34,6 +34,12 @@ int CPluginApp::InitInstance(const QString &szDir)
     return nRet;
 }
 
+int CPluginApp::ClearInstance()
+{
+    ClearTranslate();
+    return 0;
+}
+
 int CPluginApp::LoadTranslate(const QString &szDir)
 {
     //初始化翻译  
@@ -47,11 +53,7 @@ int CPluginApp::LoadTranslate(const QString &szDir)
 
     LOG_MODEL_DEBUG("CPluginApp", "locale language:%s", szLocale.toStdString().c_str());
 
-    if(!m_TranslatorPlugin.isNull())
-    {
-        qApp->removeTranslator(m_TranslatorPlugin.data());
-        m_TranslatorPlugin.clear();
-    }
+    ClearTranslate();
 
     m_TranslatorPlugin = QSharedPointer<QTranslator>(new QTranslator());
 
@@ -76,5 +78,15 @@ int CPluginApp::LoadTranslate(const QString &szDir)
                         szPlugin.toStdString().c_str());
     
     qApp->installTranslator(m_TranslatorPlugin.data());
+    return 0;
+}
+
+int CPluginApp::ClearTranslate()
+{
+    if(!m_TranslatorPlugin.isNull())
+    {
+        qApp->removeTranslator(m_TranslatorPlugin.data());
+        m_TranslatorPlugin.clear();
+    }
     return 0;
 }

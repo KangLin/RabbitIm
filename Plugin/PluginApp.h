@@ -27,6 +27,7 @@ public:
     virtual ~CPluginApp();
 
     virtual int InitInstance(const QString &szDir = QString());
+    virtual int ClearInstance();
 
     /**
      * 登录初始化  
@@ -57,6 +58,7 @@ public:
 private:
     ///加载翻译  
     virtual int LoadTranslate(const QString &szDir = QString());
+    virtual int ClearTranslate(); //卸载翻译资源  
     QSharedPointer<QTranslator> m_TranslatorPlugin;
 };
 

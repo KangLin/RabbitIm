@@ -152,6 +152,7 @@ MainWindow::~MainWindow()
     conf.setValue("UI/MainWindow/height", rect.height());
 #endif
 
+    this->ClearTranslate();
     delete ui;
 }
 
@@ -603,6 +604,22 @@ int MainWindow::ClearMenuTranslate()
     return 0;
 }
 
+int MainWindow::ClearTranslate()
+{
+    if(!m_TranslatorQt.isNull())
+    {
+        qApp->removeTranslator(m_TranslatorQt.data());
+        m_TranslatorQt.clear();
+    }
+
+    if(m_TranslatorApp.isNull())
+    {
+        qApp->removeTranslator(m_TranslatorApp.data());
+        m_TranslatorApp.clear();
+    }
+    return 0;
+}
+
 int MainWindow::LoadTranslate(QString szLocale)
 {
     //初始化翻译  
@@ -619,17 +636,7 @@ int MainWindow::LoadTranslate(QString szLocale)
 
     LOG_MODEL_DEBUG("main", "locale language:%s", szLocale.toStdString().c_str());
 
-    if(!m_TranslatorQt.isNull())
-    {
-        qApp->removeTranslator(m_TranslatorQt.data());
-        m_TranslatorQt.clear();
-    }
-
-    if(m_TranslatorApp.isNull())
-    {
-        qApp->removeTranslator(m_TranslatorApp.data());
-        m_TranslatorApp.clear();
-    }
+    ClearTranslate();
     LOG_MODEL_DEBUG("MainWindow", "Translate dir:%s", qPrintable(CGlobalDir::Instance()->GetDirTranslate()));
 
     m_TranslatorQt = QSharedPointer<QTranslator>(new QTranslator(this));

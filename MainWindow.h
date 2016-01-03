@@ -144,6 +144,7 @@ private:
     int ClearMenuTranslate();
     //加载翻译资源  
     int LoadTranslate(QString szLocale = QString());
+    int ClearTranslate(); //卸载翻译资源  
 private slots:
     //翻译菜单组点击触发  
     void slotActionGroupTranslateTriggered(QAction* pAct);
