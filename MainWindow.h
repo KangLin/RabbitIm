@@ -99,6 +99,7 @@ private:
     QSharedPointer<CFrmLogin> m_Login;
     QSharedPointer<CFrmMain> m_TableMain;
     bool m_bLogin;//是否登录标志  
+    int m_nLoginFlag; //0:未定义，1：关闭按钮
 
     //系统栏提示  
     QMenu m_TrayIconMenu;

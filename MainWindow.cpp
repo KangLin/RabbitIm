@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ActionGroupTranslator(this),
     m_ActionGroupStyle(this),
     m_Login(new CFrmLogin(this)),
+    m_nLoginFlag(0),
 #ifndef MOBILE
     m_Animation(this, "geometry"),
     m_oldFlags(0),
@@ -172,7 +173,6 @@ void MainWindow::resizeEvent(QResizeEvent * e)
 
 void MainWindow::showEvent(QShowEvent *)
 {
-    //LOG_MODEL_DEBUG("MainWindow", "MainWindow::showEvent");
 }
 
 void MainWindow::closeEvent(QCloseEvent *e)
@@ -185,7 +185,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
         //QApplication::quit();
         return;
     }
-
+    
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent start");
     int type = CGlobal::Instance()->GetCloseType();
     switch (type) {
@@ -215,46 +215,23 @@ void MainWindow::closeEvent(QCloseEvent *e)
             CGlobal::Instance()->SetCloseType(CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME);
             //退出程序  
             slotLogout();
-            //因为程序退出时,还不能接收到服务返回的登出消息,  
-            //所以就不能触发sigClientDisconnected信号  
-            //所以就直接释放资源  
-            this->slotClientDisconnected();
-            GETMANAGER->LogoutClean();
-            GETMANAGER->Clean();
-            e->accept();
-            //QApplication::closeAllWindows();
         }
         //else if(msg.clickedButton() == pLogout)
         else if(QMessageBox::Yes == nRet)
         {
             CGlobal::Instance()->SetCloseType(CGlobal::E_CLOSE_TYPE_LOGOUT);
-            e->ignore();
-            slotLogout();
         }
-        else
-            e->ignore(); //忽略退出事件  
     }
         break;
     case CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME:
-        //退出程序  
-        slotLogout();
-        //因为程序退出时,还不能接收到服务返回的登出消息,  
-        //所以就不能触发sigClientDisconnected信号  
-        //所以就直接释放资源  
-        this->slotClientDisconnected();
-        GETMANAGER->LogoutClean();
-        GETMANAGER->Clean();
-        e->accept();
-        //QApplication::closeAllWindows();
-        break;
     case CGlobal::E_CLOSE_TYPE_LOGOUT:
-        slotLogout();
-        e->ignore();
-        break;
     default:
-        e->ignore(); //忽略退出事件  
         break;
     }
+    //先完成注销流程，再关闭程序   
+    m_nLoginFlag = 1;//标志退出是从关闭按钮发起  
+    slotLogout();
+    e->ignore(); //忽略退出事件  
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -368,7 +345,7 @@ void MainWindow::slotClientConnected()
 
 void MainWindow::slotClientDisconnected()
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: DISCONNECTED");
+    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: slotClientDisconnected");
     m_bLogin = false;
     if(m_Login.isNull())
     {
@@ -384,9 +361,19 @@ void MainWindow::slotClientDisconnected()
     }
     m_TableMain.clear();
 
-    setWindowTitle(tr("RabbitIm"));
-    setWindowIcon(QIcon(":/icon/AppIcon"));
-    ReInitMenuOperator();
+    if((CGlobal::Instance()->GetCloseType()
+        == CGlobal::E_CLOSE_TYPE_CLOSE_PROGRAME)
+            && (1 == m_nLoginFlag))
+    {
+        m_nLoginFlag = 0;
+        this->close();
+    }
+    else
+    {
+        setWindowTitle(tr("RabbitIm"));
+        setWindowIcon(QIcon(":/icon/AppIcon"));
+        ReInitMenuOperator();    
+    }
 }
 
 void MainWindow::slotUpdateLocaleUserInfo()
