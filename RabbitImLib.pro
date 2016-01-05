@@ -38,12 +38,11 @@ include(pri/ThirdLibraryJoin.pri)
 include(pri/RabbitImFiles.pri)
 
 #发行版本才更新更新配置  
-!CONFIG(debug, debug|release){
-    include(pri/RabbitImVersion.pri)
-    !equals(RABBITIM_USE_LIBCURL, 1){
-        warning("don't update function")
-    }
+include(pri/RabbitImVersion.pri)
+!equals(RABBITIM_USE_LIBCURL, 1){
+    warning("don't update function")
 }
+
 VERSION = $${MAJOR_VERSION_NUMBER}.$${MINOR_VERSION_NUMBER}.$${REVISION_VERSION_NUMBER}
 
 # Rules for creating/updating {ts|qm}-files
