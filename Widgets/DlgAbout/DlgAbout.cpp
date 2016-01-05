@@ -15,7 +15,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
  
-    QString szVersion(tr("Version:%1.%2.%3.%4").arg(QString::number(REVISION_VERSION_NUMBER),
+    QString szVersion(tr("Version:%1.%2.%3.%4").arg(QString::number(MAJOR_VERSION_NUMBER),
                                                  QString::number(MINOR_VERSION_NUMBER),
                                                  QString::number(REVISION_VERSION_NUMBER),
                                                  BUILD_VERSION

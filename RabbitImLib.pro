@@ -31,12 +31,6 @@ isEmpty(PREFIX) {
     } 
 }
 
-#TODO:发行版本时，需要修改下列值  
-MAJOR_VERSION_NUMBER=0       #主版本  
-MINOR_VERSION_NUMBER=1       #次版本  
-REVISION_VERSION_NUMBER=1    #修订号  
-VERSION = $${MAJOR_VERSION_NUMBER}.$${MINOR_VERSION_NUMBER}.$${REVISION_VERSION_NUMBER}
-
 #修改文件中的第三方库配置  
 include(pri/ThirdLibraryConfig.pri)
 include(pri/ThirdLibrary.pri)
@@ -50,6 +44,7 @@ include(pri/RabbitImFiles.pri)
         warning("don't update function")
     }
 }
+VERSION = $${MAJOR_VERSION_NUMBER}.$${MINOR_VERSION_NUMBER}.$${REVISION_VERSION_NUMBER}
 
 # Rules for creating/updating {ts|qm}-files
 include(Resource/translations/translations.pri)
