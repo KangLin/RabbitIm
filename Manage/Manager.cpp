@@ -5,19 +5,25 @@
 #include <QPluginLoader>
 #include <QApplication>
 
-CManager::CManager()
+CManager::CManager():
+    m_PluginProtocol(NULL),
+    m_ManagePluginProtocol(new CManagePluginProtocol()),
+    m_ManagePluginApp(new CManagePluginApp()),
+    m_ManageFile(new CManageFileTransfer),
+    m_ManageRecentMessage(new CManageRecentMessage),
+    n_ManageMessageDialog(NULL)
 {
     foreach (QObject *plugin, QPluginLoader::staticInstances())
     {
-        QSharedPointer<CPluginApp> pluginApp(qobject_cast<CPluginApp *>(plugin));
-        if(!pluginApp.isNull())
+        CPluginApp* pluginApp = qobject_cast<CPluginApp *>(plugin);
+        if(pluginApp)
         {
             pluginApp->InitInstance();
             GetManagePluginApp()->RegisterPlugin(pluginApp->ID(), pluginApp);
             continue;
         }
-        QSharedPointer<CPluginProtocol> pluginProtocol(qobject_cast<CPluginProtocol* >(plugin));
-        if(!pluginProtocol.isNull())
+        CPluginProtocol* pluginProtocol = qobject_cast<CPluginProtocol* >(plugin);
+        if(pluginProtocol)
         {
             pluginProtocol->InitInstance();
             GetManagePluginProtocol()->RegisterPlugin(pluginProtocol->ID(), pluginProtocol);
@@ -42,38 +48,42 @@ CManager::CManager()
 #endif
         FindPlugins(pluginsDir);
 
+    //TODO:修改协议  
     ChangeProtolcol("qxmpp");
 }
 
 CManager::~CManager()
 {
     LOG_MODEL_DEBUG("CManager", "CManager::~CManager()");
-}
-
-CManager *CManager::Instance(MANAGER_TYPE type, bool bReset)
-{
-    static CManager* pManager = NULL;
-    if(!pManager && bReset)
+    //增加移除插件  
+    std::list<CPluginProtocol*> lstProtocol = GetManagePluginProtocol()->GetAllPlugins();
+    std::list<CPluginProtocol*>::iterator it;
+    for(it = lstProtocol.begin(); it != lstProtocol.end(); it++)
     {
-        delete pManager;
+        CPluginProtocol* p = *it;
+        p->ClearInstance();
+        GetManagePluginProtocol()->UnregisterPlugin(p->ID());
     }
-
-    if(!pManager)
+    
+    std::list<CPluginApp*> lstApp = GetManagePluginApp()->GetAllPlugins();
+    std::list<CPluginApp*>::iterator itApp;
+    for(itApp = lstApp.begin(); itApp != lstApp.end(); itApp++)
     {
-        pManager = new CManager;
+        CPluginApp* p = *itApp;
+        p->ClearInstance();
+        GetManagePluginApp()->UnregisterPlugin(p->ID());
     }
-    return pManager;
 }
 
 int CManager::ChangeProtolcol(QString szProtocol)
 {
-    if(!m_PluginProtocol.isNull())
+    if(m_PluginProtocol)
     {
         if(m_PluginProtocol->ID() == szProtocol)
             return 0;
     }
     m_PluginProtocol = GetManagePluginProtocol()->GetPlugin(szProtocol);
-    Q_ASSERT(!m_PluginProtocol.isNull());
+    Q_ASSERT(m_PluginProtocol);
     return 0;
 }
 
@@ -144,37 +154,36 @@ int CManager::LogoutClean()
 
 QSharedPointer<CManageMessageDialog> CManager::GetManageMessageDialog()
 {
+    if(n_ManageMessageDialog)
+        return n_ManageMessageDialog;
     //TODO:根据操作系统来决定屏幕  
 #ifdef MOBILE
-    static QSharedPointer<CManageMessageDialog> manageMessageDialog(new CManageMessageDialog);
+    n_ManageMessageDialog = new CManageMessageDialog;
 #else
-    static QSharedPointer<CManageMessageDialog> manageMessageDialog(new CManageMessageDialogBigScreen);
+    n_ManageMessageDialog = QSharedPointer<CManageMessageDialog>
+            (new CManageMessageDialogBigScreen);
 #endif
-    return manageMessageDialog;
+    return n_ManageMessageDialog;
 }
 
 QSharedPointer<CManageRecentMessage> CManager::GetRecentMessage()
 {
-    static QSharedPointer<CManageRecentMessage> msg(new CManageRecentMessage);
-    return msg;
+    return m_ManageRecentMessage;
 }
 
 QSharedPointer<CManageFileTransfer> CManager::GetFileTransfer()
 {
-    static QSharedPointer<CManageFileTransfer> file(new CManageFileTransfer);
-    return file;
+    return m_ManageFile;
 }
 
 QSharedPointer<CManagePluginApp> CManager::GetManagePluginApp()
 {
-    static QSharedPointer<CManagePluginApp> pluginApp(new CManagePluginApp());
-    return pluginApp;
+    return m_ManagePluginApp;
 }
 
 QSharedPointer<CManagePluginProtocol> CManager::GetManagePluginProtocol()
 {
-    static QSharedPointer<CManagePluginProtocol> pluginProtocol(new CManagePluginProtocol());
-    return pluginProtocol;
+    return m_ManagePluginProtocol;
 }
 
 int CManager::FindPlugins(QDir dir)
@@ -185,15 +194,15 @@ int CManager::FindPlugins(QDir dir)
         QPluginLoader loader(szPlugins);
         QObject *plugin = loader.instance();
         if (plugin) {
-            QSharedPointer<CPluginApp> pluginApp(qobject_cast<CPluginApp* >(plugin));
-            if(!pluginApp.isNull())
+            CPluginApp* pluginApp = qobject_cast<CPluginApp* >(plugin);
+            if(pluginApp)
             {
                 pluginApp->InitInstance(dir.absolutePath());
                 GetManagePluginApp()->RegisterPlugin(pluginApp->ID(), pluginApp);
                 continue;
             }
-            QSharedPointer<CPluginProtocol> pluginProtocol(qobject_cast<CPluginProtocol* >(plugin));
-            if(!pluginProtocol.isNull())
+            CPluginProtocol* pluginProtocol = qobject_cast<CPluginProtocol* >(plugin);
+            if(pluginProtocol)
             {
                 pluginProtocol->InitInstance(dir.absolutePath());
                 GetManagePluginProtocol()->RegisterPlugin(pluginProtocol->ID(), pluginProtocol);

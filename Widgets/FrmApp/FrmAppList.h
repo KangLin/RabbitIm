@@ -46,8 +46,8 @@ private slots:
 private:
     QStandardItem* ItemInsertGroup(QString szGroup);
     int InitList();
-    int InsertApp(QSharedPointer<CPluginApp> app);
-    int InsertAppInGroup(QStandardItem* pGroupItem, QSharedPointer<CPluginApp> app);
+    int InsertApp(CPluginApp* app);
+    int InsertAppInGroup(QStandardItem* pGroupItem, CPluginApp* app);
     //从存储中加载组节点的状态  
     int LoadGroupNodeStateFromStorage();
     //保存组节点状态到存储中  

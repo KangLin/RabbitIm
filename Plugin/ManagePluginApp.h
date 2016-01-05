@@ -48,8 +48,7 @@ public:
      * @return 成功返回0，否则返回非0  
      * @see CPluginApp
      */
-    int RegisterPlugin(const QString &szId,
-                       QSharedPointer<CPluginApp> plugin);
+    int RegisterPlugin(const QString &szId, CPluginApp* plugin);
     /**
      * @brief 移除插件  
      * @param szId:插件ID  
@@ -62,12 +61,12 @@ public:
      * @param szId:插件ID  
      * @return 
      */
-    QSharedPointer<CPluginApp> GetPlugin(const QString &szId);
+    CPluginApp* GetPlugin(const QString &szId);
     /**
      * @brief 得到所有插件  
      * @return 
      */
-    std::list<QSharedPointer<CPluginApp> > GetAllPlugins();
+    std::list<CPluginApp *> GetAllPlugins();
 
     /**
      * @brief 添加插件到收藏中  
@@ -121,7 +120,7 @@ signals:
     void sigRemoveFavority(const QString &szId);
 
 private:
-    std::map<QString, QSharedPointer<CPluginApp> > m_Plugins;
+    std::map<QString, CPluginApp* > m_Plugins;
     std::list<QString> m_FavorityPlugins;  //收藏应用  
 };
 

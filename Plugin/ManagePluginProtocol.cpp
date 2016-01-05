@@ -19,7 +19,7 @@ int CManagePluginProtocol::Clean()
 }
 
 int CManagePluginProtocol::RegisterPlugin(const QString &szProtocol,
-                             QSharedPointer<CPluginProtocol> plugin)
+                             CPluginProtocol *plugin)
 {
     if(m_Plugins.find(szProtocol) != m_Plugins.end())
     {
@@ -28,13 +28,13 @@ int CManagePluginProtocol::RegisterPlugin(const QString &szProtocol,
         return -1;
     }
     m_Plugins.insert(std::pair<QString,
-                     QSharedPointer<CPluginProtocol> >(szProtocol, plugin));
+                     CPluginProtocol* >(szProtocol, plugin));
     return 0;
 }
 
 int CManagePluginProtocol::UnregisterPlugin(const QString &szProtocol)
 {
-    std::map<QString, QSharedPointer<CPluginProtocol> >::iterator it;
+    std::map<QString, CPluginProtocol* >::iterator it;
     it = m_Plugins.find(szProtocol);
     if(m_Plugins.end() == it)
         return 0;
@@ -43,16 +43,25 @@ int CManagePluginProtocol::UnregisterPlugin(const QString &szProtocol)
     return 0;
 }
 
-QSharedPointer<CPluginProtocol> CManagePluginProtocol::GetPlugin(
+CPluginProtocol *CManagePluginProtocol::GetPlugin(
         const QString &szProtocol)
 {
-    std::map<QString, QSharedPointer<CPluginProtocol> >::iterator it;
+    std::map<QString, CPluginProtocol* >::iterator it;
     it = m_Plugins.find(szProtocol);
     if(m_Plugins.end() == it)
     {
         LOG_MODEL_ERROR("CManagePluginProtocol", "GetPlugin %s is fail",
                         szProtocol.toStdString().c_str());
-        return QSharedPointer<CPluginProtocol>();
+        return NULL;
     }
     return it->second;
+}
+
+std::list<CPluginProtocol*> CManagePluginProtocol::GetAllPlugins()
+{
+    std::list<CPluginProtocol* > lstPlugins;
+    std::map<QString, CPluginProtocol* >::iterator it;
+    for(it = m_Plugins.begin(); it != m_Plugins.end(); it++)
+        lstPlugins.push_back(it->second);
+    return lstPlugins;
 }

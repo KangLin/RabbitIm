@@ -51,8 +51,6 @@ int CPluginApp::LoadTranslate(const QString &szDir)
         szLocale = QLocale::system().name();
     }
 
-    LOG_MODEL_DEBUG("CPluginApp", "locale language:%s", szLocale.toStdString().c_str());
-
     ClearTranslate();
 
     m_TranslatorPlugin = QSharedPointer<QTranslator>(new QTranslator());
@@ -71,7 +69,8 @@ int CPluginApp::LoadTranslate(const QString &szDir)
                 + QDir::separator() + "Plugin_" + szLocale + ".qm";
     }
 #endif
-    LOG_MODEL_DEBUG("CPluginApp", "Translate dir:%s", qPrintable(szPlugin));
+    LOG_MODEL_DEBUG("CPluginApp", "locale language:%s; Translate dir:%s",
+                    szLocale.toStdString().c_str(), qPrintable(szPlugin));
     bool bRet = m_TranslatorPlugin->load(szPlugin);
     if(!bRet)
         LOG_MODEL_ERROR("CPluginApp", "load translator[%s] fail",

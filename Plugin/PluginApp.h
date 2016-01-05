@@ -26,7 +26,9 @@ public:
     CPluginApp();
     virtual ~CPluginApp();
 
+    ///< 插件实例化时做些初始化工作，例如：设置语言  
     virtual int InitInstance(const QString &szDir = QString());
+    ///< 实例化析构前做些清理工作。  
     virtual int ClearInstance();
 
     /**

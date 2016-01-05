@@ -48,7 +48,10 @@ public:
     //协议名称
     virtual QString Name() = 0;
 
+    ///< 初始化插件  
     virtual int InitInstance(const QString &szDir = QString());
+    ///< 插件析构前做些清理工作  
+    virtual int ClearInstance();
 
 private:
     ///加载翻译

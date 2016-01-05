@@ -15,6 +15,16 @@ int CPluginProtocol::InitInstance(const QString &szDir)
     return nRet;
 }
 
+int CPluginProtocol::ClearInstance()
+{
+    if(!m_TranslatorPlugin.isNull())
+    {
+        qApp->removeTranslator(m_TranslatorPlugin.data());
+        m_TranslatorPlugin.clear();
+    }
+    return 0;
+}
+
 int CPluginProtocol::LoadTranslate(const QString &szDir)
 {
     //初始化翻译

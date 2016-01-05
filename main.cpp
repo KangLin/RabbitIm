@@ -32,6 +32,9 @@ int main(int argc, char *argv[])
     app.addLibraryPath(CGlobalDir::Instance()->GetDirApplication()
                      + QDir::separator() + "plugins");
 
+    CManager manager;
+    CGlobal::Instance()->SetManager(&manager);
+    
 #ifdef RABBITIM_USE_FFMPEG
     CTool::SetFFmpegLog();
 #endif

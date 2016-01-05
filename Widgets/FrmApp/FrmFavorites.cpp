@@ -77,9 +77,9 @@ void CFrmFavorites::slotAddFavorites(const QString &szApp)
     }
     
     QStandardItem* pItem = NULL;
-    QSharedPointer<CPluginApp> app =
+    CPluginApp* app =
             GETMANAGER->GetManagePluginApp()->GetPlugin(szApp);
-    if(app.isNull())
+    if(NULL == app)
         return;
     pItem = new QStandardItem(app->Icon(), app->Name());
     pItem->setEditable(false);  //禁止双击编辑  

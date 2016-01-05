@@ -13,6 +13,7 @@ CGlobal::CGlobal(QObject *parent) :
     QObject(parent)
 {
     m_pMainWindow = NULL;
+    m_pManager = NULL;
 
     QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
     m_LocalStatus = (CUserInfo::USER_INFO_STATUS)conf.value(
@@ -123,9 +124,16 @@ int CGlobal::SetMainWindow(MainWindow *pWnd)
     return 0;
 }
 
-CManager *CGlobal::GetManager(CManager::MANAGER_TYPE type, bool bReset)
+CManager *CGlobal::GetManager()
 {
-    return CManager::Instance(type, bReset);
+    Q_ASSERT(m_pManager);
+    return m_pManager;
+}
+
+int CGlobal::SetManager(CManager *pManager)
+{
+    m_pManager = pManager;
+    return 0;
 }
 
 CUserInfo::USER_INFO_STATUS CGlobal::GetStatus()

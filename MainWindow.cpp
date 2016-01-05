@@ -834,8 +834,8 @@ void MainWindow::on_actionOptions_O_triggered()
 
 void MainWindow::on_actionScan_qrencode_S_triggered()
 {
-    QSharedPointer<CPluginApp> plugin = GETMANAGER->GetManagePluginApp()->GetPlugin("QRCode");
-    if(plugin.isNull())
+    CPluginApp* plugin = GETMANAGER->GetManagePluginApp()->GetPlugin("QRCode");
+    if(NULL == plugin)
         return;
     plugin->Open(this);
 }

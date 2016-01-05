@@ -31,8 +31,7 @@ public:
      * @return 成功返回0，否则返回非0
      * @see CPluginApp
      */
-    int RegisterPlugin(const QString &szProtocol,
-                       QSharedPointer<CPluginProtocol> plugin);
+    int RegisterPlugin(const QString &szProtocol, CPluginProtocol* plugin);
     /**
      * @brief 移除插件
      * @param szProtocol:插件ID
@@ -45,10 +44,14 @@ public:
      * @param szProtocol:插件ID
      * @return
      */
-    QSharedPointer<CPluginProtocol> GetPlugin(const QString &szProtocol);
-
+    CPluginProtocol* GetPlugin(const QString &szProtocol);
+    /**
+     * @brief 得到所有插件  
+     * @return 
+     */
+    std::list<CPluginProtocol *> GetAllPlugins();
 private:
-    std::map<QString, QSharedPointer<CPluginProtocol> > m_Plugins;
+    std::map<QString, CPluginProtocol* > m_Plugins;
 };
 
 #endif // CPLUGINPROTOCOLMANAGER_H

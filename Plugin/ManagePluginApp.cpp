@@ -16,10 +16,10 @@ int CManagePluginApp::Init(const QString &szId)
     int nRet = 0;
 
     LoadFromStorage(szId);
-    std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
+    std::map<QString, CPluginApp* >::iterator it;
     for(it = m_Plugins.begin(); it != m_Plugins.end(); it++)
     {
-        QSharedPointer<CPluginApp> plugin = it->second;
+        CPluginApp* plugin = it->second;
         plugin->Init(szId);
     }
     return nRet;
@@ -28,17 +28,17 @@ int CManagePluginApp::Init(const QString &szId)
 int CManagePluginApp::Clean()
 {
     SaveToStorage();
-    std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
+    std::map<QString, CPluginApp* >::iterator it;
     for(it = m_Plugins.begin(); it != m_Plugins.end(); it++)
     {
-        QSharedPointer<CPluginApp> plugin = it->second;
+        CPluginApp* plugin = it->second;
         plugin->Clean();
     }
     return 0;
 }
 
 int CManagePluginApp::RegisterPlugin(const QString &szId,
-                                  QSharedPointer<CPluginApp> plugin)
+                                     CPluginApp* plugin)
 {
     if(m_Plugins.find(szId) != m_Plugins.end())
     {
@@ -46,14 +46,14 @@ int CManagePluginApp::RegisterPlugin(const QString &szId,
                         szId.toStdString().c_str());
         return -1;
     }
-    m_Plugins.insert(std::pair<QString, QSharedPointer<CPluginApp> >(szId, plugin));
+    m_Plugins.insert(std::pair<QString, CPluginApp* >(szId, plugin));
     emit sigChangedAdd(szId);
     return 0;
 }
 
 int CManagePluginApp::UnregisterPlugin(const QString &szId)
 {
-    std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
+    std::map<QString, CPluginApp* >::iterator it;
     it = m_Plugins.find(szId);
     if(m_Plugins.end() == it)
         return 0;
@@ -63,19 +63,19 @@ int CManagePluginApp::UnregisterPlugin(const QString &szId)
     return 0;
 }
 
-QSharedPointer<CPluginApp> CManagePluginApp::GetPlugin(const QString &szId)
+CPluginApp *CManagePluginApp::GetPlugin(const QString &szId)
 {
-    std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
+    std::map<QString, CPluginApp* >::iterator it;
     it = m_Plugins.find(szId);
     if(m_Plugins.end() == it)
-        return QSharedPointer<CPluginApp>();
+        return NULL;
     return it->second;
 }
 
-std::list<QSharedPointer<CPluginApp> > CManagePluginApp::GetAllPlugins()
+std::list<CPluginApp* > CManagePluginApp::GetAllPlugins()
 {
-    std::list<QSharedPointer<CPluginApp> > lstPlugins;
-    std::map<QString, QSharedPointer<CPluginApp> >::iterator it;
+    std::list<CPluginApp* > lstPlugins;
+    std::map<QString, CPluginApp* >::iterator it;
     for(it = m_Plugins.begin(); it != m_Plugins.end(); it++)
         lstPlugins.push_back(it->second);
     return lstPlugins;
@@ -108,7 +108,7 @@ int CManagePluginApp::RemoveFavority(const QString &szId)
         if(*it == szId)
         {
             m_FavorityPlugins.erase(it);
-            //emit sigRemoveFavority(plugin);
+            emit sigRemoveFavority(szId);
             break;
         }
     }

@@ -191,7 +191,7 @@ QStandardItem* CFrmAppList::ItemInsertGroup(QString szGroup)
 }
 
 int CFrmAppList::InsertAppInGroup(QStandardItem *pGroupItem,
-                                  QSharedPointer<CPluginApp> app)
+                                  CPluginApp *app)
 {
     /*在插件注册时，就已经去掉重复，所以这里就不用检查了  
     QModelIndex index = m_pModel->indexFromItem(pGroupItem);
@@ -215,7 +215,7 @@ int CFrmAppList::InsertAppInGroup(QStandardItem *pGroupItem,
     return 0;
 }
 
-int CFrmAppList::InsertApp(QSharedPointer<CPluginApp> app)
+int CFrmAppList::InsertApp(CPluginApp *app)
 {
     int nRet = 0;
     QSet<QString> group = app->Group();
@@ -258,8 +258,8 @@ int CFrmAppList::InitList()
         return -1;
     m_pModel->clear();
     LoadGroupNodeStateFromStorage();
-    std::list<QSharedPointer<CPluginApp> > lstPlugin = plugin->GetAllPlugins();
-    std::list<QSharedPointer<CPluginApp> >::iterator it;
+    std::list<CPluginApp* > lstPlugin = plugin->GetAllPlugins();
+    std::list<CPluginApp* >::iterator it;
     for(it = lstPlugin.begin(); it != lstPlugin.end(); it++)
     {
         InsertApp(*it);

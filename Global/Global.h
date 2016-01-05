@@ -43,12 +43,11 @@ public:
     /// 得到主窗口  
     MainWindow* GetMainWindow();
     int SetMainWindow(MainWindow* pWnd);
-    CManager* GetManager(
-            CManager::MANAGER_TYPE type = CManager::XMPP, ///< 协议类型  
-            bool bReset = false                           ///< 是否重新生成管理者  
-            );
+    CManager* GetManager();
+    int SetManager(CManager* pManager);
 private:
     MainWindow* m_pMainWindow;
+    CManager* m_pManager;
 
 public:
     // 只保存用户登录时的状态,在用户登录对话框中设置  

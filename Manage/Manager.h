@@ -4,6 +4,7 @@
 #include "Client/Client.h"
 #include "ManageUser.h"
 #include "ManageMessageDialog.h"
+#include "ManageMessageDialogBigScreen.h"
 #include "Widgets/FrmRecentMessage/ManageRecentMessage.h"
 #include "Call/ManageCall.h"
 #include <QSharedPointer>
@@ -38,32 +39,13 @@ class CManageFileTransfer;
  * @see CManageGroupChat
  * @see CManagePlugin
  */
-class CManager
+class RABBITIM_SHARED_LIBRARY CManager
 {
-protected:
+public:
     CManager();
     virtual ~CManager();
 
 public:
-    enum MANAGER_TYPE
-    {
-        XMPP ///< 用XMPP协议  
-    };
-private:
-    friend class CGlobal;
-    /**
-     * @brief 生成管理者实例。  
-     * 注意：如果要重新生成新的管理者，使用者必须保证原来的管理者已经调用 LogoutClean()、Clean() 。  
-     * 本接口不对外开放，只由 CGlobal::GetManager 访问。 
-     * @see CGlobal::GetManager  
-     * @param type：生成管理者类型  
-     * @param bReset：是否重新生成管理者  
-     * @return 返回管理者对象  
-     */
-    static CManager* Instance(MANAGER_TYPE type = XMPP, bool bReset = false);
-
-public:
-    virtual int ChangeProtolcol(QString szProtocol);
     ///< 协议客户端  
     virtual QSharedPointer<CClient> GetClient();
     ///< 用户信息管理对象  
@@ -81,6 +63,10 @@ public:
     ///< 插件管理对象  
     virtual QSharedPointer<CManagePluginApp> GetManagePluginApp();
     virtual QSharedPointer<CManagePluginProtocol> GetManagePluginProtocol();
+    
+    ///< 更改通信协议  
+    virtual int ChangeProtolcol(QString szProtocol);
+    
     /**
      * 新建用户信息对象  
      * @see CUser
@@ -108,7 +94,12 @@ public:
     virtual int LogoutClean();
 
 private:
-    QSharedPointer<CPluginProtocol> m_PluginProtocol;
+    CPluginProtocol* m_PluginProtocol;
+    QSharedPointer<CManagePluginProtocol> m_ManagePluginProtocol;
+    QSharedPointer<CManagePluginApp> m_ManagePluginApp;
+    QSharedPointer<CManageFileTransfer> m_ManageFile;
+    QSharedPointer<CManageRecentMessage> m_ManageRecentMessage;
+    QSharedPointer<CManageMessageDialog> n_ManageMessageDialog;
 
     //查找插件
     int FindPlugins(QDir dir);
