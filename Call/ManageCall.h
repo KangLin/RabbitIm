@@ -19,6 +19,7 @@
  * @brief 呼叫管理类接口,用于管理多个呼叫对象（CCallObject）  
  *        和其相关的界面通信接口。\n
  *        在此类中实现音频、视频捕获。   
+ * 
  */
 class RABBITIM_SHARED_LIBRARY CManageCall : public CManage
 {
@@ -72,7 +73,7 @@ public slots:
 
     /**
      * @brief 根据命令串执行操作  
-     * @param szId
+     * @param szId:用户ID  
      * @param szCommand: accept、cancel、call
      * @return int
      * @see CFrmMessage::slotAnchorClicked

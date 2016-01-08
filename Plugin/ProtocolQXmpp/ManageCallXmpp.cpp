@@ -115,8 +115,6 @@ int CManageCallXmpp::OnCall(const QString &szId,
         return -2;
     }
 
-    Q_ASSERT(pCallManager);
-
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {

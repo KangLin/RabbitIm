@@ -2022,7 +2022,7 @@ Email or MSN:kl222@126.com</source>
         <translation>正在与 %1 通话，请停止它。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="137"/>
+        <location filename="../../Call/ManageCall.cpp" line="139"/>
         <source> is calling</source>
         <translation>正在呼叫</translation>
     </message>

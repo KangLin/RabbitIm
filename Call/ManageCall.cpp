@@ -97,6 +97,7 @@ void CManageCall::slotCallReceived(QSharedPointer<CCallObject> call)
     if(roster.isNull())
     {
         LOG_MODEL_ERROR("Call", "Don't get roster:%s", qPrintable(call->GetId()));
+        call->Stop();
         return;
     }
     //检查是否正在视频  
@@ -114,6 +115,7 @@ void CManageCall::slotCallReceived(QSharedPointer<CCallObject> call)
         emit GET_CLIENT->sigMessageUpdate(call->GetId());
         //*/
         LOG_MODEL_ERROR("Call", "The call [%s] is exist.", qPrintable(call->GetId()));
+        call->Stop();
         return;
     }
 
