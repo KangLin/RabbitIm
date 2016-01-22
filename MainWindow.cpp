@@ -29,10 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ActionGroupStyle(this),
     m_Login(new CFrmLogin(this)),
     m_nLoginFlag(0),
-#ifndef MOBILE
-    m_Animation(this, "geometry"),
-    m_oldFlags(0),
-#endif
     ui(new Ui::MainWindow)
 {
     CGlobal::Instance()->SetMainWindow(this);
@@ -42,14 +38,12 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
     ui->setupUi(this);
 #ifndef MOBILE
-    //加载窗口位置,在main.cpp中设置窗口大小和位置  
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
-    m_nWidth = conf.value("UI/MainWindow/width", geometry().width()).toInt();
-    m_nHeight = conf.value("UI/MainWindow/height", geometry().height()).toInt();
-    
     m_bAnimationHide = false;
     m_nHideSize = 5;
-    m_nBorderSize = 30;    
+    m_nBorderSize = 30;
+    m_MainAnimation.hide();
+    m_Animation = QSharedPointer<QPropertyAnimation>(
+                new QPropertyAnimation(&m_MainAnimation, "geometry"));
 #endif
     m_bLogin = false;
 
@@ -129,6 +123,12 @@ MainWindow::MainWindow(QWidget *parent) :
     check = connect(&m_timerAnimation, SIGNAL(timeout()),
                     SLOT(slotCheckHideWindows()));
     Q_ASSERT(check);
+    check = connect(&m_MainAnimation, SIGNAL(sigShow()),
+                    SLOT(slotCheckShowWindows()));
+    Q_ASSERT(check);
+    check = connect(m_Animation.data(), SIGNAL(finished()),
+                    SLOT(slotAnimationFinished()));
+    Q_ASSERT(check);
 #endif
 
     //安装事件监听器  
@@ -143,13 +143,13 @@ MainWindow::~MainWindow()
 
 #ifndef MOBILE
     //保存窗口位置  
-    QRect rect = this->geometry();
-    CheckShowWindows(rect);
+    QRect rect = this->frameGeometry();
+    slotCheckShowWindows();
     QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
-    conf.setValue("UI/MainWindow/top", rect.top());
-    conf.setValue("UI/MainWindow/left", rect.left());
-    conf.setValue("UI/MainWindow/width", rect.width());
-    conf.setValue("UI/MainWindow/height", rect.height());
+    conf.setValue("UI/MainWindow/top", this->y());
+    conf.setValue("UI/MainWindow/left", this->x());
+    conf.setValue("UI/MainWindow/width", this->width());
+    conf.setValue("UI/MainWindow/height", this->height());
 #endif
 
     this->ClearTranslate();
@@ -269,7 +269,7 @@ void MainWindow::enterEvent(QEvent* event)
 #ifndef MOBILE
     m_timerAnimation.stop();
     QRect rect;
-    this->CheckShowWindows(rect);
+    this->slotCheckShowWindows();
 #endif
 }
 
@@ -329,7 +329,7 @@ void MainWindow::slotClientConnected()
         m_TableMain = main;
     }
     if(!m_TableMain.isNull())
-     {
+    {
         this->setCentralWidget(m_TableMain.data());
     }
     else
@@ -788,7 +788,7 @@ void MainWindow::on_actionNotifiation_show_main_windows_triggered()
      {
 #ifndef MOBILE
         QRect rect;
-        this->CheckShowWindows(rect);
+        this->slotCheckShowWindows();
 #endif
         this->show();
         this->activateWindow();
@@ -923,24 +923,15 @@ int MainWindow::OpenCustomStyleMenu()
 #ifndef MOBILE
 int MainWindow::AnimationWindows(const QRect &startRect, const QRect &endRect)
 {
-    /*
-    LOG_MODEL_DEBUG("MainWindow", "AnimationWindows:\nstartRect:top:%d;left:%d;right:%d;bottom:%d;\nendRect:top:%d;left:%d;right:%d;bottom:%d;\nheight:%d;width:%d",
-                    startRect.top(), startRect.left(),
-                    startRect.right(), startRect.bottom(),
-                    endRect.top(), endRect.left(),
-                    endRect.right(), endRect.bottom(),
-                    endRect.height(), endRect.width()
-                    );//*/
-    if(m_Animation.state() != QAbstractAnimation::Stopped)
+    if(m_Animation->state() != QAbstractAnimation::Stopped)
     {
         LOG_MODEL_DEBUG("MainWindow", "animation is run");
-        return -1;//m_Animation.stop();
+        return -1;//m_Animation->stop();
     }
-    m_Animation.setDuration(CGlobal::Instance()->GetAnimationDuration());
-    m_Animation.setStartValue(startRect);
-    m_Animation.setEndValue(endRect);
-   
-    m_Animation.start();
+    m_Animation->setDuration(CGlobal::Instance()->GetAnimationDuration());
+    m_Animation->setStartValue(startRect);
+    m_Animation->setEndValue(endRect);
+    m_Animation->start();
     return 0;
 }
 
@@ -956,7 +947,7 @@ void MainWindow::slotCheckHideWindows()
         return;
     }
 
-    if(m_Animation.state() != QAbstractAnimation::Stopped)
+    if(m_Animation->state() != QAbstractAnimation::Stopped)
     {
         LOG_MODEL_DEBUG("MainWindow", "animation is run");
         return;
@@ -965,153 +956,140 @@ void MainWindow::slotCheckHideWindows()
     if(m_bAnimationHide)
         return;
 
+    //保存窗口大小  
     QRect startRect, endRect;
-    startRect = geometry();
+    startRect = this->frameGeometry();
     endRect = startRect;
     if(this->frameGeometry().top() < m_nBorderSize)//向上边隐藏  
     {
-        endRect.setTop(0);
         endRect.setHeight(m_nHideSize);
+        endRect.moveTop(0);
         if(this->frameGeometry().left() < 0)
         {
-            endRect.setLeft(0);
+            endRect.moveLeft(0);
         }
         else if(this->frameGeometry().right() > QApplication::desktop()->width())
         {
-            endRect.setLeft(QApplication::desktop()->width() - m_nWidth);
+            endRect.moveRight(QApplication::desktop()->width());
         }
-        endRect.setWidth(m_nWidth);
     }
     else if(this->frameGeometry().bottom() > QApplication::desktop()->height() - m_nBorderSize)//向下边隐藏  
     {
-        endRect.setTop(QApplication::desktop()->height() - m_nHideSize);
         endRect.setHeight(m_nHideSize);
+        endRect.moveBottom(QApplication::desktop()->height());
         if(this->frameGeometry().left() < 0)
         {
-            endRect.setLeft(0);
+            endRect.moveLeft(0);
         }
         else if(this->frameGeometry().right() > QApplication::desktop()->width())
         {
-            endRect.setLeft(QApplication::desktop()->width() - m_nWidth);
+            endRect.moveRight(QApplication::desktop()->width());
         }
-        endRect.setWidth(m_nWidth);
     }
     else if(this->frameGeometry().left() < m_nBorderSize)//向左边隐藏  
     {
-        endRect.setLeft(0);
         endRect.setWidth(m_nHideSize);
+        endRect.moveLeft(0);        
         if(this->frameGeometry().top() < 0)
         {
-            endRect.setTop(0);
+            endRect.moveTop(0);
         }
         else if(this->frameGeometry().bottom() > QApplication::desktop()->height())
         {
-            endRect.setTop(QApplication::desktop()->height() - m_nHeight);
+            endRect.moveBottom(QApplication::desktop()->height());
         }
-        endRect.setHeight(m_nHeight);
     }
     else if(this->frameGeometry().right() > QApplication::desktop()->width() - m_nBorderSize)//向右边隐藏  
     {
-        endRect.setLeft(QApplication::desktop()->width() - m_nHideSize);
         endRect.setWidth(m_nHideSize);
+        endRect.moveRight(QApplication::desktop()->width());
         if(this->frameGeometry().top() < 0)
         {
-            endRect.setTop(0);
+            endRect.moveTop(0);
         }
         else if(this->frameGeometry().bottom() > QApplication::desktop()->height())
         {
-            endRect.setTop(QApplication::desktop()->height() - m_nHeight);
+            endRect.moveBottom(QApplication::desktop()->height());
         }
-        endRect.setHeight(m_nHeight);
     }
     else
         return;
 
     m_bAnimationHide = true;
-    this->centralWidget()->hide();
-    this->menuBar()->hide();
-    m_oldFlags = this->windowFlags();
-    this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-    this->setGeometry(startRect);
-    this->show();
-
+    m_MainAnimation.setGeometry(startRect);
+    m_MainAnimation.show();
+    this->hide();
     if(AnimationWindows(startRect, endRect))
         return;
 }
 
-int MainWindow::CheckShowWindows(QRect &endRect)
+void MainWindow::slotCheckShowWindows()
 {
-    /*
-    LOG_MODEL_DEBUG("MainWindow", "\ngeometry:top:%d;left:%d;right:%d;bottom:%d;\nheight:%d;width:%d;\nframegeometry:top:%d;left:%d;right:%d;bottom:%d",
-                    geometry().top(), geometry().left(),
-                    geometry().right(), geometry().bottom(),
-                    geometry().height(), geometry().width(),
-                    frameGeometry().top(), frameGeometry().left(),
-                    frameGeometry().right(), frameGeometry().bottom()
-                    );//*/
     if(!m_bAnimationHide)
-        return 0;
+        return;
 
-    if(m_Animation.state() != QAbstractAnimation::Stopped)
+    if(m_Animation->state() != QAbstractAnimation::Stopped)
     {
         LOG_MODEL_DEBUG("MainWindow", "animation is run");
-        return -1;//m_Animation.stop();
+        return;//m_Animation->stop();
     }
 
-    QRect startRect;
-    startRect = geometry();
-    endRect = startRect;
-
-    if(geometry().height() <= m_nHideSize)
+    QRect startRect = m_MainAnimation.frameGeometry();
+    QRect endRect = this->frameGeometry();
+    if(m_MainAnimation.frameGeometry().height() <= m_nHideSize)
     {
-        if(geometry().bottom() < QApplication::desktop()->height() >> 2)//向上边隐藏  
+        if(m_MainAnimation.frameGeometry().bottom() < QApplication::desktop()->height() >> 2)//向上边隐藏  
         {
-            endRect.setTop(m_nBorderSize);
-            endRect.setHeight(m_nHeight);
-            endRect.setWidth(m_nWidth);
+            endRect.moveTop(0);
         }
-        else if(geometry().top() > QApplication::desktop()->height() >> 2)//向下边隐藏  
+        else if(m_MainAnimation.frameGeometry().top() > QApplication::desktop()->height() >> 2)//向下边隐藏  
         {
-            endRect.setTop(QApplication::desktop()->height() - m_nHeight);
-            endRect.setHeight(m_nHeight);
-            endRect.setWidth(m_nWidth);
+            endRect.moveBottom(QApplication::desktop()->height());           
         }
+        if(this->frameGeometry().left() < 0)
+            endRect.moveLeft(0);
+        else if(this->frameGeometry().right() > QApplication::desktop()->width())
+            endRect.moveRight(QApplication::desktop()->width());
     }
-    else if(geometry().width() <= m_nHideSize)
+    else if(m_MainAnimation.frameGeometry().width() <= m_nHideSize)
     {
-        if(geometry().left() >= QApplication::desktop()->width() >> 2) //向右边隐藏  
+        if(m_MainAnimation.frameGeometry().left() >= QApplication::desktop()->width() >> 2) //向右边隐藏  
         {
-            endRect.setLeft(QApplication::desktop()->width() - m_nWidth);
-            endRect.setWidth(m_nWidth);
-            endRect.setHeight(m_nHeight);
+            endRect.moveRight(QApplication::desktop()->width());
         }
-        else if(geometry().right() <= QApplication::desktop()->width() >> 2) //向左边隐藏  
+        else if(m_MainAnimation.frameGeometry().right() <= QApplication::desktop()->width() >> 2) //向左边隐藏  
         {
-            endRect.setLeft(0);
-            endRect.setWidth(m_nWidth);
-            endRect.setHeight(m_nHeight);
+            endRect.moveLeft(0);
         }
+        if(this->frameGeometry().top() < 0)
+            endRect.moveTop(0);
+        else if(this->frameGeometry().bottom() > QApplication::desktop()->height())
+            endRect.moveBottom(QApplication::desktop()->height());
     }
     else
     {
         LOG_MODEL_ERROR("MainWindow", "CheckShowWindows error");
-        return 0;
+        return;
     }
 
+    this->move(endRect.x(), endRect.y());
     m_bAnimationHide = false;
-    this->setGeometry(startRect);
-    this->centralWidget()->show();
-    this->menuBar()->show();
-    this->hide();
-    //this->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowStaysOnTopHint);
-    setWindowFlags(m_oldFlags);
-    this->show();
-    this->activateWindow();
     if(AnimationWindows(startRect, endRect))
-        return -1;
+        return;
 
-    return 0;
+    return;
 }
+
+void MainWindow::slotAnimationFinished()
+{
+    if(m_bAnimationHide)
+        return;
+
+    this->show();
+    m_MainAnimation.hide();
+    this->activateWindow();
+}
+
 #endif
 
 int MainWindow::ComposeAvatarStatus(QSharedPointer<CUserInfo> info, QPixmap &outPixmap)

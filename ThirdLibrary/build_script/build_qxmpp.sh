@@ -121,7 +121,7 @@ echo "$QMAKE ${RELEASE_PARA}"
 MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
 $QMAKE ${RELEASE_PARA}
 ${MAKE} -f Makefile ${RABBITIM_MAKE_JOB_PARA} install ${MAKE_PARA}
-rm -fr *
+#rm -fr *
 echo "$QMAKE ${DEBUG_PARA}"
 ${QMAKE} ${DEBUG_PARA}
 ${MAKE} -f Makefile ${RABBITIM_MAKE_JOB_PARA} install ${MAKE_PARA}

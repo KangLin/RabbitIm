@@ -73,6 +73,7 @@ SET(RABBITIM_SOURCES
     Plugin/PluginProtocol.cpp 
     Plugin/ManagePluginApp.cpp 
     Plugin/ManagePluginProtocol.cpp
+    Widgets/MainAnimation.cpp
 )
 
 SET(RABBITIM_UIS

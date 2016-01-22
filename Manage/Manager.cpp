@@ -158,7 +158,7 @@ QSharedPointer<CManageMessageDialog> CManager::GetManageMessageDialog()
         return n_ManageMessageDialog;
     //TODO:根据操作系统来决定屏幕  
 #ifdef MOBILE
-    n_ManageMessageDialog = new CManageMessageDialog;
+    n_ManageMessageDialog = QSharedPointer<CManageMessageDialog>(new CManageMessageDialog);
 #else
     n_ManageMessageDialog = QSharedPointer<CManageMessageDialog>
             (new CManageMessageDialogBigScreen);

@@ -5,7 +5,7 @@
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 #ifndef MOBILE
-    #include <QPropertyAnimation>
+    #include "Widgets/MainAnimation.h"
 #endif
 #include "Widgets/FrmMain/FrmMain.h"
 
@@ -155,18 +155,18 @@ private:
 //窗口靠边界时自动隐藏
 #ifndef MOBILE
 private:
-    QPropertyAnimation m_Animation;
-    bool m_bAnimationHide;//窗口靠边界时自动隐藏  
-    int m_nWidth, m_nHeight;//窗口的宽和高  
-    int m_nHideSize;//隐藏后的大小  
-    int m_nBorderSize;//边界的大小  
+    QSharedPointer<QPropertyAnimation> m_Animation;
+    CMainAnimation m_MainAnimation;
+    bool m_bAnimationHide;//窗口靠边界时自动隐藏   
+    int m_nHideSize;//隐藏后的提示框大小  
+    int m_nBorderSize;//边界区域的大小  
     int AnimationWindows(const QRect &startRect, const QRect &endRect);
-    
-    int CheckShowWindows(QRect &endRect);
     QTimer m_timerAnimation;
-    Qt::WindowFlags m_oldFlags;//保存隐藏前的窗口标志  
+
 private slots:
     void slotCheckHideWindows();
+    void slotCheckShowWindows();
+    void slotAnimationFinished();
 #endif
 };
 

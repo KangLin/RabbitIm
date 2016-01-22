@@ -71,7 +71,8 @@ SOURCES += \
     $$PWD/../Plugin/PluginApp.cpp \
     $$PWD/../Plugin/PluginProtocol.cpp \
     $$PWD/../Plugin/ManagePluginApp.cpp \
-    $$PWD/../Plugin/ManagePluginProtocol.cpp
+    $$PWD/../Plugin/ManagePluginProtocol.cpp \
+    $$PWD/../Widgets/MainAnimation.cpp
 
 HEADERS += $$PWD/../Version.h \
     $$PWD/../MainWindow.h \
@@ -146,8 +147,8 @@ HEADERS += $$PWD/../Version.h \
     $$PWD/../Plugin/PluginApp.h \
     $$PWD/../Plugin/PluginProtocol.h \
     $$PWD/../Plugin/ManagePluginApp.h \
-    $$PWD/../Plugin/ManagePluginProtocol.h
-
+    $$PWD/../Plugin/ManagePluginProtocol.h \
+    $$PWD/../Widgets/MainAnimation.h
 
 FORMS += $$PWD/../MainWindow.ui \
     $$PWD/../Widgets/FrmLogin/FrmLogin.ui \

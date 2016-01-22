@@ -50,10 +50,10 @@ QMAKE_EXTRA_COMPILERS += updateqm
 #复制翻译文件到编译目录  
 TRANSLATIONS_OUTPUT_PATH = $${TARGET_PATH}/translations
 mytranslations.target = mytranslations
+QT_QM = $$[QT_INSTALL_TRANSLATIONS]/qt_*.qm
 equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
     TRANSLATIONS_OUTPUT_PATH = $$replace(TRANSLATIONS_OUTPUT_PATH, /, \\)
-    QT_QM = $$[QT_INSTALL_TRANSLATIONS]\qt_*.qm
-    QT_QM = $$replace(QT_QM, /, \\)
+    QT_QM = $$system_path(QT_QM)
     mkpath($${TRANSLATIONS_OUTPUT_PATH})
     TRANSLATIONS_QM_FILES = $$replace(TRANSLATIONS_QM_FILES, /, \\)
     for(file, TRANSLATIONS_QM_FILES){
@@ -70,10 +70,11 @@ equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
     mytranslations.commands = $$mytranslations_commands 
 }
 else {
+    #QT_QM = $$replace(QT_QM, \\, /)
     mkpath($${TRANSLATIONS_OUTPUT_PATH})
     mytranslations.commands = \
         $${QMAKE_COPY} $${TRANSLATIONS_QM_FILES} $${TRANSLATIONS_OUTPUT_PATH}/. && \
-        $${QMAKE_COPY_DIR} $$[QT_INSTALL_TRANSLATIONS]/qt_*.qm $${TRANSLATIONS_OUTPUT_PATH}/.
+        $${QMAKE_COPY_DIR} $$QT_QM $${TRANSLATIONS_OUTPUT_PATH}/.
 }
 !android{  #手机平台不需要  
     QMAKE_EXTRA_TARGETS += mytranslations
@@ -90,11 +91,11 @@ else {
 }
 
 #安装资源文件  
-mytranslat.files = $$TRANSLATIONS_QM_FILES $$[QT_INSTALL_TRANSLATIONS]/qt_*.qm
+mytranslat.files = $$TRANSLATIONS_QM_FILES $$QT_QM
 mytranslat.path = $$PREFIX/translations
 wince |android {
     DEPLOYMENT += mytranslat
 }else{
-    mytranslat.CONFIG += directory no_check_exist 
+    mytranslat.CONFIG += directory no_check_exist
     INSTALLS += mytranslat
 }

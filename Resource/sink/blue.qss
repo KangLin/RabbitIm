@@ -44,7 +44,6 @@ QMenuBar::item:selected { /* when selected using mouse or keyboard */
 }
 
 QMenuBar::item:pressed {
-
 }
 
 QLabel {
