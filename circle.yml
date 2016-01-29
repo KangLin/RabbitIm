@@ -1,0 +1,49 @@
+machine:
+  timezone:
+       Asia/Shanghai
+
+dependencies:
+    pre:
+        - . ThirdLibrary/build_script/ci/build-before.sh:
+            environment:
+                RABBITIM_BUILD_THIRDLIBRARY: true
+
+    override:
+        - . ThirdLibrary/build_script/ci/build-depends.sh:
+            environment:
+                BUILD_TARGERT: unix
+                RABBITIM_BUILD_THIRDLIBRARY: true
+        - . ThirdLibrary/build_script/ci/build-depends.sh:
+            environment:
+                BUILD_TARGERT: android
+                RABBITIM_BUILD_THIRDLIBRARY: true
+        - . ThirdLibrary/build_script/ci/build-before.sh:
+             environment:
+                BUILD_TARGERT: windows_mingw
+                RABBITIM_BUILD_THIRDLIBRARY: true
+                
+    cache_directories:
+        - ThirdLibrary/android
+        - ThirdLibrary/unix
+        - ThirdLibrary/windows_mingw
+        
+test:
+    override:
+        - . ThirdLibrary/build_script/ci/build-and-test.sh:
+            parallel: true
+            environment:
+                BUILD_TARGERT: unix
+                QMAKE: qmake
+            
+        - . ThirdLibrary/build_script/ci/build-and-test.sh:
+            parallel: true
+            environment:
+                BUILD_TARGERT: android
+                QMAKE: qmake
+            
+        - . ThirdLibrary/build_script/ci/build-and-test.sh:
+            parallel: true
+            environment:
+                BUILD_TARGERT: windows_mingw
+                QMAKE: qmake                
+

@@ -72,16 +72,24 @@ int CManageCall::Call(const QString &szId, bool bVideo)
     if(nRet)
         return nRet;
 
-    if(!call.isNull())
+    if(call.isNull())
     {
-        //增加一个呼叫消息，并增加到管理 map 中  
-        m_Call.insert(szId, call);
-        //增加一个呼叫通知消息  
-        QSharedPointer<CCallAction> action(new CCallAction(call,
-                                   szId, QTime::currentTime(), true));
-        roster->GetMessage()->AddMessage(action);
-        emit GET_CLIENT->sigMessageUpdate(szId);
+        LOG_MODEL_ERROR("Call", "CClientXmpp::Call is null");
+        return nRet;
     }
+    
+    //增加一个呼叫消息，并增加到管理 map 中  
+    m_Call.insert(szId, call);
+    //关联信号  
+    bool check = connect(call.data(), SIGNAL(sigFinished(CCallObject*)),
+                         SLOT(slotCallFinished(CCallObject*)));
+    Q_ASSERT(check);       
+    //增加一个呼叫通知消息  
+    QSharedPointer<CCallAction> action(new CCallAction(call,
+                                       szId, QTime::currentTime(), true));
+    roster->GetMessage()->AddMessage(action);
+    emit GET_CLIENT->sigMessageUpdate(szId);
+    
     return nRet;
 }
 
@@ -120,7 +128,7 @@ void CManageCall::slotCallReceived(QSharedPointer<CCallObject> call)
     }
 
     //新建一个呼叫对象  
-    m_Call.insert(call->GetId(), call);
+    m_Call.insert(roster->GetInfo()->GetId(), call);
     //关联信号  
     bool check = connect(call.data(), SIGNAL(sigFinished(CCallObject*)),
                          SLOT(slotCallFinished(CCallObject*)));
@@ -133,16 +141,19 @@ void CManageCall::slotCallReceived(QSharedPointer<CCallObject> call)
     }
 
     //添加通知消息  
-    QSharedPointer<CCallAction> action(new CCallAction(call, call->GetId(), QTime::currentTime(), false));
+    QSharedPointer<CCallAction> action(new CCallAction(call,
+                                       roster->GetInfo()->GetId(),
+                                       QTime::currentTime(), false));
     roster->GetMessage()->AddMessage(action);
     GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName(), 
-                                        roster->GetInfo()->GetShowName() + tr(" is calling"));
-    emit GET_CLIENT->sigMessageUpdate(call->GetId());
+                   roster->GetInfo()->GetShowName() + tr(" is calling"));
+    emit GET_CLIENT->sigMessageUpdate(roster->GetInfo()->GetId());
 }
 
 void CManageCall::slotCallFinished(CCallObject *pCall)
 {
     LOG_MODEL_DEBUG("CManageCall", "CManageCall::slotCallFinished");
+    pCall->disconnect();
     m_Call.remove(pCall->GetId());
     CTool::EnableWake(false);
 }

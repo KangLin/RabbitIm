@@ -12,10 +12,10 @@
 #include <QTranslator>
 
 /**
- * @brief 协议插件接口类
- * 插件的生命周期:
- * 注意插件工程.pro文件需要包含：
-    RABBITIM_PLUG_NAME=插件的类名
+ * @brief 协议插件接口类  
+ * 插件的生命周期:  
+ * 注意插件工程.pro文件需要包含：  
+    RABBITIM_PLUG_NAME=插件的类名  
     include(../ConfigProtocol.pri)
 
  - 初始化：Init

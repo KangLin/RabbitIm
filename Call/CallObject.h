@@ -5,7 +5,10 @@
 #include <QIODevice>
 #include <QTime>
 #include <QSound>
+#include <QVideoFrame>
 #include "Global/GlobalDir.h"
+
+class CFrmVideo;
 
 /**
   * @defgroup RABBITIM_INTERFACE_CALLOBJECT 呼叫接口类模块  
@@ -17,6 +20,7 @@
  * @ingroup RABBITIM_INTERFACE_CALLOBJECT RABBITIM_INTERFACE
  * @brief 呼叫接口类  
  * 在其派生类中实现信令协议、实现音视频数据的发送接收  
+ * 
  */
 class RABBITIM_SHARED_LIBRARY CCallObject : public QObject
 {
@@ -63,7 +67,7 @@ public slots:
     virtual int Accept()= 0;
 
 public:
-    virtual QString GetId();          ///< 得到用户ID  
+    virtual QString GetId();          ///< 得到用户ID,不含资源  
     /**
      * @brief 得到呼叫状态  
      * @return 呼叫状态  
@@ -72,17 +76,7 @@ public:
     virtual State GetState();
     virtual Direction GetDirection(); ///< 得到呼叫方向  
     virtual bool IsVideo();           ///< 是否是视频呼叫  
-
-protected:
-    virtual int SetId(const QString szId);
-    virtual int SetDirection(Direction d);
-    ///播放呼叫声音  
-    virtual void PlayCallSound();
-    ///停止呼叫声音  
-    virtual void StopCallSound();
-
-private slots:
-
+    
 signals:
     /** 
      * 呼叫状态更新时触发  
@@ -91,6 +85,23 @@ signals:
     void sigUpdate();
     /// 呼叫结束时（FinishedState）触发  
     void sigFinished(CCallObject *pCall);
+    
+    void sigRenderLocale(QImage frame);
+    void sigRenderRemote(QImage frame);
+    
+protected:
+    virtual int SetId(const QString szId);
+    virtual int SetDirection(Direction d);
+    ///播放呼叫声音  
+    virtual void PlayCallSound();
+    ///停止呼叫声音  
+    virtual void StopCallSound();
+    ///初始化视频设备与显示设备  
+    virtual int OpenVideoWindow();
+    virtual int CloseVideoWindow();
+
+private slots:
+    void slotFrmVideoClose();
 
 private:
     QString m_szId;        ///< 用户 ID  
@@ -100,6 +111,7 @@ private:
 protected:
     bool m_bVideo;   ///< 是否包含视频  
     State m_State;   ///< 呼叫状态  
+    CFrmVideo *m_pFrmVideo;
 };
 
 #endif // CALLOBJECT_H

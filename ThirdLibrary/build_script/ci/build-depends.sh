@@ -55,7 +55,7 @@ function function_android()
 	function_common
 	cd ${SOURCE_DIR}/ThirdLibrary
 
-	if [ -z "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
+	if [ "true" != "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
 		#下载第三方依赖库
 		wget http://182.254.185.29/download/travis/android.tar.gz
 		tar xzf android.tar.gz 
@@ -75,7 +75,7 @@ function function_unix()
 
     cd ${SOURCE_DIR}/ThirdLibrary
 
-    if [ -z "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
+    if [  "true" != "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
         #下载第三方依赖库
         wget http://182.254.185.29/download/travis/unix.tar.gz
         tar xzf unix.tar.gz
@@ -93,7 +93,7 @@ function function_mingw()
     function_install_yasm
 
     cd ${SOURCE_DIR}/ThirdLibrary
-    if [ -z "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
+    if [ "true" != "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
         echo "Download third library"
         #下载第三方依赖库
         wget http://182.254.185.29/download/travis/windows_mingw.tar.gz

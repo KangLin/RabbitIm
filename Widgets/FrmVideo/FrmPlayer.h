@@ -16,6 +16,7 @@ public:
 public slots:
     void slotPresent(std::shared_ptr<CVideoFrame> frame);
     void slotPresent(const QVideoFrame &frame);
+    void slotPresent(const QImage &frame);
 private slots:
     void slotPresentRGB32(const QVideoFrame &frame);
 
@@ -28,6 +29,7 @@ private:
     std::shared_ptr<CVideoFrame> m_Frame;
     QVideoFrame m_VideoFrame;
     CFrameProcess m_Process;
+    QImage m_Image;
 
 #ifdef DEBUG
 public:

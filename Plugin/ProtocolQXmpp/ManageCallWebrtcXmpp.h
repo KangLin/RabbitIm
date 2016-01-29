@@ -1,22 +1,20 @@
-#ifndef MANAGECALLXMPP_H
-#define MANAGECALLXMPP_H
+#ifndef CMANAGECALLWEBRTCXMPP_H
+#define CMANAGECALLWEBRTCXMPP_H
 
-#include "Call/ManageCall.h"
-#include "qxmpp/QXmppCallManager.h"
-
+#include "ManageCallXmpp.h"
+#include "CallObjectQXmppWebrtc.h"
+#include "QXmppWebRtcIq.h"
 
 /**
- * @brief CManageCall xmpp 协议实现类  
+ * @brief CManageCall webrtc xmpp 协议实现类  
  * @ingroup RABBITIM_INTERFACE_MANGECALL
  */
-class CManageCallXmpp : public CManageCall
+class CManageCallWebrtcXmpp : public CManageCallXmpp
 {
     Q_OBJECT
-
 public:
-    explicit CManageCallXmpp(QObject *parent = 0);
-    virtual ~CManageCallXmpp();
-
+    CManageCallWebrtcXmpp(QObject *parent = 0);
+    
     /**
      * @brief 用户登录成功后调用,用于初始化工作  
      *
@@ -30,7 +28,7 @@ public:
      * @return int
      */
     virtual int Clean();
-
+    
 public slots:
     /**
      * @brief 呼叫  
@@ -52,8 +50,15 @@ private:
                        QSharedPointer<CCallObject> &call,
                        bool bVideo = false);
 
-private slots:
-    void slotReceived(QXmppCall* pCall);
+    /**
+     * @brief 接收处理 webrtc xmpp iq 消息  
+     * @param iq
+     * @return 
+     */
+    int WebrtcIqReceived(QXmppWebRtcIq &iq);
+    //处理接收到 call 消息  
+    virtual int OnReciveCall(QXmppWebRtcIq &iq);
+    friend class QXmppCallWebrtcManager;
 };
 
-#endif // MANAGECALLXMPP_H
+#endif // CMANAGECALLWEBRTCXMPP_H

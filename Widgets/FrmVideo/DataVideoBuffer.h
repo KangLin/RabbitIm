@@ -6,8 +6,9 @@
 #define DATAVIDEOBUFFER_H
 
 #include <QAbstractVideoBuffer>
+#include "Global/GlobalDir.h"
 
-class CDataVideoBuffer : public QAbstractVideoBuffer
+class RABBITIM_SHARED_LIBRARY CDataVideoBuffer : public QAbstractVideoBuffer
 {
 public:
     CDataVideoBuffer(const QByteArray &data, int nWidth, int nHeight);

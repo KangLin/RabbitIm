@@ -132,12 +132,8 @@ int CManageCallXmpp::OnCall(const QString &szId,
         LOG_MODEL_DEBUG("CManageCall", "CManageCall::CallVideo fail");
         return -3;
     }
+
     call = callObject;
-    //关联信号  
-    bool check = false;
-    check = connect(callObject.data(), SIGNAL(sigFinished(CCallObject*)),
-                         SLOT(slotCallFinished(CCallObject*)));
-    Q_ASSERT(check);
 
     return 0;
 }
@@ -146,6 +142,6 @@ void CManageCallXmpp::slotReceived(QXmppCall *pCall)
 {
     //TODO:这里实现并不知道是包含视频  
     QSharedPointer<CCallObject> call(new CCallObjectQXmpp(pCall));
-    emit slotCallReceived(call);
+    slotCallReceived(call);
     return;
 }

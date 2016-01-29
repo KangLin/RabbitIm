@@ -366,7 +366,7 @@ https://github.com/ruby/ruby
     ```sh
     export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
     export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}        #可选
-    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}                           #可选
+    export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}                            #可选
     export PKG_CONFIG_SYSROOT_DIR=${RabbitImRoot}/ThirdLibrary/${PLATFORM} #可选
     ```
 

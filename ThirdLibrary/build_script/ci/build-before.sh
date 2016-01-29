@@ -1,9 +1,9 @@
 #!/bin/bash
-set -e
+set -ev
 
 function function_common()
 {
-    sudo apt-get install autoconf automake libtool m4 -y -qq
+    sudo apt-get install autoconf automake make libtool m4 -y -qq
 
     sudo apt-get install subversion git wget ant -y -qq
     #文档产生工具
@@ -14,19 +14,16 @@ function function_common()
     #icu工具
     #wget http://mirrors.kernel.org/ubuntu/pool/main/i/icu/libicu52_52.1-3_amd64.deb
     #sudo dpkg -i libicu52_52.1-3_amd64.deb #icu库,用于 Unicode and Globalization 支持
-    sudo apt-get install libicu48 -y -qq
+    #sudo apt-get install libicu48 -y -qq
 }
 
 function function_android()
 {
-    function_common
     sudo apt-get install zlib1g:i386 libstdc++6:i386 libc6:i386 -y -qq
 }
 
 function function_unix()
 {
-    function_common
-
     #Libxcb
     sudo apt-get install "^libxcb.*" libx11-xcb-dev libxrender-dev libxi-dev
 
@@ -54,8 +51,6 @@ function function_unix()
 
 function function_mingw()
 {
-    function_common
-
 	#安装工具
     sudo apt-get install nsis -y -qq
 }
@@ -63,18 +58,24 @@ function function_mingw()
 #sudo add-apt-repository -y ppa:ubuntu-sdk-team/ppa
 #sudo add-apt-repository --yes ppa:kalakris/cmake
 
-sudo apt-get update -y -qq
+sudo apt-get update -y -qq 
+#sudo apt-get upgrade -y  -qq
+
+function_common
 
 case ${BUILD_TARGERT} in
-    android)
-        function_android
-        ;;
-    unix)
-        function_unix    
-        ;;
-    windows_mingw)
-        function_mingw
-        ;;
-    *)
-        ;;
+	android)
+		function_android
+		;;
+	unix)
+		function_unix    
+		;;
+	windows_mingw)
+		function_mingw
+		;;
+	*) #使用circleci测试  
+		function_android
+		function_unix
+		function_mingw
+		;;
 esac

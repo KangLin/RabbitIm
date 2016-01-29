@@ -23,15 +23,15 @@ void CFrmPlayer::changeEvent(QEvent *)
 
 void CFrmPlayer::paintEvent(QPaintEvent *)
 {
+    QPainter painter(this);
     if(m_Frame)
     {
-        QPainter painter(this);
         if(VIDEO_FORMAT_NONE == m_Frame->m_VideoInfo.Format)
             return;
         std::shared_ptr<CVideoFrame> outFrame;
         if (VIDEO_FORMAT_RGB32 != m_Frame->m_VideoInfo.Format)
         {
-            #if  RABBITIM_USE_FFMPEG 
+            #if RABBITIM_USE_FFMPEG 
                 CTool::ConvertFormat(m_Frame, outFrame,
                                  this->rect().width(),
                                  this->rect().height(),
@@ -52,21 +52,28 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
         return;
     }
 
+    if(!m_Image.isNull())
+    {
+        painter.drawImage(this->rect(), m_Image);
+        return;
+    }
     if(!m_VideoFrame.isValid())
         return;
     if(!m_VideoFrame.map(QAbstractVideoBuffer::ReadOnly))
         return;
-    QPainter painter(this);
-    QImage::Format f = QVideoFrame::imageFormatFromPixelFormat(
-                m_VideoFrame.pixelFormat());
-    if(QImage::Format_Invalid == f)
-        return;
-    QImage image(m_VideoFrame.bits(),
-                 m_VideoFrame.width(),
-                 m_VideoFrame.height(),
-                 m_VideoFrame.bytesPerLine(),
-                 f);
-    painter.drawImage(this->rect(), image);
+    do{
+        QImage::Format f = QVideoFrame::imageFormatFromPixelFormat(
+                    m_VideoFrame.pixelFormat());
+        if(QImage::Format_Invalid == f)
+            break;
+        //LOG_MODEL_DEBUG("CFrmPlayer", "m_VideoFrame.bytesPerLine():%d", m_VideoFrame.bytesPerLine());
+        QImage image(m_VideoFrame.bits(),
+                     m_VideoFrame.width(),
+                     m_VideoFrame.height(),
+                     m_VideoFrame.width() << 2,
+                     f);
+        painter.drawImage(this->rect(), image);
+    }while(0);
     m_VideoFrame.unmap();
 }
 
@@ -85,12 +92,19 @@ void CFrmPlayer::slotPresent(std::shared_ptr<CVideoFrame> frame)
 
 void CFrmPlayer::slotPresent(const QVideoFrame &frame)
 {
-    if(frame.pixelFormat() != QVideoFrame::Format_BGR32)
+    if(!(frame.pixelFormat() == QVideoFrame::Format_RGB32 
+         || frame.pixelFormat() == QVideoFrame::Format_ARGB32))
     {
         m_Process.slotFrameConvertedToRGB32(frame);
         return;
     }
     m_VideoFrame = frame;
+    update();
+}
+
+void CFrmPlayer::slotPresent(const QImage &frame)
+{
+    m_Image = frame;
     update();
 }
 

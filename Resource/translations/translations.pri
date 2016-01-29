@@ -53,7 +53,7 @@ mytranslations.target = mytranslations
 QT_QM = $$[QT_INSTALL_TRANSLATIONS]/qt_*.qm
 equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
     TRANSLATIONS_OUTPUT_PATH = $$replace(TRANSLATIONS_OUTPUT_PATH, /, \\)
-    QT_QM = $$system_path(QT_QM)
+    QT_QM = $$system_path($${QT_QM})
     mkpath($${TRANSLATIONS_OUTPUT_PATH})
     TRANSLATIONS_QM_FILES = $$replace(TRANSLATIONS_QM_FILES, /, \\)
     for(file, TRANSLATIONS_QM_FILES){
@@ -66,7 +66,7 @@ equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
                                     $${TRANSLATIONS_OUTPUT_PATH}\. 
         }
     }
-    mytranslations_commands += && $${QMAKE_COPY} $$QT_QM $${TRANSLATIONS_OUTPUT_PATH}\.
+    mytranslations_commands += && $${QMAKE_COPY} $${QT_QM} $${TRANSLATIONS_OUTPUT_PATH}\.
     mytranslations.commands = $$mytranslations_commands 
 }
 else {
@@ -74,7 +74,7 @@ else {
     mkpath($${TRANSLATIONS_OUTPUT_PATH})
     mytranslations.commands = \
         $${QMAKE_COPY} $${TRANSLATIONS_QM_FILES} $${TRANSLATIONS_OUTPUT_PATH}/. && \
-        $${QMAKE_COPY_DIR} $$QT_QM $${TRANSLATIONS_OUTPUT_PATH}/.
+        $${QMAKE_COPY_DIR} $${QT_QM} $${TRANSLATIONS_OUTPUT_PATH}/.
 }
 !android{  #手机平台不需要  
     QMAKE_EXTRA_TARGETS += mytranslations

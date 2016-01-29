@@ -62,8 +62,6 @@ protected slots:
     void slotCaptureFrame(const QXmppVideoFrame& frame);
     //从网络接收视频帧  
     void slotReciveFrame();
-    
-    void slotFrmVideoClose();
 
     //配置更新  
     void slotUpdateOption();
@@ -73,7 +71,6 @@ private:
     int StartVideo();
     int StopVideo();
     int OpenVideoWindow();
-    int CloseVideoWindow();
     bool IsMonitor();//是否是监控模式  
     virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame);
     

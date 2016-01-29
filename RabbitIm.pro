@@ -14,7 +14,7 @@ OTHER_FILES += README.md \
     .gitignore \
     .travis.yml \
     debian/* \
-    ThirdLibrary/build_script/travis/*.sh \
+    ThirdLibrary/build_script/ci/*.sh \
     ThirdLibrary/build_script/*.sh \
     AppIcon.rc \
     Resource/translations/app_zh_CN.ts \
@@ -32,4 +32,6 @@ OTHER_FILES += README.md \
     Update/*.xml \
     Doxyfile* \
     Plugin/CMakeLists.txt \
-    pri/*
+    pri/* \
+    Dockerfile \
+    circle.yml

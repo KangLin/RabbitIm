@@ -30,11 +30,11 @@ win32 {
         LDFLAGS += -ladvapi32
         RABBITIM_PLATFORM = "msvc"
         isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/windows_msvc
-        CONFIG(debug, debug|release) {
-            LDFLAGS += /NODEFAULTLIB:libcmtd /SUBSYSTEM:WINDOWS",5.01"
-        }else{
-            LDFLAGS += /NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS",5.01"
-        }
+        #CONFIG(debug, debug|release) {
+            #LDFLAGS += /NODEFAULTLIB:libcmtd /SUBSYSTEM:WINDOWS",5.01"
+        #}else{
+        #    LDFLAGS += /NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS",5.01"
+        #}
     } else {
         RABBITIM_PLATFORM = "mingw"
         isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/windows_mingw

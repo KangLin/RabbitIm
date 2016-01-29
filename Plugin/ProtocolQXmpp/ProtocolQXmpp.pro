@@ -35,3 +35,26 @@ HEADERS += \
     GroupChatQxmpp.h \
     PluginProtocolQXmpp.h \
     FileTransferQXmpp.h
+
+equals(RABBITIM_USE_WEBRTC, 1){
+    SOURCES += QXmppWebRtcIq.cpp \
+        ManageCallWebrtcXmpp.cpp \
+        CallObjectQXmppWebrtc.cpp \ 
+        QXmppCallWebrtcManager.cpp \ 
+        WebrtcConductor.cpp \
+        VideoRenderer.cpp \ 
+        WebrtcFilter.cpp \ 
+        WebrtcQtSocketServer.cpp
+
+
+    HEADERS += \
+        QXmppWebRtcIq.h \
+        ManageCallWebrtcXmpp.h \ 
+        CallObjectQXmppWebrtc.h \ 
+        QXmppCallWebrtcManager.h \ 
+        WebrtcConductor.h \
+        MediaConstraints.h \
+        VideoRenderer.h \
+        WebrtcFilter.h \ 
+        WebrtcQtSocketServer.h
+}

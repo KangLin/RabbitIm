@@ -148,6 +148,7 @@ void CDlgOptions::showEvent(QShowEvent *)
         break;
     }
 
+    ui->cbVideo->addItem(tr("no device"));
     std::vector<CCameraInfo::CamerInfo> info;
     CCameraFactory::Instance()->EnumDevice(info);
     std::vector<CCameraInfo::CamerInfo>::iterator it;
@@ -156,21 +157,20 @@ void CDlgOptions::showEvent(QShowEvent *)
         CCameraInfo::CamerInfo ci = *it;
         ui->cbVideo->addItem(ci.szName.c_str());
     }
-    ui->cbVideo->addItem(tr("no device"));
-    ui->cbVideo->setCurrentIndex(CGlobal::Instance()->GetVideoCaptureDevice());
+    ui->cbVideo->setCurrentIndex(CGlobal::Instance()->GetVideoCaptureDevice() + 1);
 
+    ui->cbAudioInput->addItem(tr("no device"));
     QList<QAudioDeviceInfo> infos = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
     foreach (QAudioDeviceInfo info, infos) {
         ui->cbAudioInput->addItem(info.deviceName());
     }
-    ui->cbAudioInput->addItem(tr("no device"));
-    ui->cbAudioInput->setCurrentIndex(CGlobal::Instance()->GetAudioInputDevice());
+    ui->cbAudioOutput->addItem(tr("no device"));
+    ui->cbAudioInput->setCurrentIndex(CGlobal::Instance()->GetAudioInputDevice() + 1);
     infos = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
     foreach (QAudioDeviceInfo info, infos) {
         ui->cbAudioOutput->addItem(info.deviceName());
     }
-    ui->cbAudioOutput->addItem(tr("no device"));
-    ui->cbAudioOutput->setCurrentIndex(CGlobal::Instance()->GetAudioOutputDevice());
+    ui->cbAudioOutput->setCurrentIndex(CGlobal::Instance()->GetAudioOutputDevice() + 1);
 
     ui->cbShowLocaleVideo->setChecked(CGlobal::Instance()->GetIsShowLocaleVideo());
     ui->cbMonitor->setChecked(CGlobal::Instance()->GetIsMonitor());
@@ -263,9 +263,9 @@ void CDlgOptions::on_pbOK_clicked()
         updateType = CGlobal::E_UPDATE_DONOT;
     CGlobal::Instance()->SetUpdate(updateType);
 
-    CGlobal::Instance()->SetVideoCaptureDevice(ui->cbVideo->currentIndex());
-    CGlobal::Instance()->SetAudioInputDevice(ui->cbAudioInput->currentIndex());
-    CGlobal::Instance()->SetAudioOutputDevice(ui->cbAudioOutput->currentIndex());
+    CGlobal::Instance()->SetVideoCaptureDevice(ui->cbVideo->currentIndex() - 1);
+    CGlobal::Instance()->SetAudioInputDevice(ui->cbAudioInput->currentIndex() - 1);
+    CGlobal::Instance()->SetAudioOutputDevice(ui->cbAudioOutput->currentIndex() - 1);
 
     CGlobal::Instance()->SetIsShowLocaleVideo(ui->cbShowLocaleVideo->isChecked());
     CGlobal::Instance()->SetMonitor(ui->cbMonitor->isChecked());

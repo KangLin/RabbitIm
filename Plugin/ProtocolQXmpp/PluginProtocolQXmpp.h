@@ -3,10 +3,26 @@
 
 #include "Plugin/PluginProtocol.h"
 #include "ClientXmpp.h"
-#include "ManageCallXmpp.h"
 #include "ManageGroupChatQxmpp.h"
 #include "ManageUserQXmpp.h"
+#ifdef RABBITIM_USE_WEBRTC
+    #include "ManageCallWebrtcXmpp.h"
+#else
+    #include "ManageCallXmpp.h"
+#endif
 
+/**
+ * @brief XMPP协议插件接口实现类  
+ * 插件的生命周期:  
+ * 注意插件工程.pro文件需要包含：  
+    RABBITIM_PLUG_NAME=插件的类名  
+    include(../ConfigProtocol.pri)
+
+ - 初始化：Init
+ - 操作：Open、About、Close
+ - 清理：Clean
+  * @ingroup RABBITIM_INTERFACE_PLUGINS_PROTOCOL
+ */
 class CPluginProtocolQXMPP : public QObject, CPluginProtocol
 {
     Q_OBJECT

@@ -75,6 +75,8 @@ void CFrmLogin::changeEvent(QEvent *e)
 
 void CFrmLogin::on_pbOk_clicked()
 {
+    ui->lbePrompt->setText(tr("Being Login..."));
+
     //停止自动登录定时器  
     if(m_tmAutoLogin.isActive())
         m_tmAutoLogin.stop();
@@ -92,7 +94,6 @@ void CFrmLogin::on_pbOk_clicked()
     check = connect(GET_CLIENT.data(), SIGNAL(sigClientError(CClient::ERROR_TYPE)),
                     SLOT(slotClientError(CClient::ERROR_TYPE)));
     Q_ASSERT(check);
-    ui->lbePrompt->setText(tr("Being Login..."));
 
     GET_CLIENT->Login(ui->cmbUser->currentText(), ui->lnPassword->text(), m_Status);
     return;

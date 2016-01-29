@@ -1,6 +1,7 @@
 #include "Global.h"
 #include "common/Tool.h"
 #include "../MainWindow.h"
+#include "Media/Camera/CameraFactory.h"
 #include "GlobalDir.h"
 #include <QMetaType>
 #include <QApplication>
@@ -8,6 +9,7 @@
 #include <QDebug>
 #include <string>
 #include <QSettings>
+#include <QAudioDeviceInfo>
 
 CGlobal::CGlobal(QObject *parent) :
     QObject(parent)
@@ -82,9 +84,20 @@ CGlobal::CGlobal(QObject *parent) :
     m_Update = (E_UPDATE)conf.value(
                 "Options/Update", E_UPDATE_EVERY_TIME).toInt();
 
-    m_nVideoCaptureDevice = conf.value("Device/Video/Capture", 0).toInt();
-    m_nAudioInputDevice = conf.value("Device/Audio/Input", 0).toInt();
-    m_nAudioOutputDevice = conf.value("Device/Audio/Output", 0).toInt();
+    std::vector<CCameraInfo::CamerInfo> info;
+    CCameraFactory::Instance()->EnumDevice(info);
+    if(info.size() > 0)
+        m_nVideoCaptureDevice = conf.value("Device/Video/Capture", 0).toInt();
+    else
+        m_nVideoCaptureDevice = conf.value("Device/Video/Capture", -1).toInt();
+    if(QAudioDeviceInfo::availableDevices(QAudio::AudioInput).size() > 0)
+        m_nAudioInputDevice = conf.value("Device/Audio/Input", 0).toInt();
+    else
+        m_nAudioInputDevice = conf.value("Device/Audio/Input", -1).toInt();
+    if(QAudioDeviceInfo::availableDevices(QAudio::AudioOutput).size() > 0)
+        m_nAudioOutputDevice = conf.value("Device/Audio/Output", 0).toInt();
+    else
+        m_nAudioOutputDevice = conf.value("Device/Audio/Output", -1).toInt();
 
     m_bShowLocaleVideo = conf.value("Video/Locale/Show", true).toBool();
     m_bMonitor = conf.value("Video/Monitor", false).toBool();

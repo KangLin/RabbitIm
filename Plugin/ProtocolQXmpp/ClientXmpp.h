@@ -186,7 +186,11 @@ private:
     QXmppTransferManager m_TransferManager;
     QSharedPointer<CUserInfo> m_RegisterUserInfo;//用户注册信息  
     
+#ifdef RABBITIM_USE_WEBRTC
+    friend class CManageCallWebrtcXmpp;
+#endif
     friend class CManageCallXmpp;
+
     friend class CManageGroupChatQxmpp;
     friend class CGroupChatQxmpp;
 };

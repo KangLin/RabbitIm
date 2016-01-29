@@ -30,13 +30,13 @@ env:
     - BUILD_TARGERT=android QMAKE=cmake ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a
 
 install:
-  - source ThirdLibrary/build_script/travis/build-depends.sh
+  - source ThirdLibrary/build_script/ci/build-before.sh
 
 before_script:
-  - source ThirdLibrary/build_script/travis/build-before.sh
+  - source ThirdLibrary/build_script/ci/build-depends.sh
 
 script:
-  - source ThirdLibrary/build_script/travis/build-and-test.sh
+  - source ThirdLibrary/build_script/ci/build-and-test.sh
 
 notifications:
   email: kl222@126.com

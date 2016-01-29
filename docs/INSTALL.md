@@ -201,14 +201,14 @@
 
 * 下载：`git clone  https://github.com/openssl/openssl`  
 * 当前使用版本：  
-    git库版本 —— c8ece53  
+    git库版本 —— OpenSSL_1_0_2g  
 	remotes/origin/OpenSSL_1_0_2-stable
 
 #### 11. [libcurl](http://curl.haxx.se)
 
 * 下载：`git://github.com/bagder/curl.git`  
 * 当前使用版本：  
-    git库版本 —— curl-7_45_0
+    git库版本 —— curl-7_47_1
 
 #### 12. [libicu](http://site.icu-project.org/)
 

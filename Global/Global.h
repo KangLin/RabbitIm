@@ -224,7 +224,7 @@ private:
 
 public:
     int GetVideoCaptureDevice();
-    int SetVideoCaptureDevice(int nIndex = -1);
+    int SetVideoCaptureDevice(int nIndex = 0);
     int GetAudioInputDevice();
     int SetAudioInputDevice(int nIndex);
     int GetAudioOutputDevice();

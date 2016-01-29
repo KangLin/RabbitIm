@@ -52,7 +52,7 @@ fi
 if [ -n "$2" ]; then
     echo "Source dir:$2"
     ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl && \
-    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl
+    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl && \
     ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} $2/libqrencode && \
     ./build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264 && \
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx && \
@@ -63,7 +63,7 @@ if [ -n "$2" ]; then
     ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} $2/qzxing
 else
     ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_x264.sh ${RABBITIM_BUILD_TARGERT} && \
     ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \

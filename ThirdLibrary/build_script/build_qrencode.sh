@@ -116,6 +116,10 @@ case ${RABBITIM_BUILD_TARGERT} in
         ../configure CXX="cl -nologo" CC="cl -nologo" CFLAGS=-MD \
             LD=link NM="dumpbin -symbols" STRIP=: RANLIB=: \
             --enable-dependency-tracking 
+            
+        echo "Qrencode don't complie in windows_msvc "
+        cd $CUR_DIR
+        exit 0
         ;;
     windows_mingw)
         case `uname -s` in

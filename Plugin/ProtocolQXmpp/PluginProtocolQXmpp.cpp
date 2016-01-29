@@ -7,7 +7,11 @@ CPluginProtocolQXMPP::CPluginProtocolQXMPP(QObject *parent) :
     m_Client(new CClientXmpp),
     m_User(new CManageUserQXmpp),
     m_GroupChat(new CManageGroupChatQxmpp),
+#ifdef RABBITIM_USE_WEBRTC
+    m_Call(new CManageCallWebrtcXmpp)
+#else
     m_Call(new CManageCallXmpp)
+#endif
 {
     m_Client->SetUser(m_User);
 }
