@@ -172,9 +172,9 @@ bool CWebrtcConductor::InitializePeerConnection()
 
 void CWebrtcConductor::DeletePeerConnection() {
   peer_connection_ = NULL;
-  peer_connection_factory_ = NULL;
   m_LocaleVideoRender.release();
   m_RemoteVideoRender.release();
+  peer_connection_factory_ = NULL;
 }
 
 bool CWebrtcConductor::CreatePeerConnection() {

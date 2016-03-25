@@ -128,7 +128,7 @@ equals(RABBITIM_USE_WEBRTC, 1) {
         INCLUDEPATH += $${WEBRTC_PATH}/include
         LIBS+=-L$${WEBRTC_PATH}/lib
     } else {
-        message("Please set WEBRTC_PATH")
+        error("Please set WEBRTC_PATH")
     }
 
     LIBS += libjingle_peerconnection.lib \

@@ -84,8 +84,6 @@ public slots:
 signals:
     /// 呼叫状态更新时触发  
     void sigStateUpdate(const QString &szId);
-    /// 呼叫结束时触发  
-    //void sigFinished(const QString &szId);
 
 protected slots:
     /**

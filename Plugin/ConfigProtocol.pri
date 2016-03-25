@@ -1,3 +1,5 @@
+#Protocol 插件的公共配置，如果你是 Protocol 插件，需要包含此文件
+
 CONFIG *= plugin 
 INCLUDEPATH += $$PWD/..
 CONFIG += c++0x
@@ -42,7 +44,7 @@ contains(TEMPLATE, lib){
 
     #为静态插件生成必要的文件  
     CONFIG(static, static|shared) {
-        isEmpty(RABBITIM_PLUG_NAME) : message("Please set RABBITIM_PLUG_NAME to plug class name")
+        isEmpty(RABBITIM_PLUG_NAME) : error("Please set RABBITIM_PLUG_NAME to plug class name")
         FILE_NAME=$$PWD/PluginStatic.cpp
         PLUG_CONTENT = "Q_IMPORT_PLUGIN($${RABBITIM_PLUG_NAME})"
         FILE_CONTENT = $$cat($$FILE_NAME)
@@ -65,11 +67,12 @@ contains(TEMPLATE, lib){
     DESTDIR = $$OUT_PWD/../../plugins/Protocol/$${TARGET}
     mkpath($$DESTDIR)
 
+    #插件安装路径  
+    TARGET_INSTALL_PATH = $${PREFIX}/plugins/Protocol/$${TARGET}
+    target.path = $${TARGET_INSTALL_PATH}
+
     #翻译  
     include($$PWD/translations.pri)
-
-    #插件安装路径  
-    target.path = $$PREFIX/plugins/Protocol/$${TARGET}
 } else {
     target.path = $$PREFIX
     DESTDIR = $$TARGET_PATH

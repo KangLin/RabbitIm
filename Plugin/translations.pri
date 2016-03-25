@@ -108,7 +108,7 @@ else {
 #安装资源文件  
 mytranslat.files = $$TRANSLATIONS_QM_FILES
 //TODO:修改App路径  
-mytranslat.path = $$PREFIX/plugins/App/$${TARGET}/translations
+mytranslat.path = $${TARGET_INSTALL_PATH}/translations
 wince |android {
     DEPLOYMENT += mytranslat
 }else : !CONFIG(static, static|shared){

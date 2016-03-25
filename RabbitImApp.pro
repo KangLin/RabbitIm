@@ -122,12 +122,14 @@ win32 : equals(QMAKE_HOST.os, Windows){
     
     #为调试环境复制动态库  
     !exists($${TARGET_PATH}/platforms){
+
+        #复制QT系统插件  
         PlatformsPlugins.commands = \
             $(COPY_DIR) $$system_path($$[QT_INSTALL_PLUGINS]/platforms) $$system_path($${TARGET_PATH}/platforms)
         PlatformsPlugins.CONFIG += directory no_link no_clean no_check_exist
         PlatformsPlugins.target = PlatformsPlugins
         QMAKE_EXTRA_TARGETS += PlatformsPlugins
-        POST_TARGETDEPS += PlatformsPlugins
+        COPY_THIRD_DEPENDS.depends = PlatformsPlugins
 
         #复制第三方依赖库动态库到编译输出目录  
         THIRD_LIBRARY_DLL = $${THIRD_LIBRARY_PATH}/bin/*.dll
@@ -141,7 +143,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
             ThirdLibraryDll.CONFIG += directory no_link no_clean no_check_exist
             ThirdLibraryDll.target = ThirdLibraryDll
             QMAKE_EXTRA_TARGETS += ThirdLibraryDll
-            POST_TARGETDEPS += ThirdLibraryDll
+            COPY_THIRD_DEPENDS.depends += ThirdLibraryDll
         }
     
         THIRD_LIBRARY_LIB = $${THIRD_LIBRARY_PATH}/lib/*.dll
@@ -155,7 +157,13 @@ win32 : equals(QMAKE_HOST.os, Windows){
             ThirdLibraryLib.CONFIG += directory no_link no_clean no_check_exist
             ThirdLibraryLib.target = ThirdLibraryLib
             QMAKE_EXTRA_TARGETS += ThirdLibraryLib
-            POST_TARGETDEPS += ThirdLibraryLib
+            COPY_THIRD_DEPENDS.depends += ThirdLibraryLib
         }
+
+        COPY_THIRD_DEPENDS.target = COPY_THIRD_DEPENDS
+        COPY_THIRD_DEPENDS.commands = @echo copy third depends
+        QMAKE_EXTRA_TARGETS += COPY_THIRD_DEPENDS
+        POST_TARGETDEPS += COPY_THIRD_DEPENDS  #调试只要手动执行一次此目标  
+
     }
 }
