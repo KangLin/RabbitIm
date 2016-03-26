@@ -4,9 +4,8 @@
 #include <QApplication>
 #include "WebrtcFilter.h"
 
-CWebrtcQtSocketServer::CWebrtcQtSocketServer(CWebrtcConductor *pWebrtcConductor)
+CWebrtcQtSocketServer::CWebrtcQtSocketServer()
 {
-    m_pWebrtcConductor = pWebrtcConductor;
 }
 
 bool CWebrtcQtSocketServer::Wait(int cms, bool process_io)
@@ -17,5 +16,12 @@ bool CWebrtcQtSocketServer::Wait(int cms, bool process_io)
 void CWebrtcQtSocketServer::WakeUp()
 {
     QEvent *pEvent = new QEvent(QEvent::User);
-    qApp->postEvent(m_pWebrtcConductor->m_pWebrtcFilter, pEvent);
+    qApp->postEvent(CWebrtcFilter::Instance(), pEvent);
+}
+
+CWebrtcQtSocketServer* CWebrtcQtSocketServer::Instance(){
+    static CWebrtcQtSocketServer* p = NULL;
+    if(!p)
+        p = new CWebrtcQtSocketServer();
+    return p;
 }

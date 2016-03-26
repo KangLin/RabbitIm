@@ -32,13 +32,13 @@ public:
      * @param szId：登录用户  
      * @return int：成功返回0，失败返回非0  
      */
-    virtual int Init(const QString &szId);
+    virtual int LoginInit(const QString &szId);
     /**
      * @brief 用户登出时做清理工作  
      *
      * @return int：成功返回0，失败返回非0  
      */
-    virtual int Clean();
+    virtual int LogoutClean();
     /**
      * @brief 显示指定好友对话框  
      *

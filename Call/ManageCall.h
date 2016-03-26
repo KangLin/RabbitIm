@@ -35,13 +35,13 @@ public:
      * @param szId:登录用户名  
      * @return int
      */
-    virtual int Init(const QString &szId);
+    virtual int LoginInit(const QString &szId);
     /**
      * @brief 用户登出时调用,用于清理工作   
      *
      * @return int
      */
-    virtual int Clean();
+    virtual int LogoutClean();
 
 public slots:
     /**

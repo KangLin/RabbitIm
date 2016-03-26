@@ -13,7 +13,7 @@ CManageUser::~CManageUser()
 {
 }
 
-int CManageUser::Init(const QString &szId)
+int CManageUser::LoginInit(const QString &szId)
 {
     int nRet = 0;
     m_bModify = false;
@@ -22,7 +22,7 @@ int CManageUser::Init(const QString &szId)
     return nRet;
 }
 
-int CManageUser::Clean()
+int CManageUser::LogoutClean()
 {
     int nRet = 0;
     //保存数据到配置文件中  

@@ -1,3 +1,5 @@
+#include "WebrtcConductor.h"
+
 #include "ManageCallWebrtcXmpp.h"
 #include "ClientXmpp.h"
 #include "Global/Global.h"
@@ -7,13 +9,19 @@
 
 CManageCallWebrtcXmpp::CManageCallWebrtcXmpp(QObject *parent)
     : CManageCall(parent)
-{    
+{
 }
 
-int CManageCallWebrtcXmpp::Init(const QString &szId)
+CManageCallWebrtcXmpp::~CManageCallWebrtcXmpp()
+{
+    LOG_MODEL_DEBUG("CManageCallWebrtcXmpp",
+                    "CManageCallWebrtcXmpp::~CManageCallWebrtcXmpp()");
+}
+
+int CManageCallWebrtcXmpp::LoginInit(const QString &szId)
 {
     int nRet = 0;
-    nRet = CManageCall::Init(szId);
+    nRet = CManageCall::LoginInit(szId);
     if(nRet)
         return nRet;
 
@@ -31,11 +39,14 @@ int CManageCallWebrtcXmpp::Init(const QString &szId)
         pCallManager = pClient->m_Client.findExtension<QXmppCallWebrtcManager>();
     }
     Q_ASSERT(pCallManager);
+
+    CWebrtcConductor::InitWebrtcGlobal();
     return nRet;
 }
 
-int CManageCallWebrtcXmpp::Clean()
+int CManageCallWebrtcXmpp::LogoutClean()
 {
+    CWebrtcConductor::CleanWebrtcGlobal();
     CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
     if(!pClient)
     {
@@ -49,7 +60,7 @@ int CManageCallWebrtcXmpp::Clean()
         pClient->m_Client.removeExtension(pCallManager);
     }
 
-    return CManageCall::Clean();
+    return CManageCall::LogoutClean();
 }
 
 int CManageCallWebrtcXmpp::Call(const QString &szId, bool bVideo)

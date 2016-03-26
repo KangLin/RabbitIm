@@ -5,10 +5,9 @@
 #include "WebrtcConductor.h"
 #include <QEvent>
 
-CWebrtcFilter::CWebrtcFilter(CWebrtcConductor *pWebrtcConductor, QObject *parent) 
+CWebrtcFilter::CWebrtcFilter(QObject *parent) 
     : QObject(parent)
 {
-    m_pWebrtcConductor = pWebrtcConductor;
 }
 
 bool CWebrtcFilter::eventFilter(QObject *obj, QEvent *event)
@@ -17,6 +16,16 @@ bool CWebrtcFilter::eventFilter(QObject *obj, QEvent *event)
         return false;
     if(event->type() != QEvent::User)
         return false;
-    m_pWebrtcConductor->m_pSignalThread->ProcessMessages(0);
+    CWebrtcConductor::m_pSignalThread->ProcessMessages(0);
     return true;
+}
+
+CWebrtcFilter* CWebrtcFilter::Instance()
+{
+    static CWebrtcFilter* p = NULL;
+    if(NULL == p)
+    {
+        p = new CWebrtcFilter();
+    }
+    return p;
 }

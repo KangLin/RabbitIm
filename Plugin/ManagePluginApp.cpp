@@ -11,7 +11,7 @@ CManagePluginApp::~CManagePluginApp()
 {
 }
 
-int CManagePluginApp::Init(const QString &szId)
+int CManagePluginApp::LoginInit(const QString &szId)
 {
     int nRet = 0;
 
@@ -25,7 +25,7 @@ int CManagePluginApp::Init(const QString &szId)
     return nRet;
 }
 
-int CManagePluginApp::Clean()
+int CManagePluginApp::LogoutClean()
 {
     SaveToStorage();
     std::map<QString, CPluginApp* >::iterator it;

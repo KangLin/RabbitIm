@@ -24,16 +24,17 @@ class VideoRenderer;
 
 class CCallObjectQXmppWebrtc;
 class CWebrtcFilter;
-class CWebrtcQtSocketServer;
 class CWebrtcConductor
       : public webrtc::PeerConnectionObserver,
         public webrtc::CreateSessionDescriptionObserver
 {
 public:
-    CWebrtcConductor();
+    CWebrtcConductor(CCallObjectQXmppWebrtc* pCall);
     ~CWebrtcConductor();
-    
-    int SetCallObject(CCallObjectQXmppWebrtc* pCall);
+
+    //仅在主线程调用一次  
+    static void InitWebrtcGlobal();
+    static void CleanWebrtcGlobal();
     int PeerConnect();
     int AcceptConnect(std::string szSdp, std::string szType);
     int ReciveIceCandidate(std::string szMid, int nIndex, std::string szSdp);
@@ -70,11 +71,8 @@ private:
     CCallObjectQXmppWebrtc* m_pCall;
     rtc::scoped_ptr<CVideoRenderer> m_LocaleVideoRender, m_RemoteVideoRender;
     
-    rtc::Thread* m_pSignalThread;//, *m_pWorkThread;
-    CWebrtcFilter* m_pWebrtcFilter;
-    CWebrtcQtSocketServer* m_pWebrtcQtSocketServer;  
-    friend class CWebrtcFilter;
-    friend class CWebrtcQtSocketServer;
+    static rtc::Thread* m_pSignalThread;
+    friend CWebrtcFilter;
 };
 
 #endif  // TALK_EXAMPLES_PEERCONNECTION_CLIENT_CONDUCTOR_H_

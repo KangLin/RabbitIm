@@ -18,11 +18,11 @@ CManageFileTransfer::CManageFileTransfer(QObject *parent) :
 
 CManageFileTransfer::~CManageFileTransfer()
 {
-    Clean();
+    LogoutClean();
     LOG_MODEL_DEBUG("CManageFileTransfer", "CManageFileTransfer::~CManageFileTransfer");
 }
 
-int CManageFileTransfer::Init(const QString &szId)
+int CManageFileTransfer::LoginInit(const QString &szId)
 {
     bool check = false;
     Q_UNUSED(szId);
@@ -33,7 +33,7 @@ int CManageFileTransfer::Init(const QString &szId)
     return 0;
 }
 
-int CManageFileTransfer::Clean()
+int CManageFileTransfer::LogoutClean()
 {
     GET_CLIENT->disconnect(this);
     m_FileTransfer.clear();

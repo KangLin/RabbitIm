@@ -11,7 +11,7 @@ CManageMessageDialog::~CManageMessageDialog()
     LOG_MODEL_DEBUG("CManageMessageDialog", "CManageMessageDialog::~CManageMessageDialog()");
 }
 
-int CManageMessageDialog::Init(const QString &szId)
+int CManageMessageDialog::LoginInit(const QString &szId)
 {
     Q_UNUSED(szId);
     bool check = connect(GET_CLIENT.data(), SIGNAL(sigRemoveRosterUserInfo(QString)),
@@ -24,7 +24,7 @@ int CManageMessageDialog::Init(const QString &szId)
     return 0;
 }
 
-int CManageMessageDialog::Clean()
+int CManageMessageDialog::LogoutClean()
 {
     LOG_MODEL_DEBUG("CManageMessageDialog", "CManageMessageDialog::Clean()");
     QMap<QString, QFrame*>::iterator it;

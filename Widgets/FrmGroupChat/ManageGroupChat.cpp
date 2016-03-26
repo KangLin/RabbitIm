@@ -12,14 +12,14 @@ CManageGroupChat::~CManageGroupChat()
 {
 }
 
-int CManageGroupChat::Init(const QString &szId)
+int CManageGroupChat::LoginInit(const QString &szId)
 {
     int nRet = 0;
     nRet = LoadFromStorage(szId);
     return nRet;
 }
 
-int CManageGroupChat::Clean()
+int CManageGroupChat::LogoutClean()
 {
     int nRet = 0;
     nRet = SaveToStorage();

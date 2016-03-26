@@ -13,7 +13,7 @@ CManageRecentMessage::~CManageRecentMessage()
 {
 }
 
-int CManageRecentMessage::Init(const QString &szId)
+int CManageRecentMessage::LoginInit(const QString &szId)
 {
     bool check = connect(GET_CLIENT.data(), SIGNAL(sigMessageUpdate(const QString&)),
                     SLOT(slotMessageUpdate(const QString&)));
@@ -26,7 +26,7 @@ int CManageRecentMessage::Init(const QString &szId)
     return 0;
 }
 
-int CManageRecentMessage::Clean()
+int CManageRecentMessage::LogoutClean()
 {
     SaveToStorage();
     GET_CLIENT->disconnect(this);

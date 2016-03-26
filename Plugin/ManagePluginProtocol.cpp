@@ -8,12 +8,12 @@ CManagePluginProtocol::CManagePluginProtocol(QObject *parent)
 {
 }
 
-int CManagePluginProtocol::Init(const QString &szId)
+int CManagePluginProtocol::LoginInit(const QString &szId)
 {
     return 0;
 }
 
-int CManagePluginProtocol::Clean()
+int CManagePluginProtocol::LogoutClean()
 {
     return 0;
 }

@@ -31,8 +31,8 @@ public:
      * @param szId
      * @return int
      */
-    virtual int Init(const QString& szId);
-    virtual int Clean();
+    virtual int LoginInit(const QString& szId);
+    virtual int LogoutClean();
 
     virtual int Create(
                    const QString &szName,

@@ -8,16 +8,16 @@ CManageMessageDialogBigScreen::CManageMessageDialogBigScreen(QObject *parent) : 
 CManageMessageDialogBigScreen::~CManageMessageDialogBigScreen()
 {
     LOG_MODEL_DEBUG("CManageMessageDialogBigScreen", "CManageMessageDialogBigScreen::~CManageMessageDialogBigScreen()");
-    Clean();
+    LogoutClean();
 }
 
-int CManageMessageDialogBigScreen::Init(const QString &szId)
+int CManageMessageDialogBigScreen::LoginInit(const QString &szId)
 {
     Q_UNUSED(szId);
     return 0;
 }
 
-int CManageMessageDialogBigScreen::Clean()
+int CManageMessageDialogBigScreen::LogoutClean()
 {
     LOG_MODEL_DEBUG("CManageMessageDialogBigScreen", "CManageMessageDialogBigScreen::Clean()");
     std::list<CFrmContainer*>::iterator it;

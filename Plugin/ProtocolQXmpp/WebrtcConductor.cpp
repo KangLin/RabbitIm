@@ -36,46 +36,35 @@ class DummySetSessionDescriptionObserver
   ~DummySetSessionDescriptionObserver() {}
 };
 
-CWebrtcConductor::CWebrtcConductor()
+CWebrtcConductor::CWebrtcConductor(CCallObjectQXmppWebrtc *pCall) 
+    : m_pCall(pCall)
 {
-    rtc::LogMessage::LogToDebug(rtc::LS_NONE);
-    rtc::InitializeSSL();
-    m_pWebrtcFilter = new CWebrtcFilter(this);
-    if(m_pWebrtcFilter)
-        qApp->installEventFilter(m_pWebrtcFilter);
-    m_pWebrtcQtSocketServer = new CWebrtcQtSocketServer(this);
-    if(m_pWebrtcQtSocketServer)
-      m_pSignalThread = rtc::ThreadManager::Instance()->CurrentThread();
-    if(m_pSignalThread)
-    {
-        m_pSignalThread->set_socketserver(m_pWebrtcQtSocketServer);
-    }    
     m_dtls = false;
-    m_pCall = NULL;
 }
 
 CWebrtcConductor::~CWebrtcConductor()
-{
-    if(m_pWebrtcFilter)
-    {
-        qApp->removeEventFilter(m_pWebrtcFilter);
-        delete m_pWebrtcFilter;
-    }
-
-    if(m_pWebrtcQtSocketServer)
-    {
-        m_pSignalThread->set_socketserver(NULL);   
-        delete m_pWebrtcQtSocketServer;
-    }
-    
-    rtc::CleanupSSL();
-    
+{  
 }
 
-int CWebrtcConductor::SetCallObject(CCallObjectQXmppWebrtc *pCall)
-{    
-    m_pCall = pCall;
-    return 0;
+rtc::Thread* CWebrtcConductor::m_pSignalThread = NULL;
+void CWebrtcConductor::InitWebrtcGlobal()
+{
+    rtc::LogMessage::LogToDebug(rtc::LS_NONE);
+    rtc::InitializeSSL();
+
+    if(m_pSignalThread)
+        return;
+    m_pSignalThread = rtc::ThreadManager::Instance()->CurrentThread();
+    qApp->installEventFilter(CWebrtcFilter::Instance());
+    m_pSignalThread->set_socketserver(CWebrtcQtSocketServer::Instance());   
+}
+
+void CWebrtcConductor::CleanWebrtcGlobal()
+{
+    qApp->removeEventFilter(CWebrtcFilter::Instance());
+    m_pSignalThread->set_socketserver(NULL);
+
+    rtc::CleanupSSL();   
 }
 
 int CWebrtcConductor::PeerConnect()

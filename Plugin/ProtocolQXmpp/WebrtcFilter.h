@@ -10,12 +10,9 @@ class CWebrtcFilter : public QObject
 {
     Q_OBJECT
 public:
-    explicit CWebrtcFilter(CWebrtcConductor* pWebrtcConductor, QObject *parent = 0);
-
+    explicit CWebrtcFilter(QObject *parent = 0);
+    static CWebrtcFilter* Instance();
     virtual bool eventFilter(QObject *obj, QEvent *event);
-    
-private:
-    CWebrtcConductor* m_pWebrtcConductor;
 };
 
 #endif // CWEBRTCFILTER_H_2016_03_23

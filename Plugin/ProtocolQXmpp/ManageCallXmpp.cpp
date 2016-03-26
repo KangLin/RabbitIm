@@ -10,10 +10,10 @@ CManageCallXmpp::CManageCallXmpp(QObject *parent) : CManageCall(parent)
 CManageCallXmpp::~CManageCallXmpp()
 {}
 
-int CManageCallXmpp::Init(const QString &szId)
+int CManageCallXmpp::LoginInit(const QString &szId)
 {
     int nRet = 0;
-    nRet = CManageCall::Init(szId);
+    nRet = CManageCall::LoginInit(szId);
     if(nRet)
         return nRet;
 
@@ -55,7 +55,7 @@ int CManageCallXmpp::Init(const QString &szId)
     return 0;
 }
 
-int CManageCallXmpp::Clean()
+int CManageCallXmpp::LogoutClean()
 {
     CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
     if(!pClient)
@@ -73,7 +73,7 @@ int CManageCallXmpp::Clean()
         pClient->m_Client.removeExtension(pCallManager);
     }
 
-    return CManageCall::Clean();
+    return CManageCall::LogoutClean();
 }
 
 int CManageCallXmpp::Call(const QString &szId, bool bVideo)

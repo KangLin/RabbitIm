@@ -15,7 +15,7 @@ CManageCall::~CManageCall()
     LOG_MODEL_DEBUG("Call", "CManageCall::~CManageCall");
 }
 
-int CManageCall::Init(const QString &szId)
+int CManageCall::LoginInit(const QString &szId)
 {
     Q_UNUSED(szId);
     //TODO:初始化音视频设备  
@@ -23,10 +23,14 @@ int CManageCall::Init(const QString &szId)
     return 0;
 }
 
-int CManageCall::Clean()
+int CManageCall::LogoutClean()
 {
     //TODO:清理音视频设备  
     
+    //清理所有呼叫  
+    QMap<QString, QSharedPointer<CCallObject> >::iterator it;
+    for(it = m_Call.begin(); it != m_Call.end(); it++)
+        it.value()->Stop();
     return 0;
 }
 

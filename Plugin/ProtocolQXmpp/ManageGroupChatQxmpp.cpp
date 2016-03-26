@@ -10,9 +10,9 @@ CManageGroupChatQxmpp::CManageGroupChatQxmpp(QObject *parent) :
 {
 }
 
-int CManageGroupChatQxmpp::Init(const QString &szId)
+int CManageGroupChatQxmpp::LoginInit(const QString &szId)
 {
-    CManageGroupChat::Init(szId);
+    CManageGroupChat::LoginInit(szId);
     CClientXmpp* client =(CClientXmpp*) GET_CLIENT.data();
     bool check = connect(&client->m_MucManager, SIGNAL(invitationReceived(QString,QString,QString)),
                          SLOT(slotInvitationReceived(QString,QString,QString)));
@@ -20,11 +20,11 @@ int CManageGroupChatQxmpp::Init(const QString &szId)
     return 0;
 }
 
-int CManageGroupChatQxmpp::Clean()
+int CManageGroupChatQxmpp::LogoutClean()
 {
     CClientXmpp* client =(CClientXmpp*) GET_CLIENT.data();
     client->m_MucManager.disconnect(this);
-    CManageGroupChat::Clean();
+    CManageGroupChat::LogoutClean();
     return 0;
 }
 

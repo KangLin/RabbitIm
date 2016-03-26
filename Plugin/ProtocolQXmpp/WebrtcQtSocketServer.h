@@ -7,8 +7,8 @@ class CWebrtcConductor;
 class CWebrtcQtSocketServer : public rtc::SocketServer
 {
 public:
-    CWebrtcQtSocketServer(CWebrtcConductor* pWebrtcConductor);
-    
+    CWebrtcQtSocketServer();
+    static CWebrtcQtSocketServer* Instance();
     virtual bool Wait(int cms, bool process_io);
   
     virtual void WakeUp();
@@ -27,10 +27,6 @@ public:
      virtual rtc::AsyncSocket* CreateAsyncSocket(int family, int type) {
        return NULL;
      }
-    
-private:
-    CWebrtcConductor* m_pWebrtcConductor;
-    
 };
 
 #endif // CWEBRTCQTSOCKETSERVER_H

@@ -12,9 +12,8 @@ CCallObjectQXmppWebrtc::CCallObjectQXmppWebrtc(const QString &szJid, bool bVideo
                           QXmppCallWebrtcManager *pManager,
                                            QObject *parent)
     : CCallObject(QXmppUtils::jidToBareJid(szJid), bVideo, parent),
-    m_Conductor(new rtc::RefCountedObject<CWebrtcConductor>())
+    m_Conductor(new rtc::RefCountedObject<CWebrtcConductor>(this))
 {
-    m_Conductor->SetCallObject(this);
     m_szJid = szJid;
     m_Manager = pManager; 
 }
