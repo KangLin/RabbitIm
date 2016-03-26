@@ -8,7 +8,7 @@
 CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
                                    bool bVideo,
                                    QObject *parent)
-    : CCallObject(bVideo, parent)
+    : CCallObject(QXmppUtils::jidToBareJid(pCall->jid()), bVideo, parent)
 {
     m_pAudioInput = NULL;
     m_pAudioOutput = NULL;
@@ -20,7 +20,6 @@ CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
         SetId(QXmppUtils::jidToBareJid(pCall->jid()));
         SetDirection((Direction) pCall->direction());
         ConnectionCallSlot(pCall);
-        PlayCallSound();
     }
     else
         Q_ASSERT(false);
@@ -103,30 +102,27 @@ int CCallObjectQXmpp::ConnectionCallSlot(QXmppCall *pCall)
 int CCallObjectQXmpp::Accept()
 {
     int nRet = 0;
-    StopCallSound();
-    if(m_pCall)
-        m_pCall->accept();
-    else
+    if(!m_pCall)
         return -1;
+    
+    m_pCall->accept();   
     return nRet;
 }
 
 int CCallObjectQXmpp::Stop()
 {
     int nRet = 0;
-    StopCallSound();
-    if(m_pCall)
-        m_pCall->hangup();
-    else
+    if(!m_pCall)
         return -1;
+        
+    m_pCall->hangup();
     return nRet;
 }
 
 void CCallObjectQXmpp::slotConnection()
 {
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallObjectQXmpp::slotConnection");
-    StopCallSound();
-
+    
     //初始始化音频设备  
     StartAudioDevice();
 
@@ -138,19 +134,16 @@ void CCallObjectQXmpp::slotStateChanged(QXmppCall::State state)
 {
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "State:%d", state);
     m_State = (State) state;
-    emit sigUpdate();
+    slotChanageState(m_State);
 }
 
 void CCallObjectQXmpp::slotFinished()
 {
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallVideoQXmpp::slotFinished");
-    StopAudioDevice();
-    StopCallSound();
     if(m_bVideo)
     {
         StopVideo();
     }
-    emit sigFinished(this);
 }
 
 //音频模式改变  
@@ -356,7 +349,7 @@ void CCallObjectQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
     if(!m_pCall)
         return;
     LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp::slotVideoModeChanged:mode:%d", mode);
-    if(!m_bVideo && this->GetDirection() == IncomingDirection)
+    if(!m_bVideo && GetDirection() == IncomingDirection)
     {
         m_bVideo = true;
         StartVideo();
@@ -616,19 +609,3 @@ int CCallObjectQXmpp::OpenVideoWindow()
     return 0;
 }
 
-bool CCallObjectQXmpp::IsMonitor()
-{
-    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(this->GetId());
-    if(roster.isNull())
-    {
-        LOG_MODEL_DEBUG("CCallObjectQXmpp", "roster is null");
-        return false;
-    }
-    if(this->GetDirection() == CCallObject::IncomingDirection
-            && roster->GetInfo()->GetIsMonitor()
-            && CGlobal::Instance()->GetIsMonitor())
-    {
-        return true;
-    }
-    return false;
-}

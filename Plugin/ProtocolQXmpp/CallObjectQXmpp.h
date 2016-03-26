@@ -71,7 +71,6 @@ private:
     int StartVideo();
     int StopVideo();
     int OpenVideoWindow();
-    bool IsMonitor();//是否是监控模式  
     virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame);
     
 private:

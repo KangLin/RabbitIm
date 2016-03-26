@@ -85,11 +85,7 @@ signals:
     /// 呼叫状态更新时触发  
     void sigStateUpdate(const QString &szId);
     /// 呼叫结束时触发  
-    void sigFinished(const QString &szId);
-    /// 本地帧触发信号,此信号用于本地视频显示窗口  
-    void sigLocalVideoFrame(const QString &szId, const QVideoFrame &frame);
-    /// 远程帧触发信号，此信号用于远程显示窗口  
-    void sigRemoteVideoFrame(const QString &szId, const QVideoFrame &frame);
+    //void sigFinished(const QString &szId);
 
 protected slots:
     /**
@@ -106,7 +102,7 @@ protected slots:
 
 private:
     /**
-     * @brief 具体协议实现呼叫  
+     * @brief 具体协议实现呼叫,主要是根据协议生成CCallObject实例    
      * @param szId：用户 Id  
      * @param call:如果成功,包含新建的呼叫实例  
      * @param bVideo：是否包含视频  

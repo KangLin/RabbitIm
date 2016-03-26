@@ -8,27 +8,22 @@
 #include "qxmpp/QXmppUtils.h"
 #include "Global/Log.h"
 
-CCallObjectQXmppWebrtc::CCallObjectQXmppWebrtc(const QString &szId, bool bVideo,
+CCallObjectQXmppWebrtc::CCallObjectQXmppWebrtc(const QString &szJid, bool bVideo,
                           QXmppCallWebrtcManager *pManager,
                                            QObject *parent)
-    : CCallObject(bVideo, parent),
+    : CCallObject(QXmppUtils::jidToBareJid(szJid), bVideo, parent),
     m_Conductor(new rtc::RefCountedObject<CWebrtcConductor>())
 {
     m_Conductor->SetCallObject(this);
-    m_szId = szId;
+    m_szJid = szJid;
     m_Manager = pManager; 
-}
-
-QString CCallObjectQXmppWebrtc::GetId()
-{
-    return QXmppUtils::jidToBareJid(m_szId);
 }
 
 int CCallObjectQXmppWebrtc::Call()
 {
-    SetDirection(Direction::OutgoingDirection);
+    CCallObject::Call();
     QXmppWebRtcIq iq;
-    iq.setTo(m_szId);
+    iq.setTo(m_szJid);
     iq.setType(QXmppIq::Set);
     iq.SetAction(QXmppWebRtcIq::Call);
     iq.SetVideo(IsVideo());
@@ -38,12 +33,11 @@ int CCallObjectQXmppWebrtc::Call()
 int CCallObjectQXmppWebrtc::Accept()
 {
     int nRet = 0;
-    ChanageState(CCallObject::ConnectingState);
-    OpenVideoWindow();
+    slotChanageState(CCallObject::ConnectingState);
     nRet = m_Conductor->PeerConnect();
     //发送接收请求  
     QXmppWebRtcIq iq;
-    iq.setTo(m_szId);
+    iq.setTo(m_szJid);
     iq.setType(QXmppIq::Set);
     iq.SetAction(QXmppWebRtcIq::Accept);
     return m_Manager->sendPacket(iq);
@@ -52,8 +46,7 @@ int CCallObjectQXmppWebrtc::Accept()
 int CCallObjectQXmppWebrtc::ReciveAccept()
 {
     int nRet = 0;
-    ChanageState(CCallObject::ConnectingState);
-    OpenVideoWindow();
+    slotChanageState(CCallObject::ConnectingState);
     return nRet;
 }
 
@@ -62,7 +55,7 @@ int CCallObjectQXmppWebrtc::Stop()
     int nRet = 0;
     //发送停止请求  
     QXmppWebRtcIq iq;
-    iq.setTo(m_szId);
+    iq.setTo(m_szJid);
     iq.setType(QXmppIq::Set);
     iq.SetAction(QXmppWebRtcIq::Stop);
     nRet = m_Manager->sendPacket(iq);
@@ -76,9 +69,7 @@ int CCallObjectQXmppWebrtc::ReciveStop()
 {
     int nRet = 0;
     nRet = m_Conductor->PeerStop();
-    ChanageState(CCallObject::FinishedState);
-    emit sigFinished(this);
-    CloseVideoWindow();
+    slotChanageState(CCallObject::FinishedState);
     return nRet;
 }
 
@@ -87,7 +78,7 @@ int CCallObjectQXmppWebrtc::SendSessionDescription(QString szSdp, QString szType
     LOG_MODEL_DEBUG("WEBRTC", "SendSessionDescription:%s", szSdp.toStdString().c_str());
     
     QXmppWebRtcIq iq;
-    iq.setTo(m_szId);
+    iq.setTo(m_szJid);
     iq.setType(QXmppIq::Set);
     iq.SetAction(QXmppWebRtcIq::DescriptionInfo);
     iq.SetSessionDescription(szSdp, szType, bSuccess);
@@ -116,7 +107,7 @@ int CCallObjectQXmppWebrtc::SendTransportInfo(QString sdp_mid, int sdp_mline_ind
     LOG_MODEL_DEBUG("WEBRTC", "SendTransportInfo:mid:%s;index:%d;sdp:%s",
                     sdp_mid.toStdString().c_str(), sdp_mline_index, sdp.toStdString().c_str());
     QXmppWebRtcIq iq;
-    iq.setTo(m_szId);
+    iq.setTo(m_szJid);
     iq.setType(QXmppIq::Set);
     iq.SetAction(QXmppWebRtcIq::TransportInfo);
     iq.SetTransportInfo(sdp_mid, sdp_mline_index, sdp);
@@ -135,13 +126,6 @@ int CCallObjectQXmppWebrtc::ReciveTransportInfo(QXmppWebRtcIq& iq)
     return m_Conductor->ReciveIceCandidate(sdp_mid.toStdString(),
                                            sdp_mline_index,
                                            sdp.toStdString());
-}
-
-int CCallObjectQXmppWebrtc::ChanageState(CCallObject::State state)
-{
-    m_State = state;
-    emit sigUpdate();
-    return 0;
 }
 
 int CCallObjectQXmppWebrtc::RenderLocale(QImage frame)

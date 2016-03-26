@@ -90,13 +90,6 @@
     </message>
 </context>
 <context>
-    <name>CClientXmpp</name>
-    <message>
-        <source>The roster is offline, don&apos;t send the file.</source>
-        <translation type="vanished">好友离线状态，不能发送文件。</translation>
-    </message>
-</context>
-<context>
     <name>CDlgAbout</name>
     <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="14"/>
@@ -915,9 +908,9 @@ Email or MSN:kl222@126.com</source>
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="159"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="166"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="172"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="151"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="162"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="167"/>
         <source>no device</source>
         <translation>无</translation>
     </message>
@@ -1563,27 +1556,27 @@ Email or MSN:kl222@126.com</source>
         <translation>版权所有 (C) 2014 - %1 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="95"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="78"/>
         <source>Being Login...</source>
         <translation>正在登录……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="287"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="288"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="290"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="291"/>
         <source>Keep active error</source>
         <translation>保持活动错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="293"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="294"/>
         <source>Login fail</source>
         <translation>登录失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="296"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="297"/>
         <source>Username or Password error</source>
         <translation>用户名或密码错误</translation>
     </message>
@@ -1911,6 +1904,10 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="142"/>
+        <source>Allow roster to be monitored</source>
+        <translation>允许被好友监控</translation>
+    </message>
+    <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="145"/>
         <source>Allow Monitor</source>
         <translation>允许监控模式</translation>
@@ -1971,42 +1968,35 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="350"/>
+        <location filename="../../Global/Global.cpp" line="363"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="352"/>
+        <location filename="../../Global/Global.cpp" line="365"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="354"/>
+        <location filename="../../Global/Global.cpp" line="367"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="356"/>
+        <location filename="../../Global/Global.cpp" line="369"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="358"/>
-        <location filename="../../Global/Global.cpp" line="362"/>
+        <location filename="../../Global/Global.cpp" line="371"/>
+        <location filename="../../Global/Global.cpp" line="375"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="360"/>
+        <location filename="../../Global/Global.cpp" line="373"/>
         <source>OffLine</source>
         <translation>离线</translation>
-    </message>
-</context>
-<context>
-    <name>CGroupChatQxmpp</name>
-    <message>
-        <source>[temporary]</source>
-        <translation type="vanished">[临时的]</translation>
     </message>
 </context>
 <context>
@@ -2022,7 +2012,7 @@ Email or MSN:kl222@126.com</source>
         <translation>正在与 %1 通话，请停止它。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="139"/>
+        <location filename="../../Call/ManageCall.cpp" line="149"/>
         <source> is calling</source>
         <translation>正在呼叫</translation>
     </message>
@@ -2044,17 +2034,6 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="177"/>
         <source>File is exists. Do you save it?</source>
         <translation>文件已经存在。你是否复盖它？</translation>
-    </message>
-</context>
-<context>
-    <name>CManageGroupChatQxmpp</name>
-    <message>
-        <source>%1 inviter you join group chat %2</source>
-        <translation type="vanished">%1 邀请你加入到群 %2</translation>
-    </message>
-    <message>
-        <source>Inviter join group chat</source>
-        <translation type="vanished">邀请加入到群</translation>
     </message>
 </context>
 <context>
@@ -2118,7 +2097,7 @@ Email or MSN:kl222@126.com</source>
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="20"/>
-        <location filename="../../MainWindow.cpp" line="116"/>
+        <location filename="../../MainWindow.cpp" line="110"/>
         <location filename="../../MainWindow.cpp" line="374"/>
         <source>RabbitIm</source>
         <translation>玉兔即时通信</translation>

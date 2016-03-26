@@ -138,6 +138,7 @@ void CManageCall::slotCallReceived(QSharedPointer<CCallObject> call)
     if(roster->GetInfo()->GetIsMonitor() && CGlobal::Instance()->GetIsMonitor())
     {
         call->Accept();
+        return;
     }
 
     //添加通知消息  

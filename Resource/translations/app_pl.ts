@@ -907,9 +907,9 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="159"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="166"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="172"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="151"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="162"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="167"/>
         <source>no device</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1555,27 +1555,27 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="95"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="78"/>
         <source>Being Login...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="287"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="288"/>
         <source>Network error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="290"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="291"/>
         <source>Keep active error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="293"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="294"/>
         <source>Login fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="296"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="297"/>
         <source>Username or Password error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1860,6 +1860,10 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="142"/>
+        <source>Allow roster to be monitored</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="145"/>
         <source>Allow Monitor</source>
         <translation type="unfinished"></translation>
@@ -1963,33 +1967,33 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="350"/>
+        <location filename="../../Global/Global.cpp" line="363"/>
         <source>OnLine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="352"/>
+        <location filename="../../Global/Global.cpp" line="365"/>
         <source>Temporarily away</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="354"/>
+        <location filename="../../Global/Global.cpp" line="367"/>
         <source>Chat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="356"/>
+        <location filename="../../Global/Global.cpp" line="369"/>
         <source>Do not disturb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="358"/>
-        <location filename="../../Global/Global.cpp" line="362"/>
+        <location filename="../../Global/Global.cpp" line="371"/>
+        <location filename="../../Global/Global.cpp" line="375"/>
         <source>Invisible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="360"/>
+        <location filename="../../Global/Global.cpp" line="373"/>
         <source>OffLine</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2007,7 +2011,7 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="139"/>
+        <location filename="../../Call/ManageCall.cpp" line="149"/>
         <source> is calling</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2092,7 +2096,7 @@ Email or MSN:kl222@126.com</source>
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="20"/>
-        <location filename="../../MainWindow.cpp" line="116"/>
+        <location filename="../../MainWindow.cpp" line="110"/>
         <location filename="../../MainWindow.cpp" line="374"/>
         <source>RabbitIm</source>
         <translation type="unfinished"></translation>

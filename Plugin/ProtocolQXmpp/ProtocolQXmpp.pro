@@ -16,8 +16,6 @@ include(../ConfigProtocol.pri)
 
 SOURCES += \
     ClientXmpp.cpp \
-    ManageCallXmpp.cpp \
-    CallObjectQXmpp.cpp \
     ManageGroupChatQxmpp.cpp \
     ManageUserQXmpp.cpp \
     UserInfoXmpp.cpp \
@@ -27,8 +25,6 @@ SOURCES += \
 
 HEADERS += \
     ClientXmpp.h \
-    ManageCallXmpp.h \
-    CallObjectQXmpp.h \
     ManageGroupChatQxmpp.h \
     ManageUserQXmpp.h \
     UserInfoXmpp.h \
@@ -57,4 +53,10 @@ equals(RABBITIM_USE_WEBRTC, 1){
         VideoRenderer.h \
         WebrtcFilter.h \ 
         WebrtcQtSocketServer.h
+}else{
+    SOURCES +=  ManageCallXmpp.cpp \
+        CallObjectQXmpp.cpp
+    
+    HEADERS +=  ManageCallXmpp.h \
+        CallObjectQXmpp.h 
 }

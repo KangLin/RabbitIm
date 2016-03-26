@@ -1,7 +1,7 @@
 #ifndef CMANAGECALLWEBRTCXMPP_H
 #define CMANAGECALLWEBRTCXMPP_H
 
-#include "ManageCallXmpp.h"
+#include "Call/ManageCall.h"
 #include "CallObjectQXmppWebrtc.h"
 #include "QXmppWebRtcIq.h"
 
@@ -9,7 +9,7 @@
  * @brief CManageCall webrtc xmpp 协议实现类  
  * @ingroup RABBITIM_INTERFACE_MANGECALL
  */
-class CManageCallWebrtcXmpp : public CManageCallXmpp
+class CManageCallWebrtcXmpp : public CManageCall
 {
     Q_OBJECT
 public:

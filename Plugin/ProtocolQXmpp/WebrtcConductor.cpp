@@ -57,15 +57,16 @@ CWebrtcConductor::CWebrtcConductor()
 CWebrtcConductor::~CWebrtcConductor()
 {
     if(m_pWebrtcFilter)
-        qApp->removeEventFilter(m_pWebrtcFilter);
-
-    if(m_pSignalThread)
     {
-        m_pSignalThread->Stop();
-        delete m_pSignalThread;
+        qApp->removeEventFilter(m_pWebrtcFilter);
+        delete m_pWebrtcFilter;
     }
+
     if(m_pWebrtcQtSocketServer)
+    {
+        m_pSignalThread->set_socketserver(NULL);   
         delete m_pWebrtcQtSocketServer;
+    }
     
     rtc::CleanupSSL();
     
@@ -253,7 +254,10 @@ void CWebrtcConductor::AddStreams()
             if(video_track.get())
             {
                 //关联视频track到本地 Renderer  
-                m_LocaleVideoRender.reset(new CVideoRenderer(video_track, m_pCall, true));
+                if(!m_pCall->IsMonitor())
+                {
+                    m_LocaleVideoRender.reset(new CVideoRenderer(video_track, m_pCall, true));
+                }
                 if(!stream->AddTrack(video_track))
                     LOG_MODEL_ERROR("WEBRTC", "Add video track fail");
             } else {
@@ -274,11 +278,11 @@ void CWebrtcConductor::OnAddStream(webrtc::MediaStreamInterface *stream)
     //关联视频track到远程 Renderer  
     webrtc::VideoTrackVector tracks = stream->GetVideoTracks();
     // Only render the first track.  
-    if (!tracks.empty()) {
+    if (!tracks.empty() && !m_pCall->IsMonitor()) {
         webrtc::VideoTrackInterface* track = tracks[0];
         m_RemoteVideoRender.reset(new CVideoRenderer(track, m_pCall, false));
     }
-    m_pCall->ChanageState(CCallObject::ActiveState);
+    m_pCall->slotChanageState(CCallObject::ActiveState);
 }
 
 void CWebrtcConductor::OnRemoveStream(webrtc::MediaStreamInterface *stream)

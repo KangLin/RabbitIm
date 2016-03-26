@@ -35,7 +35,7 @@ class CCallObjectQXmppWebrtc : public CCallObject
     Q_OBJECT
 
 public:
-    explicit CCallObjectQXmppWebrtc(const QString &szId,
+    explicit CCallObjectQXmppWebrtc(const QString &szJid,
                                     bool bVideo = false,
                 QXmppCallWebrtcManager* pManager = NULL,
                                    QObject *parent = 0);
@@ -62,17 +62,15 @@ public slots:
     
     virtual int SendTransportInfo(QString sdp_mid, int sdp_mline_index, QString sdp);
     virtual int ReciveTransportInfo(QXmppWebRtcIq& iq);
-    
-    virtual QString GetId();
 
-    int ChanageState(CCallObject::State state);
     int RenderLocale(QImage frame);
     int RenderRemote(QImage frame);
 
 private:
     QXmppCallWebrtcManager* m_Manager;
-    QString m_szId;
+    QString m_szJid;
     rtc::scoped_refptr<CWebrtcConductor> m_Conductor;
+    friend class CWebrtcConductor;
 };
 
 #endif // CCALLOBJECTQXMPPWEBRTC_H

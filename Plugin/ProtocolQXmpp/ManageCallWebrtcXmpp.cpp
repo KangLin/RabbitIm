@@ -6,7 +6,7 @@
 #include "qxmpp/QXmppUtils.h"
 
 CManageCallWebrtcXmpp::CManageCallWebrtcXmpp(QObject *parent)
-    : CManageCallXmpp(parent)
+    : CManageCall(parent)
 {    
 }
 
@@ -91,13 +91,15 @@ int CManageCallWebrtcXmpp::OnCall(const QString &szId,
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("CManageCallWebrtcXmpp", "CManageCallWebrtcXmpp::OnCall the roster is null");
+        LOG_MODEL_ERROR("CManageCallWebrtcXmpp",
+                        "CManageCallWebrtcXmpp::OnCall the roster is null");
         return -3;
     }
 
     //因为 xmpp 协议呼叫需要用户的资源（jid）  
     CUserInfoXmpp* info = (CUserInfoXmpp*)roster->GetInfo().data();
-    QSharedPointer<CCallObjectQXmppWebrtc> callWebrtc(new CCallObjectQXmppWebrtc(info->GetJid(), bVideo, pCallManager));
+    QSharedPointer<CCallObjectQXmppWebrtc> callWebrtc(
+                new CCallObjectQXmppWebrtc(info->GetJid(), bVideo, pCallManager));
     if(callWebrtc.isNull())
     {
         LOG_MODEL_ERROR("CManageCallWebrtcXmpp", "CManageCallWebrtcXmpp::CallVideo fail");

@@ -139,7 +139,7 @@
      <normaloff>:/icon/Monitor</normaloff>:/icon/Monitor</iconset>
    </property>
    <property name="text">
-    <string>Allow Monitor</string>
+    <string>Allow roster to be monitored</string>
    </property>
    <property name="toolTip">
     <string>Allow Monitor</string>

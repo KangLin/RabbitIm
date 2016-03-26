@@ -2,14 +2,16 @@
 #include "Global/Global.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
 
-CCallObject::CCallObject(bool bVideo, QObject *parent) :
+CCallObject::CCallObject(const QString &szId, bool bVideo, QObject *parent) :
     QObject(parent)
 {
+    m_szId = szId;
     m_Direction = IncomingDirection;
     m_bVideo = bVideo;
     m_pSound = NULL;
-    m_State = CallState;
     m_pFrmVideo = NULL;
+    
+    slotChanageState(CallState);
 }
 
 CCallObject::~CCallObject()
@@ -19,8 +21,15 @@ CCallObject::~CCallObject()
     CloseVideoWindow();
 }
 
+int CCallObject::Call()
+{
+    SetDirection(OutgoingDirection);
+    return 0;
+}
+
 QString CCallObject::GetId()
 {
+    Q_ASSERT(!m_szId.isEmpty());//请在派生类构造函数中设置此值  
     return m_szId;
 }
 
@@ -54,6 +63,8 @@ bool CCallObject::IsVideo()
 //播放铃音,系统会启用单独的线程进行播放  
 void CCallObject::PlayCallSound()
 {
+    if(IsMonitor())
+        return;
     LOG_MODEL_DEBUG("CCallObject", "CCallObject::PlayCallSound");
     QString file;
     if(GetDirection() == CCallObject::OutgoingDirection)
@@ -83,10 +94,15 @@ void CCallObject::StopCallSound()
 
 int CCallObject::OpenVideoWindow()
 {
+    if(IsMonitor())
+        return 0;
+
     //打开显示对话框  
     if(m_pFrmVideo)
     {
-        m_pFrmVideo->close();
+        LOG_MODEL_ERROR("CCallObject", "Video window is opened");
+        Q_ASSERT(false);     
+        return 0;
     }
     m_pFrmVideo = new CFrmVideo();
     if(!m_pFrmVideo)
@@ -131,6 +147,51 @@ void CCallObject::slotFrmVideoClose()
     if(m_pFrmVideo)
     {
         m_pFrmVideo = NULL;
+        this->Stop();
     }
-    this->Stop();
 }
+
+void CCallObject::slotChanageState(CCallObject::State state)
+{
+    m_State = state;
+    emit sigUpdate();
+    switch(m_State)
+    {
+    case CallState:
+        PlayCallSound();
+        OpenVideoWindow();
+        break;
+    case ConnectingState:
+        StopCallSound();
+        break;
+    case DisconnectingState:
+        break;
+    case FinishedState:
+        StopCallSound();
+        CloseVideoWindow();
+        emit sigFinished(this);
+        break;
+    default:
+        break;        
+    }
+
+    return;
+}
+
+bool CCallObject::IsMonitor()
+{
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(this->GetId());
+    if(roster.isNull())
+    {
+        LOG_MODEL_DEBUG("CCallObjectQXmpp", "roster is null");
+        return false;
+    }
+    if(GetDirection() == CCallObject::IncomingDirection
+            && roster->GetInfo()->GetIsMonitor()
+            && CGlobal::Instance()->GetIsMonitor())
+    {
+        return true;
+    }
+    return false;
+}
+

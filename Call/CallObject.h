@@ -32,14 +32,8 @@ public:
      * @param bVideo:是否包含视频  
      * @param parent
      */
-    explicit CCallObject(bool bVideo = false, QObject *parent = 0);
+    explicit CCallObject(const QString &szId = QString(), bool bVideo = false, QObject *parent = 0);
     virtual ~CCallObject();
-
-    enum Direction
-    {
-        IncomingDirection, ///< The call is incoming.
-        OutgoingDirection, ///< The call is outgoing.
-    };
 
     /// This enum is used to describe the state of a call.
     enum State
@@ -52,6 +46,14 @@ public:
     };
 
 public slots:
+    /**
+     * @brief 主动呼叫  
+     *
+     * @param szId：用户ID  
+     * @param bVideo:是否是视频呼叫  
+     * @return int
+     */
+    virtual int Call();
     /**
      * 停止呼叫  
      * 实现协议接收到远程的呼叫信令后，  
@@ -74,24 +76,35 @@ public:
      * @see State
      */
     virtual State GetState();
-    virtual Direction GetDirection(); ///< 得到呼叫方向  
     virtual bool IsVideo();           ///< 是否是视频呼叫  
     
 signals:
     /** 
-     * 呼叫状态更新时触发  
+     * 呼叫状态更新时触发。
+     * 派生类实现时，有状态改变，不直接触发，
+     * 而应该调用  slotChanageState 
      * @see CCallAction
      */
     void sigUpdate();
     /// 呼叫结束时（FinishedState）触发  
     void sigFinished(CCallObject *pCall);
     
+private:
+signals:
+    // 显示视频帧，仅用于CallObject继承类, 
+    // QImage 格式为 Format_ARGB32 或 Format_RGB32  
     void sigRenderLocale(QImage frame);
     void sigRenderRemote(QImage frame);
     
 protected:
     virtual int SetId(const QString szId);
+    enum Direction
+    {
+        IncomingDirection, ///< The call is incoming.
+        OutgoingDirection, ///< The call is outgoing.
+    };
     virtual int SetDirection(Direction d);
+    virtual Direction GetDirection(); ///< 得到呼叫方向  
     ///播放呼叫声音  
     virtual void PlayCallSound();
     ///停止呼叫声音  
@@ -99,6 +112,10 @@ protected:
     ///初始化视频设备与显示设备  
     virtual int OpenVideoWindow();
     virtual int CloseVideoWindow();
+    bool IsMonitor();//是否是监控模式  
+
+protected slots:
+    void slotChanageState(CCallObject::State state);
 
 private slots:
     void slotFrmVideoClose();
