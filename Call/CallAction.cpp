@@ -209,5 +209,6 @@ void CCallAction::slotUpdateHtml()
     if(m_Call->GetState() == CCallObject::FinishedState)
     {
         m_Cursor = QTextCursor();
+        m_Call.clear();
     }
 }

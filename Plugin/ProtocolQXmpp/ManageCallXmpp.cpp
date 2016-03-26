@@ -57,6 +57,7 @@ int CManageCallXmpp::LoginInit(const QString &szId)
 
 int CManageCallXmpp::LogoutClean()
 {
+    CManageCall::LogoutClean();
     CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
     if(!pClient)
     {
@@ -73,7 +74,7 @@ int CManageCallXmpp::LogoutClean()
         pClient->m_Client.removeExtension(pCallManager);
     }
 
-    return CManageCall::LogoutClean();
+    return 0;
 }
 
 int CManageCallXmpp::Call(const QString &szId, bool bVideo)

@@ -66,6 +66,7 @@ void CFileTransferAction::slotUpdateHtml()
             || m_File->GetState() == CFileTransfer::FinishedState)
     {
         m_Cursor = QTextCursor();
+        m_File.clear();
     }
 }
 

@@ -18,6 +18,11 @@ CCallObjectQXmppWebrtc::CCallObjectQXmppWebrtc(const QString &szJid, bool bVideo
     m_Manager = pManager; 
 }
 
+CCallObjectQXmppWebrtc::~CCallObjectQXmppWebrtc()
+{
+    LOG_MODEL_DEBUG("WEBRTC", "CCallObjectQXmppWebrtc::~CCallObjectQXmppWebrtc()");
+}
+
 int CCallObjectQXmppWebrtc::Call()
 {
     CCallObject::Call();

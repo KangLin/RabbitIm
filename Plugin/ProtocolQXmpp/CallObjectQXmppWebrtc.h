@@ -39,6 +39,8 @@ public:
                                     bool bVideo = false,
                 QXmppCallWebrtcManager* pManager = NULL,
                                    QObject *parent = 0);
+    virtual ~CCallObjectQXmppWebrtc();
+    
 public slots:
     virtual int Call();
     /**

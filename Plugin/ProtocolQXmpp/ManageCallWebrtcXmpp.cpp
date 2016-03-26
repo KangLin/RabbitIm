@@ -46,6 +46,7 @@ int CManageCallWebrtcXmpp::LoginInit(const QString &szId)
 
 int CManageCallWebrtcXmpp::LogoutClean()
 {
+    CManageCall::LogoutClean();
     CWebrtcConductor::CleanWebrtcGlobal();
     CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
     if(!pClient)
@@ -57,10 +58,10 @@ int CManageCallWebrtcXmpp::LogoutClean()
     QXmppCallWebrtcManager* pCallManager = pClient->m_Client.findExtension<QXmppCallWebrtcManager>();
     if(pCallManager)
     {
-        pClient->m_Client.removeExtension(pCallManager);
+        pClient->m_Client.removeExtension(pCallManager); //它在内部delete指针  
     }
 
-    return CManageCall::LogoutClean();
+    return 0;
 }
 
 int CManageCallWebrtcXmpp::Call(const QString &szId, bool bVideo)
