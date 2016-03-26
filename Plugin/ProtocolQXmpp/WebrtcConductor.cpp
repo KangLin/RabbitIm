@@ -49,7 +49,7 @@ CWebrtcConductor::~CWebrtcConductor()
 rtc::Thread* CWebrtcConductor::m_pSignalThread = NULL;
 void CWebrtcConductor::InitWebrtcGlobal()
 {
-    rtc::LogMessage::LogToDebug(rtc::LS_NONE);
+    //rtc::LogMessage::LogToDebug(rtc::LS_NONE);
     rtc::InitializeSSL();
 
     if(m_pSignalThread)
@@ -161,8 +161,8 @@ bool CWebrtcConductor::InitializePeerConnection()
 
 void CWebrtcConductor::DeletePeerConnection() {
   peer_connection_ = NULL;
-  m_LocaleVideoRender.release();
-  m_RemoteVideoRender.release();
+  m_LocaleVideoRender.reset();
+  m_RemoteVideoRender.reset();
   peer_connection_factory_ = NULL;
 }
 
