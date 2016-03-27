@@ -100,7 +100,7 @@ int CCallObject::OpenVideoWindow()
     //打开显示对话框  
     if(m_pFrmVideo)
     {
-        LOG_MODEL_ERROR("CCallObject", "Video window is opened");
+        LOG_MODEL_WARNING("CCallObject", "Video window is opened");
         Q_ASSERT(false);     
         return 0;
     }
@@ -110,7 +110,16 @@ int CCallObject::OpenVideoWindow()
         return -1;
     }
     CTool::EnableWake();
-    
+    QSharedPointer<CUser> roster
+            = GLOBAL_USER->GetUserInfoRoster(this->GetId());
+    if(roster.isNull())
+    {
+        LOG_MODEL_WARNING("CCallObjectQXmpp", "roster is null");
+        return false;
+    }
+    m_pFrmVideo->setWindowTitle(
+           tr("Be talking with %1").arg(roster->GetInfo()->GetShowName()));
+    m_pFrmVideo->setWindowIcon(QIcon(roster->GetInfo()->GetPhotoPixmap()));
     //窗口关闭时会自己释放内存  
     m_pFrmVideo->setAttribute(Qt::WA_DeleteOnClose, true);
     bool check = connect(m_pFrmVideo, SIGNAL(destroyed()),
@@ -159,10 +168,12 @@ void CCallObject::slotChanageState(CCallObject::State state)
     {
     case CallState:
         PlayCallSound();
-        OpenVideoWindow();
         break;
     case ConnectingState:
         StopCallSound();
+        OpenVideoWindow();
+        break;
+    case ActiveState:
         break;
     case DisconnectingState:
         break;
@@ -183,7 +194,7 @@ bool CCallObject::IsMonitor()
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(this->GetId());
     if(roster.isNull())
     {
-        LOG_MODEL_DEBUG("CCallObjectQXmpp", "roster is null");
+        LOG_MODEL_WARNING("CCallObjectQXmpp", "roster is null");
         return false;
     }
     if(GetDirection() == CCallObject::IncomingDirection
