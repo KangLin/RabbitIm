@@ -20,6 +20,12 @@ int CManageCall::LoginInit(const QString &szId)
     Q_UNUSED(szId);
     //TODO:初始化音视频设备  
     
+    QSharedPointer<CClient> client = GET_CLIENT;
+    if(client.isNull())
+        Q_ASSERT(false);
+    bool check = connect(client.data(), SIGNAL(sigChangedStatus(const QString&)),
+                         SLOT(slotRosterStatusChanged(QString)));
+    Q_ASSERT(check);
     return 0;
 }
 
@@ -27,11 +33,41 @@ int CManageCall::LogoutClean()
 {
     //TODO:清理音视频设备  
     
-    //清理所有呼叫  
+    QSharedPointer<CClient> client = GET_CLIENT;
+    if(client.isNull())
+        Q_ASSERT(false);
+    client->disconnect(this);
+
+    //清理所有呼叫，因为些操作是在 Logout 之后，就可能会导致视频停止信令发送不出  
+    // @see CManageCall::slotRosterStatusChanged
+    LOG_MODEL_DEBUG("Call", "CManageCall::LogoutClean() stop call");
     QMap<QString, QSharedPointer<CCallObject> >::iterator it;
-    for(it = m_Call.begin(); it != m_Call.end(); it++)
+    it = m_Call.begin();
+    while(it != m_Call.end())
+    {
         it.value()->Stop();
+        it = m_Call.begin();
+    }
     return 0;
+}
+
+/*
+ * @brief 此函数完成当正在视频通话时，好友直接 Logout 操作,  
+ *        因为 LOGOUT 操作发生在 CManageCall::LogoutClean() 前，  
+ *        所以收到不视频的停止信令，所以需要在此监控好友的 OFFLINE  
+ *        状态来关闭视频  
+ * @see   CManageCall::LogoutClean() CClient::slotClientDisconnected
+ */
+void CManageCall::slotRosterStatusChanged(const QString &szId)
+{
+    QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
+    if(roster.isNull())
+        return;
+    if(roster->GetInfo()->GetStatus() != CUserInfo::OffLine)
+    {
+        return;
+    }
+    this->Stop(szId);
 }
 
 int CManageCall::Call(const QString &szId, bool bVideo)
@@ -49,7 +85,7 @@ int CManageCall::Call(const QString &szId, bool bVideo)
     //检查被叫方是否在线  
     if(roster->GetInfo()->GetStatus() == CUserInfo::OffLine)
     {
-        LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster status is OffLine");
+        //LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster status is OffLine");
         roster->GetMessage()->AddMessage(szId, 
                 tr("The roster is offline, don't launch a call."), true);
         emit GET_CLIENT->sigMessageUpdate(szId);
@@ -73,21 +109,18 @@ int CManageCall::Call(const QString &szId, bool bVideo)
     QSharedPointer<CCallObject> call;
     //具体协议实现呼叫  
     nRet = OnCall(szId, call, bVideo);
-    if(nRet)
-        return nRet;
-
-    if(call.isNull())
+    if(nRet || call.isNull())
     {
-        LOG_MODEL_ERROR("Call", "CClientXmpp::Call is null");
+        LOG_MODEL_ERROR("Call", "OnCall is faile");
         return nRet;
     }
     
     //增加一个呼叫消息，并增加到管理 map 中  
     m_Call.insert(szId, call);
-    //关联信号  
+    //关联完成信号  
     bool check = connect(call.data(), SIGNAL(sigFinished(CCallObject*)),
                          SLOT(slotCallFinished(CCallObject*)));
-    Q_ASSERT(check);       
+    Q_ASSERT(check);
     //增加一个呼叫通知消息  
     QSharedPointer<CCallAction> action(new CCallAction(call,
                                        szId, QTime::currentTime(), true));
@@ -133,7 +166,7 @@ void CManageCall::slotCallReceived(QSharedPointer<CCallObject> call)
 
     //新建一个呼叫对象  
     m_Call.insert(roster->GetInfo()->GetId(), call);
-    //关联信号  
+    //关联完成信号  
     bool check = connect(call.data(), SIGNAL(sigFinished(CCallObject*)),
                          SLOT(slotCallFinished(CCallObject*)));
     Q_ASSERT(check);
@@ -160,7 +193,6 @@ void CManageCall::slotCallFinished(CCallObject *pCall)
     LOG_MODEL_DEBUG("CManageCall", "CManageCall::slotCallFinished");
     pCall->disconnect();
     m_Call.remove(pCall->GetId());
-    CTool::EnableWake(false);
 }
 
 bool CManageCall::IsRun(QString szId)
@@ -175,9 +207,12 @@ bool CManageCall::IsRun(QString szId)
 
 int CManageCall::Accept(QString szId)
 {
-    QMap<QString, QSharedPointer<CCallObject> >::iterator it = m_Call.find(szId);
+    QMap<QString, QSharedPointer<CCallObject> >::iterator it
+            = m_Call.find(szId);
     if(m_Call.end() != it)
         return it.value()->Accept();
+    LOG_MODEL_ERROR("CManageCall", "The call [%s] isn't exist",
+                    szId.toStdString().c_str());
     return -1;
 }
 
@@ -216,14 +251,14 @@ int CManageCall::ProcessCommandCall(const QString &szId, const QString &szComman
     QMap<QString, QSharedPointer<CCallObject> >::iterator it = m_Call.find(szId);
     if(m_Call.end() == it)
     {
-        LOG_MODEL_ERROR("Call", "Hasn't the call:%s", qPrintable(szId));
+        LOG_MODEL_ERROR("Call", "The call[%s] isn't exist", qPrintable(szId));
         return -1;
     }
 
     QSharedPointer<CCallObject> call = it.value();
     if(call.isNull())
     {
-        LOG_MODEL_ERROR("Call", "Hasn't the call:%s. szCmd:%s",
+        LOG_MODEL_ERROR("Call", "The call[%s] isn't exist. szCmd:%s",
                         qPrintable(szId), qPrintable(szCmd));
         return -1;
     }
@@ -234,7 +269,7 @@ int CManageCall::ProcessCommandCall(const QString &szId, const QString &szComman
         call->Stop();
     else
     {
-        LOG_MODEL_DEBUG("Call", "command isn't exist.szCmd:%s", qPrintable(szCmd));
+        LOG_MODEL_DEBUG("Call", "command isn't exist. szCmd:%s", qPrintable(szCmd));
         return -1;
     }
     return 0;

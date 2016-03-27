@@ -68,9 +68,6 @@ QString CCallAction::getMessage()
         szMsg += getDescriptionActiveState();
         break;
     case CCallObject::DisconnectingState:
-        m_Timer.stop();
-        szMsg += getDescriptionDisconnectingState();
-        break;
     case CCallObject::FinishedState:
         m_Timer.stop();
         szMsg += getDescriptionFinishedState();
@@ -120,11 +117,6 @@ QString CCallAction::getDescriptionActiveState()
     return szMsg;
 }
 
-QString CCallAction::getDescriptionDisconnectingState()
-{
-    return getDescriptionFinishedState();
-}
-
 QString CCallAction::getDescriptionFinishedState()
 {
     QString szMsg;
@@ -172,12 +164,16 @@ QString CCallAction::getPrompt()
         szMsg += tr("Talk time: ") + QString::number(m_tmStart.secsTo(QTime::currentTime())) + tr("s");
         break;
     case CCallObject::FinishedState:
-        if(m_Call->IsVideo())
-            szMsg = tr("Video talk over.");
-        else
-            szMsg = tr("Talk over.");
-        szMsg += tr("Talk time: ") + QString::number(m_tmStart.secsTo(QTime::currentTime())) + tr("s");
-        break;
+        {
+            if(m_Call->GetError(szMsg))
+                break;
+            if(m_Call->IsVideo())
+                szMsg = tr("Video talk over.");
+            else
+                szMsg = tr("Talk over.");
+            szMsg += tr("Talk time: ") + QString::number(m_tmStart.secsTo(QTime::currentTime())) + tr("s");
+            break;
+        }
     default:
         break;
     };

@@ -47,7 +47,7 @@ public:
 
 public slots:
     /**
-     * @brief 主动呼叫  
+     * @brief 主动呼叫,如果派生类要重载它，必需先调用 CallObject::Call()  
      *
      * @param szId：用户ID  
      * @param bVideo:是否是视频呼叫  
@@ -69,6 +69,19 @@ public slots:
     virtual int Accept()= 0;
 
 public:
+    /**
+     * @brief 设置错误信息  
+     * @param nError：错误号  
+     * @param szError：错误信息  
+     * @return 
+     */
+    int SetError(int nError, const QString &szError);
+    /**
+     * @brief 得到错误信息  
+     * @param szError：错误信息  
+     * @return nError：错误号  
+     */
+    int GetError(QString &szError);
     virtual QString GetId();          ///< 得到用户ID,不含资源  
     /**
      * @brief 得到呼叫状态  
@@ -92,7 +105,7 @@ signals:
 private:
 signals:
     // 显示视频帧，仅用于CallObject继承类, 
-    // QImage 格式为 Format_ARGB32 或 Format_RGB32  
+    // QImage 格仅为 Format_ARGB32 或 Format_RGB32  
     void sigRenderLocale(QImage frame);
     void sigRenderRemote(QImage frame);
     
@@ -109,8 +122,9 @@ protected:
     virtual void PlayCallSound();
     ///停止呼叫声音  
     virtual void StopCallSound();
-    ///初始化视频设备与显示设备  
+    ///打开视频显示窗口  
     virtual int OpenVideoWindow();
+    ///关闭视频显示窗口  
     virtual int CloseVideoWindow();
     bool IsMonitor();//是否是监控模式  
 
@@ -121,14 +135,16 @@ private slots:
     void slotFrmVideoClose();
 
 private:
+    QString m_szError;
+    int m_nError;
     QString m_szId;        ///< 用户 ID  
     Direction m_Direction; ///< 呼叫方向  
-    QSound* m_pSound;
+    QSound* m_pSound;      ///< 铃音  
 
 protected:
-    bool m_bVideo;   ///< 是否包含视频  
-    State m_State;   ///< 呼叫状态  
-    CFrmVideo *m_pFrmVideo;
+    bool m_bVideo;          ///< 是否包含视频  
+    State m_State;          ///< 呼叫状态  
+    CFrmVideo *m_pFrmVideo; ///< 视频显示窗口  
 };
 
 #endif // CALLOBJECT_H

@@ -30,7 +30,6 @@ protected:
     virtual QString getDescriptionCallState();
     virtual QString getDescriptionConnectingState();
     virtual QString getDescriptionActiveState();
-    virtual QString getDescriptionDisconnectingState();
     virtual QString getDescriptionFinishedState();
 
     virtual QString getPrompt();

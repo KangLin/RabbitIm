@@ -62,6 +62,7 @@ public slots:
      * @brief 结束呼叫  
      * @param szId:用户ID
      * @return 
+     * @see slotRosterStatusChanged
      */
     virtual int Stop(QString szId);
     /**
@@ -81,10 +82,6 @@ public slots:
      */
     virtual int ProcessCommandCall(const QString &szId, const QString &szCommand);
 
-signals:
-    /// 呼叫状态更新时触发  
-    void sigStateUpdate(const QString &szId);
-
 protected slots:
     /**
      * @brief 用于完成接收到呼叫消息的动作。  
@@ -92,11 +89,21 @@ protected slots:
      * @param call
      */
     void slotCallReceived(QSharedPointer<CCallObject> call);
+private slots:
     /**
      * @brief 呼叫结束处理  
      * @param pCall
      */
     void slotCallFinished(CCallObject* pCall);
+    /*
+     * @brief 此函数完成当正在视频通话时，好友直接 Logout 操作,  
+     *        因为 LOGOUT 操作发生在 CManageCall::LogoutClean() 前，  
+     *        所以收到不视频的停止信令，所以需要在此监控好友的 OFFLINE  
+     *        状态来关闭视频    
+     * @param szId: 用户ID  
+     * @see   CManageCall::LogoutClean() CClient::slotClientDisconnected
+     */
+    void slotRosterStatusChanged(const QString &szId);
 
 private:
     /**

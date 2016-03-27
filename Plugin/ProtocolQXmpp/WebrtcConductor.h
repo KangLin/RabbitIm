@@ -39,19 +39,20 @@ public:
     int AcceptConnect(std::string szSdp, std::string szType);
     int ReciveIceCandidate(std::string szMid, int nIndex, std::string szSdp);
     int PeerStop();
-    
+
     //
     // PeerConnectionObserver implementation.
     //
-    virtual void OnStateChange(
-        webrtc::PeerConnectionObserver::StateType state_changed) {}
     virtual void OnAddStream(webrtc::MediaStreamInterface* stream);
     virtual void OnRemoveStream(webrtc::MediaStreamInterface* stream);
-    virtual void OnDataChannel(webrtc::DataChannelInterface* channel) {}
-    virtual void OnRenegotiationNeeded() {}
-    virtual void OnIceChange() {}
+    virtual void OnDataChannel(webrtc::DataChannelInterface* channel);
+    virtual void OnRenegotiationNeeded();
+    virtual void OnIceConnectionChange(
+        webrtc::PeerConnectionInterface::IceConnectionState new_state);
     virtual void OnIceCandidate(const webrtc::IceCandidateInterface* candidate);
-    
+    virtual void OnIceGatheringChange(
+        webrtc::PeerConnectionInterface::IceGatheringState new_state);
+
     // CreateSessionDescriptionObserver implementation.
     virtual void OnSuccess(webrtc::SessionDescriptionInterface* desc);
     virtual void OnFailure(const std::string& error);
@@ -72,7 +73,7 @@ private:
     rtc::scoped_ptr<CVideoRenderer> m_LocaleVideoRender, m_RemoteVideoRender;
     
     static rtc::Thread* m_pSignalThread;
-    friend CWebrtcFilter;
+    friend class CWebrtcFilter;
 };
 
 #endif  // TALK_EXAMPLES_PEERCONNECTION_CLIENT_CONDUCTOR_H_

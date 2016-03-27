@@ -18,14 +18,14 @@ public:
      *
      * @param szId:登录用户名  
      * @return int
-     * @see CManager::LoginInit
+     * @see CManager::LoginInit CClient::slotClientConnected
      */
     virtual int LoginInit(const QString &szId) = 0;
     /**
      * @brief 用户登出时调用,用于清理工作   
      *
      * @return int
-     * @see CManager::LogoutClean
+     * @see CManager::LogoutClean CClient::slotClientDisconnected
      */
     virtual int LogoutClean() = 0;
 

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVideoFrame>
 #include <QSharedPointer>
+#include <QTimer>
 #include "Call/CallObject.h"
 
 class CWebrtcConductor;
@@ -64,9 +65,6 @@ public slots:
     
     virtual int SendTransportInfo(QString sdp_mid, int sdp_mline_index, QString sdp);
     virtual int ReciveTransportInfo(QXmppWebRtcIq& iq);
-
-    int RenderLocale(QImage frame);
-    int RenderRemote(QImage frame);
 
 private:
     QXmppCallWebrtcManager* m_Manager;

@@ -51,8 +51,9 @@ void CVideoRenderer::RenderFrame(const cricket::VideoFrame *video_frame)
                               (uint8_t*)outFrame.bits(),
                               m_BitmapSize,
                               m_Width << 2);
-    if(m_isLocale)
-        m_pCallObject->RenderLocale(outFrame);
+
+    if(m_isLocale && m_pCallObject)
+        emit m_pCallObject->sigRenderLocale(outFrame);
     else
-        m_pCallObject->RenderRemote(outFrame);
+        emit m_pCallObject->sigRenderRemote(outFrame);
 }

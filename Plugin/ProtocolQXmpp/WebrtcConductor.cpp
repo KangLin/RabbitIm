@@ -49,7 +49,7 @@ CWebrtcConductor::~CWebrtcConductor()
 rtc::Thread* CWebrtcConductor::m_pSignalThread = NULL;
 void CWebrtcConductor::InitWebrtcGlobal()
 {
-    //rtc::LogMessage::LogToDebug(rtc::LS_NONE);
+    rtc::LogMessage::LogToDebug(rtc::LS_NONE);
     rtc::InitializeSSL();
 
     if(m_pSignalThread)
@@ -264,6 +264,7 @@ void CWebrtcConductor::AddStreams()
 
 void CWebrtcConductor::OnAddStream(webrtc::MediaStreamInterface *stream)
 {
+    LOG_MODEL_DEBUG("WEBRTC", "CWebrtcConductor::OnAddStream:%s", stream->label().c_str());
     //关联视频track到远程 Renderer  
     webrtc::VideoTrackVector tracks = stream->GetVideoTracks();
     // Only render the first track.  
@@ -276,11 +277,32 @@ void CWebrtcConductor::OnAddStream(webrtc::MediaStreamInterface *stream)
 
 void CWebrtcConductor::OnRemoveStream(webrtc::MediaStreamInterface *stream)
 {
+    LOG_MODEL_DEBUG("WEBRTC", "CWebrtcConductor::OnRemoveStream:%s", stream->label().c_str());
+}
+
+void CWebrtcConductor::OnDataChannel(webrtc::DataChannelInterface *channel)
+{
+    LOG_MODEL_DEBUG("WEBRTC", "CWebrtcConductor::OnDataChannel:%s", channel->label().c_str());
+}
+
+void CWebrtcConductor::OnRenegotiationNeeded()
+{
+    //LOG_MODEL_DEBUG("WEBRTC", "CWebrtcConductor::OnRenegotiationNeeded()");
+}
+
+void CWebrtcConductor::OnIceConnectionChange(webrtc::PeerConnectionInterface::IceConnectionState new_state)
+{
+    //LOG_MODEL_DEBUG("WEBRTC", "CWebrtcConductor::OnIceConnectionChange:%d", new_state);
+}
+
+void CWebrtcConductor::OnIceGatheringChange(webrtc::PeerConnectionInterface::IceGatheringState new_state)
+{
+    //LOG_MODEL_DEBUG("WEBRTC", "CWebrtcConductor::OnIceGatheringChange:%d", new_state);
 }
 
 void CWebrtcConductor::OnIceCandidate(const webrtc::IceCandidateInterface *candidate)
 {
-    LOG_MODEL_DEBUG("WEBRTC", "sdp_mline_index:%d", candidate->sdp_mline_index());
+    //LOG_MODEL_DEBUG("WEBRTC", "sdp_mline_index:%d", candidate->sdp_mline_index());
     std::string sdp;
     if (!candidate->ToString(&sdp)) {
         LOG_MODEL_ERROR("WEBRTC", "Failed to serialize candidate");

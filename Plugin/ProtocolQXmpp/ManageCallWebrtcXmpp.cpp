@@ -25,7 +25,8 @@ int CManageCallWebrtcXmpp::LoginInit(const QString &szId)
     if(nRet)
         return nRet;
 
-    CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
+    QSharedPointer<CClient> client = GETMANAGER->GetClient();
+    CClientXmpp* pClient = (CClientXmpp*)client.data();
     if(!pClient)
     {
         LOG_MODEL_ERROR("Call", "pClient is null");
@@ -47,8 +48,9 @@ int CManageCallWebrtcXmpp::LoginInit(const QString &szId)
 int CManageCallWebrtcXmpp::LogoutClean()
 {
     CManageCall::LogoutClean();
-    CWebrtcConductor::CleanWebrtcGlobal();
-    CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
+    
+    QSharedPointer<CClient> client = GETMANAGER->GetClient();
+    CClientXmpp* pClient = (CClientXmpp*)client.data();
     if(!pClient)
     {
         LOG_MODEL_ERROR("Call", "pClient is null");
@@ -61,6 +63,7 @@ int CManageCallWebrtcXmpp::LogoutClean()
         pClient->m_Client.removeExtension(pCallManager); //它在内部delete指针  
     }
 
+    CWebrtcConductor::CleanWebrtcGlobal();
     return 0;
 }
 
@@ -73,7 +76,8 @@ int CManageCallWebrtcXmpp::Call(const QString &szId, bool bVideo)
         LOG_MODEL_ERROR("CManageCall", "Don't get roster:%s", qPrintable(szId));
         return -1;
     }
-    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)roster->GetInfo().data();
+    QSharedPointer<CUserInfo> info = roster->GetInfo();
+    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)info.data();
     if(pInfo->GetResource().isEmpty())
     {
         LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster resource is null");
@@ -89,7 +93,8 @@ int CManageCallWebrtcXmpp::Call(const QString &szId, bool bVideo)
 int CManageCallWebrtcXmpp::OnCall(const QString &szId,
        QSharedPointer<CCallObject> &call, bool bVideo)
 {
-    CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
+    QSharedPointer<CClient> client = GETMANAGER->GetClient();
+    CClientXmpp* pClient = (CClientXmpp*)client.data();
     if(!pClient)
     {
         LOG_MODEL_ERROR("CManageCallWebrtcXmpp", "pClient is null");
@@ -108,10 +113,11 @@ int CManageCallWebrtcXmpp::OnCall(const QString &szId,
         return -3;
     }
 
-    //因为 xmpp 协议呼叫需要用户的资源（jid）  
-    CUserInfoXmpp* info = (CUserInfoXmpp*)roster->GetInfo().data();
+    //因为 xmpp iq 协议需要用户的资源（jid）才会进行转发  
+    QSharedPointer<CUserInfo> info = roster->GetInfo();
+    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)info.data();
     QSharedPointer<CCallObjectQXmppWebrtc> callWebrtc(
-                new CCallObjectQXmppWebrtc(info->GetJid(), bVideo, pCallManager));
+                new CCallObjectQXmppWebrtc(pInfo->GetJid(), bVideo, pCallManager));
     if(callWebrtc.isNull())
     {
         LOG_MODEL_ERROR("CManageCallWebrtcXmpp", "CManageCallWebrtcXmpp::CallVideo fail");
@@ -180,7 +186,8 @@ int CManageCallWebrtcXmpp::OnReciveCall(QXmppWebRtcIq &iq)
     QString szId = iq.from();
     LOG_MODEL_DEBUG("CManageCallWebrtcXmpp", "szId:%s", szId.toStdString().c_str());
     bool bVideo = iq.IsVideo();
-    CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
+    QSharedPointer<CClient> client = GETMANAGER->GetClient();
+    CClientXmpp* pClient = (CClientXmpp*)client.data();
     if(!pClient)
     {
         LOG_MODEL_ERROR("CManageCallWebrtcXmpp", "pClient is null");

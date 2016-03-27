@@ -89,8 +89,14 @@ public:
      *
      * @param szId
      * @return int
+     * @see CClient::slotClientConnected
      */
     virtual int LoginInit(const QString& szId);
+    /**
+     * @brief 登出后清理操作  
+     * @return 
+     * @see CClient::slotClientDisconnected
+     */
     virtual int LogoutClean();
 
 private:

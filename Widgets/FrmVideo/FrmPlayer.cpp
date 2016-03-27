@@ -57,6 +57,7 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
         painter.drawImage(this->rect(), m_Image);
         return;
     }
+
     if(!m_VideoFrame.isValid())
         return;
     if(!m_VideoFrame.map(QAbstractVideoBuffer::ReadOnly))

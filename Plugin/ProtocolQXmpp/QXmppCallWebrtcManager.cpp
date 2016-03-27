@@ -1,6 +1,7 @@
 #include "QXmppCallWebrtcManager.h"
 #include "qxmpp/QXmppClient.h"
 #include "ManageCallWebrtcXmpp.h"
+#include "Global/Log.h"
 
 QXmppCallWebrtcManager::QXmppCallWebrtcManager(CManageCallWebrtcXmpp *pManager) : QXmppClientExtension()
 {
@@ -11,6 +12,7 @@ int QXmppCallWebrtcManager::sendPacket(QXmppWebRtcIq &iq)
 {
     if(this->client()->sendPacket(iq))
         return 0;
+    LOG_MODEL_ERROR("WEBRTC", "QXmppCallWebrtcManager::sendPacket");
     return -1;
 }
 

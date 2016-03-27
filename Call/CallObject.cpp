@@ -10,7 +10,7 @@ CCallObject::CCallObject(const QString &szId, bool bVideo, QObject *parent) :
     m_bVideo = bVideo;
     m_pSound = NULL;
     m_pFrmVideo = NULL;
-    
+    m_nError = 0;
     slotChanageState(CallState);
 }
 
@@ -25,6 +25,19 @@ int CCallObject::Call()
 {
     SetDirection(OutgoingDirection);
     return 0;
+}
+
+int CCallObject::SetError(int nError, const QString &szError)
+{
+    m_nError = nError;
+    m_szError = szError;
+    return 0;
+}
+
+int CCallObject::GetError(QString &szError)
+{
+    szError = m_szError;
+    return m_nError;
 }
 
 QString CCallObject::GetId()
@@ -65,7 +78,7 @@ void CCallObject::PlayCallSound()
 {
     if(IsMonitor())
         return;
-    LOG_MODEL_DEBUG("CCallObject", "CCallObject::PlayCallSound");
+    //LOG_MODEL_DEBUG("CCallObject", "CCallObject::PlayCallSound");
     QString file;
     if(GetDirection() == CCallObject::OutgoingDirection)
         file = ":/sound/Call";
@@ -83,7 +96,7 @@ void CCallObject::PlayCallSound()
 
 void CCallObject::StopCallSound()
 {
-    LOG_MODEL_DEBUG("CCallObject", "CCallObject::StopCallSound");
+    //LOG_MODEL_DEBUG("CCallObject", "CCallObject::StopCallSound");
     if(m_pSound)
     {
         m_pSound->stop();
@@ -114,7 +127,7 @@ int CCallObject::OpenVideoWindow()
             = GLOBAL_USER->GetUserInfoRoster(this->GetId());
     if(roster.isNull())
     {
-        LOG_MODEL_WARNING("CCallObjectQXmpp", "roster is null");
+        LOG_MODEL_WARNING("CCallObjectQXmpp", "The roster is null");
         return false;
     }
     m_pFrmVideo->setWindowTitle(
@@ -147,6 +160,7 @@ int CCallObject::CloseVideoWindow()
         //所以这里不需要释放内存  
         m_pFrmVideo->close();
         m_pFrmVideo = NULL;
+        CTool::EnableWake(false);
     }
     return 0;
 }
@@ -156,7 +170,8 @@ void CCallObject::slotFrmVideoClose()
     if(m_pFrmVideo)
     {
         m_pFrmVideo = NULL;
-        this->Stop();
+        if(FinishedState != m_State)
+            this->Stop();
     }
 }
 

@@ -17,7 +17,8 @@ int CManageCallXmpp::LoginInit(const QString &szId)
     if(nRet)
         return nRet;
 
-    CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
+    QSharedPointer<CClient> client = GETMANAGER->GetClient();
+    CClientXmpp* pClient = (CClientXmpp*)client.data();
     if(!pClient)
     {
         LOG_MODEL_ERROR("Call", "pClient is null");
@@ -58,7 +59,8 @@ int CManageCallXmpp::LoginInit(const QString &szId)
 int CManageCallXmpp::LogoutClean()
 {
     CManageCall::LogoutClean();
-    CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
+    QSharedPointer<CClient> client = GETMANAGER->GetClient();
+    CClientXmpp* pClient = (CClientXmpp*)client.data();
     if(!pClient)
     {
         LOG_MODEL_ERROR("Call", "pClient is null");
@@ -86,7 +88,8 @@ int CManageCallXmpp::Call(const QString &szId, bool bVideo)
         LOG_MODEL_ERROR("CManageCall", "Don't get roster:%s", qPrintable(szId));
         return -1;
     }
-    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)roster->GetInfo().data();
+    QSharedPointer<CUserInfo> info = roster->GetInfo();
+    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)info.data();
     if(pInfo->GetResource().isEmpty())
     {
         LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster resource is null");
@@ -102,7 +105,8 @@ int CManageCallXmpp::Call(const QString &szId, bool bVideo)
 int CManageCallXmpp::OnCall(const QString &szId,
             QSharedPointer<CCallObject> &call, bool bVideo)
 {
-    CClientXmpp* pClient = (CClientXmpp*)GETMANAGER->GetClient().data();
+    QSharedPointer<CClient> client = GETMANAGER->GetClient();
+    CClientXmpp* pClient = (CClientXmpp*)client.data();
     if(!pClient)
     {
         LOG_MODEL_ERROR("Call", "pClient is null");
@@ -124,8 +128,9 @@ int CManageCallXmpp::OnCall(const QString &szId,
     }
 
     //因为 xmpp 协议呼叫需要用户的资源（jid）  
-    CUserInfoXmpp* info = (CUserInfoXmpp*)roster->GetInfo().data();
-    QXmppCall* pCall = pCallManager->call(info->GetJid());
+    QSharedPointer<CUserInfo> info = roster->GetInfo();
+    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)info.data();
+    QXmppCall* pCall = pCallManager->call(pInfo->GetJid());
     //新建呼叫对象,并增加到管理 map 中  
     QSharedPointer<CCallObject> callObject(new CCallObjectQXmpp(pCall, bVideo));
     if(callObject.isNull())

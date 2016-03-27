@@ -63,8 +63,10 @@ int CCallObjectQXmppWebrtc::Stop()
     iq.setType(QXmppIq::Set);
     iq.SetAction(QXmppWebRtcIq::Stop);
     nRet = m_Manager->sendPacket(iq);
-    if(nRet)
-        return nRet;
+    //@see CManageCall::slotRosterStatusChanged
+    //if(nRet)
+    //    return nRet;
+    
     nRet = ReciveStop();
     return nRet;
 }
@@ -108,7 +110,7 @@ int CCallObjectQXmppWebrtc::ReciveSeesionDescription(QXmppWebRtcIq &iq)
 
 int CCallObjectQXmppWebrtc::SendTransportInfo(QString sdp_mid, int sdp_mline_index, QString sdp)
 {
-    LOG_MODEL_DEBUG("WEBRTC", "SendTransportInfo:mid:%s;index:%d;sdp:%s",
+    LOG_MODEL_INFO("WEBRTC", "SendTransportInfo:mid:%s;index:%d;sdp:%s",
                     sdp_mid.toStdString().c_str(), sdp_mline_index, sdp.toStdString().c_str());
     QXmppWebRtcIq iq;
     iq.setTo(m_szJid);
@@ -124,22 +126,10 @@ int CCallObjectQXmppWebrtc::ReciveTransportInfo(QXmppWebRtcIq& iq)
     int sdp_mline_index;
     QString sdp;
     iq.GetTransportInfo(sdp_mid, sdp_mline_index, sdp);
-    LOG_MODEL_DEBUG("WEBRTC", "ReciveTransportInfo:mid:%s;index:%d;sdp:%s",
+    LOG_MODEL_INFO("WEBRTC", "ReciveTransportInfo:mid:%s;index:%d;sdp:%s",
                     sdp_mid.toStdString().c_str(), sdp_mline_index, sdp.toStdString().c_str());
     
     return m_Conductor->ReciveIceCandidate(sdp_mid.toStdString(),
                                            sdp_mline_index,
                                            sdp.toStdString());
-}
-
-int CCallObjectQXmppWebrtc::RenderLocale(QImage frame)
-{
-    emit sigRenderLocale(frame);
-    return 0;
-}
-
-int CCallObjectQXmppWebrtc::RenderRemote(QImage frame)
-{
-    emit sigRenderRemote(frame);
-    return 0;
 }
