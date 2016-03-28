@@ -17,7 +17,6 @@ CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
     m_pCall = pCall;
     if(pCall)
     {
-        SetId(QXmppUtils::jidToBareJid(pCall->jid()));
         SetDirection((Direction) pCall->direction());
         ConnectionCallSlot(pCall);
     }
@@ -37,6 +36,7 @@ CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
 
 CCallObjectQXmpp::~CCallObjectQXmpp()
 {
+    GET_MAINWINDOW->disconnect(this);
     //TODO:多线程在运行时直接关闭主窗口会core，原因是主窗口关闭后QXMPP库已析构？  
     LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp status:%d",
                     GetState());

@@ -216,6 +216,7 @@ void CFrmVideo::on_cmbCamera_currentIndexChanged(int index)
     Q_UNUSED(index);
 }
 
+// 根据配置打开或隐藏本地窗口  
 void CFrmVideo::slotRefresh()
 {
     if(CGlobal::Instance()->GetIsShowLocaleVideo())

@@ -39,6 +39,9 @@ class DummySetSessionDescriptionObserver
 CWebrtcConductor::CWebrtcConductor(CCallObjectQXmppWebrtc *pCall) 
     : m_pCall(pCall)
 {
+    m_szStreamLable = "stream";
+    m_szVideoTrackLable = "video_track";
+    m_szAudioTrack = "audio_track";
     m_dtls = false;
 }
 
@@ -209,7 +212,7 @@ void CWebrtcConductor::AddStreams()
 {
     //建立本地流  
     rtc::scoped_refptr<webrtc::MediaStreamInterface> stream =
-        peer_connection_factory_->CreateLocalMediaStream("steam");
+        peer_connection_factory_->CreateLocalMediaStream(m_szStreamLable);
     
     //*音频track  
     rtc::scoped_refptr<webrtc::AudioSourceInterface> AudioSource
@@ -218,7 +221,7 @@ void CWebrtcConductor::AddStreams()
     {
         rtc::scoped_refptr<webrtc::AudioTrackInterface> audio_track(
                     peer_connection_factory_->CreateAudioTrack(
-                        "audio_track", AudioSource));
+                        m_szAudioTrack, AudioSource));
         if(audio_track.get())
         {
             if(!stream->AddTrack(audio_track))
@@ -237,7 +240,7 @@ void CWebrtcConductor::AddStreams()
         {
             rtc::scoped_refptr<webrtc::VideoTrackInterface> video_track(
                         peer_connection_factory_->CreateVideoTrack(
-                            "video_track",
+                            m_szVideoTrackLable,
                             peer_connection_factory_->CreateVideoSource(pVC,
                                                                         NULL)));
             if(video_track.get())
@@ -347,6 +350,27 @@ cricket::VideoCapturer* CWebrtcConductor::OpenVideoCaptureDevice() {
   int nIndex = CGlobal::Instance()->GetVideoCaptureDevice();
   if(-1 < nIndex && nIndex < devs.size())
       capturer = dev_manager->CreateVideoCapturer(devs[nIndex]);
-    
+
   return capturer;
+}
+
+int CWebrtcConductor::CloseLocaleRander(bool bClose)
+{
+    if(!peer_connection_.get())
+        return 0;
+    rtc::scoped_refptr<webrtc::MediaStreamInterface> stream =
+            peer_connection_->local_streams()->find(m_szStreamLable);
+    if(!stream.get())
+        return 0;
+    rtc::scoped_refptr<webrtc::VideoTrackInterface> video_track = 
+            stream->FindVideoTrack(m_szVideoTrackLable);  
+    if(!video_track.get())
+        return 0;
+    if(bClose)
+    {
+        video_track->RemoveRenderer(m_LocaleVideoRender.get());
+        return 0;
+    }
+    video_track->AddRenderer(m_LocaleVideoRender.get());
+    return 0;
 }

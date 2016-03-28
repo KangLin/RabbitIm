@@ -30,14 +30,16 @@ public:
     virtual ~CManageCall();
 
     /**
-     * @brief 用户登录成功后调用,用于初始化工作  
+     * @brief 用户登录成功后调用,用于初始化工作，如果要重载它，  
+     * 则需要在重载函数中调用 CManageCall::LoginInit(szId);   
      *
      * @param szId:登录用户名  
      * @return int
      */
     virtual int LoginInit(const QString &szId);
     /**
-     * @brief 用户登出时调用,用于清理工作   
+     * @brief 用户登出时调用,用于清理工作。如果要重载它，  
+     * 则需要在重载函数中调用 CManageCall::LogoutClean();    
      *
      * @return int
      */
@@ -81,6 +83,19 @@ public slots:
      * @see CCallAction:包含命令  
      */
     virtual int ProcessCommandCall(const QString &szId, const QString &szCommand);
+   
+private:
+    /**
+     * @brief 具体协议实现呼叫,主要是根据协议生成CCallObject实例    
+     * @param szId：用户 Id  
+     * @param call:如果成功,包含新建的呼叫实例  
+     * @param bVideo：是否包含视频  
+     * @return 成功返回0，失败返回非0  
+     * @see CManageCall::Call
+     */
+    virtual int OnCall(const QString &szId,
+              /*[out]*/QSharedPointer<CCallObject> &call,
+              /*[in]*/ bool bVideo = false) = 0;
 
 protected slots:
     /**
@@ -104,19 +119,6 @@ private slots:
      * @see   CManageCall::LogoutClean() CClient::slotClientDisconnected
      */
     void slotRosterStatusChanged(const QString &szId);
-
-private:
-    /**
-     * @brief 具体协议实现呼叫,主要是根据协议生成CCallObject实例    
-     * @param szId：用户 Id  
-     * @param call:如果成功,包含新建的呼叫实例  
-     * @param bVideo：是否包含视频  
-     * @return 成功返回0，失败返回非0  
-     * @see CManageCall::Call
-     */
-    virtual int OnCall(const QString &szId,
-              /*[out]*/QSharedPointer<CCallObject> &call,
-              /*[in]*/ bool bVideo = false) = 0;
 
 protected:
     /**

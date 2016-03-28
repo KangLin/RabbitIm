@@ -6,7 +6,8 @@
 #include "ManageCallWebrtcXmpp.h"
 #include "QXmppCallWebrtcManager.h"
 #include "qxmpp/QXmppUtils.h"
-#include "Global/Log.h"
+#include "Global/Global.h"
+#include "MainWindow.h"
 
 CCallObjectQXmppWebrtc::CCallObjectQXmppWebrtc(const QString &szJid, bool bVideo,
                           QXmppCallWebrtcManager *pManager,
@@ -15,12 +16,16 @@ CCallObjectQXmppWebrtc::CCallObjectQXmppWebrtc(const QString &szJid, bool bVideo
     m_Conductor(new rtc::RefCountedObject<CWebrtcConductor>(this))
 {
     m_szJid = szJid;
-    m_Manager = pManager; 
+    m_Manager = pManager;
+    bool check = connect(GET_MAINWINDOW, SIGNAL(sigRefresh()),
+                         SLOT(slotUpdateOption()));
+    Q_ASSERT(check);
 }
 
 CCallObjectQXmppWebrtc::~CCallObjectQXmppWebrtc()
 {
-    LOG_MODEL_DEBUG("WEBRTC", "CCallObjectQXmppWebrtc::~CCallObjectQXmppWebrtc()");
+    //LOG_MODEL_DEBUG("WEBRTC", "CCallObjectQXmppWebrtc::~CCallObjectQXmppWebrtc()");
+    GET_MAINWINDOW->disconnect(this);
 }
 
 int CCallObjectQXmppWebrtc::Call()
@@ -132,4 +137,14 @@ int CCallObjectQXmppWebrtc::ReciveTransportInfo(QXmppWebRtcIq& iq)
     return m_Conductor->ReciveIceCandidate(sdp_mid.toStdString(),
                                            sdp_mline_index,
                                            sdp.toStdString());
+}
+
+void CCallObjectQXmppWebrtc::slotUpdateOption()
+{
+    if(CGlobal::Instance()->GetIsShowLocaleVideo())
+    {
+        m_Conductor->CloseLocaleRander(false);
+    } else {
+        m_Conductor->CloseLocaleRander(true);
+    }
 }

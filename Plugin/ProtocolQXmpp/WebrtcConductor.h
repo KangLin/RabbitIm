@@ -9,8 +9,6 @@
 
 #include "talk/app/webrtc/mediastreaminterface.h"
 #include "talk/app/webrtc/peerconnectioninterface.h"
-#include "webrtc/examples/peerconnection/client/main_wnd.h"
-#include "webrtc/examples/peerconnection/client/peer_connection_client.h"
 #include "webrtc/base/scoped_ptr.h"
 #include "VideoRenderer.h"
 
@@ -57,6 +55,8 @@ public:
     virtual void OnSuccess(webrtc::SessionDescriptionInterface* desc);
     virtual void OnFailure(const std::string& error);
     
+    int CloseLocaleRander(bool bClose = true);
+
 private:
     bool InitializePeerConnection();
     void DeletePeerConnection();
@@ -65,6 +65,9 @@ private:
     cricket::VideoCapturer* OpenVideoCaptureDevice();
     
 private:
+    std::string m_szStreamLable;
+    std::string m_szVideoTrackLable;
+    std::string m_szAudioTrack;
     rtc::scoped_refptr<webrtc::PeerConnectionInterface> peer_connection_;
     rtc::scoped_refptr<webrtc::PeerConnectionFactoryInterface>
         peer_connection_factory_;

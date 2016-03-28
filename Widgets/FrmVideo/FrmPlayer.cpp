@@ -23,6 +23,8 @@ void CFrmPlayer::changeEvent(QEvent *)
 
 void CFrmPlayer::paintEvent(QPaintEvent *)
 {
+    if(this->isHidden())
+        return;
     QPainter painter(this);
     if(m_Frame)
     {

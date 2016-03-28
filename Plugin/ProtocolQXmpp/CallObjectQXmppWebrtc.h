@@ -65,6 +65,10 @@ public slots:
     
     virtual int SendTransportInfo(QString sdp_mid, int sdp_mline_index, QString sdp);
     virtual int ReciveTransportInfo(QXmppWebRtcIq& iq);
+    
+private slots:
+    //配置更新  
+    void slotUpdateOption();
 
 private:
     QXmppCallWebrtcManager* m_Manager;

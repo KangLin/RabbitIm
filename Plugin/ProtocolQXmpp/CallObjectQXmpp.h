@@ -72,7 +72,7 @@ private:
     int StopVideo();
     int OpenVideoWindow();
     virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame);
-    
+
 private:
     QTimer m_tmRecive;
     CFrameProcess m_CaptureFrameProcess;//本地显示  
