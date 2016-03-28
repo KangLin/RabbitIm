@@ -23,6 +23,7 @@ QString CUserInfo::GetNick()
 
 int CUserInfo::SetNick(const QString &szNick)
 {
+    GLOBAL_USER->SetModify();
     m_szNick = szNick;
     return 0;
 }
@@ -34,6 +35,7 @@ QDate CUserInfo::GetBirthday()
 
 int CUserInfo::SetBirthday(const QDate &d)
 {
+    GLOBAL_USER->SetModify();
     m_Birthday = d;
     return 0;
 }
@@ -45,6 +47,7 @@ QString CUserInfo::GetEmail()
 
 int CUserInfo::SetEmail(const QString &szEmail)
 {
+    GLOBAL_USER->SetModify();
     m_szEmail = szEmail;
     return 0;
 }
@@ -56,6 +59,7 @@ QString CUserInfo::GetDescription()
 
 int CUserInfo::SetDescription(const QString &szDescription)
 {
+    GLOBAL_USER->SetModify();
     m_szDescription = szDescription;
     return 0;
 }
@@ -67,6 +71,7 @@ QString CUserInfo::GetUrl() const
 
 int CUserInfo::SetUrl(const QString &url)
 {
+    GLOBAL_USER->SetModify();
     m_szUrl = url;
     return 0;
 }
@@ -88,6 +93,7 @@ QImage CUserInfo::GetPhoto()
 
 int CUserInfo::SetPhoto(QByteArray img)
 {
+    GLOBAL_USER->SetModify();
     QBuffer buf(&img);
     QImageReader reader(&buf, "png");
     m_imgPhoto = reader.read();
@@ -164,6 +170,7 @@ bool CUserInfo::GetIsMonitor()
 
 int CUserInfo::SetMonitor(bool bMonitor)
 {
+    GLOBAL_USER->SetModify();
     m_bMonitor = bMonitor;
     return 0;
 }

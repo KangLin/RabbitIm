@@ -58,7 +58,10 @@ int CManageUser::SaveToStorage()
     int nRet = 0;
     nRet = SaveLocaleToStorage();
     if(nRet)
+    {
+        LOG_MODEL_ERROR("CManageUser", "SaveLocaleToStorage fail:%d", nRet);
         return nRet;
+    }
     nRet = SaveRosterToStorage();
     return nRet;
 }
