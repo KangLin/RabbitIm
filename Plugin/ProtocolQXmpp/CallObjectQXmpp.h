@@ -52,9 +52,8 @@ private:
     QAudioInput*  m_pAudioInput; ///< 音频输入设备  
     QAudioOutput* m_pAudioOutput;///< 音频输出设备  
 
-protected:
     QXmppCall* m_pCall;
-
+    
 //视频    
 protected slots:
     virtual void slotVideoModeChanged(QIODevice::OpenMode mode);
@@ -78,10 +77,8 @@ private:
     CFrameProcess m_CaptureFrameProcess;//本地显示  
     CFrameProcess m_ReciveFrameProcess;//从网络接收  
     QThread m_VideoThread;
-
     CCamera* m_pCamera;
-
-    CFrmVideo *m_pFrmVideo;
+    
 };
 
 #endif // CALLQXMPP_H

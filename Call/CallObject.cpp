@@ -114,7 +114,6 @@ int CCallObject::OpenVideoWindow()
     if(m_pFrmVideo)
     {
         LOG_MODEL_WARNING("CCallObject", "Video window is opened");
-        Q_ASSERT(false);     
         return 0;
     }
     m_pFrmVideo = new CFrmVideo();
@@ -186,9 +185,10 @@ void CCallObject::slotChanageState(CCallObject::State state)
         break;
     case ConnectingState:
         StopCallSound();
-        OpenVideoWindow();
         break;
     case ActiveState:
+        StopCallSound();
+        OpenVideoWindow();
         break;
     case DisconnectingState:
         break;

@@ -12,13 +12,12 @@ CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
 {
     m_pAudioInput = NULL;
     m_pAudioOutput = NULL;
-    m_pFrmVideo = NULL;
     m_pCamera = NULL;
     m_pCall = pCall;
-    if(pCall)
+    if(m_pCall)
     {
-        SetDirection((Direction) pCall->direction());
-        ConnectionCallSlot(pCall);
+        SetDirection((Direction) m_pCall->direction());
+        ConnectionCallSlot(m_pCall);
     }
     else
         Q_ASSERT(false);
@@ -40,24 +39,8 @@ CCallObjectQXmpp::~CCallObjectQXmpp()
     //TODO:多线程在运行时直接关闭主窗口会core，原因是主窗口关闭后QXMPP库已析构？  
     LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp status:%d",
                     GetState());
-    if(this->GetState() == ActiveState)
-    {
-        this->Stop();
-        slotFinished();
-    }
-    if(GetState() == DisconnectingState)
-    {
-        slotFinished();
-    }
-    if(m_pAudioInput)
-        delete m_pAudioInput;
-    if(m_pAudioOutput)
-        delete m_pAudioOutput;
-    if(m_pFrmVideo)
-    {   
-        m_pFrmVideo->close();
-        m_pFrmVideo = NULL;
-    }
+
+    StopAudioDevice();
 
     LOG_MODEL_DEBUG("CCallObjectQXmpp",
                     "CCallObjectQXmpp::~CCallObjectQXmpp.id:%d",
@@ -140,6 +123,7 @@ void CCallObjectQXmpp::slotStateChanged(QXmppCall::State state)
 void CCallObjectQXmpp::slotFinished()
 {
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallVideoQXmpp::slotFinished");
+    StopAudioDevice();
     if(m_bVideo)
     {
         StopVideo();
@@ -182,7 +166,6 @@ void CCallObjectQXmpp::slotAudioModeChanged(QIODevice::OpenMode mode)
         m_pAudioOutput->stop();
     }
 }
-
 
 void ShowAudioDeviceSupportCodec(QAudioDeviceInfo &info, QString szPropmt)
 {
@@ -263,7 +246,7 @@ int CCallObjectQXmpp::StartAudioDevice()
     QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
 #ifdef DEBUG
     ShowAudioDevices();
-    LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallVideoQXmpp::connected:audio name:%s;id:%d;channels:%d, clockrate:%d, packet time:%d",
+    LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallVideoQXmpp::connected:audio payload name:%s;id:%d;channels:%d, clockrate:%d, packet time:%d",
            qPrintable(AudioPlayLoadType.name()),
            AudioPlayLoadType.id(),
            AudioPlayLoadType.channels(),
@@ -471,7 +454,7 @@ int CCallObjectQXmpp::SetVideoFormat()
 
 int CCallObjectQXmpp::StartVideo()
 {
-    if(!m_bVideo)
+    if(!m_bVideo || !m_pCall)
     {
         return -1;
     }
@@ -481,7 +464,7 @@ int CCallObjectQXmpp::StartVideo()
 #endif
 
     bool check = false;
-    m_VideoThread.start();//开始视频处理线程  
+    //m_VideoThread.start();//开始视频处理线程  
 
     //从摄像头到网络  
     check = connect(&m_CaptureFrameProcess, SIGNAL(sigCaptureFrame(QVideoFrame)),
@@ -496,8 +479,11 @@ int CCallObjectQXmpp::StartVideo()
     m_pCamera = CCameraFactory::Instance()->GetCamera(
                 CGlobal::Instance()->GetVideoCaptureDevice());
     try{
-        m_pCamera->Open(this);
-        m_pCamera->Start();
+        if(m_pCamera)
+        {
+            if(m_pCamera->Open(this))
+                m_pCamera->Start();
+        }
     }catch(...){
         LOG_MODEL_ERROR("CCallObjectQXmpp", "Start camera error");
     }
@@ -514,13 +500,7 @@ int CCallObjectQXmpp::StartVideo()
     int t = 1000 / m_pCall->videoChannel()->encoderFormat().frameRate();
     m_tmRecive.start(t);
 
-    //如果是监控模式，则不用打开视频窗口  
-    if(IsMonitor())
-    {
-        return 0;
-    }
-
-    return OpenVideoWindow();
+    return 0;
 }
 
 int CCallObjectQXmpp::StopVideo()
@@ -541,8 +521,7 @@ int CCallObjectQXmpp::StopVideo()
         m_pCamera = NULL;
     }
     m_tmRecive.stop();
-    m_VideoThread.quit();
-    CloseVideoWindow();
+    //m_VideoThread.quit();
     return 0;
 }
 
@@ -558,11 +537,12 @@ int CCallObjectQXmpp::ConnectLocaleVideo()
                         &m_CaptureFrameProcess,
                SLOT(slotFrameConvertedToRGB32(QVideoFrame)));
         Q_ASSERT(check);
+
         check = connect(&m_CaptureFrameProcess,
                         SIGNAL(sigFrameConvertedToRGB32Frame(
-                                  const QVideoFrame&)),
+                                   const QVideoFrame&)),
                         m_pFrmVideo,
-                        SLOT(slotDisplayLoacleVideo(
+                        SLOT(slotDisplayLocaleVideo(
                                  const QVideoFrame&)));
         Q_ASSERT(check);
     }
@@ -608,4 +588,3 @@ int CCallObjectQXmpp::OpenVideoWindow()
     }
     return 0;
 }
-

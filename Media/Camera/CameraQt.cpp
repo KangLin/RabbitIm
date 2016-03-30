@@ -33,13 +33,21 @@ bool CCameraQt::Present(const QVideoFrame &frame)
 int CCameraQt::OnOpen(VideoInfo *pVideoInfo)
 {
     if(NULL == m_Camera.get())
-        m_Camera = std::auto_ptr<QCamera>(
+    {
+        try{
+            m_Camera = std::auto_ptr<QCamera>(
             #if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
-                    new QCamera((QCamera::Position) m_nIndex)
+                        new QCamera((QCamera::Position) m_nIndex)
             #else
-                    new QCamera(QCamera::availableDevices().at(m_nIndex))
+                        new QCamera(QCamera::availableDevices().at(m_nIndex))
             #endif
-                    );
+                        );
+        }catch(...){
+            LOG_MODEL_ERROR("CCameraQt", "new QCamera exception ");
+        }
+    }
+    if(m_Camera.get() == NULL)
+        return -1;
 
     if (pVideoInfo)
     {
@@ -67,7 +75,7 @@ int CCameraQt::OnClose()
     }
     if(m_Camera.get())
     {
-        m_Camera.release();
+        m_Camera.reset();
     }
     return 0;
 }

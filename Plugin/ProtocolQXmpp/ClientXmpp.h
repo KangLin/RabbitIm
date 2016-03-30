@@ -188,9 +188,9 @@ private:
     
 #ifdef RABBITIM_USE_WEBRTC
     friend class CManageCallWebrtcXmpp;
-#endif
+#else
     friend class CManageCallXmpp;
-
+#endif
     friend class CManageGroupChatQxmpp;
     friend class CGroupChatQxmpp;
 };

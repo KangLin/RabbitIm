@@ -69,6 +69,14 @@ public slots:
     virtual int Accept()= 0;
 
 public:
+    virtual QString GetId();          ///< 得到用户ID,不含资源  
+    /**
+     * @brief 得到呼叫状态  
+     * @return 呼叫状态  
+     * @see State
+     */
+    virtual State GetState();
+    virtual bool IsVideo();           ///< 是否是视频呼叫  
     /**
      * @brief 设置错误信息  
      * @param nError：错误号  
@@ -82,14 +90,6 @@ public:
      * @return nError：错误号  
      */
     int GetError(QString &szError);
-    virtual QString GetId();          ///< 得到用户ID,不含资源  
-    /**
-     * @brief 得到呼叫状态  
-     * @return 呼叫状态  
-     * @see State
-     */
-    virtual State GetState();
-    virtual bool IsVideo();           ///< 是否是视频呼叫  
     
 signals:
     /** 
