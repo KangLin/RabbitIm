@@ -573,6 +573,9 @@ int CCallObjectQXmpp::OpenVideoWindow()
     int nRet = CCallObject::OpenVideoWindow();
     if(nRet)
         return nRet;
+    
+    if(!m_pFrmVideo)
+        return 0;
 
     //接收后会发送信号进行转换,显示网络视频    
     bool check = connect(&m_ReciveFrameProcess, 

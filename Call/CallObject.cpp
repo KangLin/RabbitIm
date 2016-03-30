@@ -107,19 +107,20 @@ void CCallObject::StopCallSound()
 
 int CCallObject::OpenVideoWindow()
 {
-    if(IsMonitor())
-        return 0;
+    if(IsMonitor() || !IsVideo())
+        return -1;
 
-    //打开显示对话框  
+    //防止重复打开  
     if(m_pFrmVideo)
     {
         LOG_MODEL_WARNING("CCallObject", "Video window is opened");
-        return 0;
+        return -2;
     }
+    //打开显示对话框  
     m_pFrmVideo = new CFrmVideo();
     if(!m_pFrmVideo)
     {
-        return -1;
+        return -3;
     }
     CTool::EnableWake();
     QSharedPointer<CUser> roster
