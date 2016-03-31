@@ -124,14 +124,14 @@ equals(RABBITIM_USE_WEBRTC, 1) {
         LIBS *= crypt32.lib iphlpapi.lib secur32.lib winmm.lib dmoguids.lib \
             wmcodecdspuuid.lib amstrmid.lib msdmo.lib Strmiids.lib
     }
-    !isEmpty(WEBRTC_PATH) {
-        INCLUDEPATH += $${WEBRTC_PATH}/include
-        LIBS+=-L$${WEBRTC_PATH}/lib
+    !isEmpty(WEBRTC_ROOT) {
+        INCLUDEPATH += $${WEBRTC_ROOT}/include
+        LIBS+=-L$${WEBRTC_ROOT}/lib
     } else {
-        error("Please set WEBRTC_PATH")
+        error("Please set WEBRTC_ROOT")
     }
 
-    LIBS += libjingle_peerconnection.lib \
+    WEBRTC_LIBS = libjingle_peerconnection.lib \
         field_trial_default.lib \
         jsoncpp.lib \
         rtc_base.lib \
@@ -189,4 +189,11 @@ equals(RABBITIM_USE_WEBRTC, 1) {
         directshow_baseclasses.lib \
         video_render_module_internal_impl.lib \
         libjingle_p2p.lib libsrtp.lib
+
+    values = $$WEBRTC_LIBS
+    for(var, values) {
+        !msvc : LIBS += -l$${var}
+    }
+ 
+    msvc:LIBS += $${WEBRTC_LIBS}
 }

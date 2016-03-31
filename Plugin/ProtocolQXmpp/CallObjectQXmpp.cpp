@@ -99,6 +99,7 @@ int CCallObjectQXmpp::Stop()
         return -1;
         
     m_pCall->hangup();
+    slotChanageState(FinishedState);
     return nRet;
 }
 
@@ -336,6 +337,7 @@ void CCallObjectQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
     {
         m_bVideo = true;
         StartVideo();
+        slotChanageState(ActiveState);
     }
 
     if(QIODevice::WriteOnly == mode)
@@ -487,7 +489,7 @@ int CCallObjectQXmpp::StartVideo()
     }catch(...){
         LOG_MODEL_ERROR("CCallObjectQXmpp", "Start camera error");
     }
-    
+
     if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->startVideo();
 
