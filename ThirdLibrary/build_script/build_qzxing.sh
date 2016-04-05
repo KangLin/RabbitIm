@@ -37,7 +37,7 @@ esac
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
 else
-    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/qzxing
+    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../source/qzxing
 fi
 
 CUR_DIR=`pwd`
