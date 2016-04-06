@@ -12,68 +12,76 @@
 <context>
     <name>CCallAction</name>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="141"/>
+        <location filename="../../Call/CallAction.cpp" line="133"/>
         <source>Call</source>
         <translation>呼叫</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="153"/>
+        <location filename="../../Call/CallAction.cpp" line="145"/>
         <source>Being a video ringing ......</source>
         <translation>視頻呼叫 ......</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="155"/>
+        <location filename="../../Call/CallAction.cpp" line="147"/>
         <source>Being a ringing ......</source>
         <translation>呼叫 ......</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="158"/>
+        <location filename="../../Call/CallAction.cpp" line="150"/>
         <source>Be connecting ......</source>
         <translation>建立連接中 ......</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="162"/>
+        <location filename="../../Call/CallAction.cpp" line="154"/>
         <source>Be a video talking ...... ; </source>
         <translation>視頻通話中 ...... ; </translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="164"/>
+        <location filename="../../Call/CallAction.cpp" line="156"/>
         <source>Be talking ...... ; </source>
         <translation>通話中 ...... ; </translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="165"/>
-        <location filename="../../Call/CallAction.cpp" line="172"/>
-        <location filename="../../Call/CallAction.cpp" line="179"/>
+        <location filename="../../Call/CallAction.cpp" line="157"/>
+        <location filename="../../Call/CallAction.cpp" line="164"/>
+        <location filename="../../Call/CallAction.cpp" line="174"/>
         <source>Talk time: </source>
         <translation>通話時間: </translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="165"/>
-        <location filename="../../Call/CallAction.cpp" line="172"/>
-        <location filename="../../Call/CallAction.cpp" line="179"/>
+        <location filename="../../Call/CallAction.cpp" line="157"/>
+        <location filename="../../Call/CallAction.cpp" line="164"/>
+        <location filename="../../Call/CallAction.cpp" line="174"/>
         <source>s</source>
         <translation>秒</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="169"/>
+        <location filename="../../Call/CallAction.cpp" line="161"/>
         <source>Video talk is disconnected</source>
         <translation>斷開視頻通話</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="171"/>
+        <location filename="../../Call/CallAction.cpp" line="163"/>
         <source>Talk is disconnected</source>
         <translation>斷開通話</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="176"/>
+        <location filename="../../Call/CallAction.cpp" line="171"/>
         <source>Video talk over.</source>
         <translation>視頻通話完畢。</translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="178"/>
+        <location filename="../../Call/CallAction.cpp" line="173"/>
         <source>Talk over.</source>
         <translation>通話完畢。</translation>
+    </message>
+</context>
+<context>
+    <name>CCallObject</name>
+    <message>
+        <location filename="../../Call/CallObject.cpp" line="134"/>
+        <source>Be talking with %1</source>
+        <translation>正在與 %1 通話</translation>
     </message>
 </context>
 <context>
@@ -1186,37 +1194,37 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CFileTransferAction</name>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="119"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="120"/>
         <source>ETA: </source>
         <translation>剩餘：</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="191"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="192"/>
         <source>Save as ...</source>
         <translation>另存為 ...</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="206"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="207"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="215"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="216"/>
         <source>Send the file has been canceled.</source>
         <translation>檔案傳輸被取消。</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="232"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="233"/>
         <source>Open folder</source>
         <translation>打開資料夾</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="235"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="236"/>
         <source>Send the file has been finished.</source>
         <translation>檔案傳輸完成。</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="255"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="256"/>
         <source>File sending error.</source>
         <translation>傳輸錯誤</translation>
     </message>
@@ -2002,17 +2010,17 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CManageCall</name>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="50"/>
+        <location filename="../../Call/ManageCall.cpp" line="90"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
         <translation>好友離線狀態，不能發起呼叫。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="63"/>
+        <location filename="../../Call/ManageCall.cpp" line="103"/>
         <source>Being talk with %1, please stop it.</source>
         <translation>正在與 %1 通話，請停止它。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="149"/>
+        <location filename="../../Call/ManageCall.cpp" line="187"/>
         <source> is calling</source>
         <translation>正在呼叫</translation>
     </message>
@@ -2052,12 +2060,12 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CQRCode</name>
     <message>
-        <location filename="../../common/QRCode.cpp" line="232"/>
+        <location filename="../../common/QRCode.cpp" line="233"/>
         <source>Do you add roster </source>
         <translation>是否增加好友 </translation>
     </message>
     <message>
-        <location filename="../../common/QRCode.cpp" line="251"/>
+        <location filename="../../common/QRCode.cpp" line="252"/>
         <source>Do open </source>
         <translation>是否打開 </translation>
     </message>
@@ -2073,22 +2081,22 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CUserInfo</name>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="143"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="149"/>
         <source>[none]</source>
         <translation>[未知]</translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="147"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="153"/>
         <source>[From]</source>
         <translation>[掛起]</translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="149"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="155"/>
         <source>[To]</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="151"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="157"/>
         <source>[remove]</source>
         <translation>[刪除]</translation>
     </message>

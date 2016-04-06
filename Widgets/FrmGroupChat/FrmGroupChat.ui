@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>460</width>
-    <height>380</height>
+    <width>580</width>
+    <height>472</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -229,6 +229,7 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="../../Resource/Resource.qrc"/>
   <include location="../../Resource/Resource.qrc"/>
  </resources>
  <connections/>

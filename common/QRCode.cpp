@@ -128,6 +128,7 @@ int CQRCode::ProcessQImage(QImage image, QString &szText)
         }
         LOG_MODEL_DEBUG("CQRCode", "Decode:%s", szMessage.toStdString().c_str());
     }catch(...){
+        LOG_MODEL_ERROR("CQRCode", "Exception:Scan image fail.");
         return 1;
     }
 #endif

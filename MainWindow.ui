@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
-    <height>600</height>
+    <width>150</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -33,8 +33,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>300</width>
-     <height>23</height>
+     <width>150</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOperator_O">
@@ -100,6 +100,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
+  <include location="Resource/Resource.qrc"/>
   <include location="Resource/Resource.qrc"/>
  </resources>
  <connections/>

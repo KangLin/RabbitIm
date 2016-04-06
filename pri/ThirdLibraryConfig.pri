@@ -27,14 +27,14 @@ win32 {
     RABBITIM_SYSTEM = "windows"
     msvc {
         QMAKE_CXXFLAGS += /wd"4819"  #忽略msvc下对utf-8的警告  
-        LDFLAGS += -ladvapi32
+        QMAKE_LFLAGS += -ladvapi32
         RABBITIM_PLATFORM = "msvc"
         isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/windows_msvc
-        #CONFIG(debug, debug|release) {
-            #LDFLAGS += /NODEFAULTLIB:libcmtd /SUBSYSTEM:WINDOWS",5.01"
-        #}else{
-        #    LDFLAGS += /NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS",5.01"
-        #}
+        CONFIG(debug, debug|release) {
+            QMAKE_LFLAGS += /SUBSYSTEM:WINDOWS",5.01" /NODEFAULTLIB:libcmtd
+        }else{
+            QMAKE_LFLAGS += /SUBSYSTEM:WINDOWS",5.01" /NODEFAULTLIB:libcmt
+        }
     } else {
         RABBITIM_PLATFORM = "mingw"
         isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/windows_mingw

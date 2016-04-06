@@ -20,7 +20,7 @@
 <context>
     <name>CManageCallWebrtcXmpp</name>
     <message>
-        <location filename="../ManageCallWebrtcXmpp.cpp" line="69"/>
+        <location filename="../ManageCallWebrtcXmpp.cpp" line="85"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -28,7 +28,7 @@
 <context>
     <name>CManageCallXmpp</name>
     <message>
-        <location filename="../ManageCallXmpp.cpp" line="93"/>
+        <location filename="../ManageCallXmpp.cpp" line="97"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
         <translation type="unfinished"></translation>
     </message>

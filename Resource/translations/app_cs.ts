@@ -12,67 +12,75 @@
 <context>
     <name>CCallAction</name>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="141"/>
+        <location filename="../../Call/CallAction.cpp" line="133"/>
         <source>Call</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="153"/>
+        <location filename="../../Call/CallAction.cpp" line="145"/>
         <source>Being a video ringing ......</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="155"/>
+        <location filename="../../Call/CallAction.cpp" line="147"/>
         <source>Being a ringing ......</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="158"/>
+        <location filename="../../Call/CallAction.cpp" line="150"/>
         <source>Be connecting ......</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="162"/>
+        <location filename="../../Call/CallAction.cpp" line="154"/>
         <source>Be a video talking ...... ; </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="164"/>
+        <location filename="../../Call/CallAction.cpp" line="156"/>
         <source>Be talking ...... ; </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="165"/>
-        <location filename="../../Call/CallAction.cpp" line="172"/>
-        <location filename="../../Call/CallAction.cpp" line="179"/>
+        <location filename="../../Call/CallAction.cpp" line="157"/>
+        <location filename="../../Call/CallAction.cpp" line="164"/>
+        <location filename="../../Call/CallAction.cpp" line="174"/>
         <source>Talk time: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="165"/>
-        <location filename="../../Call/CallAction.cpp" line="172"/>
-        <location filename="../../Call/CallAction.cpp" line="179"/>
+        <location filename="../../Call/CallAction.cpp" line="157"/>
+        <location filename="../../Call/CallAction.cpp" line="164"/>
+        <location filename="../../Call/CallAction.cpp" line="174"/>
         <source>s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="169"/>
+        <location filename="../../Call/CallAction.cpp" line="161"/>
         <source>Video talk is disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="171"/>
+        <location filename="../../Call/CallAction.cpp" line="163"/>
         <source>Talk is disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="176"/>
+        <location filename="../../Call/CallAction.cpp" line="171"/>
         <source>Video talk over.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/CallAction.cpp" line="178"/>
+        <location filename="../../Call/CallAction.cpp" line="173"/>
         <source>Talk over.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CCallObject</name>
+    <message>
+        <location filename="../../Call/CallObject.cpp" line="134"/>
+        <source>Be talking with %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1185,37 +1193,37 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CFileTransferAction</name>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="119"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="120"/>
         <source>ETA: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="191"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="192"/>
         <source>Save as ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="206"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="207"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="215"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="216"/>
         <source>Send the file has been canceled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="232"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="233"/>
         <source>Open folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="235"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="236"/>
         <source>Send the file has been finished.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="255"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="256"/>
         <source>File sending error.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2001,17 +2009,17 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CManageCall</name>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="50"/>
+        <location filename="../../Call/ManageCall.cpp" line="90"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="63"/>
+        <location filename="../../Call/ManageCall.cpp" line="103"/>
         <source>Being talk with %1, please stop it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="149"/>
+        <location filename="../../Call/ManageCall.cpp" line="187"/>
         <source> is calling</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2051,12 +2059,12 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CQRCode</name>
     <message>
-        <location filename="../../common/QRCode.cpp" line="232"/>
+        <location filename="../../common/QRCode.cpp" line="233"/>
         <source>Do you add roster </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../common/QRCode.cpp" line="251"/>
+        <location filename="../../common/QRCode.cpp" line="252"/>
         <source>Do open </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2072,22 +2080,22 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CUserInfo</name>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="143"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="149"/>
         <source>[none]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="147"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="153"/>
         <source>[From]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="149"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="155"/>
         <source>[To]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../UserInfo/UserInfo.cpp" line="151"/>
+        <location filename="../../UserInfo/UserInfo.cpp" line="157"/>
         <source>[remove]</source>
         <translation type="unfinished"></translation>
     </message>

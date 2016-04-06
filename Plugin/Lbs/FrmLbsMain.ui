@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>500</height>
+    <width>580</width>
+    <height>472</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Motion</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="lbs.qrc">
+   <iconset>
     <normaloff>:/png/motioin</normaloff>:/png/motioin</iconset>
   </property>
   <layout class="QGridLayout">
@@ -43,8 +43,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="lbs.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
