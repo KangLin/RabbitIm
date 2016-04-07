@@ -174,6 +174,9 @@ void MainWindow::resizeEvent(QResizeEvent * e)
 
 void MainWindow::showEvent(QShowEvent *)
 {
+#ifndef MOBILE
+    slotCheckShowWindows();
+#endif
 }
 
 void MainWindow::closeEvent(QCloseEvent *e)
