@@ -217,5 +217,5 @@
 设置 pkg-config
         
     ```sh
-    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}
+    export PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM} #可选
     ```

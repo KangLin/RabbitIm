@@ -25,12 +25,12 @@ CCameraQtCaptureVideoFrame::supportedPixelFormats(
          handleType);
     if (handleType == QAbstractVideoBuffer::NoHandle) {
         return QList<QVideoFrame::PixelFormat>()
-                << QVideoFrame::Format_RGB32//windows 平台、linux 平台默认都支持 RGB32 格式  
+                << QVideoFrame::Format_RGB32  //windows 平台、linux 平台默认都支持 RGB32 格式  
                 << QVideoFrame::Format_RGB24
-                << QVideoFrame::Format_ARGB32
+                << QVideoFrame::Format_ARGB32; /*
                 << QVideoFrame::Format_ARGB32_Premultiplied
                 << QVideoFrame::Format_RGB565
-                << QVideoFrame::Format_RGB555;
+                << QVideoFrame::Format_RGB555; //*/
 		//lst.push_back(QVideoFrame::Format_YUYV);//Qt现在不支持此格式，因为Qt内部用了QImage来处理视频帧。
     } else {
         return QList<QVideoFrame::PixelFormat>();
@@ -86,7 +86,8 @@ bool CCameraQtCaptureVideoFrame::setSource(CCameraQt *pCamera)
         LOG_MODEL_ERROR("CaptureVideo", "m_Probe.setSource fail");
 #else
     //windows下,只能用下面方式捕获视频  
-    pCamera->m_Camera.get()->setViewfinder(this);
+    if(m_pCamera)
+        m_pCamera->m_Camera.get()->setViewfinder(this);
 #endif
     return ret;
 }

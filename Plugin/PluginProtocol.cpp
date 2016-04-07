@@ -8,6 +8,12 @@ CPluginProtocol::CPluginProtocol()
 {
 }
 
+/**
+ * @brief CPluginProtocol::InitInstance
+ * @param szDir
+ * @return 
+ * @see CManager
+ */
 int CPluginProtocol::InitInstance(const QString &szDir)
 {
     int nRet = 0;

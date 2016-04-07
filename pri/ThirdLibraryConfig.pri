@@ -27,7 +27,7 @@ win32 {
     RABBITIM_SYSTEM = "windows"
     msvc {
         QMAKE_CXXFLAGS += /wd"4819"  #忽略msvc下对utf-8的警告  
-        QMAKE_LFLAGS += -ladvapi32
+        #QMAKE_LFLAGS += -ladvapi32
         RABBITIM_PLATFORM = "msvc"
         isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/windows_msvc
         CONFIG(debug, debug|release) {

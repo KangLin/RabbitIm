@@ -148,7 +148,7 @@
     gclient config http://webrtc.googlecode.com/svn/trunk  
     gclient sync --force  
 
-* 当前使用版本：svn库版本——r5663  
+* 当前使用版本：tag ——r8464
 * 编译参考：http://blog.csdn.net/kl222/article/details/17198873
 
 #### 3. 编解码库（ffmpeg）：
@@ -159,13 +159,13 @@
     git clone git://source.ffmpeg.org/ffmpeg.git
 
 *当前使用版本：
-    git库版本 —— n2.8.2
+    git库版本 —— n3.0.1
 
 #### 4. 编解码库(x264)
 
 * 下载：`git clone git://git.videolan.org/x264.git`  
 * 当前使用版本：  
-    git库版本 —— 121396c
+    git库版本 —— a01e339
 
 #### 5. 解码库(libvpx)
 
@@ -208,7 +208,7 @@
 
 * 下载：`git://github.com/bagder/curl.git`  
 * 当前使用版本：  
-    git库版本 —— curl-7_47_1
+    git库版本 —— curl-7_48_0
 
 #### 12. [libicu](http://site.icu-project.org/)
 

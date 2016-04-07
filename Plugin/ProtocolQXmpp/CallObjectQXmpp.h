@@ -58,7 +58,7 @@ private:
 protected slots:
     virtual void slotVideoModeChanged(QIODevice::OpenMode mode);
     //发送视频帧到网络  
-    void slotCaptureFrame(const QXmppVideoFrame& frame);
+    void slotCaptureFrame(const QVideoFrame &frame);
     //从网络接收视频帧  
     void slotReciveFrame();
 
@@ -70,7 +70,7 @@ private:
     int StartVideo();
     int StopVideo();
     int OpenVideoWindow();
-    virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame);
+    virtual int OnFrame(const QVideoFrame &frame);
 
 private:
     QTimer m_tmRecive;

@@ -46,15 +46,6 @@ public:
     ~CTool();
 
 public:
-    /**
-     * @brief 格式映射  
-     * @param format 
-     * @return 
-     */
-    static QImage::Format VideoFormatToQImageFormat(const VideoFormat format);
-    static QVideoFrame::PixelFormat VideoFormatToQVideoFrameFormat(
-            const VideoFormat format);
-
 #ifdef RABBITIM_USE_FFMPEG
     //设置ffmpeg日志输出  
     static int SetFFmpegLog();
@@ -66,55 +57,54 @@ public:
      */
     static AVPixelFormat QVideoFrameFormatToFFMpegPixFormat(
             const QVideoFrame::PixelFormat format);
-    static VideoFormat QVideoFrameFormatToVideoFormat(
-            const QVideoFrame::PixelFormat format);
-    static AVPixelFormat VideoFormatToFFMpegPixFormat(
-            const VideoFormat format);
     static AVPixelFormat QImageFormatToFFMpegPixFormat(
             const QImage::Format format);
     
-    /**
-     * @brief 格式转换。  
-     *        如果转换成功，则调用者使用完 outFrame 后，  
-     *        需要调用 avpicture_free(&outFrame) 释放内存  
-     * @param inFrame: 要转换的帧  
-     * @param outFrame: 转换后的帧  
-     * @param nOutWidth: 转换后的帧的宽度  
-     * @param nOutHeight: 转换后的帧的高度  
-     * @param pixelFormat: 像素格式  
-     * @return 
-     */
-    static int ConvertFormat(/*[in]*/const QVideoFrame &inFrame, /** 要转换的帧 */
-                             /*[out]*/ AVPicture &outFrame,      /** 转换后的帧 */
-                             /*[in]*/  int nOutWidth,       /** 转换后的帧的宽度 */
-                             /*[in]*/  int nOutHeight,      /** 转换后的帧的高度 */
-                             /*[in]*/  AVPixelFormat pixelFormat
-                             = AV_PIX_FMT_RGB32);
-    static int ConvertFormat(const AVPicture &inFrame,           /** 要转换的帧 */
-                             int nInWidth,                  /** 要转换的帧的宽度 */
-                             int nInHeight,                 /** 要转换的帧的高度 */
-                             AVPixelFormat inPixelFormat,   /** 要转换的帧的格式 */
-                             AVPicture &outFrame,                /** 转换后的帧 */
-                             int nOutWidth,                 /** 转换后的帧的宽度 */
-                             int nOutHeight,                /** 转换后的帧的高度 */  
-                             AVPixelFormat outPixelFormat); /** 转换后的帧的格式 */  
-    static int ConvertFormat(/*[in]*/const std::shared_ptr<CVideoFrame> &inFrame,
-          /*[out]*/ std::shared_ptr<CVideoFrame> &outFrame,      /** 转换后图像 */  
-          /*[in]*/  int nOutWidth,                          /** 转换后的帧的宽度 */  
-          /*[in]*/  int nOutHeight,                         /** 转换后的帧的高度 */  
-          /*[in]*/  VideoFormat format = VIDEO_FORMAT_RGB32);/** 转换后的帧的格式 */  
-
 #ifdef RABBITIM_USE_QXMPP
-    static int ConvertFormat(
-            /*[in]*/const QXmppVideoFrame &inFrame, /** 要转换的帧 */
-            /*[out]*/AVPicture &outFrame,           /** 转换后的帧 */
-            /*[in]*/int nOutWidth,                  /** 转换后的帧的宽度 */
-            /*[in]*/int nOutHeight,                 /** 转换后的帧的高度 */
-            /*[in]*/AVPixelFormat pixelFormat = AV_PIX_FMT_RGB32);
-
+    static int ConvertFormat(/*[in]*/  const QVideoFrame &inFrame, /** 要转换的帧 */
+                             /*[out]*/ QVideoFrame &outFrame,      /** 转换后的帧 */
+                             /*[in]*/  int nOutWidth,        /** 转换后的帧的宽度 */
+                             /*[in]*/  int nOutHeight,       /** 转换后的帧的高度 */
+                             /*[in]*/  QVideoFrame::PixelFormat outPixelFormat
+                                          = QVideoFrame::Format_YUYV);
+    static int ConvertFormat(/*[in]*/  const QXmppVideoFrame &inFrame, /** 要转换的帧 */
+                             /*[out]*/ QVideoFrame &outFrame,          /** 转换后的帧 */
+                             /*[in]*/  int nOutWidth,            /** 转换后的帧的宽度 */
+                             /*[in]*/  int nOutHeight,           /** 转换后的帧的高度 */
+                             /*[in]*/  QVideoFrame::PixelFormat outPixelFormat
+                                          = QVideoFrame::Format_RGB32);
     static AVPixelFormat QXmppVideoFrameFormatToFFMpegPixFormat(
             const QXmppVideoFrame::PixelFormat format);
+    static QXmppVideoFrame::PixelFormat QVideoFrameFormatToQXmppVideoFrameFormat(
+            const QVideoFrame::PixelFormat format);
+    
 #endif //RABBITIM_USE_QXMPP
+
+private:
+    /**
+     * @brief 格式转换，这个函数只CTool内部调用    
+     *        
+     * @param inFrame：要转换的帧（注意：需要调用者用 avpicture_fill 初始化。）  
+     * @param nInWidth：转换帧的宽度  
+     * @param nInHeight：转换帧的高度  
+     * @param inPixelFormat：转换帧的格式  
+     * @param outFrame：转换后的帧（注意：需要调用者用 avpicture_alloc 或 avpicture_fill 初始化。）    
+     * @param nOutWidth：转换后帧的宽度  
+     * @param nOutHeight：转换后帧的高度  
+     * @param outPixelFormat：转换后帧的格式  
+     * @return 
+     */
+    static int ConvertFormat(/*[in]*/  const AVPicture &inFrame,           /** 要转换的帧 */
+                             /*[in]*/  int nInWidth,                 /** 要转换的帧的宽度 */
+                             /*[in]*/  int nInHeight,                /** 要转换的帧的高度 */
+                             /*[in]*/  AVPixelFormat inPixelFormat,  /** 要转换的帧的格式 */
+                             /*[out]*/ AVPicture &outFrame,                /** 转换后的帧 */
+                             /*[in]*/  int nOutWidth,                /** 转换后的帧的宽度 */
+                             /*[in]*/  int nOutHeight,               /** 转换后的帧的高度 */  
+                             /*[in]*/  AVPixelFormat outPixelFormat);/** 转换后的帧的格式 */  
+    
+public:
+
 #endif //RABBITIM_USE_FFMPEG
 
 #ifdef RABBITIM_USE_OPENCV

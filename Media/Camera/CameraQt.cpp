@@ -11,27 +11,17 @@ CCameraQt::~CCameraQt()
 
 bool CCameraQt::Present(const QVideoFrame &frame)
 {
-    QVideoFrame f(frame);
-    if(!f.map(QAbstractVideoBuffer::ReadOnly))
-        return false;
-
-    m_VideoInfo.nHeight = f.height();
-    m_VideoInfo.nWidth = f.width();
-    m_VideoInfo.Format = QVideoFrameFormatToVideoFormat(
-                f.pixelFormat());
-    std::shared_ptr<CVideoFrame> vf(new CVideoFrame(f.bits(),
-          f.mappedBytes(), m_VideoInfo, (long)f.startTime()));
     if (m_pHander)
     {
-        int nRet = 0;
-        nRet = m_pHander->OnFrame(vf);
+        m_pHander->OnFrame(frame);
     }
-    f.unmap();
     return true;
 }
 
 int CCameraQt::OnOpen(VideoInfo *pVideoInfo)
 {
+    if(-1 == m_nIndex)
+        return -1;
     if(NULL == m_Camera.get())
     {
         try{
@@ -47,7 +37,10 @@ int CCameraQt::OnOpen(VideoInfo *pVideoInfo)
         }
     }
     if(m_Camera.get() == NULL)
+    {
+        LOG_MODEL_ERROR("CCameraQt", "Don't open camera:%d", m_nIndex);
         return -1;
+    }
 
     if (pVideoInfo)
     {
@@ -71,7 +64,7 @@ int CCameraQt::OnClose()
     if(m_CameraImageCapture.get())
     {
         this->disconnect(m_CameraImageCapture.get());
-        m_CameraImageCapture.release();
+        m_CameraImageCapture.reset();
     }
     if(m_Camera.get())
     {
@@ -84,8 +77,13 @@ int CCameraQt::Start()
 {
     if(NULL == m_Camera.get())
     {
-        LOG_MODEL_ERROR("CCameraQt", "camera don't open");
+        LOG_MODEL_ERROR("CCameraQt", "Camera don't open");
         return -1;
+    }
+    if(m_Camera->state() == QCamera::ActiveState)
+    {
+        LOG_MODEL_WARNING("CCameraQt", "Camera had started");
+        return 0;
     }
     m_Camera->setCaptureMode(QCamera::CaptureVideo);
     m_CaptureFrame.setSource(this);
@@ -97,7 +95,7 @@ int CCameraQt::Stop()
 {
     if(NULL == m_Camera.get())
     {
-        LOG_MODEL_ERROR("CCameraQt", "camera don't open");
+        LOG_MODEL_ERROR("CCameraQt", "Camera don't open");
         return -1;
     }
 

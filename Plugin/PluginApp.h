@@ -9,10 +9,10 @@
 #include "Global/GlobalDir.h"
 
 /**
- * @brief 应用插件接口类
- * 插件的生命周期:
- * 注意插件工程.pro文件需要包含：
-    RABBITIM_PLUG_NAME=插件的类名
+ * @brief 应用插件接口类  
+ * 插件的生命周期:  
+ * 注意插件工程.pro文件需要包含：  
+    RABBITIM_PLUG_NAME=插件的类名  
     include(../ConfigApp.pri)
     
  - 初始化：Init
@@ -26,7 +26,12 @@ public:
     CPluginApp();
     virtual ~CPluginApp();
 
-    ///< 插件实例化时做些初始化工作，例如：设置语言  
+    /**
+     * @brief 插件实例化时做些初始化工作，例如：设置语言    
+     * @param szDir
+     * @return 
+     * @see CManager
+     */
     virtual int InitInstance(const QString &szDir = QString());
     ///< 实例化析构前做些清理工作。  
     virtual int ClearInstance();

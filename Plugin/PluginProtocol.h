@@ -28,33 +28,38 @@ class RABBITIM_SHARED_LIBRARY CPluginProtocol
 {
 public:
     CPluginProtocol();
-    ///< 协议客户端
+    ///< 协议客户端  
     virtual QSharedPointer<CClient> GetClient() = 0;
-    ///< 用户信息管理对象
+    ///< 用户信息管理对象  
     virtual QSharedPointer<CManageUser> GetManageUser() = 0;
-    ///< 呼叫管理对象
+    ///< 呼叫管理对象  
     virtual QSharedPointer<CManageCall> GetCall() = 0;
-    ///< 组管理对象
+    ///< 组管理对象  
     virtual QSharedPointer<CManageGroupChat> GetManageGroupChat() = 0;
     /**
-     * 新建用户信息对象
+     * 新建用户信息对象  
      * @see CUser
      */
     virtual QSharedPointer<CUserInfo> NewUserInfo() = 0;
 
-    ///属性
-    ///协议ID,协议以这个ID区分
+    ///属性  
+    ///协议ID,协议以这个ID区分  
     virtual QString ID() = 0;
-    //协议名称
+    //协议名称  
     virtual QString Name() = 0;
 
-    ///< 初始化插件  
+    /**
+     * @brief 初始化插件  
+     * @param szDir
+     * @return 
+     * @see CManager
+     */
     virtual int InitInstance(const QString &szDir = QString());
-    ///< 插件析构前做些清理工作  
+    ///< 插件析构前做些清理工作   
     virtual int ClearInstance();
 
 private:
-    ///加载翻译
+    ///加载翻译  
     virtual int LoadTranslate(const QString &szDir = QString());
     QSharedPointer<QTranslator> m_TranslatorPlugin;
 };

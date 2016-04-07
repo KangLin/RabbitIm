@@ -136,7 +136,7 @@ int CQRCode::ProcessQImage(QImage image, QString &szText)
     szText = szMessage;
     return ProcessMessage(szMessage);
 }
-
+/*
 int CQRCode::ProcessQImage(const std::shared_ptr<CVideoFrame> &frame, QString &szText)
 {
     if(VIDEO_FORMAT_NONE == frame->m_VideoInfo.Format)
@@ -167,7 +167,7 @@ int CQRCode::ProcessQImage(const std::shared_ptr<CVideoFrame> &frame, QString &s
         return -1;
     }
     return ProcessQImage(img, szText);
-}
+}*/
 
 int CQRCode::ProcessQRFile(const QString &szFile, QString &szText)
 {

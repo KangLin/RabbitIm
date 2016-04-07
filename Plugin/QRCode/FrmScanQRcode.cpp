@@ -103,9 +103,8 @@ int CFrmScanQRcode::ProcessQRFile(QString szFile)
     return nRet;
 }
 
-int CFrmScanQRcode::OnFrame(const std::shared_ptr<CVideoFrame> frame)
+int CFrmScanQRcode::OnFrame(const QVideoFrame &frame)
 {
-    QString szText;
     m_Play.slotDisplayRemoteVideo(frame);
     return 0;
 }

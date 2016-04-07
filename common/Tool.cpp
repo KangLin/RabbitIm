@@ -37,39 +37,6 @@ void Log(void*, int, const char* fmt, va_list vl)
     LOG_MODEL_DEBUG("ffmpeg", fmt, vl);
 }
 
-QImage::Format CTool::VideoFormatToQImageFormat(const VideoFormat format)
-{
-    if(VIDEO_FORMAT_RGB24 == format)
-        return QImage::Format_RGB888;
-    else if(VIDEO_FORMAT_DIB == format)
-        return QImage::Format_RGB888;
-    else if(VIDEO_FORMAT_RGB32 == format)
-        return QImage::Format_RGB32;
-    else if(VIDEO_FORMAT_RGBA == format)
-        return QImage::Format_RGB32;
-    return QImage::Format_Invalid;
-}
-
-QVideoFrame::PixelFormat CTool::VideoFormatToQVideoFrameFormat(
-        const VideoFormat format)
-{
-    if(VIDEO_FORMAT_RGB24 == format)
-        return QVideoFrame::Format_RGB24;
-    else if(VIDEO_FORMAT_DIB == format)
-        return QVideoFrame::Format_RGB24;
-    else if(VIDEO_FORMAT_RGB32 == format)
-        return QVideoFrame::Format_RGB32;
-    else if(VIDEO_FORMAT_RGBA == format)
-        return QVideoFrame::Format_RGB32;
-    else if(VIDEO_FORMAT_YV12 == format)
-        return QVideoFrame::Format_YV12;
-    else if(VIDEO_FORMAT_NV21 == format)
-        return QVideoFrame::Format_NV21;
-    else if(VIDEO_FORMAT_YUY2 == format)
-        return QVideoFrame::Format_YUYV;
-    return QVideoFrame::Format_Invalid;
-}
-
 #ifdef RABBITIM_USE_FFMPEG
 int CTool::SetFFmpegLog()
 {
@@ -101,52 +68,6 @@ AVPixelFormat CTool::QVideoFrameFormatToFFMpegPixFormat(
     return AV_PIX_FMT_NONE;
 }
 
-VideoFormat CTool::QVideoFrameFormatToVideoFormat(
-        const QVideoFrame::PixelFormat format)
-{
-    if(QVideoFrame::Format_RGB32 == format)
-        return VIDEO_FORMAT_RGB32;
-    else if(QVideoFrame::Format_RGB24 == format)
-        return VIDEO_FORMAT_RGB24;
-    else if(QVideoFrame::Format_UYVY == format)
-        return VIDEO_FORMAT_UYVY;
-    else if(QVideoFrame::Format_NV21 == format)
-        return VIDEO_FORMAT_NV21;
-    else if(QVideoFrame::Format_NV12 == format)
-        return VIDEO_FORMAT_I420;
-    else if(QVideoFrame::Format_YUYV == format)
-        return VIDEO_FORMAT_YUY2;
-    return VIDEO_FORMAT_NONE;
-}
-
-AVPixelFormat CTool::VideoFormatToFFMpegPixFormat(
-        const VideoFormat format)
-{
-    if(VIDEO_FORMAT_RGB24 == format)
-        return AV_PIX_FMT_RGB24;
-    else if(VIDEO_FORMAT_DIB == format)
-        return AV_PIX_FMT_RGB24;
-    else if(VIDEO_FORMAT_GBRP == format)
-        return AV_PIX_FMT_GBRP;
-    else if(VIDEO_FORMAT_BGRA == format)
-        return AV_PIX_FMT_BGRA;
-    else if(VIDEO_FORMAT_RGB32 == format)
-        return AV_PIX_FMT_RGB32;
-    else if(VIDEO_FORMAT_RGBA == format)
-        return AV_PIX_FMT_RGBA;
-    else if(VIDEO_FORMAT_NV21 == format)
-        return AV_PIX_FMT_NV21;
-    else if(VIDEO_FORMAT_YUY2 == format)
-        return AV_PIX_FMT_YUYV422;
-    else if(VIDEO_FORMAT_UYVY == format)
-        return AV_PIX_FMT_UYVY422;
-#ifdef AV_PIX_FMT_YVYU422
-    else if(VIDEO_FORMAT_YVYU == format)
-        return AV_PIX_FMT_YVYU422;
-#endif
-    return AV_PIX_FMT_NONE;
-}
-
 AVPixelFormat CTool::QImageFormatToFFMpegPixFormat(const QImage::Format format)
 {
     if(QImage::Format_RGB32 == format)
@@ -172,62 +93,159 @@ AVPixelFormat CTool::QXmppVideoFrameFormatToFFMpegPixFormat(
         return AV_PIX_FMT_NONE;
 }
 
-int CTool::ConvertFormat(/*[in]*/ const QXmppVideoFrame &inFrame,
-                         /*[out]*/AVPicture &outFrame,
-                         /*[in]*/ int nOutWidth,
-                         /*[in]*/ int nOutHeight,
-                         /*[in]*/ AVPixelFormat pixelFormat)
+QXmppVideoFrame::PixelFormat CTool::QVideoFrameFormatToQXmppVideoFrameFormat(
+        const QVideoFrame::PixelFormat format)
+{
+    if(QXmppVideoFrame::Format_RGB32 == format)
+        return QXmppVideoFrame::Format_RGB32;
+    else if(QXmppVideoFrame::Format_RGB24 == format)
+        return QXmppVideoFrame::Format_RGB24;
+    else if(QXmppVideoFrame::Format_YUYV == format)
+        return QXmppVideoFrame::Format_YUYV;
+    else if(QXmppVideoFrame::Format_UYVY == format)
+        return QXmppVideoFrame::Format_UYVY;
+    else if(QXmppVideoFrame::Format_YUV420P == format)
+        return QXmppVideoFrame::Format_YUV420P;
+    else
+        return QXmppVideoFrame::Format_Invalid;
+}
+
+int CTool::ConvertFormat(const QXmppVideoFrame &inFrame,
+                         QVideoFrame &outFrame,
+                         int nOutWidth,
+                         int nOutHeight,
+                         QVideoFrame::PixelFormat outPixelFormat)
 {
     int nRet = 0;
-
-    AVPicture pic;
-    nRet = avpicture_fill(&pic, (uint8_t*)inFrame.bits(),
-              QXmppVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
-              inFrame.width(),
-              inFrame.height());
+    AVPicture inPic, outPic;
+    nRet = avpicture_fill(&inPic, (uint8_t*)inFrame.bits(),
+                          QXmppVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
+                          inFrame.width(),
+                          inFrame.height());
     if(nRet < 0)
     {
-        LOG_MODEL_ERROR("Tool", "avpicture_fill fail:%x", nRet);
+        LOG_MODEL_ERROR("CTool", "avpicture_fill is fail");
         return nRet;
     }
-    
-    nRet = ConvertFormat(pic, inFrame.width(), inFrame.height(),
-              QXmppVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
-              outFrame, nOutWidth, nOutHeight,
-              pixelFormat);
 
+    int nByte = avpicture_fill(&outPic, NULL,
+                          QVideoFrameFormatToFFMpegPixFormat(outPixelFormat),
+                          nOutWidth,
+                          nOutHeight);
+    if(nByte < 0)
+    {
+        LOG_MODEL_ERROR("CTool", "avpicture_get_size fail:%d", nByte);
+        return -2;
+    }
+    QVideoFrame out(nByte, QSize(nOutWidth, nOutHeight), outPic.linesize[0], outPixelFormat);
+    if(!out.map(QAbstractVideoBuffer::WriteOnly))
+    {
+        LOG_MODEL_ERROR("CTool", "outFrame map is fail");
+        return -3;
+    }
+    do{
+        nRet = avpicture_fill(&outPic, out.bits(),
+                              QVideoFrameFormatToFFMpegPixFormat(out.pixelFormat()),
+                              out.width(),
+                              out.height());
+        if(nRet < 0)
+        {
+            LOG_MODEL_ERROR("CTool", "avpicture_file is fail:%d", nRet);
+            nRet = -4;
+            break;
+        }
+        nRet = ConvertFormat(inPic, inFrame.width(), inFrame.height(),
+                             QXmppVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
+                             outPic, out.width(), out.height(),
+                             QVideoFrameFormatToFFMpegPixFormat(outPixelFormat));
+        if(!nRet)
+            outFrame = out;
+    }while(0);
+    out.unmap();
     return nRet;
 }
+
 #endif
+
+int CTool::ConvertFormat(const QVideoFrame &inFrame,
+                         QVideoFrame &outFrame,
+                         int nOutWidth,
+                         int nOutHeight,
+                         QVideoFrame::PixelFormat outPixelFormat)
+{
+    int nRet = 0;
+    QVideoFrame in(inFrame);
+    if(!in.map(QAbstractVideoBuffer::ReadOnly))
+    {
+        LOG_MODEL_ERROR("CTool", "map is fail");
+        return -1;
+    }
+
+    do{
+        AVPicture inPic, outPic;
+        nRet = avpicture_fill(&inPic, in.bits(),
+                              QVideoFrameFormatToFFMpegPixFormat(in.pixelFormat()),
+                              in.width(),
+                              in.height());
+        if(nRet < 0)
+        {
+            LOG_MODEL_ERROR("CTool", "avpicture_fill is fail");
+            return nRet;
+        }
+        /*int nByte = avpicture_get_size(QVideoFrameFormatToFFMpegPixFormat(outPixelFormat), nOutWidth, nOutHeight);
+        if(nByte < 0)
+        {
+            LOG_MODEL_ERROR("CTool", "avpicture_get_size fail:%d", nByte);
+            nRet = -2;
+            break;
+        }*/
+        int nByte = avpicture_fill(&outPic, NULL,
+                              QVideoFrameFormatToFFMpegPixFormat(outPixelFormat),
+                              nOutWidth,
+                              nOutHeight);
+        if(nByte < 0)
+        {
+            LOG_MODEL_ERROR("CTool", "avpicture_get_size fail:%d", nByte);
+            nRet = -2;
+            break;
+        }
+        QVideoFrame out(nByte, QSize(nOutWidth, nOutHeight), outPic.linesize[0], outPixelFormat);
+        if(!out.map(QAbstractVideoBuffer::WriteOnly))
+        {
+            LOG_MODEL_ERROR("CTool", "outFrame map is fail");
+            nRet = -3;
+            break;
+        }
+        nRet = avpicture_fill(&outPic, out.bits(),
+                              QVideoFrameFormatToFFMpegPixFormat(out.pixelFormat()),
+                              out.width(),
+                              out.height());
+        if(nRet < 0)
+        {
+            LOG_MODEL_ERROR("CTool", "avpicture_fill is fail");
+            nRet = -4;
+            break;
+        }
+        nRet = ConvertFormat(inPic, inFrame.width(), inFrame.height(),
+                             QVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
+                             outPic, out.width(), out.height(),
+                             QVideoFrameFormatToFFMpegPixFormat(outPixelFormat));
+        out.unmap();
+        if(nRet)
+        {
+            LOG_MODEL_ERROR("CTool", "CTool::ConvertFormat is fail");
+            break;
+        }
+        outFrame = out;
+        nRet = 0;
+    }while(0);
+
+    in.unmap();
+    return nRet;
+}
 
 //如果转换成功，则调用者使用完 pOutFrame 后，需要调用 avpicture_free(pOutFrame) 释放内存  
 //成功返回0，不成功返回非0  
-int CTool::ConvertFormat(/*[in]*/ const QVideoFrame &inFrame,
-                         /*[out]*/AVPicture &outFrame,
-                         /*[in]*/ int nOutWidth,
-                         /*[in]*/ int nOutHeight,
-                         /*[in]*/ AVPixelFormat pixelFormat)
-{
-    int nRet = 0;
-    
-    AVPicture pic;
-    nRet = avpicture_fill(&pic, (uint8_t*) inFrame.bits(),
-                  QVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
-                  inFrame.width(),
-                  inFrame.height());
-    if(nRet < 0)
-    {
-        LOG_MODEL_DEBUG("Tool", "avpicture_fill fail:%x", nRet);
-        return nRet;
-    }
-    
-    nRet = ConvertFormat(pic, inFrame.width(), inFrame.height(),
-                  QVideoFrameFormatToFFMpegPixFormat(inFrame.pixelFormat()),
-                  outFrame, nOutWidth, nOutHeight, pixelFormat);
-
-    return nRet;
-}
-
 int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
                          /*[in]*/ int nInWidth,
                          /*[in]*/ int nInHeight,
@@ -241,12 +259,12 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     struct SwsContext* pSwsCtx = NULL;
     
     //分配输出空间  
-    nRet = avpicture_alloc(&outFrame, outPixelFormat, nOutWidth, nOutHeight);
+    /*nRet = avpicture_alloc(&outFrame, outPixelFormat, nOutWidth, nOutHeight);
     if(nRet)
     {
         LOG_MODEL_ERROR("Tool", "avpicture_alloc fail:%x", nRet);
         return nRet;
-    }
+    }*/
     
     if(inPixelFormat == outPixelFormat
             && nInWidth == nOutWidth
@@ -270,7 +288,6 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     if(NULL == pSwsCtx)
     {
         LOG_MODEL_ERROR("Tool", "sws_getContext false");
-        avpicture_free(&outFrame);
         return -3;
     }
     
@@ -282,7 +299,6 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     if(nRet < 0)
     {
         LOG_MODEL_ERROR("Tool", "sws_scale fail:%x", nRet);
-        avpicture_free(&outFrame);
     }
     else
     {
@@ -290,56 +306,6 @@ int CTool::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     }
     
     sws_freeContext(pSwsCtx);
-    return nRet;
-}
-
-int CTool::ConvertFormat(/*[in]*/const std::shared_ptr<CVideoFrame> &inFrame,
-              /*[out]*/ std::shared_ptr<CVideoFrame> &outFrame, /** 转换后图像 */
-              /*[in]*/  int nOutWidth,               /** 转换后的帧的宽度 */
-              /*[in]*/  int nOutHeight,              /** 转换后的帧的高度 */
-              /*[in]*/  VideoFormat format)
-{
-    int nRet = 0;
-
-    if(!inFrame)
-    {
-        LOG_MODEL_ERROR("CTool", "frame is null");
-        return -1;
-    }
-    AVPixelFormat inFormat, outFormat;
-    inFormat = VideoFormatToFFMpegPixFormat(inFrame->m_VideoInfo.Format);
-    outFormat = VideoFormatToFFMpegPixFormat(format);
-    AVPicture pic;
-    nRet = avpicture_fill(&pic, (uint8_t*)inFrame->GetData(),
-                          inFormat,
-                          inFrame->m_VideoInfo.nWidth,
-                          inFrame->m_VideoInfo.nHeight);
-    if(nRet < 0)
-    {
-        LOG_MODEL_ERROR("Tool", "avpicture_fill fail:%x", nRet);
-        return nRet;
-    }
-
-    AVPicture outPic;
-    nRet = ConvertFormat(pic, inFrame->m_VideoInfo.nWidth,
-                         inFrame->m_VideoInfo.nHeight,
-                         inFormat,
-                         outPic, nOutWidth, nOutHeight,
-                         outFormat);
-    if(nRet)
-        return nRet;
-    int nLen = avpicture_get_size(outFormat, nOutWidth, nOutHeight);
-    VideoInfo vi;
-    vi.Format = format;
-    vi.nHeight = nOutHeight;
-    vi.nWidth = nOutWidth;
-    vi.nRatio = inFrame->m_VideoInfo.nRatio;
-    std::shared_ptr<CVideoFrame> frame(
-                new CVideoFrame(outPic.data[0], nLen, 
-                vi, inFrame->m_Timestamp));
-    outFrame = frame;
-    avpicture_free(&pic);
-    avpicture_free(&outPic);
     return nRet;
 }
 

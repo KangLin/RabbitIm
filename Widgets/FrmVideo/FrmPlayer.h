@@ -14,7 +14,6 @@ public:
     virtual ~CFrmPlayer();
 
 public slots:
-    void slotPresent(std::shared_ptr<CVideoFrame> frame);
     void slotPresent(const QVideoFrame &frame);
     void slotPresent(const QImage &frame);
 private slots:
@@ -26,9 +25,9 @@ protected:
     virtual void changeEvent(QEvent*);
 
 private:
-    std::shared_ptr<CVideoFrame> m_Frame;
-    QVideoFrame m_VideoFrame;
     CFrameProcess m_Process;
+
+    QVideoFrame m_VideoFrame;
     QImage m_Image;
 
 #ifdef DEBUG

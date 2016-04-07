@@ -26,33 +26,6 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
     if(this->isHidden())
         return;
     QPainter painter(this);
-    if(m_Frame)
-    {
-        if(VIDEO_FORMAT_NONE == m_Frame->m_VideoInfo.Format)
-            return;
-        std::shared_ptr<CVideoFrame> outFrame;
-        if (VIDEO_FORMAT_RGB32 != m_Frame->m_VideoInfo.Format)
-        {
-            #if RABBITIM_USE_FFMPEG 
-                CTool::ConvertFormat(m_Frame, outFrame,
-                                 this->rect().width(),
-                                 this->rect().height(),
-                                 VIDEO_FORMAT_RGB32);
-            #else
-                #pragma message("Must use ffmpeg")
-            #endif
-        }
-        else
-        {
-            outFrame = m_Frame;
-        }
-        QImage img((const uchar*)outFrame->GetData(),
-                   outFrame->m_VideoInfo.nWidth,
-                   outFrame->m_VideoInfo.nHeight,
-                   QImage::Format_RGB32);
-        painter.drawImage(this->rect(), img);
-        return;
-    }
 
     if(!m_Image.isNull())
     {
@@ -78,19 +51,6 @@ void CFrmPlayer::paintEvent(QPaintEvent *)
         painter.drawImage(this->rect(), image);
     }while(0);
     m_VideoFrame.unmap();
-}
-
-void CFrmPlayer::slotPresent(std::shared_ptr<CVideoFrame> frame)
-{
-    /*LOG_MODEL_DEBUG("CFrmPlayer", "id:%d;name:%s;width:%d;height:%d,Ratio:%d;time:%d",
-                    frame->m_VideoInfo.Format,
-                    VideoFormatToName(frame->m_VideoInfo.Format).c_str(),
-                    frame->m_VideoInfo.nWidth,
-                    frame->m_VideoInfo.nHeight,
-                    frame->m_VideoInfo.nRatio,
-                    frame->m_Timestamp);//*/
-    m_Frame = frame;
-    update();
 }
 
 void CFrmPlayer::slotPresent(const QVideoFrame &frame)
@@ -139,16 +99,12 @@ public:
         m_pProcess = pProcess;
     }
 
-    virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame)
+    virtual int OnFrame(const QVideoFrame &frame)
     {
         //直接调用  
         m_pPlayer->slotPresent(frame);
         //通过信号调用  
         //m_pProcess->slotCaptureFrame(frame);
-        LOG_MODEL_DEBUG("CFrmPlayer", "Hander:format:%s,width:%d,height:%d",
-                VideoFormatToName(frame->m_VideoInfo.Format).c_str(),
-                frame->m_VideoInfo.nWidth,
-                frame->m_VideoInfo.nHeight);
         return 0;
     }
 private:

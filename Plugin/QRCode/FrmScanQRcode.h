@@ -27,7 +27,7 @@ public:
      * @param frame 捕获的帧  
      * @return 
      */
-    virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame);
+    virtual int OnFrame(const QVideoFrame &frame);
     virtual int OnCapture(const std::string szFile);
     
 private:

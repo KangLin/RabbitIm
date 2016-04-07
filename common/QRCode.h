@@ -52,7 +52,7 @@ public:
      *         <0:处理出错  
      */
     static int ProcessQImage(QImage image, QString &szText);
-    static int ProcessQImage(const std::shared_ptr<CVideoFrame> &frame, QString &szText);
+    //static int ProcessQImage(const std::shared_ptr<CVideoFrame> &frame, QString &szText);
 
 private:
     /**

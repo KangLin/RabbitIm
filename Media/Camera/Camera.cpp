@@ -14,6 +14,7 @@ CCamera::CCamera(int nIndex)
 
 CCamera::~CCamera()
 {
+    Close();
     if(m_pCameraInfo)
         delete m_pCameraInfo;
 }
@@ -36,11 +37,19 @@ CCameraInfo* CCamera::GetCameraInfo()
     return m_pCameraInfo;
 }
 
+#ifdef QT_CORE_LIB
+int CCamera::CHanderFrame::OnFrame(const QVideoFrame &frame)
+{
+    LOG_MODEL_ERROR("CCamera", "Please implement CCamera::CHanderFrame::OnFrame");
+    return 0;
+}
+#else
 int CCamera::CHanderFrame::OnFrame(const std::shared_ptr<CVideoFrame> frame)
 {
     LOG_MODEL_ERROR("CCamera", "Please implement CCamera::CHanderFrame::OnFrame");
     return 0;
 }
+#endif
 
 int CCamera::CHanderFrame::OnCapture(const std::string szFile)
 {
@@ -52,13 +61,13 @@ int CCamera::Open(CHanderFrame *pHander, VideoInfo *pVideoInfo)
 {
     m_pHander = pHander;
     if(NULL == m_pHander)
-        m_pHander = &m_Hander;
+        m_pHander = &m_DefaultHander;
     return OnOpen(pVideoInfo);
 }
 
 int CCamera::Close()
 {
-    m_pHander = NULL;
     OnClose();
+    m_pHander = NULL;
     return 0;
 }

@@ -41,6 +41,7 @@ CCallObjectQXmpp::~CCallObjectQXmpp()
                     GetState());
 
     StopAudioDevice();
+    StopVideo();
 
     LOG_MODEL_DEBUG("CCallObjectQXmpp",
                     "CCallObjectQXmpp::~CCallObjectQXmpp.id:%d",
@@ -110,7 +111,7 @@ void CCallObjectQXmpp::slotConnection()
     //初始始化音频设备  
     StartAudioDevice();
 
-    if(m_bVideo)
+    if(m_bVideo && this->GetDirection() == OutgoingDirection)
         StartVideo();
 }
 
@@ -333,7 +334,8 @@ void CCallObjectQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
     if(!m_pCall)
         return;
     LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp::slotVideoModeChanged:mode:%d", mode);
-    if(!m_bVideo && GetDirection() == IncomingDirection)
+    if(!m_bVideo && GetDirection() == IncomingDirection
+            && (QIODevice::ReadOnly & mode))
     {
         m_bVideo = true;
         StartVideo();
@@ -351,7 +353,7 @@ void CCallObjectQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
 }
 
 //摄像头捕获帧  
-int CCallObjectQXmpp::OnFrame(const std::shared_ptr<CVideoFrame> frame)
+int CCallObjectQXmpp::OnFrame(const QVideoFrame &frame)
 {
     //处理捕获到的帧  
     m_CaptureFrameProcess.slotCaptureFrame(frame);
@@ -378,7 +380,7 @@ void CCallObjectQXmpp::slotReciveFrame()
 }
 
 //向网络发送视频帧  
-void CCallObjectQXmpp::slotCaptureFrame(const QXmppVideoFrame &frame)
+void CCallObjectQXmpp::slotCaptureFrame(const QVideoFrame &frame)
 {
     if(!m_pCall)
     {
@@ -392,6 +394,12 @@ void CCallObjectQXmpp::slotCaptureFrame(const QXmppVideoFrame &frame)
         LOG_MODEL_DEBUG("Video", "m_pCall->videoChannel() is null or openMode isn't write mode");
         return;
     }
+    
+    if(QVideoFrame::Format_YUYV != frame.pixelFormat())
+    {
+        LOG_MODEL_ERROR("Call", "frame.pixelFormat(%d) isn't QVideoFrame::Format_YUYV", frame.pixelFormat());
+        return;
+    }
 
 //    static int nWidth = 0, nHeight = 0;
 //    if(frame.width() != nWidth || frame.height() != frame.height())
@@ -403,7 +411,18 @@ void CCallObjectQXmpp::slotCaptureFrame(const QXmppVideoFrame &frame)
 //        pChannel->setEncoderFormat(format);
 //    }
 
-    pChannel->writeFrame(frame);
+    
+    QVideoFrame inFrame(frame);
+    if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
+        return;
+    QXmppVideoFrame outFrame(inFrame.mappedBytes(),
+                             inFrame.size(),
+                             inFrame.bytesPerLine(),
+        CTool::QVideoFrameFormatToQXmppVideoFrameFormat(inFrame.pixelFormat()));
+    //TODO:这里多了一次内存复制  
+    memcpy(outFrame.bits(), inFrame.bits(), inFrame.mappedBytes());
+    pChannel->writeFrame(outFrame);
+    inFrame.unmap();
 }
 
 int CCallObjectQXmpp::SetVideoFormat()
@@ -465,6 +484,12 @@ int CCallObjectQXmpp::StartVideo()
            QThread::currentThreadId());
 #endif
 
+    if(m_pCamera)
+    {
+        LOG_MODEL_WARNING("Call", "Camera is started");
+        return -2;
+    }
+
     bool check = false;
     //m_VideoThread.start();//开始视频处理线程  
 
@@ -474,8 +499,8 @@ int CCallObjectQXmpp::StartVideo()
                     SLOT(slotFrameConvertedToYUYV(QVideoFrame)));
     Q_ASSERT(check);
     check = connect(&m_CaptureFrameProcess,
-                    SIGNAL(sigFrameConvertedToYUYVFrame(QXmppVideoFrame)),
-                    SLOT(slotCaptureFrame(QXmppVideoFrame)));
+                    SIGNAL(sigFrameConvertedToYUYVFrame(QVideoFrame)),
+                    SLOT(slotCaptureFrame(QVideoFrame)));
 
     //初始化视频设备，并开始视频  
     m_pCamera = CCameraFactory::Instance()->GetCamera(
@@ -483,15 +508,14 @@ int CCallObjectQXmpp::StartVideo()
     try{
         if(m_pCamera)
         {
-            if(m_pCamera->Open(this))
+            if(!m_pCamera->Open(this))
                 m_pCamera->Start();
         }
     }catch(...){
         LOG_MODEL_ERROR("CCallObjectQXmpp", "Start camera error");
     }
 
-    if(m_pCall->direction() == QXmppCall::OutgoingDirection)
-        m_pCall->startVideo();
+    m_pCall->startVideo();
 
     //从网络到本地  
     //接收定时器  
@@ -513,7 +537,7 @@ int CCallObjectQXmpp::StopVideo()
     m_CaptureFrameProcess.disconnect();
     m_ReciveFrameProcess.disconnect();
 
-    if(m_pCall->direction() == QXmppCall::OutgoingDirection)
+    //if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->stopVideo();
 
     if(m_pCamera)

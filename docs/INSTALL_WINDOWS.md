@@ -369,8 +369,10 @@ qt5.5.1
 2. 也可以用mingw32预编译的第三方库
 
     pacman -S mingw-w64-i686-openssl mingw-w64-i686-curl
-    pacman -S mingw-w64-i686-ffmpeg mingw-w64-i686-speexdsp mingw-w64-i686-speex 
-    pacman -S mingw-w64-i686-libvpx mingw-w64-i686-opus
+    pacman -S mingw-w64-i686-speexdsp mingw-w64-i686-speex mingw-w64-i686-opus
+    pacman -S mingw-w64-i686-x264 mingw-w64-i686-libvpx
+    pacman -S mingw-w64-i686-ffmpeg
+    pacman -S mingw-w64-i686-qt #安装动态与静态库
 
 3. 如果你用的Qt版本不是5.5.1，那么你需要按下面的方法重新编译qxmpp库。
 
@@ -430,20 +432,29 @@ qt5.5.1
     export PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
     ```
 
+QtCreator中设置环境变量：项目->构建->构建环境中设置。
+
+* 如果第三方库是用 MSYS32 预编译的或者G++用的MSYS32自带的。则需要把 ${MSYS32_ROOT}/mingw32/bin 放到环境变量 PATH 中：
+
+    ```sh
+    export PATH=${MSYS32_ROOT}/mingw32/bin:$PATH
+    ```
+
 * 如果qt是自己编译的，需要做下列：
 + 把第三方库的依赖动态库复制到${RabbitImRoot}/ThirdLibrary/windows_mingw/bin下.
-或者把本目录放到环境变量PATH中。
+并把此目录放到环境变量PATH中。
 
     ```sh
     export PATH=${RabbitImRoot}/ThirdLibrary/windows_mingw/bin:$PATH
     ```
     
-+ 把qmake、uic等程序的依赖工具链的动态库复制到${QT_DIR}/bin下.
-或者把工具链的目录${MSYS32_ROOT}/mingw32/bin放到环境变量PATH中。
++ 把qmake、uic等程序所依赖的G++编译工具链的动态库复制到 ${QT_ROOT}/bin 下.
+或者把G++编译工具链的目录${MSYS32_ROOT}/mingw32/bin放到环境变量PATH中。
 
     export PATH=${MSYS32_ROOT}/mingw32/bin:$PATH
 
-+ 如果是在windows下，还需要把${RabbitImRoot}/ThirdLibrary/windows_mingw/qt/plugins/platforms复制到程序目录下
++ 如果是在windows下，还需要把 ${RabbitImRoot}/ThirdLibrary/windows_mingw/qt/plugins/platforms 复制到程序目录下
+  （这步工程中已自动做了）
 
 ubuntu下用mingw交叉编译
 ------------------------

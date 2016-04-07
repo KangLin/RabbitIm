@@ -27,11 +27,9 @@ public:
 public slots:
     //显示本地视频  
     void slotDisplayLocaleVideo(const QVideoFrame& frame);
-    void slotDisplayLocaleVideo(std::shared_ptr<CVideoFrame> frame);
     void slotDisplayLocaleVideo(const QImage &frame);
     //显示远端视频  
     void slotDisplayRemoteVideo(const QVideoFrame &frame);
-    void slotDisplayRemoteVideo(std::shared_ptr<CVideoFrame> frame);
     void slotDisplayRemoteVideo(const QImage &frame);
     
 protected slots:

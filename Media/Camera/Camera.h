@@ -41,7 +41,11 @@ public:
          * @param frame 捕获的帧  
          * @return 
          */
+#ifdef QT_CORE_LIB
+        virtual int OnFrame(const QVideoFrame &frame);
+#else
         virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame);
+#endif
         virtual int OnCapture(const std::string szFile);
     };
 
@@ -97,5 +101,5 @@ protected:
     
 private:
     CCameraInfo* m_pCameraInfo;
-    CHanderFrame m_Hander;
+    CHanderFrame m_DefaultHander;
 };

@@ -179,7 +179,6 @@ RESOURCES += \
     $$PWD/../Resource/sink/dark/style.qrc
 
 android{
-    DEFINES += ANDROID
     RESOURCES += \
         $$PWD/../Resource/translations/Translations.qrc \
         $$PWD/../Resource/Android.qrc

@@ -33,24 +33,24 @@ class CPluginProtocolQXMPP : public QObject, CPluginProtocol
 public:
     CPluginProtocolQXMPP(QObject *parent = 0);
 
-    ///< 协议客户端
+    ///< 协议客户端  
     virtual QSharedPointer<CClient> GetClient();
-    ///< 用户信息管理对象
+    ///< 用户信息管理对象  
     virtual QSharedPointer<CManageUser> GetManageUser();
-    ///< 呼叫管理对象
+    ///< 呼叫管理对象  
     virtual QSharedPointer<CManageCall> GetCall();
-    ///< 组管理对象
+    ///< 组管理对象  
     virtual QSharedPointer<CManageGroupChat> GetManageGroupChat();
     /**
-     * 新建用户信息对象
+     * 新建用户信息对象  
      * @see CUser
      */
     virtual QSharedPointer<CUserInfo> NewUserInfo();
 
-    ///属性
-    ///协议ID,协议以这个ID区分
+    ///属性  
+    ///协议ID,协议以这个ID区分  
     virtual QString ID();
-    //协议名称
+    //协议名称  
     virtual QString Name();
 
 private:
