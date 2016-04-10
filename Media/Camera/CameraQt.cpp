@@ -1,8 +1,11 @@
 #include "CameraQt.h"
+#include "CameraFactory.h"
 
 CCameraQt::CCameraQt(int nIndex)
     : CCamera(nIndex)
 {
+    m_Camera = NULL;
+    m_CameraImageCapture = NULL;
 }
 
 CCameraQt::~CCameraQt()
@@ -20,23 +23,32 @@ bool CCameraQt::Present(const QVideoFrame &frame)
 
 int CCameraQt::OnOpen(VideoInfo *pVideoInfo)
 {
-    if(-1 == m_nIndex)
-        return -1;
-    if(NULL == m_Camera.get())
+    std::vector<CCameraInfo::CamerInfo> info;
+    CCameraFactory::Instance()->EnumDevice(info);
+    if(0 < m_nIndex || m_nIndex >  info.size() - 1)
     {
-        try{
-            m_Camera = std::auto_ptr<QCamera>(
-            #if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
-                        new QCamera((QCamera::Position) m_nIndex)
-            #else
-                        new QCamera(QCamera::availableDevices().at(m_nIndex))
-            #endif
-                        );
-        }catch(...){
-            LOG_MODEL_ERROR("CCameraQt", "new QCamera exception ");
-        }
+        LOG_MODEL_ERROR("CCameraQt", "Camera [%d] is invalid", m_nIndex);
+        return -1;
     }
-    if(m_Camera.get() == NULL)
+
+    if(m_Camera)
+    {
+        LOG_MODEL_WARNING("CCameraQt", "Camera is opened");
+        return 0;
+    }
+
+    try{
+        m_Camera = 
+        #if (QT_VERSION >= QT_VERSION_CHECK(5, 3, 0))
+                new QCamera((QCamera::Position) m_nIndex);
+        #else
+                new QCamera(QCamera::availableDevices().at(m_nIndex));
+        #endif
+    }catch(...){
+        LOG_MODEL_ERROR("CCameraQt", "new QCamera exception ");
+    }
+
+    if(NULL == m_Camera)
     {
         LOG_MODEL_ERROR("CCameraQt", "Don't open camera:%d", m_nIndex);
         return -1;
@@ -47,11 +59,10 @@ int CCameraQt::OnOpen(VideoInfo *pVideoInfo)
         m_VideoInfo = *pVideoInfo;
     }
 
-    m_CameraImageCapture = std::auto_ptr<QCameraImageCapture>(
-                new QCameraImageCapture(m_Camera.get()));
-    if(m_CameraImageCapture.get())
+    m_CameraImageCapture = new QCameraImageCapture(m_Camera);
+    if(m_CameraImageCapture)
     {
-        bool check = this->connect(m_CameraImageCapture.get(),
+        bool check = this->connect(m_CameraImageCapture,
                              SIGNAL(imageSaved(int,QString)),
                              SLOT(imageSaved(int,QString)));
         Q_ASSERT(check);
@@ -61,25 +72,28 @@ int CCameraQt::OnOpen(VideoInfo *pVideoInfo)
 
 int CCameraQt::OnClose()
 {
-    if(m_CameraImageCapture.get())
+    if(m_CameraImageCapture)
     {
-        this->disconnect(m_CameraImageCapture.get());
-        m_CameraImageCapture.reset();
+        this->disconnect(m_CameraImageCapture);
+        delete m_CameraImageCapture;
+        m_CameraImageCapture = NULL;
     }
-    if(m_Camera.get())
+    if(m_Camera)
     {
-        m_Camera.reset();
+        delete m_Camera;
+        m_Camera = NULL;
     }
     return 0;
 }
 
 int CCameraQt::Start()
 {
-    if(NULL == m_Camera.get())
+    if(NULL == m_Camera)
     {
         LOG_MODEL_ERROR("CCameraQt", "Camera don't open");
         return -1;
     }
+
     if(m_Camera->state() == QCamera::ActiveState)
     {
         LOG_MODEL_WARNING("CCameraQt", "Camera had started");
@@ -93,32 +107,35 @@ int CCameraQt::Start()
 
 int CCameraQt::Stop()
 {
-    if(NULL == m_Camera.get())
+    if(NULL == m_Camera)
     {
         LOG_MODEL_ERROR("CCameraQt", "Camera don't open");
         return -1;
     }
 
-    m_Camera->stop();
+    if(m_Camera->state() == QCamera::ActiveState)
+        m_Camera->stop();
 
     return 0;
 }
 
 int CCameraQt::Capture(const std::string &szFileName)
 {
-    if(NULL == m_Camera.get())
+    if(NULL == m_Camera)
     {
         LOG_MODEL_ERROR("CCameraQt", "camera don't open");
         return -1;
     }
-    m_Camera->setCaptureMode(QCamera::CaptureStillImage);
+
     if(QCamera::ActiveStatus != m_Camera->status())
     {
         Start();
     }
+    m_Camera->setCaptureMode(QCamera::CaptureStillImage);
     m_Camera->searchAndLock();
     m_CameraImageCaptureID = m_CameraImageCapture->capture(QString(szFileName.c_str()));
     m_Camera->unlock();
+    m_Camera->setCaptureMode(QCamera::CaptureVideo);
     return 0;
 }
 

@@ -26,13 +26,8 @@ case $1 in
 esac
 
 #运行本脚本前,先运行 build_${RABBITIM_BUILD_TARGERT}_envsetup.sh 进行环境变量设置,需要先设置下面变量:
-#   PREFIX= #修改这里为安装前缀
-#   QMAKE=  #设置用于相应平台编译的 QMAKE
-#   JOM=    #QT 自带的类似 make 的工具
-#if [ -z "${PREFIX}" -o -z "${QMAKE}" -o -z "${JOM}" ]; then
-    echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
-    . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
+. `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -114,9 +109,9 @@ fi
 PARA="${PARA} .. -o Makefile INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
 PARA="${PARA} LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib QXMPP_USE_VPX=1"
 PARA="${PARA} QXMPP_NO_TESTS=1 QXMPP_NO_EXAMPLES=1"
-#if [ "$RABBITIM_BUILD_TARGERT" != "android"  ]; then
+if [ "$RABBITIM_BUILD_TARGERT" != "android"  ]; then
     PARA="${PARA} PREFIX=${RABBITIM_BUILD_PREFIX}"
-#fi
+fi
 DEBUG_PARA="${PARA} CONFIG+=debug"
 RELEASE_PARA="${PARA} CONFIG+=release"
 

@@ -37,22 +37,18 @@ protected slots:
     virtual void slotConnection();
     virtual void slotStateChanged(QXmppCall::State state);
     virtual void slotFinished();
+    
+//音频  
+protected slots:
     virtual void slotAudioModeChanged(QIODevice::OpenMode mode);
 
 private:
     int StartAudioDevice();
     int StopAudioDevice();
-    int OpenAudioInput();
-    int OpenAudioOutput();
-
-    int ConnectLocaleVideo();
-    int DisconnectLocaleVideo();
 
 private:
     QAudioInput*  m_pAudioInput; ///< 音频输入设备  
     QAudioOutput* m_pAudioOutput;///< 音频输出设备  
-
-    QXmppCall* m_pCall;
     
 //视频    
 protected slots:
@@ -72,13 +68,17 @@ private:
     int OpenVideoWindow();
     virtual int OnFrame(const QVideoFrame &frame);
 
+    int ConnectLocaleVideo();
+    int DisconnectLocaleVideo();
+
 private:
     QTimer m_tmRecive;
-    CFrameProcess m_CaptureFrameProcess;//本地显示  
-    CFrameProcess m_ReciveFrameProcess;//从网络接收  
+    CFrameProcess m_CaptureFrameProcess; //本地显示  
+    CFrameProcess m_ReciveFrameProcess;   //从网络接收  
     QThread m_VideoThread;
     CCamera* m_pCamera;
     
+    QXmppCall* m_pCall;
 };
 
 #endif // CALLQXMPP_H

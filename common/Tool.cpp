@@ -666,7 +666,6 @@ std::string CTool::DoubleToString(double d)
     return str;
 }
 
-
 QByteArray CTool::GetFileMd5Sum(QString filePath)
 {
     QFile localFile(filePath);

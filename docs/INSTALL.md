@@ -247,7 +247,7 @@
 #### 16. libqrencode
 * 官网：http://fukuchi.org/works/qrencode/index.html.en
 * 下载：`git clone https://github.com/fukuchi/libqrencode.git`
-* 当前使用版本：
+* 当前使用版本： v3.4.3
 
 #### 17. qzxing
 * 主页：http://sourceforge.net/projects/qzxing

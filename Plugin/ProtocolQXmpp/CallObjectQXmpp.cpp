@@ -36,12 +36,11 @@ CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
 CCallObjectQXmpp::~CCallObjectQXmpp()
 {
     GET_MAINWINDOW->disconnect(this);
-    //TODO:多线程在运行时直接关闭主窗口会core，原因是主窗口关闭后QXMPP库已析构？  
+    //TODO:多线程在运行时直接关闭主窗口会core，原因是主窗口关闭后QXMPP库已析构？   
     LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp status:%d",
                     GetState());
 
-    StopAudioDevice();
-    StopVideo();
+    slotFinished();
 
     LOG_MODEL_DEBUG("CCallObjectQXmpp",
                     "CCallObjectQXmpp::~CCallObjectQXmpp.id:%d",
@@ -108,11 +107,11 @@ void CCallObjectQXmpp::slotConnection()
 {
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallObjectQXmpp::slotConnection");
     
-    //初始始化音频设备  
-    StartAudioDevice();
-
     if(m_bVideo && this->GetDirection() == OutgoingDirection)
         StartVideo();
+    
+    //初始始化音频设备  
+    StartAudioDevice();
 }
 
 void CCallObjectQXmpp::slotStateChanged(QXmppCall::State state)
@@ -246,6 +245,7 @@ int CCallObjectQXmpp::StartAudioDevice()
     }
 
     QXmppJinglePayloadType AudioPlayLoadType = pAudioChannel->payloadType();
+    /*
 #ifdef DEBUG
     ShowAudioDevices();
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallVideoQXmpp::connected:audio payload name:%s;id:%d;channels:%d, clockrate:%d, packet time:%d",
@@ -259,7 +259,7 @@ int CCallObjectQXmpp::StartAudioDevice()
     {
         LOG_MODEL_DEBUG("CCallVideoQXmpp", "parameter:%s;value:%s" , qPrintable(it.key()),qPrintable(it.value()));
     }
-#endif
+#endif //*/
     QAudioFormat inFormat, outFormat;
     inFormat.setSampleRate(AudioPlayLoadType.clockrate());
     inFormat.setChannelCount(AudioPlayLoadType.channels());
@@ -348,7 +348,6 @@ void CCallObjectQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
     }
     if(QIODevice::ReadOnly == mode)
     {
-        
     }
 }
 
