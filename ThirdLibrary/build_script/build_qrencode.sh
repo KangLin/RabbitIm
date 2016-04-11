@@ -40,10 +40,10 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    VERSION=3.4.4
+    VERSION=3.4.3
    # if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone -q https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=v$VERSION https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -q --branch=v$VERSION  https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}
    # else
    #     echo "wget http://fukuchi.org/works/qrencode/qrencode-${VERSION}.tar.gz"
    #     mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
