@@ -25,8 +25,10 @@ case $1 in
     ;;
 esac
 
-echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
-. `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+    echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
+    . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -36,7 +38,13 @@ fi
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
+    cd ${RABBITIM_BUILD_SOURCE_CODE}
+    #下载 depot tools
+    git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
     VERSION=r8464
+    gclient config --name src https://chromium.googlesource.com/external/webrtc 
+    echon "target_os = ['windows','win','android','unix','mac','ios']" >> .gclient
+    gclient sync --force
 fi
 
 CUR_DIR=`pwd`
@@ -66,21 +74,29 @@ if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
 else
     CONFIG_PARA="--enable-shared"
 fi
+sed -i "s/self.target.binary, 'alink_thin', link_deps/self.target.binary, 'alink', link_deps/g" ${RABBITIM_BUILD_SOURCE_CODE}/chromium/src/tools/gyp/pylib/gyp/generator/ninja.py
+
+TARGET=all
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-        ./build/install-build-deps-android.sh --no-syms  --no-arm  --no-chromeos-fonts  --no-nacl #安装信赖 
-        python webrtc/build/gyp_webrtc.py -D "clang=0" 
+        ./build/install-build-deps-android.sh # --no-syms  --no-arm  --no-chromeos-fonts  --no-nacl #安装信赖 
+        source build/android/envsetup.sh
+        python webrtc/build/gyp_webrtc.py -D "clang=0" -D "OS=android"  -D linux_use_gold_flags=0 
         ;;
     unix)
         ./build/install-build-deps.sh --no-syms  --no-arm  --no-chromeos-fonts  --no-nacl #安装信赖 
-        python webrtc/build/gyp_webrtc.py -D "clang=0"   # -D "linux_fpic=0" 
+        export GYP_GENERATORS=ninja 
+        python webrtc/build/gyp_webrtc.py -D "clang=0" -D OS=linux  -D linux_use_gold_flags=0  -Dlinux_use_bundled_gold=0 # -D "linux_fpic=0" 
+        TARGET=peerconnection_client
         ;;
     windows_msvc)
-        export GYP_GENERATORS=ninja # msvs or msvs-ninja   
+        export GYP_GENERATORS=ninja  
         export DEPOT_TOOLS_WIN_TOOLCHAIN=0
         python webrtc/build/gyp_webrtc.py   
+        TARGET=peerconnection_client
         ;;
     windows_mingw)
+        
          ;;
     *)
         echo "${HELP_STRING}"
@@ -89,12 +105,15 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
 esac
 
-ninja -C out/Debug peerconnection_client
-ninja -C out/Release peerconnection_client
+ninja -C out/Debug $TARGET
+ninja -C out/Release $TARGET
 
 #生成头文件
 find talk webrtc -name "*.h" > files.txt
 tar czf  include.tar.gz --files-from files.txt
+if [ ! -d "${RABBITIM_BUILD_PREFIX}/include" ]; then
+    mkdir ${RABBITIM_BUILD_PREFIX}/include
+fi
 tar xzf include.tar.gz -C ${RABBITIM_BUILD_PREFIX}/include
 rm include.tar.gz files.txt
 
@@ -109,10 +128,14 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
         cp `find out/Debug -name "*.lib"` ${RABBITIM_BUILD_PREFIX}/lib/Debug
         cp `find out/Release -name "*.lib"` ${RABBITIM_BUILD_PREFIX}/lib/Release
-    ;;
+        ;;
     unix)
         cp `find out/Debug -name "*.a"` ${RABBITIM_BUILD_PREFIX}/lib/Debug
         cp `find out/Release -name "*.a"` ${RABBITIM_BUILD_PREFIX}/lib/Release
+        ;;
+    android)
+        cp `find out/Debug -path "obj.host" -prune -o -name "*.a"` ${RABBITIM_BUILD_PREFIX}/lib/Debug
+        cp `find out/Release -path "obj.host" -prune -o -name "*.a"` ${RABBITIM_BUILD_PREFIX}/lib/Release
         ;;
     *)
     ;;

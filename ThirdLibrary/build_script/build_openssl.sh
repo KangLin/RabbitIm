@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    OPENSLL_BRANCH=OpenSSL_1_0_2g
+    OPENSLL_BRANCH=OpenSSL_1_0_2f
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone -q --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone -q --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
@@ -99,7 +99,7 @@ case ${RABBITIM_BUILD_TARGERT} in
                 --prefix=${RABBITIM_BUILD_PREFIX} \
                 --openssldir=${RABBITIM_BUILD_PREFIX} \
                 $MODE \
-                android-armeabi  --sysroot="${RABBITIM_BUILD_CROSS_SYSROOT}" -march=armv7-a -mfpu=neon
+                android-armv7  --sysroot="${RABBITIM_BUILD_CROSS_SYSROOT}" -march=armv7-a -mfpu=neon
         ;;
     unix)
         ./config --prefix=${RABBITIM_BUILD_PREFIX} --openssldir=${RABBITIM_BUILD_PREFIX} $MODE
