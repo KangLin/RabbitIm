@@ -25,10 +25,8 @@ case $1 in
     ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
-    echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
-    . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
+. `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -42,6 +40,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
 fi
 
 CUR_DIR=`pwd`
+RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/src
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 echo ""
@@ -59,6 +58,8 @@ if [ -n "$RABBITIM_CLEAN" ]; then
     rm -fr out
 fi
 
+python setup_links.py --force
+
 echo "configure ..."
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     CONFIG_PARA="--enable-static"
@@ -67,40 +68,51 @@ else
 fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-
-    ;;
-    unix)
-    python webrtc/build/gyp_webrtc.py -D "clang=0"   # -D "linux_fpic=0" 
-    ;;
-    windows_msvc)
-    export GYP_GENERATORS=ninja # msvs or msvs-ninja   
-    export DEPOT_TOOLS_WIN_TOOLCHAIN=0
-    python webrtc/build/gyp_webrtc.py   
-    ;;
-    windows_mingw)
-       
-        *)
-            ;;
-        esac
+        ./build/install-build-deps-android.sh --no-syms  --no-arm  --no-chromeos-fonts  --no-nacl #安装信赖 
+        python webrtc/build/gyp_webrtc.py -D "clang=0" 
         ;;
+    unix)
+        ./build/install-build-deps.sh --no-syms  --no-arm  --no-chromeos-fonts  --no-nacl #安装信赖 
+        python webrtc/build/gyp_webrtc.py -D "clang=0"   # -D "linux_fpic=0" 
+        ;;
+    windows_msvc)
+        export GYP_GENERATORS=ninja # msvs or msvs-ninja   
+        export DEPOT_TOOLS_WIN_TOOLCHAIN=0
+        python webrtc/build/gyp_webrtc.py   
+        ;;
+    windows_mingw)
+         ;;
     *)
-    echo "${HELP_STRING}"
-    cd $CUR_DIR
-    exit 2
-    ;;
+        echo "${HELP_STRING}"
+        cd $CUR_DIR
+        exit 2
+        ;;
 esac
 
 ninja -C out/Debug peerconnection_client
 ninja -C out/Release peerconnection_client
 
-cd out/Debug
-mkdir lib
+#生成头文件
+find talk webrtc -name "*.h" > files.txt
+tar czf  include.tar.gz --files-from files.txt
+tar xzf include.tar.gz -C ${RABBITIM_BUILD_PREFIX}/include
+rm include.tar.gz files.txt
+
+#复制库文件
+if [ ! -d "${RABBITIM_BUILD_PREFIX}/lib/Debug" ]; then
+    mkdir -p ${RABBITIM_BUILD_PREFIX}/lib/Debug
+fi
+if [ ! -d "${RABBITIM_BUILD_PREFIX}/lib/Release" ]; then
+    mkdir ${RABBITIM_BUILD_PREFIX}/lib/Release
+fi
 case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
-        cp `find . "*.lib"` lib
+        cp `find out/Debug -name "*.lib"` ${RABBITIM_BUILD_PREFIX}/lib/Debug
+        cp `find out/Release -name "*.lib"` ${RABBITIM_BUILD_PREFIX}/lib/Release
     ;;
     unix)
-        cp `find . "*.a"` lib
+        cp `find out/Debug -name "*.a"` ${RABBITIM_BUILD_PREFIX}/lib/Debug
+        cp `find out/Release -name "*.a"` ${RABBITIM_BUILD_PREFIX}/lib/Release
         ;;
     *)
     ;;
