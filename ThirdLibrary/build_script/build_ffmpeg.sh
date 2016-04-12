@@ -50,7 +50,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    FFMPEG_VERSION=n2.8.2
+    FFMPEG_VERSION=n3.0.1
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone --branch=${FFMPEG_VERSION} git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}

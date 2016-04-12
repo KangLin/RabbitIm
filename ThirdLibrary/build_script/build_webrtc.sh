@@ -33,15 +33,12 @@ esac
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
 else
-    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/x264
+    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_PREFIX}/../src/webrtc
 fi
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    X264_VERSION=5c6570495f8f1c716b294aee1430d8766a4beb9c
-    echo "git clone  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}"
-    #git clone git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
-    git clone -q git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
+    VERSION=r8464
 fi
 
 CUR_DIR=`pwd`
@@ -59,11 +56,7 @@ echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo ""
 
 if [ -n "$RABBITIM_CLEAN" ]; then
-    if [ -d ".git" ]; then
-        git clean -xdf
-    else
-        make distclean
-    fi
+    rm -fr out
 fi
 
 echo "configure ..."
@@ -74,25 +67,18 @@ else
 fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-    CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
-    CONFIG_PARA="${CONFIG_PARA} --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-    CFLAGS="-march=armv7-a -mfpu=neon"
-    ASFLAGS="-march=armv7-a -mfpu=neon"
+
     ;;
     unix)
+    python webrtc/build/gyp_webrtc.py -D "clang=0"   # -D "linux_fpic=0" 
     ;;
     windows_msvc)
-        export MSYSTEM=MINGW32
-        export CC=cl
+    export GYP_GENERATORS=ninja # msvs or msvs-ninja   
+    export DEPOT_TOOLS_WIN_TOOLCHAIN=0
+    python webrtc/build/gyp_webrtc.py   
     ;;
     windows_mingw)
-        case `uname -s` in
-            Linux*|Unix*|CYGWIN*)
-                CONFIG_PARA="${CONFIG_PARA} --cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --host=$RABBITIM_BUILD_CROSS_HOST"
-                ;;
-            MSYS*)
-                CONFIG_PARA="${CONFIG_PARA} --host=$RABBITIM_BUILD_CROSS_HOST"
-                ;;
+       
         *)
             ;;
         esac
@@ -104,12 +90,20 @@ case ${RABBITIM_BUILD_TARGERT} in
     ;;
 esac
 
-CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --disable-cli --disable-opencl --enable-pic "
+ninja -C out/Debug peerconnection_client
+ninja -C out/Release peerconnection_client
 
-echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS=}\" --extra-asflags=\"${ASFLAGS}\""
-./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-asflags="${ASFLAGS}"
-
-echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} && make install
+cd out/Debug
+mkdir lib
+case ${RABBITIM_BUILD_TARGERT} in
+    windows_msvc)
+        cp `find . "*.lib"` lib
+    ;;
+    unix)
+        cp `find . "*.a"` lib
+        ;;
+    *)
+    ;;
+esac
 
 cd $CUR_DIR

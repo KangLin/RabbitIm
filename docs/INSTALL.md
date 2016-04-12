@@ -165,7 +165,7 @@
 
 * 下载：`git clone git://git.videolan.org/x264.git`  
 * 当前使用版本：  
-    git库版本 —— a01e339
+    git库版本 —— 5c65704
 
 #### 5. 解码库(libvpx)
 
@@ -202,7 +202,6 @@
 * 下载：`git clone  https://github.com/openssl/openssl`  
 * 当前使用版本：  
     git库版本 —— OpenSSL_1_0_2g  
-	remotes/origin/OpenSSL_1_0_2-stable
 
 #### 11. [libcurl](http://curl.haxx.se)
 
