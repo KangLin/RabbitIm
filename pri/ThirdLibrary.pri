@@ -131,69 +131,92 @@ equals(RABBITIM_USE_WEBRTC, 1) {
         error("Please set WEBRTC_ROOT")
     }
 
-    WEBRTC_LIBS = libjingle_peerconnection.lib \
-        field_trial_default.lib \
-        jsoncpp.lib \
-        rtc_base.lib \
-        webrtc_common.lib rtc_base_approved.lib \
-        boringssl.lib expat.lib \
-        libjingle_media.lib video_render_module.lib \
-        webrtc_utility.lib \
-        audio_coding_module.lib cng.lib \
-        common_audio.lib \
-        system_wrappers.lib \
-        openmax_dl.lib \
-        common_audio_sse2.lib \
-        audio_encoder_interface.lib \
-        g711.lib pcm16b.lib \
-        webrtc_opus.lib opus.lib \
-        g722.lib isac.lib \
-        audio_decoder_interface.lib \
-        isac_common.lib ilbc.lib \
-        red.lib rtc_event_log.lib \
-        rtc_event_log_proto.lib \
-        protobuf_lite.lib neteq.lib \
-        rent_a_codec.lib  media_file.lib \
-        common_video.lib libyuv.lib \
-        libjpeg.lib webrtc.lib \
-        voice_engine.lib \
-        audio_conference_mixer.lib \
-        audio_processing.lib \
-        audioproc_debug_proto.lib \
-        audio_processing_sse2.lib \
-        audio_device.lib \
-        bitrate_controller.lib \
-        rtp_rtcp.lib \
-        remote_bitrate_estimator.lib \
-        paced_sender.lib \
-        video_capture_module.lib \
-        video_processing.lib \
-        video_processing_sse2.lib \
-        webrtc_video_coding.lib \
-        webrtc_h264.lib webrtc_i420.lib \
-        video_coding_utility.lib \
-        webrtc_vp8.lib \
-        libvpx_new.lib \
-        libvpx_intrinsics_mmx.lib \
-        libvpx_intrinsics_sse2.lib \
-        libvpx_intrinsics_ssse3.lib \
-        libvpx_intrinsics_sse4_1.lib \
-        libvpx_intrinsics_avx2.lib \
-        webrtc_vp9.lib \
-        rtc_sound.lib \
-        metrics_default.lib \
-        rtc_xmllite.lib \
-        rtc_xmpp.lib rtc_p2p.lib \
-        usrsctplib.lib \
-        video_capture_module_internal_impl.lib \
-        directshow_baseclasses.lib \
-        video_render_module_internal_impl.lib \
-        libjingle_p2p.lib libsrtp.lib
+    WEBRTC_LIBS = jingle_peerconnection \
+        jingle_media \
+        yuv \
+        jpeg \
+        vpx_new \
+        vpx_intrinsics_mmx \
+        vpx_intrinsics_sse2 \
+        vpx_intrinsics_ssse3 \
+        vpx_intrinsics_sse4_1 \
+        vpx_intrinsics_avx2 \
+        jingle_p2p \
+        srtp 
 
     values = $$WEBRTC_LIBS
     for(var, values) {
-        !msvc : LIBS += -l$${var}
+        msvc {
+            LIBS += lib$${var}
+        }
     }
- 
-    msvc:LIBS += $${WEBRTC_LIBS}
+
+    WEBRTC_LIBS += \
+        webrtc \
+        field_trial_default \
+        jsoncpp \
+        rtc_base \
+        webrtc_common \
+        rtc_base_approved \
+        boringssl \
+        expat \
+        video_render_module \
+        webrtc_utility \
+        audio_coding_module \
+        cng \
+        common_audio \
+        system_wrappers \
+        openmax_dl \
+        common_audio_sse2 \
+        audio_encoder_interface \
+        g711 \
+        pcm16b \
+        webrtc_opus \
+        opus \
+        g722 \
+        isac \
+        audio_decoder_interface \
+        isac_common \
+        ilbc \
+        red \
+        rtc_event_log \
+        rtc_event_log_proto \
+        protobuf_lite \
+        neteq \
+        rent_a_codec  \
+        media_file \
+        common_video \
+        voice_engine \
+        audio_conference_mixer \
+        audio_processing \
+        audioproc_debug_proto \
+        audio_processing_sse2 \
+        audio_device \
+        bitrate_controller \
+        rtp_rtcp \
+        remote_bitrate_estimator \
+        paced_sender \
+        video_capture_module \
+        video_processing \
+        video_processing_sse2 \
+        webrtc_video_coding \
+        webrtc_h264 \
+        webrtc_i420 \
+        video_coding_utility \
+        webrtc_vp8 \
+        webrtc_vp9 \
+        rtc_sound \
+        metrics_default \
+        rtc_xmllite \
+        rtc_xmpp \
+        rtc_p2p \
+        usrsctplib \
+        video_capture_module_internal_impl \
+        directshow_baseclasses \
+        video_render_module_internal_impl 
+
+    values = $$WEBRTC_LIBS
+    for(var, values) {
+             LIBS += -l$${var}
+    }
 }

@@ -57,7 +57,7 @@
     7z x ThirdLibrary_linux.7z 
 
 修改前缀
-    
+
     cd ${RabbitImRoot}/ThirdLibrary/unix
     cp ${RabbitImRoot}/ThirdLibrary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibrary/unix/change_prefix.sh
     cd ${RabbitImRoot}/ThirdLibrary/unix
