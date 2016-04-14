@@ -8,6 +8,7 @@
 #include "Message/SmileyPack.h"
 #include "Message/EmoticonsWidget.h"
 #include "FileTransfer/ManageFileTransfer.h"
+#include "Tool.h"
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QDropEvent>

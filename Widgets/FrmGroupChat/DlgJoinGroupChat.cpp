@@ -2,6 +2,7 @@
 #include "ui_DlgJoinGroupChat.h"
 #include "Global/Global.h"
 #include "ManageGroupChat.h"
+#include "Tool.h"
 #include <QMessageBox>
 #include <QApplication>
 #include <QDesktopWidget>

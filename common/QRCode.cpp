@@ -85,7 +85,7 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage,
         QColor error("red");
         painter.setBrush(error);
         painter.drawRect(0, 0, size.width(), size.height());
-        LOG_MODEL_ERROR("CTool", "QR FAIL:%d", errno);
+        LOG_MODEL_ERROR("CTool", "QR FAIL");
     }
 
     qr = nullptr;

@@ -201,7 +201,7 @@
 
 * 下载：`git clone  https://github.com/openssl/openssl`  
 * 当前使用版本：  
-    git库版本 —— OpenSSL_1_0_2g  
+    git库版本 —— OpenSSL_1_0_2f  
 
 #### 11. [libcurl](http://curl.haxx.se)
 

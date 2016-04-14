@@ -40,8 +40,8 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    QT_VERSION_DIR=5.5
-    QT_VERSION=5.5.1
+    QT_VERSION_DIR=5.6
+    QT_VERSION=5.6.0
     mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
     cd ${RABBITIM_BUILD_SOURCE_CODE}
     if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
@@ -50,7 +50,8 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         git checkout ${QT_VERSION}
         perl init-repository -f --branch
     else
-        wget -q http://mirrors.ustc.edu.cn/qtproject/archive/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
+        #wget -q http://mirrors.ustc.edu.cn/qtproject/archive/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
+        wget -q http://http://download.qt.io/qtproject/archive/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         tar xzf qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         mv qt-everywhere-opensource-src-${QT_VERSION} ..
         rm -fr *

@@ -6,6 +6,7 @@
 #include "MainWindow.h"
 #include "Global/Encrypt.h"
 #include <string>
+#include "Tool.h"
 
 CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),

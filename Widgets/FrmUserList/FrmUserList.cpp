@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <fstream>
 #include <memory> 
+#include "Tool.h"
 
 #ifdef WIN32
 #undef GetMessage

@@ -61,12 +61,12 @@ fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-#if [ "$RABBITIM_CLEAN" ]; then
-#    if [ -d ".git" ]; then
-#        echo "git clean -xdf"
-#        git clean -xdf
-#    fi
-#fi
+if [ "$RABBITIM_CLEAN" ]; then
+    if [ -d ".git" ]; then
+        echo "git clean -xdf"
+        git clean -xdf
+    fi
+fi
 
 if [ ! -f configure ]; then
     echo "sh buildconf"
@@ -79,12 +79,12 @@ if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
     if [ -n "$RABBITIM_CLEAN" ]; then
         rm -fr builds
     fi
-else
-    mkdir -p build_${RABBITIM_BUILD_TARGERT}
-    cd build_${RABBITIM_BUILD_TARGERT}
-    if [ -n "$RABBITIM_CLEAN" ]; then
-        rm -fr *
-    fi
+#else
+#    mkdir -p build_${RABBITIM_BUILD_TARGERT}
+#    cd build_${RABBITIM_BUILD_TARGERT}
+#    if [ -n "$RABBITIM_CLEAN" ]; then
+#        rm -fr *
+#    fi
 fi
 
 echo ""
@@ -170,11 +170,11 @@ CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} --disable-manual -
 #CONFIG_PARA="${CONFIG_PARA} --enable-libgcc  "
 CONFIG_PARA="${CONFIG_PARA} --with-ssl=${RABBITIM_BUILD_PREFIX} --with-sysroot=${RABBITIM_BUILD_PREFIX}"
 if [ "${RABBITIM_BUILD_TARGERT}" = android ]; then
-    echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\" LDFLAGS=\"${LDFLAGS}\""
-    ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
+    echo "./configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\" LDFLAGS=\"${LDFLAGS}\""
+    ./configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
 else
-    echo "../configure ${CONFIG_PARA} LDFLAGS=\"${LDFLAGS}\""
-    ../configure ${CONFIG_PARA} LDFLAGS="${LDFLAGS}"
+    echo "./configure ${CONFIG_PARA} LDFLAGS=\"${LDFLAGS}\""
+    ./configure ${CONFIG_PARA} LDFLAGS="${LDFLAGS}"
 fi
 
 ${MAKE} ${RABBITIM_MAKE_JOB_PARA} V=1 && ${MAKE} install

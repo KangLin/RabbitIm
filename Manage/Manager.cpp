@@ -189,7 +189,9 @@ QSharedPointer<CManagePluginProtocol> CManager::GetManagePluginProtocol()
 int CManager::FindPlugins(QDir dir)
 {
     QString fileName;
-    foreach (fileName, dir.entryList(QDir::Files)) {
+    QStringList filters;
+    filters << "*.so" << "*.dll";
+    foreach (fileName, dir.entryList(filters, QDir::Files)) {
         QString szPlugins = dir.absoluteFilePath(fileName);
         QPluginLoader loader(szPlugins);
         QObject *plugin = loader.instance();
@@ -208,6 +210,9 @@ int CManager::FindPlugins(QDir dir)
                 GetManagePluginProtocol()->RegisterPlugin(pluginProtocol->ID(), pluginProtocol);
                 continue;
             }
+        }else{
+            LOG_MODEL_ERROR("CManager", "load plugin error:%s",
+                            loader.errorString().toStdString().c_str());
         }
     }
 

@@ -29,7 +29,7 @@ function function_common()
     if [ "true" = "${RABBITIM_BUILD_THIRDLIBRARY}" ]; then
 		#编译第三方库
 		cd ${SOURCE_DIR}/ThirdLibrary/build_script
-		./build.sh ${BUILD_TARGERT} ${SOURCE_DIR}/ThirdLibrary/src
+		./build.sh ${BUILD_TARGERT} ${SOURCE_DIR}/ThirdLibrary/src > /dev/null
 	fi
 }
 
@@ -38,32 +38,23 @@ function function_android()
     cd ${SOURCE_DIR}/ThirdLibrary
 
     #下载android ndk
-    wget http://dl.google.com/android/ndk/android-ndk-r9c-linux-x86_64.tar.bz2
-    tar xf android-ndk-r9c-linux-x86_64.tar.bz2
-    mv android-ndk-r9c android-ndk
-
-    #下载 android sdk
-    wget http://182.254.185.29/download/travis/android-sdk.tar.gz 
-    tar xzf android-sdk.tar.gz 
-    mv sdk android-sdk
- 
+    wget http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
+    sudo chmod u+x android-ndk-r10e-linux-x86_64.bin
+    ./android-ndk-r10e-linux-x86_64.bin > /dev/null
+    mv android-ndk-r10e android-ndk
     export ANDROID_NDK_ROOT=${SOURCE_DIR}/ThirdLibrary/android-ndk
     export ANDROID_NDK=$ANDROID_NDK_ROOT
+ 
+    #下载 android sdk
+    #wget -q http://182.254.185.29/download/travis/android-sdk.tar.gz 
+    #tar xzf android-sdk.tar.gz 
+    #mv sdk android-sdk
+ 
     export ANDROID_SDK_ROOT=${SOURCE_DIR}/ThirdLibrary/android-sdk
     export ANDROID_SDK=$ANDROID_SDK_ROOT
 
 	function_common
 	cd ${SOURCE_DIR}/ThirdLibrary
-
-	if [ "true" != "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
-		#下载第三方依赖库
-		wget http://182.254.185.29/download/travis/android.tar.gz
-		tar xzf android.tar.gz 
-        cd android
-        ./change_prefix.sh
-    fi
-
-    cd ${SOURCE_DIR}/ThirdLibrary
 }
 
 function function_unix()
@@ -74,17 +65,6 @@ function function_unix()
     function_common
 
     cd ${SOURCE_DIR}/ThirdLibrary
-
-    if [  "true" != "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
-        #下载第三方依赖库
-        wget http://182.254.185.29/download/travis/unix.tar.gz
-        tar xzf unix.tar.gz
-        export LD_LIBRARY_PATH=`pwd`/${BUILD_TARGERT}/qt/bin:`pwd`/${BUILD_TARGERT}/qt/lib:`pwd`/${BUILD_TARGERT}/lib
-        cd unix
-        ./change_prefix.sh
-    fi
-    cd ${SOURCE_DIR}/ThirdLibrary
-
 }
 
 function function_mingw()
@@ -93,14 +73,7 @@ function function_mingw()
     function_install_yasm
 
     cd ${SOURCE_DIR}/ThirdLibrary
-    if [ "true" != "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
-        echo "Download third library"
-        #下载第三方依赖库
-        wget http://182.254.185.29/download/travis/windows_mingw.tar.gz
-        tar xzf windows_mingw.tar.gz
-        cd windows_mingw
-        ./change_prefix.sh
-    else
+    if [ "true" == "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
         export RABBITIM_BUILD_CROSS_HOST=i586-mingw32msvc
     fi
 

@@ -41,24 +41,32 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     VERSION=3.4.3
-   # if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
         echo "git clone -q --branch=v$VERSION https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q --branch=v$VERSION  https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}
-   # else
-   #     echo "wget http://fukuchi.org/works/qrencode/qrencode-${VERSION}.tar.gz"
-   #     mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
-   #    cd ${RABBITIM_BUILD_SOURCE_CODE}
-   #     wget -q  http://fukuchi.org/works/qrencode/qrencode-${VERSION}.tar.gz
-   #     tar xvf qrencode-${VERSION}.tar.gz
-   #     mv qrencode-${VERSION} ..
-   #     rm -fr *
-   #     cd ..
-   #     rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
-   #     mv -f qrencode-${VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
-   #fi
+        git clone -q https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}
+    else
+        echo "wget -q  https://github.com/fukuchi/libqrencode/archive/v${VERSION}.tar.gz"
+        mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
+        cd ${RABBITIM_BUILD_SOURCE_CODE}
+        #wget  -q https://github.com/fukuchi/libqrencode/archive/v${VERSION}.tar.gz
+        wget -q http://fukuchi.org/works/qrencode/qrencode-3.4.4.tar.gz
+        tar xvf qrencode-3.4.4.tar.gz
+        mv qrencode-3.4.4  ..
+        rm -fr *
+        cd ..
+        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
+        mv -f qrencode-3.4.4 ${RABBITIM_BUILD_SOURCE_CODE}
+   fi
 fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
+
+if [ "$RABBITIM_CLEAN" ]; then
+    if [ -d ".git" ]; then
+        echo "git clean -xdf"
+        git clean -xdf
+    fi
+fi
 
 if [ ! -f configure ]; then
     mkdir -p m4
@@ -144,7 +152,7 @@ esac
 echo "make install"
 echo "pwd:`pwd`"
 CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} "
-CONFIG_PARA="${CONFIG_PARA} --without-png"
+CONFIG_PARA="${CONFIG_PARA} --without-png --without-tools --without-sdl"
 
 if [ "${RABBITIM_BUILD_TARGERT}" = android ]; then
     echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
