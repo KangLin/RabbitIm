@@ -95,6 +95,7 @@ case ${BUILD_TARGERT} in
         function_mingw
         ;;
     *)
+    echo "There aren't ${BUILD_TARGERT}"
         ;;
 esac
 
