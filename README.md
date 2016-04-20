@@ -63,6 +63,7 @@
 * qq手机钱包：16614119
 * 微信扫描下面二维码进行捐赠：
 
+![微信收款](Resource/png/weixinpay.png "微信收款")  
 ![微信收款](Resource/png/weixinpay.jpg "微信收款")
 
 有偿服务：
