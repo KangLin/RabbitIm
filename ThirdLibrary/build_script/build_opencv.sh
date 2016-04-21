@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -41,16 +41,16 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     OPENCV_VERSION=2.4.11
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone git://github.com/Itseez/opencv.git  ${RABBITIM_BUILD_SOURCE_CODE}"
-        #git clone --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone -q --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
+    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
+        echo "git clone -q  git://github.com/Itseez/opencv.git  ${RABBITIM_BUILD_SOURCE_CODE}"
+        #git clone -q  --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q  --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip"
+        echo "wget -q  https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip
-        unzip -q ${OPENCV_VERSION}.zip
+        wget -q  https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip
+        unzip -q  ${OPENCV_VERSION}.zip
         mv opencv-${OPENCV_VERSION} ..
         rm -fr *
         cd ..

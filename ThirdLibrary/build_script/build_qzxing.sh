@@ -29,10 +29,10 @@ esac
 #   PREFIX= #修改这里为安装前缀
 #   QMAKE=  #设置用于相应平台编译的 QMAKE
 #   JOM=    #QT 自带的类似 make 的工具
-#if [ -z "${PREFIX}" -o -z "${QMAKE}" -o -z "${JOM}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -45,15 +45,15 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     VERSION=2.3
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone https://github.com/KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        #git clone https://github.com/KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone -q https://github.com/KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}
+    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
+        echo "git clone -q  https://github.com/KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        #git clone -q  https://github.com/KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q  https://github.com/KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q http://sourceforge.net/projects/qzxing/files/v${VERSION}/QZXing_sourceV${VERSION}.zip/download
-        unzip -q download #${RABBITIM_BUILD_SOURCE_CODE}
+        wget -q  http://sourceforge.net/projects/qzxing/files/v${VERSION}/QZXing_sourceV${VERSION}.zip/download
+        unzip -q  download #${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 

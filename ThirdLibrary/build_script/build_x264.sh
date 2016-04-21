@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -39,9 +39,9 @@ fi
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     X264_VERSION=5c6570495f8f1c716b294aee1430d8766a4beb9c
-    echo "git clone  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}"
-    #git clone git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
-    git clone -q git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
+    echo "git clone  -q  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}"
+    #git clone -q  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
+    git clone -q  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`

@@ -26,8 +26,10 @@ case $1 in
 esac
 
 #运行本脚本前,先运行 build_${RABBITIM_BUILD_TARGERT}_envsetup.sh 进行环境变量设置,需要先设置下面变量:
-echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
-. `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+    echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
+    . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -39,14 +41,14 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q https://github.com/KangLin/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q  https://github.com/KangLin/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q https://github.com/KangLin/qxmpp/archive/master.zip
-        unzip -q master.zip
+        wget -q  https://github.com/KangLin/qxmpp/archive/master.zip
+        unzip -q  master.zip
         mv qxmpp-master ..
         rm -fr *
         cd ..

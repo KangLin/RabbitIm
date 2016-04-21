@@ -12,6 +12,14 @@ OTHER_FILES +=  \
     $$PWD/res/values-zh-rTW/* \
     $$PWD/res/*
 
+DISTFILES += \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradlew \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew.bat
+
 #安装 android 支持库  
 android_support_library.target = android_support_library
 android_support_library.path = $$PREFIX/libs

@@ -33,26 +33,24 @@ env:
   global:
     - TIMEOUT=120000
   matrix:
-   # - BUILD_TARGERT=windows_mingw QMAKE=qmake RABBITIM_BUILD_THIRDLIBRARY=true RABBITIM_USE_REPOSITORIES="FALSE"
+    - BUILD_TARGERT=windows_mingw QMAKE=qmake RABBITIM_BUILD_THIRDLIBRARY=true RABBITIM_USE_REPOSITORIES="FALSE"
    # - BUILD_TARGERT=windows_mingw QMAKE=cmake RABBITIM_BUILD_THIRDLIBRARY=true RABBITIM_USE_REPOSITORIES="FALSE"
-   # - BUILD_TARGERT=windows_mingw QMAKE=qmake RABBITIM_BUILD_THIRDLIBRARY=true
+   # - BUILD_TARGERT=windows_mingw QMAKE=qmake RABBITIM_BUILD_THIRDLIBRARY=true RABBITIM_USE_REPOSITORIES="TRUE"
     
-   # - BUILD_TARGERT=android QMAKE=qmake RABBITIM_BUILD_THIRDLIBRARY=true RABBITIM_USE_REPOSITORIES="FALSE" ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
+    - BUILD_TARGERT=android QMAKE=qmake RABBITIM_BUILD_THIRDLIBRARY=true RABBITIM_USE_REPOSITORIES="FALSE" ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
    # - BUILD_TARGERT=android QMAKE=cmake RABBITIM_BUILD_THIRDLIBRARY=true RABBITIM_USE_REPOSITORIES="FALSE" ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
-    - BUILD_TARGERT=android QMAKE=qmake RABBITIM_BUILD_THIRDLIBRARY=true ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
+   # - BUILD_TARGERT=android QMAKE=qmake RABBITIM_BUILD_THIRDLIBRARY=true RABBITIM_USE_REPOSITORIES="TRUE" ANDROID_SDKS=android-19,sysimg-19 ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a 
     
     - BUILD_TARGERT=unix QMAKE=qmake RABBITIM_BUILD_THIRDLIBRARY=true RABBITIM_USE_REPOSITORIES="FALSE"
    # - BUILD_TARGERT=unix QMAKE=cmake RABBITIM_BUILD_THIRDLIBRARY=true RABBITIM_USE_REPOSITORIES="FALSE"
-    - BUILD_TARGERT=unix QMAKE=qmake RABBITIM_BUILD_THIRDLIBRARY=true
+   # - BUILD_TARGERT=unix QMAKE=qmake RABBITIM_BUILD_THIRDLIBRARY=true RABBITIM_USE_REPOSITORIES="TRUE"
 
 install:
-  - source ThirdLibrary/build_script/ci/build-before.sh  > /dev/null  #2>&1
+  - ThirdLibrary/build_script/ci/build-before.sh  > /dev/null  #2>&1
 
-before_script:
-  - source ThirdLibrary/build_script/ci/build-depends.sh  > /dev/null
+before_script: travis_wait 30 ThirdLibrary/build_script/ci/build-depends.sh  #> /dev/null
 
-script:
-  - source ThirdLibrary/build_script/ci/build-and-test.sh > /dev/null
+script: travis_wait 30 ThirdLibrary/build_script/ci/build-and-test.sh #> /dev/null
 
 notifications:
   email: kl222@126.com

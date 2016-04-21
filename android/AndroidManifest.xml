@@ -45,7 +45,7 @@
             <!-- Splash screen -->
         </activity>
     </application>
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="15"/>
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="18"/>
     <supports-screens android:largeScreens="true"
         android:normalScreens="true"
         android:anyDensity="true"
@@ -75,5 +75,5 @@
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="true"/>
     <uses-feature android:name="android.hardware.microphone" android:required="true"/>
-    <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+ <!--   <uses-feature android:glEsVersion="0x00020000" android:required="true"/>-->
 </manifest>

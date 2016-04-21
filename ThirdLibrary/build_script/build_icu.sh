@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -40,15 +40,15 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        #echo "git clone https://github.com/svn2github/libicu.git ${RABBITIM_BUILD_SOURCE_CODE}/source"
-        #git clone https://github.com/svn2github/libicu.git ${RABBITIM_BUILD_SOURCE_CODE}
+    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
+        #echo "git clone -q  https://github.com/svn2github/libicu.git ${RABBITIM_BUILD_SOURCE_CODE}/source"
+        #git clone -q  https://github.com/svn2github/libicu.git ${RABBITIM_BUILD_SOURCE_CODE}
         echo "svn co http://source.icu-project.org/repos/icu/icu/trunk/ ${RABBITIM_BUILD_SOURCE_CODE}"
         svn co http://source.icu-project.org/repos/icu/icu/trunk/ ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q http://download.icu-project.org/files/icu4c/56.1/icu4c-56_1-src.zip ${RABBITIM_BUILD_SOURCE_CODE}
+        wget -q  http://download.icu-project.org/files/icu4c/56.1/icu4c-56_1-src.zip ${RABBITIM_BUILD_SOURCE_CODE}
         mv icu4c-56_1-src.tgz ..
         cd ..
         rm -fr icu

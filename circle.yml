@@ -3,10 +3,10 @@ machine:
        Asia/Shanghai
 
 dependencies:
-    pre:
-        - . ThirdLibrary/build_script/ci/build-before.sh:
-            environment:
-                RABBITIM_BUILD_THIRDLIBRARY: true
+    #pre:
+    #    - . ThirdLibrary/build_script/ci/build-before.sh:
+    #        environment:
+    #            RABBITIM_BUILD_THIRDLIBRARY: true
 
     override:
         - . ThirdLibrary/build_script/ci/build-depends.sh:

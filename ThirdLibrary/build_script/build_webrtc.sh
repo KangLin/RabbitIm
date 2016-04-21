@@ -25,8 +25,10 @@ case $1 in
     ;;
 esac
 
-echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
-. `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+    echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
+    . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -38,7 +40,7 @@ fi
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     cd ${RABBITIM_BUILD_SOURCE_CODE}
     #下载 depot tools
-    git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+    git clone -q  https://chromium.googlesource.com/chromium/tools/depot_tools.git
     VERSION=r8464
     gclient config --name src https://chromium.googlesource.com/external/webrtc 
     echon "target_os = ['windows','win','android','unix','mac','ios']" >> .gclient

@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -41,15 +41,15 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     SPEEX_VERSION=Speex-1.2rc2
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone -b ${SPEEX_VERSION} http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        #git clone -b 6aab25c http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone -q --branch=${SPEEX_VERSION} http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
+    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
+        echo "git clone -q  -b ${SPEEX_VERSION} http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        #git clone -q  -b 6aab25c http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q  --branch=${SPEEX_VERSION} http://git.xiph.org/speex.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget http://downloads.xiph.org/releases/speex/${SPEEX_VERSION}.tar.gz"
+        echo "wget -q  http://downloads.xiph.org/releases/speex/${SPEEX_VERSION}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q http://downloads.xiph.org/releases/speex/${SPEEX_VERSION}.tar.gz
+        wget -q  http://downloads.xiph.org/releases/speex/${SPEEX_VERSION}.tar.gz
         tar xzf ${SPEEX_VERSION}.tar.gz
         mv ${SPEEX_VERSION} ..
         rm -fr *

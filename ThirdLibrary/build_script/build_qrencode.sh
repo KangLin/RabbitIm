@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -41,16 +41,15 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     VERSION=3.4.3
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q --branch=v$VERSION https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q  https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget -q  https://github.com/fukuchi/libqrencode/archive/v${VERSION}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        #wget  -q https://github.com/fukuchi/libqrencode/archive/v${VERSION}.tar.gz
-        wget -q http://fukuchi.org/works/qrencode/qrencode-3.4.4.tar.gz
-        tar xvf qrencode-3.4.4.tar.gz
+        wget -q  http://fukuchi.org/works/qrencode/qrencode-3.4.4.tar.gz
+        tar xf qrencode-3.4.4.tar.gz
         mv qrencode-3.4.4  ..
         rm -fr *
         cd ..

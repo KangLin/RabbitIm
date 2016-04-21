@@ -8,10 +8,10 @@ function function_install_yasm()
 	#安装 yasm
 	mkdir -p ${SOURCE_DIR}/ThirdLibrary/src
     cd ${SOURCE_DIR}/ThirdLibrary/src
-	wget http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz 
+	wget -q http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz 
 	tar xzf yasm-1.3.0.tar.gz 
 	cd yasm-1.3.0/
-	./configure && sudo make install -j2
+	./configure > /dev/null && sudo make install -j2 > /dev/null
 	cd ${SOURCE_DIR}
 }
 
@@ -20,7 +20,7 @@ function function_common()
     #下载最新cmake程序
     if [ "cmake" = "${QMAKE}" ]; then
         cd ${SOURCE_DIR}/ThirdLibrary
-        wget --no-check-certificate http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
+        wget -q --no-check-certificate http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
         tar xf cmake-3.1.0-Linux-x86_64.tar.gz
         mv cmake-3.1.0-Linux-x86_64 cmake
         cd ${SOURCE_DIR}
@@ -38,7 +38,7 @@ function function_android()
     cd ${SOURCE_DIR}/ThirdLibrary
 
     #下载android ndk
-    wget http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
+    wget -q http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
     sudo chmod u+x android-ndk-r10e-linux-x86_64.bin
     ./android-ndk-r10e-linux-x86_64.bin > /dev/null
     mv android-ndk-r10e android-ndk
@@ -74,7 +74,7 @@ function function_mingw()
 
     cd ${SOURCE_DIR}/ThirdLibrary
     if [ "true" == "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
-        export RABBITIM_BUILD_CROSS_HOST=i586-mingw32msvc
+        export RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32 #i586-mingw32msvc
     fi
 
     function_common

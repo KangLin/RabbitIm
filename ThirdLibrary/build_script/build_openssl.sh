@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -41,16 +41,16 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     OPENSLL_BRANCH=OpenSSL_1_0_2f
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q  --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
         #git clone -q https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        echo "wget https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip"
-        wget -q https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip
-        unzip -q ${OPENSLL_BRANCH}.zip
+        echo "wget -q  https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip"
+        wget -q  https://github.com/openssl/openssl/archive/${OPENSLL_BRANCH}.zip
+        unzip -q  ${OPENSLL_BRANCH}.zip
         mv openssl-${OPENSLL_BRANCH} ..
         rm -fr *
         cd ..

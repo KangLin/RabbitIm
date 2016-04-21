@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -41,15 +41,15 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     OSG_VERSION=2.0
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q --branch=${OSG_VERSION} https://github.com/openscenegraph/osg.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q --branch=$OSG_VERSION https://github.com/openscenegraph/osg.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q  --branch=$OSG_VERSION https://github.com/openscenegraph/osg.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget https://github.com/openscenegraph/osg/archive/${OSG_VERSION}.zip"
+        echo "wget -q  https://github.com/openscenegraph/osg/archive/${OSG_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q wget https://github.com/openscenegraph/osg/archive/${OSG_VERSION}.zip
-        unzip -q ${OSG_VERSION}.zip
+        wget  -q wget https://github.com/openscenegraph/osg/archive/${OSG_VERSION}.zip
+        unzip -q  ${OSG_VERSION}.zip
         mv osg-${OSG_VERSION} ..
         rm -fr *
         cd ..
