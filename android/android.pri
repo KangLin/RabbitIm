@@ -25,3 +25,31 @@ equals(QMAKE_HOST.os, Windows){
 android_support_library.files = $$androidsupportlibraryfiles
 message("androidsupportlibraryfiles:$$androidsupportlibraryfiles")
 INSTALLS += android_support_library
+
+contains(ANDROID_TARGET_ARCH,armeabi-v7a){
+    ANDROID_PERMISSIONS += \
+        android.permission.CAMERA
+
+    ANDROID_FEATURES += \
+        android.hardware.camera
+    equals(RABBITIM_USE_OPENCV, 1){
+        ANDROID_EXTRA_LIBS = \
+            $$PWD/ThirdLibrary/android/lib/libnative_camera_r4.2.0.so  \ #TODO:修改成你手机平台对应的版本，如果没有，则取最近的版本  
+            $$PWD/ThirdLibrary/android/lib/libopencv_info.so #\
+            #$$PWD/ThirdLibrary/android/lib/libopencv_core.so \
+            #$$PWD/ThirdLibrary/android/lib/libopencv_imgproc.so \
+            #$$PWD/ThirdLibrary/android/lib/libopencv_videoio.so \
+            #$$PWD/ThirdLibrary/android/lib/libopencv_flann.so \
+            #$$PWD/ThirdLibrary/android/lib/libopencv_imgcodecs.so \
+            #$$PWD/ThirdLibrary/android/lib/libopencv_video.so
+            #$$PWD/ThirdLibrary/android/lib/libnative_camera_r2.2.0.so \
+            #$$PWD/ThirdLibrary/android/lib/libnative_camera_r4.1.1.so \
+            #$$PWD/ThirdLibrary/android/lib/libnative_camera_r2.3.3.so \
+            #$$PWD/ThirdLibrary/android/lib/libnative_camera_r3.0.1.so \
+            #$$PWD/ThirdLibrary/android/lib/libnative_camera_r4.3.0.so \
+            #$$PWD/ThirdLibrary/android/lib/libnative_camera_r4.0.0.so \
+            #$$PWD/ThirdLibrary/android/lib/libnative_camera_r4.4.0.so \
+            #$$PWD/ThirdLibrary/android/lib/libnative_camera_r4.0.3.so \
+    }
+    ANDROID_EXTRA_LIBS +=$$(ANDROID_NDK_ROOT)/platforms/$$(ANDROID_NDK_PLATFORM)/arch-arm/usr/lib/libc.so
+}
