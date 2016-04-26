@@ -25,10 +25,10 @@ case $1 in
         ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -39,8 +39,8 @@ fi
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     echo "git clone https://chromium.googlesource.com/webm/libvpx ${RABBITIM_BUILD_SOURCE_CODE}"
-    #git clone --branch=9b99eb2 https://chromium.googlesource.com/webm/libvpx ${RABBITIM_BUILD_SOURCE_CODE}
-    git clone -q https://chromium.googlesource.com/webm/libvpx ${RABBITIM_BUILD_SOURCE_CODE}
+    #git clone -q  --branch=9b99eb2 https://chromium.googlesource.com/webm/libvpx ${RABBITIM_BUILD_SOURCE_CODE}
+    git clone -q  https://chromium.googlesource.com/webm/libvpx ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`

@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -41,15 +41,15 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     SPEEXDSP_VERSION=1.2rc3
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone --branch=SpeexDSP-${SPEEXDSP_VERSION} http://git.xiph.org/speexdsp.git  ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone -q --branch=SpeexDSP-${SPEEXDSP_VERSION} http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone -q --branch=SpeexDSP-${SPEEXDSP_VERSION} http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q  --branch=SpeexDSP-${SPEEXDSP_VERSION} http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget http://downloads.xiph.org/releases/speex/speexdsp-${SPEEXDSP_VERSION}.tar.gz"
+        echo "wget -q  http://downloads.xiph.org/releases/speex/speexdsp-${SPEEXDSP_VERSION}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q http://downloads.xiph.org/releases/speex/speexdsp-${SPEEXDSP_VERSION}.tar.gz
+        wget -q  http://downloads.xiph.org/releases/speex/speexdsp-${SPEEXDSP_VERSION}.tar.gz
         tar xzf speexdsp-${SPEEXDSP_VERSION}.tar.gz
         mv speexdsp-${SPEEXDSP_VERSION} ..
         rm -fr *

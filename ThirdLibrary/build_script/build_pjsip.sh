@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -41,16 +41,16 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     PJSIP_VERSION=2.4
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
+    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "svn co http://svn.pjsip.org/repos/pjproject/trunk ${RABBITIM_BUILD_SOURCE_CODE}"
         svn co http://svn.pjsip.org/repos/pjproject/trunk ${RABBITIM_BUILD_SOURCE_CODE}
         #echo "git svn clone http://svn.pjsip.org/repos/pjproject/tags/2.4/ ${RABBITIM_BUILD_SOURCE_CODE}"
         #git svn clone http://svn.pjsip.org/repos/pjproject/tags/2.4/ ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget http://www.pjsip.org/release/${PJSIP_VERSION}/pjproject-${PJSIP_VERSION}.tar.bz2"
+        echo "wget -q  http://www.pjsip.org/release/${PJSIP_VERSION}/pjproject-${PJSIP_VERSION}.tar.bz2"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q http://www.pjsip.org/release/${PJSIP_VERSION}/pjproject-${PJSIP_VERSION}.tar.bz2
+        wget -q  http://www.pjsip.org/release/${PJSIP_VERSION}/pjproject-${PJSIP_VERSION}.tar.bz2
         tar -jxf pjproject-${PJSIP_VERSION}.tar.bz2
         mv pjproject-${PJSIP_VERSION} ..
         rm -fr *

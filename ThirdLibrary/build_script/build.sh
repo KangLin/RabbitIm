@@ -50,7 +50,7 @@ if [ ! -f ${RABBITIM_BUILD_PREFIX}/change_prefix.sh ]; then
 fi
 
 if [ -n "$2" ]; then
-    echo "Source dir:$2"
+    #echo "Source dir:$2"
     ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl && \
     ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl && \
     ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} $2/libqrencode && \
@@ -74,7 +74,7 @@ else
     ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} 
 fi
 
-if [ "${RABBITIM_BUILD_THIRDLIBARY}" = "true" ]; then
+if [ "true" = "${RABBITIM_BUILD_THIRDLIBRARY}" ]; then
     exit 0
 fi
 

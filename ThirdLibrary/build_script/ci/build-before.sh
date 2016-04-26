@@ -3,63 +3,70 @@ set -ev
 
 function function_common()
 {
-    sudo apt-get install autoconf automake make libtool m4 -y -qq
+    #sudo add-apt-repository -y ppa:ubuntu-sdk-team/ppa
+    #sudo add-apt-repository --yes ppa:kalakris/cmake
+    
+    sudo apt-get update -qq
 
-    sudo apt-get install subversion git wget ant -y -qq
+    sudo apt-get install  -y -qq autoconf automake make libtool m4 libtool \
+        autotools-dev \
+        checkinstall \
+        check 
+
+    sudo apt-get install -y -qq subversion git wget ant
     #文档产生工具
-    sudo apt-get install -y doxygen -qq
+    sudo apt-get install -y -qq doxygen 
     #编译qt webkit 需要
-    sudo apt-get install bison flex gperf ruby -y -qq
+    sudo apt-get install -y -qq bison flex gperf ruby 
 
     #icu工具
     #wget http://mirrors.kernel.org/ubuntu/pool/main/i/icu/libicu52_52.1-3_amd64.deb
     #sudo dpkg -i libicu52_52.1-3_amd64.deb #icu库,用于 Unicode and Globalization 支持
     #sudo apt-get install libicu48 -y -qq
+    sudo apt-get install -y -qq icu-devtools  libicu-dev 
 }
 
 function function_android()
 {
-    sudo apt-get install zlib1g:i386 libstdc++6:i386 libc6:i386 -y -qq
+    echo "install android ......"
+    #sudo apt-get install -y -qq zlib1g:i386 libstdc++6:i386 libc6:i386
 }
 
 function function_unix()
 {
     #Libxcb
-    sudo apt-get install "^libxcb.*" libx11-xcb-dev libxrender-dev libxi-dev
+    sudo apt-get install -y -qq "^libxcb.*" libx11-xcb-dev libxrender-dev libxi-dev
 
     #安装qt依赖库
-    sudo apt-get install build-essential -y -qq
-    sudo apt-get install mesa-common-dev -y -qq
-    sudo apt-get install libglu1-mesa-dev -y -qq
-    sudo apt-get install libasound2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev -y -qq
-    
+    # install needed Qt, OpenAL, opus, qrencode, GTK tray deps, sqlcipher
+    sudo apt-get install -y -qq build-essential \
+        mesa-common-dev \
+        libglu1-mesa-dev  \
+        libasound2-dev \
+        libgstreamer0.10-dev \
+        libgstreamer-plugins-base0.10-dev
+        
     #安装第三方库
     if [ "true" != "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
-		sudo apt-get install -y libspeex-dev libtheora-dev libvpx-dev -qq
-		sudo apt-get install -y libx264-dev -qq
-		sudo apt-get install libspeex-dev libspeexdsp-dev -qq
-		sudo apt-get install -y libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavfilter-dev libswresample-dev -qq 
-		sudo apt-get install -y libopencv-dev -qq
-		sudo apt-get install -y libssl-dev -qq
-		sudo apt-get install -y libcurl4-openssl-dev -qq
-		sudo apt-get install libicu-dev -qq
+		sudo apt-get install -y -qq libspeex-dev libopus-dev libtheora-dev libvpx-dev libx264-dev \
+            libspeex-dev libspeexdsp-dev 
+		sudo apt-get install -y -qq libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libavfilter-dev #libswresample-dev -qq 
+		sudo apt-get install -y -qq libopencv-dev
+		sudo apt-get install -y -qq libssl-dev
+		sudo apt-get install -y -qq libcurl4-openssl-dev
+		sudo apt-get install -y -qq libicu-dev    
     fi
 
     #安装工具
-    sudo apt-get install -y dh-make debhelper -qq
+    sudo apt-get install -y -qq dh-make debhelper
 }
 
 function function_mingw()
 {
 	#安装工具
-    sudo apt-get install nsis -y -qq
+    sudo apt-get install -y -qq nsis
+    sudo apt-get install -y -qq mingw-w64
 }
-
-#sudo add-apt-repository -y ppa:ubuntu-sdk-team/ppa
-#sudo add-apt-repository --yes ppa:kalakris/cmake
-
-sudo apt-get update -y -qq 
-#sudo apt-get upgrade -y  -qq
 
 function_common
 

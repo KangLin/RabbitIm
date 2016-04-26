@@ -25,10 +25,10 @@ case $1 in
     ;;
 esac
 
-#if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
+if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
     echo ". `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh"
     . `pwd`/build_envsetup_${RABBITIM_BUILD_TARGERT}.sh
-#fi
+fi
 
 if [ -n "$2" ]; then
     RABBITIM_BUILD_SOURCE_CODE=$2
@@ -40,17 +40,18 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    QT_VERSION_DIR=5.5
-    QT_VERSION=5.5.1
+    QT_VERSION_DIR=5.6
+    QT_VERSION=5.6.0
     mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
     cd ${RABBITIM_BUILD_SOURCE_CODE}
-    if [ "TRUE" = "$RABBITIM_USE_REPOSITORIES" ]; then
-        echo "git clone https://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q https://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
+    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
+        echo "git clone -q  http://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -q  http://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
         git checkout ${QT_VERSION}
         perl init-repository -f --branch
     else
-        wget -q http://mirrors.ustc.edu.cn/qtproject/archive/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
+        #wget -q   http://mirrors.ustc.edu.cn/qtproject/archive/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
+        wget -q  http://download.qt.io/official_releases/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         tar xzf qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         mv qt-everywhere-opensource-src-${QT_VERSION} ..
         rm -fr *
@@ -100,8 +101,8 @@ echo ""
 
 echo "configure ..."
 CONFIG_PARA="-opensource -confirm-license -nomake examples -nomake tests -no-compile-examples"
-CONFIG_PARA="${CONFIG_PARA} -no-sql-sqlite -no-sql-odbc "
-CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -skip qtwebkit-examples -no-warnings-are-errors"
+CONFIG_PARA="${CONFIG_PARA} -no-sql-sqlite -no-sql-odbc -qt-xcb"
+CONFIG_PARA="${CONFIG_PARA} -skip qtdoc -no-warnings-are-errors"
 CONFIG_PARA="${CONFIG_PARA} -prefix ${RABBITIM_BUILD_PREFIX}/qt"
 CONFIG_PARA="${CONFIG_PARA} -I ${RABBITIM_BUILD_PREFIX}/include -L ${RABBITIM_BUILD_PREFIX}/lib"
 #CONFIG_PARA="${CONFIG_PARA} -developer-build  -debug-and-release"

@@ -1,6 +1,7 @@
 #include "DlgLoginSettings.h"
 #include "ui_DlgLoginSettings.h"
 #include "../../Global/Global.h"
+#include "Tool.h"
 
 CDlgLoginSettings::CDlgLoginSettings(QWidget *parent) :
     QDialog(parent),

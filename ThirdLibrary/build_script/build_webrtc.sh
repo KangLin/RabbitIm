@@ -40,7 +40,7 @@ fi
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     cd ${RABBITIM_BUILD_SOURCE_CODE}
     #下载 depot tools
-    git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+    git clone -q  https://chromium.googlesource.com/chromium/tools/depot_tools.git
     VERSION=r8464
     gclient config --name src https://chromium.googlesource.com/external/webrtc 
     echon "target_os = ['windows','win','android','unix','mac','ios']" >> .gclient
@@ -112,7 +112,7 @@ ninja -C out/Release $TARGET
 find talk webrtc -name "*.h" > files.txt
 tar czf  include.tar.gz --files-from files.txt
 if [ ! -d "${RABBITIM_BUILD_PREFIX}/include" ]; then
-    mkdir ${RABBITIM_BUILD_PREFIX}/include
+    mkdir -p ${RABBITIM_BUILD_PREFIX}/include
 fi
 tar xzf include.tar.gz -C ${RABBITIM_BUILD_PREFIX}/include
 rm include.tar.gz files.txt

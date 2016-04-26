@@ -31,11 +31,11 @@ equals(RABBITIM_USE_WEBRTC, 1) {
         values = $$WEBRTC_LIBS
         for(var, values) {
             msvc {
-                LIBS += lib$${var}
+                LIBS += lib$${var}.lib
             }
         }
     
-        WEBRTC_LIBS += \
+        WEBRTC_LIBS = \
             webrtc \
             field_trial_default \
             jsoncpp \
@@ -98,10 +98,9 @@ equals(RABBITIM_USE_WEBRTC, 1) {
             video_capture_module_internal_impl \
             directshow_baseclasses \
             video_render_module_internal_impl 
-    
-        values = $$WEBRTC_LIBS
-        for(var, values) {
-                 LIBS += -l$${var}
+
+        for(var, WEBRTC_LIBS) {
+            LIBS += $${var}.lib
         }
     }
 
@@ -128,29 +127,84 @@ equals(RABBITIM_USE_WEBRTC, 1) {
                     USE_NSS_CERTS=1 __STDC_CONSTANT_MACROS __STDC_FORMAT_MACROS \
                     DYNAMIC_ANNOTATIONS_ENABLED=1 WTF_USE_DYNAMIC_ANNOTATIONS=1 
 
-         WEBRTC_LIBS = \
-                jingle_peerconnection field_trial_default jsoncpp  webrtc_common \
-                jingle_p2p  jingle_media video_render_module \
-                webrtc_utility audio_coding_module cng common_audio \
-                 openmax_dl common_audio_sse2 audio_encoder_interface g711 \
-                pcm16b webrtc_opus opus g722 isac audio_decoder_interface \
-                isac_common ilbc red rtc_event_log rtc_event_log_proto \
-                protobuf_lite neteq rent_a_codec media_file common_video yuv \
-                jpeg_turbo webrtc voice_engine audio_conference_mixer \
-                audio_processing audioproc_debug_proto audio_processing_sse2 \
-                audio_device bitrate_controller rtp_rtcp remote_bitrate_estimator \
-                paced_sender video_capture_module video_processing \
-                video_processing_sse2 webrtc_video_coding webrtc_h264 \
-                webrtc_i420 video_coding_utility webrtc_vp8 vpx_new \
-                vpx_intrinsics_mmx vpx_intrinsics_sse2 vpx_intrinsics_ssse3 \
-                vpx_intrinsics_sse4_1 vpx_intrinsics_avx2 webrtc_vp9 rtc_sound \
-                metrics_default rtc_xmllite rtc_xmpp  usrsctplib \
+        WEBRTC_LIBS = \
+                jingle_peerconnection \
+                jingle_p2p \
+                jingle_media \
+                rtc_sound \
+                rtc_xmllite \
+                rtc_xmpp \
+                rtp_rtcp \
+                rtc_p2p \
+                rtc_base \
+                webrtc \
+                webrtc_common \
+                webrtc_h264 \
+                webrtc_i420 \
+                webrtc_opus \
+                webrtc_utility \
+                webrtc_video_coding \
+                webrtc_vp8 \
+                webrtc_vp9 \
+                media_file \
+                metrics_default \
+                neteq \
+                yuv \
+                jpeg_turbo \
+                voice_engine \
+                audio_coding_module \
+                audio_conference_mixer \
+                audio_device \
+                audio_encoder_interface \
+                audio_processing \
+                audio_processing_sse2 \
+                audioproc_debug_proto \
+                bitrate_controller \
+                openmax_dl \
+                paced_sender \
+                rent_a_codec \
+                g711 \
+                g722 \
+                genperf_libs \
+                ilbc \
+                isac \
+                isac_common \
+                pcm16b \
+                opus \
+                audio_decoder_interface \
+                rtc_event_log \
+                rtc_event_log_proto \
+                protobuf_full_do_not_use \
+                protobuf_lite \
+                red \
+                remote_bitrate_estimator \
+                srtp \
+                usrsctplib \
+                common_audio \
+                common_audio_sse2 \
+                common_video \
                 video_capture_module_internal_impl \
-                video_render_module_internal_impl rtc_p2p srtp rtc_base \
-                system_wrappers rtc_base_approved boringssl
+                video_capture_module \
+                video_coding_utility \
+                video_processing \
+                video_processing_sse2 \
+                video_render_module_internal_impl \
+                video_render_module \
+                rtc_base_approved \
+                vpx_new \
+                vpx_intrinsics_avx2 \
+                vpx_intrinsics_mmx \
+                vpx_intrinsics_sse2 \
+                vpx_intrinsics_sse4_1 \
+                vpx_intrinsics_ssse3 \
+                jsoncpp \
+                cng \
+                field_trial_default \
+                system_wrappers \
+                boringssl  
 
         for(var, WEBRTC_LIBS) {
-                 LIBS += -l$${var}
+            LIBS += -l$${var}
         }
     }
 }
