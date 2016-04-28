@@ -199,8 +199,11 @@ bool CWebrtcConductor::CreatePeerConnection() {
                             "false");
   }
 
+  webrtc::PeerConnectionInterface::RTCConfiguration rtc_config;
+  //memset(&rtc_config, 0, sizeof(webrtc::PeerConnectionInterface::RTCConfiguration));
+  rtc_config.servers = servers;
   peer_connection_ =
-      peer_connection_factory_->CreatePeerConnection(servers,
+      peer_connection_factory_->CreatePeerConnection(rtc_config,
                                                      &constraints,
                                                      NULL,
                                                      NULL,
