@@ -38,10 +38,10 @@ fi
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    X264_VERSION=5c6570495f8f1c716b294aee1430d8766a4beb9c
+    X264_VERSION=stable
     echo "git clone  -q  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}"
     #git clone -q  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
-    git clone -q  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
+    git clone -q -b ${X264_VERSION} git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`

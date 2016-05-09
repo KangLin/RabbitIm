@@ -45,11 +45,11 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "git clone -q --branch=${OSG_VERSION} git@github.com:gwaldron/osgearth.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone -q  --branch=$OSG_VERSION git@github.com:gwaldron/osgearth.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget -q  https://github.com/gwaldron/osgearth/archive/${OSG_VERSION}.zip"
+        echo "wget -q https://github.com/gwaldron/osgearth/archive/${OSG_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q  wget https://github.com/gwaldron/osgearth/archive/${OSG_VERSION}.zip
-        unzip -q  ${OSG_VERSION}.zip
+        wget -q -c wget https://github.com/gwaldron/osgearth/archive/${OSG_VERSION}.zip
+        unzip -q ${OSG_VERSION}.zip
         mv osgearth-${OSG_VERSION} ..
         rm -fr *
         cd ..

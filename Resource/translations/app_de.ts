@@ -100,67 +100,67 @@
 <context>
     <name>CDlgAbout</name>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="14"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="20"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="104"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="110"/>
         <source>Rabbit Immediate Communicate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="144"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="150"/>
         <source>Author:KangLin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="164"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="182"/>
         <source>Informatioin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="176"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="358"/>
         <source>Version: 1.0.0.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="198"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="301"/>
         <source>Build Date:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="217"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="336"/>
         <source>Home page:https://github.com/KangLin/rabbitim</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="239"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="320"/>
         <source>The following two-dimensional code scanning Go Home:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="334"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="209"/>
         <source>Save As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="370"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="375"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="384"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="389"/>
         <source>Change log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="398"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="403"/>
         <source>Thanks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="433"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="438"/>
         <source> Copyright (C) 2014 KangLin Studio</source>
         <translation type="unfinished"></translation>
     </message>
@@ -482,50 +482,50 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="25"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="26"/>
         <source>%1 invite you join group chat.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="63"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="69"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="75"/>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="101"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="64"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="70"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="76"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="102"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="63"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="64"/>
         <source>Please fill group chat name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="69"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="70"/>
         <source>Name must only be letters or numbers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="75"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="76"/>
         <source>Nick must only be letters or numbers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="82"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="83"/>
         <source>%1 is existed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="92"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="93"/>
         <source>Unknow error.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="95"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="96"/>
         <source>Not authorized.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="98"/>
+        <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="99"/>
         <source>Error code:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1557,33 +1557,33 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="52"/>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="69"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="53"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="70"/>
         <source>Copyright (C) 2014 - %1 KangLin Studio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="78"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="79"/>
         <source>Being Login...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="288"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="289"/>
         <source>Network error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="291"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="292"/>
         <source>Keep active error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="294"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="295"/>
         <source>Login fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="297"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="298"/>
         <source>Username or Password error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1711,43 +1711,43 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="76"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="77"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="99"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="100"/>
         <source>Audio call</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="155"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="168"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="156"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="169"/>
         <source>Close message dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="156"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="157"/>
         <source>Sending files to determine whether you want to close?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="169"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="170"/>
         <source>Is talking whether you want to close?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="285"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="286"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="285"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="286"/>
         <source>There is empty, please input.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="423"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="424"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1885,7 +1885,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="162"/>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="165"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="506"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="507"/>
         <source>Move roster</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1896,45 +1896,45 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="34"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="35"/>
         <source>User name or group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="34"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="35"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="153"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="635"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="154"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="636"/>
         <source>My friends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="257"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="380"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="389"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="258"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="381"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="390"/>
         <source>Operator roster(&amp;O)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="479"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="480"/>
         <source>Roster[%1] rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="480"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="481"/>
         <source>Roster[%1] rename:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="507"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="508"/>
         <source>Move roster %1 to group:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="569"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="570"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2072,7 +2072,7 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CTool</name>
     <message>
-        <location filename="../../common/Tool.h" line="220"/>
+        <location filename="../../common/Tool.h" line="210"/>
         <source>Open file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2105,7 +2105,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../MainWindow.ui" line="20"/>
         <location filename="../../MainWindow.cpp" line="110"/>
-        <location filename="../../MainWindow.cpp" line="374"/>
+        <location filename="../../MainWindow.cpp" line="377"/>
         <source>RabbitIm</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2150,122 +2150,122 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="196"/>
-        <location filename="../../MainWindow.cpp" line="200"/>
-        <location filename="../../MainWindow.cpp" line="750"/>
+        <location filename="../../MainWindow.cpp" line="199"/>
+        <location filename="../../MainWindow.cpp" line="203"/>
+        <location filename="../../MainWindow.cpp" line="753"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="197"/>
+        <location filename="../../MainWindow.cpp" line="200"/>
         <source>Is close the programe or logout?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="201"/>
-        <location filename="../../MainWindow.cpp" line="452"/>
+        <location filename="../../MainWindow.cpp" line="204"/>
+        <location filename="../../MainWindow.cpp" line="455"/>
         <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="202"/>
+        <location filename="../../MainWindow.cpp" line="205"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="395"/>
-        <location filename="../../MainWindow.cpp" line="396"/>
+        <location filename="../../MainWindow.cpp" line="398"/>
+        <location filename="../../MainWindow.cpp" line="399"/>
         <source>RabbitIm:%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="433"/>
-        <location filename="../../MainWindow.cpp" line="730"/>
+        <location filename="../../MainWindow.cpp" line="436"/>
+        <location filename="../../MainWindow.cpp" line="733"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="455"/>
+        <location filename="../../MainWindow.cpp" line="458"/>
         <source>Close(&amp;E)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="462"/>
+        <location filename="../../MainWindow.cpp" line="465"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="463"/>
+        <location filename="../../MainWindow.cpp" line="466"/>
         <source>System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="464"/>
+        <location filename="../../MainWindow.cpp" line="467"/>
         <source>Blue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="465"/>
+        <location filename="../../MainWindow.cpp" line="468"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="481"/>
+        <location filename="../../MainWindow.cpp" line="484"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="539"/>
+        <location filename="../../MainWindow.cpp" line="542"/>
         <source>Status(&amp;S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="558"/>
+        <location filename="../../MainWindow.cpp" line="561"/>
         <source>Language(&amp;L)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="560"/>
+        <location filename="../../MainWindow.cpp" line="563"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="561"/>
+        <location filename="../../MainWindow.cpp" line="564"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="562"/>
+        <location filename="../../MainWindow.cpp" line="565"/>
         <source>Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="563"/>
+        <location filename="../../MainWindow.cpp" line="566"/>
         <source>Chinese(TaiWan)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="672"/>
+        <location filename="../../MainWindow.cpp" line="675"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="672"/>
+        <location filename="../../MainWindow.cpp" line="675"/>
         <source>Change language must reset program.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="743"/>
+        <location filename="../../MainWindow.cpp" line="746"/>
         <source>Show Main Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="745"/>
+        <location filename="../../MainWindow.cpp" line="748"/>
         <source>Hide Main Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="900"/>
+        <location filename="../../MainWindow.cpp" line="903"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>

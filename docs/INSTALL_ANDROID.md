@@ -27,7 +27,7 @@
 6. export ANT_ROOT=                      #ant工具的目录
 7. ANT=/usr/bin/ant                      #ant 程序
 8. QT_ROOT=                              #qt的安装位置,默认为:${RabbitImRoot}/ThirdLibrary/android/qt
-9. RABBITIM_MAKE_JOB_PARA="-j2"          #make 同时工作进程参数,建议设置为你机器CUP个数
+9. RABBITIM_MAKE_JOB_PARA="-j`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`" #make 同时工作进程参数,建议设置为你机器CUP个数
 10. RABBITIM_BUILD_STATIC="static"       #设置编译静态库，注释掉，则为编译动态库
 11. JOM=make                             #设置 QT make 工具 JOM
 12. RABBITIM_USE_REPOSITORIES="FALSE"    #下载指定的压缩包。省略，则下载开发库。
@@ -97,7 +97,7 @@ ubuntu下交叉编译
 * 下载：
 
     cd /home
-    wget http://182.254.185.29/download/travis/android-sdk.tar.gz
+    wget https://dl.google.com/android/android-sdk_r23.0.2-linux.tgz    
     tar xzf android-sdk.tar.gz
     mv sdk android-sdk
 

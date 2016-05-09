@@ -1,0 +1,71 @@
+environment:
+
+  matrix:
+  - AUTOBUILD_ARCH: x86
+    AUTOBUILD_COMPLER: VS2013
+    toolchain_version: 12
+    mode: release
+    QT_ROOT: C:\Qt\5.5\msvc2013
+
+  #- AUTOBUILD_ARCH: x86
+  #  AUTOBUILD_COMPLER: VS2015
+  #  toolchain_version: 14
+  #  mode: debug
+  #  QT_ROOT: C:\Qt\5.6\msvc2015
+
+  - AUTOBUILD_ARCH: 32
+    AUTOBUILD_COMPLER: MinGW
+    toolchain_version: 491
+    mode: release
+    QT_ROOT: C:\Qt\5.4\mingw491_32
+
+  #- AUTOBUILD_ARCH: 32
+  #  AUTOBUILD_COMPLER: MinGW
+  #  toolchain_version: 482
+  #  mode: debug
+  #  QT_ROOT: C:\Qt\5.3\mingw482_32
+
+matrix:
+  fast_finish: false
+
+init:
+  - set varch=%AUTOBUILD_ARCH%
+  - if "%AUTOBUILD_ARCH%" == "x64" set varch=amd64
+  - if not %AUTOBUILD_COMPLER%==MinGW call "C:\Program Files (x86)\Microsoft Visual Studio %toolchain_version%.0\VC\vcvarsall.bat" %varch%
+  - echo NUMBER_OF_PROCESSORS=%NUMBER_OF_PROCESSORS%
+  - echo PROCESSOR_IDENTIFIER=%PROCESSOR_IDENTIFIER%
+  - echo QT_ROOT=%QT_ROOT%
+  - del C:\msys64\usr\bin\link.exe
+
+install:
+  - C:\msys64\usr\bin\pacman.exe -Syu --noconfirm 
+  - C:\msys64\autorebase.bat
+  - C:\msys64\usr\bin\pacman.exe -S --noconfirm nasm yasm unzip 
+
+before_build:
+  - if %AUTOBUILD_COMPLER%==MinGW set PATH=C:\Qt\Tools\mingw%toolchain_version%_32\bin;%PATH%
+
+build_script:
+  - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build_windows.sh %APPVEYOR_BUILD_FOLDER%
+
+#after_build:
+
+artifacts:
+  - path: build_windows_msvc/RabbitIm_windows_msvc.tar.gz
+    name: RabbitIm-windows_msvc-v$(appveyor_build_version)
+  
+  - path: build_windows_mingw/RabbitIm_windows_mingw.tar.gz
+    name: RabbitIm-windows_mingw-v$(appveyor_build_version)
+
+test: off
+
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: 8f49433bc06c559fc88198a0d2de15cbb3b6bd60
+  artifact: RabbitIm-*v$(appveyor_build_version)
+  draft: false
+  prerelease: true
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only

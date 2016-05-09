@@ -59,7 +59,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "wget -q https://github.com/FFmpeg/FFmpeg/archive/${FFMPEG_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q https://github.com/FFmpeg/FFmpeg/archive/${FFMPEG_VERSION}.zip
+        wget -q -c https://github.com/FFmpeg/FFmpeg/archive/${FFMPEG_VERSION}.zip
         echo "unzip ${FFMPEG_VERSION}.zip"
         unzip -q ${FFMPEG_VERSION}.zip
         mv FFmpeg-${FFMPEG_VERSION} ..
@@ -72,7 +72,7 @@ fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-echo ""
+echo "----------------------------------------------------------------------------"
 echo "RABBITIM_BUILD_TARGERT:${RABBITIM_BUILD_TARGERT}"
 echo "RABBITIM_BUILD_SOURCE_CODE:$RABBITIM_BUILD_SOURCE_CODE"
 echo "CUR_DIR:`pwd`"
@@ -84,7 +84,7 @@ echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo "PKG_CONFIG_PATH:${PKG_CONFIG_PATH}"
 echo "PKG_CONFIG_LIBDIR:${PKG_CONFIG_LIBDIR}"
-echo ""
+echo "----------------------------------------------------------------------------"
 
 if [ "$RABBITIM_CLEAN" ]; then
     if [ -d ".git" ]; then

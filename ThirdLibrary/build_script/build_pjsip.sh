@@ -47,10 +47,10 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         #echo "git svn clone http://svn.pjsip.org/repos/pjproject/tags/2.4/ ${RABBITIM_BUILD_SOURCE_CODE}"
         #git svn clone http://svn.pjsip.org/repos/pjproject/tags/2.4/ ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget -q  http://www.pjsip.org/release/${PJSIP_VERSION}/pjproject-${PJSIP_VERSION}.tar.bz2"
+        echo "wget -q http://www.pjsip.org/release/${PJSIP_VERSION}/pjproject-${PJSIP_VERSION}.tar.bz2"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q  http://www.pjsip.org/release/${PJSIP_VERSION}/pjproject-${PJSIP_VERSION}.tar.bz2
+        wget -q -c  http://www.pjsip.org/release/${PJSIP_VERSION}/pjproject-${PJSIP_VERSION}.tar.bz2
         tar -jxf pjproject-${PJSIP_VERSION}.tar.bz2
         mv pjproject-${PJSIP_VERSION} ..
         rm -fr *

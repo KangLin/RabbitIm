@@ -48,7 +48,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q  http://download.icu-project.org/files/icu4c/56.1/icu4c-56_1-src.zip ${RABBITIM_BUILD_SOURCE_CODE}
+        wget -q -c http://download.icu-project.org/files/icu4c/56.1/icu4c-56_1-src.zip ${RABBITIM_BUILD_SOURCE_CODE}
         mv icu4c-56_1-src.tgz ..
         cd ..
         rm -fr icu
@@ -92,7 +92,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
         cd ${CONFIG_DIR}
         ${SOURCE_DIR}/runConfigureICU Linux/gcc --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
-        ${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
+        ${MAKE} && ${MAKE} install
         ;;
     windows_msvc)
         cd ${CONFIG_DIR}
@@ -105,7 +105,7 @@ case ${RABBITIM_BUILD_TARGERT} in
             ;;
         esac
         ${SOURCE_DIR}/runConfigureICU ${platform} --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
-        ${MAKE} ${RABBITIM_MAKE_JOB_PARA} \
+        ${MAKE} \
             && ${MAKE} install 
         if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
             mv ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
@@ -128,7 +128,7 @@ case ${RABBITIM_BUILD_TARGERT} in
             MINGW*|MSYS*)
                 cd ${CONFIG_DIR}
                 ${SOURCE_DIR}/runConfigureICU MinGW --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA} LDFLAGS=${LDFLAGS}
-                ${MAKE} ${RABBITIM_MAKE_JOB_PARA} \
+                ${MAKE} \
                     && ${MAKE} install 
                 if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
                     mv ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.

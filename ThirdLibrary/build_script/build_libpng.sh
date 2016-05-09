@@ -48,7 +48,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q  http://sourceforge.net/projects/libpng/files/libpng${VERSION_MAJOR}/${VERSION}/libpng-${VERSION}.tar.gz/download
+        wget -q -c http://sourceforge.net/projects/libpng/files/libpng${VERSION_MAJOR}/${VERSION}/libpng-${VERSION}.tar.gz/download
         tar xzf download
         mv libpng-${VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
@@ -137,6 +137,6 @@ else
     ../configure ${CONFIG_PARA}
 fi
 
-${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
+${MAKE} && ${MAKE} install
 
 cd $CUR_DIR

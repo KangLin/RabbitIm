@@ -49,7 +49,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "wget  -q https://github.com/bagder/curl/archive/${CURL_FILE}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget  -q https://github.com/bagder/curl/archive/${CURL_FILE}.zip
+        wget -c -q https://github.com/bagder/curl/archive/${CURL_FILE}.zip
         unzip -q  ${CURL_FILE}.zip
         mv curl-${CURL_FILE} ..
         rm -fr *
@@ -177,6 +177,6 @@ else
     ./configure ${CONFIG_PARA} LDFLAGS="${LDFLAGS}"
 fi
 
-${MAKE} ${RABBITIM_MAKE_JOB_PARA} V=1 && ${MAKE} install
+${MAKE} V=1 && ${MAKE} install
 
 cd $CUR_DIR

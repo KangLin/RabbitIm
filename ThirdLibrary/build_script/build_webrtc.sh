@@ -38,13 +38,22 @@ fi
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
+    mkdir ${RABBITIM_BUILD_SOURCE_CODE}
     cd ${RABBITIM_BUILD_SOURCE_CODE}
     #下载 depot tools
-    git clone -q  https://chromium.googlesource.com/chromium/tools/depot_tools.git
+    git clone -q https://chromium.googlesource.com/chromium/tools/depot_tools.git
+    export PATH=${RABBITIM_BUILD_SOURCE_CODE}/depot_tools:$PATH
     VERSION=r8464
     gclient config --name src https://chromium.googlesource.com/external/webrtc 
-    echon "target_os = ['windows','win','android','unix','mac','ios']" >> .gclient
+    if [ "$1" = "windows_msvc" -o "$1" = "windows_mingw" ]; then
+        echo "target_os = ['windows']" >> .gclient
+    else
+        echo "target_os = ['$1']" >> .gclient
+    fi
+    export DEPOT_TOOLS_WIN_TOOLCHAIN=0
     gclient sync --force
+elif [ -d "${RABBITIM_BUILD_SOURCE_CODE}/depot_tools" ]; then
+    export PATH=${RABBITIM_BUILD_SOURCE_CODE}/depot_tools:$PATH
 fi
 
 CUR_DIR=`pwd`

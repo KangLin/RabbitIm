@@ -48,7 +48,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "wget -q  http://downloads.xiph.org/releases/opus/opus-${LIBOPUS_VERSION}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q  http://downloads.xiph.org/releases/opus/opus-${LIBOPUS_VERSION}.tar.gz
+        wget -q -c http://downloads.xiph.org/releases/opus/opus-${LIBOPUS_VERSION}.tar.gz
         tar xzf opus-${LIBOPUS_VERSION}.tar.gz
         mv opus-${LIBOPUS_VERSION} ..
         rm -fr *

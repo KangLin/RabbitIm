@@ -43,12 +43,12 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q  https://github.com/KangLin/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q  https://github.com/KangLin/qxmpp/archive/master.zip
-        unzip -q  master.zip
+        wget -q -c https://github.com/KangLin/qxmpp/archive/master.zip
+        unzip -q master.zip
         mv qxmpp-master ..
         rm -fr *
         cd ..
@@ -122,10 +122,10 @@ if [ "$RABBITIM_BUILD_TARGERT" = "android"  ]; then
     MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
 fi
 $QMAKE ${RELEASE_PARA}
-${MAKE} -f Makefile ${RABBITIM_MAKE_JOB_PARA} install ${MAKE_PARA}
+${MAKE} -f Makefile install ${MAKE_PARA}
 rm -fr *
 echo "$QMAKE ${DEBUG_PARA}"
 ${QMAKE} ${DEBUG_PARA}
-${MAKE} -f Makefile ${RABBITIM_MAKE_JOB_PARA} install ${MAKE_PARA}
+${MAKE} -f Makefile install ${MAKE_PARA}
 
 cd $CUR_DIR

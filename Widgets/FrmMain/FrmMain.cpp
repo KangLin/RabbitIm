@@ -22,7 +22,7 @@ CFrmMain::CFrmMain(QWidget *parent) :
 #ifdef RABBITIM_WEBKIT
     m_weather->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     m_weather->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    m_weather->setUrl(QUrl("http://p1234.vicp.net/weather/weather_small.html"));
+    m_weather->setUrl(QUrl("http://rabbitim.wicp.net/weather/weather_small.html"));
     m_weather->setMaximumHeight(46);
     ui->HeadLayout->addWidget(m_weather.data());
     connect(m_weather.data(), SIGNAL(linkClicked(QUrl)),

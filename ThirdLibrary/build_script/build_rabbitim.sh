@@ -52,7 +52,6 @@ cd ${RABBITIM_BUILD_SOURCE_CODE}
 echo ""
 echo "RABBITIM_BUILD_TARGERT:${RABBITIM_BUILD_TARGERT}"
 echo "RABBITIM_BUILD_SOURCE_CODE:$RABBITIM_BUILD_SOURCE_CODE"
-
 echo "RABBITIM_BUILD_PREFIX:$RABBITIM_BUILD_PREFIX"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
@@ -114,6 +113,9 @@ if [ "$3" = "qmake" ]; then
     else
         $MAKE -f Makefile
         $MAKE install
+        if [ "$APPVEYOR" = "True" ]; then
+            tar czf RabbitIm_$1.tar.gz install  #打包  
+        fi
     fi
 
 else #cmake编译

@@ -43,14 +43,14 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     OPENCV_VERSION=2.4.11
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q  git://github.com/Itseez/opencv.git  ${RABBITIM_BUILD_SOURCE_CODE}"
-        #git clone -q  --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone -q  --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone -q --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q --branch=${OPENCV_VERSION} git://github.com/Itseez/opencv.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget -q  https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip"
+        echo "wget -q https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q  https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip
-        unzip -q  ${OPENCV_VERSION}.zip
+        wget -q -c https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip
+        unzip -q ${OPENCV_VERSION}.zip
         mv opencv-${OPENCV_VERSION} ..
         rm -fr *
         cd ..

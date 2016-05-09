@@ -74,9 +74,9 @@ else
     ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} 
 fi
 
-if [ "true" = "${RABBITIM_BUILD_THIRDLIBRARY}" ]; then
-    exit 0
-fi
+
+exit 0
+
 
 if [ -n "$2" ]; then
     echo "Source dir:$2"

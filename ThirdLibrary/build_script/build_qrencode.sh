@@ -45,10 +45,10 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "git clone -q --branch=v$VERSION https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone -q  https://github.com/fukuchi/libqrencode.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget -q  https://github.com/fukuchi/libqrencode/archive/v${VERSION}.tar.gz"
+        echo "wget -q https://github.com/fukuchi/libqrencode/archive/v${VERSION}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q  http://fukuchi.org/works/qrencode/qrencode-3.4.4.tar.gz
+        wget -q -c http://fukuchi.org/works/qrencode/qrencode-3.4.4.tar.gz
         tar xf qrencode-3.4.4.tar.gz
         mv qrencode-3.4.4  ..
         rm -fr *
@@ -120,9 +120,9 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
     windows_msvc)
         #https://folti.blogs.balabit.com/2009/08/compiling-autoconfmake-projects-under-msvc-part-one/
-        ../configure CXX="cl -nologo" CC="cl -nologo" CFLAGS=-MD \
-            LD=link NM="dumpbin -symbols" STRIP=: RANLIB=: \
-            --enable-dependency-tracking 
+        #../configure CXX="cl -nologo" CC="cl -nologo" CFLAGS=-MD \
+        #    LD=link NM="dumpbin -symbols" STRIP=: RANLIB=: \
+        #    --enable-dependency-tracking 
             
         echo "Qrencode don't complie in windows_msvc "
         cd $CUR_DIR
@@ -161,7 +161,7 @@ else
     ../configure ${CONFIG_PARA}
 fi
 
-${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
+${MAKE} && ${MAKE} install
 
 if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
     cd ${RABBITIM_BUILD_PREFIX}/lib

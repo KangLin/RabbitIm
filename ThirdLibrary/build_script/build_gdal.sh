@@ -48,7 +48,7 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "wget -q  https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q  https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip
+        wget -q -c https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip
         unzip ${GDAL_VERSION}.zip
         mv gdal-${GDAL_VERSION} ..
         rm -fr *
@@ -146,6 +146,6 @@ echo "./configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\"
     CPPFLAGS="${CPPFLAGS}" CXXFLAGS="${CXXFLAGS}" \
     LDFLAGS="$LDFLAGS" LIBS="$LIBS"
 
-${MAKE} ${RABBITIM_MAKE_JOB_PARA} && ${MAKE} install
+${MAKE} && ${MAKE} install
 
 cd $CUR_DIR

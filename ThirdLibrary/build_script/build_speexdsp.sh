@@ -44,12 +44,12 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone --branch=SpeexDSP-${SPEEXDSP_VERSION} http://git.xiph.org/speexdsp.git  ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone -q --branch=SpeexDSP-${SPEEXDSP_VERSION} http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone -q  --branch=SpeexDSP-${SPEEXDSP_VERSION} http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q --branch=SpeexDSP-${SPEEXDSP_VERSION} http://git.xiph.org/speexdsp.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget -q  http://downloads.xiph.org/releases/speex/speexdsp-${SPEEXDSP_VERSION}.tar.gz"
+        echo "wget -q http://downloads.xiph.org/releases/speex/speexdsp-${SPEEXDSP_VERSION}.tar.gz"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q  http://downloads.xiph.org/releases/speex/speexdsp-${SPEEXDSP_VERSION}.tar.gz
+        wget -q -c http://downloads.xiph.org/releases/speex/speexdsp-${SPEEXDSP_VERSION}.tar.gz
         tar xzf speexdsp-${SPEEXDSP_VERSION}.tar.gz
         mv speexdsp-${SPEEXDSP_VERSION} ..
         rm -fr *

@@ -13,6 +13,8 @@ SUBDIRS +=  RabbitImLib \
 OTHER_FILES += README.md \
     .gitignore \
     .travis.yml \
+    circle.yml \
+    appveyor.yml \
     debian/* \
     ThirdLibrary/build_script/ci/*.sh \
     ThirdLibrary/build_script/*.sh \
@@ -33,5 +35,4 @@ OTHER_FILES += README.md \
     Doxyfile* \
     Plugin/CMakeLists.txt \
     pri/* \
-    Dockerfile \
-    circle.yml
+    Dockerfile 

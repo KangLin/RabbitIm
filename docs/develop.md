@@ -71,6 +71,9 @@
         git push origin vX.X.X
 
 ### 版本号约定
+
+[语义化版本](http://semver.org/)
+
 * 本项同时支持 Qt 和 CMake 项目文件，所以需要**同时修改以下文件中的版本号**：
     1. 用Qt project发行时需要修改：[RabbitImVersion.pri](./../pri/RabbitImVersion.pri)
     2. 用cmake 发行时需要修改：[install_version.cmake](./../cmake/install_version.cmake)

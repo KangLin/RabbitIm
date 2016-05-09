@@ -45,11 +45,11 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
         echo "git clone -q  -b ${LIBSODIUM_VERSION} https://github.com/jedisct1/libsodium.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone -q  -b ${LIBSODIUM_VERSION} https://github.com/jedisct1/libsodium.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget -q  https://github.com/jedisct1/libsodium/archive/${LIBSODIUM_VERSION}.zip"
+        echo "wget -q https://github.com/jedisct1/libsodium/archive/${LIBSODIUM_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget  -q  https://github.com/jedisct1/libsodium/archive/${LIBSODIUM_VERSION}.zip
-        unzip  -q  ${LIBSODIUM_VERSION}.zip
+        wget -c -q https://github.com/jedisct1/libsodium/archive/${LIBSODIUM_VERSION}.zip
+        unzip -q ${LIBSODIUM_VERSION}.zip
         mv libsodium-${LIBSODIUM_VERSION} ..
         rm -fr *
         cd ..

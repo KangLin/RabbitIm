@@ -45,20 +45,20 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     VERSION=2.3
-    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
-        echo "git clone -q  https://github.com/KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        #git clone -q  https://github.com/KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone -q  https://github.com/KangLin/qzxing.git ${RABBITIM_BUILD_SOURCE_CODE}
-    else
-        mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
-        cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q  http://sourceforge.net/projects/qzxing/files/v${VERSION}/QZXing_sourceV${VERSION}.zip/download
-        unzip -q  download #${RABBITIM_BUILD_SOURCE_CODE}
-    fi
+    #if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
+        echo "git clone -q http://git.code.sf.net/u/kl222/qzxing ${RABBITIM_BUILD_SOURCE_CODE}"
+        #git clone -q http://git.code.sf.net/u/kl222/qzxing ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q http://git.code.sf.net/u/kl222/qzxing ${RABBITIM_BUILD_SOURCE_CODE}
+    #else
+    #    mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
+    #    cd ${RABBITIM_BUILD_SOURCE_CODE}
+    #    wget -q -c http://sourceforge.net/projects/qzxing/files/v${VERSION}/QZXing_sourceV${VERSION}.zip/download
+    #    unzip -q download #${RABBITIM_BUILD_SOURCE_CODE}
+    #fi
 fi
 
-if [ -d "${RABBITIM_BUILD_SOURCE_CODE}/source" ]; then
-    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/source
+if [ -d "${RABBITIM_BUILD_SOURCE_CODE}/src" ]; then
+    RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/src
 fi
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
@@ -121,6 +121,6 @@ if [ "$RABBITIM_BUILD_TARGERT" = "android"  ]; then
 fi
 echo "$QMAKE ${RELEASE_PARA}"
 $QMAKE ${RELEASE_PARA}
-${MAKE} -f Makefile ${RABBITIM_MAKE_JOB_PARA} install ${MAKE_PARA}
+${MAKE} -f Makefile install ${MAKE_PARA}
 
 cd $CUR_DIR

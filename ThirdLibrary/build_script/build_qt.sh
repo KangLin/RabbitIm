@@ -45,13 +45,13 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
     cd ${RABBITIM_BUILD_SOURCE_CODE}
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
-        echo "git clone -q  http://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        echo "git clone -q http://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone -q  http://code.qt.io/qt/qt5.git ${RABBITIM_BUILD_SOURCE_CODE}
         git checkout ${QT_VERSION}
         perl init-repository -f --branch
     else
-        #wget -q   http://mirrors.ustc.edu.cn/qtproject/archive/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
-        wget -q  http://download.qt.io/official_releases/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
+        #wget -q http://mirrors.ustc.edu.cn/qtproject/archive/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
+        wget -q -c http://download.qt.io/official_releases/qt/$QT_VERSION_DIR/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         tar xzf qt-everywhere-opensource-src-${QT_VERSION}.tar.gz
         mv qt-everywhere-opensource-src-${QT_VERSION} ..
         rm -fr *
