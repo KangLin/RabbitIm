@@ -21,7 +21,7 @@ CQRCode::CQRCode() : QObject()
 
 //http://stackoverflow.com/questions/21400254/how-to-draw-a-qr-code-with-qt-in-native-c-c
 QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage, const QSize &size)
-{
+{  
 #ifdef RABBITIM_USE_LIBQRENCODE
     QImage image(size, QImage::Format_RGB32);
     QPainter painter(&image);
@@ -95,7 +95,27 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage,
 #ifdef RABBITIM_USE_QZXING
     try{
         QZXing encoder;
-        return encoder.encodeData(szData);
+        QImage image = encoder.encodeData(szData);
+        image = image.scaled(size);
+        QPainter painter(&image);
+
+        //在二维码上画图片   
+        if(!inImage.isNull())
+        {
+            qreal x = (size.width() >> 1) - (size.width() / 10);
+            qreal y = (size.height() >> 1) - (size.height() / 10);
+            qreal w = size.width() / 5;
+            qreal h = size.height() / 5;
+            LOG_MODEL_DEBUG("CQRCode", "x:%f, y:%f", x, y);
+            int penw = 3;
+            painter.setBrush(QBrush(QColor(255, 255, 255)));
+            painter.drawRect(x - penw, y - penw, w + (penw << 1), h + (penw << 1));
+            painter.setPen(QPen(Qt::NoPen));
+            painter.setBrush(QBrush(Qt::NoBrush));
+            QRectF rect(x, y, w, h);
+            painter.drawImage(rect, inImage);
+        }
+        return image;
     }catch(...){
         ;
     }

@@ -28,7 +28,7 @@ jdk: oraclejdk7
 
 os:
   - linux
-  #- android
+  - android
   #- osx
   #- windows_mingw
 

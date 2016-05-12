@@ -26,7 +26,7 @@
 #   注意这种用法，script.sh开头一行必须包含 #!/bin/sh  
 
 #需要设置下面变量：
-QT_ROOT=/C/Qt/Qt5.6.0/5.6/msvc2013 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_msvc/qt
+#QT_ROOT=/C/Qt/Qt5.6.0/5.6/msvc2013 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_msvc/qt
 JOM=make #设置 QT make 工具 JOM
 MAKE="nmake"
 RABBITIM_CLEAN=TRUE #编译前清理

@@ -14,6 +14,7 @@ public:
      * @brief 生成二维码图片  
      * @param szString:生成二维码的字符串  
      * @param inImage:在二维码中间画的图像
+     * @param size:要生成图片的大小  
      * @return 
      */
     static QImage QRcodeEncodeString(const QString &szData,
