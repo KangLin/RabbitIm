@@ -23,7 +23,7 @@ os:
 env:
   global:
     - SOURCE_DIR=$TRAVIS_BUILD_DIR
-    - RABBITIM_USE_REPOSITORIES="FALSE"
+    - RABBITIM_USE_REPOSITORIES="TRUE"
     - QMAKE=qmake
 
   matrix:
