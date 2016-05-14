@@ -49,7 +49,7 @@ build_script:
   - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build_windows.sh %APPVEYOR_BUILD_FOLDER% 1
   - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build_windows.sh %APPVEYOR_BUILD_FOLDER% 2
   - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build_windows.sh %APPVEYOR_BUILD_FOLDER% 3
-  
+
 #after_build:
 
 artifacts:
