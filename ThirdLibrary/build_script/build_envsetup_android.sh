@@ -21,13 +21,13 @@ export ANDROID_SDK=$ANDROID_SDK_ROOT
 export ANDROID_NDK_ABI_NAME=armeabi-v7a 
 
 #ANT=/usr/bin/ant         #ant 程序  
-#QT_ROOT=/home/l/Qt5.5.1/5.5/android_armv7 #/home/l/Qt5.5.0/5.5/android_armv7        #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/android/qt  
+#QT_ROOT=/C/Qt/Qt5.6.0_android/5.6/android_armv7       #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/android/qt  
 JOM=make #/c/Qt/Qt5.3.1/Tools/QtCreator/bin/jom   #设置 QT make 工具 JOM  
 RABBITIM_CLEAN=TRUE #编译前清理  
 RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库  
 #RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。  
-RABBITIM_BUILD_TOOLCHAIN_VERSION=4.8   #工具链版本号,默认 4.8  
-RABBITIM_BUILD_PLATFORMS_VERSION=18    #android ndk api (平台)版本号,默认 9   
+#RABBITIM_BUILD_TOOLCHAIN_VERSION=4.8   #工具链版本号,默认 4.8  
+#RABBITIM_BUILD_PLATFORMS_VERSION=16   #android ndk api (平台)版本号,默认 18
 if [ -z "${RABBITIM_MAKE_JOB_PARA}" ]; then
     RABBITIM_MAKE_JOB_PARA="-j`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`"  #make 同时工作进程参数
     if [ "$RABBITIM_MAKE_JOB_PARA" = "-j1" ];then
@@ -87,7 +87,7 @@ if [ -z "${RABBITIM_BUILD_TOOLCHAIN_VERSION}" ]; then
     RABBITIM_BUILD_TOOLCHAIN_VERSION=4.8  #工具链版本号  
 fi
 if [ -z "${RABBITIM_BUILD_PLATFORMS_VERSION}" ]; then
-    RABBITIM_BUILD_PLATFORMS_VERSION=9    #android ndk api (平台)版本号  
+    RABBITIM_BUILD_PLATFORMS_VERSION=18    #android ndk api (平台)版本号  
 fi
 
 RABBITIM_BUILD_CROSS_ROOT=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}/prebuilt/${RABBITIM_BUILD_HOST}

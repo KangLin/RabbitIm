@@ -97,9 +97,9 @@ if [ "$3" = "qmake" ]; then
             exit 1
             ;;
     esac
-    if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
-        PARA="$PARA CONFIG+=static"
-    fi
+   # if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
+   #     PARA="$PARA CONFIG+=static"
+   # fi
     $QMAKE ../RabbitIm.pro  $PARA "CONFIG+=release" \ PREFIX=`pwd`/install \
            INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include \
            LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib \
@@ -109,7 +109,7 @@ if [ "$3" = "qmake" ]; then
            RABBITIM_USE_OPENSSL=1
     if [ "$1" == "android" ]; then
         $MAKE -f Makefile install INSTALL_ROOT="`pwd`/android-build"
-        ${QT_BIN}/androiddeployqt --input "`pwd`/android-libRabbitIm.so-deployment-settings.json" --output "`pwd`/android-build" --verbose
+        ${QT_BIN}/androiddeployqt --input "`pwd`/android-libRabbitImApp.so-deployment-settings.json" --output "`pwd`/android-build" --verbose
     else
         $MAKE -f Makefile
         $MAKE install
@@ -130,9 +130,9 @@ else #cmake编译
     esac
     CMAKE_PARA="--target package"
     PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 -DCMAKE_VERBOSE_MAKEFILE=TRUE"
-    if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
-        PARA="${PARA} -DOPTION_RABBITIM_USE_STATIC=ON"
-    fi
+  #  if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
+  #      PARA="${PARA} -DOPTION_RABBITIM_USE_STATIC=ON"
+  #  fi
     MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
     case $1 in
         android)

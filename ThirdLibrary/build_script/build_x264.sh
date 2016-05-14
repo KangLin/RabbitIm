@@ -39,8 +39,8 @@ fi
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     X264_VERSION=stable
-    echo "git clone  -q  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}"
-    #git clone -q  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
+    echo "git clone -q git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}"
+    #git clone -q git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
     git clone -q -b ${X264_VERSION} git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
@@ -56,6 +56,7 @@ echo "RABBITIM_BUILD_HOST:$RABBITIM_BUILD_HOST"
 echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
+echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 if [ -n "$RABBITIM_CLEAN" ]; then
@@ -74,11 +75,20 @@ else
 fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-    CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
-    CONFIG_PARA="${CONFIG_PARA} --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-    CFLAGS="-march=armv7-a -mfpu=neon"
-    ASFLAGS="-march=armv7-a -mfpu=neon"
-    ;;
+        export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
+        export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
+        export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
+        export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
+        #export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
+        export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
+        export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
+        #export RANLIB=${RABBITIM_BUILD_CROSS_PREFIX}ranlib
+        CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
+        CONFIG_PARA="${CONFIG_PARA} --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        CFLAGS="-march=armv7-a -mfpu=neon"
+        CPPFLAGS="-march=armv7-a -mfpu=neon"
+        ASFLAGS="-march=armv7-a -mfpu=neon"
+        ;;
     unix)
     ;;
     windows_msvc)
@@ -98,16 +108,20 @@ case ${RABBITIM_BUILD_TARGERT} in
         esac
         ;;
     *)
-    echo "${HELP_STRING}"
-    cd $CUR_DIR
-    exit 2
-    ;;
+        echo "${HELP_STRING}"
+        cd $CUR_DIR
+        exit 2
+        ;;
 esac
 
 CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --disable-cli --disable-opencl --enable-pic "
 
-echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS=}\" --extra-asflags=\"${ASFLAGS}\""
-./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-asflags="${ASFLAGS}"
+echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS}\" --extra-asflags=\"${ASFLAGS}\""
+if [ -n "$ASFLAGS" ]; then
+    ./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-asflags="${ASFLAGS}"
+else
+    ./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" 
+fi
 
 echo "make install"
 make ${RABBITIM_MAKE_JOB_PARA} && make install

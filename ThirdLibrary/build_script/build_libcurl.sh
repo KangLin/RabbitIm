@@ -168,7 +168,7 @@ echo "make install"
 echo "pwd:`pwd`"
 CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} --disable-manual --enable-verbose"
 #CONFIG_PARA="${CONFIG_PARA} --enable-libgcc  "
-CONFIG_PARA="${CONFIG_PARA} --with-ssl=${RABBITIM_BUILD_PREFIX} --with-sysroot=${RABBITIM_BUILD_PREFIX}"
+CONFIG_PARA="${CONFIG_PARA} --with-ssl=${RABBITIM_BUILD_PREFIX}"  #--with-sysroot=${RABBITIM_BUILD_PREFIX}"
 if [ "${RABBITIM_BUILD_TARGERT}" = android ]; then
     echo "./configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\" LDFLAGS=\"${LDFLAGS}\""
     ./configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"

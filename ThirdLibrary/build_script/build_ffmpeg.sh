@@ -50,11 +50,11 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    FFMPEG_VERSION=n3.0.1
+    FFMPEG_VERSION=n3.0.2
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        #git clone -q --branch=${FFMPEG_VERSION} git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone -q --branch=${FFMPEG_VERSION} git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone -q -b ${FFMPEG_VERSION} git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q -b ${FFMPEG_VERSION} git://source.ffmpeg.org/ffmpeg.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget -q https://github.com/FFmpeg/FFmpeg/archive/${FFMPEG_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
@@ -86,7 +86,7 @@ echo "PKG_CONFIG_PATH:${PKG_CONFIG_PATH}"
 echo "PKG_CONFIG_LIBDIR:${PKG_CONFIG_LIBDIR}"
 echo "----------------------------------------------------------------------------"
 
-if [ "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     if [ -d ".git" ]; then
         git clean -xdf
     elif [ -f "config.mak" ]; then
@@ -146,7 +146,7 @@ esac
 
 CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --enable-gpl --enable-pic --disable-doc --disable-htmlpages"
 CONFIG_PARA="${CONFIG_PARA} --disable-manpages --disable-podpages --disable-txtpages  --disable-ffprobe"
-CONFIG_PARA="${CONFIG_PARA} --disable-ffserver --disable-ffplay --disable-programs"
+#CONFIG_PARA="${CONFIG_PARA} --disable-ffserver --disable-ffplay --disable-programs"
 CONFIG_PARA="${CONFIG_PARA} --enable-runtime-cpudetect"
 CFLAGS="${CFLAGS} -I$RABBITIM_BUILD_PREFIX/include" 
 LDFLAGS="${LDFLAGS} -L$RABBITIM_BUILD_PREFIX/lib" 

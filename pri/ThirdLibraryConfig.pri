@@ -97,7 +97,7 @@ mingw{
 isEmpty(PKG_CONFIG) : PKG_CONFIG=$$(PKG_CONFIG)
 
 isEmpty(PKG_CONFIG) {
-    PKG_CONFIG = pkg-config 
+    PKG_CONFIG = pkg-config
 }
 
 CONFIG(static, static|shared) {
@@ -111,7 +111,6 @@ libdir.value = $$PKG_CONFIG_LIBDIR
 path.name = PKG_CONFIG_PATH
 path.value = $$PKG_CONFIG_PATH
 qtAddToolEnv(PKG_CONFIG, sysroot libdir path, SYS)
-
 equals(QMAKE_HOST.os, Windows): \
     PKG_CONFIG += 2> NUL
 else: \

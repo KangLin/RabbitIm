@@ -43,7 +43,8 @@ CUR_DIR=`pwd`
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone -q https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q https://github.com/KangLin/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
@@ -106,6 +107,7 @@ esac
 
 if [ "$RABBITIM_BUILD_STATIC" = "static" -o "$RABBITIM_BUILD_TARGERT" = "android" ]; then
     PARA="${PARA} QXMPP_LIBRARY_TYPE=staticlib" #静态库
+    PARA="${PARA} CONFIG*=static"
 fi
 
 PARA="${PARA} .. -o Makefile INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
@@ -114,13 +116,12 @@ PARA="${PARA} QXMPP_NO_TESTS=1 QXMPP_NO_EXAMPLES=1"
 if [ "$RABBITIM_BUILD_TARGERT" != "android"  ]; then
     PARA="${PARA} PREFIX=${RABBITIM_BUILD_PREFIX}"
 fi
-DEBUG_PARA="${PARA} CONFIG+=debug"
-RELEASE_PARA="${PARA} CONFIG+=release"
-
-echo "$QMAKE ${RELEASE_PARA}"
+DEBUG_PARA="${PARA} CONFIG*=debug CONFIG-=release"
+RELEASE_PARA="${PARA} CONFIG*=release CONFIG-=debug"
 if [ "$RABBITIM_BUILD_TARGERT" = "android"  ]; then
     MAKE_PARA=" INSTALL_ROOT=\"${RABBITIM_BUILD_PREFIX}\""
 fi
+echo "$QMAKE ${RELEASE_PARA}"
 $QMAKE ${RELEASE_PARA}
 ${MAKE} -f Makefile install ${MAKE_PARA}
 rm -fr *
