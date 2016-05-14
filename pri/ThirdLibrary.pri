@@ -35,6 +35,11 @@ equals(RABBITIM_USE_FFMPEG, 1) {
     } else : msvc {
         LIBS += -lavcodec -lavformat -lswscale -lavutil 
     }
+    myPackageExist(libswresample){
+        MYPKGCONFIG *= libswresample
+    } else : msvc {
+        LIBS += -lswresample
+    }
 }
 
 equals(RABBITIM_USE_PJSIP, 1) : myPackagesExist(libpjproject){
