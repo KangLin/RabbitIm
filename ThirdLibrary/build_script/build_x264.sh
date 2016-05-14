@@ -39,8 +39,8 @@ fi
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     X264_VERSION=stable
-    echo "git clone  -q  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}"
-    #git clone -q  git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
+    echo "git clone -q git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}"
+    #git clone -q git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
     git clone -q -b ${X264_VERSION} git://git.videolan.org/x264.git ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
@@ -76,8 +76,8 @@ case ${RABBITIM_BUILD_TARGERT} in
     android)
     CONFIG_PARA="--cross-prefix=${RABBITIM_BUILD_CROSS_PREFIX} --enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
     CONFIG_PARA="${CONFIG_PARA} --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-    CFLAGS="-march=armv7-a -mfpu=neon"
-    ASFLAGS="-march=armv7-a -mfpu=neon"
+    CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+    CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
     ;;
     unix)
     ;;
@@ -106,7 +106,7 @@ esac
 
 CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --disable-cli --disable-opencl --enable-pic "
 
-echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS=}\" --extra-asflags=\"${ASFLAGS}\""
+echo "./configure ${CONFIG_PARA} --extra-cflags=\"${CFLAGS}\" --extra-asflags=\"${ASFLAGS}\""
 ./configure ${CONFIG_PARA} --extra-cflags="${CFLAGS}" --extra-asflags="${ASFLAGS}"
 
 echo "make install"

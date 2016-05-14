@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ev
 
 SOURCE_DIR=../../..
 if [ -n "$1" ]; then
@@ -85,12 +85,12 @@ export RABBITIM_MAKE_JOB_PARA
 export RABBITIM_USE_REPOSITORIES="FALSE"
 
 cd ${SOURCE_DIR}/ThirdLibrary/build_script
-#./build_webrtc.sh android && \
-./build_openssl.sh android && \
-./build_libcurl.sh android && \
-./build_qrencode.sh android && \
-./build_x264.sh android && \
-./build_libvpx.sh android && \
-./build_libyuv.sh android && \
-./build_ffmpeg.sh android && \
-./build_rabbitim.sh android ${SOURCE_DIR} qmake > /dev/null
+./build_webrtc.sh android
+./build_openssl.sh android > /dev/null
+./build_libcurl.sh android
+./build_qrencode.sh android
+./build_x264.sh android
+./build_libvpx.sh android
+./build_libyuv.sh android
+./build_ffmpeg.sh android
+./build_rabbitim.sh android ${SOURCE_DIR} qmake

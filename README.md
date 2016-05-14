@@ -1,10 +1,11 @@
 [![Logon](Resource/png/AppIcon.png)玉兔即时通信![Logon](Resource/png/AppIcon.png)](https://github.com/KangLin/rabbitim)
+
 =============================================================================
 
 * 作者：康林（msn、email:kl222@126.com；QQ:16614119)
-* 博客：http://blog.csdn.net/kl222  
-    http://blog.csdn.net/kl222/article/details/37597807  
+* 作者博客：http://blog.csdn.net/kl222
 * 项目位置：https://github.com/KangLin/rabbitim  
+* 项目介绍：http://blog.csdn.net/kl222/article/details/37597807  
 * 邮件组地址为：https://groups.yahoo.com/group/rabbitim  
     你可以做以下操作：  
     1. 要在此论坛中发帖，请发送电子邮件至 rabbitim@yahoogroups.com

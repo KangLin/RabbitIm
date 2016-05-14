@@ -7,7 +7,7 @@ cache:
   - apt
   - directories:
     - ThirdLibrary/Tools
-    #- ThirdLibrary/src
+    - ThirdLibrary/src
     #- ThirdLibrary/unix
     #- ThirdLibrary/windows_mingw
 
@@ -16,38 +16,59 @@ compiler:
 
 jdk: oraclejdk7
 
-#android:
-#  components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    #- platform-tools
-    #- tools
-#     - build-tools-18.1.1
-#     - android-18
-#     - extra
-
 os:
-  - linux
+  - unix
   - android
-  #- osx
-  #- windows_mingw
 
 env:
+  global:
+    - SOURCE_DIR=$TRAVIS_BUILD_DIR
+    - RABBITIM_USE_REPOSITORIES="FALSE"
+    - QMAKE=qmake
+
   matrix:
-    - QT_VERSION_DIR=5.6 QT_VERSION=5.6.0 
-    - QT_VERSION_DIR=5.5 QT_VERSION=5.5.1
-    - QT_VERSION_DIR=5.4 QT_VERSION=5.4.2
-    - QT_VERSION_DIR=5.3 QT_VERSION=5.3.2
-    - QT_VERSION_DIR=5.2 QT_VERSION=5.2.1
+      - QT_VERSION_DIR=5.6 QT_VERSION=5.6.0  
+      - QT_VERSION_DIR=5.5 QT_VERSION=5.5.1
+      - QT_VERSION_DIR=5.4 QT_VERSION=5.4.2
+      - QT_VERSION_DIR=5.3 QT_VERSION=5.3.2
+      - QT_VERSION_DIR=5.2 QT_VERSION=5.2.1
 
 before_install:
+  - echo "TRAVIS_OS_NAME=${TRAVIS_OS_NAME}"
+  - export BUILD_TARGERT=${TRAVIS_OS_NAME}
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 
+install:
+  - bash ThirdLibrary/build_script/ci/build-install-apt.sh > /dev/null
+  - bash ThirdLibrary/build_script/ci/build-install-tools.sh > /dev/null
+
+before_script:
+  - source ${SOURCE_DIR}/ThirdLibrary/build_script/ci/build_env.sh
+  - cd ${SOURCE_DIR}/ThirdLibrary/build_script
+  
 script: 
-  - bash ThirdLibrary/build_script/ci/build_${TRAVIS_OS_NAME}.sh `pwd`
+  #- bash ./build_webrtc.sh ${BUILD_TARGERT}
+  - bash ./build_openssl.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_libcurl.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_qrencode.sh ${BUILD_TARGERT} > /dev/null
+  #- bash ./build_x264.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_libvpx.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_libyuv.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_ffmpeg.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_qxmpp.sh ${BUILD_TARGERT}  > /dev/null
+  - bash ./build_qzxing.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_rabbitim.sh ${BUILD_TARGERT} ${SOURCE_DIR} ${QMAKE} > /dev/null
 
 notifications:
   email: kl222@126.com
   on_success: never  # [always|never|change]
   on_failure: always
+
+deploy:
+  provider: releases
+  api_key: 8f49433bc06c559fc88198a0d2de15cbb3b6bd60
+  file: "FILE TO UPLOAD"
+  skip_cleanup: true
+  on:
+    tags: true
