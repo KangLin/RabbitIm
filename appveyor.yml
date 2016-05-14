@@ -46,9 +46,7 @@ before_build:
   - if %AUTOBUILD_COMPLER%==MinGW set PATH=C:\Qt\Tools\mingw%toolchain_version%_32\bin;%PATH%
 
 build_script:
-  - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build_windows.sh %APPVEYOR_BUILD_FOLDER% 1
-  - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build_windows.sh %APPVEYOR_BUILD_FOLDER% 2
-  - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build_windows.sh %APPVEYOR_BUILD_FOLDER% 3
+  - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build_windows.sh %APPVEYOR_BUILD_FOLDER%
 
 #after_build:
 

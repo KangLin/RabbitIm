@@ -22,19 +22,15 @@ fi
 
 export RABBITIM_USE_REPOSITORIES="FALSE"
 #./build_webrtc.sh ${TARGET}
-case $2 in
-    1)
-    ./build_openssl.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/openssl > /dev/null
-    ./build_libcurl.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/curl > /dev/null
-    ./build_libvpx.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/libvpx > /dev/null
-    ./build_libyuv.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/libyuv > /dev/null
-    ;;
-    2)
-    ./build_ffmpeg.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/ffmpeg > /dev/null
-    ;;
-    3)
-    ./build_qxmpp.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/qxmpp > /dev/null
-    ./build_qzxing.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/qzxing > /dev/null
-    ./build_rabbitim.sh ${TARGET} ${SOURCE_DIR} qmake
-    ;;
-esac
+
+./build_openssl.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/openssl > /dev/null
+./build_libcurl.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/curl > /dev/null
+./build_libvpx.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/libvpx > /dev/null
+./build_libyuv.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/libyuv > /dev/null
+  
+./build_ffmpeg.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/ffmpeg > /dev/null
+   
+./build_qxmpp.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/qxmpp > /dev/null
+./build_qzxing.sh ${TARGET} ${SOURCE_DIR}/ThirdLibrary/src/qzxing > /dev/null
+./build_rabbitim.sh ${TARGET} ${SOURCE_DIR} qmake
+    

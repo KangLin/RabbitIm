@@ -101,7 +101,7 @@ if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
 else
     CONFIG_PARA="--disable-static --enable-shared"
 fi
-#THIRD_LIB="--enable-libx264"
+THIRD_LIB="--enable-libx264"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
         CONFIG_PARA="--enable-cross-compile --target-os=linux --arch=arm --cpu=armv7-a --enable-neon"

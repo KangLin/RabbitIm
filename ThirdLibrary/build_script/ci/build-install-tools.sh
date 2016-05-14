@@ -76,7 +76,7 @@ function function_unix()
 function function_mingw()
 {
     #汇编工具yasm
-    function_install_yasm
+    #function_install_yasm
 
     cd ${SOURCE_DIR}/ThirdLibrary
     if [ "true" == "$RABBITIM_BUILD_THIRDLIBRARY" ]; then

@@ -35,7 +35,7 @@ equals(RABBITIM_USE_FFMPEG, 1) {
     } else : msvc {
         LIBS += -lavcodec -lavformat -lswscale -lavutil 
     }
-    myPackageExist(libswresample){
+    myPackagesExist(libswresample){
         MYPKGCONFIG *= libswresample
     } else : msvc {
         LIBS += -lswresample

@@ -52,7 +52,7 @@ script:
   - bash ./build_openssl.sh ${BUILD_TARGERT} > /dev/null
   - bash ./build_libcurl.sh ${BUILD_TARGERT} > /dev/null
   - bash ./build_qrencode.sh ${BUILD_TARGERT} > /dev/null
-  #- bash ./build_x264.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_x264.sh ${BUILD_TARGERT}
   - bash ./build_libvpx.sh ${BUILD_TARGERT} > /dev/null
   - bash ./build_libyuv.sh ${BUILD_TARGERT} > /dev/null
   - bash ./build_ffmpeg.sh ${BUILD_TARGERT} > /dev/null

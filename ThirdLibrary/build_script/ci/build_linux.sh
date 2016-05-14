@@ -78,7 +78,7 @@ export RABBITIM_USE_REPOSITORIES="FALSE"
 
 cd ${SOURCE_DIR}/ThirdLibrary/build_script
 mkdir ${SOURCE_DIR}/ThirdLibrary/src
-./build_webrtc.sh unix
+./build_webrtc.sh unix > /dev/null
 ./build_qxmpp.sh unix > /dev/null
 ./build_qzxing.sh unix > /dev/null
 ./build_rabbitim.sh unix ${SOURCE_DIR} qmake #> /dev/null
