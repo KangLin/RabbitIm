@@ -2,11 +2,10 @@ machine:
   timezone:
        Asia/Shanghai
 
-#dependencies:              
-#    cache_directories:
-#        - ThirdLibrary/android
-#        - ThirdLibrary/unix
-#        - ThirdLibrary/windows_mingw
+dependencies:              
+    cache_directories:
+        - ThirdLibrary/Tools
+#        - ThirdLibrary/src
         
 test:
     pre:

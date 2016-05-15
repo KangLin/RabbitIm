@@ -56,7 +56,7 @@ function function_android()
         mv android-sdk-linux android-sdk
         rm android-sdk_r24.4.1-linux.tgz 
         (sleep 5 ; while true ; do sleep 1 ; printf 'y\r\n' ; done ) \
-        | android-sdk/tools/android update sdk -u -t build-tools-20.0.0,android-18,extra  #platform,platform-tool,tool 
+        | android-sdk/tools/android update sdk -u -t build-tools,android-18,extra  #platform,platform-tool,tool 
     fi
 
 	function_common
