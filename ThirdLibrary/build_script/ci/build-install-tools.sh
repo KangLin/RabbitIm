@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 #下载工具  
 
 set -e
@@ -9,7 +9,7 @@ function function_install_yasm()
 	mkdir -p ${SOURCE_DIR}/ThirdLibrary/Tools/src
     cd ${SOURCE_DIR}/ThirdLibrary/Tools/src
 	wget -c -nv http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz 
-	tar xzf yasm-1.3.0.tar.gz 
+	tar xzf yasm-1.3.0.tar.gz
 	cd yasm-1.3.0/
 	./configure > /dev/null && sudo make install -j2 > /dev/null
 	cd ${SOURCE_DIR}
@@ -40,7 +40,7 @@ function function_android()
 {
     cd ${SOURCE_DIR}/ThirdLibrary/Tools
 
-    #下载android ndk        
+    #下载android ndk  
     if [ ! -d "`pwd`/android-ndk" ]; then
         wget -c -nv http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
         chmod u+x android-ndk-r10e-linux-x86_64.bin
@@ -48,15 +48,17 @@ function function_android()
         mv android-ndk-r10e android-ndk
         rm android-ndk-r10e-linux-x86_64.bin
     fi
+
+    cd ${SOURCE_DIR}/ThirdLibrary/Tools
     
-    #Download android sdk
+    #Download android sdk  
     if [ ! -d "`pwd`/android-sdk" ]; then
         wget -c -nv https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
         tar xf android-sdk_r24.4.1-linux.tgz 
         mv android-sdk-linux android-sdk
         rm android-sdk_r24.4.1-linux.tgz 
         (sleep 5 ; while true ; do sleep 1 ; printf 'y\r\n' ; done ) \
-        | android-sdk/tools/android update sdk -u -t build-tools,android-18,extra  #platform,platform-tool,tool 
+        | android-sdk/tools/android update sdk -u -t tool,android-18,extra  #platform,platform-tool,tool 
     fi
 
 	function_common
