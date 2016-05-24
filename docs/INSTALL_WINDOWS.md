@@ -24,6 +24,18 @@ windows原生编译
 当前文档以msys2为例：
 [安装步骤](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/)
 + 从官网下载[msys2](http://sourceforge.net/projects/msys2/files/Base/i686/)
++ 设置国内镜像：
+打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.msys
+
+    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MSYS2/$arch #中国科学技术
+     
+打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.mingw32
+
+    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MINGW/i686/ #中国科学技术
+    
+打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.mingw64
+
+    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MINGW/x86_64/ #中国科学技术
 + 安装，启动msys2
 + 同步：
 
