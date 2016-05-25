@@ -16,10 +16,6 @@ compiler:
 
 jdk: oraclejdk7
 
-os:
-  - unix
-  - android
-
 env:
   global:
     - SOURCE_DIR=$TRAVIS_BUILD_DIR
@@ -35,7 +31,7 @@ env:
 
 before_install:
   - echo "TRAVIS_OS_NAME=${TRAVIS_OS_NAME}"
-  - export BUILD_TARGERT=${TRAVIS_OS_NAME}
+  - export BUILD_TARGERT=unix
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 
