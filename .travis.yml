@@ -36,25 +36,25 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 
 install:
-  - bash ThirdLibrary/build_script/ci/build-install-apt.sh > /dev/null
-  - bash ThirdLibrary/build_script/ci/build-install-tools.sh > /dev/null
+  #- bash ThirdLibrary/build_script/ci/build-install-apt.sh > /dev/null
+  #- bash ThirdLibrary/build_script/ci/build-install-tools.sh > /dev/null
 
 before_script:
-  - source ${SOURCE_DIR}/ThirdLibrary/build_script/ci/build_env.sh
-  - cd ${SOURCE_DIR}/ThirdLibrary/build_script
+  #- source ${SOURCE_DIR}/ThirdLibrary/build_script/ci/build_env.sh
+  #- cd ${SOURCE_DIR}/ThirdLibrary/build_script
   
 script: 
   #- bash ./build_webrtc.sh ${BUILD_TARGERT}
-  - bash ./build_openssl.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_libcurl.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_qrencode.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_x264.sh ${BUILD_TARGERT}
-  - bash ./build_libvpx.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_libyuv.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_ffmpeg.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_qxmpp.sh ${BUILD_TARGERT}  > /dev/null
-  - bash ./build_qzxing.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_rabbitim.sh ${BUILD_TARGERT} ${SOURCE_DIR} ${QMAKE} > /dev/null
+  #- bash ./build_openssl.sh ${BUILD_TARGERT} > /dev/null
+  #- bash ./build_libcurl.sh ${BUILD_TARGERT} > /dev/null
+  #- bash ./build_qrencode.sh ${BUILD_TARGERT} > /dev/null
+  #- bash ./build_x264.sh ${BUILD_TARGERT}
+  #- bash ./build_libvpx.sh ${BUILD_TARGERT} > /dev/null
+  #- bash ./build_libyuv.sh ${BUILD_TARGERT} > /dev/null
+  #- bash ./build_ffmpeg.sh ${BUILD_TARGERT} > /dev/null
+  #- bash ./build_qxmpp.sh ${BUILD_TARGERT}  > /dev/null
+  #- bash ./build_qzxing.sh ${BUILD_TARGERT} > /dev/null
+  #- bash ./build_rabbitim.sh ${BUILD_TARGERT} ${SOURCE_DIR} ${QMAKE} > /dev/null
 
 notifications:
   email: kl222@126.com
