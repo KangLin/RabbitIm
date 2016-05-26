@@ -57,7 +57,7 @@ fi
 echo "QT_BIN:$QT_BIN"
 
 #pkg-config帮助文档：http://linux.die.net/man/1/pkg-config
-export PKG_CONFIG=pkg-config 
+#export PKG_CONFIG=pkg-config 
 if [ "${RABBITIM_BUILD_THIRDLIBRARY}" = " true" ]; then
     #不用系统的第三方库,用下面
     export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig 
