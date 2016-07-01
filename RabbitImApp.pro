@@ -61,11 +61,11 @@ target.path = $$PREFIX
 android : include(android/android.pri)
 
 win32 : equals(QMAKE_HOST.os, Windows){
-    isEmpty(QMAKE_SH){
+    #isEmpty(QMAKE_SH){
         INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET))
-    } else {
-        INSTALL_TARGET = $${PREFIX}/$(TARGET)
-    }
+    #} else {
+    #    INSTALL_TARGET = $${PREFIX}/$(TARGET)
+    #}
 
     #mingw{  #手机平台不需要  
     #    RABBITIM_STRIP.target = RABBITIM_STRIP
@@ -74,21 +74,21 @@ win32 : equals(QMAKE_HOST.os, Windows){
     #}
     #安装qt依赖库  
     Deployment_qtlib.target = Deployment_qtlib
-    Deployment_qtlib.path = $${PREFIX}
-    Deployment_qtlib.commands = "$$[QT_INSTALL_BINS]/windeployqt" \
+    Deployment_qtlib.path = $$system_path($${PREFIX})
+    Deployment_qtlib.commands = "$$system_path($$[QT_INSTALL_BINS]/windeployqt)" \
                     --compiler-runtime \
                     --verbose 7 \
                     "$${INSTALL_TARGET}"
 
     #安装第三方依赖库  
     Deployment_third_lib.target = Deployment_third_lib
-    Deployment_third_lib.files = $${THIRD_LIBRARY_PATH}/lib/*.dll
-    Deployment_third_lib.path = $$PREFIX
+    Deployment_third_lib.files = $$system_path($${THIRD_LIBRARY_PATH}/lib/*.dll)
+    Deployment_third_lib.path = $$system_path($$PREFIX)
     Deployment_third_lib.CONFIG += directory no_check_exist
 
     Deployment_third_bin.target = Deployment_third_bin
-    Deployment_third_bin.files = $${THIRD_LIBRARY_PATH}/bin/*.dll
-    Deployment_third_bin.path = $$PREFIX
+    Deployment_third_bin.files = $$system_path($${THIRD_LIBRARY_PATH}/bin/*.dll)
+    Deployment_third_bin.path = $$system_path($$PREFIX)
     Deployment_third_bin.CONFIG += directory no_check_exist
     INSTALLS += Deployment_qtlib Deployment_third_lib Deployment_third_bin
     #QMAKE_EXTRA_TARGETS += Deployment_qtlib Deployment_third_lib Deployment_third_bin
@@ -107,7 +107,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
         #复制第三方依赖库动态库到编译输出目录  
         THIRD_LIBRARY_DLL = $${THIRD_LIBRARY_PATH}/bin/*.dll
         exists($${THIRD_LIBRARY_DLL}){
-            equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
+            equals(QMAKE_HOST.os, Windows){#:isEmpty(QMAKE_SH){
                 THIRD_LIBRARY_DLL = $$system_path($$THIRD_LIBRARY_DLL)
                 TARGET_PATH = $$system_path($$TARGET_PATH)
             }
@@ -121,7 +121,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
     
         THIRD_LIBRARY_LIB = $${THIRD_LIBRARY_PATH}/lib/*.dll
         exists($${THIRD_LIBRARY_LIB}){
-            equals(QMAKE_HOST.os, Windows):isEmpty(QMAKE_SH){
+            equals(QMAKE_HOST.os, Windows){#:isEmpty(QMAKE_SH){
                 THIRD_LIBRARY_LIB = $$system_path($$THIRD_LIBRARY_LIB)
                 TARGET_PATH = $$system_path($$TARGET_PATH)
             }

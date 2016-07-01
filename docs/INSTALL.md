@@ -86,8 +86,8 @@
 ##### 9. 编译工具：
 
 1. windows
-    * msvc (vs 2013 update 4)
-    * mingw gcc
+    * msvc (vs 2015 update 3、 vs 2013 update 4)
+    * mingw gcc （4.82、4.91、4.92、5.30、5.40）
 2. linux
     * gcc、g++
     当前使用版本：4.8
@@ -115,7 +115,7 @@
 
 * 主页：http://qt-project.org/
 * 下载：http://qt-project.org/downloads
-* 当前使用版本：5.2.1
+* 当前使用版本：5.7.0
     + QT开发工具参考：http://doc.qt.io/qt-4.8/developing-with-qt.html
     + [QT编译](http://blog.csdn.net/kl222/article/details/44216951)
 
@@ -220,7 +220,7 @@
     cd /home
     git clone git://git.gitorious.org/qt/qt5.git #（或者：git clone https://git.gitorious.org/qt/qt5.git）
     cd qt5
-    git checkout 5.5
+    git checkout 5.7
     perl init-repository
 
 更新已有qt：
@@ -319,7 +319,7 @@
         ｜       ｜------include
         ｜       ｜------lib
 
-可以在 http://pan.baidu.com/s/1mgwx8y0 中，
+可以在 https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/ 中，
 选择与你**主机操作系统相同、编译器版本相同**的包下载本项目依赖的预编译好的第三方库。
 下载后解压，按上面目录结构放置。
 如果目录下有change_prefix.sh，则执行change_prefix.sh就可以。
@@ -467,7 +467,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     - windows_mingw
     - unix
 + 源码根目录
-+ 工程工具：可以选择 qmake 或 cmake 。 默认为 cmake
++ 工程工具：可以选择 qmake 或 cmake 。 默认为 qmake
 
 例如用qmake编译android平台：
 
@@ -479,13 +479,13 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
   * 下载(http://pan.baidu.com/s/1mgwx8y0 )或自己编译第三方库，并放到 $(RabbitImRoot)/ThirdLibrary 目录下。
   * 打开菜单：文件->打开文件，选中 Rabbitim.pro 文件
   * 设置可选参数
-    + QXMPP_USE_VPX=1              #使用 vpx
-    + QXMPP_USE_SPEEX=1            #使用 speex
+    + QXMPP_USE_VPX=1             #使用 vpx
+    + QXMPP_USE_SPEEX=1           #使用 speex
     + RABBITIM_USE_OPENCV=1       #使用 opencv
     + RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
     + RABBITIM_USE_LIBCURL=1      #使用 libcurl
     + RABBITIM_USE_OPENSSL=1      #使用openssl
-    + CONFIG+=static       #使用静态编译
+    + CONFIG+=static              #使用静态编译
     + RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档 
   * 项目->构建和运行->构建->构建环境，设置环境变更  
     PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config  

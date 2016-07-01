@@ -71,63 +71,8 @@ fi
 echo "CUR_DIR:`pwd`"
 echo ""
 
-if [ "$3" = "qmake" ]; then
+if [ "$3" = "cmake" ]; then
 
-    MAKE="make ${RABBITIM_MAKE_JOB_PARA}"
-    case $1 in
-        android)
-            export ANDROID_NDK_PLATFORM=$ANDROID_API_VERSION
-            PARA="-r -spec android-g++ " #RABBITIM_USE_OPENCV=1
-            if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
-                MAKE="$RABBITIM_CMAKE_MAKE_PROGRAM"
-            fi
-            ;;
-        unix)
-            PARA="-r -spec linux-g++ "
-            ;;
-        windows_msvc)
-            PARA="-r -spec win32-msvc2013"
-            MAKE=nmake
-            ;;
-        windows_mingw)
-            PARA="-r -spec win32-g++"
-            ;;
-        *)
-            echo "${HELP_STRING}"
-            exit 1
-            ;;
-    esac
-   # if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
-   #     PARA="$PARA CONFIG+=static"
-   # fi
-    $QMAKE ../RabbitIm.pro  $PARA "CONFIG+=release" \ PREFIX=`pwd`/install \
-           INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include \
-           LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib \
-           QXMPP_USE_VPX=1 \
-           RABBITIM_USE_FFMPEG=1 \
-           RABBITIM_USE_LIBCURL=1 \
-           RABBITIM_USE_OPENSSL=1
-    if [ "$1" == "android" ]; then
-        $MAKE -f Makefile install INSTALL_ROOT="`pwd`/android-build"
-        ${QT_BIN}/androiddeployqt --input "`pwd`/android-libRabbitImApp.so-deployment-settings.json" --output "`pwd`/android-build" --verbose
-    else
-        $MAKE -f Makefile
-        $MAKE install
-        if [ "$APPVEYOR" = "True" ]; then
-            tar czf RabbitIm_$1.tar.gz install  #打包  
-        fi
-    fi
-
-else #cmake编译
-
-    case `uname -s` in
-        MINGW*|MSYS*)
-            GENERATORS="MSYS Makefiles"
-            ;;
-        Linux*|Unix*|CYGWIN*|*)
-            GENERATORS="Unix Makefiles" 
-            ;;
-    esac
     CMAKE_PARA="--target package"
     PARA="-DCMAKE_BUILD_TYPE=Release -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 -DCMAKE_VERBOSE_MAKEFILE=TRUE"
   #  if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
@@ -181,6 +126,52 @@ else #cmake编译
     echo "build ...."
     echo "cmake --build . --config Release ${CMAKE_PARA} ${MAKE_PARA}"
     cmake --build . --config Release ${CMAKE_PARA} ${MAKE_PARA}
+
+else #qmake编译
+
+    MAKE="make ${RABBITIM_MAKE_JOB_PARA}"
+    case $1 in
+        android)
+            export ANDROID_NDK_PLATFORM=$ANDROID_API_VERSION
+            PARA="-r -spec android-g++ " #RABBITIM_USE_OPENCV=1
+            if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
+                MAKE="$RABBITIM_CMAKE_MAKE_PROGRAM"
+            fi
+            ;;
+        unix)
+            PARA="-r -spec linux-g++ "
+            ;;
+        windows_msvc)
+            MAKE=nmake
+            ;;
+        windows_mingw)
+            PARA="-r -spec win32-g++"
+            ;;
+        *)
+            echo "${HELP_STRING}"
+            exit 1
+            ;;
+    esac
+   # if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
+   #     PARA="$PARA CONFIG+=static"
+   # fi
+    echo "qmake ...."
+    $QMAKE ../RabbitIm.pro  $PARA "CONFIG+=release"  \
+           INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include \
+           LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib \
+           QXMPP_USE_VPX=1 \
+           RABBITIM_USE_FFMPEG=1 \
+           RABBITIM_USE_LIBCURL=1 \
+           RABBITIM_USE_OPENSSL=1
+    echo "$MAKE ...."
+    if [ "$1" == "android" ]; then
+        $MAKE -f Makefile install INSTALL_ROOT="`pwd`/android-build"
+        ${QT_BIN}/androiddeployqt --input "`pwd`/android-libRabbitImApp.so-deployment-settings.json" --output "`pwd`/android-build" --verbose
+    else
+        $MAKE -f Makefile
+        echo "$MAKE install ...."
+        $MAKE install
+    fi
 fi
 
 cd $CUR_DIR

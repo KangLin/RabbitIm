@@ -41,10 +41,10 @@ CUR_DIR=`pwd`
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     VERSION_MAJOR=16
-    VERSION=1.6.9rc02
+    VERSION=1.6.23rc02
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
-        echo "git clone -q  --branch=v${VERSION} git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q  --branch=v$VERSION  git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=v${VERSION} git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -q --branch=v$VERSION  git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
@@ -55,11 +55,6 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
 fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
-
-if [ ! -f configure ]; then
-    echo "sh autogen.sh"
-    sh autogen.sh
-fi
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
 cd build_${RABBITIM_BUILD_TARGERT}
@@ -81,62 +76,58 @@ echo "PKG_CONFIG_PATH:${PKG_CONFIG_PATH}"
 echo "PKG_CONFIG_LIBDIR:${PKG_CONFIG_LIBDIR}"
 echo ""
 
-echo "configure ..."
-MAKE=make
-#只能用静态库  
-CONFIG_PARA="--enable-static --disable-shared"
-
+#需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
+RABBITIM_BUILD_STATIC="static"
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    CMAKE_PARA="-DPNG_SHARED=OFF -DPNG_STATIC=ON"
+else
+    CMAKE_PARA="-DPNG_SHARED=ON -DPNG_STATIC=OFF"
+fi
+MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-        export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
-        export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
-        export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
-        export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
-        export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
-        export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
-        export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
-        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc LD=${RABBITIM_BUILD_CROSS_PREFIX}ld"
-        CONFIG_PARA="${CONFIG_PARA} --disable-shared -enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
-        CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_PREFIX}"
-        CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-        CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        export ANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}
+        export ANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
+        CMAKE_PARA="-DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-android.cmake"
+        CMAKE_PARA="${CMAKE_PARA} -DANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}"
+        CMAKE_PARA="${CMAKE_PARA} -DANDROID_TOOLCHAIN_NAME=${RABBITIM_BUILD_CROSS_HOST}-${RABBITIM_BUILD_TOOLCHAIN_VERSION}"
+        CMAKE_PARA="$CMAKE_PARA -DANDROID_NDK_ABI_NAME=${ANDROID_NDK_ABI_NAME}"
+
+        if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
+            CMAKE_PARA="${CMAKE_PARA} -DCMAKE_MAKE_PROGRAM=$RABBITIM_CMAKE_MAKE_PROGRAM" 
+        fi
         ;;
     unix)
         ;;
     windows_msvc)
-        echo "don't implement"
+        #GENERATORS="Visual Studio 12 2013"
+        MAKE_PARA=""
         ;;
     windows_mingw)
         case `uname -s` in
             Linux*|Unix*|CYGWIN*)
-                CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST} "
-                CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld"
-                ;;
-            MINGW* | MSYS*)
+                CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw.cmake"
                 ;;
             *)
             ;;
         esac
         ;;
     *)
-        echo "${HELP_STRING}"
-        cd $CUR_DIR
-        exit 3
-        ;;
+    echo "${HELP_STRING}"
+    cd $CUR_DIR
+    exit 2
+    ;;
 esac
 
-echo "make install"
-echo "pwd:`pwd`"
-CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} "
+CMAKE_PARA="${CMAKE_PARA} -DPNG_TESTS=OFF"
+#CMAKE_PARA="${CMAKE_PARA} -DCMAKE_VERBOSE_MAKEFILE=TRUE" #显示编译详细信息
 
-if [ "${RABBITIM_BUILD_TARGERT}" = android ]; then
-    echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
-    CFLAGS="-mthumb" CXXFLAGS="-mthumb" ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
-else
-    echo "../configure ${CONFIG_PARA}"
-    ../configure ${CONFIG_PARA}
-fi
+echo "cmake .. -DCMAKE_INSTALL_PREFIX=$RABBITIM_BUILD_PREFIX -DCMAKE_BUILD_TYPE=Release -G\"${GENERATORS}\" ${CMAKE_PARA}"
+cmake .. \
+    -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
+    -DCMAKE_BUILD_TYPE="Release" \
+    -G"${GENERATORS}" ${CMAKE_PARA}
 
-${MAKE} && ${MAKE} install
+cmake --build . --config Release --target install ${MAKE_PARA}
 
 cd $CUR_DIR

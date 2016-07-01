@@ -18,25 +18,32 @@ jdk: oraclejdk7
 
 os:
   - unix
-  - android
 
+addons:
+  ssh_known_hosts:
+    - github.com
+  
 env:
   global:
     - SOURCE_DIR=$TRAVIS_BUILD_DIR
     - RABBITIM_USE_REPOSITORIES="TRUE"
     - QMAKE=qmake
+    - RABBITIM_BUILD_THIRDLIBRARY="TRUE" 
 
   matrix:
-     - QT_VERSION_DIR=5.7 QT_VERSION=5.7.0  
-     - QT_VERSION_DIR=5.6 QT_VERSION=5.6.0  
-     - QT_VERSION_DIR=5.5 QT_VERSION=5.5.1
-     # - QT_VERSION_DIR=5.4 QT_VERSION=5.4.2
-     # - QT_VERSION_DIR=5.3 QT_VERSION=5.3.2
-     # - QT_VERSION_DIR=5.2 QT_VERSION=5.2.1
+     - BUILD_TARGERT="unix" QT_VERSION_DIR=5.7 QT_VERSION=5.7.0  
+     - BUILD_TARGERT="unix" QT_VERSION_DIR=5.6 QT_VERSION=5.6.0
+     - BUILD_TARGERT="unix" QT_VERSION_DIR=5.5 QT_VERSION=5.5.1
+     - BUILD_TARGERT="unix" QT_VERSION_DIR=5.4 QT_VERSION=5.4.2
+     - BUILD_TARGERT="unix" QT_VERSION_DIR=5.3 QT_VERSION=5.3.2
+     - BUILD_TARGERT="unix" QT_VERSION_DIR=5.2 QT_VERSION=5.2.1
+
+     - BUILD_TARGERT="android" QT_VERSION_DIR=5.7 QT_VERSION=5.7.0
+     - BUILD_TARGERT="android" QT_VERSION_DIR=5.6 QT_VERSION=5.6.0
+     - BUILD_TARGERT="android" QT_VERSION_DIR=5.5 QT_VERSION=5.5.1
 
 before_install:
   - echo "TRAVIS_OS_NAME=${TRAVIS_OS_NAME}"
-  - export BUILD_TARGERT=${TRAVIS_OS_NAME}
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 
@@ -49,17 +56,18 @@ before_script:
   - cd ${SOURCE_DIR}/ThirdLibrary/build_script
   
 script: 
+  - bash ${SOURCE_DIR}/ThirdLibrary/build_script/ci/build_linux.sh ${SOURCE_DIR}
   #- bash ./build_webrtc.sh ${BUILD_TARGERT}
-  - bash ./build_openssl.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_libcurl.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_qrencode.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_x264.sh ${BUILD_TARGERT}  > /dev/null
-  - bash ./build_libvpx.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_libyuv.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_ffmpeg.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_qxmpp.sh ${BUILD_TARGERT}  > /dev/null
-  - bash ./build_qzxing.sh ${BUILD_TARGERT} > /dev/null
-  - bash ./build_rabbitim.sh ${BUILD_TARGERT} ${SOURCE_DIR} ${QMAKE} #> /dev/null
+  #- if [ "$RABBITIM_BUILD_THIRDLIBRARY" = "TRUE" ]; then bash ./build_openssl.sh ${BUILD_TARGERT} > /dev/null; fi
+  #- if [ "$RABBITIM_BUILD_THIRDLIBRARY" = "TRUE" ]; then bash ./build_libcurl.sh ${BUILD_TARGERT} > /dev/null; fi
+  #- if [ "$RABBITIM_BUILD_THIRDLIBRARY" = "TRUE" ]; then bash ./build_qrencode.sh ${BUILD_TARGERT} > /dev/null; fi
+  #- if [ "$RABBITIM_BUILD_THIRDLIBRARY" = "TRUE" ]; then bash ./build_x264.sh ${BUILD_TARGERT}  > /dev/null; fi
+  #- if [ "$RABBITIM_BUILD_THIRDLIBRARY" = "TRUE" ]; then bash ./build_libvpx.sh ${BUILD_TARGERT} > /dev/null; fi
+  #- if [ "$RABBITIM_BUILD_THIRDLIBRARY" = "TRUE" ]; then bash ./build_libyuv.sh ${BUILD_TARGERT} > /dev/null; fi
+  #- if [ "$RABBITIM_BUILD_THIRDLIBRARY" = "TRUE" ]; then bash ./build_ffmpeg.sh ${BUILD_TARGERT} > /dev/null; fi
+  #- bash ./build_qxmpp.sh ${BUILD_TARGERT}  > /dev/null
+  #- bash ./build_qzxing.sh ${BUILD_TARGERT} > /dev/null
+  #- bash ./build_rabbitim.sh ${BUILD_TARGERT} ${SOURCE_DIR} ${QMAKE} #> /dev/null
 
 notifications:
   email: kl222@126.com
@@ -68,11 +76,11 @@ notifications:
 
 deploy:
   provider: releases
-  api_key: dc04b51ad80f5500422346292c3de3fd632407c8
+  api_key: 177ce637a8ec54e66ea8693092caf35059cf95d7
   file: 
     - ./build_android/android-build/bin/QtApp-debug.apk
   skip_cleanup: true
   on:
-    condition: $TRAVIS_OS_NAME == android
+    condition: $TRAVIS_OS_NAME = android
     repo: KangLin/rabbitim
     tags: true

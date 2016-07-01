@@ -43,11 +43,7 @@ if [ -z "${RABBITIM_BUILD_PREFIX}" ]; then
 fi
 
 #产生修改前缀脚本
-if [ ! -f ${RABBITIM_BUILD_PREFIX}/change_prefix.sh ]; then
-    cp change_prefix.sh ${RABBITIM_BUILD_PREFIX}/change_prefix.sh
-    sed -i.orig -e "s,@@CONTRIB_PREFIX@@,${RABBITIM_BUILD_PREFIX},g" ${RABBITIM_BUILD_PREFIX}/change_prefix.sh
-    rm -f ${RABBITIM_BUILD_PREFIX}/change_prefix.sh.orig
-fi
+./change_prefix.sh
 
 if [ -n "$2" ]; then
     #echo "Source dir:$2"

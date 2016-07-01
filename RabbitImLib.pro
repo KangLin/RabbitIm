@@ -59,11 +59,11 @@ MOBILITY =
 android : include(android/jni/android_jni.pri)
 
 win32:equals(QMAKE_HOST.os, Windows){
-    isEmpty(QMAKE_SH){
+    #isEmpty(QMAKE_SH){
         INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET))
-    } else {
-        INSTALL_TARGET = $${PREFIX}/$(TARGET)
-    }
+    #} else {
+    #    INSTALL_TARGET = $${PREFIX}/$(TARGET)
+    #}
     #mingw{  #手机平台不需要  
     #    RABBITIM_STRIP.target = RABBITIM_STRIP
     #    RABBITIM_STRIP.commands = "strip $$INSTALL_TARGET"
@@ -71,8 +71,8 @@ win32:equals(QMAKE_HOST.os, Windows){
     #}
     #安装qt依赖库  
     Deployment_qtlib.target = Deployment_qtlib
-    Deployment_qtlib.path = $${PREFIX}
-    Deployment_qtlib.commands = "$$[QT_INSTALL_BINS]/windeployqt" \
+    Deployment_qtlib.path = $$system_path($${PREFIX})
+    Deployment_qtlib.commands = "$$system_path($$[QT_INSTALL_BINS]/windeployqt)" \
                     --compiler-runtime \
                     --verbose 7 \
                     "$${INSTALL_TARGET}"

@@ -6,20 +6,18 @@
 * 作者博客：http://blog.csdn.net/kl222
 * 项目位置：https://github.com/KangLin/rabbitim  
 * 项目介绍：http://blog.csdn.net/kl222/article/details/37597807  
-* 邮件组地址为：https://groups.yahoo.com/group/rabbitim  
-    你可以做以下操作：  
-    1. 要在此论坛中发帖，请发送电子邮件至 rabbitim@yahoogroups.com
-    2. 订阅本邮件组，请发送邮件到：rabbitim-subscribe@yahoogroups.com
-    3. 取消订阅本邮件组，请发送邮件到：rabbitim-unsubscribe@yahoogroups.com
-    4. 通过以下网址访问此论坛：https://groups.yahoo.com/neo/groups/rabbitim/conversations/messages
-    5. 提问前先查看文档与邮件组。当不能解决时，再向邮件组提交问题。
+* 邮件组地址为：https://sourceforge.net/p/rabbitim/mailman/?source=navbar  
 * QQ群：68046752（本人不常上QQ）。有问题或好的想法，尽量用邮件组。
-* 自动编译状态: 
-    1. linux、android、mac、ios [![Build Status](https://travis-ci.org/KangLin/rabbitim.svg)](https://travis-ci.org/KangLin/rabbitim)
-     [![Circle CI](https://circleci.com/gh/KangLin/rabbitim.svg?style=svg)](https://circleci.com/gh/KangLin/rabbitim)  
-    2. windows [![Build Status](https://ci.appveyor.com/api/projects/status/sknyg6fu1a9flnj3?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitim)  
 * 微信公众号：rabbitim  
 [![微信公众号:rabbitim](Resource/png/qrcode.jpg "微信公众号：rabbitim")](https://github.com/KangLin/rabbitim)
+
+* 分支自动编译状态: 
+
+|     | master 分支 | develop 分支 |
+|:---:|:------:|:------:|
+|linux、android、mac、ios|[![Build Status](https://travis-ci.org/KangLin/rabbitim.svg?branch=master)](https://travis-ci.org/KangLin/rabbitim)|[![Build Status](https://travis-ci.org/KangLin/rabbitim.svg?branch=Develop)](https://travis-ci.org/KangLin/rabbitim)|
+
+windows当前分支:[![Build Status](https://ci.appveyor.com/api/projects/status/sknyg6fu1a9flnj3?svg=true)](https://ci.appveyor.com/project/KangLin/rabbitim)
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

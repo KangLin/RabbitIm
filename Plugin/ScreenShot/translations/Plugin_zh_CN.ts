@@ -89,33 +89,33 @@
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="314"/>
+        <location filename="../WdgScreenEditor.cpp" line="313"/>
         <source>Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</source>
         <translation>图像 (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="318"/>
-        <location filename="../WdgScreenEditor.cpp" line="324"/>
+        <location filename="../WdgScreenEditor.cpp" line="317"/>
+        <location filename="../WdgScreenEditor.cpp" line="323"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="325"/>
+        <location filename="../WdgScreenEditor.cpp" line="324"/>
         <source>File is exists. Do you save it?</source>
         <translation>文件已存在。你是否继续保存?</translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="334"/>
+        <location filename="../WdgScreenEditor.cpp" line="333"/>
         <source>Failed to save</source>
         <translation>保存失败</translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="334"/>
+        <location filename="../WdgScreenEditor.cpp" line="333"/>
         <source>Sorry! Save failed! Please check save path!</source>
         <translation>对不起!保存失败!请检查保存路径!</translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="356"/>
+        <location filename="../WdgScreenEditor.cpp" line="355"/>
         <source>select color</source>
         <translation>选择颜色</translation>
     </message>

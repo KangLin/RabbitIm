@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-	CURL_FILE=curl-7_48_0
+	CURL_FILE=curl-7_49_1
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q  git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone -q  --branch=$CURL_FILE git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
@@ -140,8 +140,8 @@ case ${RABBITIM_BUILD_TARGERT} in
         else
             MODE=dll
         fi
-        nmake -f Makefile.vc mode=$MODE VC=12 WITH_DEVEL=$RABBITIM_BUILD_PREFIX
-        cp -fr ${RABBITIM_BUILD_SOURCE_CODE}/builds/libcurl-vc12-x86-release-${MODE}-ipv6-sspi-winssl/* ${RABBITIM_BUILD_PREFIX}
+        nmake -f Makefile.vc mode=$MODE VC=${VC_TOOLCHAIN} WITH_DEVEL=$RABBITIM_BUILD_PREFIX
+        cp -fr ${RABBITIM_BUILD_SOURCE_CODE}/builds/libcurl-vc${VC_TOOLCHAIN}-x86-release-${MODE}-ipv6-sspi-winssl/* ${RABBITIM_BUILD_PREFIX}
         cd $CUR_DIR
         exit 0
         ;;
@@ -152,6 +152,7 @@ case ${RABBITIM_BUILD_TARGERT} in
                 CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST}"
                 ;;
             MINGW* | MSYS*)
+                CONFIG_PARA="${CONFIG_PARA} --host=$RABBITIM_BUILD_CROSS_HOST"
                 ;;
             *)
             ;;

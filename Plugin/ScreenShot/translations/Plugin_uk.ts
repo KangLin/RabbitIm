@@ -89,33 +89,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="314"/>
+        <location filename="../WdgScreenEditor.cpp" line="313"/>
         <source>Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="318"/>
-        <location filename="../WdgScreenEditor.cpp" line="324"/>
+        <location filename="../WdgScreenEditor.cpp" line="317"/>
+        <location filename="../WdgScreenEditor.cpp" line="323"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="325"/>
+        <location filename="../WdgScreenEditor.cpp" line="324"/>
         <source>File is exists. Do you save it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="334"/>
+        <location filename="../WdgScreenEditor.cpp" line="333"/>
         <source>Failed to save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="334"/>
+        <location filename="../WdgScreenEditor.cpp" line="333"/>
         <source>Sorry! Save failed! Please check save path!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../WdgScreenEditor.cpp" line="356"/>
+        <location filename="../WdgScreenEditor.cpp" line="355"/>
         <source>select color</source>
         <translation type="unfinished"></translation>
     </message>

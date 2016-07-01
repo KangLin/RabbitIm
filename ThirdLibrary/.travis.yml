@@ -1,0 +1,78 @@
+sudo: required
+dist: trusty
+
+language: cpp
+
+cache:
+  - apt
+  - directories:
+    - ThirdLibrary/Tools
+    - ThirdLibrary/src
+    #- ThirdLibrary/unix
+    #- ThirdLibrary/windows_mingw
+
+compiler:
+  - g++
+
+jdk: oraclejdk7
+
+os:
+  - unix
+
+addons:
+  ssh_known_hosts:
+    - github.com
+  
+env:
+  global:
+    - SOURCE_DIR=$TRAVIS_BUILD_DIR
+    - RABBITIM_USE_REPOSITORIES="TRUE"
+    - QMAKE=qmake
+    - RABBITIM_BUILD_THIRDLIBRARY="TRUE" 
+
+  matrix:
+     - BUILD_TARGERT="unix" 
+     - BUILD_TARGERT="android"
+
+before_install:
+  - echo "TRAVIS_OS_NAME=${TRAVIS_OS_NAME}"
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+
+install:
+  - mkdir -p ThirdLibrary
+  - ln -s build_script ThirdLibrary/build_script
+  - bash build_script/ci/build-install-apt.sh > /dev/null
+  - bash build_script/ci/build-install-tools.sh > /dev/null
+
+before_script:
+  - source ${SOURCE_DIR}/build_script/ci/build_env.sh
+  - cd ${SOURCE_DIR}/build_script
+  
+script: 
+  #- bash ./build_webrtc.sh ${BUILD_TARGERT}
+  - bash ./build_openssl.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_libcurl.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_qrencode.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_x264.sh ${BUILD_TARGERT}  > /dev/null
+  - bash ./build_libvpx.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_libyuv.sh ${BUILD_TARGERT} > /dev/null
+  - bash ./build_ffmpeg.sh ${BUILD_TARGERT} > /dev/null
+  #- bash ./build_qxmpp.sh ${BUILD_TARGERT}  > /dev/null
+  #- bash ./build_qzxing.sh ${BUILD_TARGERT} > /dev/null
+
+notifications:
+  email: kl222@126.com
+  on_success: never  # [always|never|change]
+  on_failure: always
+
+deploy:
+  provider: releases
+  api_key: 177ce637a8ec54e66ea8693092caf35059cf95d7
+  file: 
+    - ./build_android/android-build/bin/QtApp-debug.apk
+  skip_cleanup: true
+  on:
+    condition: $TRAVIS_OS_NAME = android
+    repo: KangLin/rabbitim
+    tags: true

@@ -77,6 +77,7 @@
 * 本项同时支持 Qt 和 CMake 项目文件，所以需要**同时修改以下文件中的版本号**：
     1. 用Qt project发行时需要修改：[RabbitImVersion.pri](./../pri/RabbitImVersion.pri)
     2. 用cmake 发行时需要修改：[install_version.cmake](./../cmake/install_version.cmake)
+    3. 修改自动化编译配置文件：[appveyor.yml](../appveyor.yml)
 
 #### 格式:
 1. 格式：  
@@ -148,6 +149,9 @@
 6. 用 CMake 工程是否能通过（已自动化）
 
 ##### 3. 是否修改了版本号（仅管理员检查此项）
+1. 用Qt project发行时需要修改：[RabbitImVersion.pri](./../pri/RabbitImVersion.pri)
+2. 用cmake 发行时需要修改：[install_version.cmake](./../cmake/install_version.cmake)
+3. 修改自动化编译配置文件：[appveyor.yml](../appveyor.yml)
 
 参考资料：
 --------

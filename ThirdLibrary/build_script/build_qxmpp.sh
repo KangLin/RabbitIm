@@ -41,29 +41,27 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
+    #if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}"
         #git clone -q https://github.com/qxmpp-project/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
         git clone -q https://github.com/KangLin/qxmpp.git ${RABBITIM_BUILD_SOURCE_CODE}
-    else
-        mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
-        cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q -c https://github.com/KangLin/qxmpp/archive/master.zip
-        unzip -q master.zip
-        mv qxmpp-master ..
-        rm -fr *
-        cd ..
-        rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
-        mv -f qxmpp-master ${RABBITIM_BUILD_SOURCE_CODE}
-    fi
+    #else
+    #    mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
+    #    cd ${RABBITIM_BUILD_SOURCE_CODE}
+    #    wget -q -c https://github.com/KangLin/qxmpp/archive/master.zip
+    #    unzip -q master.zip
+    #    mv qxmpp-master ..
+    #    rm -fr *
+    #    cd ..
+    #    rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
+    #    mv -f qxmpp-master ${RABBITIM_BUILD_SOURCE_CODE}
+    #fi
 fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-mkdir -p build_${RABBITIM_BUILD_TARGERT}
-cd build_${RABBITIM_BUILD_TARGERT}
 if [ -n "$RABBITIM_CLEAN" ]; then
-    rm -fr *
+    git clean -xdf
 fi
 
 echo ""
@@ -110,7 +108,7 @@ if [ "$RABBITIM_BUILD_STATIC" = "static" -o "$RABBITIM_BUILD_TARGERT" = "android
     PARA="${PARA} CONFIG*=static"
 fi
 
-PARA="${PARA} .. -o Makefile INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
+PARA="${PARA} -o Makefile INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
 PARA="${PARA} LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib QXMPP_USE_VPX=1"
 PARA="${PARA} QXMPP_NO_TESTS=1 QXMPP_NO_EXAMPLES=1"
 if [ "$RABBITIM_BUILD_TARGERT" != "android"  ]; then
@@ -124,9 +122,12 @@ fi
 echo "$QMAKE ${RELEASE_PARA}"
 $QMAKE ${RELEASE_PARA}
 ${MAKE} -f Makefile install ${MAKE_PARA}
-rm -fr *
-echo "$QMAKE ${DEBUG_PARA}"
-${QMAKE} ${DEBUG_PARA}
-${MAKE} -f Makefile install ${MAKE_PARA}
+
+if [ -z "$CI" ]; then
+    git clean -xdf
+    echo "$QMAKE ${DEBUG_PARA}"
+    ${QMAKE} ${DEBUG_PARA}
+    ${MAKE} -f Makefile install ${MAKE_PARA}
+fi
 
 cd $CUR_DIR

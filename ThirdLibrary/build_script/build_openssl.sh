@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    OPENSLL_BRANCH=OpenSSL_1_0_2f
+    OPENSLL_BRANCH=OpenSSL_1_0_2h
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl  ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone -q --branch=${OPENSLL_BRANCH} https://github.com/openssl/openssl ${RABBITIM_BUILD_SOURCE_CODE}
@@ -71,6 +71,7 @@ echo "RABBITIM_BUILD_CROSS_HOST:$RABBITIM_BUILD_CROSS_HOST"
 echo "RABBITIM_BUILD_CROSS_PREFIX:$RABBITIM_BUILD_CROSS_PREFIX"
 echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
+echo "PATH:$PATH"
 echo ""
 
 if [ -n "$RABBITIM_CLEAN" ]; then
@@ -88,8 +89,8 @@ if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
 else
     MODE="no-shared no-pic"
 fi
-echo "configure ..."
 
+echo "configure ..."
 case ${RABBITIM_BUILD_TARGERT} in
     android)
         #export ANDROID_DEV="${RABBITIM_BUILD_CROSS_SYSROOT}/usr"
@@ -124,12 +125,12 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_mingw)
         case `uname -s` in
             MINGW*|MSYS*)
-                perl Configure  --prefix=${RABBITIM_BUILD_PREFIX} \
+                perl Configure --prefix=${RABBITIM_BUILD_PREFIX} \
                     --openssldir=${RABBITIM_BUILD_PREFIX} \
                     $MODE mingw
                 ;;
             Linux*|Unix*|CYGWIN*|*)
-                perl Configure  --prefix=${RABBITIM_BUILD_PREFIX} \
+                perl Configure --prefix=${RABBITIM_BUILD_PREFIX} \
                     --openssldir=${RABBITIM_BUILD_PREFIX} \
                     --cross-compile-prefix=${RABBITIM_BUILD_CROSS_PREFIX} \
                     $MODE mingw
@@ -143,8 +144,10 @@ case ${RABBITIM_BUILD_TARGERT} in
         ;;
 esac
 
+echo "${MAKE} depend"
+${MAKE} depend
 echo "make install"
-#make ${RABBITIM_MAKE_JOB_PARA} && make install
-${MAKE} && ${MAKE} install
+${MAKE} 
+${MAKE} install
 
 cd $CUR_DIR

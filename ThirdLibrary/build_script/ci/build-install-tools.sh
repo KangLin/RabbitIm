@@ -5,14 +5,14 @@ set -e
 
 function function_install_yasm()
 {
-	#安装 yasm
-	mkdir -p ${SOURCE_DIR}/ThirdLibrary/Tools/src
+    #安装 yasm
+    mkdir -p ${SOURCE_DIR}/ThirdLibrary/Tools/src
     cd ${SOURCE_DIR}/ThirdLibrary/Tools/src
-	wget -c -nv http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz 
-	tar xzf yasm-1.3.0.tar.gz
-	cd yasm-1.3.0/
-	./configure > /dev/null && sudo make install -j2 > /dev/null
-	cd ${SOURCE_DIR}
+    wget -c -nv http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz 
+    tar xzf yasm-1.3.0.tar.gz
+    cd yasm-1.3.0/
+    ./configure > /dev/null && sudo make install -j2 > /dev/null
+    cd ${SOURCE_DIR}
 }
 
 function function_common()
@@ -28,11 +28,13 @@ function function_common()
     fi
     
     # Qt qt安装参见：https://github.com/benlau/qtci  
-    QT_DIR=`pwd`/Qt/${QT_VERSION}
-    if [ ! -d "${QT_DIR}" ]; then
-        wget -c --no-check-certificate -nv http://download.qt.io/official_releases/qt/${QT_VERSION_DIR}/${QT_VERSION}/qt-opensource-linux-x64-android-${QT_VERSION}.run
-        bash ${SOURCE_DIR}/ThirdLibrary/build_script/ci/qt-installer.sh qt-opensource-linux-x64-android-${QT_VERSION}.run ${QT_DIR}
-        rm qt-opensource-linux-x64-android-${QT_VERSION}.run
+    if [ -n "${QT_VERSION}" ]; then
+        QT_DIR=`pwd`/Qt/${QT_VERSION}
+        if [ ! -d "${QT_DIR}" ]; then
+            wget -c --no-check-certificate -nv http://download.qt.io/official_releases/qt/${QT_VERSION_DIR}/${QT_VERSION}/qt-opensource-linux-x64-android-${QT_VERSION}.run
+            bash ${SOURCE_DIR}/ThirdLibrary/build_script/ci/qt-installer.sh qt-opensource-linux-x64-android-${QT_VERSION}.run ${QT_DIR}
+            rm qt-opensource-linux-x64-android-${QT_VERSION}.run
+        fi
     fi
 }
 
@@ -58,11 +60,11 @@ function function_android()
         mv android-sdk-linux android-sdk
         rm android-sdk_r24.4.1-linux.tgz 
         (sleep 5 ; while true ; do sleep 1 ; printf 'y\r\n' ; done ) \
-        | android-sdk/tools/android update sdk -u -t tool,android-18,extra,platform,platform-tool,build-tools-24.0.0
+        | android-sdk/tools/android update sdk -u -t tool,android-18,android-24,extra,platform,platform-tools,build-tools-24.0.1
     fi
 
-	function_common
-	cd ${SOURCE_DIR}/ThirdLibrary
+    function_common
+    cd ${SOURCE_DIR}/ThirdLibrary
 }
 
 function function_unix()

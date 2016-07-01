@@ -26,7 +26,7 @@
 #   注意这种用法，script.sh开头一行必须包含 #!/bin/sh  
 
 #需要设置下面变量：
-#QT_ROOT=/C/Qt/Qt5.6.0/5.6/msvc2013 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_msvc/qt
+#QT_ROOT=/c/Qt/Qt5.7.0-msvc/5.7/msvc2015 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_msvc/qt
 JOM=make #设置 QT make 工具 JOM
 MAKE="nmake"
 RABBITIM_CLEAN=TRUE #编译前清理
@@ -64,6 +64,17 @@ if [ -n "${QT_ROOT}" ]; then
     QT_BIN=${QT_ROOT}/bin       #设置用于 android 平台编译的 qt bin 目录
     QMAKE=${QT_BIN}/qmake       #设置用于 unix 平台编译的 QMAKE。
                             #这里设置的是自动编译时的配置，你需要修改为你本地qt编译环境的配置.
+fi
+
+TARGET_OS=`uname -s`
+if [ -z "${GENERATORS}" ]; then
+    GENERATORS="Visual Studio 14 2015"
+fi
+if [ "$GENERATORS" = "Visual Studio 12 2013" ]; then
+   VC_TOOLCHAIN=12
+fi
+if [ "$GENERATORS" = "Visual Studio 14 2015" ]; then
+   VC_TOOLCHAIN=14
 fi
 
 export PATH=${RABBITIM_BUILD_PREFIX}/bin:${RABBITIM_BUILD_PREFIX}/lib:${QT_BIN}:$PATH

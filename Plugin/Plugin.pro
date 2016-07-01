@@ -10,11 +10,11 @@ SUBDIRS += QRCode ScreenShot \
     Update \
     ProtocolQXmpp
 
-CONFIG(debug, debug|release) {
+#CONFIG(debug, debug|release) {
     #TODO:增加需要调试的插件  
-    SUBDIRS = ProtocolQXmpp
-    message("Debug plugin:$${SUBDIRS}")
-}
+#    SUBDIRS = ProtocolQXmpp
+#    message("Debug plugin:$${SUBDIRS}")
+#}
 equals(RABBITIM_USE_PLUGIN_APP, 1) {
     for(app, SUBDIRS){
         exists($${app}/$${app}_App.pro) {

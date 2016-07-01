@@ -14,7 +14,7 @@
 
 
 #需要设置下面变量：
-#QT_ROOT=/c/Qt/Qt5.2.1/5.2.1/mingw48_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_mingw/qt
+#QT_ROOT=/c/Qt/Qt5.6.0_android/5.6/mingw49_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_mingw/qt
 JOM=nmake #设置 QT make 工具 JOM
 RABBITIM_CLEAN=TRUE #编译前清理
 #RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库
@@ -50,12 +50,14 @@ case $TARGET_OS in
     MINGW* | CYGWIN* | MSYS*)
         MAKE=make
         export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH
+        GENERATORS="MSYS Makefiles"
         ;;
     Linux* | Unix*)
         #pkg-config帮助文档：http://linux.die.net/man/1/pkg-config
         export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig
         export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}
         export PKG_CONFIG_SYSROOT_DIR=${RABBITIM_BUILD_PREFIX}
+        GENERATORS="Unix Makefiles" 
         ;;
     *)
     echo "Please set RABBITIM_BUILD_HOST. see build_envsetup_windows_mingw.sh"

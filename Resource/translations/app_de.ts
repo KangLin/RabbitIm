@@ -4,7 +4,7 @@
 <context>
     <name>CAndroidNotification</name>
     <message>
-        <location filename="../../android/jni/AndroidNotification.cpp" line="66"/>
+        <location filename="../../android/jni/AndroidNotification.cpp" line="24"/>
         <source>RabbitIm</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2059,12 +2059,12 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CQRCode</name>
     <message>
-        <location filename="../../common/QRCode.cpp" line="233"/>
+        <location filename="../../common/QRCode.cpp" line="253"/>
         <source>Do you add roster </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../common/QRCode.cpp" line="252"/>
+        <location filename="../../common/QRCode.cpp" line="272"/>
         <source>Do open </source>
         <translation type="unfinished"></translation>
     </message>

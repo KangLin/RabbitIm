@@ -83,27 +83,27 @@
     </message>
     <message>
         <location filename="../FrmScanQRcode.cpp" line="68"/>
-        <location filename="../FrmScanQRcode.cpp" line="208"/>
+        <location filename="../FrmScanQRcode.cpp" line="207"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="166"/>
+        <location filename="../FrmScanQRcode.cpp" line="165"/>
         <source>Scan QR Code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="170"/>
+        <location filename="../FrmScanQRcode.cpp" line="169"/>
         <source>Generate QR Code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="192"/>
+        <location filename="../FrmScanQRcode.cpp" line="191"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="207"/>
+        <location filename="../FrmScanQRcode.cpp" line="206"/>
         <source>Image Files (*.PNG *.png *.BMP *.bmp *.JPG *.jpg *.JPEG *.jpeg *.PBM *.pbm *.PGM *.pgm *.PPM *.ppm *.XBM *.xbm *.XPM *.xpm);;All Files  (*.*)</source>
         <translation type="unfinished"></translation>
     </message>

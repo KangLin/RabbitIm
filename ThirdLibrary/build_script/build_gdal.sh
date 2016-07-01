@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    GDAL_VERSION=2.0
+    GDAL_VERSION=2.1
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q  --branch=${GDAL_VERSION} https://github.com/OSGeo/gdal ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone -q  --branch=$GDAL_VERSION https://github.com/OSGeo/gdal ${RABBITIM_BUILD_SOURCE_CODE}
@@ -114,7 +114,10 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
         ;;
     windows_msvc)
-        echo "don't implement"
+        nmake makefile.vc
+        nmake makefile.vc GDAL_HOME="$RABBITIM_BUILD_PREFIX" devinstall
+        cd $CUR_DIR
+        exit 0
         ;;
     windows_mingw)
         case `uname -s` in

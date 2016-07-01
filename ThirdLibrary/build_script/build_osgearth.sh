@@ -80,14 +80,6 @@ echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 #需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
-case `uname -s` in
-    MINGW*|MSYS*)
-        GENERATORS="MSYS Makefiles"
-        ;;
-    Linux*|Unix*|CYGWIN*|*)
-        GENERATORS="Unix Makefiles" 
-        ;;
-esac
 
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     CMAKE_PARA="-DDYNAMIC_OSGEARTH=OFF" # -DCMAKE_EXE_LINKER_FLAGS=-static -DCMAKE_MODULE_LINKER_FLAGS_RELEASE=-static -DCMAKE_STATIC_LINKER_FLAGS=-static"
@@ -112,7 +104,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
         ;;
     windows_msvc)
-        GENERATORS="Visual Studio 12 2013"
+        #GENERATORS="Visual Studio 12 2013"
         MAKE_PARA=""
         ;;
     windows_mingw)

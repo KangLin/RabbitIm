@@ -18,6 +18,8 @@ OTHER_FILES += README.md \
     debian/* \
     ThirdLibrary/build_script/ci/*.sh \
     ThirdLibrary/build_script/*.sh \
+    ThirdLibrary/*.yml \
+    ThirdLibrary/*.md \
     AppIcon.rc \
     Resource/translations/app_zh_CN.ts \
     docs/* \

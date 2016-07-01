@@ -39,8 +39,8 @@ fi
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
     echo "git clone https://chromium.googlesource.com/webm/libvpx ${RABBITIM_BUILD_SOURCE_CODE}"
-    #git clone -q --branch=9b99eb2 https://chromium.googlesource.com/webm/libvpx ${RABBITIM_BUILD_SOURCE_CODE}
-    git clone -q https://chromium.googlesource.com/webm/libvpx ${RABBITIM_BUILD_SOURCE_CODE}
+    git clone -q --branch=v1.5.0 https://chromium.googlesource.com/webm/libvpx ${RABBITIM_BUILD_SOURCE_CODE}
+    #git clone -q https://chromium.googlesource.com/webm/libvpx ${RABBITIM_BUILD_SOURCE_CODE}
 fi
 
 CUR_DIR=`pwd`
@@ -90,7 +90,7 @@ case ${RABBITIM_BUILD_TARGERT} in
         fi
         ;;
     windows_msvc)
-        CONFIG_PARA="--target=x86-win32-vs12 --enable-static-msvcrt"
+        CONFIG_PARA="--target=x86-win32-vs${VC_TOOLCHAIN} --enable-static-msvcrt"
         ;;
     windows_mingw)
         case `uname -s` in

@@ -56,9 +56,23 @@ if [ -n "$QT_ROOT" ]; then
 fi
 echo "QT_BIN:$QT_BIN"
 
+TARGET_OS=`uname -s`
+case $TARGET_OS in
+    MINGW* | CYGWIN* | MSYS*)
+        GENERATORS="MSYS Makefiles"
+        ;;
+    Linux* | Unix*)
+        GENERATORS="Unix Makefiles" 
+        ;;
+    *)
+    echo "Please set RABBITIM_BUILD_HOST. see build_envsetup_windows_mingw.sh"
+    return 2
+    ;;
+esac
+
 #pkg-config帮助文档：http://linux.die.net/man/1/pkg-config
 export PKG_CONFIG=pkg-config 
-if [ "${RABBITIM_BUILD_THIRDLIBRARY}" = " true" ]; then
+if [ "${RABBITIM_BUILD_THIRDLIBRARY}" = "TRUE" ]; then
     #不用系统的第三方库,用下面
     export PKG_CONFIG_PATH=${RABBITIM_BUILD_PREFIX}/lib/pkgconfig 
     export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH}

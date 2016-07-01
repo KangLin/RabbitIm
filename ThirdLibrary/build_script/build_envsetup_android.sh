@@ -72,10 +72,12 @@ TARGET_OS=`uname -s`
 case $TARGET_OS in
     MINGW* | CYGWIN* | MSYS*)
         RABBITIM_BUILD_HOST="windows"
-        #RABBITIM_CMAKE_MAKE_PROGRAM=$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make #这个用不着，只有在windows命令行下才有用  
+        #RABBITIM_CMAKE_MAKE_PROGRAM=$ANDROID_NDK/prebuilt/${RABBITIM_BUILD_HOST}/bin/make #这个用不着，只有在windows命令行下才有用 
+        GENERATORS="MSYS Makefiles"
         ;;
     Linux* | Unix*)
         RABBITIM_BUILD_HOST="linux-`uname -m`"    #windows、linux-x86_64
+        GENERATORS="Unix Makefiles" 
         ;;
     *)
     echo "Please set RABBITIM_BUILD_HOST. see build_envsetup_android.sh"

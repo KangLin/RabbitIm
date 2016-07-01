@@ -6,6 +6,7 @@ Makefile.Debug
 Makefile.Release
 Version.h
 Update/Update_*.xml
+*.bak
 *~
 *.autosave
 *.qm

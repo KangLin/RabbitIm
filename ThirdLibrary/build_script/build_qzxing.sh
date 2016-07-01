@@ -62,10 +62,8 @@ if [ -d "${RABBITIM_BUILD_SOURCE_CODE}/src" ]; then
 fi
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-mkdir -p build_${RABBITIM_BUILD_TARGERT}
-cd build_${RABBITIM_BUILD_TARGERT}
 if [ -n "$RABBITIM_CLEAN" ]; then
-    rm -fr *
+    git clean -xdf
 fi
 
 echo ""
@@ -107,7 +105,7 @@ case $RABBITIM_BUILD_TARGERT in
         ;;
 esac
 
-PARA="${PARA} .. -o Makefile INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
+PARA="${PARA} -o Makefile INCLUDEPATH+=${RABBITIM_BUILD_PREFIX}/include"
 PARA="${PARA} LIBS+=-L${RABBITIM_BUILD_PREFIX}/lib"
 if [ "$RABBITIM_BUILD_TARGERT" != "android"  ]; then
     PARA="${PARA} PREFIX=${RABBITIM_BUILD_PREFIX}"

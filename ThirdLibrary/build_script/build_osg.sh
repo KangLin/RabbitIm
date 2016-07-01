@@ -40,21 +40,21 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    OSG_VERSION=2.0
+    OSG_VERSION=OpenSceneGraph-3.5.3
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
-        echo "git clone -q --branch=${OSG_VERSION} https://github.com/openscenegraph/osg.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q --branch=$OSG_VERSION https://github.com/openscenegraph/osg.git ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=${OSG_VERSION} https://github.com/openscenegraph/OpenSceneGraph.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -q --branch=$OSG_VERSION https://github.com/openscenegraph/OpenSceneGraph.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget -q https://github.com/openscenegraph/osg/archive/${OSG_VERSION}.zip"
+        echo "wget -q https://github.com/openscenegraph/OpenSceneGraph/archive/${OSG_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -c -q wget https://github.com/openscenegraph/osg/archive/${OSG_VERSION}.zip
+        wget -q https://github.com/openscenegraph/OpenSceneGraph/archive/${OSG_VERSION}.zip
         unzip -q ${OSG_VERSION}.zip
-        mv osg-${OSG_VERSION} ..
+        mv OpenSceneGraph-${OSG_VERSION} ..
         rm -fr *
         cd ..
         rm -fr ${RABBITIM_BUILD_SOURCE_CODE}
-        mv -f osg-${OSG_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
+        mv -f OpenSceneGraph-${OSG_VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
     fi
 fi
 
@@ -80,17 +80,9 @@ echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 #需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
-case `uname -s` in
-    MINGW*|MSYS*)
-        GENERATORS="MSYS Makefiles"
-        ;;
-    Linux*|Unix*|CYGWIN*|*)
-        GENERATORS="Unix Makefiles" 
-        ;;
-esac
 
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
-    CMAKE_PARA="-DDYNAMIC_OPENSCENEGRAPH=OFF" # -DCMAKE_EXE_LINKER_FLAGS=-static"
+    CMAKE_PARA="-DDYNAMIC_OPENSCENEGRAPH=OFF" 
 else
     CMAKE_PARA="-DDYNAMIC_OPENSCENEGRAPH=ON"
 fi
@@ -116,8 +108,8 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
         ;;
     windows_msvc)
-        GENERATORS="Visual Studio 12 2013"
-        MAKE_PARA=""
+        #GENERATORS="Visual Studio 12 2013"
+        export OSG_3RDPARTY_DIR=$RABBITIM_BUILD_PREFIX
         ;;
     windows_mingw)
         case `uname -s` in
@@ -135,7 +127,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     ;;
 esac
 
-CMAKE_PARA="${CMAKE_PARA} -DBUILD_DOCUMENTATION=OFF -DBUILD_OSG_EXAMPLES=OFF -DBUILD_OSG_APPLICATIONS=OFF"
+CMAKE_PARA="${CMAKE_PARA} -DBUILD_DOCUMENTATION=OFF -DBUILD_OSG_EXAMPLES=OFF" # -DBUILD_OSG_APPLICATIONS=OFF"
 CMAKE_PARA="${CMAKE_PARA} -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5"
 
 echo "cmake .. -DCMAKE_INSTALL_PREFIX=$RABBITIM_BUILD_PREFIX -DCMAKE_BUILD_TYPE=Release -G\"${GENERATORS}\" ${CMAKE_PARA}"
@@ -144,6 +136,6 @@ cmake .. \
     -DCMAKE_BUILD_TYPE="Release" \
     -G"${GENERATORS}" ${CMAKE_PARA}
 
-cmake --build . --target install --config Release ${MAKE_PARA}
+cmake --build . --target install --config Release #${MAKE_PARA}
 
 cd $CUR_DIR

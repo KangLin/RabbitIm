@@ -79,3 +79,26 @@ contains(TEMPLATE, lib){
 }
 
 !android : INSTALLS += target
+
+win32:equals(QMAKE_HOST.os, Windows){
+    #isEmpty(QMAKE_SH){
+       INSTALL_TARGET = $$system_path($${TARGET_INSTALL_PATH}/$(TARGET))
+    #} else {
+    #    INSTALL_TARGET = $${PREFIX}/$(TARGET)
+    #}
+    #mingw{  #手机平台不需要  
+    #    RABBITIM_STRIP.target = RABBITIM_STRIP
+    #    RABBITIM_STRIP.commands = "strip $$INSTALL_TARGET"
+    #    INSTALLS += RABBITIM_STRIP
+    #}
+    #安装qt依赖库  
+    Deployment_qtlib.target = Deployment_qtlib
+    Deployment_qtlib.path = $$system_path($${PREFIX})
+    Deployment_qtlib.commands = "$$system_path($$[QT_INSTALL_BINS]/windeployqt)" \
+                        --dir "$$system_path($${PREFIX})" \
+                        --compiler-runtime \
+                        --verbose 7 \
+                        "$${INSTALL_TARGET}"
+        
+    INSTALLS += Deployment_qtlib
+}

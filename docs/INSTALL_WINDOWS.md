@@ -62,7 +62,7 @@ make: fork: Resource temporarily unavailable
 
 #### 2.1. 编译工具: msvc
 主页：http://msdn.microsoft.com/zh-cn/vstudio  
-当前使用版本：vs 2013 update 4
+当前使用版本：vs 2015 update 3 或 vs 2013 update 4
 
 #### 2.3. windows sdk(The Microsoft® Windows® Software Development Kit (SDK) for Windows 8.1):
 https://msdn.microsoft.com/zh-cn/windows/desktop/bg162891
