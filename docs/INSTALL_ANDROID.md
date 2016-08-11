@@ -258,9 +258,10 @@ make: fork: Resource temporarily unavailable
 * 平台版本：21
 * 下载：
 
-    wget https://dl.google.com/android/android-sdk_r23-windows.zip   
-    unzip android-sdk_r23-windows.zip
+    wget https://dl.google.com/android/android-sdk_r24.4.1-windows.zip
+    unzip android-sdk_r24.4.1-windows.zip
     mv android-sdk-windows android-sdk
+    rm android-sdk_r24.4.1-linux.tgz 
 
 * 设置环境变量
 

@@ -21,9 +21,9 @@ function function_common()
     #下载最新cmake程序
     if [ "cmake" = "${QMAKE}" ]; then
         if [ ! -d "`pwd`/cmake" ]; then
-            wget -nv --no-check-certificate http://www.cmake.org/files/v3.1/cmake-3.1.0-Linux-x86_64.tar.gz
-            tar xzf cmake-3.1.0-Linux-x86_64.tar.gz
-            mv cmake-3.1.0-Linux-x86_64 cmake
+            wget -nv --no-check-certificate http://www.cmake.org/files/v3.6/cmake-3.6.1-Linux-x86_64.tar.gz
+            tar xzf cmake-3.6.1-Linux-x86_64.tar.gz
+            mv cmake-3.6.1-Linux-x86_64 cmake
         fi
     fi
     
@@ -60,7 +60,7 @@ function function_android()
         mv android-sdk-linux android-sdk
         rm android-sdk_r24.4.1-linux.tgz 
         (sleep 5 ; while true ; do sleep 1 ; printf 'y\r\n' ; done ) \
-        | android-sdk/tools/android update sdk -u -t tool,android-18,android-24,extra,platform,platform-tools,build-tools-24.0.1
+        | android-sdk/tools/android update sdk -u -t tool,android-18,android-24,extra,platform,platform-tools,build-tools-24.0.2
     fi
 
     function_common

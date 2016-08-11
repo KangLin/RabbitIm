@@ -64,7 +64,7 @@ fi
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
 #清理
-if [ -n "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     if [ -d ".git" ]; then
         echo "clean ..."
         qtrepotools/bin/qt5_tool -c
@@ -169,9 +169,9 @@ case ${RABBITIM_BUILD_TARGERT} in
                 #export PATH=${RABBITIM_BUILD_SOURCE_CODE}/gnuwin32/bin:${PATH}
                 CONFIG_PARA="${CONFIG_PARA} -platform win32-g++"
                 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
-                    sed "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS = -static/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
+                    sed -i "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS = -static/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
                 else
-                    sed "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS =/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
+                    sed -i "s/^QMAKE_LFLAGS *=.*/QMAKE_LFLAGS =/g" $RABBITIM_BUILD_SOURCE_CODE/qtbase/mkspecs/win32-g++/qmake.conf
                 fi
                 ;;
             Linux* | Unix*)
@@ -255,12 +255,12 @@ done
 
 echo "$MAKE ${MAKE_PARA} install"
 #if [ "${RABBITIM_BUILD_TARGERT}" = "android" ]; then
-#    $MAKE ${MAKE_PARA} \
-#        &&  $MAKE install 
+#    $MAKE ${MAKE_PARA} 
+#    $MAKE install 
         
 #else
-    $MAKE ${MAKE_PARA} \
-        &&  $MAKE install 
+    $MAKE ${MAKE_PARA} 
+    $MAKE install 
 #fi
 
 cat > ${RABBITIM_BUILD_PREFIX}/qt/bin/qt.conf << EOF

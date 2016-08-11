@@ -29,7 +29,9 @@
 #QT_ROOT=/c/Qt/Qt5.7.0-msvc/5.7/msvc2015 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_msvc/qt
 JOM=make #设置 QT make 工具 JOM
 MAKE="nmake"
-RABBITIM_CLEAN=TRUE #编译前清理
+if [ -z "$RABBITIM_CLEAN" ]; then
+    RABBITIM_CLEAN=TRUE #编译前清理
+fi
 #RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库
 #RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。
 if [ -z "${RABBITIM_MAKE_JOB_PARA}" ]; then
@@ -72,9 +74,11 @@ if [ -z "${GENERATORS}" ]; then
 fi
 if [ "$GENERATORS" = "Visual Studio 12 2013" ]; then
    VC_TOOLCHAIN=12
+   MSVC_VER=1800
 fi
 if [ "$GENERATORS" = "Visual Studio 14 2015" ]; then
    VC_TOOLCHAIN=14
+   MSVC_VER=1900
 fi
 
 export PATH=${RABBITIM_BUILD_PREFIX}/bin:${RABBITIM_BUILD_PREFIX}/lib:${QT_BIN}:$PATH

@@ -40,12 +40,12 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    GDAL_VERSION=2.1
+    GDAL_VERSION=trunk
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
-        echo "git clone -q  --branch=${GDAL_VERSION} https://github.com/OSGeo/gdal ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q  --branch=$GDAL_VERSION https://github.com/OSGeo/gdal ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=${GDAL_VERSION} https://github.com/OSGeo/gdal ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -q --branch=$GDAL_VERSION https://github.com/OSGeo/gdal ${RABBITIM_BUILD_SOURCE_CODE}
     else
-        echo "wget -q  https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip"
+        echo "wget -q https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
         wget -q -c https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.zip
@@ -61,14 +61,21 @@ fi
 RABBITIM_BUILD_SOURCE_CODE=${RABBITIM_BUILD_SOURCE_CODE}/gdal
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-if [ "$RABBITIM_CLEAN" ]; then
+if [ "${RABBITIM_CLEAN}" = "TRUE" ]; then
     if [ -d "../.git" ]; then
         echo "git clean -xdf"
         git clean -xdf
     else
-        make clean
+        if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" -a -f Makefile ]; then
+            ${MAKE} clean
+        fi
     fi
 fi
+#mkdir -p build_${RABBITIM_BUILD_TARGERT}
+#cd build_${RABBITIM_BUILD_TARGERT}
+#if [ -n "$RABBITIM_CLEAN" ]; then
+#    rm -fr *
+#fi
 
 echo ""
 echo "RABBITIM_BUILD_TARGERT:${RABBITIM_BUILD_TARGERT}"
@@ -104,8 +111,8 @@ case ${RABBITIM_BUILD_TARGERT} in
         CONFIG_PARA="${CONFIG_PARA} --disable-shared -enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
         CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
         CONFIG_PARA="$CONFIG_PARA --with-curl=$RABBITIM_BUILD_PREFIX/bin"
-        CFLAGS="-march=armv7-a --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT} "
-        CXXFLAGS="-march=armv7-a --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT} ${RABBITIM_BUILD_CROSS_STL_INCLUDE_FLAGS}"
+        CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT} "
+        CXXFLAGS="-march=armv7-a -mfpu=neon -std=c++0x --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT} ${RABBITIM_BUILD_CROSS_STL_INCLUDE_FLAGS}"
         CPPFLAGS=${CXXFLAGS}
         if [ -n "${RABBITIM_BUILD_CROSS_STL_LIBS}" ]; then
             LDFLAGS="-L${RABBITIM_BUILD_CROSS_STL_LIBS}"
@@ -114,8 +121,36 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
         ;;
     windows_msvc)
-        nmake makefile.vc
-        nmake makefile.vc GDAL_HOME="$RABBITIM_BUILD_PREFIX" devinstall
+        cd ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "nmake -f makefile.vc MSVC_VER=${MSVC_VER} GDAL_HOME=${RABBITIM_BUILD_PREFIX}"
+        nmake -f makefile.vc clean
+        #sed -i "s,INSTALL	=	xcopy /y /r /d /f /I,INSTALL=cp -fr,g" nmake.opt
+        export MSVC_VER=${MSVC_VER}
+        export GDAL_HOME="${RABBITIM_BUILD_PREFIX}" 
+        export BINDIR=$GDAL_HOME/bin
+        export PLUGINDIR=$BINDIR/gdalplugins
+        export LIBDIR=$GDAL_HOME/lib
+        export INCDIR=$GDAL_HOME/include
+        export DATADIR=$GDAL_HOME/data
+        export HTMLDIR=$GDAL_HOME/html
+        #export GEOS_CFLAGS="-I${RABBITIM_BUILD_PREFIX}/include -I${RABBITIM_BUILD_PREFIX}/include/geos -DHAVE_GEOS" 
+        #export GEOS_LIB="${RABBITIM_BUILD_PREFIX}/lib/geos_c_i.lib" 
+        export CURL_INC="-I${RABBITIM_BUILD_PREFIX}/include"
+        export CURL_LIB="${RABBITIM_BUILD_PREFIX}/lib/libcurl.lib wsock32.lib wldap32.lib winmm.lib"
+        nmake -f makefile.vc
+        cp *.dll ${RABBITIM_BUILD_PREFIX}/bin
+        cp *.lib ${RABBITIM_BUILD_PREFIX}/lib
+        cp apps/*.exe ${RABBITIM_BUILD_PREFIX}/bin
+        cp port/*.h ${RABBITIM_BUILD_PREFIX}/include
+        cp gcore/*.h ${RABBITIM_BUILD_PREFIX}/include
+        cp alg/*.h ${RABBITIM_BUILD_PREFIX}/include
+        cp ogr/*.h ${RABBITIM_BUILD_PREFIX}/include
+        cp frmts/mem/memdataset.h ${RABBITIM_BUILD_PREFIX}/include
+        cp frmts/raw/rawdataset.h ${RABBITIM_BUILD_PREFIX}/include
+        cp frmts/vrt/*.h ${RABBITIM_BUILD_PREFIX}/include
+        cp ogr/ogrsf_frmts/*.h ${RABBITIM_BUILD_PREFIX}/include
+        cp gnm/*.h ${RABBITIM_BUILD_PREFIX}/include
+        cp apps/gdal_utils.h ${RABBITIM_BUILD_PREFIX}/include
         cd $CUR_DIR
         exit 0
         ;;
@@ -147,8 +182,10 @@ echo "./configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\"
      LDFLAGS=\"$LDFLAGS\" LIBS=\"$LIBS\""
 ./configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" \
     CPPFLAGS="${CPPFLAGS}" CXXFLAGS="${CXXFLAGS}" \
-    LDFLAGS="$LDFLAGS" LIBS="$LIBS"
+    LDFLAGS="$LDFLAGS" LIBS="$LIBS" --with-curl=${RABBITIM_BUILD_PREFIX}/bin/curl-config #\
+    #--with-geos=${RABBITIM_BUILD_PREFIX}/bin/geos-config
 
-${MAKE} && ${MAKE} install
+${MAKE} ${RABBITIM_MAKE_JOB_PARA}
+${MAKE} install
 
 cd $CUR_DIR

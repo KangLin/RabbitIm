@@ -43,8 +43,8 @@ if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
 	CURL_FILE=curl-7_49_1
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q  git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}"
-        #git clone -q  --branch=$CURL_FILE git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
-        git clone  -q --branch=$CURL_FILE git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
+        #git clone -q --branch=$CURL_FILE git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
+        git clone -q --branch=$CURL_FILE git://github.com/bagder/curl.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         echo "wget  -q https://github.com/bagder/curl/archive/${CURL_FILE}.zip"
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
@@ -61,10 +61,15 @@ fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-if [ "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     if [ -d ".git" ]; then
         echo "git clean -xdf"
         git clean -xdf
+        git reset --hard HEAD
+    else
+        if [ "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" -a -f Makefile ]; then
+            make distclean
+        fi
     fi
 fi
 
@@ -79,12 +84,12 @@ if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
     if [ -n "$RABBITIM_CLEAN" ]; then
         rm -fr builds
     fi
-#else
-#    mkdir -p build_${RABBITIM_BUILD_TARGERT}
-#    cd build_${RABBITIM_BUILD_TARGERT}
-#    if [ -n "$RABBITIM_CLEAN" ]; then
-#        rm -fr *
-#    fi
+else
+    mkdir -p build_${RABBITIM_BUILD_TARGERT}
+    cd build_${RABBITIM_BUILD_TARGERT}
+    if [ -n "$RABBITIM_CLEAN" ]; then
+        rm -fr *
+    fi
 fi
 
 echo ""
@@ -146,13 +151,10 @@ case ${RABBITIM_BUILD_TARGERT} in
         exit 0
         ;;
     windows_mingw)
-        CONFIG_PARA="${CONFIG_PARA} --enable-sse "
         case `uname -s` in
             Linux*|Unix*|CYGWIN*)
+                CONFIG_PARA="${CONFIG_PARA} --enable-sse "
                 CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc --host=${RABBITIM_BUILD_CROSS_HOST}"
-                ;;
-            MINGW* | MSYS*)
-                CONFIG_PARA="${CONFIG_PARA} --host=$RABBITIM_BUILD_CROSS_HOST"
                 ;;
             *)
             ;;
@@ -169,15 +171,20 @@ echo "make install"
 echo "pwd:`pwd`"
 CONFIG_PARA="${CONFIG_PARA} --prefix=${RABBITIM_BUILD_PREFIX} --disable-manual --enable-verbose"
 #CONFIG_PARA="${CONFIG_PARA} --enable-libgcc  "
-CONFIG_PARA="${CONFIG_PARA} --with-ssl=${RABBITIM_BUILD_PREFIX}"  #--with-sysroot=${RABBITIM_BUILD_PREFIX}"
+CONFIG_PARA="${CONFIG_PARA} --with-ssl=${RABBITIM_BUILD_PREFIX} --with-zlib=${RABBITIM_BUILD_PREFIX}/lib"
+#CONFIG_PARA="${CONFIG_PARA} --with-gnutls=${RABBITIM_BUILD_PREFIX} --with-nss=${RABBITIM_BUILD_PREFIX}"
+#CONFIG_PARA="${CONFIG_PARA} --with-libssh2=${RABBITIM_BUILD_PREFIX} --with-libidn=${RABBITIM_BUILD_PREFIX}"
+#CONFIG_PARA="${CONFIG_PARA} --with-winidn=${RABBITIM_BUILD_PREFIX} --with-libidn=${RABBITIM_BUILD_PREFIX}"
+#CONFIG_PARA="${CONFIG_PARA} --with-nghttp2=${RABBITIM_BUILD_PREFIX} --with-librtmp=${RABBITIM_BUILD_PREFIX}"  #--with-sysroot=${RABBITIM_BUILD_PREFIX}"
 if [ "${RABBITIM_BUILD_TARGERT}" = android ]; then
-    echo "./configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\" LDFLAGS=\"${LDFLAGS}\""
-    ./configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
+    echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\" LDFLAGS=\"${LDFLAGS}\""
+    ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
 else
-    echo "./configure ${CONFIG_PARA} LDFLAGS=\"${LDFLAGS}\""
-    ./configure ${CONFIG_PARA} LDFLAGS="${LDFLAGS}"
+    echo "../configure ${CONFIG_PARA} LDFLAGS=\"${LDFLAGS}\""
+    ../configure ${CONFIG_PARA} LDFLAGS="${LDFLAGS}"
 fi
 
-${MAKE} V=1 && ${MAKE} install
+${MAKE} V=1 
+${MAKE} install
 
 cd $CUR_DIR

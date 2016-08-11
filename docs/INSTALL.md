@@ -262,12 +262,12 @@
 
 #### 20. osg
 * 下载：`git clone https://github.com/openscenegraph/osg.git`
-* 当前使用版本: ca94bd0a65d6a4c32f458552bdca66d3d8ebc136
+* 当前使用版本: OpenSceneGraph-3.5.3
 
 #### 21. osgearth
 * 官网：http://osgearth.org/
 * 下载：`git clone https://github.com/gwaldron/osgearth.git`
-* 当前使用版本: osgearth-2.7rc2
+* 当前使用版本: osgearth-2.8rc1
 
 #### 22. libpng
 * 官网：http://sourceforge.net/projects/libpng/

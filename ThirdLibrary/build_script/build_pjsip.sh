@@ -129,6 +129,7 @@ case ${RABBITIM_BUILD_TARGERT} in
 esac
 
 echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1 && make install
+make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1 
+make install
 
 cd $CUR_DIR

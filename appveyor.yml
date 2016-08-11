@@ -5,88 +5,209 @@ environment:
   matrix:
  
   ##### 测试 #####
-  - BUILD_TARGET: windows_mingw
-    toolchain_version: 530
-    AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: change_prefix openssl libcurl libvpx libyuv x264 ffmpeg qrencode
   
-  - BUILD_TARGET: windows_mingw
-    toolchain_version: 492
-    AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: change_prefix openssl libcurl libvpx libyuv x264 ffmpeg qrencode
-    RABBITIM_USE_REPOSITORIES: "FALSE"
-
-  - BUILD_TARGET: windows_mingw
-    toolchain_version: 530
-    QT_VERSION: qt5.7
-    QT_ROOT: /C/Qt/5.7/mingw53_32
-    AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw530_x86__v$(appveyor_build_version).zip/download
-    RABBITIM_USE_REPOSITORIES: "FALSE"
-
   ##### 测试 #####
  
   ##### 基本库编译 #####
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     toolchain_version: 14
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: openssl libcurl libvpx libyuv x264 ffmpeg
-    RABBITIM_USE_REPOSITORIES: "FALSE"
+    RABBITIM_BUILD_THIRDLIBRARY: libzlib minizip openssl libsodium libcurl libpng jpeg libgif libtiff gdal libvpx libyuv libopus x264 ffmpeg opencv
     
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     toolchain_version: 12
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: openssl libcurl libvpx libyuv x264 ffmpeg
-  
-  - BUILD_TARGET: windows_mingw
+    RABBITIM_BUILD_THIRDLIBRARY: libzlib minizip openssl libsodium libcurl libpng jpeg libgif libtiff gdal libvpx libyuv libopus x264 ffmpeg opencv toxcore
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    
+  - BUILD_TARGERT: android
+    RABBITIM_BUILD_THIRDLIBRARY: change_prefix libzlib minizip openssl libsodium libcurl libpng jpeg libgif libtiff gdal libvpx libyuv libopus x264 ffmpeg opencv toxcore
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 530
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: change_prefix openssl libcurl libvpx libyuv x264 ffmpeg qrencode
-    
-  - BUILD_TARGET: windows_mingw
+    RABBITIM_BUILD_THIRDLIBRARY: change_prefix libzlib minizip openssl libsodium libcurl libpng jpeg libgif libtiff gdal libvpx libyuv libopus x264 ffmpeg qrencode opencv toxcore
+
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 492
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: change_prefix openssl libcurl libvpx libyuv x264 ffmpeg qrencode
+    RABBITIM_BUILD_THIRDLIBRARY: change_prefix libzlib minizip openssl libsodium libcurl libpng jpeg libgif libtiff gdal libvpx libyuv libopus x264 ffmpeg qrencode opencv toxcore
     RABBITIM_USE_REPOSITORIES: "FALSE"
-    
-  - BUILD_TARGET: windows_mingw
+
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 491
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: change_prefix openssl libcurl libvpx libyuv x264 ffmpeg qrencode
+    RABBITIM_BUILD_THIRDLIBRARY: change_prefix libzlib minizip openssl libsodium libcurl libpng jpeg libgif libtiff gdal libvpx libyuv libopus x264 ffmpeg qrencode opencv toxcore
     RABBITIM_USE_REPOSITORIES: "FALSE"
-    
-  - BUILD_TARGET: windows_mingw
+
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 482
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: change_prefix openssl libcurl libvpx libyuv x264 ffmpeg qrencode
+    RABBITIM_BUILD_THIRDLIBRARY: change_prefix libzlib minizip openssl libsodium libcurl libpng jpeg libgif libtiff gdal libvpx libyuv libopus x264 ffmpeg qrencode opencv toxcore
     RABBITIM_USE_REPOSITORIES: "FALSE"
-    
+
   ##### 基本库编译 #####
-  
+
   ##### QT相关编译 #####
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     toolchain_version: 14
     QT_VERSION: qt5.7
     QT_ROOT: /C/Qt/5.7/msvc2015
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
+    RABBITIM_BUILD_THIRDLIBRARY: osg 
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc14_x86__v$(appveyor_build_version).zip/download
   
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     toolchain_version: 14
     QT_VERSION: qt5.6.1
     QT_ROOT: /C/Qt/5.6/msvc2015
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
+    RABBITIM_BUILD_THIRDLIBRARY: osg 
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc14_x86__v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    toolchain_version: 12
+    QT_VERSION: qt5.7
+    QT_ROOT: /C/Qt/5.7/msvc2013
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osg  
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
+
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    toolchain_version: 12
+    QT_VERSION: qt5.6.1
+    QT_ROOT: /C/Qt/5.6/msvc2013
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osg  
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    toolchain_version: 12
+    QT_VERSION: qt5.5
+    QT_ROOT: /C/Qt/5.5/msvc2013
+    AUTOBUILD_ARCH: x86  
+    RABBITIM_BUILD_THIRDLIBRARY: osg 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    toolchain_version: 12
+    QT_VERSION: qt5.4
+    QT_ROOT: /C/Qt/5.4/msvc2013_opengl
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osg 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+   
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    toolchain_version: 12
+    QT_VERSION: qt5.3
+    QT_ROOT: /C/Qt/5.3/msvc2013_opengl
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osg 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 14 2015"
+    toolchain_version: 14
+    QT_VERSION: qt5.7
+    QT_ROOT: /C/Qt/5.7/msvc2015
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc14_x86__v$(appveyor_build_version).zip/download
+    
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 14 2015"
+    toolchain_version: 14
+    QT_VERSION: qt5.6.1
+    QT_ROOT: /C/Qt/5.6/msvc2015
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc14_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+      
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    toolchain_version: 12
+    QT_VERSION: qt5.7
+    QT_ROOT: /C/Qt/5.7/msvc2013
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
+  
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    toolchain_version: 12
+    QT_VERSION: qt5.6.1
+    QT_ROOT: /C/Qt/5.6/msvc2013
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+      
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    toolchain_version: 12
+    QT_VERSION: qt5.5
+    QT_ROOT: /C/Qt/5.5/msvc2013
+    AUTOBUILD_ARCH: x86  
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+      
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    toolchain_version: 12
+    QT_VERSION: qt5.4
+    QT_ROOT: /C/Qt/5.4/msvc2013_opengl
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+     
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    toolchain_version: 12
+    QT_VERSION: qt5.3
+    QT_ROOT: /C/Qt/5.3/msvc2013_opengl
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 14 2015"
+    toolchain_version: 14
+    QT_VERSION: qt5.7
+    QT_ROOT: /C/Qt/5.7/msvc2015
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc14_x86__v$(appveyor_build_version).zip/download
+  
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 14 2015"
+    toolchain_version: 14
+    QT_VERSION: qt5.6.1
+    QT_ROOT: /C/Qt/5.6/msvc2015
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc14_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     toolchain_version: 12
     QT_VERSION: qt5.7
@@ -95,7 +216,7 @@ environment:
     RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
 
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     toolchain_version: 12
     QT_VERSION: qt5.6.1
@@ -105,37 +226,187 @@ environment:
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     toolchain_version: 12
     QT_VERSION: qt5.5
     QT_ROOT: /C/Qt/5.5/msvc2013
     AUTOBUILD_ARCH: x86  
-    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     toolchain_version: 12
     QT_VERSION: qt5.4
     QT_ROOT: /C/Qt/5.4/msvc2013_opengl
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
    
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     toolchain_version: 12
     QT_VERSION: qt5.3
     QT_ROOT: /C/Qt/5.3/msvc2013_opengl
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86__v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_mingw
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.7
+    QT_VERSION: 5.7.0
+    RABBITIM_BUILD_THIRDLIBRARY: osg  
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android___v$(appveyor_build_version).zip/download
+
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.6
+    QT_VERSION: 5.6.1
+    RABBITIM_BUILD_THIRDLIBRARY: osg  
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android___v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+  
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.5
+    QT_VERSION: 5.5.1
+    RABBITIM_BUILD_THIRDLIBRARY: osg 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android___v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.7
+    QT_VERSION: 5.7.0
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android___v$(appveyor_build_version).zip/download
+  
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.6
+    QT_VERSION: 5.6.1
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android___v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.5
+    QT_VERSION: 5.5.1
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android___v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.7
+    QT_VERSION: 5.7.0
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android___v$(appveyor_build_version).zip/download
+
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.6
+    QT_VERSION: 5.6.1
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android___v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.5
+    QT_VERSION: 5.5.1
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android___v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: windows_mingw
+    toolchain_version: 530
+    QT_VERSION: qt5.7
+    QT_ROOT: /C/Qt/5.7/mingw53_32
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osg  
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw530_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+  
+  - BUILD_TARGERT: windows_mingw
+    toolchain_version: 492
+    QT_VERSION: qt5.6
+    QT_ROOT: /C/Qt/5.6/mingw49_32
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osg  
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw492_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+  
+  - BUILD_TARGERT: windows_mingw
+    toolchain_version: 492
+    QT_VERSION: qt5.5
+    QT_ROOT: /C/Qt/5.5/mingw492_32
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osg  
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw492_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+  
+  - BUILD_TARGERT: windows_mingw
+    toolchain_version: 491
+    QT_VERSION: qt5.4
+    QT_ROOT: /C/Qt/5.4/mingw491_32
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osg  
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw491_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: windows_mingw
+    toolchain_version: 482
+    QT_VERSION: qt5.3
+    QT_ROOT: /C/Qt/5.3/mingw482_32
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osg  
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw482_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+  
+  - BUILD_TARGERT: windows_mingw
+    toolchain_version: 530
+    QT_VERSION: qt5.7
+    QT_ROOT: /C/Qt/5.7/mingw53_32
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw530_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: windows_mingw
+    toolchain_version: 492
+    QT_VERSION: qt5.6
+    QT_ROOT: /C/Qt/5.6/mingw49_32
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw492_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: windows_mingw
+    toolchain_version: 492
+    QT_VERSION: qt5.5
+    QT_ROOT: /C/Qt/5.5/mingw492_32
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw492_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: windows_mingw
+    toolchain_version: 491
+    QT_VERSION: qt5.4
+    QT_ROOT: /C/Qt/5.4/mingw491_32
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw491_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: windows_mingw
+    toolchain_version: 482
+    QT_VERSION: qt5.3
+    QT_ROOT: /C/Qt/5.3/mingw482_32
+    AUTOBUILD_ARCH: x86
+    RABBITIM_BUILD_THIRDLIBRARY: osgearth 
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw482_x86__v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+  
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 530
     QT_VERSION: qt5.7
     QT_ROOT: /C/Qt/5.7/mingw53_32
@@ -144,45 +415,45 @@ environment:
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw530_x86__v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_mingw
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 492
     QT_VERSION: qt5.6
     QT_ROOT: /C/Qt/5.6/mingw49_32
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw492_x86__v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_mingw
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 492
     QT_VERSION: qt5.5
     QT_ROOT: /C/Qt/5.5/mingw492_32
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw492_x86__v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_mingw
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 491
     QT_VERSION: qt5.4
     QT_ROOT: /C/Qt/5.4/mingw491_32
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw491_x86__v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
 
-  - BUILD_TARGET: windows_mingw
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 482
     QT_VERSION: qt5.3
     QT_ROOT: /C/Qt/5.3/mingw482_32
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing 
+    RABBITIM_BUILD_THIRDLIBRARY: qxmpp qzxing
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw482_x86__v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
   ##### QT相关编译 #####
 
   ##### rabbitim #####
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     toolchain_version: 14
     QT_VERSION: qt5.7
@@ -191,7 +462,7 @@ environment:
     RABBITIM_BUILD_THIRDLIBRARY: rabbitim
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc14_x86_qt5.7_v$(appveyor_build_version).zip/download
   
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     toolchain_version: 14
     QT_VERSION: qt5.6.1
@@ -201,7 +472,7 @@ environment:
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc14_x86_qt5.6.1_v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     toolchain_version: 12
     QT_VERSION: qt5.7
@@ -210,7 +481,7 @@ environment:
     RABBITIM_BUILD_THIRDLIBRARY: rabbitim 
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86_qt5.7_v$(appveyor_build_version).zip/download
 
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     toolchain_version: 12
     QT_VERSION: qt5.6.1
@@ -220,7 +491,7 @@ environment:
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86_qt5.6.1_v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     toolchain_version: 12
     QT_VERSION: qt5.5
@@ -230,7 +501,7 @@ environment:
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86_qt5.5_v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_msvc
+  - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     toolchain_version: 12
     QT_VERSION: qt5.4
@@ -240,17 +511,37 @@ environment:
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86_qt5.4_v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
    
-  - BUILD_TARGET: windows_msvc
-    GENERATORS: "Visual Studio 12 2013"
-    toolchain_version: 12
-    QT_VERSION: qt5.3
-    QT_ROOT: /C/Qt/5.3/msvc2013_opengl
-    AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86_qt5.3_v$(appveyor_build_version).zip/download
-    RABBITIM_USE_REPOSITORIES: "FALSE"
+  #- BUILD_TARGERT: windows_msvc
+  #  GENERATORS: "Visual Studio 12 2013"
+  #  toolchain_version: 12
+  #  QT_VERSION: qt5.3
+  #  QT_ROOT: /C/Qt/5.3/msvc2013_opengl
+  #  AUTOBUILD_ARCH: x86
+  #  RABBITIM_BUILD_THIRDLIBRARY: rabbitim
+  #  DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_msvc12_x86_qt5.3_v$(appveyor_build_version).zip/download
+  #  RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_mingw
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.7
+    QT_VERSION: 5.7.0
+    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android__5.7.0_v$(appveyor_build_version).zip/download
+
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.6
+    QT_VERSION: 5.6.1
+    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android__5.6.1_v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.5
+    QT_VERSION: 5.5.1
+    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_android__5.5.1_v$(appveyor_build_version).zip/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 530
     QT_VERSION: qt5.7
     QT_ROOT: /C/Qt/5.7/mingw53_32
@@ -259,7 +550,7 @@ environment:
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw530_x86_qt5.7_v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_mingw
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 492
     QT_VERSION: qt5.6
     QT_ROOT: /C/Qt/5.6/mingw49_32
@@ -268,7 +559,7 @@ environment:
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw492_x86_qt5.6_v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_mingw
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 492
     QT_VERSION: qt5.5
     QT_ROOT: /C/Qt/5.5/mingw492_32
@@ -277,7 +568,7 @@ environment:
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw492_x86_qt5.5_v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     
-  - BUILD_TARGET: windows_mingw
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 491
     QT_VERSION: qt5.4
     QT_ROOT: /C/Qt/5.4/mingw491_32
@@ -286,7 +577,7 @@ environment:
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_windows_mingw491_x86_qt5.4_v$(appveyor_build_version).zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
 
-  - BUILD_TARGET: windows_mingw
+  - BUILD_TARGERT: windows_mingw
     toolchain_version: 482
     QT_VERSION: qt5.3
     QT_ROOT: /C/Qt/5.3/mingw482_32
@@ -302,27 +593,22 @@ matrix:
 init:
   - set varch=%AUTOBUILD_ARCH%
   - if "%AUTOBUILD_ARCH%" == "x64" set varch=amd64
-  - if "%BUILD_TARGET%"=="windows_msvc" call "C:\Program Files (x86)\Microsoft Visual Studio %toolchain_version%.0\VC\vcvarsall.bat" %varch%
-  #- if "%BUILD_TARGET%"=="windows_mingw" set PATH=C:\Qt\Tools\mingw%toolchain_version%_32\bin;%PATH%
+  - if "%BUILD_TARGERT%"=="windows_msvc" call "C:\Program Files (x86)\Microsoft Visual Studio %toolchain_version%.0\VC\vcvarsall.bat" %varch%
+  #- if "%BUILD_TARGERT%"=="windows_mingw" set PATH=C:\Qt\Tools\mingw%toolchain_version%_32\bin;%PATH%
   - echo NUMBER_OF_PROCESSORS=%NUMBER_OF_PROCESSORS%
   - echo PROCESSOR_IDENTIFIER=%PROCESSOR_IDENTIFIER%
   - echo QT_ROOT=%QT_ROOT%
   - del C:\msys64\usr\bin\link.exe
-
+  
 install:
   #- C:\msys64\usr\bin\pacman.exe -Syu --noconfirm 
   #- C:\msys64\autorebase.bat
   - C:\msys64\usr\bin\pacman.exe -S --noconfirm nasm yasm unzip curl
   - C:\msys64\autorebase.bat
 
-#before_build:
-  #- ps: foreach($artifactName in $artifacts.keys) { Write-Host  $artifacts[$artifactName] }
-  #- cd ThirdLibrary
-  #- if not "%FLAG%"=="start" wget -O RabbitIm_%BUILD_TARGET%_v%APPVEYOR_BUILD_VERSION%.zip https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/RabbitIm_%BUILD_TARGET%_v%APPVEYOR_BUILD_VERSION%.zip/download || set ERRORLEVEL=0 && echo "download fail"
-  #- if not "%FLAG%"=="start" wget -O RabbitIm_%BUILD_TARGET%_v%APPVEYOR_BUILD_VERSION%.zip https://ci.appveyor.com/api/projects/kanglin/rabbitim/ThirdLibrary/RabbitIm_%BUILD_TARGET%_v%APPVEYOR_BUILD_VERSION%.zip?job=RABBITIM_BUILD_THIRDLIBRARY%3dlibvpx%2c+BUILD_TARGET%3dwindows_msvc%2c+AUTOBUILD_ARCH%3dx86%2c+AUTOBUILD_COMPLER%3dVS2013%2c+toolchain_version%3d12%2c+mode%3drelease%2c+FLAG%3dstart
-  #- dir 
-  #- if EXIST RabbitIm_%BUILD_TARGET%_v%APPVEYOR_BUILD_VERSION%.zip unzip RabbitIm_%BUILD_TARGET%_v%APPVEYOR_BUILD_VERSION%.zip -d %BUILD_TARGET%
-  #- dir 
+before_build:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - if "%BUILD_TARGERT%" == "android" C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build-install-tools-windows.sh
 
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
@@ -334,12 +620,12 @@ artifacts:
  # - path: ThirdLibrary/src
  #   name: RabbitImThirdLibrarySource
     
-  - path: ThirdLibrary/$(BUILD_TARGET)
-    name: RabbitIm_$(BUILD_TARGET)$(toolchain_version)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
+  - path: ThirdLibrary/$(BUILD_TARGERT)
+    name: RabbitIm_$(BUILD_TARGERT)$(toolchain_version)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
     type: zip
     
-  - path: build_$(BUILD_TARGET)/install
-    name: RabbitIm_$(BUILD_TARGET)$(toolchain_version)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
+  - path: build_$(BUILD_TARGERT)/install
+    name: RabbitIm_$(BUILD_TARGERT)$(toolchain_version)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
     type: zip
 
 test: off

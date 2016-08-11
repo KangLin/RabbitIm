@@ -59,9 +59,8 @@ fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-
 #清理
-if [ -n "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     if [ -d ".git" ]; then
         echo "clean ..."
         git clean -xdf

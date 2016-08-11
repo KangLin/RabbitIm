@@ -64,7 +64,7 @@ echo "PATH:$PATH"
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
 cd build_${RABBITIM_BUILD_TARGERT}
-if [ -n "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     rm -fr *
 fi
 

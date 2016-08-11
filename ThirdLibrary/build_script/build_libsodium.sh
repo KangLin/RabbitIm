@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    LIBSODIUM_VERSION=1.0.6
+    LIBSODIUM_VERSION=1.0.11
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
         echo "git clone -q  -b ${LIBSODIUM_VERSION} https://github.com/jedisct1/libsodium.git ${RABBITIM_BUILD_SOURCE_CODE}"
         git clone -q  -b ${LIBSODIUM_VERSION} https://github.com/jedisct1/libsodium.git ${RABBITIM_BUILD_SOURCE_CODE}
@@ -67,7 +67,7 @@ fi
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
 cd build_${RABBITIM_BUILD_TARGERT}
-if [ -n "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     rm -fr *
 fi
 
@@ -109,7 +109,8 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
         echo "build_libsodium.sh don't support windows_msvc. please manually use msvc ide complie"
         cd $CUR_DIR
-        exit 2
+        #msbuild "libsodium.vcxproj" /m /verbosity:minimal 
+        exit 0
         ;;
     windows_mingw)
         case `uname -s` in
@@ -140,6 +141,7 @@ echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\"
 ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
 
 echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1 && make install
+make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1 
+make install
 
 cd $CUR_DIR

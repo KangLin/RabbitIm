@@ -14,9 +14,11 @@
 
 
 #需要设置下面变量：
-#QT_ROOT=/c/Qt/Qt5.6.0_android/5.6/mingw49_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_mingw/qt
+#QT_ROOT=/c/Qt/Qt5.7.0/5.7/mingw53_32 #QT 安装根目录,默认为:${RabbitImRoot}/ThirdLibrary/windows_mingw/qt
 JOM=nmake #设置 QT make 工具 JOM
-RABBITIM_CLEAN=TRUE #编译前清理
+if [ -z "$RABBITIM_CLEAN" ]; then
+    RABBITIM_CLEAN=TRUE #编译前清理
+fi
 #RABBITIM_BUILD_STATIC="static" #设置编译静态库，注释掉，则为编译动态库
 #RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32  #编译工具链前缀,用于交叉编译
 #RABBITIM_USE_REPOSITORIES="FALSE" #下载指定的压缩包。省略，则下载开发库。

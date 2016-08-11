@@ -40,27 +40,25 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    VERSION_MAJOR=16
-    VERSION=1.6.23rc02
+    VERSION=libpng16
     if [ "TRUE" = "${RABBITIM_USE_REPOSITORIES}" ]; then
-        echo "git clone -q --branch=v${VERSION} git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}"
-        git clone -q --branch=v$VERSION  git://git.code.sf.net/p/libpng/code ${RABBITIM_BUILD_SOURCE_CODE}
+        echo "git clone -q --branch=${VERSION} https://github.com/glennrp/libpng.git ${RABBITIM_BUILD_SOURCE_CODE}"
+        git clone -q --branch=$VERSION https://github.com/glennrp/libpng.git ${RABBITIM_BUILD_SOURCE_CODE}
     else
         mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
         cd ${RABBITIM_BUILD_SOURCE_CODE}
-        wget -q -c http://sourceforge.net/projects/libpng/files/libpng${VERSION_MAJOR}/${VERSION}/libpng-${VERSION}.tar.gz/download
-        tar xzf download
+        echo "wget -nv -c https://github.com/glennrp/libpng/archive/${VERSION}.zip"
+        wget -nv -c https://github.com/glennrp/libpng/archive/${VERSION}.zip
+        unzip -q ${VERSION}.zip
+        mv libpng-${VERSION} ..
+        rm -fr ${VERSION}.zip ${RABBITIM_BUILD_SOURCE_CODE}
+        cd ..
         mv libpng-${VERSION} ${RABBITIM_BUILD_SOURCE_CODE}
+        
     fi
 fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
-
-mkdir -p build_${RABBITIM_BUILD_TARGERT}
-cd build_${RABBITIM_BUILD_TARGERT}
-if [ -n "$RABBITIM_CLEAN" ]; then
-    rm -fr *
-fi
 
 echo ""
 echo "RABBITIM_BUILD_TARGERT:${RABBITIM_BUILD_TARGERT}"
@@ -76,37 +74,69 @@ echo "PKG_CONFIG_PATH:${PKG_CONFIG_PATH}"
 echo "PKG_CONFIG_LIBDIR:${PKG_CONFIG_LIBDIR}"
 echo ""
 
-#需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
-RABBITIM_BUILD_STATIC="static"
-if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
-    CMAKE_PARA="-DPNG_SHARED=OFF -DPNG_STATIC=ON"
-else
-    CMAKE_PARA="-DPNG_SHARED=ON -DPNG_STATIC=OFF"
+if [ ! -f configure ]; then
+    echo "sh autogen.sh"
+    sh autogen.sh
 fi
-MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1"
+
+mkdir -p build_${RABBITIM_BUILD_TARGERT}
+cd build_${RABBITIM_BUILD_TARGERT}
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
+    rm -fr *
+fi
+
+#需要设置 CMAKE_MAKE_PROGRAM 为 make 程序路径。
+if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+    CONFIG_PARA="--enable-static --disable-shared"
+else
+    CONFIG_PARA="--disable-static --enable-shared"
+fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-        export ANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-${RABBITIM_BUILD_TOOLCHAIN_VERSION}
-        export ANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}
-        CMAKE_PARA="-DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-android.cmake"
-        CMAKE_PARA="${CMAKE_PARA} -DANDROID_NATIVE_API_LEVEL=android-${RABBITIM_BUILD_PLATFORMS_VERSION}"
-        CMAKE_PARA="${CMAKE_PARA} -DANDROID_TOOLCHAIN_NAME=${RABBITIM_BUILD_CROSS_HOST}-${RABBITIM_BUILD_TOOLCHAIN_VERSION}"
-        CMAKE_PARA="$CMAKE_PARA -DANDROID_NDK_ABI_NAME=${ANDROID_NDK_ABI_NAME}"
-
-        if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
-            CMAKE_PARA="${CMAKE_PARA} -DCMAKE_MAKE_PROGRAM=$RABBITIM_CMAKE_MAKE_PROGRAM" 
-        fi
-        ;;
+        export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
+        export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
+        export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
+        export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
+        export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
+        export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
+        export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
+        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc LD=${RABBITIM_BUILD_CROSS_PREFIX}ld"
+        CONFIG_PARA="${CONFIG_PARA} --disable-shared -enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
+        CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        #CONFIG_PARA="${CONFIG_PARA} --enable-arm-neon"
+        CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        ;;   
     unix)
         ;;
     windows_msvc)
-        #GENERATORS="Visual Studio 12 2013"
-        MAKE_PARA=""
+        if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+            CMAKE_PARA="-DPNG_STATIC=ON -DPNG_SHARED=OFF"
+        else
+            CMAKE_PARA="-DPNG_STATIC=OFF -DPNG_SHARED=ON"
+        fi
+        echo "cmake .. -DCMAKE_INSTALL_PREFIX=$RABBITIM_BUILD_PREFIX -DCMAKE_BUILD_TYPE=Release -G\"${GENERATORS}\" ${CMAKE_PARA}"
+        cmake .. \
+            -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
+            -DCMAKE_BUILD_TYPE="Release" \
+            -G"${GENERATORS}" ${CMAKE_PARA} 
+        
+        cmake --build . --target install --config Release ${MAKE_PARA}
+        cd $CUR_DIR
+        exit 0
         ;;
     windows_mingw)
         case `uname -s` in
             Linux*|Unix*|CYGWIN*)
-                CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw.cmake"
+                export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
+                export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
+                export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
+                export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
+                export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
+                export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
+                export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
+                CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc"
+                CONFIG_PARA="${CONFIG_PARA} --host=${RABBITIM_BUILD_CROSS_HOST}"
                 ;;
             *)
             ;;
@@ -119,15 +149,12 @@ case ${RABBITIM_BUILD_TARGERT} in
     ;;
 esac
 
-CMAKE_PARA="${CMAKE_PARA} -DPNG_TESTS=OFF"
-#CMAKE_PARA="${CMAKE_PARA} -DCMAKE_VERBOSE_MAKEFILE=TRUE" #显示编译详细信息
+CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX --with-zlib-prefix=$RABBITIM_BUILD_PREFIX "
+echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
+../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
 
-echo "cmake .. -DCMAKE_INSTALL_PREFIX=$RABBITIM_BUILD_PREFIX -DCMAKE_BUILD_TYPE=Release -G\"${GENERATORS}\" ${CMAKE_PARA}"
-cmake .. \
-    -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
-    -DCMAKE_BUILD_TYPE="Release" \
-    -G"${GENERATORS}" ${CMAKE_PARA}
-
-cmake --build . --config Release --target install ${MAKE_PARA}
+echo "make install"
+make ${RABBITIM_MAKE_JOB_PARA} V=1
+make install
 
 cd $CUR_DIR

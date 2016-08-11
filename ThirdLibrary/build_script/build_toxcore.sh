@@ -66,7 +66,7 @@ fi
 
 mkdir -p build_${RABBITIM_BUILD_TARGERT}
 cd build_${RABBITIM_BUILD_TARGERT}
-if [ -n "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     rm -fr *
 fi
 
@@ -109,7 +109,7 @@ case ${RABBITIM_BUILD_TARGERT} in
     windows_msvc)
         echo "build_speex.sh don't support windows_msvc. please manually use msvc ide complie"
         cd $CUR_DIR
-        exit 2
+        exit 0
         ;;
     windows_mingw)
         case `uname -s` in
@@ -142,6 +142,7 @@ echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\"
 ../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
 
 echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1 && make install
+make ${RABBITIM_MAKE_JOB_PARA} VERBOSE=1 
+make install
 
 cd $CUR_DIR

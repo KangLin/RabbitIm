@@ -74,12 +74,24 @@ echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo "PATH:$PATH"
 echo ""
 
-if [ -n "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     if [ -d ".git" ]; then
         git clean -xdf
     else
-        if [ -f Makefile ]; then
-            ${MAKE} distclean
+        if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
+            if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
+                if [ -f ms/nt.mak ]; then
+                    nmake -f ms/nt.mak clean
+                fi
+            else
+                if [ -f ms/ntdll.mak ]; then
+                    nmake -f ms/ntdll.mak clean
+                fi
+            fi
+        else
+            if [ -f Makefile ]; then
+                ${MAKE} clean
+            fi
         fi
     fi
 fi
@@ -127,13 +139,19 @@ case ${RABBITIM_BUILD_TARGERT} in
             MINGW*|MSYS*)
                 perl Configure --prefix=${RABBITIM_BUILD_PREFIX} \
                     --openssldir=${RABBITIM_BUILD_PREFIX} \
-                    $MODE mingw
+                    $MODE \
+                    zlib --with-zlib-lib=${RABBITIM_BUILD_PREFIX}/lib \
+                    --with-zlib-include=${RABBITIM_BUILD_PREFIX}/include \
+                    mingw 
                 ;;
             Linux*|Unix*|CYGWIN*|*)
                 perl Configure --prefix=${RABBITIM_BUILD_PREFIX} \
                     --openssldir=${RABBITIM_BUILD_PREFIX} \
                     --cross-compile-prefix=${RABBITIM_BUILD_CROSS_PREFIX} \
-                    $MODE mingw
+                    $MODE \
+                    zlib --with-zlib-lib=${RABBITIM_BUILD_PREFIX}/lib \
+                    --with-zlib-include=${RABBITIM_BUILD_PREFIX}/include \
+                    mingw
                 ;;
         esac
         ;;

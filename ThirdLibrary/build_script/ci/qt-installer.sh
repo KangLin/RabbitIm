@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#http://stackoverflow.com/questions/25105269/silent-install-qt-run-installer-on-ubuntu-server
+#http://doc.qt.io/qtinstallerframework/noninteractive.html
 set -e #quit on error
 
 if [ $# -lt 2 ];
@@ -61,11 +63,13 @@ Controller.prototype.LicenseAgreementPageCallback = function() {
     }
 
     gui.clickButton(buttons.NextButton);
+}
 
+Controller.prototype.StartMenuDirectoryPageCallback = function() {
+    gui.clickButton(buttons.CommitButton);
 }
 
 Controller.prototype.ReadyForInstallationPageCallback = function() {
-
     gui.clickButton(buttons.CommitButton);
 }
 

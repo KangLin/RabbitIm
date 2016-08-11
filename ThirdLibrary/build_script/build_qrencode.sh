@@ -60,7 +60,7 @@ fi
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-if [ "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     if [ -d ".git" ]; then
         echo "git clean -xdf"
         git clean -xdf
@@ -153,7 +153,8 @@ else
     ../configure ${CONFIG_PARA}
 fi
 
-${MAKE} && ${MAKE} install
+${MAKE} 
+${MAKE} install
 
 if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
     cd ${RABBITIM_BUILD_PREFIX}/lib

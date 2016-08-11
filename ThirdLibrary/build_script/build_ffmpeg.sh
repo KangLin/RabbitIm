@@ -172,7 +172,8 @@ case ${RABBITIM_BUILD_TARGERT} in
 esac
 
 echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} && make install
+make ${RABBITIM_MAKE_JOB_PARA} 
+make install
 if [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
     if [ "${RABBITIM_BUILD_STATIC}" = "static" ]; then
         cd ${RABBITIM_BUILD_PREFIX}/lib

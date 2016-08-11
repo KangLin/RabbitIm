@@ -61,7 +61,7 @@ fi
 SOURCE_DIR=${RABBITIM_BUILD_SOURCE_CODE}/source     #源代码目录
 CONFIG_DIR=${RABBITIM_BUILD_SOURCE_CODE}/temp_${RABBITIM_BUILD_TARGERT}_Config #配置目录
 BUILD_DIR=${RABBITIM_BUILD_SOURCE_CODE}/temp_${RABBITIM_BUILD_TARGERT}_Build   #编译目录
-if [ -n "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     rm -fr ${CONFIG_DIR} ${BUILD_DIR}
     mkdir -p ${BUILD_DIR} ${CONFIG_DIR}
 fi
@@ -92,7 +92,8 @@ case ${RABBITIM_BUILD_TARGERT} in
     unix)
         cd ${CONFIG_DIR}
         ${SOURCE_DIR}/runConfigureICU Linux/gcc --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
-        ${MAKE} && ${MAKE} install
+        ${MAKE}
+        ${MAKE} install
         ;;
     windows_msvc)
         cd ${CONFIG_DIR}
@@ -105,8 +106,8 @@ case ${RABBITIM_BUILD_TARGERT} in
             ;;
         esac
         ${SOURCE_DIR}/runConfigureICU ${platform} --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
-        ${MAKE} \
-            && ${MAKE} install 
+        ${MAKE}
+        ${MAKE} install 
         if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
             mv ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
         fi
@@ -119,8 +120,8 @@ case ${RABBITIM_BUILD_TARGERT} in
                 make ${RABBITIM_MAKE_JOB_PARA}
                 cd ${BUILD_DIR}
                 ${SOURCE_DIR}/configure --host=${RABBITIM_BUILD_CROSS_HOST} --with-cross_build=${CONFIG_DIR} --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA}
-                ${MAKE} ${RABBITIM_MAKE_JOB_PARA} \
-                    && ${MAKE} install 
+                ${MAKE} ${RABBITIM_MAKE_JOB_PARA} 
+                ${MAKE} install 
                 if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
                     mv ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
                 fi
@@ -128,8 +129,8 @@ case ${RABBITIM_BUILD_TARGERT} in
             MINGW*|MSYS*)
                 cd ${CONFIG_DIR}
                 ${SOURCE_DIR}/runConfigureICU MinGW --prefix=${RABBITIM_BUILD_PREFIX} ${CONFIG_PARA} LDFLAGS=${LDFLAGS}
-                ${MAKE} \
-                    && ${MAKE} install 
+                ${MAKE} 
+                ${MAKE} install 
                 if [ "$RABBITIM_BUILD_STATIC" != "static" ]; then
                     mv ${RABBITIM_BUILD_PREFIX}/lib/icu*.dll ${RABBITIM_BUILD_PREFIX}/bin/.
                 fi

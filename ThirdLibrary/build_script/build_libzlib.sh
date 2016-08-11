@@ -40,7 +40,7 @@ CUR_DIR=`pwd`
 
 #下载源码:
 if [ ! -d ${RABBITIM_BUILD_SOURCE_CODE} ]; then
-    mkdir ${RABBITIM_BUILD_SOURCE_CODE}
+    mkdir -p ${RABBITIM_BUILD_SOURCE_CODE}
     cd ${RABBITIM_BUILD_SOURCE_CODE}
     echo "wget -q http://zlib.net/zlib-1.2.8.tar.gz"
     wget -q http://zlib.net/zlib-1.2.8.tar.gz
@@ -64,24 +64,13 @@ echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
 cd ${RABBITIM_BUILD_SOURCE_CODE}
-
-if [ ! -f configure -a "${RABBITIM_BUILD_TARGERT}" != "windows_msvc" ]; then
-    echo "sh autogen.sh"
-    ./autogen.sh
+mkdir -p build_${RABBITIM_BUILD_TARGERT}
+cd build_${RABBITIM_BUILD_TARGERT}
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
+    rm -fr *
 fi
 
-if [ -n "$RABBITIM_CLEAN" ]; then
-    if [ -d ".git" ]; then
-        git clean -xdf
-    elif [ "${RABBITIM_BUILD_TARGERT}" = "windows_msvc" ]; then
-        nmake -f win32/Makefile.msc clean
-    else
-        make clean
-    fi
-fi
-
-echo "configure ..."
-
+MAKE_PARA="-- ${RABBITIM_MAKE_JOB_PARA}"
 if [ "$RABBITIM_BUILD_STATIC" = "static" ]; then
     CONFIG_PARA="--enable-static --disable-shared"
 else
@@ -89,53 +78,58 @@ else
 fi
 case ${RABBITIM_BUILD_TARGERT} in
     android)
-       echo "android use system zlib"
-       exit 0
-        
-        export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
-        export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
-        export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
-        export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
-        export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
-        export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
-        export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
-        CONFIG_PARA="CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc LD=${RABBITIM_BUILD_CROSS_PREFIX}ld"
-        CONFIG_PARA="${CONFIG_PARA} --disable-shared -enable-static --host=$RABBITIM_BUILD_CROSS_HOST"
-        CONFIG_PARA="${CONFIG_PARA} --with-sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-        CFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
-        CPPFLAGS="-march=armv7-a -mfpu=neon --sysroot=${RABBITIM_BUILD_CROSS_SYSROOT}"
+        if [ -n "$RABBITIM_CMAKE_MAKE_PROGRAM" ]; then
+            CMAKE_PARA="${CMAKE_PARA} -DCMAKE_MAKE_PROGRAM=$RABBITIM_CMAKE_MAKE_PROGRAM" 
+        fi
+        CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-android.cmake"
     ;;
     unix)
         CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse "
         ;;
     windows_msvc)
-        nmake -f win32/Makefile.msc LOC="-DASMV -DASMINF" \
-            OBJA="inffas32.obj match686.obj"  
-        cp *.h ${RABBITIM_BUILD_PREFIX}/include
-        cp *.lib ${RABBITIM_BUILD_PREFIX}/lib
-        cp *.dll ${RABBITIM_BUILD_PREFIX}/bin
-        cd $CUR_DIR
-        exit 0
+        #cd ${RABBITIM_BUILD_SOURCE_CODE}
+        #nmake -f win32/Makefile.msc clean
+        #nmake -f win32/Makefile.msc LOC="-DASMV -DASMINF" \
+        #    OBJA="inffas32.obj match686.obj"  
+        #if [ ! -d "${RABBITIM_BUILD_PREFIX}/include" ]; then
+        #    mkdir -p "${RABBITIM_BUILD_PREFIX}/include"
+        #fi
+        #if [ ! -d "${RABBITIM_BUILD_PREFIX}/lib" ]; then
+        #    mkdir -p "${RABBITIM_BUILD_PREFIX}/lib"
+        #fi
+        #if [ ! -d "${RABBITIM_BUILD_PREFIX}/bin" ]; then
+        #    mkdir -p "${RABBITIM_BUILD_PREFIX}/bin"
+        #fi
+        #cp zlib.h zconf.h ${RABBITIM_BUILD_PREFIX}/include
+        #cp *.lib ${RABBITIM_BUILD_PREFIX}/lib
+        #cp *.dll ${RABBITIM_BUILD_PREFIX}/bin
+        #cd $CUR_DIR
+        #exit 0
+        
+        MAKE_PARA=""
+        #CMAKE_PARA="${CMAKE_PARA}"  -DASM686=ON"
         ;;
     windows_mingw)
-        echo "windows_mingw use system zlib"
-        exit 0
+        #cd ${RABBITIM_BUILD_SOURCE_CODE}
+        #make -f win32/Makefile.gcc clean
+        #cp contrib/asm686/match.S ./match.S
+        #make LOC=-DASMV OBJA=match.o -fwin32/Makefile.gcc
+        #make install -fwin32/Makefile.gcc SHARED_MODE=1 DESTDIR=${RABBITIM_BUILD_PREFIX}/ \
+        #     LIBRARY_PATH=lib \
+        #     INCLUDE_PATH=include \
+        #     BINARY_PATH=bin \
+        #     prefix=${RABBITIM_BUILD_PREFIX}
+        #cd $CUR_DIR
+        #exit 0
+        
+        #CMAKE_PARA="${CMAKE_PARA} -DASM686=ON"
         case `uname -s` in
             Linux*|Unix*|CYGWIN*)
-                export CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc 
-                export CXX=${RABBITIM_BUILD_CROSS_PREFIX}g++
-                export AR=${RABBITIM_BUILD_CROSS_PREFIX}ar
-                export LD=${RABBITIM_BUILD_CROSS_PREFIX}ld
-                export AS=${RABBITIM_BUILD_CROSS_PREFIX}as
-                export STRIP=${RABBITIM_BUILD_CROSS_PREFIX}strip
-                export NM=${RABBITIM_BUILD_CROSS_PREFIX}nm
-                CONFIG_PARA="${CONFIG_PARA} CC=${RABBITIM_BUILD_CROSS_PREFIX}gcc"
-                CONFIG_PARA="${CONFIG_PARA} --host=${RABBITIM_BUILD_CROSS_HOST}"
+                CMAKE_PARA="${CMAKE_PARA} -DCMAKE_TOOLCHAIN_FILE=$RABBITIM_BUILD_PREFIX/../../cmake/platforms/toolchain-mingw.cmake"
                 ;;
             *)
             ;;
         esac
-        CONFIG_PARA="${CONFIG_PARA} --with-gnu-ld --enable-sse"
         ;;
     *)
     echo "${HELP_STRING}"
@@ -144,13 +138,13 @@ case ${RABBITIM_BUILD_TARGERT} in
     ;;
 esac
 
-CONFIG_PARA="${CONFIG_PARA} SPEEXDSP_CFLAGS=-I${RABBITIM_BUILD_PREFIX}/include"
-CONFIG_PARA="${CONFIG_PARA} SPEEXDSP_LIBS=-L${RABBITIM_BUILD_PREFIX}/lib"
-CONFIG_PARA="${CONFIG_PARA} --prefix=$RABBITIM_BUILD_PREFIX "
-echo "../configure ${CONFIG_PARA} CFLAGS=\"${CFLAGS=}\" CPPFLAGS=\"${CPPFLAGS}\""
-../configure ${CONFIG_PARA} CFLAGS="${CFLAGS}" CPPFLAGS="${CPPFLAGS}"
+echo "cmake .. -DCMAKE_INSTALL_PREFIX=$RABBITIM_BUILD_PREFIX -DCMAKE_BUILD_TYPE=Release -G\"${GENERATORS}\" ${CMAKE_PARA}"
+cmake .. \
+    -DCMAKE_INSTALL_PREFIX="$RABBITIM_BUILD_PREFIX" \
+    -DCMAKE_BUILD_TYPE="Release" \
+    -G"${GENERATORS}" ${CMAKE_PARA} -DCMAKE_VERBOSE_MAKEFILE=TRUE
 
-echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} && make install
-
+cmake --build . --target install --config Release ${MAKE_PARA}
+mkdir -p $RABBITIM_BUILD_PREFIX/lib/pkgconfig
+cp $RABBITIM_BUILD_PREFIX/share/pkgconfig/* $RABBITIM_BUILD_PREFIX/lib/pkgconfig/.
 cd $CUR_DIR

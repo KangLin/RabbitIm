@@ -47,26 +47,46 @@ fi
 
 if [ -n "$2" ]; then
     #echo "Source dir:$2"
-    ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl && \
-    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl && \
-    ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} $2/libqrencode && \
-    ./build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264 && \
-    ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx && \
-    ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv && \
-    ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg && \
-    ./build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 && \
-    ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp && \
+    ./build_libzlib.sh ${RABBITIM_BUILD_TARGERT} $2/zlib 
+    ./build_minizip.sh ${RABBITIM_BUILD_TARGERT} $2/minizip
+    ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} $2/openssl 
+    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} $2/curl 
+    ./build_libpng.sh ${RABBITIM_BUILD_TARGERT} $2/libpng
+    ./build_jpeg.sh ${RABBITIM_BUILD_TARGERT} $2/libjpeg
+    ./build_libgif.sh ${RABBITIM_BUILD_TARGERT} $2/libgif
+    ./build_libtiff.sh ${RABBITIM_BUILD_TARGERT} $2/libtiff
+    #./build_geos.sh ${RABBITIM_BUILD_TARGERT} $2/geos
+    ./build_gdal.sh ${RABBITIM_BUILD_TARGERT} $2/gdal
+    ./build_osg.sh ${RABBITIM_BUILD_TARGERT} $2/osg
+    ./build_osgearth.sh ${RABBITIM_BUILD_TARGERT} $2/osgearth
+    ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} $2/libqrencode
+    ./build_x264.sh ${RABBITIM_BUILD_TARGERT} $2/x264 
+    ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} $2/libvpx 
+    ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} $2/libyuv 
+    ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} $2/ffmpeg 
+    ./build_qt.sh ${RABBITIM_BUILD_TARGERT} $2/qt5 
+    ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} $2/qxmpp 
     ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} $2/qzxing
 else
-    ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_x264.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_qt.sh ${RABBITIM_BUILD_TARGERT} && \
-    ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT} && \
+    ./build_libzlib.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_minizip.sh ${RABBITIM_BUILD_TARGERT}
+    ./build_openssl.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_libcurl.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_libpng.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_jpeg.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_libgif.sh ${RABBITIM_BUILD_TARGERT}
+    ./build_libtiff.sh ${RABBITIM_BUILD_TARGERT}
+    #./build_geos.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_gdal.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_osg.sh ${RABBITIM_BUILD_TARGERT}
+    ./build_osgearth.sh ${RABBITIM_BUILD_TARGERT}
+    ./build_qrencode.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_x264.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_libvpx.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_libyuv.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_ffmpeg.sh ${RABBITIM_BUILD_TARGERT} 
+    ./build_qt.sh ${RABBITIM_BUILD_TARGERT}
+    ./build_qxmpp.sh ${RABBITIM_BUILD_TARGERT}
     ./build_qzxing.sh ${RABBITIM_BUILD_TARGERT} 
 fi
 

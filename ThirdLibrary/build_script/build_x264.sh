@@ -59,7 +59,7 @@ echo "RABBITIM_BUILD_CROSS_SYSROOT:$RABBITIM_BUILD_CROSS_SYSROOT"
 echo "RABBITIM_BUILD_STATIC:$RABBITIM_BUILD_STATIC"
 echo ""
 
-if [ -n "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     if [ -d ".git" ]; then
         git clean -xdf
     else
@@ -126,6 +126,7 @@ else
 fi
 
 echo "make install"
-make ${RABBITIM_MAKE_JOB_PARA} && make install
+make ${RABBITIM_MAKE_JOB_PARA} 
+make install
 
 cd $CUR_DIR

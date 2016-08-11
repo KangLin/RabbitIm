@@ -62,7 +62,7 @@ if [ -d "${RABBITIM_BUILD_SOURCE_CODE}/src" ]; then
 fi
 cd ${RABBITIM_BUILD_SOURCE_CODE}
 
-if [ -n "$RABBITIM_CLEAN" ]; then
+if [ "$RABBITIM_CLEAN" = "TRUE" ]; then
     git clean -xdf
 fi
 
