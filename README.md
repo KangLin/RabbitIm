@@ -4,12 +4,12 @@
 
 * 作者：康林（msn、email:kl222@126.com；QQ:16614119)
 * 作者博客：http://blog.csdn.net/kl222
-* 项目位置：https://github.com/KangLin/rabbitim  
+* 项目位置：https://github.com/KangLin/RabbitIm  
 * 项目介绍：http://blog.csdn.net/kl222/article/details/37597807  
 * 邮件组地址为：https://sourceforge.net/p/rabbitim/mailman/?source=navbar  
 * QQ群：68046752（本人不常上QQ）。有问题或好的想法，尽量用邮件组。
 * 微信公众号：rabbitim  
-[![微信公众号:rabbitim](Resource/png/qrcode.jpg "微信公众号：rabbitim")](https://github.com/KangLin/rabbitim)
+[![微信公众号:rabbitim](Resource/png/qrcode.jpg "微信公众号：rabbitim")](https://github.com/KangLin/RabbitIm)
 
 * 分支自动编译状态: 
 

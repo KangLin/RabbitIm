@@ -66,7 +66,9 @@ message("THIRD_LIBRARY_PATH:$${THIRD_LIBRARY_PATH}")
 INCLUDEPATH += $$PWD/.. $$PWD/../common $$PWD/../Widgets/FrmCustom
 INCLUDEPATH += $${THIRD_LIBRARY_PATH}/include
 #DEPENDPATH += $${THIRD_LIBRARY_PATH}/include
-LIBS += -L$${THIRD_LIBRARY_PATH}/lib -L$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH} $$LDFLAGS
+LIBS += -L$${THIRD_LIBRARY_PATH}/lib
+android : LIBS += -L$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}
+LIBS += $$LDFLAGS
 CONFIG(debug, debug|release) {
     LIBS +=  -L$${THIRD_LIBRARY_PATH}/lib/Debug
 } else {
