@@ -94,7 +94,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
     #QMAKE_EXTRA_TARGETS += Deployment_qtlib Deployment_third_lib Deployment_third_bin
     
     #为调试环境复制动态库  
-    !exists($${TARGET_PATH}/platforms){
+    !exists($${TARGET_PATH}/platforms/*){
 
         #复制QT系统插件  
         PlatformsPlugins.commands = \
