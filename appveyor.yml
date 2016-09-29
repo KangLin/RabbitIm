@@ -81,20 +81,20 @@ environment:
     QT_VERSION_DIR: 5.7
     QT_VERSION: 5.7.0
     RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_android__5.7.0.zip/download
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_android4.8_arm_5.7.0.zip/download
 
   - BUILD_TARGERT: android
     QT_VERSION_DIR: 5.6
     QT_VERSION: 5.6.1
     RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_android__5.6.1.zip/download
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_android4.8_arm_5.6.1.zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
 
   - BUILD_TARGERT: android
     QT_VERSION_DIR: 5.5
     QT_VERSION: 5.5.1
     RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_android__5.5.1.zip/download
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_android4.8_arm_5.5.1.zip/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
 
   - BUILD_TARGERT: windows_mingw

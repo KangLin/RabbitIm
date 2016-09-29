@@ -145,7 +145,8 @@ MainWindow::~MainWindow()
     //保存窗口位置  
     QRect rect = this->frameGeometry();
     slotCheckShowWindows();
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
+                   QSettings::IniFormat);
     conf.setValue("UI/MainWindow/top", this->y());
     conf.setValue("UI/MainWindow/left", this->x());
     conf.setValue("UI/MainWindow/width", this->width());
@@ -395,8 +396,10 @@ void MainWindow::slotUpdateLocaleUserInfo()
         return;
     }
     user->GetInfo()->SetStatus(CGlobal::Instance()->GetStatus());
-    this->m_TrayIcon.setToolTip(tr("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
-    this->setWindowTitle(tr("RabbitIm:%1").arg(GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
+    this->m_TrayIcon.setToolTip(tr("RabbitIm:%1").arg(
+                   GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
+    this->setWindowTitle(tr("RabbitIm:%1").arg(
+                   GLOBAL_USER->GetUserInfoLocale()->GetInfo()->GetShowName()));
     QPixmap pmp;
     ComposeAvatarStatus(user->GetInfo(), pmp);
     setWindowIcon(pmp);
@@ -560,10 +563,14 @@ int MainWindow::InitMenuTranslate()
 {
     m_MenuTranslate.setTitle(tr("Language(&L)"));
     m_MenuTranslate.setIcon(QIcon(":/icon/Language"));
-    m_ActionTranslator["Default"] = m_MenuTranslate.addAction(QIcon(":/icon/Language"), tr("Default"));
-    m_ActionTranslator["English"] = m_MenuTranslate.addAction(QIcon(":/icon/English"), tr("English"));
-    m_ActionTranslator["zh_CN"] = m_MenuTranslate.addAction(QIcon(":/icon/China"), tr("Chinese"));
-    m_ActionTranslator["zh_TW"] = m_MenuTranslate.addAction(QIcon(":/icon/China"), tr("Chinese(TaiWan)"));
+    m_ActionTranslator["Default"] = m_MenuTranslate.addAction(
+                QIcon(":/icon/Language"), tr("Default"));
+    m_ActionTranslator["English"] = m_MenuTranslate.addAction(
+                QIcon(":/icon/English"), tr("English"));
+    m_ActionTranslator["zh_CN"] = m_MenuTranslate.addAction(
+                QIcon(":/icon/China"), tr("Chinese"));
+    m_ActionTranslator["zh_TW"] = m_MenuTranslate.addAction(
+                QIcon(":/icon/China"), tr("Chinese(TaiWan)"));
 
     QMap<QString, QAction*>::iterator it;
     for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
@@ -572,20 +579,26 @@ int MainWindow::InitMenuTranslate()
         m_ActionGroupTranslator.addAction(it.value());
     }
 
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitMenuTranslate m_ActionTranslator size:%d", m_ActionTranslator.size());
+    LOG_MODEL_DEBUG("MainWindow",
+                    "MainWindow::InitMenuTranslate m_ActionTranslator size:%d",
+                    m_ActionTranslator.size());
 
     bool check = connect(&m_ActionGroupTranslator, SIGNAL(triggered(QAction*)),
                         SLOT(slotActionGroupTranslateTriggered(QAction*)));
     Q_ASSERT(check);
 
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
+                   QSettings::IniFormat);
     QString szLocale = conf.value("Global/Language", "Default").toString();
     QAction* pAct = m_ActionTranslator[szLocale];
     if(pAct)
     {
-        LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitMenuTranslate setchecked locale:%s", szLocale.toStdString().c_str());
+        LOG_MODEL_DEBUG("MainWindow",
+                        "MainWindow::InitMenuTranslate setchecked locale:%s",
+                        szLocale.toStdString().c_str());
         pAct->setChecked(true);
-        LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitMenuTranslate setchecked end");
+        LOG_MODEL_DEBUG("MainWindow",
+                        "MainWindow::InitMenuTranslate setchecked end");
     }
 
     return 0;
@@ -602,7 +615,9 @@ int MainWindow::ClearMenuTranslate()
     m_ActionTranslator.clear();
     m_MenuTranslate.clear();    
 
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::ClearMenuTranslate m_ActionTranslator size:%d", m_ActionTranslator.size());
+    LOG_MODEL_DEBUG("MainWindow",
+                    "MainWindow::ClearMenuTranslate m_ActionTranslator size:%d",
+                    m_ActionTranslator.size());
     
     return 0;
 }
@@ -628,8 +643,10 @@ int MainWindow::LoadTranslate(QString szLocale)
     //初始化翻译  
     if(szLocale.isEmpty())
     {
-        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
-        szLocale = conf.value("Global/Language", QLocale::system().name()).toString();
+        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
+                       QSettings::IniFormat);
+        szLocale = conf.value("Global/Language",
+                              QLocale::system().name()).toString();
     }
 
     if("Default" == szLocale)
@@ -637,20 +654,24 @@ int MainWindow::LoadTranslate(QString szLocale)
         szLocale = QLocale::system().name();
     }
 
-    LOG_MODEL_DEBUG("main", "locale language:%s", szLocale.toStdString().c_str());
+    LOG_MODEL_DEBUG("main", "locale language:%s",
+                    szLocale.toStdString().c_str());
 
     ClearTranslate();
-    LOG_MODEL_DEBUG("MainWindow", "Translate dir:%s", qPrintable(CGlobalDir::Instance()->GetDirTranslate()));
+    LOG_MODEL_DEBUG("MainWindow", "Translate dir:%s",
+                    qPrintable(CGlobalDir::Instance()->GetDirTranslate()));
 
     m_TranslatorQt = QSharedPointer<QTranslator>(new QTranslator(this));
-    m_TranslatorQt->load("qt_" + szLocale + ".qm", CGlobalDir::Instance()->GetDirTranslate());
+    m_TranslatorQt->load("qt_" + szLocale + ".qm",
+                         CGlobalDir::Instance()->GetDirTranslate());
     qApp->installTranslator(m_TranslatorQt.data());
 
     m_TranslatorApp = QSharedPointer<QTranslator>(new QTranslator(this));
 #ifdef ANDROID
     m_TranslatorApp->load(":/translations/app_" + szLocale + ".qm");
 #else
-    m_TranslatorApp->load("app_" + szLocale + ".qm", CGlobalDir::Instance()->GetDirTranslate());
+    m_TranslatorApp->load("app_" + szLocale + ".qm",
+                          CGlobalDir::Instance()->GetDirTranslate());
 #endif
     qApp->installTranslator(m_TranslatorApp.data());
 
@@ -667,12 +688,16 @@ void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
         if(it.value() == pAct)
         {
             QString szLocale = it.key();
-            QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+            QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
+                           QSettings::IniFormat);
             conf.setValue("Global/Language", szLocale);
-            LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotActionGroupTranslateTriggered:%s", it.key().toStdString().c_str());
+            LOG_MODEL_DEBUG("MainWindow",
+                            "MainWindow::slotActionGroupTranslateTriggered:%s",
+                            it.key().toStdString().c_str());
             LoadTranslate(it.key());
             pAct->setChecked(true);
-            QMessageBox::information(this, tr("Information"), tr("Change language must reset program."));
+            QMessageBox::information(this, tr("Information"),
+                                     tr("Change language must reset program."));
             close();
             //ReInitMenuOperator();
             return;
@@ -747,7 +772,8 @@ void MainWindow::slotTrayIconMenuUpdate()
     else
         szTitle = tr("Hide Main Windows");
 
-    m_TrayIconMenu.addAction(QIcon(":/icon/AppIcon"), szTitle, this, SLOT(on_actionNotifiation_show_main_windows_triggered()));
+    m_TrayIconMenu.addAction(QIcon(":/icon/AppIcon"), szTitle, this,
+                      SLOT(on_actionNotifiation_show_main_windows_triggered()));
 
     m_TrayIconMenu.addSeparator();
     m_TrayIconMenu.addAction(QIcon(":/icon/Close"), tr("Close"), this, SLOT(close()));
@@ -890,7 +916,8 @@ int MainWindow::LoadStyle()
         else
         {
             LOG_MODEL_ERROR("app", "file open file [%s] fail:%d",
-                            CGlobal::Instance()->GetStyle().toStdString().c_str(), file.error());
+                        CGlobal::Instance()->GetStyle().toStdString().c_str(),
+                        file.error());
         }
     }
     return 0;
@@ -910,7 +937,8 @@ int MainWindow::OpenCustomStyleMenu()
         QString stylesheet= file.readAll();
         qApp->setStyleSheet(stylesheet);
         file.close();
-        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
+                       QSettings::IniFormat);
         conf.setValue("UI/StyleSheet", szFile);
         
         CGlobal::Instance()->SetStyleMenu("Custom", szFile);
@@ -976,7 +1004,8 @@ void MainWindow::slotCheckHideWindows()
             endRect.moveRight(QApplication::desktop()->width());
         }
     }
-    else if(this->frameGeometry().bottom() > QApplication::desktop()->height() - m_nBorderSize)//向下边隐藏  
+    else if(this->frameGeometry().bottom() > QApplication::desktop()->height()
+            - m_nBorderSize)//向下边隐藏  
     {
         endRect.setHeight(m_nHideSize);
         endRect.moveBottom(QApplication::desktop()->height());
@@ -1002,7 +1031,8 @@ void MainWindow::slotCheckHideWindows()
             endRect.moveBottom(QApplication::desktop()->height());
         }
     }
-    else if(this->frameGeometry().right() > QApplication::desktop()->width() - m_nBorderSize)//向右边隐藏  
+    else if(this->frameGeometry().right() > QApplication::desktop()->width()
+            - m_nBorderSize)//向右边隐藏  
     {
         endRect.setWidth(m_nHideSize);
         endRect.moveRight(QApplication::desktop()->width());
@@ -1041,11 +1071,13 @@ void MainWindow::slotCheckShowWindows()
     QRect endRect = this->frameGeometry();
     if(m_MainAnimation.frameGeometry().height() <= m_nHideSize)
     {
-        if(m_MainAnimation.frameGeometry().bottom() < QApplication::desktop()->height() >> 2)//向上边隐藏  
+        if(m_MainAnimation.frameGeometry().bottom() 
+                < QApplication::desktop()->height() >> 2)//向上边隐藏  
         {
             endRect.moveTop(0);
         }
-        else if(m_MainAnimation.frameGeometry().top() > QApplication::desktop()->height() >> 2)//向下边隐藏  
+        else if(m_MainAnimation.frameGeometry().top()
+                > QApplication::desktop()->height() >> 2)//向下边隐藏  
         {
             endRect.moveBottom(QApplication::desktop()->height());           
         }
@@ -1056,11 +1088,13 @@ void MainWindow::slotCheckShowWindows()
     }
     else if(m_MainAnimation.frameGeometry().width() <= m_nHideSize)
     {
-        if(m_MainAnimation.frameGeometry().left() >= QApplication::desktop()->width() >> 2) //向右边隐藏  
+        if(m_MainAnimation.frameGeometry().left()
+                >= QApplication::desktop()->width() >> 2) //向右边隐藏  
         {
             endRect.moveRight(QApplication::desktop()->width());
         }
-        else if(m_MainAnimation.frameGeometry().right() <= QApplication::desktop()->width() >> 2) //向左边隐藏  
+        else if(m_MainAnimation.frameGeometry().right()
+                <= QApplication::desktop()->width() >> 2) //向左边隐藏  
         {
             endRect.moveLeft(0);
         }
