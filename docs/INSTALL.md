@@ -459,7 +459,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 如果要连接静态 QXMPP 库时，需要加上-DQXMPP_STATIC 。  
 用脚本  $(RabbitImRoot)/ThirdLibrary/build_rabbitim.sh 进行编译：
 
-  . build_rabbitim.sh *平台参数* *源码根目录* *[工程工具]*
+  . build_rabbitim.sh *平台参数* *[源码根目录]* *[工程工具]*
 
 + 平台参数：必须选择下面之一
     - android

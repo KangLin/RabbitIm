@@ -191,10 +191,49 @@ windows下交叉编译
 代码位置: https://github.com/Alexpux/MSYS2-packages
 * cygwin主页: http://www.cygwin.org/
 
-当前文档以msys2为例：
+#### 1.3. 当前文档以msys2为例：
++ 安装
 [安装步骤](http://sourceforge.net/p/msys2/wiki/MSYS2%20installation/)
-+ 从官网下载[msys2](http://sourceforge.net/projects/msys2/files/Base/i686/)
-+ 安装，启动msys2
+- 从官网下载[msys2](http://sourceforge.net/projects/msys2/files/Base/i686/)
+- 设置国内镜像：
+打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.msys
+
+    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MSYS2/$arch #中国科学技术
+
+打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.mingw32
+
+    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MINGW/i686/ #中国科学技术
+
+打开 ${MSYS2_ROOT}/etc/pacman.d/mirrorlist.mingw64
+
+    Server = http://mirrors.ustc.edu.cn/msys2/REPOS/MINGW/x86_64/ #中国科学技术
+
++ 启动msys2
+  - 启动命令
+
+    d:\msys32>msys2_shell.cmd --help
+    Usage:
+        msys2_shell.cmd [options] [bash parameters]
+
+    Options:
+        -mingw32 | -mingw64 | -msys[2]   Set shell type
+        -defterm | -mintty | -conemu | -consolez
+                                         Set terminal type
+        -here                            Use current directory as working
+                                         directory
+        -where DIRECTORY                 Use specified DIRECTORY as working
+                                         directory
+        -[use-]full-path                 Use full currnent PATH variable
+                                         instead of triming to minimal
+        -help | --help | -? | /?         Display this help and exit
+
+    Any parameter that cannot be treated as valid option and all
+    following parameters are passed as bash command parameters.
+
+  - 启动
+
+    msys2_shell.cmd -msys2 -mintty
+
 + 同步：
 
     pacman -Sy
@@ -344,7 +383,7 @@ https://github.com/ruby/ruby
 
 * 启动 msys2 环境:
 
-    c:\msys32\msys2_shell.bat
+    c:\msys32\msys2_shell.cmd -mintty
 
 #### 3.2. 编译第三方依赖库(脚本中包括qt)
 

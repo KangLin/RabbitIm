@@ -20,7 +20,7 @@ OTHER_FILES += README.md \
     ThirdLibrary/build_script/*.sh \
     ThirdLibrary/*.yml \
     ThirdLibrary/*.md \
-   ThirdLibrary/.travis.yml \
+    ThirdLibrary/.travis.yml \
     AppIcon.rc \
     Resource/translations/app_zh_CN.ts \
     docs/* \
