@@ -2,6 +2,8 @@
 
 =============================================================================
 
+[![Join the chat at https://gitter.im/RabbitIm/Lobby](https://badges.gitter.im/RabbitIm/Lobby.svg)](https://gitter.im/RabbitIm/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 * 作者：康林（msn、email:kl222@126.com；QQ:16614119)
 * 作者博客：http://blog.csdn.net/kl222
 * 项目位置：https://github.com/KangLin/rabbitim  
