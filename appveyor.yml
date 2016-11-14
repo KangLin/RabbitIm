@@ -193,13 +193,13 @@ deploy:
   host: frs.sourceforge.net 
   username: kl222,rabbitim
   #密码用这个加密 https://ci.appveyor.com/tools/encrypt
-  password: 
-    secure: 2WEtOQrdty3V3g0aEVvS3Q== 
+  password:
+    secure: 2WEtOQrdty3V3g0aEVvS3Q==
   folder: pfs/Release  #link pfs to /home/frs/project/r/ra/rabbitim
   draft: false
   active_mode: false
-  on:
-    branch: master
+  #on:
+    #branch: master
 
 #deploy:
 #  provider: GitHub
