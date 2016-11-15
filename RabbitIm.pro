@@ -22,7 +22,7 @@ OTHER_FILES += README.md \
     ThirdLibrary/*.md \
     ThirdLibrary/.travis.yml \
     AppIcon.rc \
-    Resource/translations/app_zh_CN.ts \
+    Resource/translations/*.ts \
     docs/* \
     docs/Books/* \
     docs/QXmpp音视频呼叫流程.txt \  
