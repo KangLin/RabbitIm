@@ -62,6 +62,8 @@
 * subversion: http://subversion.apache.org/
 * git: http://www.git-scm.com/
 
+[git设置](http://blog.csdn.net/kl222/article/details/32903495)
+
 ##### 7. windows平台工具：
 
 1. msvc：

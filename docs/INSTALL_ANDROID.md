@@ -132,6 +132,8 @@ ubuntu下交叉编译
 
     sudo apt-get install subversion git
 
+[git设置](http://blog.csdn.net/kl222/article/details/32903495)
+
 #### 1.9. 脚本工具：
 * Perl version 5.12 or later   [http://www.activestate.com/activeperl/]
 * Python version 2.7 or later  [http://www.activestate.com/activepython/]

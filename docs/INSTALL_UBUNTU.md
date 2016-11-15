@@ -46,6 +46,8 @@
 
     sudo apt-get install subversion git
 
+[git设置](http://blog.csdn.net/kl222/article/details/32903495)
+
 ### 4. 脚本工具：
 * python:2.7.6
 * perl:5.18.2

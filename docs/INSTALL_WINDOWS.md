@@ -122,6 +122,8 @@ http://www.microsoft.com/en-us/download/confirmation.aspx?id=42273
 
     pacman -S subversion git
 
+[git设置](http://blog.csdn.net/kl222/article/details/32903495)
+
 #### 2.8. 脚本工具
 * python:2.7.6  版本 2.7 或以后
 主页: https://www.python.org/  http://www.activestate.com/activepython/
