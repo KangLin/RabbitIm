@@ -153,6 +153,8 @@ MainWindow::~MainWindow()
     conf.setValue("UI/MainWindow/height", this->height());
 #endif
 
+    this->ClearMenuStatus();
+    this->ClearMenuStyles();
     this->ClearTranslate();
     delete ui;
 }
