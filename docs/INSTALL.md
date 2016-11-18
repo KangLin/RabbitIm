@@ -321,8 +321,21 @@
         ｜       ｜------include
         ｜       ｜------lib
 
-可以在 https://sourceforge.net/projects/rabbitim-third-library/files/release/ThirdLibrary/ 中，
+可以在 https://sourceforge.net/projects/rabbitim-third-library/files/release/ 中，
 选择与你**主机操作系统相同、编译器版本相同**的包下载本项目依赖的预编译好的第三方库。
+
+文件格式： RabbitIm_$(平台)$(版本号)_$(架构)_$(QT 版本).zip
+
+|编译器|版本号|平台|架构|
+|:--:|:--:|:--:|:--:|
+|VS2015|14|windows_msvc|x86|
+|VS2013|12|windows_msvc|x86|
+|gcc 5.3.0|530|windows_mingw|x86|
+|gcc 4.9.2|492|windows_mingw|x86|
+|gcc 4.9.1|491|windows_mingw|x86|
+|gcc 4.8.2|482|windows_mingw|x86|
+|gcc 4.8|4.8|android|arm|
+
 下载后解压，按上面目录结构放置。
 如果目录下有change_prefix.sh，则执行change_prefix.sh就可以。
 如果没有，则需要按下面步骤执行：
