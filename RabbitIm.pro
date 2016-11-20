@@ -1,12 +1,14 @@
 TEMPLATE = subdirs
 
+ThirdLibrary.file = ThirdLibrary/RabbitThirdLibrary.pro
 RabbitImLib.file = RabbitImLib.pro
 RabbitImApp.file = RabbitImApp.pro
 Plugin.depends = RabbitImLib
 RabbitImApp.depends = RabbitImLib Plugin
 
 CONFIG *= ordered
-SUBDIRS +=  RabbitImLib \
+SUBDIRS += ThirdLibrary \
+    RabbitImLib \
     Plugin \
     RabbitImApp
 
@@ -16,11 +18,6 @@ OTHER_FILES += README.md \
     circle.yml \
     appveyor.yml \
     debian/* \
-    ThirdLibrary/build_script/ci/*.sh \
-    ThirdLibrary/build_script/*.sh \
-    ThirdLibrary/*.yml \
-    ThirdLibrary/*.md \
-    ThirdLibrary/.travis.yml \
     AppIcon.rc \
     Resource/translations/*.ts \
     docs/* \
@@ -36,6 +33,5 @@ OTHER_FILES += README.md \
     Update/*template* \
     Update/*.xml \
     Doxyfile* \
-    Plugin/CMakeLists.txt \
     pri/* \
     Dockerfile 

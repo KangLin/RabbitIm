@@ -2105,7 +2105,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../MainWindow.ui" line="20"/>
         <location filename="../../MainWindow.cpp" line="110"/>
-        <location filename="../../MainWindow.cpp" line="378"/>
+        <location filename="../../MainWindow.cpp" line="380"/>
         <source>RabbitIm</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2150,122 +2150,122 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="200"/>
-        <location filename="../../MainWindow.cpp" line="204"/>
-        <location filename="../../MainWindow.cpp" line="779"/>
+        <location filename="../../MainWindow.cpp" line="202"/>
+        <location filename="../../MainWindow.cpp" line="206"/>
+        <location filename="../../MainWindow.cpp" line="781"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="201"/>
+        <location filename="../../MainWindow.cpp" line="203"/>
         <source>Is close the programe or logout?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="205"/>
-        <location filename="../../MainWindow.cpp" line="458"/>
+        <location filename="../../MainWindow.cpp" line="207"/>
+        <location filename="../../MainWindow.cpp" line="460"/>
         <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="206"/>
+        <location filename="../../MainWindow.cpp" line="208"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="399"/>
         <location filename="../../MainWindow.cpp" line="401"/>
+        <location filename="../../MainWindow.cpp" line="403"/>
         <source>RabbitIm:%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="439"/>
-        <location filename="../../MainWindow.cpp" line="758"/>
+        <location filename="../../MainWindow.cpp" line="441"/>
+        <location filename="../../MainWindow.cpp" line="760"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="461"/>
+        <location filename="../../MainWindow.cpp" line="463"/>
         <source>Close(&amp;E)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="468"/>
+        <location filename="../../MainWindow.cpp" line="470"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="469"/>
+        <location filename="../../MainWindow.cpp" line="471"/>
         <source>System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="470"/>
+        <location filename="../../MainWindow.cpp" line="472"/>
         <source>Blue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="471"/>
+        <location filename="../../MainWindow.cpp" line="473"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="487"/>
+        <location filename="../../MainWindow.cpp" line="489"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="545"/>
+        <location filename="../../MainWindow.cpp" line="547"/>
         <source>Status(&amp;S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="564"/>
+        <location filename="../../MainWindow.cpp" line="566"/>
         <source>Language(&amp;L)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="567"/>
+        <location filename="../../MainWindow.cpp" line="569"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="569"/>
+        <location filename="../../MainWindow.cpp" line="571"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="571"/>
+        <location filename="../../MainWindow.cpp" line="573"/>
         <source>Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="573"/>
+        <location filename="../../MainWindow.cpp" line="575"/>
         <source>Chinese(TaiWan)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="699"/>
+        <location filename="../../MainWindow.cpp" line="701"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="700"/>
+        <location filename="../../MainWindow.cpp" line="702"/>
         <source>Change language must reset program.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="771"/>
+        <location filename="../../MainWindow.cpp" line="773"/>
         <source>Show Main Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="773"/>
+        <location filename="../../MainWindow.cpp" line="775"/>
         <source>Hide Main Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="930"/>
+        <location filename="../../MainWindow.cpp" line="932"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
