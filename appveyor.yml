@@ -148,6 +148,8 @@ matrix:
 
 init:
   - set varch=%AUTOBUILD_ARCH%
+  - set PROJECT_NAME=%APPVEYOR_PROJECT_NAME%
+  - set BUILD_VERSION=%APPVEYOR_BUILD_VERSION%
   - if "%AUTOBUILD_ARCH%" == "x64" set varch=amd64
   - if "%BUILD_TARGERT%"=="windows_msvc" call "C:\Program Files (x86)\Microsoft Visual Studio %toolchain_version%.0\VC\vcvarsall.bat" %varch%
   #- if "%BUILD_TARGERT%"=="windows_mingw" set PATH=C:\Qt\Tools\mingw%toolchain_version%_32\bin;%PATH%
@@ -159,7 +161,7 @@ init:
 install:
   #- C:\msys64\usr\bin\pacman.exe -Syu --noconfirm 
   #- C:\msys64\autorebase.bat
-  - C:\msys64\usr\bin\pacman.exe -S --noconfirm nasm yasm unzip curl
+  - C:\msys64\usr\bin\pacman.exe -S --noconfirm nasm yasm unzip curl expect
   - C:\msys64\autorebase.bat
 
 before_build:
@@ -182,7 +184,7 @@ artifacts:
   #  type: zip
     
   - path: build_$(BUILD_TARGERT)/install
-    name: RabbitIm_$(BUILD_TARGERT)$(toolchain_version)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
+    name: RabbitIm_$(BUILD_TARGERT)$(toolchain_version)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(BUILD_VERSION)
     type: zip
 
 test: off
