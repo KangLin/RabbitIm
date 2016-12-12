@@ -82,6 +82,9 @@ windows当前分支:[![Build Status](https://ci.appveyor.com/api/projects/status
 * 邮箱：kl222@126.com
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+程序下载：
+--------
+https://sourceforge.net/projects/rabbitim/files/Release/
 
 程序截图：
 --------

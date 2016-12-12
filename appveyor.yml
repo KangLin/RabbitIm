@@ -3,145 +3,169 @@ version: '0.1.1.{build}'
 
 environment:
   matrix:
- 
-  ##### 测试 #####
-  
-  ##### 测试 #####
- 
-  ##### rabbitim #####
+
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
-    toolchain_version: 14
+    TOOLCHAIN_VERSION: 14
     QT_VERSION: qt5.7
     QT_ROOT: /C/Qt/5.7/msvc2015
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_msvc14_x86_qt5.7.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc14_x86_qt5.7.tar.gz/download
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
-    toolchain_version: 14
+    TOOLCHAIN_VERSION: 14
     QT_VERSION: qt5.6.1
     QT_ROOT: /C/Qt/5.6/msvc2015
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_msvc14_x86_qt5.6.1.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc14_x86_qt5.6.1.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
-    toolchain_version: 12
+    TOOLCHAIN_VERSION: 12
     QT_VERSION: qt5.7
     QT_ROOT: /C/Qt/5.7/msvc2013
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim 
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_msvc12_x86_qt5.7.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc12_x86_qt5.7.tar.gz/download
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
-    toolchain_version: 12
+    TOOLCHAIN_VERSION: 12
     QT_VERSION: qt5.6.1
     QT_ROOT: /C/Qt/5.6/msvc2013
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_msvc12_x86_qt5.6.1.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc12_x86_qt5.6.1.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
- 
-  - BUILD_TARGERT: windows_msvc
-    GENERATORS: "Visual Studio 12 2013"
-    toolchain_version: 12
-    QT_VERSION: qt5.5
-    QT_ROOT: /C/Qt/5.5/msvc2013
-    AUTOBUILD_ARCH: x86  
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim 
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_msvc12_x86_qt5.5.zip/download
-    RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
-    toolchain_version: 12
+    TOOLCHAIN_VERSION: 12
+    QT_VERSION: qt5.5
+    QT_ROOT: /C/Qt/5.5/msvc2013
+    AUTOBUILD_ARCH: x86
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc12_x86_qt5.5.tar.gz/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
+
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    TOOLCHAIN_VERSION: 12
     QT_VERSION: qt5.4
     QT_ROOT: /C/Qt/5.4/msvc2013_opengl
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim 
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_msvc12_x86_qt5.4.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc12_x86_qt5.4.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
-  #- BUILD_TARGERT: windows_msvc
-  #  GENERATORS: "Visual Studio 12 2013"
-  #  toolchain_version: 12
-  #  QT_VERSION: qt5.3
-  #  QT_ROOT: /C/Qt/5.3/msvc2013_opengl
-  #  AUTOBUILD_ARCH: x86
-  #  RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-  #  DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_msvc12_x86_qt5.3.zip/download
-  #  RABBITIM_USE_REPOSITORIES: "FALSE"
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 12 2013"
+    TOOLCHAIN_VERSION: 12
+    QT_VERSION: qt5.3
+    QT_ROOT: /C/Qt/5.3/msvc2013_opengl
+    AUTOBUILD_ARCH: x86
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc12_x86_qt5.3.tar.gz/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: android
     QT_VERSION_DIR: 5.7
     QT_VERSION: 5.7.0
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_android4.8_arm_5.7.0.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_android__5.7.0.tar.gz/download
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: android
     QT_VERSION_DIR: 5.6
     QT_VERSION: 5.6.1
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_android4.8_arm_5.6.1.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_android__5.6.1.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: android
     QT_VERSION_DIR: 5.5
     QT_VERSION: 5.5.1
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_android4.8_arm_5.5.1.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_android__5.5.1.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: windows_mingw
-    toolchain_version: 530
+    TOOLCHAIN_VERSION: 530
     QT_VERSION: qt5.7
     QT_ROOT: /C/Qt/5.7/mingw53_32
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim 
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_mingw530_x86_qt5.7.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.7.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: windows_mingw
-    toolchain_version: 492
+    TOOLCHAIN_VERSION: 492
     QT_VERSION: qt5.6
     QT_ROOT: /C/Qt/5.6/mingw49_32
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_mingw492_x86_qt5.6.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw492_x86_qt5.6.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: windows_mingw
-    toolchain_version: 492
+    TOOLCHAIN_VERSION: 492
     QT_VERSION: qt5.5
     QT_ROOT: /C/Qt/5.5/mingw492_32
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_mingw492_x86_qt5.5.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw492_x86_qt5.5.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: windows_mingw
-    toolchain_version: 491
+    TOOLCHAIN_VERSION: 491
     QT_VERSION: qt5.4
     QT_ROOT: /C/Qt/5.4/mingw491_32
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_mingw491_x86_qt5.4.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw491_x86_qt5.4.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: windows_mingw
-    toolchain_version: 482
+    TOOLCHAIN_VERSION: 482
     QT_VERSION: qt5.3
     QT_ROOT: /C/Qt/5.3/mingw482_32
     AUTOBUILD_ARCH: x86
-    RABBITIM_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitim-third-library/files/release/RabbitIm_windows_mingw482_x86_qt5.3.zip/download
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw482_x86_qt5.3.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
-  ##### rabbitim #####
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
 matrix:
   fast_finish: false
@@ -161,7 +185,7 @@ init:
 install:
   #- C:\msys64\usr\bin\pacman.exe -Syu --noconfirm 
   #- C:\msys64\autorebase.bat
-  - C:\msys64\usr\bin\pacman.exe -S --noconfirm nasm yasm unzip curl expect
+  - C:\msys64\usr\bin\pacman.exe -S --noconfirm nasm yasm unzip curl expect zip
   - C:\msys64\autorebase.bat
 
 before_build:
@@ -171,7 +195,7 @@ before_build:
 
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
-  - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build_windows.sh
+  - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build.sh
 
 #after_build:
 
@@ -197,7 +221,7 @@ deploy:
   #密码用这个加密 https://ci.appveyor.com/tools/encrypt
   password:
     secure: 2WEtOQrdty3V3g0aEVvS3Q==
-  folder: pfs/Release  #link pfs to /home/frs/project/r/ra/rabbitim
+  folder: pfs  #link pfs to /home/frs/project/r/ra/rabbitim
   draft: false
   active_mode: false
   #on:
