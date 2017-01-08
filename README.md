@@ -77,7 +77,6 @@ windows当前分支:[![Build Status](https://ci.appveyor.com/api/projects/status
 
 合作联系方式:
 -----------
-* 电话：13034802883
 * QQ: 16614119
 * 邮箱：kl222@126.com
 
