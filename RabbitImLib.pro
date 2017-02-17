@@ -60,7 +60,7 @@ android : include(android/jni/android_jni.pri)
 
 win32:equals(QMAKE_HOST.os, Windows){
     #isEmpty(QMAKE_SH){
-        INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET))
+        INSTALL_TARGET = $$system_path($${PREFIX}/$$(TARGET))
     #} else {
     #    INSTALL_TARGET = $${PREFIX}/$(TARGET)
     #}
