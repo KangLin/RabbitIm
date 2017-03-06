@@ -135,6 +135,10 @@ private slots:
 
 private:
     //翻译菜单  
+    struct _MENU{
+        QString icon;
+        QString text;
+    };
     QMenu m_MenuTranslate;
     QMap<QString, QAction*> m_ActionTranslator;
     QActionGroup m_ActionGroupTranslator;

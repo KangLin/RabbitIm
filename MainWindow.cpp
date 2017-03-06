@@ -565,14 +565,22 @@ int MainWindow::InitMenuTranslate()
 {
     m_MenuTranslate.setTitle(tr("Language(&L)"));
     m_MenuTranslate.setIcon(QIcon(":/icon/Language"));
-    m_ActionTranslator["Default"] = m_MenuTranslate.addAction(
-                QIcon(":/icon/Language"), tr("Default"));
-    m_ActionTranslator["English"] = m_MenuTranslate.addAction(
-                QIcon(":/icon/English"), tr("English"));
-    m_ActionTranslator["zh_CN"] = m_MenuTranslate.addAction(
-                QIcon(":/icon/China"), tr("Chinese"));
-    m_ActionTranslator["zh_TW"] = m_MenuTranslate.addAction(
-                QIcon(":/icon/China"), tr("Chinese(TaiWan)"));
+    
+    QMap<QString, _MENU> m;
+    m["Default"] = {QLocale::system().name(), tr("Default")};
+    m["en"] = {":/icon/English", tr("English")};
+    m["zh_CN"] = {":/icon/China", tr("Chinese")};
+    m["zh_TW"] = {":/icon/China", tr("Chinese(TaiWan)")};
+    m["Default"].icon = m[QLocale::system().name()].icon;
+    
+    QMap<QString, _MENU>::iterator itMenu;
+    for(itMenu = m.begin(); itMenu != m.end(); itMenu++)
+    {
+        _MENU v = itMenu.value();
+        m_ActionTranslator[itMenu.key()] =
+                m_MenuTranslate.addAction(
+                    QIcon(v.icon), v.text);
+    }
 
     QMap<QString, QAction*>::iterator it;
     for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)

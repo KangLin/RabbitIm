@@ -125,18 +125,18 @@
     <message>
         <location filename="../main.cpp" line="58"/>
         <source>Images (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</source>
-        <translation type="unfinished">圖像 (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</translation>
+        <translation>圖像 (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="62"/>
         <location filename="../main.cpp" line="69"/>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="70"/>
         <source>File is exists. Do you save it?</source>
-        <translation type="unfinished">文件已存在。你是否繼續保存?</translation>
+        <translation>文件已存在。你是否繼續保存?</translation>
     </message>
 </context>
 </TS>

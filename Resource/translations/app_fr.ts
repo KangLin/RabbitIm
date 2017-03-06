@@ -2152,7 +2152,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../MainWindow.cpp" line="202"/>
         <location filename="../../MainWindow.cpp" line="206"/>
-        <location filename="../../MainWindow.cpp" line="781"/>
+        <location filename="../../MainWindow.cpp" line="789"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2180,7 +2180,7 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="441"/>
-        <location filename="../../MainWindow.cpp" line="760"/>
+        <location filename="../../MainWindow.cpp" line="768"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2225,7 +2225,7 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="569"/>
+        <location filename="../../MainWindow.cpp" line="570"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2235,37 +2235,37 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="573"/>
+        <location filename="../../MainWindow.cpp" line="572"/>
         <source>Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="575"/>
+        <location filename="../../MainWindow.cpp" line="573"/>
         <source>Chinese(TaiWan)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="701"/>
+        <location filename="../../MainWindow.cpp" line="709"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="702"/>
+        <location filename="../../MainWindow.cpp" line="710"/>
         <source>Change language must reset program.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="773"/>
+        <location filename="../../MainWindow.cpp" line="781"/>
         <source>Show Main Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="775"/>
+        <location filename="../../MainWindow.cpp" line="783"/>
         <source>Hide Main Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="932"/>
+        <location filename="../../MainWindow.cpp" line="940"/>
         <source>Open File</source>
         <translation type="unfinished"></translation>
     </message>
