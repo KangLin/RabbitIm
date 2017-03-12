@@ -12,6 +12,8 @@ DEFINES += RABBITIM
 CONFIG += c++0x
 !msvc{
     QMAKE_CXXFLAGS += " -std=c++0x "
+} else {
+    QMAKE_CXXFLAGS += " /MP "
 }
 
 CONFIG += link_prl

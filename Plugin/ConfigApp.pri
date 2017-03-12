@@ -5,6 +5,8 @@ INCLUDEPATH += $$PWD/..
 CONFIG += c++0x
 !msvc{
     QMAKE_CXXFLAGS += " -std=c++0x "
+} else {
+    QMAKE_CXXFLAGS += " /MP "
 }
 
 TARGET_PATH=$$OUT_PWD/../..
@@ -82,7 +84,7 @@ contains(TEMPLATE, lib){
 
 win32:equals(QMAKE_HOST.os, Windows){
     #isEmpty(QMAKE_SH){
-       INSTALL_TARGET = $$system_path($${TARGET_INSTALL_PATH}/$(TARGET))
+       INSTALL_TARGET = $$system_path($${TARGET_INSTALL_PATH}/$(TARGET))  #$(TARGET)是qmake产生脚本中的引用
     #} else {
     #    INSTALL_TARGET = $${PREFIX}/$(TARGET)
     #}

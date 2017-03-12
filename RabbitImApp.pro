@@ -62,7 +62,7 @@ android : include(android/android.pri)
 
 win32 : equals(QMAKE_HOST.os, Windows){
     #isEmpty(QMAKE_SH){
-        INSTALL_TARGET = $$system_path($${PREFIX}/$$(TARGET))
+        INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET)) #$(TARGET)是qmake产生脚本中的引用
     #} else {
     #    INSTALL_TARGET = $${PREFIX}/$(TARGET)
     #}

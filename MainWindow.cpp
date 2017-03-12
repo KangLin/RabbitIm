@@ -607,6 +607,7 @@ int MainWindow::InitMenuTranslate()
                         "MainWindow::InitMenuTranslate setchecked locale:%s",
                         szLocale.toStdString().c_str());
         pAct->setChecked(true);
+        m_MenuTranslate.setIcon(pAct->icon());
         LOG_MODEL_DEBUG("MainWindow",
                         "MainWindow::InitMenuTranslate setchecked end");
     }

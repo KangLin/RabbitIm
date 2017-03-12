@@ -2153,7 +2153,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../MainWindow.cpp" line="202"/>
         <location filename="../../MainWindow.cpp" line="206"/>
-        <location filename="../../MainWindow.cpp" line="789"/>
+        <location filename="../../MainWindow.cpp" line="790"/>
         <source>Close</source>
         <translation>關閉</translation>
     </message>
@@ -2164,7 +2164,7 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="441"/>
-        <location filename="../../MainWindow.cpp" line="768"/>
+        <location filename="../../MainWindow.cpp" line="769"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation>編輯本地使用者資訊(&amp;E)</translation>
     </message>
@@ -2246,27 +2246,27 @@ Email or MSN:kl222@126.com</source>
         <translation>中文（臺灣）</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="709"/>
+        <location filename="../../MainWindow.cpp" line="710"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="710"/>
+        <location filename="../../MainWindow.cpp" line="711"/>
         <source>Change language must reset program.</source>
         <translation>改變語言設置，必須重啟程式才能生效。</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="781"/>
+        <location filename="../../MainWindow.cpp" line="782"/>
         <source>Show Main Windows</source>
         <translation>顯示主視窗</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="783"/>
+        <location filename="../../MainWindow.cpp" line="784"/>
         <source>Hide Main Windows</source>
         <translation>隱藏主視窗</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="940"/>
+        <location filename="../../MainWindow.cpp" line="941"/>
         <source>Open File</source>
         <translation>打開文件</translation>
     </message>
