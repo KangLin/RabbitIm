@@ -132,7 +132,7 @@
     <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="320"/>
         <source>The following two-dimensional code scanning Go Home:</source>
-        <translation>掃描下麵二維碼訪問專案主頁：</translation>
+        <translation>掃描下面二維碼訪問項目主頁：</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="209"/>
@@ -346,7 +346,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="67"/>
         <source>Name must only be letters or numbers.</source>
-        <translation>名稱只能是字母或數位。</translation>
+        <translation>名稱只能是字母或數字。</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/DlgCreateGroupChatRoom.cpp" line="72"/>
@@ -485,7 +485,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="26"/>
         <source>%1 invite you join group chat.</source>
-        <translation>%1 邀請你加入到群。</translation>
+        <translation>%1 邀請妳加入到群。</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="64"/>
@@ -503,12 +503,12 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="70"/>
         <source>Name must only be letters or numbers.</source>
-        <translation>名稱只能是字母或數位。</translation>
+        <translation>名稱只能是字母或數字。</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="76"/>
         <source>Nick must only be letters or numbers.</source>
-        <translation>呢稱只能是字母或數位。</translation>
+        <translation>呢稱只能是字母或數字。</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/DlgJoinGroupChat.cpp" line="83"/>
@@ -536,12 +536,12 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="14"/>
         <source>Server Settings</source>
-        <translation>伺服器設置</translation>
+        <translation>服務器設置</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="53"/>
         <source>XMPP Server:</source>
-        <translation>XMPP 伺服器：</translation>
+        <translation>XMPP 服務器：</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="103"/>
@@ -553,17 +553,17 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="157"/>
         <source>XMPP Domain:</source>
-        <translation>XMPP 功能變數名稱：</translation>
+        <translation>XMPP 域名：</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="211"/>
         <source>Stun Server:</source>
-        <translation>Stun 伺服器：</translation>
+        <translation>Stun 服務器：</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="315"/>
         <source>Turn Server:</source>
-        <translation>Turn 伺服器：</translation>
+        <translation>Turn 服務器：</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="419"/>
@@ -631,7 +631,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="216"/>
         <source>Close Programe</source>
-        <translation>關閉程式</translation>
+        <translation>關閉程序</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="232"/>
@@ -684,12 +684,12 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="445"/>
         <source>Configure files</source>
-        <translation>設定檔</translation>
+        <translation>配置文件</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="458"/>
         <source>Data files</source>
-        <translation>資料檔案</translation>
+        <translation>數據文件</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="488"/>
@@ -709,7 +709,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="788"/>
         <source>save</source>
-        <translation>保存為檔</translation>
+        <translation>保存為文件</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="775"/>
@@ -724,7 +724,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="523"/>
         <source>Window hide on border</source>
-        <translation>在螢幕邊界自動隱藏視窗</translation>
+        <translation>在屏幕邊界自動隱藏窗口</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="537"/>
@@ -739,7 +739,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="657"/>
         <source>Auto hide main window</source>
-        <translation>自動隱藏主視窗</translation>
+        <translation>自動隱藏主窗口</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="684"/>
@@ -823,7 +823,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1042"/>
         <source>Locale user message color:</source>
-        <translation>本地使用者消息顏色：</translation>
+        <translation>本地用戶消息顏色：</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1081"/>
@@ -843,22 +843,22 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1180"/>
         <source>Audio devices</source>
-        <translation>音訊設備</translation>
+        <translation>音頻設備</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1194"/>
         <source>Audio input devices:</source>
-        <translation>聲音輸入裝置：</translation>
+        <translation>音頻輸入設備：</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1224"/>
         <source>Audio output devices:</source>
-        <translation>音訊輸出設備：</translation>
+        <translation>音頻輸出設備：</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1257"/>
         <source>video devices:</source>
-        <translation>視訊擷取裝置：</translation>
+        <translation>視頻捕獲設備：</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1299"/>
@@ -893,12 +893,12 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1404"/>
         <source>A Month</source>
-        <translation>一月</translation>
+        <translation>壹月</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1391"/>
         <source>A week</source>
-        <translation>一周</translation>
+        <translation>壹周</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1359"/>
@@ -993,7 +993,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="75"/>
         <source>Browse(&amp;B)</source>
-        <translation>流覽(&amp;B)</translation>
+        <translation>瀏覽(&amp;B)</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="463"/>
@@ -1059,7 +1059,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="83"/>
         <source>User id contains illegal characters. Only letters, numbers, combinations</source>
-        <translation>使用者ID包含無效字元。只能是字母、數位組合</translation>
+        <translation>用戶ID包含無效字符。只能是字母、數字組合</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="91"/>
@@ -1074,7 +1074,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="108"/>
         <source>Password contains illegal characters. Only letters, numbers, `~!@#$%^&amp;*() combinations</source>
-        <translation>密碼包含非法字元。密碼只能是字母、數位或 `~!@#$%^&amp;*() 組合。</translation>
+        <translation>密碼包含非法字符。密碼只能是字母、數字或 `~!@#$%^&amp;*() 組合。</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="116"/>
@@ -1097,7 +1097,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="14"/>
         <source>User Information</source>
-        <translation>使用者資訊</translation>
+        <translation>用戶信息</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="332"/>
@@ -1107,7 +1107,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="358"/>
         <source>Browse(&amp;B)</source>
-        <translation>流覽(&amp;B)</translation>
+        <translation>瀏覽(&amp;B)</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="375"/>
@@ -1196,7 +1196,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../FileTransfer/FileTransferAction.cpp" line="120"/>
         <source>ETA: </source>
-        <translation>剩餘：</translation>
+        <translation>剩余：</translation>
     </message>
     <message>
         <location filename="../../FileTransfer/FileTransferAction.cpp" line="192"/>
@@ -1211,17 +1211,17 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../FileTransfer/FileTransferAction.cpp" line="216"/>
         <source>Send the file has been canceled.</source>
-        <translation>檔案傳輸被取消。</translation>
+        <translation>文件傳輸被取消。</translation>
     </message>
     <message>
         <location filename="../../FileTransfer/FileTransferAction.cpp" line="233"/>
         <source>Open folder</source>
-        <translation>打開資料夾</translation>
+        <translation>打開文件夾</translation>
     </message>
     <message>
         <location filename="../../FileTransfer/FileTransferAction.cpp" line="236"/>
         <source>Send the file has been finished.</source>
-        <translation>檔案傳輸完成。</translation>
+        <translation>文件傳輸完成。</translation>
     </message>
     <message>
         <location filename="../../FileTransfer/FileTransferAction.cpp" line="256"/>
@@ -1278,7 +1278,7 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../Widgets/FrmApp/FrmAppList.ui" line="60"/>
         <location filename="../../Widgets/FrmApp/FrmAppList.ui" line="63"/>
         <source>Application Infomation</source>
-        <translation>應用資訊</translation>
+        <translation>應用信息</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmApp/FrmAppList.ui" line="72"/>
@@ -1318,7 +1318,7 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../Widgets/FrmApp/FrmFavorites.ui" line="60"/>
         <location filename="../../Widgets/FrmApp/FrmFavorites.ui" line="63"/>
         <source>Application Infomation</source>
-        <translation>應用資訊</translation>
+        <translation>應用信息</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmApp/FrmFavorites.ui" line="72"/>
@@ -1368,7 +1368,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.ui" line="215"/>
         <source>Member information</source>
-        <translation>成員資訊</translation>
+        <translation>成員信息</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.ui" line="220"/>
@@ -1393,7 +1393,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="121"/>
         <source>There is empty, please input.</source>
-        <translation>這裡是空的，請輸入。</translation>
+        <translation>這裏是空的，請輸入。</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmGroupChat/FrmGroupChat.cpp" line="137"/>
@@ -1520,7 +1520,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="495"/>
         <source>Set Server</source>
-        <translation>設置伺服器</translation>
+        <translation>設置服務器</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="498"/>
@@ -1571,7 +1571,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="289"/>
         <source>Network error</source>
-        <translation>網路錯誤</translation>
+        <translation>網絡錯誤</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="292"/>
@@ -1675,7 +1675,7 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="401"/>
         <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="404"/>
         <source>Hide message box</source>
-        <translation>隱藏消息對話方塊</translation>
+        <translation>隱藏消息對話框</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="108"/>
@@ -1707,7 +1707,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="100"/>
         <source>Audio call</source>
-        <translation>音訊呼叫</translation>
+        <translation>音頻呼叫</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="424"/>
@@ -1718,7 +1718,7 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="156"/>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="169"/>
         <source>Close message dialog</source>
-        <translation>關閉消息對話方塊</translation>
+        <translation>關閉消息對話框</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="77"/>
@@ -1728,7 +1728,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="157"/>
         <source>Sending files to determine whether you want to close?</source>
-        <translation>有檔正在發送，你確定是否關閉消息對話方塊？</translation>
+        <translation>有文件正在發送，妳確定是否關閉消息對話框？</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="170"/>
@@ -1743,7 +1743,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="286"/>
         <source>There is empty, please input.</source>
-        <translation>這裡是空的，請輸入。</translation>
+        <translation>這裏是空的，請輸入。</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmMessage/FrmMessage.ui" line="187"/>
@@ -1875,7 +1875,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="76"/>
         <source>Information(&amp;I)</source>
-        <translation>查看使用者資訊(&amp;I)</translation>
+        <translation>查看用戶信息(&amp;I)</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="85"/>
@@ -1908,7 +1908,7 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="130"/>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="133"/>
         <source>Audio</source>
-        <translation>音訊呼叫</translation>
+        <translation>音頻呼叫</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.ui" line="142"/>
@@ -1978,7 +1978,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Global/Global.cpp" line="363"/>
         <source>OnLine</source>
-        <translation>線上</translation>
+        <translation>在線</translation>
     </message>
     <message>
         <location filename="../../Global/Global.cpp" line="365"/>
@@ -1988,7 +1988,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Global/Global.cpp" line="367"/>
         <source>Chat</source>
-        <translation>空閒</translation>
+        <translation>空閑</translation>
     </message>
     <message>
         <location filename="../../Global/Global.cpp" line="369"/>
@@ -2041,7 +2041,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../FileTransfer/ManageFileTransfer.cpp" line="177"/>
         <source>File is exists. Do you save it?</source>
-        <translation>檔已經存在。你是否覆蓋它？</translation>
+        <translation>文件已經存在。妳是否復蓋它？</translation>
     </message>
 </context>
 <context>
@@ -2153,7 +2153,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../MainWindow.cpp" line="202"/>
         <location filename="../../MainWindow.cpp" line="206"/>
-        <location filename="../../MainWindow.cpp" line="790"/>
+        <location filename="../../MainWindow.cpp" line="792"/>
         <source>Close</source>
         <translation>關閉</translation>
     </message>
@@ -2164,39 +2164,39 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="441"/>
-        <location filename="../../MainWindow.cpp" line="769"/>
+        <location filename="../../MainWindow.cpp" line="771"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
-        <translation>編輯本地使用者資訊(&amp;E)</translation>
+        <translation>編輯本地用戶信息(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="547"/>
+        <location filename="../../MainWindow.cpp" line="549"/>
         <source>Status(&amp;S)</source>
         <translation>狀態(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="566"/>
+        <location filename="../../MainWindow.cpp" line="568"/>
         <source>Language(&amp;L)</source>
         <translation>語言(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="570"/>
+        <location filename="../../MainWindow.cpp" line="572"/>
         <source>Default</source>
         <translation>默認</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="572"/>
+        <location filename="../../MainWindow.cpp" line="574"/>
         <source>Chinese</source>
         <translation>簡體中文</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="571"/>
+        <location filename="../../MainWindow.cpp" line="573"/>
         <source>English</source>
         <translation>英語</translation>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="203"/>
         <source>Is close the programe or logout?</source>
-        <translation>是關閉程式還是登出？</translation>
+        <translation>是關閉程序還是登出？</translation>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="401"/>
@@ -2218,7 +2218,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../MainWindow.cpp" line="470"/>
         <source>Custom</source>
-        <translation>自訂</translation>
+        <translation>自定義</translation>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="471"/>
@@ -2232,41 +2232,51 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="473"/>
+        <source>Gradient blue</source>
+        <translation>漸變藍色</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="474"/>
         <source>Dark</source>
         <translation>黑色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="489"/>
+        <location filename="../../MainWindow.cpp" line="475"/>
+        <source>Gradient Dark</source>
+        <translation>漸變黑色</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="491"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation>扶膚(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="573"/>
+        <location filename="../../MainWindow.cpp" line="575"/>
         <source>Chinese(TaiWan)</source>
         <translation>中文（臺灣）</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="710"/>
+        <location filename="../../MainWindow.cpp" line="712"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="711"/>
+        <location filename="../../MainWindow.cpp" line="713"/>
         <source>Change language must reset program.</source>
-        <translation>改變語言設置，必須重啟程式才能生效。</translation>
-    </message>
-    <message>
-        <location filename="../../MainWindow.cpp" line="782"/>
-        <source>Show Main Windows</source>
-        <translation>顯示主視窗</translation>
+        <translation>改變語言設置，必須重啟程序才能生效。</translation>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="784"/>
-        <source>Hide Main Windows</source>
-        <translation>隱藏主視窗</translation>
+        <source>Show Main Windows</source>
+        <translation>顯示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="941"/>
+        <location filename="../../MainWindow.cpp" line="786"/>
+        <source>Hide Main Windows</source>
+        <translation>隱藏主窗口</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="946"/>
         <source>Open File</source>
         <translation>打開文件</translation>
     </message>
@@ -2276,7 +2286,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Plugin/PluginApp.cpp" line="20"/>
         <source>Application Infomation</source>
-        <translation>應用資訊</translation>
+        <translation>應用信息</translation>
     </message>
     <message>
         <location filename="../../Plugin/PluginApp.cpp" line="21"/>

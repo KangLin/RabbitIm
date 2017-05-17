@@ -2153,7 +2153,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../MainWindow.cpp" line="202"/>
         <location filename="../../MainWindow.cpp" line="206"/>
-        <location filename="../../MainWindow.cpp" line="790"/>
+        <location filename="../../MainWindow.cpp" line="792"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
@@ -2164,32 +2164,32 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="441"/>
-        <location filename="../../MainWindow.cpp" line="769"/>
+        <location filename="../../MainWindow.cpp" line="771"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation>编辑本地用户信息(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="547"/>
+        <location filename="../../MainWindow.cpp" line="549"/>
         <source>Status(&amp;S)</source>
         <translation>状态(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="566"/>
+        <location filename="../../MainWindow.cpp" line="568"/>
         <source>Language(&amp;L)</source>
         <translation>语言(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="570"/>
+        <location filename="../../MainWindow.cpp" line="572"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="572"/>
+        <location filename="../../MainWindow.cpp" line="574"/>
         <source>Chinese</source>
         <translation>简体中文</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="571"/>
+        <location filename="../../MainWindow.cpp" line="573"/>
         <source>English</source>
         <translation>英语</translation>
     </message>
@@ -2232,41 +2232,51 @@ Email or MSN:kl222@126.com</source>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="473"/>
+        <source>Gradient blue</source>
+        <translation>渐变蓝色</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="474"/>
         <source>Dark</source>
         <translation>黑色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="489"/>
+        <location filename="../../MainWindow.cpp" line="475"/>
+        <source>Gradient Dark</source>
+        <translation>渐变黑色</translation>
+    </message>
+    <message>
+        <location filename="../../MainWindow.cpp" line="491"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation>扶肤(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="573"/>
+        <location filename="../../MainWindow.cpp" line="575"/>
         <source>Chinese(TaiWan)</source>
         <translation>中文（台湾）</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="710"/>
+        <location filename="../../MainWindow.cpp" line="712"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="711"/>
+        <location filename="../../MainWindow.cpp" line="713"/>
         <source>Change language must reset program.</source>
         <translation>改变语言设置，必须重启程序才能生效。</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="782"/>
+        <location filename="../../MainWindow.cpp" line="784"/>
         <source>Show Main Windows</source>
         <translation>显示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="784"/>
+        <location filename="../../MainWindow.cpp" line="786"/>
         <source>Hide Main Windows</source>
         <translation>隐藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="941"/>
+        <location filename="../../MainWindow.cpp" line="946"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>

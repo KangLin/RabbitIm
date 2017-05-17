@@ -63,6 +63,9 @@
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>
+        <file alias="Gradient_blue">sink/Style_Blue.qss</file>
+        <file alias="Gradient_Dark">sink/Style_Gray.qss</file>
+        <file alias="Dark">sink/dark/style.qss</file>
     </qresource>
     <qresource prefix="/image">
         <file alias="Transparent">png/Transparent.png</file>

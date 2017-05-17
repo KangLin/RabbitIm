@@ -1,0 +1,969 @@
+QMainWindow {
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.4 rgb(155, 155, 155),
+                                 stop: 0.4 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  color:white;
+}
+
+QWidget{
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.4 rgb(155, 155, 155),
+                                 stop: 0.4 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  color:white;
+  font:bold;
+}
+
+QDockWidget > QWidget  {
+  border-style:none;
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.4 rgb(155, 155, 155),
+                                 stop: 0.4 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  
+  padding:1px;
+  border-radius: 0px;
+  
+  border-top: 2px solid darkgrey;;
+  border-left: 2px solid darkgrey;;
+  border-bottom: 1px solid gray;
+  border-right: 1px solid gray;
+     color: black; 
+}
+
+QWidget > QDockWidget  {
+   background:gray;
+   color: black; 
+   font:normal;
+}
+
+QFrame {
+
+   color: black; 
+   font:normal;
+}
+
+QCalendarWidget > QWidget > QToolButton {
+  border-style:none;
+  color:white;
+  background:transparent;
+  padding:1px;
+  border-radius: 0px;
+}
+
+QCalendarWidget > QWidget#qt_calendar_navigationbar{
+  border-top: 2px solid darkgrey;;
+  border-left: 2px solid darkgrey;;
+  border-bottom: 1px solid gray;
+  border-right: 1px solid gray;
+  background:transparent;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;    
+}
+
+QCalendarWidget > QWidget#qt_calendar_calendarview  {
+  border-top: 2px solid darkgrey;;
+  border-left: 2px solid darkgrey;;
+  border-bottom: 1px solid gray;
+  border-right: 1px solid gray;
+  background:white;
+  color:black;
+  border-radius: 0px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;        
+}
+
+QGroupBox {
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin-top: 1ex;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 0 3px;
+}
+
+QTabWidget::pane {  
+   margin: 1px, 1px, 1px, 1px;
+   border-left: 1px solid gray;
+   border-top: 1px solid gray;
+   border-bottom: 2px solid darkgrey;;
+   border-right: 2px solid darkgrey;;
+   border-radius: 8px;
+   border-top-left-radius: 0px;
+   padding: 0px;
+}
+
+QTabBar::tab {
+
+  background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.4 rgb(155, 155, 155),
+                                 stop: 0.4 rgb(155, 155, 155), stop: 1.0 rgb(216, 216, 216));
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid darkgrey;;
+  border-right: 1px solid darkgrey;;
+  border-top-right-radius: 15;
+  border-top-left-radius: 5;    
+  color:white;
+  padding:5px;
+  min-width: 80px;
+}
+
+
+QTabBar::tab:!selected {
+margin-top: 3px; /* make non-selected tabs look smaller */
+} 
+
+QTabBar::tab:first {
+  background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.4 rgb(155, 155, 155),
+                                 stop: 0.4 rgb(155, 155, 155), stop: 1.0 rgb(216, 216, 216));
+
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid darkgrey;;
+  border-right: 1px solid darkgrey;;
+  border-top-right-radius: 15;
+  border-top-left-radius: 5;    
+  color:white;
+  padding:5px;
+}
+
+QTabBar::tab::selected {
+  background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.8 rgb(155, 155, 155),
+                                 stop: 0.2 rgb(155, 155, 155), stop: 1.0 rgb(216, 216, 216));
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid darkgrey;;
+  border-right: 2px solid darkgrey;;
+  border-top-right-radius: 15;
+  border-top-left-radius: 5;    
+  color:white;
+  padding:5px;
+}
+
+QTabWidget::tab-bar {
+left: 0px; /* move to the right by 5px */
+}
+
+QTabBar::tab:hover {
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+stop: 0  rgb(216, 216, 216), stop: 0.8 rgb(155, 155, 155),
+stop: 0.2 rgb(155, 155, 155), stop: 1.0 rgb(216, 216, 216));
+}	
+
+
+
+QComboBox:!editable {
+   min-width: 80px;  
+   min-height: 19px; 
+   background:transparent;
+   border-left: 1px solid gray;
+   border-top: 1px solid gray;
+   border-bottom: 2px solid darkgrey;;
+   border-right: 2px solid darkgrey;;
+   background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+   padding:3px;
+   border-radius: 8px;
+}
+
+QComboBox:!editable:on {
+   min-width: 80px;  
+   min-height: 19px; 
+   background:transparent;
+   border-right: 1px solid gray;
+   border-bottom: 1px solid gray;
+   border-top: 2px solid darkgrey;
+   border-left: 2px solid darkgrey;
+   background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+   padding:3px;
+   border-radius: 8px;
+}
+
+QComboBox:editable {
+   min-width: 80px;  
+   min-height: 18px; 
+   border-right: 1px solid gray;
+   border-bottom: 1px solid gray;
+   border-top: 2px solid darkgrey;
+   border-left: 2px solid darkgrey;
+   background:white;
+   padding:3px;
+   border-radius: 8px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 20px;
+    border-left-width: 1px;
+    border-left-color: darkgray;
+    border-left-style: solid; /* just a single line */
+}
+
+QComboBox::down-arrow {
+    background-color: transparent;
+    border-left: 5px solid none;
+    border-right: 5px solid none; 
+    border-top: 5px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+    
+}
+
+QComboBox QAbstractItemView {
+   border: 1px solid gray;
+}
+
+
+
+QLabel {  
+  background-color:transparent;
+}
+
+QLineEdit, QTextEdit {  
+   background:white;
+   min-width: 80px;  
+   min-height: 16px; 
+   border-right: 1px solid gray;
+   border-bottom: 1px solid gray;
+   border-top: 2px solid darkgrey;
+   border-left: 2px solid darkgrey;
+   
+   padding:3px;
+   color: black;
+   font: normal;
+   border-radius: 8px;
+}
+
+QRadioButton {  
+   background:transparent;
+   min-width: 80px;  
+   min-height: 20px; 
+   border-left: 1px solid gray;
+   border-top: 1px solid gray;
+   border-bottom: 2px solid darkgrey;;
+   border-right: 2px solid darkgrey;;
+   background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  
+   padding:3px;
+   border-radius: 8px;
+}
+
+QCheckBox {  
+   background:transparent;
+   min-width: 80px;  
+   min-height: 20px; 
+   border-left: 1px solid gray;
+   border-top: 1px solid gray;
+   border-bottom: 2px solid darkgrey;;
+   border-right: 2px solid darkgrey;;
+   background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  
+   padding:3px;
+   border-radius: 8px;
+}
+
+QPushButton {
+  border-style:none;
+  min-width: 80px;  
+  min-height: 20px;    
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
+    
+  border-bottom: 2px solid darkgrey;;
+  border-right: 2px solid darkgrey;;
+  color:white;
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.3 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  padding:3px;
+  border-radius: 8px;
+}
+
+QPushButton:hover, QToolButton:hover,QComboBox:!editable:hover, QCheckBox:hover, QRadioButton:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+	stop: 0  rgb(216, 216, 216), stop: 0.4 rgb(155, 155, 155),
+	stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(216, 216, 216));
+}
+
+
+QPushButton::pressed {
+  border-style:none;   
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+    
+  color:white;
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  padding:3px;
+  border-radius: 8px;
+}
+
+QToolButton {
+  border-style:none;
+  min-width: 16px;  
+  min-height: 16px;     
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
+    
+  border-bottom: 2px solid darkgrey;
+  border-right: 2px solid darkgrey;
+  color:white;
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  padding:3px;
+  border-radius: 8px;
+}
+
+QCheckBox:checked, QRadioButton:checked {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+}
+
+QCheckBox:indeterminate {
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+}
+
+
+QToolButton:pressed {
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+  color:white;
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  padding:3px;
+  border-radius: 8px;
+}
+
+QMenu{
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  color:white;
+}
+
+QMenuBar
+{
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  color:white;
+}
+
+QMenuBar::item
+{
+    background: transparent;
+}
+
+QTableView {
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+  border-radius: 8px;
+  padding: 0 8px;
+  color:white;
+}
+
+QHeaderView {
+    background: transparent;
+}
+QHeaderView::section {
+    background: transparent;
+    border: 1px solid gray;
+    padding: 3px;
+}
+
+QTreeView {
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+  color:white;
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  border-radius: 8px;
+  show-decoration-selected: 0;
+}
+
+QGroupBox{
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+  color:white;
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  border-radius: 8px;
+}
+
+QToolBox   {
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+  color: black;
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  border-radius: 8px;
+}
+
+QListWidget {
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+   
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+  color:white;
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  border-radius: 8px;
+  show-decoration-selected: 1;
+}
+
+QToolBox > QWidget {
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+ color: black; 
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  border-radius: 8px;
+}
+
+QToolBox::tab {
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+ color: black; 
+    font:normal;
+  background:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+  border-radius: 8px;
+}
+
+QSpinBox   {  
+   background:white;
+   border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+   
+   padding:3px;
+   border-radius: 8px;
+       color: black; 
+    font:normal;
+}
+
+QDoubleSpinBox  {  
+   background:white;
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+   
+   padding:3px;
+   border-radius: 8px;
+       color: black; 
+    font:normal;
+}
+
+QDateEdit  {  
+   background:white;
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+   
+   padding:3px;
+   border-radius: 8px;
+       color: black; 
+    font:normal;
+}
+
+QTimeEdit   {  
+   background:white;
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+   
+   padding:3px;
+   border-radius: 8px;
+       color: black; 
+    font:normal;
+}
+
+QDateTimeEdit   {  
+   background:white;
+  border-left: 2px solid gray;
+  border-top: 2px solid gray;
+    
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+   
+   padding:3px;
+   border-radius: 8px;
+       color: black; 
+    font:normal;
+}
+
+QSpinBox::up-button {
+    subcontrol-origin: margin; 
+    subcontrol-position: top right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-top-right-radius: 8px; 
+    border-width: 1px; 
+    width: 16px; 
+    border-top: 2px solid darkgrey;;
+ } 
+ 
+QDoubleSpinBox::up-button {
+    subcontrol-origin: margin; 
+    subcontrol-position: top right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-top-right-radius: 8px; 
+    border-width: 1px; 
+    width: 16px; 
+    border-top: 2px solid darkgrey;;
+ } 
+ 
+ QDateEdit::up-button  {
+    subcontrol-origin: margin; 
+    subcontrol-position: top right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-top-right-radius: 8px; 
+    border-width: 1px; 
+    width: 16px; 
+    border-top: 2px solid darkgrey;;
+ } 
+ 
+ QTimeEdit::up-button  {
+    subcontrol-origin: margin; 
+    subcontrol-position: top right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-top-right-radius: 8px; 
+    border-width: 1px; 
+    width: 16px; 
+    border-top: 2px solid darkgrey;;
+ } 
+ 
+QDateTimeEdit::up-button  {
+    subcontrol-origin: margin; 
+    subcontrol-position: top right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-top-right-radius: 8px; 
+    border-width: 1px; 
+    width: 16px; 
+    border-top: 2px solid darkgrey;;
+ } 
+
+QSpinBox::up-arrow{ 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-bottom: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+QDoubleSpinBox::up-arrow { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-bottom: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+QDateEdit::up-arrow { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-bottom: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+QTimeEdit::up-arrow { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-bottom: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+QSpinBox::up-button:pressed {
+    subcontrol-origin: margin; 
+    subcontrol-position: top right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-top-right-radius: 8px; 
+    border-width: 1px; 
+    width: 15px; 
+    border-left: 1px solid #BEBEBE; 
+    border-top: 3px solid darkgrey;;
+ } 
+ 
+QDoubleSpinBox::up-button:pressed {
+    subcontrol-origin: margin; 
+    subcontrol-position: top right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-top-right-radius: 8px; 
+    border-width: 1px; 
+    width: 15px; 
+    border-left: 1px solid #BEBEBE; 
+    border-top: 3px solid darkgrey;;
+ } 
+ 
+ QDateEdit::up-button:pressed  {
+    subcontrol-origin: margin; 
+    subcontrol-position: top right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-top-right-radius: 8px; 
+    border-width: 1px; 
+    width: 15px; 
+    border-left: 1px solid #BEBEBE; 
+    border-top: 3px solid darkgrey;;
+ } 
+ 
+ QTimeEdit::up-button:pressed  {
+    subcontrol-origin: margin; 
+    subcontrol-position: top right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-top-right-radius: 8px; 
+    border-width: 1px; 
+    width: 15px; 
+    border-left: 1px solid #BEBEBE; 
+    border-top: 3px solid darkgrey;;
+ } 
+ 
+QDateTimeEdit::up-button:pressed  {
+    subcontrol-origin: margin; 
+    subcontrol-position: top right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-top-right-radius: 8px; 
+    border-width: 1px; 
+    width: 15px; 
+    border-left: 1px solid #BEBEBE; 
+    border-top: 3px solid darkgrey;;
+ } 
+ 
+ QSpinBox::up-arrow:pressed { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-bottom: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+ QDoubleSpinBox::up-arrow:pressed { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-bottom: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+ QDateEdit::up-arrow:pressed { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-bottom: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+ QTimeEdit::up-arrow:pressed { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-bottom: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+ QSpinBox::down-button {
+    subcontrol-origin: margin; 
+    subcontrol-position: bottom right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-bottom-right-radius: 8px; 
+    border-width: 1px; 
+    width: 16px; 
+    border-bottom: 0px;
+ } 
+ 
+ QDoubleSpinBox::down-button {
+    subcontrol-origin: margin; 
+    subcontrol-position: bottom right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-bottom-right-radius: 8px; 
+    border-width: 1px; 
+    width: 16px; 
+    border-bottom: 0px;
+ } 
+ 
+  QDateEdit::down-button {
+    subcontrol-origin: margin; 
+    subcontrol-position: bottom right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-bottom-right-radius: 8px; 
+    border-width: 1px; 
+    width: 16px; 
+    border-bottom: 0px;
+ } 
+ 
+  QTimeEdit::down-button {
+    subcontrol-origin: margin; 
+    subcontrol-position: bottom right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-bottom-right-radius: 8px; 
+    border-width: 1px; 
+    width: 16px; 
+    border-bottom: 0px;
+ } 
+
+ QDateTimeEdit::down-button {
+    subcontrol-origin: margin; 
+    subcontrol-position: bottom right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-bottom-right-radius: 8px; 
+    border-width: 1px; 
+    width: 16px; 
+    border-bottom: 0px;
+ } 
+
+QSpinBox::down-arrow  { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-top: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+QDoubleSpinBox::down-arrow { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-top: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+QDateEdit::down-arrow { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-top: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+QTimeEdit::down-arrow { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-top: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+QSpinBox::down-button:pressed  {
+    subcontrol-origin: margin; 
+    subcontrol-position: bottom right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-bottom-right-radius: 8px; 
+    border-width: 1px; 
+    width: 14px; 
+    border-left: 1px solid #BEBEBE; 
+    border-top: 1px solid #BEBEBE; 
+    border-right: 1px solid #BEBEBE; 
+    border-bottom: 0px;
+ } 
+ 
+QDoubleSpinBox::down-button:pressed {
+    subcontrol-origin: margin; 
+    subcontrol-position: bottom right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-bottom-right-radius: 8px; 
+    border-width: 1px; 
+    width: 14px; 
+    border-left: 1px solid #BEBEBE; 
+    border-top: 1px solid #BEBEBE; 
+    border-right: 1px solid #BEBEBE; 
+    border-bottom: 0px;
+ } 
+ 
+ QDateEdit::down-button:pressed  {
+    subcontrol-origin: margin; 
+    subcontrol-position: bottom right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-bottom-right-radius: 8px; 
+    border-width: 1px; 
+    width: 14px; 
+    border-left: 1px solid #BEBEBE; 
+    border-top: 1px solid #BEBEBE; 
+    border-right: 1px solid #BEBEBE; 
+    border-bottom: 0px;
+ } 
+ 
+ QTimeEdit::down-button:pressed  {
+    subcontrol-origin: margin; 
+    subcontrol-position: bottom right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-bottom-right-radius: 8px; 
+    border-width: 1px; 
+    width: 14px; 
+    border-left: 1px solid #BEBEBE; 
+    border-top: 1px solid #BEBEBE; 
+    border-right: 1px solid #BEBEBE; 
+    border-bottom: 0px;
+ } 
+ 
+QDateTimeEdit::down-button:pressed  {
+    subcontrol-origin: margin; 
+    subcontrol-position: bottom right; 
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0  rgb(216, 216, 216), stop: 0.1 rgb(155, 155, 155),
+                                 stop: 0.5 rgb(155, 155, 155), stop: 1.0 rgb(207, 203, 207));
+    border-bottom-right-radius: 8px; 
+    border-width: 1px; 
+    width: 14px; 
+    border-left: 1px solid #BEBEBE; 
+    border-top: 1px solid #BEBEBE; 
+    border-right: 1px solid #BEBEBE; 
+    border-bottom: 0px;
+ } 
+ 
+QSpinBox::down-arrow:pressed   { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-top: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+QDoubleSpinBox::down-arrow:pressed { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-top: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+}
+
+QDateEdit::down-arrow:pressed { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-top: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+} 
+ 
+QTimeEdit::down-arrow:pressed { 
+    background-color: transparent;
+    border-left: 3px solid none;
+    border-right: 3px solid none; 
+    border-top: 3px solid #808080; 
+    width: 1px; 
+    height: 1px; 
+} 
