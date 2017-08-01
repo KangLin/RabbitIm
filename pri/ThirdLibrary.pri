@@ -121,6 +121,6 @@ equals(RABBITIM_USE_OPENSSL, 1) {
         MYPKGCONFIG *= openssl
     } else : msvc {
         DEFINES *= RABBITIM_USE_OPENSSL
-        LIBS += -llibeay32 -lssleay32 
+        LIBS += -llibssl -llibcrypto #-llibeay32 -lssleay32 
     }
 }
