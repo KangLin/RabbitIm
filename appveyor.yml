@@ -2,20 +2,7 @@
 version: '0.1.1.{build}'
 
 environment:
-  matrix:
-
-  - BUILD_TARGERT: windows_msvc
-    GENERATORS: "Visual Studio 14 2015"
-    TOOLCHAIN_VERSION: 14
-    QT_VERSION: qt5.9
-    QT_ROOT: /C/Qt/5.9/msvc2015
-    AUTOBUILD_ARCH: x86
-    RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc14_x86_qt5.9.tar.gz/download
-    RABBITIM_USE_REPOSITORIES: "FALSE"
-    PASSWORD:
-      secure: 2WEtOQrdty3V3g0aEVvS3Q==
-      
+  matrix:      
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     TOOLCHAIN_VERSION: 14
@@ -36,18 +23,6 @@ environment:
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc14_x86_qt5.7.tar.gz/download
-    PASSWORD:
-      secure: 2WEtOQrdty3V3g0aEVvS3Q==
-
-  - BUILD_TARGERT: windows_msvc
-    GENERATORS: "Visual Studio 12 2013"
-    TOOLCHAIN_VERSION: 12
-    QT_VERSION: qt5.9
-    QT_ROOT: /C/Qt/5.9/msvc2013
-    AUTOBUILD_ARCH: x86
-    RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc12_x86_qt5.9.tar.gz/download
-    RABBITIM_USE_REPOSITORIES: "FALSE"
     PASSWORD:
       secure: 2WEtOQrdty3V3g0aEVvS3Q==
       

@@ -93,6 +93,9 @@ equals(QXMPP_USE_VPX, 1) {
 myPackagesExist(libqrencode) {
     DEFINES *= RABBITIM_USE_LIBQRENCODE
     MYPKGCONFIG *= libqrencode
+} else : msvc {
+    DEFINES *= RABBITIM_USE_LIBQRENCODE
+    LIBS += -lqrencode
 }
 
 myPackagesExist(QZXing) {

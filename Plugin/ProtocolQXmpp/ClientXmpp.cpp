@@ -27,9 +27,13 @@ CClientXmpp::CClientXmpp(QObject *parent)
     : CClient(parent),
       m_User(NULL)
 {
+    bool check = false;
     //初始化qxmpp log  
     m_Client.logger()->setLoggingType(QXmppLogger::StdoutLogging);
-
+    check = connect(m_Client.logger(), SIGNAL(message(QXmppLogger::MessageType,QString)),
+                    this, SLOT(slotMessage(QXmppLogger::MessageType,QString)));
+    Q_ASSERT(check);
+    
     m_Client.addExtension(&m_MucManager);
     //TODO:增加文件代理的查找,如果用发现服务查找，  
     //则可能引起大量查询包，导制服务器忙。目前解决方案就是直接设置代理  
@@ -171,6 +175,7 @@ int CClientXmpp::Login(const QString &szUserName,
     }
     else
         config.setUseSASLAuthentication(true);
+
     config.setHost(CGlobal::Instance()->GetXmppServer());
     config.setPort(CGlobal::Instance()->GetXmppServerPort());
     config.setDomain(CGlobal::Instance()->GetXmppDomain());
@@ -672,4 +677,9 @@ void CClientXmpp::slotFileReceived(QXmppTransferJob *job)
 {
     QSharedPointer<CFileTransfer> file(new CFileTransferQXmpp(job));
     emit sigFileReceived(QXmppUtils::jidToBareJid(job->jid()), file);
+}
+
+void CClientXmpp::slotMessage(QXmppLogger::MessageType type, const QString &text)
+{
+    LOG_MODEL_DEBUG("qxmpp", "%s", text.toStdString().c_str());
 }

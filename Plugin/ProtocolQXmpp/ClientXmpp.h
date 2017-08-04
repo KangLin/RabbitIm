@@ -178,7 +178,9 @@ private slots:
       * @param job
       */
      void slotFileReceived(QXmppTransferJob *job);
-
+     //qxmpp log
+     void slotMessage(QXmppLogger::MessageType type, const QString &text);
+     
 private:
     QXmppClient m_Client;
     QSharedPointer<CManageUserQXmpp> m_User;
