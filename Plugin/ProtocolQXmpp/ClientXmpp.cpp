@@ -29,7 +29,7 @@ CClientXmpp::CClientXmpp(QObject *parent)
 {
     bool check = false;
     //初始化qxmpp log  
-    m_Client.logger()->setLoggingType(QXmppLogger::StdoutLogging);
+    //m_Client.logger()->setLoggingType(QXmppLogger::SignalLogging);
     check = connect(m_Client.logger(), SIGNAL(message(QXmppLogger::MessageType,QString)),
                     this, SLOT(slotMessage(QXmppLogger::MessageType,QString)));
     Q_ASSERT(check);
