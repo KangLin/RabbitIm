@@ -2,7 +2,29 @@
 version: '0.1.1.{build}'
 
 environment:
-  matrix:      
+  matrix:
+  - BUILD_TARGERT: windows_mingw
+    TOOLCHAIN_VERSION: 530
+    QT_VERSION: qt5.8
+    QT_ROOT: /C/Qt/5.8/mingw53_32
+    AUTOBUILD_ARCH: x86
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.8.tar.gz/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
+      
+  - BUILD_TARGERT: windows_mingw
+    TOOLCHAIN_VERSION: 530
+    QT_VERSION: qt5.7
+    QT_ROOT: /C/Qt/5.7/mingw53_32
+    AUTOBUILD_ARCH: x86
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.7.tar.gz/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
+      
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     TOOLCHAIN_VERSION: 14
@@ -53,18 +75,7 @@ environment:
     QT_VERSION_DIR: 5.7
     QT_VERSION: 5.7.0
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_android__5.7.0.tar.gz/download
-    PASSWORD:
-      secure: 2WEtOQrdty3V3g0aEVvS3Q==
-
-  - BUILD_TARGERT: windows_mingw
-    TOOLCHAIN_VERSION: 530
-    QT_VERSION: qt5.7
-    QT_ROOT: /C/Qt/5.7/mingw53_32
-    AUTOBUILD_ARCH: x86
-    RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.7.tar.gz/download
-    RABBITIM_USE_REPOSITORIES: "FALSE"
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/Release/rabbit_android4.8_arm_qt5.7.tar.gz/download
     PASSWORD:
       secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
