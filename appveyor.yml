@@ -5,22 +5,22 @@ environment:
   matrix:
   - BUILD_TARGERT: windows_mingw
     TOOLCHAIN_VERSION: 530
-    QT_VERSION: qt5.8
+    QT_VERSION: qt5.8.0
     QT_ROOT: /C/Qt/5.8/mingw53_32
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.8.tar.gz/download
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.8.0.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     PASSWORD:
       secure: 2WEtOQrdty3V3g0aEVvS3Q==
       
   - BUILD_TARGERT: windows_mingw
     TOOLCHAIN_VERSION: 530
-    QT_VERSION: qt5.7
+    QT_VERSION: qt5.7.1
     QT_ROOT: /C/Qt/5.7/mingw53_32
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.7.tar.gz/download
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.7.1.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     PASSWORD:
       secure: 2WEtOQrdty3V3g0aEVvS3Q==
@@ -28,11 +28,11 @@ environment:
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     TOOLCHAIN_VERSION: 14
-    QT_VERSION: qt5.8
+    QT_VERSION: qt5.8.0
     QT_ROOT: /C/Qt/5.8/msvc2015
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc14_x86_qt5.8.tar.gz/download
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc14_x86_qt5.8.0.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     PASSWORD:
       secure: 2WEtOQrdty3V3g0aEVvS3Q==
@@ -40,22 +40,22 @@ environment:
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     TOOLCHAIN_VERSION: 14
-    QT_VERSION: qt5.7
+    QT_VERSION: qt5.7.1
     QT_ROOT: /C/Qt/5.7/msvc2015
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc14_x86_qt5.7.tar.gz/download
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc14_x86_qt5.7.1.tar.gz/download
     PASSWORD:
       secure: 2WEtOQrdty3V3g0aEVvS3Q==
       
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     TOOLCHAIN_VERSION: 12
-    QT_VERSION: qt5.8
+    QT_VERSION: qt5.8.0
     QT_ROOT: /C/Qt/5.8/msvc2013
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc12_x86_qt5.8.tar.gz/download
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc12_x86_qt5.8.0.tar.gz/download
     RABBITIM_USE_REPOSITORIES: "FALSE"
     PASSWORD:
       secure: 2WEtOQrdty3V3g0aEVvS3Q==
@@ -63,19 +63,19 @@ environment:
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     TOOLCHAIN_VERSION: 12
-    QT_VERSION: qt5.7
+    QT_VERSION: qt5.7.1
     QT_ROOT: /C/Qt/5.7/msvc2013
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc12_x86_qt5.7.tar.gz/download
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_msvc12_x86_qt5.7.1.tar.gz/download
     PASSWORD:
       secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
   - BUILD_TARGERT: android
     QT_VERSION_DIR: 5.7
-    QT_VERSION: 5.7.0
+    QT_VERSION: 5.7.1
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/Release/rabbit_android4.8_arm_qt5.7.0.tar.gz/download
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/Release/rabbit_android4.8_arm_qt5.7.1.tar.gz/download
     PASSWORD:
       secure: 2WEtOQrdty3V3g0aEVvS3Q==
 
