@@ -46,28 +46,31 @@ updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_OUT}
 updateqm.CONFIG += no_link  no_clean target_predeps 
 QMAKE_EXTRA_COMPILERS += updateqm
 
-#复制翻译文件到编译目录  
+#Copy translation file to directory
 TRANSLATIONS_OUTPUT_PATH = $${TARGET_PATH}/translations
 mytranslations.target = mytranslations
 QT_QM = $$[QT_INSTALL_TRANSLATIONS]/qt_*.qm
-equals(QMAKE_HOST.os, Windows){#:isEmpty(QMAKE_SH){
-    TRANSLATIONS_OUTPUT_PATH = $$replace(TRANSLATIONS_OUTPUT_PATH, /, \\)
-    QT_QM = $$system_path($${QT_QM})
-    TRANSLATIONS_QM_FILES = $$replace(TRANSLATIONS_QM_FILES, /, \\)
+equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
+        TRANSLATIONS_OUTPUT_PATH = $$system_path($${TRANSLATIONS_OUTPUT_PATH})
+        QT_QM = $$system_path($${QT_QM})
 }
 mkpath($${TRANSLATIONS_OUTPUT_PATH})
 for(file, TRANSLATIONS_QM_FILES){
+    equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
+        file = $$system_path($${file})
+    }
     isEmpty(mytranslations_commands){
-        mytranslations_commands += $${QMAKE_COPY} $${file} \
-                               $${TRANSLATIONS_OUTPUT_PATH} 
+        mytranslations_commands += $${QMAKE_COPY} "$${file}" \
+                               "$${TRANSLATIONS_OUTPUT_PATH}"
     }
     else {
-        mytranslations_commands += && $${QMAKE_COPY} $${file} \
-                                $${TRANSLATIONS_OUTPUT_PATH} 
+        mytranslations_commands += && $${QMAKE_COPY} "$${file}" \
+                                "$${TRANSLATIONS_OUTPUT_PATH}" 
     }
 }
-mytranslations_commands += && $${QMAKE_COPY} $${QT_QM} $${TRANSLATIONS_OUTPUT_PATH}
+mytranslations_commands += && $${QMAKE_COPY} "$${QT_QM}" "$${TRANSLATIONS_OUTPUT_PATH}"
 mytranslations.commands = $$mytranslations_commands 
+
 
 !android{  #手机平台不需要  
     QMAKE_EXTRA_TARGETS += mytranslations

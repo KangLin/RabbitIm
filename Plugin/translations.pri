@@ -67,21 +67,23 @@ android | CONFIG(static, static|shared) {
 }
 
 #复制翻译文件到编译目录  
-TRANSLATIONS_OUTPUT_PATH = $${DESTDIR}/translations
+TRANSLATIONS_OUTPUT_PATH = $${TARGET_PATH}/translations
 mytranslations.target = mytranslations
-equals(QMAKE_HOST.os, Windows){#:isEmpty(QMAKE_SH){
-    TRANSLATIONS_OUTPUT_PATH = $$replace(TRANSLATIONS_OUTPUT_PATH, /, \\)
-    TRANSLATIONS_QM_FILES = $$replace(TRANSLATIONS_QM_FILES, /, \\)   
+equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
+        TRANSLATIONS_OUTPUT_PATH = $$system_path($${TRANSLATIONS_OUTPUT_PATH})
 }
 mkpath($${TRANSLATIONS_OUTPUT_PATH})
 for(file, TRANSLATIONS_QM_FILES){
+    equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
+        file = $$system_path($${file})
+    }
     isEmpty(mytranslations_commands){
-        mytranslations_commands += $${QMAKE_COPY} $${file} \
-                                $${TRANSLATIONS_OUTPUT_PATH}
+        mytranslations_commands += $${QMAKE_COPY} "$${file}" \
+                               "$${TRANSLATIONS_OUTPUT_PATH}"
     }
     else {
-        mytranslations_commands += && $${QMAKE_COPY} $${file} \
-                                $${TRANSLATIONS_OUTPUT_PATH} 
+        mytranslations_commands += && $${QMAKE_COPY} "$${file}" \
+                                "$${TRANSLATIONS_OUTPUT_PATH}" 
     }
 }
 mytranslations.commands = $$mytranslations_commands 
