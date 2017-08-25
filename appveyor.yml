@@ -2,29 +2,7 @@
 version: '0.1.1.{build}'
 
 environment:
-  matrix:
-  - BUILD_TARGERT: windows_mingw
-    TOOLCHAIN_VERSION: 530
-    QT_VERSION: qt5.8.0
-    QT_ROOT: /C/Qt/5.8/mingw53_32
-    AUTOBUILD_ARCH: x86
-    RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.8.0.tar.gz/download
-    RABBITIM_USE_REPOSITORIES: "FALSE"
-    PASSWORD:
-      secure: 2WEtOQrdty3V3g0aEVvS3Q==
-      
-  - BUILD_TARGERT: windows_mingw
-    TOOLCHAIN_VERSION: 530
-    QT_VERSION: qt5.7.1
-    QT_ROOT: /C/Qt/5.7/mingw53_32
-    AUTOBUILD_ARCH: x86
-    RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.7.1.tar.gz/download
-    RABBITIM_USE_REPOSITORIES: "FALSE"
-    PASSWORD:
-      secure: 2WEtOQrdty3V3g0aEVvS3Q==
-      
+  matrix:      
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     TOOLCHAIN_VERSION: 14
@@ -75,10 +53,32 @@ environment:
     QT_VERSION_DIR: 5.7
     QT_VERSION: 5.7.1
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
-    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/Release/rabbit_android4.8_arm_5.7.1.tar.gz/download
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_android4.8_arm_5.7.1.tar.gz/download
     PASSWORD:
       secure: 2WEtOQrdty3V3g0aEVvS3Q==
-
+  
+  - BUILD_TARGERT: windows_mingw
+    TOOLCHAIN_VERSION: 530
+    QT_VERSION: qt5.8.0
+    QT_ROOT: /C/Qt/5.8/mingw53_32
+    AUTOBUILD_ARCH: x86
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.8.0.tar.gz/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
+      
+  - BUILD_TARGERT: windows_mingw
+    TOOLCHAIN_VERSION: 530
+    QT_VERSION: qt5.7.1
+    QT_ROOT: /C/Qt/5.7/mingw53_32
+    AUTOBUILD_ARCH: x86
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_windows_mingw530_x86_qt5.7.1.tar.gz/download
+    RABBITIM_USE_REPOSITORIES: "FALSE"
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
+      
 matrix:
   fast_finish: false
 
@@ -108,46 +108,47 @@ before_build:
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
   - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ThirdLibrary\build_script\ci\build.sh
+  - if "%BUILD_TARGERT%" == "windows_msvc" copy "%APPVEYOR_BUILD_FOLDER%\Install\Install.nsi" "%APPVEYOR_BUILD_FOLDER%\build_%BUILD_TARGERT%"  && cd "%APPVEYOR_BUILD_FOLDER%\build_%BUILD_TARGERT%" && "C:\Program Files (x86)\NSIS\makensis.exe" "Install.nsi"
 
 #after_build:
 
 artifacts:
- # - path: ThirdLibrary/src
- #   name: RabbitImThirdLibrarySource
-    
   #- path: ThirdLibrary/$(BUILD_TARGERT)
   #  name: RabbitIm_$(BUILD_TARGERT)$(toolchain_version)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
   #  type: zip
-    
-  - path: build_$(BUILD_TARGERT)/install
-    name: RabbitIm_$(BUILD_TARGERT)$(toolchain_version)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(BUILD_VERSION)
+
+  - path: build_${BUILD_TARGERT}/RabbitIM-Setup-*.exe
+    name: RabbitIM_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
     type: zip
 
 test: off
 
 deploy:
-  provider: FTP 
-  protocol: sftp 
-  host: frs.sourceforge.net 
-  username: kl222,rabbitim
+  #provider: FTP 
+  #protocol: sftp 
+  #host: frs.sourceforge.net 
+  #username: kl222,rabbitim
   #密码用这个加密 https://ci.appveyor.com/tools/encrypt
-  password:
-    secure: 2WEtOQrdty3V3g0aEVvS3Q==
-  folder: pfs  #link pfs to /home/frs/project/r/ra/rabbitim
-  draft: false
-  active_mode: false
+  #password:
+  #  secure: 2WEtOQrdty3V3g0aEVvS3Q==
+  #folder: pfs  #link pfs to /home/frs/project/r/ra/rabbitim
+  #draft: false
+  #active_mode: false
   #on:
     #branch: master
 
-#deploy:
-#  provider: GitHub
-#  release: rabbitim-third-library-v$(appveyor_build_version)
-#  description: 'rabbitim-third-library-v$(appveyor_build_version)'
-#  #token 在这个地址产生 https://github.com/settings/tokens 用这个加密 https://ci.appveyor.com/tools/encrypt
-#  auth_token:
-#    secure: ZwS9M6Ide+GfM4kLxJ5b9tRoB1wn/56nZRCAIP6Z7s3+YwcE+cx0Dv0d6X82lidF
-#  draft: false
-#  prerelease: false
-#  on:
-#    branch: master                 # release from master branch only
-#    #appveyor_repo_tag: true        # deploy on tag push only
+  - provider: GitHub
+    #release: RabbitIM-v$(appveyor_build_version)
+    description: 'Release RabbitIM $(APPVEYOR_REPO_TAG_NAME) on windows'
+    #token : https://github.com/settings/tokens password encrypt: https://ci.appveyor.com/tools/encrypt
+    auth_token:
+      secure: xgIFN2iAfgj1gsWabdHrmFXvj0rce/ZWtKUwm3aDUNfLGu+kO/q94MYD8a46AbDL
+    #artifact: RabbitGIS_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
+    #draft: true
+    #prerelease: true
+    on:
+      BUILD_TARGERT: windows_msvc
+      TOOLCHAIN_VERSION: 14
+      QT_VERSION: qt5.7.1
+      AUTOBUILD_ARCH: x86
+      appveyor_repo_tag: true        # deploy on tag push only

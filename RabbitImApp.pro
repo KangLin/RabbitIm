@@ -107,7 +107,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
         #复制第三方依赖库动态库到编译输出目录  
         THIRD_LIBRARY_DLL = $${THIRD_LIBRARY_PATH}/bin/*.dll
         exists($${THIRD_LIBRARY_DLL}){
-            equals(QMAKE_HOST.os, Windows){#:isEmpty(QMAKE_SH){
+            equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
                 THIRD_LIBRARY_DLL = $$system_path($$THIRD_LIBRARY_DLL)
                 TARGET_PATH = $$system_path($$TARGET_PATH)
             }
@@ -121,7 +121,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
     
         THIRD_LIBRARY_LIB = $${THIRD_LIBRARY_PATH}/lib/*.dll
         exists($${THIRD_LIBRARY_LIB}){
-            equals(QMAKE_HOST.os, Windows){#:isEmpty(QMAKE_SH){
+            equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
                 THIRD_LIBRARY_LIB = $$system_path($$THIRD_LIBRARY_LIB)
                 TARGET_PATH = $$system_path($$TARGET_PATH)
             }

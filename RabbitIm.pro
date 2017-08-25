@@ -34,4 +34,5 @@ OTHER_FILES += README.md \
     Update/*.xml \
     Doxyfile* \
     pri/* \
+    Install/* \
     Dockerfile 
