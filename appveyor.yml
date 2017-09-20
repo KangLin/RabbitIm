@@ -2,7 +2,15 @@
 version: '0.1.1.{build}'
 
 environment:
-  matrix:      
+  matrix:
+  - BUILD_TARGERT: android
+    QT_VERSION_DIR: 5.7
+    QT_VERSION: 5.7.1
+    RABBIT_BUILD_THIRDLIBRARY: rabbitim
+    DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_android4.8_arm_5.7.1.tar.gz/download
+    PASSWORD:
+      secure: 2WEtOQrdty3V3g0aEVvS3Q==
+      
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     TOOLCHAIN_VERSION: 14
