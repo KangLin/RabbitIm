@@ -7,9 +7,11 @@ CFrmFaceRecognizer::CFrmFaceRecognizer(QWidget *parent) :
     ui(new Ui::CFrmFaceRecognizer)
 {
     ui->setupUi(this);
+
     bool check = connect(&m_CapThread, SIGNAL(sigCaptured(cv::Mat)),
             this, SLOT(slotCaptured(cv::Mat)));
     Q_ASSERT(check);
+    
     m_CapThread.start();
 }
 
@@ -22,15 +24,32 @@ CFrmFaceRecognizer::~CFrmFaceRecognizer()
 
 void CFrmFaceRecognizer::on_pbSave_clicked()
 {
-    
+    m_Operator = SAVE;
 }
 
 void CFrmFaceRecognizer::slotCaptured(cv::Mat frame)
 {
     cv::Mat frame_gray;
     m_DetectFace.DetectFaces(frame, frame_gray, 6);
+
+    switch (m_Operator) {
+    case SAVE:
+        m_DetectFace.AddImage(frame_gray, ui->leLabel->text().toInt());
+        break;
+    case TRAIN:
+        m_DetectFace.Train();
+        break;
+    case RECOGNIZER:
+        int label;
+        double confidence;
+        m_DetectFace.Recognizer(frame_gray, label, confidence);
+        break;
+    default:
+        break;
+    }
+    m_Operator = NO;
     ShowImage(frame);
-    qDebug() << "Width:" << frame.cols << "Height:" << frame.rows;
+    //qDebug() << "Width:" << frame.cols << "Height:" << frame.rows;
 
 }
 
@@ -43,9 +62,19 @@ void CFrmFaceRecognizer::ShowImage(cv::Mat image)
     }
     else
         frame = image;
-    
-    cv::cvtColor(frame, m_frame, cv::COLOR_BGR2RGBA);
-    QImage i(m_frame.data, m_frame.cols, m_frame.rows, QImage::Format_RGB32);
+
+    cv::cvtColor(frame, m_Frame, cv::COLOR_BGR2RGBA);
+    QImage i(m_Frame.data, m_Frame.cols, m_Frame.rows, QImage::Format_RGB32);
 
     ui->lbShow->setPixmap(QPixmap::fromImage(i));
+}
+
+void CFrmFaceRecognizer::on_pbTrain_clicked()
+{
+    m_Operator = TRAIN;
+}
+
+void CFrmFaceRecognizer::on_pbRecgnizer_clicked()
+{
+    m_Operator = RECOGNIZER;
 }

@@ -21,13 +21,26 @@ private slots:
     void on_pbSave_clicked();
     void slotCaptured(cv::Mat frame);
     
+    void on_pbTrain_clicked();
+    
+    void on_pbRecgnizer_clicked();
+    
 private:
     Ui::CFrmFaceRecognizer *ui;
     
     CCapThread m_CapThread;
     CDetectFaces m_DetectFace;
-    cv::Mat m_frame;
     
+    enum __OPERATOR
+    {
+        NO,
+        SAVE,
+        TRAIN,
+        RECOGNIZER
+    };
+    __OPERATOR m_Operator;
+    
+    cv::Mat m_Frame;
     void ShowImage(cv::Mat image);
 };
 
