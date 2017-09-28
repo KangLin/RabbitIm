@@ -2,7 +2,7 @@
 #define DETECTFACES_H
 
 #include <QObject>
-#include <opencv2\opencv.hpp>
+#include "opencv2\opencv.hpp"
 #include "opencv2/face.hpp"
 
 class CDetectFaces : public QObject
@@ -10,7 +10,7 @@ class CDetectFaces : public QObject
     Q_OBJECT
 public:
     explicit CDetectFaces(QObject *parent = 0);
-    bool DetectFaces(cv::Mat frame, cv::Mat &frame_gray, double scale);
+    bool DetectFaces(cv::Mat frame, cv::Mat &frame_gray, CV_OUT std::vector<cv::Rect>&faces, double scale);
     bool DetectFaces(cv::Mat frame, cv::Mat &frame_gray);
 
     int AddImage(cv::Mat image, int lable);

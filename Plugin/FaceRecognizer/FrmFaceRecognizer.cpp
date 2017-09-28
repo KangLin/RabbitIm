@@ -30,19 +30,31 @@ void CFrmFaceRecognizer::on_pbSave_clicked()
 void CFrmFaceRecognizer::slotCaptured(cv::Mat frame)
 {
     cv::Mat frame_gray;
-    m_DetectFace.DetectFaces(frame, frame_gray, 6);
+    std::vector<cv::Rect> faces;
+    m_DetectFace.DetectFaces(frame, frame_gray, faces, 6);
 
     switch (m_Operator) {
     case SAVE:
-        m_DetectFace.AddImage(frame_gray, ui->leLabel->text().toInt());
-        break;
+    {
+        std::vector<cv::Rect>::iterator it;
+        for(it = faces.begin(); it != faces.end(); it++)
+        {
+            cv::Mat ROI = frame(*it);
+            qDebug() << "ROI width:" << ROI.cols << " Height:" << ROI.rows;
+            m_DetectFace.AddImage(ROI, ui->leLabel->text().toInt());
+        }
+     
+    }
+           break;
     case TRAIN:
         m_DetectFace.Train();
         break;
     case RECOGNIZER:
-        int label;
-        double confidence;
+    {
+        int label = -1;
+        double confidence = 0.0;
         m_DetectFace.Recognizer(frame_gray, label, confidence);
+    }
         break;
     default:
         break;

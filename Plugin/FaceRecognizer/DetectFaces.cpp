@@ -5,6 +5,7 @@
 CDetectFaces::CDetectFaces(QObject *parent) : QObject(parent)
 {  
     cv::String szCascades = "D:\\source\\RabbitIm\\ThirdLibrary\\windows_msvc\\etc\\haarcascades\\";
+    //cv::String szCascades = "D:\\source\\opencv\\data\\haarcascades_cuda\\";
     cv::String szFaceCascade = szCascades + "haarcascade_frontalface_alt2.xml";
     m_FaceCascade.load(szFaceCascade);
     //cv::String eyes_cascade_name = szCascades + "haarcascade_eye_tree_eyeglasses.xml";
@@ -29,8 +30,8 @@ bool CDetectFaces::DetectFaces(cv::Mat frame, cv::Mat &frame_gray)
                                    CV_HAAR_DO_ROUGH_SEARCH,
                                    cv::Size(1, 1),
                                    cv::Size(50,50));
-    //t = (double)cvGetTickCount() - t;
-    //qDebug() << "Detection face time = " << t / ((double)cvGetTickFrequency() * 1000) << "ms";
+    t = (double)cvGetTickCount() - t;
+    qDebug() << "Detection face time = " << t / ((double)cvGetTickFrequency() * 1000) << "ms";
     for (size_t i = 0; i < faces.size(); i++)
     {
         cv::rectangle(frame, faces[i], cv::Scalar(0,0,255), 2, 8, 0);
@@ -43,8 +44,8 @@ bool CDetectFaces::DetectFaces(cv::Mat frame, cv::Mat &frame_gray)
         m_EyesCascade.detectMultiScale(faceROI, eyes, 1.1, 3,
                                        CV_HAAR_DO_ROUGH_SEARCH,
                                        cv::Size(1, 1), cv::Size(50, 50));
-        //t = (double)cvGetTickCount() - t;
-        //qDebug() << "Detection eye time = " << t / ((double)cvGetTickFrequency() * 1000) << "ms";        
+        t = (double)cvGetTickCount() - t;
+        qDebug() << "Detection eye time = " << t / ((double)cvGetTickFrequency() * 1000) << "ms";        
         for (size_t j = 0; j < eyes.size(); j++)
         {
             cv::Rect rect(faces[i].x + eyes[j].x,
@@ -58,38 +59,41 @@ bool CDetectFaces::DetectFaces(cv::Mat frame, cv::Mat &frame_gray)
     return bFind;
 }
 
-bool CDetectFaces::DetectFaces(cv::Mat frame, cv::Mat &frame_gray, double scale)
+bool CDetectFaces::DetectFaces(cv::Mat frame,
+                               cv::Mat &frame_gray,
+                               CV_OUT std::vector<cv::Rect>& faces,
+                               double scale)
 {
     bool bFind = false;
     double t = 0;
-    std::vector<cv::Rect> faces;
+    std::vector<cv::Rect> f;
     cv::Mat smallImg(cvRound(frame.rows / scale), cvRound(frame.cols / scale), CV_8UC1);
     cv::cvtColor(frame, frame_gray, cv::COLOR_BGR2GRAY);
     resize(frame_gray, smallImg, smallImg.size(), 0, 0, cv::INTER_LINEAR);
 
     cv::equalizeHist(smallImg, smallImg);
-    //t = (double)cvGetTickCount();
+    t = (double)cvGetTickCount();
     m_FaceCascade.detectMultiScale(smallImg,
-                                   faces,
+                                   f,
                                    1.1,
                                    3,
                                    CV_HAAR_DO_CANNY_PRUNING
                                    |CV_HAAR_FIND_BIGGEST_OBJECT
                                    |CV_HAAR_DO_ROUGH_SEARCH
                                    |CV_HAAR_SCALE_IMAGE);
-    //t = (double)cvGetTickCount() - t;
+    t = (double)cvGetTickCount() - t;
     //qDebug() << "Detection face time = " << t / ((double)cvGetTickFrequency() * 1000) << "ms";
-    for (size_t i = 0; i < faces.size(); i++)
+    for (size_t i = 0; i < f.size(); i++)
     {
         cv::Rect r;
-        r.x = cvRound(faces[i].x * scale);
-        r.y = cvRound(faces[i].y * scale);
-        r.width = cvRound(faces[i].width * scale);
-        r.height = cvRound(faces[i].height * scale);
+        r.x = cvRound(f[i].x * scale);
+        r.y = cvRound(f[i].y * scale);
+        r.width = cvRound(f[i].width * scale);
+        r.height = cvRound(f[i].height * scale);
+        faces.push_back(r);
         cv::rectangle(frame, r, cv::Scalar(0,0,255), 2, 8, 0);
         
-        cv::Mat faceROI = smallImg(faces[i]);
-        frame_gray = faceROI.clone();
+        cv::Mat faceROI = smallImg(f[i]);
         std::vector<cv::Rect> eyes;
         
         //-- In each face, detect eyes
@@ -120,7 +124,11 @@ bool CDetectFaces::DetectFaces(cv::Mat frame, cv::Mat &frame_gray, double scale)
 
 int CDetectFaces::AddImage(cv::Mat image, int lable)
 {
-    m_Images.push_back(image);
+    cv::Mat img(50, 120, CV_8UC1);
+    if(image.empty())
+        return -1;
+    resize(image.clone(), img, img.size(),  0, 0, cv::INTER_LINEAR);
+    m_Images.push_back(img);
     m_Lables.push_back(lable);
     return 0;
 }
@@ -139,7 +147,8 @@ int CDetectFaces::Train()
 
 int CDetectFaces::Recognizer(cv::Mat image, CV_OUT int &label, CV_OUT double &confidence)
 {
-    m_Model->predict(image, label, confidence);
+    //m_Model->predict(image, label, confidence);
+    label = m_Model->predict(image);
     qDebug() << "label:" << label << " confidence:" << confidence;
     return 0;
 }

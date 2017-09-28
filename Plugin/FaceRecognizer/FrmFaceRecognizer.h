@@ -40,7 +40,7 @@ private:
     };
     __OPERATOR m_Operator;
     
-    cv::Mat m_Frame;
+    cv::Mat m_Frame, m_FrameGray;
     void ShowImage(cv::Mat image);
 };
 
