@@ -2,7 +2,7 @@
 #define DETECTFACES_H
 
 #include <QObject>
-#include "opencv2\opencv.hpp"
+#include "opencv2/opencv.hpp"
 #include "opencv2/face.hpp"
 
 class CDetectFaces : public QObject
@@ -25,10 +25,11 @@ private:
     cv::CascadeClassifier m_FaceCascade;   //定义人脸分类器
     cv::CascadeClassifier m_EyesCascade;   //定义人眼分类器
     
-    cv::Ptr<cv::face::LBPHFaceRecognizer> m_Model;
+    cv::Ptr<cv::face::EigenFaceRecognizer> m_Model;
 
     std::vector<cv::Mat> m_Images;
     std::vector<int> m_Lables;
+    int m_nWidth, m_nHeight;
 };
 
 #endif // DETECTFACES_H

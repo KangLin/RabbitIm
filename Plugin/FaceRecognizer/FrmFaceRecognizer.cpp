@@ -31,7 +31,7 @@ void CFrmFaceRecognizer::slotCaptured(cv::Mat frame)
 {
     cv::Mat frame_gray;
     std::vector<cv::Rect> faces;
-    m_DetectFace.DetectFaces(frame, frame_gray, faces, 6);
+    m_DetectFace.DetectFaces(frame, frame_gray, faces, 4);
 
     switch (m_Operator) {
     case SAVE:
@@ -39,7 +39,13 @@ void CFrmFaceRecognizer::slotCaptured(cv::Mat frame)
         std::vector<cv::Rect>::iterator it;
         for(it = faces.begin(); it != faces.end(); it++)
         {
-            cv::Mat ROI = frame(*it);
+            cv::Rect r = *it;
+            cv::Mat ROI = frame_gray(r);
+            cv::Mat img(50, 120,  CV_8UC1);
+            cv::resize(ROI, img, img.size(),  0, 0, cv::INTER_LINEAR);
+            ShowImage(ui->lbGray, img);
+            ROI = frame(r);
+            ShowImage(ui->lbHist, ROI);
             qDebug() << "ROI width:" << ROI.cols << " Height:" << ROI.rows;
             m_DetectFace.AddImage(ROI, ui->leLabel->text().toInt());
         }
@@ -53,32 +59,39 @@ void CFrmFaceRecognizer::slotCaptured(cv::Mat frame)
     {
         int label = -1;
         double confidence = 0.0;
-        m_DetectFace.Recognizer(frame_gray, label, confidence);
+        std::vector<cv::Rect>::iterator it;
+        for(it = faces.begin(); it != faces.end(); it++)
+        {
+            m_DetectFace.Recognizer(frame_gray(*it), label, confidence);
+        }
     }
         break;
     default:
         break;
     }
     m_Operator = NO;
-    ShowImage(frame);
+    ShowImage(ui->lbShow, frame);
     //qDebug() << "Width:" << frame.cols << "Height:" << frame.rows;
 
 }
 
-void CFrmFaceRecognizer::ShowImage(cv::Mat image)
+void CFrmFaceRecognizer::ShowImage(QLabel *pLable, cv::Mat image)
 {
     cv::Mat frame;
-    if(image.cols != 640 || image.rows != 480)
+    QImage img;
+    if(image.channels() == 3)
     {
-        cv::resize(image, frame, cv::Size(640, 480));
+        cv::cvtColor(image, frame, cv::COLOR_BGR2RGB);
+        img = QImage(frame.data, frame.cols, frame.rows,
+                     frame.cols * frame.channels(),
+                     QImage::Format_RGB888);
     }
     else
-        frame = image;
+        img = QImage(image.data, image.cols, image.rows,
+                     //image.cols * image.channels(),
+                     QImage::Format_Indexed8);
 
-    cv::cvtColor(frame, m_Frame, cv::COLOR_BGR2RGBA);
-    QImage i(m_Frame.data, m_Frame.cols, m_Frame.rows, QImage::Format_RGB32);
-
-    ui->lbShow->setPixmap(QPixmap::fromImage(i));
+    pLable->setPixmap(QPixmap::fromImage(img));
 }
 
 void CFrmFaceRecognizer::on_pbTrain_clicked()

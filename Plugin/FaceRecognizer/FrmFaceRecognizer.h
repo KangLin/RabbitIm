@@ -2,6 +2,7 @@
 #define FRMFACERECOGNIZER_H
 
 #include <QWidget>
+#include <QLabel>
 #include "CapThread.h"
 #include "DetectFaces.h"
 
@@ -41,7 +42,7 @@ private:
     __OPERATOR m_Operator;
     
     cv::Mat m_Frame, m_FrameGray;
-    void ShowImage(cv::Mat image);
+    void ShowImage(QLabel *pLable, cv::Mat image);
 };
 
 #endif // FRMFACERECOGNIZER_H
