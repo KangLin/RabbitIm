@@ -293,16 +293,16 @@
         ｜-----patch               #补丁包目录
         ｜-----build_script        #第三方库编译脚本目录
         ｜-----src                 #第三方库源码目录
-        ｜-----windows_msvc        # Windows 平台 msvc 编译的第三方库
+        ｜-----windows_msvc_${RABBIT_ARCH}  # Windows 平台 msvc 编译的第三方库, RABBIT_ARCH可以为x86或x64
         ｜       ｜-----include    #头文件
         ｜       ｜-----lib        #库文
-        ｜-----windows_msvc_static # Windows 平台 msvc 编译的第三方静态库
+        ｜-----windows_msvc_${RABBIT_ARCH}_static # Windows 平台 msvc 编译的第三方静态库
         ｜       ｜-----include     #头文件
         ｜       ｜-----lib         #库文
-        ｜-----windows_mingw    # Windows 平台 mingw 交叉编译的第三方库
+        ｜-----windows_mingw_${RABBIT_ARCH}    # Windows 平台 mingw 交叉编译的第三方库
         ｜       ｜-----include
         ｜       ｜-----lib
-        ｜-----windows_mingw_static  # Windows 平台 mingw 交叉编译的第三方静态库
+        ｜-----windows_mingw_${RABBIT_ARCH}_static  # Windows 平台 mingw 交叉编译的第三方静态库
         ｜       ｜-----include
         ｜       ｜-----lib
         ｜------unix            # unix 平台的第三方库
@@ -311,7 +311,7 @@
         ｜------unix_static     # unix 平台的第三方静态库
         ｜       ｜-----include
         ｜       ｜-----lib
-        ｜-----android          # android 平台的第三方库
+        ｜-----android_${RABBIT_ARCH}  # android 平台的第三方库,RABBIT_ARCH可以为arm,arm64,mips,mips64,x86,x86_64
         ｜       ｜-----include
         ｜       ｜-----lib
         ｜------windows_phone   #Windows Phone 平台的第三方库
