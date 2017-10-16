@@ -30,20 +30,27 @@ win32 {
     msvc {
         QMAKE_CXXFLAGS += /wd"4819"  #忽略msvc下对utf-8的警告  
         #QMAKE_LFLAGS += -ladvapi32
-        RABBITIM_PLATFORM = "msvc"
-        isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/windows_msvc
+        RABBITIM_PLATFORM = "windows_msvc"
+        contains(QMAKE_TARGET.arch, x86_64){
+            RABBITIM_ARCH = "x64"
+        }else {
+            RABBITIM_ARCH = "x86"
+        }
+      
         CONFIG(debug, debug|release) {
             QMAKE_LFLAGS += /SUBSYSTEM:WINDOWS",5.01" /NODEFAULTLIB:libcmtd
         }else{
             QMAKE_LFLAGS += /SUBSYSTEM:WINDOWS",5.01" /NODEFAULTLIB:libcmt
         }
     } else {
-        RABBITIM_PLATFORM = "mingw"
-        isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/windows_mingw
+        RABBITIM_PLATFORM = "windows_mingw"
         DEFINES += "_WIN32_WINNT=0x0501" #__USE_MINGW_ANSI_STDIO
     }
+
+    isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/$${RABBITIM_PLATFORM}_$${RABBITIM_ARCH}
+
 } else:android {
-    isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/android
+    isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/android_$${ANDROID_ARCHITECTURE}
     DEFINES += ANDROID MOBILE
     RABBITIM_SYSTEM = "android"
 }  else:unix {
