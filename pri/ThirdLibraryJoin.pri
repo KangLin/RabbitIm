@@ -32,11 +32,11 @@ for(ever) {
     pkgsfx = _PRIVATE
 }
 
-LIBS +=  $$OPENCV_LIBRARY 
+LIBS += $$OPENCV_LIBRARY 
 
 equals(QXMPP_USE_VPX, 1) : myPackagesExist(vpx){
     android {
-        LIBS += -lcpu-features
+        LIBS *= -lcpu-features
     }
 }
 

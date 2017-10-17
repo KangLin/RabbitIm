@@ -34,10 +34,6 @@ include(pri/ThirdLibraryJoin.pri)
 
 SOURCES += main.cpp
 
-CONFIG += mobility
-
-MOBILITY = 
-
 #应用程序图标  
 RC_FILE = AppIcon.rc
 
@@ -46,7 +42,7 @@ CONFIG += localize_deployment  #本地语言部署
 #安装前缀  
 isEmpty(PREFIX) {
     android {
-       PREFIX = /.
+        PREFIX = /.
     } else {
         PREFIX = $$OUT_PWD/install
     } 
@@ -61,12 +57,9 @@ target.path = $$PREFIX
 android : include(android/android.pri)
 
 win32 : equals(QMAKE_HOST.os, Windows){
-    #isEmpty(QMAKE_SH){
-        INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET)) #$(TARGET)是qmake产生脚本中的引用
-    #} else {
-    #    INSTALL_TARGET = $${PREFIX}/$(TARGET)
-    #}
-
+    
+    INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET)) #$(TARGET)是qmake产生脚本中的引用
+    
     #mingw{  #手机平台不需要  
     #    RABBITIM_STRIP.target = RABBITIM_STRIP
     #    RABBITIM_STRIP.commands = "strip $$INSTALL_TARGET"

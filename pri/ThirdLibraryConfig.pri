@@ -1,4 +1,6 @@
 # 注意：Qt 版本必须大于 5.0  
+lessThan(QT_VERSION, 5.0) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
+
 QT *= core gui network xml multimedia widgets
 
 qtHaveModule(webkit) {
@@ -6,19 +8,13 @@ qtHaveModule(webkit) {
     DEFINES *= RABBITIM_WEBKIT 
 }
 
-lessThan(QT_VERSION, 5.0) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
-
-DEFINES += RABBITIM
-CONFIG += c++0x
-!msvc{
-    QMAKE_CXXFLAGS += " -std=c++0x "
-} else {
-    QMAKE_CXXFLAGS += " /MP "
+DEFINES *= RABBITIM
+CONFIG *= c++11
+msvc{
+    QMAKE_CXXFLAGS *= " /MP "
 }
 
-CONFIG += link_prl
-
-CONFIG(debug, debug|release) {
+CONFIG(debug, debug|release)  {
     #调试宏   
     DEFINES += DEBUG #DEBUG_VIDEO_TIME  
 }
@@ -27,20 +23,22 @@ CONFIG(debug, debug|release) {
 win32 {
     DEFINES += WINDOWS
     RABBITIM_SYSTEM = "windows"
+
+    contains(QMAKE_TARGET.arch, x86_64){
+        RABBITIM_ARCH = "x64"
+    }else {
+        RABBITIM_ARCH = "x86"
+    }
+
     msvc {
         QMAKE_CXXFLAGS += /wd"4819"  #忽略msvc下对utf-8的警告  
         #QMAKE_LFLAGS += -ladvapi32
         RABBITIM_PLATFORM = "windows_msvc"
-        contains(QMAKE_TARGET.arch, x86_64){
-            RABBITIM_ARCH = "x64"
-        }else {
-            RABBITIM_ARCH = "x86"
-        }
-      
-        CONFIG(debug, debug|release) {
-            QMAKE_LFLAGS += /SUBSYSTEM:WINDOWS",5.01" /NODEFAULTLIB:libcmtd
+
+        debug {
+            QMAKE_LFLAGS *= /SUBSYSTEM:WINDOWS",5.01" /NODEFAULTLIB:libcmtd
         }else{
-            QMAKE_LFLAGS += /SUBSYSTEM:WINDOWS",5.01" /NODEFAULTLIB:libcmt
+            QMAKE_LFLAGS *= /SUBSYSTEM:WINDOWS",5.01" /NODEFAULTLIB:libcmt
         }
     } else {
         RABBITIM_PLATFORM = "windows_mingw"
@@ -50,14 +48,20 @@ win32 {
     isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/$${RABBITIM_PLATFORM}_$${RABBITIM_ARCH}
 
 } else:android {
+    message("QMAKE_TARGET.arch:$$QMAKE_TARGET.arch")
+    RABBITIM_SYSTEM = "android"
+    RABBITIM_ARCH = $${ANDROID_ARCHITECTURE}
     isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/android_$${ANDROID_ARCHITECTURE}
     DEFINES += ANDROID MOBILE
-    RABBITIM_SYSTEM = "android"
+    
 }  else:unix {
+
     RABBITIM_SYSTEM = unix
     DEFINES += UNIX
     isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/unix
+
 }
+
 CONFIG(static, static|shared) {
     DEFINES += RABBITIM_STATIC
     exists("$${THIRD_LIBRARY_PATH}_static"){
@@ -72,17 +76,18 @@ CONFIG(static, static|shared) {
 }
 message("THIRD_LIBRARY_PATH:$${THIRD_LIBRARY_PATH}")
 
-INCLUDEPATH += $$PWD/.. $$PWD/../common $$PWD/../Widgets/FrmCustom
-INCLUDEPATH += $${THIRD_LIBRARY_PATH}/include
-#DEPENDPATH += $${THIRD_LIBRARY_PATH}/include
-LIBS += -L$${THIRD_LIBRARY_PATH}/lib
+INCLUDEPATH *= $$PWD/.. $$PWD/../common $$PWD/../Widgets/FrmCustom
+INCLUDEPATH *= $${THIRD_LIBRARY_PATH}/include
+#DEPENDPATH *= $${THIRD_LIBRARY_PATH}/include
+LIBS *= -L$${THIRD_LIBRARY_PATH}/lib
 android : LIBS += -L$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}
 LIBS += $$LDFLAGS
 CONFIG(debug, debug|release) {
-    LIBS +=  -L$${THIRD_LIBRARY_PATH}/lib/Debug
+    LIBS *= -L$${THIRD_LIBRARY_PATH}/lib/Debug
 } else {
-    LIBS +=  -L$${THIRD_LIBRARY_PATH}/lib/Release
+    LIBS *= -L$${THIRD_LIBRARY_PATH}/lib/Release
 }
+
 #####以下配置 pkg-config  
 mingw{
     equals(QMAKE_HOST.os, Windows){

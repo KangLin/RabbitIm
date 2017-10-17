@@ -13,7 +13,7 @@ QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
 #设置目标输出目录  
 win32{
-    CONFIG(debug, debug|release) {
+    CONFIG(debug, debug|release)  {
         TARGET_PATH=$${OUT_PWD}/Debug
     } else {
         TARGET_PATH=$${OUT_PWD}/Release
@@ -51,19 +51,14 @@ include(Resource/translations/translations.pri)
 target.path = $$PREFIX
 !android : INSTALLS += target
 #android : CONFIG += static   #TODO：android < 18时，动态库加载会失败（可能是有未支持的函数），原因不明   
-CONFIG += mobility
-
-MOBILITY = 
 
 #ANDROID 平台相关内容  
 android : include(android/jni/android_jni.pri)
 
 win32:equals(QMAKE_HOST.os, Windows){
-    #isEmpty(QMAKE_SH){
-        INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET))  #$(TARGET)是qmake产生脚本中的引用
-    #} else {
-    #    INSTALL_TARGET = $${PREFIX}/$(TARGET)
-    #}
+
+    INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET))  #$(TARGET)是qmake产生脚本中的引用
+
     #mingw{  #手机平台不需要  
     #    RABBITIM_STRIP.target = RABBITIM_STRIP
     #    RABBITIM_STRIP.commands = "strip $$INSTALL_TARGET"
