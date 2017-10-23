@@ -14,7 +14,7 @@
 * 分支自动编译状态: 
 
 |     | master 分支 | develop 分支 |
-|:---:|:------:|:------:|
+|:---:|:-----------:|:------------:|
 |linux、android、mac、ios|[![Build Status](https://travis-ci.org/KangLin/RabbitIm.svg?branch=master)](https://travis-ci.org/KangLin/rabbitim)|[![Build Status](https://travis-ci.org/KangLin/RabbitIm.svg?branch=Develop)](https://travis-ci.org/KangLin/RabbitIm)|
 
 windows当前分支:[![Build Status](https://ci.appveyor.com/api/projects/status/sknyg6fu1a9flnj3?svg=true)](https://ci.appveyor.com/project/KangLin/RabbitIm)
@@ -50,7 +50,7 @@ windows当前分支:[![Build Status](https://ci.appveyor.com/api/projects/status
 ----
 
 | 许可协议 | 变更日志 | 项目计划 | 开发 | 编译 | 开发笔记 |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|:--------:|:--------:|:--------:|:----:|:----:|:--------:|
 |[许可协议](License.md)|[变更日志](ChangeLog.md)|[项目计划](docs/TODO.txt)|[开发](docs/develop.md)|[编译](docs/INSTALL.md)|[开发笔记](docs/Books/开发笔记.md)|
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
