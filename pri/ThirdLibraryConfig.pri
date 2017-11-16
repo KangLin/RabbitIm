@@ -33,8 +33,14 @@ win32 {
     msvc {
         QMAKE_CXXFLAGS += /wd"4819"  #忽略msvc下对utf-8的警告  
         #QMAKE_LFLAGS += -ladvapi32
+        RABBIT_TOOLCHAIN_VERSION=$$(RABBIT_TOOLCHAIN_VERSION)
         RABBITIM_PLATFORM = "windows_msvc"
-
+        isEmpty(RABBIT_TOOLCHAIN_VERSION) {    
+            VisualStudioVersion = $$(VisualStudioVersion)
+            contains(VisualStudioVersion, 15.0):RABBIT_TOOLCHAIN_VERSION = "15"
+            contains(VisualStudioVersion, 14.0):RABBIT_TOOLCHAIN_VERSION = "14"
+            contains(VisualStudioVersion, 12.0):RABBIT_TOOLCHAIN_VERSION = "12"
+        }
         debug {
             QMAKE_LFLAGS *= /SUBSYSTEM:WINDOWS",5.01" /NODEFAULTLIB:libcmtd
         }else{
@@ -45,22 +51,27 @@ win32 {
         DEFINES += "_WIN32_WINNT=0x0501" #__USE_MINGW_ANSI_STDIO
     }
 
-    isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/$${RABBITIM_PLATFORM}_$${RABBITIM_ARCH}
-
 } else:android {
     message("QMAKE_TARGET.arch:$$QMAKE_TARGET.arch")
     RABBITIM_SYSTEM = "android"
+    RABBITIM_PLATFORM = "android"
     RABBITIM_ARCH = $${ANDROID_ARCHITECTURE}
-    isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/android_$${ANDROID_ARCHITECTURE}
     DEFINES += ANDROID MOBILE
     
 }  else:unix {
 
     RABBITIM_SYSTEM = unix
+    RABBITIM_PLATFORM = unix
     DEFINES += UNIX
-    isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/unix
 
+    contains(QMAKE_TARGET.arch, x86_64){
+        RABBITIM_ARCH = "x64"
+    }else {
+        RABBITIM_ARCH = "x86"
+    }
 }
+
+isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/$${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCH}
 
 CONFIG(static, static|shared) {
     DEFINES += RABBITIM_STATIC
