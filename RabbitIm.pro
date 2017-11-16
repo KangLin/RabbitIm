@@ -7,7 +7,7 @@ Plugin.depends = RabbitImLib
 RabbitImApp.depends = RabbitImLib Plugin
 
 CONFIG *= ordered
-SUBDIRS += ThirdLibrary \
+SUBDIRS *= ThirdLibrary \
     RabbitImLib \
     Plugin \
     RabbitImApp

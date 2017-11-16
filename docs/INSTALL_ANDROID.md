@@ -50,7 +50,7 @@
 
 预编译第三方库：
 
-从　http://pan.baidu.com/s/1mgwx8y0，下载你主机操作系统相同的预编译的第三方依赖库。
+从　https://sourceforge.net/projects/rabbitim-third-library/files/release/，下载你主机操作系统相同的预编译的第三方依赖库。
 并解压到　${RabbitImRoot}/ThirdLibrary　下。例如你主机操作系统为ubuntu系统。
 
     cd ${RabbitImRoot}/ThirdLibrary

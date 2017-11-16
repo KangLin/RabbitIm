@@ -1,7 +1,7 @@
 Translations.qrc
 Plugin/PluginStatic.cpp
 Plugin/PluginStatic.pri
-Plugin/build-Lbs*/
+Plugin/build-*/
 Makefile.Debug
 Makefile.Release
 Version.h
