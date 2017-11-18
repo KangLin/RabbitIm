@@ -57,9 +57,8 @@ win32 {
     RABBITIM_PLATFORM = "android"
     RABBITIM_ARCH = $${ANDROID_ARCHITECTURE}
     DEFINES += ANDROID MOBILE
-    
-}  else:unix {
 
+}  else:unix {
     RABBITIM_SYSTEM = unix
     RABBITIM_PLATFORM = unix
     DEFINES += UNIX
@@ -69,9 +68,18 @@ win32 {
     }else {
         RABBITIM_ARCH = "x86"
     }
+
 }
 
-isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/$${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCH}
+isEmpty(RABBIT_CONFIG) {
+    CONFIG(debug, debug|release) {
+        RABBIT_CONFIG=Debug
+    } else {
+        RABBIT_CONFIG=Release
+    }
+}
+
+isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/$${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCH}_qt$${QT_VERSION}_$${RABBIT_CONFIG}
 
 CONFIG(static, static|shared) {
     DEFINES += RABBITIM_STATIC
