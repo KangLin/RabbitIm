@@ -94,6 +94,7 @@ CONFIG(static, static|shared) {
 #    CONFIG += shared    #生成动态库  
 }
 message("THIRD_LIBRARY_PATH:$${THIRD_LIBRARY_PATH}")
+!exists($$THIRD_LIBRARY_PATH) : error("Please set THIRD_LIBRARY_PATH")
 
 INCLUDEPATH *= $$PWD/.. $$PWD/../common $$PWD/../Widgets/FrmCustom
 INCLUDEPATH *= $${THIRD_LIBRARY_PATH}/include
