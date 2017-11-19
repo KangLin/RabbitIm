@@ -30,8 +30,8 @@ equals(RABBITIM_USE_QXMPP, 1) {
 
 equals(RABBITIM_USE_FFMPEG, 1) {
     DEFINES *= RABBITIM_USE_FFMPEG __STDC_CONSTANT_MACROS #ffmpeg需要  
-    myPackagesExist(libavcodec libavformat libswscale libavutil x264) {
-        MYPKGCONFIG *= libavcodec libavformat libswscale libavutil x264
+    myPackagesExist(libavcodec libavformat libswscale libavutil) {
+        MYPKGCONFIG *= libavcodec libavformat libswscale libavutil 
     } else : msvc {
         LIBS += -lavcodec -lavformat -lswscale -lavutil 
     }

@@ -131,10 +131,7 @@ mingw{
 }
 
 isEmpty(PKG_CONFIG) : PKG_CONFIG=$$(PKG_CONFIG)
-
-isEmpty(PKG_CONFIG) {
-    PKG_CONFIG = pkg-config
-}
+isEmpty(PKG_CONFIG) : PKG_CONFIG = pkg-config
 
 CONFIG(static, static|shared) {
     PKG_CONFIG *= --static
@@ -161,7 +158,8 @@ defineTest(myPackagesExist) {
 
     for(package, ARGS) {
         !system($$pkg_config --exists $$package) {
-            !msvc : message("Warring: package $$package is not exist.")
+            !msvc : message("Warring: package $$package is not exist. ")
+            mingw | equals(QMAKE_HOST.os, Windows) : message("Be sure use pkg-config mingw32?")
             return(false)
         }
     }

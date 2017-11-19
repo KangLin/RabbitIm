@@ -290,41 +290,18 @@
 
     ThirdLibrary
         ｜
-        ｜-----patch               #补丁包目录
-        ｜-----build_script        #第三方库编译脚本目录
-        ｜-----src                 #第三方库源码目录
-        ｜-----windows_msvc_${RABBIT_ARCH}  # Windows 平台 msvc 编译的第三方库, RABBIT_ARCH可以为x86或x64
-        ｜       ｜-----include    #头文件
-        ｜       ｜-----lib        #库文
-        ｜-----windows_msvc_${RABBIT_ARCH}_static # Windows 平台 msvc 编译的第三方静态库
-        ｜       ｜-----include     #头文件
-        ｜       ｜-----lib         #库文
-        ｜-----windows_mingw_${RABBIT_ARCH}    # Windows 平台 mingw 交叉编译的第三方库
-        ｜       ｜-----include
-        ｜       ｜-----lib
-        ｜-----windows_mingw_${RABBIT_ARCH}_static  # Windows 平台 mingw 交叉编译的第三方静态库
-        ｜       ｜-----include
-        ｜       ｜-----lib
-        ｜------unix            # unix 平台的第三方库
-        ｜       ｜-----include
-        ｜       ｜-----lib
-        ｜------unix_static     # unix 平台的第三方静态库
-        ｜       ｜-----include
-        ｜       ｜-----lib
-        ｜-----android_${RABBIT_ARCH}  # android 平台的第三方库,RABBIT_ARCH可以为arm,arm64,mips,mips64,x86,x86_64
-        ｜       ｜-----include
-        ｜       ｜-----lib
-        ｜------windows_phone   #Windows Phone 平台的第三方库
-        ｜       ｜------include
-        ｜       ｜------lib
-        ｜------ ios            # ios 平台的第三方库
-        ｜       ｜------include
-        ｜       ｜------lib
+        ｜----- patch               #补丁包目录
+        ｜----- build_script        #第三方库编译脚本目录
+        ｜----- src                 #第三方库源码目录
+        ｜----- $${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCH}_qt$${QT_VERSION}_$${RABBIT_CONFIG}
+        ｜  ｜----- include    #头文件
+        ｜  ｜----- lib        #库文
+        
 
 可以在 https://sourceforge.net/projects/rabbitim-third-library/files/release/ 中，
 选择与你**主机操作系统相同、编译器版本相同**的包下载本项目依赖的预编译好的第三方库。
 
-文件格式： RabbitIm_$(平台)$(版本号)_$(架构)_$(QT 版本).zip
+文件格式： $${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCH}_qt$${QT_VERSION}_$${RABBIT_CONFIG}.zip
 
 |编译器|版本号|平台|架构|
 |:--:|:--:|:--:|:--:|

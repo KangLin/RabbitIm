@@ -5,7 +5,6 @@ environment:
   matrix:
   - BUILD_TARGERT: android
     QT_VERSION_DIR: 5.7
-    QT_VERSION: 5.7.1
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_android4.8_arm_5.7.1.tar.gz/download
     PASSWORD:
@@ -14,7 +13,6 @@ environment:
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     TOOLCHAIN_VERSION: 14
-    QT_VERSION: qt5.8.0
     QT_ROOT: /C/Qt/5.8/msvc2015
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
@@ -26,7 +24,6 @@ environment:
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015"
     TOOLCHAIN_VERSION: 14
-    QT_VERSION: qt5.7.1
     QT_ROOT: /C/Qt/5.7/msvc2015
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
@@ -37,7 +34,6 @@ environment:
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     TOOLCHAIN_VERSION: 12
-    QT_VERSION: qt5.8.0
     QT_ROOT: /C/Qt/5.8/msvc2013
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
@@ -49,7 +45,6 @@ environment:
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 12 2013"
     TOOLCHAIN_VERSION: 12
-    QT_VERSION: qt5.7.1
     QT_ROOT: /C/Qt/5.7/msvc2013
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
@@ -59,7 +54,6 @@ environment:
 
   - BUILD_TARGERT: android
     QT_VERSION_DIR: 5.7
-    QT_VERSION: 5.7.1
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
     DOWNLOAD_FILE: https://sourceforge.net/projects/rabbitthirdlibrary/files/rabbit_android4.8_arm_5.7.1.tar.gz/download
     PASSWORD:
@@ -67,7 +61,6 @@ environment:
   
   - BUILD_TARGERT: windows_mingw
     TOOLCHAIN_VERSION: 530
-    QT_VERSION: qt5.8.0
     QT_ROOT: /C/Qt/5.8/mingw53_32
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
@@ -78,7 +71,6 @@ environment:
       
   - BUILD_TARGERT: windows_mingw
     TOOLCHAIN_VERSION: 530
-    QT_VERSION: qt5.7.1
     QT_ROOT: /C/Qt/5.7/mingw53_32
     AUTOBUILD_ARCH: x86
     RABBIT_BUILD_THIRDLIBRARY: rabbitim
@@ -99,6 +91,8 @@ init:
   #- if "%BUILD_TARGERT%"=="windows_mingw" set PATH=C:\Qt\Tools\mingw%toolchain_version%_32\bin;%PATH%
   - echo NUMBER_OF_PROCESSORS=%NUMBER_OF_PROCESSORS%
   - echo PROCESSOR_IDENTIFIER=%PROCESSOR_IDENTIFIER%
+  - if NOT "%QT_ROOT%" == "NO" for /f "delims=" %%i in ('%QT_ROOT%/bin/qmake -query QT_VERSION') do (set QT_VERSION=%%i) 
+  - echo QT_ROOT=%QT_ROOT%
   - echo QT_ROOT=%QT_ROOT%
   - del C:\msys64\usr\bin\link.exe
   
