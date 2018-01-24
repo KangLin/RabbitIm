@@ -79,6 +79,7 @@ isEmpty(RABBIT_CONFIG) {
     }
 }
 
+isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$(THIRD_LIBRARY_PATH)
 isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/$${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCH}_qt$${QT_VERSION}_$${RABBIT_CONFIG}
 
 CONFIG(static, static|shared) {
@@ -94,7 +95,7 @@ CONFIG(static, static|shared) {
 #    CONFIG += shared    #生成动态库  
 }
 message("THIRD_LIBRARY_PATH:$${THIRD_LIBRARY_PATH}")
-!exists($$THIRD_LIBRARY_PATH) : error("Please set THIRD_LIBRARY_PATH")
+!exists($$THIRD_LIBRARY_PATH) : warning("Please set THIRD_LIBRARY_PATH")
 
 INCLUDEPATH *= $$PWD/.. $$PWD/../common $$PWD/../Widgets/FrmCustom
 INCLUDEPATH *= $${THIRD_LIBRARY_PATH}/include
