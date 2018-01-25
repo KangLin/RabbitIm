@@ -30,6 +30,8 @@
 (BUG:webrtc有内存泄漏，需要确定是WEBRTC，还是本程序）
 12. 增禁用锁屏功能，实现 windows、android 平台（TODO:linux)
 13. 记录好友列表组节点、应用列表组节点打开状态
+14. 重构版本号，以及更新插件（TODO）
+15. ci (TODO)
 
 linux下deb安装包:
 	qt依赖库安装 qtwebkitwidge 有依赖其它qt库,插件找不到

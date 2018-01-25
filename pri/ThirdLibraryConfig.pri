@@ -25,9 +25,9 @@ win32 {
     RABBITIM_SYSTEM = "windows"
 
     contains(QMAKE_TARGET.arch, x86_64){
-        RABBITIM_ARCH = "x64"
+        RABBITIM_ARCHITECTURE = "x64"
     }else {
-        RABBITIM_ARCH = "x86"
+        RABBITIM_ARCHITECTURE = "x86"
     }
 
     msvc {
@@ -55,7 +55,7 @@ win32 {
     message("QMAKE_TARGET.arch:$$QMAKE_TARGET.arch")
     RABBITIM_SYSTEM = "android"
     RABBITIM_PLATFORM = "android"
-    RABBITIM_ARCH = $${ANDROID_ARCHITECTURE}
+    RABBITIM_ARCHITECTURE = $${ANDROID_ARCHITECTURE}
     DEFINES += ANDROID MOBILE
 
 }  else:unix {
@@ -64,9 +64,9 @@ win32 {
     DEFINES += UNIX
 
     contains(QMAKE_TARGET.arch, x86_64){
-        RABBITIM_ARCH = "x64"
+        RABBITIM_ARCHITECTURE = "x64"
     }else {
-        RABBITIM_ARCH = "x86"
+        RABBITIM_ARCHITECTURE = "x86"
     }
 
 }
@@ -80,7 +80,7 @@ isEmpty(RABBIT_CONFIG) {
 }
 
 isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$(THIRD_LIBRARY_PATH)
-isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/$${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCH}_qt$${QT_VERSION}_$${RABBIT_CONFIG}
+isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/$${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCHITECTURE}_qt$${QT_VERSION}_$${RABBIT_CONFIG}
 
 CONFIG(static, static|shared) {
     DEFINES += RABBITIM_STATIC

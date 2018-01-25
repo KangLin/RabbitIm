@@ -1,7 +1,6 @@
 #include "DlgUpdate.h"
 #include "ui_DlgUpdate.h"
 #include "Tool.h"
-#include "Version.h"
 #include "Global/Global.h"
 #include <QDir>
 #include <QUrl>
@@ -18,11 +17,7 @@ CDlgUpdate::CDlgUpdate(QWidget *parent) :
     CTool::SetWindowsGeometry(this);
 
     ui->lbCurrentVersion->setText(tr("Current version:")
-                                  + QString::number(MAJOR_VERSION_NUMBER)
-                                  + "."
-                                  + QString::number(MINOR_VERSION_NUMBER)
-                                  + "."
-                                  + QString::number(REVISION_VERSION_NUMBER));
+                                  + BUILD_VERSION);
     ui->lbPrompt->setText(tr("The new version is not detected."));
     ui->lbError->setVisible(false);
     ui->lbError->setText("");
@@ -112,24 +107,13 @@ void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode, const QString &szFile)
     }
 
     QDomElement startElem = doc.documentElement();
-    QString szMajorVersion = startElem.firstChildElement("MAJOR_VERSION_NUMBER").text();
-    QString szMinorVersion = startElem.firstChildElement("MINOR_VERSION_NUMBER").text();
-    QString szRevisionVersion = startElem.firstChildElement("REVISION_VERSION_NUMBER").text();
-    /*这步已经在CDownloadHandle中判断  
-    if(szMajorVersion.toInt() <= MAJOR_VERSION_NUMBER)
+    QString szBuildVersion = startElem.firstChildElement("BUILD_VERSION").text();
+    if(szBuildVersion.isEmpty())
     {
-        if(szMinorVersion.toInt() <= MINOR_VERSION_NUMBER)
-        {
-            if(szRevisionVersion.toInt() <= REVISION_VERSION_NUMBER)
-            {
-                LOG_MODEL_DEBUG("Update", "Is already the newest version.");
-                this->accept();
-                return;
-            }
-        }
-    }*/
-
-    m_szDownloadInfo = tr("New version:%1.%2.%3").arg(szMajorVersion, szMinorVersion, szRevisionVersion);
+        slotError(-5, tr("Version file is error. BUILD_VERSION is empty."));
+        return;
+    }
+    m_szDownloadInfo = tr("New version:%1").arg(szBuildVersion);
     QString szInfo = startElem.firstChildElement("INFO").text();
     if(!szInfo.isEmpty())
         m_szDownloadInfo += "\n" + szInfo;
@@ -137,7 +121,7 @@ void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode, const QString &szFile)
     m_szDownloadMd5sum = startElem.firstChildElement("MD5SUM").text();
     if(m_szDownLoadUrl.isEmpty() || m_szDownloadMd5sum.isEmpty())
     {
-        slotError(-5, tr("Version file is error. DownLoadUrl or md5sum is empty."));
+        slotError(-6, tr("Version file is error. DownLoadUrl or md5sum is empty."));
         return;
     }
 
@@ -157,9 +141,7 @@ void CDlgUpdate::slotDownLoadVersionFile(int nErrorCode, const QString &szFile)
     if(!szMinCompatibleVersion.isNull())
     {
         QStringList lstNowVersion;
-        lstNowVersion << QString::number(MAJOR_VERSION_NUMBER)
-                      << QString::number(MINOR_VERSION_NUMBER)
-                      << QString::number(REVISION_VERSION_NUMBER);
+        lstNowVersion << BUILD_VERSION;
         QStringList lstVersion = szMinCompatibleVersion.split(".");
         int nSize = 3;
         if(lstVersion.size() < nSize)
@@ -318,11 +300,7 @@ void CDlgUpdate::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         ui->lbCurrentVersion->setText(tr("Current version:")
-                                      + QString::number(MAJOR_VERSION_NUMBER)
-                                      + "."
-                                      + QString::number(MINOR_VERSION_NUMBER)
-                                      + "."
-                                      + QString::number(REVISION_VERSION_NUMBER));
+                                      + BUILD_VERSION);
         ui->lbPrompt->setText(tr("The new version is not detected."));
         break;
     }

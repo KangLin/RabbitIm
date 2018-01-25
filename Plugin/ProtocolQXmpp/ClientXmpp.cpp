@@ -16,7 +16,6 @@
 #include "MainWindow.h"
 #include "FileTransferQXmpp.h"
 #include <QHostAddress>
-#include "Version.h"
 
 #ifdef WIN32
 #undef GetMessage

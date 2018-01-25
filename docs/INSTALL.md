@@ -293,15 +293,16 @@
         ｜----- patch               #补丁包目录
         ｜----- build_script        #第三方库编译脚本目录
         ｜----- src                 #第三方库源码目录
-        ｜----- $${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCH}_qt$${QT_VERSION}_$${RABBIT_CONFIG}
+        ｜----- $${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCHITECTURE}_qt$${QT_VERSION}_$${RABBIT_CONFIG}
         ｜  ｜----- include    #头文件
         ｜  ｜----- lib        #库文
         
 
-可以在 https://sourceforge.net/projects/rabbitim-third-library/files/release/ 中，
+可以在 https://github.com/KangLin/RabbitThirdLibrary/releases
+      或 https://sourceforge.net/projects/rabbitim-third-library/files/release/ 中，
 选择与你**主机操作系统相同、编译器版本相同**的包下载本项目依赖的预编译好的第三方库。
 
-文件格式： $${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCH}_qt$${QT_VERSION}_$${RABBIT_CONFIG}.zip
+文件格式： $${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCHITECTURE}_qt$${QT_VERSION}_$${RABBIT_CONFIG}.zip
 
 |编译器|版本号|平台|架构|
 |:--:|:--:|:--:|:--:|
