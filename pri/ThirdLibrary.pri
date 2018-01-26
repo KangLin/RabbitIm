@@ -13,17 +13,17 @@ RABBITIM_USE_OPENSSL=1      #使用openssl
 
 equals(RABBITIM_USE_QXMPP, 1) {
     DEFINES *= RABBITIM_USE_QXMPP
-    CONFIG(release, debug|release) {
-        myPackagesExist(qxmpp) {
-            MYPKGCONFIG *= qxmpp
-        } else : msvc {
-            LIBS += -lqxmpp0
-        }
-    } else {
+    CONFIG(debug, debug|release) {
         myPackagesExist(qxmpp_d) {
             MYPKGCONFIG *= qxmpp_d
         }else : msvc {
             LIBS += -lqxmpp_d0
+        }
+    } else {
+        myPackagesExist(qxmpp) {
+            MYPKGCONFIG *= qxmpp
+        } else : msvc {
+            LIBS += -lqxmpp0
         }
     }
 }
@@ -95,7 +95,11 @@ myPackagesExist(libqrencode) {
     MYPKGCONFIG *= libqrencode
 } else : msvc {
     DEFINES *= RABBITIM_USE_LIBQRENCODE
-    LIBS += -lqrencode
+    CONFIG(debug, debug|release){
+        LIBS *= -lqrencoded
+    } else {
+        LIBS += -lqrencode
+    }
 }
 
 myPackagesExist(QZXing) {
