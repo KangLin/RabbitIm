@@ -5,6 +5,35 @@ image: Visual Studio 2015
 
 environment:
   matrix:
+  ##### mingw #####
+  - BUILD_TARGERT: windows_mingw
+    RABBIT_TOOLCHAIN_VERSION: 530
+    QT_ROOT: C:/Qt/5.10.0/mingw53_32
+    RABBIT_CONFIG: Release
+    RABBIT_ARCH: x86
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/9u96qqk64982qk14/artifacts/RABBIT_windows_mingw530_x86_qt5.10.0_Release_v0.0.3-41-g9a921fd.zip
+  
+  - BUILD_TARGERT: windows_mingw
+    RABBIT_TOOLCHAIN_VERSION: 530
+    QT_ROOT: C:/Qt/5.9/mingw53_32
+    RABBIT_CONFIG: Release
+    RABBIT_ARCH: x86
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/rq2i0qugmgdokwg8/artifacts/RABBIT_windows_mingw530_x86_qt5.9.3_Release_v0.0.3-41-g9a921fd.zip
+
+  - BUILD_TARGERT: windows_mingw
+    RABBIT_TOOLCHAIN_VERSION: 530
+    QT_ROOT: C:/Qt/5.8/mingw53_32
+    RABBIT_CONFIG: Release
+    RABBIT_ARCH: x86
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/1f96ajj28i6hw9wf/artifacts/RABBIT_windows_mingw530_x86_qt5.8.0_Release_v0.0.3-41-g9a921fd.zip
+
+  - BUILD_TARGERT: windows_mingw
+    RABBIT_TOOLCHAIN_VERSION: 492
+    QT_ROOT: C:/Qt/5.6/mingw53_32
+    RABBIT_CONFIG: Release
+    RABBIT_ARCH: x86
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/whnxjhowqyo1r9yp/artifacts/RABBIT_windows_mingw492_x86_qt5.6.2_Release_v0.0.3-16-gdf93da8.zip
+  
   ##### vs2017 #####
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     BUILD_TARGERT: windows_msvc
@@ -66,28 +95,6 @@ environment:
     RABBIT_ARCH: x86
     DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/6k2lgac40b4bv5xv/artifacts/RABBIT_windows_msvc14_x86_qt5.6.2_Debug_v0.0.3-19-g3b19569.zip
 
-  ##### mingw #####
-  - BUILD_TARGERT: windows_mingw
-    RABBIT_TOOLCHAIN_VERSION: 530
-    QT_ROOT: C:/Qt/5.9/mingw53_32
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x86
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/axayy0xbsxst18rd/artifacts/RABBIT_windows_mingw530_x86_qt5.9.2_Release_v0.0.3-16-gdf93da8.zip
-
-  - BUILD_TARGERT: windows_mingw
-    RABBIT_TOOLCHAIN_VERSION: 530
-    QT_ROOT: C:/Qt/5.8/mingw53_32
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x86
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/i8e259fnvkc9tsfk/artifacts/RABBIT_windows_mingw530_x86_qt5.8.0_Release_v0.0.3-16-gdf93da8.zip
-
-  - BUILD_TARGERT: windows_mingw
-    RABBIT_TOOLCHAIN_VERSION: 492
-    QT_ROOT: C:/Qt/5.6/mingw53_32
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x86
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/whnxjhowqyo1r9yp/artifacts/RABBIT_windows_mingw492_x86_qt5.6.2_Release_v0.0.3-16-gdf93da8.zip
- 
 matrix:
   fast_finish: false
 
