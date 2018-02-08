@@ -11,21 +11,21 @@ environment:
     QT_ROOT: C:/Qt/5.10.0/mingw53_32
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x86
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/mpu1qayjuo3d6ix1/artifacts/RABBIT_windows_mingw530_x86_qt5.10.0_Release_v0.0.3-42-g912d797.zip
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/cie5acw1yvjel45q/artifacts/RABBIT_windows_mingw530_x86_qt5.10.0_Release_v0.0.3-43-ge5540c0.zip
   
   - BUILD_TARGERT: windows_mingw
     RABBIT_TOOLCHAIN_VERSION: 530
     QT_ROOT: C:/Qt/5.9/mingw53_32
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x86
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/l0q886sg5o4b8ggl/artifacts/RABBIT_windows_mingw530_x86_qt5.9.3_Release_v0.0.3-42-g912d797.zip
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/0a3c1xqtjvn3o14y/artifacts/RABBIT_windows_mingw530_x86_qt5.9.3_Release_v0.0.3-43-ge5540c0.zip
 
   - BUILD_TARGERT: windows_mingw
     RABBIT_TOOLCHAIN_VERSION: 530
     QT_ROOT: C:/Qt/5.8/mingw53_32
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x86
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/uc4qxg1b5nj8stg1/artifacts/RABBIT_windows_mingw530_x86_qt5.8.0_Release_v0.0.3-42-g912d797.zip
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/k066wnrv8u59qf68/artifacts/RABBIT_windows_mingw530_x86_qt5.8.0_Release_v0.0.3-43-ge5540c0.zip
 
   - BUILD_TARGERT: windows_mingw
     RABBIT_TOOLCHAIN_VERSION: 492
