@@ -25,16 +25,22 @@ win32 {
     RABBITIM_SYSTEM = "windows"
 
     contains(QMAKE_TARGET.arch, x86_64){
-        RABBITIM_ARCH = "x64"
+        RABBITIM_ARCHITECTURE = "x64"
     }else {
-        RABBITIM_ARCH = "x86"
+        RABBITIM_ARCHITECTURE = "x86"
     }
 
     msvc {
         QMAKE_CXXFLAGS += /wd"4819"  #忽略msvc下对utf-8的警告  
         #QMAKE_LFLAGS += -ladvapi32
+        RABBIT_TOOLCHAIN_VERSION=$$(RABBIT_TOOLCHAIN_VERSION)
         RABBITIM_PLATFORM = "windows_msvc"
-
+        isEmpty(RABBIT_TOOLCHAIN_VERSION) {    
+            VisualStudioVersion = $$(VisualStudioVersion)
+            contains(VisualStudioVersion, 15.0):RABBIT_TOOLCHAIN_VERSION = "15"
+            contains(VisualStudioVersion, 14.0):RABBIT_TOOLCHAIN_VERSION = "14"
+            contains(VisualStudioVersion, 12.0):RABBIT_TOOLCHAIN_VERSION = "12"
+        }
         debug {
             QMAKE_LFLAGS *= /SUBSYSTEM:WINDOWS",5.01" /NODEFAULTLIB:libcmtd
         }else{
@@ -45,22 +51,36 @@ win32 {
         DEFINES += "_WIN32_WINNT=0x0501" #__USE_MINGW_ANSI_STDIO
     }
 
-    isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/$${RABBITIM_PLATFORM}_$${RABBITIM_ARCH}
-
 } else:android {
     message("QMAKE_TARGET.arch:$$QMAKE_TARGET.arch")
     RABBITIM_SYSTEM = "android"
-    RABBITIM_ARCH = $${ANDROID_ARCHITECTURE}
-    isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/android_$${ANDROID_ARCHITECTURE}
+    RABBITIM_PLATFORM = "android"
+    RABBITIM_ARCHITECTURE = $${ANDROID_ARCHITECTURE}
     DEFINES += ANDROID MOBILE
-    
-}  else:unix {
 
+}  else:unix {
     RABBITIM_SYSTEM = unix
+    RABBITIM_PLATFORM = unix
     DEFINES += UNIX
-    isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/unix
+
+    contains(QMAKE_TARGET.arch, x86_64){
+        RABBITIM_ARCHITECTURE = "x64"
+    }else {
+        RABBITIM_ARCHITECTURE = "x86"
+    }
 
 }
+
+isEmpty(RABBIT_CONFIG) {
+    CONFIG(debug, debug|release) {
+        RABBIT_CONFIG=Debug
+    } else {
+        RABBIT_CONFIG=Release
+    }
+}
+
+isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$(THIRD_LIBRARY_PATH)
+isEmpty(THIRD_LIBRARY_PATH) : THIRD_LIBRARY_PATH = $$PWD/../ThirdLibrary/$${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCHITECTURE}_qt$${QT_VERSION}_$${RABBIT_CONFIG}
 
 CONFIG(static, static|shared) {
     DEFINES += RABBITIM_STATIC
@@ -75,6 +95,7 @@ CONFIG(static, static|shared) {
 #    CONFIG += shared    #生成动态库  
 }
 message("THIRD_LIBRARY_PATH:$${THIRD_LIBRARY_PATH}")
+!exists($$THIRD_LIBRARY_PATH) : warning("Please set THIRD_LIBRARY_PATH")
 
 INCLUDEPATH *= $$PWD/.. $$PWD/../common $$PWD/../Widgets/FrmCustom
 INCLUDEPATH *= $${THIRD_LIBRARY_PATH}/include
@@ -111,10 +132,7 @@ mingw{
 }
 
 isEmpty(PKG_CONFIG) : PKG_CONFIG=$$(PKG_CONFIG)
-
-isEmpty(PKG_CONFIG) {
-    PKG_CONFIG = pkg-config
-}
+isEmpty(PKG_CONFIG) : PKG_CONFIG = pkg-config
 
 CONFIG(static, static|shared) {
     PKG_CONFIG *= --static
@@ -141,7 +159,8 @@ defineTest(myPackagesExist) {
 
     for(package, ARGS) {
         !system($$pkg_config --exists $$package) {
-            !msvc : message("Warring: package $$package is not exist.")
+            !msvc : message("Warring: package $$package is not exist. ")
+            mingw | equals(QMAKE_HOST.os, Windows) : message("Be sure use pkg-config mingw32?")
             return(false)
         }
     }

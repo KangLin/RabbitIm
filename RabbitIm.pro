@@ -26,6 +26,7 @@ OTHER_FILES += README.md \
     License.md \
     ChangeLog.md \
     Authors.txt \
+    TODO.txt \
     CMakeLists.txt \
     cmake/* \
     cmake/platforms/* \
@@ -35,4 +36,5 @@ OTHER_FILES += README.md \
     Doxyfile* \
     pri/* \
     Install/* \
-    Dockerfile 
+    Dockerfile \
+    tag.sh

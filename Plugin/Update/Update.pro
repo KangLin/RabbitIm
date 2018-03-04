@@ -9,7 +9,8 @@ QT *= core gui
 TARGET = Update
 TEMPLATE = lib
 CONFIG += plugin
-DISTFILES += Update.json
+DISTFILES += Update.json \
+    Update.xml.template
 
 RABBITIM_PLUG_NAME=CPluginUpdate
 

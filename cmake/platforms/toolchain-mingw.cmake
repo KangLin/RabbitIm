@@ -25,8 +25,7 @@ find_program(CMAKE_CXX_COMPILER NAMES ${COMPILER_PREFIX}-g++)
 #SET(CMAKE_CXX_COMPILER ${COMPILER_PREFIX}-g++)
 
 # here is the target environment located
-#SET(USER_ROOT_PATH /home/erk/erk-win32-dev)
-SET(CMAKE_FIND_ROOT_PATH  /usr/${COMPILER_PREFIX} ${USER_ROOT_PATH})
+SET(CMAKE_FIND_ROOT_PATH ${RABBIT_BUILD_CROSS_SYSROOT})
 
 # adjust the default behaviour of the FIND_XXX() commands:
 # search headers and libraries in the target environment, search 

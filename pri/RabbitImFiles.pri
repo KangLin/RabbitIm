@@ -74,7 +74,7 @@ SOURCES += \
     $$PWD/../Plugin/ManagePluginProtocol.cpp \
     $$PWD/../Widgets/MainAnimation.cpp
 
-HEADERS += $$PWD/../Version.h \
+HEADERS += \
     $$PWD/../MainWindow.h \
     $$PWD/../Global/Global.h \
     $$PWD/../UserInfo/UserInfo.h \
