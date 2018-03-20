@@ -5,11 +5,8 @@
 * 作者：康林（email:kl222@126.com；QQ:16614119)
 * 作者博客：http://blog.csdn.net/kl222
 * 项目位置：https://github.com/KangLin/RabbitIm  
-* 项目介绍：http://blog.csdn.net/kl222/article/details/37597807  
-* 邮件组地址为：https://sourceforge.net/p/rabbitim/mailman/?source=navbar  
-* QQ群：68046752（本人不常上QQ）。有问题或好的想法，尽量用邮件组。
-* 微信公众号：rabbitim  
-[![微信公众号:rabbitim](Resource/png/qrcode.jpg "微信公众号：rabbitim")](https://github.com/KangLin/RabbitIm)
+* 项目介绍：http://blog.csdn.net/kl222/article/details/37597807   
+* QQ群：68046752（本人不常上QQ）。
 
 * 分支自动编译状态: 
 
@@ -60,13 +57,13 @@ windows当前分支:[![Build Status](https://ci.appveyor.com/api/projects/status
 如果这个项目对您有用，我们欢迎各方任何形式的捐助，也包括参与到项目代码更新或意见反馈中来。谢谢！
 
 ### 资金捐赠：
-
-* qq手机钱包：16614119
-* 微信扫描下面二维码进行捐赠20元：  
-![微信收款](Resource/png/weixinpay.png "微信收款")  
+* 捐赠20元：  
+![支付宝收款](Resource/png/zhifubao20.png "支付宝收款")
+![微信收款](Resource/png/weixinpay20.png "微信收款")
 
 * 大于20元的请扫描下面二维码：  
-![微信收款（大于20元）](Resource/png/weixinpay.jpg "微信收款（大于20元）")
+![支付宝收款（大于20元）](Resource/png/zhifubao.png "支付宝收款（大于20元）")
+![微信收款（大于20元）](Resource/png/weixinpay.png "微信收款（大于20元）")
 
 有偿服务：
 --------

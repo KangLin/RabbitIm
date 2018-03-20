@@ -51,7 +51,10 @@ other.files = License.md Authors.txt ChangeLog.md
 other.path = $$PREFIX
 other.CONFIG += directory no_check_exist 
 target.path = $$PREFIX
-!android : INSTALLS += other target
+install.files = Install/Install.nsi
+install.path = $$OUT_PWD
+install.CONFIG += directory no_check_exist 
+!android : INSTALLS += other target install
 
 #ANDROID 平台相关内容  
 android : include(android/android.pri)

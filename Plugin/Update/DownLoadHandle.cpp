@@ -1,5 +1,4 @@
 #include "DownLoadHandle.h"
-#include "Version.h"
 #include "DlgUpdate.h"
 #include "MainWindow.h"
 #include <QDir>
@@ -97,19 +96,12 @@ int CDownLoadHandleVersionFile::OnEnd(int nErrorCode)
     CGlobal::Instance()->SetUpdateDate(QDateTime::currentDateTime());
 
     QDomElement startElem = doc.documentElement();
-    QString szMajorVersion = startElem.firstChildElement("MAJOR_VERSION_NUMBER").text();
-    QString szMinorVersion = startElem.firstChildElement("MINOR_VERSION_NUMBER").text();
-    QString szRevisionVersion = startElem.firstChildElement("REVISION_VERSION_NUMBER").text();
-    if(szMajorVersion.toInt() <= MAJOR_VERSION_NUMBER)
+    QString szBuildVersion = startElem.firstChildElement("BUILD_VERSION").text();
+    if(BUILD_VERSION == szBuildVersion)
     {
-        if(szMinorVersion.toInt() <= MINOR_VERSION_NUMBER)
-        {
-            if(szRevisionVersion.toInt() <= REVISION_VERSION_NUMBER)
-            {
-                LOG_MODEL_DEBUG("Update", "Is already the newest version.");
-                return 0;
-            }
-        }
+        LOG_MODEL_DEBUG("Update", "Is already the latest version.");
+        return 0;
+        
     }
 #ifdef RABBITIM_USE_LIBCURL
     if(m_pDlgUpdate)

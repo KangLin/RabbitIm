@@ -5,6 +5,8 @@ INCLUDEPATH += $$PWD/..
 CONFIG += c++0x
 !msvc{
     QMAKE_CXXFLAGS += " -std=c++0x "
+} else {
+    QMAKE_CXXFLAGS += " /MP "
 }
 
 TARGET_PATH=$$OUT_PWD/../..
@@ -28,6 +30,7 @@ myPackagesExist(RabbitIm){
 }
 include($$PWD/../pri/ThirdLibrary.pri)
 include($$PWD/../pri/ThirdLibraryJoin.pri)
+include($$PWD/../pri/RabbitImVersion.pri)
 
 #安装前缀  
 isEmpty(PREFIX) {

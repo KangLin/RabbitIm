@@ -2,7 +2,6 @@
 #include "ui_DlgAbout.h"
 #include "common/Tool.h"
 #include "common/QRCode.h"
-#include "Version.h"
 #include <QFile>
 #include "Global/Global.h"
 #include <QDir>
@@ -15,11 +14,7 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
  
-    QString szVersion(tr("Version:%1.%2.%3.%4").arg(QString::number(MAJOR_VERSION_NUMBER),
-                                                 QString::number(MINOR_VERSION_NUMBER),
-                                                 QString::number(REVISION_VERSION_NUMBER),
-                                                 BUILD_VERSION
-                                                    ));
+    QString szVersion(tr("Version:%1").arg(BUILD_VERSION));
     ui->lbVersion->setText(szVersion);
     ui->lbDate->setText(tr("Build date:%1 %2").arg(__DATE__, __TIME__));
     ui->lbAuthor->setText(tr("Author: KangLin\nEmail or MSN:kl222@126.com"));
