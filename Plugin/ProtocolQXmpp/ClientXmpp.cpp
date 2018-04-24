@@ -28,7 +28,7 @@ CClientXmpp::CClientXmpp(QObject *parent)
 {
     bool check = false;
     //初始化qxmpp log  
-    //m_Client.logger()->setLoggingType(QXmppLogger::SignalLogging);
+    m_Client.logger()->setLoggingType(QXmppLogger::SignalLogging);
     check = connect(m_Client.logger(), SIGNAL(message(QXmppLogger::MessageType,QString)),
                     this, SLOT(slotMessage(QXmppLogger::MessageType,QString)));
     Q_ASSERT(check);
@@ -165,16 +165,21 @@ int CClientXmpp::Login(const QString &szUserName,
     LOG_MODEL_DEBUG("CClientXmpp", "Client state:%d", m_Client.state());
     if(m_Client.state() != QXmppClient::DisconnectedState)
         Logout();
+    
     QXmppConfiguration config;
-    //设置为非sasl验证  
+    //设置为sasl验证  
     if(szUserName.isNull())
     {
+        //注册时需要关闭认证  
+        //服务器必须允许客户端注册（openfire在服务器->服务器设置->注册和登录）  
         config.setUseNonSASLAuthentication(false);
         config.setUseSASLAuthentication(false);
-    }
-    else
+    } else {
+        //注意配置服务器客户端连接  
         config.setUseSASLAuthentication(true);
-
+        config.setUseNonSASLAuthentication(true);
+    }
+    
     config.setHost(CGlobal::Instance()->GetXmppServer());
     config.setPort(CGlobal::Instance()->GetXmppServerPort());
     config.setDomain(CGlobal::Instance()->GetXmppDomain());
