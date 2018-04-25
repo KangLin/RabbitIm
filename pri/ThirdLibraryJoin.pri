@@ -1,12 +1,11 @@
 
 #用 pkg-config 机制增加第三方依赖库到 LIBS 和 QMAKE_CXXFLAGS  
 PKG_CONFIG = $$myPkgConfigExecutable()
-#message("PKG_CONFIG:$$PKG_CONFIG")
-# qmake supports no empty list elements, so the outer loop is a bit arcane
-pkgsfx =
+message("PKG_CONFIG:$$PKG_CONFIG")
+
 for(ever) {
-    pkgvar = MYPKGCONFIG$$pkgsfx
-    libvar = LIBS$$pkgsfx
+    pkgvar = MYPKGCONFIG
+    libvar = LIBS
     for(PKGCONFIG_LIB, $$list($$unique($$pkgvar))) {
         # don't proceed if the .pro asks for a package we don't have!
         !myPackagesExist($$PKGCONFIG_LIB): error("$$PKGCONFIG_LIB development package not found")
@@ -28,8 +27,6 @@ for(ever) {
         QMAKE_CFLAGS += $$PKGCONFIG_CFLAGS
         $$libvar += $$system($$PKG_CONFIG --libs $$PKGCONFIG_LIB)
     }
-    !isEmpty(pkgsfx): break()
-    pkgsfx = _PRIVATE
 }
 
 LIBS += $$OPENCV_LIBRARY 
