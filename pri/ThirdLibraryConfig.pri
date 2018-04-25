@@ -127,6 +127,7 @@ mingw{
     } else {
         PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig:$${TARGET_PATH}/pkgconfig
     }
+    PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${TARGET_PATH}/pkgconfig:$$(PKG_CONFIG_PATH)"
 } else {
     PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${TARGET_PATH}/pkgconfig:$$(PKG_CONFIG_PATH)"
 }
@@ -144,7 +145,7 @@ libdir.name = PKG_CONFIG_LIBDIR
 libdir.value = $$PKG_CONFIG_LIBDIR
 path.name = PKG_CONFIG_PATH
 path.value = $$PKG_CONFIG_PATH
-qtAddToolEnv(PKG_CONFIG, sysroot libdir path, SYS)
+qtAddToolEnv(PKG_CONFIG,libdir path, SYS)
 equals(QMAKE_HOST.os, Windows): \
     PKG_CONFIG += 2> NUL
 else: \
@@ -160,7 +161,7 @@ defineTest(myPackagesExist) {
     for(package, ARGS) {
         !system($$pkg_config --exists $$package) {
             !msvc : message("Warring: package $$package is not exist. ")
-            mingw | equals(QMAKE_HOST.os, Windows) : message("Be sure use pkg-config mingw32?")
+            mingw | equals(QMAKE_HOST.os, Windows) : message("Be sure use pkg-config in mingw32?")
             return(false)
         }
     }

@@ -8,6 +8,7 @@ for(ever) {
     pkgvar = MYPKGCONFIG$$pkgsfx
     libvar = LIBS$$pkgsfx
     for(PKGCONFIG_LIB, $$list($$unique($$pkgvar))) {
+
         # don't proceed if the .pro asks for a package we don't have!
         !myPackagesExist($$PKGCONFIG_LIB): error("$$PKGCONFIG_LIB development package not found")
 
