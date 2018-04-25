@@ -126,3 +126,5 @@ rabbitim.kdev4
 *.pro.user.*
 Doxygen/
 Doxyfile
+android/gradle.properties
+android/local.properties
