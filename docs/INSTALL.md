@@ -481,7 +481,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     + CONFIG+=static              #使用静态编译
     + RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档 
   * 项目->构建和运行->构建->构建环境，设置环境变更  
-    PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config  
+    PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config  #**注意**，这里要用mingw32的pkg-config, 不能用msys2的pkg-config.国为不能识别路径符号“/”
     PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}  #可选
     如果是交叉编译，还需要设置：
     export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH} #可选
