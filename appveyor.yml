@@ -52,19 +52,19 @@ environment:
     RABBIT_ARCH: x86
     DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/4hj38xmr3ble0t2j/artifacts/RABBIT_windows_msvc14_x86_qt5.9.4_Release_v0.0.4.zip
   
-  - BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:/Qt/5.8/msvc2015_64
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x64
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/2vn02apnl1gj5gj5/artifacts/RABBIT_windows_msvc14_x64_qt5.8.0_Release_v0.0.4.zip
+  #- BUILD_TARGERT: windows_msvc
+  #  RABBIT_TOOLCHAIN_VERSION: 14
+  #  QT_ROOT: C:/Qt/5.8/msvc2015_64
+  #  RABBIT_CONFIG: Release
+  #  RABBIT_ARCH: x64
+  #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/2vn02apnl1gj5gj5/artifacts/RABBIT_windows_msvc14_x64_qt5.8.0_Release_v0.0.4.zip
 
-  - BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:/Qt/5.8/msvc2015
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x86
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/k6rd2kohtjwmdr4i/artifacts/RABBIT_windows_msvc14_x86_qt5.8.0_Release_v0.0.4.zip
+  #- BUILD_TARGERT: windows_msvc
+  #  RABBIT_TOOLCHAIN_VERSION: 14
+  #  QT_ROOT: C:/Qt/5.8/msvc2015
+  #  RABBIT_CONFIG: Release
+  #  RABBIT_ARCH: x86
+  #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/k6rd2kohtjwmdr4i/artifacts/RABBIT_windows_msvc14_x86_qt5.8.0_Release_v0.0.4.zip
   
   - BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 14
