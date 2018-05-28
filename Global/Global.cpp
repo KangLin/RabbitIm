@@ -102,9 +102,9 @@ CGlobal::CGlobal(QObject *parent) :
     m_bShowLocaleVideo = conf.value("Video/Locale/Show", true).toBool();
     m_bMonitor = conf.value("Video/Monitor", false).toBool();
 
-    m_szStyleFile = conf.value(
+    m_szStyleFile = ""; //conf.value( \
                 "UI/StyleSheet", ":/qdarkstyle/style.qss").toString();
-    m_szStyleMenu = conf.value("UI/MenuStyleSheet", "Dark").toString();
+    m_szStyleMenu = ""; //conf.value("UI/MenuStyleSheet", "Dark").toString();
 
     //如果不同线程间信号发送中的参数有自定义的数据类型，  
     //那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用  
