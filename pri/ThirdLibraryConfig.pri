@@ -56,6 +56,8 @@ win32 {
     RABBITIM_SYSTEM = "android"
     RABBITIM_PLATFORM = "android"
     RABBITIM_ARCHITECTURE = $${ANDROID_ARCHITECTURE}
+    API=$$(ANDROID_NDK_PLATFORM)
+    RABBIT_TOOLCHAIN_VERSION=$$split(API, "android-")
     DEFINES += ANDROID MOBILE
 
 }  else:unix {
