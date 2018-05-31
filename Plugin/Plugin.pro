@@ -6,9 +6,10 @@ greaterThan(QT_VERSION, 5.4) {
     SUBDIRS += Lbs
 }
     
-SUBDIRS += QRCode ScreenShot \
-    Update \
-    ProtocolQXmpp
+SUBDIRS += ProtocolQXmpp \
+    QRCode \
+    ScreenShot \
+    Update
 
 #CONFIG(debug, debug|release) {
     #TODO:增加需要调试的插件  
