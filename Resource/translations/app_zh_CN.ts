@@ -734,7 +734,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="598"/>
         <source>Animation duration:</source>
-        <translation>动画时长</translation>
+        <translation>动画时长:</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="657"/>

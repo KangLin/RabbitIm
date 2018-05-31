@@ -9,31 +9,31 @@ environment:
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 15
-    QT_ROOT: C:/Qt/5.10.1/msvc2017_64
+    QT_ROOT: C:/Qt/5.10/msvc2017_64
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x64
     DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/xg3qwdi33fgqx7w6/artifacts/RABBIT_windows_msvc15_x64_qt5.10.1_Release_v0.0.4.zip
 
-  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 15
-    QT_ROOT: C:/Qt/5.9/msvc2017_64
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x64
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/2cek023wwvqc5h9g/artifacts/RABBIT_windows_msvc15_x64_qt5.9.4_Release_v0.0.4.zip
-    CMAKE: cmake
+  #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+  #  BUILD_TARGERT: windows_msvc
+  #  RABBIT_TOOLCHAIN_VERSION: 15
+  #  QT_ROOT: C:/Qt/5.9/msvc2017_64
+  #  RABBIT_CONFIG: Release
+  #  RABBIT_ARCH: x64
+  #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/2cek023wwvqc5h9g/artifacts/RABBIT_windows_msvc15_x64_qt5.9.4_Release_v0.0.4.zip
+  # CMAKE: cmake
     
   ##### vs2015 #####  
   - BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:/Qt/5.10.1/msvc2015_64
+    QT_ROOT: C:/Qt/5.10/msvc2015_64
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x64
     DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/r842jqc7yau302tq/artifacts/RABBIT_windows_msvc14_x64_qt5.10.1_Release_v0.0.4.zip
 
   - BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:/Qt/5.10.1/msvc2015
+    QT_ROOT: C:/Qt/5.10/msvc2015
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x86
     DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/8525fl535smj43i9/artifacts/RABBIT_windows_msvc14_x86_qt5.10.1_Release_v0.0.4.zip
@@ -83,7 +83,7 @@ environment:
   ##### mingw #####
   #- BUILD_TARGERT: windows_mingw
   #  RABBIT_TOOLCHAIN_VERSION: 530
-  #  QT_ROOT: C:/Qt/5.10.0/mingw53_32
+  #  QT_ROOT: C:/Qt/5.10/mingw53_32
   #  RABBIT_CONFIG: Release
   #  RABBIT_ARCH: x86
   #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/y32hbwbjdei3fa9w/artifacts/RABBIT_windows_mingw530_x86_qt5.10.0_Release_v0.0.3-50-g1ba427c.zip

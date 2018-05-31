@@ -22,7 +22,7 @@ import org.qtproject.qt5.android.bindings.QtActivity;
 public class RabbitImActivity
     extends org.qtproject.qt5.android.bindings.QtActivity
 {
-    private static final String TAG = "NotificationClient";
+    private static final String TAG = "RabbitImActivity";
     private static NotificationManager m_notificationManager = null;
     private static final int m_nNotificationCount = 0; //R.drawable.icon;
     private static Notification.Builder m_builder = null;
@@ -31,7 +31,7 @@ public class RabbitImActivity
     private String m_szKey;
     /** 通知栏点击事件对应的ACTION */
     private final static String ACTION_ON_CHICK = "org.KangLinStudio.RabbitIm.RabbitImActivity.OnClick";
-    private OnChickBroadcastReceiver m_Receiver;
+    private OnChickBroadcastReceiver m_Receiver = null;
     
     public static native void OnChickNotification(String key);
 
@@ -46,7 +46,14 @@ public class RabbitImActivity
         super.onCreate(savedInstanceState);
         initReceiver();
     }
-    
+
+    @Override
+    protected void onDestroy() {
+        if (null != m_Receiver)
+            unregisterReceiver(m_Receiver);
+        super.onDestroy();
+    }
+
 /* 当 android sdk < 16 时使用 
     @SuppressWarnings("deprecation")
     public static void notify(String szMessage, String szTitle) {
