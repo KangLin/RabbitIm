@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>CDlgRegister</class>
  <widget class="QDialog" name="CDlgRegister">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>

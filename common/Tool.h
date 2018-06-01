@@ -119,14 +119,15 @@ public:
                                const cv::Point &_center,
                                double angle, double scale = 1);
 #endif
-    
+
     /** 
      * @brief 对YUV420sp(NV12、NV21)存储格式的图像旋转+-90度
      * @param dst:操作后的图像
      * @param src:要操作的图像
      * @param srcWidth:要操作图像的宽度
      * @param srcHeight:要操作图像的高度
-     * @param mode=1为顺时针旋转90度，mode=-1为逆时针旋转90度 */
+     * @param mode=1为顺时针旋转90度，mode=-1为逆时针旋转90度  
+     */
     static void YUV420spRotate90(uchar *dst,
                                  const uchar *src, int srcWidth,
                                  int srcHeight, int mode);
@@ -136,7 +137,8 @@ public:
      * @param dst:操作后的图像
      * @param src:要操作的图像
      * @param srcWidth:要操作图像的宽度
-     * @param srcHeight:要操作图像的高度 */
+     * @param srcHeight:要操作图像的高度  
+     */
     static void YUV420spRotate90(uchar *dst, const uchar *src,
                                  int srcWidth, int srcHeight);
 
@@ -145,7 +147,8 @@ public:
      * @param dst:操作后的图像
      * @param src:要操作的图像
      * @param srcWidth:要操作图像的宽度
-     * @param srcHeight:要操作图像的高度 */
+     * @param srcHeight:要操作图像的高度  
+     */
     static void YUV420spRotateNegative90(uchar *dst, const uchar *src,
                                          int srcWidth, int srcHeight);
 
@@ -155,7 +158,8 @@ public:
      * @param src:要操作的图像
      * @param srcWidth:要操作图像的宽度
      * @param srcHeight:要操作图像的高度
-     * @param mode=1为x轴镜像，mode=0为y轴镜像，mode=-1为x、y轴都镜像。 */
+     * @param mode=1为x轴镜像，mode=0为y轴镜像，mode=-1为x、y轴都镜像。 
+     */
     static void YUV420spMirror(uchar* dst, const uchar *src,
                                int srcWidth, int srcHeight, int mode = 0);
 
@@ -164,7 +168,8 @@ public:
      * @param dst:操作后的图像
      * @param src:要操作的图像
      * @param srcWidth:要操作图像的宽度
-     * @param srcHeight:要操作图像的高度 */
+     * @param srcHeight:要操作图像的高度   
+     */
     static void YUV420spMirrorY(uchar *dst, const uchar *src,
                                 int srcWidth, int srcHeight);
 
@@ -173,7 +178,8 @@ public:
      * @param dst:操作后的图像
      * @param src:要操作的图像
      * @param srcWidth:要操作图像的宽度
-     * @param srcHeight:要操作图像的高度 */
+     * @param srcHeight:要操作图像的高度  
+     */
     static void YUV420spMirrorXY(uchar *dst, const uchar *src,
                                  int srcWidth, int srcHeight);
 
@@ -182,7 +188,8 @@ public:
      * @param dst:操作后的图像
      * @param src:要操作的图像
      * @param srcWidth:要操作图像的宽度
-     * @param srcHeight:要操作图像的高度 */
+     * @param srcHeight:要操作图像的高度   
+     */
     static void YUV420spMirrorX(uchar *dst, const uchar *src,
                                 int srcWidth, int srcHeight);
 

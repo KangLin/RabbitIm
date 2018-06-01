@@ -29,8 +29,8 @@ private slots:
     void imageSaved(int id, const QString & fileName);
     
 private:
-    QCamera* m_Camera;
-    QCameraImageCapture* m_CameraImageCapture;
+    QCamera* m_pCamera;
+    QCameraImageCapture* m_pCameraImageCapture;
     int m_CameraImageCaptureID;
     CCameraQtCaptureVideoFrame m_CaptureFrame;
     friend class CCameraQtCaptureVideoFrame;

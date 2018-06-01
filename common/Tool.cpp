@@ -593,6 +593,13 @@ bool CTool::removeDirectory(QString dirName)
     return true;
 }
 
+/**
+ * @brief 调整窗口的位置，手机上，让窗口全屏，在pc上，把窗口调整到屏幕中间
+ *
+ * @fn SetWindowsGeometry
+ * @param pWindow
+ * @return int
+ */
 int CTool::SetWindowsGeometry(QWidget *pWindow)
 {
     /*
@@ -619,16 +626,18 @@ int CTool::SetWindowsGeometry(QWidget *pWindow)
                     pScreen->geometry().width(),
                     pScreen->geometry().height());
 #ifdef MOBILE
-    pWindow->setGeometry(pScreen->availableGeometry());
+    pWindow->setGeometry(pScreen->geometry());
 #else
     if(!(pScreen->availableGeometry().width() > pWindow->width()
             && pScreen->availableGeometry().height() > pWindow->height()))
     {
+        pWindow->frameGeometry().setWidth(pScreen->availableGeometry().width());
+        pWindow->frameGeometry().setHeight(pScreen->availableGeometry().height());
         pWindow->setGeometry(0, 0, pScreen->availableGeometry().width() - 80,
                              pScreen->availableGeometry().height() - 80);
     }
-    pWindow->move((pScreen->availableGeometry().width() - pWindow->width()) >> 1,
-                  (pScreen->availableGeometry().height() - pWindow->height()) >> 1);
+    pWindow->move((pScreen->availableGeometry().width() - pWindow->frameGeometry().width()) >> 1,
+                  (pScreen->availableGeometry().height() - pWindow->frameGeometry().height()) >> 1);
 #endif
     //*/
     return 0;

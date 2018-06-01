@@ -87,7 +87,7 @@ bool CCameraQtCaptureVideoFrame::setSource(CCameraQt *pCamera)
 #else
     //windows下,只能用下面方式捕获视频  
     if(m_pCamera)
-        m_pCamera->m_Camera->setViewfinder(this);
+        m_pCamera->m_pCamera->setViewfinder(this);
 #endif
     return ret;
 }
