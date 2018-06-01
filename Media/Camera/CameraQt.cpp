@@ -16,81 +16,83 @@ CCameraQt::~CCameraQt()
 
 bool CCameraQt::Present(const QVideoFrame &frame)
 {
-    if (m_pHander)
-    {
-        QVideoFrame outFrame = frame;
-        
-        //增加方向校正，屏幕纵座标是向下的  
-        //
-        //   (0,0)  --------------------------------->  X 轴
-        //    |  |----------------------------------------|
-        //    |  |                                        |
-        //    |  |                                        |
-        //    |  |                                        |
-        //    |  |                                        |
-        //    |  |               Screen                   |
-        //    |  |                                        |
-        //    |  |                                        |
-        //    |  |                                        |
-        //    |  |                                        |
-        //    |  |                                        |
-        //    |  |----------------------------------------|
-        //    Y
-        // Y轴 
-        
-        qreal nAngle = 0;
-        QList<QCameraInfo> cameraInfos = QCameraInfo::availableCameras();
-        QCameraInfo info = cameraInfos.at(m_nIndex);
-        LOG_MODEL_DEBUG("CCamerQT", "orientation=%d", info.orientation());
+    
+    QVideoFrame outFrame = frame;
+    
+    //增加方向校正，屏幕纵座标是向下的  
+    //
+    //   (0,0)  --------------------------------->  X 轴
+    //    |  |----------------------------------------|
+    //    |  |                                        |
+    //    |  |                                        |
+    //    |  |                                        |
+    //    |  |                                        |
+    //    |  |               Screen                   |
+    //    |  |                                        |
+    //    |  |                                        |
+    //    |  |                                        |
+    //    |  |                                        |
+    //    |  |                                        |
+    //    |  |----------------------------------------|
+    //    Y
+    // Y轴 
+    
+    qreal nAngle = 0;
+    QList<QCameraInfo> cameraInfos = QCameraInfo::availableCameras();
+    QCameraInfo info = cameraInfos.at(m_nIndex);
+    LOG_MODEL_DEBUG("CCamerQT", "orientation=%d", info.orientation());
 #ifdef MOBILE
-        nAngle = 360 - info.orientation();
+    nAngle = 360 - info.orientation();
 #else
-        switch(info.orientation()) //摄像头传感器相对于屏幕坐标的角度（顺时针）  
-        {
-        case 0: //需要翻转  
-            nAngle = 180;
-            break;
-        case 90:  //逆时针转 90  
-            nAngle = 270;
-            break;
-        case 180: //不用操作  
-            nAngle = 0;
-            break;
-        case 270: //顺时针转 90 
-            nAngle = 90;
-
-            break;
-        default:
-            LOG_MODEL_WARNING("CCamerQt",
-                              "The orientation[%d] don't support.",
-                              info.orientation());
-        }
-#endif
-        QImage outImage;
-        if(nAngle)
-        {
-            if(outFrame.map(QAbstractVideoBuffer::ReadOnly))
-            {   
-                do{
-                    QImage::Format f = QVideoFrame::imageFormatFromPixelFormat(
-                                outFrame.pixelFormat());
-                    if(QImage::Format_Invalid == f)
-                        break;
-                    //LOG_MODEL_DEBUG("CFrmPlayer", "m_VideoFrame.bytesPerLine():%d", m_VideoFrame.bytesPerLine());
-                    QImage image(outFrame.bits(),
-                                 outFrame.width(),
-                                 outFrame.height(),
-                                 f);
-                    QMatrix matrix;
-                    matrix.rotate(nAngle);
-                    outImage = image.transformed(matrix);
-                }while(0);
-                outFrame.unmap();
-                outFrame = QVideoFrame(outImage);
-            }
-        }
-        m_pHander->OnFrame(outFrame);
+    switch(info.orientation()) //摄像头传感器相对于屏幕坐标的角度（顺时针）  
+    {
+    case 0: //需要翻转  
+        nAngle = 180;
+        break;
+    case 90:  //逆时针转 90  
+        nAngle = 270;
+        break;
+    case 180: //不用操作  
+        nAngle = 0;
+        break;
+    case 270: //顺时针转 90 
+        nAngle = 90;
+        
+        break;
+    default:
+        LOG_MODEL_WARNING("CCamerQt",
+                          "The orientation[%d] don't support.",
+                          info.orientation());
     }
+#endif
+    QImage outImage;
+    if(nAngle)
+    {
+        if(outFrame.map(QAbstractVideoBuffer::ReadOnly))
+        {   
+            do{
+                QImage::Format f = QVideoFrame::imageFormatFromPixelFormat(
+                            outFrame.pixelFormat());
+                if(QImage::Format_Invalid == f)
+                    break;
+                //LOG_MODEL_DEBUG("CFrmPlayer", "m_VideoFrame.bytesPerLine():%d", m_VideoFrame.bytesPerLine());
+                QImage image(outFrame.bits(),
+                             outFrame.width(),
+                             outFrame.height(),
+                             f);
+                QMatrix matrix;
+                matrix.rotate(nAngle);
+                outImage = image.transformed(matrix);
+            }while(0);
+            outFrame.unmap();
+            outFrame = QVideoFrame(outImage);
+        }
+    }
+    
+    emit sigCaptureFrame(outImage);
+    if (m_pHander)
+        m_pHander->OnFrame(outFrame);
+    
     return true;
 }
 
@@ -137,7 +139,7 @@ int CCameraQt::OnOpen(VideoInfo *pVideoInfo)
     {
         bool check = this->connect(m_pCameraImageCapture,
                              SIGNAL(imageSaved(int,QString)),
-                             SLOT(imageSaved(int,QString)));
+                             SLOT(slotImageSaved(int,QString)));
         Q_ASSERT(check);
     }
     return 0;
@@ -212,7 +214,7 @@ int CCameraQt::Capture(const std::string &szFileName)
     return 0;
 }
 
-void CCameraQt::imageSaved(int id, const QString &fileName)
+void CCameraQt::slotImageSaved(int id, const QString &fileName)
 {
     if(m_CameraImageCaptureID != id)
         return;
@@ -221,6 +223,7 @@ void CCameraQt::imageSaved(int id, const QString &fileName)
         int nRet = 0;
         nRet = m_pHander->OnCapture(fileName.toStdString());
     }
+    emit sigCapturePicture(fileName);
 }
 
 VideoFormat CCameraQt::QVideoFrameFormatToVideoFormat(const QVideoFrame::PixelFormat format)

@@ -74,7 +74,7 @@ bool CCameraQtCaptureVideoFrame::setSource(CCameraQt *pCamera)
 
 #ifdef ANDROID
     //android下,目前只能用probe捕获视频  
-    ret = m_Probe.setSource(pCamera->m_Camera);
+    ret = m_Probe.setSource(pCamera->m_pCamera);
     if(ret)
     {
         ret = connect(&m_Probe, 

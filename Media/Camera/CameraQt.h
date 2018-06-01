@@ -26,7 +26,7 @@ private:
     virtual int OnOpen(VideoInfo* pVideoInfo = NULL);
     virtual int OnClose();
 private slots:
-    void imageSaved(int id, const QString & fileName);
+    void slotImageSaved(int id, const QString & fileName);
     
 private:
     QCamera* m_pCamera;

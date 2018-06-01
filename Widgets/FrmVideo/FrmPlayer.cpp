@@ -128,16 +128,11 @@ int CFrmPlayer::TestCamera()
                         );
         
     }
-    CFrameProcess* pProcess = new CFrameProcess();
-    bool check = connect(
-                pProcess, SIGNAL(sigCaptureFrame(QVideoFrame)),
-            /*pProcess, SLOT(slotFrameConvertedToRGB32(QVideoFrame)));
+    bool check = connect(CCameraFactory::Instance()->GetCamera(0), 
+                         SIGNAL(sigCaptureFrame(QImage)),
+                         this, 
+                         SLOT(slotCaptureFrame(QImage)));
     Q_ASSERT(check);
-    check = connect(pProcess,
-                    SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),*/
-                    this, SLOT(slotPresent(QVideoFrame)));
-    Q_ASSERT(check);
-    pHander = new Hander(this, pProcess);
     VideoInfo vi;
     vi.Format = VIDEO_FORMAT_RGB24;
     vi.nHeight = 480;
@@ -148,4 +143,8 @@ int CFrmPlayer::TestCamera()
     return nRet;
 }
 
+void CFrmPlayer::slotCaptureFrame(const QImage &frame)
+{
+    slotPresent(frame);
+}
 #endif

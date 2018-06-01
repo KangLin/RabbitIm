@@ -5,12 +5,20 @@
 
 #ifdef QT_CORE_LIB
     #include <QObject>
+    #include <QString>
 #endif
 /**
  * @brief 摄像头抽像类  
- *    CCamera::CHanderFrame Hander;
  *    CCamera* pCamera = CCameraFactory::Instance()->GetCamera(0) //得到对象  
- *    pCamera->Open(&Hander);
+ *    bool check = connect(CCameraFactory::Instance()->GetCamera(0), 
+                         SIGNAL(sigCaptureFrame(QImage)),
+                         this, 
+                         SLOT(slotCaptureFrame(QImage)));
+      Q_ASSERT(check);
+      或者： 
+      CCamera::CHanderFrame Hander;
+      pCamera->Open(&Hander);
+      
  *    pCamera->Start();
  *    ........
  *    pCamera->Stop();
@@ -25,7 +33,12 @@ class RABBITIM_SHARED_LIBRARY CCamera
 {
 #ifdef QT_CORE_LIB
     Q_OBJECT
+    
+signals:
+    void sigCaptureFrame(const QImage& frame);
+    void sigCapturePicture(const QString &szFile);
 #endif
+    
 public:
     CCamera(int nIndex);
     virtual ~CCamera();
@@ -46,6 +59,11 @@ public:
 #else
         virtual int OnFrame(const std::shared_ptr<CVideoFrame> frame);
 #endif
+        /**
+         * @brief OnCapture
+         * @param szFile： 捕获图像的文件名  
+         * @return 
+         */
         virtual int OnCapture(const std::string szFile);
     };
 
