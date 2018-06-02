@@ -5,6 +5,15 @@ image: Visual Studio 2015
 
 environment:
   matrix:
+  ##### android ####
+  - BUILD_TARGERT: android
+    RABBIT_TOOLCHAIN_VERSION: 4.9
+    ANDROID_NATIVE_API_LEVEL: 18
+    RABBIT_ARCH: arm
+    QT_VERSION: 5.9.4
+    QT_VERSION_DIR: 5.9
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/pj8kn0tc4q18uk93/artifacts/RABBIT_android4.9_arm_qt5.9.4_Release_v0.0.4-70-gd24975b.zip
+    
   ##### vs2017 #####
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     BUILD_TARGERT: windows_msvc
@@ -82,17 +91,17 @@ environment:
   ##### vs013 #####
   - BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 12
-    QT_ROOT: C:/Qt/5.10/msvc2013_64
+    QT_ROOT: C:/Qt/5.6/msvc2013_64
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x64
     DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/t7x2js20ecfpx932/artifacts/RABBIT_windows_msvc12_x64_qt5.6.3_Release_v0.0.4-67-g73af5b9.zip
   
   - BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 12
-    QT_ROOT: C:/Qt/5.10/msvc2013
+    QT_ROOT: C:/Qt/5.6/msvc2013
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x86
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/iled2f00ekmjvfyb/artifacts/RABBIT_windows_msvc12_x86_qt5.6.3_Release_v0.0.4-67-g73af5b9.zip
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/l4si4e0arn6teop6/artifacts/RABBIT_windows_msvc12_x86_qt5.6.3_Release_v0.0.4-52-gea8aa5a.zip
     
   ##### mingw #####
   #- BUILD_TARGERT: windows_mingw
