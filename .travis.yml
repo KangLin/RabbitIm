@@ -30,10 +30,11 @@ env:
     - QMAKE=qmake
 
   matrix:
-    - BUILD_TARGERT="unix" QT_VERSION_DIR=5.8 QT_VERSION=5.8.0
-    - BUILD_TARGERT="unix" QT_VERSION_DIR=5.7 QT_VERSION=5.7.0
+    - BUILD_TARGERT="unix" QT_VERSION_DIR=5.10 QT_VERSION=5.10.1
+    - BUILD_TARGERT="unix" QT_VERSION_DIR=5.9 QT_VERSION=5.9.5
 
 before_install:
+  - export PROJECT_NAME="rabbitim"
   - echo "TRAVIS_OS_NAME=${TRAVIS_OS_NAME}"
   - export DISPLAY=:99.0         #安装QT时需要
   - sh -e /etc/init.d/xvfb start #安装QT时需要
