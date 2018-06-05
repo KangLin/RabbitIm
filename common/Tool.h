@@ -119,7 +119,10 @@ public:
                                const cv::Point &_center,
                                double angle, double scale = 1);
 #endif
-
+    
+    static int ImageRotate(const QVideoFrame& inFrame, QVideoFrame &outFrame, double nAngle = 0);
+    static int ImageTransformed(const QVideoFrame &inFrame, QVideoFrame &outFrame, double nScale = 1, double nAngle = 0);
+    
     /** 
      * @brief 对YUV420sp(NV12、NV21)存储格式的图像旋转+-90度
      * @param dst:操作后的图像

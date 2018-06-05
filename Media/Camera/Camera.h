@@ -10,12 +10,14 @@
 /**
  * @brief 摄像头抽像类  
  *    CCamera* pCamera = CCameraFactory::Instance()->GetCamera(0) //得到对象  
+ * 
+ *    //Qt 中用信号  
  *    bool check = connect(CCameraFactory::Instance()->GetCamera(0), 
-                         SIGNAL(sigCaptureFrame(QImage)),
+                         SIGNAL(sigCaptureFrame(QVideoFrame)),
                          this, 
-                         SLOT(slotCaptureFrame(QImage)));
+                         SLOT(slotCaptureFrame(QVideoFrame)));
       Q_ASSERT(check);
-      或者： 
+      或者，标准C++用处理类CHanderFrame： 
       CCamera::CHanderFrame Hander;
       pCamera->Open(&Hander);
       
@@ -35,7 +37,7 @@ class RABBITIM_SHARED_LIBRARY CCamera
     Q_OBJECT
     
 signals:
-    void sigCaptureFrame(const QImage& frame);
+    void sigCaptureFrame(const QVideoFrame& frame);
     void sigCapturePicture(const QString &szFile);
 #endif
     

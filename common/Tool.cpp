@@ -330,6 +330,56 @@ cv::Mat CTool::ImageRotate(cv::Mat & src, const cv::Point &_center,
 }
 #endif
 
+int CTool::ImageRotate(const QVideoFrame &inFrame, QVideoFrame &outFrame, double nAngle)
+{
+    int nRet = 0;
+
+    if(0 == nAngle)
+    {
+        outFrame = inFrame;
+        return 0;
+    }
+    
+    QImage outImage;
+    QVideoFrame frame(inFrame);
+    if(!frame.map(QAbstractVideoBuffer::ReadOnly))
+    {
+        return -1;
+    }
+    do{
+        QImage::Format f = QVideoFrame::imageFormatFromPixelFormat(
+                    frame.pixelFormat());
+        if(QImage::Format_Invalid == f)
+        {
+            nRet = -1;
+            break;
+        }
+        QImage image(frame.bits(),
+                     frame.width(),
+                     frame.height(),
+                     f);
+        QMatrix matrix;
+        matrix.rotate(nAngle);
+        outImage = image.transformed(matrix);
+    }while(0);
+    frame.unmap();
+    
+    if(0 == nRet)
+    {
+        outFrame = QVideoFrame(outImage);
+        return nRet;
+    }
+    
+    return nRet;    
+}
+
+int CTool::ImageTransformed(const QVideoFrame &inFrame, QVideoFrame &outFrame, double nScale, double nAngle)
+{
+    int nRet = 1;
+    
+    return nRet;
+}
+
 void CTool::YUV420spRotate90(uchar *dst, const uchar *src,
                              int srcWidth, int srcHeight)
 {

@@ -34,7 +34,7 @@ private slots:
      * @param frame 捕获的帧  
      * @return 
      */
-    virtual int slotCaptureFrame(const QImage &frame);
+    virtual int slotCaptureFrame(const QVideoFrame &frame);
     virtual int slotCapturePicture(const std::string szFile);
     
     void on_pushBrowse_clicked();

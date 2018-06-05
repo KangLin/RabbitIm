@@ -17,7 +17,7 @@ CCameraQt::~CCameraQt()
 bool CCameraQt::Present(const QVideoFrame &frame)
 {
     
-    QVideoFrame outFrame = frame;
+    QVideoFrame outFrame;
     
     //增加方向校正，屏幕纵座标是向下的  
     //
@@ -37,10 +37,10 @@ bool CCameraQt::Present(const QVideoFrame &frame)
     //    Y
     // Y轴 
     
-    qreal nAngle = 0;
+    double nAngle = 0;
     QList<QCameraInfo> cameraInfos = QCameraInfo::availableCameras();
     QCameraInfo info = cameraInfos.at(m_nIndex);
-    LOG_MODEL_DEBUG("CCamerQT", "orientation=%d", info.orientation());
+    LOG_MODEL_DEBUG("CCamerQT", "orientation=%d; format:%d", info.orientation(), frame.pixelFormat());
 #ifdef MOBILE
     nAngle = 360 - info.orientation();
 #else
@@ -65,31 +65,10 @@ bool CCameraQt::Present(const QVideoFrame &frame)
                           info.orientation());
     }
 #endif
-    QImage outImage;
-    if(nAngle)
-    {
-        if(outFrame.map(QAbstractVideoBuffer::ReadOnly))
-        {   
-            do{
-                QImage::Format f = QVideoFrame::imageFormatFromPixelFormat(
-                            outFrame.pixelFormat());
-                if(QImage::Format_Invalid == f)
-                    break;
-                //LOG_MODEL_DEBUG("CFrmPlayer", "m_VideoFrame.bytesPerLine():%d", m_VideoFrame.bytesPerLine());
-                QImage image(outFrame.bits(),
-                             outFrame.width(),
-                             outFrame.height(),
-                             f);
-                QMatrix matrix;
-                matrix.rotate(nAngle);
-                outImage = image.transformed(matrix);
-            }while(0);
-            outFrame.unmap();
-            outFrame = QVideoFrame(outImage);
-        }
-    }
-    
-    emit sigCaptureFrame(outImage);
+    int nRet = CTool::ImageRotate(frame, outFrame, nAngle);
+    if(nRet)
+        outFrame = frame;
+    emit sigCaptureFrame(outFrame);
     if (m_pHander)
         m_pHander->OnFrame(outFrame);
     

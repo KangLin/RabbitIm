@@ -28,8 +28,8 @@ CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
     if(m_pCamera)
     {
         m_pCamera->Open();
-        check = connect(m_pCamera, SIGNAL(sigCaptureFrame(QImage)),
-                        this, SLOT(slotCaptureFrame(QImage)));
+        check = connect(m_pCamera, SIGNAL(sigCaptureFrame(QVideoFrame)),
+                        this, SLOT(slotCaptureFrame(QVideoFrame)));
         Q_ASSERT(check);
         check = connect(m_pCamera, SIGNAL(sigCapturePicture(QString)),
                         this, SLOT(slotCapturePicture(std::string)));
@@ -112,7 +112,7 @@ int CFrmScanQRcode::ProcessQRFile(QString szFile)
     return nRet;
 }
 
-int CFrmScanQRcode::slotCaptureFrame(const QImage &frame)
+int CFrmScanQRcode::slotCaptureFrame(const QVideoFrame &frame)
 {
     m_Play.slotDisplayRemoteVideo(frame);
     return 0;
