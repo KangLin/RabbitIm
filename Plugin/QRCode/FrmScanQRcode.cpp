@@ -32,7 +32,7 @@ CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
                         this, SLOT(slotCaptureFrame(QVideoFrame)));
         Q_ASSERT(check);
         check = connect(m_pCamera, SIGNAL(sigCapturePicture(QString)),
-                        this, SLOT(slotCapturePicture(std::string)));
+                        this, SLOT(slotCapturePicture(QString)));
     } else {
         ui->lbText->setText(tr("The camera does not exist."));
         LOG_MODEL_ERROR("CFrmScanQRcode", "The camera does not exist.");
@@ -118,10 +118,10 @@ int CFrmScanQRcode::slotCaptureFrame(const QVideoFrame &frame)
     return 0;
 }
 
-int CFrmScanQRcode::slotCapturePicture(const std::string szFile)
+int CFrmScanQRcode::slotCapturePicture(const QString szFile)
 {
     Stop();
-    int nRet = ProcessQRFile(QString(szFile.c_str()));
+    int nRet = ProcessQRFile(szFile);
     if(nRet <= 0)
     {
         this->close();

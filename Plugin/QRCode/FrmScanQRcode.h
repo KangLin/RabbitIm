@@ -35,7 +35,7 @@ private slots:
      * @return 
      */
     virtual int slotCaptureFrame(const QVideoFrame &frame);
-    virtual int slotCapturePicture(const std::string szFile);
+    virtual int slotCapturePicture(const QString szFile);
     
     void on_pushBrowse_clicked();
     void on_Cancel_clicked();
