@@ -40,7 +40,7 @@ bool CCameraQt::Present(const QVideoFrame &frame)
     double nAngle = 0;
     QList<QCameraInfo> cameraInfos = QCameraInfo::availableCameras();
     QCameraInfo info = cameraInfos.at(m_nIndex);
-    //LOG_MODEL_DEBUG("CCamerQT", "orientation=%d; format:%d", info.orientation(), frame.pixelFormat());
+    //LOG_MODEL_DEBUG("CCamerQT", "orientation=%d; format:%d; angle:%d", info.orientation(), frame.pixelFormat(), info.orientation());
 #ifdef MOBILE
     nAngle = 360 - info.orientation();
 #else
