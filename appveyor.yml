@@ -12,7 +12,7 @@ environment:
     RABBIT_ARCH: arm
     QT_VERSION: 5.9.4
     QT_VERSION_DIR: 5.9
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/pj8kn0tc4q18uk93/artifacts/RABBIT_android4.9_arm_qt5.9.4_Release_v0.0.4-70-gd24975b.zip
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/ni4j926e504m7in6/artifacts/RABBIT_android18_arm_qt5.9.4_Release_v0.0.4-75-ge09a952.zip
     
   ##### vs2017 #####
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017

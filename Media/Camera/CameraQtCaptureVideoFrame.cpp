@@ -31,7 +31,7 @@ CCameraQtCaptureVideoFrame::supportedPixelFormats(
                 << QVideoFrame::Format_ARGB32_Premultiplied
                 << QVideoFrame::Format_RGB565
                 << QVideoFrame::Format_RGB555
-                //Qt现在不支持此格式，因为Qt内部用了QImage来处理视频帧。
+                //android支持的格式   
                 << QVideoFrame::Format_NV21
                 << QVideoFrame::Format_YV12
                 << QVideoFrame::Format_RGB565
@@ -80,8 +80,11 @@ bool CCameraQtCaptureVideoFrame::setSource(CCameraQt *pCamera)
 
     m_pCamera = pCamera;
 
-#ifdef ANDROID
-    //android下,目前只能用probe捕获视频  
+    //捕获视频  
+    if(m_pCamera)
+        m_pCamera->m_pCamera->setViewfinder(this);
+    /*
+    //方法2  
     ret = m_Probe.setSource(pCamera->m_pCamera);
     if(ret)
     {
@@ -92,10 +95,7 @@ bool CCameraQtCaptureVideoFrame::setSource(CCameraQt *pCamera)
     }
     else
         LOG_MODEL_ERROR("CaptureVideo", "m_Probe.setSource fail");
-#else
-    //windows下,只能用下面方式捕获视频  
-    if(m_pCamera)
-        m_pCamera->m_pCamera->setViewfinder(this);
-#endif
+    //*/
+
     return ret;
 }
