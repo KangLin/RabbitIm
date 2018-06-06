@@ -27,11 +27,19 @@ CCameraQtCaptureVideoFrame::supportedPixelFormats(
         return QList<QVideoFrame::PixelFormat>()
                 << QVideoFrame::Format_RGB32  //windows 平台、linux 平台默认都支持 RGB32 格式  
                 << QVideoFrame::Format_RGB24
-                << QVideoFrame::Format_ARGB32; /*
+                << QVideoFrame::Format_ARGB32
                 << QVideoFrame::Format_ARGB32_Premultiplied
                 << QVideoFrame::Format_RGB565
-                << QVideoFrame::Format_RGB555; //*/
-		//lst.push_back(QVideoFrame::Format_YUYV);//Qt现在不支持此格式，因为Qt内部用了QImage来处理视频帧。
+                << QVideoFrame::Format_RGB555
+                //Qt现在不支持此格式，因为Qt内部用了QImage来处理视频帧。
+                << QVideoFrame::Format_NV21
+                << QVideoFrame::Format_YV12
+                << QVideoFrame::Format_RGB565
+                << QVideoFrame::Format_YUV420P
+                << QVideoFrame::Format_YUYV
+                << QVideoFrame::Format_AYUV444
+                << QVideoFrame::Format_Jpeg
+                ;
     } else {
         return QList<QVideoFrame::PixelFormat>();
     }
