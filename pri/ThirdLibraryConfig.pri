@@ -1,5 +1,5 @@
 # 注意：Qt 版本必须大于 5.0  
-lessThan(QT_VERSION, 5.0) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
+lessThan(QT_MAJOR_VERSION, 5) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
 
 QT *= core gui network xml multimedia widgets
 
@@ -49,10 +49,12 @@ win32 {
     } else {
         RABBITIM_PLATFORM = "windows_mingw"
         #TODO:根据实际情况修改  
-        greaterThan(QT_VERSION, 5.9){
-            RABBIT_TOOLCHAIN_VERSION=530
-        } else {
-            RABBIT_TOOLCHAIN_VERSION=492
+        isEmpty(RABBIT_TOOLCHAIN_VERSION) {
+            greaterThan(QT_MAJOR_VERSION, 4) : greaterThan(QT_MINOR_VERSION, 9) {
+                RABBIT_TOOLCHAIN_VERSION=530
+            } else {
+                RABBIT_TOOLCHAIN_VERSION=492
+            }
         }
         DEFINES += "_WIN32_WINNT=0x0501" #__USE_MINGW_ANSI_STDIO
     }
