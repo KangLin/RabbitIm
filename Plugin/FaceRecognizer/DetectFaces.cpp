@@ -2,22 +2,29 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include <QDebug>
 
-CDetectFaces::CDetectFaces(QObject *parent) : QObject(parent)
+CDetectFaces::CDetectFaces(QString path, QObject *parent) : QObject(parent)
 {  
-    cv::String szCascades = "D:\\source\\RabbitIm\\ThirdLibrary\\windows_msvc\\etc\\haarcascades\\";
-    //cv::String szCascades = "D:\\source\\opencv\\data\\haarcascades_cuda\\";
-    cv::String szFaceCascade = szCascades + "haarcascade_frontalface_alt2.xml";
+    cv::String szPath = "D:/source/RabbitIm/ThirdLibrary/windows_msvc14_x86_qt5.11.1_Release/etc/haarcascades";
+    if(!path.isEmpty())
+    {
+        szPath = path.toStdString().c_str();
+    }
+    
+    cv::String szFaceCascade = szPath + "/haarcascade_frontalface_alt2.xml";
     m_FaceCascade.load(szFaceCascade);
-    //cv::String eyes_cascade_name = szCascades + "haarcascade_eye_tree_eyeglasses.xml";
-    cv::String eyes_cascade_name = szCascades + "haarcascade_eye.xml";
+    //cv::String eyes_cascade_name = szPath + "haarcascade_eye_tree_eyeglasses.xml";
+    cv::String eyes_cascade_name = szPath + "/haarcascade_eye.xml";
     m_EyesCascade.load(eyes_cascade_name);
 
+    cv::String fullBodyName = szPath + "/haarcascade_fullbody.xml";
+    m_FullBody.load(fullBodyName);
+    
     m_Model = cv::face::EigenFaceRecognizer::create();
     
     m_nWidth = m_nHeight = 0;
 }
 
-bool CDetectFaces::DetectFaces(cv::Mat frame, cv::Mat &frame_gray)
+bool CDetectFaces::DetectFaces(cv::Mat frame, cv::Mat &frame_gray, bool bShow)
 {
     bool bFind = false;
     double t = 0;
@@ -29,14 +36,16 @@ bool CDetectFaces::DetectFaces(cv::Mat frame, cv::Mat &frame_gray)
                                    faces,
                                    1.1,
                                    3,
-                                   CV_HAAR_DO_ROUGH_SEARCH,
-                                   cv::Size(1, 1),
-                                   cv::Size(50,50));
+                                   CV_HAAR_DO_CANNY_PRUNING
+                                   |CV_HAAR_FIND_BIGGEST_OBJECT
+                                   |CV_HAAR_DO_ROUGH_SEARCH
+                                   |CV_HAAR_SCALE_IMAGE);
     t = (double)cvGetTickCount() - t;
-    qDebug() << "Detection face time = " << t / ((double)cvGetTickFrequency() * 1000) << "ms";
+    qDebug() << "Detection face time = " << t / ((double)cvGetTickFrequency() * 1000) << "ms;face number:" << faces.size();
     for (size_t i = 0; i < faces.size(); i++)
     {
-        cv::rectangle(frame, faces[i], cv::Scalar(0, 255, 0), 2, 8, 0);
+        if(bShow)
+            cv::rectangle(frame, faces[i], cv::Scalar(0, 255, 0), 2, 8, 0);
         
         cv::Mat faceROI = frame_gray(faces[i]);
         std::vector<cv::Rect> eyes;
@@ -44,17 +53,22 @@ bool CDetectFaces::DetectFaces(cv::Mat frame, cv::Mat &frame_gray)
         t = (double)cvGetTickCount() - t;
         //-- In each face, detect eyes
         m_EyesCascade.detectMultiScale(faceROI, eyes, 1.1, 3,
-                                       CV_HAAR_DO_ROUGH_SEARCH,
-                                       cv::Size(1, 1), cv::Size(50, 50));
+                                       CV_HAAR_DO_CANNY_PRUNING
+                                       |CV_HAAR_FIND_BIGGEST_OBJECT
+                                       |CV_HAAR_DO_ROUGH_SEARCH
+                                       |CV_HAAR_SCALE_IMAGE);
         t = (double)cvGetTickCount() - t;
         qDebug() << "Detection eye time = " << t / ((double)cvGetTickFrequency() * 1000) << "ms";        
         for (size_t j = 0; j < eyes.size(); j++)
         {
-            cv::Rect rect(faces[i].x + eyes[j].x,
-                          faces[i].y + eyes[j].y,
-                          eyes[j].width,
-                          eyes[j].height);
-            cv::rectangle(frame, rect, cv::Scalar(0, 255, 255), 2, 8, 0);
+            if(bShow)
+            {
+                cv::Rect rect(faces[i].x + eyes[j].x,
+                              faces[i].y + eyes[j].y,
+                              eyes[j].width,
+                              eyes[j].height);
+                cv::rectangle(frame, rect, cv::Scalar(0, 255, 255), 2, 8, 0);
+            }
             bFind = true;
         }
     }

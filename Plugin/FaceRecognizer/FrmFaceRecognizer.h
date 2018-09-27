@@ -42,7 +42,6 @@ private:
     __OPERATOR m_Operator;
     
     cv::Mat m_Frame, m_FrameGray;
-    void ShowImage(QLabel *pLable, cv::Mat image);
 };
 
 #endif // FRMFACERECOGNIZER_H

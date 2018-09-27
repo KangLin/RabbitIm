@@ -2,6 +2,7 @@
 #include <QApplication>
 
 #include "FrmFaceRecognizer.h"
+#include "FrmFacePicture.h"
 
 #include <QMetaType>
 Q_DECLARE_METATYPE(cv::Mat)
@@ -26,7 +27,8 @@ int main(int argc, char *argv[])
         }
     }
 
-    CFrmFaceRecognizer w;
+    //CFrmFaceRecognizer w;
+    CFrmFacePicture w;
     w.show();
 
     return a.exec();
