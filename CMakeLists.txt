@@ -20,7 +20,12 @@ ENDIF()
 SET(BUILD_VERSION "v0.1.0-312-gbbf45f4")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-    FIND_PROGRAM(GIT git)
+    if(NOT GIT)
+        SET(GIT $ENV{GIT})
+    endif()
+    if(NOT GIT)
+        FIND_PROGRAM(GIT NAMES git git.exe git.cmd)
+    endif()
     IF(GIT)
         EXECUTE_PROCESS(
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -38,6 +43,8 @@ IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     ENDIF(GIT)
 ENDIF()
 message("BUILD_VERSION:${BUILD_VERSION}")
+
+add_definitions(-DBUILD_VERSION="${BUILD_VERSION}")
 
 #打开 qt 编译工具
 SET(CMAKE_AUTOUIC ON)
@@ -119,6 +126,7 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
                 )
         ENDIF()
 
+        message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
         #add_custom_target(Deployment DEPENDS ${PROJECT_NAME}
         #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

@@ -30,10 +30,11 @@ win32 {
         RABBITIM_ARCHITECTURE = "x86"
     }
 
+    RABBIT_TOOLCHAIN_VERSION=$$(RABBIT_TOOLCHAIN_VERSION)
     msvc {
         QMAKE_CXXFLAGS += /wd"4819"  #忽略msvc下对utf-8的警告  
         #QMAKE_LFLAGS += -ladvapi32
-        RABBIT_TOOLCHAIN_VERSION=$$(RABBIT_TOOLCHAIN_VERSION)
+        
         RABBITIM_PLATFORM = "windows_msvc"
         isEmpty(RABBIT_TOOLCHAIN_VERSION) {    
             VisualStudioVersion = $$(VisualStudioVersion)

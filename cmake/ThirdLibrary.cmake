@@ -114,7 +114,7 @@ ENDIF(OPTION_RABBITIM_USE_FFMPEG)
 MESSAGE("Use ffmpeg library:${RABBITIM_USE_FFMPEG}")
 
 #增加检测opencv库
-OPTION(OPTION_RABBITIM_USE_OPENCV "Use opencv library" ON)
+OPTION(OPTION_RABBITIM_USE_OPENCV "Use opencv library" OFF)
 SET(RABBITIM_USE_OPENCV OFF)
 IF(OPTION_RABBITIM_USE_OPENCV)
     find_package(OpenCV COMPONENTS core imgproc video) # videoio)
