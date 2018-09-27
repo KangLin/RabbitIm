@@ -21,6 +21,7 @@ IF(OPTION_RABBITIM_TRANSLATIONS)
     IF(NOT Qt5_LRELEASE_EXECUTABLE)
         MESSAGE(WARNING "Could not find lrelease. Your build won't contain translations.")
     ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
+        #qt5_create_translation(QM_FILES ${RABBITIM_SOURCES} ${RABBITIM_UIS} ${TS_FILES}) #生成 .ts 文件与 .qm 文件
         qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译资源文件
         ADD_CUSTOM_TARGET(translations ALL DEPENDS ${QM_FILES})
         add_dependencies(${PROJECT_NAME} translations)

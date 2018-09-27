@@ -17,18 +17,27 @@ IF(NOT CMAKE_INSTALL_PREFIX)
 ENDIF() 
 
 # Find Git Version Patch
-if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+SET(BUILD_VERSION "v0.1.0-312-gbbf45f4")
+# Find Git Version Patch
+IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     FIND_PROGRAM(GIT git)
     IF(GIT)
         EXECUTE_PROCESS(
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-            COMMAND ${GIT} rev-parse --short HEAD
-            OUTPUT_VARIABLE BUILD_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
+            COMMAND ${GIT} describe --tags
+            OUTPUT_VARIABLE GIT_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-        MESSAGE("Git Version: ${BUILD_VERSION}\n")
+	    if(NOT GIT_VERSION)
+            EXECUTE_PROCESS(
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                COMMAND ${GIT} rev-parse --short HEAD
+                OUTPUT_VARIABLE GIT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+        endif()
+        SET(BUILD_VERSION ${GIT_VERSION})
     ENDIF(GIT)
 ENDIF()
-MESSAGE("\n")
+message("BUILD_VERSION:${BUILD_VERSION}")
 
 #打开 qt 编译工具
 SET(CMAKE_AUTOUIC ON)
