@@ -14,14 +14,14 @@ IF(PLUGIN_SOURCES)
             ${PLUGIN_RESOURCE_FILES}
             )
     ELSE(OPTION_RABBITIM_USE_STATIC)
-        #windows下动态库导出
-        ADD_DEFINITIONS(-DRABBITIM_SHARED_LIBRARY)
         add_library(${PROJECT_NAME} SHARED
             ${PLUGIN_SOURCES}
             ${PLUGIN_UIS}
             ${TRANSLATIONS_RESOURCE_FILES}
             ${PLUGIN_RESOURCE_FILES}
             )
+        #windows下动态库导出
+        #target_compile_definitions(${PROJECT_NAME} PRIVATE -DRABBITIM_SHARED_LIBRARY)  
     ENDIF(OPTION_RABBITIM_USE_STATIC)
 
     #链接库
