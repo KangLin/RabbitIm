@@ -1,25 +1,18 @@
 #生成目标
 IF(PLUGIN_SOURCES)
     #静态库或android系统,用翻译资源文件  
-    IF(OPTION_RABBITIM_USE_STATIC OR ANDROID)
+    IF(NOT BUILD_SHARED_LIBS OR ANDROID)
         IF(EXISTS ${PROJECT_SOURCE_DIR}/translations/Translations.qrc)
             SET(TRANSLATIONS_RESOURCE_FILES ${PROJECT_SOURCE_DIR}/translations/Translations.qrc)
         ENDIF() 
     ENDIF()
-    IF(OPTION_RABBITIM_USE_STATIC)
-        add_library(${PROJECT_NAME}
+    add_library(${PROJECT_NAME}
             ${PLUGIN_SOURCES}
             ${PLUGIN_UIS}
             ${TRANSLATIONS_RESOURCE_FILES}
             ${PLUGIN_RESOURCE_FILES}
             )
-    ELSE(OPTION_RABBITIM_USE_STATIC)
-        add_library(${PROJECT_NAME} SHARED
-            ${PLUGIN_SOURCES}
-            ${PLUGIN_UIS}
-            ${TRANSLATIONS_RESOURCE_FILES}
-            ${PLUGIN_RESOURCE_FILES}
-            )
+    IF(BUILD_SHARED_LIBS)
         #windows下动态库导出
         #target_compile_definitions(${PROJECT_NAME} PRIVATE -DRABBITIM_SHARED_LIBRARY)  
     ENDIF(OPTION_RABBITIM_USE_STATIC)
@@ -34,7 +27,7 @@ ENDIF(PLUGIN_SOURCES)
 include(${CMAKE_SOURCE_DIR}/cmake/TranslationsPlugin.cmake)
 
 #为静态插件生成必要的文件  
-IF(OPTION_RABBITIM_USE_STATIC)
+IF(NOT BUILD_SHARED_LIBS)
         IF(NOT RABBITIM_PLUG_NAME) 
             message("Please set RABBITIM_PLUG_NAME to plug class name")
         ENDIF()

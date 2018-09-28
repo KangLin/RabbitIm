@@ -26,7 +26,7 @@ IF(OPTION_RABBITIM_TRANSLATIONS)
         add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_translations)
 
         #静态库或android下生成翻译资源文件  
-        IF(OPTION_RABBITIM_USE_STATIC)
+        IF(NOT BUILD_SHARED_LIBS)
                 SET(TRANSLATIONS_RESOURCES_FILE ${PROJECT_SOURCE_DIR}/translations/Translations.qrc)
                 #生成资源文件  
                 #SET(TRANSLATIONS_RESOURCES_CONTENT "</qresource></RCC>")

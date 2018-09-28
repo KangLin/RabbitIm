@@ -46,19 +46,12 @@ message("BUILD_VERSION:${BUILD_VERSION}")
 
 add_definitions(-DBUILD_VERSION="${BUILD_VERSION}")
 
-#打开 qt 编译工具
-SET(CMAKE_AUTOUIC ON)
-SET(CMAKE_AUTOMOC ON)
-SET(CMAKE_AUTORCC ON)
-SET(CMAKE_INCLUDE_CURRENT_DIR ON)
-SET(CMAKE_VERBOSE_MAKEFILE ON)
-
 include(cmake/Configure.cmake)
 include(cmake/ThirdLibrary.cmake)
 include(cmake/install_version.cmake)
 include(cmake/cmake_build_file.cmake)
 add_subdirectory(Plugin)
-IF(OPTION_RABBITIM_USE_STATIC)
+IF(NOT BUILD_SHARED_LIBS)
     include(Plugin/PluginStatic.cmake)
 ENDIF()
 
@@ -70,18 +63,12 @@ SET(RABBITIM_RCC_FILES
     )
 
 #生成目标
-IF(OPTION_RABBITIM_USE_STATIC)
-    add_library(${PROJECT_NAME} STATIC
-        ${RABBITIM_SOURCES}
-        ${RABBITIM_RCC_FILES}
-        ${RABBITIM_UIS}
-        )
-ELSE()
-    add_library(${PROJECT_NAME} SHARED
-        ${RABBITIM_SOURCES}
-        ${RABBITIM_RCC_FILES}
-        ${RABBITIM_UIS}
-        )
+add_library(${PROJECT_NAME} 
+    ${RABBITIM_SOURCES}
+    ${RABBITIM_RCC_FILES}
+    ${RABBITIM_UIS}
+    )
+IF(BUILD_SHARED_LIBS)
     #windows下动态库导出
     target_compile_definitions(${PROJECT_NAME} PRIVATE -DRABBITIM_SHARED_LIBRARY)    
 ENDIF()
@@ -116,7 +103,7 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
 
     #安装3:qt库
     IF(WIN32 AND CMAKE_HOST_WIN32)
-        IF(MINGW AND NOT OPTION_RABBITIM_USE_STATIC)
+        IF(MINGW AND BUILD_SHARED_LIBS)
             #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
             add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND strip "${PROJECT_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}"
