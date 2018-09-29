@@ -5,16 +5,26 @@ image: Visual Studio 2015
 
 environment:
   matrix:
-  ##### android ####
-  - BUILD_TARGERT: android
-    RABBIT_TOOLCHAIN_VERSION: 4.9
-    ANDROID_NATIVE_API_LEVEL: 18
-    RABBIT_ARCH: arm
-    QT_VERSION: 5.9.5
-    QT_VERSION_DIR: 5.9
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/l24yduaa3syn8230/artifacts/RABBIT_android18_arm_qt5.9.5_Release_v0.0.5.zip
-    
+  
   ##### vs2017 #####
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    BUILD_TARGERT: windows_msvc
+    RABBIT_TOOLCHAIN_VERSION: 15
+    QT_ROOT: C:/Qt/5.10/msvc2017_64
+    CMAKE: cmake
+    RABBIT_CONFIG: Release
+    RABBIT_ARCH: x64
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/k0a78mbpncrkn5hh/artifacts/RABBIT_windows_msvc15_x64_qt5.10.1_Release_v0.0.4-67-g73af5b9.zip
+
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    BUILD_TARGERT: windows_msvc
+    RABBIT_TOOLCHAIN_VERSION: 15
+    QT_ROOT: C:/Qt/5.9/msvc2017_64
+    CMAKE: cmake
+    RABBIT_CONFIG: Release
+    RABBIT_ARCH: x64
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/y2hgtbkqv071wl8r/artifacts/RABBIT_windows_msvc15_x64_qt5.9.5_Release_v0.0.4-67-g73af5b9.zip
+  
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 15
@@ -131,7 +141,16 @@ environment:
   #  RABBIT_CONFIG: Release
   #  RABBIT_ARCH: x86
   #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/whnxjhowqyo1r9yp/artifacts/RABBIT_windows_mingw492_x86_qt5.6.2_Release_v0.0.3-16-gdf93da8.zip
-  
+
+  ##### android ####
+  - BUILD_TARGERT: android
+    RABBIT_TOOLCHAIN_VERSION: 4.9
+    ANDROID_NATIVE_API_LEVEL: 18
+    RABBIT_ARCH: arm
+    QT_VERSION: 5.9.5
+    QT_VERSION_DIR: 5.9
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/l24yduaa3syn8230/artifacts/RABBIT_android18_arm_qt5.9.5_Release_v0.0.5.zip
+
 matrix:
   fast_finish: false
 
