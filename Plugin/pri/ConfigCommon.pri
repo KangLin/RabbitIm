@@ -1,5 +1,3 @@
-#App 插件的公共配置，如果你是 App 插件，需要包含此文件
-
 CONFIG *= plugin 
 INCLUDEPATH += $$PWD/..
 CONFIG += c++0x
@@ -23,15 +21,15 @@ LIBS += -L$${TARGET_PATH}   #包含 RabbitIm 库位置
 #message("TARGET_PATH:$${TARGET_PATH}")
 !CONFIG(static, static|shared) : DEFINES += BUILD_SHARED_LIBS #windows下动态库导出
 
-include($$PWD/../pri/ThirdLibraryConfig.pri)
+include($$PWD/../../pri/ThirdLibraryConfig.pri)
 myPackagesExist(RabbitIm){
     MYPKGCONFIG *= RabbitIm 
 }else : msvc {
     LIBS += -lRabbitIm
 }
-include($$PWD/../pri/ThirdLibrary.pri)
-include($$PWD/../pri/ThirdLibraryJoin.pri)
-include($$PWD/../pri/RabbitImVersion.pri)
+include($$PWD/../../pri/ThirdLibrary.pri)
+include($$PWD/../../pri/ThirdLibraryJoin.pri)
+include($$PWD/../../pri/RabbitImVersion.pri)
 
 #安装前缀  
 isEmpty(PREFIX) {
@@ -76,7 +74,7 @@ contains(TEMPLATE, lib){
     target.path = $${TARGET_INSTALL_PATH}
 
     #翻译  
-    include($$PWD/translations.pri)
+    include($$PWD/../translations.pri)
 } else {
     target.path = $$PREFIX
     DESTDIR = $$TARGET_PATH

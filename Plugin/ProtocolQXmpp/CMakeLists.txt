@@ -14,4 +14,4 @@ SET(PLUGIN_SOURCES
         FileTransferQXmpp.cpp
     )
 
-include(${CMAKE_SOURCE_DIR}/cmake/PluginCommon.cmake)
+include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginProtocol.cmake)

@@ -1,6 +1,6 @@
 QT *= core gui widgets multimedia
 
-include(../ConfigApp.pri)
+include(../pri/ConfigApp.pri)
 
 SOURCES += CPluginQRCode.cpp \
     FrmScanQRcode.cpp

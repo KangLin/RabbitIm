@@ -4,7 +4,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets multimedia
 
 QT *= positioning quickwidgets
 
-include(../ConfigApp.pri)
+include(../pri/ConfigApp.pri)
 
 SOURCES += \
     $$PWD/LbsTrack.cpp \

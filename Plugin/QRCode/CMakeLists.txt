@@ -11,4 +11,4 @@ SET(PLUGIN_UIS
          FrmScanQRcode.ui
     )
 
-include(${CMAKE_SOURCE_DIR}/cmake/PluginCommon.cmake)
+include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginApp.cmake)

@@ -14,4 +14,4 @@ IF(RABBITIM_USE_LIBCURL)
     )
 ENDIF(RABBITIM_USE_LIBCURL)
 
-include(${CMAKE_SOURCE_DIR}/cmake/PluginCommon.cmake)
+include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginApp.cmake)

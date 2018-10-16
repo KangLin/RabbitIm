@@ -72,7 +72,7 @@ IF(BUILD_SHARED_LIBS)
     #windows下动态库导出
     target_compile_definitions(${PROJECT_NAME} PRIVATE -DBUILD_SHARED_LIBS) 
     if(WIN32)
-        target_compile_definitions(${PROJECT_NAME} -DDLL_EXPORT)
+        target_compile_definitions(${PROJECT_NAME} PRIVATE -DDLL_EXPORT)
     endif(WIN32)
 ENDIF()
 message("RABBITIM_LIBS:${RABBITIM_LIBS}")
