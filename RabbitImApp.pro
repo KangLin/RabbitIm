@@ -27,7 +27,7 @@ CONFIG(static, static|shared) {
 myPackagesExist(RabbitIm) {
     MYPKGCONFIG *= RabbitIm
 } else:msvc {
-    LIBS += -lRabbitIm0
+    LIBS += -lRabbitIm
 }
 include(pri/ThirdLibrary.pri)
 include(pri/ThirdLibraryJoin.pri)

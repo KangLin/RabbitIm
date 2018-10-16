@@ -26,7 +26,7 @@ include($$PWD/../pri/ThirdLibraryConfig.pri)
 myPackagesExist(RabbitIm){
     MYPKGCONFIG *= RabbitIm 
 }else : msvc {
-    LIBS += -lRabbitIm0
+    LIBS += -lRabbitIm
 }
 include($$PWD/../pri/ThirdLibrary.pri)
 include($$PWD/../pri/ThirdLibraryJoin.pri)
