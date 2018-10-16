@@ -21,6 +21,7 @@ win32{
 LIBS += -L$${TARGET_PATH}   #包含 RabbitIm 库位置  
 !exists("$$OUT_PWD") : mkpath($$OUT_PWD)
 #message("TARGET_PATH:$${TARGET_PATH}")
+!CONFIG(static, static|shared) : DEFINES += BUILD_SHARED_LIBS #windows下动态库导出
 
 include($$PWD/../pri/ThirdLibraryConfig.pri)
 myPackagesExist(RabbitIm){

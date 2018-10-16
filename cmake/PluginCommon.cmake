@@ -13,8 +13,8 @@ IF(PLUGIN_SOURCES)
             ${PLUGIN_RESOURCE_FILES}
             )
     IF(BUILD_SHARED_LIBS)
-        #windows下动态库导出
-        #target_compile_definitions(${PROJECT_NAME} PRIVATE -DRABBITIM_SHARED_LIBRARY)  
+        #windows下动态库
+        target_compile_definitions(${PROJECT_NAME} PRIVATE -DBUILD_SHARED_LIBS)  
     ENDIF(OPTION_RABBITIM_USE_STATIC)
 
     #链接库

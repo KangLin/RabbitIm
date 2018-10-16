@@ -23,6 +23,8 @@ include(pri/ThirdLibraryConfig.pri)
 CONFIG(static, static|shared) {
     CONFIG *= link_prl
     include($$PWD/Plugin/PluginStatic.pri)
+} else {
+    DEFINES += BUILD_SHARED_LIBS #windows下动态库
 }
 myPackagesExist(RabbitIm) {
     MYPKGCONFIG *= RabbitIm

@@ -104,6 +104,8 @@ CONFIG(static, static|shared) {
 #} else {
 #    CONFIG += staticlib #生成静态库    
 #    CONFIG += shared    #生成动态库  
+}else{
+    DEFINES += BUILD_SHARED_LIBS #windows下动态库
 }
 message("THIRD_LIBRARY_PATH:$${THIRD_LIBRARY_PATH}")
 !exists($$THIRD_LIBRARY_PATH) : warning("Please set THIRD_LIBRARY_PATH")
