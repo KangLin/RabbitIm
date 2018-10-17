@@ -35,8 +35,8 @@ IF(OPTION_RABBITIM_TRANSLATIONS)
                         )
             ELSE(ANDROID)
                 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                        COMMAND ${CMAKE_COMMAND} -E make_directory translations
-                        COMMAND ${CMAKE_COMMAND} -E copy ${_file} translations
+                        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/translations
+                        COMMAND ${CMAKE_COMMAND} -E copy ${_file} ${CMAKE_CURRENT_BINARY_DIR}/translations
                         )
             ENDIF(ANDROID)
         endforeach()
