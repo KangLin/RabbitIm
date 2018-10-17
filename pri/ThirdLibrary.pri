@@ -19,7 +19,8 @@ equals(RABBITIM_USE_QXMPP, 1) {
         }else : msvc {
             LIBS += -lqxmpp_d0
         }
-    } else {
+    } 
+    CONFIG(release, debug|release) {
         myPackagesExist(qxmpp) {
             MYPKGCONFIG *= qxmpp
         } else : msvc {
@@ -90,16 +91,19 @@ equals(QXMPP_USE_VPX, 1) {
     }
 }
 
-myPackagesExist(libqrencode) {
+msvc {
     DEFINES *= RABBITIM_USE_LIBQRENCODE
-    MYPKGCONFIG *= libqrencode
-} else : msvc {
-    DEFINES *= RABBITIM_USE_LIBQRENCODE
-    CONFIG(debug, debug|release){
+    CONFIG(debug, debug|release) {
         LIBS *= -lqrencoded
-    } else {
+    } 
+    CONFIG(release, debug|release) {
         LIBS += -lqrencode
     }
+} else {
+    myPackagesExist(libqrencode) {
+    DEFINES *= RABBITIM_USE_LIBQRENCODE
+    MYPKGCONFIG *= libqrencode
+    } 
 }
 
 myPackagesExist(QZXing) {

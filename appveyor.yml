@@ -11,6 +11,14 @@ environment:
     BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 15
     QT_ROOT: C:/Qt/5.10/msvc2017_64
+    RABBIT_CONFIG: Debug
+    RABBIT_ARCH: x64
+    DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc15_x64_qt5.10.1_Debug_v0.0.5.zip
+
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    BUILD_TARGERT: windows_msvc
+    RABBIT_TOOLCHAIN_VERSION: 15
+    QT_ROOT: C:/Qt/5.10/msvc2017_64
     CMAKE: cmake
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x64
@@ -25,14 +33,6 @@ environment:
     RABBIT_ARCH: x64
     DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc15_x64_qt5.9.5_Release_v0.0.5.zip
   
-  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 15
-    QT_ROOT: C:/Qt/5.10/msvc2017_64
-    RABBIT_CONFIG: Debug
-    RABBIT_ARCH: x64
-    DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc15_x64_qt5.10.1_Debug_v0.0.5.zip
-
   ##### vs2015 #####  
   - BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 14
@@ -88,7 +88,7 @@ environment:
     QT_ROOT: C:/Qt/5.6/msvc2015
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x86
-    DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc14_x64_qt5.6.3_Release_v0.0.5.zip
+    DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc14_x86_qt5.6.3_Release_v0.0.5.zip
   
   ##### vs013 #####
   - BUILD_TARGERT: windows_msvc

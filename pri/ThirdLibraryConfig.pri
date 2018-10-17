@@ -174,7 +174,7 @@ defineTest(myPackagesExist) {
     for(package, ARGS) {
         !system($$pkg_config --exists $$package) {
             !msvc : message("Warring: package $$package is not exist. ")
-            mingw | equals(QMAKE_HOST.os, Windows) : message("Be sure use pkg-config in mingw32?")
+            mingw | equals(QMAKE_HOST.os, Windows) : message("Warring: package $$package is not exist. Be sure use pkg-config in mingw32?")
             return(false)
         }
     }
