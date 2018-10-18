@@ -1,4 +1,3 @@
-# For autocompiling qm-files.
 LOCALE_LIST = zh_CN \
     zh_TW \
     cs \
@@ -14,15 +13,15 @@ LOCALE_LIST = zh_CN \
     sl \
     uk
 
-TRANSLATIONS_OUTPUT_PATH = $${TARGET_PATH}/translations
+TRANSLATIONS_OUTPUT_PATH = $$DESTDIR/translations
 equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
         TRANSLATIONS_OUTPUT_PATH = $$system_path($${TRANSLATIONS_OUTPUT_PATH})
 }
 mkpath($${TRANSLATIONS_OUTPUT_PATH})
 
 for(v, LOCALE_LIST){
-    TRANSLATIONS += $$PWD/app_$${v}.ts
-    TRANSLATIONS_QM_FILES += $${TRANSLATIONS_OUTPUT_PATH}/app_$${v}.qm
+    TRANSLATIONS += $$_PRO_FILE_PWD_/translations/Plugin_$${v}.ts
+    TRANSLATIONS_QM_FILES += $${TRANSLATIONS_OUTPUT_PATH}/Plugin_$${v}.qm
 }
 
 #rules to generate ts
@@ -53,6 +52,7 @@ updateqm.CONFIG += no_link  no_clean target_predeps
 QMAKE_EXTRA_COMPILERS += updateqm
 
 #静态库或android下生成翻译资源文件  
+mkpath($$_PRO_FILE_PWD_/translations) #插件需要建立此目录  
 android | CONFIG(static, static|shared) {
     TRANSLATIONS_RESOURCES_FILE = $$TRANSLATIONS_OUTPUT_PATH/Translations.qrc
     #生成资源文件  
@@ -70,31 +70,14 @@ android | CONFIG(static, static|shared) {
     RESOURCES += $$TRANSLATIONS_RESOURCES_FILE
 }
 
-#复制QT的翻译资源
-QT_QM = $$[QT_INSTALL_TRANSLATIONS]/qt_*.qm
-equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
-    QT_QM = $$system_path($${QT_QM})
-}
-#mytranslations.target = mytranslations
-#mytranslations_commands = $${QMAKE_COPY} "$${QT_QM}" "$${TRANSLATIONS_OUTPUT_PATH}"
-#mytranslations.commands = $$mytranslations_commands 
-
-#!android{  #手机平台不需要  
-#    QMAKE_EXTRA_TARGETS += mytranslations
-#    #TODO:需要调试编译前编译翻译   
-#    #PRE_TARGETDEPS += mytranslations
-#    #发行版本才更新更新配置  
-#    
-#    POST_TARGETDEPS += mytranslations
-#}
-
 #安装资源文件  
-mytranslat.files = $$TRANSLATIONS_QM_FILES $$QT_QM
-mytranslat.path = $$PREFIX/translations
+mytranslat.files = $$TRANSLATIONS_QM_FILES
+#TODO:修改App路径  
+mytranslat.path = $${TARGET_INSTALL_PATH}/translations
 
 wince |android {
     DEPLOYMENT += mytranslat
-}else{
-    mytranslat.CONFIG += no_check_exist
+}else : !CONFIG(static, static|shared){
+    mytranslat.CONFIG += no_check_exist 
     INSTALLS += mytranslat
 }

@@ -37,7 +37,7 @@ isEmpty(PREFIX) {
        PREFIX = /.
     } else {
         PREFIX = $$OUT_PWD/../../install
-    } 
+    }
 }
 contains(TEMPLATE, lib){
 
@@ -74,7 +74,7 @@ contains(TEMPLATE, lib){
     target.path = $${TARGET_INSTALL_PATH}
 
     #翻译  
-    include($$PWD/../translations.pri)
+    include(translations.pri)
 } else {
     target.path = $$PREFIX
     DESTDIR = $$TARGET_PATH

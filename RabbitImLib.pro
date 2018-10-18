@@ -14,11 +14,9 @@ QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 #设置目标输出目录  
 win32{
     DEFINES += DLL_EXPORT
-    CONFIG(debug, debug|release)  {
-        TARGET_PATH=$${OUT_PWD}/Debug
-    } else {
-        TARGET_PATH=$${OUT_PWD}/Release
-    }
+    CONFIG(debug, debug|release) : TARGET_PATH=$${OUT_PWD}/Debug
+    
+    CONFIG(release, debug|release) : TARGET_PATH=$${OUT_PWD}/Release
 }else{
     TARGET_PATH=$$OUT_PWD
 }
