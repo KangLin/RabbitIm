@@ -1,11 +1,7 @@
+include(${CMAKE_SOURCE_DIR}/cmake/TranslationsPlugin.cmake)
+
 #生成目标
 IF(PLUGIN_SOURCES)
-    #静态库或android系统,用翻译资源文件  
-    IF(NOT BUILD_SHARED_LIBS OR ANDROID)
-        IF(EXISTS ${PROJECT_SOURCE_DIR}/translations/Translations.qrc)
-            SET(TRANSLATIONS_RESOURCE_FILES ${PROJECT_SOURCE_DIR}/translations/Translations.qrc)
-        ENDIF() 
-    ENDIF()
     add_library(${PROJECT_NAME}
             ${PLUGIN_SOURCES}
             ${PLUGIN_UIS}
@@ -23,8 +19,6 @@ IF(PLUGIN_SOURCES)
             RabbitIm
             )
 ENDIF(PLUGIN_SOURCES)
-
-include(${CMAKE_SOURCE_DIR}/cmake/TranslationsPlugin.cmake)
 
 IF(NOT PLUGIN_TYPE)
     SET(PLUGIN_TYPE App)

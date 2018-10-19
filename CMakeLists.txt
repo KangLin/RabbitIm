@@ -55,6 +55,9 @@ IF(NOT BUILD_SHARED_LIBS)
     include(Plugin/PluginStatic.cmake)
 ENDIF()
 
+#翻译
+include(cmake/Translations.cmake)
+
 #设置资源文件
 SET(RABBITIM_RCC_FILES
     ${RABBITIM_RCC_FILES}
@@ -91,9 +94,6 @@ IF(NOT ANDROID)
             )
 ENDIF()
 
-#翻译
-include(cmake/Translations.cmake)
-
 #只发行版本才安装
 IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
     #安装2:目标
@@ -116,11 +116,15 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
                 )
         ENDIF()
 
-        message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
+        if(NOT QT_INSTALL_DIR)
+            SET(QT_INSTALL_DIR "${Qt5_DIR}/../../.." CACHE PATH "" FORCE)
+        endif()
         #add_custom_target(Deployment DEPENDS ${PROJECT_NAME}
         #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
+        if(NOT EXISTS "${PROJECT_BINARY_DIR}/${PROJECT_NAME}")
+            file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}")
+        endif()
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
             COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
             COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                 --compiler-runtime
@@ -128,7 +132,6 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
                 "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}"
         )
         add_custom_command(TARGET ${PROJECT_NAME}App POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
             COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
             COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                 --compiler-runtime
@@ -164,7 +167,7 @@ IF(ANDROID)
     MESSAGE("ant:${ANT}\n")
 
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/libRabbitIm.so ${PROJECT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PROJECT_BINARY_DIR}/libRabbitIm.so ${PROJECT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
         #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
         COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
             --input ${PROJECT_BINARY_DIR}/android-libRabbitIm.so-deployment-settings.json
@@ -196,13 +199,15 @@ ELSEIF(NOT ANDROID)
             FILES_MATCHING PATTERN "*.so*")
 ENDIF(WIN32)
 #MESSAGE("THIRD_DLL_LIBRARY:${THIRD_DLL_LIBRARY}")
-FOREACH(file ${THIRD_DLL_LIBRARY})
-    IF(EXISTS "${file}")
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy "${file}" "${PROJECT_BINARY_DIR}/."
-            )
-    ENDIF(EXISTS "${file}")
-ENDFOREACH(file)
+if(NOT "$(APPVEYOR)" STREQUAL "True")
+    FOREACH(file ${THIRD_DLL_LIBRARY})
+        IF(EXISTS "${file}" AND NOT EXISTS "${PROJECT_BINARY_DIR}/${file}")
+            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy "${file}" "${PROJECT_BINARY_DIR}/."
+                )
+        ENDIF(EXISTS "${file}")
+    ENDFOREACH(file)
+endif()
 
 #安装5:安装相关文件
 install(FILES License.md Authors.txt ChangeLog.md DESTINATION .)
