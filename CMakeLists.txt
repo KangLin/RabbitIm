@@ -77,6 +77,7 @@ IF(BUILD_SHARED_LIBS)
     if(WIN32)
         target_compile_definitions(${PROJECT_NAME} PRIVATE -DDLL_EXPORT)
     endif(WIN32)
+    #set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_${CMAKE_BUILD_TYPE} "${CMAKE_BINARY_DIR}")
 ENDIF()
 message("RABBITIM_LIBS:${RABBITIM_LIBS}")
 #链接库
@@ -92,27 +93,39 @@ IF(NOT ANDROID)
             ${PROJECT_NAME}
             ${RABBITIM_LIBS}
             )
+    #set_target_properties(${PROJECT_NAME}App PROPERTIES RUNTIME_OUTPUT_DIRECTORY_${CMAKE_BUILD_TYPE} "${CMAKE_BINARY_DIR}")
 ENDIF()
 
 #只发行版本才安装
 IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
+    
     #安装1:目标
-    INSTALL(TARGETS ${PROJECT_NAME}
+    if(BUILD_SHARED_LIBS)
+        INSTALL(TARGETS ${PROJECT_NAME}
             LIBRARY DESTINATION "."
             ARCHIVE DESTINATION ".")
+    endif()
     IF(NOT ANDROID)
         INSTALL(TARGETS "${PROJECT_NAME}App" RUNTIME DESTINATION "." CONFIGURATIONS Release)
     ENDIF()
-
+    if(MSVC)
+        SET(VAR_RABBITIM_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+        SET(VAR_RABBITIMAPP_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    else()
+        SET(VAR_RABBITIM_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+        SET(VAR_RABBITIMAPP_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+    endif()
     #安装2:qt库
     IF(WIN32 AND CMAKE_HOST_WIN32)
-        IF(MINGW AND BUILD_SHARED_LIBS)
+        IF(MINGW)
             #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
-            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND strip "${PROJECT_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}"
-                )
+            if(BUILD_SHARED_LIBS)
+                add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                    COMMAND strip "${VAR_RABBITIM_OUTPUT_DIRECTORY}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}"
+                    )
+            endif()
             add_custom_command(TARGET ${PROJECT_NAME}App POST_BUILD
-                COMMAND strip "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}"
+                COMMAND strip "${VAR_RABBITIMAPP_OUTPUT_DIRECTORY}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}"
                 )
         ENDIF()
 
@@ -125,15 +138,17 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
             file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}")
         endif()
 
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
-            COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                --compiler-runtime
-                --verbose 7
-                "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}"
-        )
+        if(BUILD_SHARED_LIBS)
+            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy "${VAR_RABBITIM_OUTPUT_DIRECTORY}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
+                COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
+                    --compiler-runtime
+                    --verbose 7
+                    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}"
+            )
+        endif()
         add_custom_command(TARGET ${PROJECT_NAME}App POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
+            COMMAND ${CMAKE_COMMAND} -E copy "${VAR_RABBITIMAPP_OUTPUT_DIRECTORY}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
             COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                 --compiler-runtime
                 --verbose 7
