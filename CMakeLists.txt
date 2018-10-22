@@ -96,7 +96,7 @@ ENDIF()
 
 #只发行版本才安装
 IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
-    #安装2:目标
+    #安装1:目标
     INSTALL(TARGETS ${PROJECT_NAME}
             LIBRARY DESTINATION "."
             ARCHIVE DESTINATION ".")
@@ -104,7 +104,7 @@ IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
         INSTALL(TARGETS "${PROJECT_NAME}App" RUNTIME DESTINATION "." CONFIGURATIONS Release)
     ENDIF()
 
-    #安装3:qt库
+    #安装2:qt库
     IF(WIN32 AND CMAKE_HOST_WIN32)
         IF(MINGW AND BUILD_SHARED_LIBS)
             #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
@@ -178,36 +178,23 @@ IF(ANDROID)
     )
 ENDIF(ANDROID)
 
-SET(CMAKE_INSTALL_RPATH ".") #设置链接库的搜索路径
-#复制第三方依赖库的动态库到编译目录下
+#安装3:第三方动态库
 IF(WIN32)
-    FILE(GLOB THIRD_DLL_LIBRARY_BIN "${THIRD_LIBRARY_PATH}/bin/*.dll")
-    FILE(GLOB THIRD_DLL_LIBRARY_LIB "${THIRD_LIBRARY_PATH}/lib/*.dll")
-    SET(THIRD_DLL_LIBRARY "${THIRD_DLL_LIBRARY_BIN} ${THIRD_DLL_LIBRARY_LIB}")
-    #安装4:第三方动态库
-    INSTALL(DIRECTORY "${THIRD_LIBRARY_PATH}/bin/" 
+    INSTALL(DIRECTORY "${THIRD_LIBRARY_PATH}/bin/" "${THIRD_LIBRARY_PATH}/lib/"
             DESTINATION .
             FILES_MATCHING PATTERN "*.dll")
-    INSTALL(DIRECTORY "${THIRD_LIBRARY_PATH}/lib/"
-            DESTINATION .
-            FILES_MATCHING PATTERN "*.dll")
+    
+    #复制第三方依赖库的动态库到编译目录下
+    FILE(COPY "${THIRD_LIBRARY_PATH}/bin/" "${THIRD_LIBRARY_PATH}/lib/"
+        DESTINATION .
+        FILES_MATCHING PATTERN "*.dll")
 ELSEIF(NOT ANDROID)
-    FILE(GLOB THIRD_DLL_LIBRARY "${THIRD_LIBRARY_PATH}/lib/*.so")
-    #安装4:第三方动态库
     INSTALL(DIRECTORY "${THIRD_LIBRARY_PATH}/lib/"
             DESTINATION "."
             FILES_MATCHING PATTERN "*.so*")
 ENDIF(WIN32)
-#MESSAGE("THIRD_DLL_LIBRARY:${THIRD_DLL_LIBRARY}")
-if(NOT "$(APPVEYOR)" STREQUAL "True")
-    FOREACH(file ${THIRD_DLL_LIBRARY})
-        IF(EXISTS "${file}" AND NOT EXISTS "${PROJECT_BINARY_DIR}/${file}")
-            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy "${file}" "${PROJECT_BINARY_DIR}/."
-                )
-        ENDIF(EXISTS "${file}")
-    ENDFOREACH(file)
-endif()
 
-#安装5:安装相关文件
+#SET(CMAKE_INSTALL_RPATH ".") #设置链接库的搜索路径
+
+#安装4:安装相关文件
 install(FILES License.md Authors.txt ChangeLog.md DESTINATION .)
