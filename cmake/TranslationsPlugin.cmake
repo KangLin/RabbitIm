@@ -70,7 +70,7 @@ IF(OPTION_RABBITIM_TRANSLATIONS)
             #安装
             #INSTALL(FILES "${QM_FILES}" DESTINATION "translations" CONFIGURATIONS Release)
             INSTALL(DIRECTORY "${TRANSLATION_OUTPUT_DIRECTORY}"
-                    DESTINATION "plugins/App/${PROJECT_NAME}"
+                    DESTINATION "plugins/${PLUGIN_TYPE}/${PROJECT_NAME}"
                     FILES_MATCHING PATTERN "*.qm")
         ENDIF()
 

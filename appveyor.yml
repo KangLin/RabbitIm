@@ -99,13 +99,21 @@ environment:
     DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc12_x64_qt5.6.3_Release_v0.0.5.zip
   
   ##### mingw #####
-  #- BUILD_TARGERT: windows_mingw
-  #  RABBIT_TOOLCHAIN_VERSION: 530
-  #  QT_ROOT: C:/Qt/5.10/mingw53_32
-  #  RABBIT_CONFIG: Release
-  #  RABBIT_ARCH: x86
-  #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/y32hbwbjdei3fa9w/artifacts/RABBIT_windows_mingw530_x86_qt5.10.0_Release_v0.0.3-50-g1ba427c.zip
+  - BUILD_TARGERT: windows_mingw
+    RABBIT_TOOLCHAIN_VERSION: 530
+    QT_ROOT: C:/Qt/5.10/mingw53_32
+    RABBIT_CONFIG: Release
+    RABBIT_ARCH: x86
+    DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_mingw530_x86_qt5.10.1_Release_v0.0.5.zip
   
+  - BUILD_TARGERT: windows_mingw
+    RABBIT_TOOLCHAIN_VERSION: 530
+    QT_ROOT: C:/Qt/5.10/mingw53_32
+    CMAKE: cmake
+    RABBIT_CONFIG: Release
+    RABBIT_ARCH: x86
+    DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_mingw530_x86_qt5.10.1_Release_v0.0.5.zip
+
   #- BUILD_TARGERT: windows_mingw
   #  RABBIT_TOOLCHAIN_VERSION: 530
   #  QT_ROOT: C:/Qt/5.9/mingw53_32

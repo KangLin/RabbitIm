@@ -143,7 +143,15 @@ IF(MSVC)
             message(FATAL_ERROR "Don't support msvc version: ${VisualStudioVersion}; please use msvc 2013, 2015, 2017")
         endif()
     endif()
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")  #删除不是GBK字符的警告
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")  #删除不是GBK字符的警告  
+    
+    # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
+    OPTION(WIN32_USE_MP "Set to ON to build OpenSceneGraph with the /MP option (Visual Studio 2005 and above)." ON)
+    MARK_AS_ADVANCED(WIN32_USE_MP)
+    IF(WIN32_USE_MP)
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+    ENDIF(WIN32_USE_MP)
+    
     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcmt /SUBSYSTEM:WINDOWS\",5.01\"")
     ADD_DEFINITIONS(-DWINDOWS)
 ELSEIF(MINGW)
