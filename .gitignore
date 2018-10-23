@@ -15,6 +15,8 @@ test.xml
 .CCodec.h.kate-swp
 .kdev4/
 .kdev_include_paths
+.vs/
+CMakeSettings.json
 build/
 build_android/
 build_unix_mingw/
