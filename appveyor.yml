@@ -164,7 +164,7 @@ install:
   - if "%BUILD_VERSION%" == "" for /f "delims=" %%i in ('git rev-parse HEAD') do (set BUILD_VERSION=%%i) 
   - echo BUILD_VERSION=%BUILD_VERSION%
   #- C:\msys64\usr\bin\pacman.exe -Syu --noconfirm 
-  #- C:\msys64\usr\bin\pacman.exe -S --noconfirm unzip expect
+  - C:\msys64\usr\bin\pacman.exe -S --noconfirm unzip expect
   #- C:\msys64\autorebase.bat
   - if "%RABBIT_ARCH%" == "x64" if "%BUILD_TARGERT%" == "windows_mingw" set BUILD_EXIT=TRUE
   - if "%RABBIT_ARCH%" == "x86" if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" if NOT "%QT_ROOT%" == "NO" set BUILD_EXIT=TRUE

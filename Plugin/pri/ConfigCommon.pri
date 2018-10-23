@@ -59,18 +59,18 @@ contains(TEMPLATE, lib){
         PLUG_CONTENT = "-l$${TARGET}"
         FILE_CONTENT = $$cat($$FILE_NAME) 
         !contains(FILE_CONTENT, $$PLUG_CONTENT){
-            PLUG_CONTENT = "LIBS *= -L\$\${OUT_PWD}/plugins/App/$${TARGET} -l$${TARGET} "
+            PLUG_CONTENT = "LIBS *= -L\$\${OUT_PWD}/plugins/$${PLUGIN_TYPE}/$${TARGET} -l$${TARGET} "
             #PLUG_CONTENT += "myPackagesExist($${TARGET}) : MYPKGCONFIG *= $${TARGET}"
             write_file($$FILE_NAME, PLUG_CONTENT, append)
         }
     }
 
     #插件安装路径  
-    DESTDIR = $$OUT_PWD/../../plugins/App/$${TARGET}
+    DESTDIR = $$OUT_PWD/../../plugins/$${PLUGIN_TYPE}/$${TARGET}
     mkpath($$DESTDIR)
 
     #插件安装路径  
-    TARGET_INSTALL_PATH = $${PREFIX}/plugins/App/$${TARGET}
+    TARGET_INSTALL_PATH = $${PREFIX}/plugins/$${PLUGIN_TYPE}/$${TARGET}
     target.path = $${TARGET_INSTALL_PATH}
 
     #翻译  
