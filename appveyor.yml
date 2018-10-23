@@ -5,6 +5,42 @@ image: Visual Studio 2015
 
 environment:
   matrix:
+  ##### mingw #####
+  - BUILD_TARGERT: windows_mingw
+    RABBIT_TOOLCHAIN_VERSION: 530
+    QT_ROOT: C:/Qt/5.10/mingw53_32
+    RABBIT_CONFIG: Release
+    RABBIT_ARCH: x86
+    DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_mingw530_x86_qt5.10.1_Release_v0.0.5.zip
+  
+  - BUILD_TARGERT: windows_mingw
+    RABBIT_TOOLCHAIN_VERSION: 530
+    QT_ROOT: C:/Qt/5.10/mingw53_32
+    CMAKE: cmake
+    RABBIT_CONFIG: Release
+    RABBIT_ARCH: x86
+    DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_mingw530_x86_qt5.10.1_Release_v0.0.5.zip
+
+  #- BUILD_TARGERT: windows_mingw
+  #  RABBIT_TOOLCHAIN_VERSION: 530
+  #  QT_ROOT: C:/Qt/5.9/mingw53_32
+  #  RABBIT_CONFIG: Release
+  #  RABBIT_ARCH: x86
+  #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/kfu4fum7a690jvtw/artifacts/RABBIT_windows_mingw530_x86_qt5.9.3_Release_v0.0.3-50-g1ba427c.zip
+
+  #- BUILD_TARGERT: windows_mingw
+  #  RABBIT_TOOLCHAIN_VERSION: 530
+  #  QT_ROOT: C:/Qt/5.8/mingw53_32
+  #  RABBIT_CONFIG: Release
+  #  RABBIT_ARCH: x86
+  #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/7chrumn1esg8caek/artifacts/RABBIT_windows_mingw530_x86_qt5.8.0_Release_v0.0.3-50-g1ba427c.zip
+
+  #- BUILD_TARGERT: windows_mingw
+  #  RABBIT_TOOLCHAIN_VERSION: 492
+  #  QT_ROOT: C:/Qt/5.6/mingw53_32
+  #  RABBIT_CONFIG: Release
+  #  RABBIT_ARCH: x86
+  #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/whnxjhowqyo1r9yp/artifacts/RABBIT_windows_mingw492_x86_qt5.6.2_Release_v0.0.3-16-gdf93da8.zip
   
   ##### vs2017 #####
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
@@ -98,43 +134,6 @@ environment:
     RABBIT_ARCH: x64
     DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc12_x64_qt5.6.3_Release_v0.0.5.zip
   
-  ##### mingw #####
-  - BUILD_TARGERT: windows_mingw
-    RABBIT_TOOLCHAIN_VERSION: 530
-    QT_ROOT: C:/Qt/5.10/mingw53_32
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x86
-    DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_mingw530_x86_qt5.10.1_Release_v0.0.5.zip
-  
-  - BUILD_TARGERT: windows_mingw
-    RABBIT_TOOLCHAIN_VERSION: 530
-    QT_ROOT: C:/Qt/5.10/mingw53_32
-    CMAKE: cmake
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x86
-    DOWNLOAD_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_mingw530_x86_qt5.10.1_Release_v0.0.5.zip
-
-  #- BUILD_TARGERT: windows_mingw
-  #  RABBIT_TOOLCHAIN_VERSION: 530
-  #  QT_ROOT: C:/Qt/5.9/mingw53_32
-  #  RABBIT_CONFIG: Release
-  #  RABBIT_ARCH: x86
-  #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/kfu4fum7a690jvtw/artifacts/RABBIT_windows_mingw530_x86_qt5.9.3_Release_v0.0.3-50-g1ba427c.zip
-
-  #- BUILD_TARGERT: windows_mingw
-  #  RABBIT_TOOLCHAIN_VERSION: 530
-  #  QT_ROOT: C:/Qt/5.8/mingw53_32
-  #  RABBIT_CONFIG: Release
-  #  RABBIT_ARCH: x86
-  #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/7chrumn1esg8caek/artifacts/RABBIT_windows_mingw530_x86_qt5.8.0_Release_v0.0.3-50-g1ba427c.zip
-
-  #- BUILD_TARGERT: windows_mingw
-  #  RABBIT_TOOLCHAIN_VERSION: 492
-  #  QT_ROOT: C:/Qt/5.6/mingw53_32
-  #  RABBIT_CONFIG: Release
-  #  RABBIT_ARCH: x86
-  #  DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/whnxjhowqyo1r9yp/artifacts/RABBIT_windows_mingw492_x86_qt5.6.2_Release_v0.0.3-16-gdf93da8.zip
-
   ##### android ####
   - BUILD_TARGERT: android
     RABBIT_TOOLCHAIN_VERSION: 4.9
@@ -164,9 +163,9 @@ install:
   - for /f "delims=" %%i in ('git describe --tags') do (set BUILD_VERSION=%%i)
   - if "%BUILD_VERSION%" == "" for /f "delims=" %%i in ('git rev-parse HEAD') do (set BUILD_VERSION=%%i) 
   - echo BUILD_VERSION=%BUILD_VERSION%
-  - C:\msys64\usr\bin\pacman.exe -Syu --noconfirm 
-  - C:\msys64\usr\bin\pacman.exe -S --noconfirm unzip expect
-  - C:\msys64\autorebase.bat
+  #- C:\msys64\usr\bin\pacman.exe -Syu --noconfirm 
+  #- C:\msys64\usr\bin\pacman.exe -S --noconfirm unzip expect
+  #- C:\msys64\autorebase.bat
   - if "%RABBIT_ARCH%" == "x64" if "%BUILD_TARGERT%" == "windows_mingw" set BUILD_EXIT=TRUE
   - if "%RABBIT_ARCH%" == "x86" if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" if NOT "%QT_ROOT%" == "NO" set BUILD_EXIT=TRUE
   
