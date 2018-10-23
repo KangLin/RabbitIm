@@ -77,7 +77,6 @@ IF(BUILD_SHARED_LIBS)
     if(WIN32)
         target_compile_definitions(${PROJECT_NAME} PRIVATE -DDLL_EXPORT)
     endif(WIN32)
-    #set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_${CMAKE_BUILD_TYPE} "${CMAKE_BINARY_DIR}")
 ENDIF()
 message("RABBITIM_LIBS:${RABBITIM_LIBS}")
 #链接库
@@ -93,7 +92,9 @@ IF(NOT ANDROID)
             ${PROJECT_NAME}
             ${RABBITIM_LIBS}
             )
-    #set_target_properties(${PROJECT_NAME}App PROPERTIES RUNTIME_OUTPUT_DIRECTORY_${CMAKE_BUILD_TYPE} "${CMAKE_BINARY_DIR}")
+        
+    set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+    set_target_properties(${PROJECT_NAME}App PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 ENDIF()
 
 #只发行版本才安装
