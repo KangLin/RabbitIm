@@ -145,7 +145,7 @@ IF(MSVC)
         elseif(VisualStudioVersion VERSION_EQUAL 15.0)
             SET(RABBIT_TOOLCHAIN_VERSION 15)
         else()
-            message(FATAL_ERROR "Don't support msvc version: ${VisualStudioVersion}; please use msvc 2013, 2015, 2017, or set envment variable VisualStudioVersion")
+            message(FATAL_ERROR "Don't support msvc version: ${VisualStudioVersion}; please use msvc 2013, 2015, 2017, or set variable RABBIT_TOOLCHAIN_VERSION")
         endif()
     endif()
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4819")  #删除不是GBK字符的警告  
