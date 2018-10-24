@@ -26,11 +26,8 @@ CONFIG(static, static|shared) {
 } else {
     DEFINES += BUILD_SHARED_LIBS #windows下动态库
 }
-myPackagesExist(RabbitIm) {
-    MYPKGCONFIG *= RabbitIm
-} else:msvc {
-    LIBS += -lRabbitIm
-}
+LIBS += -lRabbitIm
+
 include(pri/ThirdLibrary.pri)
 include(pri/ThirdLibraryJoin.pri)
 

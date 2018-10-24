@@ -22,11 +22,8 @@ LIBS += -L$${TARGET_PATH}   #包含 RabbitIm 库位置
 !CONFIG(static, static|shared) : DEFINES += BUILD_SHARED_LIBS #windows下动态库导出
 
 include($$PWD/../../pri/ThirdLibraryConfig.pri)
-myPackagesExist(RabbitIm){
-    MYPKGCONFIG *= RabbitIm 
-}else : msvc {
-    LIBS += -lRabbitIm
-}
+LIBS += -lRabbitIm
+
 include($$PWD/../../pri/ThirdLibrary.pri)
 include($$PWD/../../pri/ThirdLibraryJoin.pri)
 include($$PWD/../../pri/RabbitImVersion.pri)

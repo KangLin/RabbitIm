@@ -117,7 +117,14 @@ myPackagesExist(QZXing) {
 include(Webrtc.pri)
 
 equals(RABBITIM_USE_LIBCURL, 1) {
-    myPackagesExist(libcurl) {
+    mingw {
+        CURL_LIBS += $$system($$PKG_CONFIG --static --libs libcurl)
+        message("CURL_LIBS:$$CURL_LIBS")
+        !isEmpty(CURL_LIBS) {
+            DEFINES *= RABBITIM_USE_LIBCURL
+            LIBS += $$CURL_LIBS
+        }
+    } else : myPackagesExist(libcurl) {
         DEFINES *= RABBITIM_USE_LIBCURL
         MYPKGCONFIG *= libcurl
     } else : msvc {
