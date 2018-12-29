@@ -3,7 +3,9 @@ ANDROID_PACKAGE_SOURCE_DIR += $$PWD  #ANDROID包的源码目录
 include(jni/android_jni.pri)
 
 OTHER_FILES +=  \
-    $$PWD/*  \
+    $$PWD/*
+
+DISTFILES += \
     $$PWD/src/org/KangLinStudio/RabbitIm/* \
     $$PWD/src/org/pjsip/* \
     $$PWD/res/values/* \
