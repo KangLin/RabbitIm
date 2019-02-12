@@ -19,7 +19,7 @@ fi
 
 VERSION=`git describe --tags`
 if [ -z "$VERSION" ]; then
-    VERSION=` git rev-parse HEAD`
+    VERSION=`git rev-parse --short HEAD`
 fi
 
 sed -i "s/^\!define PRODUCT_VERSION.*/\!define PRODUCT_VERSION \"${VERSION}\"/g" ${SOURCE_DIR}/Install/Install.nsi
