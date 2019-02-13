@@ -3,14 +3,14 @@
 
 #include <QString>
 
-#ifdef RABBITIM_STATIC
-    #  define RABBITIM_SHARED_LIBRARY
-#else
-    #if defined(RABBITIM_SHARED_LIBRARY)
-    #  define RABBITIM_SHARED_LIBRARY Q_DECL_EXPORT
+#if WIN32 && BUILD_SHARED_LIBS
+    #ifdef DLL_EXPORT
+        #define RABBITIM_SHARED_LIBRARY __declspec(dllexport)
     #else
-    #  define RABBITIM_SHARED_LIBRARY Q_DECL_IMPORT
+        #define RABBITIM_SHARED_LIBRARY __declspec(dllimport)
     #endif
+#else
+    #define RABBITIM_SHARED_LIBRARY
 #endif
 
 class RABBITIM_SHARED_LIBRARY CGlobalDir

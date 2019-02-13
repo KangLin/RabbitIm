@@ -31,6 +31,7 @@ public slots:
     void slotError(QXmppTransferJob::Error error);
     void slotStateChanged(QXmppTransferJob::State state);
     void slotProgress(qint64 done, qint64 total);
+    void slotFinished();
     
 private:
      QXmppTransferJob *m_pJob;

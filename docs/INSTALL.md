@@ -481,7 +481,8 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
     + CONFIG+=static              #使用静态编译
     + RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档 
   * 项目->构建和运行->构建->构建环境，设置环境变更  
-    PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config  
+    GIT=${MSYS32_ROOT}/bin/git.exe                    #环境变量PATH中已设置GIT,则不需要
+    PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config  #**注意**，这里要用mingw32的pkg-config, 不能用msys2的pkg-config.国为不能识别路径符号“/”
     PKG_CONFIG_PATH=${RabbitImRoot}/ThirdLibrary/${PLATFORM}  #可选
     如果是交叉编译，还需要设置：
     export PKG_CONFIG_LIBDIR=${PKG_CONFIG_PATH} #可选
@@ -489,6 +490,7 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
   * 构建->构建项目"RabbitIm"。编译本项目。
   * 运行：如果是在mingw32， 项目->构建和运行->运行->运行环境中设置
     PATH=${MSYS32_ROOT}/mingw32/bin;${RabbitImRoot}/ThirdLibrary/${PLATFORM}/bin
+  * 构建->构建环境变量:设置 ANDROID_NDK_PLATFORM 到指定的API。例如：android-18 
 
 ##### 1.2. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
 
@@ -538,7 +540,9 @@ windows 下需要安装 cygwin 或者 msys(msys2) 环境。
 
     mkdir build
     cd build
-    qmake ${RabbitImRoot}/Rabbitim.pro
+    qmake ${RabbitImRoot}/Rabbitim.pro  \
+            GIT=${MSYS32_ROOT}/bin/git.exe \
+            PKG_CONFIG=${MSYS32_ROOT}/mingw32/bin/pkg-config
     $(MAKE)
 
 MAKE在不同的环境下有不同的命令：  

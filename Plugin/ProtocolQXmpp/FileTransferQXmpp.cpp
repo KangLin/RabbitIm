@@ -25,12 +25,17 @@ CFileTransferQXmpp::CFileTransferQXmpp(QXmppTransferJob *pJob, QObject *parent) 
     check = connect(pJob, SIGNAL(progress(qint64,qint64)),
                     SLOT(slotProgress(qint64,qint64)));
     Q_ASSERT(check);
+    check = connect(pJob, SIGNAL(finished()),
+                    SLOT(slotFinished()));
+    Q_ASSERT(check);
     
 }
 
 CFileTransferQXmpp::~CFileTransferQXmpp()
 {
     LOG_MODEL_DEBUG("CFileTransferQXmpp", "CFileTransferQXmpp::~CFileTransferQXmpp");
+    if(m_pJob)
+        m_pJob->deleteLater();
 }
 
 int CFileTransferQXmpp::Accept(const QString &szFile)
@@ -137,6 +142,11 @@ void CFileTransferQXmpp::slotStateChanged(QXmppTransferJob::State state)
     if(TransferState == m_State)
         m_LastUpdateTime = QDateTime::currentDateTime();
     emit sigUpdate();
-    if(FinishedState == m_State)
-        emit sigFinished(GetId(), GetFileTranserId());
+    //if(FinishedState == m_State)
+    //    emit sigFinished(GetId(), GetFileTranserId());
+}
+
+void CFileTransferQXmpp::slotFinished()
+{
+    emit sigFinished(GetId(), GetFileTranserId());
 }

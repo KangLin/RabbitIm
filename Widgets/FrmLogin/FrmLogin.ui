@@ -39,7 +39,7 @@
    <item row="1" column="0">
     <widget class="QWidget" name="widget" native="true">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -97,8 +97,8 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>100</width>
-            <height>80</height>
+            <width>128</width>
+            <height>128</height>
            </size>
           </property>
           <property name="toolTip">
@@ -154,9 +154,9 @@
         <item>
          <widget class="QLabel" name="label_3">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
             <horstretch>1</horstretch>
-            <verstretch>0</verstretch>
+            <verstretch>1</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
@@ -182,9 +182,9 @@
         <item>
          <widget class="QComboBox" name="cmbUser">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
             <horstretch>2</horstretch>
-            <verstretch>0</verstretch>
+            <verstretch>4</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
@@ -555,6 +555,8 @@
   <tabstop>pbState</tabstop>
  </tabstops>
  <resources>
+  <include location="../../Resource/Resource.qrc"/>
+  <include location="../../Resource/Resource.qrc"/>
   <include location="../../Resource/Resource.qrc"/>
  </resources>
  <connections/>

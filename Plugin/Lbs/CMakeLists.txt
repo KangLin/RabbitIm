@@ -36,4 +36,4 @@ IF(ANDROID)
     )
 ENDIF(ANDROID)
 
-include(${CMAKE_SOURCE_DIR}/cmake/PluginCommon.cmake)
+include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginApp.cmake)

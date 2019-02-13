@@ -63,16 +63,16 @@ public:
         FinishedState = 3, ///< The transfer is finished.
     };
 
-    virtual QUrl GetLocalFileUrl();///< 得到本地文件  
-    virtual QString GetFile();  ///< 得到传送的文件名  
-    virtual qint64 GetFileSize();  ///< 得到文件的大小  
+    virtual QUrl GetLocalFileUrl();   ///< 得到本地文件  
+    virtual QString GetFile();        ///< 得到传送的文件名  
+    virtual qint64 GetFileSize();     ///< 得到文件的大小  
     virtual Direction GetDirection(); ///< 得到传输方向  
     virtual QString GetDescription(); ///< 得到文件描述
-    virtual State GetState();       ///< 得到状态  
-    virtual Error GetError();        ///< 得到错误  
+    virtual State GetState();         ///< 得到状态  
+    virtual Error GetError();         ///< 得到错误  
 
-    virtual qint64 GetSpeed();   ///< 得到传输速率  
-    virtual qint64 GetDoneSize();  ///< 得到已经传输的大小  
+    virtual qint64 GetSpeed();        ///< 得到传输速率  
+    virtual qint64 GetDoneSize();     ///< 得到已经传输的大小  
 
 signals:
     /**

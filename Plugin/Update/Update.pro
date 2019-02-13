@@ -14,7 +14,7 @@ DISTFILES += Update.json \
 
 RABBITIM_PLUG_NAME=CPluginUpdate
 
-include(../ConfigApp.pri)
+include(../pri/ConfigApp.pri)
 
 equals(RABBITIM_USE_LIBCURL, 1){
     SOURCES += PluginUpdate.cpp \

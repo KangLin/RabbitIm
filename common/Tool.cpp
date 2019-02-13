@@ -330,6 +330,93 @@ cv::Mat CTool::ImageRotate(cv::Mat & src, const cv::Point &_center,
 }
 #endif
 
+int CTool::ImageRotate(const QVideoFrame &inFrame, QVideoFrame &outFrame, double nAngle)
+{
+    int nRet = 0;
+
+    if(0 == nAngle)
+    {
+        outFrame = inFrame;
+        return 0;
+    }
+    
+    QImage outImage;
+    QVideoFrame frame(inFrame);
+    if(!frame.map(QAbstractVideoBuffer::ReadOnly))
+    {
+        return -1;
+    }
+    do{
+        QImage::Format f = QVideoFrame::imageFormatFromPixelFormat(
+                    frame.pixelFormat());
+        if(QImage::Format_Invalid != f)
+        {
+            QImage image(frame.bits(),
+                         frame.width(),
+                         frame.height(),
+                         f);
+            QMatrix matrix;
+            matrix.rotate(nAngle);
+            outImage = image.transformed(matrix);
+            outFrame = QVideoFrame(outImage);
+        }
+        else
+        {
+            if(QVideoFrame::Format_NV21 != frame.pixelFormat())
+            {
+                LOG_MODEL_WARNING("Video",
+                     "CFrameProcess::slotCaptureFrame:don't Format_NV21");
+                nRet = -2;
+                break;
+            }
+    
+            int nWidth = frame.width();
+            int nHeight = frame.height();
+            outFrame = QVideoFrame(frame.mappedBytes(), frame.size(),
+                                 frame.bytesPerLine(), frame.pixelFormat());
+            if(!outFrame.map(QAbstractVideoBuffer::WriteOnly))
+            {
+                 LOG_MODEL_ERROR("CFrameProcess", "QVideoFrame outFrame map is fail");
+                break;
+            }
+            if (CGlobal::Instance()->GetVideoCaptureDevice() == 1)
+            {
+                /*QByteArray rotate;
+                rotate.resize(frame.mappedBytes());
+                //背景摄像头要顺时针旋转90度,再做Y轴镜像  
+                CTool::YUV420spRotate90(reinterpret_cast<uchar *> (rotate.data()),
+                                        (const uchar*)frame.bits(), nWidth, nHeight, 1);
+                CTool::YUV420spMirror(reinterpret_cast<uchar *> (outFrame.bits()),
+                                      reinterpret_cast<uchar *>(rotate.data()),
+                                      nHeight, nWidth, 0);*/
+                CTool::YUV420spRotateNegative90(
+                            reinterpret_cast<uchar*>(outFrame.bits()), 
+                            (const uchar*)frame.bits(),
+                            nWidth, nHeight);
+            }
+            else
+            {
+                //前景摄像头要逆时针旋转90度  
+                CTool::YUV420spRotate90(
+                            reinterpret_cast<uchar *> (
+                                outFrame.bits()), (const uchar*)frame.bits(),
+                            nWidth, nHeight, -1);
+            }
+            outFrame.unmap();
+        }
+    }while(0);
+    frame.unmap();
+
+    return nRet;    
+}
+
+int CTool::ImageTransformed(const QVideoFrame &inFrame, QVideoFrame &outFrame, double nScale, double nAngle)
+{
+    int nRet = 1;
+    
+    return nRet;
+}
+
 void CTool::YUV420spRotate90(uchar *dst, const uchar *src,
                              int srcWidth, int srcHeight)
 {
@@ -593,6 +680,13 @@ bool CTool::removeDirectory(QString dirName)
     return true;
 }
 
+/**
+ * @brief 调整窗口的位置，手机上，让窗口全屏，在pc上，把窗口调整到屏幕中间
+ *
+ * @fn SetWindowsGeometry
+ * @param pWindow
+ * @return int
+ */
 int CTool::SetWindowsGeometry(QWidget *pWindow)
 {
     /*
@@ -619,16 +713,18 @@ int CTool::SetWindowsGeometry(QWidget *pWindow)
                     pScreen->geometry().width(),
                     pScreen->geometry().height());
 #ifdef MOBILE
-    pWindow->setGeometry(pScreen->availableGeometry());
+    pWindow->setGeometry(pScreen->geometry());
 #else
     if(!(pScreen->availableGeometry().width() > pWindow->width()
             && pScreen->availableGeometry().height() > pWindow->height()))
     {
+        pWindow->frameGeometry().setWidth(pScreen->availableGeometry().width());
+        pWindow->frameGeometry().setHeight(pScreen->availableGeometry().height());
         pWindow->setGeometry(0, 0, pScreen->availableGeometry().width() - 80,
                              pScreen->availableGeometry().height() - 80);
     }
-    pWindow->move((pScreen->availableGeometry().width() - pWindow->width()) >> 1,
-                  (pScreen->availableGeometry().height() - pWindow->height()) >> 1);
+    pWindow->move((pScreen->availableGeometry().width() - pWindow->frameGeometry().width()) >> 1,
+                  (pScreen->availableGeometry().height() - pWindow->frameGeometry().height()) >> 1);
 #endif
     //*/
     return 0;

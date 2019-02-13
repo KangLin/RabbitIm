@@ -25,15 +25,24 @@ FOREACH(_COMPONENT ${QT_COMPONENTS})
     SET(QT_LIBRARIES ${QT_LIBRARIES} ${Qt5${_COMPONENT}_LIBRARIES})
 ENDFOREACH()
 
+SET(HEAD_FILES
+    CapThread.h
+    DetectFaces.h
+    FrmFaceRecognizer.h
+    FrmFacePicture.h
+    Tool.h
+    )
 SET(SOURCE_FILES 
     main.cpp
-    CapThread.cpp CapThread.h
+    CapThread.cpp 
     DetectFaces.cpp
-    DetectFaces.h
     FrmFaceRecognizer.cpp
-    FrmFaceRecognizer.h)
+    FrmFacePicture.cpp
+    Tool.cpp)
 
-SET(SOURCE_UI_FILES FrmFaceRecognizer.ui)
+SET(SOURCE_UI_FILES 
+    FrmFaceRecognizer.ui
+    FrmFacePicture.ui)
 
 message("Opencv_LIBS:${OpenCV_LIBS}")
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${SOURCE_UI_FILES})

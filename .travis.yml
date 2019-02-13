@@ -28,18 +28,16 @@ env:
     - SOURCE_DIR=$TRAVIS_BUILD_DIR
     - RABBITIM_USE_REPOSITORIES="TRUE"
     - QMAKE=qmake
-    - RABBITIM_BUILD_THIRDLIBRARY="TRUE" 
 
   matrix:
-    - BUILD_TARGERT="unix" QT_VERSION_DIR=5.8 QT_VERSION=5.8.0 RABBITIM_BUILD_THIRDLIBRARY="rabbitim" DOWNLOAD_FILE=https://sourceforge.net/projects/rabbitthirdlibrary/files/Release/rabbit_unix_amd64_5.8.0.tar.gz/download
-    - BUILD_TARGERT="android" QT_VERSION_DIR=5.8 QT_VERSION=5.8.0 RABBITIM_BUILD_THIRDLIBRARY="rabbitim" DOWNLOAD_FILE=https://sourceforge.net/projects/rabbitthirdlibrary/files/Release/rabbit_android_arm_5.8.0.tar.gz/download
-    - BUILD_TARGERT="unix" QT_VERSION_DIR=5.7 QT_VERSION=5.7.0 RABBITIM_BUILD_THIRDLIBRARY="rabbitim" DOWNLOAD_FILE=https://sourceforge.net/projects/rabbitthirdlibrary/files/Release/rabbit_unix_amd64_5.7.0.tar.gz/download
-    - BUILD_TARGERT="android" QT_VERSION_DIR=5.7 QT_VERSION=5.7.0 RABBITIM_BUILD_THIRDLIBRARY="rabbitim" DOWNLOAD_FILE=https://sourceforge.net/projects/rabbitthirdlibrary/files/Release/rabbit_android_arm_5.7.0.tar.gz/download
+    - BUILD_TARGERT="unix" QT_VERSION_DIR=5.10 QT_VERSION=5.10.1
+    - BUILD_TARGERT="unix" QT_VERSION_DIR=5.9 QT_VERSION=5.9.5
 
 before_install:
+  - export PROJECT_NAME="rabbitim"
   - echo "TRAVIS_OS_NAME=${TRAVIS_OS_NAME}"
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - export DISPLAY=:99.0         #安装QT时需要
+  - sh -e /etc/init.d/xvfb start #安装QT时需要
 
 install:
   - bash ThirdLibrary/build_script/ci/build-install-apt.sh > /dev/null

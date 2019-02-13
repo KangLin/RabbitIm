@@ -1,6 +1,7 @@
 #include "FrmFaceRecognizer.h"
 #include "ui_FrmFaceRecognizer.h"
 #include <QDebug>
+#include "Tool.h"
 
 CFrmFaceRecognizer::CFrmFaceRecognizer(QWidget *parent) :
     QWidget(parent),
@@ -31,8 +32,9 @@ void CFrmFaceRecognizer::slotCaptured(cv::Mat frame)
 {
     cv::Mat frame_gray;
     std::vector<cv::Rect> faces;
+    //m_DetectFace.DetectFaces(frame, frame_gray);
     m_DetectFace.DetectFaces(frame, frame_gray, faces, 4);
-
+    
     switch (m_Operator) {
     case SAVE:
     {
@@ -43,9 +45,9 @@ void CFrmFaceRecognizer::slotCaptured(cv::Mat frame)
             cv::Mat ROI = frame_gray(r);
             cv::Mat img(50, 120,  CV_8UC1);
             cv::resize(ROI, img, img.size(),  0, 0, cv::INTER_LINEAR);
-            ShowImage(ui->lbGray, img);
+            CTool::ShowImage(ui->lbGray, img);
             ROI = frame(r);
-            ShowImage(ui->lbHist, ROI);
+            CTool::ShowImage(ui->lbHist, ROI);
             qDebug() << "ROI width:" << ROI.cols << " Height:" << ROI.rows;
             m_DetectFace.AddImage(ROI, ui->leLabel->text().toInt());
         }
@@ -69,29 +71,10 @@ void CFrmFaceRecognizer::slotCaptured(cv::Mat frame)
     default:
         break;
     }
-    m_Operator = NO;
-    ShowImage(ui->lbShow, frame);
+    m_Operator = NO;//*/
+    CTool::ShowImage(ui->lbShow, frame);
     //qDebug() << "Width:" << frame.cols << "Height:" << frame.rows;
 
-}
-
-void CFrmFaceRecognizer::ShowImage(QLabel *pLable, cv::Mat image)
-{
-    cv::Mat frame;
-    QImage img;
-    if(image.channels() == 3)
-    {
-        cv::cvtColor(image, frame, cv::COLOR_BGR2RGB);
-        img = QImage(frame.data, frame.cols, frame.rows,
-                     frame.cols * frame.channels(),
-                     QImage::Format_RGB888);
-    }
-    else
-        img = QImage(image.data, image.cols, image.rows,
-                     //image.cols * image.channels(),
-                     QImage::Format_Indexed8);
-
-    pLable->setPixmap(QPixmap::fromImage(img));
 }
 
 void CFrmFaceRecognizer::on_pbTrain_clicked()

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>464</width>
     <height>300</height>
    </rect>
   </property>
@@ -33,13 +33,13 @@
       <widget class="QLabel" name="label_7">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>102</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -52,6 +52,9 @@
        <property name="text">
         <string>XMPP Server:</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="wordWrap">
         <bool>true</bool>
        </property>
@@ -60,8 +63,8 @@
      <item>
       <widget class="QLineEdit" name="txtXmppServer">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>2</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -83,13 +86,13 @@
       <widget class="QLabel" name="label_8">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>40</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -102,6 +105,9 @@
        <property name="text">
         <string>Port:</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="wordWrap">
         <bool>true</bool>
        </property>
@@ -111,7 +117,7 @@
       <widget class="QLineEdit" name="txtXmppPort">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -137,13 +143,13 @@
       <widget class="QLabel" name="label_11">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>102</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -156,6 +162,9 @@
        <property name="text">
         <string>XMPP Domain:</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="wordWrap">
         <bool>true</bool>
        </property>
@@ -165,7 +174,7 @@
       <widget class="QLineEdit" name="txtXmppDomain">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>4</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -191,13 +200,13 @@
       <widget class="QLabel" name="label_3">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>102</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -210,6 +219,9 @@
        <property name="text">
         <string>Stun Server:</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="wordWrap">
         <bool>true</bool>
        </property>
@@ -219,7 +231,7 @@
       <widget class="QLineEdit" name="txtStunServer">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>2</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -241,13 +253,13 @@
       <widget class="QLabel" name="label_4">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>40</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -260,6 +272,9 @@
        <property name="text">
         <string>Port:</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="wordWrap">
         <bool>true</bool>
        </property>
@@ -269,7 +284,7 @@
       <widget class="QLineEdit" name="txtStunPort">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -295,13 +310,13 @@
       <widget class="QLabel" name="label_5">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>102</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -314,6 +329,9 @@
        <property name="text">
         <string>Turn Server:</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="wordWrap">
         <bool>true</bool>
        </property>
@@ -323,7 +341,7 @@
       <widget class="QLineEdit" name="txtTurnServer">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>2</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -345,13 +363,13 @@
       <widget class="QLabel" name="label_6">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>40</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -364,6 +382,9 @@
        <property name="text">
         <string>Port:</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="wordWrap">
         <bool>true</bool>
        </property>
@@ -373,7 +394,7 @@
       <widget class="QLineEdit" name="txtTurnPort">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -399,13 +420,13 @@
       <widget class="QLabel" name="label_9">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>102</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -418,6 +439,9 @@
        <property name="text">
         <string>Turn User:</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="wordWrap">
         <bool>true</bool>
        </property>
@@ -427,7 +451,7 @@
       <widget class="QLineEdit" name="txtUser">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>2</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -449,13 +473,13 @@
       <widget class="QLabel" name="label_10">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize">
         <size>
-         <width>80</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -468,6 +492,9 @@
        <property name="text">
         <string>Password:</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="wordWrap">
         <bool>true</bool>
        </property>
@@ -477,7 +504,7 @@
       <widget class="QLineEdit" name="txtPassword">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -594,6 +621,8 @@
   </layout>
  </widget>
  <resources>
+  <include location="../../Resource/Resource.qrc"/>
+  <include location="../../Resource/Resource.qrc"/>
   <include location="../../Resource/Resource.qrc"/>
  </resources>
  <connections/>

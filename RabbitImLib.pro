@@ -6,18 +6,17 @@
 
 TARGET = RabbitIm
 TEMPLATE = lib 
-!CONFIG(static, static|shared) : DEFINES += RABBITIM_SHARED_LIBRARY #windows下动态库导出
+!CONFIG(static, static|shared) : DEFINES += BUILD_SHARED_LIBS #windows下动态库导出
 
 CONFIG += create_prl no_install_prl create_pc no_install_pc 
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
 #设置目标输出目录  
 win32{
-    CONFIG(debug, debug|release)  {
-        TARGET_PATH=$${OUT_PWD}/Debug
-    } else {
-        TARGET_PATH=$${OUT_PWD}/Release
-    }
+    DEFINES += DLL_EXPORT
+    CONFIG(debug, debug|release) : TARGET_PATH=$${OUT_PWD}/Debug
+    
+    CONFIG(release, debug|release) : TARGET_PATH=$${OUT_PWD}/Release
 }else{
     TARGET_PATH=$$OUT_PWD
 }
@@ -39,11 +38,8 @@ include(pri/RabbitImFiles.pri)
 
 #发行版本才更新更新配置  
 include(pri/RabbitImVersion.pri)
-!equals(RABBITIM_USE_LIBCURL, 1){
-    warning("don't update function")
-}
 
-VERSION = $${MAJOR_VERSION_NUMBER}.$${MINOR_VERSION_NUMBER}.$${REVISION_VERSION_NUMBER}
+#VERSION = $${BUILD_VERSION}
 
 # Rules for creating/updating {ts|qm}-files
 include(Resource/translations/translations.pri)

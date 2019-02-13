@@ -1,5 +1,3 @@
-#App 插件的公共配置，如果你是 App 插件，需要包含此文件
-
 CONFIG *= plugin 
 INCLUDEPATH += $$PWD/..
 CONFIG += c++0x
@@ -21,16 +19,14 @@ win32{
 LIBS += -L$${TARGET_PATH}   #包含 RabbitIm 库位置  
 !exists("$$OUT_PWD") : mkpath($$OUT_PWD)
 #message("TARGET_PATH:$${TARGET_PATH}")
+!CONFIG(static, static|shared) : DEFINES += BUILD_SHARED_LIBS #windows下动态库导出
 
-include($$PWD/../pri/ThirdLibraryConfig.pri)
-myPackagesExist(RabbitIm){
-    MYPKGCONFIG *= RabbitIm 
-}else : msvc {
-    LIBS += -lRabbitIm0
-}
-include($$PWD/../pri/ThirdLibrary.pri)
-include($$PWD/../pri/ThirdLibraryJoin.pri)
-include($$PWD/../pri/RabbitImVersion.pri)
+include($$PWD/../../pri/ThirdLibraryConfig.pri)
+LIBS += -lRabbitIm
+
+include($$PWD/../../pri/ThirdLibrary.pri)
+include($$PWD/../../pri/ThirdLibraryJoin.pri)
+include($$PWD/../../pri/RabbitImVersion.pri)
 
 #安装前缀  
 isEmpty(PREFIX) {
@@ -38,7 +34,7 @@ isEmpty(PREFIX) {
        PREFIX = /.
     } else {
         PREFIX = $$OUT_PWD/../../install
-    } 
+    }
 }
 contains(TEMPLATE, lib){
 
@@ -60,22 +56,22 @@ contains(TEMPLATE, lib){
         PLUG_CONTENT = "-l$${TARGET}"
         FILE_CONTENT = $$cat($$FILE_NAME) 
         !contains(FILE_CONTENT, $$PLUG_CONTENT){
-            PLUG_CONTENT = "LIBS *= -L\$\${OUT_PWD}/plugins/App/$${TARGET} -l$${TARGET} "
+            PLUG_CONTENT = "LIBS *= -L\$\${OUT_PWD}/plugins/$${PLUGIN_TYPE}/$${TARGET} -l$${TARGET} "
             #PLUG_CONTENT += "myPackagesExist($${TARGET}) : MYPKGCONFIG *= $${TARGET}"
             write_file($$FILE_NAME, PLUG_CONTENT, append)
         }
     }
 
     #插件安装路径  
-    DESTDIR = $$OUT_PWD/../../plugins/App/$${TARGET}
+    DESTDIR = $$OUT_PWD/../../plugins/$${PLUGIN_TYPE}/$${TARGET}
     mkpath($$DESTDIR)
 
     #插件安装路径  
-    TARGET_INSTALL_PATH = $${PREFIX}/plugins/App/$${TARGET}
+    TARGET_INSTALL_PATH = $${PREFIX}/plugins/$${PLUGIN_TYPE}/$${TARGET}
     target.path = $${TARGET_INSTALL_PATH}
 
     #翻译  
-    include($$PWD/translations.pri)
+    include(translations.pri)
 } else {
     target.path = $$PREFIX
     DESTDIR = $$TARGET_PATH

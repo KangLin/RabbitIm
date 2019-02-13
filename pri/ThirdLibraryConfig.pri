@@ -1,5 +1,5 @@
 # 注意：Qt 版本必须大于 5.0  
-lessThan(QT_VERSION, 5.0) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
+lessThan(QT_MAJOR_VERSION, 5) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
 
 QT *= core gui network xml multimedia widgets
 
@@ -30,10 +30,11 @@ win32 {
         RABBITIM_ARCHITECTURE = "x86"
     }
 
+    RABBIT_TOOLCHAIN_VERSION=$$(RABBIT_TOOLCHAIN_VERSION)
     msvc {
         QMAKE_CXXFLAGS += /wd"4819"  #忽略msvc下对utf-8的警告  
         #QMAKE_LFLAGS += -ladvapi32
-        RABBIT_TOOLCHAIN_VERSION=$$(RABBIT_TOOLCHAIN_VERSION)
+        
         RABBITIM_PLATFORM = "windows_msvc"
         isEmpty(RABBIT_TOOLCHAIN_VERSION) {    
             VisualStudioVersion = $$(VisualStudioVersion)
@@ -48,6 +49,14 @@ win32 {
         }
     } else {
         RABBITIM_PLATFORM = "windows_mingw"
+        #TODO:根据实际情况修改  
+        isEmpty(RABBIT_TOOLCHAIN_VERSION) {
+            greaterThan(QT_MAJOR_VERSION, 4) : greaterThan(QT_MINOR_VERSION, 9) {
+                RABBIT_TOOLCHAIN_VERSION=530
+            } else {
+                RABBIT_TOOLCHAIN_VERSION=492
+            }
+        }
         DEFINES += "_WIN32_WINNT=0x0501" #__USE_MINGW_ANSI_STDIO
     }
 
@@ -56,6 +65,8 @@ win32 {
     RABBITIM_SYSTEM = "android"
     RABBITIM_PLATFORM = "android"
     RABBITIM_ARCHITECTURE = $${ANDROID_ARCHITECTURE}
+    API=$$(ANDROID_NDK_PLATFORM)
+    RABBIT_TOOLCHAIN_VERSION=$$split(API, "android-")
     DEFINES += ANDROID MOBILE
 
 }  else:unix {
@@ -93,6 +104,8 @@ CONFIG(static, static|shared) {
 #} else {
 #    CONFIG += staticlib #生成静态库    
 #    CONFIG += shared    #生成动态库  
+}else{
+    DEFINES += BUILD_SHARED_LIBS #windows下动态库
 }
 message("THIRD_LIBRARY_PATH:$${THIRD_LIBRARY_PATH}")
 !exists($$THIRD_LIBRARY_PATH) : warning("Please set THIRD_LIBRARY_PATH")
@@ -127,6 +140,7 @@ mingw{
     } else {
         PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig:$${TARGET_PATH}/pkgconfig
     }
+    PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${TARGET_PATH}/pkgconfig:$$(PKG_CONFIG_PATH)"
 } else {
     PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${TARGET_PATH}/pkgconfig:$$(PKG_CONFIG_PATH)"
 }
@@ -144,7 +158,7 @@ libdir.name = PKG_CONFIG_LIBDIR
 libdir.value = $$PKG_CONFIG_LIBDIR
 path.name = PKG_CONFIG_PATH
 path.value = $$PKG_CONFIG_PATH
-qtAddToolEnv(PKG_CONFIG, sysroot libdir path, SYS)
+qtAddToolEnv(PKG_CONFIG,libdir path, SYS)
 equals(QMAKE_HOST.os, Windows): \
     PKG_CONFIG += 2> NUL
 else: \
@@ -160,7 +174,7 @@ defineTest(myPackagesExist) {
     for(package, ARGS) {
         !system($$pkg_config --exists $$package) {
             !msvc : message("Warring: package $$package is not exist. ")
-            mingw | equals(QMAKE_HOST.os, Windows) : message("Be sure use pkg-config mingw32?")
+            mingw | equals(QMAKE_HOST.os, Windows) : message("Warring: package $$package is not exist. Be sure use pkg-config in mingw32?")
             return(false)
         }
     }

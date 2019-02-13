@@ -23,6 +23,7 @@ OTHER_FILES += README.md \
     docs/* \
     docs/Books/* \
     docs/QXmpp音视频呼叫流程.txt \  
+    docs/RabbitImServer/* \
     License.md \
     ChangeLog.md \
     Authors.txt \

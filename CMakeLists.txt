@@ -17,34 +17,46 @@ IF(NOT CMAKE_INSTALL_PREFIX)
 ENDIF() 
 
 # Find Git Version Patch
-if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-    FIND_PROGRAM(GIT git)
+SET(BUILD_VERSION "v0.1.0-312-gbbf45f4")
+# Find Git Version Patch
+IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+    if(NOT GIT)
+        SET(GIT $ENV{GIT})
+    endif()
+    if(NOT GIT)
+        FIND_PROGRAM(GIT NAMES git git.exe git.cmd)
+    endif()
     IF(GIT)
         EXECUTE_PROCESS(
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-            COMMAND ${GIT} rev-parse --short HEAD
-            OUTPUT_VARIABLE BUILD_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
+            COMMAND ${GIT} describe --tags
+            OUTPUT_VARIABLE GIT_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-        MESSAGE("Git Version: ${BUILD_VERSION}\n")
+	    if(NOT GIT_VERSION)
+            EXECUTE_PROCESS(
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                COMMAND ${GIT} rev-parse --short HEAD
+                OUTPUT_VARIABLE GIT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+        endif()
+        SET(BUILD_VERSION ${GIT_VERSION})
     ENDIF(GIT)
 ENDIF()
-MESSAGE("\n")
+message("BUILD_VERSION:${BUILD_VERSION}")
 
-#打开 qt 编译工具
-SET(CMAKE_AUTOUIC ON)
-SET(CMAKE_AUTOMOC ON)
-SET(CMAKE_AUTORCC ON)
-SET(CMAKE_INCLUDE_CURRENT_DIR ON)
-SET(CMAKE_VERBOSE_MAKEFILE ON)
+add_definitions(-DBUILD_VERSION="${BUILD_VERSION}")
 
 include(cmake/Configure.cmake)
 include(cmake/ThirdLibrary.cmake)
 include(cmake/install_version.cmake)
 include(cmake/cmake_build_file.cmake)
 add_subdirectory(Plugin)
-IF(OPTION_RABBITIM_USE_STATIC)
+IF(NOT BUILD_SHARED_LIBS)
     include(Plugin/PluginStatic.cmake)
 ENDIF()
+
+#翻译
+include(cmake/Translations.cmake)
 
 #设置资源文件
 SET(RABBITIM_RCC_FILES
@@ -54,20 +66,17 @@ SET(RABBITIM_RCC_FILES
     )
 
 #生成目标
-IF(OPTION_RABBITIM_USE_STATIC)
-    add_library(${PROJECT_NAME}
-        ${RABBITIM_SOURCES}
-        ${RABBITIM_RCC_FILES}
-        ${RABBITIM_UIS}
-        )
-ELSE()
+add_library(${PROJECT_NAME} 
+    ${RABBITIM_SOURCES}
+    ${RABBITIM_RCC_FILES}
+    ${RABBITIM_UIS}
+    )
+IF(BUILD_SHARED_LIBS)
     #windows下动态库导出
-    ADD_DEFINITIONS(-DRABBITIM_SHARED_LIBRARY)
-    add_library(${PROJECT_NAME} SHARED
-        ${RABBITIM_SOURCES}
-        ${RABBITIM_RCC_FILES}
-        ${RABBITIM_UIS}
-        )
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -DBUILD_SHARED_LIBS) 
+    if(WIN32)
+        target_compile_definitions(${PROJECT_NAME} PRIVATE -DDLL_EXPORT)
+    endif(WIN32)
 ENDIF()
 message("RABBITIM_LIBS:${RABBITIM_LIBS}")
 #链接库
@@ -83,46 +92,64 @@ IF(NOT ANDROID)
             ${PROJECT_NAME}
             ${RABBITIM_LIBS}
             )
+        
+    set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+    set_target_properties(${PROJECT_NAME}App PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 ENDIF()
-
-#翻译
-include(cmake/Translations.cmake)
 
 #只发行版本才安装
 IF(NOT CMAKE_BUILD_TYPE MATCHES Debug)
-    #安装2:目标
-    INSTALL(TARGETS ${PROJECT_NAME}
+    
+    #安装1:目标
+    if(BUILD_SHARED_LIBS)
+        INSTALL(TARGETS ${PROJECT_NAME}
             LIBRARY DESTINATION "."
             ARCHIVE DESTINATION ".")
+    endif()
     IF(NOT ANDROID)
         INSTALL(TARGETS "${PROJECT_NAME}App" RUNTIME DESTINATION "." CONFIGURATIONS Release)
     ENDIF()
-
-    #安装3:qt库
+    if(MSVC)
+        SET(VAR_RABBITIM_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+        SET(VAR_RABBITIMAPP_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    else()
+        SET(VAR_RABBITIM_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+        SET(VAR_RABBITIMAPP_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+    endif()
+    #安装2:qt库
     IF(WIN32 AND CMAKE_HOST_WIN32)
-        IF(MINGW AND NOT OPTION_RABBITIM_USE_STATIC)
+        IF(MINGW)
             #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
-            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND strip "${PROJECT_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}"
-                )
+            if(BUILD_SHARED_LIBS)
+                add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                    COMMAND strip "${VAR_RABBITIM_OUTPUT_DIRECTORY}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}"
+                    )
+            endif()
             add_custom_command(TARGET ${PROJECT_NAME}App POST_BUILD
-                COMMAND strip "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}"
+                COMMAND strip "${VAR_RABBITIMAPP_OUTPUT_DIRECTORY}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}"
                 )
         ENDIF()
 
+        if(NOT QT_INSTALL_DIR)
+            SET(QT_INSTALL_DIR "${Qt5_DIR}/../../.." CACHE PATH "" FORCE)
+        endif()
         #add_custom_target(Deployment DEPENDS ${PROJECT_NAME}
         #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
-            COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
-            COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-                --compiler-runtime
-                --verbose 7
-                "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}"
-        )
+        if(NOT EXISTS "${PROJECT_BINARY_DIR}/${PROJECT_NAME}")
+            file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/${PROJECT_NAME}")
+        endif()
+
+        if(BUILD_SHARED_LIBS)
+            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy "${VAR_RABBITIM_OUTPUT_DIRECTORY}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
+                COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
+                    --compiler-runtime
+                    --verbose 7
+                    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJECT_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}"
+            )
+        endif()
         add_custom_command(TARGET ${PROJECT_NAME}App POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${PROJECT_NAME}"
-            COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_BINARY_DIR}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
+            COMMAND ${CMAKE_COMMAND} -E copy "${VAR_RABBITIMAPP_OUTPUT_DIRECTORY}/${PROJECT_NAME}App${CMAKE_EXECUTABLE_SUFFIX}" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}/."
             COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
                 --compiler-runtime
                 --verbose 7
@@ -157,7 +184,7 @@ IF(ANDROID)
     MESSAGE("ant:${ANT}\n")
 
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/libRabbitIm.so ${PROJECT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PROJECT_BINARY_DIR}/libRabbitIm.so ${PROJECT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libRabbitIm.so
         #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
         COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
             --input ${PROJECT_BINARY_DIR}/android-libRabbitIm.so-deployment-settings.json
@@ -168,34 +195,23 @@ IF(ANDROID)
     )
 ENDIF(ANDROID)
 
-SET(CMAKE_INSTALL_RPATH ".") #设置链接库的搜索路径
-#复制第三方依赖库的动态库到编译目录下
+#安装3:第三方动态库
 IF(WIN32)
-    FILE(GLOB THIRD_DLL_LIBRARY_BIN "${CMAKE_SOURCE_DIR}/ThirdLibrary/${TOOLCHAIN_NAME}/bin/*.dll")
-    FILE(GLOB THIRD_DLL_LIBRARY_LIB "${CMAKE_SOURCE_DIR}/ThirdLibrary/${TOOLCHAIN_NAME}/lib/*.dll")
-    SET(THIRD_DLL_LIBRARY "${THIRD_DLL_LIBRARY_BIN} ${THIRD_DLL_LIBRARY_LIB}")
-    #安装4:第三方动态库
-    INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/ThirdLibrary/${TOOLCHAIN_NAME}/bin/" 
+    INSTALL(DIRECTORY "${THIRD_LIBRARY_PATH}/bin/" "${THIRD_LIBRARY_PATH}/lib/"
             DESTINATION .
             FILES_MATCHING PATTERN "*.dll")
-    INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/ThirdLibrary/${TOOLCHAIN_NAME}/lib/"
-            DESTINATION .
-            FILES_MATCHING PATTERN "*.dll")
+    
+    #复制第三方依赖库的动态库到编译目录下
+    FILE(COPY "${THIRD_LIBRARY_PATH}/bin/" "${THIRD_LIBRARY_PATH}/lib/"
+        DESTINATION .
+        FILES_MATCHING PATTERN "*.dll")
 ELSEIF(NOT ANDROID)
-    FILE(GLOB THIRD_DLL_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdLibrary/${TOOLCHAIN_NAME}/lib/*.so")
-    #安装4:第三方动态库
-    INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/ThirdLibrary/${TOOLCHAIN_NAME}/lib/"
+    INSTALL(DIRECTORY "${THIRD_LIBRARY_PATH}/lib/"
             DESTINATION "."
             FILES_MATCHING PATTERN "*.so*")
 ENDIF(WIN32)
-#MESSAGE("THIRD_DLL_LIBRARY:${THIRD_DLL_LIBRARY}")
-FOREACH(file ${THIRD_DLL_LIBRARY})
-    IF(EXISTS "${file}")
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy "${file}" "${PROJECT_BINARY_DIR}/."
-            )
-    ENDIF(EXISTS "${file}")
-ENDFOREACH(file)
 
-#安装5:安装相关文件
+#SET(CMAKE_INSTALL_RPATH ".") #设置链接库的搜索路径
+
+#安装4:安装相关文件
 install(FILES License.md Authors.txt ChangeLog.md DESTINATION .)

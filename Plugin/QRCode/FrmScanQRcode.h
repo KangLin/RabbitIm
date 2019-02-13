@@ -11,7 +11,7 @@ namespace Ui {
 class CFrmScanQRcode;
 }
 
-class CFrmScanQRcode : public QFrame, CCamera::CHanderFrame
+class CFrmScanQRcode : public QFrame
 {
     Q_OBJECT
     
@@ -21,14 +21,6 @@ public:
 
     //识别二维码文件  
     int ProcessQRFile(QString szFile);
-
-    /**
-     * @brief 重载此函数进行帧处理  
-     * @param frame 捕获的帧  
-     * @return 
-     */
-    virtual int OnFrame(const QVideoFrame &frame);
-    virtual int OnCapture(const std::string szFile);
     
 private:
     int Start();
@@ -37,20 +29,22 @@ private:
     virtual void hideEvent(QHideEvent * event);
     
 private slots:
+    /**
+     * @brief 重载此函数进行帧处理  
+     * @param frame 捕获的帧  
+     * @return 
+     */
+    virtual int slotCaptureFrame(const QVideoFrame &frame);
+    virtual int slotCapturePicture(const QString szFile);
+    
     void on_pushBrowse_clicked();
     void on_Cancel_clicked();
     void OnTimeOut();
-    
     void on_pushButton_clicked();
-    
     void on_tabWidget_currentChanged(int index);
-    
     void on_pbGenerate_clicked();
-    
     void on_pbSaveAs_clicked();
-    
     void on_Cancel_2_clicked();
-    
     void on_pbBrowse_clicked();
     
 private:

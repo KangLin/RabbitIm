@@ -120,23 +120,4 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
-<context>
-    <name>QObject</name>
-    <message>
-        <location filename="../main.cpp" line="58"/>
-        <source>Images (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../main.cpp" line="62"/>
-        <location filename="../main.cpp" line="69"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../main.cpp" line="70"/>
-        <source>File is exists. Do you save it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
 </TS>

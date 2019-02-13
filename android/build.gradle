@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.0'
+        classpath 'com.android.tools.build:gradle:2.2.3'
     }
 }
 
@@ -38,12 +38,19 @@ android {
 
     buildToolsVersion androidBuildToolsVersion
 
+    defaultConfig {
+        applicationId "org.KangLinStudio.RabbitIm"
+        minSdkVersion 16
+        targetSdkVersion androidCompileSdkVersion.toInteger()
+        versionCode 1
+        versionName "1.0"
+    }
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = [qt5AndroidDir + '/src', 'src', 'java']
             aidl.srcDirs = [qt5AndroidDir + '/src', 'src', 'aidl']
-            res.srcDirs = [qt5AndroidDir + '/res', 'res']
+            res.srcDirs = ['res']
             resources.srcDirs = ['src']
             renderscript.srcDirs = ['src']
             assets.srcDirs = ['assets']

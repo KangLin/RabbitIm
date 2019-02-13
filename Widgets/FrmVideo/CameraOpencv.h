@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QTimer>
-#include "CameraQt.h"
+#include "Media/Camera/CameraQt.h"
 #include "opencv2/opencv.hpp"
 #include "FrameProcess.h"
 

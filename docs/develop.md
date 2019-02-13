@@ -141,7 +141,7 @@
 7. 是否完成了第三方库各平台编译脚本
 
 ##### 2. 编译
-1. WINDOWS for msvc 编译器是否能通过
+1. WINDOWS for msvc 编译器是否能通过（已自动化）
 2. windows for mingw 编译器是否能通过（已自动化）
 3. linux for g++ 编译器是否能通过（已自动化）
 4. android 编译器是否能通过（已自动化）

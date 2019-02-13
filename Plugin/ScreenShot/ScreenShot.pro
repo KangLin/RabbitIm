@@ -12,7 +12,7 @@ DISTFILES += PluginScreenShot.json
 
 RABBITIM_PLUG_NAME=CPluginScreenShot
 
-include(../ConfigApp.pri)
+include(../pri/ConfigApp.pri)
 
 SOURCES += PluginScreenShot.cpp \
     WdgScreenEditor.cpp \

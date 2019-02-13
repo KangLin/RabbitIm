@@ -21,45 +21,57 @@ IF(OPTION_RABBITIM_TRANSLATIONS)
     IF(NOT Qt5_LRELEASE_EXECUTABLE)
         MESSAGE(WARNING "Could not find lrelease. Your build won't contain translations.")
     ELSE(NOT Qt5_LRELEASE_EXECUTABLE)
-        qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译资源文件
-        ADD_CUSTOM_TARGET(${PROJECT_NAME}_translations ALL DEPENDS ${QM_FILES})
-        add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_translations)
+        #qt5_add_translation(QM_FILES ${TS_FILES}) #生成翻译资源文件
+        #ADD_CUSTOM_TARGET(${PROJECT_NAME}_translations ALL DEPENDS ${QM_FILES})
+        #add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_translations)
 
+        SET(TRANSLATION_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/plugins/${PLUGIN_TYPE}/${PROJECT_NAME}/translations")
+        file(MAKE_DIRECTORY "${TRANSLATION_OUTPUT_DIRECTORY}")
+        set(QM_FILES)
+        foreach(_current_FILE ${TS_FILES})
+            get_filename_component(_abs_FILE ${_current_FILE} ABSOLUTE)
+            get_filename_component(qm_file ${_abs_FILE} NAME_WE)
+            set(qm_file ${TRANSLATION_OUTPUT_DIRECTORY}/${qm_file}.qm)
+  
+            add_custom_command(OUTPUT ${qm_file}
+                COMMAND ${Qt5_LRELEASE_EXECUTABLE}
+                ARGS ${_abs_FILE} -qm ${qm_file}         
+                )
+            set(QM_FILES ${QM_FILES} ${qm_file})
+        endforeach()
+        
+        SET(PLUGIN_RESOURCE_FILES ${PLUGIN_RESOURCE_FILES} ${QM_FILES})
+        
         #静态库或android下生成翻译资源文件  
-        IF(OPTION_RABBITIM_USE_STATIC)
-                SET(TRANSLATIONS_RESOURCES_FILE ${PROJECT_SOURCE_DIR}/translations/Translations.qrc)
-                #生成资源文件  
-                #SET(TRANSLATIONS_RESOURCES_CONTENT "</qresource></RCC>")
-                #FILE(READ ${TRANSLATIONS_RESOURCES_FILE} FILE_CONTENT)
-                #STRING(FIND ${FILE_CONTENT} ${TRANSLATIONS_RESOURCES_CONTENT} POSTION)
-                #if(POSTION EQUAL "-1")
-                    SET(TRANSLATIONS_RESOURCES_CONTENT "<RCC><qresource prefix='/translations'>")
-                    foreach(_file ${QM_FILES})
-                        SET(TRANSLATIONS_RESOURCES_CONTENT ${TRANSLATIONS_RESOURCES_CONTENT} "\n<file>${_file}</file>")
-                    endforeach()
-                    SET(TRANSLATIONS_RESOURCES_CONTENT ${TRANSLATIONS_RESOURCES_CONTENT} "\n</qresource></RCC>")
-                    FILE(WRITE ${TRANSLATIONS_RESOURCES_FILE} ${TRANSLATIONS_RESOURCES_CONTENT})
-                #ENDIF()
+        IF(NOT BUILD_SHARED_LIBS OR ANDROID)
+            file(WRITE "${TRANSLATION_OUTPUT_DIRECTORY}/translations.qrc.in"
+            "<!DOCTYPE RCC>
+            <RCC version=\"1.0\">
+              <qresource prefix=\"/translations\">
+            ")
+            foreach(qm ${QM_FILES})
+              get_filename_component(qm_name ${qm} NAME_WE)
+              file(APPEND "${TRANSLATION_OUTPUT_DIRECTORY}/translations.qrc.in"
+                "    <file alias=\"${qm_name}\">${qm}</file>\n")
+            endforeach(qm)
+            file(APPEND "${TRANSLATION_OUTPUT_DIRECTORY}/translations.qrc.in"
+            "  </qresource>
+            </RCC>
+            ")
+            
+            execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+              ${TRANSLATION_OUTPUT_DIRECTORY}/translations.qrc.in
+              ${TRANSLATION_OUTPUT_DIRECTORY}/translations.qrc)
+          
+            SET(PLUGIN_RESOURCE_FILES
+                ${PLUGIN_RESOURCE_FILES} 
+                ${TRANSLATION_OUTPUT_DIRECTORY}/translations.qrc)
         ELSE()
-            #调试时使用，复制到编译目录
-            foreach(_file ${QM_FILES})
-                    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/plugins/App/${PROJECT_NAME}/translations
-                            COMMAND ${CMAKE_COMMAND} -E copy ${_file} ${CMAKE_BINARY_DIR}/plugins/App/${PROJECT_NAME}/translations
-                            )
-            endforeach()
-            #IF(EXISTS "${QT_INSTALL_DIR}/translations/qt_*.qm" AND NOT ANDROID)
-            #    FILE(COPY ${QT_INSTALL_DIR}/translations/qt_*.qm DESTINATION "translations")
-            #ENDIF()
-    
-            #安装1:翻译
-            INSTALL(DIRECTORY "${QT_INSTALL_DIR}/translations"
-                    DESTINATION "."
-                    FILES_MATCHING PATTERN "qt_*.qm")
+            #安装
             #INSTALL(FILES "${QM_FILES}" DESTINATION "translations" CONFIGURATIONS Release)
-            INSTALL(DIRECTORY "${CMAKE_BINARY_DIR}/plugins/App/${PROJECT_NAME}/translations"
-                    DESTINATION "plugins/App/${PROJECT_NAME}"
-                    )
+            INSTALL(DIRECTORY "${TRANSLATION_OUTPUT_DIRECTORY}"
+                    DESTINATION "plugins/${PLUGIN_TYPE}/${PROJECT_NAME}"
+                    FILES_MATCHING PATTERN "*.qm")
         ENDIF()
 
     ENDIF(NOT Qt5_LRELEASE_EXECUTABLE)

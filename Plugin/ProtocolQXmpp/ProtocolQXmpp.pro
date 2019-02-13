@@ -12,7 +12,7 @@ DISTFILES += \
     ProtocolQXmpp.json
 
 RABBITIM_PLUG_NAME=CPluginProtocolQXMPP
-include(../ConfigProtocol.pri)
+include(../pri/ConfigProtocol.pri)
 
 SOURCES += \
     ClientXmpp.cpp \

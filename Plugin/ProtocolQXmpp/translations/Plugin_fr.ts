@@ -4,7 +4,7 @@
 <context>
     <name>CClientXmpp</name>
     <message>
-        <location filename="../ClientXmpp.cpp" line="325"/>
+        <location filename="../ClientXmpp.cpp" line="334"/>
         <source>The roster is offline, don&apos;t send the file.</source>
         <translation type="unfinished"></translation>
     </message>

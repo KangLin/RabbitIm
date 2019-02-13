@@ -1,7 +1,7 @@
 #第三方依赖库  
 
 RABBITIM_USE_QXMPP=1         #使用 qxmpp 库  
-QXMPP_USE_VPX=1              #使用 vpx  
+QXMPP_USE_VPX=1              #使用 vpx
 #QXMPP_USE_SPEEX=1           #使用 speex  
 #RABBITIM_USE_OPENCV=1       #使用 opencv  
 RABBITIM_USE_FFMPEG=1       #使用 ffmpeg  
@@ -19,7 +19,8 @@ equals(RABBITIM_USE_QXMPP, 1) {
         }else : msvc {
             LIBS += -lqxmpp_d0
         }
-    } else {
+    } 
+    CONFIG(release, debug|release) {
         myPackagesExist(qxmpp) {
             MYPKGCONFIG *= qxmpp
         } else : msvc {
@@ -90,16 +91,19 @@ equals(QXMPP_USE_VPX, 1) {
     }
 }
 
-myPackagesExist(libqrencode) {
+msvc {
     DEFINES *= RABBITIM_USE_LIBQRENCODE
-    MYPKGCONFIG *= libqrencode
-} else : msvc {
-    DEFINES *= RABBITIM_USE_LIBQRENCODE
-    CONFIG(debug, debug|release){
+    CONFIG(debug, debug|release) {
         LIBS *= -lqrencoded
-    } else {
+    } 
+    CONFIG(release, debug|release) {
         LIBS += -lqrencode
     }
+} else {
+    myPackagesExist(libqrencode) {
+    DEFINES *= RABBITIM_USE_LIBQRENCODE
+    MYPKGCONFIG *= libqrencode
+    } 
 }
 
 myPackagesExist(QZXing) {

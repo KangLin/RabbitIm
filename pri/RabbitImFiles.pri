@@ -180,8 +180,8 @@ RESOURCES += \
 
 android{
     RESOURCES += \
-        $$PWD/../Resource/translations/Translations.qrc \
         $$PWD/../Resource/Android.qrc
+       
     FORMS +=
 }else{
     FORMS += 

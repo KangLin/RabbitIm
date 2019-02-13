@@ -165,33 +165,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="18"/>
-        <source>Version:%1.%2.%3.%4</source>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="17"/>
+        <source>Version:%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="24"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="19"/>
         <source>Build date:%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="25"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="20"/>
         <source>Author: KangLin
 Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="28"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="23"/>
         <source>Home page:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="29"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="24"/>
         <source> Copyright (C) 2014 - %1 KangLin Studio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="82"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="77"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
@@ -543,54 +543,54 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="103"/>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="261"/>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="365"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="106"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="273"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="383"/>
         <source>Port:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="157"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="163"/>
         <source>XMPP Domain:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="211"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="220"/>
         <source>Stun Server:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="315"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="330"/>
         <source>Turn Server:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="419"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="440"/>
         <source>Turn User:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="469"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="493"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="549"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="576"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="552"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="579"/>
         <source>OK(&amp;O)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="581"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="608"/>
         <source>Cancle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="584"/>
+        <location filename="../../Widgets/FrmLogin/DlgLoginSettings.ui" line="611"/>
         <source>Cancel(&amp;C)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -673,244 +673,249 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="352"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="410"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="581"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="642"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="355"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="416"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="596"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="666"/>
         <source>ms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="378"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="381"/>
         <source>Show Message Delay:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="431"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="437"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="445"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="451"/>
         <source>Configure files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="458"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="464"/>
         <source>Data files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="488"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="494"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="517"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="523"/>
         <source>Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="523"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="529"/>
         <source>Window hide on border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="537"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="543"/>
         <source>Window hide delay time:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="598"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="613"/>
         <source>Animation duration:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="657"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="681"/>
         <source>Auto hide main window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="684"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="708"/>
         <source>Message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="696"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="720"/>
         <source>Receiving a message alert tone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="703"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="727"/>
         <source>Send message key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="715"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="739"/>
         <source>CTRL+ENTER</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="731"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="755"/>
         <source>ENTER</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="750"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="774"/>
         <source>Screen Shot to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="762"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="786"/>
         <source>Clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="775"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="799"/>
         <source>send</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="788"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="812"/>
         <source>save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="812"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="836"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="830"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="854"/>
         <source>Show User Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="848"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="872"/>
         <source>JID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="867"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="891"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="892"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="916"/>
         <source>Nick</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="923"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="947"/>
         <source>User color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="937"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="961"/>
         <source>Locale user color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="959"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="998"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1064"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1103"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1142"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="986"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1028"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1097"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1139"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1181"/>
         <source>Select color(&amp;S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="976"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1003"/>
         <source>Roster color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1028"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1058"/>
         <source>Message color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1042"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1072"/>
         <source>Locale user message color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1081"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1114"/>
         <source>Roster message color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1120"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1156"/>
         <source>Unread message count color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1168"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1207"/>
         <source>Multimedia devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1180"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1213"/>
+        <source>video devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1267"/>
         <source>Audio devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1194"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1281"/>
         <source>Audio input devices:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1224"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1314"/>
         <source>Audio output devices:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1257"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1227"/>
         <source>video devices:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1299"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1356"/>
         <source>Show locale video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1318"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1375"/>
         <source>Monitor mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1341"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1398"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1347"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1404"/>
         <source>Update time:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1359"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1416"/>
         <source>Every time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1375"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1432"/>
         <source>A day</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1391"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1448"/>
         <source>A week</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1404"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1461"/>
         <source>A Month</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1417"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1474"/>
         <source>Don&apos;t update</source>
         <translation type="unfinished"></translation>
     </message>
@@ -925,87 +930,92 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CDlgRegister</name>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="26"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="29"/>
         <source>Create account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="75"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="431"/>
         <source>Browse(&amp;B)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="88"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="444"/>
         <source>Clear Avatar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="91"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="447"/>
         <source>Clear(&amp;L)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="114"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="66"/>
         <source>User ID:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="156"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="264"/>
         <source>User name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="204"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="315"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="255"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="159"/>
         <source>Confirm password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="306"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="472"/>
         <source>Email:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="354"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="523"/>
         <source>Instructions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="402"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="111"/>
         <source>Birthday:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="424"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="136"/>
         <source>yyyy/M/d</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="460"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="369"/>
+        <source>Avatar:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="587"/>
         <source>Register new account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="463"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="590"/>
         <source>Create(&amp;C)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="498"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="625"/>
         <source>Cancle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="501"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="628"/>
         <source>Cancel(&amp;C)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="547"/>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="213"/>
         <source>Url:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2072,7 +2082,7 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CTool</name>
     <message>
-        <location filename="../../common/Tool.h" line="210"/>
+        <location filename="../../common/Tool.h" line="220"/>
         <source>Open file</source>
         <translation type="unfinished"></translation>
     </message>

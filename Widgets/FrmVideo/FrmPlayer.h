@@ -33,6 +33,8 @@ private:
 #ifdef DEBUG
 public:
     int TestCamera();
+public slots:
+    void slotCaptureFrame(const QImage& frame);
 #endif
 };
 
