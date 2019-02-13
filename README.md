@@ -57,13 +57,13 @@ windows当前分支:[![Build Status](https://ci.appveyor.com/api/projects/status
 如果这个项目对您有用，我们欢迎各方任何形式的捐助，也包括参与到项目代码更新或意见反馈中来。谢谢！
 
 ### 资金捐赠：
+* 大于20元的捐赠,请扫描下面二维码：  
+![支付宝收款（大于20元）](Resource/png/zhifubao.png "支付宝收款（大于20元）")
+![微信收款（大于20元）](Resource/png/weixinpay.png "微信收款（大于20元）")
+
 * 捐赠20元：  
 ![支付宝收款](Resource/png/zhifubao20.png "支付宝收款")
 ![微信收款](Resource/png/weixinpay20.png "微信收款")
-
-* 大于20元的请扫描下面二维码：  
-![支付宝收款（大于20元）](Resource/png/zhifubao.png "支付宝收款（大于20元）")
-![微信收款（大于20元）](Resource/png/weixinpay.png "微信收款（大于20元）")
 
 有偿服务：
 --------
