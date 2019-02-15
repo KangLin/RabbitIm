@@ -55,10 +55,13 @@ LangString LANG_UNINSTALL_CONFIRM ${LANG_SIMPCHINESE} "非常感謝您的使用�
 LangString LANG_REMOVE_COMPONENT ${LANG_ENGLISH} "You sure you want to completely remove $ (^ Name), and all of its components?"
 LangString LANG_REMOVE_COMPONENT ${LANG_SIMPCHINESE} "你确实要完全移除 $(^Name) ，其及所有的组件？"
 
+LangString LANG_AUTO_BOOT ${LANG_ENGLISH} "Start from reboot"
+LangString LANG_AUTO_BOOT ${LANG_SIMPCHINESE} "开机自启动"
+
 ; MUI end ------
 
 Name "$(LANG_PRODUCT_NAME) ${PRODUCT_VERSION}"
-OutFile "RabbitIM-Setup-${PRODUCT_VERSION}.exe"
+OutFile "${PRODUCT_NAME}-Setup-${PRODUCT_VERSION}.exe"
 InstallDir "$PROGRAMFILES\${PRODUCT_NAME}"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -110,14 +113,6 @@ Function InstallRuntime
   ${EndIf}
 FunctionEnd
 
-Function InstallFont
-  StrCmp $LANGUAGE "2052" 0 +3
-  ;Modify environment variable for default font to simsun.ttc
-  WriteRegStr HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment" "OSGEARTH_DEFAULT_FONT" "simsun.ttc"
-  ;Reflash environment variable
-  SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment"
-FunctionEnd
-
 Function .onInit
 ;  !insertmacro MUI_LANGDLL_DISPLAY
 FunctionEnd
@@ -128,9 +123,9 @@ Section "${PRODUCT_NAME}" SEC01
   File /r "install\*"
   SetShellVarContext all
   CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\RabbitIM.exe"
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\$(LANG_PRODUCT_NAME).lnk" "$INSTDIR\${PRODUCT_NAME}.exe"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\uninst.exe"
-  CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\RabbitIM.exe"
+  CreateShortCut "$DESKTOP\$(LANG_PRODUCT_NAME).lnk" "$INSTDIR\${PRODUCT_NAME}.exe"
   SetShellVarContext current
   call InstallRuntime
 SectionEnd
@@ -145,11 +140,10 @@ SectionEnd
 
 Section -Post
   WriteUninstaller "$INSTDIR\uninst.exe"
-  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\RabbitIM.exe"
-  call InstallFont
+  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\${PRODUCT_NAME}.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
-  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\RabbitIM.exe"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${PRODUCT_NAME}.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
@@ -171,6 +165,10 @@ Function un.onInit
   Abort
 FunctionEnd
 
+Function AutoBoot
+    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\RunOnce" "${PRODUCT_NAME}" "$INSTDIR\${PRODUCT_NAME}.exe"
+FunctionEnd
+
 Section Uninstall
   SetShellVarContext all
   RMDir /r "$SMPROGRAMS\${PRODUCT_NAME}"
@@ -181,7 +179,7 @@ Section Uninstall
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
-  DeleteRegValue HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment" "OSGEARTH_DEFAULT_FONT"
+  DeleteRegValue  HKCU "Software\Microsoft\Windows\CurrentVersion\RunOnce" "${PRODUCT_NAME}"
   SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment"
   SetAutoClose true
 SectionEnd
