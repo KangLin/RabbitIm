@@ -4,9 +4,9 @@
 !define PRODUCT_NAME "RabbitIM"
 !define PRODUCT_VERSION "v0.1.0-312-gbbf45f4"
 !define PRODUCT_PUBLISHER "KangLin studio"
-!define PRODUCT_WEB_SITE "https://github.com/KangLin/RabbitIM"
-!define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\RabbitIM.exe"
-!define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\RabbitIM"
+!define PRODUCT_WEB_SITE "https://github.com/KangLin/${PRODUCT_NAME}"
+!define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\${PRODUCT_NAME}.exe"
+!define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 
 SetCompressor lzma
@@ -36,7 +36,10 @@ SetCompressor lzma
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
-!define MUI_FINISHPAGE_RUN "$INSTDIR\RabbitIM.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\${PRODUCT_NAME}.exe"
+!define MUI_FINISHPAGE_SHOWREADME
+!define MUI_FINISHPAGE_SHOWREADME_Function AutoBoot
+!define MUI_FINISHPAGE_SHOWREADME_TEXT "Start from boot"
 !insertmacro MUI_PAGE_FINISH
 
 ; Uninstaller pages
@@ -60,7 +63,8 @@ LangString LANG_AUTO_BOOT ${LANG_SIMPCHINESE} "开机自启动"
 
 ; MUI end ------
 
-Name "$(LANG_PRODUCT_NAME) ${PRODUCT_VERSION}"
+Name "$(LANG_PRODUCT_NAME)-${PRODUCT_VERSION}"
+Caption "$(LANG_PRODUCT_NAME)-${PRODUCT_VERSION}"
 OutFile "${PRODUCT_NAME}-Setup-${PRODUCT_VERSION}.exe"
 InstallDir "$PROGRAMFILES\${PRODUCT_NAME}"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
