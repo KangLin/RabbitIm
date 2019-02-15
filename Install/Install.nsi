@@ -53,7 +53,7 @@ LangString LANG_PRODUCT_NAME ${LANG_ENGLISH} "RabbitIM"
 LangString LANG_PRODUCT_NAME ${LANG_SIMPCHINESE} "玉兔即时通讯系统"
 
 LangString LANG_UNINSTALL_CONFIRM ${LANG_ENGLISH} "Thank you very much! $(^Name) has been successfully removed."
-LangString LANG_UNINSTALL_CONFIRM ${LANG_SIMPCHINESE} "非常感謝您的使用！ $(^Name) 已成功地从您的计算机中移除。"
+LangString LANG_UNINSTALL_CONFIRM ${LANG_SIMPCHINESE} "非常感谢您的使用！ $(^Name) 已成功地从您的计算机中移除。"
 
 LangString LANG_REMOVE_COMPONENT ${LANG_ENGLISH} "You sure you want to completely remove $ (^ Name), and all of its components?"
 LangString LANG_REMOVE_COMPONENT ${LANG_SIMPCHINESE} "你确实要完全移除 $(^Name) ，其及所有的组件？"
@@ -118,7 +118,7 @@ Function InstallRuntime
 FunctionEnd
 
 Function .onInit
-;  !insertmacro MUI_LANGDLL_DISPLAY
+  !insertmacro MUI_LANGDLL_DISPLAY
 FunctionEnd
 
 Section "${PRODUCT_NAME}" SEC01
