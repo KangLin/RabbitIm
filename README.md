@@ -58,12 +58,10 @@ windows当前分支:[![Build Status](https://ci.appveyor.com/api/projects/status
 
 ### 资金捐赠：
 * 大于20元的捐赠,请扫描下面二维码：  
-![支付宝收款（大于20元）](Resource/png/zhifubao.png "支付宝收款（大于20元）")
-![微信收款（大于20元）](Resource/png/weixinpay.png "微信收款（大于20元）")
+![捐赠（大于20元）](Resource/png/Contribute.png "捐赠（大于20元）")
 
 * 捐赠20元：  
-![支付宝收款](Resource/png/zhifubao20.png "支付宝收款")
-![微信收款](Resource/png/weixinpay20.png "微信收款")
+![捐赠20元](Resource/png/Contribute20.png "捐赠20元")
 
 有偿服务：
 --------

@@ -16,7 +16,7 @@ public:
     explicit CDlgAbout(QWidget *parent = 0);
     ~CDlgAbout();
     
-private slots:
+private Q_SLOTS:
     void on_pbSave_clicked();
     
 private:
