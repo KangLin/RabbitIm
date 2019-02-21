@@ -32,7 +32,7 @@ win32 {
 
     RABBIT_TOOLCHAIN_VERSION=$$(RABBIT_TOOLCHAIN_VERSION)
     msvc {
-        QMAKE_CXXFLAGS += /wd"4819"  #忽略msvc下对utf-8的警告  
+        QMAKE_CXXFLAGS += /wd"4819 /utf-8"  #忽略msvc下对utf-8的警告,支持UTF-8编码  
         #QMAKE_LFLAGS += -ladvapi32
         
         RABBITIM_PLATFORM = "windows_msvc"
