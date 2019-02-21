@@ -46,7 +46,7 @@ isEmpty(PREFIX) {
         PREFIX = $$OUT_PWD/install
     } 
 }
-other.files = License.md Authors.txt ChangeLog.md
+other.files = License.md Authors.txt ChangeLog.md AppIcon.ico
 other.path = $$PREFIX
 other.CONFIG += directory no_check_exist 
 target.path = $$PREFIX

@@ -214,4 +214,4 @@ ENDIF(WIN32)
 #SET(CMAKE_INSTALL_RPATH ".") #设置链接库的搜索路径
 
 #安装4:安装相关文件
-install(FILES License.md Authors.txt ChangeLog.md DESTINATION .)
+install(FILES License.md Authors.txt ChangeLog.md AppIcon.ico DESTINATION .)

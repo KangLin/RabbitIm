@@ -27,7 +27,6 @@ CDlgAbout::CDlgAbout(QWidget *parent) :
     if(m_Image.isNull()) {
         ui->lbQrCodePrompt->setVisible(false);
         ui->lbQrencode->setVisible(false);
-        ui->pbSave->setVisible(false);
     } else {
         ui->lbQrencode->setPixmap(QPixmap::fromImage(m_Image));
     }

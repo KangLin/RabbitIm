@@ -6,7 +6,15 @@
   详见：http://blog.csdn.net/kl222/article/details/38681303
     + 在 MainWindow::InitMenuTranslate() 中加入你新加入的语言项。  
 3. 代码中的中文注释，在中文前后加两个空格(保证是双字节)，用于骗过vc编译器（因为vc工具链对UTF-8支持不全）。
-    同样，java中的中文注释也需要在前后加两空格（java编译器也会出现对UTF-8的支持不全）  
+    同样，java中的中文注释也需要在前后加两空格（java编译器也会出现对UTF-8的支持不全）
+    或者：
+    增加编译标志：/utf-8
+    IF(MSVC)
+        ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS)
+        add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+        add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+    ENDIF()
+
 4. 如果你用qtcreator做编辑器。
     请在“工具->选项->文本编辑器->行为->保存时清理”中，取消清除空白;
     制表符和缩进尺寸都应设置为4
