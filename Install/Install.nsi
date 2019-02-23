@@ -117,8 +117,22 @@ Function InstallRuntime
   ${EndIf}
 FunctionEnd
 
-Function .onInit
+Var UNINSTALL_PROG
+Var OLD_PATH
+Function .onInit  
   !insertmacro MUI_LANGDLL_DISPLAY
+  ClearErrors
+  ReadRegStr $UNINSTALL_PROG ${PRODUCT_UNINST_ROOT_KEY} ${PRODUCT_UNINST_KEY} "UninstallString"
+  IfErrors  done
+
+  ;https://blog.csdn.net/u012896330/article/details/55517461
+  CopyFiles $UNINSTALL_PROG $TEMP
+  StrCpy $OLD_PATH $UNINSTALL_PROG -10
+  ExecWait '"$TEMP/uninst.exe" /S _?=$OLD_PATH' $0
+  DetailPrint "uninst.exe returned $0"
+  Delete "$TEMP/uninst.exe"
+
+done:
 FunctionEnd
 
 Section "${PRODUCT_NAME}" SEC01
