@@ -60,16 +60,8 @@ win32 {
         DEFINES += "_WIN32_WINNT=0x0501" #__USE_MINGW_ANSI_STDIO
     }
 
-} else:android {
-    message("QMAKE_TARGET.arch:$$QMAKE_TARGET.arch")
-    RABBITIM_SYSTEM = "android"
-    RABBITIM_PLATFORM = "android"
-    RABBITIM_ARCHITECTURE = $${ANDROID_ARCHITECTURE}
-    API=$$(ANDROID_NDK_PLATFORM)
-    RABBIT_TOOLCHAIN_VERSION=$$split(API, "android-")
-    DEFINES += ANDROID MOBILE
-
-}  else:unix {
+} else:unix {
+    message("unix: QMAKE_TARGET.arch:$$QMAKE_TARGET.arch")
     RABBITIM_SYSTEM = unix
     RABBITIM_PLATFORM = unix
     DEFINES += UNIX
@@ -79,6 +71,16 @@ win32 {
     }else {
         RABBITIM_ARCHITECTURE = "x86"
     }
+    #TODO:
+    RABBITIM_ARCHITECTURE = "x64"
+} else:android {
+    message("android: QMAKE_TARGET.arch:$$QMAKE_TARGET.arch")
+    RABBITIM_SYSTEM = "android"
+    RABBITIM_PLATFORM = "android"
+    RABBITIM_ARCHITECTURE = $${ANDROID_ARCHITECTURE}
+    API=$$(ANDROID_NDK_PLATFORM)
+    RABBIT_TOOLCHAIN_VERSION=$$split(API, "android-")
+    DEFINES += ANDROID MOBILE
 
 }
 
