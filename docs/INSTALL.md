@@ -1,5 +1,4 @@
-目录
-------
+### 目录
 
 1. [工具](#user-content-工具)
 2. [第三方库](#user-content-第三方库)
@@ -13,20 +12,32 @@
 6. [翻译文件部署](#user-content-翻译文件部署)
 7. [调试](#user-content-调试)
 
-工具
------
+### 工具
 
 ##### 1. bash 环境:
+- windows：
+  + msys2
+     * msys2: http://sourceforge.net/projects/msys2/
 
-* windows下：msys（msys2） 或者 cygwin
+     ```
+     wget https://sourceforge.net/projects/msys2/files/latest/download
+     ```
+
+     * 代码库: https://github.com/Alexpux/MSYS2-packages
+  + msys
     * msys: http://www.mingw.org/wiki/MSYS
-    * msys2: http://sourceforge.net/projects/msys2/
-        代码位置: https://github.com/Alexpux/MSYS2-packages
+  + cygwin
     * cygwin主页: http://www.cygwin.org/
 
-##### 2. 下载工具：
+  本人使用 msys2 bash 环境
 
-* wget：
+##### 2. 下载工具：
+下载工具有：
+
++ wget
++ curl
+
+本人使用wget
 
 ##### 3. 脚本工具：
 
@@ -61,23 +72,24 @@
 
 * subversion: http://subversion.apache.org/
 * git: http://www.git-scm.com/
-
-[git设置](http://blog.csdn.net/kl222/article/details/32903495)
+    - [git设置](http://blog.csdn.net/kl222/article/details/32903495)
 
 ##### 7. windows平台工具：
 
-1. msvc：
-    * 主页：http://msdn.microsoft.com/zh-cn/vstudio
-    * 当前使用版本：vs 2013 update 4
-2. windows sdk(The Microsoft® Windows® Software Development Kit (SDK) for Windows 8.1):
-    https://msdn.microsoft.com/zh-cn/windows/desktop/bg162891
-3. Windows Driver Kit:
-    http://www.microsoft.com/en-us/download/confirmation.aspx?id=42273
-4. bash 环境
-    * msys: http://www.mingw.org/wiki/MSYS
-    * msys2: http://sourceforge.net/projects/msys2/
-        代码位置: https://github.com/Alexpux/MSYS2-packages
-    * cygwin主页: http://www.cygwin.org/
+1. Visual Studio
+    * 主页
+      - https://visualstudio.microsoft.com/vs/
+      - http://msdn.microsoft.com/zh-cn/vstudio 
+    * 版本：
+      - Visual Studio 2013
+      - Visual Studio 2015
+      - Visual Studio 2017
+      - Visual Studio 2019
+    * Visual Studio 各版本密钥：https://blog.csdn.net/kl222/article/details/84939135
+    * 当前使用版本：vs 2017
+2. windows sdk: https://developer.microsoft.com/en-us/windows/downloads/sdk-archive  
+    根据你的操作系统安装相应的 SDK。 CDB必须要安装，QT调试需要。
+3. Windows Driver Kit: https://docs.microsoft.com/zh-cn/windows-hardware/drivers/download-the-wdk
 
 ##### 8. 汇编工具（yasm、nasm）：
 
@@ -88,13 +100,14 @@
 ##### 9. 编译工具：
 
 1. windows
-    * msvc (vs 2015 update 3、 vs 2013 update 4)
+    * msvc
     * mingw gcc （4.82、4.91、4.92、5.30、5.40）
 2. linux
     * gcc、g++
     当前使用版本：4.8
 3. android
     * android ndk
+    * android sdk
 
 ##### 10. android工具：
 
@@ -120,12 +133,6 @@
 * 当前使用版本：5.7.0
     + QT开发工具参考：http://doc.qt.io/qt-4.8/developing-with-qt.html
     + [QT编译](http://blog.csdn.net/kl222/article/details/44216951)
-
-各版本的问题：
-* 5.2.1可以正常使用（windows、linux、android）
-* 5.3.0以上版本有以下问题：
-    + qt翻译资源没有相应更新
-    + android平台下，不能捕获视频
 
 第三方库
 --------
@@ -302,7 +309,9 @@
       或 https://sourceforge.net/projects/rabbitim-third-library/files/release/ 中，
 选择与你**主机操作系统相同、编译器版本相同**的包下载本项目依赖的预编译好的第三方库。
 
-文件格式： $${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCHITECTURE}_qt$${QT_VERSION}_$${RABBIT_CONFIG}.zip
+文件格式：
+
+	$${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCHITECTURE}_qt$${QT_VERSION}_$${RABBIT_CONFIG}.zip
 
 |编译器|版本号|平台|架构|
 |:--:|:--:|:--:|:--:|
