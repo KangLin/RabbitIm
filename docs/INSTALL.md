@@ -139,7 +139,7 @@
     git clone https://github.com/KangLin/qxmpp.git
 
 * 当前使用版本：  
-    git库版本 —— 0b49b87c2c4e38a6d2fd9983949e34782575955c  
+    git库版本 —— v1.0.0  
     编译方法参考源码根目录下的README文件。
 
 #### 2. webrtc库：
