@@ -1,28 +1,19 @@
 [![Logon](Resource/png/AppIcon.png)玉兔即时通信![Logon](Resource/png/AppIcon.png)](https://github.com/KangLin/rabbitim)
 
-作者：康林（email:kl222@126.com；QQ:16614119)
+作者：康林（Email: kl222@126.com ；QQ: 16614119)
 
 =============================================================================
 
-- [自动编译状态](#自动编译状态)
+
 - [介绍](#介绍)
   + [功能](#功能)
 - [文档](#文档)
+- [自动编译状态](#自动编译状态)
 - [捐赠](#捐赠)
 - [下载](#下载)
 - [截图](#截图)
 
 -----------
-
-### 自动编译状态
-
-|     | master 分支 | develop 分支 |
-|:---:|:-----------:|:------------:|
-|linux、android、mac、ios|[![Build Status](https://travis-ci.org/KangLin/RabbitIm.svg?branch=master)](https://travis-ci.org/KangLin/rabbitim)|[![Build Status](https://travis-ci.org/KangLin/RabbitIm.svg?branch=Develop)](https://travis-ci.org/KangLin/RabbitIm)|
-
-windows当前分支:[![Build Status](https://ci.appveyor.com/api/projects/status/sknyg6fu1a9flnj3?svg=true)](https://ci.appveyor.com/project/KangLin/RabbitIm)
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 ### 介绍
  
@@ -65,14 +56,18 @@ windows当前分支:[![Build Status](https://ci.appveyor.com/api/projects/status
 
 更多功能，请查看[变更日志](ChangeLog.md) [项目计划](docs/TODO.txt)
 
-
 ### 文档:
 
 | 许可协议 | 变更日志 | 项目计划 | 开发 | 编译 | 开发笔记 |
 |:--------:|:--------:|:--------:|:----:|:----:|:--------:|
 |[许可协议](License.md)|[变更日志](ChangeLog.md)|[项目计划](docs/TODO.txt)|[开发](docs/develop.md)|[编译](docs/INSTALL.md)|[开发笔记](docs/Books/开发笔记.md)|
 
+### 自动编译状态
 
+|     | master 分支 | develop 分支 |
+|:---:|:-----------:|:------------:|
+|linux、android、mac、ios|[![Build Status](https://travis-ci.org/KangLin/RabbitIm.svg?branch=master)](https://travis-ci.org/KangLin/rabbitim)|[![Build Status](https://travis-ci.org/KangLin/RabbitIm.svg?branch=Develop)](https://travis-ci.org/KangLin/RabbitIm)|
+|windows当前分支|[![Build Status](https://ci.appveyor.com/api/projects/status/sknyg6fu1a9flnj3?svg=true)](https://ci.appveyor.com/project/KangLin/RabbitIm)|
 
 ### 捐赠：
 
