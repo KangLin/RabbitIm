@@ -17,7 +17,7 @@ IF(NOT CMAKE_INSTALL_PREFIX)
 ENDIF() 
 
 # Find Git Version Patch
-SET(BUILD_VERSION "v0.1.0-378-g3dcceb0")
+SET(BUILD_VERSION "v0.1.0-380-g5cc763e")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)

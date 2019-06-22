@@ -24,11 +24,11 @@ fi
 
 sed -i "s/^\!define PRODUCT_VERSION.*/\!define PRODUCT_VERSION \"${VERSION}\"/g" ${SOURCE_DIR}/Install/Install.nsi
 sed -i "s/^SET(BUILD_VERSION \".*\")/SET(BUILD_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/CMakeLists.txt
-sed -i "s/^\isEmpty(BUILD_VERSION): BUILD_VERSION=.*/\isEmpty(BUILD_VERSION): BUILD_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/pri/RabbitImVersion.pri
-sed -i "s/^\SET(BUILD_VERSION.*/\SET(BUILD_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/cmake/install_version.cmake
+sed -i "s/^\isEmpty(BUILD_VERSION): BUILD_VERSION=.*/isEmpty(BUILD_VERSION): BUILD_VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/pri/RabbitImVersion.pri
+sed -i "s/^\SET(BUILD_VERSION.*/SET(BUILD_VERSION \"${VERSION}\")/g" ${SOURCE_DIR}/cmake/install_version.cmake
 APPVERYOR_VERSION="version: '${VERSION}.{build}'"
 sed -i "s/^version: '.*{build}'/${APPVERYOR_VERSION}/g" ${SOURCE_DIR}/appveyor.yml
-sed -i "s/^\Standards-Version:.*/\Standards-Version:\"${VERSION}\"/g" ${SOURCE_DIR}/debian/control
+sed -i "s/^\Standards-Version:.*/Standards-Version:\"${VERSION}\"/g" ${SOURCE_DIR}/debian/control
 sed -i "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/ci/build.sh
 
 DEBIAN_VERSION=`echo ${VERSION}|cut -d "v" -f 2`

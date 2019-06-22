@@ -3,7 +3,7 @@ Section: main
 Priority: optional
 Maintainer: Kang Lin <kl222@126.com>
 Build-Depends: debhelper (>= 6)
-Standards-Version:"v0.1.0-378-g3dcceb0"
+Standards-Version:"v0.1.0-380-g5cc763e"
 Homepage: https://github.com/KangLin/rabbitim
 Vcs-Git: git@github.com:KangLin/rabbitim.git
 Vcs-Browser: https://github.com/KangLin/rabbitim

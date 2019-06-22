@@ -15,9 +15,7 @@ isEmpty(BUILD_VERSION) {
         warning("Built without git, please add BUILD_VERSION to DEFINES or add git path to environment variable GIT or qmake parameter GIT")
     }
 }
-isEmpty(BUILD_VERSION){
-    BUILD_VERSION="0.0.10"
-}
+isEmpty(BUILD_VERSION): BUILD_VERSION="v0.1.0-380-g5cc763e"
 message("BUILD_VERSION:$$BUILD_VERSION")
 DEFINES *= BUILD_VERSION=\"\\\"$$quote($$BUILD_VERSION)\\\"\"
 DEFINES *= RABBITIM_SYSTEM=\"\\\"$$quote($$RABBITIM_SYSTEM)\\\"\"
