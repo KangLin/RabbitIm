@@ -15,6 +15,7 @@ SUBDIRS *= ThirdLibrary \
 OTHER_FILES += README.md \
     .gitignore \
     .travis.yml \
+    ci/* \
     circle.yml \
     appveyor.yml \
     debian/* \

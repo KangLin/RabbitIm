@@ -110,7 +110,7 @@
         <translation>玉兔即時通訊</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="358"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="254"/>
         <source>Version: 1.0.0.0</source>
         <translation></translation>
     </message>
@@ -125,42 +125,45 @@
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="336"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="194"/>
         <source>Home page:https://github.com/KangLin/rabbitim</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="320"/>
         <source>The following two-dimensional code scanning Go Home:</source>
-        <translation>掃描下面二維碼訪問項目主頁：</translation>
+        <translation type="vanished">掃描下面二維碼訪問項目主頁：</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="209"/>
         <source>Save As</source>
-        <translation>另存為 ...</translation>
+        <translation type="vanished">另存為 ...</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="375"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="305"/>
+        <source>Contribute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="316"/>
         <source>License</source>
         <translation>協議</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="389"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="330"/>
         <source>Change log</source>
         <translation>變更日誌</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="403"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="344"/>
         <source>Thanks</source>
         <translation>致謝</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="438"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="379"/>
         <source> Copyright (C) 2014 KangLin Studio</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="301"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="279"/>
         <source>Build Date:</source>
         <translation>編譯時間：</translation>
     </message>
@@ -196,7 +199,7 @@ Email or MSN:kl222@126.com</source>
         <translation>版權所有 (C) 2014 - %1 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="77"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="76"/>
         <source>Save as</source>
         <translation>另存為……</translation>
     </message>

@@ -120,47 +120,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="358"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="254"/>
         <source>Version: 1.0.0.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="301"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="279"/>
         <source>Build Date:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="336"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="305"/>
+        <source>Contribute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="194"/>
         <source>Home page:https://github.com/KangLin/rabbitim</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="320"/>
-        <source>The following two-dimensional code scanning Go Home:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="209"/>
-        <source>Save As</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="375"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="316"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="389"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="330"/>
         <source>Change log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="403"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="344"/>
         <source>Thanks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="438"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.ui" line="379"/>
         <source> Copyright (C) 2014 KangLin Studio</source>
         <translation type="unfinished"></translation>
     </message>
@@ -191,7 +186,7 @@ Email or MSN:kl222@126.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="77"/>
+        <location filename="../../Widgets/DlgAbout/DlgAbout.cpp" line="76"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>

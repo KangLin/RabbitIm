@@ -1,19 +1,45 @@
 #!/usr/bin/make -f
-# -*- makefile -*-
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+#export DH_VERBOSE = 1
 
-# Uncomment this to turn on verbose mode.
-export DH_VERBOSE=1
+# see FEATURE AREAS in dpkg-buildflags(1)
+#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# see ENVIRONMENT in dpkg-buildflags(1)
+# package maintainers to append CFLAGS
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+# package maintainers to append LDFLAGS
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+#export QT_SELECT=qt5
 
 %:
-	dh $@ 
+	dh $@
 
+# dh_make generated override targets
+# This is example for Cmake (See https://bugs.debian.org/641051 )
 override_dh_auto_configure:
-	mkdir -p `pwd`/build_debian; \
-    cd `pwd`/build_debian; \
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`pwd`/../debian/rabbitim -DQt5_DIR=/home/l/Qt5.3.1/5.3/gcc_64/lib/cmake/Qt5
+    ifdef GENERATORS
+	dh_auto_configure --  -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/Tasks
+    else
+	$(QT_ROOT)/bin/qmake PREFIX=/opt/Tasks
+    endif
 
-override_dh_auto_build:
-	cd `pwd`/build_debian; make -j 2
+override_dh_shlibdeps:
+    ifdef GENERATORS
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/tasks/opt/Tasks/lib/
+    else
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/tasks/opt/Tasks/bin
+    endif
 
-override_dh_auto_install:
-	cd `pwd`/build_debian; make install
+#override_dh_auto_configure:
+#	mkdir -p `pwd`/build_debian; \
+#    cd `pwd`/build_debian; \
+#    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`pwd`/../debian/rabbitim -DQt5_DIR=/home/l/Qt5.3.1/5.3/gcc_64/lib/cmake/Qt5
+
+#override_dh_auto_build:
+#	cd `pwd`/build_debian; make -j 2
+
+#override_dh_auto_install:
+#	cd `pwd`/build_debian; make install

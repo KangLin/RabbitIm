@@ -168,7 +168,7 @@
     git clone git://source.ffmpeg.org/ffmpeg.git
 
 *当前使用版本：
-    git库版本 —— n3.0.1
+    git库版本 —— n4.1.3
 
 #### 4. 编解码库(x264)
 
@@ -180,7 +180,7 @@
 
 * 下载：`git clone https://chromium.googlesource.com/webm/libvpx libvpx`  
 * 当前使用版本:  
-    git库版本 —— v1.4.0
+    git库版本 —— v1.8.0
 
 #### 6. 音频处理库(libspeexdsp)
 
@@ -210,13 +210,13 @@
 
 * 下载：`git clone  https://github.com/openssl/openssl`  
 * 当前使用版本：  
-    git库版本 —— OpenSSL_1_0_2f  
+    git库版本 —— OpenSSL_1_1_1b  
 
 #### 11. [libcurl](http://curl.haxx.se)
 
 * 下载：`git://github.com/bagder/curl.git`  
 * 当前使用版本：  
-    git库版本 —— curl-7_48_0
+    git库版本 —— curl-7_65_1
 
 #### 12. [libicu](http://site.icu-project.org/)
 
@@ -250,17 +250,19 @@
 
 #### 15. opus
 * 下载： `git clone git://git.opus-codec.org/opus.git`
-* 当前使用版本：v1.1.1-rc
+* 当前使用版本：1.3.1
 
 #### 16. libqrencode
 * 官网：http://fukuchi.org/works/qrencode/index.html.en
 * 下载：`git clone https://github.com/fukuchi/libqrencode.git`
-* 当前使用版本： v3.4.3
+* 当前使用版本：v4.0.2
 
 #### 17. qzxing
 * 主页：http://sourceforge.net/projects/qzxing
 * 下载:` git clone git://git.code.sf.net/p/qzxing/code`
-
+* 当前使用版本：  
+    git库版本 —— d61f2ac9821a1f52655092c588c498ca8db1f2c9
+    
 #### 18. toxcore
 * 下载： `git clone git://github.com/irungentoo/toxcore.git`
 * 当前使用版本：e1089c1779fb1c58f17937108a6ba8c3d39573ae

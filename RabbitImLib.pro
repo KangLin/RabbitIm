@@ -39,8 +39,6 @@ include(pri/RabbitImFiles.pri)
 #发行版本才更新更新配置  
 include(pri/RabbitImVersion.pri)
 
-#VERSION = $${BUILD_VERSION}
-
 # Rules for creating/updating {ts|qm}-files
 include(Resource/translations/translations.pri)
 

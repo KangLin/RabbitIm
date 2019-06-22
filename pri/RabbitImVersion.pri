@@ -1,24 +1,22 @@
-#TODO:发行版本时，需要修改下列值  
-MAJOR_VERSION_NUMBER=0       #主版本  
-MINOR_VERSION_NUMBER=1       #次版本  
-REVISION_VERSION_NUMBER=1    #修订号  
-
 isEmpty(BUILD_VERSION) {
     isEmpty(GIT) : GIT=$$(GIT)
     isEmpty(GIT) : GIT=git
     isEmpty(GIT_DESCRIBE) {
-        GIT_DESCRIBE = $$system(cd $$system_path($$PWD) && $$GIT describe --tags)
+        GIT_DESCRIBE = $$system(cd $$system_path($$_PRO_FILE_PWD_) && $$GIT describe --tags)
         isEmpty(BUILD_VERSION) {
             BUILD_VERSION = $$GIT_DESCRIBE
         }
     }
     isEmpty(BUILD_VERSION) {
-        BUILD_VERSION = $$system(cd $$system_path($$PWD) && $$GIT rev-parse --short HEAD)
+        BUILD_VERSION = $$system(cd $$system_path($$_PRO_FILE_PWD_) && $$GIT rev-parse --short HEAD)
     }
     
     isEmpty(BUILD_VERSION){
-        error("Built without git, please add BUILD_VERSION to DEFINES or add git path to environment variable GIT or qmake parameter GIT")
+        warning("Built without git, please add BUILD_VERSION to DEFINES or add git path to environment variable GIT or qmake parameter GIT")
     }
+}
+isEmpty(BUILD_VERSION){
+    BUILD_VERSION="0.0.10"
 }
 message("BUILD_VERSION:$$BUILD_VERSION")
 DEFINES *= BUILD_VERSION=\"\\\"$$quote($$BUILD_VERSION)\\\"\"
@@ -50,7 +48,7 @@ equals(RABBITIM_USE_DOXYGEN, 1):!android {
     DOXYFILE_FILENAME=$$OUT_PWD/Doxyfile
     TEMPLATE_DOXYFILE_FILENAME=$$PWD/../Doxyfile.template
     RABBITIM_DOXYFILE_CONTENTS=$$cat($$TEMPLATE_DOXYFILE_FILENAME, blob)
-    RABBITIM_DOXYFILE_CONTENTS=$$replace(RABBITIM_DOXYFILE_CONTENTS, "%VERSION_NUMBER_STRING%", $$VERSION_NUMBER_STRING)
+    RABBITIM_DOXYFILE_CONTENTS=$$replace(RABBITIM_DOXYFILE_CONTENTS, "%BUILD_VERSION%", $$BUILD_VERSION)
     RABBITIM_DOXYFILE_CONTENTS=$$replace(RABBITIM_DOXYFILE_CONTENTS, "%INPUT%", $$PWD)
     RABBITIM_DOXYFILE_CONTENTS=$$replace(RABBITIM_DOXYFILE_CONTENTS, "%OUTPUT_DIRECTORY%", $$OUT_PWD/Doxygen)
     #message($$RABBITIM_DOXYFILE_CONTENTS)

@@ -1,20 +1,13 @@
 sudo: required
-dist: trusty
-
+dist: xenial
 language: cpp
 
 cache:
   - apt
   - directories:
-    - ThirdLibrary/Tools
-    - ThirdLibrary/src
-    #- ThirdLibrary/unix
-    #- ThirdLibrary/windows_mingw
 
 compiler:
   - g++
-
-jdk: oraclejdk7
 
 os:
   - unix
@@ -28,40 +21,53 @@ env:
     - SOURCE_DIR=$TRAVIS_BUILD_DIR
     - RABBITIM_USE_REPOSITORIES="TRUE"
     - QMAKE=qmake
-
+    - RABBITIM_BUILD_THIRDLIBRARY="TRUE"
+    
   matrix:
-    - BUILD_TARGERT="unix" QT_VERSION_DIR=5.10 QT_VERSION=5.10.1
-    - BUILD_TARGERT="unix" QT_VERSION_DIR=5.9 QT_VERSION=5.9.5
+    - BUILD_TARGERT="unix" QT_VERSION_DIR=512 QT_VERSION=-5.12.3 BUILD_DOWNLOAD=FALSE
+    #- BUILD_TARGERT="unix" QT_VERSION_DIR=511 QT_VERSION=-5.11.1 BUILD_DOWNLOAD=FALSE
+    #- BUILD_TARGERT="unix" QT_VERSION_DIR=59 QT_VERSION=597 BUILD_DOWNLOAD=FALSE
+    
+    - BUILD_TARGERT="unix" BUILD_ARCH="unix" QT_VERSION_DIR=5.12 QT_VERSION=5.12.2 BUILD_DOWNLOAD=TRUE
+    - BUILD_TARGERT="unix" BUILD_ARCH="unix" QT_VERSION_DIR=5.9 QT_VERSION=5.9.7 BUILD_DOWNLOAD=TRUE GENERATORS="Unix Makefiles" 
+    - BUILD_TARGERT="unix" BUILD_ARCH="unix" QT_VERSION_DIR=5.6 QT_VERSION=5.6.3 BUILD_DOWNLOAD=TRUE
+    
+    - BUILD_TARGERT="android" BUILD_ARCH="armeabi-v7a" QT_VERSION_DIR=5.12 QT_VERSION=5.12.2 ANDROID_API=android-24 BUILD_DOWNLOAD=TRUE
+    - BUILD_TARGERT="android" BUILD_ARCH="armeabi-v7a" QT_VERSION_DIR=5.9 QT_VERSION=5.9.7 ANDROID_API=android-18 BUILD_DOWNLOAD=TRUE
+    - BUILD_TARGERT="android" BUILD_ARCH="x86" QT_VERSION_DIR=5.9 QT_VERSION=5.9.7 ANDROID_API=android-18 BUILD_DOWNLOAD=TRUE
 
 before_install:
-  - export PROJECT_NAME="rabbitim"
   - echo "TRAVIS_OS_NAME=${TRAVIS_OS_NAME}"
-  - export DISPLAY=:99.0         #安装QT时需要
-  - sh -e /etc/init.d/xvfb start #安装QT时需要
-
+  - sudo apt-get install -y -qq xvfb xpra
+  - sudo Xvfb :99 -ac &
+  - export DISPLAY=:99.0
+  - mkdir ${SOURCE_DIR}/Tools
+  - export VERSION="0.0.10"
+  
 install:
+  - cd ${SOURCE_DIR}
+  - git clone https://github.com/KangLin/RabbitCommon.git
+  - export RabbitCommon_DIR="`pwd`/RabbitCommon"
   - bash ThirdLibrary/build_script/ci/build-install-apt.sh > /dev/null
-  - bash ThirdLibrary/build_script/ci/build-install-tools.sh > /dev/null
+  - bash ci/build-install-tools.sh > /dev/null
 
 before_script:
-  - source ${SOURCE_DIR}/ThirdLibrary/build_script/ci/build_env.sh
-  - cd ${SOURCE_DIR}/ThirdLibrary/build_script
+  - cd ${SOURCE_DIR}
 
-script: 
-  - bash ${SOURCE_DIR}/ThirdLibrary/build_script/ci/build.sh ${SOURCE_DIR}
+script:
+  - bash ${SOURCE_DIR}/ci/build.sh ${SOURCE_DIR}
 
 notifications:
   email: kl222@126.com
   on_success: never  # [always|never|change]
   on_failure: always
 
-deploy:
-  provider: releases
-  api_key: 177ce637a8ec54e66ea8693092caf35059cf95d7
-  file: 
-    - ./build_android/android-build/bin/QtApp-debug.apk
-  skip_cleanup: true
-  on:
-    condition: $TRAVIS_OS_NAME = android
-    repo: KangLin/rabbitim
-    tags: true
+#deploy:
+#  - provider: releases
+#    api_key:
+#      secure: ALZWWdQlmi0gJ5Gs9gjX4waV4JYvZAFogN6oUCJayWYkCvME/z1QSxMERuZhRM0F4K2Kt8LWK2ozp18OEtonNQJ81ZELbZRYMQwl4C3Cmfhnywyn4UgiU3CLEQ3Dn25iLqHy7QhaS6BWyISxVQxrsEhFkc0tLDODwk45tibiniIpTtBtTB9Tx85p8FEfdOHUCNxhVtW9zF0LjdWxD569HEzpKDi8c4naNCDVvbBA9r2voQqt3NkNsCNz10vxyV+xO8uJIs1/K5Mj6Gnd+UaUtSDnVTUKCZatcge5OGpu9TcYbH5yLuhlTifVtYmhmK3YeAmte6uNlD6WYIdpSTMJLQ8Lgc2WE+2mj0G16afWtY9ajTqVUlJEa1R078gCnFG4YeYjUYIZhFq/u0U16Ga95RvHAZlQNVcyDLb/Mwt6QyJJdWRNHzsm1sY6mwhXKRwAMGvPl9RTWl6JJdFT5wcPYIzPL9+Y6k6ZhkdI6kWEzA7HYUbA1mLiF6Q8h+ezKnb10KiPEAFU4NNUmf3RKMwolRSTN/TkiZCRIVsPKnkLgS5LzTf6s0rGBZ2g5vWo1fDsigDPBJRE27742pPDXXMt82CySThq3lKJFwQsGObLg1z2H8XbvDkImVIVOK98oW2a/7aXX28/0LjWE2tdV83p1ho5DvyTlGZio+fqk0qmfsw=
+#    file: "$TRAVIS_BUILD_DIR/../rabbitim_${VERSION}_amd64.deb "
+#    skip_cleanup: true
+#    on:
+#      tags: true
+#      condition: "$BUILD_TARGERT=unix && $QT_VERSION_DIR=512 && $BUILD_DOWNLOAD=FALSE"
