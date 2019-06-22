@@ -67,9 +67,9 @@ export PATH=${QT_ROOT}/bin:$PATH
 echo "PATH:$PATH"
 echo "PKG_CONFIG:$PKG_CONFIG"
 cd ${SOURCE_DIR}
-if [ "${BUILD_TARGERT}" = "windows_msvc" ]; then
-    ./tag.sh
-fi
+
+./tag.sh
+
 mkdir -p build_${BUILD_TARGERT}
 cd build_${BUILD_TARGERT}
 
@@ -87,17 +87,17 @@ case ${BUILD_TARGERT} in
         ;;
 esac
 
-export VERSION="0.0.10"
+export VERSION="v0.1.0-378-g3dcceb0"
 if [ "${BUILD_TARGERT}" = "unix" ]; then
     cd $SOURCE_DIR
     bash build_debpackage.sh ${QT_ROOT}
 
-    sudo dpkg -i ../tasks_${VERSION}_amd64.deb
+    sudo dpkg -i ../rabbitim_*_amd64.deb
     $SOURCE_DIR/test/test_linux.sh 
     
     if [ "$TRAVIS_TAG" != "" -a "${QT_VERSION_DIR}" = "512" ]; then
-        cd debian/tasks/opt/Tasks
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${QT_ROOT}/bin:${QT_ROOT}/lib:`pwd`/debian/tasks/opt/Tasks/bin:`pwd`/debian/tasks/opt/Tasks/lib
+        cd debian/rabbitim/opt/RabbitIm
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${QT_ROOT}/bin:${QT_ROOT}/lib:`pwd`/debian/rabbitim/opt/RabbitIm
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
         chmod a+x linuxdeployqt-continuous-x86_64.AppImage
         
@@ -106,24 +106,24 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
     
         # Create appimage install package
         cp $SOURCE_DIR/Install/install.sh .
-        ln -s Tasks-${VERSION}-x86_64.AppImage Tasks-x86_64.AppImage
-        tar -czf Tasks_${VERSION}.tar.gz \
-            Tasks-x86_64.AppImage \
-            Tasks-${VERSION}-x86_64.AppImage \
+        ln -s RabbitIm-${VERSION}-x86_64.AppImage RabbitIm-x86_64.AppImage
+        tar -czf RabbitIm${VERSION}.tar.gz \
+            RabbitIm-x86_64.AppImage \
+            RabbitIm-${VERSION}-x86_64.AppImage \
             install.sh share
     
-        MD5=`md5sum $SOURCE_DIR/../tasks_${VERSION}_amd64.deb|awk '{print $1}'`
+        MD5=`md5sum $SOURCE_DIR/../rabbitim_*_amd64.deb|awk '{print $1}'`
         echo "MD5:${MD5}"
-        ./bin/TasksApp \
+        ./RabbitImApp \
             -f "`pwd`/update_linux.xml" \
             --md5 ${MD5}
-        export UPLOADTOOL_BODY="Release Tasks-${VERSION}"
+        export UPLOADTOOL_BODY="Release RabbitIm-${VERSION}"
         #export UPLOADTOOL_PR_BODY=
         wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
         chmod u+x upload.sh
-        ./upload.sh $SOURCE_DIR/../tasks_${VERSION}_amd64.deb 
+        ./upload.sh $SOURCE_DIR/../rabbitim_*_amd64.deb 
         ./upload.sh update_linux.xml 
-        ./upload.sh Tasks_${VERSION}.tar.gz 
+        ./upload.sh RabbitIm_${VERSION}.tar.gz 
     fi
     exit 0
 fi

@@ -23,6 +23,9 @@ case "$1" in
     purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
 		rm -f /etc/ld.so.conf.d/RabbitIm.conf
 		ldconfig
+        rm -f /usr/share/applications/RabbitIm.desktop
+        rm -f /etc/xdg/autostart/RabbitIm.desktop
+        rm -f /usr/share/pixmaps/RabbitIm.png
     ;;
 
     *)

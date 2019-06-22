@@ -39,4 +39,5 @@ OTHER_FILES += README.md \
     pri/* \
     Install/* \
     Dockerfile \
-    tag.sh
+    tag.sh \
+    build_debpackage.sh

@@ -29,16 +29,30 @@ function EnumerateDicectory(){
 
 case "$1" in
     configure)
-        RABBITIM_INSTALL_PREFIX="/usr/local/RabbitIm"
+        RABBITIM_INSTALL_PREFIX=/opt/RabbitIm
         echo "${RABBITIM_INSTALL_PREFIX}" > /etc/ld.so.conf.d/RabbitIm.conf
         echo "${RABBITIM_INSTALL_PREFIX}/plugins" >> /etc/ld.so.conf.d/RabbitIm.conf
         EnumerateDicectory "${RABBITIM_INSTALL_PREFIX}/plugins"
         ldconfig
+        
+        if [ ! -f /usr/share/applications/Tasks.desktop ]; then
+            ln -s ${RABBITIM_INSTALL_PREFIX}/share/applications/RabbitIm.desktop /usr/share/applications/RabbitIm.desktop
+            ln -s ${RABBITIM_INSTALL_PREFIX}/share/applications/RabbitIm.desktop /etc/xdg/autostart/RabbitIm.desktop
+        fi
+        if [ ! -f /usr/share/pixmaps/RabbitIm.png ]; then
+            if [ ! -d /usr/share/pixmaps ]; then
+                mkdir -p /usr/share/pixmaps
+            fi
+            ln -s ${RABBITIM_INSTALL_PREFIX}/share/pixmaps/RabbitIm.png /usr/share/pixmaps/RabbitIm.png
+        fi
         ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
         rm -f /etc/ld.so.conf.d/RabbitIm.conf
         ldconfig
+        rm -f /usr/share/applications/RabbitIm.desktop
+        rm -f /etc/xdg/autostart/RabbitIm.desktop
+        rm -f /usr/share/pixmaps/RabbitIm.png
     ;;
 
     *)

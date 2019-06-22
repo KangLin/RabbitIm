@@ -21,17 +21,18 @@
 # This is example for Cmake (See https://bugs.debian.org/641051 )
 override_dh_auto_configure:
     ifdef GENERATORS
-	dh_auto_configure --  -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/Tasks
+	dh_auto_configure --  -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/RabbitIm
     else
-	$(QT_ROOT)/bin/qmake PREFIX=/opt/Tasks
+	$(QT_ROOT)/bin/qmake PREFIX=/opt/RabbitIm
+    endif
+
+override_dh_auto_build:
+    ifndef GENERATORS
+	dh_auto_build -- -j`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`
     endif
 
 override_dh_shlibdeps:
-    ifdef GENERATORS
-	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/tasks/opt/Tasks/lib/
-    else
-	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/tasks/opt/Tasks/bin
-    endif
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/rabbitim/opt/RabbitIm
 
 #override_dh_auto_configure:
 #	mkdir -p `pwd`/build_debian; \

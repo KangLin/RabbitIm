@@ -1,4 +1,4 @@
-[![Logon](Resource/png/AppIcon.png)玉兔即时通信![Logon](Resource/png/AppIcon.png)](https://github.com/KangLin/rabbitim)
+[![Logon](Resource/png/RabbitIm.png)玉兔即时通信![Logon](Resource/png/RabbitIm.png)](https://github.com/KangLin/rabbitim)
 
 作者：康林（Email: kl222@126.com ；QQ: 16614119)
 

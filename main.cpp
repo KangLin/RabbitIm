@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QApplication>
 #include <QTranslator>
+#include <QSsl>
+#include <QSslSocket> 
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +22,21 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setApplicationName("RabbitIm");
     app.setOrganizationName("KangLin studio");
-
+    
+    if(!QSslSocket::supportsSsl())
+    {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
+        qCritical() << "Please install openssl first. openssl build version:"
+                    << QSslSocket::sslLibraryBuildVersionString();
+#endif
+    } else {
+        qDebug() << QSslSocket::supportsSsl()
+            #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
+                 <<QSslSocket::sslLibraryBuildVersionString()
+           #endif
+                <<QSslSocket::sslLibraryVersionString();
+    }
+    
     //QFontDatabase::addApplicationFont("://DejaVuSans.ttf");
     //a.setFont(QFont(DejaVuSans));
     LOG_MODEL_DEBUG("main", "font:%s;codec:%s",

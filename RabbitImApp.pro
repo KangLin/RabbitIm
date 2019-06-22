@@ -55,6 +55,21 @@ install.path = $$OUT_PWD
 install.CONFIG += directory no_check_exist 
 !android : INSTALLS += other target install
 
+!android : unix {
+    DESKTOP_FILE.target = DESKTOP_FILE
+    DESKTOP_FILE.files = $$PWD/debian/RabbitIm.desktop
+    DESKTOP_FILE.path = $$system_path($${PREFIX})/share/applications
+    DESKTOP_FILE.CONFIG += directory no_check_exist
+
+    # install icons
+    icon128.target = icon128
+    icon128.files = $$PWD/Resource/png/RabbitIm.png
+    icon128.path = $${PREFIX}/share/pixmaps
+    icon128.CONFIG = directory no_check_exist
+
+    INSTALLS += DESKTOP_FILE icon128
+}
+
 #ANDROID 平台相关内容  
 android : include(android/android.pri)
 

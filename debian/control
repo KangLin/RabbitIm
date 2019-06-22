@@ -1,18 +1,15 @@
 Source: rabbitim
-Section: x11
+Section: main
 Priority: optional
 Maintainer: Kang Lin <kl222@126.com>
-Build-Depends: debhelper (>= 8.0.0)
-Standards-Version: 0.1.0
+Build-Depends: debhelper (>= 6)
+Standards-Version:"v0.1.0-378-g3dcceb0"
 Homepage: https://github.com/KangLin/rabbitim
 Vcs-Git: git@github.com:KangLin/rabbitim.git
 Vcs-Browser: https://github.com/KangLin/rabbitim
 
 Package: rabbitim
 Architecture: any
-Version: 0.1.0
-Section: x11
-Priority: optional
+Pre-Depends: ${misc:Pre-Depends}
 Depends:  ${shlibs:Depends}, ${misc:Depends}
-Maintainer: Kang Lin <kl222@126.com>
 Description: Rabbit instant messaging

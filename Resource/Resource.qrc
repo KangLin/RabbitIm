@@ -6,7 +6,6 @@
         <file alias="System">sound/system.wav</file>
     </qresource>
     <qresource prefix="/icon">
-        <file alias="AppIcon">png/AppIcon.png</file>
         <file alias="Cancel">png/cancel.png</file>
         <file>png/complete.png</file>
         <file>png/pen.png</file>
@@ -62,6 +61,7 @@
         <file alias="Browse">png/browse32.png</file>
         <file alias="Contribute">png/Contribute.png</file>
         <file alias="Contribute20">png/Contribute20.png</file>
+        <file alias="AppIcon">png/RabbitIm.png</file>
     </qresource>
     <qresource prefix="/sink">
         <file alias="Blue">sink/blue.qss</file>
