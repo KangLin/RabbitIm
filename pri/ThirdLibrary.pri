@@ -122,7 +122,11 @@ equals(RABBITIM_USE_LIBCURL, 1) {
         MYPKGCONFIG *= libcurl
     } else : msvc {
         DEFINES *= RABBITIM_USE_LIBCURL
-        LIBS += -llibcurl_imp
+        CONFIG(debug, debug|release){
+            LIBS += -llibcurl-d_imp
+        } else {
+            LIBS += -llibcurl_imp
+        }
     }
 }
 
