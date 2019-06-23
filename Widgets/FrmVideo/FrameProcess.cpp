@@ -78,7 +78,7 @@ void CFrameProcess::slotCaptureFrame(
         if(QVideoFrame::Format_NV21 != frame.pixelFormat())
         {
             LOG_MODEL_WARNING("Video",
-                 "CFrameProcess::slotCaptureFrame:don't Format_NV21");
+                 "CFrameProcess::slotCaptureFrame: There isn't Format_NV21, the pixelFormat: %d", frame.pixelFormat());
             emit sigCaptureFrame(frame);
             break;
         }
@@ -237,7 +237,7 @@ void CFrameProcess::slotFrameConvertedToRGB32(
 #endif
     QVideoFrame outFrame;
     QVideoFrame inFrame(frame);
-
+    
     if(inFrame.pixelFormat() == QVideoFrame::Format_RGB32
             && (rect.isEmpty()
                 || (rect.width() == inFrame.width()

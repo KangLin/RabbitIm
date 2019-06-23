@@ -59,7 +59,7 @@ environment:
     CMAKE: cmake
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x64
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/hg8x2wpjada3arit/artifacts/RABBIT_windows_msvc15_x64_qt5.9.7_Release_v0.0.5-69-gc06e659.zip
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/knf4uec0x8pjityk/artifacts/RABBIT_windows_msvc15_x64_qt5.9.7_Release_v0.0.5-76-g2749b39.zip
 
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     BUILD_TARGERT: windows_msvc
@@ -117,7 +117,7 @@ environment:
     QT_ROOT: C:/Qt/5.6/msvc2015_64
     RABBIT_CONFIG: Release
     RABBIT_ARCH: x64
-    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/6yayeyct76mrinqn/artifacts/RABBIT_windows_msvc14_x64_qt5.6.3_Release_v0.0.5-69-gc06e659.zip
+    DOWNLOAD_URL: https://ci.appveyor.com/api/buildjobs/t2nmgb21cmj7isf8/artifacts/RABBIT_windows_msvc14_x64_qt5.6.3_Release_v0.0.5-76-g2749b39.zip
   
   - BUILD_TARGERT: windows_msvc
     RABBIT_TOOLCHAIN_VERSION: 14
