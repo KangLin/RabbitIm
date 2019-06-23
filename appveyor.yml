@@ -1,5 +1,5 @@
 #TODO:版本变更时，修改成相应的版本
-version: 'v0.1.0-380-g5cc763e.{build}'
+version: 'v0.1.0-382-ga1b87cf.{build}'
 
 image: Visual Studio 2015
 

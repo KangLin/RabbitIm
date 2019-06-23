@@ -1,4 +1,4 @@
-SET(BUILD_VERSION "v0.1.0-380-g5cc763e")
+SET(BUILD_VERSION "v0.1.0-382-ga1b87cf")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
     if(NOT GIT)
