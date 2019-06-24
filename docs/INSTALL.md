@@ -163,7 +163,7 @@
 6. [openssl](http://www.openssl.org/)
     * 下载：`git clone  https://github.com/openssl/openssl`  
     * 当前使用版本：  
-    git库版本 —— OpenSSL_1_1_1c
+    git库版本 —— OpenSSL_1_1_1b
 7. libsodium
     * 下载: `git clone https://github.com/jedisct1/libsodium.git`
     * 当前使用版本：1.0.6
