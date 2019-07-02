@@ -61,6 +61,7 @@
         * 主页
             - https://visualstudio.microsoft.com/vs/
             - http://msdn.microsoft.com/zh-cn/vstudio 
+            - https://visualstudio.microsoft.com/zh-hans/downloads/
         * 版本：
             - Visual Studio 2013
             - Visual Studio 2015
