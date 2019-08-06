@@ -3,9 +3,9 @@ Section: main
 Priority: optional
 Maintainer: Kang Lin <kl222@126.com>
 Build-Depends: debhelper (>= 6)
-Standards-Version:"0.1.0-382-ga1b87cf"
+Standards-Version:"0.1.0"
 Homepage: https://github.com/KangLin/rabbitim
-Vcs-Git: git@github.com:KangLin/rabbitim.git
+Vcs-Git: https://github.com/KangLin/rabbitim
 Vcs-Browser: https://github.com/KangLin/rabbitim
 
 Package: rabbitim

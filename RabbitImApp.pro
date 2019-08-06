@@ -57,7 +57,7 @@ install.CONFIG += directory no_check_exist
 
 !android : unix {
     DESKTOP_FILE.target = DESKTOP_FILE
-    DESKTOP_FILE.files = $$PWD/debian/RabbitIm.desktop
+    DESKTOP_FILE.files = $$PWD/share/applications/RabbitIm.desktop
     DESKTOP_FILE.path = $$system_path($${PREFIX})/share/applications
     DESKTOP_FILE.CONFIG += directory no_check_exist
 
