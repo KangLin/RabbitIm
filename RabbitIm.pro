@@ -13,6 +13,7 @@ SUBDIRS *= ThirdLibrary \
     RabbitImApp
 
 OTHER_FILES += README.md \
+    share/applications/* \
     .gitignore \
     .travis.yml \
     ci/* \

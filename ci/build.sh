@@ -96,7 +96,7 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
     $SOURCE_DIR/test/test_linux.sh 
 
     cd debian/rabbitim/opt/RabbitIm
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${QT_ROOT}/bin:${QT_ROOT}/lib:`pwd`/debian/rabbitim/opt/RabbitIm
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${QT_ROOT}/bin:${QT_ROOT}/lib:`pwd`
     wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
     chmod a+x linuxdeployqt-continuous-x86_64.AppImage
     

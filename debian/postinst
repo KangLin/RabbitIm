@@ -35,7 +35,7 @@ case "$1" in
         EnumerateDicectory "${RABBITIM_INSTALL_PREFIX}/plugins"
         ldconfig
         
-        if [ ! -f /usr/share/applications/Tasks.desktop ]; then
+        if [ ! -f /usr/share/applications/RabbitIm.desktop ]; then
             ln -s ${RABBITIM_INSTALL_PREFIX}/share/applications/RabbitIm.desktop /usr/share/applications/RabbitIm.desktop
             ln -s ${RABBITIM_INSTALL_PREFIX}/share/applications/RabbitIm.desktop /etc/xdg/autostart/RabbitIm.desktop
         fi
