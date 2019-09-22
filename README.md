@@ -74,11 +74,7 @@
 如果这个项目对您有用，我们欢迎各方任何形式的捐助，也包括参与到项目代码更新或意见反馈中来。谢谢！
 
 #### 资金捐赠：
-* 大于20元的捐赠,请扫描下面二维码：  
-![捐赠（大于20元）](Resource/png/Contribute.png "捐赠（大于20元）")
-
-* 捐赠20元：  
-![捐赠20元](Resource/png/Contribute20.png "捐赠20元")
+![捐赠](https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png)
 
 ### 有偿服务：
 
