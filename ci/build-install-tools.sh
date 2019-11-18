@@ -104,7 +104,12 @@ function function_unix()
 
     sudo apt-get update -y -qq
     sudo apt-get install debhelper fakeroot -y -qq
-    sudo apt-get install -y -qq libglu1-mesa-dev
+    sudo apt-get install -y -qq libglu1-mesa-dev \
+        libxkbcommon-x11-dev \
+        libpulse-mainloop-glib0 \
+        libgstreamer0.10-dev \
+        libgstreamer-plugins-base0.10-dev \
+        gstreamer1.0-pulseaudio
 
     if [ "$BUILD_DOWNLOAD" != "TRUE" ]; then
         sudo apt-get install -y -qq qt${QT_VERSION_DIR}base \

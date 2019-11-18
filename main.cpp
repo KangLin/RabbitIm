@@ -6,10 +6,14 @@
 #include <QApplication>
 #include <QTranslator>
 #include <QSsl>
-#include <QSslSocket> 
+#include <QSslSocket>
 
 int main(int argc, char *argv[])
 {
+#if (QT_VERSION > QT_VERSION_CHECK(5,6,0))
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+    
 #ifdef ANDROID
     Q_INIT_RESOURCE(Android);
 #endif
@@ -20,9 +24,16 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication app(argc, argv);
+    //app.setApplicationVersion(BUILD_VERSION);
+    
     app.setApplicationName("RabbitIm");
     app.setOrganizationName("KangLin studio");
-    
+#ifdef RABBITCOMMON
+    RabbitCommon::CTools::Instance()->Init();
+#endif
+
+    app.setApplicationDisplayName(QObject::tr("Rabbit Immediate Communicate"));
+
     if(!QSslSocket::supportsSsl())
     {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))

@@ -200,7 +200,7 @@ IF(WIN32)
     INSTALL(DIRECTORY "${THIRD_LIBRARY_PATH}/bin/" "${THIRD_LIBRARY_PATH}/lib/"
             DESTINATION .
             FILES_MATCHING PATTERN "*.dll")
-    
+
     #复制第三方依赖库的动态库到编译目录下
     FILE(COPY "${THIRD_LIBRARY_PATH}/bin/" "${THIRD_LIBRARY_PATH}/lib/"
         DESTINATION .

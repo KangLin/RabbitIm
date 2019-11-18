@@ -125,6 +125,7 @@ https://github.com/KangLin/RabbitIm/releases
 
 ||中文系统默认样式|
 |:---:|:---:|
-|登录窗口|![登录窗口](http://img.my.csdn.net/uploads/201511/24/1448327026_1330.png "登录窗口")|
+|登录窗口|![登录窗口](docs/Screenshots/ubuntu_login.png "登录窗口")|
 |列表窗口|![列表窗口](http://img.my.csdn.net/uploads/201511/24/1448327027_8721.png "列表窗口")|
 |聊天窗口|![聊天窗口](http://img.my.csdn.net/uploads/201511/24/1448327027_9088.png "聊天窗口")|
+|视频|![视频](docs/Screenshots/ubuntu_video.png "视频")|

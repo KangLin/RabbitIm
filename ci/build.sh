@@ -95,13 +95,14 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
     sudo dpkg -i ../rabbitim_*_amd64.deb
     $SOURCE_DIR/test/test_linux.sh 
 
-    cd debian/rabbitim/opt/RabbitIm
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${QT_ROOT}/bin:${QT_ROOT}/lib:`pwd`
-    wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-    chmod a+x linuxdeployqt-continuous-x86_64.AppImage
-    
-    ./linuxdeployqt-continuous-x86_64.AppImage share/applications/*.desktop \
-    -qmake=${QT_ROOT}/bin/qmake -appimage
+    cd debian/rabbitim/opt
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${QT_ROOT}/bin:${QT_ROOT}/lib:`pwd`/RabbitIm/bin:`pwd`/RabbitIm/lib
+    wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" -O linuxdeployqt.AppImage
+    chmod a+x linuxdeployqt.AppImage
+
+    cd RabbitIm
+    ../linuxdeployqt.AppImage share/applications/*.desktop \
+        -qmake=${QT_ROOT}/bin/qmake -appimage
     
     # Create appimage install package
     cp $SOURCE_DIR/Install/install.sh .
@@ -146,7 +147,7 @@ else
     if [ "${BUILD_TARGERT}" = "android" ]; then
         ${QT_ROOT}/bin/qmake ${SOURCE_DIR} \
             "CONFIG+=release" ${CONFIG_PARA}
-        
+
         $MAKE
         $MAKE install INSTALL_ROOT=`pwd`/android-build
         ${QT_ROOT}/bin/androiddeployqt \
@@ -155,25 +156,26 @@ else
                        --android-platform ${ANDROID_API} \
                        --gradle --verbose
                        # --jdk ${JAVA_HOME}
+        if [ "$TRAVIS_TAG" != "" -a "$BUILD_ARCH"="armeabi-v7a" -a "$QT_VERSION_DIR"="5.12" ]; then
         
-        cp $SOURCE_DIR/Update/update_android.xml .
-	    APK_FILE=`find . -name "android-build-debug.apk"`
-        MD5=`md5sum ${APK_FILE} | awk '{print $1}'`
-        echo "MD5:${MD5}"
-        sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" update_android.xml
-        sed -i "s/<INFO>.*</<INFO>Release Tasks-${VERSION}</g" update_android.xml
-        sed -i "s/<TIME>.*</<TIME>`date`</g" update_android.xml
-        sed -i "s/<ARCHITECTURE>.*</<ARCHITECTURE>${BUILD_ARCH}</g" update_android.xml
-        sed -i "s/<MD5SUM>.*</<MD5SUM>${MD5}</g" update_android.xml
-        sed -i "s:<URL>.*<:<URL>https\://github.com/KangLin/Tasks/releases/download/${VERSION}/android-build-debug.apk<:g" update_android.xml
+		cp $SOURCE_DIR/Update/update_android.xml .
+		    APK_FILE=`find . -name "android-build-debug.apk"`
+		MD5=`md5sum ${APK_FILE} | awk '{print $1}'`
+		echo "MD5:${MD5}"
+		sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" update_android.xml
+		sed -i "s/<INFO>.*</<INFO>Release Tasks-${VERSION}</g" update_android.xml
+		sed -i "s/<TIME>.*</<TIME>`date`</g" update_android.xml
+		sed -i "s/<ARCHITECTURE>.*</<ARCHITECTURE>${BUILD_ARCH}</g" update_android.xml
+		sed -i "s/<MD5SUM>.*</<MD5SUM>${MD5}</g" update_android.xml
+		sed -i "s:<URL>.*<:<URL>https\://github.com/KangLin/Tasks/releases/download/${VERSION}/android-build-debug.apk<:g" update_android.xml
 
-        if [ "$TRAVIS_TAG" != "" ]; then
-                export UPLOADTOOL_BODY="Release Tasks-${VERSION}"
-                #export UPLOADTOOL_PR_BODY=
-                wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-                chmod u+x upload.sh
-                ./upload.sh ${APK_FILE} 
-                ./upload.sh update_android.xml
+		
+		export UPLOADTOOL_BODY="Release RabbitIm-${VERSION}"
+		#export UPLOADTOOL_PR_BODY=
+		wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+		chmod u+x upload.sh
+		./upload.sh ${APK_FILE} 
+		./upload.sh update_android.xml
         fi
     else
         ${QT_ROOT}/bin/qmake ${SOURCE_DIR} \
