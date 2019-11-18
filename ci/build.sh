@@ -151,7 +151,7 @@ else
         $MAKE
         $MAKE install INSTALL_ROOT=`pwd`/android-build
         ${QT_ROOT}/bin/androiddeployqt \
-                       --input `pwd`/App/android-libTasksApp.so-deployment-settings.json \
+                       --input `pwd`/App/android-libRabbitImApp.so-deployment-settings.json \
                        --output `pwd`/android-build \
                        --android-platform ${ANDROID_API} \
                        --gradle --verbose
