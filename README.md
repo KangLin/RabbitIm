@@ -101,15 +101,15 @@ https://github.com/KangLin/RabbitIm/releases
 
 ||中文黑色样式|
 |:---:|:---:|
-|登录窗口|![登录窗口](http://img.my.csdn.net/uploads/201511/08/1446950242_4601.png "登录窗口")|
-|列表窗口|![列表窗口](http://img.my.csdn.net/uploads/201511/08/1446948753_6277.png "列表窗口")|
-|聊天窗口|![聊天窗口](http://img.my.csdn.net/uploads/201511/08/1446948752_4354.jpg "聊天窗口")|
+|登录窗口|![登录窗口](docs/Screenshots/windows_login_dark.png "登录窗口")|
+|列表窗口|![列表窗口](docs/Screenshots/windows_list_dark.png "列表窗口")|
+|聊天窗口|![聊天窗口](docs/Screenshots/windows_char_dark.png "聊天窗口")|
 
-||英语蓝色样式|
+||英语默认样式|
 |:---:|:---:|
-|登录窗口|![登录窗口](http://img.my.csdn.net/uploads/201511/08/1446950242_8435.png "登录窗口")|
-|列表窗口|![列表窗口](http://img.my.csdn.net/uploads/201511/08/1446950242_3949.png "列表窗口")|
-|聊天窗口|![聊天窗口](http://img.my.csdn.net/uploads/201511/08/1446948753_7000.png "聊天窗口")|
+|登录窗口|![登录窗口](docs/Screenshots/windows_login.png "登录窗口")|
+|列表窗口|![列表窗口](docs/Screenshots/windows_list.png "列表窗口")|
+|聊天窗口|![聊天窗口](docs/Screenshots/windows_char.png "聊天窗口")|
 
 - ubuntu 下截图:
 
@@ -120,7 +120,7 @@ https://github.com/KangLin/RabbitIm/releases
 |聊天窗口|![聊天窗口](http://img.my.csdn.net/uploads/201511/24/1448327027_4969.png "聊天窗口")|
 |视频|![视频](http://img.blog.csdn.net/20140717141505988 "视频")|
 
-||中文系统默认样式|
+||中文黑色样式|
 |:---:|:---:|
 |登录窗口|![登录窗口](docs/Screenshots/ubuntu_login.png "登录窗口")|
 |列表窗口|![列表窗口](http://img.my.csdn.net/uploads/201511/24/1448327027_8721.png "列表窗口")|
