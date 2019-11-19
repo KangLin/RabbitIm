@@ -2125,7 +2125,7 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../MainWindow.cpp" line="110"/>
         <location filename="../../MainWindow.cpp" line="380"/>
         <source>RabbitIm</source>
-        <translation>玉兔即时通信</translation>
+        <translation>玉兔即时通讯</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="42"/>
@@ -2219,7 +2219,7 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../MainWindow.cpp" line="401"/>
         <location filename="../../MainWindow.cpp" line="403"/>
         <source>RabbitIm:%1</source>
-        <translation>玉兔即时通信：%1</translation>
+        <translation>玉兔即时通讯：%1</translation>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="207"/>

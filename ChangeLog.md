@@ -43,7 +43,7 @@
 版本：0.0.1
 ----------
 1. 跨平台
-玉兔即时通信是一款跨操作系统平台（Windows、Linux、Android、MacOs、IOS、windows phone）的文本、语音、视频的即时通信软件。
+玉兔即时通讯是一款跨操作系统平台（Windows、Linux、Android、MacOs、IOS、windows phone）的文本、语音、视频的即时通信软件。
 2. xmpp协议的即时通信软件
 3. 支持语音、视频（p2p）
 4. 支持换肤功能

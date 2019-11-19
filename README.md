@@ -1,4 +1,4 @@
-# [<img src="Resource/png/RabbitIm.png" alt="Chinese" title="Chinese" width="48" height="48"/>玉兔即时通信](https://github.com/KangLin/rabbitim)
+# [<img src="Resource/png/RabbitIm.png" alt="Chinese" title="Chinese" width="48" height="48"/>玉兔即时通讯](https://github.com/KangLin/rabbitim)
 
 作者：康林（Email: kl222@126.com ；QQ: 16614119)
 
@@ -25,7 +25,7 @@
 #### 功能:
 
 - 跨平台  
-  玉兔即时通信是一款跨操作系统平台的即时通信软件,包括下列平台:
+  玉兔即时通讯是一款跨操作系统平台的即时通信软件,包括下列平台:
   + [x] Windows
   + [x] Linux
   + [x] Android
