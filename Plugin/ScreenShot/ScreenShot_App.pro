@@ -10,7 +10,7 @@ TARGET = ScreenShot
 TEMPLATE = app
 DISTFILES += PluginScreenShot.json
 
-include(../ConfigApp.pri)
+include(../pri/ConfigApp.pri)
 
 SOURCES += PluginScreenShot.cpp \
     WdgScreenEditor.cpp \

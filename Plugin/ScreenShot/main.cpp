@@ -28,6 +28,9 @@ int main(int argc, char *argv[])
         }
     }
 
+    CManager manager;
+    CGlobal::Instance()->SetManager(&manager);
+
     CDlgScreenShot dlg;
     if(dlg.exec() ==  QDialog::Accepted)
     {
