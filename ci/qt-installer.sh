@@ -3,6 +3,7 @@
 #http://stackoverflow.com/questions/25105269/silent-install-qt-run-installer-on-ubuntu-server
 #http://doc.qt.io/qtinstallerframework/noninteractive.html
 #参考：https://github.com/benlau/qtci
+#     https://github.com/rabits/dockerfiles
 #     https://github.com/mjscosta/qt-silent-installer
 
 set -e #quit on error
@@ -13,23 +14,38 @@ then
     exit -1
 fi
 
+function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
+function version_le() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" == "$1"; }
+function version_lt() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" != "$1"; }
+function version_ge() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" == "$1"; }
+
 export PATH=$PATH:$PWD
 export WORKDIR=$PWD
 INSTALLER=$1
 OUTPUT=$2
 SCRIPT="$(mktemp /tmp/tmp.XXXXXXXXX)"
+
 case $BUILD_ARCH in
-    arm*)
-        SELECTEDPACKAGES=android_armv7
-        ;;
-     x86)
-        SELECTEDPACKAGES=android_x86
-        ;;
     unix)
         SELECTEDPACKAGES=gcc_64
         ;;
-       *)
-       echo "Aach[$BUILD_ARCH] don't suppoert"
+    arm*|x86*)
+        if version_ge $QT_VERSION_DIR 5.14 ; then
+            SELECTEDPACKAGES=android
+        else
+            case $BUILD_ARCH in
+                arm*)
+                    SELECTEDPACKAGES=android_armv7
+                    ;;
+                x86*)
+                    SELECTEDPACKAGES=android_x86
+                    ;;
+            esac
+        fi
+        ;;
+    *)
+        echo "Aach[$BUILD_ARCH] don't suppoert"
+        ;;
 esac
 
 cat <<EOF > $SCRIPT
@@ -51,6 +67,15 @@ Controller.prototype.WelcomePageCallback = function() {
 }
 
 Controller.prototype.CredentialsPageCallback = function() {
+    var login = installer.environmentVariable("QT_USER");
+    var password = installer.environmentVariable("QT_PASSWORD");
+    if( login === "" || password === "" ) {
+        console.log("No credentials provided - could stuck here forever");
+        gui.clickButton(buttons.CommitButton);
+    }
+    var widget = gui.currentPageWidget();
+    widget.loginWidget.EmailLineEdit.setText(login);
+    widget.loginWidget.PasswordLineEdit.setText(password);
     gui.clickButton(buttons.CommitButton);
 }
 
