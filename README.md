@@ -17,9 +17,8 @@
 
 ### 介绍
  
-- 作者博客：http://blog.csdn.net/kl222
-- 项目位置：https://github.com/KangLin/RabbitIm  
-- 项目介绍：http://blog.csdn.net/kl222/article/details/37597807   
+- [项目主页](http://kanglin.github.io/RabbitIm/)
+- [项目位置](https://github.com/KangLin/RabbitIm)
 - QQ群：68046752（本人不常上QQ）
 
 #### 功能:
