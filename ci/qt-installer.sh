@@ -34,11 +34,20 @@ case $BUILD_ARCH in
             SELECTEDPACKAGES=android
         else
             case $BUILD_ARCH in
-                arm*)
+                armeabi-v7a)
                     SELECTEDPACKAGES=android_armv7
                     ;;
-                x86*)
+                arm64-v8a)
+                    SELECTEDPACKAGES=android_arm64_v8a
+                    ;;
+                x86)
                     SELECTEDPACKAGES=android_x86
+                    ;;
+                x86_64)
+                    SELECTEDPACKAGES=android_x86_64
+                    ;;
+                *)
+                    echo "Aach[$BUILD_ARCH] don't suppoert"
                     ;;
             esac
         fi

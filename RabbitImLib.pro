@@ -5,26 +5,19 @@
 #-------------------------------------------------
 
 TARGET = RabbitIm
-TEMPLATE = lib 
+TEMPLATE = lib
 !CONFIG(static, static|shared) : DEFINES += BUILD_SHARED_LIBS #windows下动态库导出
 
 CONFIG += create_prl no_install_prl create_pc no_install_pc 
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
-#设置目标输出目录  
-win32{
-    DEFINES += DLL_EXPORT
-    CONFIG(debug, debug|release) : TARGET_PATH=$${OUT_PWD}/Debug
-    
-    CONFIG(release, debug|release) : TARGET_PATH=$${OUT_PWD}/Release
-}else{
-    TARGET_PATH=$$OUT_PWD
-}
+#设置目标输出目录
+isEmpty(DESTDIR): DESTDIR = $$OUT_PWD
 
 #安装前缀  
 isEmpty(PREFIX) {
     android {
-       PREFIX = /.
+        PREFIX = /.
     } else {
         PREFIX = $$OUT_PWD/install
     } 
@@ -39,8 +32,17 @@ include(pri/RabbitImFiles.pri)
 #发行版本才更新更新配置  
 include(pri/RabbitImVersion.pri)
 
-# Rules for creating/updating {ts|qm}-files
-include(Resource/translations/translations.pri)
+#翻译资源
+isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$(RabbitCommon_DIR)
+isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../RabbitCommon
+!isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/Src.pro") {
+    include($${RabbitCommon_DIR}/pri/Translations.pri)
+} else {
+    message("Don't find RabbitCommon, in environment variable RabbitCommon_DIR:$$RabbitCommon_DIR")
+    message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:")
+    message("   git clone https://github.com/KangLin/RabbitCommon.git")
+    error  ("2. Then set environment variable RabbitCommon_DIR to download dirctory")
+}
 
 target.path = $$PREFIX
 !android : INSTALLS += target

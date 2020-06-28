@@ -252,7 +252,7 @@ int CQRCode::ProcessMessage(const QString &szMessage)
             QMessageBox msg(QMessageBox::Question, "",
                             tr("Do you add roster ") + szId + "?",
                             QMessageBox::Yes | QMessageBox::No,
-                            NULL, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |Qt::WindowStaysOnTopHint);
+                            nullptr, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |Qt::WindowStaysOnTopHint);
             if(QMessageBox::Ok == msg.exec())
             {
                 GET_CLIENT->RosterAdd(szId);
@@ -271,10 +271,12 @@ int CQRCode::ProcessMessage(const QString &szMessage)
             QMessageBox msg(QMessageBox::Question, "",
                             tr("Do open ") + szMessage + "?",
                             QMessageBox::Ok | QMessageBox::No,
-                            NULL, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |Qt::WindowStaysOnTopHint);
+                            nullptr, Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint |Qt::WindowStaysOnTopHint);
             if(QMessageBox::Ok == msg.exec())
+            {
                 if(QDesktopServices::openUrl(url))
                     return 0;
+            }
             else
                 return 0;
         }

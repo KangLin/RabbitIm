@@ -8,28 +8,21 @@ TARGET = RabbitImApp
 TEMPLATE = app 
 
 #设置目标输出目录  
-win32{
-    CONFIG(debug, debug|release) {
-        TARGET_PATH=$${OUT_PWD}/Debug
-    } else {
-        TARGET_PATH=$${OUT_PWD}/Release
-    }
-}else{
-    TARGET_PATH=$$OUT_PWD
-}
-LIBS += -L$${TARGET_PATH}
+isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/..
 
-include(pri/ThirdLibraryConfig.pri)
+LIBS += -L$$DESTDIR
+
+include(../pri/ThirdLibraryConfig.pri)
 CONFIG(static, static|shared) {
     CONFIG *= link_prl
-    include($$PWD/Plugin/PluginStatic.pri)
+    include(../Plugin/PluginStatic.pri)
 } else {
     DEFINES += BUILD_SHARED_LIBS #windows下动态库
 }
 LIBS += -lRabbitIm
 
-include(pri/ThirdLibrary.pri)
-include(pri/ThirdLibraryJoin.pri)
+include(../pri/ThirdLibrary.pri)
+include(../pri/ThirdLibraryJoin.pri)
 
 isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$(RabbitCommon_DIR)
 isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../../RabbitCommon
@@ -44,37 +37,43 @@ isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../../RabbitCommon
 
 SOURCES += main.cpp
 
-#应用程序图标  
-RC_FILE = AppIcon.rc
-
 CONFIG += localize_deployment  #本地语言部署  
 
-#安装前缀  
+#安装前缀
+isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
 isEmpty(PREFIX) {
-    android {
-        PREFIX = /.
-    } else {
-        PREFIX = $$OUT_PWD/install
-    } 
+    qnx : PREFIX = /tmp
+    else : android : PREFIX = /.
+    else : PREFIX = $$OUT_PWD/install
 }
-other.files = License.md Authors.txt ChangeLog.md AppIcon.ico
-other.path = $$PREFIX
+other.files = ../License.md ../Authors.txt ../ChangeLog.md
+android: other.path = $$PREFIX/assets
+else: other.path = $$PREFIX
 other.CONFIG += directory no_check_exist 
 target.path = $$PREFIX
-install.files = Install/Install.nsi
-install.path = $$OUT_PWD
-install.CONFIG += directory no_check_exist 
-!android : INSTALLS += other target install
+win32{
+    #应用程序图标  
+    RC_FILE = AppIcon.rc
 
+    icon.files = ../Resource/png/RabbitIm.ico
+    icon.path = $$PREFIX
+    icon.CONFIG += directory no_check_exist
+
+    install.files = ../Install/Install.nsi
+    install.path = $$OUT_PWD
+    install.CONFIG += directory no_check_exist
+    INSTALLS += install icon
+}
+INSTALLS += other target
 !android : unix {
     DESKTOP_FILE.target = DESKTOP_FILE
-    DESKTOP_FILE.files = $$PWD/share/applications/RabbitIm.desktop
+    DESKTOP_FILE.files = ../share/applications/RabbitIm.desktop
     DESKTOP_FILE.path = $$system_path($${PREFIX})/share/applications
     DESKTOP_FILE.CONFIG += directory no_check_exist
 
     # install icons
     icon128.target = icon128
-    icon128.files = $$PWD/Resource/png/RabbitIm.png
+    icon128.files = ../Resource/png/RabbitIm.png
     icon128.path = $${PREFIX}/share/pixmaps
     icon128.CONFIG = directory no_check_exist
 
@@ -115,11 +114,11 @@ win32 : equals(QMAKE_HOST.os, Windows){
     #QMAKE_EXTRA_TARGETS += Deployment_qtlib Deployment_third_lib Deployment_third_bin
     
     #为调试环境复制动态库  
-    !exists($${TARGET_PATH}/platforms/*){
+    !exists($${DESTDIR}/platforms/*){
 
         #复制QT系统插件  
         PlatformsPlugins.commands = \
-            $(COPY_DIR) $$system_path($$[QT_INSTALL_PLUGINS]/platforms) $$system_path($${TARGET_PATH}/platforms)
+            $(COPY_DIR) $$system_path($$[QT_INSTALL_PLUGINS]/platforms) $$system_path($${DESTDIR}/platforms)
         PlatformsPlugins.CONFIG += directory no_link no_clean no_check_exist
         PlatformsPlugins.target = PlatformsPlugins
         QMAKE_EXTRA_TARGETS += PlatformsPlugins
@@ -130,10 +129,10 @@ win32 : equals(QMAKE_HOST.os, Windows){
         exists($${THIRD_LIBRARY_DLL}){
             equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
                 THIRD_LIBRARY_DLL = $$system_path($$THIRD_LIBRARY_DLL)
-                TARGET_PATH = $$system_path($$TARGET_PATH)
+                DESTDIR = $$system_path($$DESTDIR)
             }
             ThirdLibraryDll.commands = \
-                $${QMAKE_COPY} $${THIRD_LIBRARY_DLL} $${TARGET_PATH}
+                $${QMAKE_COPY} $${THIRD_LIBRARY_DLL} $${DESTDIR}
             ThirdLibraryDll.CONFIG += directory no_link no_clean no_check_exist
             ThirdLibraryDll.target = ThirdLibraryDll
             QMAKE_EXTRA_TARGETS += ThirdLibraryDll
@@ -144,10 +143,10 @@ win32 : equals(QMAKE_HOST.os, Windows){
         exists($${THIRD_LIBRARY_LIB}){
             equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
                 THIRD_LIBRARY_LIB = $$system_path($$THIRD_LIBRARY_LIB)
-                TARGET_PATH = $$system_path($$TARGET_PATH)
+                DESTDIR = $$system_path($$DESTDIR)
             }
             ThirdLibraryLib.commands = \
-                $${QMAKE_COPY} $${THIRD_LIBRARY_LIB} $${TARGET_PATH}
+                $${QMAKE_COPY} $${THIRD_LIBRARY_LIB} $${DESTDIR}
             ThirdLibraryLib.CONFIG += directory no_link no_clean no_check_exist
             ThirdLibraryLib.target = ThirdLibraryLib
             QMAKE_EXTRA_TARGETS += ThirdLibraryLib

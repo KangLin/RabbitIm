@@ -5,32 +5,80 @@ SOURCE_DIR=`pwd`
 if [ -n "$1" ]; then
     SOURCE_DIR=$1
 fi
+TOOLS_DIR=${SOURCE_DIR}/Tools
+ThirdLibs_DIR=${TOOLS_DIR}/ThirdLibs
+cd ${SOURCE_DIR}
+export RabbitCommon_DIR="${SOURCE_DIR}/RabbitCommon"
+export PKG_CONFIG_PATH=${ThirdLibs_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH}
+if [ -f ${ThirdLibs_DIR}/change_prefix.sh ]; then
+    cd ${ThirdLibs_DIR}
+    ./change_prefix.sh
+fi
+
+if [ -z "${ENABLE_DOWNLOAD}" ]; then
+    export ENABLE_DOWNLOAD=ON
+fi
+
+function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
+function version_le() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" == "$1"; }
+function version_lt() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" != "$1"; }
+function version_ge() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" == "$1"; }
 
 cd ${SOURCE_DIR}
 
 if [ "$BUILD_TARGERT" = "android" ]; then
-    export ANDROID_SDK_ROOT=${SOURCE_DIR}/Tools/android-sdk
-    export ANDROID_NDK_ROOT=${SOURCE_DIR}/Tools/android-ndk
-    if [ -n "$APPVEYOR" ]; then
-        export JAVA_HOME="/C/Program Files (x86)/Java/jdk1.8.0"
+    export ANDROID_SDK_ROOT=${TOOLS_DIR}/android-sdk
+    export ANDROID_NDK_ROOT=${TOOLS_DIR}/android-ndk
+    #if [ -n "$APPVEYOR" ]; then
+        #export JAVA_HOME="/C/Program Files (x86)/Java/jdk1.8.0"
+    #    if [ -z "${NDK_VERSION} " ]; then
+    #        NDK_VERSION=20.0.5594570
+    #    fi
+    #    export ANDROID_NDK_ROOT=${TOOLS_DIR}/android-sdk/ndk-bundle
+    #fi
+    #if [ "$TRAVIS" = "true" ]; then
+        #export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+    #fi
+    export JAVA_HOME=${TOOLS_DIR}/android-studio/jre
+    
+    if version_ge $QT_VERSION_DIR 5.14 ; then
+        export QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/${QT_VERSION}/android
+    else
+        case $BUILD_ARCH in
+            armeabi|armeabi-v7a)
+                QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/${QT_VERSION}/android_armv7
+                if [ -z "${ANDROID_ARM_NEON}" ]; then
+                    ANDROID_ARM_NEON=OFF
+                fi
+                ;;
+            "armeabi-v7a with NEON")
+                QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/${QT_VERSION}/android_armv7
+                ANDROID_ARM_NEON=ON
+                ;;
+            arm64-v8a)
+                QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/${QT_VERSION}/android_arm64_v8a/
+                ;;
+            x86)
+                QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/${QT_VERSION}/android_x86
+                ;;
+            x86_64)
+                QT_ROOT=${TOOLS_DIR}/Qt/${QT_VERSION}/${QT_VERSION}/android_x86_64
+                ;;
+        esac
     fi
-    if [ "$TRAVIS" = "true" ]; then
-        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+    export PATH=${TOOLS_DIR}/apache-ant/bin:$JAVA_HOME/bin:$PATH
+    export ANDROID_SDK=${ANDROID_SDK_ROOT}
+    export ANDROID_NDK=${ANDROID_NDK_ROOT}
+    if [ -z "${BUILD_TOOS_VERSION}" ]; then
+        export BUILD_TOOS_VERSION="28.0.3"
     fi
-    case $BUILD_ARCH in
-        arm*)
-            export QT_ROOT=${SOURCE_DIR}/Tools/Qt/${QT_VERSION}/${QT_VERSION}/android_armv7
-            ;;
-        x86)
-        export QT_ROOT=${SOURCE_DIR}/Tools/Qt/${QT_VERSION}/${QT_VERSION}/android_x86
-        ;;
-    esac
-    export PATH=${SOURCE_DIR}/Tools/apache-ant/bin:$JAVA_HOME:$PATH
 fi
 
 if [ "${BUILD_TARGERT}" = "unix" ]; then
-    if [ "$BUILD_DOWNLOAD" = "TRUE" ]; then
-        QT_DIR=${SOURCE_DIR}/Tools/Qt/${QT_VERSION}
+    if [ "$DOWNLOAD_QT" = "APT" ]; then
+        export QT_ROOT=/usr/lib/`uname -m`-linux-gnu/qt5
+    elif [ "$DOWNLOAD_QT" = "TRUE" ]; then
+        QT_DIR=${TOOLS_DIR}/Qt/${QT_VERSION}
         export QT_ROOT=${QT_DIR}/${QT_VERSION}/gcc_64
     else
         #source /opt/qt${QT_VERSION_DIR}/bin/qt${QT_VERSION_DIR}-env.sh
@@ -38,13 +86,13 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
     fi
     export PATH=$QT_ROOT/bin:$PATH
     export LD_LIBRARY_PATH=$QT_ROOT/lib/i386-linux-gnu:$QT_ROOT/lib:$LD_LIBRARY_PATH
-    export PKG_CONFIG_PATH=$QT_ROOT/lib/pkgconfig:$PKG_CONFIG_PATH
+    #export PKG_CONFIG_PATH=$QT_ROOT/lib/pkgconfig:$PKG_CONFIG_PATH
 fi
 
 if [ "$BUILD_TARGERT" != "windows_msvc" ]; then
     RABBIT_MAKE_JOB_PARA="-j`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`"  #make 同时工作进程参数
     if [ "$RABBIT_MAKE_JOB_PARA" = "-j1" ];then
-        RABBIT_MAKE_JOB_PARA="-j2"
+        RABBIT_MAKE_JOB_PARA=""
     fi
 fi
 
@@ -56,6 +104,14 @@ TARGET_OS=`uname -s`
 case $TARGET_OS in
     MINGW* | CYGWIN* | MSYS*)
         export PKG_CONFIG=/c/msys64/mingw32/bin/pkg-config.exe
+        RABBIT_BUILD_HOST="windows"
+        if [ "$BUILD_TARGERT" = "android" ]; then
+            ANDROID_NDK_HOST=windows-x86_64
+            if [ ! -d $ANDROID_NDK/prebuilt/${ANDROID_NDK_HOST} ]; then
+                ANDROID_NDK_HOST=windows
+            fi
+            CONFIG_PARA="${CONFIG_PARA} -DCMAKE_MAKE_PROGRAM=make" #${ANDROID_NDK}/prebuilt/${ANDROID_NDK_HOST}/bin/make.exe"
+        fi
         ;;
     Linux* | Unix*)
     ;;
@@ -67,11 +123,6 @@ export PATH=${QT_ROOT}/bin:$PATH
 echo "PATH:$PATH"
 echo "PKG_CONFIG:$PKG_CONFIG"
 cd ${SOURCE_DIR}
-
-./tag.sh
-
-mkdir -p build_${BUILD_TARGERT}
-cd build_${BUILD_TARGERT}
 
 case ${BUILD_TARGERT} in
     windows_msvc)
@@ -87,13 +138,28 @@ case ${BUILD_TARGERT} in
         ;;
 esac
 
-export VERSION="v0.1.0-382-ga1b87cf"
+if [ -n "$appveyor_build_version" -a -z "$VERSION" ]; then
+    export VERSION="v0.0.4"
+fi
+if [ -z "$VERSION" ]; then
+    export VERSION="v0.0.4"
+fi
+export UPLOADTOOL_BODY="Release RabbitIm ${VERSION}.<br/> The change see [ChangeLog.md](ChangeLog.md)"
+#export UPLOADTOOL_PR_BODY=
+        
 if [ "${BUILD_TARGERT}" = "unix" ]; then
     cd $SOURCE_DIR
-    bash build_debpackage.sh ${QT_ROOT}
+    if [ "${DOWNLOAD_QT}" != "TRUE" -a "${DOWNLOAD_QT}" != "APT" ]; then
+        sed -i "s/export QT_VERSION_DIR=.*/export QT_VERSION_DIR=${QT_VERSION_DIR}/g" ${SOURCE_DIR}/debian/postinst
+        sed -i "s/export QT_VERSION=.*/export QT_VERSION=${QT_VERSION}/g" ${SOURCE_DIR}/debian/preinst
+        cat ${SOURCE_DIR}/debian/postinst
+        cat ${SOURCE_DIR}/debian/preinst
+    fi
+    
+    bash build_debpackage.sh ${QT_ROOT} ${ThirdLibs_DIR} ${RabbitCommon_DIR} ON
 
     sudo dpkg -i ../rabbitim_*_amd64.deb
-    $SOURCE_DIR/test/test_linux.sh 
+    bash $SOURCE_DIR/test/test_linux.sh 
 
     cd debian/rabbitim/opt
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${QT_ROOT}/bin:${QT_ROOT}/lib:`pwd`/RabbitIm/bin:`pwd`/RabbitIm/lib
@@ -102,8 +168,8 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
 
     cd RabbitIm
     ../linuxdeployqt.AppImage share/applications/*.desktop \
-        -qmake=${QT_ROOT}/bin/qmake -appimage
-    
+        -qmake=${QT_ROOT}/bin/qmake -appimage -no-copy-copyright-files -verbose
+
     # Create appimage install package
     cp $SOURCE_DIR/Install/install.sh .
     ln -s RabbitIm-${VERSION}-x86_64.AppImage RabbitIm-x86_64.AppImage
@@ -115,12 +181,10 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
     MD5=`md5sum $SOURCE_DIR/../rabbitim_*_amd64.deb|awk '{print $1}'`
     echo "MD5:${MD5}"
     ./RabbitImApp \
-    -f "`pwd`/update_linux.xml" \
-    --md5 ${MD5}
+        -f "`pwd`/update_linux.xml" \
+        --md5 ${MD5}
     
     if [ "$TRAVIS_TAG" != "" -a "${QT_VERSION_DIR}" = "512" ]; then
-        export UPLOADTOOL_BODY="Release RabbitIm-${VERSION}"
-        #export UPLOADTOOL_PR_BODY=
         wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
         chmod u+x upload.sh
         ./upload.sh $SOURCE_DIR/../rabbitim_*_amd64.deb 

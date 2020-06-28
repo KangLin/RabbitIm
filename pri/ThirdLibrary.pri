@@ -10,6 +10,8 @@ RABBITIM_USE_OPENSSL=1      #使用openssl
 #RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档  
 #RABBITIM_USE_PJSIP=1        #使用 pjsip 库  
 #RABBITIM_USE_PJSIP_CAMERA=1  
+#RABBITIM_USE_QRENCODE=1
+RABBITIM_USE_QZXING=1
 
 equals(RABBITIM_USE_QXMPP, 1) {
     DEFINES *= RABBITIM_USE_QXMPP
@@ -91,27 +93,31 @@ equals(QXMPP_USE_VPX, 1) {
     }
 }
 
-msvc {
-    DEFINES *= RABBITIM_USE_LIBQRENCODE
-    CONFIG(debug, debug|release) {
-        LIBS *= -lqrencoded
-    } 
-    CONFIG(release, debug|release) {
-        LIBS += -lqrencode
+equals(RABBITIM_USE_QRENCODE, 1){
+    msvc {
+        DEFINES *= RABBITIM_USE_LIBQRENCODE
+        CONFIG(debug, debug|release) {
+            LIBS *= -lqrencoded
+        } 
+        CONFIG(release, debug|release) {
+            LIBS += -lqrencode
+        }
+    } else {
+        myPackagesExist(libqrencode) {
+            DEFINES *= RABBITIM_USE_LIBQRENCODE
+            MYPKGCONFIG *= libqrencode
+        } 
     }
-} else {
-    myPackagesExist(libqrencode) {
-    DEFINES *= RABBITIM_USE_LIBQRENCODE
-    MYPKGCONFIG *= libqrencode
-    } 
 }
 
-myPackagesExist(QZXing) {
-    DEFINES *= RABBITIM_USE_QZXING
-    MYPKGCONFIG *= QZXing
-} else : msvc {
-    DEFINES *= RABBITIM_USE_QZXING
-    LIBS += -lQZXing2
+equals(RABBITIM_USE_QZXING, 1) {
+    myPackagesExist(QZXing) {
+        DEFINES *= RABBITIM_USE_QZXING ENABLE_ENCODER_GENERIC
+        MYPKGCONFIG *= QZXing
+    } else : msvc {
+        DEFINES *= RABBITIM_USE_QZXING ENABLE_ENCODER_GENERIC
+        LIBS += -lQZXing2
+    }
 }
 
 include(Webrtc.pri)
