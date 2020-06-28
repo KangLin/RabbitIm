@@ -12,7 +12,7 @@ CMainAnimation::CMainAnimation(QWidget *parent)
 
 void CMainAnimation::enterEvent(QEvent* event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     LOG_MODEL_DEBUG("CMainAnimation", "MainWindow::enterEvent");
 
 #ifndef MOBILE

@@ -143,7 +143,7 @@ MainWindow::~MainWindow()
 
 #ifndef MOBILE
     //保存窗口位置  
-    QRect rect = this->frameGeometry();
+    //QRect rect = this->frameGeometry();
     slotCheckShowWindows();
     QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
                    QSettings::IniFormat);
@@ -161,7 +161,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent * e)
 {
-    Q_UNUSED(e);
+    Q_UNUSED(e)
     /*
     LOG_MODEL_DEBUG("MainWindow", "\ngeometry:top:%d;left:%d;right:%d;bottom:%d;\nheight:%d;width:%d;\nframegeometry:top:%d;left:%d;right:%d;bottom:%d",
                     geometry().top(), geometry().left(),
@@ -254,22 +254,22 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
 }
 
 void MainWindow::enterEvent(QEvent* event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     //LOG_MODEL_DEBUG("MainWindow", "MainWindow::enterEvent");
 
 #ifndef MOBILE
@@ -280,7 +280,7 @@ void MainWindow::enterEvent(QEvent* event)
 
 void MainWindow::leaveEvent(QEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     //LOG_MODEL_DEBUG("MainWindow", "MainWindow::leaveEvent");
 
 #ifndef MOBILE
@@ -292,7 +292,7 @@ void MainWindow::leaveEvent(QEvent *event)
 
 void MainWindow::moveEvent(QMoveEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     //LOG_MODEL_DEBUG("MainWindow", "MainWindow::moveEvent");
     //this->setWindowOpacity(0.5);
 
@@ -876,7 +876,7 @@ void MainWindow::on_actionOptions_O_triggered()
 void MainWindow::on_actionScan_qrencode_S_triggered()
 {
     CPluginApp* plugin = GETMANAGER->GetManagePluginApp()->GetPlugin("QRCode");
-    if(NULL == plugin)
+    if(nullptr == plugin)
         return;
     plugin->Open(this);
 }
