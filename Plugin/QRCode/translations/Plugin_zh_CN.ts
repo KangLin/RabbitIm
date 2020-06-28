@@ -72,38 +72,38 @@
         <translation>返回</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="32"/>
+        <location filename="../FrmScanQRcode.cpp" line="37"/>
         <source>The camera does not exist.</source>
         <translation>摄像头不存在。</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="67"/>
+        <location filename="../FrmScanQRcode.cpp" line="72"/>
         <source>Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)</source>
         <translation>图像文件(*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;所有文件 (*.*)</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="68"/>
-        <location filename="../FrmScanQRcode.cpp" line="207"/>
+        <location filename="../FrmScanQRcode.cpp" line="73"/>
+        <location filename="../FrmScanQRcode.cpp" line="216"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="165"/>
+        <location filename="../FrmScanQRcode.cpp" line="174"/>
         <source>Scan QR Code</source>
         <translation>扫描二维码</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="169"/>
+        <location filename="../FrmScanQRcode.cpp" line="178"/>
         <source>Generate QR Code</source>
         <translation>生成二维码</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="191"/>
+        <location filename="../FrmScanQRcode.cpp" line="200"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../FrmScanQRcode.cpp" line="206"/>
+        <location filename="../FrmScanQRcode.cpp" line="215"/>
         <source>Image Files (*.PNG *.png *.BMP *.bmp *.JPG *.jpg *.JPEG *.jpeg *.PBM *.pbm *.PGM *.pgm *.PPM *.ppm *.XBM *.xbm *.XPM *.xpm);;All Files  (*.*)</source>
         <translation type="unfinished"></translation>
     </message>

@@ -469,7 +469,8 @@ int MainWindow::InitMenuStyles()
     m_ActionStyles["Custom"] = m_MenuStyle.addAction(tr("Custom"));
     m_ActionStyles["System"] = m_MenuStyle.addAction(tr("System"));
     m_ActionStyles["Black"] = m_MenuStyle.addAction(tr("Black"));
-    /*m_ActionStyles["Blue"] = m_MenuStyle.addAction(tr("Blue"));
+    //*
+    m_ActionStyles["Blue"] = m_MenuStyle.addAction(tr("Blue"));
     m_ActionStyles["Gradient blue"] = m_MenuStyle.addAction(tr("Gradient blue"));
     m_ActionStyles["Dark"] = m_MenuStyle.addAction(tr("Dark"));
     m_ActionStyles["Gradient Dark"] = m_MenuStyle.addAction(tr("Gradient Dark"));//*/

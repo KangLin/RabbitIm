@@ -123,16 +123,20 @@
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../main.cpp" line="61"/>
         <source>Images (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</source>
-        <translation type="vanished">图像 (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</translation>
+        <translation>图像 (*.PNG *.XPM *.JPG *.BMP, *.PPM, *.TIFF, *.XBM)</translation>
     </message>
     <message>
+        <location filename="../main.cpp" line="65"/>
+        <location filename="../main.cpp" line="72"/>
         <source>Save</source>
-        <translation type="vanished">保存</translation>
+        <translation>保存</translation>
     </message>
     <message>
+        <location filename="../main.cpp" line="73"/>
         <source>File is exists. Do you save it?</source>
-        <translation type="vanished">文件已存在。你是否继续保存?</translation>
+        <translation>文件已存在。你是否继续保存?</translation>
     </message>
 </context>
 </TS>
