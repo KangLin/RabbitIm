@@ -22,14 +22,14 @@ MainWindow::MainWindow(QWidget *parent) :
                 #endif
 #endif
                 ),
-    m_TrayIcon( this),
-    m_TrayIconMenu(this),
-    m_ActionGroupStatus(this),
-    m_ActionGroupTranslator(this),
-    m_ActionGroupStyle(this),
+    ui(new Ui::MainWindow),
     m_Login(new CFrmLogin(this)),
     m_nLoginFlag(0),
-    ui(new Ui::MainWindow)
+    m_TrayIconMenu(this),
+    m_TrayIcon(this),
+    m_ActionGroupStyle(this),
+    m_ActionGroupStatus(this),
+    m_ActionGroupTranslator(this)
 {
     CGlobal::Instance()->SetMainWindow(this);
 
@@ -274,7 +274,6 @@ void MainWindow::enterEvent(QEvent* event)
 
 #ifndef MOBILE
     m_timerAnimation.stop();
-    QRect rect;
     this->slotCheckShowWindows();
 #endif
 }
@@ -469,10 +468,11 @@ int MainWindow::InitMenuStyles()
 {
     m_ActionStyles["Custom"] = m_MenuStyle.addAction(tr("Custom"));
     m_ActionStyles["System"] = m_MenuStyle.addAction(tr("System"));
-    m_ActionStyles["Blue"] = m_MenuStyle.addAction(tr("Blue"));
+    m_ActionStyles["Black"] = m_MenuStyle.addAction(tr("Black"));
+    /*m_ActionStyles["Blue"] = m_MenuStyle.addAction(tr("Blue"));
     m_ActionStyles["Gradient blue"] = m_MenuStyle.addAction(tr("Gradient blue"));
     m_ActionStyles["Dark"] = m_MenuStyle.addAction(tr("Dark"));
-    m_ActionStyles["Gradient Dark"] = m_MenuStyle.addAction(tr("Gradient Dark"));
+    m_ActionStyles["Gradient Dark"] = m_MenuStyle.addAction(tr("Gradient Dark"));//*/
     QMap<QString, QAction*>::iterator it;
     for(it = m_ActionStyles.begin(); it != m_ActionStyles.end(); it++)
     {
@@ -898,6 +898,8 @@ void MainWindow::slotActionGroupStyleTriggered(QAction* act)
             act->setChecked(true);
             if(it.key() == "Blue")
                 CGlobal::Instance()->SetStyleMenu("Blue", ":/sink/Blue");
+            else if(it.key() == "Black")
+                CGlobal::Instance()->SetStyleMenu("Black", ":/sink/Black");
             else if(it.key() == "Dark")
                 CGlobal::Instance()->SetStyleMenu("Dark", ":/sink/Dark");
             else if(it.key() == "Gradient blue")
