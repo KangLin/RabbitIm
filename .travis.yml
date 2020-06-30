@@ -48,8 +48,8 @@ install:
   - cd ${SOURCE_DIR}
   - git clone https://github.com/KangLin/RabbitCommon.git
   - export RabbitCommon_DIR="`pwd`/RabbitCommon"
-  - bash ThirdLibrary/build_script/ci/build-install-apt.sh > /dev/null
-  - bash ci/build-install-tools.sh > /dev/null
+  - bash ThirdLibrary/build_script/ci/build-install-apt.sh #> /dev/null
+  - bash ci/build-install-tools.sh #> /dev/null
 
 before_script:
   - cd ${SOURCE_DIR}
