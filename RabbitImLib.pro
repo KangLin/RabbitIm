@@ -13,6 +13,7 @@ QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
 #设置目标输出目录
 isEmpty(DESTDIR): DESTDIR = $$OUT_PWD
+win32: DEFINES += DLL_EXPORT
 
 #安装前缀  
 isEmpty(PREFIX) {

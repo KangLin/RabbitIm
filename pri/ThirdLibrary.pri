@@ -3,6 +3,7 @@
 RABBITIM_USE_QXMPP=1         #使用 qxmpp 库  
 QXMPP_USE_VPX=1              #使用 vpx
 #QXMPP_USE_SPEEX=1           #使用 speex  
+QXMPP_USE_OPUS=1             #使用 opus
 #RABBITIM_USE_OPENCV=1       #使用 opencv  
 RABBITIM_USE_FFMPEG=1       #使用 ffmpeg  
 RABBITIM_USE_LIBCURL=1      #使用 libcurl  
@@ -83,6 +84,10 @@ equals(RABBITIM_USE_OPENCV, 1){
 
 equals(QXMPP_USE_SPEEX, 1) : myPackagesExist(speex) {
     MYPKGCONFIG *= speex
+}
+
+equals(QXMPP_USE_OPUS, 1): myPackagesExist(opus) {
+    MYPKGCONFIG *= opus
 }
 
 equals(QXMPP_USE_VPX, 1) {
