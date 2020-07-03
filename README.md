@@ -1,9 +1,8 @@
 # [<img src="Resource/png/RabbitIm.png" alt="Chinese" title="Chinese" width="48" height="48"/>玉兔即时通讯](https://github.com/KangLin/rabbitim)
 
-作者：康林（Email: kl222@126.com ；QQ: 16614119)
+作者：康林 (Email: kl222@126.com)
 
 =============================================================================
-
 
 - [介绍](#介绍)
   + [功能](#功能)
@@ -16,15 +15,21 @@
 -----------
 
 ### 介绍
- 
+
 - [项目主页](http://kanglin.github.io/RabbitIm/)
 - [项目位置](https://github.com/KangLin/RabbitIm)
 - QQ群：68046752（本人不常上QQ）
 
+- 欢迎开发者参与本项目的开发。
+  + Issues: https://github.com/KangLin/RabbitIm/issues
+  + 如有需要，请联系本人 < QQ:16614119 >, 可以为你提供必要的帮助。
+- 如有定制开发，或移植可联系本人 (QQ:16614119) 。加好友前请你先[捐赠](#捐赠)支持
+  本项目，验证信息为你的捐赠额。非诚勿扰。
+
 #### 功能:
 
 - 跨平台  
-  玉兔即时通讯是一款跨操作系统平台的即时通信软件,包括下列平台:
+  玉兔即时通讯是一款跨操作系统平台的即时通讯软件,包括下列平台:
   + [x] Windows
   + [x] Linux
   + [x] Android
@@ -76,25 +81,11 @@
 
 [![捐赠](https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png "捐赠")](https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png "捐赠")
 
-### 有偿服务：
-
-1. 公司培训，技术支持，解决使用过程中出现的全部疑难问题
-2. IM 系统设计、咨询
-3. 搭建整个系统（包括前端、服务器）
-4. 定制化开发
-
-#### 合作联系方式:
-
-* QQ: 16614119
-* 邮箱：kl222@126.com
-
-
 ### 下载：
 
 https://github.com/KangLin/RabbitIm/releases
 
 ### 屏幕截图:
-
 
 - windows 下截图:
 
