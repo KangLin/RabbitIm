@@ -22,7 +22,11 @@ DEFINES *= RABBITIM_SYSTEM=\"\\\"$$quote($$RABBITIM_SYSTEM)\\\"\"
 DEFINES *= RABBITIM_PLATFORM=\"\\\"$$quote($$RABBITIM_PLATFORM)\\\"\"
 DEFINES *= RABBITIM_ARCHITECTURE=\"\\\"$$quote($$RABBITIM_ARCHITECTURE)\\\"\"
 
-#VERSION = $$BUILD_VERSION
+!win32{
+    VERSION=$$replace(BUILD_VERSION, v,)
+    VERSION=$$split(VERSION, -)
+    VERSION=$$first(VERSION)
+}
 
 #更新检测文件  
 UPDATE_FILENAME=$$PWD/../Update/Update_$${RABBITIM_SYSTEM}.xml
