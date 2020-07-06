@@ -1,13 +1,6 @@
 #!/bin/bash 
 #下载工具  
 
-#
-# DOWNLOAD_QT:
-#     APT: Use apt-get install qt
-#     TRUE: install qt from download.qt.io/official_releases/qt
-#     FALSE: Use apt-get install qt from https://launchpad.net/~beineri
-#
-
 set -e
 SOURCE_DIR="`pwd`"
 echo $SOURCE_DIR
@@ -38,13 +31,13 @@ function function_common()
 {
     cd ${TOOLS_DIR}
     #下载最新cmake程序
-#    if [ "cmake" = "${QMAKE}" ]; then
-#        if [ ! -d "`pwd`/cmake" ]; then
-#            wget -nv --no-check-certificate http://www.cmake.org/files/v3.6/cmake-3.6.1-Linux-x86_64.tar.gz
-#            tar xzf cmake-3.6.1-Linux-x86_64.tar.gz
-#            mv cmake-3.6.1-Linux-x86_64 cmake
-#        fi
-#    fi
+    #if [ "cmake" = "${QMAKE}" ]; then
+    #    if [ ! -d "`pwd`/cmake" ]; then
+    #        wget -nv --no-check-certificate http://www.cmake.org/files/v3.6/cmake-3.6.1-Linux-x86_64.tar.gz
+    #        tar xzf cmake-3.6.1-Linux-x86_64.tar.gz
+    #        mv cmake-3.6.1-Linux-x86_64 cmake
+    #    fi
+    #fi
     
     # Download third libraries
     if [ -n "$DOWNLOAD_THIRDLIBS_URL" ]; then
@@ -54,14 +47,14 @@ function function_common()
         cd ${ThirdLibs_DIR}
         ThirdLibs_File=third_libs.tar.gz
         wget -c -nv --no-check-certificate $DOWNLOAD_THIRDLIBS_URL -O $ThirdLibs_File
-        tar xzf $ThirdLibs_File
+        tar xzvf $ThirdLibs_File
     fi
-    
+
     # Qt qt安装参见：https://github.com/benlau/qtci  
     cd ${TOOLS_DIR}
     if [ "$DOWNLOAD_QT" = "TRUE" ]; then
-        QT_DIR=${TOOLS_DIR}/Qt/${QT_VERSION}
-        #cd ${PACKAGE_DIR}
+        QT_DIR=`pwd`/Qt/${QT_VERSION}
+        cd ${PACKAGE_DIR}
         if [ ! -d "${QT_DIR}" ]; then
             if [ "${QT_VERSION}" = "5.6.3" ]; then
                 if [ ! -f qt-opensource-linux-x64-android-${QT_VERSION}.run ]; then
@@ -78,6 +71,7 @@ function function_common()
             fi
         fi
     fi
+    
     cd ${SOURCE_DIR}
 }
 
@@ -90,9 +84,8 @@ function install_android()
     if [ ! -d "`pwd`/android-sdk" ]; then
         cd ${PACKAGE_DIR}
         ANDROID_STUDIO_VERSION=191.5900203
-        ANDROID_STUDIO_PACKAGE=android-studio-ide-${ANDROID_STUDIO_VERSION}-linux.tar.gz
-        if [ ! -f ${ANDROID_STUDIO_PACKAGE} ]; then
-            wget -c -nv https://dl.google.com/dl/android/studio/ide-zips/3.5.1.0/${ANDROID_STUDIO_PACKAGE}
+        if [ ! -f android-studio-ide-${ANDROID_STUDIO_VERSION}-linux.tar.gz ]; then
+            wget -c -nv https://dl.google.com/dl/android/studio/ide-zips/3.5.1.0/android-studio-ide-${ANDROID_STUDIO_VERSION}-linux.tar.gz
         fi
         tar xzf android-studio-ide-${ANDROID_STUDIO_VERSION}-linux.tar.gz -C ${TOOLS_DIR}
         cd ${TOOLS_DIR}
@@ -117,9 +110,8 @@ function install_android()
         if [ -z "${BUILD_TOOS_VERSION}" ]; then
             BUILD_TOOS_VERSION="28.0.3"
         fi
-        
         (sleep 5 ; num=0 ; while [ $num -le 5 ] ; do sleep 1 ; num=$(($num+1)) ; printf 'y\r\n' ; done ) \
-        | ./tools/bin/sdkmanager "platform-tools" "build-tools;${BUILD_TOOS_VERSION}" "${PLATFORMS}" ${NDK} > /dev/null
+        | ./tools/bin/sdkmanager "platform-tools" "build-tools;${BUILD_TOOS_VERSION}" "${PLATFORMS}" ${NDK}
         if [ -n "${NDK}" ]; then
             if [ ! -d ${TOOLS_DIR}/android-ndk ]; then
                 ln -s ${TOOLS_DIR}/android-sdk/ndk-bundle ${TOOLS_DIR}/android-ndk
@@ -136,7 +128,6 @@ function install_android_sdk_and_ndk()
     if [ ! -f ${NDK_PACKAGE} ]; then
         wget -c -nv https://dl.google.com/android/repository/${NDK_PACKAGE}
     fi
-    echo "unzip -q ${NDK_PACKAGE} -d ${TOOLS_DIR}"
     unzip -q ${NDK_PACKAGE} -d ${TOOLS_DIR}
     cd ${TOOLS_DIR}
     mv android-ndk-r21 android-ndk
@@ -176,8 +167,6 @@ function function_unix()
 
     sudo apt-get update -y -qq
     sudo apt-get install debhelper fakeroot -y -qq
-    sudo apt-get install -y -qq libdlib-dev libopencv-dev
-    sudo apt-get install -y -qq libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev libavresample-dev libavutil-dev 
     sudo apt-get install -y -qq libglu1-mesa-dev \
         libxkbcommon-x11-dev \
         libpulse-mainloop-glib0 \
@@ -210,9 +199,10 @@ function function_mingw()
 {
     #汇编工具yasm
     #function_install_yasm
+
     cd ${SOURCE_DIR}
-    if [ "true" == "$RABBIT_BUILD_THIRDLIBRARY" ]; then
-        export RABBIT_BUILD_CROSS_HOST=i686-w64-mingw32 #i586-mingw32msvc
+    if [ "true" == "$RABBITIM_BUILD_THIRDLIBRARY" ]; then
+        export RABBITIM_BUILD_CROSS_HOST=i686-w64-mingw32 #i586-mingw32msvc
     fi
 
     function_common

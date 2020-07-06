@@ -34,10 +34,10 @@ case $BUILD_ARCH in
             SELECTEDPACKAGES=android
         else
             case $BUILD_ARCH in
-                armeabi-v7a)
+                arm)
                     SELECTEDPACKAGES=android_armv7
                     ;;
-                arm64-v8a)
+                arm64)
                     SELECTEDPACKAGES=android_arm64_v8a
                     ;;
                 x86)

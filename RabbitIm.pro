@@ -6,7 +6,7 @@ RabbitImLib.file = RabbitImLib.pro
 RabbitImLib.depends = RabbitCommon
 Plugin.depends = RabbitImLib
 RabbitImApp.file = App/RabbitImApp.pro
-RabbitImApp.depends = RabbitImLib Plugin
+RabbitImApp.depends = RabbitCommon RabbitImLib Plugin
 
 CONFIG *= ordered
 SUBDIRS *= ThirdLibrary \

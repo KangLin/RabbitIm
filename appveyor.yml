@@ -1,189 +1,117 @@
-#TODO:版本变更时，修改成相应的版本
-version: 'v0.1.0-.{build}'
+#TODO: Change version
+version: 'v1.0.0.{build}'
 
-image: Visual Studio 2015
-
+cache:
+  - Package
+  
 environment:
+  STOREPASS:
+    secure: l9BZEU39F1a4vSkhwl0CHR+yh6CD1c7byGzMv+1NUa4=
+  QT_USER:
+    secure: EoBPaPuJ6u9UDYpQWjKhUg==
+  QT_PASSWORD:
+    secure: ejAYGgB+3sBispRxUSr0xw==
+
   matrix:
-  ##### mingw #####
+  ##### msvc 2017 ########
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    GENERATORS: "Visual Studio 15 2017 Win64"
+    BUILD_TARGERT: windows_msvc
+    TOOLCHAIN_VERSION: 15
+    QT_ROOT: C:\Qt\5.13\msvc2017_64
+    BUILD_ARCH: x64
+    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/windows_msvc15_x64_Release_qt5.13.2_v0.3.2.zip
+  
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    GENERATORS: "Visual Studio 15 2017"
+    BUILD_TARGERT: windows_msvc
+    TOOLCHAIN_VERSION: 15
+    QT_ROOT: C:\Qt\5.12\msvc2017
+    BUILD_ARCH: x86
+    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/windows_msvc15_x86_Release_qt5.12.6_v0.3.2.zip
+
+  ##### msvc 2015 ########
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 14 2015"
+    TOOLCHAIN_VERSION: 14
+    QT_ROOT: C:\Qt\5.6\msvc2015
+    BUILD_ARCH: x86
+    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/windows_msvc14_x86_Release_qt5.9.9_v0.3.2.zip
+
+  - BUILD_TARGERT: windows_msvc
+    GENERATORS: "Visual Studio 14 2015 Win64"
+    TOOLCHAIN_VERSION: 14
+    QT_ROOT: C:\Qt\5.10\msvc2015_64
+    BUILD_ARCH: x64
+    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/windows_msvc14_x64_Release_qt5.10.1_v0.3.2.zip
+
+  ##### mingw ########
   - BUILD_TARGERT: windows_mingw
-    RABBIT_TOOLCHAIN_VERSION: 530
-    QT_ROOT: C:/Qt/5.9/mingw53_32
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x86
-    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/h5tp74nyh2qfl1fr/artifacts/windows_mingw530_32_x86_Qt5.9.9_%24(APPVEYOR_REPO_TAG_NAME).zip
-  
-  - BUILD_TARGERT: windows_mingw
-    RABBIT_TOOLCHAIN_VERSION: 530
-    QT_ROOT: C:/Qt/5.9/mingw53_32
-    CMAKE: cmake
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x86
-    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/h5tp74nyh2qfl1fr/artifacts/windows_mingw530_32_x86_Qt5.9.9_%24(APPVEYOR_REPO_TAG_NAME).zip
+    GENERATORS: "MSYS Makefiles"
+    TOOLCHAIN_VERSION: 530_32
+    QT_ROOT: C:\Qt\5.9\mingw53_32
+    BUILD_ARCH: x86
+    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/windows_mingw530_32_x86_Release_qt5.9.9_v0.3.2.zip
 
-  #- BUILD_TARGERT: windows_mingw
-  #  RABBIT_TOOLCHAIN_VERSION: 530
-  #  QT_ROOT: C:/Qt/5.9/mingw53_32
-  #  RABBIT_CONFIG: Release
-  #  RABBIT_ARCH: x86
-  #  DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/kfu4fum7a690jvtw/artifacts/RABBIT_windows_mingw530_x86_qt5.9.3_Release_v0.0.3-50-g1ba427c.zip
-
-  #- BUILD_TARGERT: windows_mingw
-  #  RABBIT_TOOLCHAIN_VERSION: 530
-  #  QT_ROOT: C:/Qt/5.8/mingw53_32
-  #  RABBIT_CONFIG: Release
-  #  RABBIT_ARCH: x86
-  #  DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/7chrumn1esg8caek/artifacts/RABBIT_windows_mingw530_x86_qt5.8.0_Release_v0.0.3-50-g1ba427c.zip
-
-  #- BUILD_TARGERT: windows_mingw
-  #  RABBIT_TOOLCHAIN_VERSION: 492
-  #  QT_ROOT: C:/Qt/5.6/mingw53_32
-  #  RABBIT_CONFIG: Release
-  #  RABBIT_ARCH: x86
-  #  DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/whnxjhowqyo1r9yp/artifacts/RABBIT_windows_mingw492_x86_qt5.6.2_Release_v0.0.3-16-gdf93da8.zip
-  
-  ##### vs2017 #####
-  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 15
-    QT_ROOT: C:/Qt/5.10/msvc2017_64
-    CMAKE: cmake
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x64
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc15_x64_qt5.10.1_Release_v0.0.5.zip
-
-  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 15
-    QT_ROOT: C:/Qt/5.9/msvc2017_64
-    CMAKE: cmake
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x64
-    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/knf4uec0x8pjityk/artifacts/RABBIT_windows_msvc15_x64_qt5.9.7_Release_v0.0.5-76-g2749b39.zip
-
-  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 15
-    QT_ROOT: C:/Qt/5.10/msvc2017_64
-    RABBIT_CONFIG: Debug
-    RABBIT_ARCH: x64
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc15_x64_qt5.10.1_Debug_v0.0.5.zip
-  
-  ##### vs2015 #####  
-  - BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:/Qt/5.10/msvc2015_64
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x64
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc14_x64_qt5.10.1_Release_v0.0.5.zip
-
-  - BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:/Qt/5.10/msvc2015
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x86
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc14_x86_qt5.10.1_Release_v0.0.5.zip
-  
-  - BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:/Qt/5.9/msvc2015_64
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x64
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc14_x64_qt5.9.5_Release_v0.0.5.zip
-
-  - BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:/Qt/5.9/msvc2015
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x86
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc14_x86_qt5.9.5_Release_v0.0.5.zip
-  
-  #- BUILD_TARGERT: windows_msvc
-  #  RABBIT_TOOLCHAIN_VERSION: 14
-  #  QT_ROOT: C:/Qt/5.8/msvc2015_64
-  #  RABBIT_CONFIG: Release
-  #  RABBIT_ARCH: x64
-  #  DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/2vn02apnl1gj5gj5/artifacts/RABBIT_windows_msvc14_x64_qt5.8.0_Release_v0.0.4.zip
-
-  #- BUILD_TARGERT: windows_msvc
-  #  RABBIT_TOOLCHAIN_VERSION: 14
-  #  QT_ROOT: C:/Qt/5.8/msvc2015
-  #  RABBIT_CONFIG: Release
-  #  RABBIT_ARCH: x86
-  #  DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/k6rd2kohtjwmdr4i/artifacts/RABBIT_windows_msvc14_x86_qt5.8.0_Release_v0.0.4.zip
-  
-  - BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:/Qt/5.6/msvc2015_64
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x64
-    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/t2nmgb21cmj7isf8/artifacts/RABBIT_windows_msvc14_x64_qt5.6.3_Release_v0.0.5-76-g2749b39.zip
-  
-  - BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:/Qt/5.6/msvc2015
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x86
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc14_x86_qt5.6.3_Release_v0.0.5.zip
-  
-  ##### vs013 #####
-  - BUILD_TARGERT: windows_msvc
-    RABBIT_TOOLCHAIN_VERSION: 12
-    QT_ROOT: C:/Qt/5.6/msvc2013_64
-    RABBIT_CONFIG: Release
-    RABBIT_ARCH: x64
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_windows_msvc12_x64_qt5.6.3_Release_v0.0.5.zip
-  
-  ##### android ####
+  ##### android ########
   - BUILD_TARGERT: android
-    RABBIT_TOOLCHAIN_VERSION: 4.9
-    ANDROID_NATIVE_API_LEVEL: 18
-    RABBIT_ARCH: arm
-    QT_VERSION: 5.9.5
-    QT_VERSION_DIR: 5.9
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.0.5/RABBIT_android18_arm_qt5.9.5_Release_v0.0.5.zip
+    GENERATORS: "MSYS Makefiles"
+    BUILD_ARCH: "armeabi-v7a"
+    ANDROID_ARM_NEON: ON
+    DOWNLOAD_QT: TRUE
+    QT_VERSION_DIR: 5.12
+    QT_VERSION: 5.12.6
+    ANDROID_API: android-24
+    TOOLCHAIN_VERSION: 4.9
+    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/android4.9_arm_Release_qt5.12.6_v0.3.2_in_windows.zip
+
+  - BUILD_TARGERT: android
+    GENERATORS: "MSYS Makefiles"
+    BUILD_ARCH: "arm64-v8a"
+    ANDROID_ARM_NEON: ON
+    DOWNLOAD_QT: TRUE
+    QT_VERSION_DIR: 5.12
+    QT_VERSION: 5.12.6
+    ANDROID_API: android-24
+    TOOLCHAIN_VERSION: 4.9
+    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/android4.9_arm64_Release_qt5.12.6_v0.3.2_in_windows.zip
 
 matrix:
   fast_finish: false
 
 init:
-  - set varch=%RABBIT_ARCH%
-  - set PROJECT_NAME=%APPVEYOR_PROJECT_NAME%
-  - echo "PROJECT_NAME:%PROJECT_NAME%"
-  - if "%QT_VERSION%" == "" set QT_VERSION=NO
-  - if "%RABBIT_ARCH%" == "x64" set varch=amd64
-  - if "%BUILD_TARGERT%" == "windows_msvc" if %RABBIT_TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %RABBIT_TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %varch%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %varch%)
-  - if "%BUILD_TARGERT%" == "windows_mingw" set MSYSTEM=MINGW32  #设置编译系统为MINGW32
-  - if NOT "%QT_ROOT%" == "NO" for /f "delims=" %%i in ('%QT_ROOT%/bin/qmake -query QT_VERSION') do (set QT_VERSION=%%i)
-  - echo QT_VERSION=%QT_VERSION%
+  - set varch=%BUILD_ARCH%
+  - if "%BUILD_ARCH%" == "x64" set varch=amd64
+  - if "%BUILD_TARGERT%" == "windows_msvc" if %TOOLCHAIN_VERSION% LSS 15 (call "C:\Program Files (x86)\Microsoft Visual Studio %TOOLCHAIN_VERSION%.0\VC\vcvarsall.bat" %varch%) else (call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %varch%)  
+  - echo NUMBER_OF_PROCESSORS=%NUMBER_OF_PROCESSORS%
+  - echo PROCESSOR_IDENTIFIER=%PROCESSOR_IDENTIFIER%
+  - if NOT "%QT_ROOT%" == "NO" for /f "delims=" %%i in ('%QT_ROOT%/bin/qmake -query QT_VERSION') do (set QT_VERSION=%%i) 
   - echo QT_ROOT=%QT_ROOT%
+  - echo QT_VERSION=%QT_VERSION%
+  - if "%BUILD_TARGERT%" == "windows_mingw" set MSYSTEM=MINGW32  #设置编译系统为MINGW32
   - del C:\msys64\usr\bin\link.exe
-  
+
 install:
-  - for /f "delims=" %%i in ('git describe --tags') do (set BUILD_VERSION=%%i)
-  - if "%BUILD_VERSION%" == "" for /f "delims=" %%i in ('git rev-parse HEAD') do (set BUILD_VERSION=%%i) 
-  - echo BUILD_VERSION=%BUILD_VERSION%
-  #- C:\msys64\usr\bin\pacman.exe -Syu --noconfirm 
-  - C:\msys64\usr\bin\pacman.exe -S --noconfirm unzip expect
-  #- C:\msys64\autorebase.bat
-  - if "%RABBIT_ARCH%" == "x64" if "%BUILD_TARGERT%" == "windows_mingw" set BUILD_EXIT=TRUE
-  - if "%RABBIT_ARCH%" == "x86" if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" if NOT "%QT_ROOT%" == "NO" set BUILD_EXIT=TRUE
-  
+  - C:\msys64\autorebase.bat
+  - C:\msys64\usr\bin\pacman.exe -S --noconfirm unzip
+  #- if "%BUILD_TARGERT%"=="windows_mingw" set PATH=C:\Qt\Tools\mingw%TOOLCHAIN_VERSION%_32\bin;%PATH%
+  - if "%BUILD_TARGERT%" == "windows_mingw" set MSYSTEM=MINGW32  #设置编译系统为MINGW32
+
 before_build:
-  - git submodule update --init --recursive
   - cd %APPVEYOR_BUILD_FOLDER%
-  - if "%BUILD_TARGERT%" == "android" C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ci\build-install-tools-windows.sh
+  - git submodule update --init --recursive
+  - git clone https://github.com/KangLin/RabbitCommon.git
+  - set RabbitCommon_DIR=%APPVEYOR_BUILD_FOLDER%/RabbitCommon
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ci\build-install-tools-windows.sh
 
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
-  - if NOT "%BUILD_EXIT%" == "TRUE" C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ci\build.sh
-  - if NOT "%BUILD_EXIT%" == "TRUE" if "%BUILD_TARGERT%" == "windows_msvc" copy "%APPVEYOR_BUILD_FOLDER%\Install\Install.nsi" "%APPVEYOR_BUILD_FOLDER%\build_%BUILD_TARGERT%"  && cd "%APPVEYOR_BUILD_FOLDER%\build_%BUILD_TARGERT%" && "C:\Program Files (x86)\NSIS\makensis.exe" "Install.nsi"
-
-#after_build:
+  - C:\msys64\usr\bin\bash.exe %APPVEYOR_BUILD_FOLDER%\ci\build.sh
 
 artifacts:
-  - path: build_${BUILD_TARGERT}/RabbitIM-Setup-*.exe
-    name: RabbitIM_$(BUILD_TARGERT)$(RABBIT_TOOLCHAIN_VERSION)_$(RABBIT_ARCH)_qt$(QT_VERSION)_$(RABBIT_CONFIG)_$(BUILD_VERSION)
+  - path: build_$(BUILD_TARGERT)\RabbitIm-Setup-*.exe
+    name: RabbitIm_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(BUILD_ARCH)_$(QT_VERSION)_$(appveyor_build_version)
     type: zip
 
 test: off
@@ -209,9 +137,10 @@ deploy:
     #artifact: RabbitGIS_$(BUILD_TARGERT)$(TOOLCHAIN_VERSION)_$(AUTOBUILD_ARCH)_$(QT_VERSION)_v$(appveyor_build_version)
     #draft: true
     #prerelease: true
+    force_update: true
     on:
       BUILD_TARGERT: windows_msvc
       TOOLCHAIN_VERSION: 14
-      QT_VERSION: qt5.6.2
-      AUTOBUILD_ARCH: x86
+      QT_VERSION: 5.6.3
+      BUILD_ARCH: x86
       appveyor_repo_tag: true        # deploy on tag push only
