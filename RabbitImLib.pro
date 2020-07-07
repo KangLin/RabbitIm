@@ -20,7 +20,7 @@ isEmpty(PREFIX) {
     android {
         PREFIX = /.
     } else {
-        PREFIX = $$OUT_PWD/install
+        PREFIX = $$DESTDIR/install
     } 
 }
 

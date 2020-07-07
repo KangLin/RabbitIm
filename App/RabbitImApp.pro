@@ -45,7 +45,7 @@ isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
 isEmpty(PREFIX) {
     qnx : PREFIX = /tmp
     else : android : PREFIX = /.
-    else : PREFIX = $$OUT_PWD/install
+    else : PREFIX = $$DESTDIR/install
 }
 other.files = ../License.md ../Authors.txt ../ChangeLog.md
 android: other.path = $$PREFIX/assets
