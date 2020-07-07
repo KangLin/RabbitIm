@@ -61,7 +61,7 @@ win32{
     icon.CONFIG += directory no_check_exist
 
     install.files = ../Install/Install.nsi
-    install.path = $$OUT_PWD
+    install.path = $$OUT_PWD/..
     install.CONFIG += directory no_check_exist
     INSTALLS += install icon
 }

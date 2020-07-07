@@ -196,6 +196,7 @@ if [ -n "$GENERATORS" ]; then
     if [ -n "${ANDROID_ARM_NEON}" ]; then
         CONFIG_PARA="${CONFIG_PARA} -DANDROID_ARM_NEON=${ANDROID_ARM_NEON}"
     fi
+    CONFIG_PARA="${CONFIG_PARA} -DTHIRD_LIBRARY_PATH=$ThirdLibs_DIR"
     if [ "${BUILD_TARGERT}" = "android" ]; then
         if [ -d "$ThirdLibs_DIR" ]; then
             CONFIG_PARA="${CONFIG_PARA} -DOPENSSL_ROOT_DIR=$ThirdLibs_DIR"
@@ -231,11 +232,13 @@ else
     if [ "ON" = "${STATIC}" ]; then
         CONFIG_PARA="CONFIG*=static"
     fi
+    
+    CONFIG_PARA="${CONFIG_PARA} THIRD_LIBRARY_PATH=$ThirdLibs_DIR"
+    
     if [ "${BUILD_TARGERT}" = "android" ]; then
         if [ -d "$ThirdLibs_DIR" ]; then
             CONFIG_PARA="${CONFIG_PARA} OPENSSL_ROOT_DIR=$ThirdLibs_DIR"
         fi
-
         echo "${QT_ROOT}/bin/qmake ${SOURCE_DIR} CONFIG+=release ${CONFIG_PARA} ANDROID_ABIS=$BUILD_ARCH"
         if version_ge $QT_VERSION_DIR 5.14 ; then
             ${QT_ROOT}/bin/qmake ${SOURCE_DIR} \

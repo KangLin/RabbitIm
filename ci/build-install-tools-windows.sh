@@ -1,67 +1,70 @@
 #!/bin/bash 
 #下载工具  
 
+# DOWNLOAD_THIRDLIBS_URL: 第三方库的下载地址
+# DOWNLOAD_QT: TRUE 从 http://download.qt.io/official_releases/qt 下载QT
+# QT_VERSION：Qt 版本号
+# QT_VERSION_DIR：
+
 set -ev
 
 SOURCE_DIR="`pwd`"
-echo $SOURCE_DIR
+echo "SOURCE_DIR:$SOURCE_DIR"
 TOOLS_DIR=${SOURCE_DIR}/Tools
 PACKAGE_DIR=${SOURCE_DIR}/Package
 ThirdLibs_DIR=${TOOLS_DIR}/ThirdLibs
 echo ${TOOLS_DIR}
 
-if [ "$BUILD_TARGERT" = "android" ]; then
-    export ANDROID_SDK_ROOT=${TOOLS_DIR}/android-sdk
-    export ANDROID_NDK_ROOT=${TOOLS_DIR}/android-ndk
-    export JAVA_HOME="/C/Program Files (x86)/Java/jdk1.8.0"
-    export PATH=${TOOLS_DIR}/apache-ant/bin:$JAVA_HOME:$PATH
-else
-    exit 0
-fi
-
 if [ ! -d "${TOOLS_DIR}" ]; then
     mkdir ${TOOLS_DIR}
 fi
-if [ ! -d "$PACKAGE_DIR" ]; then
-    mkdir -p $PACKAGE_DIR
-fi
-cd ${TOOLS_DIR}
 
-# Qt qt安装参见：https://github.com/benlau/qtci  
-if [ -n "${QT_VERSION}" ]; then
-    QT_DIR=C:/projects/${APPVEYOR_PROJECT_NAME}/Tools/Qt/${QT_VERSION}
-    if [ ! -d "${QT_DIR}" ]; then
-        wget -c --no-check-certificate -nv http://download.qt.io/official_releases/qt/${QT_VERSION_DIR}/${QT_VERSION}/qt-opensource-windows-x86-${QT_VERSION}.exe
-        bash ${SOURCE_DIR}/ci/qt-installer.sh qt-opensource-windows-x86-${QT_VERSION}.exe ${QT_DIR}
-        rm qt-opensource-windows-x86-${QT_VERSION}.exe
+if [ ! -d ${ThirdLibs_DIR} ]; then
+    mkdir -p ${ThirdLibs_DIR}
+fi
+
+if [ ! -d ${PACKAGE_DIR} ]; then
+    mkdir -p ${PACKAGE_DIR}
+fi
+
+function function_common()
+{
+    cd ${TOOLS_DIR}
+    
+    # Download third libraries
+    if [ -n "$DOWNLOAD_THIRDLIBS_URL" ]; then
+        cd ${ThirdLibs_DIR}
+        echo "ThirdLibs_DIR:`pwd`"
+        ThirdLibs_File=third_libs.zip
+        wget -c -nv --no-check-certificate $DOWNLOAD_THIRDLIBS_URL -O $ThirdLibs_File
+        unzip -q $ThirdLibs_File
     fi
-fi
 
-# Download third libraries
-if [ -n "$DOWNLOAD_THIRDLIBS_URL" ]; then
-    if [ ! -d ${ThirdLibs_DIR} ]; then
-        mkdir -p ${ThirdLibs_DIR}
+    # Qt qt安装参见：https://github.com/benlau/qtci
+    cd ${TOOLS_DIR}
+    if [ "$DOWNLOAD_QT" = "TRUE" ]; then
+        QT_DIR=C:/projects/${APPVEYOR_PROJECT_NAME}/Tools/Qt/${QT_VERSION}
+        if [ ! -d "${QT_DIR}" ]; then
+            #cd ${PACKAGE_DIR}
+            wget -c --no-check-certificate -nv http://download.qt.io/official_releases/qt/${QT_VERSION_DIR}/${QT_VERSION}/qt-opensource-windows-x86-${QT_VERSION}.exe
+            bash ${SOURCE_DIR}/ci/qt-installer.sh qt-opensource-windows-x86-${QT_VERSION}.exe ${QT_DIR}
+            rm qt-opensource-windows-x86-${QT_VERSION}.exe
+        fi
     fi
-    cd ${ThirdLibs_DIR}
-    ThirdLibs_File=third_libs.tar.gz
-    wget -c --no-check-certificate $DOWNLOAD_THIRDLIBS_URL -O $ThirdLibs_File
-    tar xzvf $ThirdLibs_File
-fi
+    
+    cd ${SOURCE_DIR}
+}
 
-cd ${TOOLS_DIR}
-
-#下载ANT 
-#wget -c -nv http://apache.fayea.com//ant/binaries/apache-ant-1.10.1-bin.tar.gz
-#tar xzf apache-ant-1.10.1-bin.tar.gz
-#rm -f apache-ant-1.10.1-bin.tar.gz
-#mv apache-ant-1.10.1 apache-ant
-
-cd ${TOOLS_DIR}
+function function_windows_msvc()
+{
+    function_common
+    cd ${SOURCE_DIR}
+}
 
 function install_android()
 {
     cd ${TOOLS_DIR}
-    
+
     if [ -n "$1" ]; then
         NDK="ndk-bundle"
     fi
@@ -81,7 +84,7 @@ function install_android()
         rm android-studio-ide-${ANDROID_STUDIO_VERSION}-windows.zip
         export JAVA_HOME=${TOOLS_DIR}/android-studio/jre
         export PATH=${JAVA_HOME}/bin:$PATH
-        
+
         SDK_VERSION=4333796
         cd ${PACKAGE_DIR}
         if [ ! -f sdk-tools-windows-${SDK_VERSION}.zip ]; then
@@ -93,7 +96,7 @@ function install_android()
         mv ${PACKAGE_DIR}/sdk-tools-windows-${SDK_VERSION}.zip .
         unzip -q sdk-tools-windows-${SDK_VERSION}.zip
         rm sdk-tools-windows-${SDK_VERSION}.zip
-    
+
         echo "Install sdk and ndk ......"
         if [ -n "${ANDROID_API}" ]; then
             PLATFORMS="platforms;${ANDROID_API}"
@@ -125,11 +128,39 @@ function install_android_sdk_and_ndk()
     if [ ! -f ${NDK_PACKAGE} ]; then
         wget -c -nv https://dl.google.com/android/repository/${NDK_PACKAGE}
     fi
+    echo "unzip -q ${NDK_PACKAGE} -d ${TOOLS_DIR}"
     unzip -q ${NDK_PACKAGE} -d ${TOOLS_DIR}
     cd ${TOOLS_DIR}
     mv android-ndk-r21 android-ndk
 }
 
-cd ${SOURCE_DIR}
+function function_android()
+{
+    install_android_sdk_and_ndk
+    function_common
 
-install_android_sdk_and_ndk
+    cd ${TOOLS_DIR}
+}
+
+function function_mingw()
+{
+    function_common
+    cd ${SOURCE_DIR}
+}
+
+case ${BUILD_TARGERT} in
+    android)
+        function_android
+        ;;
+    windows_msvc)
+        function_windows_msvc
+        ;;
+    windows_mingw)
+        function_mingw
+        ;;
+    *)
+    echo "There aren't ${BUILD_TARGERT}"
+        ;;
+esac
+
+cd ${SOURCE_DIR}
