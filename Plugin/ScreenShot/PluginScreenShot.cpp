@@ -4,9 +4,9 @@
 #include <QClipboard>
 #include <QMessageBox>
 #include <QStandardPaths>
-#include "Tool.h"
+#include "common/Tool.h"
 #include "FileTransfer/ManageFileTransfer.h"
-#include "QRCode.h"
+#include "common/QRCode.h"
 
 CPluginScreenShot::CPluginScreenShot(QObject *parent) :
     QObject(parent), 

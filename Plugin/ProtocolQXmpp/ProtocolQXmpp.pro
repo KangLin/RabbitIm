@@ -54,9 +54,9 @@ equals(RABBITIM_USE_WEBRTC, 1){
         WebrtcFilter.h \ 
         WebrtcQtSocketServer.h
 }else{
-    SOURCES +=  ManageCallXmpp.cpp \
+    SOURCES += ManageCallXmpp.cpp \
         CallObjectQXmpp.cpp
     
-    HEADERS +=  ManageCallXmpp.h \
+    HEADERS += ManageCallXmpp.h \
         CallObjectQXmpp.h 
 }

@@ -2,16 +2,16 @@ TEMPLATE = subdirs
 
 ThirdLibrary.file = ThirdLibrary/RabbitThirdLibrary.pro
 RabbitCommon.file = ThirdLibrary/RabbitCommon.pro
-RabbitImLib.file = RabbitImLib.pro
-RabbitImLib.depends = RabbitCommon
-Plugin.depends = RabbitImLib
+Src.file = Src/Src.pro
+Src.depends = RabbitCommon
+Plugin.depends = Src RabbitCommon
 RabbitImApp.file = App/RabbitImApp.pro
-RabbitImApp.depends = RabbitCommon RabbitImLib Plugin
+RabbitImApp.depends = RabbitCommon Src Plugin
 
 CONFIG *= ordered
 SUBDIRS *= ThirdLibrary \
     RabbitCommon \
-    RabbitImLib \
+    Src \
     Plugin \
     RabbitImApp
 

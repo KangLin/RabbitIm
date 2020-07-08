@@ -1,6 +1,6 @@
 #include "UserInfoXmpp.h"
 #include "qxmpp/QXmppUtils.h"
-#include "../Global/Global.h"
+#include "Global/Global.h"
 #include <QImageWriter>
 #include <QImageReader>
 #include <QBuffer>

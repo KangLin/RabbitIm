@@ -24,7 +24,7 @@
 #include <QScreen>
 #include <QImage>
 #include "DlgScreenShot.h"
-#include "../../Global/Global.h"
+#include "Global/Global.h"
 
 CDlgScreenShot::CDlgScreenShot(QWidget *parent)
     :QDialog(parent,

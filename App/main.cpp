@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 #include "Widgets/FrmVideo/FrmPlayer.h"
 #include "Global/Global.h"
-#include "Tool.h"
+#include "common/Tool.h"
 #include <QDebug>
 #include <QApplication>
 #include <QTranslator>

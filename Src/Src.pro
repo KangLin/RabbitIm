@@ -8,34 +8,34 @@ TARGET = RabbitIm
 TEMPLATE = lib
 !CONFIG(static, static|shared) : DEFINES += BUILD_SHARED_LIBS #windows下动态库导出
 
-CONFIG += create_prl no_install_prl create_pc no_install_pc 
+CONFIG += create_prl no_install_prl create_pc no_install_pc
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
 #设置目标输出目录
-isEmpty(DESTDIR): DESTDIR = $$OUT_PWD
-win32: DEFINES += DLL_EXPORT
+isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/..
+win32: DEFINES *= DLL_EXPORT
 
-#安装前缀  
+INCLUDEPATH *= common Widgets/FrmCustom
+
+#安装前缀
 isEmpty(PREFIX) {
-    android {
-        PREFIX = /.
-    } else {
-        PREFIX = $$DESTDIR/install
-    } 
+    qnx : PREFIX = /tmp
+    else : android : PREFIX = /.
+    else : PREFIX = $$DESTDIR/install
 }
 
-#修改文件中的第三方库配置  
-include(pri/ThirdLibraryConfig.pri)
-include(pri/ThirdLibrary.pri)
-include(pri/ThirdLibraryJoin.pri)
-include(pri/RabbitImFiles.pri)
+#修改文件中的第三方库配置
+include(../pri/ThirdLibraryConfig.pri)
+include(../pri/ThirdLibrary.pri)
+include(../pri/ThirdLibraryJoin.pri)
+include(Files.pri)
 
-#发行版本才更新更新配置  
-include(pri/RabbitImVersion.pri)
+#发行版本才更新更新配置
+include(../pri/RabbitImVersion.pri)
 
 #翻译资源
 isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$(RabbitCommon_DIR)
-isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../RabbitCommon
+isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../../RabbitCommon
 !isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/Src.pro") {
     include($${RabbitCommon_DIR}/pri/Translations.pri)
 } else {
@@ -47,10 +47,10 @@ isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../RabbitCommon
 
 target.path = $$PREFIX
 !android : INSTALLS += target
-#android : CONFIG += static   #TODO：android < 18时，动态库加载会失败（可能是有未支持的函数），原因不明   
+#android : CONFIG += static   #TODO：android < 18时，动态库加载会失败（可能是有未支持的函数），原因不明
 
-#ANDROID 平台相关内容  
-android : include(android/jni/android_jni.pri)
+#ANDROID 平台相关内容
+android : include(../android/jni/android_jni.pri)
 
 win32:equals(QMAKE_HOST.os, Windows){
 
@@ -68,6 +68,6 @@ win32:equals(QMAKE_HOST.os, Windows){
                     --compiler-runtime \
                     --verbose 7 \
                     "$${INSTALL_TARGET}"
-    
+
     INSTALLS += Deployment_qtlib
 }

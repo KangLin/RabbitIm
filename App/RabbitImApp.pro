@@ -9,12 +9,12 @@ TEMPLATE = app
 
 #设置目标输出目录  
 isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/..
-
-LIBS += -L$$DESTDIR
+INCLUDEPATH *= ../Src
+LIBS *= -L$$DESTDIR
 
 include(../pri/ThirdLibraryConfig.pri)
 CONFIG(static, static|shared) {
-    CONFIG *= link_prl
+    #CONFIG *= link_prl
     include(../Plugin/PluginStatic.pri)
 } else {
     DEFINES += BUILD_SHARED_LIBS #windows下动态库
@@ -82,7 +82,7 @@ INSTALLS += other target
 }
 
 #ANDROID 平台相关内容  
-android : include(android/android.pri)
+android : include(../android/android.pri)
 
 win32 : equals(QMAKE_HOST.os, Windows){
     

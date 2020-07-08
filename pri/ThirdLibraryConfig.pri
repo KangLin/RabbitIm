@@ -11,17 +11,17 @@ qtHaveModule(webkit) {
 DEFINES *= RABBITIM
 CONFIG *= c++11
 msvc{
-    QMAKE_CXXFLAGS *= " /MP "
+    QMAKE_CXXFLAGS *= "/MP"
 }
 
 CONFIG(debug, debug|release)  {
     #调试宏   
-    DEFINES += DEBUG #DEBUG_VIDEO_TIME  
+    DEFINES *= DEBUG #DEBUG_VIDEO_TIME  
 }
 
 #android选项中包含了unix选项，所以在写工程如下条件判断时，必须把android条件放在unix条件前  
 win32 {
-    DEFINES += WINDOWS
+    DEFINES *= WINDOWS
     RABBITIM_SYSTEM = "windows"
 
     contains(QMAKE_TARGET.arch, x86_64){
@@ -32,7 +32,7 @@ win32 {
 
     RABBIT_TOOLCHAIN_VERSION=$$(RABBIT_TOOLCHAIN_VERSION)
     msvc {
-        QMAKE_CXXFLAGS += /wd"4819 /utf-8"  #忽略msvc下对utf-8的警告,支持UTF-8编码  
+        QMAKE_CXXFLAGS *= /wd"4819 /utf-8"  #忽略msvc下对utf-8的警告,支持UTF-8编码  
         #QMAKE_LFLAGS += -ladvapi32
         
         RABBITIM_PLATFORM = "windows_msvc"
@@ -57,14 +57,14 @@ win32 {
                 RABBIT_TOOLCHAIN_VERSION=492
             }
         }
-        DEFINES += "_WIN32_WINNT=0x0501" #__USE_MINGW_ANSI_STDIO
+        DEFINES *= "_WIN32_WINNT=0x0501" #__USE_MINGW_ANSI_STDIO
     }
 
 } else:unix {
     message("unix: QMAKE_TARGET.arch:$$QMAKE_TARGET.arch")
     RABBITIM_SYSTEM = unix
     RABBITIM_PLATFORM = unix
-    DEFINES += UNIX
+    DEFINES *= UNIX
 
     contains(QMAKE_TARGET.arch, x86_64){
         RABBITIM_ARCHITECTURE = "x64"
@@ -80,8 +80,7 @@ win32 {
     RABBITIM_ARCHITECTURE = $${ANDROID_ARCHITECTURE}
     API=$$(ANDROID_NDK_PLATFORM)
     RABBIT_TOOLCHAIN_VERSION=$$split(API, "android-")
-    DEFINES += ANDROID MOBILE
-
+    DEFINES *= ANDROID MOBILE
 }
 
 isEmpty(RABBIT_CONFIG) {
@@ -107,17 +106,17 @@ CONFIG(static, static|shared) {
 #    CONFIG += staticlib #生成静态库    
 #    CONFIG += shared    #生成动态库  
 }else{
-    DEFINES += BUILD_SHARED_LIBS #windows下动态库
+    DEFINES *= BUILD_SHARED_LIBS #windows下动态库
 }
 message("THIRD_LIBRARY_PATH=$${THIRD_LIBRARY_PATH}")
 !exists($$THIRD_LIBRARY_PATH) : warning("Please set THIRD_LIBRARY_PATH")
 
-INCLUDEPATH *= $$PWD/.. $$PWD/../common $$PWD/../Widgets/FrmCustom
+INCLUDEPATH *= $$PWD/..
 INCLUDEPATH *= $${THIRD_LIBRARY_PATH}/include
 #DEPENDPATH *= $${THIRD_LIBRARY_PATH}/include
 LIBS *= -L$${THIRD_LIBRARY_PATH}/lib
-android : LIBS += -L$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}
-LIBS += $$LDFLAGS
+android : LIBS *= -L$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}
+LIBS *= $$LDFLAGS
 CONFIG(debug, debug|release) {
     LIBS *= -L$${THIRD_LIBRARY_PATH}/lib/Debug
 } else {
