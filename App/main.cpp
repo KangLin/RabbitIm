@@ -7,6 +7,9 @@
 #include <QTranslator>
 #include <QSsl>
 #include <QSslSocket>
+#ifdef RABBITCOMMON
+    #include "RabbitCommonTools.h"
+#endif
 
 int main(int argc, char *argv[])
 {
