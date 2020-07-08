@@ -45,7 +45,8 @@ isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../../RabbitCommon
     error  ("2. Then set environment variable RabbitCommon_DIR to download dirctory")
 }
 
-target.path = $$PREFIX
+win32: target.path = $$PREFIX/bin
+else: target.path = $$PREFIX/lib
 !android : INSTALLS += target
 #android : CONFIG += static   #TODO：android < 18时，动态库加载会失败（可能是有未支持的函数），原因不明
 
@@ -54,7 +55,7 @@ android : include(../android/jni/android_jni.pri)
 
 win32:equals(QMAKE_HOST.os, Windows){
 
-    INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET))  #$(TARGET)是qmake产生脚本中的引用
+    INSTALL_TARGET = $$system_path($${PREFIX}/bin/$(TARGET))  #$(TARGET)是qmake产生脚本中的引用
 
     #mingw{  #手机平台不需要  
     #    RABBITIM_STRIP.target = RABBITIM_STRIP
@@ -63,7 +64,7 @@ win32:equals(QMAKE_HOST.os, Windows){
     #}
     #安装qt依赖库  
     Deployment_qtlib.target = Deployment_qtlib
-    Deployment_qtlib.path = $$system_path($${PREFIX})
+    Deployment_qtlib.path = $$system_path($${PREFIX}/bin)
     Deployment_qtlib.commands = "$$system_path($$[QT_INSTALL_BINS]/windeployqt)" \
                     --compiler-runtime \
                     --verbose 7 \

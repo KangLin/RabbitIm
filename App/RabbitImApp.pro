@@ -51,7 +51,7 @@ other.files = ../License.md ../Authors.txt ../ChangeLog.md
 android: other.path = $$PREFIX/assets
 else: other.path = $$PREFIX
 other.CONFIG += directory no_check_exist 
-target.path = $$PREFIX
+target.path = $$PREFIX/bin
 win32{
     #应用程序图标  
     RC_FILE = AppIcon.rc
@@ -86,7 +86,7 @@ android : include(../android/android.pri)
 
 win32 : equals(QMAKE_HOST.os, Windows){
     
-    INSTALL_TARGET = $$system_path($${PREFIX}/$(TARGET)) #$(TARGET)是qmake产生脚本中的引用
+    INSTALL_TARGET = $$system_path($${PREFIX}/bin/$(TARGET)) #$(TARGET)是qmake产生脚本中的引用
     
     #mingw{  #手机平台不需要  
     #    RABBITIM_STRIP.target = RABBITIM_STRIP
@@ -95,7 +95,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
     #}
     #安装qt依赖库  
     Deployment_qtlib.target = Deployment_qtlib
-    Deployment_qtlib.path = $$system_path($${PREFIX})
+    Deployment_qtlib.path = $$system_path($${PREFIX}/bin)
     Deployment_qtlib.commands = "$$system_path($$[QT_INSTALL_BINS]/windeployqt)" \
                     --compiler-runtime \
                     --verbose 7 \
@@ -104,12 +104,12 @@ win32 : equals(QMAKE_HOST.os, Windows){
     #安装第三方依赖库  
     Deployment_third_lib.target = Deployment_third_lib
     Deployment_third_lib.files = $$system_path($${THIRD_LIBRARY_PATH}/lib/*.dll)
-    Deployment_third_lib.path = $$system_path($$PREFIX)
+    Deployment_third_lib.path = $$system_path($$PREFIX/bin)
     Deployment_third_lib.CONFIG += directory no_check_exist
 
     Deployment_third_bin.target = Deployment_third_bin
     Deployment_third_bin.files = $$system_path($${THIRD_LIBRARY_PATH}/bin/*.dll)
-    Deployment_third_bin.path = $$system_path($$PREFIX)
+    Deployment_third_bin.path = $$system_path($$PREFIX/bin)
     Deployment_third_bin.CONFIG += directory no_check_exist
     INSTALLS += Deployment_qtlib Deployment_third_lib Deployment_third_bin
     #QMAKE_EXTRA_TARGETS += Deployment_qtlib Deployment_third_lib Deployment_third_bin
