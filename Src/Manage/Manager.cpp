@@ -32,7 +32,7 @@ CManager::CManager():
         }
     }
 
-    QDir pluginsDir = QDir(RabbitCommon::CDir::Instance()->GetDirPlugs());
+    QDir pluginsDir = QDir(RabbitCommon::CDir::Instance()->GetDirPlugins());
 
 #if defined(Q_OS_WIN)
     if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
@@ -44,10 +44,8 @@ CManager::CManager():
         pluginsDir.cdUp();
     }
 #endif
-#ifndef Q_OS_ANDROID
-    if(pluginsDir.cd("plugins"))
-#endif
-        FindPlugins(pluginsDir);
+
+    FindPlugins(pluginsDir);
 
     //TODO:修改协议  
     ChangeProtolcol("qxmpp");

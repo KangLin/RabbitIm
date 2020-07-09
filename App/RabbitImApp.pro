@@ -12,7 +12,7 @@ isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
 
 INCLUDEPATH *= ../Src
 win32: LIBS *= -L$$DESTDIR
-else: LIBS *= $$OUT_PWD/../lib
+else: LIBS *= -L$$OUT_PWD/../lib
 LIBS += -lRabbitIm
 
 include(../pri/ThirdLibraryConfig.pri)

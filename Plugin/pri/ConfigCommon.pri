@@ -65,7 +65,7 @@ contains(TEMPLATE, lib){ #生成库
     include(translations.pri)
 } else { #生成App
     TARGET_INSTALL_PATH = $$PREFIX/bin
-    DESTDIR = $$TARGET_PATH
+    DESTDIR = $$OUT_PWD/../../bin
 }
 
 target.path = $${TARGET_INSTALL_PATH}
