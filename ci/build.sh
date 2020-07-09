@@ -121,7 +121,7 @@ if [ -z "$VERSION" ]; then
     export VERSION="v1.0.0"
 fi
 
-export UPLOADTOOL_BODY="Release Calendar ${VERSION}.<br> The change see [ChangeLog.md](ChangeLog.md) or [ChangeLog_zh_CN.md](ChangeLog_zh_CN.md)"
+export UPLOADTOOL_BODY="Release RabbitIm ${VERSION}.<br> The change see [ChangeLog.md](ChangeLog.md) or [ChangeLog_zh_CN.md](ChangeLog_zh_CN.md)"
 #export UPLOADTOOL_PR_BODY=
 if [ "${BUILD_TARGERT}" = "unix" ]; then
     cd $SOURCE_DIR
@@ -133,14 +133,14 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
     fi
     bash build_debpackage.sh ${QT_ROOT}
 
-    sudo dpkg -i ../calendar_*_amd64.deb
+    sudo dpkg -i ../rabbitim_*_amd64.deb
     echo "test ......"
     ./test/test_linux.sh
 
     #因为上面 dpgk 已安装好了，所以不需要设置下面的环境变量
-    #export LD_LIBRARY_PATH=`pwd`/debian/calendar/opt/Calendar/bin:`pwd`/debian/calendar/opt/Calendar/lib:${QT_ROOT}/bin:${QT_ROOT}/lib:$LD_LIBRARY_PATH
+    #export LD_LIBRARY_PATH=`pwd`/debian/rabbitim/opt/RabbitIm/bin:`pwd`/debian/rabbitim/opt/RabbitIm/lib:${QT_ROOT}/bin:${QT_ROOT}/lib:$LD_LIBRARY_PATH
 
-    cd debian/calendar/opt
+    cd debian/rabbitim/opt
 
     URL_LINUXDEPLOYQT=https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
     wget -c -nv ${URL_LINUXDEPLOYQT} -O linuxdeployqt.AppImage
@@ -151,30 +151,30 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
         -qmake=${QT_ROOT}/bin/qmake -appimage -no-copy-copyright-files -verbose
 
     # Create appimage install package
-    #cp ../Calendar-${VERSION}-x86_64.AppImage .
+    
     cp $SOURCE_DIR/Install/install.sh .
     cp $RabbitCommon_DIR/Install/install1.sh .
-    ln -s Calendar-${VERSION}-x86_64.AppImage Calendar-x86_64.AppImage
-    tar -czf Calendar_${VERSION}.tar.gz \
-        Calendar-${VERSION}-x86_64.AppImage \
-        Calendar-x86_64.AppImage \
+    ln -s RabbitIm-${VERSION}-x86_64.AppImage RabbitIm-x86_64.AppImage
+    tar -czf RabbitIm_${VERSION}.tar.gz \
+        RabbitIm-${VERSION}-x86_64.AppImage \
+        RabbitIm-x86_64.AppImage \
         share \
         install.sh \
         install1.sh
 
     # Create update.xml
-    MD5=`md5sum $SOURCE_DIR/../calendar_*_amd64.deb|awk '{print $1}'`
+    MD5=`md5sum $SOURCE_DIR/../rabbitim_*_amd64.deb|awk '{print $1}'`
     echo "MD5:${MD5}"
-    ./bin/CalendarApp \
+    ./bin/RabbitImApp \
         -f "`pwd`/update_linux.xml" \
         --md5 ${MD5} \
         -m "v0.3.4"
 
-    MD5=`md5sum Calendar_${VERSION}.tar.gz|awk '{print $1}'`
-    ./Calendar-x86_64.AppImage \
+    MD5=`md5sum Rabbitim_${VERSION}.tar.gz|awk '{print $1}'`
+    ./RabbitIm-x86_64.AppImage \
         -f "`pwd`/update_linux_appimage.xml" \
         --md5 ${MD5} \
-        --url "https://github.com/KangLin/Calendar/releases/download/${VERSION}/Calendar_${VERSION}.tar.gz" \
+        --url "https://github.com/KangLin/RabbitIm/releases/download/${VERSION}/Rabbitim_${VERSION}.tar.gz" \
         -m "v0.3.4" 
 
     if [ "$TRAVIS_TAG" != "" \
@@ -182,9 +182,9 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
          -a -z "$GENERATORS" ]; then
         wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
         chmod u+x upload.sh
-        ./upload.sh $SOURCE_DIR/../calendar_*_amd64.deb 
+        ./upload.sh $SOURCE_DIR/../rabbitim_*_amd64.deb 
         ./upload.sh update_linux.xml update_linux_appimage.xml
-        ./upload.sh Calendar_${VERSION}.tar.gz
+        ./upload.sh RabbitIm_${VERSION}.tar.gz
     fi
     exit 0
 fi
@@ -272,23 +272,23 @@ if [ "${BUILD_TARGERT}" = "windows_msvc" ]; then
     
     if [ -z "${STATIC}" ]; then
         "/C/Program Files (x86)/NSIS/makensis.exe" "Install.nsi"
-        MD5=`md5sum Calendar-Setup-*.exe|awk '{print $1}'`
+        MD5=`md5sum RabbitIm-Setup-*.exe|awk '{print $1}'`
         echo "MD5:${MD5}"
-        install/bin/CalendarApp.exe -f "`pwd`/update_windows.xml" --md5 ${MD5} -m "v0.3.4"
+        install/bin/RabbitImApp.exe -f "`pwd`/update_windows.xml" --md5 ${MD5} -m "v0.3.4"
         #cat update_windows.xml
     fi
 fi
 
 if [ ${BUILD_TARGERT} = "android" ]; then
     ${QT_ROOT}/bin/androiddeployqt \
-        --input `pwd`/App/android-libCalendarApp.so-deployment-settings.json \
+        --input `pwd`/App/android-libRabbitImApp.so-deployment-settings.json \
         --output `pwd`/android-build \
         --android-platform ${ANDROID_API} \
         --gradle \
         --sign ${RabbitCommon_DIR}/RabbitCommon.keystore rabbitcommon \
         --storepass ${STOREPASS}
     APK_FILE=`find . -name "android-build-release-signed.apk"`
-    APK_NAME=Calendar_${BUILD_ARCH}_${VERSION}.apk
+    APK_NAME=RabbitIm_${BUILD_ARCH}_${VERSION}.apk
     mv -f ${APK_FILE} $SOURCE_DIR/${APK_NAME}
     APK_FILE=$SOURCE_DIR/${APK_NAME}
     if [ "$TRAVIS_TAG" != "" \
@@ -298,11 +298,11 @@ if [ ${BUILD_TARGERT} = "android" ]; then
         MD5=`md5sum ${APK_FILE} | awk '{print $1}'`
         echo "MD5:${MD5}"
         sed -i "s/<VERSION>.*</<VERSION>${VERSION}</g" update_android.xml
-        sed -i "s/<INFO>.*</<INFO>Release Calendar ${VERSION}</g" update_android.xml
+        sed -i "s/<INFO>.*</<INFO>Release RabbitIm ${VERSION}</g" update_android.xml
         sed -i "s/<TIME>.*</<TIME>`date`</g" update_android.xml
         sed -i "s/<ARCHITECTURE>.*</<ARCHITECTURE>${BUILD_ARCH}</g" update_android.xml
         sed -i "s/<MD5SUM>.*</<MD5SUM>${MD5}</g" update_android.xml
-        sed -i "s:<URL>.*<:<URL>https\://github.com/KangLin/Calendar/releases/download/${VERSION}/${APK_NAME}<:g" update_android.xml
+        sed -i "s:<URL>.*<:<URL>https\://github.com/KangLin/RabbitIm/releases/download/${VERSION}/${APK_NAME}<:g" update_android.xml
         sed -i "s/<MIN_UPDATE_VERSION>.*</<MIN_UPDATE_VERSION>${VERSION}</g" update_android.xml
         
         wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
