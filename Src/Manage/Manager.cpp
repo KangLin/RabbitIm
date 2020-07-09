@@ -4,9 +4,7 @@
 #include "Global/Global.h"
 #include <QPluginLoader>
 #include <QApplication>
-#ifdef RABBITCOMMON
-
-#endif
+#include "RabbitCommonDir.h"
 
 CManager::CManager():
     m_PluginProtocol(NULL),
@@ -34,7 +32,7 @@ CManager::CManager():
         }
     }
 
-    QDir pluginsDir = QDir(qApp->applicationDirPath() + QDir::separator() + "..");
+    QDir pluginsDir = QDir(RabbitCommon::CDir::Instance()->GetDirPlugs());
 
 #if defined(Q_OS_WIN)
     if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")

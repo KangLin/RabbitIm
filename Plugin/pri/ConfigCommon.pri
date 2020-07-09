@@ -1,7 +1,4 @@
 CONFIG *= plugin 
-INCLUDEPATH *= $$PWD/..
-CONFIG *= c++0x
-msvc: QMAKE_CXXFLAGS *= "/MP"
 
 win32: TARGET_PATH=$$OUT_PWD/../../bin
 else: TARGET_PATH=$$OUT_PWD/../../lib
@@ -11,7 +8,7 @@ else: TARGET_PATH=$$OUT_PWD/../../lib
 !CONFIG(static, static|shared) : DEFINES += BUILD_SHARED_LIBS #windows下动态库导出
 
 include($$PWD/../../pri/ThirdLibraryConfig.pri)
-INCLUDEPATH *= ../../Src
+INCLUDEPATH *= .. ../../Src
 LIBS *=  -L$${TARGET_PATH} -lRabbitIm  #包含 RabbitIm 库位置
 
 include($$PWD/../../pri/ThirdLibrary.pri)
@@ -89,7 +86,7 @@ win32:equals(QMAKE_HOST.os, Windows){
     Deployment_qtlib.target = Deployment_qtlib
     Deployment_qtlib.path = $$system_path($${TARGET_INSTALL_PATH})
     Deployment_qtlib.commands = "$$system_path($$[QT_INSTALL_BINS]/windeployqt)" \
-                        --dir "$$system_path($${PREFIX})" \
+                        --dir "$$system_path($${TARGET_INSTALL_PATH})" \
                         --compiler-runtime \
                         --verbose 7 \
                         "$${INSTALL_TARGET}"

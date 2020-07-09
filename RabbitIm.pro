@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 
 ThirdLibrary.file = ThirdLibrary/RabbitThirdLibrary.pro
-RabbitCommon.file = ThirdLibrary/RabbitCommon.pro
+RabbitCommon.file = Src/RabbitCommon.pro
 Src.file = Src/Src.pro
 Src.depends = RabbitCommon
 Plugin.depends = Src RabbitCommon

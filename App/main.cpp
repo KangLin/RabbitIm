@@ -7,9 +7,7 @@
 #include <QTranslator>
 #include <QSsl>
 #include <QSslSocket>
-#ifdef RABBITCOMMON
-    #include "RabbitCommonTools.h"
-#endif
+#include "RabbitCommonTools.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,9 +29,7 @@ int main(int argc, char *argv[])
     
     app.setApplicationName("RabbitIm");
     app.setOrganizationName("KangLin studio");
-#ifdef RABBITCOMMON
     RabbitCommon::CTools::Instance()->Init();
-#endif
 
     app.setApplicationDisplayName(QObject::tr("Rabbit immediate communicate"));
 
