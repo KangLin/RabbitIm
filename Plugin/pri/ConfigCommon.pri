@@ -1,22 +1,18 @@
 CONFIG *= plugin 
-INCLUDEPATH += $$PWD/..
-CONFIG += c++0x
-!msvc{
-    QMAKE_CXXFLAGS += " -std=c++0x "
-} else {
-    QMAKE_CXXFLAGS += " /MP "
-}
+INCLUDEPATH *= $$PWD/..
+CONFIG *= c++0x
+msvc: QMAKE_CXXFLAGS *= "/MP"
 
-TARGET_PATH=$$OUT_PWD/../..
+win32: TARGET_PATH=$$OUT_PWD/../../bin
+else: TARGET_PATH=$$OUT_PWD/../../lib
 #设置目标输出目录  
-LIBS += -L$${TARGET_PATH}   #包含 RabbitIm 库位置  
 !exists("$$OUT_PWD") : mkpath($$OUT_PWD)
 #message("TARGET_PATH:$${TARGET_PATH}")
 !CONFIG(static, static|shared) : DEFINES += BUILD_SHARED_LIBS #windows下动态库导出
 
 include($$PWD/../../pri/ThirdLibraryConfig.pri)
 INCLUDEPATH *= ../../Src
-LIBS *= -lRabbitIm
+LIBS *=  -L$${TARGET_PATH} -lRabbitIm  #包含 RabbitIm 库位置
 
 include($$PWD/../../pri/ThirdLibrary.pri)
 include($$PWD/../../pri/ThirdLibraryJoin.pri)
@@ -30,7 +26,12 @@ isEmpty(PREFIX) {
         PREFIX = $$OUT_PWD/../../install
     }
 }
-contains(TEMPLATE, lib){
+
+isEmpty(PLUGIN_TYPE){
+    error("Don't include ConfigCommon.pri directly, Please include ConfigApp.pri or ConfigProtocol.pri")
+}
+
+contains(TEMPLATE, lib){ #生成库
 
     CONFIG += create_prl link_prl #create_pc no_install_pc no_install_prl
     #QMAKE_PKGCONFIG_DESTDIR = ../pkgconfig
@@ -56,21 +57,21 @@ contains(TEMPLATE, lib){
         }
     }
 
-    #插件安装路径  
+    #插件生成路径
     DESTDIR = $$OUT_PWD/../../plugins/$${PLUGIN_TYPE}/$${TARGET}
     mkpath($$DESTDIR)
 
     #插件安装路径  
     TARGET_INSTALL_PATH = $${PREFIX}/plugins/$${PLUGIN_TYPE}/$${TARGET}
-    target.path = $${TARGET_INSTALL_PATH}
 
     #翻译  
     include(translations.pri)
-} else {
-    target.path = $$PREFIX
+} else { #生成App
+    TARGET_INSTALL_PATH = $$PREFIX/bin
     DESTDIR = $$TARGET_PATH
 }
 
+target.path = $${TARGET_INSTALL_PATH}
 !android : INSTALLS += target
 
 win32:equals(QMAKE_HOST.os, Windows){
@@ -86,7 +87,7 @@ win32:equals(QMAKE_HOST.os, Windows){
     #}
     #安装qt依赖库  
     Deployment_qtlib.target = Deployment_qtlib
-    Deployment_qtlib.path = $$system_path($${PREFIX})
+    Deployment_qtlib.path = $$system_path($${TARGET_INSTALL_PATH})
     Deployment_qtlib.commands = "$$system_path($$[QT_INSTALL_BINS]/windeployqt)" \
                         --dir "$$system_path($${PREFIX})" \
                         --compiler-runtime \

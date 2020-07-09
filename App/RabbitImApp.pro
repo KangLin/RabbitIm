@@ -8,9 +8,12 @@ TARGET = RabbitImApp
 TEMPLATE = app 
 
 #设置目标输出目录  
-isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/..
+isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
+
 INCLUDEPATH *= ../Src
-LIBS *= -L$$DESTDIR
+win32: LIBS *= -L$$DESTDIR
+else: LIBS *= $$OUT_PWD/../lib
+LIBS += -lRabbitIm
 
 include(../pri/ThirdLibraryConfig.pri)
 CONFIG(static, static|shared) {
@@ -19,7 +22,6 @@ CONFIG(static, static|shared) {
 } else {
     DEFINES += BUILD_SHARED_LIBS #windows下动态库
 }
-LIBS += -lRabbitIm
 
 include(../pri/ThirdLibrary.pri)
 include(../pri/ThirdLibraryJoin.pri)
@@ -45,7 +47,7 @@ isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
 isEmpty(PREFIX) {
     qnx : PREFIX = /tmp
     else : android : PREFIX = /.
-    else : PREFIX = $$DESTDIR/install
+    else : PREFIX = $$OUT_PWD/../install
 }
 other.files = ../License.md ../Authors.txt ../ChangeLog.md
 android: other.path = $$PREFIX/assets
@@ -86,7 +88,7 @@ android : include(../android/android.pri)
 
 win32 : equals(QMAKE_HOST.os, Windows){
     
-    INSTALL_TARGET = $$system_path($${PREFIX}/bin/$(TARGET)) #$(TARGET)是qmake产生脚本中的引用
+    INSTALL_TARGET = $$system_path($${DESTDIR}/$(TARGET)) #$(TARGET)是qmake产生脚本中的引用
     
     #mingw{  #手机平台不需要  
     #    RABBITIM_STRIP.target = RABBITIM_STRIP
@@ -95,7 +97,8 @@ win32 : equals(QMAKE_HOST.os, Windows){
     #}
     #安装qt依赖库  
     Deployment_qtlib.target = Deployment_qtlib
-    Deployment_qtlib.path = $$system_path($${PREFIX}/bin)
+    Deployment_qtlib.files = $$system_path($${DESTDIR}/)  #把目录 DESTDIR 安装到下面 path 中,注意要加 / ,否则不包括目录，只复制目录中的文件
+    Deployment_qtlib.path = $$system_path($${PREFIX})
     Deployment_qtlib.commands = "$$system_path($$[QT_INSTALL_BINS]/windeployqt)" \
                     --compiler-runtime \
                     --verbose 7 \

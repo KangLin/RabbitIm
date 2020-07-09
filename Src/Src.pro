@@ -12,17 +12,21 @@ CONFIG += create_prl no_install_prl create_pc no_install_pc
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
 #设置目标输出目录
-isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/..
-win32: DEFINES *= DLL_EXPORT
-
-INCLUDEPATH *= common Widgets/FrmCustom
+isEmpty(DESTDIR){
+    win32: DESTDIR = $$OUT_PWD/../bin
+    else:  DESTDIR = $$OUT_PWD/../lib
+}
 
 #安装前缀
 isEmpty(PREFIX) {
     qnx : PREFIX = /tmp
     else : android : PREFIX = /.
-    else : PREFIX = $$DESTDIR/install
+    else : PREFIX = $$OUT_PWD/../install
 }
+
+win32: DEFINES *= DLL_EXPORT
+
+INCLUDEPATH *= common Widgets/FrmCustom
 
 #修改文件中的第三方库配置
 include(../pri/ThirdLibraryConfig.pri)
@@ -55,7 +59,7 @@ android : include(../android/jni/android_jni.pri)
 
 win32:equals(QMAKE_HOST.os, Windows){
 
-    INSTALL_TARGET = $$system_path($${PREFIX}/bin/$(TARGET))  #$(TARGET)是qmake产生脚本中的引用
+    INSTALL_TARGET = $$system_path($${DESTDIR}/$(TARGET))  #$(TARGET)是qmake产生脚本中的引用
 
     #mingw{  #手机平台不需要  
     #    RABBITIM_STRIP.target = RABBITIM_STRIP
@@ -64,7 +68,7 @@ win32:equals(QMAKE_HOST.os, Windows){
     #}
     #安装qt依赖库  
     Deployment_qtlib.target = Deployment_qtlib
-    Deployment_qtlib.path = $$system_path($${PREFIX}/bin)
+    Deployment_qtlib.path = $$system_path($${PREFIX})
     Deployment_qtlib.commands = "$$system_path($$[QT_INSTALL_BINS]/windeployqt)" \
                     --compiler-runtime \
                     --verbose 7 \
