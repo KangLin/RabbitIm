@@ -53,7 +53,6 @@ SOURCES += \
     Widgets/FrmGroupChat/DlgInviter.cpp \
     Widgets/FrmCustom/ItemModelCustom.cpp \
     Widgets/DlgUservCard/DlgUservCard.cpp \ 
-    Widgets/DlgAbout/DlgAbout.cpp \
     Widgets/DlgOptions/DlgOptions.cpp \  
     Message/ManageMessage.cpp \
     Media/Camera/Camera.cpp \
@@ -129,7 +128,6 @@ HEADERS += \
     Widgets/FrmGroupChat/DlgInviter.h \
     Widgets/FrmCustom/ItemModelCustom.h \
     Widgets/DlgUservCard/DlgUservCard.h \ 
-    Widgets/DlgAbout/DlgAbout.h \
     Widgets/DlgOptions/DlgOptions.h \ 
     Message/ManageMessage.h \
     Media/Camera/Camera.h \
@@ -168,7 +166,6 @@ FORMS += MainWindow.ui \
     Widgets/FrmGroupChat/DlgJoinGroupChat.ui \
     Widgets/FrmGroupChat/DlgGroupChatInfo.ui \
     Widgets/FrmGroupChat/DlgInviter.ui \
-    Widgets/DlgAbout/DlgAbout.ui \
     Widgets/DlgOptions/DlgOptions.ui \
     Widgets/FrmMain/FrmMain.ui \
     Widgets/FrmApp/FrmApp.ui \

@@ -2,7 +2,7 @@
 #include "ui_MainWindow.h"
 #include <iostream>
 #include <QIcon>
-#include "Widgets/DlgAbout/DlgAbout.h"
+#include "DlgAbout/DlgAbout.h"
 #include <QMessageBox>
 #include "Widgets/FrmUserList/FrmUserList.h"
 #include "Widgets/FrmLogin/FrmLogin.h"
@@ -12,6 +12,7 @@
 #include "Widgets/FrmSendFile/DlgSendManage.h"
 #include "Widgets/DlgUservCard/DlgUservCard.h"
 #include "Global/Global.h"
+#include "RabbitCommonDir.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent
@@ -32,7 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ActionGroupTranslator(this)
 {
     CGlobal::Instance()->SetMainWindow(this);
-
+    Q_INIT_RESOURCE(translations_RabbitIm);
+    
 #ifdef MOBILE
     CTool::SetWindowsGeometry(this);
 #endif
@@ -157,6 +159,7 @@ MainWindow::~MainWindow()
     this->ClearMenuStyles();
     this->ClearTranslate();
     delete ui;
+    Q_CLEANUP_RESOURCE(translations_RabbitIm);
 }
 
 void MainWindow::resizeEvent(QResizeEvent * e)
@@ -681,12 +684,8 @@ int MainWindow::LoadTranslate(QString szLocale)
     qApp->installTranslator(m_TranslatorQt.data());
 
     m_TranslatorApp = QSharedPointer<QTranslator>(new QTranslator(this));
-#ifdef ANDROID
-    m_TranslatorApp->load(":/translations/app_" + szLocale + ".qm");
-#else
-    m_TranslatorApp->load("app_" + szLocale + ".qm",
-                          CGlobalDir::Instance()->GetDirTranslate());
-#endif
+    m_TranslatorApp->load(RabbitCommon::CDir::Instance()->GetDirTranslations()
+                          + QDir::separator() + "RabbitIm_" + szLocale + ".qm");
     qApp->installTranslator(m_TranslatorApp.data());
 
     ui->retranslateUi(this);
@@ -886,6 +885,7 @@ void MainWindow::slotAbout()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
     CDlgAbout about(this);
+    about.m_szCopyrightStartTime = "2013";
     about.exec();
 }
 

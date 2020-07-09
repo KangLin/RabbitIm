@@ -8,6 +8,7 @@
 #include <QSsl>
 #include <QSslSocket>
 #include "RabbitCommonTools.h"
+#include "RabbitCommonDir.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,6 +32,11 @@ int main(int argc, char *argv[])
     app.setOrganizationName("KangLin studio");
     RabbitCommon::CTools::Instance()->Init();
 
+    QTranslator translator;
+    translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
+                     + QDir::separator() + "RabbitImApp_" + QLocale::system().name() + ".qm");
+    qApp->installTranslator(&translator);
+    
     app.setApplicationDisplayName(QObject::tr("Rabbit immediate communicate"));
 
     if(!QSslSocket::supportsSsl())

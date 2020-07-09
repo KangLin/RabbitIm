@@ -2,9 +2,17 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>CAndroidNotification</name>
+    <message>
+        <location filename="../../../android/jni/AndroidNotification.cpp" line="24"/>
+        <source>RabbitIm</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cpp" line="35"/>
+        <location filename="../../main.cpp" line="40"/>
         <source>Rabbit immediate communicate</source>
         <translation>玉兔即时通讯</translation>
     </message>
