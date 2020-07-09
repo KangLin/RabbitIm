@@ -888,8 +888,13 @@ void MainWindow::slotAbout()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
     CDlgAbout about(this);
+    about.m_AppIcon = QImage(":/icon/AppIcon");    
     about.m_szCopyrightStartTime = "2013";
-    about.exec();
+    if(about.isHidden())
+#if defined (Q_OS_ANDROID)
+        about.showMaximized();
+#endif
+        about.exec();
 }
 
 void MainWindow::slotActionGroupStyleTriggered(QAction* act)
