@@ -33,8 +33,9 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ActionGroupTranslator(this)
 {
     CGlobal::Instance()->SetMainWindow(this);
+#ifdef DEBUG
     Q_INIT_RESOURCE(translations_RabbitIm);
-    
+#endif
 #ifdef MOBILE
     CTool::SetWindowsGeometry(this);
 #endif
@@ -159,7 +160,9 @@ MainWindow::~MainWindow()
     this->ClearMenuStyles();
     this->ClearTranslate();
     delete ui;
+#ifdef DEBUG
     Q_CLEANUP_RESOURCE(translations_RabbitIm);
+#endif
 }
 
 void MainWindow::resizeEvent(QResizeEvent * e)

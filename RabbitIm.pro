@@ -31,7 +31,6 @@ OTHER_FILES += README.md \
     docs/RabbitImServer/* \
     License.md \
     ChangeLog.md \
-    Authors.txt \
     TODO.txt \
     CMakeLists.txt \
     cmake/* \
@@ -44,4 +43,5 @@ OTHER_FILES += README.md \
     Install/* \
     Dockerfile \
     tag.sh \
-    build_debpackage.sh
+    build_debpackage.sh \
+    Authors.md

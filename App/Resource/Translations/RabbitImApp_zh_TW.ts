@@ -6,7 +6,7 @@
     <message>
         <location filename="../../../android/jni/AndroidNotification.cpp" line="24"/>
         <source>RabbitIm</source>
-        <translation type="unfinished"></translation>
+        <translation>玉兔即時通訊</translation>
     </message>
 </context>
 <context>

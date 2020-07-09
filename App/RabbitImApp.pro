@@ -10,6 +10,14 @@ TEMPLATE = app
 #设置目标输出目录  
 isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
 
+#安装前缀
+isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
+isEmpty(PREFIX) {
+    qnx : PREFIX = /tmp
+    else : android : PREFIX = /.
+    else : PREFIX = $$OUT_PWD/../install
+}
+
 INCLUDEPATH *= ../Src
 win32: LIBS *= -L$$DESTDIR
 else: LIBS *= -L$$OUT_PWD/../lib
@@ -44,14 +52,7 @@ SOURCES += main.cpp
 
 CONFIG += localize_deployment  #本地语言部署  
 
-#安装前缀
-isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
-isEmpty(PREFIX) {
-    qnx : PREFIX = /tmp
-    else : android : PREFIX = /.
-    else : PREFIX = $$OUT_PWD/../install
-}
-other.files = ../License.md ../Authors.txt ../ChangeLog.md
+other.files = ../License.md ../Authors.md ../ChangeLog.md
 android: other.path = $$PREFIX/assets
 else: other.path = $$PREFIX
 other.CONFIG += directory no_check_exist 
