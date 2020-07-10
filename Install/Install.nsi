@@ -2,22 +2,23 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "RabbitIM"
+!define PRODUCT_APP_NAME "RabbitImApp"
 !define PRODUCT_VERSION "v0.1.0-382-ga1b87cf"
 !define PRODUCT_PUBLISHER "KangLin studio"
 !define PRODUCT_WEB_SITE "https://github.com/KangLin/${PRODUCT_NAME}"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\${PRODUCT_NAME}.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
-!define PRODUCT_UNINST_ROOT_KEY "HKLM"
+!define PRODUCT_UNINST_ROOT_KEY "HKCU"
 
 SetCompressor lzma
 
 ; MUI 1.67 compatible ------
-!include "MUI.nsh"
+!include "MUI2.nsh"
 !include "x64.nsh"
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
+!define MUI_ICON "install\RabbitIm.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Language Selection Dialog Settings
@@ -36,12 +37,11 @@ SetCompressor lzma
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
-!define MUI_FINISHPAGE_RUN "$INSTDIR\${PRODUCT_NAME}.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\bin\${PRODUCT_APP_NAME}.exe"
 !define MUI_FINISHPAGE_SHOWREADME
 !define MUI_FINISHPAGE_SHOWREADME_Function AutoBoot
 !define MUI_FINISHPAGE_SHOWREADME_TEXT "Start from boot"
 !insertmacro MUI_PAGE_FINISH
-
 ; Uninstaller pages
 !insertmacro MUI_UNPAGE_INSTFILES
 
@@ -61,16 +61,20 @@ LangString LANG_REMOVE_COMPONENT ${LANG_SIMPCHINESE} "你确实要完全移除 $
 LangString LANG_AUTO_BOOT ${LANG_ENGLISH} "Start from reboot"
 LangString LANG_AUTO_BOOT ${LANG_SIMPCHINESE} "开机自启动"
 
+LangString LANG_DIRECTORY_PERMISSION ${LANG_ENGLISH} "Don't directory permission"
+LangString LANG_DIRECTORY_PERMISSION ${LANG_SIMPCHINESE} "无目录访问权限"
+
 ; MUI end ------
 
-Name "$(LANG_PRODUCT_NAME)-${PRODUCT_VERSION}"
-Caption "$(LANG_PRODUCT_NAME)-${PRODUCT_VERSION}"
+Name "$(LANG_PRODUCT_NAME) ${PRODUCT_VERSION}"
+Caption "$(LANG_PRODUCT_NAME) ${PRODUCT_VERSION}"
 OutFile "${PRODUCT_NAME}-Setup-${PRODUCT_VERSION}.exe"
-InstallDir "$PROGRAMFILES\${PRODUCT_NAME}"
-;InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
+InstallDir "$LOCALAPPDATA\${PRODUCT_NAME}"
+;InstallDirRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_DIR_REGKEY}" ""
+
 ShowInstDetails show
 ShowUnInstDetails show
-RequestExecutionLevel highest
+RequestExecutionLevel user ;highest
 
 ; Install vc runtime
 Function InstallVC
@@ -80,13 +84,13 @@ Function InstallVC
 
    ; check regist
    IfErrors 0 VSRedistInstalled
-   Exec "$INSTDIR\vcredist_x86.exe /q"
+   Exec "$INSTDIR\bin\vcredist_x86.exe /q /norestart"
    StrCpy $R0 "-1"
 
 VSRedistInstalled:
-  ;MessageBox MB_OK  "Installed"
+  ;MessageBox MB_OK  "Vcredist_x86.exe is installed"
   Exch $R0
-  Delete "$INSTDIR\vcredist_x86.exe"
+  Delete "$INSTDIR\bin\vcredist_x86.exe"
 FunctionEnd
 
 Function InstallVC64
@@ -96,25 +100,26 @@ Function InstallVC64
     
     ; check regist
     IfErrors 0 VSRedistInstalled
-    Exec "$INSTDIR\vcredist_x64.exe /q"
+    Exec "$INSTDIR\bin\vcredist_x64.exe /q /norestart"
     StrCpy $R0 "-1"
     
     VSRedistInstalled:
-    ;MessageBox MB_OK  "Installed"
+    ;MessageBox MB_OK  "Vcredist_x64.exe is installed"
     Exch $R0
-    Delete "$INSTDIR\vcredist_x64.exe"
+    Delete "$INSTDIR\bin\vcredist_x64.exe"
 FunctionEnd
 
 Function InstallRuntime
-  ${If} ${RunningX64}
-    IfFileExists "$INSTDIR\vcredist_x64.exe" 0 +2
+    IfFileExists "$INSTDIR\bin\vcredist_x64.exe" 0 +2
     call InstallVC64
-    IfFileExists "$INSTDIR\vcredist_x86.exe" 0 +2
+    IfFileExists "$INSTDIR\bin\vcredist_x86.exe" 0 +2
     call InstallVC
-  ${Else}
-    IfFileExists "$INSTDIR\vcredist_x86.exe" 0 +2
-    call InstallVC
-  ${EndIf}
+FunctionEnd
+
+Function DirectoryPermissionErrorBox
+ StrCpy $1 "${LANG_DIRECTORY_PERMISSION}"
+     MessageBox MB_ICONSTOP $1 
+       Abort
 FunctionEnd
 
 Var UNINSTALL_PROG
@@ -137,31 +142,35 @@ FunctionEnd
 
 Section "${PRODUCT_NAME}" SEC01
   SetOutPath "$INSTDIR"
+  IfFileExists "$INSTDIR\*.*" +2 0
+  call DirectoryPermissionErrorBox
   SetOverwrite ifnewer
   File /r "install\*"
-  SetShellVarContext all
-  CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\$(LANG_PRODUCT_NAME).lnk" "$INSTDIR\${PRODUCT_NAME}.exe"
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\uninst.exe"
-  CreateShortCut "$DESKTOP\$(LANG_PRODUCT_NAME).lnk" "$INSTDIR\${PRODUCT_NAME}.exe"
-  SetShellVarContext current
+  ;SetShellVarContext all
+  
+  ;SetShellVarContext current
   call InstallRuntime
 SectionEnd
 
 Section -AdditionalIcons
-  WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
-  SetShellVarContext all
+  CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\$(LANG_PRODUCT_NAME).lnk" "$INSTDIR\bin\${PRODUCT_APP_NAME}.exe"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\uninst.exe"
+
+  WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
-  SetShellVarContext current
+    
+  CreateShortCut "$DESKTOP\$(LANG_PRODUCT_NAME).lnk" "$INSTDIR\bin\${PRODUCT_APP_NAME}.exe"
 SectionEnd
 
 Section -Post
   WriteUninstaller "$INSTDIR\uninst.exe"
-  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\${PRODUCT_NAME}.exe"
+
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\bin\${PRODUCT_APP_NAME}.exe"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_DIR_REGKEY}" "Path" "$INSTDIR\"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
-  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${PRODUCT_NAME}.exe"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\bin\${PRODUCT_APP_NAME}.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
@@ -172,32 +181,34 @@ SectionEnd
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "$(LANG_PRODUCT_NAME)"
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
+Function AutoBoot
+    WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "Software\Microsoft\Windows\CurrentVersion\Run" "${PRODUCT_NAME}" "$INSTDIR\bin\${PRODUCT_APP_NAME}.exe"
+FunctionEnd
+
 Function un.onUninstSuccess
-  HideWindow
+  ;HideWindow
   MessageBox MB_ICONINFORMATION|MB_OK "$(LANG_UNINSTALL_CONFIRM)"
 FunctionEnd
 
 Function un.onInit
-!insertmacro MUI_UNGETLANGUAGE
+  !insertmacro MUI_UNGETLANGUAGE
   MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "$(LANG_REMOVE_COMPONENT)" IDYES +2
   Abort
 FunctionEnd
 
-Function AutoBoot
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\RunOnce" "${PRODUCT_NAME}" "$INSTDIR\${PRODUCT_NAME}.exe"
-FunctionEnd
-
 Section Uninstall
-  SetShellVarContext all
+  ;SetShellVarContext all
   RMDir /r "$SMPROGRAMS\${PRODUCT_NAME}"
-  Delete "$DESKTOP\$(LANG_PRODUCT_NAME).lnk"
   SetOutPath "$SMPROGRAMS"
-  SetShellVarContext current
-  RMDir /r "$INSTDIR"
-
+  Delete "$DESKTOP\$(LANG_PRODUCT_NAME).lnk"
+  RMDIR /r "$INSTDIR"
+  ;SetShellVarContext current
+  
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
-  DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
-  DeleteRegValue  HKCU "Software\Microsoft\Windows\CurrentVersion\RunOnce" "${PRODUCT_NAME}"
-  SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment"
-  SetAutoClose true
+  ;DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
+  DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_DIR_REGKEY}"
+  DeleteRegValue  ${PRODUCT_UNINST_ROOT_KEY} "Software\Microsoft\Windows\CurrentVersion\Run" "${PRODUCT_NAME}"
+  
+  ;SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment"
+  ;SetAutoClose true
 SectionEnd
