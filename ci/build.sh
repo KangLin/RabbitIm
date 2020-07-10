@@ -137,22 +137,20 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
         cat ${SOURCE_DIR}/debian/postinst
         cat ${SOURCE_DIR}/debian/preinst
     fi
-    bash build_debpackage.sh ${QT_ROOT} THIRD_LIBRARY_PATH=${ThirdLibs_DIR}
+    bash build_debpackage.sh ${QT_ROOT} ${ThirdLibs_DIR}
 
     sudo dpkg -i ../rabbitim_*_amd64.deb
     echo "test ......"
     ./test/test_linux.sh
 
-    #因为上面 dpgk 已安装好了，所以不需要设置下面的环境变量
-    #export LD_LIBRARY_PATH=`pwd`/debian/rabbitim/opt/RabbitIm/bin:`pwd`/debian/rabbitim/opt/RabbitIm/lib:${QT_ROOT}/bin:${QT_ROOT}/lib:$LD_LIBRARY_PATH
-
-    cd debian/rabbitim/opt
-
     URL_LINUXDEPLOYQT=https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
     wget -c -nv ${URL_LINUXDEPLOYQT} -O linuxdeployqt.AppImage
     chmod a+x linuxdeployqt.AppImage
 
-    cd Calendar
+    #因为上面 dpgk 已安装好了，所以不需要设置下面的环境变量
+    #export LD_LIBRARY_PATH=`pwd`/debian/rabbitim/opt/RabbitIm/bin:`pwd`/debian/rabbitim/opt/RabbitIm/lib:${QT_ROOT}/bin:${QT_ROOT}/lib:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=${ThirdLibs_DIR}:${LD_LIBRARY_PATH}/lib:${LD_LIBRARY_PATH}/bin
+    cd debian/rabbitim/opt/RabbitIm
     ../linuxdeployqt.AppImage share/applications/*.desktop \
         -qmake=${QT_ROOT}/bin/qmake -appimage -no-copy-copyright-files -verbose
 
