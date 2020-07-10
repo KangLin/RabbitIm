@@ -1439,8 +1439,8 @@
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="527"/>
-        <source> Copyright (C) 2014 KangLin Studio</source>
-        <translation></translation>
+        <source> Copyright (C) 2013 KangLin Studio</source>
+        <translation>版权所有 (C) 2013 康林工作室</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.ui" line="323"/>
@@ -1470,8 +1470,8 @@
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="53"/>
         <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="70"/>
-        <source>Copyright (C) 2014 - %1 KangLin Studio</source>
-        <translation>版权所有 (C) 2014 - %1 康林工作室</translation>
+        <source>Copyright (C) 2013 - %1 KangLin Studio</source>
+        <translation>版权所有 (C) 2013 - %1 康林工作室</translation>
     </message>
     <message>
         <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="79"/>

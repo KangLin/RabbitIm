@@ -50,7 +50,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     }
 
     ui->lbePrompt->setText("");
-    ui->lbCopyright->setText(tr("Copyright (C) 2014 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
+    ui->lbCopyright->setText(tr("Copyright (C) 2013 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
 }
 
 CFrmLogin::~CFrmLogin()
@@ -67,7 +67,7 @@ void CFrmLogin::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         ReinitStateButton();
-        ui->lbCopyright->setText(tr("Copyright (C) 2014 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
+        ui->lbCopyright->setText(tr("Copyright (C) 2013 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
         break;
     default:
         break;
