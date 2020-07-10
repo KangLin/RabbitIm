@@ -18,19 +18,19 @@ set -e
 # the debian-policy package
 
 function EnumerateDicectory(){
-	for _file in `ls $1`
-	do
-		if [ -d "$1/${_file}" ]; then
-			echo "$1/${_file}" >> /etc/ld.so.conf.d/RabbitIm.conf
-			EnumerateDicectory "$1/${_file}"
-		fi
-	done
+    for _file in `ls $1`
+    do
+        if [ -d "$1/${_file}" ]; then
+            echo "$1/${_file}" >> /etc/ld.so.conf.d/RabbitIm.conf
+            EnumerateDicectory "$1/${_file}"
+        fi
+    done
 }
 
 case "$1" in
     configure)
         RABBITIM_INSTALL_PREFIX=/opt/RabbitIm
-        echo "${RABBITIM_INSTALL_PREFIX}" > /etc/ld.so.conf.d/RabbitIm.conf
+        echo "${RABBITIM_INSTALL_PREFIX}/lib" > /etc/ld.so.conf.d/RabbitIm.conf
         echo "${RABBITIM_INSTALL_PREFIX}/plugins" >> /etc/ld.so.conf.d/RabbitIm.conf
         EnumerateDicectory "${RABBITIM_INSTALL_PREFIX}/plugins"
         ldconfig

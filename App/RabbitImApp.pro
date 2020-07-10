@@ -73,7 +73,7 @@ win32{
 INSTALLS += other target
 !android : unix {
     DESKTOP_FILE.target = DESKTOP_FILE
-    DESKTOP_FILE.files = ../share/applications/RabbitIm.desktop
+    DESKTOP_FILE.files = ../debian/RabbitIm.desktop
     DESKTOP_FILE.path = $$system_path($${PREFIX})/share/applications
     DESKTOP_FILE.CONFIG += directory no_check_exist
 

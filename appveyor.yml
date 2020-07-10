@@ -34,7 +34,7 @@ environment:
   - BUILD_TARGERT: windows_msvc
     #GENERATORS: "Visual Studio 14 2015"
     TOOLCHAIN_VERSION: 14
-    QT_ROOT: C:\Qt\5.6\msvc2015
+    QT_ROOT: C:\Qt\5.9\msvc2015
     BUILD_ARCH: x86
     DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/windows_msvc14_x86_Release_qt5.9.9_v0.3.2.zip
 

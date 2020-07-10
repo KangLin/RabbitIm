@@ -7,13 +7,19 @@ if [ -n "$1" ]; then
 fi
 TOOLS_DIR=${SOURCE_DIR}/Tools
 ThirdLibs_DIR=${TOOLS_DIR}/ThirdLibs
-cd ${SOURCE_DIR}
+
 export RabbitCommon_DIR="${SOURCE_DIR}/RabbitCommon"
+if [ -f ${ThirdLibs_DIR}/change_prefix.sh ]; then
+    cd ${ThirdLibs_DIR}
+    ./change_prefix.sh
+fi
 
 function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 function version_le() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" == "$1"; }
 function version_lt() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" != "$1"; }
 function version_ge() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" == "$1"; }
+
+cd ${SOURCE_DIR}
 
 if [ "$BUILD_TARGERT" = "android" ]; then
     export ANDROID_SDK_ROOT=${TOOLS_DIR}/android-sdk
@@ -131,7 +137,7 @@ if [ "${BUILD_TARGERT}" = "unix" ]; then
         cat ${SOURCE_DIR}/debian/postinst
         cat ${SOURCE_DIR}/debian/preinst
     fi
-    bash build_debpackage.sh ${QT_ROOT}
+    bash build_debpackage.sh ${QT_ROOT} THIRD_LIBRARY_PATH=${ThirdLibs_DIR}
 
     sudo dpkg -i ../rabbitim_*_amd64.deb
     echo "test ......"

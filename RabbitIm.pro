@@ -20,6 +20,7 @@ OTHER_FILES += README.md \
     .gitignore \
     .travis.yml \
     ci/* \
+    test/* \
     circle.yml \
     appveyor.yml \
     debian/* \
