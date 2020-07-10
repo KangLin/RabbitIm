@@ -7,8 +7,12 @@
 #include <QTranslator>
 #include <QSsl>
 #include <QSslSocket>
-#include "RabbitCommonTools.h"
-#include "RabbitCommonDir.h"
+
+#ifdef RABBITCOMMON
+    #include "RabbitCommonTools.h"
+    #include "RabbitCommonDir.h"
+    #include "FrmUpdater/FrmUpdater.h"
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -30,7 +34,14 @@ int main(int argc, char *argv[])
     
     app.setApplicationName("RabbitIm");
     app.setOrganizationName("KangLin studio");
+
+#ifdef RABBITCOMMON
     RabbitCommon::CTools::Instance()->Init();
+    CFrmUpdater *pUpdate = new CFrmUpdater();
+    pUpdate->SetTitle(QImage(":/icon/AppIcon"));
+    if(!pUpdate->GenerateUpdateXml())
+        return 0;
+#endif
 
     QTranslator translator;
     translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()

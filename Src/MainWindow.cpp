@@ -12,7 +12,11 @@
 #include "Widgets/FrmSendFile/DlgSendManage.h"
 #include "Widgets/DlgUservCard/DlgUservCard.h"
 #include "Global/Global.h"
-#include "RabbitCommonDir.h"
+
+#ifdef RABBITCOMMON
+    #include "RabbitCommonDir.h"
+    #include "FrmUpdater/FrmUpdater.h"
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent
@@ -54,6 +58,10 @@ MainWindow::MainWindow(QWidget *parent) :
     check = connect(ui->actionAbout_A, SIGNAL(triggered()),
             SLOT(slotAbout()));
     Q_ASSERT(check);
+#ifdef RABBITCOMMON  
+    CFrmUpdater updater;
+    ui->actionUpdate->setIcon(updater.windowIcon());
+#endif
 
     LoadStyle();
     LoadTranslate();
@@ -887,6 +895,7 @@ void MainWindow::on_actionScan_qrencode_S_triggered()
 void MainWindow::slotAbout()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
+#ifdef RABBITCOMMON
     CDlgAbout about(this);
     about.m_AppIcon = QImage(":/icon/AppIcon");    
     about.m_szCopyrightStartTime = "2013";
@@ -895,6 +904,20 @@ void MainWindow::slotAbout()
         about.showMaximized();
 #endif
         about.exec();
+#endif
+}
+
+void MainWindow::on_actionUpdate_triggered()
+{
+#ifdef RABBITCOMMON
+    CFrmUpdater* pfrmUpdater = new CFrmUpdater();
+    pfrmUpdater->SetTitle(QImage(":/icon/AppIcon"));
+    #if defined (Q_OS_ANDROID)
+        pfrmUpdater->showMaximized();
+    #else
+        pfrmUpdater->show();
+    #endif
+#endif
 }
 
 void MainWindow::slotActionGroupStyleTriggered(QAction* act)

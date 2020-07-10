@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<UPDATE>
+    <VERSION></VERSION>
+    <TIME></TIME>
+    <INFO></INFO>
+    <FORCE>0</FORCE>
+    <SYSTEM>android</SYSTEM>
+    <PLATFORM>android</PLATFORM>
+    <ARCHITECTURE>armv7</ARCHITECTURE>
+    <MD5SUM></MD5SUM>
+    <URL></URL>
+    <MIN_UPDATE_VERSION>v0.0.3</MIN_UPDATE_VERSION>
+</UPDATE>

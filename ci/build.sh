@@ -121,7 +121,7 @@ if [ -z "$VERSION" ]; then
     export VERSION="v1.0.0"
 fi
 
-export UPLOADTOOL_BODY="Release RabbitIm ${VERSION}.<br> The change see [ChangeLog.md](ChangeLog.md) or [ChangeLog_zh_CN.md](ChangeLog_zh_CN.md)"
+export UPLOADTOOL_BODY="Release RabbitIm ${VERSION}.<br> The change see [ChangeLog.md](ChangeLog.md)"
 #export UPLOADTOOL_PR_BODY=
 if [ "${BUILD_TARGERT}" = "unix" ]; then
     cd $SOURCE_DIR

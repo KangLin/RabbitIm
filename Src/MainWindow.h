@@ -172,6 +172,7 @@ private slots:
     void slotCheckShowWindows();
     void slotAnimationFinished();
 #endif
+    void on_actionUpdate_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -34,7 +34,7 @@
      <x>0</x>
      <y>0</y>
      <width>250</width>
-     <height>25</height>
+     <height>28</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOperator_O">
@@ -48,6 +48,7 @@
      <string>Help(&amp;H)</string>
     </property>
     <addaction name="actionAbout_A"/>
+    <addaction name="actionUpdate"/>
    </widget>
    <widget class="QMenu" name="menuTool_T">
     <property name="title">
@@ -62,7 +63,7 @@
   </widget>
   <action name="actionAbout_A">
    <property name="icon">
-    <iconset resource="Resource/Resource.qrc">
+    <iconset resource="../Resource/Resource.qrc">
      <normaloff>:/icon/Information</normaloff>:/icon/Information</iconset>
    </property>
    <property name="text">
@@ -81,7 +82,7 @@
   </action>
   <action name="actionOptions_O">
    <property name="icon">
-    <iconset resource="Resource/Resource.qrc">
+    <iconset resource="../Resource/Resource.qrc">
      <normaloff>:/icon/Options</normaloff>:/icon/Options</iconset>
    </property>
    <property name="text">
@@ -90,17 +91,22 @@
   </action>
   <action name="actionScan_qrencode_S">
    <property name="icon">
-    <iconset resource="Resource/Resource.qrc">
+    <iconset resource="../Resource/Resource.qrc">
      <normaloff>:/icon/Scan</normaloff>:/icon/Scan</iconset>
    </property>
    <property name="text">
     <string>Scan QR code(&amp;S)</string>
    </property>
   </action>
+  <action name="actionUpdate">
+   <property name="text">
+    <string>Update</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="Resource/Resource.qrc"/>
+  <include location="../Resource/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>
