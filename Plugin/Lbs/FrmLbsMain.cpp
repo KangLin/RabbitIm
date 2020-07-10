@@ -1,6 +1,6 @@
 #include "FrmLbsMain.h"
 #include "ui_FrmLbsMain.h"
-#include "Tool.h"
+#include "common/Tool.h"
 
 CFrmLbsMain::CFrmLbsMain(QWidget *parent) :
     QFrame(parent),
