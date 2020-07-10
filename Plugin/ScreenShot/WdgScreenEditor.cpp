@@ -32,7 +32,7 @@ void CWdgScreenEditor::initToolBar(){
     painter.setCompositionMode(QPainter::CompositionMode_Source);
     QIcon icon;
 
-    icon = QIcon(":/icon/png/pen.png");
+    icon = QIcon(":/icon/Pen");
     penBtn.setIcon(icon);
     penBtn.setCursor(Qt::ArrowCursor);
     toolBar.addWidget(&penBtn);
@@ -66,7 +66,7 @@ void CWdgScreenEditor::initToolBar(){
     toolBar.addWidget(&rectBtn);
     connect(&rectBtn,SIGNAL(clicked()),this,SLOT(curOptionChanged()));
 
-    icon = QIcon(":/icon/png/undo.png");
+    icon = QIcon(":/icon/Undo");
     undoBtn.setIcon(icon);
     undoBtn.setCursor(Qt::ArrowCursor);
     undoBtn.setToolTip(tr("undo"));
