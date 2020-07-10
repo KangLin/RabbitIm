@@ -7,11 +7,11 @@
     </qresource>
     <qresource prefix="/icon">
         <file alias="Cancel">png/cancel.png</file>
-        <file>png/complete.png</file>
-        <file>png/pen.png</file>
+        <file alias="Complete">png/complete.png</file>
+        <file alias="Pen">png/pen.png</file>
         <file alias="SaveAs">png/saveas.png</file>
         <file alias="Cut">png/shot.png</file>
-        <file>png/undo.png</file>
+        <file alias="Undo">png/undo.png</file>
         <file alias="Status_available">png/im_available.png</file>
         <file alias="Status_available_stale">png/im_available_stale.png</file>
         <file alias="Status_away">png/im_away.png</file>
