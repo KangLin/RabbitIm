@@ -86,11 +86,11 @@
 
 ### 捐赠：
 
-本项目如果对你有用，或者你喜欢它，欢迎任何形式的捐赠（包括参与到项目代码更新或意见反馈中，以及捐赠资金等），支持作者。谢谢！
+本项目如果对你有用，或者你喜欢它，欢迎任何形式的捐赠（包括参与项目代码贡献或意见反馈中，以及捐赠资金等），支持作者。谢谢！
 
 - 欢迎开发者参与本项目的开发，或意见反馈。
   + Issues: https://github.com/KangLin/RabbitIm/issues
-  + 如有需要，请联系本人 (QQ:16614119), 可以为你提供必要的帮助。
+  + 如有需要，请先提交 Issues，再联系本人 （<QQ:16614119>，验证信息为你提交的 Issues)，可以为你提供必要的帮助。
 - 如有咨询、定制开发或移植，请你先[捐赠资金](#捐赠资金)支持本项目，
   再加联系本人(QQ:16614119)，验证信息为你的捐赠额。非诚勿扰。
 - 如有需要编译程序（￥200/小时）或需要搭建整个系统（￥2000/工作日）。
@@ -116,25 +116,21 @@ https://github.com/KangLin/RabbitIm/releases
 |登录窗口|![登录窗口](docs/Screenshots/windows_login_dark.png "登录窗口")|
 |列表窗口|![列表窗口](docs/Screenshots/windows_list_dark.png "列表窗口")|
 |聊天窗口|![聊天窗口](docs/Screenshots/windows_char_dark.png "聊天窗口")|
+|文件传输|![文件传输](docs/Screenshots/windows_file_transfer_dark.png "文件传输")|
 
-||英语默认样式|
+||中文默认样式|
 |:---:|:---:|
 |登录窗口|![登录窗口](docs/Screenshots/windows_login.png "登录窗口")|
 |列表窗口|![列表窗口](docs/Screenshots/windows_list.png "列表窗口")|
 |聊天窗口|![聊天窗口](docs/Screenshots/windows_char.png "聊天窗口")|
+|文件传输|![文件传输](docs/Screenshots/windows_file_transfer.png "文件传输")|
 
 - ubuntu 下截图:
-
-||英文黑色样式|
-|:---:|:---:|
-|登录窗口|![登录窗口](http://img.my.csdn.net/uploads/201511/10/1447124934_7534.png "登录窗口")|
-|列表窗口|![列表窗口](http://img.my.csdn.net/uploads/201511/24/1448325576_3263.png "列表窗口")|
-|聊天窗口|![聊天窗口](http://img.my.csdn.net/uploads/201511/24/1448327027_4969.png "聊天窗口")|
-|视频|![视频](http://img.blog.csdn.net/20140717141505988 "视频")|
 
 ||中文黑色样式|
 |:---:|:---:|
 |登录窗口|![登录窗口](docs/Screenshots/ubuntu_login.png "登录窗口")|
-|列表窗口|![列表窗口](http://img.my.csdn.net/uploads/201511/24/1448327027_8721.png "列表窗口")|
-|聊天窗口|![聊天窗口](http://img.my.csdn.net/uploads/201511/24/1448327027_9088.png "聊天窗口")|
+|列表窗口|![列表窗口](docs/Screenshots/ubuntu_list.png "列表窗口")|
+|聊天窗口|![聊天窗口](docs/Screenshots/ubuntu_char.png "聊天窗口")|
+|文件传输|![文件传输](docs/Screenshots/ubuntu_file_transfer.png "文件传输")|
 |视频|![视频](docs/Screenshots/ubuntu_video.png "视频")|
