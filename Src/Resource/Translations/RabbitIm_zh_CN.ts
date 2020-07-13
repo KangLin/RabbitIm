@@ -4,9 +4,8 @@
 <context>
     <name>CAndroidNotification</name>
     <message>
-        <location filename="../../../android/jni/AndroidNotification.cpp" line="24"/>
         <source>RabbitIm</source>
-        <translation>玉兔即时通讯</translation>
+        <translation type="vanished">玉兔即时通讯</translation>
     </message>
 </context>
 <context>
@@ -1104,37 +1103,37 @@
 <context>
     <name>CFileTransferAction</name>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="120"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="121"/>
         <source>ETA: </source>
         <translation>剩余：</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="192"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="193"/>
         <source>Save as ...</source>
         <translation>另存为 ...</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="207"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="208"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="216"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="217"/>
         <source>Send the file has been canceled.</source>
         <translation>文件传输被取消。</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="233"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="234"/>
         <source>Open folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="236"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="237"/>
         <source>Send the file has been finished.</source>
         <translation>文件传输完成。</translation>
     </message>
     <message>
-        <location filename="../../FileTransfer/FileTransferAction.cpp" line="256"/>
+        <location filename="../../FileTransfer/FileTransferAction.cpp" line="257"/>
         <source>File sending error.</source>
         <translation>传输错误</translation>
     </message>
@@ -1983,9 +1982,8 @@
 <context>
     <name>CTool</name>
     <message>
-        <location filename="../../common/Tool.h" line="220"/>
         <source>Open file</source>
-        <translation>打开文件</translation>
+        <translation type="vanished">打开文件</translation>
     </message>
 </context>
 <context>

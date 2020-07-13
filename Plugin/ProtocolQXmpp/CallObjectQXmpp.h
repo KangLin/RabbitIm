@@ -1,7 +1,7 @@
 #ifndef CALLQXMPP_H
 #define CALLQXMPP_H
 
-#include "qxmpp/QXmppCallManager.h"
+#include "QXmppCallManager.h"
 #include <QAudioInput>
 #include <QAudioOutput>
 #include "Call/CallObject.h"

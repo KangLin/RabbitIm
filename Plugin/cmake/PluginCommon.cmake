@@ -15,13 +15,12 @@ IF(PLUGIN_SOURCES)
     IF(BUILD_SHARED_LIBS)
         #windows下动态库
         target_compile_definitions(${PROJECT_NAME} PRIVATE -DBUILD_SHARED_LIBS)  
-    ENDIF(OPTION_RABBITIM_USE_STATIC)
+    ENDIF()
 
+    target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/Src)
+    
     #链接库
-    target_link_libraries(${PROJECT_NAME}
-            ${RABBITIM_LIBS}
-            RabbitIm
-            )
+    target_link_libraries(${PROJECT_NAME} RabbitIm ${RABBITIM_LIBS})
 ENDIF(PLUGIN_SOURCES)
 
 #为静态插件生成必要的文件  
@@ -41,9 +40,9 @@ IF(BUILD_SHARED_LIBS)
     
     #安装
     INSTALL(TARGETS ${PROJECT_NAME}
-        RUNTIME DESTINATION "${PLUGIN_DIR}")
-            #LIBRARY DESTINATION "${PLUGIN_DIR}"
-            #ARCHIVE DESTINATION "${PLUGIN_DIR}")
+            RUNTIME DESTINATION "${PLUGIN_DIR}"
+            LIBRARY DESTINATION "${PLUGIN_DIR}"
+            ARCHIVE DESTINATION "${PLUGIN_DIR}")
 ELSE()
     IF(NOT RABBITIM_PLUG_NAME) 
         message("Please set RABBITIM_PLUG_NAME to plug class name")

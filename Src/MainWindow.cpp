@@ -9,7 +9,7 @@
 #include "Global/Global.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
 #include "Widgets/DlgOptions/DlgOptions.h"
-#include "Widgets/FrmSendFile/DlgSendManage.h"
+//#include "Widgets/FrmSendFile/DlgSendManage.h"
 #include "Widgets/DlgUservCard/DlgUservCard.h"
 #include "Global/Global.h"
 

@@ -26,17 +26,17 @@ env:
   matrix:
     #- BUILD_TARGERT="unix" QT_VERSION_DIR=512 QT_VERSION=-5.12.3 DOWNLOAD_QT=FALSE
     #- BUILD_TARGERT="unix" QT_VERSION_DIR=511 QT_VERSION=-5.11.1 DOWNLOAD_QT=FALSE
-    #- BUILD_TARGERT="unix" QT_VERSION_DIR=59 QT_VERSION=597 DOWNLOAD_QT=APT DOWNLOAD_THIRDLIBS_URL=https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/unix_x86_64_Release_qt5.9.5_v0.3.2.tar.gz
     - BUILD_TARGERT="unix" DOWNLOAD_QT=APT DOWNLOAD_THIRDLIBS_URL=https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/unix_x86_64_Release_qt5.9.5_v0.3.2.tar.gz
+    - BUILD_TARGERT="unix" DOWNLOAD_QT=APT GENERATORS="Unix Makefiles" DOWNLOAD_THIRDLIBS_URL=https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/unix_x86_64_Release_qt5.9.5_v0.3.2.tar.gz
     
     #- BUILD_TARGERT="unix" BUILD_ARCH="unix" QT_VERSION_DIR=5.12 QT_VERSION=5.12.4 DOWNLOAD_QT=TRUE GENERATORS="Unix Makefiles"
     #- BUILD_TARGERT="unix" BUILD_ARCH="unix" QT_VERSION_DIR=5.9 QT_VERSION=5.9.7 DOWNLOAD_QT=TRUE GENERATORS="Unix Makefiles" STATIC=ON
     #- BUILD_TARGERT="unix" BUILD_ARCH="unix" QT_VERSION_DIR=5.6 QT_VERSION=5.6.3 DOWNLOAD_QT=TRUE 
     
     - BUILD_TARGERT="android" BUILD_ARCH="arm" QT_VERSION_DIR=5.12 QT_VERSION=5.12.6 ANDROID_API=android-24 DOWNLOAD_QT=TRUE DOWNLOAD_THIRDLIBS_URL=https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/android_x86_Release_qt5.12.6_v0.3.2_in_linux.tar.gz
-    - BUILD_TARGERT="android" BUILD_ARCH="arm64" QT_VERSION_DIR=5.12 QT_VERSION=5.12.6 ANDROID_API=android-24 DOWNLOAD_QT=TRUE DOWNLOAD_THIRDLIBS_URL=https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/android_arm64_Release_qt5.12.6_v0.3.2_in_linux.tar.gz
+    - BUILD_TARGERT="android" BUILD_ARCH="arm64" GENERATORS="Unix Makefiles" QT_VERSION_DIR=5.12 QT_VERSION=5.12.6 ANDROID_API=android-24 DOWNLOAD_QT=TRUE DOWNLOAD_THIRDLIBS_URL=https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/android_arm64_Release_qt5.12.6_v0.3.2_in_linux.tar.gz
     - BUILD_TARGERT="android" BUILD_ARCH="x86" QT_VERSION_DIR=5.12 QT_VERSION=5.12.6 ANDROID_API=android-24 DOWNLOAD_QT=TRUE DOWNLOAD_THIRDLIBS_URL=https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/android_x86_Release_qt5.12.6_v0.3.2_in_linux.tar.gz
-    - BUILD_TARGERT="android" BUILD_ARCH="x86_64" QT_VERSION_DIR=5.12 QT_VERSION=5.12.6 ANDROID_API=android-24 DOWNLOAD_QT=TRUE RABBIT_CONFIG=Debug DOWNLOAD_THIRDLIBS_URL=https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/android_x86_64_Debug_qt5.13.2_v0.3.2_in_linux.tar.gz
+    - BUILD_TARGERT="android" BUILD_ARCH="x86_64" GENERATORS="Unix Makefiles" QT_VERSION_DIR=5.12 QT_VERSION=5.12.6 ANDROID_API=android-24 DOWNLOAD_QT=TRUE RABBIT_CONFIG=Debug DOWNLOAD_THIRDLIBS_URL=https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/android_x86_64_Debug_qt5.13.2_v0.3.2_in_linux.tar.gz
     
 before_install:
   - echo "TRAVIS_OS_NAME=${TRAVIS_OS_NAME}"

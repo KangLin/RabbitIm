@@ -1,13 +1,13 @@
 #include "GroupChatQxmpp.h"
 #include "Global/Global.h"
 #include "ManageGroupChatQxmpp.h"
-#include "qxmpp/QXmppUtils.h"
-#include "qxmpp/QXmppMessage.h"
+#include "QXmppUtils.h"
+#include "QXmppMessage.h"
 #include "Widgets/FrmGroupChat/ChatActionGroupChat.h"
 #include "Manage/Manager.h"
 #include "MainWindow.h"
 #include "ClientXmpp.h"
-#include "qxmpp/QXmppDiscoveryManager.h"
+#include "QXmppDiscoveryManager.h"
 
 #ifdef WIN32
 #undef GetMessage

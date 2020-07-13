@@ -9,6 +9,7 @@
 #include <QDesktopWidget>
 #include <QApplication>
 #include "Global/Global.h"
+#include <math.h>
 
 CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, const QString &szId, const QTime &date, const bool &me)
   : CChatAction(me, szId, date)

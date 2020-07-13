@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "FileTransfer/FileTransfer.h"
-#include "qxmpp/QXmppTransferManager.h"
+#include "QXmppTransferManager.h"
 #include <QDateTime>
 
 class CFileTransferQXmpp : public CFileTransfer

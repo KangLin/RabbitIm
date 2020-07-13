@@ -1,6 +1,6 @@
 #include "FileTransferQXmpp.h"
 #include "Global/Global.h"
-#include "qxmpp/QXmppUtils.h"
+#include "QXmppUtils.h"
 
 CFileTransferQXmpp::CFileTransferQXmpp(QXmppTransferJob *pJob, QObject *parent) :
     CFileTransfer(parent)

@@ -2,9 +2,9 @@
 #include "Global/Global.h"
 #include "UserInfoXmpp.h"
 #include "ClientXmpp.h"
-#include "qxmpp/QXmppVCardIq.h"
-#include "qxmpp/QXmppVCardManager.h"
-#include "qxmpp/QXmppUtils.h"
+#include "QXmppVCardIq.h"
+#include "QXmppVCardManager.h"
+#include "QXmppUtils.h"
 #include <QDir>
 
 CManageUserQXmpp::CManageUserQXmpp(QObject *parent) 

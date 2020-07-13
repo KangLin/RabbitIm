@@ -5,7 +5,7 @@
 #include <QStandardItemModel>
 #include <QList>
 #include <QMenu>
-#include "qxmpp/QXmppDiscoveryIq.h"
+#include "QXmppDiscoveryIq.h"
 #include "FrmGroupChat.h"
 
 namespace Ui {

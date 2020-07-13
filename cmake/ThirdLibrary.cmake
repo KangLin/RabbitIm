@@ -94,22 +94,10 @@ IF(OPTION_RABBITIM_USE_FFMPEG)
     SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libavcodec-dev, libavformat-dev, libavutil-dev")
 
     ADD_DEFINITIONS("-D__STDC_CONSTANT_MACROS" "-DRABBITIM_USE_FFMPEG") #ffmpeg需要
-    IF(PKG_CONFIG_FOUND AND NOT MSVC)
-        pkg_check_modules(FFMPEG REQUIRED libavcodec libavformat libavutil libswscale)
-        IF(FFMPEG_FOUND)
-            #INCLUDE_DIRECTORIES("${FFMPEG_INCLUDE_DIRS}")
-            IF(NOT BUILD_SHARED_LIBS)
-                #INCLUDE_DIRECTORIES("${FFMPEG_STATIC_INCLUDE_DIRS}")
-                SET(FFMPEG_LIBRARIES ${FFMPEG_STATIC_LIBRARIES})
-                SET(FFMPEG_LIBRARY_DIRS ${FFMPEG_STATIC_LIBRARY_DIRS})
-            ENDIF()
-        ELSE(FFMPEG_FOUND)
-            find_package(FFMPEG REQUIRED avcodec avformat avutil swscale)
-        ENDIF(FFMPEG_FOUND)
-    ELSE()
-        message("Use pkg-config fail, Manually set ffmpeg library.")
-        find_package(FFMPEG REQUIRED avcodec avformat avutil swscale)
-    ENDIF()
+    
+    message("Use pkg-config fail, Manually set ffmpeg library.")
+    find_package(FFMPEG REQUIRED avcodec avformat avutil swscale)
+    LIST(APPEND RABBITIM_LIBS ${FFMPEG_LIBRARIES})
 ENDIF(OPTION_RABBITIM_USE_FFMPEG)
 MESSAGE("Use ffmpeg library:${RABBITIM_USE_FFMPEG}")
 
@@ -141,35 +129,36 @@ IF(OPTION_RABBITIM_USE_OPENSSL)
     ADD_DEFINITIONS("-DRABBITIM_USE_OPENSSL")
     SET(RABBITIM_PACKAGE_REQUIRES "${RABBITIM_PACKAGE_REQUIRES}, libssl-dev")
 
-    IF(PKG_CONFIG_FOUND AND NOT MSVC)
-        pkg_check_modules(OPENSSL openssl)
-        IF(OPENSSL_FOUND)
-            IF(BUILD_SHARED_LIBS)
-                add_compile_options(${OPENSSL_CFLAGS})    
-            ELSE()
-                add_compile_options(${OPENSSL_STATIC_CFLAGS})
-                SET(OPENSSL_LIBRARIES ${OPENSSL_STATIC_LIBRARIES})
-                SET(OPENSSL_LIBRARY_DIRS ${OPENSSL_STATIC_LIBRARY_DIRS})
-            ENDIF()
-            add_compile_options(${OPENSSL_CFLAGS})
-        ELSE(OPENSSL_FOUND)
-            SET(RABBITIM_USE_OPENSSL OFF)
-        ENDIF(OPENSSL_FOUND)
-    ELSE()
+    #IF(PKG_CONFIG_FOUND AND NOT MSVC)
+    #    pkg_check_modules(OPENSSL openssl)
+    #    IF(OPENSSL_FOUND)
+    #        IF(BUILD_SHARED_LIBS)
+    #            add_compile_options(${OPENSSL_CFLAGS})    
+    #        ELSE()
+    #            add_compile_options(${OPENSSL_STATIC_CFLAGS})
+    #            SET(OPENSSL_LIBRARIES ${OPENSSL_STATIC_LIBRARIES})
+    #            SET(OPENSSL_LIBRARY_DIRS ${OPENSSL_STATIC_LIBRARY_DIRS})
+    #        ENDIF()
+    #        add_compile_options(${OPENSSL_CFLAGS})
+    #    ELSE(OPENSSL_FOUND)
+    #        SET(RABBITIM_USE_OPENSSL OFF)
+    #    ENDIF(OPENSSL_FOUND)
+    #ELSE()
         find_package(OpenSSL)
         IF(OPENSSL_FOUND)
             message("OPENSSL_INCLUDE_DIR:${OPENSSL_INCLUDE_DIR}")
             include_directories(${OPENSSL_INCLUDE_DIR})
+            LIST(APPEND RABBITIM_LIBS OpenSSL::SSL OpenSSL::Crypto)
         ELSE(OPENSSL_FOUND)
             SET(RABBITIM_USE_OPENSSL OFF)
         ENDIF(OPENSSL_FOUND)
-    ENDIF()
+    #ENDIF()
 
 ENDIF(OPTION_RABBITIM_USE_OPENSSL)
 MESSAGE("Use openssl library:${RABBITIM_USE_OPENSSL}")
 
 #检测libcurl库  
-OPTION(OPTION_RABBITIM_USE_LIBCURL "Use curl library" ON)
+OPTION(OPTION_RABBITIM_USE_LIBCURL "Use curl library" OFF)
 SET(RABBITIM_USE_LIBCURL OFF)
 IF(OPTION_RABBITIM_USE_LIBCURL)
     SET(RABBITIM_USE_LIBCURL ON)
@@ -207,34 +196,15 @@ MESSAGE("Use curl library:${RABBITIM_USE_LIBCURL}")
 #qxmpp库
 OPTION(OPTION_RABBITIM_USE_QXMPP "Use qxmpp library" ON)
 if(OPTION_RABBITIM_USE_QXMPP)
+    find_package(QXmpp)
+    if(QXmpp_FOUND)
+        LIST(APPEND RABBITIM_LIBS QXmpp::QXmpp)
+    endif()
     #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。
     #生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
     ADD_DEFINITIONS("-DRABBITIM_USE_QXMPP") 
     IF(NOT BUILD_SHARED_LIBS)
         ADD_DEFINITIONS("-DQXMPP_STATIC")
-    ENDIF()
-
-    SET(QXMPP_NAME qxmpp)
-    IF(CMAKE_BUILD_TYPE MATCHES Debug)
-        SET(QXMPP_NAME qxmpp_d)
-    ENDIF()
-    IF(PKG_CONFIG_FOUND AND NOT MSVC)
-        pkg_check_modules(QXMPP REQUIRED ${QXMPP_NAME})
-        IF(QXMPP_FOUND)
-            IF(BUILD_SHARED_LIBS)
-                add_compile_options(${QXMPP_CFLAGS})
-            ELSE()
-                add_compile_options(${QXMPP_STATIC_CFLAGS})
-                SET(QXMPP_LIBRARIES ${QXMPP_STATIC_LIBRARIES})
-                SET(QXMPP_LIBRARY_DIRS ${QXMPP_STATIC_LIBRARY_DIRS})
-            ENDIF()
-        ENDIF(QXMPP_FOUND)
-    ELSE()
-        IF(BUILD_SHARED_LIBS)
-            FIND_LIBRARY(QXMPP_LIBRARIES qxmpp0)
-        ELSE(BUILD_SHARED_LIBS)
-            FIND_LIBRARY(QXMPP_LIBRARIES qxmpp)
-        ENDIF(BUILD_SHARED_LIBS)
     ENDIF()
 ENDIF(OPTION_RABBITIM_USE_QXMPP)
 message("Use qxmpp library:${OPTION_RABBITIM_USE_QXMPP}")
@@ -254,28 +224,4 @@ IF(OPTION_RABBITIM_USE_PJSIP)
 ENDIF()
 message("Use PJSIP library:${RABBITIM_USE_PJSIP}")
 
-SET(RABBITIM_LIBS
-    ${RABBITIM_LIBS}
-    ${QXMPP_LIBRARIES}
-    ${LIBQRENCODE_LIBRARIES}
-    ${QZXING_LIBRARIES}
-    ${OpenCV_LIBS}
-    ${FFMPEG_LIBRARIES}
-    ${VPX_LIBRARIES}
-    ${SPEEX_LIBRARIES}
-    ${CURL_LIBRARIES}
-    ${OPENSSL_LIBRARIES}
-    ${QT_LIBRARIES}
-    )
-
-LINK_DIRECTORIES(
-    ${QXMPP_LIBRARY_DIRS}
-    ${LIBQRENCODE_LIBRARY_DIRS}
-    ${QZXING_LIBRARY_DIRS}
-    ${FFMPEG_LIBRARY_DIRS}
-    ${VPX_LIBRARY_DIRS}
-    ${SPEEX_LIBRARY_DIRS}
-    ${CURL_LIBRARY_DIRS}
-    ${OPENSSL_LIBRARY_DIRS}
-    ${QT_LIBRARY_DIRS}
-    )
+message("RABBITIM_LIBS:${RABBITIM_LIBS}")

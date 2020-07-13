@@ -16,7 +16,7 @@
 
 class CFrmLogin;
 class CFrmUserList;
-class CDlgSendManage;
+//class CDlgSendManage;
 
 namespace Ui {
 class MainWindow;
@@ -153,8 +153,8 @@ private slots:
     //翻译菜单组点击触发  
     void slotActionGroupTranslateTriggered(QAction* pAct);
 
-private:
-    CDlgSendManage* m_pSendManageDlg;//文件发送管理窗口  
+//private:
+    //CDlgSendManage* m_pSendManageDlg;//文件发送管理窗口  
 
 //窗口靠边界时自动隐藏
 #ifndef MOBILE

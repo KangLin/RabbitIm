@@ -1,7 +1,7 @@
 #include "CallObjectQXmpp.h"
-#include "qxmpp/QXmppUtils.h"
+#include "QXmppUtils.h"
 #include "Global/Global.h"
-#include "qxmpp/QXmppRtpChannel.h"
+#include "QXmppRtpChannel.h"
 #include <QAudioDeviceInfo>
 #include "MainWindow.h"
 

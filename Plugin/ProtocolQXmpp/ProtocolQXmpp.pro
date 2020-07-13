@@ -10,6 +10,7 @@ TARGET = ProtocolQXmpp
 TEMPLATE = lib
 DISTFILES += \
     ProtocolQXmpp.json
+OTHER_FILES += CMakeLists.txt
 
 RABBITIM_PLUG_NAME=CPluginProtocolQXMPP
 include(../pri/ConfigProtocol.pri)

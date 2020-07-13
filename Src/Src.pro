@@ -37,6 +37,9 @@ include(Files.pri)
 #发行版本才更新更新配置
 include(../pri/RabbitImVersion.pri)
 
+OTHER_FILES += CMakeLists.txt \
+    Files.cmake
+
 #翻译资源
 isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$(RabbitCommon_DIR)
 isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../../RabbitCommon

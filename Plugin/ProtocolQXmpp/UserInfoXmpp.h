@@ -2,8 +2,8 @@
 #define USERINFOXMPP_H
 
 #include <QObject>
-#include "qxmpp/QXmppVCardIq.h"
-#include "qxmpp/QXmppRosterIq.h"
+#include "QXmppVCardIq.h"
+#include "QXmppRosterIq.h"
 #include "UserInfo/UserInfo.h"
 
 /**

@@ -2,11 +2,11 @@
 #define XMPPCLIENT_H
 
 #include <QObject>
-#include "qxmpp/QXmppClient.h"
-#include "qxmpp/QXmppLogger.h"
-#include "qxmpp/QXmppTransferManager.h"
-#include "qxmpp/QXmppMucManager.h"
-#include "qxmpp/QXmppVCardIq.h"
+#include "QXmppClient.h"
+#include "QXmppLogger.h"
+#include "QXmppTransferManager.h"
+#include "QXmppMucManager.h"
+#include "QXmppVCardIq.h"
 #include "Client/Client.h"
 
 class CManageUserQXmpp;

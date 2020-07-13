@@ -8,7 +8,7 @@
     #include "Global.h"
 #endif
 #ifdef RABBITIM_USE_QXMPP
-    #include "qxmpp/QXmppUtils.h"
+    #include "QXmppUtils.h"
 #endif
 
 CGlobalDir::CGlobalDir()

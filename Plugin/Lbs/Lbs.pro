@@ -10,6 +10,7 @@
 TARGET = Lbs
 TEMPLATE = lib
 DISTFILES += Lbs.json
+OTHER_FILES += CMakeLists.txt
 
 CONFIG *= mobility
 MOBILITY = 

@@ -50,6 +50,8 @@ isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../../RabbitCommon
 
 SOURCES += main.cpp
 
+OTHER_FILES += CMakeLists.txt
+
 CONFIG += localize_deployment  #本地语言部署  
 
 other.files = ../License.md ../Authors.md ../ChangeLog.md

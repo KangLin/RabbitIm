@@ -8,7 +8,7 @@ SET(PLUGIN_SOURCES
     )
 
 SET(PLUGIN_UIS
-         FrmScanQRcode.ui
+    FrmScanQRcode.ui
     )
 
 include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginApp.cmake)

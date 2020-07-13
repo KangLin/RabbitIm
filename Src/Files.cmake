@@ -1,3 +1,22 @@
+SET(INSTALLHEADER_FILES 
+    common/QRCode.h
+    common/Tool.h
+    Client/Client.h
+    UserInfo/UserInfo.h
+    UserInfo/COperateRoster.h
+    UserInfo/User.h
+    Global/GlobalDir.h
+    Global/Global.h
+    Global/Log.h
+    )
+
+SET(RABBITIM_HEADER_FILES ${INSTALLHEADER_FILES}
+    MainWindow.h
+    Widgets/MainAnimation.h
+    Widgets/FrmLogin/FrmLogin.h
+    Widgets/FrmUserList/FrmUserList.h
+    Widgets/FrmUserList/GroupItem.h
+    )
 
 SET(RABBITIM_SOURCES
     MainWindow.cpp 
@@ -54,7 +73,6 @@ SET(RABBITIM_SOURCES
     Widgets/FrmGroupChat/DlgInviter.cpp 
     Widgets/FrmCustom/ItemModelCustom.cpp 
     Widgets/DlgUservCard/DlgUservCard.cpp  
-    Widgets/DlgAbout/DlgAbout.cpp 
     Widgets/DlgOptions/DlgOptions.cpp   
     Message/ManageMessage.cpp 
     Media/Camera/Camera.cpp 
@@ -69,10 +87,10 @@ SET(RABBITIM_SOURCES
     Widgets/FrmApp/FrmApp.cpp 
     Widgets/FrmApp/FrmAppList.cpp 
     Widgets/FrmApp/FrmFavorites.cpp 
-    Plugin/PluginApp.cpp 
-    Plugin/PluginProtocol.cpp 
-    Plugin/ManagePluginApp.cpp 
-    Plugin/ManagePluginProtocol.cpp
+    ${CMAKE_SOURCE_DIR}/Plugin/PluginApp.cpp 
+    ${CMAKE_SOURCE_DIR}/Plugin/PluginProtocol.cpp 
+    ${CMAKE_SOURCE_DIR}/Plugin/ManagePluginApp.cpp 
+    ${CMAKE_SOURCE_DIR}/Plugin/ManagePluginProtocol.cpp
     Widgets/MainAnimation.cpp
 )
 
@@ -94,7 +112,6 @@ SET(RABBITIM_UIS
     Widgets/FrmGroupChat/DlgJoinGroupChat.ui 
     Widgets/FrmGroupChat/DlgGroupChatInfo.ui 
     Widgets/FrmGroupChat/DlgInviter.ui 
-    Widgets/DlgAbout/DlgAbout.ui 
     Widgets/DlgOptions/DlgOptions.ui 
     Widgets/FrmMain/FrmMain.ui 
     Widgets/FrmApp/FrmApp.ui 

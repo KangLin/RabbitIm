@@ -23,7 +23,7 @@ environment:
     DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/windows_msvc15_x64_Release_qt5.13.2_v0.3.2.zip
   
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    #GENERATORS: "Visual Studio 15 2017"
+    GENERATORS: "Visual Studio 15 2017"
     BUILD_TARGERT: windows_msvc
     TOOLCHAIN_VERSION: 15
     QT_ROOT: C:\Qt\5.12\msvc2017
@@ -39,7 +39,7 @@ environment:
     DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/windows_msvc14_x86_Release_qt5.9.9_v0.3.2.zip
 
   - BUILD_TARGERT: windows_msvc
-    #GENERATORS: "Visual Studio 14 2015 Win64"
+    GENERATORS: "Visual Studio 14 2015 Win64"
     TOOLCHAIN_VERSION: 14
     QT_ROOT: C:\Qt\5.10\msvc2015_64
     BUILD_ARCH: x64
@@ -66,7 +66,7 @@ environment:
     DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/android4.9_arm_Release_qt5.12.6_v0.3.2_in_windows.zip
 
   - BUILD_TARGERT: android
-    #GENERATORS: "MSYS Makefiles"
+    GENERATORS: "MSYS Makefiles"
     BUILD_ARCH: "arm64-v8a"
     ANDROID_ARM_NEON: ON
     DOWNLOAD_QT: TRUE

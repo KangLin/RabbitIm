@@ -2,7 +2,7 @@
 #define GROUPCHATQXMPP_H
 
 #include <QObject>
-#include "qxmpp/QXmppMucManager.h"
+#include "QXmppMucManager.h"
 #include "Widgets/FrmGroupChat/GroupChat.h"
 
 #ifdef WIN32

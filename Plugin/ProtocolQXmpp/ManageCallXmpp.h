@@ -2,7 +2,7 @@
 #define MANAGECALLXMPP_H
 
 #include "Call/ManageCall.h"
-#include "qxmpp/QXmppCallManager.h"
+#include "QXmppCallManager.h"
 
 
 /**

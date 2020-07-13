@@ -57,11 +57,13 @@ int main(int argc, char *argv[])
                     << QSslSocket::sslLibraryBuildVersionString();
 #endif
     } else {
-        qDebug() << QSslSocket::supportsSsl()
+        qDebug() << "Support ssl:" << QSslSocket::supportsSsl()
             #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-                 <<QSslSocket::sslLibraryBuildVersionString()
+                << "sslLibraryBuildVersionString:"
+                << QSslSocket::sslLibraryBuildVersionString()
            #endif
-                <<QSslSocket::sslLibraryVersionString();
+                << "sslLibraryVersionString:" 
+                << QSslSocket::sslLibraryVersionString();
     }
     
     //QFontDatabase::addApplicationFont("://DejaVuSans.ttf");

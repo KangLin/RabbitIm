@@ -5,7 +5,7 @@
 #include <QVideoFrame>
 #include "common/Tool.h"
 #ifdef RABBITIM_USE_QXMPP
-    #include "qxmpp/QXmppRtpChannel.h"
+    #include "QXmppRtpChannel.h"
 #endif
 #include "Global/GlobalDir.h"
 

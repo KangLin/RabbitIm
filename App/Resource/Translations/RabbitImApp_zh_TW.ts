@@ -4,9 +4,8 @@
 <context>
     <name>CAndroidNotification</name>
     <message>
-        <location filename="../../../android/jni/AndroidNotification.cpp" line="24"/>
         <source>RabbitIm</source>
-        <translation>玉兔即時通訊</translation>
+        <translation type="vanished">玉兔即時通訊</translation>
     </message>
 </context>
 <context>

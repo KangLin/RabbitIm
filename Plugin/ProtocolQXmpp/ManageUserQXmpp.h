@@ -2,8 +2,8 @@
 #define GLOBALUSERQXMPP_H
 
 #include "Manage/ManageUser.h"
-#include "qxmpp/QXmppVCardIq.h"
-#include "qxmpp/QXmppRosterIq.h"
+#include "QXmppVCardIq.h"
+#include "QXmppRosterIq.h"
 
 /**
  * @defgroup RABBITIM_IMPLEMENT_QXMPP_MANAGEUSER 用户管理接口类模块  

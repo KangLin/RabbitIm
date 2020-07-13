@@ -21,7 +21,7 @@ extern "C" {
 #include <QFileDialog>
 
 #ifdef RABBITIM_USE_QXMPP
-    #include "qxmpp/QXmppRtpChannel.h"
+    #include "QXmppRtpChannel.h"
 #endif
 
 #ifdef RABBITIM_USE_OPENCV

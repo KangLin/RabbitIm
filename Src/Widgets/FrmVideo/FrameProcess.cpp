@@ -220,7 +220,7 @@ void CFrameProcess::slotFrameConvertedToYUYV(
             emit sigFrameConvertedToYUYVFrame(outFrame);
 #else
     //#pragma message("Must use ffmpeg library and qxmpp library")
-    #error "Must use ffmpeg library and qxmpp library"
+    #warning "Must use ffmpeg library and qxmpp library"
 #endif//#ifdef  RABBITIM_USE_FFMPEG && RABBITIM_USE_QXMPP
     }while(0);
 

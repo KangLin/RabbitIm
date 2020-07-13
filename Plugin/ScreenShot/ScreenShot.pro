@@ -9,6 +9,7 @@ QT *= core gui widgets
 TARGET = ScreenShot
 TEMPLATE = lib
 DISTFILES += PluginScreenShot.json
+OTHER_FILES += CMakeLists.txt
 
 RABBITIM_PLUG_NAME=CPluginScreenShot
 

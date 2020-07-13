@@ -2,7 +2,7 @@
 #include "Global/Global.h"
 #include "ClientXmpp.h"
 #include "GroupChatQxmpp.h"
-#include "qxmpp/QXmppUtils.h"
+#include "QXmppUtils.h"
 #include <QMessageBox>
 
 CManageGroupChatQxmpp::CManageGroupChatQxmpp(QObject *parent) :
