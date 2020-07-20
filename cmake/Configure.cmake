@@ -50,7 +50,7 @@ set(RABBITIM_ARCHITECTURE "${CMAKE_SYSTEM_NAME}")
 # ----------------------------------------------------------------------------
 if(NOT ANDROID)
     if(X86_64 OR CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(RABBITIM_ARCHITECTURE x86_64)
+        set(RABBITIM_ARCHITECTURE x64)
     elseif(X86 OR CMAKE_SIZEOF_VOID_P EQUAL 4)
         set(RABBITIM_ARCHITECTURE x86)
     endif()
@@ -194,6 +194,7 @@ foreach(d ${dirs})
 endforeach(d)
 
 mark_as_advanced(THIRD_LIBRARY_PATH)
+message("THIRD_LIBRARY_PATH:${THIRD_LIBRARY_PATH}")
 
 #pkgconfig模块
 #IF(MINGW)
