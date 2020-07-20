@@ -98,7 +98,7 @@ endif()
 IF(WIN32)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/Resource/png/RabbitIm.ico
         ${CMAKE_SOURCE_DIR}/Install/Install.nsi
-        DESTINATION .
+        DESTINATION ${CMAKE_BINARY_DIR}
             COMPONENT Runtime)
 
     #安装第三方库
