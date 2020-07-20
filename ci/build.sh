@@ -197,11 +197,13 @@ if [ -n "$GENERATORS" ]; then
     if [ -n "${STATIC}" ]; then
         CONFIG_PARA="-DBUILD_SHARED_LIBS=${STATIC}"
     fi
-    if [ -n "${ANDROID_ARM_NEON}" ]; then
-        CONFIG_PARA="${CONFIG_PARA} -DANDROID_ARM_NEON=${ANDROID_ARM_NEON}"
-    fi
+    
     CONFIG_PARA="${CONFIG_PARA} -DTHIRD_LIBRARY_PATH=$ThirdLibs_DIR"
+    
     if [ "${BUILD_TARGERT}" = "android" ]; then
+        if [ -n "${ANDROID_ARM_NEON}" ]; then
+            CONFIG_PARA="${CONFIG_PARA} -DANDROID_ARM_NEON=${ANDROID_ARM_NEON}"
+        fi
         if [ -d "$ThirdLibs_DIR" ]; then
             CONFIG_PARA="${CONFIG_PARA} -DOPENSSL_ROOT_DIR=$ThirdLibs_DIR"
         fi
@@ -224,6 +226,11 @@ if [ -n "$GENERATORS" ]; then
             -DCMAKE_MAKE_PROGRAM=make \
             -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake 
     else
+        echo "cmake -G\"${GENERATORS}\" ${SOURCE_DIR} ${CONFIG_PARA} 
+             -DCMAKE_INSTALL_PREFIX=`pwd`/install 
+             -DCMAKE_VERBOSE_MAKEFILE=ON 
+             -DCMAKE_BUILD_TYPE=Release 
+             -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5"
         cmake -G"${GENERATORS}" ${SOURCE_DIR} ${CONFIG_PARA} \
 		 -DCMAKE_INSTALL_PREFIX=`pwd`/install \
 		 -DCMAKE_VERBOSE_MAKEFILE=ON \
@@ -231,8 +238,10 @@ if [ -n "$GENERATORS" ]; then
 		 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
     fi
     cmake --build . --config Release -- ${RABBIT_MAKE_JOB_PARA}
-    cmake --build . --config Release --target install    
+    cmake --build . --config Release --target install
+    
 else
+
     if [ "ON" = "${STATIC}" ]; then
         CONFIG_PARA="CONFIG*=static"
     fi

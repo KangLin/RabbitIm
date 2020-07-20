@@ -14,8 +14,9 @@ set(SOURCES_FILES
     main.cpp
     )
 
+LIST(APPEND RCC_FILES ${CMAKE_SOURCE_DIR}/Resource/Resource.qrc)
 if(WIN32)
-    SET(RCC_FILES ${RCC_FILES} AppIcon.rc)
+    LIST(APPEND RCC_FILES AppIcon.rc)
 endif()
 #翻译
 include(${RabbitCommon_DIR}/cmake/Translations.cmake)

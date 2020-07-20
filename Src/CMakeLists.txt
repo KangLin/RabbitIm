@@ -4,6 +4,7 @@ project(RabbitIm)
 
 include(Files.cmake)
 
+LIST(APPEND RCC_FILES ${CMAKE_SOURCE_DIR}/Resource/Resource.qrc)
 #翻译
 include(${RabbitCommon_DIR}/cmake/Translations.cmake)
 GENERATED_QT_TRANSLATIONS(SOURCES ${RABBITIM_SOURCES} ${RABBITIM_UIS}
