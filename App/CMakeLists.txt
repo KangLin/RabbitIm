@@ -96,11 +96,14 @@ else()
 endif()
 
 IF(WIN32)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Resource/png/RabbitIm.ico
-        ${CMAKE_SOURCE_DIR}/Install/Install.nsi
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Install/Install.nsi
         DESTINATION ${CMAKE_BINARY_DIR}
             COMPONENT Runtime)
 
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Resource/png/RabbitIm.ico
+        DESTINATION .
+            COMPONENT Runtime)
+  
     #安装第三方库
     INSTALL(DIRECTORY ${THIRD_LIBRARY_PATH}/bin/
         ${THIRD_LIBRARY_PATH}/lib/
