@@ -13,7 +13,7 @@
 #include <QShowEvent>
 #include "Global/Global.h"
 
-class  CWdgScreenEditor : public QWidget
+class CWdgScreenEditor : public QWidget
 {
     Q_OBJECT
 public:

@@ -37,7 +37,7 @@ if(ANDROID)
 else()
     add_executable(${PROJECT_NAME} ${SOURCES_FILES} ${HEADER_FILES} ${SOURCE_UI_FILES} ${RCC_FILES})
 endif()
-target_link_libraries(${PROJECT_NAME} PRIVATE ${QT_LIBRARIES} RabbitIm ${RABBITIM_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${QT_LIBRARIES} RabbitIm)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
@@ -100,6 +100,13 @@ IF(WIN32)
         ${CMAKE_SOURCE_DIR}/Install/Install.nsi
         DESTINATION .
             COMPONENT Runtime)
+
+    #安装第三方库
+    INSTALL(DIRECTORY ${THIRD_LIBRARY_PATH}/bin/
+        ${THIRD_LIBRARY_PATH}/lib/
+        DESTINATION ${CMAKE_INSTALL_BINDIR}
+            COMPONENT Runtime
+        FILES_MATCHING PATTERN "*.dll")
 ENDIF()
 
 if(UNIX AND NOT ANDROID)

@@ -21,7 +21,7 @@ IF(PLUGIN_SOURCES)
             )
     IF(BUILD_SHARED_LIBS)
         #windows下动态库
-        target_compile_definitions(${PROJECT_NAME} PRIVATE -DBUILD_SHARED_LIBS)  
+        target_compile_definitions(${PROJECT_NAME} PRIVATE -DBUILD_SHARED_LIBS)
     ENDIF()
 
     target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/Src)
@@ -38,7 +38,10 @@ IF(BUILD_SHARED_LIBS)
     if(NOT EXISTS "${CMAKE_BINARY_DIR}/${PLUGIN_DIR}")
         file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/${PLUGIN_DIR}")
     endif()
-    set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${PLUGIN_DIR}")
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${PLUGIN_DIR}"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${PLUGIN_DIR}"
+        )
     #set(LIBRARY_OUTPUT_PATH ${PLUGIN_DIR})
     #add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     #        COMMAND ${CMAKE_COMMAND} -E make_directory "${PLUGIN_DIR}"
@@ -48,8 +51,12 @@ IF(BUILD_SHARED_LIBS)
     #安装
     INSTALL(TARGETS ${PROJECT_NAME}
             RUNTIME DESTINATION "${PLUGIN_DIR}"
+                 COMPONENT Runtime
             LIBRARY DESTINATION "${PLUGIN_DIR}"
-            ARCHIVE DESTINATION "${PLUGIN_DIR}")
+                 COMPONENT Runtime
+            ARCHIVE DESTINATION "${PLUGIN_DIR}"
+                 COMPONENT Runtime
+            )
 ELSE()
     IF(NOT RABBITIM_PLUG_NAME) 
         message("Please set RABBITIM_PLUG_NAME to plug class name")
