@@ -200,7 +200,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="lbs.qrc">
+           <iconset resource="Resource.qrc">
             <normaloff>:/png/up</normaloff>:/png/up</iconset>
           </property>
           <property name="checkable">
@@ -245,11 +245,11 @@
   <customwidget>
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
-   <header>QtQuickWidgets/QQuickWidget</header>
+   <header location="global">QtQuickWidgets/QQuickWidget</header>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="lbs.qrc"/>
+  <include location="Resource.qrc"/>
   <include location="../../Resource/Resource.qrc"/>
  </resources>
  <connections/>
