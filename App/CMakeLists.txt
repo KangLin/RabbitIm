@@ -60,6 +60,9 @@ elseif(MSVC)
     if(Qt5_VERSION VERSION_LESS "5.7.0")
         set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS
             "/SUBSYSTEM:WINDOWS\",5.01\" /ENTRY:mainCRTStartup")
+    else()
+        set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS
+            "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
     endif()
 endif()
 
