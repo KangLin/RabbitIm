@@ -21,6 +21,7 @@
 9. 重构呼叫框架
 10. 增加用 WEBRTC 库实现呼叫
 11. 重命名 CManage 的 LoginInit、LogoutClean 接口 
+12. 重构工程(qmake、cmake)
 
 版本：0.1.0
 --------------

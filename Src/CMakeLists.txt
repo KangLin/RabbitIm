@@ -1,23 +1,28 @@
 cmake_minimum_required(VERSION 2.8)
 
+if(POLICY CMP0020)
+    cmake_policy(SET CMP0020 NEW)
+endif()
+
 project(RabbitIm)
 
 include(Files.cmake)
 
-LIST(APPEND RCC_FILES ${CMAKE_SOURCE_DIR}/Resource/Resource.qrc)
-#翻译
+#资源
+LIST(APPEND RABBITIM_RCC_FILES ${CMAKE_SOURCE_DIR}/Resource/Resource.qrc)
+#翻译资源
 include(${RabbitCommon_DIR}/cmake/Translations.cmake)
 GENERATED_QT_TRANSLATIONS(SOURCES ${RABBITIM_SOURCES} ${RABBITIM_UIS}
     OUT_QRC TRANSLATIONS_QRC_FILES)
 string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
 if(BUILD_TYPE STREQUAL "debug")
-    LIST(APPEND LIBS_DEFINES DEBUG)
-    LIST(APPEND RCC_FILES
+    LIST(APPEND RABBITIM_DEFINES DEBUG)
+    LIST(APPEND RABBITIM_RCC_FILES
         ${TRANSLATIONS_QRC_FILES}
         )
 endif()
 
-add_library(${PROJECT_NAME} ${RABBITIM_SOURCES} ${HEADER_FILES} ${RABBITIM_UIS} ${RCC_FILES})
+add_library(${PROJECT_NAME} ${RABBITIM_SOURCES} ${HEADER_FILES} ${RABBITIM_UIS} ${RABBITIM_RCC_FILES})
 set_target_properties(${PROJECT_NAME} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
@@ -25,7 +30,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     PUBLIC_HEADER "${INSTALLHEADER_FILES}" # Install head files
     VERSION ${BUILD_VERSION})
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC RABBITCOMMON ${LIBS_DEFINES})
+target_compile_definitions(${PROJECT_NAME} PUBLIC RABBITCOMMON ${RABBITIM_DEFINES})
 target_link_libraries(${PROJECT_NAME} PUBLIC RabbitCommon ${QT_LIBRARIES} ${RABBITIM_LIBS})
 target_include_directories(${PROJECT_NAME}
     PRIVATE ${RabbitCommon_DIR}/Src

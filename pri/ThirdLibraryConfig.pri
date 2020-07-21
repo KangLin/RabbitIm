@@ -126,40 +126,44 @@ CONFIG(debug, debug|release) {
 #####以下配置 pkg-config  
 mingw{
     equals(QMAKE_HOST.os, Windows){
-        PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig;$${TARGET_PATH}/pkgconfig;$$(PKG_CONFIG_PATH)"
+        PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
     } else {
-        PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${TARGET_PATH}/pkgconfig"
-        PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
+        PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
+        #PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
     }
 } else : msvc {
-    PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
-    PKG_CONFIG_LIBDIR="$${THIRD_LIBRARY_PATH}/lib/pkgconfig;$${TARGET_PATH}/pkgconfig"
+    #PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
+    PKG_CONFIG_LIBDIR="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
+    PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
 } else : android {
-    PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH} 
+    PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
     equals(QMAKE_HOST.os, Windows){
-        PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig;$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig;$${TARGET_PATH}/pkgconfig
+        PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig;$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig
     } else {
-        PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig:$${TARGET_PATH}/pkgconfig
+        PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig
     }
-    PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${TARGET_PATH}/pkgconfig:$$(PKG_CONFIG_PATH)"
+    PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
 } else {
-    PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${TARGET_PATH}/pkgconfig:$$(PKG_CONFIG_PATH)"
+    PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
 }
 
+#设置 pkg-config
 isEmpty(PKG_CONFIG) : PKG_CONFIG=$$(PKG_CONFIG)
 isEmpty(PKG_CONFIG) : PKG_CONFIG = pkg-config
-
 CONFIG(static, static|shared) {
     PKG_CONFIG *= --static
 }
 
-sysroot.name = PKG_CONFIG_SYSROOT_DIR
-sysroot.value = $$PKG_CONFIG_SYSROOT_DIR
-libdir.name = PKG_CONFIG_LIBDIR
-libdir.value = $$PKG_CONFIG_LIBDIR
-path.name = PKG_CONFIG_PATH
-path.value = $$PKG_CONFIG_PATH
-qtAddToolEnv(PKG_CONFIG,libdir path, SYS)
+#增加到 para_pkg_config_path 前
+#para_pkg_config_sysroot.name = PKG_CONFIG_SYSROOT_DIR
+#para_pkg_config_sysroot.value = $$PKG_CONFIG_SYSROOT_DIR
+para_pkg_config_libdir.name = PKG_CONFIG_LIBDIR
+para_pkg_config_libdir.value = $$PKG_CONFIG_LIBDIR
+# pkg-config 搜索路径
+para_pkg_config_path.name = PKG_CONFIG_PATH
+para_pkg_config_path.value = $$PKG_CONFIG_PATH
+#设置 pkg-config 的环境变量 PKG_CONFIG_PATH、PKG_CONFIG_LIBDIR、PKG_CONFIG_SYSROOT_DIR
+qtAddToolEnv(PKG_CONFIG, para_pkg_config_libdir para_pkg_config_path, SYS)
 equals(QMAKE_HOST.os, Windows): \
     PKG_CONFIG += 2> NUL
 else: \
@@ -175,7 +179,7 @@ defineTest(myPackagesExist) {
     for(package, ARGS) {
         !system($$pkg_config --exists $$package) {
             !msvc : message("Warring: package $$package is not exist. ")
-            mingw | equals(QMAKE_HOST.os, Windows) : message("Warring: package $$package is not exist. Be sure use pkg-config in mingw32?")
+            mingw | equals(QMAKE_HOST.os, Windows) : message("Warring: package $$package is not exist. Be sure use pkg-config in mingw32? If it is, please use mingw pkg-config(set to PKG_CONFIG).")
             return(false)
         }
     }

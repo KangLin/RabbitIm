@@ -225,6 +225,10 @@ if [ -n "$GENERATORS" ]; then
             -DANDROID_ABI="${BUILD_ARCH}" \
             -DCMAKE_MAKE_PROGRAM=make \
             -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake 
+
+			cmake --build . --config MinSizeRel -- ${RABBIT_MAKE_JOB_PARA}
+            cmake --build . --config MinSizeRel --target install-runtime -- ${RABBIT_MAKE_JOB_PARA}
+
     else
         echo "cmake -G\"${GENERATORS}\" ${SOURCE_DIR} ${CONFIG_PARA} 
              -DCMAKE_INSTALL_PREFIX=`pwd`/install 
@@ -236,10 +240,11 @@ if [ -n "$GENERATORS" ]; then
 		 -DCMAKE_VERBOSE_MAKEFILE=ON \
 		 -DCMAKE_BUILD_TYPE=Release \
 		 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+
+        cmake --build . --config Release -- ${RABBIT_MAKE_JOB_PARA}
+        cmake --build . --config Release --target install-runtime
     fi
-    cmake --build . --config Release -- ${RABBIT_MAKE_JOB_PARA}
-    cmake --build . --config Release --target install
-    
+	 
 else
 
     if [ "ON" = "${STATIC}" ]; then

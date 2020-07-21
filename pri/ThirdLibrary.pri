@@ -16,19 +16,14 @@ RABBITIM_USE_QZXING=1
 
 equals(RABBITIM_USE_QXMPP, 1) {
     DEFINES *= RABBITIM_USE_QXMPP
-    CONFIG(debug, debug|release) {
-        myPackagesExist(qxmpp) {
-            MYPKGCONFIG *= qxmpp
-        }else : msvc {
-            LIBS += -lqxmpp
-        }
-    } 
-    CONFIG(release, debug|release) {
-        myPackagesExist(qxmpp) {
-            MYPKGCONFIG *= qxmpp
-        } else : msvc {
-            LIBS += -lqxmpp
-        }
+
+    myPackagesExist(qxmpp) {
+        MYPKGCONFIG *= qxmpp
+    }
+
+    msvc {
+        LIBS *= -lqxmpp
+        INCLUDEPATH *= $${THIRD_LIBRARY_PATH}/include/qxmpp
     }
 }
 
@@ -86,15 +81,24 @@ equals(QXMPP_USE_SPEEX, 1) : myPackagesExist(speex) {
     MYPKGCONFIG *= speex
 }
 
-equals(QXMPP_USE_OPUS, 1): myPackagesExist(opus) {
-    MYPKGCONFIG *= opus
+equals(QXMPP_USE_OPUS, 1) {
+    myPackagesExist(opus) {
+        MYPKGCONFIG *= opus
+    }
+
+    msvc {
+        LIBS *= -lopus
+        INCLUDEPATH *= $${THIRD_LIBRARY_PATH}/include/opus
+    }
 }
 
 equals(QXMPP_USE_VPX, 1) {
     myPackagesExist(vpx){
         MYPKGCONFIG *= vpx
-    } else : msvc {
-        LIBS += -lvpx
+    }
+    msvc {
+        LIBS *= -lvpx
+        INCLUDEPATH *= $${THIRD_LIBRARY_PATH}/include/vpx
     }
 }
 
@@ -119,9 +123,11 @@ equals(RABBITIM_USE_QZXING, 1) {
     myPackagesExist(QZXing) {
         DEFINES *= RABBITIM_USE_QZXING ENABLE_ENCODER_GENERIC
         MYPKGCONFIG *= QZXing
-    } else : msvc {
+    }
+
+    msvc {
         DEFINES *= RABBITIM_USE_QZXING ENABLE_ENCODER_GENERIC
-        LIBS += -lQZXing2
+        LIBS *= -lQZXing2
     }
 }
 

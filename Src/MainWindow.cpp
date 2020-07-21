@@ -896,7 +896,7 @@ void MainWindow::slotAbout()
 {
     LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
 #ifdef RABBITCOMMON
-    CDlgAbout about(this);
+    CDlgAbout about;
     about.m_AppIcon = QImage(":/icon/AppIcon");    
     about.m_szCopyrightStartTime = "2013";
     if(about.isHidden())

@@ -132,7 +132,8 @@ IF(MSVC)
         elseif(VisualStudioVersion VERSION_EQUAL 16.0)
             SET(RABBIT_TOOLCHAIN_VERSION 16)
         else()
-            message(FATAL_ERROR "Don't support msvc version: ${VisualStudioVersion}; please use msvc 2013, 2015, 2017, or set variable RABBIT_TOOLCHAIN_VERSION")
+            message(FATAL_ERROR "Don't support msvc version: ${VisualStudioVersion};
+			        please use msvc 2013, 2015, 2017, 2019 or set variable RABBIT_TOOLCHAIN_VERSION to 12, 14, 15, 16")
         endif()
     endif()
     add_compile_options("/wd4819")  #删除不是GBK字符的警告  
@@ -185,6 +186,7 @@ SET(THIRD_LIB_DIR ${THIRD_LIBRARY_PATH}/lib) #第三方库目录
 LINK_DIRECTORIES(${THIRD_LIB_DIR})
 ADD_DEFINITIONS(-DRABBITIM_SYSTEM="${RABBITIM_SYSTEM}")
 
+list(APPEND CMAKE_MODULE_PATH ${THIRD_LIBRARY_PATH}/cmake)
 file(GLOB dirs ${THIRD_LIBRARY_PATH}/lib/cmake/*)
 foreach(d ${dirs})
     IF(IS_DIRECTORY ${d})

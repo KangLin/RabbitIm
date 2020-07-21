@@ -1,19 +1,21 @@
 ### 目录
 --------
-1. [工具](#user-content-工具)
-2. [第三方库](#user-content-第三方库)
-3. [本项目](#user-content-本项目)
-4. [编译](#user-content-编译)  
+
+- [工具](#user-content-工具)
+- [第三方库](#user-content-第三方库)
+- [本项目](#user-content-本项目)
+- [编译](#user-content-编译)  
     各目标编译详细说明：
-    1. [ubuntu](https://github.com/KangLin/RabbitThirdLibrary/blob/master/INSTALL_UBUNTU.md)
-    2. [android](https://github.com/KangLin/RabbitThirdLibrary/blob/master/INSTALL_ANDROID.md)
-    3. [windows](https://github.com/KangLin/RabbitThirdLibrary/blob/master/INSTALL_WINDOWS.md)
-5. [本工程编译](#user-content-本工程编译)
-6. [翻译文件部署](#user-content-翻译文件部署)
-7. [调试](#user-content-调试)
+    + [ubuntu](https://github.com/KangLin/RabbitThirdLibrary/blob/master/INSTALL_UBUNTU.md)
+    + [android](https://github.com/KangLin/RabbitThirdLibrary/blob/master/INSTALL_ANDROID.md)
+    + [windows](https://github.com/KangLin/RabbitThirdLibrary/blob/master/INSTALL_WINDOWS.md)
+- [本工程编译](#user-content-本工程编译)
+- [翻译文件部署](#user-content-翻译文件部署)
+- [调试](#user-content-调试)
 
 ### 工具
 --------
+
 1. bash 环境:
     - windows：
          * msys2: http://sourceforge.net/projects/msys2/
@@ -25,7 +27,7 @@
              + 代码库: https://github.com/Alexpux/MSYS2-packages
         * msys: http://www.mingw.org/wiki/MSYS
         * cygwin主页: http://www.cygwin.org/  
-    本人使用 msys2 bash 环境
+    本人使用 msys2 
 2. 下载工具：
     + wget
     + curl
@@ -227,7 +229,7 @@
 ---------
 
 * 主页：https://github.com/KangLin/rabbitim
-* 下载：`git clone https://github.com/KangLin/rabbitim.git `
+* 下载：`git clone --recursive https://github.com/KangLin/rabbitim.git `
 
 编译
 -----

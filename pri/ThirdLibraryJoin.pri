@@ -11,7 +11,6 @@ for(PKGCONFIG_LIB, $$list($$unique($$pkgvar))) {
     !myPackagesExist($$PKGCONFIG_LIB): error("$$PKGCONFIG_LIB development package not found")
 
     PKGCONFIG_CFLAGS = $$system($$PKG_CONFIG --cflags $$PKGCONFIG_LIB)
-
     PKGCONFIG_INCLUDEPATH = $$find(PKGCONFIG_CFLAGS, ^-I.*)
     PKGCONFIG_INCLUDEPATH ~= s/^-I(.*)/\\1/g
 
@@ -39,5 +38,6 @@ equals(QXMPP_USE_VPX, 1) : myPackagesExist(vpx){
 !msvc{
     message("MYPKGCONFIG:$$MYPKGCONFIG")
     message("DEFINES:$$DEFINES")
+    message("INCLUDEPATH:$$INCLUDEPATH")
 }
 message("LIBS:$$LIBS")
