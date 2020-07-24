@@ -1,7 +1,6 @@
 CONFIG *= plugin 
 
-win32: TARGET_PATH=$$OUT_PWD/../../bin
-else: TARGET_PATH=$$OUT_PWD/../../lib
+TARGET_PATH=$$OUT_PWD/../../bin
 #设置目标输出目录  
 !exists("$$OUT_PWD") : mkpath($$OUT_PWD)
 #message("TARGET_PATH:$${TARGET_PATH}")

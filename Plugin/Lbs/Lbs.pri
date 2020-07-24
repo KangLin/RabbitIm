@@ -2,7 +2,10 @@ QT *= core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT *= widgets multimedia
 
-QT *= positioning quickwidgets
+qtHaveModule(positioning): QT *= positioning
+else: return()
+qtHaveModule(quickwidgets): QT *= quickwidgets
+else: return()
 
 include(../pri/ConfigApp.pri)
 

@@ -414,13 +414,16 @@ void CCallObjectQXmpp::slotCaptureFrame(const QVideoFrame &frame)
     QVideoFrame inFrame(frame);
     if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
         return;
+#ifdef RABBITIM_USE_FFMPEG
     QXmppVideoFrame outFrame(inFrame.mappedBytes(),
                              inFrame.size(),
                              inFrame.bytesPerLine(),
         CTool::QVideoFrameFormatToQXmppVideoFrameFormat(inFrame.pixelFormat()));
+
     //TODO:这里多了一次内存复制  
     memcpy(outFrame.bits(), inFrame.bits(), inFrame.mappedBytes());
     pChannel->writeFrame(outFrame);
+#endif
     inFrame.unmap();
 }
 

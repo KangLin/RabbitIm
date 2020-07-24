@@ -192,12 +192,15 @@ function function_unix()
     if [ "$DOWNLOAD_QT" = "APT" ]; then
         sudo apt-get install -y -qq qttools5-dev qttools5-dev-tools \
             qtbase5-dev qtbase5-dev-tools \
-            qtmultimedia5-dev
+            qtmultimedia5-dev \
+            qtlocation5-dev
         sudo ln -s /usr/lib/`uname -m`-linux-gnu/cmake /usr/lib/`uname -m`-linux-gnu/qt5/cmake 
     elif [ "$DOWNLOAD_QT" != "TRUE" ]; then
         sudo apt-get install -y -qq qt${QT_VERSION_DIR}base \
             qt${QT_VERSION_DIR}tools \
-            qt${QT_VERSION_DIR}multimedia
+            qt${QT_VERSION_DIR}multimedia \
+            qt${QT_VERSION_DIR}webengine \
+            qt${QT_VERSION_DIR}location
         sed -i "s/export QT_VERSION=/export QT_VERSION=${QT_VERSION}/g" ${SOURCE_DIR}/debian/preinst
         sed -i "s/qt59/qt${QT_VERSION_DIR}/g" ${SOURCE_DIR}/debian/postinst
     fi

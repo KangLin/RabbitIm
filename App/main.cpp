@@ -26,7 +26,9 @@ int main(int argc, char *argv[])
 #if defined(ANDROID) || defined(RABBITIM_STATIC)
     Q_INIT_RESOURCE(Resource);
     Q_INIT_RESOURCE(style);
-    Q_INIT_RESOURCE(Translations);
+#ifdef DEBUG
+    Q_INIT_RESOURCE(translations_RabbitImApp);
+#endif
 #endif
 
     QApplication app(argc, argv);

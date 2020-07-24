@@ -11,6 +11,7 @@ for(PKGCONFIG_LIB, $$list($$unique($$pkgvar))) {
     !myPackagesExist($$PKGCONFIG_LIB): error("$$PKGCONFIG_LIB development package not found")
 
     PKGCONFIG_CFLAGS = $$system($$PKG_CONFIG --cflags $$PKGCONFIG_LIB)
+    #message("PKGCONFIG_LIB:$$PKGCONFIG_LIB PKGCONFIG_CFLAGS:$$PKGCONFIG_CFLAGS")
     PKGCONFIG_INCLUDEPATH = $$find(PKGCONFIG_CFLAGS, ^-I.*)
     PKGCONFIG_INCLUDEPATH ~= s/^-I(.*)/\\1/g
 
@@ -22,8 +23,8 @@ for(PKGCONFIG_LIB, $$list($$unique($$pkgvar))) {
     INCLUDEPATH *= $$PKGCONFIG_INCLUDEPATH
     DEFINES *= $$PKGCONFIG_DEFINES
 
-    QMAKE_CXXFLAGS += $$PKGCONFIG_CFLAGS
-    QMAKE_CFLAGS += $$PKGCONFIG_CFLAGS
+    QMAKE_CXXFLAGS *= $$PKGCONFIG_CFLAGS
+    QMAKE_CFLAGS *= $$PKGCONFIG_CFLAGS
     $$libvar += $$system($$PKG_CONFIG --libs $$PKGCONFIG_LIB)
 }
 

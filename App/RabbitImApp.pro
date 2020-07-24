@@ -19,9 +19,7 @@ isEmpty(PREFIX) {
 }
 
 INCLUDEPATH *= ../Src
-win32: LIBS *= -L$$DESTDIR
-else: LIBS *= -L$$OUT_PWD/../lib
-LIBS += -lRabbitIm
+LIBS *= -L$$DESTDIR -lRabbitIm
 
 include(../pri/ThirdLibraryConfig.pri)
 CONFIG(static, static|shared) {
@@ -87,9 +85,6 @@ INSTALLS += other target
 
     INSTALLS += DESKTOP_FILE icon128
 }
-
-#ANDROID 平台相关内容  
-android : include(../android/android.pri)
 
 win32 : equals(QMAKE_HOST.os, Windows){
     
@@ -168,4 +163,15 @@ win32 : equals(QMAKE_HOST.os, Windows){
         POST_TARGETDEPS += COPY_THIRD_DEPENDS  #调试只要手动执行一次此目标  
 
     }
+}
+
+#ANDROID 平台相关内容
+#android : include(../android/android.pri)
+android{
+    #安装第三方依赖库
+    android_third_lib.target = android_third_lib
+    android_third_lib.files = $$system_path($${THIRD_LIBRARY_PATH}/lib/*.so*)
+    android_third_lib.path = $$system_path($$PREFIX/libs/$${ANDROID_TARGET_ARCH})
+    android_third_lib.CONFIG += directory no_check_exist
+    INSTALLS += android_third_lib
 }

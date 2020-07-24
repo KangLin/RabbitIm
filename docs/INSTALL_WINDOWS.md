@@ -1,5 +1,6 @@
 编译 windows 平台
-================
+
+----------------
 
 目录
 ----
@@ -109,6 +110,8 @@ make: fork: Resource temporarily unavailable
 #### 2.3. 编译工具: msvc
 主页：https://www.visualstudio.com/
 
+https://visualstudio.microsoft.com/zh-hans/vs/older-downloads/
+
 |当前使用版本|vc编译器版本号|
 |:--:|:--:|
 |vs 2017 Community|15|
@@ -214,6 +217,10 @@ x64 平台：
 msys2下的安装命令：
 
     pacman -S mingw-w64-i686-cmake
+
+*注意*: windows 下建议不使用 msys2 自带的 cmake,而是使用从官网下载的 cmake，
+因为交叉编译 android 时， CMAKE_HOST_SYSTEM_NAME 设置为 MSYS ，${ANDROID_NDK}/build/cmake/android.toolchain.cmake
+对 CMAKE_HOST_SYSTEM_NAME 处理有 BUG
 
 #### 2.12. 语法分析工具：bison, flex and gperf（用于Qt编译）
 

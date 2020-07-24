@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/file">
         <file alias="ChangeLog">../ChangeLog.md</file>
-	<file alias="Authors">../Authors.txt</file>
-	<file alias="License">../License.md</file>
+        <file alias="Authors">../Authors.md</file>
+        <file alias="License">../License.md</file>
     </qresource>
 </RCC>

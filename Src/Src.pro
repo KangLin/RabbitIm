@@ -12,10 +12,7 @@ CONFIG += create_prl no_install_prl create_pc no_install_pc
 QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 
 #设置目标输出目录
-isEmpty(DESTDIR){
-    win32: DESTDIR = $$OUT_PWD/../bin
-    else:  DESTDIR = $$OUT_PWD/../lib
-}
+isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
 
 #安装前缀
 isEmpty(PREFIX) {

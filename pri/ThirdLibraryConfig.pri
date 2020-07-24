@@ -3,6 +3,8 @@ lessThan(QT_MAJOR_VERSION, 5) : error("version is $$QT_VERSION, please qt is use
 
 QT *= core gui network xml multimedia widgets
 
+android: QT += androidextras
+
 qtHaveModule(webkit) {
     QT *= webkitwidgets
     DEFINES *= RABBITIM_WEBKIT 
