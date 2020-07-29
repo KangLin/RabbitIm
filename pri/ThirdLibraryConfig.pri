@@ -62,6 +62,14 @@ win32 {
         DEFINES *= "_WIN32_WINNT=0x0501" #__USE_MINGW_ANSI_STDIO
     }
 
+} else:android {
+    message("android: QMAKE_TARGET.arch:$$QMAKE_TARGET.arch")
+    RABBITIM_SYSTEM = "android"
+    RABBITIM_PLATFORM = "android"
+    RABBITIM_ARCHITECTURE = $${ANDROID_ARCHITECTURE}
+    API=$$(ANDROID_NDK_PLATFORM)
+    RABBIT_TOOLCHAIN_VERSION=$$split(API, "android-")
+    DEFINES *= ANDROID MOBILE
 } else:unix {
     message("unix: QMAKE_TARGET.arch:$$QMAKE_TARGET.arch")
     RABBITIM_SYSTEM = unix
@@ -75,14 +83,6 @@ win32 {
     }
     #TODO:
     RABBITIM_ARCHITECTURE = "x64"
-} else:android {
-    message("android: QMAKE_TARGET.arch:$$QMAKE_TARGET.arch")
-    RABBITIM_SYSTEM = "android"
-    RABBITIM_PLATFORM = "android"
-    RABBITIM_ARCHITECTURE = $${ANDROID_ARCHITECTURE}
-    API=$$(ANDROID_NDK_PLATFORM)
-    RABBIT_TOOLCHAIN_VERSION=$$split(API, "android-")
-    DEFINES *= ANDROID MOBILE
 }
 
 isEmpty(RABBIT_CONFIG) {
@@ -125,26 +125,17 @@ CONFIG(debug, debug|release) {
     LIBS *= -L$${THIRD_LIBRARY_PATH}/lib/Release
 }
 
-#####以下配置 pkg-config  
-mingw{
+#####以下配置 pkg-config
+# PKG_CONFIG_SYSROOT_DIR: 重定位目录到指定的 $SYSROOT，例如： -I/usr/include 替换为 -I${SYSROOT}/usr/include
+# PKG_CONFIG_LIBDIR: 替换 pkg-config 默认搜索目录
+# PKG_CONFIG_PATH: 增加 pkg-config 搜索目录列表，搜索完后再搜索默认目录
+
+android {
     equals(QMAKE_HOST.os, Windows){
-        PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
+        PKG_CONFIG_LIBDIR="$${THIRD_LIBRARY_PATH}/lib/pkgconfig";"$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig"
     } else {
-        PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
-        #PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
+        PKG_CONFIG_LIBDIR="$${THIRD_LIBRARY_PATH}/lib/pkgconfig":"$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig"
     }
-} else : msvc {
-    #PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
-    PKG_CONFIG_LIBDIR="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
-    PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
-} else : android {
-    PKG_CONFIG_SYSROOT_DIR=$${THIRD_LIBRARY_PATH}
-    equals(QMAKE_HOST.os, Windows){
-        PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig;$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig
-    } else {
-        PKG_CONFIG_LIBDIR=$${THIRD_LIBRARY_PATH}/lib/pkgconfig:$${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/pkgconfig
-    }
-    PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
 } else {
     PKG_CONFIG_PATH="$${THIRD_LIBRARY_PATH}/lib/pkgconfig"
 }
@@ -161,15 +152,14 @@ CONFIG(static, static|shared) {
 #para_pkg_config_sysroot.value = $$PKG_CONFIG_SYSROOT_DIR
 para_pkg_config_libdir.name = PKG_CONFIG_LIBDIR
 para_pkg_config_libdir.value = $$PKG_CONFIG_LIBDIR
-# pkg-config 搜索路径
 para_pkg_config_path.name = PKG_CONFIG_PATH
 para_pkg_config_path.value = $$PKG_CONFIG_PATH
+
 #设置 pkg-config 的环境变量 PKG_CONFIG_PATH、PKG_CONFIG_LIBDIR、PKG_CONFIG_SYSROOT_DIR
 qtAddToolEnv(PKG_CONFIG, para_pkg_config_libdir para_pkg_config_path, SYS)
-equals(QMAKE_HOST.os, Windows): \
-    PKG_CONFIG += 2> NUL
-else: \
-    PKG_CONFIG += 2> /dev/null
+
+equals(QMAKE_HOST.os, Windows): PKG_CONFIG += 2> NUL
+else: PKG_CONFIG += 2> /dev/null
 
 defineReplace(myPkgConfigExecutable) {
     return($$PKG_CONFIG)

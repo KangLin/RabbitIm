@@ -28,11 +28,13 @@ equals(RABBITIM_USE_QXMPP, 1) {
 }
 
 equals(RABBITIM_USE_FFMPEG, 1) {
-    DEFINES *= RABBITIM_USE_FFMPEG __STDC_CONSTANT_MACROS #ffmpeg需要  
+    DEFINES *= __STDC_CONSTANT_MACROS #ffmpeg需要  
     myPackagesExist(libavcodec libavformat libswscale libavutil) {
         MYPKGCONFIG *= libavcodec libavformat libswscale libavutil 
+        DEFINES *= RABBITIM_USE_FFMPEG
     } else : msvc {
-        LIBS += -lavcodec -lavformat -lswscale -lavutil 
+        LIBS += -lavcodec -lavformat -lswscale -lavutil
+        DEFINES *= RABBITIM_USE_FFMPEG
     }
     myPackagesExist(libswresample){
         MYPKGCONFIG *= libswresample

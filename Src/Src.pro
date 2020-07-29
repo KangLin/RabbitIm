@@ -16,7 +16,7 @@ isEmpty(DESTDIR): DESTDIR = $$OUT_PWD/../bin
 
 #安装前缀
 isEmpty(PREFIX) {
-    qnx : PREFIX = /tmp
+    qnx : PREFIX = /tmp/$${TARGET}/bin
     else : android : PREFIX = /.
     else : PREFIX = $$OUT_PWD/../install
 }
