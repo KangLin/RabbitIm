@@ -28,13 +28,22 @@ IF(PLUGIN_SOURCES)
     
     #链接库
     target_link_libraries(${PROJECT_NAME} RabbitIm ${RABBITIM_LIBS})
+
+    IF(ANDROID)
+        target_include_directories(${PROJECT_NAME} PRIVATE
+            ${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni)
+    ENDIF()
 ENDIF(PLUGIN_SOURCES)
 
 #为静态插件生成必要的文件  
 IF(BUILD_SHARED_LIBS)
     #复制插件到 ${CMAKE_BINARY_DIR}/plugins/${PLUGIN_TYPE}/${PROJECT_NAME}
     #更改输出目录到根目录
-    SET(PLUGIN_DIR "plugins/${PLUGIN_TYPE}/${PROJECT_NAME}")
+    if(ANDROID)
+        SET(PLUGIN_DIR "libs/${ANDROID_ABI}")
+    else()
+        SET(PLUGIN_DIR "plugins/${PLUGIN_TYPE}/${PROJECT_NAME}")
+    endif()
     if(NOT EXISTS "${CMAKE_BINARY_DIR}/${PLUGIN_DIR}")
         file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/${PLUGIN_DIR}")
     endif()

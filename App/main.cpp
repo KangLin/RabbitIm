@@ -20,12 +20,12 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     
-#ifdef ANDROID
-    Q_INIT_RESOURCE(Android);
-#endif
+//#ifdef ANDROID
+//    Q_INIT_RESOURCE(Android);
+//#endif
 #if defined(ANDROID) || defined(RABBITIM_STATIC)
     Q_INIT_RESOURCE(Resource);
-    Q_INIT_RESOURCE(style);
+    //Q_INIT_RESOURCE(style);
 #ifdef DEBUG
     Q_INIT_RESOURCE(translations_RabbitImApp);
 #endif

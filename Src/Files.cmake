@@ -1,4 +1,4 @@
-SET(INSTALLHEADER_FILES 
+SET(INSTALL_HEADER_FILES
     common/QRCode.h
     common/Tool.h
     Client/Client.h
@@ -10,7 +10,7 @@ SET(INSTALLHEADER_FILES
     Global/Log.h
     )
 
-SET(RABBITIM_HEADER_FILES ${INSTALLHEADER_FILES}
+SET(RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
     MainWindow.h
     Widgets/MainAnimation.h
     Widgets/FrmLogin/FrmLogin.h
@@ -129,13 +129,6 @@ IF(RABBITIM_USE_OPENSSL)
         Global/Encrypt.cpp
     )
 ENDIF(RABBITIM_USE_OPENSSL)
-
-IF(ANDROID)
-    SET(RABBITIM_SOURCES
-        ${RABBITIM_SOURCES}
-        android/jni/AndroidNotification.cpp
-    )
-ENDIF(ANDROID)
 
 IF(RABBITIM_USE_PJSIP) 
     SET(RABBITIM_SOURCES

@@ -1,4 +1,1 @@
-SET(RABBITIM_SOURCES
-	${RABBITIM_SOURCES}
-	AndroidNotification.cpp
-)
+add_subdirectory(android/QtAndroidUtils/android/QtAndroidUtilsModule/jni)

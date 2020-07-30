@@ -11,7 +11,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../main.cpp" line="51"/>
+        <location filename="../../main.cpp" line="53"/>
         <source>Rabbit immediate communicate</source>
         <translation>玉兔即时通讯</translation>
     </message>

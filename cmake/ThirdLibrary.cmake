@@ -77,11 +77,13 @@ IF(PKG_CONFIG_FOUND AND NOT MSVC)
         ADD_DEFINITIONS(-DRABBITIM_USE_QZXING)
         IF(BUILD_SHARED_LIBS)
             add_compile_options(${QZXING_CFLAGS})
+            INSTALL_TARGETS(TARGETS QZXing)
         ELSE()
             add_compile_options(${QZXING_STATIC_CFLAGS})
             SET(QZXING_LIBRARIES ${QZXING_STATIC_LIBRARIES})
             SET(QZXING_LIBRARY_DIRS ${QZXING_STATIC_LIBRARY_DIRS})
         ENDIF()
+
     ENDIF()
 ELSE()
     FIND_LIBRARY(QZXING_LIBRARIES QZXing2)
@@ -199,13 +201,18 @@ if(OPTION_RABBITIM_USE_QXMPP)
     find_package(QXmpp)
     if(QXmpp_FOUND)
         LIST(APPEND RABBITIM_LIBS QXmpp::QXmpp)
+        ADD_DEFINITIONS("-DRABBITIM_USE_QXMPP")
+
+        IF(BUILD_SHARED_LIBS)
+        INSTALL(FILES $<TARGET_FILE:QXmpp::QXmpp>
+                        DESTINATION "libs/${ANDROID_ABI}"
+                            COMPONENT Runtime)
+        ELSE()
+            #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。
+            #生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
+            ADD_DEFINITIONS("-DQXMPP_STATIC")
+        ENDIF()
     endif()
-    #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。
-    #生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
-    ADD_DEFINITIONS("-DRABBITIM_USE_QXMPP") 
-    IF(NOT BUILD_SHARED_LIBS)
-        ADD_DEFINITIONS("-DQXMPP_STATIC")
-    ENDIF()
 ENDIF(OPTION_RABBITIM_USE_QXMPP)
 message("Use qxmpp library:${OPTION_RABBITIM_USE_QXMPP}")
 

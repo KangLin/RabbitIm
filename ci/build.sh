@@ -226,8 +226,8 @@ if [ -n "$GENERATORS" ]; then
             -DCMAKE_MAKE_PROGRAM=make \
             -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake 
 
-			cmake --build . --config MinSizeRel -- ${RABBIT_MAKE_JOB_PARA}
-            cmake --build . --config MinSizeRel --target install-runtime -- ${RABBIT_MAKE_JOB_PARA}
+        cmake --build . --config MinSizeRel -- ${RABBIT_MAKE_JOB_PARA}
+        cmake --build . --config MinSizeRel --target install-runtime -- ${RABBIT_MAKE_JOB_PARA}
 
     else
         echo "cmake -G\"${GENERATORS}\" ${SOURCE_DIR} ${CONFIG_PARA} 

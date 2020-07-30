@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 
 project(RabbitIm)
 
@@ -59,6 +59,10 @@ message("BUILD_VERSION:${BUILD_VERSION}")
 #check_function_exists("fabs" HAVE_FABS)
 
 add_definitions(-DBUILD_VERSION="${BUILD_VERSION}")
+
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
 
 include(cmake/Configure.cmake)
 include(cmake/ThirdLibrary.cmake)

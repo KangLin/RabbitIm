@@ -27,7 +27,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-    PUBLIC_HEADER "${INSTALLHEADER_FILES}" # Install head files
+    PUBLIC_HEADER "${INSTALL_HEADER_FILES}" # Install head files
     VERSION ${BUILD_VERSION})
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC RABBITCOMMON ${RABBITIM_DEFINES})
@@ -47,12 +47,18 @@ target_include_directories(${PROJECT_NAME}
 target_compile_definitions(${PROJECT_NAME} PRIVATE DLL_EXPORT)
 GENERATE_EXPORT_HEADER(${PROJECT_NAME})
 string(TOLOWER ${PROJECT_NAME} LOWER_PROJECT_NAME)
-set(INSTALLHEADER_FILES ${INSTALLHEADER_FILES} 
+set(INSTALL_HEADER_FILES ${INSTALL_HEADER_FILES}
     ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h)
 file(COPY ${CMAKE_CURRENT_BINARY_DIR}/${LOWER_PROJECT_NAME}_export.h
     DESTINATION ${CMAKE_BINARY_DIR})
 
 if(ANDROID)
+    ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni
+        ${CMAKE_BINARY_DIR}/QtAndroidUtilsModule)
+    target_link_libraries(${PROJECT_NAME} PUBLIC QtAndroidUtilsModule)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+        ${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni)
+
     # Install target
     INSTALL(TARGETS ${PROJECT_NAME}
             EXPORT ${PROJECT_NAME}Config
