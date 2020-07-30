@@ -5,7 +5,7 @@ QXMPP_USE_VPX=1              #使用 vpx
 #QXMPP_USE_SPEEX=1           #使用 speex  
 QXMPP_USE_OPUS=1             #使用 opus
 #RABBITIM_USE_OPENCV=1       #使用 opencv  
-RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
+!android: RABBITIM_USE_FFMPEG=1       #使用 ffmpeg
 #RABBITIM_USE_LIBCURL=1      #使用 libcurl  
 #RABBITIM_USE_OPENSSL=1      #使用openssl
 #RABBITIM_USE_DOXYGEN=1      #使用doxygen产生文档  
@@ -19,6 +19,7 @@ equals(RABBITIM_USE_QXMPP, 1) {
 
     myPackagesExist(qxmpp) {
         MYPKGCONFIG *= qxmpp
+        android: ANDROID_EXTRA_LIBS *= $${THIRD_LIBRARY_PATH}/lib/libqxmpp.so
     }
 
     msvc {
@@ -32,18 +33,26 @@ equals(RABBITIM_USE_FFMPEG, 1) {
     myPackagesExist(libavcodec libavformat libswscale libavutil) {
         MYPKGCONFIG *= libavcodec libavformat libswscale libavutil 
         DEFINES *= RABBITIM_USE_FFMPEG
+        android: ANDROID_EXTRA_LIBS *= $${THIRD_LIBRARY_PATH}/lib/libavcodec.so \
+             $${THIRD_LIBRARY_PATH}/lib/libavcodec.so \
+             $${THIRD_LIBRARY_PATH}/lib/libavformat.so \
+             $${THIRD_LIBRARY_PATH}/lib/libswscale.so \
+             $${THIRD_LIBRARY_PATH}/lib/libavutil.so
+
     } else : msvc {
         LIBS += -lavcodec -lavformat -lswscale -lavutil
         DEFINES *= RABBITIM_USE_FFMPEG
     }
     myPackagesExist(libswresample){
         MYPKGCONFIG *= libswresample
+        android: ANDROID_EXTRA_LIBS *= $${THIRD_LIBRARY_PATH}/lib/libswresample.so
     } else : msvc {
         LIBS += -lswresample
     }
 
     myPackagesExist(x264) {
         MYPKGCONFIG *= x264
+        android: ANDROID_EXTRA_LIBS *= $${THIRD_LIBRARY_PATH}/lib/libx264.so
     }
 }
 
@@ -86,6 +95,7 @@ equals(QXMPP_USE_SPEEX, 1) : myPackagesExist(speex) {
 equals(QXMPP_USE_OPUS, 1) {
     myPackagesExist(opus) {
         MYPKGCONFIG *= opus
+        android: ANDROID_EXTRA_LIBS *= $${THIRD_LIBRARY_PATH}/lib/libopus.so
     }
 
     msvc {
@@ -125,6 +135,7 @@ equals(RABBITIM_USE_QZXING, 1) {
     myPackagesExist(QZXing) {
         DEFINES *= RABBITIM_USE_QZXING ENABLE_ENCODER_GENERIC
         MYPKGCONFIG *= QZXing
+        android: ANDROID_EXTRA_LIBS *= $${THIRD_LIBRARY_PATH}/libs/$${ANDROID_TARGET_ARCH}/libQZXing.so
     }
 
     msvc {

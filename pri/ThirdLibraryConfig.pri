@@ -10,6 +10,10 @@ qtHaveModule(webkit) {
     DEFINES *= RABBITIM_WEBKIT 
 }
 
+# QZXin need following module
+greaterThan(QT_VERSION, 4.7): lessThan(QT_VERSION, 5.0): QT += declarative
+greaterThan(QT_MAJOR_VERSION, 4): QT += quick
+
 DEFINES *= RABBITIM
 CONFIG *= c++11
 msvc{

@@ -6,9 +6,8 @@ OTHER_FILES +=  \
     $$PWD/* \
     $$PWD/QtAndroidUtils/* \
     $$PWD/QtAndroidUtils/android/* \
-    $$PWD/QtAndroidUtils/android/QtAndroidUtilsModule/*
-
-DISTFILES += \
+    $$PWD/QtAndroidUtils/android/QtAndroidUtilsModule/* \
+    $$PWD/QtAndroidUtils/android/QtAndroidUtilsModule/src/org/KangLinStudio/QtAndroidUtils/* \
     $$PWD/src/org/KangLinStudio/RabbitIm/* \
     $$PWD/src/org/pjsip/* \
     $$PWD/res/values/* \
