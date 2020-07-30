@@ -166,7 +166,7 @@ win32 : equals(QMAKE_HOST.os, Windows){
 }
 
 #ANDROID 平台相关内容
-#android : include(../android/android.pri)
+android : include(../android/android.pri)
 android{
     #安装第三方依赖库
     android_third_lib.target = android_third_lib

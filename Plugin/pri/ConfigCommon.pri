@@ -7,6 +7,12 @@ TARGET_PATH=$$OUT_PWD/../../bin
 !CONFIG(static, static|shared) : DEFINES += BUILD_SHARED_LIBS #windows下动态库导出
 
 include($$PWD/../../pri/ThirdLibraryConfig.pri)
+
+android {
+    include($$PWD/../../android/QtAndroidUtils/android/QtAndroidUtilsModule/jni/jni.pri)
+    INCLUDEPATH *= $$PWD/../../android/QtAndroidUtils/android/QtAndroidUtilsModule/jni
+}
+
 INCLUDEPATH *= .. ../../Src
 LIBS *=  -L$${TARGET_PATH} -lRabbitIm  #包含 RabbitIm 库位置
 

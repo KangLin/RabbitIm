@@ -58,7 +58,10 @@ else: target.path = $$PREFIX/lib
 #android : CONFIG += static   #TODO：android < 18时，动态库加载会失败（可能是有未支持的函数），原因不明
 
 #ANDROID 平台相关内容
-android : include(../android/jni/android_jni.pri)
+android {
+    include($$PWD/../android/QtAndroidUtils/android/QtAndroidUtilsModule/jni/jni.pri)
+    INCLUDEPATH *= $$PWD/../android/QtAndroidUtils/android/QtAndroidUtilsModule/jni
+}
 
 win32:equals(QMAKE_HOST.os, Windows){
 

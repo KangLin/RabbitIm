@@ -1,9 +1,12 @@
 ANDROID_PACKAGE_SOURCE_DIR += $$PWD  #ANDROID包的源码目录  
 
-#include(jni/android_jni.pri)
+INCLUDEPATH *= $$PWD/QtAndroidUtils/android/QtAndroidUtilsModule/jni
 
 OTHER_FILES +=  \
-    $$PWD/*
+    $$PWD/* \
+    $$PWD/QtAndroidUtils/* \
+    $$PWD/QtAndroidUtils/android/* \
+    $$PWD/QtAndroidUtils/android/QtAndroidUtilsModule/*
 
 DISTFILES += \
     $$PWD/src/org/KangLinStudio/RabbitIm/* \
@@ -13,6 +16,22 @@ DISTFILES += \
     $$PWD/res/values-zh-rCN/* \
     $$PWD/res/values-zh-rTW/* \
     $$PWD/res/*
+
+android{
+    ANDROID_PERMISSIONS += \
+        android.permission.ACCESS_NETWORK_STATE \
+        android.permission.ACCESS_FINE_LOCATION
+        android.permission.CAMERA
+        android.permission.RECORD_AUDIO
+        android.permission.READ_FRAME_BUFFER
+        android.permission.MOUNT_UNMOUNT_FILESYSTEMS
+        android.permission.WRITE_USER_DICTIONARY
+        android.permission.READ_EXTERNAL_STORAGE
+        android.permission.WRITE_EXTERNAL_STORAGE
+        android.permission.READ_USER_DICTIONARY
+        android.permission.INTERNET
+        android.permission.WAKE_LOCK
+}
 
 #安装 android 支持库  
 #android_support_library.target = android_support_library

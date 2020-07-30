@@ -124,7 +124,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     
 #ifdef ANDROID
-    check = connect(&m_AndroidNotify, SIGNAL(sigOnChick()),
+    check = connect(&m_AndroidNotify, SIGNAL(sigOnChilk()),
                     SLOT(slotMessageClicked()));
     Q_ASSERT(check);
 #endif
@@ -752,7 +752,7 @@ int MainWindow::ShowTrayIconMessage(const QString &szTitle, const QString &szMes
     if(CGlobal::Instance()->IsNotifiationBarShowMessage())
     {
 #ifdef ANDROID
-        m_AndroidNotify.setNotification(szMessage, szTitle);
+        m_AndroidNotify.Show(szMessage, szTitle);
 #else
         m_TrayIcon.showMessage(szTitle,
                                szMessage, 

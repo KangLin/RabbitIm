@@ -1,3 +1,6 @@
 [submodule "ThirdLibrary"]
 	path = ThirdLibrary
 	url = https://github.com/KangLin/RabbitThirdLibrary
+[submodule "android/QtAndroidUtils"]
+	path = android/QtAndroidUtils
+	url = https://github.com/KangLin/QtAndroidUtils.git

@@ -10,7 +10,7 @@
 #include "Widgets/FrmMain/FrmMain.h"
 
 #ifdef ANDROID
-    #include "android/jni/AndroidNotification.h"
+    #include "Notification.h"
 #endif
 #include "Global/Global.h"
 
@@ -108,7 +108,7 @@ private:
     QTimer m_TrayTimer;
 #ifdef ANDROID
 public:
-    CAndroidNotification m_AndroidNotify;
+    CNotification m_AndroidNotify;
 #endif
 
 private:
