@@ -26,9 +26,11 @@ int main(int argc, char *argv[])
 #if defined(ANDROID) || defined(RABBITIM_STATIC)
     Q_INIT_RESOURCE(Resource);
     //Q_INIT_RESOURCE(style);
+
+#endif
+
 #ifdef DEBUG
     Q_INIT_RESOURCE(translations_RabbitImApp);
-#endif
 #endif
 
     QApplication app(argc, argv);
@@ -47,7 +49,8 @@ int main(int argc, char *argv[])
 
     QTranslator translator;
     translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-                     + QDir::separator() + "RabbitImApp_" + QLocale::system().name() + ".qm");
+                    + QDir::separator() + "RabbitImApp_"
+                    + QLocale::system().name() + ".qm");
     qApp->installTranslator(&translator);
     
     app.setApplicationDisplayName(QObject::tr("Rabbit immediate communicate"));
@@ -90,7 +93,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 #ifndef MOBILE
     //加载窗口位置  
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                    QSettings::IniFormat);
     QScreen *pScreen = QGuiApplication::primaryScreen();
     
@@ -128,5 +131,11 @@ int main(int argc, char *argv[])
     player.show();
 #endif
     //*/
-    return app.exec();
+    int nRet = app.exec();
+
+#ifdef DEBUG
+    Q_CLEANUP_RESOURCE(translations_RabbitImApp);
+#endif
+
+    return nRet;
 }

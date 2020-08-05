@@ -111,10 +111,10 @@ QString CGlobalDir::GetDirMotion(const QString &szId)
 }
 
 //应用程序的配置文件  
-QString CGlobalDir::GetApplicationConfigureFile()
-{
-    return GetDirDocument() + QDir::separator() + "app.conf";
-}
+//QString CGlobalDir::GetApplicationConfigureFile()
+//{
+//    return GetDirDocument() + QDir::separator() + "app.conf";
+//}
 
 QString CGlobalDir::GetDirTranslate()
 {

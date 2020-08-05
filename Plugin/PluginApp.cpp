@@ -5,6 +5,7 @@
 #include <QSettings>
 #include <QTranslator>
 #include <QSharedPointer>
+#include "RabbitCommonDir.h"
 
 CPluginApp::CPluginApp()
 {  
@@ -43,7 +44,7 @@ int CPluginApp::ClearInstance()
 int CPluginApp::LoadTranslate(const QString &szDir)
 {
     //初始化翻译  
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     QString szLocale = conf.value("Global/Language", QLocale::system().name()).toString();
 
     if("Default" == szLocale)

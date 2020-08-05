@@ -9,6 +9,7 @@
 #include <QDir>
 #include "Tool.h"
 #include "Media/Camera/CameraFactory.h"
+#include "RabbitCommonDir.h"
 
 CDlgOptions::CDlgOptions(QWidget *parent) :
     QDialog(parent),
@@ -21,7 +22,7 @@ CDlgOptions::CDlgOptions(QWidget *parent) :
     int nIndex = 0;
     if(USER_INFO_LOCALE.isNull())
     {
-        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+        QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
         nIndex = conf.value("Widgets/Options", 0).toInt();
     }
     else
@@ -41,7 +42,7 @@ CDlgOptions::~CDlgOptions()
     }
     else
     {
-        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+        QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
         conf.setValue("Widgets/Options", ui->tabWidget->currentIndex());
     }
     delete ui;

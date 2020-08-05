@@ -1,6 +1,7 @@
 #include "FrmAppList.h"
 #include "ui_FrmAppList.h"
 #include "../../Global/Global.h"
+#include "RabbitCommonDir.h"
 #include <QDir>
 #include <QFile>
 #include <QDataStream>
@@ -55,7 +56,7 @@ QString CFrmAppList::GetNodeStateFile()
     if(szId.isEmpty())
         return QString();
 
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     QString szLocale = conf.value("Global/Language", QLocale::system().name()).toString();
     if("Default" == szLocale)
     {
@@ -92,7 +93,7 @@ int CFrmAppList::LoadGroupNodeStateFromStorage()
             bool bState;
             s >> bState;
             LOG_MODEL_DEBUG("CFrmUserList", "Group:%s; State:%d", szGroup.toStdString().c_str(), bState);
-            QStandardItem* pItem = NULL;
+            QStandardItem* pItem = nullptr;
             QModelIndexList lstIndexs = m_pModel->match(
                         m_pModel->index(0, 0),
                         ROLE_GROUP,

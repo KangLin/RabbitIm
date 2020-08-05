@@ -13,10 +13,8 @@
 #include "Widgets/DlgUservCard/DlgUservCard.h"
 #include "Global/Global.h"
 
-#ifdef RABBITCOMMON
-    #include "RabbitCommonDir.h"
-    #include "FrmUpdater/FrmUpdater.h"
-#endif
+#include "RabbitCommonDir.h"
+#include "FrmUpdater/FrmUpdater.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent
@@ -156,7 +154,7 @@ MainWindow::~MainWindow()
     //保存窗口位置  
     //QRect rect = this->frameGeometry();
     slotCheckShowWindows();
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                    QSettings::IniFormat);
     conf.setValue("UI/MainWindow/top", this->y());
     conf.setValue("UI/MainWindow/left", this->x());
@@ -614,7 +612,7 @@ int MainWindow::InitMenuTranslate()
                         SLOT(slotActionGroupTranslateTriggered(QAction*)));
     Q_ASSERT(check);
 
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                    QSettings::IniFormat);
     QString szLocale = conf.value("Global/Language", "Default").toString();
     QAction* pAct = m_ActionTranslator[szLocale];
@@ -658,10 +656,16 @@ int MainWindow::ClearTranslate()
         m_TranslatorQt.clear();
     }
 
-    if(m_TranslatorApp.isNull())
+    if(!m_TranslatorApp.isNull())
     {
         qApp->removeTranslator(m_TranslatorApp.data());
         m_TranslatorApp.clear();
+    }
+
+    if(!m_TranslatorSrc.isNull())
+    {
+        qApp->removeTranslator(m_TranslatorSrc.data());
+        m_TranslatorSrc.clear();
     }
     return 0;
 }
@@ -671,7 +675,7 @@ int MainWindow::LoadTranslate(QString szLocale)
     //初始化翻译  
     if(szLocale.isEmpty())
     {
-        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
+        QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                        QSettings::IniFormat);
         szLocale = conf.value("Global/Language",
                               QLocale::system().name()).toString();
@@ -682,24 +686,48 @@ int MainWindow::LoadTranslate(QString szLocale)
         szLocale = QLocale::system().name();
     }
 
-    LOG_MODEL_DEBUG("main", "locale language:%s",
-                    szLocale.toStdString().c_str());
-
     ClearTranslate();
-    LOG_MODEL_DEBUG("MainWindow", "Translate dir:%s",
-                    qPrintable(CGlobalDir::Instance()->GetDirTranslate()));
 
     m_TranslatorQt = QSharedPointer<QTranslator>(new QTranslator(this));
-    m_TranslatorQt->load("qt_" + szLocale + ".qm",
-                         CGlobalDir::Instance()->GetDirTranslate());
-    qApp->installTranslator(m_TranslatorQt.data());
+    if(m_TranslatorQt->load("qt_" + szLocale + ".qm",
+                         RabbitCommon::CDir::Instance()->GetDirTranslations()))
+    {
+        qApp->installTranslator(m_TranslatorQt.data());
+    } else {
+        LOG_MODEL_ERROR("MainWindow", "Load traslator qt fail");
+    }
+
 
     m_TranslatorApp = QSharedPointer<QTranslator>(new QTranslator(this));
-    m_TranslatorApp->load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-                          + QDir::separator() + "RabbitIm_" + szLocale + ".qm");
-    qApp->installTranslator(m_TranslatorApp.data());
+    if(m_TranslatorApp->load(RabbitCommon::CDir::Instance()->GetDirTranslations()
+                          + QDir::separator() + "RabbitImApp_" + szLocale + ".qm"))
+    {
+        qApp->installTranslator(m_TranslatorApp.data());
+    }
+    else
+    {
+        LOG_MODEL_ERROR("MainWindow", "Load app translator fail. %s",
+                        qPrintable(RabbitCommon::CDir::Instance()->GetDirTranslations()
+                                   + QDir::separator() + "RabbitImApp_" + szLocale + ".qm"));
+    }
+
+    m_TranslatorSrc = QSharedPointer<QTranslator>(new QTranslator(this));
+    if(m_TranslatorSrc->load(RabbitCommon::CDir::Instance()->GetDirTranslations()
+                          + QDir::separator() + "RabbitIm_" + szLocale + ".qm"))
+    {
+        qApp->installTranslator(m_TranslatorSrc.data());
+    }
+    else
+    {
+        LOG_MODEL_ERROR("MainWindow", "Load src translator fail. %s",
+                        qPrintable(RabbitCommon::CDir::Instance()->GetDirTranslations()
+                                   + QDir::separator() + "RabbitIm_" + szLocale + ".qm"));
+    }
 
     ui->retranslateUi(this);
+
+    //TODO: 通知插件翻译资源变化
+
     return 0;
 }
 
@@ -712,7 +740,7 @@ void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
         if(it.value() == pAct)
         {
             QString szLocale = it.key();
-            QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
+            QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                            QSettings::IniFormat);
             conf.setValue("Global/Language", szLocale);
             LOG_MODEL_DEBUG("MainWindow",
@@ -987,7 +1015,7 @@ int MainWindow::OpenCustomStyleMenu()
         QString stylesheet= file.readAll();
         qApp->setStyleSheet(stylesheet);
         file.close();
-        QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(),
+        QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                        QSettings::IniFormat);
         conf.setValue("UI/StyleSheet", szFile);
         

@@ -144,6 +144,7 @@ private:
     QActionGroup m_ActionGroupTranslator;
     QSharedPointer<QTranslator> m_TranslatorQt;
     QSharedPointer<QTranslator> m_TranslatorApp;
+    QSharedPointer<QTranslator> m_TranslatorSrc;
     int InitMenuTranslate();  //增加翻译菜单  
     int ClearMenuTranslate();
     //加载翻译资源  

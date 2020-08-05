@@ -7,6 +7,7 @@
 #include "Global/Encrypt.h"
 #include <string>
 #include "Tool.h"
+#include "RabbitCommonDir.h"
 
 CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),
@@ -18,7 +19,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
 
     ui->setupUi(this);
 
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     //加载所有用户  
     int userTotal = conf.value("Login/UserTotal", 0).toInt();
     for(int i = 0; i < userTotal; i++)
@@ -142,7 +143,7 @@ int CFrmLogin::SetLoginInformation(QString szName, QString szPassword)
 int CFrmLogin::SaveConf()
 {
     LOG_MODEL_DEBUG("Login", "CFrmLogin::SaveConf");
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     int total = conf.value("Login/UserTotal", 0).toInt();
     int i = 0;
     for(i = 0; i < total; i++)
@@ -306,7 +307,7 @@ void CFrmLogin::slotClientError(CClient::ERROR_TYPE e)
 void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
 {
     LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::on_cmbUser_currentIndexChanged:%d", index);
-    QSettings conf(CGlobalDir::Instance()->GetApplicationConfigureFile(), QSettings::IniFormat);
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     ui->lnPassword->setText(this->DecryptPassword(conf.value("Login/Password" + QString::number(index + 1), "").toString()));
     if(ui->lnPassword->text() == "" || ui->lnPassword->text().isEmpty())
         ui->chkSave->setChecked(false);

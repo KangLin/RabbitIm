@@ -56,7 +56,7 @@ public:
     /// 翻译文件目录  
     QString GetDirTranslate();
     /// 应用程序配置文件  
-    QString GetApplicationConfigureFile();
+    //QString GetApplicationConfigureFile();
     /**
      * @brief 得到用户的配置文件  
      *
