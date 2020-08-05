@@ -151,6 +151,12 @@ IF(OPTION_RABBITIM_USE_OPENSSL)
             message("OPENSSL_INCLUDE_DIR:${OPENSSL_INCLUDE_DIR}")
             include_directories(${OPENSSL_INCLUDE_DIR})
             LIST(APPEND RABBITIM_LIBS OpenSSL::SSL OpenSSL::Crypto)
+            IF(BUILD_SHARED_LIBS)
+                INSTALL(FILES $<TARGET_FILE:OpenSSL::SSL>
+                            $<TARGET_FILE:OpenSSL::Crypto>
+                            DESTINATION "libs/${ANDROID_ABI}"
+                                COMPONENT Runtime)
+            endif()
         ELSE(OPENSSL_FOUND)
             SET(RABBITIM_USE_OPENSSL OFF)
         ENDIF(OPENSSL_FOUND)
@@ -214,7 +220,7 @@ if(OPTION_RABBITIM_USE_QXMPP)
         ENDIF()
     endif()
 ENDIF(OPTION_RABBITIM_USE_QXMPP)
-message("Use qxmpp library:${OPTION_RABBITIM_USE_QXMPP}")
+message("Use qxmpp library:${QXmpp_FOUND}")
 
 OPTION(OPTION_RABBITIM_USE_PJSIP "Use pjsip library" OFF)
 SET(RABBITIM_USE_PJSIP OFF)

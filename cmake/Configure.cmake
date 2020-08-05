@@ -1,13 +1,11 @@
 include(CheckCXXCompilerFlag)
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
-include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 include(GenerateExportHeader)
 include(CheckIncludeFile)
 include(CheckIncludeFileCXX)
 include(CheckFunctionExists)
-include(cmake/RabbitImUtils.cmake)
 
 #打开 qt 编译工具
 SET(CMAKE_AUTOUIC ON)
@@ -185,6 +183,7 @@ SET(THIRD_LIB_DIR ${THIRD_LIBRARY_PATH}/lib) #第三方库目录
 LINK_DIRECTORIES(${THIRD_LIB_DIR})
 ADD_DEFINITIONS(-DRABBITIM_SYSTEM="${RABBITIM_SYSTEM}")
 
+# 设置 find_package 搜索路径
 #list(APPEND CMAKE_MODULE_PATH ${THIRD_LIBRARY_PATH}/cmake)
 list(APPEND CMAKE_PREFIX_PATH ${THIRD_LIBRARY_PATH}/cmake)
 file(GLOB dirs ${THIRD_LIBRARY_PATH}/lib/cmake/*)
@@ -209,8 +208,6 @@ message("THIRD_LIBRARY_PATH:${THIRD_LIBRARY_PATH}")
 #    set(ENV{PKG_CONFIG_PATH} "${THIRD_LIB_DIR}/pkgconfig" ENV{PKG_CONFIG_PATH})
 #ENDIF()
 
-#设置 find_package 搜索目录,(find_XXX.cmake)
-#SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${THIRD_LIBRARY_PATH} ${CMAKE_MODULE_PATH})
 #FIND_PACKAGE(PkgConfig)
 ##允许 pkg-config 在 CMAKE_PREFIX_PATH 中搜索库
 #SET(PKG_CONFIG_USE_CMAKE_PREFIX_PATH TRUE)

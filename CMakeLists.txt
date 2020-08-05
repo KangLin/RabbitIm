@@ -58,14 +58,9 @@ message("BUILD_VERSION:${BUILD_VERSION}")
 
 #check_function_exists("fabs" HAVE_FABS)
 
-add_definitions(-DBUILD_VERSION="${BUILD_VERSION}")
-
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
-
-include(cmake/Configure.cmake)
-include(cmake/ThirdLibrary.cmake)
 
 if(NOT RabbitCommon_DIR)
     set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
@@ -74,6 +69,7 @@ if(NOT RabbitCommon_DIR)
     endif()
 endif()
 if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
+    include(${RabbitCommon_DIR}/cmake/RabbitCommonUtils.cmake)
     add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
 else()
     message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
@@ -83,6 +79,9 @@ else()
     message("   ag:")
     message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
 endif()
+
+include(cmake/Configure.cmake)
+include(cmake/ThirdLibrary.cmake)
 
 add_subdirectory(Src)
 add_subdirectory(App)

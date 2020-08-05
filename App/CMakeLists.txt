@@ -29,76 +29,33 @@ if(BUILD_TYPE STREQUAL "debug")
         )
 endif()
 
-add_definitions(-DBUILD_VERSION="${BUILD_VERSION}")
-add_definitions(-DBUILD_ARCH="${BUILD_ARCH}")
-add_definitions(-DBUILD_PLATFORM="${BUILD_PLATFORM}")
-if(ANDROID)
-    add_library(${PROJECT_NAME} SHARED ${SOURCES_FILES} ${HEADER_FILES} ${SOURCE_UI_FILES} ${RCC_FILES})
-    target_include_directories(${PROJECT_NAME} PRIVATE
-        ${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni)
-else()
-    add_executable(${PROJECT_NAME} ${SOURCES_FILES} ${HEADER_FILES} ${SOURCE_UI_FILES} ${RCC_FILES})
-endif()
-target_link_libraries(${PROJECT_NAME} PRIVATE ${QT_LIBRARIES} RabbitIm)
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-    VERSION ${BUILD_VERSION}
+SET(PRIVATE_DEFINITIONS
+    BUILD_VERSION="${BUILD_VERSION}"
+    BUILD_ARCH="${BUILD_ARCH}"
+    BUILD_PLATFORM="${BUILD_PLATFORM}"
     )
-if(BUILD_VERSION)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE -DBUILD_VERSION="${BUILD_VERSION}")
+if(MSVC)
+    list(APPEND PRIVATE_DEFINITIONS "$<$<C_COMPILER_ID:MSVC>:/utf-8>"
+         "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 endif()
-if(UNIX AND NOT ANDROID)
-    set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_NAME ${PROJECT_NAME})
-endif()
-
-if(MINGW)
-    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-mwindows")
-elseif(MSVC)
-    target_compile_options(${PROJECT_NAME} PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-    target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-
-    if(Qt5_VERSION VERSION_LESS "5.7.0")
-        set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS
-            "/SUBSYSTEM:WINDOWS\",5.01\" /ENTRY:mainCRTStartup")
-    else()
-        set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS
-            "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-    endif()
-endif()
-
-target_include_directories(${PROJECT_NAME} PRIVATE
+SET(INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/Src
     ${RabbitCommon_DIR}/Src
-    ${CMAKE_BINARY_DIR})
-
-# Install target
+    ${CMAKE_BINARY_DIR}
+    )
 if(ANDROID)
-    INSTALL(TARGETS ${PROJECT_NAME}
-        RUNTIME DESTINATION "libs/${ANDROID_ABI}"
-            COMPONENT Runtime
-        LIBRARY DESTINATION "libs/${ANDROID_ABI}"
-            COMPONENT Runtime
-        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-        )
-elseif(WIN32)
-    INSTALL(TARGETS ${PROJECT_NAME}
-        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-            COMPONENT Runtime
-        LIBRARY DESTINATION "${CMAKE_INSTALL_BINDIR}"
-            COMPONENT Runtime
-        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-        )
-else()
-    INSTALL(TARGETS ${PROJECT_NAME}
-        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-            COMPONENT Runtime
-        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-            COMPONENT Runtime
-        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-        )        
+    list(APPEND INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni)
 endif()
+
+ADD_TARGET(NAME ${PROJECT_NAME}
+    ISEXE
+    SOURCE_FILES ${SOURCES_FILES} ${RCC_FILES}
+    PRIVATE_LIBS ${QT_LIBRARIES} RabbitIm
+    PRIVATE_DEFINITIONS ${PRIVATE_DEFINITIONS}
+    INCLUDE_DIRS ${INCLUDE_DIRS}
+    VERSION ${BUILD_VERSION}
+    ANDROID_SOURCES_DIR ${CMAKE_SOURCE_DIR}/android
+    )
 
 IF(WIN32)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/Install/Install.nsi
@@ -125,42 +82,3 @@ if(UNIX AND NOT ANDROID)
         DESTINATION "share/pixmaps"
             COMPONENT Runtime)
 endif()
-
-IF(ANDROID)
-    Set(JSON_FILE ${CMAKE_CURRENT_BINARY_DIR}/android_deployment_settings.json)
-    GENERATED_DEPLOYMENT_SETTINGS(NAME ${JSON_FILE}
-        APPLACTION "${CMAKE_BINARY_DIR}/bin/lib${PROJECT_NAME}.so")
-
-    add_custom_target(APK #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中
-            COMMAND "${QT_INSTALL_DIR}/bin/androiddeployqt"
-                --output ${CMAKE_INSTALL_PREFIX}
-                --input ${JSON_FILE}
-                --verbose
-                --gradle
-                --android-platform ${ANDROID_PLATFORM}
-        )
-ENDIF(ANDROID)
-
-IF( ("Release" STREQUAL CMAKE_BUILD_TYPE)
-    OR ("MinSizeRel" STREQUAL CMAKE_BUILD_TYPE)
-    AND WIN32 AND BUILD_SHARED_LIBS )
-    IF( ("Release" STREQUAL CMAKE_BUILD_TYPE)
-        OR ("MinSizeRel" STREQUAL CMAKE_BUILD_TYPE)
-        AND MINGW )
-        #windeployqt 分发时，是根据是否 strip 来判断是否是 DEBUG 版本,而用mingw编译时,qt没有自动 strip
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND strip "$<TARGET_FILE:${PROJECT_NAME}>"
-            )
-    ENDIF()
-
-    #注意 需要把 ${QT_INSTALL_DIR}/bin 加到环境变量PATH中  
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND "${QT_INSTALL_DIR}/bin/windeployqt"
-        --compiler-runtime
-        --verbose 7
-        "$<TARGET_FILE:${PROJECT_NAME}>"
-        )
-    INSTALL(DIRECTORY "$<TARGET_FILE_DIR:${PROJECT_NAME}>/"
-        DESTINATION "${CMAKE_INSTALL_BINDIR}"
-        COMPONENT Runtime)
-ENDIF()

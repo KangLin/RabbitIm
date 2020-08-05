@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication app(argc, argv);
-    //app.setApplicationVersion(BUILD_VERSION);
+    app.setApplicationVersion(BUILD_VERSION);
     
     app.setApplicationName("RabbitIm");
     app.setOrganizationName("KangLin studio");

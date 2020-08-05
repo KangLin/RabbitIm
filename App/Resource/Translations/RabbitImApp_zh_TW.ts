@@ -2,18 +2,11 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_TW">
 <context>
-    <name>CAndroidNotification</name>
-    <message>
-        <source>RabbitIm</source>
-        <translation type="vanished">玉兔即時通訊</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <location filename="../../main.cpp" line="53"/>
         <source>Rabbit immediate communicate</source>
-        <translation>玉兔即時通訊</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
