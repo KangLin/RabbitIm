@@ -140,7 +140,7 @@ equals(RABBITIM_USE_QZXING, 1) {
 
     msvc {
         DEFINES *= RABBITIM_USE_QZXING ENABLE_ENCODER_GENERIC
-        LIBS *= -lQZXing2
+        LIBS *= -lQZXing
     }
 }
 
@@ -164,6 +164,8 @@ equals(RABBITIM_USE_OPENSSL, 1) {
     myPackagesExist(openssl) {
         DEFINES *= RABBITIM_USE_OPENSSL
         MYPKGCONFIG *= openssl
+        android: ANDROID_EXTRA_LIBS *= $${THIRD_LIBRARY_PATH}/lib/libcrypto.so \
+            $${THIRD_LIBRARY_PATH}/lib/libssl.so
     } else : msvc {
         DEFINES *= RABBITIM_USE_OPENSSL
         LIBS += -llibssl -llibcrypto #-llibeay32 -lssleay32 

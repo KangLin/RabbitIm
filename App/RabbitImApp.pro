@@ -21,6 +21,7 @@ isEmpty(PREFIX) {
 INCLUDEPATH *= ../Src
 LIBS *= -L$$DESTDIR -lRabbitIm
 
+include(../pri/RabbitImVersion.pri)
 include(../pri/ThirdLibraryConfig.pri)
 CONFIG(static, static|shared) {
     #CONFIG *= link_prl
