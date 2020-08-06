@@ -1,61 +1,163 @@
-
 #include "SmileyPack.h"
-
-#include <QFileInfo>
-#include <QFile>
-#include <QIcon>
-#include <QPixmap>
-#include <QDir>
-#include <QCoreApplication>
-#include <QDomDocument>
-#include <QDomElement>
-#include <QBuffer>
-#include <QStringBuilder>
 #include "Global/Global.h"
+#include <QDir>
+#include <QDomElement>
+#include <QRegularExpression>
+#include <QStandardPaths>
+#include <QStringBuilder>
+#include <QtConcurrent/QtConcurrentRun>
+#include <QTimer>
 
-CSmileyPack::CSmileyPack()
+#if defined(Q_OS_FREEBSD)
+#include <locale.h>
+#endif
+
+/**
+ * @class CSmileyPack
+ * @brief Maps emoticons to smileys.
+ *
+ * @var CSmileyPack::filenameTable
+ * @brief Matches an emoticon to its corresponding smiley ie. ":)" -> "happy.png"
+ *
+ * @var CSmileyPack::iconCache
+ * @brief representation of a smiley ie. "happy.png" -> data
+ *
+ * @var CSmileyPack::emoticons
+ * @brief {{ ":)", ":-)" }, {":(", ...}, ... }
+ *
+ * @var CSmileyPack::path
+ * @brief directory containing the cfg and image files
+ *
+ * @var CSmileyPack::defaultPaths
+ * @brief Contains all directories where smileys could be found
+ */
+
+QStringList loadDefaultPaths();
+
+static const QStringList DEFAULT_PATHS = loadDefaultPaths();
+
+static const QString RICH_TEXT_PATTERN = QStringLiteral("<img title=\"%1\" src=\"key:%1\"\\>");
+
+static const QString EMOTICONS_FILE_NAME = QStringLiteral("emoticons.xml");
+
+static constexpr int CLEANUP_TIMEOUT = 5 * 60 * 1000; // 5 minutes
+
+/**
+ * @brief Construct list of standard directories with "emoticons" sub dir, whether these directories
+ * exist or not
+ * @return Constructed list of default emoticons directories
+ */
+QStringList loadDefaultPaths()
 {
-    load(CGlobalDir::Instance()->GetFileSmileyPack());
+#if defined(Q_OS_FREEBSD)
+    // TODO: Remove when will be fixed.
+    // Workaround to fix https://bugreports.qt.io/browse/QTBUG-57522
+    setlocale(LC_ALL, "");
+#endif
+    const QString EMOTICONS_SUB_PATH = QDir::separator() + QStringLiteral("emoticons");
+    QStringList paths{":/smileys", "~/.kde4/share/emoticons", "~/.kde/share/emoticons",
+                      EMOTICONS_SUB_PATH};
+
+    // qTox exclusive emoticons
+    QStandardPaths::StandardLocation location;
+    location = QStandardPaths::AppDataLocation;
+
+    QStringList locations = QStandardPaths::standardLocations(location);
+    // system wide emoticons
+    locations.append(QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation));
+    for (QString qtoxPath : locations) {
+        qtoxPath.append(EMOTICONS_SUB_PATH);
+        if (!paths.contains(qtoxPath)) {
+            paths.append(qtoxPath);
+        }
+    }
+
+    return paths;
 }
 
+/**
+ * @brief Wraps passed string into smiley HTML image reference
+ * @param key Describes which smiley is needed
+ * @return Key that wrapped into image ref
+ */
+QString getAsRichText(const QString& key)
+{
+    return RICH_TEXT_PATTERN.arg(key);
+}
+
+CSmileyPack::CSmileyPack()
+    : cleanupTimer{new QTimer(this)}
+{
+    loadingMutex.lock();
+    QtConcurrent::run(this, &CSmileyPack::load, CGlobal::Instance()->GetFileSmileyPack());
+    connect(CGlobal::Instance(), &CGlobal::sigSmileyPackChanged, this,
+            &CSmileyPack::onSmileyPackChanged);
+    connect(cleanupTimer, &QTimer::timeout, this, &CSmileyPack::cleanupIconsCache);
+    cleanupTimer->start(CLEANUP_TIMEOUT);
+}
+
+CSmileyPack::~CSmileyPack()
+{
+    delete cleanupTimer;
+}
+
+void CSmileyPack::cleanupIconsCache()
+{
+    QMutexLocker locker(&loadingMutex);
+    for (auto it = cachedIcon.begin(); it != cachedIcon.end();) {
+        std::shared_ptr<QIcon>& icon = it->second;
+        if (icon.use_count() == 1) {
+            it = cachedIcon.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+/**
+ * @brief Returns the singleton instance.
+ */
 CSmileyPack& CSmileyPack::getInstance()
 {
     static CSmileyPack smileyPack;
     return smileyPack;
 }
 
-QList<QPair<QString, QString> > CSmileyPack::listSmileyPacks(QStringList &paths)
+/**
+ * @brief Does the same as listSmileyPaths, but with default paths
+ */
+QList<QPair<QString, QString>> CSmileyPack::listSmileyPacks()
 {
-    if(paths.isEmpty())
-    {
-        paths << "./smileys" << "/usr/share/qtox/smileys" << "/usr/share/emoticons" << "~/.kde4/share/emoticons" << "~/.kde/share/emoticons";
-    }
-    QList<QPair<QString, QString> > smileyPacks;
+    return listSmileyPacks(DEFAULT_PATHS);
+}
 
-    for (QString path : paths)
-    {
-        if (path.leftRef(1) == "~")
-            path.replace(0, 1, QDir::homePath());
+/**
+ * @brief Searches all files called "emoticons.xml" within the every passed path in the depth of 2
+ * @param paths Paths where to search for file
+ * @return Vector of pairs: {directoryName, absolutePathToFile}
+ */
+QList<QPair<QString, QString>> CSmileyPack::listSmileyPacks(const QStringList& paths)
+{
+    QList<QPair<QString, QString>> smileyPacks;
+    const QString homePath = QDir::homePath();
+    for (QString path : paths) {
+        if (path.startsWith('~')) {
+            path.replace(0, 1, homePath);
+        }
 
         QDir dir(path);
-        if (!dir.exists())
+        if (!dir.exists()) {
             continue;
+        }
 
-        for (const QString& subdirectory : dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
-        {
+        for (const QString& subdirectory : dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
             dir.cd(subdirectory);
-
-            QFileInfoList entries = dir.entryInfoList(QStringList() << "emoticons.xml", QDir::Files);
-            if (entries.size() > 0) // does it contain a file called emoticons.xml?
-            {
-                QString packageName = dir.dirName();
-                QString absPath = entries[0].absoluteFilePath();
-                QString relPath = QDir(QCoreApplication::applicationDirPath()).relativeFilePath(absPath);
-
-                if (relPath.leftRef(2) == "..")
-                    smileyPacks << QPair<QString, QString>(packageName, absPath);
-                else
-                    smileyPacks << QPair<QString, QString>(packageName, relPath); // use relative path for subdirectories
+            if (dir.exists(EMOTICONS_FILE_NAME)) {
+                QString absPath = dir.absolutePath() + QDir::separator() + EMOTICONS_FILE_NAME;
+                QPair<QString, QString> p{dir.dirName(), absPath};
+                if (!smileyPacks.contains(p)) {
+                    smileyPacks.append(p);
+                }
             }
 
             dir.cdUp();
@@ -65,26 +167,24 @@ QList<QPair<QString, QString> > CSmileyPack::listSmileyPacks(QStringList &paths)
     return smileyPacks;
 }
 
-bool CSmileyPack::isValid(const QString &filename)
-{
-    return QFile(filename).exists();
-}
-
+/**
+ * @brief Load smile pack
+ * @note The caller must lock loadingMutex and should run it in a thread
+ * @param filename Filename of smilepack.
+ * @return False if cannot open file, true otherwise.
+ */
 bool CSmileyPack::load(const QString& filename)
 {
-    // discard old data
-    filenameTable.clear();
-    imgCache.clear();
-    emoticons.clear();
-    path.clear();
-
-    // open emoticons.xml
     QFile xmlFile(filename);
-    if(!xmlFile.open(QIODevice::ReadOnly))
-    {
-        LOG_MODEL_ERROR("CSmileyPack", "Don't open file:%s", qPrintable(filename));
-        return false; // cannot open file
+    if (!xmlFile.exists() || !xmlFile.open(QIODevice::ReadOnly)) {
+        loadingMutex.unlock();
+        return false;
     }
+
+    QDomDocument doc;
+    doc.setContent(xmlFile.readAll());
+    xmlFile.close();
+
     /* parse the cfg file
      * sample:
      * <?xml version='1.0'?>
@@ -101,109 +201,119 @@ bool CSmileyPack::load(const QString& filename)
      */
 
     path = QFileInfo(filename).absolutePath();
-
-    QDomDocument doc;
-    doc.setContent(xmlFile.readAll());
-
     QDomNodeList emoticonElements = doc.elementsByTagName("emoticon");
-    for (int i = 0; i < emoticonElements.size(); ++i)
-    {
-        QString file = emoticonElements.at(i).attributes().namedItem("file").nodeValue();
-        QDomElement stringElement = emoticonElements.at(i).firstChildElement("string");
+    const QString itemName = QStringLiteral("file");
+    const QString childName = QStringLiteral("string");
+    const int iconsCount = emoticonElements.size();
+    emoticons.clear();
+    emoticonToPath.clear();
+    cachedIcon.clear();
 
-        QStringList emoticonSet; // { ":)", ":-)" } etc.
-
-        while (!stringElement.isNull())
-        {
-            QString emoticon = stringElement.text();
-            filenameTable.insert(emoticon, file);
-            emoticonSet.push_back(emoticon);
-            cacheSmiley(file); // preload all smileys
-
+    for (int i = 0; i < iconsCount; ++i) {
+        QDomNode node = emoticonElements.at(i);
+        QString iconName = node.attributes().namedItem(itemName).nodeValue();
+        QString iconPath = QDir{path}.filePath(iconName);
+        QDomElement stringElement = node.firstChildElement(childName);
+        QStringList emoticonList;
+        while (!stringElement.isNull()) {
+            QString emoticon = stringElement.text().replace("<", "&lt;").replace(">", "&gt;");
+            emoticonToPath.insert(emoticon, iconPath);
+            emoticonList.append(emoticon);
             stringElement = stringElement.nextSibling().toElement();
         }
-        emoticons.push_back(emoticonSet);
+
+        emoticons.append(emoticonList);
     }
 
-    // success!
+    constructRegex();
+
+    loadingMutex.unlock();
     return true;
 }
 
-QString CSmileyPack::smileyfied(QString msg)
+/**
+ * @brief Creates the regex for replacing emoticons with the path to their pictures
+ */
+void CSmileyPack::constructRegex()
 {
-    QRegExp exp("\\S+"); // matches words
+    QString allPattern = QStringLiteral("(");
 
-    int index = msg.indexOf(exp);
-
-    // if a word is key of a smiley, replace it by its corresponding image in Rich Text
-    while (index >= 0)
-    {
-        QString key = exp.cap();
-        if (filenameTable.contains(key))
-        {
-            QString imgRichText = getAsRichText(key);
-
-            msg.replace(index, key.length(), imgRichText);
-            index += imgRichText.length() - key.length();
+    // construct one big regex that matches on every emoticon
+    for (const QString& emote : emoticonToPath.keys()) {
+        if (emote.toUcs4().length() == 1) {
+            // UTF-8 emoji
+            allPattern = allPattern % emote;
+        } else {
+            // patterns like ":)" or ":smile:", don't match inside a word or else will hit punctuation and html tags
+            allPattern = allPattern % QStringLiteral(R"((?<=^|\s))") % QRegularExpression::escape(emote) % QStringLiteral(R"((?=$|\s))");
         }
-        index = msg.indexOf(exp, index + key.length());
+        allPattern = allPattern % QStringLiteral("|");
     }
 
-    return msg;
+    allPattern[allPattern.size() - 1] = QChar(')');
+
+    // compile and optimize regex
+    smilify.setPattern(allPattern);
+    smilify.optimize();
 }
 
+/**
+ * @brief Replaces all found text emoticons to HTML reference with its according icon filename
+ * @param msg Message where to search for emoticons
+ * @return Formatted copy of message
+ */
+QString CSmileyPack::smileyfied(const QString& msg)
+{
+    QMutexLocker locker(&loadingMutex);
+    QString result(msg);
+
+    int replaceDiff = 0;
+    QRegularExpressionMatchIterator iter = smilify.globalMatch(result);
+    while (iter.hasNext()) {
+        QRegularExpressionMatch match = iter.next();
+        int startPos = match.capturedStart();
+        int keyLength = match.capturedLength();
+        QString imgRichText = getAsRichText(match.captured());
+        result.replace(startPos + replaceDiff, keyLength, imgRichText);
+        replaceDiff += imgRichText.length() - keyLength;
+    }
+    return result;
+}
+
+/**
+ * @brief Returns all emoticons that was extracted from files, grouped by according icon file
+ */
 QList<QStringList> CSmileyPack::getEmoticons() const
 {
+    QMutexLocker locker(&loadingMutex);
     return emoticons;
 }
 
-QString CSmileyPack::getAsRichText(const QString &key)
+/**
+ * @brief Gets icon accoring to passed emoticon
+ * @param emoticon Passed emoticon
+ * @return Returns cached icon according to passed emoticon, null if no icon mapped to this emoticon
+ */
+std::shared_ptr<QIcon> CSmileyPack::getAsIcon(const QString& emoticon) const
 {
-    return "<img src=\"data:image/png;base64," % QString(getCachedSmiley(key).toBase64()) % "\">";
-}
-
-QIcon CSmileyPack::getAsIcon(const QString &key)
-{
-    QPixmap pm;
-    pm.loadFromData(getCachedSmiley(key), "PNG");
-
-    return QIcon(pm);
-}
-
-void CSmileyPack::cacheSmiley(const QString &name)
-{
-    QSize size(16, 16); // TODO: adapt to text size
-    QString filename = QDir(path).filePath(name);
-    QImage img(filename);
-
-    if (!img.isNull())
-    {
-        QImage scaledImg = img.scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-        QByteArray scaledImgData;
-        QBuffer buffer(&scaledImgData);
-        scaledImg.save(&buffer, "PNG");
-
-        imgCache.insert(name, scaledImgData);
-    }
-}
-
-QByteArray CSmileyPack::getCachedSmiley(const QString &key)
-{
-    // valid key?
-    if (!filenameTable.contains(key))
-        return QByteArray();
-
-    // cache it if needed
-    QString file = filenameTable.value(key);
-    if (!imgCache.contains(file)) {
-        cacheSmiley(file);
+    QMutexLocker locker(&loadingMutex);
+    if (cachedIcon.find(emoticon) != cachedIcon.end()) {
+        return cachedIcon[emoticon];
     }
 
-    return imgCache.value(file);
+    const auto iconPathIt = emoticonToPath.find(emoticon);
+    if (iconPathIt == emoticonToPath.end()) {
+        return std::make_shared<QIcon>();
+    }
+
+    const QString& iconPath = iconPathIt.value();
+    auto icon = std::make_shared<QIcon>(iconPath);
+    cachedIcon[emoticon] = icon;
+    return icon;
 }
 
 void CSmileyPack::onSmileyPackChanged()
 {
-    load(CGlobalDir::Instance()->GetFileSmileyPack());
+    loadingMutex.lock();
+    QtConcurrent::run(this, &CSmileyPack::load, CGlobal::Instance()->GetFileSmileyPack());
 }

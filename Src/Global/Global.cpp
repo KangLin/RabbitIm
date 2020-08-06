@@ -106,6 +106,9 @@ CGlobal::CGlobal(QObject *parent) :
                 "UI/StyleSheet", ":/qdarkstyle/style.qss").toString();
     m_szStyleMenu = ""; //conf.value("UI/MenuStyleSheet", "Dark").toString();
     
+    m_szSmileyPack = ":/smileys/ASCII+emojione/emoticons.xml";
+    m_EmojiFontPointSize = 24;
+    
     //如果不同线程间信号发送中的参数有自定义的数据类型，  
     //那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用  
 #ifdef RABBITIM_USE_QXMPP
@@ -720,4 +723,27 @@ QDateTime CGlobal::GetUpdateDate()
         return d;
     d = QDateTime::fromString(szDate, "yyyy/MM/dd hh:mm:ss");
     return d;
+}
+
+QString CGlobal::GetFileSmileyPack()
+{
+    return m_szSmileyPack;
+}
+
+int CGlobal::SetFileSmileyPack(const QString &szFile)
+{
+    m_szSmileyPack = szFile;
+    emit sigSmileyPackChanged();
+    return 0;
+}
+
+int CGlobal::GetEmojiFontPointSize()
+{
+    return m_EmojiFontPointSize;
+}
+
+int CGlobal::SetEmojiFontPointSize(int x)
+{
+    m_EmojiFontPointSize = x;
+    return 0;
 }

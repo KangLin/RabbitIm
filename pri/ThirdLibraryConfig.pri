@@ -1,7 +1,7 @@
 # 注意：Qt 版本必须大于 5.0  
 lessThan(QT_MAJOR_VERSION, 5) : error("version is $$QT_VERSION, please qt is used greater then 5.0")
 
-QT *= core gui network xml multimedia widgets
+QT *= core gui network xml multimedia widgets svg
 
 android: QT += androidextras
 

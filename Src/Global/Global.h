@@ -269,6 +269,23 @@ public:
 private:
     E_UPDATE m_Update;
 
+public:
+    /** 
+     * 得到表情图片文件  
+     */
+    QString GetFileSmileyPack();
+    int SetFileSmileyPack(const QString &szFile);
+Q_SIGNALS:
+    void sigSmileyPackChanged();
+private:
+    QString m_szSmileyPack;
+    
+public:
+    int GetEmojiFontPointSize();
+    int SetEmojiFontPointSize(int x);
+private:
+    int m_EmojiFontPointSize;
+    
 signals:
 
 public slots:

@@ -1,42 +1,45 @@
+#pragma once
 
-#ifndef SMILEYPACK_H
-#define SMILEYPACK_H
+#include <QIcon>
+#include <QMap>
+#include <QMutex>
+#include <QRegularExpression>
 
-#include <QHash>
-#include <QObject>
-#include <QString>
-#include <QStringList>
+#include <memory>
 
-//maps emoticons to smileys
+class QTimer;
+
 class CSmileyPack : public QObject
 {
     Q_OBJECT
+
 public:
     static CSmileyPack& getInstance();
-    static QList<QPair<QString, QString> > listSmileyPacks(QStringList &paths);
-    static bool isValid(const QString& filename);
+    static QList<QPair<QString, QString>> listSmileyPacks(const QStringList& paths);
+    static QList<QPair<QString, QString>> listSmileyPacks();
 
-    bool load(const QString& filename);
-    QString smileyfied(QString msg);
+    QString smileyfied(const QString& msg);
     QList<QStringList> getEmoticons() const;
-    QString getAsRichText(const QString& key);
-    QIcon getAsIcon(const QString& key);
+    std::shared_ptr<QIcon> getAsIcon(const QString& key) const;
 
 private slots:
     void onSmileyPackChanged();
+    void cleanupIconsCache();
 
 private:
     CSmileyPack();
     CSmileyPack(CSmileyPack&) = delete;
     CSmileyPack& operator=(const CSmileyPack&) = delete;
+    ~CSmileyPack() override;
 
-    void cacheSmiley(const QString& name);
-    QByteArray getCachedSmiley(const QString& key);
+    bool load(const QString& filename);
+    void constructRegex();
 
-    QHash<QString, QString> filenameTable; // matches an emoticon to its corresponding smiley ie. ":)" -> "happy.png"
-    QHash<QString, QByteArray> imgCache; // (scaled) representation of a smiley ie. "happy.png" -> data
-    QList<QStringList> emoticons; // {{ ":)", ":-)" }, {":(", ...}, ... }
-    QString path; // directory containing the cfg and image files
+    mutable std::map<QString, std::shared_ptr<QIcon>> cachedIcon;
+    QHash<QString, QString> emoticonToPath;
+    QList<QStringList> emoticons;
+    QString path;
+    QTimer* cleanupTimer;
+    QRegularExpression smilify;
+    mutable QMutex loadingMutex;
 };
-
-#endif // SMILEYPACK_H

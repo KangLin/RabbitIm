@@ -1,4 +1,5 @@
 SOURCES += \
+    $$PWD/Message/SmileyPack.cpp \
     MainWindow.cpp \
     common/Tool.cpp \
     common/QRCode.cpp \
@@ -24,7 +25,6 @@ SOURCES += \
     UserInfo/User.cpp \
     Manage/ManageUser.cpp \
     Manage/Manage.cpp \
-    Message/SmileyPack.cpp \
     Message/EmoticonsWidget.cpp \
     Message/style.cpp \
     Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
@@ -75,6 +75,7 @@ SOURCES += \
     
 
 HEADERS += \
+    $$PWD/Message/SmileyPack.h \
     MainWindow.h \
     Global/Global.h \
     UserInfo/UserInfo.h \
@@ -96,7 +97,6 @@ HEADERS += \
     Widgets/FrmMessage/FrmMessage.h \
     Manage/ManageMessageDialogBigScreen.h \
     Widgets/FrmMessage/FrmContainer.h \
-    Message/SmileyPack.h \
     Message/ChatActions/ChatAction.h \
     Message/ChatActions/MessageAction.h \
     UserInfo/User.h \
@@ -174,7 +174,9 @@ FORMS += MainWindow.ui \
 
 RESOURCES += \
     ../Resource/Resource.qrc \
-    ../Resource/sink/dark/style.qrc
+    ../Resource/sink/dark/style.qrc \
+    smileys/emojione.qrc \
+    smileys/smileys.qrc
 
 android{
     RESOURCES += \

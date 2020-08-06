@@ -67,11 +67,6 @@ public:
      * @param szId:本地用户id,默认为本地用户   
      */
     QString GetDirReceiveFile(const QString &szId = QString());
-    
-    /** 
-     * 得到表情图片文件  
-     */
-    QString GetFileSmileyPack();
 
 };
 

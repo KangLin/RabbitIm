@@ -157,11 +157,6 @@ QString CGlobalDir::GetFileUserAvatar(const QString &szId, const QString &szLoca
     return GetDirUserAvatar(szLocalId) + QDir::separator() + id + ".png";
 }
 
-QString CGlobalDir::GetFileSmileyPack()
-{
-    return QString(":/smileys/default/emoticons.xml");
-}
-
 QString CGlobalDir::GetUserConfigureFile(const QString &szId)
 {
     return GetDirUserConfigure(szId) + QDir::separator() + "user.conf";

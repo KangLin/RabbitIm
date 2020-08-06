@@ -15,7 +15,7 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 #需要的QT组件  
-SET(QT_COMPONENTS Core Gui Widgets Network Xml Multimedia)
+SET(QT_COMPONENTS Core Gui Widgets Network Xml Multimedia Svg)
 find_package(Qt5 COMPONENTS ${QT_COMPONENTS} REQUIRED)
 message("Qt5_VERSION:${Qt5_VERSION}")
 if(Qt5_VERSION VERSION_LESS "5.0.0")
