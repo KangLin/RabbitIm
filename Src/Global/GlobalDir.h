@@ -19,18 +19,7 @@ public:
     CGlobalDir();
     
     static CGlobalDir* Instance();
-    
-    /// 应用程序目录  
-    QString GetDirApplication();
-    /// 文档目录，默认是系统文档目录  
-    QString GetDirDocument();
-    int SetDirDocument(QString szPath);
-    /// 应用程序配置目录  
-    //QString GetDirApplicationConfigure();
-    /// 应用程序数据目录  
-    //QString GetDirApplicationData();
-    /// 应用程序下载目录  
-    QString GetDirApplicationDownLoad();
+
     /// 运动数据目录  
     QString GetDirMotion(const QString &szId = QString());
     
@@ -52,11 +41,7 @@ public:
      * @return 
      */
     QString GetDirTempDir(const QString &szId = QString());
-    
-    /// 翻译文件目录  
-    QString GetDirTranslate();
-    /// 应用程序配置文件  
-    //QString GetApplicationConfigureFile();
+
     /**
      * @brief 得到用户的配置文件  
      *
@@ -87,8 +72,7 @@ public:
      * 得到表情图片文件  
      */
     QString GetFileSmileyPack();
-private:
-    QString m_szDocumentPath;
+
 };
 
 #endif // CGLOBALDIR_H

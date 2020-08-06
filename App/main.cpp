@@ -78,8 +78,8 @@ int main(int argc, char *argv[])
                     QTextCodec::codecForLocale()->name().data());
 
     //设置插件路径(msvc 下没有用）   
-    app.addLibraryPath(CGlobalDir::Instance()->GetDirApplication());
-    app.addLibraryPath(CGlobalDir::Instance()->GetDirApplication()
+    app.addLibraryPath(RabbitCommon::CDir::Instance()->GetDirApplication());
+    app.addLibraryPath(RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot()
                      + QDir::separator() + "plugins");
 
     CManager manager;

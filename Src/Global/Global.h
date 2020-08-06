@@ -1,7 +1,6 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#include "GlobalDir.h"
 #include <QObject>
 #include <QColor>
 #include <QSharedPointer>
@@ -33,7 +32,7 @@ class RABBITIM_SHARED_LIBRARY CGlobal : public QObject
 {
     Q_OBJECT
 private:
-    explicit CGlobal(QObject *parent = 0);
+    explicit CGlobal(QObject *parent = nullptr);
     virtual ~CGlobal();
 
 public:

@@ -3,6 +3,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QApplication>
+#include "RabbitCommonDir.h"
 
 #ifdef RABBITIM
     #include "Global.h"
@@ -12,81 +13,14 @@
 #endif
 
 CGlobalDir::CGlobalDir()
-{
-    //注意这个必须的在最前  
-    m_szDocumentPath =  QStandardPaths::writableLocation(
-                QStandardPaths::DocumentsLocation);
-    if(m_szDocumentPath.isEmpty())
-    {
-        LOG_MODEL_ERROR("CGlobal", "document path is empty");
-    }
-}
+{}
 
 CGlobalDir* CGlobalDir::Instance()
 {
-    static CGlobalDir* p = NULL;
+    static CGlobalDir* p = nullptr;
     if(!p)
         p = new CGlobalDir;
     return p;
-}
-
-QString CGlobalDir::GetDirApplication()
-{
-#ifdef ANDROID
-    //LOG_MODEL_DEBUG("global", "GetDirApplication:%s", qApp->applicationDirPath().toStdString().c_str());
-    return qApp->applicationDirPath() + QDir::separator() + "..";
-#else
-    //LOG_MODEL_DEBUG("global", "GetDirApplication:%s", qApp->applicationDirPath().toStdString().c_str());
-    return qApp->applicationDirPath();
-#endif
-}
-
-QString CGlobalDir::GetDirDocument()
-{
-    QString szPath;
-    if(m_szDocumentPath.right(1) == "/"
-            || m_szDocumentPath.right(1) == "\\")
-        szPath = m_szDocumentPath.left(m_szDocumentPath.size() - 1);
-    else
-        szPath = m_szDocumentPath;
-    szPath += QDir::separator();
-    szPath = szPath + "Rabbit"
-#ifdef RABBITIM
-             + QDir::separator() + "Im"
-#endif
-            ;
-    return szPath;
-}
-
-int CGlobalDir::SetDirDocument(QString szPath)
-{
-    m_szDocumentPath = szPath + QDir::separator() + "Rabbit"
-#ifdef RABBITIM
-            + QDir::separator() + "Im"
-#endif
-            ;
-    return 0;
-}
-
-/*
-QString CGlobalDir::GetDirApplicationConfigure()
-{
-    return GetDirDocument() + QDir::separator() + "conf";
-}
-
-QString CGlobalDir::GetDirApplicationData()
-{
-    return GetDirDocument() + QDir::separator() + "Data";
-}
-*/
-
-QString CGlobalDir::GetDirApplicationDownLoad()
-{
-    QString szDownLoad = GetDirDocument() + QDir::separator() + "DownLoad";
-    QDir d;
-    if(!d.exists(szDownLoad))
-        d.mkdir(szDownLoad);
-    return szDownLoad;
 }
 
 QString CGlobalDir::GetDirMotion(const QString &szId)
@@ -100,7 +34,8 @@ QString CGlobalDir::GetDirMotion(const QString &szId)
 #endif
     QString szDir;
     if(szKey.isEmpty())
-        szDir = GetDirDocument() + QDir::separator() + "Motion";
+        szDir = RabbitCommon::CDir::Instance()->GetDirUserDocument()
+                + QDir::separator() + "Motion";
     else
         szDir = GetDirUserData(szKey) + QDir::separator() + "Motion";
 
@@ -108,21 +43,6 @@ QString CGlobalDir::GetDirMotion(const QString &szId)
     if(!d.exists(szDir))
         d.mkdir(szDir);
     return szDir;
-}
-
-//应用程序的配置文件  
-//QString CGlobalDir::GetApplicationConfigureFile()
-//{
-//    return GetDirDocument() + QDir::separator() + "app.conf";
-//}
-
-QString CGlobalDir::GetDirTranslate()
-{
-#ifdef ANDROID
-    //TODO:android下应该在安装包中装好语言  
-    return GetDirDocument() + QDir::separator() + "translations";
-#endif
-    return GetDirApplication() + QDir::separator() + "translations";
 }
 
 QString CGlobalDir::GetDirUserConfigure(const QString &szId)
@@ -148,7 +68,8 @@ QString CGlobalDir::GetDirUserConfigure(const QString &szId)
     else
         jid = szId;
     jid = jid.replace("@", ".");
-    QString path = GetDirDocument() + QDir::separator()
+    QString path = RabbitCommon::CDir::Instance()->GetDirUserDocument()
+            + QDir::separator()
             + jid + QDir::separator() + "conf";
     QDir d;
     if(!d.exists(path))
@@ -182,7 +103,8 @@ QString CGlobalDir::GetDirUserData(const QString &szId)
     else
         jid = szId;
     jid = jid.replace("@", ".");
-    QString path = GetDirDocument() + QDir::separator() + jid
+    QString path = RabbitCommon::CDir::Instance()->GetDirUserDocument()
+            + QDir::separator() + jid
             + QDir::separator() + "data";
     QDir d;
     if(!d.exists(path))

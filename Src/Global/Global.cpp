@@ -2,7 +2,6 @@
 #include "common/Tool.h"
 #include "../MainWindow.h"
 #include "Media/Camera/CameraFactory.h"
-#include "GlobalDir.h"
 #include <QMetaType>
 #include <QApplication>
 #include <QDir>
