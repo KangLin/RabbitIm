@@ -9,12 +9,12 @@
 
 class QTimer;
 
-class CSmileyPack : public QObject
+class CEmoji : public QObject
 {
     Q_OBJECT
 
 public:
-    static CSmileyPack& getInstance();
+    static CEmoji& getInstance();
     static QList<QPair<QString, QString>> listSmileyPacks(const QStringList& paths);
     static QList<QPair<QString, QString>> listSmileyPacks();
 
@@ -27,10 +27,10 @@ private slots:
     void cleanupIconsCache();
 
 private:
-    CSmileyPack();
-    CSmileyPack(CSmileyPack&) = delete;
-    CSmileyPack& operator=(const CSmileyPack&) = delete;
-    ~CSmileyPack() override;
+    CEmoji();
+    CEmoji(CEmoji&) = delete;
+    CEmoji& operator=(const CEmoji&) = delete;
+    ~CEmoji() override;
 
     bool load(const QString& filename);
     void constructRegex();

@@ -18,7 +18,7 @@
 */
 
 #include "CustomTextDocument.h"
-#include "SmileyPack.h"
+#include "Emoji.h"
 #include "Global/Global.h"
 #include <QDebug>
 #include <QIcon>
@@ -38,7 +38,7 @@ QVariant CCustomTextDocument::loadResource(int type, const QUrl& name)
                            CGlobal::Instance()->GetEmojiFontPointSize());
         QString fileName = QUrl::fromPercentEncoding(name.toEncoded()).mid(4).toHtmlEscaped();
 
-        std::shared_ptr<QIcon> icon = CSmileyPack::getInstance().getAsIcon(fileName);
+        std::shared_ptr<QIcon> icon = CEmoji::getInstance().getAsIcon(fileName);
         emoticonIcons.append(icon);
         return icon->pixmap(size);
     }

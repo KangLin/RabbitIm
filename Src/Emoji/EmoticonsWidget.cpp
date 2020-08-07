@@ -1,6 +1,6 @@
 
 #include "EmoticonsWidget.h"
-#include "SmileyPack.h"
+#include "Emoji.h"
 #include "Global/Global.h"
 
 #include <QFile>
@@ -29,7 +29,7 @@ CEmoticonsWidget::CEmoticonsWidget(QWidget* parent)
     const int maxRows = 8;
     const int itemsPerPage = maxRows * maxCols;
 
-    const QList<QStringList>& emoticons = CSmileyPack::getInstance().getEmoticons();
+    const QList<QStringList>& emoticons = CEmoji::getInstance().getEmoticons();
     int itemCount = emoticons.size();
     int pageCount = ceil(float(itemCount) / float(itemsPerPage));
     int currPage = 0;
@@ -67,7 +67,7 @@ CEmoticonsWidget::CEmoticonsWidget(QWidget* parent)
     }
     buttonLayout->addStretch();
 
-    CSmileyPack& smileyPack = CSmileyPack::getInstance();
+    CEmoji& smileyPack = CEmoji::getInstance();
     for (const QStringList& set : emoticons) {
         QPushButton* button = new QPushButton;
         std::shared_ptr<QIcon> icon = smileyPack.getAsIcon(set[0]);

@@ -1,4 +1,5 @@
 SOURCES += \
+    $$PWD/Emoji/Emoji.cpp \
     MainWindow.cpp \
     common/Tool.cpp \
     common/QRCode.cpp \
@@ -26,7 +27,6 @@ SOURCES += \
     Manage/Manage.cpp \
     Emoji/EmoticonsWidget.cpp \
     Emoji/CustomTextDocument.cpp \
-    Emoji/SmileyPack.cpp \
     Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
     Widgets/FrmRecentMessage/ManageRecentMessage.cpp \
     Widgets/DlgAddRoster/DlgAddRoster.cpp \
@@ -75,6 +75,7 @@ SOURCES += \
     
 
 HEADERS += \
+    $$PWD/Emoji/Emoji.h \
     MainWindow.h \
     Global/Global.h \
     UserInfo/UserInfo.h \
@@ -100,7 +101,6 @@ HEADERS += \
     Message/ChatActions/MessageAction.h \
     Emoji/EmoticonsWidget.h \
     Emoji/CustomTextDocument.h \
-    Emoji/SmileyPack.h \
     UserInfo/User.h \
     Widgets/FrmRecentMessage/FrmRecentMsgList.h \
     Widgets/FrmRecentMessage/ManageRecentMessage.h \

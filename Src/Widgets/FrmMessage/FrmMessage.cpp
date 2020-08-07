@@ -4,7 +4,7 @@
 #include "MainWindow.h"
 #include "Global/Global.h"
 #include "Client/Client.h"
-#include "Emoji/SmileyPack.h"
+#include "Emoji/Emoji.h"
 #include "Emoji/EmoticonsWidget.h"
 #include "FileTransfer/ManageFileTransfer.h"
 #include "Tool.h"
@@ -398,7 +398,7 @@ void CFrmMessage::slotAnchorClicked(const QUrl &url)
 
 void CFrmMessage::on_pbEmoticons_clicked()
 {
-    if (CSmileyPack::getInstance().getEmoticons().empty())
+    if (CEmoji::getInstance().getEmoticons().empty())
         return;
 
     CEmoticonsWidget widget;

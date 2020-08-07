@@ -1,5 +1,5 @@
 #include "MessageAction.h"
-#include "Emoji/SmileyPack.h"
+#include "Emoji/Emoji.h"
 #include "Global/Global.h"
 
 CMessageAction::CMessageAction(const QString &szId, const QString &message, const QTime &date, const bool &me) :
@@ -23,7 +23,7 @@ void CMessageAction::setup(QTextCursor cursor, QTextEdit *)
 
 QString CMessageAction::getMessage()
 {
-    QString message_ = CSmileyPack::getInstance().smileyfied(toHtmlChars(m_szMessage));
+    QString message_ = CEmoji::getInstance().smileyfied(toHtmlChars(m_szMessage));
 
     // detect urls
     QRegExp exp("(www\\.|http[s]?:\\/\\/|ftp:\\/\\/)\\S+");

@@ -70,11 +70,11 @@
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="3VNesvl59Piy" isRoot="false" xmi.id="DGUaHETml8v3" name="QMap&lt; QString, QSharedPointer &lt; CUser > >"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="1ofNx9YhfLAT" isRoot="false" xmi.id="33jvUdQL6Bh9" name="const QTime&amp;"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="jR9Qt6n5fQfS" isRoot="false" xmi.id="LaE1tNSwQCps" name="const bool&amp;"/>
-        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="kf9p1Fo0KRY5" isRoot="false" xmi.id="YG2EHWuWoa4X" name="CSmileyPack&amp;"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="kf9p1Fo0KRY5" isRoot="false" xmi.id="YG2EHWuWoa4X" name="CEmoji&amp;"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="e2HScM0P1tQs" isRoot="false" xmi.id="ReQOPuKkkGV7" name="QStringList&amp;"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="Mk9MbaC2CcOb" isRoot="false" xmi.id="ViLFxoNRMNR2" name="QList&lt; QPair &lt; QString , QString > >"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="Mk9MbaC2CcOb" isRoot="false" xmi.id="iSZJjX6zS5mQ" name="QList&lt; QStringList >"/>
-        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="kf9p1Fo0KRY5" isRoot="false" xmi.id="JqnlvJTiQvtw" name="const CSmileyPack&amp;"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="kf9p1Fo0KRY5" isRoot="false" xmi.id="JqnlvJTiQvtw" name="const CEmoji&amp;"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="iWgFfODevHJX" isRoot="false" xmi.id="1yI1vLTx6Mjw" name="QHash&lt; QString, QString >"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="iWgFfODevHJX" isRoot="false" xmi.id="KsAXyFPUzeGx" name="QHash&lt; QString, QByteArray >"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" elementReference="jR9Qt6n5fQfS" isRoot="false" xmi.id="maCppxypCcZC" name="const bool"/>
@@ -1346,7 +1346,7 @@
       <UML:Dependency visibility="public" isSpecification="false" namespace="Logical View" supplier="ldlchswrjGXE" xmi.id="8WYWTKkC7aOx" client="RHslQ2Gf5Mxb" name=""/>
       <UML:Dependency visibility="public" isSpecification="false" namespace="Logical View" supplier="ldlchswrjGXE" xmi.id="pvfwT4rGsIWA" client="RHslQ2Gf5Mxb" name=""/>
       <UML:Dependency visibility="public" isSpecification="false" namespace="Logical View" supplier="ldlchswrjGXE" xmi.id="jRFZkmhb1QKJ" client="RHslQ2Gf5Mxb" name=""/>
-      <UML:Class visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="kf9p1Fo0KRY5" name="CSmileyPack">
+      <UML:Class visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="kf9p1Fo0KRY5" name="CEmoji">
        <UML:GeneralizableElement.generalization>
         <UML:Generalization xmi.idref="e5YJtZiSGg0O"/>
        </UML:GeneralizableElement.generalization>
@@ -1402,8 +1402,8 @@
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
         <UML:Operation visibility="private" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="iYTvGhakPPPo" name="onSmileyPackChanged"/>
-        <UML:Operation visibility="private" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="mzceBG8flIBI" name="CSmileyPack"/>
-        <UML:Operation visibility="private" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="cSVKwvedU7Yk" name="CSmileyPack">
+        <UML:Operation visibility="private" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="mzceBG8flIBI" name="CEmoji"/>
+        <UML:Operation visibility="private" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="cSVKwvedU7Yk" name="CEmoji">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="n6UAWrzIobvz" type="YG2EHWuWoa4X" value="" name=""/>
          </UML:BehavioralFeature.parameter>
