@@ -106,7 +106,8 @@ CGlobal::CGlobal(QObject *parent) :
                 "UI/StyleSheet", ":/qdarkstyle/style.qss").toString();
     m_szStyleMenu = ""; //conf.value("UI/MenuStyleSheet", "Dark").toString();
     
-    m_szSmileyPack = ":/smileys/emojione/emoticons.xml";
+    m_szEmoji = conf.value("Options/Emoji/File",
+                           ":/emoji/emojione/emoticons.xml").toString();
     m_EmojiFontPointSize = 24;
     
     //如果不同线程间信号发送中的参数有自定义的数据类型，  
@@ -725,15 +726,17 @@ QDateTime CGlobal::GetUpdateDate()
     return d;
 }
 
-QString CGlobal::GetFileSmileyPack()
+QString CGlobal::GetFileEmoji()
 {
-    return m_szSmileyPack;
+    return m_szEmoji;
 }
 
-int CGlobal::SetFileSmileyPack(const QString &szFile)
+int CGlobal::SetFileEmoji(const QString &szFile)
 {
-    m_szSmileyPack = szFile;
-    emit sigSmileyPackChanged();
+    m_szEmoji = szFile;
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
+    conf.setValue("Options/Emoji/File", m_szEmoji);
+    emit sigEmojiChanged();
     return 0;
 }
 

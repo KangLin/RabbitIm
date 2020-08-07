@@ -4,8 +4,8 @@
 #include "MainWindow.h"
 #include "Global/Global.h"
 #include "Client/Client.h"
-#include "Emoticon/SmileyPack.h"
-#include "Emoticon/EmoticonsWidget.h"
+#include "Emoji/SmileyPack.h"
+#include "Emoji/EmoticonsWidget.h"
 #include "FileTransfer/ManageFileTransfer.h"
 #include "Tool.h"
 #include <QKeyEvent>

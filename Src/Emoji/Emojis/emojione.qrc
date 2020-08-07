@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/smileys">
+    <qresource prefix="/emoji">
         <file>emojione/0023-20e3.svg</file>
         <file>emojione/0023.svg</file>
         <file>emojione/002a-20e3.svg</file>

@@ -9,7 +9,11 @@ project(RabbitIm)
 include(Files.cmake)
 
 #资源
-LIST(APPEND RABBITIM_RCC_FILES ${CMAKE_SOURCE_DIR}/Resource/Resource.qrc)
+LIST(APPEND RABBITIM_RCC_FILES
+    ${CMAKE_SOURCE_DIR}/Resource/Resource.qrc
+    Emoji/Emojis/emojione.qrc
+    Emoji/Emojis/smileys.qrc
+    )
 #翻译资源
 include(${RabbitCommon_DIR}/cmake/Translations.cmake)
 GENERATED_QT_TRANSLATIONS(SOURCES ${RABBITIM_SOURCES} ${RABBITIM_UIS}

@@ -24,9 +24,9 @@ SOURCES += \
     UserInfo/User.cpp \
     Manage/ManageUser.cpp \
     Manage/Manage.cpp \
-    Emoticon/EmoticonsWidget.cpp \
-    Emoticon/CustomTextDocument.cpp \
-    Emoticon/SmileyPack.cpp \
+    Emoji/EmoticonsWidget.cpp \
+    Emoji/CustomTextDocument.cpp \
+    Emoji/SmileyPack.cpp \
     Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
     Widgets/FrmRecentMessage/ManageRecentMessage.cpp \
     Widgets/DlgAddRoster/DlgAddRoster.cpp \
@@ -98,9 +98,9 @@ HEADERS += \
     Widgets/FrmMessage/FrmContainer.h \
     Message/ChatActions/ChatAction.h \
     Message/ChatActions/MessageAction.h \
-    Emoticon/EmoticonsWidget.h \
-    Emoticon/CustomTextDocument.h \
-    Emoticon/SmileyPack.h \
+    Emoji/EmoticonsWidget.h \
+    Emoji/CustomTextDocument.h \
+    Emoji/SmileyPack.h \
     UserInfo/User.h \
     Widgets/FrmRecentMessage/FrmRecentMsgList.h \
     Widgets/FrmRecentMessage/ManageRecentMessage.h \
@@ -175,8 +175,8 @@ FORMS += MainWindow.ui \
 RESOURCES += \
     ../Resource/Resource.qrc \
     ../Resource/sink/dark/style.qrc \
-    Emoticon/Smileys/emojione.qrc \
-    Emoticon/Smileys/smileys.qrc
+    Emoji/Emojis/emojione.qrc \
+    Emoji/Emojis/smileys.qrc
 
 android{
     RESOURCES += \

@@ -68,6 +68,8 @@ public:
      */
     QString GetDirReceiveFile(const QString &szId = QString());
 
+    QString GetDirEmoji();
+
 };
 
 #endif // CGLOBALDIR_H

@@ -1,5 +1,5 @@
 #include "MessageAction.h"
-#include "Emoticon/SmileyPack.h"
+#include "Emoji/SmileyPack.h"
 #include "Global/Global.h"
 
 CMessageAction::CMessageAction(const QString &szId, const QString &message, const QTime &date, const bool &me) :

@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/smileys">
+    <qresource prefix="/emoji">
         <file>Classic/angry.png</file>
         <file>Classic/cool.png</file>
         <file>Classic/crying.png</file>

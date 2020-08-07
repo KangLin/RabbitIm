@@ -7,7 +7,7 @@
 #include "../FrmCustom/MenuMessageSend.h"
 #include "UserInfo/User.h"
 #include "Message/ChatActions/ChatAction.h"
-#include "Emoticon/CustomTextDocument.h"
+#include "Emoji/CustomTextDocument.h"
 
 class MainWindow;
 

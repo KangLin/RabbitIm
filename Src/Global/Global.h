@@ -273,12 +273,12 @@ public:
     /** 
      * 得到表情图片文件  
      */
-    QString GetFileSmileyPack();
-    int SetFileSmileyPack(const QString &szFile);
+    QString GetFileEmoji();
+    int SetFileEmoji(const QString &szFile);
 Q_SIGNALS:
-    void sigSmileyPackChanged();
+    void sigEmojiChanged();
 private:
-    QString m_szSmileyPack;
+    QString m_szEmoji;
     
 public:
     int GetEmojiFontPointSize();

@@ -161,3 +161,9 @@ QString CGlobalDir::GetUserConfigureFile(const QString &szId)
 {
     return GetDirUserConfigure(szId) + QDir::separator() + "user.conf";
 }
+
+QString CGlobalDir::GetDirEmoji()
+{
+    return RabbitCommon::CDir::Instance()->GetDirApplicationInstallRoot()
+            + QDir::separator() + "emoji";
+}

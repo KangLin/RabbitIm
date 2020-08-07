@@ -20,7 +20,7 @@ signals:
     void insertEmoticon(QString str);
 
 private slots:
-    void onSmileyClicked();
+    void onEmojiClicked();
     void onPageButtonClicked();
     void PageButtonsUpdate();
 

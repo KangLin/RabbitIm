@@ -1,3 +1,5 @@
+// @see: https://emojipedia.org/emoji-11.0/
+// @see: https://www.unicode.org/reports/tr51/
 #include "SmileyPack.h"
 #include "Global/Global.h"
 #include <QDir>
@@ -36,7 +38,7 @@ QStringList loadDefaultPaths();
 
 static const QStringList DEFAULT_PATHS = loadDefaultPaths();
 
-static const QString RICH_TEXT_PATTERN = QStringLiteral("<img title=\"%1\" alt=\"%1\" src=\"key:%1\"/>");
+static const QString RICH_TEXT_PATTERN = QStringLiteral("<img title=\"%1\" src=\"key:%1\"\\>");
 
 static const QString EMOTICONS_FILE_NAME = QStringLiteral("emoticons.xml");
 
@@ -89,8 +91,8 @@ CSmileyPack::CSmileyPack()
     : cleanupTimer{new QTimer(this)}
 {
     loadingMutex.lock();
-    QtConcurrent::run(this, &CSmileyPack::load, CGlobal::Instance()->GetFileSmileyPack());
-    connect(CGlobal::Instance(), &CGlobal::sigSmileyPackChanged, this,
+    QtConcurrent::run(this, &CSmileyPack::load, CGlobal::Instance()->GetFileEmoji());
+    connect(CGlobal::Instance(), &CGlobal::sigEmojiChanged, this,
             &CSmileyPack::onSmileyPackChanged);
     connect(cleanupTimer, &QTimer::timeout, this, &CSmileyPack::cleanupIconsCache);
     cleanupTimer->start(CLEANUP_TIMEOUT);
@@ -315,5 +317,5 @@ std::shared_ptr<QIcon> CSmileyPack::getAsIcon(const QString& emoticon) const
 void CSmileyPack::onSmileyPackChanged()
 {
     loadingMutex.lock();
-    QtConcurrent::run(this, &CSmileyPack::load, CGlobal::Instance()->GetFileSmileyPack());
+    QtConcurrent::run(this, &CSmileyPack::load, CGlobal::Instance()->GetFileEmoji());
 }

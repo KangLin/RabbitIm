@@ -80,7 +80,7 @@ CEmoticonsWidget::CEmoticonsWidget(QWidget* parent)
         button->setIconSize(size);
         button->setFixedSize(size);
 
-        connect(button, &QPushButton::clicked, this, &CEmoticonsWidget::onSmileyClicked);
+        connect(button, &QPushButton::clicked, this, &CEmoticonsWidget::onEmojiClicked);
 
         qobject_cast<QGridLayout*>(stack.widget(currPage)->layout())->addWidget(button, row, col);
 
@@ -105,7 +105,7 @@ CEmoticonsWidget::CEmoticonsWidget(QWidget* parent)
     layout.activate();
 }
 
-void CEmoticonsWidget::onSmileyClicked()
+void CEmoticonsWidget::onEmojiClicked()
 {
     // emit insert emoticon
     QWidget* sender = qobject_cast<QWidget*>(QObject::sender());
