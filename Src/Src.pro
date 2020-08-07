@@ -82,3 +82,11 @@ win32:equals(QMAKE_HOST.os, Windows){
 
     INSTALLS += Deployment_qtlib
 }
+
+#安装表情包
+emoji.target = emoji
+emoji.files = Emoji/Emojis
+android: emoji.path = $$system_path($${PREFIX}/assets)
+else: emoji.path = $$system_path($${PREFIX})
+emoji.CONFIG += directory
+INSTALLS += emoji

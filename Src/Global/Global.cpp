@@ -107,7 +107,16 @@ CGlobal::CGlobal(QObject *parent) :
     m_szStyleMenu = ""; //conf.value("UI/MenuStyleSheet", "Dark").toString();
     
     m_szEmoji = conf.value("Options/Emoji/File",
-                           ":/emoji/emojione/emoticons.xml").toString();
+                           CGlobalDir::Instance()->GetDirEmoji()
+                           + QDir::separator() + "emojione"
+                           + QDir::separator() + "emoticons.xml"
+                           ).toString();
+    QDir d;
+    if(!d.exists(m_szEmoji))
+        m_szEmoji = conf.value("Options/Emoji/File",
+                           ":/emoji/emojione/emoticons.xml"
+                           ).toString();
+
     m_EmojiFontPointSize = 24;
     
     //如果不同线程间信号发送中的参数有自定义的数据类型，  
@@ -123,7 +132,7 @@ CGlobal::~CGlobal()
 
 CGlobal* CGlobal::Instance()
 {
-    static CGlobal* p = NULL;
+    static CGlobal* p = nullptr;
     if(!p)
         p = new CGlobal;
     return p;
