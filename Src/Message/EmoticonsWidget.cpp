@@ -112,6 +112,7 @@ void CEmoticonsWidget::onSmileyClicked()
     if (sender) {
         QString sequence =
             sender->property("sequence").toString().replace("&lt;", "<").replace("&gt;", ">");
+        this->hide();
         emit insertEmoticon(sequence);
     }
 }

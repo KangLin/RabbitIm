@@ -29,7 +29,7 @@
   </layout>
   <action name="actionOpen_Application">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Operate</normaloff>:/icon/Operate</iconset>
    </property>
    <property name="text">
@@ -41,7 +41,7 @@
   </action>
   <action name="actionClose_Application">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Close</normaloff>:/icon/Close</iconset>
    </property>
    <property name="text">
@@ -53,7 +53,7 @@
   </action>
   <action name="actionApplication_Infomation">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Information</normaloff>:/icon/Information</iconset>
    </property>
    <property name="text">
@@ -65,7 +65,7 @@
   </action>
   <action name="actionRemove_Application">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Close</normaloff>:/icon/Close</iconset>
    </property>
    <property name="text">
@@ -77,9 +77,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../../Resource/Resource.qrc"/>
-  <include location="../../Resource/Resource.qrc"/>
-  <include location="../../Resource/Resource.qrc"/>
+  <include location="../../../Resource/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

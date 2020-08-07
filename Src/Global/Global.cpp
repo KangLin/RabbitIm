@@ -106,7 +106,7 @@ CGlobal::CGlobal(QObject *parent) :
                 "UI/StyleSheet", ":/qdarkstyle/style.qss").toString();
     m_szStyleMenu = ""; //conf.value("UI/MenuStyleSheet", "Dark").toString();
     
-    m_szSmileyPack = ":/smileys/ASCII+emojione/emoticons.xml";
+    m_szSmileyPack = ":/smileys/emojione/emoticons.xml";
     m_EmojiFontPointSize = 24;
     
     //如果不同线程间信号发送中的参数有自定义的数据类型，  

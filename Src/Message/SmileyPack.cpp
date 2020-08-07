@@ -36,7 +36,7 @@ QStringList loadDefaultPaths();
 
 static const QStringList DEFAULT_PATHS = loadDefaultPaths();
 
-static const QString RICH_TEXT_PATTERN = QStringLiteral("<img title=\"%1\" src=\"key:%1\"\\>");
+static const QString RICH_TEXT_PATTERN = QStringLiteral("<img title=\"%1\" alt=\"%1\" src=\"key:%1\"/>");
 
 static const QString EMOTICONS_FILE_NAME = QStringLiteral("emoticons.xml");
 

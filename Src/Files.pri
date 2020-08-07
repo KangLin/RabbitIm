@@ -27,6 +27,7 @@ SOURCES += \
     Manage/Manage.cpp \
     Message/EmoticonsWidget.cpp \
     Message/style.cpp \
+    Message/CustomTextDocument.cpp \
     Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
     Widgets/FrmRecentMessage/ManageRecentMessage.cpp \
     Widgets/DlgAddRoster/DlgAddRoster.cpp \
@@ -99,6 +100,7 @@ HEADERS += \
     Widgets/FrmMessage/FrmContainer.h \
     Message/ChatActions/ChatAction.h \
     Message/ChatActions/MessageAction.h \
+    Message/CustomTextDocument.h \
     UserInfo/User.h \
     Message/EmoticonsWidget.h \
     Message/style.h \

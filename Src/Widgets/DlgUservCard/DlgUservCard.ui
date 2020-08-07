@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>580</width>
-    <height>498</height>
+    <height>526</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -358,7 +358,7 @@
            <string>Browse(&amp;B)</string>
           </property>
           <property name="icon">
-           <iconset resource="../../Resource/Resource.qrc">
+           <iconset resource="../../../Resource/Resource.qrc">
             <normaloff>:/icon/Browse</normaloff>:/icon/Browse</iconset>
           </property>
          </widget>
@@ -378,7 +378,7 @@
            <string>Clear(&amp;L)</string>
           </property>
           <property name="icon">
-           <iconset resource="../../Resource/Resource.qrc">
+           <iconset resource="../../../Resource/Resource.qrc">
             <normaloff>:/icon/Close</normaloff>:/icon/Close</iconset>
           </property>
          </widget>
@@ -418,7 +418,7 @@
         <string>OK(&amp;O)</string>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset resource="../../../Resource/Resource.qrc">
          <normaloff>:/icon/Accept</normaloff>:/icon/Accept</iconset>
        </property>
       </widget>
@@ -438,7 +438,7 @@
         <string>Cancel(&amp;C)</string>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset resource="../../../Resource/Resource.qrc">
          <normaloff>:/icon/Cancel</normaloff>:/icon/Cancel</iconset>
        </property>
       </widget>
@@ -461,8 +461,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../Resource/Resource.qrc"/>
-  <include location="../../Resource/Resource.qrc"/>
+  <include location="../../../Resource/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

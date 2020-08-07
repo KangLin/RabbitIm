@@ -114,7 +114,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../../Resource/Resource.qrc">:/icon/AppIcon</pixmap>
+           <pixmap resource="../../../Resource/Resource.qrc">:/icon/AppIcon</pixmap>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -162,7 +162,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../Resource/Resource.qrc"/>
+  <include location="../../../Resource/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

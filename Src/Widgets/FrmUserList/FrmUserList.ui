@@ -14,7 +14,7 @@
    <string>Roster list</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../Resource/Resource.qrc">
+   <iconset resource="../../../Resource/Resource.qrc">
     <normaloff>:/icon/AppIcon</normaloff>:/icon/AppIcon</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -33,7 +33,7 @@
   </layout>
   <action name="actionAddRoster_A">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Add</normaloff>:/icon/Add</iconset>
    </property>
    <property name="text">
@@ -45,7 +45,7 @@
   </action>
   <action name="actionRemoveRoster_R">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
    </property>
    <property name="text">
@@ -57,7 +57,7 @@
   </action>
   <action name="actionAgreeAddRoster">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Accept</normaloff>:/icon/Accept</iconset>
    </property>
    <property name="text">
@@ -69,7 +69,7 @@
   </action>
   <action name="actionInformation_I">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Information</normaloff>:/icon/Information</iconset>
    </property>
    <property name="text">
@@ -78,7 +78,7 @@
   </action>
   <action name="actionRename">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Modify</normaloff>:/icon/Modify</iconset>
    </property>
    <property name="text">
@@ -90,7 +90,7 @@
   </action>
   <action name="actionSendMessage">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Message</normaloff>:/icon/Message</iconset>
    </property>
    <property name="text">
@@ -102,7 +102,7 @@
   </action>
   <action name="actionSendFile">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/SendFile</normaloff>:/icon/SendFile</iconset>
    </property>
    <property name="text">
@@ -111,7 +111,7 @@
   </action>
   <action name="actionVideo">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Video</normaloff>:/icon/Video</iconset>
    </property>
    <property name="text">
@@ -123,7 +123,7 @@
   </action>
   <action name="actionAudio">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Microphone</normaloff>:/icon/Microphone</iconset>
    </property>
    <property name="text">
@@ -135,7 +135,7 @@
   </action>
   <action name="actionAllowMonitor">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Monitor</normaloff>:/icon/Monitor</iconset>
    </property>
    <property name="text">
@@ -147,7 +147,7 @@
   </action>
   <action name="actionRemove_Group">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
    </property>
    <property name="text">
@@ -167,7 +167,7 @@
   </action>
   <action name="actionRefresh_roster_list">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Refresh</normaloff>:/icon/Refresh</iconset>
    </property>
    <property name="text">
@@ -179,7 +179,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../../Resource/Resource.qrc"/>
+  <include location="../../../Resource/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

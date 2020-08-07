@@ -29,7 +29,7 @@
    <string>Create account</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../Resource/Resource.qrc">
+   <iconset resource="../../../Resource/Resource.qrc">
     <normaloff>:/icon/AppIcon</normaloff>:/icon/AppIcon</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -399,7 +399,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../Resource/Resource.qrc">:/icon/AppIcon</pixmap>
+          <pixmap resource="../../../Resource/Resource.qrc">:/icon/AppIcon</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -590,7 +590,7 @@
         <string>Create(&amp;C)</string>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset resource="../../../Resource/Resource.qrc">
          <normaloff>:/icon/AddAccount</normaloff>:/icon/AddAccount</iconset>
        </property>
        <property name="autoDefault">
@@ -628,7 +628,7 @@
         <string>Cancel(&amp;C)</string>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset resource="../../../Resource/Resource.qrc">
          <normaloff>:/icon/Cancel</normaloff>:/icon/Cancel</iconset>
        </property>
        <property name="autoDefault">
@@ -657,9 +657,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../Resource/Resource.qrc"/>
-  <include location="../../Resource/Resource.qrc"/>
-  <include location="../../Resource/Resource.qrc"/>
+  <include location="../../../Resource/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

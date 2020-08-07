@@ -579,7 +579,7 @@
         <string>OK(&amp;O)</string>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset resource="../../../Resource/Resource.qrc">
          <normaloff>:/icon/Accept</normaloff>:/icon/Accept</iconset>
        </property>
       </widget>
@@ -611,7 +611,7 @@
         <string>Cancel(&amp;C)</string>
        </property>
        <property name="icon">
-        <iconset resource="../../Resource/Resource.qrc">
+        <iconset resource="../../../Resource/Resource.qrc">
          <normaloff>:/icon/Cancel</normaloff>:/icon/Cancel</iconset>
        </property>
       </widget>
@@ -621,9 +621,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../Resource/Resource.qrc"/>
-  <include location="../../Resource/Resource.qrc"/>
-  <include location="../../Resource/Resource.qrc"/>
+  <include location="../../../Resource/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

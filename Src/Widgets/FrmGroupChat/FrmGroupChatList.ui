@@ -32,7 +32,7 @@
   </layout>
   <action name="actionNew_Search_group_chat_rooms">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Search</normaloff>:/icon/Search</iconset>
    </property>
    <property name="text">
@@ -47,7 +47,7 @@
   </action>
   <action name="actionLeave_room">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Left</normaloff>:/icon/Left</iconset>
    </property>
    <property name="text">
@@ -93,7 +93,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../../Resource/Resource.qrc"/>
+  <include location="../../../Resource/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

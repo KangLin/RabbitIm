@@ -7,6 +7,7 @@
 #include "../FrmCustom/MenuMessageSend.h"
 #include "UserInfo/User.h"
 #include "Message/ChatActions/ChatAction.h"
+#include "Message/CustomTextDocument.h"
 
 class MainWindow;
 
@@ -74,6 +75,9 @@ private:
     QSharedPointer<CUser> m_User;
     QMenu m_MoreMenu;//功能按钮菜单  
     CMenuMessageSend m_MessageSendMenu;
+    
+    CCustomTextDocument *m_pTextDocumentView;
+    CCustomTextDocument *m_pTextDocumentInput;
 };
 
 #endif // FRMMESSAGE_H

@@ -21,16 +21,16 @@
 
 CFrmMessage::CFrmMessage(QWidget *parent, Qt::WindowFlags f) :
     QFrame(parent, f),
-    m_MessageSendMenu(parent),
-    ui(new Ui::CFrmMessage)
+    ui(new Ui::CFrmMessage),
+    m_MessageSendMenu(parent)
 {
     Init();
 }
 
 CFrmMessage::CFrmMessage(const QString &szId, QWidget *parent, Qt::WindowFlags f):
     QFrame(parent, f),
-    m_MessageSendMenu(parent),
-    ui(new Ui::CFrmMessage)
+    ui(new Ui::CFrmMessage),
+    m_MessageSendMenu(parent)
 {
     Init(szId);
 }
@@ -47,8 +47,14 @@ int CFrmMessage::Init(const QString &szId)
 {
     bool check = false;
     ui->setupUi(this);
+
     ui->txtInput->setFocus();//设置焦点  
     ui->txtInput->installEventFilter(this);
+    m_pTextDocumentInput = new CCustomTextDocument(ui->txtInput);
+    ui->txtInput->setDocument(m_pTextDocumentInput);
+
+    m_pTextDocumentView = new CCustomTextDocument(ui->txtView);
+    ui->txtView->setDocument(m_pTextDocumentView);
     ui->txtView->setUndoRedoEnabled(false);
     ui->txtView->setAcceptRichText(false);
     ui->txtView->setOpenExternalLinks(false);
@@ -286,10 +292,8 @@ void CFrmMessage::on_pbSend_clicked()
         QMessageBox::warning(this, tr("Warning"), tr("There is empty, please input."));
         return;
     }
-
     //发送  
-    GET_CLIENT->SendMessage(m_User->GetInfo()->GetId(),
-                                          ui->txtInput->toPlainText());
+    GET_CLIENT->SendMessage(m_User->GetInfo()->GetId(), message);
 
     ui->txtInput->clear();//清空输入框中的内容  
 }

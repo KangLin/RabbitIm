@@ -29,7 +29,7 @@
   </layout>
   <action name="actionOpenMessage">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Message</normaloff>:/icon/Message</iconset>
    </property>
    <property name="text">
@@ -41,7 +41,7 @@
   </action>
   <action name="actionRemoveMessage">
    <property name="icon">
-    <iconset resource="../../Resource/Resource.qrc">
+    <iconset resource="../../../Resource/Resource.qrc">
      <normaloff>:/icon/Delete</normaloff>:/icon/Delete</iconset>
    </property>
    <property name="text">
@@ -53,8 +53,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../../Resource/Resource.qrc"/>
-  <include location="../../Resource/Resource.qrc"/>
+  <include location="../../../Resource/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>
