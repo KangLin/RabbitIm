@@ -72,6 +72,13 @@ IF(WIN32)
         DESTINATION ${CMAKE_INSTALL_BINDIR}
             COMPONENT Runtime
         FILES_MATCHING PATTERN "*.dll")
+
+    IF(NOT EXISTS ${CMAKE_BINARY_DIR}/bin/qxmpp.dll)
+        FILE(COPY ${THIRD_LIBRARY_PATH}/bin/
+            ${THIRD_LIBRARY_PATH}/lib/
+            DESTINATION ${CMAKE_BINARY_DIR}/bin
+            FILES_MATCHING PATTERN "*.dll")
+    ENDIF()
 ENDIF()
 
 if(UNIX AND NOT ANDROID)
