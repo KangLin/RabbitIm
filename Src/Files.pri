@@ -1,5 +1,4 @@
 SOURCES += \
-    $$PWD/Message/SmileyPack.cpp \
     MainWindow.cpp \
     common/Tool.cpp \
     common/QRCode.cpp \
@@ -25,9 +24,9 @@ SOURCES += \
     UserInfo/User.cpp \
     Manage/ManageUser.cpp \
     Manage/Manage.cpp \
-    Message/EmoticonsWidget.cpp \
-    Message/style.cpp \
-    Message/CustomTextDocument.cpp \
+    Emoticon/EmoticonsWidget.cpp \
+    Emoticon/CustomTextDocument.cpp \
+    Emoticon/SmileyPack.cpp \
     Widgets/FrmRecentMessage/FrmRecentMsgList.cpp \
     Widgets/FrmRecentMessage/ManageRecentMessage.cpp \
     Widgets/DlgAddRoster/DlgAddRoster.cpp \
@@ -76,7 +75,6 @@ SOURCES += \
     
 
 HEADERS += \
-    $$PWD/Message/SmileyPack.h \
     MainWindow.h \
     Global/Global.h \
     UserInfo/UserInfo.h \
@@ -100,10 +98,10 @@ HEADERS += \
     Widgets/FrmMessage/FrmContainer.h \
     Message/ChatActions/ChatAction.h \
     Message/ChatActions/MessageAction.h \
-    Message/CustomTextDocument.h \
+    Emoticon/EmoticonsWidget.h \
+    Emoticon/CustomTextDocument.h \
+    Emoticon/SmileyPack.h \
     UserInfo/User.h \
-    Message/EmoticonsWidget.h \
-    Message/style.h \
     Widgets/FrmRecentMessage/FrmRecentMsgList.h \
     Widgets/FrmRecentMessage/ManageRecentMessage.h \
     Widgets/DlgAddRoster/DlgAddRoster.h \
@@ -177,8 +175,8 @@ FORMS += MainWindow.ui \
 RESOURCES += \
     ../Resource/Resource.qrc \
     ../Resource/sink/dark/style.qrc \
-    smileys/emojione.qrc \
-    smileys/smileys.qrc
+    Emoticon/Smileys/emojione.qrc \
+    Emoticon/Smileys/smileys.qrc
 
 android{
     RESOURCES += \

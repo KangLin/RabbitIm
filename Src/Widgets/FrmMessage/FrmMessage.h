@@ -7,7 +7,7 @@
 #include "../FrmCustom/MenuMessageSend.h"
 #include "UserInfo/User.h"
 #include "Message/ChatActions/ChatAction.h"
-#include "Message/CustomTextDocument.h"
+#include "Emoticon/CustomTextDocument.h"
 
 class MainWindow;
 
@@ -20,8 +20,8 @@ class CFrmMessage : public QFrame
     Q_OBJECT
 
 public:
-    explicit CFrmMessage(QWidget *parent = 0, Qt::WindowFlags f = 0);
-    explicit CFrmMessage(const QString &szId,  QWidget *parent = 0, Qt::WindowFlags f = 0);
+    explicit CFrmMessage(QWidget *parent = nullptr, Qt::WindowFlags f = nullptr);
+    explicit CFrmMessage(const QString &szId,  QWidget *parent = nullptr, Qt::WindowFlags f = nullptr);
     ~CFrmMessage();
 
 signals:

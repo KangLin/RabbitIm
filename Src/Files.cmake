@@ -16,8 +16,9 @@ SET(RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
     Widgets/FrmLogin/FrmLogin.h
     Widgets/FrmUserList/FrmUserList.h
     Widgets/FrmUserList/GroupItem.h
-    Message/EmoticonsWidget.h
-    Message/SmileyPack.h
+    Emoticon/EmoticonsWidget.h
+    Emoticon/SmileyPack.h
+    Emoticon/CustomTextDocument.h
     )
 
 SET(RABBITIM_SOURCES
@@ -46,9 +47,9 @@ SET(RABBITIM_SOURCES
     UserInfo/User.cpp 
     Manage/ManageUser.cpp 
     Manage/Manage.cpp 
-    Message/SmileyPack.cpp 
-    Message/EmoticonsWidget.cpp
-    Message/style.cpp 
+    Emoticon/SmileyPack.cpp 
+    Emoticon/EmoticonsWidget.cpp
+    Emoticon/CustomTextDocument.cpp
     Widgets/FrmRecentMessage/FrmRecentMsgList.cpp 
     Widgets/FrmRecentMessage/ManageRecentMessage.cpp 
     Widgets/DlgAddRoster/DlgAddRoster.cpp 
