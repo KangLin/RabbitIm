@@ -138,8 +138,6 @@ int CFrmContainer::ShowDialog(const QString &szId)
     this->show();
     this->activateWindow();
     return 0;
-
-    return nRet;
 }
 
 void CFrmContainer::resizeEvent(QResizeEvent *e)

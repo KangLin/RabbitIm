@@ -40,7 +40,7 @@ int CManageMessageDialog::LogoutClean()
 
 int CManageMessageDialog::ShowDialog(const QString &szId)
 {
-    QFrame* pFrame = NULL;
+    QFrame* pFrame = nullptr;
     QMap<QString, QFrame*>::iterator it;
     it = m_DlgMessage.find(szId);
     if(m_DlgMessage.end() == it)

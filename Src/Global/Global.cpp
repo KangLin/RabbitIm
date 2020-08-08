@@ -105,15 +105,8 @@ CGlobal::CGlobal(QObject *parent) :
     m_szStyleFile = ""; //conf.value( \
                 "UI/StyleSheet", ":/qdarkstyle/style.qss").toString();
     m_szStyleMenu = ""; //conf.value("UI/MenuStyleSheet", "Dark").toString();
-    
+
     m_szEmoji = conf.value("Options/Emoji/File",
-                           CGlobalDir::Instance()->GetDirEmoji()
-                           + QDir::separator() + "emojione"
-                           + QDir::separator() + "emoticons.xml"
-                           ).toString();
-    QDir d;
-    if(!d.exists(m_szEmoji))
-        m_szEmoji = conf.value("Options/Emoji/File",
                            ":/emoji/emojione/emoticons.xml"
                            ).toString();
 

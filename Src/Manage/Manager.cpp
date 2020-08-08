@@ -7,12 +7,12 @@
 #include "RabbitCommonDir.h"
 
 CManager::CManager():
-    m_PluginProtocol(NULL),
+    m_PluginProtocol(nullptr),
     m_ManagePluginProtocol(new CManagePluginProtocol()),
     m_ManagePluginApp(new CManagePluginApp()),
     m_ManageFile(new CManageFileTransfer),
     m_ManageRecentMessage(new CManageRecentMessage),
-    n_ManageMessageDialog(NULL)
+    n_ManageMessageDialog(nullptr)
 {
     foreach (QObject *plugin, QPluginLoader::staticInstances())
     {

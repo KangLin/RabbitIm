@@ -25,12 +25,11 @@ if(BUILD_TYPE STREQUAL "debug")
         )
 endif()
 
-if(BUILD_TYPE STREQUAL "debug")
-    LIST(APPEND RABBITIM_RCC_FILES
-        Emoji/Emojis/emojione.qrc
-        Emoji/Emojis/smileys.qrc
-        )
-endif()
+LIST(APPEND RABBITIM_RCC_FILES
+    Emoji/Emojis/emojione.qrc
+    Emoji/Emojis/smileys.qrc
+    )
+
 IF(ANDROID)
     INSTALL(DIRECTORY Emoji/Emojis
         DESTINATION assets

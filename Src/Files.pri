@@ -176,11 +176,9 @@ RESOURCES += \
     ../Resource/Resource.qrc \
     ../Resource/sink/dark/style.qrc \
 
-debug {
-    RESOURCES += \
-        Emoji/Emojis/emojione.qrc \
-        Emoji/Emojis/smileys.qrc
-}
+RESOURCES += \
+    Emoji/Emojis/emojione.qrc \
+    Emoji/Emojis/smileys.qrc
 
 android{
     RESOURCES += \
