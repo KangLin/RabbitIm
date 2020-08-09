@@ -14,7 +14,6 @@ LIST(APPEND RABBITIM_RCC_FILES
     )
 
 #翻译资源
-include(${RabbitCommon_DIR}/cmake/Translations.cmake)
 GENERATED_QT_TRANSLATIONS(SOURCES ${RABBITIM_SOURCES} ${RABBITIM_UIS}
     OUT_QRC TRANSLATIONS_QRC_FILES)
 string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
@@ -30,15 +29,15 @@ LIST(APPEND RABBITIM_RCC_FILES
     Emoji/Emojis/smileys.qrc
     )
 
-IF(ANDROID)
-    INSTALL(DIRECTORY Emoji/Emojis
-        DESTINATION assets
-        COMPONENT Runtime)
-ELSE()
-    INSTALL(DIRECTORY Emoji/Emojis
-        DESTINATION .
-        COMPONENT Runtime)
-ENDIF()
+#IF(ANDROID)
+#    INSTALL(DIRECTORY Emoji/Emojis
+#        DESTINATION assets
+#        COMPONENT Runtime)
+#ELSE()
+#    INSTALL(DIRECTORY Emoji/Emojis
+#        DESTINATION .
+#        COMPONENT Runtime)
+#ENDIF()
 
 set(INCLUDE_DIRS
     ${RabbitCommon_DIR}/Src

@@ -1,11 +1,13 @@
 PROJECT(ScreenShot)
 
-SET(RABBITIM_PLUG_NAME CPluginScreenShot)
+#SET(RABBITIM_PLUG_NAME CPluginScreenShot)
 
-SET(PLUGIN_SOURCES
+ADD_PLUGIN_TARGET(
+    SOURCE_FILES
         PluginScreenShot.cpp
         DlgScreenShot.cpp
         WdgScreenEditor.cpp
+    INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/Src
     )
 
-include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginApp.cmake)
+#include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginApp.cmake)
