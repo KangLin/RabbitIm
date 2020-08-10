@@ -56,19 +56,19 @@ int CPluginProtocol::LoadTranslate(const QString &szDir)
     m_TranslatorPlugin = QSharedPointer<QTranslator>(new QTranslator());
 
     QString szPlugin;
-#if defined (ANDROID) || defined (DEBUG)
-    szPlugin = ":/translations/Plugin_" + szLocale + ".qm";
+#if defined (DEBUG)
+    szPlugin = ":/translations/" + ID() + "_" + szLocale + ".qm";
+#elif ANDROID
+    szPlugin = QString("assets:/plugins/translations")
+           + QDir::separator() + ID() + "_" + szLocale + ".qm";
 #else
     if(szDir.isEmpty())
-    {
-        szPlugin = ":/translations/Plugin_" + szLocale + ".qm";
-    }
+        szPlugin = ":/translations/" + ID() + "_" + szLocale + ".qm";
     else
-    {
         szPlugin = szDir + QDir::separator() + "translations"
-                + QDir::separator() + "Plugin_" + szLocale + ".qm";
-    }
+               + QDir::separator() + ID() + "_" + szLocale + ".qm";
 #endif
+
     LOG_MODEL_DEBUG("CPluginApp", "Translate dir:%s", qPrintable(szPlugin));
     bool bRet = m_TranslatorPlugin->load(szPlugin);
     if(!bRet)

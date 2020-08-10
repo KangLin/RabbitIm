@@ -18,7 +18,7 @@ CPluginProtocolQXMPP::CPluginProtocolQXMPP(QObject *parent) :
 
 QString CPluginProtocolQXMPP::ID()
 {
-    return "qxmpp";
+    return "ProtocolQXmpp";
 }
 
 QString CPluginProtocolQXMPP::Name()

@@ -48,7 +48,7 @@ CManager::CManager():
     FindPlugins(pluginsDir);
 
     //TODO:修改协议  
-    ChangeProtolcol("qxmpp");
+    ChangeProtolcol("ProtocolQXmpp");
 }
 
 CManager::~CManager()

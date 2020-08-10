@@ -8,8 +8,8 @@ equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
 mkpath($${TRANSLATIONS_OUTPUT_PATH})
 
 for(v, LOCALE_LIST){
-    TRANSLATIONS += $$_PRO_FILE_PWD_/Resource/Translations/Plugin_$${v}.ts
-    TRANSLATIONS_QM_FILES += $${TRANSLATIONS_OUTPUT_PATH}/Plugin_$${v}.qm
+    TRANSLATIONS += $$_PRO_FILE_PWD_/Resource/Translations/$${TARGET}_$${v}.ts
+    TRANSLATIONS_QM_FILES += $${TRANSLATIONS_OUTPUT_PATH}/$${TARGET}_$${v}.qm
 }
 
 #rules to generate ts

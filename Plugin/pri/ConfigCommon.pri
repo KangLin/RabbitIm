@@ -44,7 +44,7 @@ contains(TEMPLATE, lib){ #生成库
         FILE_NAME=$$PWD/PluginStatic.cpp
         PLUG_CONTENT = "Q_IMPORT_PLUGIN($${RABBITIM_PLUG_NAME})"
         FILE_CONTENT = $$cat($$FILE_NAME)
-        !contains(FILE_CONTENT, $$PLUG_CONTENT){
+        !contains(FILE_CONTENT, $$PLUG_CONTENT) {
             PLUG_CONTENT = "    Q_IMPORT_PLUGIN($${RABBITIM_PLUG_NAME})"
             write_file($$FILE_NAME, PLUG_CONTENT, append)
         }
@@ -52,7 +52,7 @@ contains(TEMPLATE, lib){ #生成库
         FILE_NAME=$$PWD/PluginStatic.pri
         PLUG_CONTENT = "-l$${TARGET}"
         FILE_CONTENT = $$cat($$FILE_NAME) 
-        !contains(FILE_CONTENT, $$PLUG_CONTENT){
+        !contains(FILE_CONTENT, $$PLUG_CONTENT) {
             PLUG_CONTENT = "LIBS *= -L\$\${OUT_PWD}/plugins/$${PLUGIN_TYPE}/$${TARGET} -l$${TARGET} "
             #PLUG_CONTENT += "myPackagesExist($${TARGET}) : MYPKGCONFIG *= $${TARGET}"
             write_file($$FILE_NAME, PLUG_CONTENT, append)
@@ -67,7 +67,20 @@ contains(TEMPLATE, lib){ #生成库
     TARGET_INSTALL_PATH = $${PREFIX}/plugins/$${PLUGIN_TYPE}/$${TARGET}
 
     #翻译  
-    include(translations.pri)
+    #include(translations.pri)
+    isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$(RabbitCommon_DIR)
+    isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../../../RabbitCommon
+    !isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/Src.pro") {
+        android: QM_FILES_INSTALL_PATH = $${PREFIX}/assets/plugins/translations
+        else: QM_FILES_INSTALL_PATH = $${TARGET_INSTALL_PATH}
+        include($${RabbitCommon_DIR}/pri/Translations.pri)
+    } else {
+        message("Don't find RabbitCommon, in environment variable RabbitCommon_DIR:$$RabbitCommon_DIR")
+        message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:")
+        message("   git clone https://github.com/KangLin/RabbitCommon.git")
+        error  ("2. Then set environment variable RabbitCommon_DIR to download dirctory")
+    }
+
 } else { #生成App
     TARGET_INSTALL_PATH = $$PREFIX/bin
     DESTDIR = $$OUT_PWD/../../bin

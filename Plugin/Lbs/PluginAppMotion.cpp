@@ -52,7 +52,7 @@ int CPluginAppMotion::Close()
 
 QString CPluginAppMotion::ID()
 {
-    return "App.Motion";
+    return "Lbs";
 }
 
 QString CPluginAppMotion::Name()

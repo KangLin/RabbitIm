@@ -83,16 +83,16 @@ function(ADD_PLUGIN_TARGET)
     endif()
 
     #翻译资源
-    if(NOT ANDROID)
-        set(QM_INSTALL_DIR ${PLUGIN_DIR}/translations)
+    set(QM_INSTALL_DIR ${PLUGIN_DIR}/translations)
+    if(ANDROID)
+        set(QM_INSTALL_DIR assets/plugins/translations)
     endif()
     GENERATED_QT_TRANSLATIONS(
-        NAME Plugin
         SOURCES ${PARA_SOURCE_FILES}
         OUT_QRC TRANSLATIONS_QRC_FILES
         QM_INSTALL_DIR ${QM_INSTALL_DIR})
     string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
-    if(BUILD_TYPE STREQUAL "debug" OR ANDROID)
+    if(BUILD_TYPE STREQUAL "debug")
         list(APPEND PARA_RESOURCE_FILES ${TRANSLATIONS_QRC_FILES})
     endif()
     add_library(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_RESOURCE_FILES})
