@@ -8,26 +8,21 @@ endif()
 FOREACH(_COMPONENT ${QT_COMPONENTS})
     SET(RABBITIM_LIBS ${RABBITIM_LIBS} ${Qt5${_COMPONENT}_LIBRARIES})
 ENDFOREACH()
-SET(RABBITIM_PLUG_NAME CPluginAppMotion)
+#SET(RABBITIM_PLUG_NAME CPluginAppMotion)
 
-SET(QT_PLUGINS ${QT_PLUGINS} Qt5Positioning_PLUGINS Qt5QuickWidgets_PLUGINS)
+#SET(QT_PLUGINS ${QT_PLUGINS} Qt5Positioning_PLUGINS Qt5QuickWidgets_PLUGINS)
 
-SET(PLUGIN_SOURCES
-    LbsTrack.cpp
-    Nmea.cpp
-    LbsPositionLogger.cpp
-    LbsMotion.cpp
-    FrmLbsMain.cpp
-    LbsCamera.cpp
-    PluginAppMotion.cpp
-    )
-
-SET(PLUGIN_UIS
-    LbsTrack.ui
-    LbsMotion.ui
-    )
-
-SET(PLUGIN_RESOURCE_FILES Resource.qrc)
+set(PLUGIN_SOURCES
+        LbsTrack.cpp
+        Nmea.cpp
+        LbsPositionLogger.cpp
+        LbsMotion.cpp
+        FrmLbsMain.cpp
+        LbsCamera.cpp
+        PluginAppMotion.cpp
+        LbsTrack.ui
+        LbsMotion.ui
+   )
 
 IF(ANDROID)
     SET(PLUGIN_SOURCES
@@ -37,4 +32,10 @@ IF(ANDROID)
     )
 ENDIF(ANDROID)
 
-include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginApp.cmake)
+ADD_PLUGIN_TARGET(
+    SOURCE_FILES ${PLUGIN_SOURCES}
+    RESOURCE_FILES Resource.qrc
+    INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/Src
+    )
+
+#include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginApp.cmake)

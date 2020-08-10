@@ -19,7 +19,6 @@ if(WIN32)
     LIST(APPEND RCC_FILES AppIcon.rc)
 endif()
 #翻译
-include(${RabbitCommon_DIR}/cmake/Translations.cmake)
 GENERATED_QT_TRANSLATIONS(SOURCES ${SOURCES_FILES}
     OUT_QRC TRANSLATIONS_QRC_FILES)
 string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
