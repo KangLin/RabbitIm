@@ -125,9 +125,9 @@ IF(OPTION_RABBITIM_USE_OPENSSL)
                             COMPONENT Runtime)
             ELSEIF(MSVC OR MINGW)
                 INSTALL(FILES $<TARGET_FILE:OpenSSL::SSL>
-                        $<TARGET_FILE:OpenSSL::Crypto>
-                    DESTINATION "${CMAKE_INSTALL_BINIR}"
-                        COMPONENT Runtime)
+                              $<TARGET_FILE:OpenSSL::Crypto>
+                        DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                            COMPONENT Runtime)
             ENDIF()
         ENDIF()
     ELSE(OPENSSL_FOUND)

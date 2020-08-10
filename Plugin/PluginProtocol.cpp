@@ -56,7 +56,7 @@ int CPluginProtocol::LoadTranslate(const QString &szDir)
     m_TranslatorPlugin = QSharedPointer<QTranslator>(new QTranslator());
 
     QString szPlugin;
-#ifdef ANDROID
+#if defined (ANDROID) || defined (DEBUG)
     szPlugin = ":/translations/Plugin_" + szLocale + ".qm";
 #else
     if(szDir.isEmpty())
