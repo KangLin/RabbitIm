@@ -43,6 +43,7 @@ int CPluginApp::ClearInstance()
 
 int CPluginApp::LoadTranslate(const QString &szDir)
 {
+    Q_UNUSED(szDir)
     //初始化翻译  
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     QString szLocale = conf.value("Global/Language", QLocale::system().name()).toString();
@@ -57,18 +58,14 @@ int CPluginApp::LoadTranslate(const QString &szDir)
     m_TranslatorPlugin = QSharedPointer<QTranslator>(new QTranslator());
 
     QString szPlugin;
-#ifdef ANDROID
+#if defined (ANDROID) || defined (DEBUG)
     szPlugin = ":/translations/Plugin_" + szLocale + ".qm";
 #else
     if(szDir.isEmpty())
-    {
         szPlugin = ":/translations/Plugin_" + szLocale + ".qm";
-    }
     else
-    {
         szPlugin = szDir + QDir::separator() + "translations"
-                + QDir::separator() + "Plugin_" + szLocale + ".qm";
-    }
+               + QDir::separator() + "Plugin_" + szLocale + ".qm";
 #endif
     LOG_MODEL_DEBUG("CPluginApp", "locale language:%s; Translate dir:%s",
                     szLocale.toStdString().c_str(), qPrintable(szPlugin));

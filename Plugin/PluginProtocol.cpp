@@ -35,6 +35,7 @@ int CPluginProtocol::ClearInstance()
 
 int CPluginProtocol::LoadTranslate(const QString &szDir)
 {
+    Q_UNUSED(szDir)
     //初始化翻译
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     QString szLocale = conf.value("Global/Language", QLocale::system().name()).toString();

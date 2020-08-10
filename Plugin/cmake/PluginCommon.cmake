@@ -83,7 +83,9 @@ function(ADD_PLUGIN_TARGET)
     endif()
 
     #翻译资源
-    set(QM_INSTALL_DIR ${PLUGIN_DIR}/translations)
+    if(NOT ANDROID)
+        set(QM_INSTALL_DIR ${PLUGIN_DIR}/translations)
+    endif()
     GENERATED_QT_TRANSLATIONS(
         NAME Plugin
         SOURCES ${PARA_SOURCE_FILES}
@@ -93,7 +95,6 @@ function(ADD_PLUGIN_TARGET)
     if(BUILD_TYPE STREQUAL "debug" OR ANDROID)
         list(APPEND PARA_RESOURCE_FILES ${TRANSLATIONS_QRC_FILES})
     endif()
-
     add_library(${PARA_NAME} ${PARA_SOURCE_FILES} ${PARA_RESOURCE_FILES})
 
     set_target_properties(${PARA_NAME} PROPERTIES
