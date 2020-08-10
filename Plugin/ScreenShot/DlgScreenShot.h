@@ -14,7 +14,7 @@ class CDlgScreenShot : public QDialog
     Q_OBJECT
 
 public:
-    CDlgScreenShot(QWidget* parent = 0);
+    CDlgScreenShot(QWidget* parent = nullptr);
     virtual ~CDlgScreenShot();
     QPixmap getSelectedImg();
 

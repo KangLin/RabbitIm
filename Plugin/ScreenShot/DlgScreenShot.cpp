@@ -29,7 +29,9 @@
 CDlgScreenShot::CDlgScreenShot(QWidget *parent)
     :QDialog(parent,
              Qt::FramelessWindowHint
-             | Qt::X11BypassWindowManagerHint  //这个标志是在x11下有用,查看帮助QWidget::showFullScreen()  
+//             #ifndef WIN32
+//             | Qt::X11BypassWindowManagerHint  //这个标志是在x11下有用,查看帮助QWidget::showFullScreen(),符合ICCCM协议的不需要这个
+//             #endif
              | Qt::Tool
              | Qt::WindowStaysOnTopHint
              | Qt::CustomizeWindowHint
@@ -40,26 +42,26 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
     m_height(0),
     m_Editor(this)
 {
-    this->setFixedSize(qApp->desktop()->size());
-    resize(qApp->desktop()->size());
-    setAttribute(Qt::WA_TranslucentBackground,true);
+    QDesktopWidget* pDesktop = qApp->desktop();
+    this->setFixedSize(pDesktop->size());
+    resize(pDesktop->size());
+    setAttribute(Qt::WA_TranslucentBackground, true);
     setCursor(Qt::CrossCursor);
 
-#ifdef ANDROID
-    QDesktopWidget *pScreen = qApp->desktop();
-    QPixmap pix(pScreen->geometry().size());
-    pScreen->render(&pix);
+//#ifdef ANDROID
+    QPixmap pix(pDesktop->size());
+    pDesktop->render(&pix);
     m_imgDesktop = pix.toImage();
-#else
-    WId id = qApp->desktop()->winId();
-    QScreen *pScreen = QGuiApplication::primaryScreen();
-    m_imgDesktop = pScreen->grabWindow(id,
-                                       0,
-                                       0, 
-                                       pScreen->geometry().width(),//pScreen->availableGeometry().width(),
-                                       pScreen->geometry().height()//pScreen->availableGeometry().height()
-                                       ).toImage();
-#endif
+//#else
+//    WId id = qApp->desktop()->winId();  
+//    QScreen *pScreen = QGuiApplication::primaryScreen();
+//    m_imgDesktop = pScreen->grabWindow(id//,
+////                                       0,
+////                                       0, 
+////                                       pScreen->geometry().width(), //pScreen->availableGeometry().width(), 
+////                                       pScreen->geometry().height() //pScreen->availableGeometry().height() 
+//                                       ).toImage();
+//#endif
     initSelectParam();
 
     m_Editor.hide();
@@ -80,9 +82,9 @@ QPixmap CDlgScreenShot::getSelectedImg()
 
 void CDlgScreenShot::paintEvent(QPaintEvent *e)
 {
-    Q_UNUSED(e);
+    Q_UNUSED(e)
     QPainter painter(this);
-    painter.drawImage(rect(),drawWindow());
+    painter.drawImage(rect(), drawWindow());
 }
 
 QImage CDlgScreenShot::drawWindow()
@@ -93,7 +95,7 @@ QImage CDlgScreenShot::drawWindow()
         return img;
     QPainter painter(&img);
     painter.setCompositionMode(QPainter::CompositionMode_Source);
-    painter.fillRect(img.rect(),QColor(0,0,0,70));
+    painter.fillRect(img.rect(), QColor(0, 0, 0, 70));
     int penWidth = 2;
     QPen pen = painter.pen();
     pen.setWidth(penWidth);

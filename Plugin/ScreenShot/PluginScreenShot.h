@@ -13,7 +13,7 @@ class CPluginScreenShot : public QObject,  CPluginApp
     Q_INTERFACES(CPluginApp)
 
 public:
-    CPluginScreenShot(QObject *parent = 0);
+    CPluginScreenShot(QObject *parent = nullptr);
 
     //登录初始化  
     virtual int Init(const QString &szId);
@@ -22,7 +22,7 @@ public:
 
     ///操作  
     //打开应用  
-    virtual int Open(void *pPara = 0, QWidget* parent = 0);
+    virtual int Open(void *pPara = nullptr, QWidget* parent = nullptr);
     //关闭应用  
     virtual int Close();
 

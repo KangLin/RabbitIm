@@ -27,7 +27,8 @@ int CPluginScreenShot::Clean()
 
 int CPluginScreenShot::Open(void *pPara, QWidget *parent)
 {
-    CDlgScreenShot dlg(parent);
+    CDlgScreenShot dlg;
+    dlg.showFullScreen();
     if(dlg.exec() ==  QDialog::Accepted)
     {
         QImage image = dlg.getSelectedImg().toImage();
