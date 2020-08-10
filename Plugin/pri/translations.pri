@@ -1,17 +1,5 @@
 LOCALE_LIST = zh_CN \
-    zh_TW \
-    cs \
-    da \
-    de \
-    fr \
-    hu \
-    ja \
-    ko \
-    pl \
-    ru \
-    sk \
-    sl \
-    uk
+    zh_TW 
 
 TRANSLATIONS_OUTPUT_PATH = $$DESTDIR/translations
 equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
@@ -20,7 +8,7 @@ equals(QMAKE_HOST.os, Windows) : msvc | isEmpty(QMAKE_SH){
 mkpath($${TRANSLATIONS_OUTPUT_PATH})
 
 for(v, LOCALE_LIST){
-    TRANSLATIONS += $$_PRO_FILE_PWD_/translations/Plugin_$${v}.ts
+    TRANSLATIONS += $$_PRO_FILE_PWD_/Resource/Translations/Plugin_$${v}.ts
     TRANSLATIONS_QM_FILES += $${TRANSLATIONS_OUTPUT_PATH}/Plugin_$${v}.qm
 }
 
@@ -53,7 +41,7 @@ QMAKE_EXTRA_COMPILERS += updateqm
 
 #静态库或android下生成翻译资源文件  
 mkpath($$_PRO_FILE_PWD_/translations) #插件需要建立此目录  
-android | CONFIG(static, static|shared) {
+android | debug | static {
     TRANSLATIONS_RESOURCES_FILE = $$TRANSLATIONS_OUTPUT_PATH/Translations.qrc
     #生成资源文件  
     TRANSLATIONS_RESOURCES_CONTENT = "</qresource></RCC>"
