@@ -21,6 +21,7 @@ include($$PWD/../../pri/ThirdLibraryJoin.pri)
 include($$PWD/../../pri/RabbitImVersion.pri)
 
 #安装前缀  
+isEmpty(PREFIX) : !isEmpty(INSTALL_ROOT) : PREFIX=$$INSTALL_ROOT
 isEmpty(PREFIX) {
     android {
        PREFIX = /.
@@ -72,7 +73,7 @@ contains(TEMPLATE, lib){ #生成库
     isEmpty(RabbitCommon_DIR): RabbitCommon_DIR=$$PWD/../../../RabbitCommon
     !isEmpty(RabbitCommon_DIR): exists("$${RabbitCommon_DIR}/Src/Src.pro") {
         android: QM_FILES_INSTALL_PATH = $${PREFIX}/assets/plugins/translations
-        else: QM_FILES_INSTALL_PATH = $${TARGET_INSTALL_PATH}
+        else: QM_FILES_INSTALL_PATH = $${TARGET_INSTALL_PATH}/translations
         include($${RabbitCommon_DIR}/pri/Translations.pri)
     } else {
         message("Don't find RabbitCommon, in environment variable RabbitCommon_DIR:$$RabbitCommon_DIR")
