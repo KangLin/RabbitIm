@@ -120,7 +120,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="Nomarl">
       <attribute name="title">
@@ -574,7 +574,7 @@
                <number>1500</number>
               </property>
               <property name="maximum">
-               <number>5000</number>
+               <number>10000</number>
               </property>
               <property name="singleStep">
                <number>500</number>

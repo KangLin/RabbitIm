@@ -2,13 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_TW">
 <context>
-    <name>CAndroidNotification</name>
-    <message>
-        <source>RabbitIm</source>
-        <translation type="vanished">玉兔即時通訊</translation>
-    </message>
-</context>
-<context>
     <name>CCallAction</name>
     <message>
         <location filename="../../Call/CallAction.cpp" line="133"/>
@@ -94,79 +87,6 @@
         <location filename="../../Message/ChatActions/ChatAction.cpp" line="71"/>
         <source>Cancel</source>
         <translation>取消</translation>
-    </message>
-</context>
-<context>
-    <name>CDlgAbout</name>
-    <message>
-        <source>About</source>
-        <translation type="vanished">關於</translation>
-    </message>
-    <message>
-        <source>Rabbit Immediate Communicate</source>
-        <translation type="vanished">玉兔即時通訊</translation>
-    </message>
-    <message>
-        <source>Author:KangLin</source>
-        <translation type="vanished">作者：康林</translation>
-    </message>
-    <message>
-        <source>Informatioin</source>
-        <translation type="vanished">信息</translation>
-    </message>
-    <message>
-        <source>The following two-dimensional code scanning Go Home:</source>
-        <translation type="vanished">掃描下面二維碼訪問項目主頁：</translation>
-    </message>
-    <message>
-        <source>Save As</source>
-        <translation type="vanished">另存為 ...</translation>
-    </message>
-    <message>
-        <source>License</source>
-        <translation type="vanished">協議</translation>
-    </message>
-    <message>
-        <source>Change log</source>
-        <translation type="vanished">變更日誌</translation>
-    </message>
-    <message>
-        <source>Thanks</source>
-        <translation type="vanished">致謝</translation>
-    </message>
-    <message>
-        <source>Build Date:</source>
-        <translation type="vanished">編譯時間：</translation>
-    </message>
-    <message>
-        <source>Version:%1.%2.%3.%4</source>
-        <translation type="vanished">版本：%1.%2.%3.%4</translation>
-    </message>
-    <message>
-        <source>Version:%1</source>
-        <translation type="obsolete">版本：%1</translation>
-    </message>
-    <message>
-        <source>Build date:%1 %2</source>
-        <translation type="vanished">編譯時間：%1 %2</translation>
-    </message>
-    <message>
-        <source>Author: KangLin
-Email or MSN:kl222@126.com</source>
-        <translation type="vanished">作者：康林
-電子郵箱、MSN:kl222@126.com</translation>
-    </message>
-    <message>
-        <source>Home page:</source>
-        <translation type="vanished">主頁:</translation>
-    </message>
-    <message>
-        <source> Copyright (C) 2014 - %1 KangLin Studio</source>
-        <translation type="vanished">版權所有 (C) 2014 - %1 康林工作室</translation>
-    </message>
-    <message>
-        <source>Save as</source>
-        <translation type="vanished">另存為……</translation>
     </message>
 </context>
 <context>
@@ -815,7 +735,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1213"/>
         <source>video devices</source>
-        <translation type="unfinished"></translation>
+        <translation>視頻設備</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1267"/>
@@ -848,41 +768,6 @@ Email or MSN:kl222@126.com</source>
         <translation>監控模式</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1398"/>
-        <source>Update</source>
-        <translation>更新</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1404"/>
-        <source>Update time:</source>
-        <translation>更新時間：</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1474"/>
-        <source>Don&apos;t update</source>
-        <translation>不更新</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1432"/>
-        <source>A day</source>
-        <translation>每天</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1461"/>
-        <source>A Month</source>
-        <translation>壹月</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1448"/>
-        <source>A week</source>
-        <translation>壹周</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1416"/>
-        <source>Every time</source>
-        <translation>每次</translation>
-    </message>
-    <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="63"/>
         <source>OK(&amp;O)</source>
         <translation>確定(&amp;O)</translation>
@@ -893,9 +778,14 @@ Email or MSN:kl222@126.com</source>
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="152"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="163"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="168"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="38"/>
+        <source>Set range: </source>
+        <translation>設置範圍:</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="139"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="150"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="155"/>
         <source>no device</source>
         <translation>無</translation>
     </message>
@@ -965,7 +855,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="369"/>
         <source>Avatar:</source>
-        <translation type="unfinished"></translation>
+        <translation>形象：</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.ui" line="587"/>
@@ -1071,7 +961,7 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="162"/>
         <source>Images (*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</source>
-        <translation >图片(*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</translation>
+        <translation>圖片(*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="163"/>
@@ -1176,7 +1066,7 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="120"/>
         <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="182"/>
         <source>Images (*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</source>
-        <translation >图片(*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</translation>
+        <translation>圖片(*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="121"/>
@@ -1551,33 +1441,33 @@ Email or MSN:kl222@126.com</source>
         <translation>關閉（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="54"/>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="71"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="58"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="76"/>
         <source>Copyright (C) 2013 - %1 KangLin Studio</source>
         <translation>版權所有 (C) 2013 - %1 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="80"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="86"/>
         <source>Being Login...</source>
         <translation>正在登錄……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="290"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="304"/>
         <source>Network error</source>
         <translation>網絡錯誤</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="293"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="307"/>
         <source>Keep active error</source>
         <translation>保持活動錯誤</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="296"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="310"/>
         <source>Login fail</source>
         <translation>登錄失敗</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="299"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="313"/>
         <source>Username or Password error</source>
         <translation>用戶名或密碼錯誤</translation>
     </message>
@@ -1969,33 +1859,33 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="369"/>
+        <location filename="../../Global/Global.cpp" line="366"/>
         <source>OnLine</source>
         <translation>在線</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="371"/>
+        <location filename="../../Global/Global.cpp" line="368"/>
         <source>Temporarily away</source>
         <translation>臨時離開</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="373"/>
+        <location filename="../../Global/Global.cpp" line="370"/>
         <source>Chat</source>
         <translation>空閑</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="375"/>
+        <location filename="../../Global/Global.cpp" line="372"/>
         <source>Do not disturb</source>
         <translation>請勿打擾</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="377"/>
-        <location filename="../../Global/Global.cpp" line="381"/>
+        <location filename="../../Global/Global.cpp" line="374"/>
+        <location filename="../../Global/Global.cpp" line="378"/>
         <source>Invisible</source>
         <translation>離線</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="379"/>
+        <location filename="../../Global/Global.cpp" line="376"/>
         <source>OffLine</source>
         <translation>離線</translation>
     </message>
@@ -2100,7 +1990,7 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../MainWindow.cpp" line="119"/>
         <location filename="../../MainWindow.cpp" line="391"/>
         <source>RabbitIm</source>
-        <translation>玉兔即時通信</translation>
+        <translation>玉兔即時通訊</translation>
     </message>
     <message>
         <location filename="../../MainWindow.ui" line="42"/>
@@ -2204,7 +2094,7 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../MainWindow.cpp" line="412"/>
         <location filename="../../MainWindow.cpp" line="414"/>
         <source>RabbitIm:%1</source>
-        <translation>玉兔即時通信：%1</translation>
+        <translation>玉兔即時通訊：%1</translation>
     </message>
     <message>
         <location filename="../../MainWindow.cpp" line="219"/>

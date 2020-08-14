@@ -768,41 +768,6 @@
         <translation>监控模式</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1398"/>
-        <source>Update</source>
-        <translation>更新</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1404"/>
-        <source>Update time:</source>
-        <translation>更新时间：</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1474"/>
-        <source>Don&apos;t update</source>
-        <translation>不更新</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1432"/>
-        <source>A day</source>
-        <translation>每天</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1461"/>
-        <source>A Month</source>
-        <translation>一月</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1448"/>
-        <source>A week</source>
-        <translation>一周</translation>
-    </message>
-    <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="1416"/>
-        <source>Every time</source>
-        <translation>每次</translation>
-    </message>
-    <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.ui" line="63"/>
         <source>OK(&amp;O)</source>
         <translation>确定(&amp;O)</translation>
@@ -813,9 +778,14 @@
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="152"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="163"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="168"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="38"/>
+        <source>Set range: </source>
+        <translation>设置范围:</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="139"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="150"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="155"/>
         <source>no device</source>
         <translation>无</translation>
     </message>
@@ -991,7 +961,7 @@
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="162"/>
         <source>Images (*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</source>
-        <translation >图片(*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</translation>
+        <translation>图片(*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="163"/>
@@ -1471,33 +1441,33 @@
         <translation>关闭（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="54"/>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="71"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="58"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="76"/>
         <source>Copyright (C) 2013 - %1 KangLin Studio</source>
         <translation>版权所有 (C) 2013 - %1 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="80"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="86"/>
         <source>Being Login...</source>
         <translation>正在登录……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="290"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="304"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="293"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="307"/>
         <source>Keep active error</source>
         <translation>保持活动错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="296"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="310"/>
         <source>Login fail</source>
         <translation>登录失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="299"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="313"/>
         <source>Username or Password error</source>
         <translation>用户名或密码错误</translation>
     </message>
@@ -1889,33 +1859,33 @@
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="369"/>
+        <location filename="../../Global/Global.cpp" line="366"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="371"/>
+        <location filename="../../Global/Global.cpp" line="368"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="373"/>
+        <location filename="../../Global/Global.cpp" line="370"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="375"/>
+        <location filename="../../Global/Global.cpp" line="372"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="377"/>
-        <location filename="../../Global/Global.cpp" line="381"/>
+        <location filename="../../Global/Global.cpp" line="374"/>
+        <location filename="../../Global/Global.cpp" line="378"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="379"/>
+        <location filename="../../Global/Global.cpp" line="376"/>
         <source>OffLine</source>
         <translation>离线</translation>
     </message>
