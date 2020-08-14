@@ -2,6 +2,7 @@
 #include "ui_FrmLbsMain.h"
 #include "common/Tool.h"
 
+//TODO: 生命在于运动，运动拥有美好生活
 CFrmLbsMain::CFrmLbsMain(QWidget *parent) :
     QFrame(parent),
     m_Motion(this),
