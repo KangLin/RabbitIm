@@ -5,13 +5,6 @@
 #include <QApplication>
 #include "RabbitCommonDir.h"
 
-#ifdef RABBITIM
-    #include "Global.h"
-#endif
-#ifdef RABBITIM_USE_QXMPP
-    #include "QXmppUtils.h"
-#endif
-
 CGlobalDir::CGlobalDir()
 {}
 
@@ -25,19 +18,27 @@ CGlobalDir* CGlobalDir::Instance()
 
 QString CGlobalDir::GetDirMotion(const QString &szId)
 {
-    QString szKey = szId;
-#ifdef RABBITIM
-    if(szId.isEmpty())
+    QString id = szId;
+    if(id.isEmpty())
     {
-        szKey = USER_INFO_LOCALE->GetInfo()->GetId();
+        if(!GLOBAL_USER.isNull()
+                && !USER_INFO_LOCALE.isNull())
+        {
+            id = USER_INFO_LOCALE->GetInfo()->GetId();
+        }
+        else
+        {
+            LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
+            Q_ASSERT(false);
+        }
     }
-#endif
+    id = id.replace("@", ".");
     QString szDir;
-    if(szKey.isEmpty())
+    if(id.isEmpty())
         szDir = RabbitCommon::CDir::Instance()->GetDirUserDocument()
                 + QDir::separator() + "Motion";
     else
-        szDir = GetDirUserData(szKey) + QDir::separator() + "Motion";
+        szDir = GetDirUserData(id) + QDir::separator() + "Motion";
 
     QDir d;
     if(!d.exists(szDir))
@@ -47,30 +48,24 @@ QString CGlobalDir::GetDirMotion(const QString &szId)
 
 QString CGlobalDir::GetDirUserConfigure(const QString &szId)
 {
-    QString jid;
-    if(szId.isEmpty())
+    QString id = szId;
+    if(id.isEmpty())
     {
-#ifdef RABBITIM
         if(!GLOBAL_USER.isNull()
                 && !USER_INFO_LOCALE.isNull())
         {
-            jid = USER_INFO_LOCALE->GetInfo()->GetId();
+            id = USER_INFO_LOCALE->GetInfo()->GetId();
         }
         else
         {
             LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
             Q_ASSERT(false);
         }
-#else
-        ;
-#endif
     }
-    else
-        jid = szId;
-    jid = jid.replace("@", ".");
+    id = id.replace("@", ".");
     QString path = RabbitCommon::CDir::Instance()->GetDirUserDocument()
             + QDir::separator()
-            + jid + QDir::separator() + "conf";
+            + id + QDir::separator() + "conf";
     QDir d;
     if(!d.exists(path))
     {
@@ -82,29 +77,23 @@ QString CGlobalDir::GetDirUserConfigure(const QString &szId)
 
 QString CGlobalDir::GetDirUserData(const QString &szId)
 {
-    QString jid;
-    if(szId.isEmpty())
+    QString id = szId;
+    if(id.isEmpty())
     {
-#ifdef RABBITIM
         if(!GLOBAL_USER.isNull()
                 && !USER_INFO_LOCALE.isNull())
         {
-            jid = USER_INFO_LOCALE->GetInfo()->GetId();
+            id = USER_INFO_LOCALE->GetInfo()->GetId();
         }
         else
         {
             LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
             Q_ASSERT(false);
         }
-#else
-        ;
-#endif
     }
-    else
-        jid = szId;
-    jid = jid.replace("@", ".");
+    id = id.replace("@", ".");
     QString path = RabbitCommon::CDir::Instance()->GetDirUserDocument()
-            + QDir::separator() + jid
+            + QDir::separator() + id
             + QDir::separator() + "data";
     QDir d;
     if(!d.exists(path))
@@ -148,12 +137,21 @@ QString CGlobalDir::GetDirReceiveFile(const QString &szId)
 QString CGlobalDir::GetFileUserAvatar(const QString &szId, const QString &szLocalId)
 {
     QString id = szId;
-#ifdef RABBITIM_USE_QXMPP
-    if(!szId.isEmpty())
-        id = QXmppUtils::jidToBareJid(id);
-#endif
+    if(id.isEmpty())
+    {
+        if(!GLOBAL_USER.isNull()
+                && !USER_INFO_LOCALE.isNull())
+        {
+            id = USER_INFO_LOCALE->GetInfo()->GetId();
+        }
+        else
+        {
+            LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
+            Q_ASSERT(false);
+        }
+    }
     id = id.replace("@", ".");
-
+    
     return GetDirUserAvatar(szLocalId) + QDir::separator() + id + ".png";
 }
 
