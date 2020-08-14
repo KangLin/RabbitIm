@@ -81,9 +81,6 @@ CGlobal::CGlobal(QObject *parent) :
     m_bHideMessageBox = conf.value(
                 "Options/ScreenShot/HideMessageBox", false).toBool();
 
-    m_Update = (E_UPDATE)conf.value(
-                "Options/Update", E_UPDATE_EVERY_TIME).toInt();
-
     std::vector<CCameraInfo::CamerInfo> info;
     CCameraFactory::Instance()->EnumDevice(info);
     if(info.size() > 0)
@@ -695,37 +692,6 @@ int CGlobal::SetStyleMenu(QString szMenu, QString szFile)
     conf.setValue("UI/MenuStyleSheet", szMenu);
     conf.setValue("UI/StyleSheet", szFile);
     return 0;
-}
-
-CGlobal::E_UPDATE CGlobal::GetUpdate()
-{
-    return m_Update;
-}
-
-int CGlobal::SetUpdate(E_UPDATE u)
-{
-    m_Update = u;
-    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
-    conf.setValue("Options/Update", m_Update);
-    return 0;
-}
-
-int CGlobal::SetUpdateDate(QDateTime d)
-{
-    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
-    conf.setValue("Options/Update/Date", d.toString("yyyy/MM/dd hh:mm:ss"));
-    return 0;
-}
-
-QDateTime CGlobal::GetUpdateDate()
-{
-    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
-    QString szDate = conf.value("Options/Update/Date").toString();
-    QDateTime d;
-    if(szDate.isEmpty())
-        return d;
-    d = QDateTime::fromString(szDate, "yyyy/MM/dd hh:mm:ss");
-    return d;
 }
 
 QString CGlobal::GetFileEmoji()
