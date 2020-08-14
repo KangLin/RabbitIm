@@ -159,7 +159,7 @@ void CDlgRegister::changeEvent(QEvent *e)
 
 void CDlgRegister::on_pbBrowse_clicked()
 {
-    QString szFile, szFilter("*.png *.jpg *.bmp *.gif *.jpeg");
+    QString szFile, szFilter(tr("Images (*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)"));
     szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
     if(szFile.isEmpty())
        return; 

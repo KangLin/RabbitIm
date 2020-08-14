@@ -893,9 +893,9 @@ Email or MSN:kl222@126.com</source>
         <translation>取消（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="151"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="162"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="167"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="152"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="163"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="168"/>
         <source>no device</source>
         <translation>無</translation>
     </message>
@@ -1069,6 +1069,11 @@ Email or MSN:kl222@126.com</source>
         <translation>電子郵箱格式錯誤。</translation>
     </message>
     <message>
+        <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="162"/>
+        <source>Images (*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</source>
+        <translation >图片(*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</translation>
+    </message>
+    <message>
         <location filename="../../Widgets/DlgRegister/DlgRegister.cpp" line="163"/>
         <source>Open File</source>
         <translation>打開文件</translation>
@@ -1166,6 +1171,12 @@ Email or MSN:kl222@126.com</source>
         <location filename="../../Widgets/DlgUservCard/DlgUservCard.ui" line="438"/>
         <source>Cancel(&amp;C)</source>
         <translation>取消（&amp;C）</translation>
+    </message>
+    <message>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="120"/>
+        <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="182"/>
+        <source>Images (*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</source>
+        <translation >图片(*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)</translation>
     </message>
     <message>
         <location filename="../../Widgets/DlgUservCard/DlgUservCard.cpp" line="121"/>
@@ -1540,33 +1551,33 @@ Email or MSN:kl222@126.com</source>
         <translation>關閉（&amp;C）</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="53"/>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="70"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="54"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="71"/>
         <source>Copyright (C) 2013 - %1 KangLin Studio</source>
         <translation>版權所有 (C) 2013 - %1 康林工作室</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="79"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="80"/>
         <source>Being Login...</source>
         <translation>正在登錄……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="289"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="290"/>
         <source>Network error</source>
         <translation>網絡錯誤</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="292"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="293"/>
         <source>Keep active error</source>
         <translation>保持活動錯誤</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="295"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="296"/>
         <source>Login fail</source>
         <translation>登錄失敗</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="298"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="299"/>
         <source>Username or Password error</source>
         <translation>用戶名或密碼錯誤</translation>
     </message>
@@ -1687,43 +1698,43 @@ Email or MSN:kl222@126.com</source>
         <translation>發送(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="100"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="105"/>
         <source>Audio call</source>
         <translation>音頻呼叫</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="424"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="427"/>
         <source>Open File</source>
         <translation>打開文件</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="156"/>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="169"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="161"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="174"/>
         <source>Close message dialog</source>
         <translation>關閉消息對話框</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="77"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="82"/>
         <source>Back</source>
         <translation>回退</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="157"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="162"/>
         <source>Sending files to determine whether you want to close?</source>
         <translation>有文件正在發送，妳確定是否關閉消息對話框？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="170"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="175"/>
         <source>Is talking whether you want to close?</source>
         <translation>正在通話，是否關閉？</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="286"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="291"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="286"/>
+        <location filename="../../Widgets/FrmMessage/FrmMessage.cpp" line="291"/>
         <source>There is empty, please input.</source>
         <translation>這裏是空的，請輸入。</translation>
     </message>
@@ -1958,33 +1969,33 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="363"/>
+        <location filename="../../Global/Global.cpp" line="369"/>
         <source>OnLine</source>
         <translation>在線</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="365"/>
+        <location filename="../../Global/Global.cpp" line="371"/>
         <source>Temporarily away</source>
         <translation>臨時離開</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="367"/>
+        <location filename="../../Global/Global.cpp" line="373"/>
         <source>Chat</source>
         <translation>空閑</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="369"/>
+        <location filename="../../Global/Global.cpp" line="375"/>
         <source>Do not disturb</source>
         <translation>請勿打擾</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="371"/>
-        <location filename="../../Global/Global.cpp" line="375"/>
+        <location filename="../../Global/Global.cpp" line="377"/>
+        <location filename="../../Global/Global.cpp" line="381"/>
         <source>Invisible</source>
         <translation>離線</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="373"/>
+        <location filename="../../Global/Global.cpp" line="379"/>
         <source>OffLine</source>
         <translation>離線</translation>
     </message>
@@ -2086,8 +2097,8 @@ Email or MSN:kl222@126.com</source>
     <name>MainWindow</name>
     <message>
         <location filename="../../MainWindow.ui" line="20"/>
-        <location filename="../../MainWindow.cpp" line="121"/>
-        <location filename="../../MainWindow.cpp" line="393"/>
+        <location filename="../../MainWindow.cpp" line="119"/>
+        <location filename="../../MainWindow.cpp" line="391"/>
         <source>RabbitIm</source>
         <translation>玉兔即時通信</translation>
     </message>
@@ -2134,140 +2145,140 @@ Email or MSN:kl222@126.com</source>
     <message>
         <location filename="../../MainWindow.ui" line="103"/>
         <source>Update</source>
-        <translation type="unfinished">更新</translation>
+        <translation>更新</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="216"/>
-        <location filename="../../MainWindow.cpp" line="220"/>
-        <location filename="../../MainWindow.cpp" line="803"/>
+        <location filename="../../MainWindow.cpp" line="214"/>
+        <location filename="../../MainWindow.cpp" line="218"/>
+        <location filename="../../MainWindow.cpp" line="831"/>
         <source>Close</source>
         <translation>關閉</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="476"/>
+        <location filename="../../MainWindow.cpp" line="474"/>
         <source>Close(&amp;E)</source>
         <translation>關閉(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="454"/>
-        <location filename="../../MainWindow.cpp" line="782"/>
+        <location filename="../../MainWindow.cpp" line="452"/>
+        <location filename="../../MainWindow.cpp" line="810"/>
         <source>Edit Locale User Infomation(&amp;E)</source>
         <translation>編輯本地用戶信息(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="485"/>
+        <location filename="../../MainWindow.cpp" line="483"/>
         <source>Black</source>
         <translation>黑色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="564"/>
+        <location filename="../../MainWindow.cpp" line="562"/>
         <source>Status(&amp;S)</source>
         <translation>狀態(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="583"/>
+        <location filename="../../MainWindow.cpp" line="581"/>
         <source>Language(&amp;L)</source>
         <translation>語言(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="587"/>
+        <location filename="../../MainWindow.cpp" line="585"/>
         <source>Default</source>
         <translation>默認</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="589"/>
+        <location filename="../../MainWindow.cpp" line="587"/>
         <source>Chinese</source>
         <translation>簡體中文</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="588"/>
+        <location filename="../../MainWindow.cpp" line="586"/>
         <source>English</source>
         <translation>英語</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="217"/>
+        <location filename="../../MainWindow.cpp" line="215"/>
         <source>Is close the programe or logout?</source>
         <translation>是關閉程序還是登出？</translation>
     </message>
     <message>
+        <location filename="../../MainWindow.cpp" line="412"/>
         <location filename="../../MainWindow.cpp" line="414"/>
-        <location filename="../../MainWindow.cpp" line="416"/>
         <source>RabbitIm:%1</source>
         <translation>玉兔即時通信：%1</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="221"/>
-        <location filename="../../MainWindow.cpp" line="473"/>
+        <location filename="../../MainWindow.cpp" line="219"/>
+        <location filename="../../MainWindow.cpp" line="471"/>
         <source>Logout</source>
         <translation>登出</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="222"/>
+        <location filename="../../MainWindow.cpp" line="220"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="483"/>
+        <location filename="../../MainWindow.cpp" line="481"/>
         <source>Custom</source>
         <translation>自定義</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="484"/>
+        <location filename="../../MainWindow.cpp" line="482"/>
         <source>System</source>
         <translation>系統</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="487"/>
+        <location filename="../../MainWindow.cpp" line="485"/>
         <source>Blue</source>
         <translation>藍色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="488"/>
+        <location filename="../../MainWindow.cpp" line="486"/>
         <source>Gradient blue</source>
         <translation>漸變藍色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="489"/>
+        <location filename="../../MainWindow.cpp" line="487"/>
         <source>Dark</source>
         <translation>暗色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="490"/>
+        <location filename="../../MainWindow.cpp" line="488"/>
         <source>Gradient Dark</source>
         <translation>漸變暗色</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="506"/>
+        <location filename="../../MainWindow.cpp" line="504"/>
         <source>Change Style Sheet(&amp;S)</source>
         <translation>扶膚(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="590"/>
+        <location filename="../../MainWindow.cpp" line="588"/>
         <source>Chinese(TaiWan)</source>
         <translation>中文（臺灣）</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="723"/>
+        <location filename="../../MainWindow.cpp" line="751"/>
         <source>Information</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="724"/>
+        <location filename="../../MainWindow.cpp" line="752"/>
         <source>Change language must reset program.</source>
         <translation>改變語言設置，必須重啟程序才能生效。</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="795"/>
+        <location filename="../../MainWindow.cpp" line="823"/>
         <source>Show Main Windows</source>
         <translation>顯示主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="797"/>
+        <location filename="../../MainWindow.cpp" line="825"/>
         <source>Hide Main Windows</source>
         <translation>隱藏主窗口</translation>
     </message>
     <message>
-        <location filename="../../MainWindow.cpp" line="980"/>
+        <location filename="../../MainWindow.cpp" line="1008"/>
         <source>Open File</source>
         <translation>打開文件</translation>
     </message>
@@ -2275,12 +2286,12 @@ Email or MSN:kl222@126.com</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../Plugin/PluginApp.cpp" line="20"/>
+        <location filename="../../../Plugin/PluginApp.cpp" line="21"/>
         <source>Application Infomation</source>
         <translation>應用信息</translation>
     </message>
     <message>
-        <location filename="../../../Plugin/PluginApp.cpp" line="21"/>
+        <location filename="../../../Plugin/PluginApp.cpp" line="22"/>
         <source>Application:</source>
         <translation>應用：</translation>
     </message>

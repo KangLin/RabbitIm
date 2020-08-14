@@ -117,7 +117,7 @@ void CDlgUservCard::changeEvent(QEvent *e)
 
 void CDlgUservCard::on_pbBrowse_clicked()
 {
-    QString szFile, szFilter("*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM");
+    QString szFile, szFilter(tr("Images (*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)"));
     szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
     if(szFile.isEmpty())
        return; 
@@ -173,13 +173,13 @@ void CDlgUservCard::slotUpdateRoster(const QString& szId, QSharedPointer<CUser> 
         {
             m_UserInfo = userInfo->GetInfo();
         }
-        showEvent(NULL);
+        showEvent(nullptr);
     }
 }
 
 void CDlgUservCard::on_pbSaveAs_clicked()
 {
-    QString szFile, szFilter("*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM");
+    QString szFile, szFilter(tr("Images (*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)"));
     szFile = CTool::FileDialog(this, "rabbitim_" + m_szJid + ".PNG",
                                szFilter, tr("Save as"), QFileDialog::AcceptSave);
     if(szFile.isEmpty())

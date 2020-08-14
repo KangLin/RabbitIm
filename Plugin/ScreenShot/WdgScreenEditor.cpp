@@ -310,7 +310,7 @@ bool CWdgScreenEditor::save(const QString& path)
 void CWdgScreenEditor::saveAs()
 {
     QString szFile;
-    QString szFilter =  tr("Images (*.png *.xpm *.jpg *.bmp, *.PPM, *.TIFF, *.XBM)");
+    QString szFilter = tr("Images (*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM)");
     QString szDir = CGlobalDir::Instance()->GetDirReceiveFile()
             + QDir::separator() + "grabbedImage_"
             + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".png";
