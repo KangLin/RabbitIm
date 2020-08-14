@@ -225,10 +225,21 @@ public:
     static QByteArray GetFileMd5Sum(QString filePath);
     static QString GetFileMd5SumString(QString filePath);
 
-    static QPixmap ComposePixmap(const QString& szFile1,
-                                 const QString& szFile2);
-    static int ComposePixmap(QPixmap &src1, const QPixmap &src2);
-    static int ComposeAvatarStatus(QPixmap &src1, const QPixmap& src2);
+    /**
+     * @brief 合并图片
+     * @param szFile1
+     * @param szFile2
+     * @return 
+     */
+    static QPixmap MergePixmap(const QString& szFile1, const QString& szFile2);
+    static int MergePixmap(QPixmap &src1, const QPixmap &src2);
+    /**
+     * @brief 合并状态图片到头像
+     * @param src1
+     * @param src2
+     * @return 
+     */
+    static int MergeAvatarStatus(QPixmap &src1, const QPixmap& src2);
 
     static QImage ConvertToGray(QImage image);
     

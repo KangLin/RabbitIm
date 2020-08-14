@@ -815,15 +815,15 @@ QString CTool::GetFileMd5SumString(QString filePath)
     return GetFileMd5Sum(filePath).toHex();
 }
 
-QPixmap CTool::ComposePixmap(const QString &szFile1, const QString &szFile2)
+QPixmap CTool::MergePixmap(const QString &szFile1, const QString &szFile2)
 {
     QPixmap src1(szFile1);
     QPixmap src2(szFile2);
-    ComposePixmap(src1, src2);
+    MergePixmap(src1, src2);
     return src1;
 }
 
-int CTool::ComposePixmap(QPixmap &src1, const QPixmap &src2)
+int CTool::MergePixmap(QPixmap &src1, const QPixmap &src2)
 {
     QPainter painter(&src1);
     //painter.setCompositionMode(QPainter::CompositionMode_Xor);
@@ -831,7 +831,7 @@ int CTool::ComposePixmap(QPixmap &src1, const QPixmap &src2)
     return 0;
 }
 
-int CTool::ComposeAvatarStatus(QPixmap &src1, const QPixmap &src2)
+int CTool::MergeAvatarStatus(QPixmap &src1, const QPixmap &src2)
 {
     QPainter painter(&src1);
     painter.drawPixmap((src1.width() * 3) >> 2,  (src1.height() * 3) >> 2,

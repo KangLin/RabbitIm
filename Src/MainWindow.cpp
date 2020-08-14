@@ -1224,6 +1224,6 @@ int MainWindow::ComposeAvatarStatus(QSharedPointer<CUserInfo> info, QPixmap &out
     }
     outPixmap = info->GetPhotoPixmap();
     QPixmap pStatus(CGlobal::Instance()->GetRosterStatusIcon(info->GetStatus()));
-    CTool::ComposeAvatarStatus(outPixmap, pStatus);
+    CTool::MergeAvatarStatus(outPixmap, pStatus);
     return 0;
 }

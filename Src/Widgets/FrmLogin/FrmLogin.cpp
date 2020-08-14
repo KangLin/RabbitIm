@@ -362,7 +362,7 @@ void CFrmLogin::ComposeAvatar(const QString &id)
         map.load(":/icon/AppIcon");
     
     QPixmap pStatus(CGlobal::Instance()->GetRosterStatusIcon(m_Status));
-    CTool::ComposeAvatarStatus(map, pStatus);
+    CTool::MergeAvatarStatus(map, pStatus);
     
     //转换成灰度图像  
     if(m_Status == CUserInfo::OffLine 
