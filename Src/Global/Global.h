@@ -153,7 +153,7 @@ public:
     //设置自动登录  
     int SetAutoLogin(bool bAuto);
     bool GetAutoLogin();
-    int SetAutoLoginDelayTime(int nTime);
+    int SetAutoLoginDelayTime(int nTime); ///< 单位：S
     int GetAutoLoginDelayTime();
     //设置是否在通知栏弹出消息  
     int SetNotifiationBarShowMessage(bool bShowMessage);

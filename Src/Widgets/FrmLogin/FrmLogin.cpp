@@ -11,27 +11,30 @@
 
 CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),
+    ui(new Ui::CFrmLogin),
     m_StateMenu(this),
-    m_ActionGroupStatus(this),
-    ui(new Ui::CFrmLogin)
+    m_ActionGroupStatus(this)
 {
     LOG_MODEL_DEBUG("Login", "CFrmLogin::CFrmLogin");
 
     ui->setupUi(this);
 
-    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                   QSettings::IniFormat);
     //加载所有用户  
     int userTotal = conf.value("Login/UserTotal", 0).toInt();
     for(int i = 0; i < userTotal; i++)
     {
-        ui->cmbUser->addItem(conf.value(QString("Login/UserName") + QString::number(i +1) ).toString());
+        ui->cmbUser->addItem(conf.value(QString("Login/UserName")
+                                        + QString::number(i + 1) ).toString());
     }
 
     //最后一次登录用户  
     int nIndex = conf.value("Login/LastUserNameIndex").toInt();
     ui->cmbUser->setCurrentIndex(nIndex);
 
-    ui->lnPassword->setText(DecryptPassword(conf.value("Login/Password" + QString::number(nIndex + 1), "").toString()));
+    ui->lnPassword->setText(DecryptPassword(conf.value("Login/Password"
+                               + QString::number(nIndex + 1), "").toString()));
     if(ui->lnPassword->text() != "" || !ui->lnPassword->text().isEmpty())
         ui->chkSave->setChecked(true);
     else
@@ -45,13 +48,15 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     //开始自动登录  
     if(ui->chkLogin->checkState() == Qt::Checked)
     {
-        bool check = connect(&m_tmAutoLogin, SIGNAL(timeout()), SLOT(on_pbOk_clicked()));
+        bool check = connect(&m_tmAutoLogin, SIGNAL(timeout()),
+                             SLOT(on_pbOk_clicked()));
         Q_ASSERT(check);
         m_tmAutoLogin.start(1000 * CGlobal::Instance()->GetAutoLoginDelayTime());
     }
 
     ui->lbePrompt->setText("");
-    ui->lbCopyright->setText(tr("Copyright (C) 2013 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
+    ui->lbCopyright->setText(tr("Copyright (C) 2013 - %1 KangLin Studio")
+                            .arg(QString::number(QDate::currentDate().year())));
 }
 
 CFrmLogin::~CFrmLogin()
@@ -68,7 +73,8 @@ void CFrmLogin::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         ReinitStateButton();
-        ui->lbCopyright->setText(tr("Copyright (C) 2013 - %1 KangLin Studio").arg(QString::number(QDate::currentDate().year())));
+        ui->lbCopyright->setText(tr("Copyright (C) 2013 - %1 KangLin Studio")
+                            .arg(QString::number(QDate::currentDate().year())));
         break;
     default:
         break;
@@ -97,7 +103,8 @@ void CFrmLogin::on_pbOk_clicked()
                     SLOT(slotClientError(CClient::ERROR_TYPE)));
     Q_ASSERT(check);
 
-    GET_CLIENT->Login(ui->cmbUser->currentText(), ui->lnPassword->text(), m_Status);
+    GET_CLIENT->Login(ui->cmbUser->currentText(),
+                      ui->lnPassword->text(), m_Status);
     return;
 }
 
@@ -143,20 +150,23 @@ int CFrmLogin::SetLoginInformation(QString szName, QString szPassword)
 int CFrmLogin::SaveConf()
 {
     LOG_MODEL_DEBUG("Login", "CFrmLogin::SaveConf");
-    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                   QSettings::IniFormat);
     int total = conf.value("Login/UserTotal", 0).toInt();
     int i = 0;
     for(i = 0; i < total; i++)
     {
-        if(conf.value("Login/UserName" + QString::number(i + 1)) == ui->cmbUser->currentText())
+        if(conf.value("Login/UserName" + QString::number(i + 1))
+                == ui->cmbUser->currentText())
         {
-            conf.setValue("Login/LastUserNameIndex",  i);//设置最后一次登录用户的索引  
+            conf.setValue("Login/LastUserNameIndex", i);//设置最后一次登录用户的索引  
             if(ui->chkLogin->isChecked() || ui->chkSave->isChecked())
             {
-                conf.setValue("Login/Password" + QString::number(i +1), EncryptPassword(ui->lnPassword->text()));
+                conf.setValue("Login/Password" + QString::number(i + 1),
+                              EncryptPassword(ui->lnPassword->text()));
             }
             else
-                conf.setValue("Login/Password" + QString::number(i +1), "");
+                conf.setValue("Login/Password" + QString::number(i + 1), "");
             return 0;
         }
     }
@@ -164,28 +174,31 @@ int CFrmLogin::SaveConf()
     if(i >= total)
     {
         conf.setValue("Login/UserTotal", total + 1);
-        conf.setValue("Login/UserName" + QString::number(total +1), ui->cmbUser->currentText());
+        conf.setValue("Login/UserName" + QString::number(total + 1),
+                      ui->cmbUser->currentText());
         conf.setValue("Login/LastUserNameIndex",  i);//设置最后一次登录用户的索引  
         if(ui->chkLogin->isChecked() || ui->chkSave->isChecked())
         {
-            conf.setValue("Login/Password" + QString::number(total +1), EncryptPassword(ui->lnPassword->text()));
+            conf.setValue("Login/Password" + QString::number(total + 1),
+                          EncryptPassword(ui->lnPassword->text()));
         }
         else
-            conf.setValue("Login/Password" + QString::number(total +1), "");
+            conf.setValue("Login/Password" + QString::number(total + 1), "");
     }
     return 0;
 }
 
-QString gPassword("RabbitIm.KangLin");
+static QString gPassword("RabbitIm.KangLin");
 //加密密码  
 QString CFrmLogin::EncryptPassword(QString szPassword)
 {
 #ifdef RABBITIM_USE_OPENSSL
     CEncrypt  e;
-    char* pOut = NULL;
+    char* pOut = nullptr;
     int nLen = 0;
     e.SetPassword(gPassword.toStdString().c_str());
-    e.Encode(szPassword.toStdString().c_str(), szPassword.toStdString().size(), &pOut, nLen);
+    e.Encode(szPassword.toStdString().c_str(), szPassword.toStdString().size(),
+             &pOut, nLen);
     QByteArray ba(pOut, nLen);
     return ba.toHex();
 #else
@@ -201,7 +214,8 @@ QString CFrmLogin::DecryptPassword(QString szPassword)
 #ifdef RABBITIM_USE_OPENSSL
     CEncrypt  e;
     QByteArray ba;
-    ba = QByteArray::fromHex(QByteArray(szPassword.toStdString().c_str(), szPassword.toStdString().size()));
+    ba = QByteArray::fromHex(QByteArray(szPassword.toStdString().c_str(),
+                                        szPassword.toStdString().size()));
     std::string szOut;
     e.SetPassword(gPassword.toStdString().c_str());
     e.Dencode(ba.data(), ba.length(), szOut);
@@ -213,7 +227,7 @@ QString CFrmLogin::DecryptPassword(QString szPassword)
 
 void CFrmLogin::on_chkLogin_stateChanged(int state)
 {
-    Q_UNUSED(state);
+    Q_UNUSED(state)
     CGlobal::Instance()->SetAutoLogin(ui->chkLogin->isChecked());
 }
 
@@ -306,9 +320,12 @@ void CFrmLogin::slotClientError(CClient::ERROR_TYPE e)
 
 void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
 {
-    LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::on_cmbUser_currentIndexChanged:%d", index);
-    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
-    ui->lnPassword->setText(this->DecryptPassword(conf.value("Login/Password" + QString::number(index + 1), "").toString()));
+    LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::on_cmbUser_currentIndexChanged:%d",
+                    index);
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                   QSettings::IniFormat);
+    ui->lnPassword->setText(this->DecryptPassword(conf.value("Login/Password"
+                                 + QString::number(index + 1), "").toString()));
     if(ui->lnPassword->text() == "" || ui->lnPassword->text().isEmpty())
         ui->chkSave->setChecked(false);
     else
@@ -317,7 +334,8 @@ void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
 
 void CFrmLogin::on_cmbUser_currentTextChanged(const QString &arg1)
 {
-    LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::on_cmbUser_currentTextChanged:%s", qPrintable(arg1));
+    LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::on_cmbUser_currentTextChanged:%s",
+                    qPrintable(arg1));
     QString szId = arg1;
     ComposeAvatar(szId);
     //检查用户是否被保存过  
