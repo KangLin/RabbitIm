@@ -69,7 +69,7 @@ void CFrmScanQRcode::on_pushBrowse_clicked()
 {
     Stop();
 
-    QString szFile, szFilter(tr("Image Files (*.PNG *.BMP *.JPG *.JPEG *.PBM *.PGM *.PPM *.XBM *.XPM);;All Files (*.*)"));
+    QString szFile, szFilter(tr("Image Files (*.png *.xpm *.jpg *.jpeg *.bmp *.ppm *.tiff *.xbm *.PNG *.XPM *.JPG *.JPEG *.BMP *.PPM *.TIFF *.XBM);;All Files (*.*)"));
     szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
     if(!szFile.isEmpty())
     {
