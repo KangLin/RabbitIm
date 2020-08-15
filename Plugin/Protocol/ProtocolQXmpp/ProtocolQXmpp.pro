@@ -13,7 +13,7 @@ DISTFILES += \
 OTHER_FILES += CMakeLists.txt
 
 RABBITIM_PLUG_NAME=CPluginProtocolQXMPP
-include(../pri/ConfigProtocol.pri)
+include(../../pri/ConfigProtocol.pri)
 
 SOURCES += \
     ClientXmpp.cpp \

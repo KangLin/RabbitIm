@@ -1,19 +1,20 @@
-#ifndef PLUGINSCREENSHOT_H
-#define PLUGINSCREENSHOT_H
+#ifndef CPLUGINQRCODE_H
+#define CPLUGINQRCODE_H
 
-#include "../PluginApp.h"
+#include "Plugin/PluginApp.h"
+#include "FrmScanQRcode.h"
 #include <QObject>
 
-class CPluginScreenShot : public QObject,  CPluginApp
+class CPluginQRCode : public QObject,  CPluginApp
 {
     Q_OBJECT
 #if QT_VERSION >= 0x050000
-    Q_PLUGIN_METADATA(IID rabbitim_plugin_application_iid FILE "ScreenShot.json")
+    Q_PLUGIN_METADATA(IID rabbitim_plugin_application_iid FILE "QRCode.json")
 #endif // QT_VERSION >= 0x050000
     Q_INTERFACES(CPluginApp)
 
 public:
-    CPluginScreenShot(QObject *parent = nullptr);
+    CPluginQRCode(QObject *parent = 0);
 
     //登录初始化  
     virtual int Init(const QString &szId);
@@ -22,7 +23,7 @@ public:
 
     ///操作  
     //打开应用  
-    virtual int Open(void *pPara = nullptr, QWidget* parent = nullptr);
+    virtual int Open(void *pPara = 0, QWidget* parent = 0);
     //关闭应用  
     virtual int Close();
 
@@ -37,7 +38,7 @@ public:
     virtual QIcon Icon();
 
 private:
-    QString m_szLocaleId;
+    QSharedPointer<CFrmScanQRcode> m_FrmScanQRCode;
 };
 
-#endif // PLUGINSCREENSHOT_H
+#endif // CPLUGINQRCODE_H

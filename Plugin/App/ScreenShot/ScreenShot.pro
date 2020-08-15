@@ -13,7 +13,7 @@ OTHER_FILES += CMakeLists.txt
 
 RABBITIM_PLUG_NAME=CPluginScreenShot
 
-include(../pri/ConfigApp.pri)
+include(../../pri/ConfigApp.pri)
 
 SOURCES += PluginScreenShot.cpp \
     WdgScreenEditor.cpp \

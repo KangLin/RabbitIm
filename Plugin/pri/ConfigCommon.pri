@@ -1,6 +1,7 @@
 CONFIG *= plugin 
 
-TARGET_PATH=$$OUT_PWD/../../bin
+OUT_ROOT=$$OUT_PWD/../../..
+TARGET_PATH=$$OUT_ROOT/bin
 #设置目标输出目录  
 !exists("$$OUT_PWD") : mkpath($$OUT_PWD)
 #message("TARGET_PATH:$${TARGET_PATH}")
@@ -13,7 +14,7 @@ android {
     INCLUDEPATH *= $$PWD/../../android/QtAndroidUtils/android/QtAndroidUtilsModule/jni
 }
 
-INCLUDEPATH *= .. ../../Src
+INCLUDEPATH *= $$PWD/.. $$PWD/../../Src
 LIBS *=  -L$${TARGET_PATH} -lRabbitIm  #包含 RabbitIm 库位置
 
 include($$PWD/../../pri/ThirdLibrary.pri)
@@ -26,7 +27,7 @@ isEmpty(PREFIX) {
     android {
        PREFIX = /.
     } else {
-        PREFIX = $$OUT_PWD/../../install
+        PREFIX = $$OUT_ROOT/install
     }
 }
 
@@ -54,14 +55,14 @@ contains(TEMPLATE, lib){ #生成库
         PLUG_CONTENT = "-l$${TARGET}"
         FILE_CONTENT = $$cat($$FILE_NAME) 
         !contains(FILE_CONTENT, $$PLUG_CONTENT) {
-            PLUG_CONTENT = "LIBS *= -L\$\${OUT_PWD}/plugins/$${PLUGIN_TYPE}/$${TARGET} -l$${TARGET} "
+            PLUG_CONTENT = "LIBS *= -L\$\${OUT_ROOT}/plugins/$${PLUGIN_TYPE}/$${TARGET} -l$${TARGET} "
             #PLUG_CONTENT += "myPackagesExist($${TARGET}) : MYPKGCONFIG *= $${TARGET}"
             write_file($$FILE_NAME, PLUG_CONTENT, append)
         }
     }
 
     #插件生成路径
-    DESTDIR = $$OUT_PWD/../../plugins/$${PLUGIN_TYPE}/$${TARGET}
+    DESTDIR = $$OUT_ROOT/plugins/$${PLUGIN_TYPE}/$${TARGET}
     mkpath($$DESTDIR)
 
     #插件安装路径  
@@ -84,7 +85,7 @@ contains(TEMPLATE, lib){ #生成库
 
 } else { #生成App
     TARGET_INSTALL_PATH = $$PREFIX/bin
-    DESTDIR = $$OUT_PWD/../../bin
+    DESTDIR = $$OUT_ROOT/bin
 }
 
 target.path = $${TARGET_INSTALL_PATH}

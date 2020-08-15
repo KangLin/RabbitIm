@@ -3,13 +3,13 @@
 TEMPLATE = subdirs
 
 greaterThan(QT_VERSION, 5.4) {
-    SUBDIRS += Lbs
+    SUBDIRS += App/Lbs
 }
     
-SUBDIRS += ProtocolQXmpp \
-    QRCode \
-    ScreenShot #\
-    #Update
+SUBDIRS += Protocol/ProtocolQXmpp
+
+SUBDIRS += App/QRCode \
+    App/ScreenShot
 
 #CONFIG(debug, debug|release) {
     #TODO:增加需要调试的插件  

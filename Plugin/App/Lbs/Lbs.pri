@@ -7,7 +7,7 @@ else: return()
 qtHaveModule(quickwidgets): QT *= quickwidgets
 else: return()
 
-include(../pri/ConfigApp.pri)
+include(../../pri/ConfigApp.pri)
 
 SOURCES += \
     $$PWD/LbsTrack.cpp \
