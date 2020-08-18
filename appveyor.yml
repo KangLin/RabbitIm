@@ -20,7 +20,7 @@ environment:
     TOOLCHAIN_VERSION: 15
     QT_ROOT: C:\Qt\5.13\msvc2017_64
     BUILD_ARCH: x64
-    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/vu10gxd4im8cti7r/artifacts/windows_msvc15_x64_Release_qt5.13.2_v0.3.2.zip
+    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/wgoutb7rbxyalw0v/artifacts/windows_msvc15_x64_Release_qt5.13.2_v0.3.2.zip
   
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     GENERATORS: "Visual Studio 15 2017"
@@ -28,21 +28,22 @@ environment:
     TOOLCHAIN_VERSION: 15
     QT_ROOT: C:\Qt\5.12\msvc2017
     BUILD_ARCH: x86
-    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/dr1vnrw8742gqgit/artifacts/windows_msvc15_x86_Release_qt5.12.6_v0.3.2.zip
+    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/v2cbfu3u9mto8k4l/artifacts/windows_msvc15_x86_Release_qt5.12.6_v0.3.2.zip
+
   ##### msvc 2015 ########
   - BUILD_TARGERT: windows_msvc
     #GENERATORS: "Visual Studio 14 2015"
     TOOLCHAIN_VERSION: 14
     QT_ROOT: C:\Qt\5.9\msvc2015
     BUILD_ARCH: x86
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/windows_msvc14_x86_Release_qt5.9.9_v0.3.2.zip
+    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/44j1deytn34jpyr4/artifacts/windows_msvc14_x86_Release_qt5.9.9_v0.3.2.zip
 
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015 Win64"
     TOOLCHAIN_VERSION: 14
     QT_ROOT: C:\Qt\5.10\msvc2015_64
     BUILD_ARCH: x64
-    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/pfqxbn30lksnvakn/artifacts/windows_msvc14_x64_Release_qt5.10.1_v0.3.2.zip
+    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/2s5exxowjskmg2hw/artifacts/windows_msvc14_x64_Release_qt5.10.1_v0.3.2.zip
 
   ##### mingw ########
   - BUILD_TARGERT: windows_mingw
@@ -62,7 +63,7 @@ environment:
     QT_VERSION: 5.12.6
     ANDROID_API: android-29
     TOOLCHAIN_VERSION: 4.9
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/android4.9_arm_Release_qt5.12.6_v0.3.2_in_windows.zip
+    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/8sfmlkn3a0cn4t62/artifacts/android4.9_arm_Release_qt5.12.6_v0.3.2_in_windows.zip
 
   - BUILD_TARGERT: android
     GENERATORS: "MSYS Makefiles"
@@ -73,7 +74,7 @@ environment:
     QT_VERSION: 5.12.6
     ANDROID_API: android-29
     TOOLCHAIN_VERSION: 4.9
-    DOWNLOAD_THIRDLIBS_URL: https://github.com/KangLin/RabbitThirdLibrary/releases/download/v0.3.2/android4.9_arm64_Release_qt5.12.6_v0.3.2_in_windows.zip
+    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/wja6pefegavqthij/artifacts/android4.9_arm64_Release_qt5.12.6_v0.3.2_in_windows.zip
 
 matrix:
   fast_finish: false
