@@ -7,8 +7,8 @@
 #include <QAudioInput>
 #include <QAudioOutput>
 #include <QDir>
+#include <QCameraInfo>
 #include "Tool.h"
-#include "Media/Camera/CameraFactory.h"
 #include "RabbitCommonDir.h"
 
 CDlgOptions::CDlgOptions(QWidget *parent) :
@@ -137,13 +137,10 @@ void CDlgOptions::showEvent(QShowEvent *)
     }
 
     ui->cbVideo->addItem(tr("no device"));
-    std::vector<CCameraInfo::CamerInfo> info;
-    CCameraFactory::Instance()->EnumDevice(info);
-    std::vector<CCameraInfo::CamerInfo>::iterator it;
-    for(it = info.begin(); it != info.end(); it++)
+    QList<QCameraInfo> info = QCameraInfo::availableCameras();
+    foreach(auto i, info)
     {
-        CCameraInfo::CamerInfo ci = *it;
-        ui->cbVideo->addItem(ci.szName.c_str());
+        ui->cbVideo->addItem(i.description() + "[" + i.deviceName() + "]");
     }
     ui->cbVideo->setCurrentIndex(CGlobal::Instance()->GetVideoCaptureDevice() + 1);
 

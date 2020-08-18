@@ -8,16 +8,16 @@
 #include "Tool.h"
 #include "FrmVideo.h"
 #include "ui_FrmVideo.h"
-#include "../../Global/Global.h"
 #include "MainWindow.h"
 #include <QApplication>
 #include <QDesktopWidget>
 
 CFrmVideo::CFrmVideo(QWidget *parent) :
     QFrame(parent),
+    ui(new Ui::CFrmVideo),
     m_RemotePlayer(this),
-    m_LocalePlayer(this),
-    ui(new Ui::CFrmVideo)
+    m_LocalePlayer(this)
+
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::CFrmVideo");
     ui->setupUi(this);
@@ -50,7 +50,7 @@ CFrmVideo::~CFrmVideo()
 
 void CFrmVideo::closeEvent(QCloseEvent *e)
 {
-    Q_UNUSED(e);
+    Q_UNUSED(e)
     LOG_MODEL_DEBUG("Video", "CFrmVideo::closeEvent");
 }
 
@@ -99,7 +99,7 @@ void CFrmVideo::resizeEvent(QResizeEvent *)
 
 void CFrmVideo::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     
     //QLinearGradient gradient(0, rect().height() >> 2, rect().right(), this->rect().height() >> 2);
     /*
@@ -134,7 +134,7 @@ void CFrmVideo::changeEvent(QEvent *e)
 void CFrmVideo::mouseMoveEvent(QMouseEvent *event)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::mouseMoveEvent");
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     //ShowToolBar(true);
 }
 
@@ -170,24 +170,14 @@ int CFrmVideo::ShowToolBar(bool bShow)
     return 0;
 }
 
-void CFrmVideo::slotDisplayLocaleVideo(const QVideoFrame &frame)
-{
-    m_LocalePlayer.slotPresent(frame);
-}
-
 void CFrmVideo::slotDisplayLocaleVideo(const QImage &frame)
 {
-    m_LocalePlayer.slotPresent(frame);
-}
-
-void CFrmVideo::slotDisplayRemoteVideo(const QVideoFrame &frame)
-{
-    m_RemotePlayer.slotPresent(frame);
+    m_LocalePlayer.slotDisplay(frame);
 }
 
 void CFrmVideo::slotDisplayRemoteVideo(const QImage &frame)
 {
-    m_RemotePlayer.slotPresent(frame);
+    m_RemotePlayer.slotDisplay(frame);
 }
 
 void CFrmVideo::on_pbOK_clicked()
@@ -203,7 +193,7 @@ void CFrmVideo::on_pbCancel_clicked()
 void CFrmVideo::on_cmbCamera_currentIndexChanged(int index)
 {
     LOG_MODEL_DEBUG("Video", "CFrmVideo::on_cmbCamera_currentIndexChanged");
-    Q_UNUSED(index);
+    Q_UNUSED(index)
 }
 
 // 根据配置打开或隐藏本地窗口  

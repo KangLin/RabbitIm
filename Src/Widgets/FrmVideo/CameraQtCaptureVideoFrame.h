@@ -37,46 +37,48 @@
  *   camera.start();
  */
 
-#ifndef CAPTUREVIDEOFRAME_H
-#define CAPTUREVIDEOFRAME_H
+#ifndef CAPTUREVIDEOFRAME_H_KL_2020_08_18
+#define CAPTUREVIDEOFRAME_H_KL_2020_08_18
+
+#pragma once
 
 #include <QAbstractVideoSurface>
 #ifdef ANDROID
 #include <QVideoProbe>
 #endif
 #include <QCamera>
+#include <QImage>
+#include "../../Global/Global.h"
 
-class CCameraQt;
 /**
  * @brief The CCameraQtCaptureVideoFrame class
  * @ingroup RABBITIM_IMPLEMENT_CAMERA_QT
  */
-class CCameraQtCaptureVideoFrame : public QAbstractVideoSurface
+class RABBITIM_SHARED_LIBRARY CCameraQtCaptureVideoFrame : public QAbstractVideoSurface
 {
     Q_OBJECT
+
 public:
-    explicit CCameraQtCaptureVideoFrame(QObject *parent = 0);
+    explicit CCameraQtCaptureVideoFrame(QObject *parent = nullptr);
     virtual ~CCameraQtCaptureVideoFrame();
 
-    //设置捕获源  
-    bool setSource(CCameraQt* pCamera);
     //设置支持的捕获格式  
     virtual QList<QVideoFrame::PixelFormat> supportedPixelFormats(
             QAbstractVideoBuffer::HandleType handleType = QAbstractVideoBuffer::NoHandle) const;
     //bool isFormatSupported(const QVideoSurfaceFormat &format) const;
 
-signals:
+    int SetCameraAngle(int angle);
+    
+Q_SIGNALS:
     //从摄像头捕获的原始帧  
     void sigCaptureFrame(const QVideoFrame &frame);
+    void sigCaptureFrame(const QImage &frame);
 
-private slots:
+private Q_SLOTS:
     virtual bool present(const QVideoFrame &frame);
 
-private:
-#ifdef ANDROID
-     QVideoProbe m_Probe;//android下,目前只能用probe捕获视频  
-#endif
-     CCameraQt* m_pCamera;
+private:    
+     int m_Angle;
 };
 
-#endif // CAPTUREVIDEOFRAME_H
+#endif // CAPTUREVIDEOFRAME_H_KL_2020_08_18

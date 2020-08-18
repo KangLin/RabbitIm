@@ -4,9 +4,20 @@
 <context>
     <name>CFrmLbsMain</name>
     <message>
+        <location filename="../../FrmLbsMain.ui" line="14"/>
         <location filename="../../FrmLbsMain.cpp" line="16"/>
         <source>Motion</source>
         <translation>運動</translation>
+    </message>
+    <message>
+        <location filename="../../FrmLbsMain.ui" line="34"/>
+        <source>Tab 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../FrmLbsMain.ui" line="39"/>
+        <source>Tab 2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../FrmLbsMain.cpp" line="17"/>

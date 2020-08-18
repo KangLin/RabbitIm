@@ -1,7 +1,7 @@
 #include "Global.h"
 #include "common/Tool.h"
 #include "../MainWindow.h"
-#include "Media/Camera/CameraFactory.h"
+#include <QCameraInfo>
 #include <QMetaType>
 #include <QApplication>
 #include <QDir>
@@ -81,8 +81,7 @@ CGlobal::CGlobal(QObject *parent) :
     m_bHideMessageBox = conf.value(
                 "Options/ScreenShot/HideMessageBox", false).toBool();
 
-    std::vector<CCameraInfo::CamerInfo> info;
-    CCameraFactory::Instance()->EnumDevice(info);
+    QList<QCameraInfo> info = QCameraInfo::availableCameras();
     if(info.size() > 0)
         m_nVideoCaptureDevice = conf.value("Device/Video/Capture", 0).toInt();
     else

@@ -1,5 +1,4 @@
 #include "MainWindow.h"
-#include "Widgets/FrmVideo/FrmPlayer.h"
 #include "Global/Global.h"
 #include <QDebug>
 #include <QApplication>

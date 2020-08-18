@@ -784,8 +784,8 @@
     </message>
     <message>
         <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="139"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="150"/>
-        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="155"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="147"/>
+        <location filename="../../Widgets/DlgOptions/DlgOptions.cpp" line="152"/>
         <source>no device</source>
         <translation>無</translation>
     </message>
@@ -1859,33 +1859,33 @@
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="366"/>
+        <location filename="../../Global/Global.cpp" line="365"/>
         <source>OnLine</source>
         <translation>在線</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="368"/>
+        <location filename="../../Global/Global.cpp" line="367"/>
         <source>Temporarily away</source>
         <translation>臨時離開</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="370"/>
+        <location filename="../../Global/Global.cpp" line="369"/>
         <source>Chat</source>
         <translation>空閑</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="372"/>
+        <location filename="../../Global/Global.cpp" line="371"/>
         <source>Do not disturb</source>
         <translation>請勿打擾</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="374"/>
-        <location filename="../../Global/Global.cpp" line="378"/>
+        <location filename="../../Global/Global.cpp" line="373"/>
+        <location filename="../../Global/Global.cpp" line="377"/>
         <source>Invisible</source>
         <translation>離線</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="376"/>
+        <location filename="../../Global/Global.cpp" line="375"/>
         <source>OffLine</source>
         <translation>離線</translation>
     </message>
@@ -1956,8 +1956,9 @@
 <context>
     <name>CTool</name>
     <message>
+        <location filename="../../common/Tool.h" line="220"/>
         <source>Open file</source>
-        <translation type="vanished">打開文件</translation>
+        <translation>打開文件</translation>
     </message>
 </context>
 <context>

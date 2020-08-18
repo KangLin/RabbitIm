@@ -19,6 +19,12 @@ SET(RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
     Emoji/EmoticonsWidget.h
     Emoji/Emoji.h
     Emoji/CustomTextDocument.h
+
+    Widgets/FrmVideo/RecordAudio.h
+    Widgets/FrmVideo/CameraQtCaptureVideoFrame.h
+    Widgets/FrmVideo/ImageTool.h
+    Widgets/FrmVideo/FrmDisplay.h
+    Widgets/FrmVideo/FrmVideo.h
     )
 
 SET(RABBITIM_SOURCES
@@ -32,8 +38,7 @@ SET(RABBITIM_SOURCES
     Widgets/FrmLogin/FrmLogin.cpp 
     Widgets/FrmUserList/FrmUserList.cpp 
     Widgets/FrmUserList/GroupItem.cpp 
-    Widgets/FrmCustom/CustomTreeView.cpp 
-    Widgets/FrmVideo/RecordAudio.cpp 
+    Widgets/FrmCustom/CustomTreeView.cpp
     Widgets/FrmCustom/Label.cpp  
     Widgets/FrmMain/FrmMain.cpp  
     Manage/Manager.cpp 
@@ -56,13 +61,14 @@ SET(RABBITIM_SOURCES
     FileTransfer/ManageFileTransfer.cpp 
     FileTransfer/FileTransfer.cpp 
     FileTransfer/FileTransferAction.cpp 
-    Widgets/FrmVideo/DataVideoBuffer.cpp 
-    Widgets/FrmVideo/FrameProcess.cpp 
-    Widgets/FrmVideo/FrmPlayer.cpp  
-    Call/CallObject.cpp 
+    Widgets/FrmVideo/RecordAudio.cpp
+    Widgets/FrmVideo/CameraQtCaptureVideoFrame.cpp
+    Widgets/FrmVideo/ImageTool.cpp
+    Widgets/FrmVideo/FrmDisplay.cpp
+    Widgets/FrmVideo/FrmVideo.cpp
+    Call/CallObject.cpp
     Call/ManageCall.cpp 
-    Call/CallAction.cpp 
-    Widgets/FrmVideo/FrmVideo.cpp  
+    Call/CallAction.cpp  
     Widgets/DlgRegister/DlgRegister.cpp 
     Widgets/FrmGroupChat/FrmGroupChatList.cpp  
     Widgets/FrmLogin/DlgLoginSettings.cpp 
@@ -77,14 +83,7 @@ SET(RABBITIM_SOURCES
     Widgets/FrmCustom/ItemModelCustom.cpp 
     Widgets/DlgUservCard/DlgUservCard.cpp  
     Widgets/DlgOptions/DlgOptions.cpp   
-    Message/ManageMessage.cpp 
-    Media/Camera/Camera.cpp 
-    Media/Camera/CameraInfo.cpp 
-    Media/Camera/CameraFactory.cpp 
-    Media/Camera/VideoFrame.cpp 
-    Media/Camera/CameraQt.cpp 
-    Media/Camera/CameraFactoryQt.cpp 
-    Media/Camera/CameraQtCaptureVideoFrame.cpp 
+    Message/ManageMessage.cpp
     Global/Log.cpp 
     Global/GlobalDir.cpp 
     Widgets/FrmApp/FrmApp.cpp 
@@ -92,6 +91,7 @@ SET(RABBITIM_SOURCES
     Widgets/FrmApp/FrmFavorites.cpp 
     ${CMAKE_SOURCE_DIR}/Plugin/PluginApp.cpp 
     ${CMAKE_SOURCE_DIR}/Plugin/PluginProtocol.cpp 
+    ${CMAKE_SOURCE_DIR}/Plugin/PluginConverFormat.cpp
     ${CMAKE_SOURCE_DIR}/Plugin/ManagePluginApp.cpp 
     ${CMAKE_SOURCE_DIR}/Plugin/ManagePluginProtocol.cpp
     Widgets/MainAnimation.cpp
@@ -122,19 +122,8 @@ SET(RABBITIM_UIS
     Widgets/FrmApp/FrmFavorites.ui 
 )
 
-IF(RABBITIM_USE_OPENCV) 
-    SET(RABBITIM_SOURCES ${RABBITIM_SOURCES} Widgets/FrmVideo/CameraOpencv.cpp)
-ENDIF(RABBITIM_USE_OPENCV)
-
 IF(RABBITIM_USE_OPENSSL)
     LIST(APPEND RABBITIM_SOURCES Global/Encrypt.cpp)
     LIST(APPEND RABBITIM_HEADER_FILES Global/Encrypt.h)
 ENDIF(RABBITIM_USE_OPENSSL)
 
-IF(RABBITIM_USE_PJSIP) 
-    SET(RABBITIM_SOURCES
-        ${RABBITIM_SOURCES}
-        Media/Camera/CameraPjsip.cpp 
-        Media/Camera/CameraFactoryPjsip.cpp
-    )       
-ENDIF(RABBITIM_USE_PJSIP)

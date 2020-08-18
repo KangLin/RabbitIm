@@ -91,7 +91,7 @@
             <string>Browse(&amp;B)</string>
            </property>
            <property name="icon">
-            <iconset resource="../../Resource/Resource.qrc">
+            <iconset resource="../../../Resource/Resource.qrc">
              <normaloff>:/icon/Browse</normaloff>:/icon/Browse</iconset>
            </property>
           </widget>
@@ -102,7 +102,7 @@
             <string>Recognition(&amp;R)</string>
            </property>
            <property name="icon">
-            <iconset resource="../../Resource/Resource.qrc">
+            <iconset resource="../../../Resource/Resource.qrc">
              <normaloff>:/icon/Scan</normaloff>:/icon/Scan</iconset>
            </property>
           </widget>
@@ -113,7 +113,7 @@
             <string>Cancel(&amp;C)</string>
            </property>
            <property name="icon">
-            <iconset resource="../../Resource/Resource.qrc">
+            <iconset resource="../../../Resource/Resource.qrc">
              <normaloff>:/icon/Cancel</normaloff>:/icon/Cancel</iconset>
            </property>
           </widget>
@@ -286,7 +286,7 @@
             <string>Generate(&amp;G)</string>
            </property>
            <property name="icon">
-            <iconset resource="../../Resource/Resource.qrc">
+            <iconset resource="../../../Resource/Resource.qrc">
              <normaloff>:/icon/Operate</normaloff>:/icon/Operate</iconset>
            </property>
           </widget>
@@ -297,7 +297,7 @@
             <string>Save As(&amp;S)</string>
            </property>
            <property name="icon">
-            <iconset resource="../../Resource/Resource.qrc">
+            <iconset resource="../../../Resource/Resource.qrc">
              <normaloff>:/icon/SaveAs</normaloff>:/icon/SaveAs</iconset>
            </property>
           </widget>
@@ -308,7 +308,7 @@
             <string>Cancel(&amp;C)</string>
            </property>
            <property name="icon">
-            <iconset resource="../../Resource/Resource.qrc">
+            <iconset resource="../../../Resource/Resource.qrc">
              <normaloff>:/icon/Cancel</normaloff>:/icon/Cancel</iconset>
            </property>
           </widget>
@@ -322,8 +322,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../Resource/Resource.qrc"/>
-  <include location="../../Resource/Resource.qrc"/>
+  <include location="../../../Resource/Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

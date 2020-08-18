@@ -3,9 +3,9 @@
 
 #include <QFrame>
 #include <QTimer>
-#include <QCameraImageCapture>
-#include "Media/Camera/CameraFactory.h"
-#include "Widgets/FrmVideo/FrmVideo.h"
+#include <QCamera>
+#include "Widgets/FrmVideo/FrmDisplay.h"
+#include "Widgets/FrmVideo/CameraQtCaptureVideoFrame.h"
 
 namespace Ui {
 class CFrmScanQRcode;
@@ -16,7 +16,7 @@ class CFrmScanQRcode : public QFrame
     Q_OBJECT
     
 public:
-    explicit CFrmScanQRcode(QWidget *parent = 0);
+    explicit CFrmScanQRcode(QWidget *parent = nullptr);
     ~CFrmScanQRcode();
 
     //识别二维码文件  
@@ -34,9 +34,8 @@ private slots:
      * @param frame 捕获的帧  
      * @return 
      */
-    virtual int slotCaptureFrame(const QVideoFrame &frame);
-    virtual int slotCapturePicture(const QString szFile);
-    
+    virtual int slotCaptureFrame(const QImage &frame);
+
     void on_pushBrowse_clicked();
     void on_Cancel_clicked();
     void OnTimeOut();
@@ -49,12 +48,13 @@ private slots:
     
 private:
     Ui::CFrmScanQRcode *ui;
-    CCamera* m_pCamera;
-    CFrmVideo m_Play;
-    QCameraImageCapture* m_pCameraImageCapture;
+    QCamera *m_pCamera;
+    CFrmDisplay m_Play;
+    CCameraQtCaptureVideoFrame m_CaptureVideoFrame;
     QTimer m_Timer;
     QImage m_Generate;
     QImage m_Logon;
+    QImage m_CaptureImage;
 };
 
 #endif // DLGSCANQRCODE_H

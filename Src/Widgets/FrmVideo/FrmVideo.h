@@ -9,8 +9,8 @@
 #define FRMVIDEO_H
 
 #include <QFrame>
-#include "FrmPlayer.h"
-#include <QVideoFrame>
+#include "FrmDisplay.h"
+#include "../../Global/Global.h"
 
 namespace Ui {
 class CFrmVideo;
@@ -21,15 +21,13 @@ class RABBITIM_SHARED_LIBRARY CFrmVideo : public QFrame
     Q_OBJECT
 
 public:
-    explicit CFrmVideo(QWidget *parent = 0);
+    explicit CFrmVideo(QWidget *parent = nullptr);
     virtual ~CFrmVideo();
 
 public slots:
-    //显示本地视频  
-    void slotDisplayLocaleVideo(const QVideoFrame& frame);
+    //显示本地视频
     void slotDisplayLocaleVideo(const QImage &frame);
-    //显示远端视频  
-    void slotDisplayRemoteVideo(const QVideoFrame &frame);
+    //显示远端视频
     void slotDisplayRemoteVideo(const QImage &frame);
     
 protected slots:
@@ -50,8 +48,8 @@ private:
 private:
     Ui::CFrmVideo *ui;
 
-    CFrmPlayer m_RemotePlayer;//远程视频播放窗口  
-    CFrmPlayer m_LocalePlayer;//本地视频播放窗口  
+    CFrmDisplay m_RemotePlayer;//远程视频播放窗口
+    CFrmDisplay m_LocalePlayer;//本地视频播放窗口
 
 private slots:
     void on_pbOK_clicked();

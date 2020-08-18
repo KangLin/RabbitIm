@@ -11,7 +11,6 @@ SOURCES += \
     Widgets/FrmUserList/FrmUserList.cpp \
     Widgets/FrmUserList/GroupItem.cpp \
     Widgets/FrmCustom/CustomTreeView.cpp \
-    Widgets/FrmVideo/RecordAudio.cpp \
     Widgets/FrmCustom/Label.cpp \ 
     Widgets/FrmMain/FrmMain.cpp \ 
     Manage/Manager.cpp \
@@ -33,13 +32,14 @@ SOURCES += \
     FileTransfer/ManageFileTransfer.cpp \
     FileTransfer/FileTransfer.cpp \
     FileTransfer/FileTransferAction.cpp \
-    Widgets/FrmVideo/DataVideoBuffer.cpp \
-    Widgets/FrmVideo/FrameProcess.cpp \
-    Widgets/FrmVideo/FrmPlayer.cpp \ 
+    Widgets/FrmVideo/RecordAudio.cpp \
+    Widgets/FrmVideo/CameraQtCaptureVideoFrame.cpp \
+    Widgets/FrmVideo/ImageTool.cpp \
+    Widgets/FrmVideo/FrmDisplay.cpp \
+    Widgets/FrmVideo/FrmVideo.cpp \
     Call/CallObject.cpp \
     Call/ManageCall.cpp \
     Call/CallAction.cpp \
-    Widgets/FrmVideo/FrmVideo.cpp \ 
     Widgets/DlgRegister/DlgRegister.cpp \
     Widgets/FrmGroupChat/FrmGroupChatList.cpp \ 
     Widgets/FrmLogin/DlgLoginSettings.cpp \
@@ -55,13 +55,6 @@ SOURCES += \
     Widgets/DlgUservCard/DlgUservCard.cpp \ 
     Widgets/DlgOptions/DlgOptions.cpp \  
     Message/ManageMessage.cpp \
-    Media/Camera/Camera.cpp \
-    Media/Camera/CameraInfo.cpp \
-    Media/Camera/CameraFactory.cpp \
-    Media/Camera/VideoFrame.cpp \
-    Media/Camera/CameraQt.cpp \
-    Media/Camera/CameraFactoryQt.cpp \
-    Media/Camera/CameraQtCaptureVideoFrame.cpp \
     Global/Log.cpp \
     Global/GlobalDir.cpp \
     Widgets/FrmApp/FrmApp.cpp \
@@ -71,8 +64,8 @@ SOURCES += \
     ../Plugin/PluginApp.cpp \
     ../Plugin/PluginProtocol.cpp \
     ../Plugin/ManagePluginApp.cpp \
-    ../Plugin/ManagePluginProtocol.cpp 
-    
+    ../Plugin/PluginConverFormat.cpp \
+    ../Plugin/ManagePluginProtocol.cpp
 
 HEADERS += \
     $$PWD/Emoji/Emoji.h \
@@ -87,7 +80,6 @@ HEADERS += \
     Widgets/FrmLogin/FrmLogin.h \
     Widgets/FrmUserList/FrmUserList.h \
     Widgets/FrmCustom/CustomTreeView.h \
-    Widgets/FrmVideo/RecordAudio.h \
     Widgets/FrmCustom/Label.h \ 
     Manage/Manager.h \
     Manage/Manage.h \
@@ -107,13 +99,14 @@ HEADERS += \
     Widgets/DlgAddRoster/DlgAddRoster.h \
     FileTransfer/ManageFileTransfer.h \
     FileTransfer/FileTransfer.h \
-    FileTransfer/FileTransferAction.h \
-    Widgets/FrmVideo/DataVideoBuffer.h \
-    Widgets/FrmVideo/FrameProcess.h \
-    Widgets/FrmVideo/FrmPlayer.h \    
+    FileTransfer/FileTransferAction.h \  
     Call/CallObject.h \
     Call/ManageCall.h \
-    Call/CallAction.h \ 
+    Call/CallAction.h \
+    Widgets/FrmVideo/RecordAudio.h \
+    Widgets/FrmVideo/CameraQtCaptureVideoFrame.h \
+    Widgets/FrmVideo/ImageTool.h \
+    Widgets/FrmVideo/FrmDisplay.h \
     Widgets/FrmVideo/FrmVideo.h \ 
     Widgets/DlgRegister/DlgRegister.h \
     Widgets/FrmGroupChat/FrmGroupChatList.h \ 
@@ -130,14 +123,6 @@ HEADERS += \
     Widgets/DlgUservCard/DlgUservCard.h \ 
     Widgets/DlgOptions/DlgOptions.h \ 
     Message/ManageMessage.h \
-    Media/Camera/Camera.h \
-    Media/Camera/CameraInfo.h \
-    Media/Camera/VideoType.h \
-    Media/Camera/CameraFactory.h \
-    Media/Camera/VideoFrame.h \
-    Media/Camera/CameraQt.h \
-    Media/Camera/CameraFactoryQt.h \
-    Media/Camera/CameraQtCaptureVideoFrame.h \
     Global/Log.h \
     Global/GlobalDir.h \
     Widgets/FrmApp/FrmApp.h \
@@ -147,6 +132,7 @@ HEADERS += \
     ../Plugin/PluginApp.h \
     ../Plugin/PluginProtocol.h \
     ../Plugin/ManagePluginApp.h \
+    ../Plugin/PluginConverFormat.h \
     ../Plugin/ManagePluginProtocol.h 
 
 FORMS += MainWindow.ui \
@@ -187,23 +173,4 @@ android{
     FORMS +=
 }else{
     FORMS += 
-}
-
-#equals(RABBITIM_USE_OPENCV, 1){
-#    SOURCES += Widgets/FrmVideo/CameraOpencv.cpp 
-#    HEADERS += Widgets/FrmVideo/CameraOpencv.h 
-#}
-
-equals(RABBITIM_USE_OPENSSL, 1){
-    SOURCES += Global/Encrypt.cpp
-    HEADERS += Global/Encrypt.h
-}
-
-equals(RABBITIM_USE_PJSIP, 1) {
-    SOURCES += \
-        Media/Camera/CameraPjsip.cpp \
-        Media/Camera/CameraFactoryPjsip.cpp
-    HEADERS += \
-        Media/Camera/CameraPjsip.h \
-        Media/Camera/CameraFactoryPjsip.h
 }

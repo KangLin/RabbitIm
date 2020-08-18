@@ -5,12 +5,13 @@
 #include <QPainter>
 #include <QDir>
 #include <QStandardPaths>
+#include <QCameraInfo>
 
 CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
     QFrame(parent),
-    m_Play(this),
-    m_pCamera(NULL),
-    ui(new Ui::CFrmScanQRcode)
+    ui(new Ui::CFrmScanQRcode),
+    m_pCamera(nullptr),
+    m_Play(this)
 {
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
@@ -24,15 +25,14 @@ CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
 
     bool check = connect(&m_Timer, SIGNAL(timeout()), SLOT(OnTimeOut()));
     Q_ASSERT(check);
-    m_pCamera = CCameraFactory::Instance()->GetCamera(CGlobal::Instance()->GetVideoCaptureDevice());
+    m_pCamera = new QCamera(QCameraInfo::availableCameras().value(CGlobal::Instance()->GetVideoCaptureDevice()));
     if(m_pCamera)
     {
-        m_pCamera->Open();
-        check = connect(m_pCamera, SIGNAL(sigCaptureFrame(QVideoFrame)),
-                        this, SLOT(slotCaptureFrame(QVideoFrame)));
+        m_pCamera->setViewfinder(&m_CaptureVideoFrame);
+        m_pCamera->start();
+        check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(const QImage &)),
+                        this, SLOT(slotCaptureFrame(const QImage &)));
         Q_ASSERT(check);
-        check = connect(m_pCamera, SIGNAL(sigCapturePicture(QString)),
-                        this, SLOT(slotCapturePicture(QString)));
     } else {
         ui->lbText->setText(tr("The camera does not exist."));
         LOG_MODEL_ERROR("CFrmScanQRcode", "The camera does not exist.");
@@ -45,8 +45,9 @@ CFrmScanQRcode::~CFrmScanQRcode()
     if(m_pCamera)
     {
         Stop();
-        m_pCamera->Close();
-        m_pCamera = NULL;
+        m_pCamera->stop();
+        m_pCamera->unload();
+        m_pCamera = nullptr;
     }
     delete ui;
     LOG_MODEL_DEBUG("CDlgScanQRcode", "CDlgScanQRcode::~CDlgScanQRcode end");
@@ -112,23 +113,11 @@ int CFrmScanQRcode::ProcessQRFile(QString szFile)
     return nRet;
 }
 
-int CFrmScanQRcode::slotCaptureFrame(const QVideoFrame &frame)
+int CFrmScanQRcode::slotCaptureFrame(const QImage &frame)
 {
-    m_Play.slotDisplayRemoteVideo(frame);
+    m_CaptureImage = frame;
+    m_Play.slotDisplay(frame);
     return 0;
-}
-
-int CFrmScanQRcode::slotCapturePicture(const QString szFile)
-{
-    Stop();
-    int nRet = ProcessQRFile(szFile);
-    if(nRet <= 0)
-    {
-        this->close();
-    } else {
-        Start();
-    }
-    return nRet;    
 }
 
 void CFrmScanQRcode::OnTimeOut()
@@ -140,7 +129,7 @@ int CFrmScanQRcode::Start()
 {
     if(m_pCamera)
     {
-        m_pCamera->Start();
+        m_pCamera->start();
         //m_Timer.start(1000);
     }
     return 0;
@@ -151,7 +140,7 @@ int CFrmScanQRcode::Stop()
     if(m_pCamera)
     {
         m_Timer.stop();
-        m_pCamera->Stop();
+        m_pCamera->stop();
     }
     return 0;
 }
@@ -160,9 +149,9 @@ void CFrmScanQRcode::on_pushButton_clicked()
 {
     if(m_pCamera)
     {
-        QString szFile =  QStandardPaths::writableLocation(QStandardPaths::TempLocation)
-                + QDir::separator() + "CaptureQRCode" + ".png";
-        m_pCamera->Capture(szFile.toStdString());
+        QString szText;
+        int nRet = CQRCode::ProcessQImage(m_CaptureImage, szText);
+        ui->lbText->setText(szText);
     }
 }
 

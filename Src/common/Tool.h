@@ -27,7 +27,7 @@ extern "C" {
 #ifdef RABBITIM_USE_OPENCV
     #include "opencv2/opencv.hpp"
 #endif
-#include "Media/Camera/VideoFrame.h"
+//#include "Media/Camera/VideoFrame.h"
 #include "Global/Global.h"
 
 /**

@@ -5,8 +5,9 @@ TEMPLATE = subdirs
 greaterThan(QT_VERSION, 5.4) {
     SUBDIRS += App/Lbs
 }
-    
-SUBDIRS += Protocol/ProtocolQXmpp
+
+SUBDIRS += ConverFormat/FFmpeg #ConverFormat/OpenCV
+#SUBDIRS += Protocol/ProtocolQXmpp
 
 SUBDIRS += App/QRCode \
     App/ScreenShot
