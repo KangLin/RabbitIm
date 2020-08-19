@@ -20,7 +20,7 @@ environment:
     TOOLCHAIN_VERSION: 15
     QT_ROOT: C:\Qt\5.13\msvc2017_64
     BUILD_ARCH: x64
-    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/wgoutb7rbxyalw0v/artifacts/windows_msvc15_x64_Release_qt5.13.2_v0.3.2.zip
+    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/q8o5yrfg7psioowf/artifacts/windows_msvc15_x64_Release_qt5.13.2_v0.3.2.zip
   
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     GENERATORS: "Visual Studio 15 2017"
@@ -28,7 +28,7 @@ environment:
     TOOLCHAIN_VERSION: 15
     QT_ROOT: C:\Qt\5.12\msvc2017
     BUILD_ARCH: x86
-    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/v2cbfu3u9mto8k4l/artifacts/windows_msvc15_x86_Release_qt5.12.6_v0.3.2.zip
+    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/58fctk1b5p6x3t6r/artifacts/windows_msvc15_x86_Release_qt5.12.6_v0.3.2.zip
 
   ##### msvc 2015 ########
   - BUILD_TARGERT: windows_msvc
@@ -36,7 +36,7 @@ environment:
     TOOLCHAIN_VERSION: 14
     QT_ROOT: C:\Qt\5.9\msvc2015
     BUILD_ARCH: x86
-    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/44j1deytn34jpyr4/artifacts/windows_msvc14_x86_Release_qt5.9.9_v0.3.2.zip
+    DOWNLOAD_THIRDLIBS_URL: https://ci.appveyor.com/api/buildjobs/pbum52cb4uqtmm98/artifacts/windows_msvc14_x86_Release_qt5.9.9_v0.3.2.zip
 
   - BUILD_TARGERT: windows_msvc
     GENERATORS: "Visual Studio 14 2015 Win64"
