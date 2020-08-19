@@ -224,12 +224,16 @@ private:
 public:
     int GetVideoCaptureDevice();
     int SetVideoCaptureDevice(int nIndex = 0);
+Q_SIGNALS:
+    void sigVideoCaptureDevice(int nIndex);
+private:
+    int m_nVideoCaptureDevice;
+public:
     int GetAudioInputDevice();
     int SetAudioInputDevice(int nIndex);
     int GetAudioOutputDevice();
     int SetAudioOutputDevice(int nIndex);
 private:
-    int m_nVideoCaptureDevice;
     int m_nAudioInputDevice;
     int m_nAudioOutputDevice;
 

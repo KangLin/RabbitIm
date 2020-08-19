@@ -1,5 +1,5 @@
 SOURCES += \
-    $$PWD/Emoji/Emoji.cpp \
+    Emoji/Emoji.cpp \
     MainWindow.cpp \
     common/Tool.cpp \
     common/QRCode.cpp \
@@ -173,4 +173,9 @@ android{
     FORMS +=
 }else{
     FORMS += 
+}
+
+equals(RABBITIM_USE_OPENSSL, 1){
+    SOURCES += Global/Encrypt.cpp
+    HEADERS += Global/Encrypt.h
 }

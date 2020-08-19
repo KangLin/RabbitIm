@@ -7,8 +7,8 @@
 #include <QImage>
 #include <QDebug>
 
-CCameraQtCaptureVideoFrame::CCameraQtCaptureVideoFrame(QObject *parent) :
-    QAbstractVideoSurface(parent)
+CCameraQtCaptureVideoFrame::CCameraQtCaptureVideoFrame(QObject *parent)
+    : QAbstractVideoSurface(parent)
 {
     m_Angle = 0;
 }

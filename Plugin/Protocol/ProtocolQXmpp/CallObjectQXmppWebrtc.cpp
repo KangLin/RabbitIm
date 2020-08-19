@@ -59,7 +59,7 @@ int CCallObjectQXmppWebrtc::ReciveAccept()
     return nRet;
 }
 
-int CCallObjectQXmppWebrtc::Stop()
+int CCallObjectQXmppWebrtc::Stop(StopState state)
 {
     int nRet = 0;
     //发送停止请求  

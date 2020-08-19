@@ -1,5 +1,5 @@
 /**
-  @brief: 提供一此工具函数  
+  @brief: 提供一此图像处理工具函数
   @author: Kang Lin<kl222@126.com>
   */
 

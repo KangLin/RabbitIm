@@ -274,3 +274,12 @@ int CManageCall::ProcessCommandCall(const QString &szId, const QString &szComman
     }
     return 0;
 }
+
+int CManageCall::OnCall(const QString &szId, QSharedPointer<CCallObject> &call, bool bVideo)
+{
+    Q_UNUSED(szId)
+    Q_UNUSED(call)
+    Q_UNUSED(bVideo)
+    LOG_MODEL_DEBUG("Call", "Please implement this interface in the inherited class");
+    return 0;
+}

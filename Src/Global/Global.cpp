@@ -615,9 +615,13 @@ int CGlobal::GetVideoCaptureDevice()
 
 int CGlobal::SetVideoCaptureDevice(int nIndex)
 {
+    if(m_nVideoCaptureDevice == nIndex)
+        return 0;
+
     m_nVideoCaptureDevice = nIndex;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Device/Video/Capture", nIndex);
+    emit sigVideoCaptureDevice(nIndex);
     return 0;
 }
 

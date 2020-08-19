@@ -6,6 +6,8 @@
     #else
         #include "ManageCallXmpp.h"
     #endif
+#else
+    #include "Call/ManageCall.h"
 #endif
 
 CPluginProtocolQXMPP::CPluginProtocolQXMPP(QObject *parent) :
@@ -21,7 +23,7 @@ CPluginProtocolQXMPP::CPluginProtocolQXMPP(QObject *parent) :
             m_Call(new CManageCallXmpp)
         #endif
     #else
-        m_Call(nullptr)
+        m_Call(new CManageCall)
     #endif
 {
     m_Client->SetUser(m_User);

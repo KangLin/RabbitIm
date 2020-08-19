@@ -10,23 +10,22 @@
 
 /**
   *@defgroup RABBITIM_INTERFACE_MANGECALL 呼叫管理类模块  
-  *@ingroup RABBITIM_INTERFACE_MANAGER
-  *@brief 呼叫管理类模块  
+  *@ingroup  RABBITIM_INTERFACE_MANAGER
+  *@brief    呼叫管理类模块
   */
 
 /**
  * @ingroup RABBITIM_INTERFACE_MANGECALL RABBITIM_INTERFACE
- * @brief 呼叫管理类接口,用于管理多个呼叫对象（CCallObject）  
- *        和其相关的界面通信接口。\n
- *        在此类中实现音频、视频捕获。   
- * 
+ * @brief   呼叫管理类接口,用于管理多个呼叫对象（CCallObject）
+ *          和其相关的界面通信接口。\n
+ *          在此类中实现音频、视频捕获。
  */
 class RABBITIM_SHARED_LIBRARY CManageCall : public CManage
 {
     Q_OBJECT
 
 public:
-    explicit CManageCall(QObject *parent = 0);
+    explicit CManageCall(QObject *parent = nullptr);
     virtual ~CManageCall();
 
     /**
@@ -45,7 +44,7 @@ public:
      */
     virtual int LogoutClean();
 
-public slots:
+public Q_SLOTS:
     /**
      * @brief 主动呼叫  
      *
@@ -95,16 +94,17 @@ private:
      */
     virtual int OnCall(const QString &szId,
               /*[out]*/QSharedPointer<CCallObject> &call,
-              /*[in]*/ bool bVideo = false) = 0;
+              /*[in]*/ bool bVideo = false);
 
-protected slots:
+protected Q_SLOTS:
     /**
      * @brief 用于完成接收到呼叫消息的动作。  
      *        由具体的协议调用此方法。
      * @param call
      */
     void slotCallReceived(QSharedPointer<CCallObject> call);
-private slots:
+
+private Q_SLOTS:
     /**
      * @brief 呼叫结束处理  
      * @param pCall

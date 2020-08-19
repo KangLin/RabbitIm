@@ -50,7 +50,7 @@ public slots:
      * 如果不接收对方呼叫，则调用此方法  
      * 如果通话结束，也调用此方法  
      */
-    virtual int Stop();
+    virtual int Stop(StopState state = Reject);
     virtual int ReciveStop();
     /**
      * 接收呼叫  

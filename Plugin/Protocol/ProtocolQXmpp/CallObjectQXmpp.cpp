@@ -10,9 +10,6 @@ CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
                                    QObject *parent)
     : CCallObject(QXmppUtils::jidToBareJid(pCall->jid()), bVideo, parent)
 {
-    m_pAudioInput = NULL;
-    m_pAudioOutput = NULL;
-    m_pCamera = NULL;
     m_pCall = pCall;
     if(m_pCall)
     {
@@ -21,16 +18,6 @@ CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
     }
     else
         Q_ASSERT(false);
-
-    /*m_VideoThread.setObjectName("VideoProcess");
-    m_Camera.moveToThread(&m_VideoThread);
-    m_CaptureFrameProcess.moveToThread(&m_VideoThread);
-    m_CaptureToRemoteFrameProcess.moveToThread(&m_VideoThread);
-    m_ReciveFrameProcess.moveToThread(&m_VideoThread);
-    */
-    bool check = connect(GET_MAINWINDOW, SIGNAL(sigRefresh()),
-                         SLOT(slotUpdateOption()));
-    Q_ASSERT(check);
 }
 
 CCallObjectQXmpp::~CCallObjectQXmpp()
@@ -92,7 +79,7 @@ int CCallObjectQXmpp::Accept()
     return nRet;
 }
 
-int CCallObjectQXmpp::Stop()
+int CCallObjectQXmpp::Stop(StopState state)
 {
     int nRet = 0;
     if(!m_pCall)
@@ -124,7 +111,6 @@ void CCallObjectQXmpp::slotStateChanged(QXmppCall::State state)
 void CCallObjectQXmpp::slotFinished()
 {
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallVideoQXmpp::slotFinished");
-    StopAudioDevice();
     if(m_bVideo)
     {
         StopVideo();
@@ -270,62 +256,8 @@ int CCallObjectQXmpp::StartAudioDevice()
 
     outFormat = inFormat;
 
-    QList<QAudioDeviceInfo> lstInputs = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
-    if(!lstInputs.isEmpty() 
-            && (lstInputs.size() > CGlobal::Instance()->GetAudioInputDevice())
-            && CGlobal::Instance()->GetAudioInputDevice() > -1)
-    {
-        QAudioDeviceInfo infoAudioInput(lstInputs.at(CGlobal::Instance()->GetAudioInputDevice()));
-        if (!infoAudioInput.isFormatSupported(inFormat)) {
-            LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio input format not supported - trying to use nearest");
-            //TODO:增加格式转换  
-            inFormat = infoAudioInput.nearestFormat(inFormat);
-        }
-        m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
-        if(!m_pAudioInput)
-            LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioInput device instance fail.");
-        else if((pAudioChannel->openMode() & QIODevice::WriteOnly)  && (m_pAudioInput->state() != QAudio::ActiveState) )
-            m_pAudioInput->start(pAudioChannel);
-    }
-
-    QList<QAudioDeviceInfo> lstOutputs = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
-    if(!lstOutputs.isEmpty()
-            && (lstOutputs.size() > CGlobal::Instance()->GetAudioOutputDevice())
-            && CGlobal::Instance()->GetAudioOutputDevice() > -1)
-    {
-        QAudioDeviceInfo infoAudioOutput(lstOutputs.at(CGlobal::Instance()->GetAudioOutputDevice()));
-        if (!infoAudioOutput.isFormatSupported(outFormat)) {
-            LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio output format not supported - trying to use nearest");
-            //TODO:增加格式转换  
-            outFormat = infoAudioOutput.nearestFormat(outFormat);
-        }
-        m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
-        if(!m_pAudioOutput)
-            LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioOutput device instance fail.");
-        else if((pAudioChannel->openMode() & QIODevice::ReadOnly) && (m_pAudioOutput->state() != QAudio::ActiveState) )
-            m_pAudioOutput->start(pAudioChannel);
-    }
+    nRet = OpenAudioDevice(inFormat, outFormat, pAudioChannel);
     return nRet;
-}
-
-//停止设备，并删除对象  
-int CCallObjectQXmpp::StopAudioDevice()
-{
-    if(m_pAudioInput)
-    {
-        m_pAudioInput->stop();
-        delete m_pAudioInput;
-        m_pAudioInput = NULL;
-    }
-
-    if(m_pAudioOutput)
-    {
-        m_pAudioOutput->stop();
-        delete m_pAudioOutput;
-        m_pAudioOutput = NULL;
-    }
-
-    return 0;
 }
 
 //视频模式改变  
@@ -351,14 +283,6 @@ void CCallObjectQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
     }
 }
 
-//摄像头捕获帧  
-int CCallObjectQXmpp::OnFrame(const QVideoFrame &frame)
-{
-    //处理捕获到的帧  
-    m_CaptureFrameProcess.slotCaptureFrame(frame);
-    return 0;
-}
-
 //从网络上接收视频帧  
 void CCallObjectQXmpp::slotReciveFrame()
 {
@@ -373,13 +297,14 @@ void CCallObjectQXmpp::slotReciveFrame()
     {
         if(!frame.isValid())
             continue;
-        m_ReciveFrameProcess.slotFrameConvertedToRGB32(
-                    frame, QRect(0, 0, frame.width(), frame.height()));
+        QImage image;
+
+        emit sigRenderRemote(image);
     }
 }
 
 //向网络发送视频帧  
-void CCallObjectQXmpp::slotCaptureFrame(const QVideoFrame &frame)
+void CCallObjectQXmpp::soltVideoFrameToRemote(const QVideoFrame &frame)
 {
     if(!m_pCall)
     {
@@ -493,29 +418,6 @@ int CCallObjectQXmpp::StartVideo()
     }
 
     bool check = false;
-    //m_VideoThread.start();//开始视频处理线程  
-
-    //从摄像头到网络  
-    check = connect(&m_CaptureFrameProcess, SIGNAL(sigCaptureFrame(QVideoFrame)),
-                    &m_CaptureFrameProcess,
-                    SLOT(slotFrameConvertedToYUYV(QVideoFrame)));
-    Q_ASSERT(check);
-    check = connect(&m_CaptureFrameProcess,
-                    SIGNAL(sigFrameConvertedToYUYVFrame(QVideoFrame)),
-                    SLOT(slotCaptureFrame(QVideoFrame)));
-
-    //初始化视频设备，并开始视频  
-    m_pCamera = CCameraFactory::Instance()->GetCamera(
-                CGlobal::Instance()->GetVideoCaptureDevice());
-    try{
-        if(m_pCamera)
-        {
-            if(!m_pCamera->Open(this))
-                m_pCamera->Start();
-        }
-    }catch(...){
-        LOG_MODEL_ERROR("CCallObjectQXmpp", "Start camera error");
-    }
 
     m_pCall->startVideo();
 
@@ -524,7 +426,7 @@ int CCallObjectQXmpp::StartVideo()
     check = connect(&m_tmRecive, SIGNAL(timeout()),
                     SLOT(slotReciveFrame()));
     Q_ASSERT(check);
-    //启动接收定时器  
+    //TODO: 启动接收定时器  是否单独启用一个线程？
     int t = 1000 / m_pCall->videoChannel()->encoderFormat().frameRate();
     m_tmRecive.start(t);
 
@@ -536,86 +438,10 @@ int CCallObjectQXmpp::StopVideo()
     if(!m_bVideo)
         return -1;
 
-    m_CaptureFrameProcess.disconnect();
-    m_ReciveFrameProcess.disconnect();
-
     //if(m_pCall->direction() == QXmppCall::OutgoingDirection)
         m_pCall->stopVideo();
 
-    if(m_pCamera)
-    {
-        m_pCamera->Stop();
-        m_pCamera->Close();
-        m_pCamera = NULL;
-    }
     m_tmRecive.stop();
     //m_VideoThread.quit();
-    return 0;
-}
-
-int CCallObjectQXmpp::ConnectLocaleVideo()
-{
-    if(!m_bVideo || !m_pFrmVideo)
-        return -1;
-    //显示本地视频  
-    if(CGlobal::Instance()->GetIsShowLocaleVideo())
-    {
-        bool check = connect(&m_CaptureFrameProcess,
-                        SIGNAL(sigCaptureFrame(QVideoFrame)),
-                        &m_CaptureFrameProcess,
-               SLOT(slotFrameConvertedToRGB32(QVideoFrame)));
-        Q_ASSERT(check);
-
-        check = connect(&m_CaptureFrameProcess,
-                        SIGNAL(sigFrameConvertedToRGB32Frame(
-                                   const QVideoFrame&)),
-                        m_pFrmVideo,
-                        SLOT(slotDisplayLocaleVideo(
-                                 const QVideoFrame&)));
-        Q_ASSERT(check);
-    }
-
-    return 0;
-}
-
-int CCallObjectQXmpp::DisconnectLocaleVideo()
-{
-    if(!m_bVideo)
-        return -1;
-    if(m_pFrmVideo)
-        m_CaptureFrameProcess.disconnect(m_pFrmVideo);
-    return 0;
-}
-
-void CCallObjectQXmpp::slotUpdateOption()
-{
-    DisconnectLocaleVideo();
-    if(CGlobal::Instance()->GetIsShowLocaleVideo())
-    {
-        ConnectLocaleVideo();
-    }
-}
-
-int CCallObjectQXmpp::OpenVideoWindow()
-{
-    int nRet = CCallObject::OpenVideoWindow();
-    if(nRet)
-        return nRet;
-    
-    if(!m_pFrmVideo)
-        return 0;
-
-    //接收后会发送信号进行转换,显示网络视频    
-    bool check = connect(&m_ReciveFrameProcess, 
-                    SIGNAL(sigFrameConvertedToRGB32Frame(QVideoFrame)),
-                    m_pFrmVideo,
-                    SLOT(slotDisplayRemoteVideo(QVideoFrame)));
-    Q_ASSERT(check);
-
-    //显示本地视频  
-    if(CGlobal::Instance()->GetIsShowLocaleVideo())
-    {
-        ConnectLocaleVideo();
-    }
     return 0;
 }

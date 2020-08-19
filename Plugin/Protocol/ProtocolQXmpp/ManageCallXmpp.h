@@ -14,7 +14,7 @@ class CManageCallXmpp : public CManageCall
     Q_OBJECT
 
 public:
-    explicit CManageCallXmpp(QObject *parent = 0);
+    explicit CManageCallXmpp(QObject *parent = nullptr);
     virtual ~CManageCallXmpp();
 
     /**

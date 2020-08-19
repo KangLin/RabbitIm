@@ -108,11 +108,16 @@ cd build_${BUILD_TARGERT}
 case ${BUILD_TARGERT} in
     windows_msvc)
         MAKE=nmake
+        export PKG_CONFIG_LIBDIR=${ThirdLibs_DIR}/lib/pkgconfig
         ;;
     windows_mingw)
+        export PKG_CONFIG_LIBDIR=${ThirdLibs_DIR}/lib/pkgconfig
         if [ "${RABBIT_BUILD_HOST}"="windows" ]; then
             MAKE="mingw32-make ${RABBIT_MAKE_JOB_PARA}"
         fi
+        ;;
+    android)
+        export PKG_CONFIG_LIBDIR=${ThirdLibs_DIR}/lib/pkgconfig:${ThirdLibs_DIR}/libs/${BUILD_ARCH}/pkgconfig
         ;;
     *)
         MAKE="make ${RABBIT_MAKE_JOB_PARA}"

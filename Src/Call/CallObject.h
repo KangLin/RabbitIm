@@ -1,14 +1,20 @@
 #ifndef CALLOBJECT_H
 #define CALLOBJECT_H
 
+#pragma once
+
 #include <QObject>
 #include <QIODevice>
 #include <QTime>
 #include <QSound>
 #include <QVideoFrame>
+#include <QAudioInput>
+#include <QAudioOutput>
+#include <QCamera>
 #include "Global/GlobalDir.h"
 
 class CFrmVideo;
+class CCameraQtCaptureVideoFrame;
 
 /**
   * @defgroup RABBITIM_INTERFACE_CALLOBJECT 呼叫接口类模块  
@@ -32,7 +38,8 @@ public:
      * @param bVideo:是否包含视频  
      * @param parent
      */
-    explicit CCallObject(const QString &szId = QString(), bool bVideo = false, QObject *parent = 0);
+    explicit CCallObject(const QString &szId = QString(),
+                         bool bVideo = false, QObject *parent = nullptr);
     virtual ~CCallObject();
 
     /// This enum is used to describe the state of a call.
@@ -45,7 +52,14 @@ public:
         FinishedState = 3,      ///< 结束状态  
     };
 
-public slots:
+    enum StopState
+    {
+        Reject,    ///< 拒绝接收
+        Busy,      ///< 正在通话中
+        TimeOut,   ///< 超时
+    };
+
+public Q_SLOTS:
     /**
      * @brief 主动呼叫,如果派生类要重载它，必需先调用 CallObject::Call()  
      *
@@ -55,14 +69,14 @@ public slots:
      */
     virtual int Call();
     /**
-     * 停止呼叫  
+     * @brief 停止呼叫
      * 实现协议接收到远程的呼叫信令后，  
      * 如果不接收对方呼叫，则调用此方法  
      * 如果通话结束，也调用此方法  
      */
-    virtual int Stop()= 0;
+    virtual int Stop(StopState state = Reject)= 0;
     /**
-     * 接收呼叫  
+     * @brief 接收呼叫
      * 实现协议接收到远程的呼叫信令后，  
      * 如果接受，则调用此方法。  
      */
@@ -91,7 +105,7 @@ public:
      */
     int GetError(QString &szError);
     
-signals:
+Q_SIGNALS:
     /** 
      * 呼叫状态更新时触发。
      * 派生类实现时，有状态改变，不直接触发，
@@ -103,12 +117,21 @@ signals:
     void sigFinished(CCallObject *pCall);
     
 private:
-signals:
-    // 显示视频帧，仅用于CallObject继承类, 
+Q_SIGNALS:
+    // 在视频显示窗口显示视频帧，仅用于CallObject继承类,
     // QImage 格仅为 Format_ARGB32 或 Format_RGB32  
-    void sigRenderLocale(QImage frame);
-    void sigRenderRemote(QImage frame);
-    
+    void sigRenderLocale(const QImage &frame);  //仅当继承类中自己实现摄像头时，才会使用此消息
+    void sigRenderRemote(const QImage &frame);
+
+protected Q_SLOTS:
+    // 由实现协议向远端发送视频祯，仅用于CallObject继承类实现
+    virtual void soltVideoFrameToRemote(const QVideoFrame &frame) = 0;
+    void slotChanageState(CCallObject::State state);
+
+private Q_SLOTS:
+    void slotFrmVideoClose();
+    void slotChangeCamera(int nIndex);
+
 protected:
     virtual int SetId(const QString szId);
     enum Direction
@@ -122,17 +145,23 @@ protected:
     virtual void PlayCallSound();
     ///停止呼叫声音  
     virtual void StopCallSound();
-    ///打开视频显示窗口  
+
+
+    bool IsMonitor();//是否是监控模式
+
+    ///打开相关设备
+    virtual int OpenDevices();
+    virtual int CloseDevices();
+    ///打开视频显示窗口
     virtual int OpenVideoWindow();
-    ///关闭视频显示窗口  
+    ///关闭视频显示窗口
     virtual int CloseVideoWindow();
-    bool IsMonitor();//是否是监控模式  
-
-protected slots:
-    void slotChanageState(CCallObject::State state);
-
-private slots:
-    void slotFrmVideoClose();
+    virtual int OpenCamera();
+    virtual int CloseCamera();
+    virtual int OpenAudioDevice(QAudioFormat inFormat,
+                                QAudioFormat outFormat,
+                                QIODevice *outDevice);
+    virtual int CloseAudioDevice();
 
 private:
     QString m_szError;
@@ -142,9 +171,14 @@ private:
     QSound* m_pSound;      ///< 铃音  
 
 protected:
-    bool m_bVideo;          ///< 是否包含视频  
-    State m_State;          ///< 呼叫状态  
-    CFrmVideo *m_pFrmVideo; ///< 视频显示窗口  
+    bool m_bVideo;          ///< 是否包含视频
+    State m_State;          ///< 呼叫状态
+    CFrmVideo *m_pFrmVideo; ///< 视频显示窗口
+    QCamera* m_pCamera;
+    QSharedPointer<CCameraQtCaptureVideoFrame> m_CaptureVideoFrame;
+
+    QAudioInput*  m_pAudioInput; ///< 音频输入设备
+    QAudioOutput* m_pAudioOutput;///< 音频输出设备
 };
 
 #endif // CALLOBJECT_H

@@ -1,6 +1,9 @@
 #include "CallObject.h"
 #include "Global/Global.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
+#include "Widgets/FrmVideo/CameraQtCaptureVideoFrame.h"
+
+#include <QCameraInfo>
 
 CCallObject::CCallObject(const QString &szId, bool bVideo, QObject *parent) :
     QObject(parent)
@@ -8,17 +11,25 @@ CCallObject::CCallObject(const QString &szId, bool bVideo, QObject *parent) :
     m_szId = szId;
     m_Direction = IncomingDirection;
     m_bVideo = bVideo;
-    m_pSound = NULL;
-    m_pFrmVideo = NULL;
+    m_pSound = nullptr;
+    m_pFrmVideo = nullptr;
     m_nError = 0;
+    m_pCamera = nullptr;
+    m_pAudioInput = nullptr;
+    m_pAudioOutput = nullptr;
     slotChanageState(CallState);
+
+    m_CaptureVideoFrame = QSharedPointer<CCameraQtCaptureVideoFrame>(new CCameraQtCaptureVideoFrame());
+    bool check = connect(CGlobal::Instance(), SIGNAL(sigVideoCaptureDevice(int)),
+                         this, SLOT(slotChangeCamera(int)));
+    Q_ASSERT(check);
 }
 
 CCallObject::~CCallObject()
 {
     LOG_MODEL_DEBUG("CCallObject", "CCallObject::~CCallObject.id:%d", qPrintable(m_szId));
     StopCallSound();
-    CloseVideoWindow();
+    CloseDevices();
 }
 
 int CCallObject::Call()
@@ -89,7 +100,7 @@ void CCallObject::PlayCallSound()
     m_pSound = new QSound(file);
     if(m_pSound)
     {
-        m_pSound->setLoops(100);
+        m_pSound->setLoops(20);
         m_pSound->play();
     }
 }
@@ -101,8 +112,25 @@ void CCallObject::StopCallSound()
     {
         m_pSound->stop();
         delete m_pSound;
-        m_pSound = NULL;
+        m_pSound = nullptr;
     }
+}
+
+int CCallObject::OpenDevices()
+{
+    int nRet = 0;
+    OpenVideoWindow();
+    OpenCamera();
+
+    return nRet;
+}
+
+int CCallObject::CloseDevices()
+{
+    int nRet = 0;
+    CloseCamera();
+    CloseVideoWindow();
+    return nRet;
 }
 
 int CCallObject::OpenVideoWindow()
@@ -116,12 +144,14 @@ int CCallObject::OpenVideoWindow()
         LOG_MODEL_WARNING("CCallObject", "Video window is opened");
         return -2;
     }
+
     //打开显示对话框  
     m_pFrmVideo = new CFrmVideo();
     if(!m_pFrmVideo)
     {
         return -3;
     }
+
     CTool::EnableWake();
     QSharedPointer<CUser> roster
             = GLOBAL_USER->GetUserInfoRoster(this->GetId());
@@ -135,15 +165,23 @@ int CCallObject::OpenVideoWindow()
     m_pFrmVideo->setWindowIcon(QIcon(roster->GetInfo()->GetPhotoPixmap()));
     //窗口关闭时会自己释放内存  
     m_pFrmVideo->setAttribute(Qt::WA_DeleteOnClose, true);
+
     bool check = connect(m_pFrmVideo, SIGNAL(destroyed()),
                          SLOT(slotFrmVideoClose()));
     Q_ASSERT(check);
-    check = connect(this, SIGNAL(sigRenderLocale(QImage)),
-                    m_pFrmVideo, SLOT(slotDisplayLocaleVideo(QImage)));
+    check = connect(m_CaptureVideoFrame.data(), SIGNAL(sigCaptureFrame(const QImage &)),
+                     this,  SIGNAL(sigRenderLocale(const QImage&)));
     Q_ASSERT(check);
-    check = connect(this, SIGNAL(sigRenderRemote(QImage)),
-                    m_pFrmVideo, SLOT(slotDisplayRemoteVideo(QImage)));
+    check = connect(m_CaptureVideoFrame.data(), SIGNAL(sigCaptureFrame(const QVideoFrame &)),
+                     this,  SLOT(soltVideoFrameToRemote(const QVideoFrame&)));
     Q_ASSERT(check);
+    check = connect(this, SIGNAL(sigRenderLocale(const QImage&)),
+                    m_pFrmVideo, SLOT(slotDisplayLocaleVideo(const QImage&)));
+    Q_ASSERT(check);
+    check = connect(this, SIGNAL(sigRenderRemote(const QImage&)),
+                    m_pFrmVideo, SLOT(slotDisplayRemoteVideo(const QImage&)));
+    Q_ASSERT(check);
+
     m_pFrmVideo->show();
     m_pFrmVideo->activateWindow();
 
@@ -152,15 +190,22 @@ int CCallObject::OpenVideoWindow()
 
 int CCallObject::CloseVideoWindow()
 {
+    bool bCheck = false;
+    bCheck = m_CaptureVideoFrame->disconnect();
+#ifdef DEBUG
+    Q_ASSERT(bCheck);
+#endif
+
+    CTool::EnableWake(false);
+
     if(m_pFrmVideo)
     {
         this->disconnect(m_pFrmVideo);
-        //因为在OpenVideoWindow设置了窗口关闭时会自己释放内存  
+        //因为在 OpenVideoWindow 设置了窗口关闭时会自己释放内存
         //m_pFrmVideo->setAttribute(Qt::WA_DeleteOnClose, true);
         //所以这里不需要释放内存  
         m_pFrmVideo->close();
-        m_pFrmVideo = NULL;
-        CTool::EnableWake(false);
+        m_pFrmVideo = nullptr;
     }
     return 0;
 }
@@ -169,7 +214,11 @@ void CCallObject::slotFrmVideoClose()
 {
     if(m_pFrmVideo)
     {
-        m_pFrmVideo = NULL;
+        //因为在 OpenVideoWindow 设置了窗口关闭时会自己释放内存
+        //m_pFrmVideo->setAttribute(Qt::WA_DeleteOnClose, true);
+        //所以这里不需要释放内存
+        m_pFrmVideo = nullptr;
+
         if(FinishedState != m_State)
             this->Stop();
     }
@@ -189,13 +238,13 @@ void CCallObject::slotChanageState(CCallObject::State state)
         break;
     case ActiveState:
         StopCallSound();
-        OpenVideoWindow();
+        OpenDevices();
         break;
     case DisconnectingState:
         break;
     case FinishedState:
         StopCallSound();
-        CloseVideoWindow();
+        CloseDevices();
         emit sigFinished(this);
         break;
     default:
@@ -222,3 +271,102 @@ bool CCallObject::IsMonitor()
     return false;
 }
 
+int CCallObject::OpenCamera()
+{
+    int nRet = 0;
+
+    QList<QCameraInfo> info = QCameraInfo::availableCameras();
+    if(info.isEmpty())
+        return -1;
+
+    m_pCamera = new QCamera(QCameraInfo::availableCameras().value(
+                                CGlobal::Instance()->GetVideoCaptureDevice()),
+                            this);
+    if(!m_pCamera) return -2;
+    m_pCamera->setViewfinder(m_CaptureVideoFrame.data());
+    m_pCamera->start();
+
+    return nRet;
+}
+
+int CCallObject::CloseCamera()
+{
+    int nRet = 0;
+    if(!m_pCamera) return -1;
+    m_pCamera->stop();
+    m_pCamera->unload();
+    delete m_pCamera;
+    m_pCamera = nullptr;
+    return nRet;
+}
+
+int CCallObject::OpenAudioDevice(QAudioFormat inFormat,
+                                 QAudioFormat outFormat,
+                                 QIODevice *outDevice)
+{
+    int nRet = 0;
+
+    QList<QAudioDeviceInfo> lstInputs = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
+    if(!lstInputs.isEmpty()
+            && (lstInputs.size() > CGlobal::Instance()->GetAudioInputDevice())
+            && CGlobal::Instance()->GetAudioInputDevice() > -1)
+    {
+        QAudioDeviceInfo infoAudioInput(lstInputs.value(CGlobal::Instance()->GetAudioInputDevice()));
+        if (!infoAudioInput.isFormatSupported(inFormat)) {
+            LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio input format not supported - trying to use nearest");
+            //TODO:增加格式转换
+            inFormat = infoAudioInput.nearestFormat(inFormat);
+        }
+        m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
+        if(!m_pAudioInput)
+            LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioInput device instance fail.");
+        else if((outDevice->openMode() & QIODevice::WriteOnly)  && (m_pAudioInput->state() != QAudio::ActiveState) )
+            m_pAudioInput->start(outDevice);
+    }
+
+    QList<QAudioDeviceInfo> lstOutputs = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+    if(!lstOutputs.isEmpty()
+            && (lstOutputs.size() > CGlobal::Instance()->GetAudioOutputDevice())
+            && CGlobal::Instance()->GetAudioOutputDevice() > -1)
+    {
+        QAudioDeviceInfo infoAudioOutput(lstOutputs.at(CGlobal::Instance()->GetAudioOutputDevice()));
+        if (!infoAudioOutput.isFormatSupported(outFormat)) {
+            LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio output format not supported - trying to use nearest");
+            //TODO:增加格式转换
+            outFormat = infoAudioOutput.nearestFormat(outFormat);
+        }
+        m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
+        if(!m_pAudioOutput)
+            LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioOutput device instance fail.");
+        else if((outDevice->openMode() & QIODevice::ReadOnly) && (m_pAudioOutput->state() != QAudio::ActiveState) )
+            m_pAudioOutput->start(outDevice);
+    }
+    return nRet;
+}
+
+int CCallObject::CloseAudioDevice()
+{
+    if(m_pAudioInput)
+    {
+        m_pAudioInput->stop();
+        delete m_pAudioInput;
+        m_pAudioInput = NULL;
+    }
+
+    if(m_pAudioOutput)
+    {
+        m_pAudioOutput->stop();
+        delete m_pAudioOutput;
+        m_pAudioOutput = NULL;
+    }
+
+    return 0;
+}
+
+void CCallObject::slotChangeCamera(int nIndex)
+{
+    Q_UNUSED(nIndex)
+    if(!m_pCamera) return;
+    CloseCamera();
+    OpenCamera();
+}
