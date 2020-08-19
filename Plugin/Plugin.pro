@@ -7,7 +7,7 @@ greaterThan(QT_VERSION, 5.4) {
 }
 
 SUBDIRS += ConverFormat/FFmpeg #ConverFormat/OpenCV
-#SUBDIRS += Protocol/ProtocolQXmpp
+SUBDIRS += Protocol/ProtocolQXmpp
 
 SUBDIRS += App/QRCode \
     App/ScreenShot

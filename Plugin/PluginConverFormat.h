@@ -27,5 +27,6 @@ public:
     virtual QString getName();
 };
 
-Q_DECLARE_INTERFACE(CConverFormat, "KangLinStudio.Rabbit.Im.Plugs.ImageTool.ConverFormat")
+#define rabbitim_plugin_conver_format_iid "KangLinStudio.Rabbit.Im.Plugs.ImageTool.ConverFormat"
+Q_DECLARE_INTERFACE(CConverFormat, rabbitim_plugin_conver_format_iid)
 #endif // CCONVERFORMAT_H_KL_2020_02

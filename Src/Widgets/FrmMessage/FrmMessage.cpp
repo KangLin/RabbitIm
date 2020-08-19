@@ -131,7 +131,7 @@ void CFrmMessage::ChangedPresence(CUserInfo::USER_INFO_STATUS status)
 
 void CFrmMessage::slotCallAudio()
 {
-    if(m_User.isNull())
+    if(m_User.isNull() || !GETMANAGER->GetCall())
         return;
     GETMANAGER->GetCall()->Call(m_User->GetInfo()->GetId());
 }
@@ -168,7 +168,7 @@ void CFrmMessage::closeEvent(QCloseEvent *e)
         }
         GETMANAGER->GetFileTransfer()->CancelSend(m_User->GetInfo()->GetId());
     }
-    if(GETMANAGER->GetCall()->IsRun(m_User->GetInfo()->GetId()))
+    if(GETMANAGER->GetCall() && GETMANAGER->GetCall()->IsRun(m_User->GetInfo()->GetId()))
     {
         QMessageBox msg(QMessageBox::Question,
                         tr("Close message dialog"),
@@ -303,7 +303,7 @@ void CFrmMessage::on_tbMore_clicked()
 
 void CFrmMessage::on_pbVideo_clicked()
 {
-    if(m_User.isNull())
+    if(m_User.isNull() || !GETMANAGER->GetCall())
         return;
     GETMANAGER->GetCall()->Call(m_User->GetInfo()->GetId(), true);
 }
@@ -385,7 +385,7 @@ void CFrmMessage::slotAnchorClicked(const QUrl &url)
         {
             GETMANAGER->GetFileTransfer()->ProcessCommand(m_User->GetInfo()->GetId(), url.query());
         }
-        else if("call" == host)
+        else if("call" == host && GETMANAGER->GetCall())
         {
             GETMANAGER->GetCall()->ProcessCommandCall(m_User->GetInfo()->GetId(), url.query());
         }

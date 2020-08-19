@@ -5,11 +5,6 @@
 #include "ClientXmpp.h"
 #include "ManageGroupChatQxmpp.h"
 #include "ManageUserQXmpp.h"
-#ifdef RABBITIM_USE_WEBRTC
-    #include "ManageCallWebrtcXmpp.h"
-#else
-    #include "ManageCallXmpp.h"
-#endif
 
 /**
  * @brief XMPP协议插件接口实现类  

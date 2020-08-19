@@ -33,31 +33,34 @@ HEADERS += \
     PluginProtocolQXmpp.h \
     FileTransferQXmpp.h
 
-equals(RABBITIM_USE_WEBRTC, 1){
-    SOURCES += QXmppWebRtcIq.cpp \
-        ManageCallWebrtcXmpp.cpp \
-        CallObjectQXmppWebrtc.cpp \ 
-        QXmppCallWebrtcManager.cpp \ 
-        WebrtcConductor.cpp \
-        VideoRenderer.cpp \ 
-        WebrtcFilter.cpp \ 
-        WebrtcQtSocketServer.cpp
+RABBITIM_USE_QXMPP_CALL {
+    DEFINES *= RABBITIM_USE_QXMPP_CALL
+    RABBITIM_USE_WEBRTC {
+        SOURCES += QXmppWebRtcIq.cpp \
+            ManageCallWebrtcXmpp.cpp \
+            CallObjectQXmppWebrtc.cpp \
+            QXmppCallWebrtcManager.cpp \
+            WebrtcConductor.cpp \
+            VideoRenderer.cpp \
+            WebrtcFilter.cpp \
+            WebrtcQtSocketServer.cpp
 
 
-    HEADERS += \
-        QXmppWebRtcIq.h \
-        ManageCallWebrtcXmpp.h \ 
-        CallObjectQXmppWebrtc.h \ 
-        QXmppCallWebrtcManager.h \ 
-        WebrtcConductor.h \
-        MediaConstraints.h \
-        VideoRenderer.h \
-        WebrtcFilter.h \ 
-        WebrtcQtSocketServer.h
-}else{
-    SOURCES += ManageCallXmpp.cpp \
-        CallObjectQXmpp.cpp
-    
-    HEADERS += ManageCallXmpp.h \
-        CallObjectQXmpp.h 
+        HEADERS += \
+            QXmppWebRtcIq.h \
+            ManageCallWebrtcXmpp.h \
+            CallObjectQXmppWebrtc.h \
+            QXmppCallWebrtcManager.h \
+            WebrtcConductor.h \
+            MediaConstraints.h \
+            VideoRenderer.h \
+            WebrtcFilter.h \
+            WebrtcQtSocketServer.h
+    }else{
+        SOURCES += ManageCallXmpp.cpp \
+            CallObjectQXmpp.cpp
+
+        HEADERS += ManageCallXmpp.h \
+            CallObjectQXmpp.h
+    }
 }

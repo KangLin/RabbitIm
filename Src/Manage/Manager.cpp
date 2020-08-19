@@ -131,7 +131,8 @@ int CManager::LoginInit(const QString &szId)
     GetManageGroupChat()->LoginInit(szId);
     GetRecentMessage()->LoginInit(szId);
     GetFileTransfer()->LoginInit(szId);
-    GetCall()->LoginInit(szId);
+    if(GetCall())
+        GetCall()->LoginInit(szId);
     GetManagePluginApp()->LoginInit(szId);
     return 0;
 }
@@ -141,7 +142,8 @@ int CManager::LogoutClean()
     LOG_MODEL_DEBUG("CManager", "CManager::LogoutClean()");
     //注意:清理顺序  
     GetManagePluginApp()->LogoutClean();
-    GetCall()->LogoutClean();
+    if(GetCall())
+        GetCall()->LogoutClean();
     GetFileTransfer()->LogoutClean();
     GetRecentMessage()->LogoutClean();
     GetManageGroupChat()->LogoutClean();

@@ -581,6 +581,8 @@ void CFrmUserList::slotCallVideo()
     QString szId = GetCurrentRoster();
     if(szId.isEmpty())
         return;
+    if(!GETMANAGER->GetCall())
+        return;
     GETMANAGER->GetCall()->Call(szId, true);
     //弹出消息对话框  
     MANAGE_MESSAGE_DIALOG->ShowDialog(szId); 
@@ -590,6 +592,8 @@ void CFrmUserList::slotCallAudio()
 {
     QString szId = GetCurrentRoster();
     if(szId.isEmpty())
+        return;
+    if(!GETMANAGER->GetCall())
         return;
     GETMANAGER->GetCall()->Call(szId);
     //弹出消息对话框  
