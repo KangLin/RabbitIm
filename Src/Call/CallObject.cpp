@@ -8,21 +8,22 @@
 CCallObject::CCallObject(const QString &szId, bool bVideo, QObject *parent) :
     QObject(parent)
 {
+    m_nError = 0;
     m_szId = szId;
     m_Direction = IncomingDirection;
-    m_bVideo = bVideo;
     m_pSound = nullptr;
-    m_pFrmVideo = nullptr;
-    m_nError = 0;
+    m_bVideo = bVideo;
+    m_pFrmVideo = nullptr;    
     m_pCamera = nullptr;
     m_pAudioInput = nullptr;
     m_pAudioOutput = nullptr;
-    slotChanageState(CallState);
-
+    
     m_CaptureVideoFrame = QSharedPointer<CCameraQtCaptureVideoFrame>(new CCameraQtCaptureVideoFrame());
     bool check = connect(CGlobal::Instance(), SIGNAL(sigVideoCaptureDevice(int)),
                          this, SLOT(slotChangeCamera(int)));
     Q_ASSERT(check);
+    
+    slotChanageState(CallState);
 }
 
 CCallObject::~CCallObject()
@@ -276,6 +277,7 @@ int CCallObject::OpenCamera()
     if(info.isEmpty())
         return -1;
 
+    Q_ASSERT(!m_pCamera);
     m_pCamera = new QCamera(QCameraInfo::availableCameras().value(
                                 CGlobal::Instance()->GetVideoCaptureDevice()),
                             this);
