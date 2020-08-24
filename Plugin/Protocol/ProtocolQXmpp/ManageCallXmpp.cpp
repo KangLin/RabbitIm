@@ -88,6 +88,7 @@ int CManageCallXmpp::Call(const QString &szId, bool bVideo)
         LOG_MODEL_ERROR("CManageCall", "Don't get roster:%s", qPrintable(szId));
         return -1;
     }
+    //XMPP协议要求视频时，需要有资源
     QSharedPointer<CUserInfo> info = roster->GetInfo();
     CUserInfoXmpp* pInfo = (CUserInfoXmpp*)info.data();
     if(pInfo->GetResource().isEmpty())
@@ -124,7 +125,7 @@ int CManageCallXmpp::OnCall(const QString &szId,
     if(roster.isNull())
     {
         LOG_MODEL_ERROR("CManageCallXmpp", "CManageCallXmpp::OnCall the roster is null");
-        return -1;
+        return -3;
     }
 
     //因为 xmpp 协议呼叫需要用户的资源（jid）  
@@ -136,7 +137,7 @@ int CManageCallXmpp::OnCall(const QString &szId,
     if(callObject.isNull())
     {
         LOG_MODEL_DEBUG("CManageCall", "CManageCall::CallVideo fail");
-        return -3;
+        return -4;
     }
 
     call = callObject;

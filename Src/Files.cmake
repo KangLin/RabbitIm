@@ -25,6 +25,12 @@ SET(RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
     Widgets/FrmVideo/ImageTool.h
     Widgets/FrmVideo/FrmDisplay.h
     Widgets/FrmVideo/FrmVideo.h
+    
+    ${CMAKE_SOURCE_DIR}/Plugin/PluginApp.h
+    ${CMAKE_SOURCE_DIR}/Plugin/PluginProtocol.h
+    ${CMAKE_SOURCE_DIR}/Plugin/PluginConverFormat.h
+    ${CMAKE_SOURCE_DIR}/Plugin/ManagePluginApp.h
+    ${CMAKE_SOURCE_DIR}/Plugin/ManagePluginProtocol.h
     )
 
 SET(RABBITIM_SOURCES

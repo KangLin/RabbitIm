@@ -25,17 +25,20 @@ CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
 
     bool check = connect(&m_Timer, SIGNAL(timeout()), SLOT(OnTimeOut()));
     Q_ASSERT(check);
-    m_pCamera = new QCamera(QCameraInfo::availableCameras().value(CGlobal::Instance()->GetVideoCaptureDevice()));
-    if(m_pCamera)
+    if(!QCameraInfo::availableCameras().isEmpty())
     {
-        m_pCamera->setViewfinder(&m_CaptureVideoFrame);
-        m_pCamera->start();
-        check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(const QImage &)),
-                        this, SLOT(slotCaptureFrame(const QImage &)));
-        Q_ASSERT(check);
-    } else {
-        ui->lbText->setText(tr("The camera does not exist."));
-        LOG_MODEL_ERROR("CFrmScanQRcode", "The camera does not exist.");
+        m_pCamera = new QCamera(QCameraInfo::availableCameras().value(CGlobal::Instance()->GetVideoCaptureDevice()));
+        if(m_pCamera)
+        {
+            m_pCamera->setViewfinder(&m_CaptureVideoFrame);
+            m_pCamera->start();
+            check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(const QImage &)),
+                            this, SLOT(slotCaptureFrame(const QImage &)));
+            Q_ASSERT(check);
+        } else {
+            ui->lbText->setText(tr("The camera does not exist."));
+            LOG_MODEL_ERROR("CFrmScanQRcode", "The camera does not exist.");
+        }
     }
 }
 
