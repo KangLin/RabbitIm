@@ -192,9 +192,6 @@ int CCallObject::CloseVideoWindow()
 {
     bool bCheck = false;
     bCheck = m_CaptureVideoFrame->disconnect();
-#ifdef DEBUG
-    Q_ASSERT(bCheck);
-#endif
 
     CTool::EnableWake(false);
 
