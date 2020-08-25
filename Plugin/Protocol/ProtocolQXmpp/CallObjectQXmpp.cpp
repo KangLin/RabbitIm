@@ -313,16 +313,25 @@ void CCallObjectQXmpp::soltVideoFrameToRemote(const QVideoFrame &frame)
     }
 
     QXmppRtpVideoChannel *pChannel = m_pCall->videoChannel();
-    if(!pChannel || !(pChannel->openMode() & QIODevice::WriteOnly) || !frame.isValid())
+    if(!pChannel || !(pChannel->openMode() & QIODevice::WriteOnly)
+            || !frame.isValid())
     {
         LOG_MODEL_DEBUG("Video", "m_pCall->videoChannel() is null or openMode isn't write mode");
         return;
     }
-    
-    if(QVideoFrame::Format_YUYV != frame.pixelFormat())
+
+    QXmppVideoFrame outFrame;
+    QXmppVideoFormat format = pChannel->encoderFormat();
+    if(format.pixelFormat()
+        != CTool::QVideoFrameFormatToQXmppVideoFrameFormat(frame.pixelFormat())
+      || format.frameSize() != frame.size()) //if(QVideoFrame::Format_YUYV != frame.pixelFormat())
     {
-        LOG_MODEL_ERROR("Call", "frame.pixelFormat(%d) isn't QVideoFrame::Format_YUYV", frame.pixelFormat());
-        return;
+        //转换格式
+        CTool::ConvertFormat(frame,
+                             outFrame,
+                             format.frameWidth(),
+                             format.frameHeight(),
+         CTool::QXmppVideoFrameFormatToQVideoFrameFormat(format.pixelFormat()));
     }
 
 //    static int nWidth = 0, nHeight = 0;
@@ -335,21 +344,7 @@ void CCallObjectQXmpp::soltVideoFrameToRemote(const QVideoFrame &frame)
 //        pChannel->setEncoderFormat(format);
 //    }
 
-    
-    QVideoFrame inFrame(frame);
-    if(!inFrame.map(QAbstractVideoBuffer::ReadOnly))
-        return;
-#ifdef RABBITIM_USE_FFMPEG
-    QXmppVideoFrame outFrame(inFrame.mappedBytes(),
-                             inFrame.size(),
-                             inFrame.bytesPerLine(),
-        CTool::QVideoFrameFormatToQXmppVideoFrameFormat(inFrame.pixelFormat()));
-
-    //TODO:这里多了一次内存复制  
-    memcpy(outFrame.bits(), inFrame.bits(), inFrame.mappedBytes());
     pChannel->writeFrame(outFrame);
-#endif
-    inFrame.unmap();
 }
 
 int CCallObjectQXmpp::SetVideoFormat()

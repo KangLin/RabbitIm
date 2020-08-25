@@ -59,10 +59,17 @@ public:
             const QVideoFrame::PixelFormat format);
     static AVPixelFormat QImageFormatToFFMpegPixFormat(
             const QImage::Format format);
-    
-#ifdef RABBITIM_USE_QXMPP
+
     static int ConvertFormat(/*[in]*/  const QVideoFrame &inFrame, /** 要转换的帧 */
                              /*[out]*/ QVideoFrame &outFrame,      /** 转换后的帧 */
+                             /*[in]*/  int nOutWidth,        /** 转换后的帧的宽度 */
+                             /*[in]*/  int nOutHeight,       /** 转换后的帧的高度 */
+                             /*[in]*/  QVideoFrame::PixelFormat outPixelFormat
+                                          = QVideoFrame::Format_YUYV);
+#ifdef RABBITIM_USE_QXMPP
+
+    static int ConvertFormat(/*[in]*/  const QVideoFrame &inFrame, /** 要转换的帧 */
+                             /*[out]*/ QXmppVideoFrame &outFrame,  /** 转换后的帧 */
                              /*[in]*/  int nOutWidth,        /** 转换后的帧的宽度 */
                              /*[in]*/  int nOutHeight,       /** 转换后的帧的高度 */
                              /*[in]*/  QVideoFrame::PixelFormat outPixelFormat
@@ -77,6 +84,8 @@ public:
             const QXmppVideoFrame::PixelFormat format);
     static QXmppVideoFrame::PixelFormat QVideoFrameFormatToQXmppVideoFrameFormat(
             const QVideoFrame::PixelFormat format);
+    static QVideoFrame::PixelFormat QXmppVideoFrameFormatToQVideoFrameFormat(
+            const QXmppVideoFrame::PixelFormat format);
     
 #endif //RABBITIM_USE_QXMPP
 
