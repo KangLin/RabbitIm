@@ -21,4 +21,5 @@ ADD_PLUGIN_TARGET(
     PLUGIN_TYPE ConverFormat
     SOURCE_FILES ConverFormatFFmpeg.cpp ConverFormatFFmpeg.h
     INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/Src ${CMAKE_SOURCE_DIR}/Plugin
+    #PRIVATE_LIBS ${FFMPEG_LIBRARIES}    
     )
