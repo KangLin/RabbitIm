@@ -4,7 +4,6 @@
 #include "Call/ManageCall.h"
 #include "QXmppCallManager.h"
 
-
 /**
  * @brief CManageCall xmpp 协议实现类  
  * @ingroup RABBITIM_INTERFACE_MANGECALL

@@ -90,7 +90,7 @@ int CManageCallXmpp::Call(const QString &szId, bool bVideo)
     }
     //XMPP协议要求视频时，需要有资源
     QSharedPointer<CUserInfo> info = roster->GetInfo();
-    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)info.data();
+    CUserInfoXmpp* pInfo = dynamic_cast<CUserInfoXmpp*>(info.data());
     if(pInfo->GetResource().isEmpty())
     {
         LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster resource is null");
@@ -107,7 +107,7 @@ int CManageCallXmpp::OnCall(const QString &szId,
             QSharedPointer<CCallObject> &call, bool bVideo)
 {
     QSharedPointer<CClient> client = GETMANAGER->GetClient();
-    CClientXmpp* pClient = (CClientXmpp*)client.data();
+    CClientXmpp* pClient = dynamic_cast<CClientXmpp*>(client.data());
     if(!pClient)
     {
         LOG_MODEL_ERROR("Call", "pClient is null");
@@ -130,7 +130,7 @@ int CManageCallXmpp::OnCall(const QString &szId,
 
     //因为 xmpp 协议呼叫需要用户的资源（jid）  
     QSharedPointer<CUserInfo> info = roster->GetInfo();
-    CUserInfoXmpp* pInfo = (CUserInfoXmpp*)info.data();
+    CUserInfoXmpp* pInfo = dynamic_cast<CUserInfoXmpp*>(info.data());
     QXmppCall* pCall = pCallManager->call(pInfo->GetJid());
     //新建呼叫对象,并增加到管理 map 中  
     QSharedPointer<CCallObject> callObject(new CCallObjectQXmpp(pCall, bVideo));

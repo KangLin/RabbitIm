@@ -22,6 +22,8 @@ CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
 
 CCallObjectQXmpp::~CCallObjectQXmpp()
 {
+    if(m_pCall) m_pCall->disconnect();
+    
     GET_MAINWINDOW->disconnect(this);
     //TODO:多线程在运行时直接关闭主窗口会core，原因是主窗口关闭后QXMPP库已析构？   
     LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp status:%d",
@@ -263,9 +265,11 @@ int CCallObjectQXmpp::StartAudioDevice()
 //视频模式改变  
 void CCallObjectQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
 {
+    LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp::slotVideoModeChanged:mode:%d", mode);
+    
     if(!m_pCall)
         return;
-    LOG_MODEL_DEBUG("CCallObjectQXmpp", "CCallObjectQXmpp::slotVideoModeChanged:mode:%d", mode);
+    
     if(!m_bVideo && GetDirection() == IncomingDirection
             && (QIODevice::ReadOnly & mode))
     {
