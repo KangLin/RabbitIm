@@ -18,7 +18,7 @@ int CManageCallXmpp::LoginInit(const QString &szId)
         return nRet;
 
     QSharedPointer<CClient> client = GETMANAGER->GetClient();
-    CClientXmpp* pClient = (CClientXmpp*)client.data();
+    CClientXmpp* pClient = dynamic_cast<CClientXmpp*>(client.data());
     if(!pClient)
     {
         LOG_MODEL_ERROR("Call", "pClient is null");
@@ -148,7 +148,7 @@ int CManageCallXmpp::OnCall(const QString &szId,
 void CManageCallXmpp::slotReceived(QXmppCall *pCall)
 {
     //TODO:这里实现并不知道是包含视频  
-    QSharedPointer<CCallObject> call(new CCallObjectQXmpp(pCall));
+    QSharedPointer<CCallObject> call(new CCallObjectQXmpp(pCall, true));
     slotCallReceived(call);
     return;
 }

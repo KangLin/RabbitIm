@@ -17,22 +17,20 @@ CManageCall::~CManageCall()
 
 int CManageCall::LoginInit(const QString &szId)
 {
-    Q_UNUSED(szId);
-    //TODO:初始化音视频设备  
+    Q_UNUSED(szId)
+    //TODO:检查音视频设备，但不打开  
     
     QSharedPointer<CClient> client = GET_CLIENT;
     if(client.isNull())
         Q_ASSERT(false);
     bool check = connect(client.data(), SIGNAL(sigChangedStatus(const QString&)),
-                         SLOT(slotRosterStatusChanged(QString)));
+                         SLOT(slotRosterStatusChanged(const QString&)));
     Q_ASSERT(check);
     return 0;
 }
 
 int CManageCall::LogoutClean()
 {
-    //TODO:清理音视频设备  
-    
     QSharedPointer<CClient> client = GET_CLIENT;
     if(client.isNull())
         Q_ASSERT(false);
@@ -86,7 +84,7 @@ int CManageCall::Call(const QString &szId, bool bVideo)
     if(roster->GetInfo()->GetStatus() == CUserInfo::OffLine)
     {
         //LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster status is OffLine");
-        roster->GetMessage()->AddMessage(szId, 
+        roster->GetMessage()->AddMessage(szId,
                 tr("The roster is offline, don't launch a call."), true);
         emit GET_CLIENT->sigMessageUpdate(szId);
         return -2;
@@ -100,7 +98,7 @@ int CManageCall::Call(const QString &szId, bool bVideo)
         if(!callRoster.isNull())
             szShowName = callRoster->GetInfo()->GetShowName();
         roster->GetMessage()->AddMessage(szId, 
-                tr("Being talk with %1, please stop it.").arg(szShowName ),
+                tr("Being talk with %1, please stop it.").arg(szShowName),
                 true);
         emit GET_CLIENT->sigMessageUpdate(szId);
         return -3;

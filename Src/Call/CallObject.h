@@ -118,7 +118,7 @@ Q_SIGNALS:
     
 private:
 Q_SIGNALS:
-    // 在视频显示窗口显示视频帧，仅用于CallObject继承类,
+    // 在视频显示窗口中显示视频帧，仅用于CallObject继承类,
     // QImage 格仅为 Format_ARGB32 或 Format_RGB32  
     void sigRenderLocale(const QImage &frame);  //仅当继承类中自己实现摄像头时，才会使用此消息
     void sigRenderRemote(const QImage &frame);

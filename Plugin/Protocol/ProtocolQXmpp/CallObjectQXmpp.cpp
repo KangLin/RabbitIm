@@ -83,6 +83,7 @@ int CCallObjectQXmpp::Accept()
 
 int CCallObjectQXmpp::Stop(StopState state)
 {
+    Q_UNUSED(state)
     int nRet = 0;
     if(!m_pCall)
         return -1;
@@ -96,7 +97,7 @@ void CCallObjectQXmpp::slotConnection()
 {
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "CCallObjectQXmpp::slotConnection");
     
-    if(m_bVideo && this->GetDirection() == OutgoingDirection)
+    if(m_bVideo) // && this->GetDirection() == OutgoingDirection)
         StartVideo();
     
     //初始始化音频设备  
@@ -106,7 +107,7 @@ void CCallObjectQXmpp::slotConnection()
 void CCallObjectQXmpp::slotStateChanged(QXmppCall::State state)
 {
     LOG_MODEL_DEBUG("CCallVideoQXmpp", "State:%d", state);
-    m_State = (State) state;
+    m_State = static_cast<State>(state);
     slotChanageState(m_State);
 }
 
@@ -270,13 +271,13 @@ void CCallObjectQXmpp::slotVideoModeChanged(QIODevice::OpenMode mode)
     if(!m_pCall)
         return;
     
-    if(!m_bVideo && GetDirection() == IncomingDirection
-            && (QIODevice::ReadOnly & mode))
-    {
-        m_bVideo = true;
-        StartVideo();
-        slotChanageState(ActiveState);
-    }
+//    if(!m_bVideo && GetDirection() == IncomingDirection
+//            && (QIODevice::ReadOnly & mode))
+//    {
+//        m_bVideo = true;
+//        StartVideo();
+//        slotChanageState(ActiveState);
+//    }
 
     if(QIODevice::WriteOnly == mode)
     {

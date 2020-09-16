@@ -10,7 +10,7 @@ CCallObject::CCallObject(const QString &szId, bool bVideo, QObject *parent) :
 {
     m_nError = 0;
     m_szId = szId;
-    m_Direction = IncomingDirection;
+    SetDirection(IncomingDirection);
     m_pSound = nullptr;
     m_bVideo = bVideo;
     m_pFrmVideo = nullptr;    
@@ -170,11 +170,13 @@ int CCallObject::OpenVideoWindow()
     bool check = connect(m_pFrmVideo, SIGNAL(destroyed()),
                          SLOT(slotFrmVideoClose()));
     Q_ASSERT(check);
-    check = connect(m_CaptureVideoFrame.data(), SIGNAL(sigCaptureFrame(const QImage &)),
-                     this,  SIGNAL(sigRenderLocale(const QImage&)));
+    check = connect(m_CaptureVideoFrame.data(),
+                    SIGNAL(sigCaptureFrame(const QImage &)),
+                    this,  SIGNAL(sigRenderLocale(const QImage&)));
     Q_ASSERT(check);
-    check = connect(m_CaptureVideoFrame.data(), SIGNAL(sigCaptureFrame(const QVideoFrame &)),
-                     this,  SLOT(soltVideoFrameToRemote(const QVideoFrame&)));
+    check = connect(m_CaptureVideoFrame.data(),
+                    SIGNAL(sigCaptureFrame(const QVideoFrame &)),
+                    this,  SLOT(soltVideoFrameToRemote(const QVideoFrame&)));
     Q_ASSERT(check);
     check = connect(this, SIGNAL(sigRenderLocale(const QImage&)),
                     m_pFrmVideo, SLOT(slotDisplayLocaleVideo(const QImage&)));
@@ -299,13 +301,22 @@ int CCallObject::CloseCamera()
     return nRet;
 }
 
+void CCallObject::slotChangeCamera(int nIndex)
+{
+    Q_UNUSED(nIndex)
+    if(!m_pCamera) return;
+    CloseCamera();
+    OpenCamera();
+}
+
 int CCallObject::OpenAudioDevice(QAudioFormat inFormat,
                                  QAudioFormat outFormat,
                                  QIODevice *outDevice)
 {
     int nRet = 0;
 
-    QList<QAudioDeviceInfo> lstInputs = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
+    QList<QAudioDeviceInfo> lstInputs 
+            = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
     if(!lstInputs.isEmpty()
             && (lstInputs.size() > CGlobal::Instance()->GetAudioInputDevice())
             && CGlobal::Instance()->GetAudioInputDevice() > -1)
@@ -319,16 +330,18 @@ int CCallObject::OpenAudioDevice(QAudioFormat inFormat,
         m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
         if(!m_pAudioInput)
             LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioInput device instance fail.");
-        else if((outDevice->openMode() & QIODevice::WriteOnly)  && (m_pAudioInput->state() != QAudio::ActiveState) )
+        else if( (outDevice->openMode() & QIODevice::WriteOnly)
+                && (m_pAudioInput->state() != QAudio::ActiveState) )
             m_pAudioInput->start(outDevice);
     }
 
-    QList<QAudioDeviceInfo> lstOutputs = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+    QList<QAudioDeviceInfo> lstOutputs
+            = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
     if(!lstOutputs.isEmpty()
             && (lstOutputs.size() > CGlobal::Instance()->GetAudioOutputDevice())
             && CGlobal::Instance()->GetAudioOutputDevice() > -1)
     {
-        QAudioDeviceInfo infoAudioOutput(lstOutputs.at(CGlobal::Instance()->GetAudioOutputDevice()));
+        QAudioDeviceInfo infoAudioOutput(lstOutputs.value(CGlobal::Instance()->GetAudioOutputDevice()));
         if (!infoAudioOutput.isFormatSupported(outFormat)) {
             LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio output format not supported - trying to use nearest");
             //TODO:增加格式转换
@@ -360,12 +373,4 @@ int CCallObject::CloseAudioDevice()
     }
 
     return 0;
-}
-
-void CCallObject::slotChangeCamera(int nIndex)
-{
-    Q_UNUSED(nIndex)
-    if(!m_pCamera) return;
-    CloseCamera();
-    OpenCamera();
 }
