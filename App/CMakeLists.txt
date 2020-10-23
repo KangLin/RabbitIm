@@ -40,12 +40,12 @@ if(BUILD_TYPE STREQUAL "debug")
 endif()
 
 SET(INCLUDE_DIRS
-    ${CMAKE_SOURCE_DIR}/Src
-    ${RabbitCommon_DIR}/Src
-    ${CMAKE_BINARY_DIR}
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>
+    $<BUILD_INTERFACE:${RabbitCommon_DIR}/Src>
+    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
     )
 if(ANDROID)
-    list(APPEND INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni)
+    list(APPEND INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni>)
 endif()
 
 ADD_TARGET(NAME ${PROJECT_NAME}

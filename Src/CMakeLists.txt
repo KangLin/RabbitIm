@@ -40,18 +40,18 @@ LIST(APPEND RABBITIM_RCC_FILES
 #ENDIF()
 
 set(INCLUDE_DIRS
-    ${RabbitCommon_DIR}/Src
-    ${CMAKE_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/common
-    ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/FrmCustom
+    $<BUILD_INTERFACE:${RabbitCommon_DIR}/Src>
+    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/common>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Widgets/FrmCustom>
     )
 if(ANDROID)
     ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni
         ${CMAKE_BINARY_DIR}/QtAndroidUtilsModule)
     LIST(APPEND RABBITIM_LIBS QtAndroidUtilsModule)
     LIST(APPEND INCLUDE_DIRS
-        ${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni)
+        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni>)
 endif()
 
 ADD_TARGET(NAME ${PROJECT_NAME}

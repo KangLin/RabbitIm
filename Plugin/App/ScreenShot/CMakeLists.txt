@@ -7,7 +7,7 @@ ADD_PLUGIN_TARGET(
         PluginScreenShot.cpp
         DlgScreenShot.cpp
         WdgScreenEditor.cpp
-    INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/Src
+    INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>
     )
 
 #include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginApp.cmake)
