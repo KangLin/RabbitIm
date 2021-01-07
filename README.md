@@ -17,7 +17,7 @@
 ### 介绍
 
 - [项目主页](http://kanglin.github.io/RabbitIm/)
-- [项目位置](https://github.com/KangLin/RabbitIm)
+- [项目位置](https://github.com/KangLin/RabbitIm): https://github.com/KangLin/RabbitIm
 
 玉兔即时通讯是一款跨操作系统平台、支持多种协议的即时通讯软件。
 主要功能如下：
