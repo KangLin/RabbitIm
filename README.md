@@ -1,4 +1,4 @@
-# [<img src="Resource/png/RabbitIm.png" alt="Chinese" title="Chinese" width="48" height="48"/>玉兔即时通讯](https://github.com/KangLin/rabbitim)
+# <img src="Resource/png/RabbitIm.png" alt="玉兔即时通讯" title="玉兔即时通讯" width="48" height="48"/>[玉兔即时通讯](https://github.com/KangLin/rabbitim)
 
 作者：康林 (Email: kl222@126.com)
 
