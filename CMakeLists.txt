@@ -17,15 +17,6 @@ if(POLICY CMP0021)
     cmake_policy(SET CMP0021 NEW)
 endif()
 
-# 建立要删除的文件
-CONFIGURE_FILE(
-    "${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
-    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
-    IMMEDIATE @ONLY)
-# 建立删除目标
-ADD_CUSTOM_TARGET(uninstall
-    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
-
 SET(BUILD_VERSION "v0.1.0")
 # Find Git Version Patch
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
@@ -91,11 +82,27 @@ IF(NOT BUILD_SHARED_LIBS)
     include(Plugin/PluginStatic.cmake)
 ENDIF()
 
+# Create install runtime target
 add_custom_target(install-runtime
   COMMAND
      "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=Runtime 
-         -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_install.cmake"
+     -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_install.cmake"
 )
+# Create uninstall runtime target
+add_custom_target(uninstall-runtime
+  COMMAND
+     "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=Runtime 
+     -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+)
+# Create will be delete files
+CONFIGURE_FILE(
+    "${RabbitCommon_DIR}/cmake/cmake_uninstall.cmake.in"
+    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+# Create unistall target
+ADD_CUSTOM_TARGET(uninstall
+    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
+    DEPENDS uninstall-runtime)
 
 #安装相关文件
 set(OTHER_FILES
