@@ -31,9 +31,9 @@ CManager::CManager():
             continue;
         }
     }
-
+    
     QDir pluginsDir = QDir(RabbitCommon::CDir::Instance()->GetDirPlugins());
-
+    
 #if defined(Q_OS_WIN)
     if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
         pluginsDir.cdUp();
@@ -44,9 +44,9 @@ CManager::CManager():
         pluginsDir.cdUp();
     }
 #endif
-
+    
     FindPlugins(pluginsDir);
-
+    
     //TODO:修改协议  
     ChangeProtolcol("ProtocolQXmpp");
 }
@@ -82,33 +82,44 @@ int CManager::ChangeProtolcol(QString szProtocol)
             return 0;
     }
     m_PluginProtocol = GetManagePluginProtocol()->GetPlugin(szProtocol);
-    Q_ASSERT(m_PluginProtocol);
+    //BUG: add process
+    //Q_ASSERT(m_PluginProtocol);
     return 0;
 }
 
 QSharedPointer<CClient> CManager::GetClient()
 {
-    return m_PluginProtocol->GetClient();
+    if(m_PluginProtocol)
+        return m_PluginProtocol->GetClient();
+    return nullptr;
 }
 
 QSharedPointer<CManageUser> CManager::GetManageUser()
 {
-    return m_PluginProtocol->GetManageUser();
+    if(m_PluginProtocol)
+        return m_PluginProtocol->GetManageUser();
+    return nullptr;
 }
 
 QSharedPointer<CManageCall> CManager::GetCall()
 {
-    return m_PluginProtocol->GetCall();
+    if(m_PluginProtocol)
+        return m_PluginProtocol->GetCall();
+    return nullptr;
 }
 
 QSharedPointer<CManageGroupChat> CManager::GetManageGroupChat()
 {
-    return m_PluginProtocol->GetManageGroupChat();
+    if(m_PluginProtocol)
+        return m_PluginProtocol->GetManageGroupChat();
+    return nullptr;
 }
 
 QSharedPointer<CUserInfo> CManager::NewUserInfo()
 {
-    return m_PluginProtocol->NewUserInfo();
+    if(m_PluginProtocol)
+        return m_PluginProtocol->NewUserInfo();
+    return nullptr;
 }
 
 int CManager::Init()
@@ -216,12 +227,12 @@ int CManager::FindPlugins(QDir dir)
                             loader.errorString().toStdString().c_str());
         }
     }
-
+    
     foreach (fileName, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
         QDir pluginDir = dir;
         if(pluginDir.cd(fileName))
             FindPlugins(pluginDir);
     }
-
+    
     return 0;
 }

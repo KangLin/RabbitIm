@@ -21,6 +21,7 @@ CDlgOptions::CDlgOptions(QWidget *parent) :
                     this->width(), this->height());
     //控件初始化工作放到showEvent中  
     int nIndex = 0;
+    //BUG: will remove it!!
     if(USER_INFO_LOCALE.isNull())
     {
         QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),

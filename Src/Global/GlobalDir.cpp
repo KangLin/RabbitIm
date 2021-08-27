@@ -147,6 +147,7 @@ QString CGlobalDir::GetFileUserAvatar(const QString &szId, const QString &szLoca
         else
         {
             LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
+            return QString();
             Q_ASSERT(false);
         }
     }
