@@ -148,7 +148,7 @@ int QXmppWebRtcIq::SetTransportInfo(QString szSdpMid, int nIndex, QString szSdp)
 
 int QXmppWebRtcIq::GetTransportInfo(QString &szSdpMid, int &nIndex, QString &szSdp)
 {
-    szSdpMid = szSdpMid;
+    szSdpMid = m_szMid;
     nIndex = m_nMlineIndex;
     szSdp = m_szTransportInfo;
     return 0;
