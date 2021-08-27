@@ -5,7 +5,10 @@
 #include <QStandardItemModel>
 #include <QList>
 #include <QMenu>
+//TODO: Will remove it!!!
+#ifdef HAVE_QXMPP
 #include "QXmppDiscoveryIq.h"
+#endif
 #include "FrmGroupChat.h"
 
 namespace Ui {
@@ -34,9 +37,10 @@ private slots:
     void on_treeView_doubleClicked(const QModelIndex &index);
 
     void slotFoundServer(const QString& jid, const QString& name);
+#ifdef HAVE_QXMPP
     void slotFoundRoom(const QList<QXmppDiscoveryIq::Item> &Rooms);
     void slotFoundRoomInfo(const QString& jid, const QXmppDataForm& form);
-
+#endif
     void on_listView_doubleClicked(const QModelIndex &index);
     void on_treeView_clicked(const QModelIndex &index);
     void on_treeView_customContextMenuRequested(const QPoint &pos);

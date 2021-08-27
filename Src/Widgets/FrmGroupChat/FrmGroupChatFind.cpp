@@ -1,7 +1,9 @@
 #include "FrmGroupChatFind.h"
 #include "ui_FrmGroupChatFind.h"
 #include "../../Global/Global.h"
+#ifdef HAVE_QXMPP
 #include "qxmpp/QXmppDiscoveryManager.h"
+#endif
 #include "../FrmUserList/Roster.h"
 #include <QMessageBox>
 #include "../../MainWindow.h"
