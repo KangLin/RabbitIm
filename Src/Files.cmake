@@ -126,8 +126,26 @@ SET(RABBITIM_UIS
     Widgets/FrmApp/FrmFavorites.ui 
 )
 
-IF(RABBITIM_USE_OPENSSL)
+find_package(OpenSSL)
+IF(OpenSSL_FOUND)
+    list(APPEND RABBITIM_LIBS OpenSSL::SSL OpenSSL::Crypto)
+    list(APPEND RABBITIM_DEFINES RABBITIM_USE_OPENSSL)
+    # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
+    # Check https://doc.qt.io/qt/deployment-android.html for more information.
+    # They need to be set before the find_package( ...) calls below.
+    if(ANDROID)
+        #set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+        if (ANDROID_ABI STREQUAL "armeabi-v7a")
+            set(ANDROID_EXTRA_LIBS
+                $<TARGET_FILE:OpenSSL::SSL>
+                $<TARGET_FILE:OpenSSL::Crypto>)
+        endif()
+    endif()
+    
+    if(WIN32)
+        INSTALL_TARGETS(TARGETS OpenSSL::SSL OpenSSL::Crypto)
+    endif()
+    
     LIST(APPEND RABBITIM_SOURCES Global/Encrypt.cpp)
     LIST(APPEND RABBITIM_HEADER_FILES Global/Encrypt.h)
-ENDIF(RABBITIM_USE_OPENSSL)
-
+ENDIF()

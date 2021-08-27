@@ -25,7 +25,6 @@ class RABBITIM_SHARED_LIBRARY CLog;
   */
 
 /**
- * @brief The CGlobal class
  * @ingroup RABBITIM_GLOBAL
  */
 class RABBITIM_SHARED_LIBRARY CGlobal : public QObject

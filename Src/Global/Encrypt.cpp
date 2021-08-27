@@ -45,7 +45,7 @@ int CEncrypt::Encode(const char* pIn, const int& inLen, char** pOut, int& outLen
     nRet = AES_set_encrypt_key((const unsigned char*)m_szPassword.c_str(),  m_szPassword.size() * 8, &key);
     if(nRet < 0)
     {
-        LOG_ERROR("Unable to set encryption key in AES:nRet=%d\n", nRet);
+        LOG_MODEL_ERROR("Encrypt", "Unable to set encryption key in AES:nRet=%d\n", nRet);
         return nRet;
     }
     
@@ -61,7 +61,7 @@ int CEncrypt::Encode(const char* pIn, const int& inLen, char** pOut, int& outLen
     pO = new char[outLen];
     if(!pO)
     {
-        LOG_ERROR("Hasn't buffer\n");
+        LOG_MODEL_ERROR("Encrypt", "Hasn't buffer\n");
         return -1;
     }
     
@@ -93,7 +93,7 @@ int CEncrypt::Dencode(const char* pIn, const int& inLen, char** pOut, int& outLe
     nRet = AES_set_decrypt_key((const unsigned char*)m_szPassword.c_str(), m_szPassword.size() * 8, &key);
     if(nRet < 0)
     {
-        LOG_ERROR("Unable to set dencryption key in AES:nRet=%d\n", nRet);
+        LOG_MODEL_ERROR("Encrypt", "Unable to set dencryption key in AES:nRet=%d\n", nRet);
         return nRet;
     }
     
@@ -103,7 +103,7 @@ int CEncrypt::Dencode(const char* pIn, const int& inLen, char** pOut, int& outLe
     pO = new char[outLen];
     if(!pO)
     {
-        LOG_ERROR("Hasn't buffer\n");
+        LOG_MODEL_ERROR("Encrypt", "Hasn't buffer\n");
         return -1;
     }
     
@@ -127,7 +127,7 @@ int CEncrypt::Dencode(const char* pIn, const int& inLen, std::string& szOut)
     nRet = Dencode(pIn, inLen, &pOut, nOutLen);
     if(nRet)
     {
-        LOG_ERROR("Dencode error\n");
+        LOG_MODEL_ERROR("Encrypt", "Dencode error\n");
         return nRet;
     }
 

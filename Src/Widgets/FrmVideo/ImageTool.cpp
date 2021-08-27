@@ -300,6 +300,20 @@ int CImageTool::FindPlugins(QDir dir, QStringList filters)
         filters << "*.so";
 #endif
     }
+
+    //This method is invalid
+    //QCoreApplication::addLibraryPath(QDir::cleanPath(dir.absolutePath()));
+
+    QDir::setCurrent(QDir::cleanPath(QDir::cleanPath(dir.absolutePath())));
+    
+    // This method is valid
+//#if defined(Q_OS_WINDOWS)
+//        QString szPath = QString::fromLocal8Bit(qgetenv("PATH"));
+//        szPath += ";";
+//        szPath += QDir::cleanPath(QDir::cleanPath(dir.absolutePath()));
+//        qputenv("PATH", szPath.toLatin1());
+//#endif
+    
     QStringList files = dir.entryList(filters, QDir::Files | QDir::CaseSensitive);
     foreach (fileName, files) {
         //LOG_MODEL_INFO("CImageTool", "file name:%s", fileName.toStdString().c_str());

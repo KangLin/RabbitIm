@@ -7,6 +7,7 @@
 #include <QThread>
 #include "LbsCamera.h"
 #include "Global/GlobalDir.h"
+#include "RabbitCommonLog.h"
 
 CLbsMotion::CLbsMotion(QWidget *parent) :
     QFrame(parent),

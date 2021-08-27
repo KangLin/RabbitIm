@@ -13,6 +13,9 @@
     #define RABBITIM_SHARED_LIBRARY
 #endif
 
+/**
+ * @ingroup RABBITIM_GLOBAL
+ */
 class RABBITIM_SHARED_LIBRARY CGlobalDir
 {
 public:
@@ -68,6 +71,10 @@ public:
      */
     QString GetDirReceiveFile(const QString &szId = QString());
 
+    /**
+     * @brief 得到表情包目录
+     * @return 
+     */
     QString GetDirEmoji();
 
 };
