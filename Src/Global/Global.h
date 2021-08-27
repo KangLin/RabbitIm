@@ -281,7 +281,13 @@ public slots:
 #define GET_MAINWINDOW CGlobal::Instance()->GetMainWindow()
 #define GET_CLIENT GETMANAGER->GetClient()
 #define GLOBAL_USER GETMANAGER->GetManageUser()
-#define USER_INFO_LOCALE GLOBAL_USER->GetUserInfoLocale()
+static QSharedPointer<CUser> GetUserInfoLocale() {
+    QSharedPointer<CUser> user;
+    if(GLOBAL_USER)
+        user = GLOBAL_USER->GetUserInfoLocale();
+    return user;
+}
+#define USER_INFO_LOCALE GetUserInfoLocale()
 #define MANAGE_MESSAGE_DIALOG GETMANAGER->GetManageMessageDialog()
 
 #define RABBITIM_ICON_SIZE 24 //头像的大小  

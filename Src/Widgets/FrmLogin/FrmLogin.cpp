@@ -89,22 +89,25 @@ void CFrmLogin::on_pbOk_clicked()
     if(m_tmAutoLogin.isActive())
         m_tmAutoLogin.stop();
 
-    disconnect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
-               GET_MAINWINDOW,
-               SLOT(slotClientConnected()));
-    bool check = connect(GET_CLIENT.data(),
-                         SIGNAL(sigClientConnected()),
-                        GET_MAINWINDOW,
-                         SLOT(slotClientConnected()));
-    Q_ASSERT(check);
-    disconnect(GET_CLIENT.data(), SIGNAL(sigClientError(CClient::ERROR_TYPE)),
-               this, SLOT(slotClientError(CClient::ERROR_TYPE)));
-    check = connect(GET_CLIENT.data(), SIGNAL(sigClientError(CClient::ERROR_TYPE)),
-                    SLOT(slotClientError(CClient::ERROR_TYPE)));
-    Q_ASSERT(check);
-
-    GET_CLIENT->Login(ui->cmbUser->currentText(),
-                      ui->lnPassword->text(), m_Status);
+    if(GET_CLIENT)
+    {
+        disconnect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
+                   GET_MAINWINDOW,
+                   SLOT(slotClientConnected()));
+        bool check = connect(GET_CLIENT.data(),
+                             SIGNAL(sigClientConnected()),
+                             GET_MAINWINDOW,
+                             SLOT(slotClientConnected()));
+        Q_ASSERT(check);
+        disconnect(GET_CLIENT.data(), SIGNAL(sigClientError(CClient::ERROR_TYPE)),
+                   this, SLOT(slotClientError(CClient::ERROR_TYPE)));
+        check = connect(GET_CLIENT.data(), SIGNAL(sigClientError(CClient::ERROR_TYPE)),
+                        SLOT(slotClientError(CClient::ERROR_TYPE)));
+        Q_ASSERT(check);
+        
+        GET_CLIENT->Login(ui->cmbUser->currentText(),
+                          ui->lnPassword->text(), m_Status);
+    }
     return;
 }
 
@@ -116,9 +119,10 @@ void CFrmLogin::on_pbClose_clicked()
 
 void CFrmLogin::on_pbRegitster_clicked()
 {
-    disconnect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
-               GET_MAINWINDOW,
-               SLOT(slotClientConnected()));
+    if(GET_CLIENT)
+        disconnect(GET_CLIENT.data(), SIGNAL(sigClientConnected()),
+                   GET_MAINWINDOW,
+                   SLOT(slotClientConnected()));
     CDlgRegister r(this);
     int nRet = r.exec();
 #ifdef RABBITIM_USE_QXMPP
