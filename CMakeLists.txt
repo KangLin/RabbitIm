@@ -206,29 +206,29 @@ else()
     INSTALL(FILES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)
 endif()
 
-#if(ANDROID)
-#    option(BUILD_DOCS "Generating API documentation" OFF)
-#else()
-#    option(BUILD_DOCS "Generating API documentation" ON)
-#endif()
-#if(BUILD_DOCS)
-#    find_package(Doxygen)
-#    if(DOXYGEN_FOUND)
-#        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Doxygen)
-#        foreach(OUTPUT_LANGUAGE English Chinese)
-#            set(MAIN_README "README.md")
-#            if(OUTPUT_LANGUAGE STREQUAL "Chinese")
-#                set(MAIN_README "README_zh_CN.md")
-#            endif()            
-#            configure_file(${CMAKE_SOURCE_DIR}/Doxyfile.in ${CMAKE_BINARY_DIR}/Doxyfile_${OUTPUT_LANGUAGE} @ONLY)
-#            add_custom_target(doc_${OUTPUT_LANGUAGE} ALL
-#                ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile_${OUTPUT_LANGUAGE} # &> doxygen.log
-#                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-#                COMMENT "Generating API documentation with Doxygen" VERBATIM
-#                )
-#        endforeach()
-#        install(DIRECTORY ${CMAKE_BINARY_DIR}/Doxygen/
-#            DESTINATION ${CMAKE_INSTALL_DOCDIR}/${OUTPUT_LANGUAGE}
-#                COMPONENT Runtime)
-#    endif(DOXYGEN_FOUND)
-#endif(BUILD_DOCS)
+if(ANDROID)
+    option(BUILD_DOCS "Generating API documentation" OFF)
+else()
+    option(BUILD_DOCS "Generating API documentation" ON)
+endif()
+if(BUILD_DOCS)
+    find_package(Doxygen)
+    if(DOXYGEN_FOUND)
+        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/Doxygen)
+        foreach(OUTPUT_LANGUAGE English Chinese)
+            set(MAIN_README "README.md")
+            if(OUTPUT_LANGUAGE STREQUAL "Chinese")
+                set(MAIN_README "README_zh_CN.md")
+            endif()            
+            configure_file(${CMAKE_SOURCE_DIR}/Doxyfile.in ${CMAKE_BINARY_DIR}/Doxyfile_${OUTPUT_LANGUAGE} @ONLY)
+            add_custom_target(doc_${OUTPUT_LANGUAGE} ALL
+                ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile_${OUTPUT_LANGUAGE} # &> doxygen.log
+                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                COMMENT "Generating API documentation with Doxygen" VERBATIM
+                )
+        endforeach()
+        install(DIRECTORY ${CMAKE_BINARY_DIR}/Doxygen/
+            DESTINATION ${CMAKE_INSTALL_DOCDIR}/${OUTPUT_LANGUAGE}
+                COMPONENT Runtime)
+    endif(DOXYGEN_FOUND)
+endif(BUILD_DOCS)
