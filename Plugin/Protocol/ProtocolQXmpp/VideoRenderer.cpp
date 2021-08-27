@@ -1,7 +1,7 @@
 #include "VideoRenderer.h"
 #include <QByteArray>
 #include "talk/media/base/videocommon.h"
-#include "Global/Log.h"
+#include "RabbitCommonLog.h"
 #include "Widgets/FrmVideo/DataVideoBuffer.h"
 #include "CallObjectQXmppWebrtc.h"
 #include <QImage>

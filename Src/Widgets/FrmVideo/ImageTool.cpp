@@ -1,10 +1,9 @@
 #include "ImageTool.h"
-#include "../../Global/Log.h"
 #if HAVE_LIBYUV
     #include "libyuv.h"
 #endif
 #include "RabbitCommonDir.h"
-
+#include "RabbitCommonLog.h"
 #include <QFileInfo>
 #include <QDir>
 #include <QGuiApplication>

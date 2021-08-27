@@ -1,7 +1,7 @@
 #include "QXmppCallWebrtcManager.h"
 #include "qxmpp/QXmppClient.h"
 #include "ManageCallWebrtcXmpp.h"
-#include "Global/Log.h"
+#include "RabbitCommonLog.h"
 
 QXmppCallWebrtcManager::QXmppCallWebrtcManager(CManageCallWebrtcXmpp *pManager) : QXmppClientExtension()
 {

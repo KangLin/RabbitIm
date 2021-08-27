@@ -1,9 +1,9 @@
 #include "GlobalDir.h"
-#include "Log.h"
 #include <QStandardPaths>
 #include <QDir>
 #include <QApplication>
 #include "RabbitCommonDir.h"
+#include "Global.h"
 
 CGlobalDir::CGlobalDir()
 {}

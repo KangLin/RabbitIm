@@ -7,7 +7,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QNmeaPositionInfoSource>
-#include "Global/Log.h"
+#include "RabbitCommonLog.h"
 #include <QQuickItem>
 
 CLbsTrack::CLbsTrack(QWidget *parent) :

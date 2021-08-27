@@ -1,5 +1,5 @@
 #include "CameraAndroidResultReceiver.h"
-#include "Global/Log.h"
+#include "RabbitCommonLog.h"
 #include "CameraAndroid.h"
 
 CCameraAndroidResultReceiver::CCameraAndroidResultReceiver(CCameraAndroid* pCamera)

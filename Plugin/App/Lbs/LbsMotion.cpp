@@ -1,7 +1,6 @@
 #include "LbsMotion.h"
 #include "ui_LbsMotion.h"
 #include <QNmeaPositionInfoSource>
-#include "Global/Log.h"
 #include <QQuickItem>
 #include <QStandardPaths>
 #include <QDir>

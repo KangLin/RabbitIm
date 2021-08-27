@@ -3,7 +3,7 @@
 #include "curl/curl.h"
 #endif
 #include <QDebug>
-#include "Global/Log.h"
+#include "RabbitCommonLog.h"
 #include <math.h>
 #include <QJsonDocument>
 #include <QVariant>

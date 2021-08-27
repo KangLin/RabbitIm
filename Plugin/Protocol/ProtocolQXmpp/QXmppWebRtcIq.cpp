@@ -1,5 +1,5 @@
 #include "QXmppWebRtcIq.h"
-#include "Global/Log.h"
+#include "RabbitCommonLog.h"
 
 const char* ns_webrtc = "urn:xmpp:rabbitim:webrtc";
 const char* g_szAction[] = {

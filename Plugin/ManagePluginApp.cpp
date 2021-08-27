@@ -1,7 +1,6 @@
 #include "ManagePluginApp.h"
 #include "Global/Global.h"
 
-
 CManagePluginApp::CManagePluginApp(QObject *parent)
     : CManage(parent)
 {

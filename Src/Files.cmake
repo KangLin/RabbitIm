@@ -7,7 +7,6 @@ SET(INSTALL_HEADER_FILES
     UserInfo/User.h
     Global/GlobalDir.h
     Global/Global.h
-    Global/Log.h
     )
 
 SET(RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
@@ -90,7 +89,6 @@ SET(RABBITIM_SOURCES
     Widgets/DlgUservCard/DlgUservCard.cpp  
     Widgets/DlgOptions/DlgOptions.cpp   
     Message/ManageMessage.cpp
-    Global/Log.cpp 
     Global/GlobalDir.cpp 
     Widgets/FrmApp/FrmApp.cpp 
     Widgets/FrmApp/FrmAppList.cpp 

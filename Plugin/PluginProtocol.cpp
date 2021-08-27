@@ -3,7 +3,6 @@
 #include <QApplication>
 #include <QSettings>
 #include <QSharedPointer>
-
 #include "RabbitCommonDir.h"
 
 CPluginProtocol::CPluginProtocol()
