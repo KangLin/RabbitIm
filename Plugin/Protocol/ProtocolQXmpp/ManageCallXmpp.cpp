@@ -3,6 +3,7 @@
 #include "ClientXmpp.h"
 #include "UserInfoXmpp.h"
 #include "CallObjectQXmpp.h"
+#include <QHostAddress>
 
 CManageCallXmpp::CManageCallXmpp(QObject *parent) : CManageCall(parent)
 {}

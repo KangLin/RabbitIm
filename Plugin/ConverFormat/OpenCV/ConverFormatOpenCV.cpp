@@ -1,5 +1,5 @@
 #include "ConverFormatOpenCV.h"
-#include "Src/Global/Log.h"
+#include "RabbitCommonLog.h"
 
 #if OpenCV_VERSION_MAJOR == 3 || OpenCV_VERSION_MAJOR == 2
 #include "opencv/cv.hpp"

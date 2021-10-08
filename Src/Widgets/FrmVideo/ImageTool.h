@@ -22,7 +22,7 @@
 #include "Plugin/PluginConverFormat.h"
 
 /**
- * @brief 工具类。提供一此工具函数  
+ * @brief 图形工具，提供一些图形格式转换功能  
  * @ingroup RABBITIM_TOOL
  */
 class CImageTool : public QObject
@@ -35,13 +35,13 @@ public:
     static CImageTool* Instance();
 
 public:
-    static void YUV420_2_RGB(unsigned char* pYUV, unsigned char* pRGB, int width, int height);
     QImage ConverFormatToRGB888(const QVideoFrame &frame);
 
 private:
     CConverFormat* m_pConverFormat;
     
     int FindPlugins(QDir dir, QStringList filters);
+    static void YUV420_2_RGB(unsigned char* pYUV, unsigned char* pRGB, int width, int height);
     
 #if HAVE_LIBYUV
     static QImage LibyuvConverFormatToRGB888(const QVideoFrame &frame);

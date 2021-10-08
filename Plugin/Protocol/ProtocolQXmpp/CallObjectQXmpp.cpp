@@ -4,6 +4,7 @@
 #include "QXmppRtpChannel.h"
 #include <QAudioDeviceInfo>
 #include "MainWindow.h"
+#include "ConvertFormat.h"
 
 CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
                                    bool bVideo,
@@ -328,15 +329,15 @@ void CCallObjectQXmpp::soltVideoFrameToRemote(const QVideoFrame &frame)
     QXmppVideoFrame outFrame;
     QXmppVideoFormat format = pChannel->encoderFormat();
     if(format.pixelFormat()
-        != CTool::QVideoFrameFormatToQXmppVideoFrameFormat(frame.pixelFormat())
+        != CConvertFormat::QVideoFrameFormatToQXmppVideoFrameFormat(frame.pixelFormat())
       || format.frameSize() != frame.size()) //if(QVideoFrame::Format_YUYV != frame.pixelFormat())
     {
         //转换格式
-        CTool::ConvertFormat(frame,
+        CConvertFormat::ConvertFormat(frame,
                              outFrame,
                              format.frameWidth(),
                              format.frameHeight(),
-         CTool::QXmppVideoFrameFormatToQVideoFrameFormat(format.pixelFormat()));
+         CConvertFormat::QXmppVideoFrameFormatToQVideoFrameFormat(format.pixelFormat()));
     }
 
 //    static int nWidth = 0, nHeight = 0;

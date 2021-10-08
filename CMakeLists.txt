@@ -161,7 +161,7 @@ else()
     message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
 endif()
 
-#include(cmake/Configure.cmake)
+include(cmake/Configure.cmake)
 #include(cmake/ThirdLibrary.cmake)
 
 add_subdirectory(Src)

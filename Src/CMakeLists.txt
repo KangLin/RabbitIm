@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
+project(RabbitIm)
+
 if(POLICY CMP0020)
     cmake_policy(SET CMP0020 NEW)
 endif()
@@ -11,8 +13,6 @@ if(Qt${QT_VERSION_MAJOR}_FOUND)
         list(APPEND QT_LIBRARIES Qt${QT_VERSION_MAJOR}::${_COMPONENT})
     ENDFOREACH()
 endif()
-
-project(RabbitIm)
 
 LIST(APPEND RABBITIM_LIBS RabbitCommon ${QT_LIBRARIES})
 

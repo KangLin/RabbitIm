@@ -25,24 +25,37 @@ IF(ANDROID)
         ${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni)
 ENDIF()
 
-SET(SOURCES ClientXmpp.cpp
+SET(SOURCE_FILES ClientXmpp.cpp
     ManageGroupChatQxmpp.cpp
     ManageUserQXmpp.cpp
     UserInfoXmpp.cpp
     GroupChatQxmpp.cpp
     PluginProtocolQXmpp.cpp
-    FileTransferQXmpp.cpp)
+    FileTransferQXmpp.cpp
+    ConvertFormat.cpp)
+
+SET(HEADE_FILES
+    ClientXmpp.h
+    ManageGroupChatQxmpp.h
+    ManageUserQXmpp.h
+    UserInfoXmpp.h
+    GroupChatQxmpp.h
+    PluginProtocolQXmpp.h
+    FileTransferQXmpp.h
+    ConvertFormat.h)
 
 option(RABBITIM_USE_QXMPP_CALL "Use qxmpp call" ON)
 if(RABBITIM_USE_QXMPP_CALL)
     list(APPEND QXMPP_DEFINES RABBITIM_USE_QXMPP_CALL)
-    list(APPEND SOURCES ManageCallXmpp.cpp CallObjectQXmpp.cpp)
+    list(APPEND SOURCE_FILES ManageCallXmpp.cpp CallObjectQXmpp.cpp)
+    list(APPEND HEADE_FILES ManageCallXmpp.h CallObjectQXmpp.h)
 endif()
 
 ADD_PLUGIN_TARGET(
     PLUGIN_TYPE Protocol
-    SOURCE_FILES ${SOURCES}
+    SOURCE_FILES ${SOURCE_FILES} ${HEADE_FILES}
     INCLUDE_DIRS ${INCLUDE_DIRS}
     PRIVATE_DEFINITIONS ${QXMPP_DEFINES}
+    PRIVATE_LIBS RabbitIm QXmpp::QXmpp
     )
 
