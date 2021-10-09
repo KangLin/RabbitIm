@@ -82,11 +82,7 @@ int main(int argc, char *argv[])
 
     CManager manager;
     CGlobal::Instance()->SetManager(&manager);
-    
-#ifdef RABBITIM_USE_FFMPEG
-    CTool::SetFFmpegLog();
-#endif
-    
+        
     //*
     MainWindow w;
 #ifndef MOBILE

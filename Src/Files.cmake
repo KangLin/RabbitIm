@@ -25,6 +25,16 @@ SET(RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
     Widgets/FrmVideo/FrmDisplay.h
     Widgets/FrmVideo/FrmVideo.h
     
+    Manage/Manager.h 
+    Manage/ManageMessageDialog.h 
+    Widgets/FrmMessage/FrmMessage.h 
+    Widgets/FrmCustom/MenuMessageSend.h  
+    Manage/ManageMessageDialogBigScreen.h 
+    
+    Call/CallObject.h
+    Call/ManageCall.h 
+    Call/CallAction.h  
+    
     ${CMAKE_SOURCE_DIR}/Plugin/PluginApp.h
     ${CMAKE_SOURCE_DIR}/Plugin/PluginProtocol.h
     ${CMAKE_SOURCE_DIR}/Plugin/PluginConverFormat.h

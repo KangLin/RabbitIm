@@ -4,6 +4,10 @@ PROJECT(ProtocolQXmpp)
 
 find_package(QXmpp)
 if(QXmpp_FOUND)
+    if(QXmpp_VERSION VERSION_GREATER 1.2.1)
+        message("Please use qxmpp version <= v1.2.1")
+        return()
+    endif()
     list(APPEND QXMPP_DEFINES RABBITIM_USE_QXMPP)
     
     IF(BUILD_SHARED_LIBS)
@@ -32,7 +36,8 @@ SET(SOURCE_FILES ClientXmpp.cpp
     GroupChatQxmpp.cpp
     PluginProtocolQXmpp.cpp
     FileTransferQXmpp.cpp
-    ConvertFormat.cpp)
+    ConvertFormat.cpp
+    )
 
 SET(HEADE_FILES
     ClientXmpp.h
@@ -42,7 +47,8 @@ SET(HEADE_FILES
     GroupChatQxmpp.h
     PluginProtocolQXmpp.h
     FileTransferQXmpp.h
-    ConvertFormat.h)
+    ConvertFormat.h
+    )
 
 option(RABBITIM_USE_QXMPP_CALL "Use qxmpp call" ON)
 if(RABBITIM_USE_QXMPP_CALL)

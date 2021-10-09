@@ -1,5 +1,5 @@
 /**
-  @brief: 提供一此图像处理工具函数
+  @brief: 提供一些图像处理工具函数
   @author: Kang Lin<kl222@126.com>
   */
 
@@ -25,7 +25,7 @@
  * @brief 图形工具，提供一些图形格式转换功能  
  * @ingroup RABBITIM_TOOL
  */
-class CImageTool : public QObject
+class RABBITIM_SHARED_LIBRARY CImageTool : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("Author", "Kang Lin <kl222@126.com>")
@@ -38,7 +38,7 @@ public:
     QImage ConverFormatToRGB888(const QVideoFrame &frame);
 
 private:
-    CConverFormat* m_pConverFormat;
+    QList<CPluginConverFormat*> m_ConverFormat;
     
     int FindPlugins(QDir dir, QStringList filters);
     static void YUV420_2_RGB(unsigned char* pYUV, unsigned char* pRGB, int width, int height);

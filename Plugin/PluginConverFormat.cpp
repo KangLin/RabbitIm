@@ -1,19 +1,24 @@
 #include "PluginConverFormat.h"
 
-CConverFormat::CConverFormat(QObject *parent) : QObject(parent)
+CPluginConverFormat::CPluginConverFormat(QObject *parent) : QObject(parent)
 {}
 
-int CConverFormat::Initialize()
+int CPluginConverFormat::Initialize()
 {
     return 0;
 }
 
-int CConverFormat::Clean()
+int CPluginConverFormat::Clean()
 {
     return 0;
 }
 
-QString CConverFormat::getName()
+QString CPluginConverFormat::getName()
 {
     return this->metaObject()->className();
+}
+
+int CPluginConverFormat::getPriority()
+{
+    return 0;
 }

@@ -5,6 +5,7 @@
 #include <QAudioDeviceInfo>
 #include "MainWindow.h"
 #include "ConvertFormat.h"
+#include "Widgets/FrmVideo/ImageTool.h"
 
 CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
                                    bool bVideo,
@@ -303,8 +304,13 @@ void CCallObjectQXmpp::slotReciveFrame()
     {
         if(!frame.isValid())
             continue;
-        QImage image;
-
+        
+        QVideoFrame outFrame;
+        CConvertFormat::ConvertFormat(frame,
+                                      outFrame,
+                                      frame.width(),
+                                      frame.height());
+        QImage image = CImageTool::Instance()->ConverFormatToRGB888(outFrame);
         emit sigRenderRemote(image);
     }
 }

@@ -7,8 +7,10 @@ void Log(void*, int, const char* fmt, va_list vl)
     LOG_MODEL_DEBUG("ffmpeg", fmt, vl);
 }
 
-CConverFormatFFmpeg::CConverFormatFFmpeg(QObject *parent) : CConverFormat(parent)
-{}
+CConverFormatFFmpeg::CConverFormatFFmpeg(QObject *parent) : CPluginConverFormat(parent)
+{
+    SetFFmpegLog();
+}
 
 int CConverFormatFFmpeg::SetFFmpegLog()
 {

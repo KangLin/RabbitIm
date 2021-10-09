@@ -7,7 +7,7 @@
 #include "opencv2/opencv.hpp"
 #endif
 
-CConverFormatOpenCV::CConverFormatOpenCV(QObject *parent) : CConverFormat(parent)
+CConverFormatOpenCV::CConverFormatOpenCV(QObject *parent) : CPluginConverFormat(parent)
 {}
 
 QImage CConverFormatOpenCV::onConverFormatToRGB888(const QVideoFrame &frame)

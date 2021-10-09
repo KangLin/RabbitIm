@@ -19,13 +19,13 @@
 #include <QPainter>
 #include <QPluginLoader>
 
-CImageTool::CImageTool(QObject *parent) : QObject(parent), m_pConverFormat(nullptr)
+CImageTool::CImageTool(QObject *parent) : QObject(parent)
 {
     foreach (QObject *plugin, QPluginLoader::staticInstances())
     {
-        m_pConverFormat = qobject_cast<CConverFormat*>(plugin);
-        if(m_pConverFormat)
-            break;
+        CPluginConverFormat* pConverFormat = qobject_cast<CPluginConverFormat*>(plugin);
+        if(pConverFormat)
+            m_ConverFormat.push_back(pConverFormat);
     }
 
     QString szPath = RabbitCommon::CDir::Instance()->GetDirPlugins();
@@ -63,9 +63,9 @@ QImage CImageTool::ConverFormatToRGB888(const QVideoFrame &frame)
     case QVideoFrame::Format_YUYV:
     case QVideoFrame::Format_UYVY:
     {
-        if(m_pConverFormat)
+        foreach(auto p, m_ConverFormat)
         {
-            QImage image = m_pConverFormat->onConverFormatToRGB888(frame);
+            QImage image = p->onConverFormatToRGB888(frame);
             if(!image.isNull()) return image;
         }
 
@@ -321,10 +321,10 @@ int CImageTool::FindPlugins(QDir dir, QStringList filters)
         QPluginLoader loader(szPlugins);
         QObject *plugin = loader.instance();
         if (plugin) {
-            m_pConverFormat = qobject_cast<CConverFormat*>(plugin);
-            if(m_pConverFormat)
+            CPluginConverFormat* pConverFormat = qobject_cast<CPluginConverFormat*>(plugin);
+            if(pConverFormat)
             {
-                return 0;
+                m_ConverFormat.push_back(pConverFormat);
             }
         }else{
             LOG_MODEL_ERROR("CImageTool", "load plugin error:%s",
