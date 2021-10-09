@@ -7,6 +7,10 @@
 #include "ConvertFormat.h"
 #include "Widgets/FrmVideo/ImageTool.h"
 
+//如果不同线程间信号发送中的参数有自定义的数据类型，  
+//那么就必须先注册到Qt内部的类型管理器中后才能在connect()中使用  
+static int g_QXmppVideoFrame = qRegisterMetaType<QXmppVideoFrame>("QXmppVideoFrame");
+
 CCallObjectQXmpp::CCallObjectQXmpp(QXmppCall* pCall,
                                    bool bVideo,
                                    QObject *parent)

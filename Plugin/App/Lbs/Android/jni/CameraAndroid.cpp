@@ -5,6 +5,7 @@
 #include <QStandardPaths>
 #include <QDir>
 #include "Global/GlobalDir.h"
+#include "RabbitCommonLog.h"
 
 #define CHECK_EXCEPTION() \
     if(env->ExceptionCheck())\

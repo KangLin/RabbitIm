@@ -126,6 +126,8 @@ void CFrmVideo::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;
+    default:
+        break;
     }
 }
 
