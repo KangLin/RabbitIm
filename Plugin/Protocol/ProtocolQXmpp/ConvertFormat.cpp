@@ -10,6 +10,41 @@ void Log(void*, int, const char* fmt, va_list vl)
     LOG_MODEL_DEBUG("ffmpeg", fmt, vl);
 }
 
+QXmppVideoFrame::PixelFormat CConvertFormat::QVideoFrameFormatToQXmppVideoFrameFormat(
+        const QVideoFrame::PixelFormat format)
+{
+    if(QVideoFrame::Format_RGB32 == format)
+        return QXmppVideoFrame::Format_RGB32;
+    else if(QVideoFrame::Format_RGB24 == format)
+        return QXmppVideoFrame::Format_RGB24;
+    else if(QVideoFrame::Format_YUYV == format)
+        return QXmppVideoFrame::Format_YUYV;
+    else if(QVideoFrame::Format_UYVY == format)
+        return QXmppVideoFrame::Format_UYVY;
+    else if(QVideoFrame::Format_YUV420P == format)
+        return QXmppVideoFrame::Format_YUV420P;
+    else
+        return QXmppVideoFrame::Format_Invalid;
+}
+
+QVideoFrame::PixelFormat CConvertFormat::QXmppVideoFrameFormatToQVideoFrameFormat(
+        const QXmppVideoFrame::PixelFormat format)
+{
+    if(QXmppVideoFrame::Format_RGB32 == format)
+        return QVideoFrame::Format_RGB32;
+    else if(QXmppVideoFrame::Format_RGB24 == format)
+        return QVideoFrame::Format_RGB24;
+    else if(QXmppVideoFrame::Format_YUYV == format)
+        return QVideoFrame::Format_YUYV;
+    else if(QXmppVideoFrame::Format_UYVY == format)
+        return QVideoFrame::Format_UYVY;
+    else if(QXmppVideoFrame::Format_YUV420P == format)
+        return QVideoFrame::Format_YUV420P;
+    else
+        return QVideoFrame::Format_Invalid;
+}
+
+#ifdef RABBITIM_USE_FFMPEG
 int CConvertFormat::SetFFmpegLog()
 {
     //在程序初始化时设置ffmpeg日志的回调函数  
@@ -55,40 +90,6 @@ AVPixelFormat CConvertFormat::QXmppVideoFrameFormatToFFMpegPixFormat(
         return AV_PIX_FMT_YUV420P;
     else
         return AV_PIX_FMT_NONE;
-}
-
-QXmppVideoFrame::PixelFormat CConvertFormat::QVideoFrameFormatToQXmppVideoFrameFormat(
-        const QVideoFrame::PixelFormat format)
-{
-    if(QVideoFrame::Format_RGB32 == format)
-        return QXmppVideoFrame::Format_RGB32;
-    else if(QVideoFrame::Format_RGB24 == format)
-        return QXmppVideoFrame::Format_RGB24;
-    else if(QVideoFrame::Format_YUYV == format)
-        return QXmppVideoFrame::Format_YUYV;
-    else if(QVideoFrame::Format_UYVY == format)
-        return QXmppVideoFrame::Format_UYVY;
-    else if(QVideoFrame::Format_YUV420P == format)
-        return QXmppVideoFrame::Format_YUV420P;
-    else
-        return QXmppVideoFrame::Format_Invalid;
-}
-
-QVideoFrame::PixelFormat CConvertFormat::QXmppVideoFrameFormatToQVideoFrameFormat(
-        const QXmppVideoFrame::PixelFormat format)
-{
-    if(QXmppVideoFrame::Format_RGB32 == format)
-        return QVideoFrame::Format_RGB32;
-    else if(QXmppVideoFrame::Format_RGB24 == format)
-        return QVideoFrame::Format_RGB24;
-    else if(QXmppVideoFrame::Format_YUYV == format)
-        return QVideoFrame::Format_YUYV;
-    else if(QXmppVideoFrame::Format_UYVY == format)
-        return QVideoFrame::Format_UYVY;
-    else if(QXmppVideoFrame::Format_YUV420P == format)
-        return QVideoFrame::Format_YUV420P;
-    else
-        return QVideoFrame::Format_Invalid;
 }
 
 AVPixelFormat CConvertFormat::QImageFormatToFFMpegPixFormat(const QImage::Format format)
@@ -368,3 +369,37 @@ int CConvertFormat::ConvertFormat(const QVideoFrame &inFrame,
     in.unmap();
     return nRet;
 }
+
+#else // RABBITIM_USE_FFMPEG
+
+int CConvertFormat::ConvertFormat(/*[in]*/  const QVideoFrame &inFrame, /** 要转换的帧 */
+                         /*[out]*/ QVideoFrame &outFrame,      /** 转换后的帧 */
+                         /*[in]*/  int nOutWidth,        /** 转换后的帧的宽度 */
+                         /*[in]*/  int nOutHeight,       /** 转换后的帧的高度 */
+                         /*[in]*/  QVideoFrame::PixelFormat outPixelFormat
+                         )
+{
+    return 0;
+}
+
+int CConvertFormat::ConvertFormat(/*[in]*/  const QVideoFrame &inFrame, /** 要转换的帧 */
+                         /*[out]*/ QXmppVideoFrame &outFrame,  /** 转换后的帧 */
+                         /*[in]*/  int nOutWidth,        /** 转换后的帧的宽度 */
+                         /*[in]*/  int nOutHeight,       /** 转换后的帧的高度 */
+                         /*[in]*/  QVideoFrame::PixelFormat outPixelFormat
+                         )
+{
+    return 0;
+}
+
+int CConvertFormat::ConvertFormat(/*[in]*/  const QXmppVideoFrame &inFrame, /** 要转换的帧 */
+                         /*[out]*/ QVideoFrame &outFrame,          /** 转换后的帧 */
+                         /*[in]*/  int nOutWidth,            /** 转换后的帧的宽度 */
+                         /*[in]*/  int nOutHeight,           /** 转换后的帧的高度 */
+                         /*[in]*/  QVideoFrame::PixelFormat outPixelFormat
+                         )
+{
+    return 0;
+}
+
+#endif // RABBITIM_USE_FFMPEG

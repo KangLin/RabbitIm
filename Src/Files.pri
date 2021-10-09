@@ -55,7 +55,6 @@ SOURCES += \
     Widgets/DlgUservCard/DlgUservCard.cpp \ 
     Widgets/DlgOptions/DlgOptions.cpp \  
     Message/ManageMessage.cpp \
-    Global/Log.cpp \
     Global/GlobalDir.cpp \
     Widgets/FrmApp/FrmApp.cpp \
     Widgets/FrmApp/FrmAppList.cpp \
@@ -123,7 +122,6 @@ HEADERS += \
     Widgets/DlgUservCard/DlgUservCard.h \ 
     Widgets/DlgOptions/DlgOptions.h \ 
     Message/ManageMessage.h \
-    Global/Log.h \
     Global/GlobalDir.h \
     Widgets/FrmApp/FrmApp.h \
     Widgets/FrmApp/FrmAppList.h \

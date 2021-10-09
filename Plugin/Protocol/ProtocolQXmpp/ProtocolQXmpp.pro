@@ -22,7 +22,8 @@ SOURCES += \
     UserInfoXmpp.cpp \
     GroupChatQxmpp.cpp \
     PluginProtocolQXmpp.cpp \
-    FileTransferQXmpp.cpp
+    FileTransferQXmpp.cpp \
+    ConvertFormat.cpp
 
 HEADERS += \
     ClientXmpp.h \
@@ -31,7 +32,8 @@ HEADERS += \
     UserInfoXmpp.h \
     GroupChatQxmpp.h \
     PluginProtocolQXmpp.h \
-    FileTransferQXmpp.h
+    FileTransferQXmpp.h \
+    ConvertFormat.h
 
 CONFIG*=RABBITIM_USE_QXMPP_CALL
 
@@ -46,7 +48,6 @@ RABBITIM_USE_QXMPP_CALL {
             VideoRenderer.cpp \
             WebrtcFilter.cpp \
             WebrtcQtSocketServer.cpp
-
 
         HEADERS += \
             QXmppWebRtcIq.h \

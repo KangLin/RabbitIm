@@ -19,20 +19,6 @@ class CConvertFormat
 public:
     CConvertFormat();
     
-#ifdef RABBITIM_USE_FFMPEG
-    //设置ffmpeg日志输出  
-    static int SetFFmpegLog();
-
-    /**
-     * @brief 格式映射  
-     * @param format 
-     * @return 
-     */
-    static AVPixelFormat QVideoFrameFormatToFFMpegPixFormat(
-            const QVideoFrame::PixelFormat format);
-    static AVPixelFormat QImageFormatToFFMpegPixFormat(
-            const QImage::Format format);
-
     static int ConvertFormat(/*[in]*/  const QVideoFrame &inFrame, /** 要转换的帧 */
                              /*[out]*/ QVideoFrame &outFrame,      /** 转换后的帧 */
                              /*[in]*/  int nOutWidth,        /** 转换后的帧的宽度 */
@@ -51,14 +37,29 @@ public:
                              /*[in]*/  int nOutHeight,           /** 转换后的帧的高度 */
                              /*[in]*/  QVideoFrame::PixelFormat outPixelFormat
                                           = QVideoFrame::Format_RGB32);
-    static AVPixelFormat QXmppVideoFrameFormatToFFMpegPixFormat(
-            const QXmppVideoFrame::PixelFormat format);
+
     static QXmppVideoFrame::PixelFormat QVideoFrameFormatToQXmppVideoFrameFormat(
             const QVideoFrame::PixelFormat format);
     static QVideoFrame::PixelFormat QXmppVideoFrameFormatToQVideoFrameFormat(
             const QXmppVideoFrame::PixelFormat format);
     
 private:
+#ifdef RABBITIM_USE_FFMPEG
+    //设置ffmpeg日志输出  
+    static int SetFFmpegLog();
+
+    /**
+     * @brief 格式映射  
+     * @param format 
+     * @return 
+     */
+    static AVPixelFormat QVideoFrameFormatToFFMpegPixFormat(
+            const QVideoFrame::PixelFormat format);
+    static AVPixelFormat QImageFormatToFFMpegPixFormat(
+            const QImage::Format format);
+    static AVPixelFormat QXmppVideoFrameFormatToFFMpegPixFormat(
+            const QXmppVideoFrame::PixelFormat format);
+
     /**
      * @brief 格式转换，这个函数只CTool内部调用    
      *        
