@@ -1,0 +1,118 @@
+name: CMake ubuntu
+
+on: [push]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [Ubuntu-20.04, Ubuntu-18.04]
+        # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+        BUILD_TYPE: [Release, Debug]
+
+    runs-on: ${{ matrix.os }}
+    env:
+      BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
+      SOURCE_DIR:  ${{github.workspace}}/source
+      TOOSL_DIR:   ${{github.workspace}}/tools
+      INSTALL_DIR: ${{github.workspace}}/install
+      
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    
+    - name: make_directory
+      run: |
+        cmake -E make_directory ${{env.SOURCE_DIR}}
+        cmake -E make_directory ${{env.TOOSL_DIR}}
+        cmake -E make_directory ${{env.INSTALL_DIR}}
+        
+    - name: git clone RabbitCommon
+      working-directory: ${{env.SOURCE_DIR}}
+      run: git clone https://github.com/KangLin/RabbitCommon.git
+      
+    - name: apt helper action
+      uses: ryankurte/action-apt@v0.2.0
+      with:
+        # architectures to pass to dpkg --add-architecture
+        #architectures: # optional
+        # apt packages to install
+        packages: cmake build-essential liblog4cxx-dev libqxmpp-dev ffmpeg libopencv-dev debhelper dh-systemd fakeroot doxygen qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev 
+
+    - name: build qzxing
+      working-directory: ${{env.SOURCE_DIR}}
+      run: |
+        git clone "https://github.com/KangLin/qzxing.git"
+        cd qzxing
+        cmake -E make_directory build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
+        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+        
+    - name: build_debpackage.sh
+      working-directory: ${{github.workspace}}
+      env:
+        RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+        GENERATORS: "Unix Makefiles"
+      run: |
+        ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
+        cp ../rabbitrim* .
+        
+#    - name: update xml file
+#      run: |
+#        sudo apt-get install -y -qq xvfb xpra
+#        sudo Xvfb :99 -ac &
+#        export DISPLAY=:99.0
+#        sudo dpkg -i ../rabbitim_0.0.8_amd64.deb
+#        /opt/RabbitIm/bin/RabbitImApp -f "`pwd`/update_linux.xml" --pf rabbitim_${{ matrix.os }}.zip -m "v0.0.8"
+#      if: ${{ matrix.BUILD_TYPE == 'Release' }}
+
+    - name: update 
+      uses: actions/upload-artifact@v2
+      with:
+          name: rabbitim_${{ matrix.os }}
+          path: |
+            rabbitim*
+            update_linux.xml
+      if: ${{ matrix.BUILD_TYPE == 'Release' }} 
+     
+    #- name: Release
+    #  uses: fnkr/github-action-ghr@v1
+    #  if: startsWith(github.ref, 'refs/tags/')
+    #  env:
+    #    GHR_COMPRESS: xz
+    #    GHR_PATH: ${{github.workspace}}/rabbitim_*.deb
+    #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload To Github Release
+      # You may pin to the exact commit or the version.
+      # uses: xresloader/upload-to-github-release@3ad14478ee4fb9bd65e84c6d496a7d6862892f43
+      uses: xresloader/upload-to-github-release@v1.2.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        # The files or file patterns to upload. You can upload multiple files by split them by semicolon. You can use the glob pattern to find the files.
+        file: ${{github.workspace}}/rabbitim_*.deb;${{github.workspace}}/update_*.xml # default is 
+        # The files or file patterns to delete before uploading new files. You can delete multiple files by split them by semicolon. You can use the glob pattern to find the files.
+        #delete_file: # optional, default is 
+        # If you need to overwrite existing files, add overwrite: true to the with.
+        #overwrite: # optional, default is false
+        # The resultant deployment is a draft Release that only repository collaborators can see. This gives you an opportunity to examine and edit the draft release.
+        draft: false # optional, default is true
+        # The resultant deployment is a Prerelease. This gives you an opportunity to examine and edit the prerelease.
+        prerelease: true # optional, default is false
+        # With tags: true, your Releases deployment will trigger if and only if the build is a tagged build.
+        tags: true # optional, default is false
+        # Only work on these branches(splited by semicolon), set to nothing to accept all branches.
+        branches: master # optional, default is 
+        # With verbose: true, be verbose.
+        verbose: true # optional, default is false
+        # Set custom tag name.
+        tag_name: 'v0.0.8'
+        # If try to update latest release.
+        #update_latest_release: true # optional, default is false
+      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }} 

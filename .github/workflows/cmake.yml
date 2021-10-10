@@ -1,0 +1,187 @@
+name: CMake
+
+on: [push]
+
+jobs:
+  use_install_qt:
+    name: use install qt ${{ matrix.os }}-${{matrix.triplet}}-${{ matrix.BUILD_TYPE }}
+
+    strategy:
+      matrix:
+        BUILD_TYPE: [Release, Debug]
+        os: [windows-2019, windows-2016]
+        include:
+          - os: windows-2019
+            triplet: x64-windows
+            qt_version: 5.15.2
+            qt_arch: win64_msvc2019_64
+            GENERATORS: "Visual Studio 16 2019"
+            CMAKE_GENERATOR_PLATFORM: x64
+            
+          - os: windows-2016
+            triplet: x86-windows
+            qt_version: 5.12.11
+            qt_arch: win32_msvc2017
+            GENERATORS: "Visual Studio 15 2017"
+            CMAKE_GENERATOR_PLATFORM: Win32
+        
+    runs-on: ${{ matrix.os }}
+
+    env:
+      BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
+      SOURCE_DIR:  ${{github.workspace}}/source
+      TOOSL_DIR:   ${{github.workspace}}/tools
+      INSTALL_DIR: ${{github.workspace}}/install
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: make_directory
+      run: |
+        cmake -E make_directory ${{env.SOURCE_DIR}}
+        cmake -E make_directory ${{env.TOOSL_DIR}}
+        cmake -E make_directory ${{env.INSTALL_DIR}}
+      
+    - name: run-vcpkg
+      uses: lukka/run-vcpkg@v7.4
+      with:
+        # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
+        #setupOnly: # optional
+        #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
+        vcpkgGitCommitId: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
+        vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
+        vcpkgTriplet: '${{ matrix.triplet }}'
+        vcpkgArguments: 'zlib openssl log4cxx libpng libvpx libyuv opus libjpeg-turbo ffmpeg opencv'
+
+    - name: Install Qt
+      # You may pin to the exact commit or the version.
+      # uses: jurplel/install-qt-action@a962fb91949c8e846a3e4a944d50e7ef5cc3a28a
+      uses: jurplel/install-qt-action@v2.11.1
+      with:
+        # Directory to install Qt
+        dir: ${{env.TOOSL_DIR}}/qt # optional
+        # Version of Qt to install
+        version: ${{matrix.qt_version}} # optional, default is 5.15.2
+        # Host platform
+        #host: linux # optional
+        # Target platform for build
+        #target: desktop # optional, default is desktop
+        # Architecture for Windows/Android
+        arch: ${{matrix.qt_arch}} # optional
+        # Whether or not to install Qt dependencies on Linux
+        #install-deps: true # optional, default is true
+        # Additional Qt modules to install
+        modules: ${{matrix.qt_modules}} # optional
+        # Force a Qt mirror in case the default is not working
+        #mirror: # optional
+        # Whether or not to actually download Qt
+        #cached: false # optional, default is false
+        # Whether or not to automatically run setup-python to find a valid python version.
+        #setup-python: false # optional, default is true
+        # Qt tools to download--specify comma-separated argument lists which are themselves separated by spaces: <tool_name>,<tool_version>,<tool_arch>
+        #tools: # optional
+        # Whether or not to actually install Qt or just the tools from the tools argument
+        #tools-only: false # optional, default is false
+        # Version of aqtinstall to use in case of issues
+        #aqtversion: # optional, default is ==0.10.0
+        # Version of py7zr to use in case of issues
+        #py7zrversion: # optional, default is ==0.11.0
+        # Any extra arguments to append to the back
+        #extra: # optional
+
+    - name: build log4qt
+      working-directory: ${{env.SOURCE_DIR}}
+      run: |
+        git clone -b v1.5.1 "https://github.com/MEONMedical/Log4Qt.git"
+        cd Log4Qt
+        cmake -E make_directory build
+        cd build
+        cmake .. -G"${{matrix.GENERATORS}}" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
+        cmake --build . --config ${{matrix.BUILD_TYPE}}
+        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+
+    - name: git clone RabbitCommon
+      working-directory: ${{env.SOURCE_DIR}}
+      run: git clone https://github.com/KangLin/RabbitCommon.git
+      
+    - name: build qxmpp
+      working-directory: ${{env.SOURCE_DIR}}
+      run: |
+        git clone -b v1.2.1 "https://github.com/qxmpp-project/qxmpp.git"
+        cd qxmpp
+        cmake -E make_directory build
+        cd build
+        cmake .. -G"${{matrix.GENERATORS}}" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+        cmake --build . --config ${{matrix.BUILD_TYPE}}
+        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+    
+    - name: build qzxing
+      working-directory: ${{env.SOURCE_DIR}}
+      run: |
+        git clone "https://github.com/KangLin/qzxing.git"
+        cd qzxing
+        cmake -E make_directory build
+        cd build
+        cmake .. -G"${{matrix.GENERATORS}}" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+        cmake --build . --config ${{matrix.BUILD_TYPE}}
+        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+        
+    - name: build RabbitIm
+      env:
+        RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+      run: |
+        cmake -E make_directory ${{github.workspace}}/build
+        cd ${{github.workspace}}/build
+        cmake ${{github.workspace}} -G"${{matrix.GENERATORS}}" -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install -DLog4Qt_DIR=/lib/cmake/Log4Qt -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }} -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+        cmake --build . --config ${{ matrix.BUILD_TYPE }}
+        cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
+
+    - name: Package
+      working-directory: ${{github.workspace}}/build
+      shell: cmd
+      run: |
+        move /Y install\plugins\*crypto*.dll install\bin
+        move /Y install\plugins\*ssl*.dll install\bin
+        makensis ${{github.workspace}}/build/Install.nsi
+        ${{github.workspace}}/build/install/bin/RabbitImApp.exe -f "${{github.workspace}}/build/update_windows.xml" --pf RabbitIm-Setup-v0.0.8.exe -m "v0.0.8"
+      if: ${{ matrix.os == 'windows-latest' &&  matrix.BUILD_TYPE == 'Release' }}
+
+    - name: update 
+      uses: actions/upload-artifact@v2
+      with:
+        name: rabbitreim_${{ matrix.os }}
+        path: |
+          ${{github.workspace}}/build/RabbitIm-Setup-*.exe
+          ${{github.workspace}}/build/update_*.xml
+      if: ${{ matrix.BUILD_TYPE == 'Release' }}
+
+#    - name: Upload To Github Release
+#      # You may pin to the exact commit or the version.
+#      # uses: xresloader/upload-to-github-release@3ad14478ee4fb9bd65e84c6d496a7d6862892f43
+#      uses: xresloader/upload-to-github-release@v1.2.2
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      with:
+#        # The files or file patterns to upload. You can upload multiple files by split them by semicolon. You can use the glob pattern to find the files.
+#        file: ${{github.workspace}}/build/RabbitIm-Setup-*.exe #;${{github.workspace}}/build/update_*.xml # default is 
+#        # The files or file patterns to delete before uploading new files. You can delete multiple files by split them by semicolon. You can use the glob pattern to find the files.
+#        #delete_file: # optional, default is 
+#        # If you need to overwrite existing files, add overwrite: true to the with.
+#        #overwrite: # optional, default is false
+#        # The resultant deployment is a draft Release that only repository collaborators can see. This gives you an opportunity to examine and edit the draft release.
+#        draft: false # optional, default is true
+#        # The resultant deployment is a Prerelease. This gives you an opportunity to examine and edit the prerelease.
+#        prerelease: true # optional, default is false
+#        # With tags: true, your Releases deployment will trigger if and only if the build is a tagged build.
+#        tags: true # optional, default is false
+#        # Only work on these branches(splited by semicolon), set to nothing to accept all branches.
+#        branches: master # optional, default is 
+#        # With verbose: true, be verbose.
+#        verbose: true # optional, default is false
+#        # Set custom tag name.
+#        tag_name: 'v0.0.8'
+#        # If try to update latest release.
+#        update_latest_release: true # optional, default is false
+#      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }} 
