@@ -58,17 +58,18 @@ jobs:
       env:
         RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
         GENERATORS: "Unix Makefiles"
+        THIRD_LIBRARY_PATH: ${{env.INSTALL_DIR}}
       run: |
         ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
-        cp ../rabbitrim* .
+        cp ../rabbitim_0.1.0_amd64.deb .
         
 #    - name: update xml file
 #      run: |
 #        sudo apt-get install -y -qq xvfb xpra
 #        sudo Xvfb :99 -ac &
 #        export DISPLAY=:99.0
-#        sudo dpkg -i ../rabbitim_0.0.8_amd64.deb
-#        /opt/RabbitIm/bin/RabbitImApp -f "`pwd`/update_linux.xml" --pf rabbitim_${{ matrix.os }}.zip -m "v0.0.8"
+#        sudo dpkg -i ../rabbitim_0.1.0_amd64.deb
+#        /opt/RabbitIm/bin/RabbitImApp -f "`pwd`/update_linux.xml" --pf rabbitim_${{ matrix.os }}.zip -m "v0.1.0"
 #      if: ${{ matrix.BUILD_TYPE == 'Release' }}
 
     - name: update 
@@ -112,7 +113,7 @@ jobs:
         # With verbose: true, be verbose.
         verbose: true # optional, default is false
         # Set custom tag name.
-        tag_name: 'v0.0.8'
+        tag_name: 'v0.1.0'
         # If try to update latest release.
         #update_latest_release: true # optional, default is false
       if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }} 

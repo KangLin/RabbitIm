@@ -292,7 +292,8 @@ if [ "${BUILD_TARGERT}" = "windows_msvc" ]; then
         cp /C/OpenSSL-Win64/bin/libeay32.dll install/bin
         cp /C/OpenSSL-Win64/bin/ssleay32.dll install/bin
     fi
-    
+    cp ${ThirdLibs_DIR}/bin/*.dll install/bin
+    cp ${ThirdLibs_DIR}/lib/*.dll install/bin
     if [ -z "${STATIC}" ]; then
         "/C/Program Files (x86)/NSIS/makensis.exe" "Install.nsi"
         MD5=`md5sum RabbitIm-Setup-*.exe|awk '{print $1}'`

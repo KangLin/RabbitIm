@@ -20,11 +20,11 @@
 # dh_make generated override targets
 # This is example for Cmake (See https://bugs.debian.org/641051 )
 override_dh_auto_configure:
-    ifdef GENERATORS
-	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/RabbitIm -DTHIRD_LIBRARY_PATH=$(THIRD_LIBRARY_PATH)
-    else
-	$(QT_ROOT)/bin/qmake PREFIX=/opt/RabbitIm THIRD_LIBRARY_PATH=$(THIRD_LIBRARY_PATH)
-    endif
+#    ifdef GENERATORS
+	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/RabbitIm -DTHIRD_LIBRARY_PATH=$(THIRD_LIBRARY_PATH) -DCMAKE_PREFIX_PATH=$(THIRD_LIBRARY_PATH)
+#    else
+#	$(QT_ROOT)/bin/qmake PREFIX=/opt/RabbitIm THIRD_LIBRARY_PATH=$(THIRD_LIBRARY_PATH)
+#    endif
 
 override_dh_auto_build:
     ifndef GENERATORS
@@ -32,7 +32,7 @@ override_dh_auto_build:
     endif
 
 override_dh_shlibdeps:
-	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/rabbitim/opt/RabbitIm/lib
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/rabbitim/opt/RabbitIm/lib/`uname -m`-linux-gnu:`pwd`/debian/rabbitim/opt/RabbitIm/lib/
 
 #override_dh_auto_configure:
 #	mkdir -p `pwd`/build_debian; \

@@ -18,9 +18,6 @@ if [ -n "$2" -a -z "$THIRD_LIBRARY_PATH" ]; then
     export THIRD_LIBRARY_PATH=$2
     export LD_LIBRARY_PATH=$THIRD_LIBRARY_PATH/lib
     export PKG_CONFIG_PATH=$THIRD_LIBRARY_PATH/lib/pkgconfig
-else
-    help
-    exit -2
 fi
 
 if [ -n "$3" -a -z "$RabbitCommon_DIR" ]; then

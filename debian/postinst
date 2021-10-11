@@ -31,6 +31,7 @@ case "$1" in
     configure)
         RABBITIM_INSTALL_PREFIX=/opt/RabbitIm
         echo "${RABBITIM_INSTALL_PREFIX}/lib" > /etc/ld.so.conf.d/RabbitIm.conf
+        echo "${RABBITIM_INSTALL_PREFIX}/lib/`uname -m`-linux-gnu" > /etc/ld.so.conf.d/RabbitIm.conf
         echo "${RABBITIM_INSTALL_PREFIX}/plugins" >> /etc/ld.so.conf.d/RabbitIm.conf
         EnumerateDicectory "${RABBITIM_INSTALL_PREFIX}/plugins"
         ldconfig
