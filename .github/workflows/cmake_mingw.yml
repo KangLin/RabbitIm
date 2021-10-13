@@ -70,51 +70,6 @@ jobs:
     - name: git clone RabbitCommon
       working-directory: ${{env.SOURCE_DIR}}
       run: git clone https://github.com/KangLin/RabbitCommon.git
-        
-#    - name: build freerdp
-#      working-directory: ${{env.SOURCE_DIR}}
-#      env:
-#        MSYSTEM: MINGW64
-#        PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
-#      run: |
-#        git clone https://github.com/FreeRDP/FreeRDP.git
-#        cd FreeRDP
-#        git submodule update --init --recursive
-#        git checkout -b  2.3.2  2.3.2
-#        cmake -E make_directory build
-#        cd build
-#        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
-#        cmake --build . --config ${{matrix.BUILD_TYPE}}
-#        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
-
-    - name: build tigervnc
-      working-directory: ${{env.SOURCE_DIR}}
-      env:
-        MSYSTEM: MINGW64
-        PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
-      run: |
-        git clone https://github.com/KangLin/tigervnc.git 
-        cd tigervnc
-        cmake -E make_directory build
-        cd build
-        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DBUILD_TESTS=OFF -DBUILD_VIEWER=OFF
-        cmake --build . --config ${{matrix.BUILD_TYPE}}
-        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
-
-    - name: build libdatachannel
-      working-directory: ${{env.SOURCE_DIR}}
-      env:
-        MSYSTEM: MINGW64
-        PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
-      run: |
-        git clone https://github.com/paullouisageneau/libdatachannel.git
-        cd libdatachannel
-        git submodule update --init --recursive
-        cmake -E make_directory build
-        cd build
-        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DNO_EXAMPLES=ON -DNO_TESTS=ON -DNO_WEBSOCKET=ON
-        cmake --build . --config ${{matrix.BUILD_TYPE}}
-        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
 
     - name: build log4qt
       working-directory: ${{env.SOURCE_DIR}}
@@ -136,7 +91,7 @@ jobs:
         MSYSTEM: MINGW64
         PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
       run: |
-        git clone -b v1.4.0 "https://github.com/qxmpp-project/qxmpp.git"
+        git clone -b v1.2.1 "https://github.com/qxmpp-project/qxmpp.git"
         cd qxmpp
         cmake -E make_directory build
         cd build
@@ -144,19 +99,21 @@ jobs:
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         
-    - name: build QtService
+    - name: build qzxing
       working-directory: ${{env.SOURCE_DIR}}
+      env:
+        MSYSTEM: MINGW64
+        PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
       run: |
-        git clone "https://github.com/KangLin/qt-solutions.git"
-        cd qt-solutions/qtservice
+        git clone "https://github.com/KangLin/qzxing.git"
+        cd qxmpp
         cmake -E make_directory build
         cd build
         cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
 
-
-    - name: build RabbitRemoteControl
+    - name: build RabbitIm
       working-directory: ${{github.workspace}}
       env:
         RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
@@ -166,6 +123,6 @@ jobs:
       run: |
         cmake -E make_directory build
         cd build
-        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake -DLog4Qt_DIR=/lib/cmake/Log4Qt -Dtigervnc_DIR=${{ env.INSTALL_DIR }}/lib/cmake -Dlibdatachannel_DIR=${{env.INSTALL_DIR}}/share/cmake/libdatachannel -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp -DQtService_DIR=${{env.INSTALL_DIR}}/lib/cmake/QtService
+        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake -DLog4Qt_DIR=/lib/cmake/Log4Qt -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp -DQZXing_DIR=${{env.INSTALL_DIR}}/lib/cmake/QZXing 
         cmake --build . --config ${{ matrix.BUILD_TYPE }}
         cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install

@@ -10,7 +10,13 @@ endif()
 
 PROJECT(QRCode)
 
-#SET(RABBITIM_PLUG_NAME CPluginQRCode)
+SET(QT_COMPONENTS Multimedia Quick)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS})
+if(Qt${QT_VERSION_MAJOR}_FOUND)
+    FOREACH(_COMPONENT ${QT_COMPONENTS})
+        list(APPEND QT_LIBRARIES Qt${QT_VERSION_MAJOR}::${_COMPONENT})
+    ENDFOREACH()
+endif()
 
 ADD_PLUGIN_TARGET(
     SOURCE_FILES
@@ -18,7 +24,5 @@ ADD_PLUGIN_TARGET(
         FrmScanQRcode.cpp
         FrmScanQRcode.ui
     INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>
-    PRIVATE_LIBS RabbitIm
+    PRIVATE_LIBS RabbitIm QZXing
     )
-
-#include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginApp.cmake)
