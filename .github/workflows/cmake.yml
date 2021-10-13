@@ -148,7 +148,7 @@ jobs:
         move /Y ${{env.INSTALL_DIR}}/lib\*.dll install\bin
         makensis ${{github.workspace}}/build/Install.nsi
         ${{github.workspace}}/build/install/bin/RabbitImApp.exe -f "${{github.workspace}}/build/update_windows.xml" --pf RabbitIm-Setup-v0.0.8.exe -m "v0.0.8"
-      if: ${{ matrix.os == 'windows-latest' &&  matrix.BUILD_TYPE == 'Release' }}
+      if: ${{ matrix.BUILD_TYPE == 'Release' }}
 
     - name: update 
       uses: actions/upload-artifact@v2

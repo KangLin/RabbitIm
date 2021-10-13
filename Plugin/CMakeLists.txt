@@ -1,4 +1,4 @@
-include(cmake/PluginCommon.cmake)
+#include(cmake/PluginCommon.cmake)
 
 file(GLOB dirs *)
 foreach(d ${dirs})

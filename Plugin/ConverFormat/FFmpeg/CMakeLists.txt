@@ -8,11 +8,12 @@ if(NOT USE_FFMPEG)
     return()
 endif()
 
-find_package(FFMPEG)
-if(NOT FFMPEG_FOUND)
+find_package(FFMPEG COMPONENTS avcodec avformat avutil swscale)
+if(FFMPEG_FOUND)
+    list(APPEND RABBITIM_DEFINES __STDC_CONSTANT_MACROS RABBITIM_USE_FFMPEG)
+else()
     return()
 endif()
-
 message("== FFMPGE:${FFMPEG_FOUND}")
 
 project(PluginConverFormatFFMpeg)
@@ -22,5 +23,6 @@ ADD_PLUGIN_TARGET(
     SOURCE_FILES ConverFormatFFmpeg.cpp ConverFormatFFmpeg.h
     INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Plugin>
-    #PRIVATE_LIBS ${FFMPEG_LIBRARIES}    
+    PRIVATE_LIBS RabbitIm ${FFMPEG_LIBRARIES}
+    PRIVATE_DEFINITIONS ${RABBITIM_DEFINES}
     )

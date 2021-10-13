@@ -8,6 +8,7 @@ ADD_PLUGIN_TARGET(
         DlgScreenShot.cpp
         WdgScreenEditor.cpp
     INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>
+    PRIVATE_LIBS RabbitIm
     )
 
 #include(${CMAKE_SOURCE_DIR}/Plugin/cmake/PluginApp.cmake)
