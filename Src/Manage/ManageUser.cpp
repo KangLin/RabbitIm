@@ -75,6 +75,10 @@ int CManageUser::LoadLocaleFromStorage(const QString &szId)
     if(!in.open(QFile::ReadOnly))
     {
         LOG_MODEL_WARNING("CManageUser", "Don't open file:%s", szFile.toStdString().c_str());
+        if(m_UserLocale.isNull())
+        {
+            m_UserLocale = NewUser();
+        }
         return -1;
     }
 
@@ -87,7 +91,7 @@ int CManageUser::LoadLocaleFromStorage(const QString &szId)
         //本地用户信息  
         LOG_MODEL_DEBUG("CManageUser", "Version:%d", nVersion);
         if(m_UserLocale.isNull())
-         {
+        {
             m_UserLocale = NewUser();
         }
         //s >> *m_UserInforLocale;        
