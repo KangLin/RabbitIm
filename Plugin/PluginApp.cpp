@@ -58,7 +58,7 @@ int CPluginApp::LoadTranslate(const QString &szDir)
     m_TranslatorPlugin = QSharedPointer<QTranslator>(new QTranslator());
 
     QString szPlugin;
-#if defined (DEBUG)
+#if defined (_DEBUG)
     szPlugin = ":/translations/" + ID() + "_" + szLocale + ".qm";
 #elif ANDROID
     szPlugin = QString("assets:/plugins/translations")

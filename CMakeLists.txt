@@ -53,7 +53,7 @@ if(NOT DEFINED CMAKE_BUILD_TYPE)
 endif(NOT DEFINED CMAKE_BUILD_TYPE)
 string(TOLOWER "${CMAKE_BUILD_TYPE}" build_type)
 if("debug" STREQUAL build_type)
-    add_definitions(-D_DEBUG)
+    add_definitions(-D_DEBUG -DDEBUG)
 endif()
 
 #需要的QT组件
