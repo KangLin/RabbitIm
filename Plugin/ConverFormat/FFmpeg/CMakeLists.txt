@@ -16,7 +16,7 @@ else()
 endif()
 message("== FFMPGE:${FFMPEG_FOUND}")
 
-project(PluginConverFormatFFMpeg)
+project(FFMpeg)
 
 file(RELATIVE_PATH PLUGIN_RELATIVE_DIR ${CMAKE_SOURCE_DIR}/Plugin ${CMAKE_CURRENT_SOURCE_DIR})
 if(NOT ANDROID)
@@ -24,7 +24,6 @@ if(NOT ANDROID)
     set(PLUGIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/plugins/${PLUGIN_RELATIVE_DIR})
 endif()
 ADD_PLUGIN_TARGET(
-    PLUGIN_TYPE ConverFormat
     SOURCE_FILES ConverFormatFFmpeg.cpp ConverFormatFFmpeg.h
     INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Plugin>

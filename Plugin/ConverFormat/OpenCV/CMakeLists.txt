@@ -3,7 +3,7 @@ if(NOT USE_OPENCV)
     return()
 endif()
 
-PROJECT(PluginConverFormatOpenCV)
+PROJECT(OpenCV)
 
 find_package(OpenCV COMPONENTS core imgproc video) # videoio)
 IF(OpenCV_FOUND)
@@ -21,7 +21,6 @@ if(NOT ANDROID)
 endif()
 
 ADD_PLUGIN_TARGET(
-    PLUGIN_TYPE ConverFormat
     SOURCE_FILES ConverFormatOpenCV.cpp ConverFormatOpenCV.h
     INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Plugin>

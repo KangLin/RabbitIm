@@ -53,7 +53,7 @@ public:
     virtual int About();
     
     ///属性  
-    ///应用ID,应用以这个ID区分  
+    ///应用ID,应用以这个ID区分。这个必须与翻译资源名相同  
     virtual QString ID() = 0;
     //应用名称  
     virtual QString Name() = 0;
