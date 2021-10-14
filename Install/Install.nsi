@@ -93,6 +93,22 @@ VSRedistInstalled:
   Delete "$INSTDIR\bin\vcredist_x86.exe"
 FunctionEnd
 
+Function _InstallVC
+   Push $R0
+   ClearErrors
+   ReadRegDword $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}" "Version"
+
+   ; check regist
+   IfErrors 0 VSRedistInstalled
+   Exec "$INSTDIR\bin\vc_redist.x86.exe /q /norestart"
+   StrCpy $R0 "-1"
+
+VSRedistInstalled:
+  ;MessageBox MB_OK  "vc_redist.x86.exe is installed"
+  Exch $R0
+  Delete "$INSTDIR\bin\vc_redist.x86.exe "
+FunctionEnd
+
 Function InstallVC64
     Push $R0
     ClearErrors
@@ -109,11 +125,31 @@ Function InstallVC64
     Delete "$INSTDIR\bin\vcredist_x64.exe"
 FunctionEnd
 
+Function _InstallVC64
+    Push $R0
+    ClearErrors
+    ReadRegDword $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}" "Version"
+    
+    ; check regist
+    IfErrors 0 VSRedistInstalled
+    Exec "$INSTDIR\bin\vc_redist.x64.exe /q /norestart"
+    StrCpy $R0 "-1"
+    
+    VSRedistInstalled:
+    ;MessageBox MB_OK  "Vcredist_x64.exe is installed"
+    Exch $R0
+    Delete "$INSTDIR\bin\vc_redist.x64.exe"
+FunctionEnd
+
 Function InstallRuntime
     IfFileExists "$INSTDIR\bin\vcredist_x64.exe" 0 +2
     call InstallVC64
+    IfFileExists "$INSTDIR\bin\vc_redist.x64.exe" 0 +2
+    call _InstallVC64
     IfFileExists "$INSTDIR\bin\vcredist_x86.exe" 0 +2
     call InstallVC
+    IfFileExists "$INSTDIR\bin\vc_redist.x86.exe" 0 +2
+    call _InstallVC
 FunctionEnd
 
 Function DirectoryPermissionErrorBox
