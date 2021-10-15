@@ -36,7 +36,15 @@ jobs:
         cmake -E make_directory ${{env.SOURCE_DIR}}
         cmake -E make_directory ${{env.TOOSL_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
-      
+        
+    - name: apt helper action
+      uses: ryankurte/action-apt@v0.2.0
+      with:
+        # architectures to pass to dpkg --add-architecture
+        #architectures: # optional
+        # apt packages to install
+        packages: yasm nasm
+
     - name: run-vcpkg
       uses: lukka/run-vcpkg@v7.4
       with:
