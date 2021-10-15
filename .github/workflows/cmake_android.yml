@@ -11,11 +11,10 @@ jobs:
         BUILD_TYPE: [Release, Debug]
         os: [Ubuntu-20.04]
         qt_version: [5.12.11]
-        include:
-          - triplet: arm-android
-            qt_arch: android_armv7
-          - triplet: x86-android
-            qt_arch: android_x86
+        triplet: [arm-android]
+        qt_arch: [android_armv7]
+#          - triplet: x86-android
+#            qt_arch: android_x86
 
     runs-on: ${{ matrix.os }}
 
