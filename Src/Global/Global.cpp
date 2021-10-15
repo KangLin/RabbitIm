@@ -43,17 +43,17 @@ CGlobal::CGlobal(QObject *parent) :
 #endif
 
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
-    m_szXmppServer = conf.value("Login/XmppServer", "fmpixel.f3322.net").toString();
+    m_szXmppServer = conf.value("Login/XmppServer", "rabbitim.wicp.net").toString();
     //m_szXmppServer = conf.value("Login/XmppServer", "rabbitim.wicp.net").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
-    m_szStunServer = conf.value("Login/StunServer", "fmpixel.f3322.net").toString();
+    m_szStunServer = conf.value("Login/StunServer", "rabbitim.wicp.net").toString();
     //m_szStunServer = conf.value("Login/StunServer", "rabbitim.wicp.net").toString();
-    m_szTurnServer = conf.value("Login/TurnServer", "fmpixel.f3322.net").toString();
+    m_szTurnServer = conf.value("Login/TurnServer", "rabbitim.wicp.net").toString();
     //m_szTurnServer = conf.value("Login/TurnServer", "rabbitim.wicp.net").toString();
     m_nStunServerPort = conf.value("Login/StunServerPort", 3478).toInt();
     m_nTurnServerPort = conf.value("Login/TurnServerPort", 3478).toInt();
-    m_szTurnUser = conf.value("Login/TurnServerUser", "1").toString();
-    m_szTurnPassword = conf.value("Login/TurnServerPassword", "1").toString();
+    m_szTurnUser = conf.value("Login/TurnServerUser", "a").toString();
+    m_szTurnPassword = conf.value("Login/TurnServerPassword", "a").toString();
 
     m_AutoLogin = conf.value("Login/AutoLogin", false).toBool();
     m_nAutoLoginDelayTime = conf.value("Login/AutoLoginDelayTime", "3").toInt();
