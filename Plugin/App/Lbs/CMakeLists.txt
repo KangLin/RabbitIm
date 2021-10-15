@@ -25,8 +25,8 @@ set(PLUGIN_SOURCES
 IF(ANDROID)
     SET(PLUGIN_SOURCES
         ${PLUGIN_SOURCES}
-        android/jni/CameraAndroid.cpp 
-        android/jni/CameraAndroidResultReceiver.cpp
+        Android/jni/CameraAndroid.cpp
+        Android/jni/CameraAndroidResultReceiver.cpp
     )
 ENDIF(ANDROID)
 
