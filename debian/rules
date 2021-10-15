@@ -32,7 +32,7 @@ override_dh_auto_build:
     endif
 
 override_dh_shlibdeps:
-	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/rabbitim/opt/RabbitIm/lib/`uname -m`-linux-gnu:`pwd`/debian/rabbitim/opt/RabbitIm/lib/
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/rabbitim/opt/RabbitIm/lib/`uname -m`-linux-gnu:`pwd`/debian/rabbitim/opt/RabbitIm/lib:$(THIRD_LIBRARY_PATH)/lib
 
 #override_dh_auto_configure:
 #	mkdir -p `pwd`/build_debian; \
