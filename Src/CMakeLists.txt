@@ -6,7 +6,7 @@ if(POLICY CMP0020)
     cmake_policy(SET CMP0020 NEW)
 endif()
 
-set(QT_COMPONENTS Multimedia)
+set(QT_COMPONENTS Multimedia Quick)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS})
 if(Qt${QT_VERSION_MAJOR}_FOUND)
     FOREACH(_COMPONENT ${QT_COMPONENTS})
@@ -15,6 +15,16 @@ if(Qt${QT_VERSION_MAJOR}_FOUND)
 endif()
 
 LIST(APPEND RABBITIM_LIBS RabbitCommon ${QT_LIBRARIES})
+
+#QZXing库
+OPTION(OPTION_RABBITIM_USE_QZXING "Use QZXing library" ON)
+if(OPTION_RABBITIM_USE_QZXING)
+    FIND_PACKAGE(QZXing)
+    if(QZXing_FOUND)
+        LIST(APPEND RABBITIM_LIBS QZXing)
+        list(APPEND RABBITIM_DEFINES RABBITIM_USE_QZXING)
+    endif()
+endif()
 
 include(Files.cmake)
 

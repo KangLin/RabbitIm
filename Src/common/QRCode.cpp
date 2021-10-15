@@ -137,9 +137,18 @@ int CQRCode::ProcessQImage(QImage image, QString &szText)
                            QZXing::DecoderFormat_EAN_8 |
                            QZXing::DecoderFormat_EAN_13 |
                            QZXing::DecoderFormat_CODE_128 |
+                           QZXing::DecoderFormat_CODE_93 |
                            QZXing::DecoderFormat_CODE_39 |
                            QZXing::DecoderFormat_ITF |
-                           QZXing::DecoderFormat_Aztec);
+                           QZXing::DecoderFormat_Aztec |
+                           QZXing::DecoderFormat_CODABAR |
+                           QZXing::DecoderFormat_MAXICODE |
+                           QZXing::DecoderFormat_PDF_417 |
+                           QZXing::DecoderFormat_RSS_14 |
+                           QZXing::DecoderFormat_RSS_EXPANDED |
+                           QZXing::DecoderFormat_UPC_EAN_EXTENSION |
+                           QZXing::DecoderFormat_CODE_128_GS1
+                           );
         szMessage = decoder.decodeImage(image);
         if(szMessage.isEmpty())
         {
