@@ -98,8 +98,7 @@ CGlobal::CGlobal(QObject *parent) :
     m_bShowLocaleVideo = conf.value("Video/Locale/Show", true).toBool();
     m_bMonitor = conf.value("Video/Monitor", false).toBool();
 
-    m_szStyleFile = ""; //conf.value( \
-                "UI/StyleSheet", ":/qdarkstyle/style.qss").toString();
+    m_szStyleFile = ""; //conf.value("UI/StyleSheet", ":/qdarkstyle/style.qss").toString();
     m_szStyleMenu = ""; //conf.value("UI/MenuStyleSheet", "Dark").toString();
 
     m_szEmoji = conf.value("Options/Emoji/File",
