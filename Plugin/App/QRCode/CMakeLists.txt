@@ -1,9 +1,10 @@
 #QZXing库
-if(NOT OPTION_RABBITIM_USE_QZXING)
-    return()
-endif()
-if(NOT QZXing_FOUND)
-    return()
+OPTION(OPTION_RABBITIM_USE_QZXING "Use QZXing library" ON)
+if(OPTION_RABBITIM_USE_QZXING)
+    FIND_PACKAGE(QZXing)
+    if(NOT QZXing_FOUND)
+        return()
+    endif()
 endif()
 
 PROJECT(QRCode)
