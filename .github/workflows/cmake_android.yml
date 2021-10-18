@@ -57,7 +57,7 @@ jobs:
         appendedCacheKey:  ${{ hashFiles( env.VCPKGRESPONSEFILE ) }}
         additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
         vcpkgTriplet: '${{ matrix.triplet }}'
-        vcpkgArguments: 'zlib openssl libpng libvpx libyuv opus libjpeg-turbo ffmpeg' # opencv' # log4cxx
+        vcpkgArguments: 'zlib openssl libpng libjpeg-turbo ffmpeg' # libvpx libyuv opus opencv
 
     - name: Install Qt
       # You may pin to the exact commit or the version.
