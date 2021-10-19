@@ -54,6 +54,7 @@ CImageTool* CImageTool::Instance()
 //    https://blog.csdn.net/cgwang_1580/article/details/79595958
 QImage CImageTool::ConverFormatToRGB888(const QVideoFrame &frame)
 {
+    //LOG_MODEL_DEBUG("CImageTool", "Frame format:%d", frame.pixelFormat());
     switch(frame.pixelFormat())
     {
     case QVideoFrame::Format_YUV420P:
