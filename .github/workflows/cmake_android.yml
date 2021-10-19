@@ -57,7 +57,7 @@ jobs:
         appendedCacheKey:  ${{ hashFiles( env.VCPKGRESPONSEFILE ) }}
         additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
         vcpkgTriplet: '${{ matrix.triplet }}'
-        vcpkgArguments: 'zlib openssl libpng libjpeg-turbo ffmpeg' # libvpx libyuv opus opencv
+        vcpkgArguments: 'zlib openssl libpng libjpeg-turbo opus ffmpeg' # libvpx libyuv  opencv
 
     - name: Install Qt
       # You may pin to the exact commit or the version.
@@ -95,16 +95,16 @@ jobs:
         # Any extra arguments to append to the back
         #extra: # optional
 
-    - name: build log4qt
-      working-directory: ${{env.SOURCE_DIR}}
-      run: |
-        git clone -b v1.5.1 "https://github.com/MEONMedical/Log4Qt.git"
-        cd Log4Qt
-        cmake -E make_directory build
-        cd build
-        cmake .. -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
-        cmake --build . --config ${{matrix.BUILD_TYPE}}
-        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+#    - name: build log4qt
+#      working-directory: ${{env.SOURCE_DIR}}
+#      run: |
+#        git clone -b v1.5.1 "https://github.com/MEONMedical/Log4Qt.git"
+#        cd Log4Qt
+#        cmake -E make_directory build
+#        cd build
+#        cmake .. -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
+#        cmake --build . --config ${{matrix.BUILD_TYPE}}
+#        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
 
     - name: git clone RabbitCommon
       working-directory: ${{env.SOURCE_DIR}}
