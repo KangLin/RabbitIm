@@ -4,16 +4,17 @@ on: [push]
 
 jobs:
   use_install_qt:
-    name: use install qt ${{ matrix.os }}-${{matrix.triplet}}-${{ matrix.BUILD_TYPE }}
+    name: use install qt ${{ matrix.os }}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{ matrix.BUILD_TYPE }}
 
     strategy:
       matrix:
         BUILD_TYPE: [Release, Debug]
         os: [Ubuntu-20.04]
         qt_version: [5.12.11]
-        triplet: [arm-android]
+        VCPKG_TARGET_TRIPLET: [arm-android]
         qt_arch: [android_armv7]
-#          - triplet: x86-android
+        ANDROID_ABI: [armeabi-v7a]
+#          - VCPKG_TARGET_TRIPLET: x86-android
 #            qt_arch: android_x86
 
     runs-on: ${{ matrix.os }}
@@ -23,15 +24,18 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/source
       TOOSL_DIR:   ${{github.workspace}}/tools
       INSTALL_DIR: ${{github.workspace}}/install
-      VCPKG_CHAINLOAD_TOOLCHAIN_FILE: $ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake
 
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
 
-    - name: make_directory
+    - name: initial
       run: |
+        echo "ANDROID_NDK_HOME:$ANDROID_NDK_HOME"
+        export VCPKG_CHAINLOAD_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake
+        export PATH=$ANDROID_NDK_HOME:$ANDROID_NDK_HOME/bin:$PATH
+        echo "PATH:$PATH"
         cmake -E make_directory ${{env.SOURCE_DIR}}
         cmake -E make_directory ${{env.TOOSL_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
@@ -55,8 +59,8 @@ jobs:
         # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
         # compute its hash and append this to the computed cache's key.
         appendedCacheKey:  ${{ hashFiles( env.VCPKGRESPONSEFILE ) }}
-        additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
-        vcpkgTriplet: '${{ matrix.triplet }}'
+        additionalCachedPaths: $VCPKG_ROOT/installed
+        vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
         vcpkgArguments: 'zlib openssl libpng libjpeg-turbo opus ffmpeg' # libvpx libyuv  opencv
 
     - name: Install Qt
@@ -95,16 +99,16 @@ jobs:
         # Any extra arguments to append to the back
         #extra: # optional
 
-#    - name: build log4qt
-#      working-directory: ${{env.SOURCE_DIR}}
-#      run: |
-#        git clone -b v1.5.1 "https://github.com/MEONMedical/Log4Qt.git"
-#        cd Log4Qt
-#        cmake -E make_directory build
-#        cd build
-#        cmake .. -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
-#        cmake --build . --config ${{matrix.BUILD_TYPE}}
-#        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+    - name: build log4qt
+      working-directory: ${{env.SOURCE_DIR}}
+      run: |
+        git clone -b v1.5.1 "https://github.com/MEONMedical/Log4Qt.git"
+        cd Log4Qt
+        cmake -E make_directory build
+        cd build
+        cmake ..  -DQt5_DIR=${Qt5_Dir} -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake -DANDROID_ABI=${{matrix.ANDROID_ABI}} -DVCPKG_TARGET_ANDROID=ON
+        cmake --build . --config ${{matrix.BUILD_TYPE}}
+        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
 
     - name: git clone RabbitCommon
       working-directory: ${{env.SOURCE_DIR}}
@@ -113,11 +117,12 @@ jobs:
     - name: build qxmpp
       working-directory: ${{env.SOURCE_DIR}}
       run: |
-        git clone -b v1.2.1 "https://github.com/qxmpp-project/qxmpp.git"
+        git clone "https://github.com/qxmpp-project/qxmpp.git"
         cd qxmpp
+        git checkout -b v1.2.1 v1.2.1
         cmake -E make_directory build
         cd build
-        cmake .. -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+        cmake .. -DQt5_DIR=${Qt5_Dir} -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake -DANDROID_ABI=${{matrix.ANDROID_ABI}} -DVCPKG_TARGET_ANDROID=ON
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
     
@@ -128,7 +133,7 @@ jobs:
         cd qzxing
         cmake -E make_directory build
         cd build
-        cmake .. -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+        cmake ..  -DQt5_DIR=${Qt5_Dir} -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake -DANDROID_ABI=${{matrix.ANDROID_ABI}} -DVCPKG_TARGET_ANDROID=ON
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
 
@@ -138,7 +143,7 @@ jobs:
       run: |
         cmake -E make_directory ${{github.workspace}}/build
         cd ${{github.workspace}}/build
-        cmake ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install -DLog4Qt_DIR=/lib/cmake/Log4Qt -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }} -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp -DQZXing_DIR=${{env.INSTALL_DIR}}/lib/cmake/QZXing -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+        cmake ${{github.workspace}}  -DQt5_DIR=${Qt5_Dir} -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install -DLog4Qt_DIR=/lib/cmake/Log4Qt -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }} -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp -DQZXing_DIR=${{env.INSTALL_DIR}}/lib/cmake/QZXing -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake -DANDROID_ABI=${{matrix.ANDROID_ABI}} -DVCPKG_TARGET_ANDROID=ON
         cmake --build . --config ${{ matrix.BUILD_TYPE }}
         cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
         cmake --build . --config ${{ matrix.BUILD_TYPE }} --target APK
