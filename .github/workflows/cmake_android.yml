@@ -63,6 +63,13 @@ jobs:
         vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
         vcpkgArguments: 'zlib openssl libpng libjpeg-turbo opus ffmpeg' # libvpx libyuv  opencv
 
+    - name: Cache Qt
+      id: cache-qt
+      uses: actions/cache@v1  # not v2!
+      with:
+        path: ${{env.TOOSL_DIR}}/qt
+        key: ${{ matrix.os }}-${{matrix.VCPKG_TARGET_TRIPLET}}-QtCache
+        
     - name: Install Qt
       # You may pin to the exact commit or the version.
       # uses: jurplel/install-qt-action@a962fb91949c8e846a3e4a944d50e7ef5cc3a28a
@@ -85,7 +92,7 @@ jobs:
         # Force a Qt mirror in case the default is not working
         #mirror: # optional
         # Whether or not to actually download Qt
-        #cached: false # optional, default is false
+        cached: ${{ steps.cache-qt.outputs.cache-hit }} # optional, default is false
         # Whether or not to automatically run setup-python to find a valid python version.
         #setup-python: false # optional, default is true
         # Qt tools to download--specify comma-separated argument lists which are themselves separated by spaces: <tool_name>,<tool_version>,<tool_arch>
