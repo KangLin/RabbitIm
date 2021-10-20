@@ -10,15 +10,15 @@ jobs:
       matrix:
         BUILD_TYPE: [Release, Debug]
         #os: [windows-2019, windows-2016]
-        qt_version: [6.2.0, 5.15.2, 5.12.11]
+        qt_version: [5.15.2, 5.12.11]
         include:
-          - os: windows-2019
-            triplet: x64-windows
-            VCPKG_PLATFORM_TOOLSET: v142
-            qt_version: 6.2.0
-            qt_arch: win64_msvc2019_64
-            GENERATORS: "Visual Studio 16 2019"
-            CMAKE_GENERATOR_PLATFORM: x64
+#          - os: windows-2019
+#            triplet: x64-windows
+#            VCPKG_PLATFORM_TOOLSET: v142
+#            qt_version: 6.2.0
+#            qt_arch: win64_msvc2019_64
+#            GENERATORS: "Visual Studio 16 2019"
+#            CMAKE_GENERATOR_PLATFORM: x64
             
           - os: windows-2019
             triplet: x64-windows
