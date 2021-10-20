@@ -4,12 +4,13 @@
 #include <QWidget>
 #include <QDialog>
 #include "WdgScreenEditor.h"
+#include "screenshot_export.h"
 
 class QComboBox;
 class QPushButton;
 class CWdgScreenEditor;
 
-class CDlgScreenShot : public QDialog
+class SCREENSHOT_EXPORT CDlgScreenShot : public QDialog
 {
     Q_OBJECT
 

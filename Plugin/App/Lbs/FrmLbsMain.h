@@ -4,12 +4,13 @@
 #include <QFrame>
 #include "LbsMotion.h"
 #include "LbsTrack.h"
+#include "lbs_export.h"
 
 namespace Ui {
 class CFrmLbsMain;
 }
 
-class CFrmLbsMain : public QFrame
+class LBS_EXPORT CFrmLbsMain : public QFrame
 {
     Q_OBJECT
     

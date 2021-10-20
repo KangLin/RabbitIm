@@ -6,12 +6,13 @@
 #include <QCamera>
 #include "Widgets/FrmVideo/FrmDisplay.h"
 #include "Widgets/FrmVideo/CameraQtCaptureVideoFrame.h"
+#include "qrcode_export.h"
 
 namespace Ui {
 class CFrmScanQRcode;
 }
 
-class CFrmScanQRcode : public QFrame
+class QRCODE_EXPORT CFrmScanQRcode : public QFrame
 {
     Q_OBJECT
     

@@ -161,15 +161,9 @@ else()
     message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
 endif()
 
-#include(cmake/Configure.cmake)
-#include(cmake/ThirdLibrary.cmake)
-
 add_subdirectory(Src)
 add_subdirectory(App)
 add_subdirectory(Plugin)
-#IF(NOT BUILD_SHARED_LIBS)
-#    include(Plugin/PluginStatic.cmake)
-#ENDIF()
 
 # Create install runtime target
 add_custom_target(install-runtime
