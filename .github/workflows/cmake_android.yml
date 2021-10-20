@@ -124,7 +124,7 @@ jobs:
     - name: build qxmpp
       working-directory: ${{env.SOURCE_DIR}}
       run: |
-        git clone "https://github.com/qxmpp-project/qxmpp.git"
+        git clone https://github.com/KangLin/qxmpp.git
         cd qxmpp
         git checkout -b v1.2.1 v1.2.1
         cmake -E make_directory build
