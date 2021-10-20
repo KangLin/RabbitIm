@@ -14,6 +14,7 @@ jobs:
         include:
           - os: windows-2019
             triplet: x64-windows
+            VCPKG_PLATFORM_TOOLSET: v142
             qt_version: 6.2.0
             qt_arch: win64_msvc2019_64
             GENERATORS: "Visual Studio 16 2019"
@@ -21,6 +22,7 @@ jobs:
             
           - os: windows-2019
             triplet: x64-windows
+            VCPKG_PLATFORM_TOOLSET: v142
             qt_version: 5.15.2
             qt_arch: win64_msvc2019_64
             GENERATORS: "Visual Studio 16 2019"
@@ -28,6 +30,7 @@ jobs:
             
           - os: windows-2016
             triplet: x86-windows
+            VCPKG_PLATFORM_TOOLSET: v141
             qt_version: 5.12.11
             qt_arch: win32_msvc2017
             GENERATORS: "Visual Studio 15 2017"
