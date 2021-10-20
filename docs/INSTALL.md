@@ -1,5 +1,4 @@
 ### 目录
---------
 
 - [工具](#user-content-工具)
 - [第三方库](#user-content-第三方库)
@@ -14,101 +13,111 @@
 - [调试](#user-content-调试)
 
 ### 工具
---------
 
-1. bash 环境:
-    - windows：
-         * msys2: http://sourceforge.net/projects/msys2/
+#### bash 环境:
+    
+- windows：
+  * msys2: http://sourceforge.net/projects/msys2/
 
-             ```
-              wget https://sourceforge.net/projects/msys2/files/latest/download
-              ```
+    ```
+    wget https://sourceforge.net/projects/msys2/files/latest/download
+    ```
 
-             + 代码库: https://github.com/Alexpux/MSYS2-packages
-        * msys: http://www.mingw.org/wiki/MSYS
-        * cygwin主页: http://www.cygwin.org/  
-    本人使用 msys2 
-2. 下载工具：
-    + wget
-    + curl
-3. 脚本工具：
-    * python:2.7.6  版本 2.7 或以后
-        + 主页: https://www.python.org/  
+    + 代码库: https://github.com/Alexpux/MSYS2-packages
+  * msys: http://www.mingw.org/wiki/MSYS
+  * cygwin主页: http://www.cygwin.org/  
+  本人使用 msys2 
+  
+#### 下载工具：
+- wget
+- curl
+
+#### 脚本工具：
+* python:2.7.6  版本 2.7 或以后
+  + 主页: https://www.python.org/  
                http://www.activestate.com/activepython/
-    * perl：5.18.2  版本 5.12 或以后
-        + 主页： http://www.perl.org/  
+* perl：5.18.2  版本 5.12 或以后
+  + 主页： http://www.perl.org/  
                 http://www.activestate.com/activeperl/
-    * bash:msys或cygwin
-    * ruby:qtwebkit编译需要 版本 1.9.3 或以后
-         + 主页：
-            * http://www.ruby-lang.org/
-            * http://rubyinstaller.org/  
-            * https://github.com/ruby/ruby
-4. cmake：
-    * 主页：http://www.cmake.org/
-    * 当前使用版本：3.1 
-5. 安装auto工具：
-    1. automake: http://www.gnu.org/software/automake/
-    2. autoconf: http://www.gnu.org/software/autoconf/
-    3. libtool: http://www.gnu.org/software/libtool/
-    4. m4: http://www.gnu.org/software/m4
-    5. pkg-config: http://www.freedesktop.org/wiki/Software/pkg-config/
-    6. make:根据bash系统的不同，有msys make（msys bash）、mingw make、gnu make（cygwin bash）
-6. 版本控制工具：
-    * subversion: http://subversion.apache.org/
-    * git: http://www.git-scm.com/
-        - [git设置](http://blog.csdn.net/kl222/article/details/32903495)
-7. windows平台工具：
-    1. Visual Studio
-        * 主页
-            - https://visualstudio.microsoft.com/vs/
-            - http://msdn.microsoft.com/zh-cn/vstudio 
-            - https://visualstudio.microsoft.com/zh-hans/downloads/
-        * 版本：
-            - Visual Studio 2013
-            - Visual Studio 2015
-            - Visual Studio 2017
-            - Visual Studio 2019
-        * Visual Studio 各版本密钥：https://blog.csdn.net/kl222/article/details/84939135
-        * 当前使用版本：vs 2017
-    2. windows sdk: https://developer.microsoft.com/en-us/windows/downloads/sdk-archive  
+* bash:msys或cygwin
+* ruby:qtwebkit编译需要 版本 1.9.3 或以后
+  + 主页：
+    * http://www.ruby-lang.org/
+    * http://rubyinstaller.org/  
+    * https://github.com/ruby/ruby
+#### cmake：
+* 主页：http://www.cmake.org/
+* 当前使用版本：3.1 
+#### 安装auto工具：
+    
+1. automake: http://www.gnu.org/software/automake/
+2. autoconf: http://www.gnu.org/software/autoconf/
+3. libtool: http://www.gnu.org/software/libtool/
+4. m4: http://www.gnu.org/software/m4
+5. pkg-config: http://www.freedesktop.org/wiki/Software/pkg-config/
+6. make:根据bash系统的不同，有msys make（msys bash）、mingw make、gnu make（cygwin bash）
+
+#### 版本控制工具：
+
+- subversion: http://subversion.apache.org/
+- git: http://www.git-scm.com/
+  + [git设置](http://blog.csdn.net/kl222/article/details/32903495)
+  
+#### windows平台工具：
+- Visual Studio
+  * 主页
+    - https://visualstudio.microsoft.com/vs/
+    - http://msdn.microsoft.com/zh-cn/vstudio 
+    - https://visualstudio.microsoft.com/zh-hans/downloads/
+  * 版本：
+    - Visual Studio 2013
+    - Visual Studio 2015
+    - Visual Studio 2017
+    - Visual Studio 2019
+  * Visual Studio 各版本密钥：https://blog.csdn.net/kl222/article/details/84939135
+  * 当前使用版本：vs 2017
+- windows sdk: https://developer.microsoft.com/en-us/windows/downloads/sdk-archive  
     根据你的操作系统安装相应的 SDK。 CDB必须要安装，QT调试需要。
-    3. Windows Driver Kit: https://docs.microsoft.com/zh-cn/windows-hardware/drivers/download-the-wdk
-8. 汇编工具（yasm、nasm）：
-    * [yasm](http://yasm.tortall.net/)
-    * [nasm](http://www.nasm.us/)  
+- Windows Driver Kit: https://docs.microsoft.com/zh-cn/windows-hardware/drivers/download-the-wdk
+
+#### 汇编工具（yasm、nasm）：
+- [yasm](http://yasm.tortall.net/)
+- [nasm](http://www.nasm.us/)  
     下载并安装，并且设置路径到环境变量PATH
-9. 编译工具：
-    1. windows
-        * msvc
-        * mingw gcc （4.82、4.91、4.92、5.30、5.40）
-    2. linux
-        * gcc、g++
+    
+#### 编译工具：
+- windows
+  + msvc
+  + mingw gcc （4.82、4.91、4.92、5.30、5.40）
+- linux
+  + gcc、g++
           当前使用版本：4.8
-    3. android
-        * android ndk
-        * android sdk
-10. android工具：
+- android
+  + android ndk
+  + android sdk
+  
+#### android工具：
     1. Java jdk：http://www.oracle.com/technetwork/java/javase/downloads/index.html
     2. ant：http://ant.apache.org/
     3. android sdk：http://developer.android.com/sdk/index.html
     4. android ndk：http://developer.android.com/ndk/index.html
-11. 安装工具
+    
+#### 安装工具
     1. deb打包工具：dh_make、 debhelper
     2. rpm打包工具:
     3. windows安装工具:nsis
-12. icu工具，编译 QtWebkit 需要
-13. [Qt工具与版本](http://wiki.qt.io/Qt-5.5.0-tools-and-versions)
-14. QT：
+#### icu工具，编译 QtWebkit 需要
+#### [Qt工具与版本](http://wiki.qt.io/Qt-5.5.0-tools-and-versions)
+#### QT：
     * 主页：https://www.qt.io
     * 下载：http://download.qt.io/official_releases/qt/
     * 当前使用版本：5.7.0
         + QT开发工具参考：http://doc.qt.io/qt-4.8/developing-with-qt.html
         + [QT编译](http://blog.csdn.net/kl222/article/details/44216951)
 
-第三方库
---------
-1. XMPP协议（QXMPP）：
+### 第三方库
+
+1. [可选] XMPP协议（QXMPP）：
     * 主页：http://code.google.com/p/qxmpp
     * 下载：
 
@@ -117,7 +126,7 @@
     * 当前使用版本：  
         git库版本 —— v1.0.0  
       编译方法参考源码根目录下的README文件。
-2. 音视频框架
+2. [可选] 音视频框架
     1. webrtc库：
         * 主页：http://www.webrtc.org/  
         * 下载：
@@ -134,7 +143,7 @@
 
         *当前使用版本：
          git库版本 —— n4.0.4
-3. 视频编解码器
+3. [可选] 视频编解码器
     1. x264
         * 下载：`git clone git://git.videolan.org/x264.git`
         * 当前使用版本：  
@@ -147,7 +156,7 @@
         * 下载:`git clone http://git.chromium.org/external/libyuv.git`
         * 当前使用版本:  
         git库版本 —— 416c48d
-4. 音频编解码器
+4. [可选] 音频编解码器
     1. 音频处理库(libspeexdsp)
         * 下载：`git clone http://git.xiph.org/speexdsp.git`
         * 当前使用版本:  
@@ -159,26 +168,18 @@
     3. opus
         * 下载： `git clone git://git.opus-codec.org/opus.git`
         * 当前使用版本：1.3.1
-5. [图像处理库(opencv)](http://opencv.org/)
+5. [可选] [图像处理库(opencv)](http://opencv.org/)
     * 下载：`git clone git://github.com/Itseez/opencv.git`  
     * 当前使用版本:  
     git库版本 —— 2.4.11
-6. [openssl](http://www.openssl.org/)
+6. [可选] [openssl](http://www.openssl.org/)
     * 下载：`git clone  https://github.com/openssl/openssl`  
     * 当前使用版本：  
     git库版本 —— OpenSSL_1_1_1b
-7. libsodium
+7. [可选] libsodium
     * 下载: `git clone https://github.com/jedisct1/libsodium.git`
     * 当前使用版本：1.0.6
-8. [libcurl](http://curl.haxx.se)
-    * 下载：`git://github.com/bagder/curl.git`  
-    * 当前使用版本：  
-    git库版本 —— curl-7_65_1
-9. [libicu](http://site.icu-project.org/)
-    * 下载：`svn co http://source.icu-project.org/repos/icu/icu/trunk/ icu`
-    * 当前使用版本：
-    Revision: 37321
-10. qt
+9. [必须] qt
     - 下载
 
             cd /home
@@ -198,7 +199,7 @@
             git submodule foreach --recursive "git clean -dfx" && git clean -dfx
 
     详见:[开发文档](./Books/开发笔记.md#user-content-Qt编译)
-11. 二维码编解码器
+10. [可选] 二维码编解码器
     1. libqrencode
         * 官网：http://fukuchi.org/works/qrencode/index.html.en
         * 下载：`git clone https://github.com/fukuchi/libqrencode.git`
@@ -208,146 +209,22 @@
         * 下载:` git clone git://git.code.sf.net/p/qzxing/code`
         * 当前使用版本：
             git库版本 —— d61f2ac9821a1f52655092c588c498ca8db1f2c9
-12. toxcore
+11. [可选] toxcore
     * 下载： `git clone git://github.com/irungentoo/toxcore.git`
     * 当前使用版本：e1089c1779fb1c58f17937108a6ba8c3d39573ae
-13. gdal
-    * 下载：`git clone https://github.com/OSGeo/gdal`
-    * 当前使用版本：2.0
-14. osg
-    * 下载：`git clone https://github.com/openscenegraph/osg.git`
-    * 当前使用版本: OpenSceneGraph-3.5.3
-15. osgearth
-    * 官网：http://osgearth.org/
-    * 下载：`git clone https://github.com/gwaldron/osgearth.git`
-    * 当前使用版本: osgearth-2.8rc1
-16. libpng
-    * 官网：http://sourceforge.net/projects/libpng/
-    * 下载: `git clone git://git.code.sf.net/p/libpng/code`
 
-本项目
----------
+
+### 本项目
 
 * 主页：https://github.com/KangLin/rabbitim
 * 下载：`git clone --recursive https://github.com/KangLin/rabbitim.git `
 
-编译
------
+### 编译
 
 1. [第三方依赖库](https://github.com/KangLin/RabbitThirdLibrary)目录介绍：
 
-    在源码根目录下有第三方库目录：ThirdLibrary 。其目录结构如下：
-    
-        ThirdLibrary
-            ｜
-            ｜----- patch               #补丁包目录
-            ｜----- build_script        #第三方库编译脚本目录
-            ｜----- src                 #第三方库源码目录
-            ｜----- $${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCHITECTURE}_qt$${QT_VERSION}_$${RABBIT_CONFIG}
-            ｜  ｜----- include    #头文件
-            ｜  ｜----- lib        #库文
-            ｜  ｜----- bin        #二进执行文件
-        
-
-2. 使用预编译的第三方库  
-    可以在 https://github.com/KangLin/RabbitThirdLibrary/releases
-          或 https://sourceforge.net/projects/rabbitim-third-library/files/release/ 中，
-    选择与你**主机操作系统相同、编译器版本相同**的包下载本项目依赖的预编译好的第三方库。
-    
-    文件格式：
-    
-        $${RABBITIM_PLATFORM}$${RABBIT_TOOLCHAIN_VERSION}_$${RABBITIM_ARCHITECTURE}_qt$${QT_VERSION}_$${RABBIT_CONFIG}.zip
-    
-    |编译器|版本号(RABBIT_TOOLCHAIN_VERSION)|平台(RABBITIM_PLATFORM)|架构(RABBITIM_ARCHITECTURE)|
-    |:--:|:--:|:--:|:--:|
-    |VS2017|15|windows_msvc|x86|
-    |VS2017|15|windows_msvc|x64|
-    |VS2015|14|windows_msvc|x86|
-    |VS2015|14|windows_msvc|x64|
-    |VS2013|12|windows_msvc|x86|
-    |VS2013|12|windows_msvc|x64|
-    |gcc 5.3.0|530|windows_mingw|x86|
-    |gcc 4.9.2|492|windows_mingw|x86|
-    |gcc 4.9.1|491|windows_mingw|x86|
-    |gcc 4.8.2|482|windows_mingw|x86|
-    |gcc 4.8|4.8|android|arm|
-    |gcc 4.8|4.8|android|x86|
-    
-    下载后解压，按上面目录结构放置。
-    如果目录下有change_prefix.sh，则执行change_prefix.sh就可以。
-    如果没有，则需要按下面步骤执行：
-    
-        cd ${RabbitImRoot}/ThirdLibrary/build_script
-        cp ${RabbitImRoot}/ThirdLibrary/build_script/change_prefix.sh ${RabbitImRoot}/ThirdLibrary/${Platform}/change_prefix.sh
-        cd ${RabbitImRoot}/ThirdLibrary/${Platform}
-        ./change_prefix.sh ${old_prefix} ${new_prefix}  #old_prefix是原来的前缀，你可打开一个配置文件查看；
-    
-    如果第三方库是你自己编译的，那就不需要这一步。
-
-3. 第三方依赖库编译脚本  
-    + 第三库编译脚本是 bash 脚本。运行这些脚本时，需要有 bash 环境。
-        - linux、unix 默认安装了 bash 环境。
-        - windows 下需要安装 cygwin 或者 msys(msys2) 环境。
-    + 环境变量：
-    
-        export RabbitImRoot=/home/rabbitim    #本工程源码根目录
-    
-    + 所需要的环境变量可以保存到系统配置文件 ~/.profile 文件中。作为全局环境变量。但这可能会与其它工程需要的环境变量冲突。为了避免这个问题。你也可以把环境变量保到 build_envsetup_${RABBITIM_BUILD_TARGERT}.sh 文件中。
-    + 预编译只有第三方依赖库的发行版本。如果你需要调试版本，请手工编译。
-    + 第三方库编译脚本位于：${RabbitImRoot}/ThirdLibrary/build_script 目录下。
-    + **注意**:
-        - 执行脚本时，请先进入 ${RabbitImRoot}/ThirdLibrary/build_script 目录。
-    
-            cd ${RabbitImRoot}/ThirdLibrary/build_script
-            ./build.sh (unix|android|windows_msvc|windows_mingw) [source_code_directory]
-    
-        - 如果省略源码目录，则脚本自动下载源码到 cd ${RabbitImRoot}/ThirdLibrary/src 目录下。
-    
-    + 各目标编译详细说明：
-    
-        1. [ubuntu](../ThirdLibrary/INSTALL_UBUNTU.md)
-        2. [android](../ThirdLibrary/INSTALL_ANDROID.md)
-        3. [windows](../ThirdLibrary/INSTALL_WINDOWS.md)
-4. 第三方依赖库编译
-    1. 编解码库(libvpx)编译：详见：http://blog.csdn.net/kl222/article/details/23101115  
-    2. ffmpeg编译：详见《ffmpeg教程》
-    3. opencv编译：
-        - [Building OpenCV4Android from trunk](http://code.opencv.org/projects/opencv/wiki/Building_OpenCV4Android_from_trunk)
-        - 详见:[http://blog.csdn.net/kl222/article/details/27223791](http://blog.csdn.net/kl222/article/details/27223791)
-    4. libspeex、libspeexdsp编译:
-    
-           ./autogen.sh  
-           configure --prefix=${RabbitImRoot}/ThirdLiabary/${Platform}  
-           make install  
-    
-    5. webrtc编译：详见[《webrtc教程》](http://blog.csdn.net/kl222/article/details/17198873)
-    6. libyuv 编译：
-        - 官网：https://code.google.com/p/libyuv/wiki/GettingStarted  
-        - 详见：[《libyuv编译》](http://blog.csdn.net/kl222/article/details/41309541)  
-        - [libyuv编译.txt](./Books/libyuv编译.txt)
-    7. [openssl编译](http://blog.csdn.net/kl222/article/details/41787529)
-    8. [libcurl 编译](http://blog.csdn.net/kl222/article/details/41898025)
-    9. icu编译
-        * [用 mingw 编译](http://wiki.qt.io/Compiling-ICU-with-MinGW)
-        * [用 msvc 编译](http://wiki.qt.io/Compiling-ICU-with-MSVC)
-    10. [qt编译](http://blog.csdn.net/kl222/article/details/44216951)
-    11. QXMPP编译：  
-        1. 用 Qt Creator 进行编译：
-            * 用 Qt Creator 打开本工程。
-            * 打开“文件->打开文件或项目”。
-            * 在弹出的对话框中选中CMakeLists.txt，打开qxmpp工程。
-            * 点左边工具栏中的“项目”，选择qxmpp标签，在相应平台“构建设置”中选中 WITH_VPX、WITH_OPUS。点 Applay Configuration Change
-        2. 用命令行编译：  
-
-                mkdir build
-                cd build
-                cmake ..
-                cmake --build . --target install
-
-        **注意**：qxmpp库版本与qt版本相关，如果当前qt版本与编译的qxmpp用的qt版本不一样，那么需要用现在qt重新编译qxmpp库。
-
-本工程编译
---------
+  
+### 本工程编译
 1. 用脚本  $(RabbitImRoot)/ThirdLibrary/build_rabbitim.sh 进行编译：
 
         . build_rabbitim.sh *平台参数* *[源码根目录]* *[工程工具]*
