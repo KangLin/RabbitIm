@@ -33,7 +33,7 @@
 8. 程序中新建立的堆对象，用智能指针代替普通指针。
 9. 源码提交，基本原则为：
     1. 按每个小功能进行提交，写清楚提交注释，并保证能够编译通过。
-    2. 本项目支持 QT 和 CMAKE 项目文件，所以需要保证你改的功能在两个项目中能够编译通过。
+    2. 本项目支持 CMAKE 项目文件，所以需要保证你改的功能能够编译通过。
     3. 提交前需要作者完成单元测试。
   
 开发流程
@@ -82,10 +82,9 @@
 
 [语义化版本](http://semver.org/)
 
-* 本项同时支持 Qt 和 CMake 项目文件，所以需要**同时修改以下文件中的版本号**：
-    1. 用Qt project发行时需要修改：[RabbitImVersion.pri](./../pri/RabbitImVersion.pri)
-    2. 用cmake 发行时需要修改：[install_version.cmake](./../cmake/install_version.cmake)
-    3. 修改自动化编译配置文件：[appveyor.yml](../appveyor.yml)
+* 本项支持 CMake 项目文件，所以需要**同时修改以下文件中的版本号**：
+    1. 用cmake 发行时需要修改：[install_version.cmake](./../cmake/install_version.cmake)
+    2. 修改自动化编译配置文件：[appveyor.yml](../appveyor.yml)
 
 #### 格式:
 1. 格式：  
@@ -143,23 +142,20 @@
 1. 代码中的中文注释后是否加有两个空格
 2. 代码中的字符串必须是英文
 3. 是否已修改相关翻译文件
-4. 是否已修改相关 QT 工程文件
-5. 是否已修改相关 cmake 工程文件
-6. 是否完成相关文档(TODO.txt,ChangeLog.md)
-7. 是否完成了第三方库各平台编译脚本
+4. 是否已修改相关 cmake 工程文件
+5. 是否完成相关文档(TODO.txt,ChangeLog.md)
+6. 是否完成了第三方库各平台编译脚本
 
 ##### 2. 编译
 1. WINDOWS for msvc 编译器是否能通过（已自动化）
 2. windows for mingw 编译器是否能通过（已自动化）
 3. linux for g++ 编译器是否能通过（已自动化）
 4. android 编译器是否能通过（已自动化）
-5. 用 Qt 工程是否能通过（已自动化）
-6. 用 CMake 工程是否能通过（已自动化）
+5. 用 CMake 工程是否能通过（已自动化）
 
 ##### 3. 是否修改了版本号（仅管理员检查此项）
-1. 用Qt project发行时需要修改：[RabbitImVersion.pri](./../pri/RabbitImVersion.pri)
-2. 用cmake 发行时需要修改：[install_version.cmake](./../cmake/install_version.cmake)
-3. 修改自动化编译配置文件：[appveyor.yml](../appveyor.yml)
+1. 用cmake 发行时需要修改：[install_version.cmake](./../cmake/install_version.cmake)
+2. 修改自动化编译配置文件：[appveyor.yml](../appveyor.yml)
 
 参考资料：
 --------

@@ -33,7 +33,7 @@
       + [x] 视频（P2P）
       + [x] 文件传输
       + [ ] 远程桌面、远程控制
-    - [ ] 支持群功能（会议室功能）
+    - [x] 支持群功能（会议室功能）
       + [x] 文本
       + [x] 表情
       + [ ] 语音
@@ -76,7 +76,7 @@
 
 | 许可协议 | 变更日志 | 项目计划 | 开发 | 编译 | 开发笔记 |
 |:--------:|:--------:|:--------:|:----:|:----:|:--------:|
-|[许可协议](License.md)|[变更日志](ChangeLog.md)|[项目计划](docs/TODO.txt)|[开发](docs/develop.md)|[编译](docs/INSTALL.md)|[开发笔记](docs/Books/开发笔记.md)|
+|[许可协议](License.md)|[变更日志](ChangeLog.md)|[项目计划](TODO.txt)|[开发](docs/develop.md)|[编译](docs/INSTALL.md)|[开发笔记](docs/Books/开发笔记.md)|
 
 ### 自动编译状态
 
@@ -85,6 +85,12 @@
 |linux、android、mac、ios|[![Build Status](https://travis-ci.org/KangLin/RabbitIm.svg?branch=master)](https://travis-ci.org/KangLin/rabbitim)|[![Build Status](https://travis-ci.org/KangLin/RabbitIm.svg?branch=Develop)](https://travis-ci.org/KangLin/RabbitIm)|
 |windows当前分支|[![Build Status](https://ci.appveyor.com/api/projects/status/sknyg6fu1a9flnj3?svg=true)](https://ci.appveyor.com/project/KangLin/RabbitIm)|
 
+#### Github actions
+|     | master 分支 | develop 分支 |
+|:---:|:-----------:|:------------:|
+|Linux|[![Linux 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_ubuntu.yml/badge.svg?branch=master)](https://github.com/kanglin/rabbitim/actions)|[![Linux 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_ubuntu.yml/badge.svg?branch=Develop)](https://github.com/kanglin/rabbitim/actions)
+|Windows当前分支|[![Windows 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_windows.yml/badge.svg?branch=master)](https://github.com/kanglin/rabbitim/actions)|[![Windows 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_windows.yml/badge.svg?branch=Develop)](https://github.com/kanglin/rabbitim/actions)
+|Android|[![Android 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_android.yml/badge.svg?branch=master)](https://github.com/kanglin/rabbitim/actions)|[![Android 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_android.yml/badge.svg?branch=Develop)](https://github.com/kanglin/rabbitim/actions)
 
 ### 捐赠：
 
