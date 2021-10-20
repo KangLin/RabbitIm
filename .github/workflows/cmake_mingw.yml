@@ -59,6 +59,9 @@ jobs:
         C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-libpng
         C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-i686-nasm
         C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-openh264 
+        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-libvpx mingw-w64-x86_64-opus mingw-w64-x86_64-speex mingw-w64-x86_64-speexdsp
+        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-qxmpp
+        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-ffmpeg
         C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-opencv
         C:\msys64\usr\bin\pacman -S --noconfirm git base-devel
 
@@ -86,19 +89,19 @@ jobs:
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         
-    - name: build qxmpp
-      working-directory: ${{env.SOURCE_DIR}}
-      env:
-        MSYSTEM: MINGW64
-        PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
-      run: |
-        git clone -b v1.2.1 "https://github.com/qxmpp-project/qxmpp.git"
-        cd qxmpp
-        cmake -E make_directory build
-        cd build
-        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
-        cmake --build . --config ${{matrix.BUILD_TYPE}}
-        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+#    - name: build qxmpp
+#      working-directory: ${{env.SOURCE_DIR}}
+#      env:
+#        MSYSTEM: MINGW64
+#        PATH: C:\msys64\mingw64\bin;C:\msys64\usr\bin
+#      run: |
+#        git clone -b v1.2.1 "https://github.com/qxmpp-project/qxmpp.git"
+#        cd qxmpp
+#        cmake -E make_directory build
+#        cd build
+#        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DWITH_VPX=ON -DWITH_OPUS=ON
+#        cmake --build . --config ${{matrix.BUILD_TYPE}}
+#        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         
     - name: build qzxing
       working-directory: ${{env.SOURCE_DIR}}
