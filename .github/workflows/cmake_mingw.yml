@@ -27,23 +27,6 @@ jobs:
     - uses: actions/checkout@v2
       #with:
         #fetch-depth: 0
-
-#    - uses: msys2/setup-msys2@v2
-#      with:
-#        msystem: MINGW64
-#        update: true
-#        path-type: strict
-#        install: >-
-#            mingw-w64-x86_64-cmake
-#            mingw-w64-x86_64-nsis
-#            mingw-w64-x86_64-make
-#            mingw-w64-x86_64-gcc
-#            mingw-w64-x86_64-qt5
-#            mingw-w64-x86_64-zlib
-#            mingw-w64-x86_64-libvncserver
-#            mingw-w64-x86_64-cyrus-sasl
-#            mingw-w64-x86_64-pixman
-#            mingw-w64-x86_64-openjpeg
             
     - name: pacman
       env:
