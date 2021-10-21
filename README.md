@@ -88,9 +88,9 @@
 #### Github actions
 |     | master 分支 | develop 分支 |
 |:---:|:-----------:|:------------:|
-|Linux|[![Linux 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_ubuntu.yml/badge.svg?branch=master)](https://github.com/kanglin/rabbitim/actions)|[![Linux 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_ubuntu.yml/badge.svg?branch=Develop)](https://github.com/kanglin/rabbitim/actions)
-|Windows当前分支|[![Windows 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_windows.yml/badge.svg?branch=master)](https://github.com/kanglin/rabbitim/actions)|[![Windows 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_windows.yml/badge.svg?branch=Develop)](https://github.com/kanglin/rabbitim/actions)
-|Android|[![Android 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_android.yml/badge.svg?branch=master)](https://github.com/kanglin/rabbitim/actions)|[![Android 编译状态](https://github.com/kanglin/rabbitim/workflows/cmake_android.yml/badge.svg?branch=Develop)](https://github.com/kanglin/rabbitim/actions)
+|Linux|[![Linux 编译状态](https://github.com/kanglin/rabbitim/actions/workflows/cmake_ubuntu.yml/badge.svg?branch=master)](https://github.com/kanglin/rabbitim/actions)|[![Linux 编译状态](https://github.com/kanglin/rabbitim/actions/workflows/cmake_ubuntu.yml/badge.svg?branch=Develop)](https://github.com/kanglin/rabbitim/actions)
+|Windows|[![Windows 编译状态](https://github.com/kanglin/rabbitim/actions/workflows/cmake_windows.yml/badge.svg?branch=master)](https://github.com/kanglin/rabbitim/actions)|[![Windows 编译状态](https://github.com/kanglin/rabbitim/actions/workflows/cmake_windows.yml/badge.svg?branch=Develop)](https://github.com/kanglin/rabbitim/actions)
+|Android|[![Android 编译状态](https://github.com/kanglin/rabbitim/actions/workflows/cmake_android.yml/badge.svg?branch=master)](https://github.com/kanglin/rabbitim/actions)|[![Android 编译状态](https://github.com/kanglin/rabbitim/actions/workflows/cmake_android.yml/badge.svg?branch=Develop)](https://github.com/kanglin/rabbitim/actions)
 
 ### 捐赠：
 
