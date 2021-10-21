@@ -7,6 +7,8 @@ SET(INSTALL_HEADER_FILES
     UserInfo/User.h
     Global/GlobalDir.h
     Global/Global.h
+    Call/CallObject.h
+    FileTransfer/FileTransfer.h
     )
 
 SET(RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
@@ -31,7 +33,6 @@ SET(RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
     Widgets/FrmCustom/MenuMessageSend.h  
     Manage/ManageMessageDialogBigScreen.h 
     
-    Call/CallObject.h
     Call/ManageCall.h 
     Call/CallAction.h  
     
