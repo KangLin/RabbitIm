@@ -10,14 +10,20 @@
     #include "RabbitCommonTools.h"
     #include "RabbitCommonDir.h"
     #include "FrmUpdater/FrmUpdater.h"
+    #ifdef BUILD_QUIWidget
+        #include "QUIWidget/QUIWidget.h"
+    #endif
 #endif
 
 int main(int argc, char *argv[])
 {
+    int nRet = 0;
 #if (QT_VERSION > QT_VERSION_CHECK(5,6,0))
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    
+#if defined(Q_OS_ANDROID) && QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
+    QtAndroid::hideSplashScreen();
+#endif
 //#ifdef ANDROID
 //    Q_INIT_RESOURCE(Android);
 //#endif
@@ -84,50 +90,80 @@ int main(int argc, char *argv[])
     CGlobal::Instance()->SetManager(&manager);
         
     //*
-    MainWindow w;
-#ifndef MOBILE
-    //加载窗口位置  
-    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                   QSettings::IniFormat);
-    QScreen *pScreen = QGuiApplication::primaryScreen();
+    MainWindow* w = new MainWindow();
     
-    int top = conf.value("UI/MainWindow/top",
-          pScreen->availableGeometry().height()  > w.height() 
-          ? (pScreen->availableGeometry().height() - w.height()) >> 1
-          :  60
-          ).toInt();
-    int left = conf.value("UI/MainWindow/left",
-          pScreen->availableGeometry().width() > w.width() 
-          ? (pScreen->availableGeometry().width() - w.width()) >> 1
-          : 60
-          ).toInt();
-    int Width = conf.value("UI/MainWindow/width", 
-          pScreen->availableGeometry().width() > w.width() 
-          ? w.geometry().width()
-          : pScreen->availableGeometry().width()  - 120
-          ).toInt();
-    int Height = conf.value("UI/MainWindow/height",
-          pScreen->availableGeometry().height()  > w.height() 
-          ? w.geometry().height()
-          :  pScreen->availableGeometry().height()  - 120
-          ).toInt();
-    w.resize(Width, Height);
-    w.move(left, top);
+    try {
+#ifndef MOBILE
+        //加载窗口位置  
+        QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
+                       QSettings::IniFormat);
+        QScreen *pScreen = QGuiApplication::primaryScreen();
+        
+        int top = conf.value("UI/MainWindow/top",
+                             pScreen->availableGeometry().height()  > w->height() 
+                             ? (pScreen->availableGeometry().height() - w->height()) >> 1
+                             :  60
+                               ).toInt();
+        int left = conf.value("UI/MainWindow/left",
+                              pScreen->availableGeometry().width() > w->width() 
+                              ? (pScreen->availableGeometry().width() - w->width()) >> 1
+                              : 60
+                                ).toInt();
+        int Width = conf.value("UI/MainWindow/width", 
+                               pScreen->availableGeometry().width() > w->width() 
+                               ? w->geometry().width()
+                               : pScreen->availableGeometry().width()  - 120
+                                 ).toInt();
+        int Height = conf.value("UI/MainWindow/height",
+                                pScreen->availableGeometry().height()  > w->height() 
+                                ? w->geometry().height()
+                                :  pScreen->availableGeometry().height()  - 120
+                                  ).toInt();
 #endif
-    w.show();
-
-    //*/
-
-    /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())  
+#ifdef BUILD_QUIWidget
+        QSharedPointer<QUIWidget> quiwidget(new QUIWidget(nullptr, true));
+        //quiwidget.setPixmap(QUIWidget::Lab_Ico, ":/image/App");
+        //quiwidget.setTitle(a.applicationDisplayName());
+        quiwidget->setVisible(QUIWidget::BtnMenu_Max, false);
+        quiwidget->setMainWidget(w);
+        #ifndef MOBILE
+        quiwidget->resize(Width, Height);
+        quiwidget->move(left, top);
+        #endif
+        quiwidget->show();
+#else
+#ifndef MOBILE
+        w->resize(Width, Height);
+        w->move(left, top);
+#endif
+        w->show();
+#endif
+        
+        //*/
+        
+        /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())  
 #ifdef DEBUG
     CFrmPlayer player;
     player.TestCamera();
     player.show();
 #endif
     //*/
-    int nRet = app.exec();
-
-#ifdef DEBUG
+        nRet = app.exec();
+    } catch(std::exception &e) {
+        LOG_MODEL_ERROR("main", "exception: %s", e.what());
+    } catch(...) {
+        LOG_MODEL_ERROR("main", "exception");
+    }
+    
+#ifndef BUILD_QUIWidget
+    delete w;
+#endif
+    
+#ifdef RABBITCOMMON
+    RabbitCommon::CTools::Instance()->Clean();
+#endif
+    app.removeTranslator(&translator);
+#if defined (_DEBUG) || !defined(BUILD_SHARED_LIBS)
     Q_CLEANUP_RESOURCE(translations_RabbitImApp);
 #endif
 

@@ -161,6 +161,7 @@ else()
     message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
 endif()
 
+option(BUILD_PLUGIN_APP "Build plugin applications" OFF)
 add_subdirectory(Src)
 add_subdirectory(App)
 add_subdirectory(Plugin)
