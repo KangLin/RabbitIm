@@ -135,7 +135,7 @@ jobs:
         cd qxmpp
         cmake -E make_directory build
         cd build
-        cmake .. -G"${{matrix.GENERATORS}}" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DWITH_VPX=ON -DWITH_OPUS=ON -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+        cmake .. -G"${{matrix.GENERATORS}}" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DWITH_VPX=ON -DWITH_OPUS=ON -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
     
@@ -146,7 +146,7 @@ jobs:
         cd qzxing
         cmake -E make_directory build
         cd build
-        cmake .. -G"${{matrix.GENERATORS}}" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+        cmake .. -G"${{matrix.GENERATORS}}" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DBUILD_EXAMPLES=OFF -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         
@@ -168,6 +168,7 @@ jobs:
         move /Y install\plugins\*ssl*.dll install\bin
         move /Y ${{env.INSTALL_DIR}}/bin\*.dll install\bin
         move /Y ${{env.INSTALL_DIR}}/lib\*.dll install\bin
+        move /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
         makensis ${{github.workspace}}/build/Install.nsi
         ${{github.workspace}}/build/install/bin/RabbitImApp.exe -f "${{github.workspace}}/build/update_windows.xml" --pf RabbitIm-Setup-v0.1.0.exe -m "v0.1.0"
       if: ${{ matrix.BUILD_TYPE == 'Release' }}

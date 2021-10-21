@@ -128,7 +128,7 @@ jobs:
         cd qxmpp
         cmake -E make_directory build
         cd build
-        cmake .. -DQt5_DIR=${Qt5_Dir} -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake -DANDROID_ABI=${{matrix.ANDROID_ABI}} -DVCPKG_TARGET_ANDROID=ON
+        cmake .. -DQt5_DIR=${Qt5_Dir} -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake -DANDROID_ABI=${{matrix.ANDROID_ABI}} -DVCPKG_TARGET_ANDROID=ON
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
     
@@ -139,7 +139,7 @@ jobs:
         cd qzxing
         cmake -E make_directory build
         cd build
-        cmake ..  -DQt5_DIR=${Qt5_Dir} -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake -DANDROID_ABI=${{matrix.ANDROID_ABI}} -DVCPKG_TARGET_ANDROID=ON
+        cmake ..  -DQt5_DIR=${Qt5_Dir} -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DBUILD_EXAMPLES=OFF -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake -DANDROID_ABI=${{matrix.ANDROID_ABI}} -DVCPKG_TARGET_ANDROID=ON
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
 

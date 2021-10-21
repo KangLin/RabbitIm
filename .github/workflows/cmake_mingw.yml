@@ -82,7 +82,7 @@ jobs:
 #        cd qxmpp
 #        cmake -E make_directory build
 #        cd build
-#        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DWITH_VPX=ON -DWITH_OPUS=ON
+#        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DWITH_VPX=ON -DWITH_OPUS=ON
 #        cmake --build . --config ${{matrix.BUILD_TYPE}}
 #        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         
@@ -96,7 +96,7 @@ jobs:
         cd qzxing
         cmake -E make_directory build
         cd build
-        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON
+        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DBUILD_EXAMPLES=OFF -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
 
