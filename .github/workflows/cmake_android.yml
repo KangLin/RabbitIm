@@ -124,9 +124,8 @@ jobs:
     - name: build qxmpp
       working-directory: ${{env.SOURCE_DIR}}
       run: |
-        git clone https://github.com/KangLin/qxmpp.git
+        git clone -b v1.2.1 "https://github.com/qxmpp-project/qxmpp.git"
         cd qxmpp
-        git checkout -b v1.2.1 v1.2.1
         cmake -E make_directory build
         cd build
         cmake .. -DQt5_DIR=${Qt5_Dir} -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake -DANDROID_ABI=${{matrix.ANDROID_ABI}} -DVCPKG_TARGET_ANDROID=ON
