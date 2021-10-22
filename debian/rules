@@ -27,9 +27,14 @@ override_dh_auto_configure:
 #    endif
 
 override_dh_auto_build:
-    ifndef GENERATORS
-	dh_auto_build -- -j`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`
-    endif
+#	ifndef GENERATORS
+		dh_auto_build -- -j`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`
+#	endif
+
+override_dh_auto_install:
+#	ifndef GENERATORS
+		dh_auto_install -- install-runtime -j`cat /proc/cpuinfo |grep 'cpu cores' |wc -l`
+#	endif
 
 override_dh_shlibdeps:
 	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/rabbitim/opt/RabbitIm/lib/`uname -m`-linux-gnu:`pwd`/debian/rabbitim/opt/RabbitIm/lib:$(THIRD_LIBRARY_PATH)/lib

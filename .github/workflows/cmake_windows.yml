@@ -158,12 +158,14 @@ jobs:
         cd ${{github.workspace}}/build
         cmake ${{github.workspace}} -G"${{matrix.GENERATORS}}" -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install -DLog4Qt_DIR=/lib/cmake/Log4Qt -DCMAKE_PREFIX_PATH=${{ env.INSTALL_DIR }} -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp -DQZXing_DIR=${{env.INSTALL_DIR}}/lib/cmake/QZXing -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
         cmake --build . --config ${{ matrix.BUILD_TYPE }}
-        cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install-runtime
+        #echo "cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install-runtime"
+        #cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install-runtime
 
     - name: Package
       working-directory: ${{github.workspace}}/build
       shell: cmd
       run: |
+        cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install-runtime
         move /Y install\plugins\*crypto*.dll install\bin
         move /Y install\plugins\*ssl*.dll install\bin
         move /Y ${{env.INSTALL_DIR}}/bin\*.dll install\bin

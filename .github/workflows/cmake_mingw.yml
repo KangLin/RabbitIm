@@ -112,4 +112,4 @@ jobs:
         cd build
         cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake -DLog4Qt_DIR=/lib/cmake/Log4Qt -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp -DQZXing_DIR=${{env.INSTALL_DIR}}/lib/cmake/QZXing 
         cmake --build . --config ${{ matrix.BUILD_TYPE }}
-        cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
+        cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install-runtime
