@@ -27,14 +27,6 @@ LIST(APPEND RABBITIM_RCC_FILES
     ${CMAKE_SOURCE_DIR}/Resource/Resource.qrc
     )
 
-if(NOT DEFINED CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release")
-endif(NOT DEFINED CMAKE_BUILD_TYPE)
-string(TOLOWER "${CMAKE_BUILD_TYPE}" BUILD_TYPE)
-if("debug" STREQUAL BUILD_TYPE)
-    list(APPEND RABBITIM_DEFINES _DEBUG DEBUG)
-endif()
-
 LIST(APPEND RABBITIM_RCC_FILES
     Emoji/Emojis/emojione.qrc
     Emoji/Emojis/smileys.qrc
