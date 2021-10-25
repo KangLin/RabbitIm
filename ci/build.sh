@@ -244,7 +244,10 @@ if [ -n "$GENERATORS" ]; then
 		 -DCMAKE_INSTALL_PREFIX=`pwd`/install \
 		 -DCMAKE_VERBOSE_MAKEFILE=ON \
 		 -DCMAKE_BUILD_TYPE=Release \
-		 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5
+		 -DQt5_DIR=${QT_ROOT}/lib/cmake/Qt5 \
+         -DQXmpp_DIR=${ThirdLibs_DIR}/lib/cmake/qxmpp \
+         -DQZxing_DIR=${ThirdLibs_DIR}/lib/cmake/qzxing \
+         -DOpenCV_DIR=${ThirdLibs_DIR}/lib/Opencv
 
         cmake --build . --config Release -- ${RABBIT_MAKE_JOB_PARA}
         cmake --build . --config Release --target install-runtime
