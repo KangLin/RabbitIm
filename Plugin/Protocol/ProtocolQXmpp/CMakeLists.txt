@@ -43,10 +43,10 @@ ELSE(LINUX OR UNIX)
     SET(RABBITIM_SYSTEM unix)
 ENDIF()
 
-set(INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/Src)
+set(INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>)
 IF(ANDROID)
     LIST(APPEND INCLUDE_DIRS
-        ${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni)
+        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni>)
 ENDIF()
 
 SET(SOURCE_FILES ClientXmpp.cpp
