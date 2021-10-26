@@ -208,14 +208,14 @@ jobs:
         cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install-runtime
         cmake --build . --config ${{ matrix.BUILD_TYPE }} --target APK
 
-    - name: Package
-      working-directory: ${{github.workspace}}/build
-      run: |
-         ${Qt5_Dir}/bin/androiddeployqt \
-          --input `pwd`/App/android-libRabbitImApp.so-deployment-settings.json \
-          --output `pwd`/android-build \
-          --android-platform ${ANDROID_API} \
-      if: ${{ matrix.BUILD_TYPE == 'Release' }}
+    #- name: Package
+    #  working-directory: ${{github.workspace}}/build
+    #  run: |
+    #     ${Qt5_Dir}/bin/androiddeployqt \
+    #      --input `pwd`/App/android-libRabbitImApp.so-deployment-settings.json \
+    #      --output `pwd`/android-build \
+    #      --android-platform ${ANDROID_API} \
+    #  if: ${{ matrix.BUILD_TYPE == 'Release' }}
 
     - name: update 
       uses: actions/upload-artifact@v2
