@@ -61,8 +61,7 @@ ELSEIF(ANDROID)
     ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni
         ${CMAKE_BINARY_DIR}/QtAndroidUtilsModule)
     LIST(APPEND RABBITIM_LIBS QtAndroidUtilsModule)
-    LIST(APPEND INCLUDE_DIRS
-        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni>)
+    list(APPEND QT_COMPONENTS AndroidExtras)
 ELSE(LINUX OR UNIX)
     list(APPEND RABBITIM_DEFINES UNIX)
 ENDIF()
