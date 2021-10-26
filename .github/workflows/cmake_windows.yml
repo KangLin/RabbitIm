@@ -59,7 +59,7 @@ jobs:
         cmake -E make_directory ${{env.SOURCE_DIR}}
         cmake -E make_directory ${{env.TOOSL_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
-      
+
     - name: run-vcpkg
       uses: lukka/run-vcpkg@v7.4
       with:
@@ -180,8 +180,6 @@ jobs:
             -DQZXing_DIR=${{env.INSTALL_DIR}}/lib/cmake/QZXing ^
             -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
         cmake --build . --config ${{ matrix.BUILD_TYPE }}
-        #echo "cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install-runtime"
-        #cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install-runtime
 
     - name: Package
       working-directory: ${{github.workspace}}/build

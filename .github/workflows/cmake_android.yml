@@ -4,12 +4,12 @@ on: [push]
 
 jobs:
   use_install_qt:
-    name: use install qt ${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}
+    name: use install qt android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}
 
     strategy:
       matrix:
         BUILD_TYPE: [Release, Debug]
-        os: [Ubuntu-latest]
+        os: [Ubuntu-18.04]
         qt_version: [5.12.11]
         VCPKG_TARGET_TRIPLET: [arm-android]
         qt_arch: [android_armv7]

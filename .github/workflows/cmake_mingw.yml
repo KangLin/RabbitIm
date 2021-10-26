@@ -27,7 +27,13 @@ jobs:
     - uses: actions/checkout@v2
       #with:
         #fetch-depth: 0
-            
+
+    - name: make_directory
+      run: |
+        cmake -E make_directory ${{env.SOURCE_DIR}}
+        cmake -E make_directory ${{env.TOOSL_DIR}}
+        cmake -E make_directory ${{env.INSTALL_DIR}}
+
     - name: pacman
       env:
         PATH: C:\msys64\usr\bin
@@ -47,12 +53,6 @@ jobs:
         C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-ffmpeg
         C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-opencv
         C:\msys64\usr\bin\pacman -S --noconfirm git base-devel
-
-    - name: make_directory
-      run: |
-        cmake -E make_directory ${{env.SOURCE_DIR}}
-        cmake -E make_directory ${{env.TOOSL_DIR}}
-        cmake -E make_directory ${{env.INSTALL_DIR}}
         
     - name: git clone RabbitCommon
       working-directory: ${{env.SOURCE_DIR}}
