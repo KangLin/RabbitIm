@@ -188,6 +188,7 @@ jobs:
       env:
         RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
         QT_ROOT: ${{env.Qt5_Dir}}
+        STOREPASS: ${{secrets.STOREPASS}}
       run: |
         cmake -E make_directory ${{github.workspace}}/build
         cd ${{github.workspace}}/build
@@ -223,23 +224,16 @@ jobs:
 
     - name: Package
       if: ${{ matrix.BUILD_TYPE == 'Release' }}
-      working-directory: ${{github.workspace}}/build
+      working-directory: ${{env.INSTALL_DIR}}
       env:
         QT_ROOT: ${{env.Qt5_Dir}}
         RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
         RabbitIm_VERSION: 0.1.1
       run: |
-        ${QT_ROOT}/bin/androiddeployqt \
-              --input `pwd`/android_deployment_settings.json  \
-              --output `pwd`/android-build \
-              --android-platform ${{matrix.ANDROID_PLATFORM}} \
-              --gradle \
-              --sign ${RabbitCommon_DIR}/RabbitCommon.keystore rabbitcommon \
-              --storepass ${STOREPASS}
-        APK_FILE=`find . -name "android-build-release-signed.apk"`
+        APK_FILE=`find . -name "install-release-signed.apk"`
         APK_NAME=RabbitIm_${{matrix.ANDROID_ABI}}_${RabbitIm_VERSION}.apk
-        mv -f ${APK_FILE} ${{github.workspace}}/build/${APK_NAME}
-        APK_FILE=${{github.workspace}}/build/${APK_NAME}
+        mv -f ${APK_FILE} ${APK_NAME}
+        APK_FILE=${APK_NAME}
         cp ${{github.workspace}}/Update/update_android.xml .
         MD5=`md5sum ${APK_FILE} | awk '{print $1}'`
         echo "MD5:${MD5}"
@@ -256,8 +250,8 @@ jobs:
       with:
         name: rabbitreim_${{ matrix.os }}
         path: |
-          ${{github.workspace}}/build/RabbitIm_${{matrix.ANDROID_ABI}}_${RabbitIm_VERSION}.apk
-          ${{github.workspace}}/build/update_*.xml
+          ${{env.INSTALL_DIR}}/RabbitIm_${{matrix.ANDROID_ABI}}_${RabbitIm_VERSION}.apk
+          ${{env.INSTALL_DIR}}/update_*.xml
       if: ${{ matrix.BUILD_TYPE == 'Release' }}
 
 #    - name: Upload To Github Release
