@@ -248,7 +248,7 @@ jobs:
     - name: update 
       uses: actions/upload-artifact@v2
       with:
-        name: rabbitreim_${{ matrix.os }}
+        name: rabbitreim_android_${{matrix.ANDROID_ABI}}_${RabbitIm_VERSION}
         path: |
           ${{env.INSTALL_DIR}}/RabbitIm_${{matrix.ANDROID_ABI}}_${RabbitIm_VERSION}.apk
           ${{env.INSTALL_DIR}}/update_*.xml
