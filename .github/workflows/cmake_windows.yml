@@ -172,6 +172,7 @@ jobs:
         cmake -E make_directory ${{github.workspace}}/build
         cd ${{github.workspace}}/build
         cmake ${{github.workspace}} -G"${{matrix.GENERATORS}}" ^
+            -DBUILD_PLUGIN_APP=OFF ^
             -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
             -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install ^
             -DLog4Qt_DIR=/lib/cmake/Log4Qt ^
@@ -192,7 +193,9 @@ jobs:
         move /Y ${{env.INSTALL_DIR}}/lib\*.dll install\bin
         move /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
         makensis ${{github.workspace}}/build/Install.nsi
-        ${{github.workspace}}/build/install/bin/RabbitImApp.exe -f "${{github.workspace}}/build/update_windows.xml" --pf RabbitIm-Setup-v0.1.0.exe -m "v0.1.0"
+        ${{github.workspace}}/build/install/bin/RabbitImApp.exe ^
+            -f "${{github.workspace}}/build/update_windows.xml" ^
+            --pf RabbitIm-Setup-v0.1.0.exe -m "v0.1.0"
       if: ${{ matrix.BUILD_TYPE == 'Release' }}
 
     - name: update 

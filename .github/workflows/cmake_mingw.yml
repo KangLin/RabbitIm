@@ -38,21 +38,25 @@ jobs:
       env:
         PATH: C:\msys64\usr\bin
       run: | 
-        C:\msys64\usr\bin\pacman.exe -S --noconfirm mingw-w64-x86_64-cmake
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-nsis
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-make
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-gcc
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-qt5
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-zlib
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-openjpeg mingw-w64-i686-libjpeg-turbo 
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-libpng
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-i686-nasm
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-openh264 
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-libvpx mingw-w64-x86_64-opus mingw-w64-x86_64-speex mingw-w64-x86_64-speexdsp
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-qxmpp
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-ffmpeg
-        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-opencv
-        C:\msys64\usr\bin\pacman -S --noconfirm git base-devel
+        C:\msys64\usr\bin\pacman -S --noconfirm mingw-w64-x86_64-cmake ^
+            mingw-w64-x86_64-nsis ^
+            mingw-w64-x86_64-make ^
+            mingw-w64-x86_64-gcc ^
+            mingw-w64-x86_64-qt5 ^
+            mingw-w64-x86_64-zlib ^
+            mingw-w64-x86_64-openjpeg ^
+            mingw-w64-x86_64-libjpeg-turbo ^
+            mingw-w64-x86_64-libpng ^
+            mingw-w64-x86_64-openh264 ^
+            mingw-w64-x86_64-libvpx ^
+            mingw-w64-x86_64-opus ^
+            mingw-w64-x86_64-speex ^
+            mingw-w64-x86_64-speexdsp ^
+            mingw-w64-x86_64-qxmpp ^
+            mingw-w64-x86_64-ffmpeg ^
+            mingw-w64-x86_64-opencv ^
+            mingw-w64-x86_64-yasm ^
+            git base-devel yasm
         
     - name: git clone RabbitCommon
       working-directory: ${{env.SOURCE_DIR}}
@@ -68,7 +72,8 @@ jobs:
         cd Log4Qt
         cmake -E make_directory build
         cd build
-        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
+        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
+            -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         
@@ -96,7 +101,9 @@ jobs:
         cd qzxing
         cmake -E make_directory build
         cd build
-        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DBUILD_EXAMPLES=OFF -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON
+        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
+            -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} ^
+            -DBUILD_EXAMPLES=OFF -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON
         cmake --build . --config ${{matrix.BUILD_TYPE}}
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
 
@@ -110,6 +117,12 @@ jobs:
       run: |
         cmake -E make_directory build
         cd build
-        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake -DLog4Qt_DIR=/lib/cmake/Log4Qt -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp -DQZXing_DIR=${{env.INSTALL_DIR}}/lib/cmake/QZXing 
+        cmake .. -G"MinGW Makefiles" ^
+            -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} ^
+            -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install ^
+            -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake ^
+            -DLog4Qt_DIR=/lib/cmake/Log4Qt ^
+            -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp ^
+            -DQZXing_DIR=${{env.INSTALL_DIR}}/lib/cmake/QZXing 
         cmake --build . --config ${{ matrix.BUILD_TYPE }}
         cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install-runtime
