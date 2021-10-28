@@ -10,28 +10,25 @@ jobs:
       matrix:
         BUILD_TYPE: [Release, Debug]
         ANDROID_ABI: [armeabi-v7a, x86]
+        ANDROID_PLATFORM: [android-28]
+        os: [Ubuntu-18.04]
+        qt_version: [5.12.11]
         include:
-          - ANDROID_ABI: x86
-            ANDROID_PLATFORM: android-28
-            VCPKG_TARGET_TRIPLET: x86-android
-            qt_arch: android_x86
-            os: Ubuntu-18.04
-            qt_version: 5.12.11
-            
-          - ANDROID_ABI: android_armv7
-            ANDROID_PLATFORM: android-28
-            VCPKG_TARGET_TRIPLET: arm-android
+          - VCPKG_TARGET_TRIPLET: arm-android
             qt_arch: android_armv7
-            os: Ubuntu-18.04
-            qt_version: 5.12.11
-            
+            ANDROID_ABI: armeabi-v7a
+        
+          - VCPKG_TARGET_TRIPLET: x86-android
+            qt_arch: android_x86
+            ANDROID_ABI: x86
+
     runs-on: ${{ matrix.os }}
 
     env:
       SOURCE_DIR:  ${{github.workspace}}/source
       TOOSL_DIR:   ${{github.workspace}}/tools
       INSTALL_DIR: ${{github.workspace}}/install
-      RabbitIm_VERSION: v0.1.0
+      RabbitIm_VERSION: 0.1.1
 
     steps:
     - uses: actions/checkout@v2
@@ -110,7 +107,7 @@ jobs:
         appendedCacheKey: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-${{ hashFiles( env.VCPKGRESPONSEFILE ) }}
         additionalCachedPaths: $VCPKG_ROOT/installed
         vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
-        vcpkgArguments: 'zlib openssl libpng libjpeg-turbo opus ffmpeg' # libvpx libyuv  opencv
+        vcpkgArguments: 'zlib openssl libpng libjpeg-turbo opus ffmpeg libyuv opencv'
         
     - name: Cache installed
       uses: actions/cache@v2
@@ -161,6 +158,7 @@ jobs:
             cmake -E make_directory build
             cd build
             cmake .. -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF \
+                -DWITH_OPUS=ON -DWITH_THEORA=ON \
                 -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
                 -DQt5_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5 \
                 -DQt5Core_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Core \
@@ -250,6 +248,7 @@ jobs:
       env:
         QT_ROOT: ${{env.Qt5_Dir}}
         RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+        RabbitIm_VERSION: 0.1.1
       run: |
         APK_FILE=`find . -name "install-release-signed.apk"`
         APK_NAME=RabbitIm_${{matrix.ANDROID_ABI}}_${RabbitIm_VERSION}.apk
