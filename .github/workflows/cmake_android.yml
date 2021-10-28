@@ -158,7 +158,6 @@ jobs:
             cmake -E make_directory build
             cd build
             cmake .. -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF \
-                -DWITH_OPUS=ON -DWITH_THEORA=ON \
                 -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
                 -DQt5_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5 \
                 -DQt5Core_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Core \
@@ -213,7 +212,7 @@ jobs:
         cmake -E make_directory ${{github.workspace}}/build
         cd ${{github.workspace}}/build
         cmake ${{github.workspace}} -DBUILD_PLUGIN_APP=OFF \
-            -DLog4Qt_DIR=/lib/cmake/Log4Qt \
+            -DLog4Qt_DIR=${{env.INSTALL_DIR}}/lib/cmake/Log4Qt \
             -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp \
             -DQZXing_DIR=${{env.INSTALL_DIR}}/lib/cmake/QZXing \
             -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
@@ -232,6 +231,8 @@ jobs:
             -DQt5Quick_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Quick \
             -DQt5QuickWidgets_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5QuickWidgets \
             -DQt5AndroidExtras_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5AndroidExtras \
+	    -DQt5Concurrent_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Concurrent \
+            -DQt5Test_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Test \
             -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} \
             -DCMAKE_PREFIX_PATH=${{env.QT_ROOT}} \
             -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake \

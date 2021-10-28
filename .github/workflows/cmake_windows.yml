@@ -126,7 +126,7 @@ jobs:
       with:
         path: |
           ${{github.workspace}}/install
-        key: cache-installed-${{matrix.os}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
+        key: cache-installed-${{matrix.os}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}_0
         
     - name: build log4qt
       working-directory: ${{env.SOURCE_DIR}}
