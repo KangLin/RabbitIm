@@ -19,7 +19,8 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/source
       TOOSL_DIR:   ${{github.workspace}}/tools
       INSTALL_DIR: ${{github.workspace}}/install
-      
+      RabbitIm_VERSION: v0.1.0
+
     steps:
     - uses: actions/checkout@v2
       with:
@@ -75,7 +76,7 @@ jobs:
     - name: update 
       uses: actions/upload-artifact@v2
       with:
-          name: rabbitim_${{ matrix.os }}
+          name: rabbitim_${{env.RabbitIm_VERSION}}_${{ matrix.os }}
           path: |
             rabbitim*
             update_linux.xml

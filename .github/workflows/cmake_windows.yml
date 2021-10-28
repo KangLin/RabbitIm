@@ -45,7 +45,8 @@ jobs:
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
-
+      RabbitIm_VERSION: v0.1.0
+      
     defaults:
       run:
         shell: cmd
@@ -215,7 +216,7 @@ jobs:
     - name: update 
       uses: actions/upload-artifact@v2
       with:
-        name: rabbitreim_${{ matrix.os }}
+        name: rabbitim_${{env.RabbitIm_VERSION}}_${{ matrix.os }}
         path: |
           ${{github.workspace}}/build/RabbitIm-Setup-*.exe
           ${{github.workspace}}/build/update_*.xml

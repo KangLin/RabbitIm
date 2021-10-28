@@ -9,22 +9,29 @@ jobs:
     strategy:
       matrix:
         BUILD_TYPE: [Release, Debug]
-        os: [Ubuntu-18.04]
-        qt_version: [5.12.11]
-        VCPKG_TARGET_TRIPLET: [arm-android]
-        qt_arch: [android_armv7]
-        ANDROID_ABI: [armeabi-v7a]
-        ANDROID_PLATFORM: [android-28]
-#          - VCPKG_TARGET_TRIPLET: x86-android
-#            qt_arch: android_x86
-
+        ANDROID_ABI: [armeabi-v7a, x86]
+        include:
+          - ANDROID_ABI: x86
+            ANDROID_PLATFORM: android-28
+            VCPKG_TARGET_TRIPLET: x86-android
+            qt_arch: android_x86
+            os: Ubuntu-18.04
+            qt_version: 5.12.11
+            
+          - ANDROID_ABI: android_armv7
+            ANDROID_PLATFORM: android-28
+            VCPKG_TARGET_TRIPLET: arm-android
+            qt_arch: android_armv7
+            os: Ubuntu-18.04
+            qt_version: 5.12.11
+            
     runs-on: ${{ matrix.os }}
 
     env:
       SOURCE_DIR:  ${{github.workspace}}/source
       TOOSL_DIR:   ${{github.workspace}}/tools
       INSTALL_DIR: ${{github.workspace}}/install
-      RabbitIm_VERSION: 0.1.1
+      RabbitIm_VERSION: v0.1.0
 
     steps:
     - uses: actions/checkout@v2
@@ -243,7 +250,6 @@ jobs:
       env:
         QT_ROOT: ${{env.Qt5_Dir}}
         RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
-        RabbitIm_VERSION: 0.1.1
       run: |
         APK_FILE=`find . -name "install-release-signed.apk"`
         APK_NAME=RabbitIm_${{matrix.ANDROID_ABI}}_${RabbitIm_VERSION}.apk
