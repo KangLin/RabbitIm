@@ -24,6 +24,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/source
       TOOSL_DIR:   ${{github.workspace}}/tools
       INSTALL_DIR: ${{github.workspace}}/install
+      RabbitIm_VERSION: 0.1.1
 
     steps:
     - uses: actions/checkout@v2
@@ -37,30 +38,7 @@ jobs:
         cmake -E make_directory ${{env.SOURCE_DIR}}
         cmake -E make_directory ${{env.TOOSL_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
-        
-    - name: apt helper action
-      uses: ryankurte/action-apt@v0.2.0
-      with:
-        # architectures to pass to dpkg --add-architecture
-        #architectures: # optional
-        # apt packages to install
-        packages: yasm nasm
-
-    - name: run-vcpkg
-      uses: lukka/run-vcpkg@v7.4
-      with:
-        # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
-        #setupOnly: # optional
-        #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
-        vcpkgGitCommitId: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
-        vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
-        # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
-        # compute its hash and append this to the computed cache's key.
-        appendedCacheKey: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-${{ hashFiles( env.VCPKGRESPONSEFILE ) }}
-        additionalCachedPaths: $VCPKG_ROOT/installed
-        vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
-        vcpkgArguments: 'zlib openssl libpng libjpeg-turbo opus ffmpeg' # libvpx libyuv  opencv
-
+    
     - name: Cache Qt
       id: cache-qt
       uses: actions/cache@v1  # not v2!
@@ -104,6 +82,29 @@ jobs:
         # Any extra arguments to append to the back
         #extra: # optional
 
+    - name: apt helper action
+      uses: ryankurte/action-apt@v0.2.0
+      with:
+        # architectures to pass to dpkg --add-architecture
+        #architectures: # optional
+        # apt packages to install
+        packages: yasm nasm
+
+    - name: run-vcpkg
+      uses: lukka/run-vcpkg@v7.4
+      with:
+        # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
+        #setupOnly: # optional
+        #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
+        vcpkgGitCommitId: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
+        vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
+        # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
+        # compute its hash and append this to the computed cache's key.
+        appendedCacheKey: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-${{ hashFiles( env.VCPKGRESPONSEFILE ) }}
+        additionalCachedPaths: $VCPKG_ROOT/installed
+        vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
+        vcpkgArguments: 'zlib openssl libpng libjpeg-turbo opus ffmpeg' # libvpx libyuv  opencv
+        
     - name: Cache installed
       uses: actions/cache@v2
       id: cache-installed
@@ -262,9 +263,9 @@ jobs:
     - name: update 
       uses: actions/upload-artifact@v2
       with:
-        name: rabbitreim_android_${{matrix.ANDROID_ABI}}_${RabbitIm_VERSION}
+        name: rabbitreim_android_${{matrix.ANDROID_ABI}}_${{env.RabbitIm_VERSION}}
         path: |
-          ${{env.INSTALL_DIR}}/RabbitIm_${{matrix.ANDROID_ABI}}_${RabbitIm_VERSION}.apk
+          ${{env.INSTALL_DIR}}/RabbitIm_${{matrix.ANDROID_ABI}}_${{env.RabbitIm_VERSION}}.apk
           ${{env.INSTALL_DIR}}/update_*.xml
       if: ${{ matrix.BUILD_TYPE == 'Release' }}
 
