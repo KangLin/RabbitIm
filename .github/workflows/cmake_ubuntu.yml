@@ -42,7 +42,7 @@ jobs:
         # architectures to pass to dpkg --add-architecture
         #architectures: # optional
         # apt packages to install
-        packages: cmake build-essential liblog4cxx-dev libqxmpp-dev ffmpeg libopencv-dev debhelper dh-systemd fakeroot doxygen qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev 
+        packages: cmake build-essential liblog4cxx-dev libqxmpp-dev ffmpeg libopencv-dev debhelper dh-systemd fakeroot doxygen qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev qtpositioning5-dev
 
     - name: build qzxing
       working-directory: ${{env.SOURCE_DIR}}
