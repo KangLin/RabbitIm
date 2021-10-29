@@ -43,12 +43,12 @@ CGlobal::CGlobal(QObject *parent) :
 #endif
 
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
-    m_szXmppServer = conf.value("Login/XmppServer", "rabbitim.wicp.net").toString();
+    m_szXmppServer = conf.value("Login/XmppServer", "1.117.152.228").toString();
     //m_szXmppServer = conf.value("Login/XmppServer", "rabbitim.wicp.net").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
-    m_szStunServer = conf.value("Login/StunServer", "rabbitim.wicp.net").toString();
+    m_szStunServer = conf.value("Login/StunServer", "1.117.152.228").toString();
     //m_szStunServer = conf.value("Login/StunServer", "rabbitim.wicp.net").toString();
-    m_szTurnServer = conf.value("Login/TurnServer", "rabbitim.wicp.net").toString();
+    m_szTurnServer = conf.value("Login/TurnServer", "1.117.152.228").toString();
     //m_szTurnServer = conf.value("Login/TurnServer", "rabbitim.wicp.net").toString();
     m_nStunServerPort = conf.value("Login/StunServerPort", 3478).toInt();
     m_nTurnServerPort = conf.value("Login/TurnServerPort", 3478).toInt();

@@ -70,7 +70,7 @@ SET(HEADE_FILES
     ConvertFormat.h
     )
 
-option(RABBITIM_USE_QXMPP_CALL "Use qxmpp call" ON)
+option(RABBITIM_USE_QXMPP_CALL "Use qxmpp call" OFF)
 if(RABBITIM_USE_QXMPP_CALL)
     list(APPEND QXMPP_DEFINES RABBITIM_USE_QXMPP_CALL)
     list(APPEND SOURCE_FILES ManageCallXmpp.cpp CallObjectQXmpp.cpp)

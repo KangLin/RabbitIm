@@ -63,22 +63,6 @@ int main(int argc, char *argv[])
     
     app.setApplicationDisplayName(QObject::tr("Rabbit immediate communicate"));
 
-    if(!QSslSocket::supportsSsl())
-    {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-        qCritical() << "Please install openssl first. openssl build version:"
-                    << QSslSocket::sslLibraryBuildVersionString();
-#endif
-    } else {
-        qDebug() << "Support ssl:" << QSslSocket::supportsSsl()
-            #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 3))
-                << "sslLibraryBuildVersionString:"
-                << QSslSocket::sslLibraryBuildVersionString()
-           #endif
-                << "sslLibraryVersionString:" 
-                << QSslSocket::sslLibraryVersionString();
-    }
-    
     //QFontDatabase::addApplicationFont("://DejaVuSans.ttf");
     //a.setFont(QFont(DejaVuSans));
     LOG_MODEL_DEBUG("main", "font:%s;codec:%s",
