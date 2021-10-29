@@ -67,8 +67,8 @@ jobs:
       id: cache-installed
       with:
         path: |
-          ${{github.workspace}}/install
-        key: cache-installed-mingw
+          ${{env.INSTALL_DIR}}
+        key: cache-installed-mingw-2021-10-29
         
     - name: build log4qt
       working-directory: ${{env.SOURCE_DIR}}
@@ -144,9 +144,9 @@ jobs:
       shell: cmd
       run: |
         cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install-runtime
-        move /Y ${{env.INSTALL_DIR}}/bin\*.dll install\bin
-        move /Y ${{env.INSTALL_DIR}}/lib\*.dll install\bin
-        move /Y C:\msys64\mingw64\bin\*.dll install\bin
+        copy /Y ${{env.INSTALL_DIR}}/bin\*.dll install\bin
+        copy /Y ${{env.INSTALL_DIR}}/lib\*.dll install\bin
+        copy /Y C:\msys64\mingw64\bin\*.dll install\bin
         makensis ${{github.workspace}}/build/Install.nsi
         ${{github.workspace}}/build/install/bin/RabbitImApp.exe ^
             -f "${{github.workspace}}/build/update_windows.xml" ^

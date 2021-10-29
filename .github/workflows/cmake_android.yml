@@ -114,7 +114,7 @@ jobs:
       id: cache-installed
       with:
         path: |
-          ${{github.workspace}}/install
+          ${{env.INSTALL_DIR}}
         key: cache-installed-android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}
         
     - name: build log4qt
@@ -231,7 +231,7 @@ jobs:
             -DQt5Quick_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Quick \
             -DQt5QuickWidgets_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5QuickWidgets \
             -DQt5AndroidExtras_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5AndroidExtras \
-	    -DQt5Concurrent_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Concurrent \
+            -DQt5Concurrent_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Concurrent \
             -DQt5Test_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Test \
             -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} \
             -DCMAKE_PREFIX_PATH=${{env.QT_ROOT}} \

@@ -17,7 +17,10 @@
 ### 介绍
 
 - [项目主页](http://kanglin.github.io/RabbitIm/)
-- [项目位置](https://github.com/KangLin/RabbitIm): https://github.com/KangLin/RabbitIm
+- 项目位置
+  + [项目主库位置](https://github.com/KangLin/RabbitIm): https://github.com/KangLin/RabbitIm
+  + [中国镜像](https://gitee.com/kl222/RabbitIm): https://gitee.com/kl222/RabbitIm
+  + [GitLab 镜像](https://gitlab.com/kl222/RabbitIm): https://gitlab.com/kl222/RabbitIm
 
 玉兔即时通讯是一款跨操作系统平台、支持多种协议的即时通讯软件。
 主要功能如下：
@@ -92,9 +95,9 @@
 
 - 欢迎开发者参与本项目的开发，或意见反馈。
   + Issues: https://github.com/KangLin/RabbitIm/issues
-  + 如有需要，请先提交 Issues，可以为你提供必要的帮助。
-- 如有咨询、定制开发或移植，请你先[捐赠资金](#捐赠资金)支持本项目。
-- 如有需要编译程序（￥200/小时）或需要搭建整个系统（￥2000/工作日）。
+  + 如有需要，请先提交 [Issues](https://github.com/KangLin/RabbitIm/issues)，可以为你提供必要的帮助。
+- 如有咨询，请你先[捐赠资金](#捐赠资金)支持本项目。
+- 如有需要编译程序（￥200/小时）、需要搭建整个系统、移植或定制开发（￥2000/工作日）。
   请先[付款](#捐赠资金)。非诚勿扰。
 - QQ群：68046752（本人已放弃QQ，因为它收集个人信息太多）
 
