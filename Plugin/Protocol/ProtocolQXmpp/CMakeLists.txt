@@ -4,10 +4,10 @@ PROJECT(ProtocolQXmpp)
 
 find_package(QXmpp)
 if(QXmpp_FOUND)
-    if(QXmpp_VERSION VERSION_GREATER_EQUAL 1.3.0)
-        message(AUTHOR_WARNING "Please use qxmpp version < v1.3.0")
-        return()
-    endif()
+#    if(QXmpp_VERSION VERSION_GREATER_EQUAL 1.3.0)
+#        message(AUTHOR_WARNING "Please use qxmpp version < v1.3.0")
+#        return()
+#    endif()
     list(APPEND QXMPP_DEFINES RABBITIM_USE_QXMPP)
     
     IF(BUILD_SHARED_LIBS)
@@ -56,7 +56,6 @@ SET(SOURCE_FILES ClientXmpp.cpp
     GroupChatQxmpp.cpp
     PluginProtocolQXmpp.cpp
     FileTransferQXmpp.cpp
-    ConvertFormat.cpp
     )
 
 SET(HEADE_FILES
@@ -67,14 +66,19 @@ SET(HEADE_FILES
     GroupChatQxmpp.h
     PluginProtocolQXmpp.h
     FileTransferQXmpp.h
-    ConvertFormat.h
     )
 
 option(RABBITIM_USE_QXMPP_CALL "Use qxmpp call" OFF)
 if(RABBITIM_USE_QXMPP_CALL)
     list(APPEND QXMPP_DEFINES RABBITIM_USE_QXMPP_CALL)
-    list(APPEND SOURCE_FILES ManageCallXmpp.cpp CallObjectQXmpp.cpp)
-    list(APPEND HEADE_FILES ManageCallXmpp.h CallObjectQXmpp.h)
+    list(APPEND SOURCE_FILES
+        ManageCallXmpp.cpp
+        CallObjectQXmpp.cpp
+        ConvertFormat.cpp)
+    list(APPEND HEADE_FILES
+        ManageCallXmpp.h
+        CallObjectQXmpp.h
+        ConvertFormat.h)
 endif()
 
 file(RELATIVE_PATH PLUGIN_RELATIVE_DIR ${CMAKE_SOURCE_DIR}/Plugin ${CMAKE_CURRENT_SOURCE_DIR})
