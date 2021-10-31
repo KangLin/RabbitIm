@@ -29,7 +29,8 @@ jobs:
       TOOSL_DIR:   ${{github.workspace}}/tools
       INSTALL_DIR: ${{github.workspace}}/install
       RabbitIm_VERSION: 0.1.1
-
+      VCPKGGITCOMMITID: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
+      
     steps:
     - uses: actions/checkout@v2
       with:
@@ -100,11 +101,11 @@ jobs:
         # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
         #setupOnly: # optional
         #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
-        vcpkgGitCommitId: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
+        vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
         vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
         # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
         # compute its hash and append this to the computed cache's key.
-        appendedCacheKey: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-${{ hashFiles( env.VCPKGRESPONSEFILE ) }}
+        appendedCacheKey: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
         additionalCachedPaths: $VCPKG_ROOT/installed
         vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
         vcpkgArguments: 'zlib openssl libpng libjpeg-turbo opus ffmpeg libyuv ' #opencv'

@@ -46,6 +46,7 @@ jobs:
       CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
       RabbitIm_VERSION: v0.1.0
+      VCPKGGITCOMMITID: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
       
     defaults:
       run:
@@ -68,11 +69,11 @@ jobs:
         # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
         #setupOnly: # optional
         #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
-        vcpkgGitCommitId: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
+        vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
         vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
         # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
         # compute its hash and append this to the computed cache's key.
-        appendedCacheKey: cache-vcpkg-${{matrix.os}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-${{ hashFiles( env.VCPKGRESPONSEFILE ) }}
+        appendedCacheKey: cache-vcpkg-msvc-${{matrix.os}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
         #additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
         vcpkgTriplet: '${{ matrix.triplet }}'
         vcpkgArguments: 'zlib openssl libpng opus libjpeg-turbo libvpx libyuv ffmpeg opencv'
@@ -125,7 +126,7 @@ jobs:
       id: cache-installed
       with:
         path: ${{env.INSTALL_DIR}}
-        key: cache-installed-${{matrix.os}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-2021-10-29
+        key: cache-installed-msvc-${{matrix.os}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
         
     - name: build log4qt
       working-directory: ${{env.SOURCE_DIR}}
@@ -141,10 +142,6 @@ jobs:
             cmake --build . --config ${{matrix.BUILD_TYPE}}
             cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         )
-
-    - name: git clone RabbitCommon
-      working-directory: ${{env.SOURCE_DIR}}
-      run: git clone https://github.com/KangLin/RabbitCommon.git
       
     - name: build qxmpp
       working-directory: ${{env.SOURCE_DIR}}
@@ -162,6 +159,7 @@ jobs:
             cmake --build . --config ${{matrix.BUILD_TYPE}}
             cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         )
+
     - name: build qzxing
       working-directory: ${{env.SOURCE_DIR}}
       run: |
@@ -178,7 +176,11 @@ jobs:
             cmake --build . --config ${{matrix.BUILD_TYPE}}
             cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         )
-        
+
+    - name: git clone RabbitCommon
+      working-directory: ${{env.SOURCE_DIR}}
+      run: git clone https://github.com/KangLin/RabbitCommon.git
+
     - name: build RabbitIm
       env:
         RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
@@ -202,10 +204,10 @@ jobs:
       shell: cmd
       run: |
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install-runtime
-        copy /Y install\plugins\*crypto*.dll install\bin
-        copy /Y install\plugins\*ssl*.dll install\bin
-        copy /Y ${{env.INSTALL_DIR}}/bin\*.dll install\bin
-        copy /Y ${{env.INSTALL_DIR}}/lib\*.dll install\bin
+        move /Y install\plugins\*crypto*.dll install\bin
+        move /Y install\plugins\*ssl*.dll install\bin
+        copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
+        copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
         copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
         makensis ${{github.workspace}}/build/Install.nsi
         ${{github.workspace}}/build/install/bin/RabbitImApp.exe ^
