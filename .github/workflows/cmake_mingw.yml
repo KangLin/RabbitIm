@@ -34,16 +34,16 @@ jobs:
         cmake -E make_directory ${{env.TOOSL_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
 
-    - name: Cache mingw
-      uses: actions/cache@v2
-      id: cache-pacman
-      with:
-        path: |
-           C:\msys64\usr\bin
-        key: cache-installed-mingw
+#    - name: Cache mingw
+#      uses: actions/cache@v2
+#      id: cache-pacman
+#      with:
+#        path: |
+#           C:\msys64\usr\bin
+#        key: cache-installed-mingw
         
     - name: pacman
-      if: steps.cache-pacman.outputs.cache-hit != 'true'
+#      if: steps.cache-pacman.outputs.cache-hit != 'true'
       env:
         PATH: C:\msys64\usr\bin
       run: | 
