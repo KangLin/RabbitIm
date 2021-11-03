@@ -108,7 +108,7 @@ jobs:
         appendedCacheKey: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
         additionalCachedPaths: $VCPKG_ROOT/installed
         vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
-        vcpkgArguments: 'zlib openssl libpng libjpeg-turbo opus ffmpeg libyuv ' #opencv'
+        vcpkgArguments: 'zlib openssl cmark libpng libjpeg-turbo opus ffmpeg libyuv ' #opencv'
         
     - name: Cache installed
       uses: actions/cache@v2

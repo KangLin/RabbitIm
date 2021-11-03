@@ -76,7 +76,7 @@ jobs:
         appendedCacheKey: cache-vcpkg-msvc-${{matrix.os}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
         #additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
         vcpkgTriplet: '${{ matrix.triplet }}'
-        vcpkgArguments: 'zlib openssl libpng opus libjpeg-turbo libvpx libyuv ffmpeg opencv'
+        vcpkgArguments: 'zlib openssl cmark libpng opus libjpeg-turbo libvpx libyuv ffmpeg opencv'
 
     - name: Cache Qt
       id: cache-qt

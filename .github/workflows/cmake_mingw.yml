@@ -65,6 +65,7 @@ jobs:
             mingw-w64-x86_64-ffmpeg ^
             mingw-w64-x86_64-opencv ^
             mingw-w64-x86_64-yasm ^
+            mingw-w64-x86_64-cmark ^
             git base-devel
         
     - name: git clone RabbitCommon
