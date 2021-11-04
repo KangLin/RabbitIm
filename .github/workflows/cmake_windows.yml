@@ -189,6 +189,9 @@ jobs:
         cmake -E make_directory ${{github.workspace}}/build
         cd ${{github.workspace}}/build
         cmake ${{github.workspace}}  ^
+            -DCMARK_SHARED=OFF ^
+            -DCMARK_TESTS=OFF ^
+            -DCMARK_STATIC=ON ^
             -DBUILD_PLUGIN_APP=OFF ^
             -DRABBITIM_USE_QXMPP_CALL=ON ^
             -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
