@@ -47,7 +47,7 @@ jobs:
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
       RabbitIm_VERSION: v0.1.0
       VCPKGGITCOMMITID: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
-      qt_modules: QWebEngine
+      qt_modules: qtwebengine
       
     defaults:
       run:
@@ -84,7 +84,7 @@ jobs:
       uses: actions/cache@v1  # not v2!
       with:
         path: ${{env.TOOSL_DIR}}/qt
-        key: cache-qt-${{ matrix.os }}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-2021-11-03
+        key: cache-qt-${{ matrix.os }}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-2021-11-04
         
     - name: Install Qt
       # You may pin to the exact commit or the version.

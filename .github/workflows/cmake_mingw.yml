@@ -52,6 +52,7 @@ jobs:
             mingw-w64-x86_64-nsis ^
             mingw-w64-x86_64-gcc ^
             mingw-w64-x86_64-qt5 ^
+            mingw-w64-x86_64-qtwebkit ^
             mingw-w64-x86_64-zlib ^
             mingw-w64-x86_64-openjpeg ^
             mingw-w64-x86_64-libjpeg-turbo ^
