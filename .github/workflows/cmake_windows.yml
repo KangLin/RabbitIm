@@ -170,8 +170,8 @@ jobs:
             cmake -E make_directory build
             cd build
             cmake .. ^
-                -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
                 -DBUILD_EXAMPLES=OFF -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON ^
+                -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
                 -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} ^
                 -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
             cmake --build . --config ${{matrix.BUILD_TYPE}}

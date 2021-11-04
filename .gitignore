@@ -1,3 +1,5 @@
+*.user.*
+*.user
 Src/Resource/Translations/RabbitCommon_zh_*.ts
 pri/NUL
 Translations.qrc
