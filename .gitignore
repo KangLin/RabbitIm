@@ -12,7 +12,7 @@ Update/Update_*.xml
 *~
 *.autosave
 *.qm
-*.user
+*.user.*
 test.xml
 .CCodec.h.kate-swp
 .kdev4/
