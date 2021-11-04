@@ -1,7 +1,7 @@
 ## 作者:
 
-- 康林(QQ:16614119 MSN、email:kl222@126.com)
-- 缪正伟(email:393758926@qq.com)
+- 康林(Email: <kl222@126.com>)
+- 缪正伟(Email: <393758926@qq.com>)
 - 所有贡献者：[https://github.com/KangLin/RabbitIm/graphs/contributors](https://github.com/KangLin/RabbitIm/graphs/contributors)
 
 ## 工具
