@@ -1,6 +1,14 @@
 # <img src="Resource/png/RabbitIm.png" alt="玉兔即时通讯" title="玉兔即时通讯" width="48" height="48"/>[玉兔即时通讯](https://github.com/KangLin/rabbitim)
 
-作者：康林 (Email: kl222@126.com)
+作者：康林 <kl222@126.com>
+
+--------------------------------------------------------
+
+[![GitHub stars](https://img.shields.io/github/stars/KangLin/RabbitIm)](https://github.com/KangLin/RabbitIm/stars)
+[![GitHub forks](https://img.shields.io/github/forks/KangLin/RabbitIm)](https://github.com/KangLin/RabbitIm/forks)
+[![GitHub issues](https://img.shields.io/github/issues/KangLin/RabbitIm)](https://github.com/KangLin/RabbitIm/issues)
+[![Current release](https://img.shields.io/github/release/KangLin/RabbitIm)](https://github.com/KangLin/RabbitIm/releases)
+[![All releases downloads](https://img.shields.io/github/downloads/KangLin/RabbitIm/total)](https://github.com/KangLin/RabbitIm/releases)
 
 --------------------------------------------------------
 
