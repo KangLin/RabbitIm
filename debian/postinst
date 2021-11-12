@@ -31,12 +31,12 @@ RABBITIM_INSTALL_PREFIX=/opt/RabbitIm
 case "$1" in
     configure)
         # 建立 log 目录
-        mkdir $RABBITIM_INSTALL_PREFIX/log
+        mkdir -p $RABBITIM_INSTALL_PREFIX/log
         chmod 777 $RABBITIM_INSTALL_PREFIX/log
         ln -s $RABBITIM_INSTALL_PREFIX/log $RABBITIM_INSTALL_PREFIX/bin/log
         
         echo "${RABBITIM_INSTALL_PREFIX}/lib" > /etc/ld.so.conf.d/RabbitIm.conf
-        echo "${RABBITIM_INSTALL_PREFIX}/lib/`uname -m`-linux-gnu" > /etc/ld.so.conf.d/RabbitIm.conf
+        echo "${RABBITIM_INSTALL_PREFIX}/lib/`uname -m`-linux-gnu" >> /etc/ld.so.conf.d/RabbitIm.conf
         echo "${RABBITIM_INSTALL_PREFIX}/plugins" >> /etc/ld.so.conf.d/RabbitIm.conf
         EnumerateDicectory "${RABBITIM_INSTALL_PREFIX}/plugins"
         ldconfig
