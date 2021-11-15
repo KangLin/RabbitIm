@@ -10,7 +10,7 @@ if(QXmpp_FOUND)
 #    endif()
     list(APPEND QXMPP_DEFINES RABBITIM_USE_QXMPP)
     
-    IF(BUILD_SHARED_LIBS)
+    IF(BUILD_SHARED_LIBS AND WIN32)
         INSTALL_TARGETS(TARGETS QXmpp::QXmpp)
     ELSE()
         #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。

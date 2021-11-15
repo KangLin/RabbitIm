@@ -94,7 +94,7 @@ jobs:
             cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
                 -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
         )
         
 #    - name: build qxmpp
@@ -126,7 +126,7 @@ jobs:
                 -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} ^
                 -DBUILD_EXAMPLES=OFF -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON
             cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
         )
 
     - name: build RabbitIm

@@ -60,7 +60,7 @@ jobs:
                 -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} \
                 -DCMAKE_PREFIX_PATH=${{env.QT_ROOT}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
         fi
     
     - name: build qzxing
@@ -71,7 +71,7 @@ jobs:
         cmake -E make_directory build
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON
-        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
         
     - name: build_debpackage.sh
       working-directory: ${{github.workspace}}

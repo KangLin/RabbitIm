@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        BUILD_TYPE: [Release, Debug]
+        BUILD_TYPE: [Release, Debug, MinSizeRel]
         ANDROID_ABI: [armeabi-v7a, x86]
         ANDROID_PLATFORM: [android-28]
         os: [Ubuntu-18.04]
@@ -141,7 +141,7 @@ jobs:
                 -DANDROID_ABI=${{matrix.ANDROID_ABI}} \
                 -DANDROID_PLATFORM=${{matrix.ANDROID_PLATFORM}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
         fi
         
     - name: git clone RabbitCommon
@@ -172,7 +172,7 @@ jobs:
                 -DANDROID_ABI=${{matrix.ANDROID_ABI}} \
                 -DANDROID_PLATFORM=${{matrix.ANDROID_PLATFORM}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
         fi
         
     - name: build qzxing
@@ -199,7 +199,7 @@ jobs:
                 -DANDROID_ABI=${{matrix.ANDROID_ABI}} \
                 -DANDROID_PLATFORM=${{matrix.ANDROID_PLATFORM}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
+            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
         fi
         
     - name: build RabbitIm
