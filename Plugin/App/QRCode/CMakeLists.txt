@@ -4,6 +4,8 @@ if(OPTION_RABBITIM_USE_QZXING)
     FIND_PACKAGE(QZXing)
     if(NOT QZXing_FOUND)
         return()
+    else()
+        INSTALL_TARGETS(TARGETS QZXing)
     endif()
 endif()
 

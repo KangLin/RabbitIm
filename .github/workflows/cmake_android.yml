@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        BUILD_TYPE: [Release, Debug]
+        BUILD_TYPE: [Release]
         ANDROID_ABI: [armeabi-v7a, x86]
         ANDROID_PLATFORM: [android-26]
         os: [Ubuntu-18.04]
@@ -17,7 +17,7 @@ jobs:
           - VCPKG_TARGET_TRIPLET: arm-android
             qt_arch: android_armv7
             ANDROID_ABI: armeabi-v7a
-        
+
           - VCPKG_TARGET_TRIPLET: x86-android
             qt_arch: android_x86
             ANDROID_ABI: x86
@@ -31,7 +31,7 @@ jobs:
       RabbitIm_VERSION: 0.1.1
       VCPKGGITCOMMITID: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
       qt_modules: qtwebengine
-      
+
     steps:
     - uses: actions/checkout@v2
       with:
@@ -44,14 +44,14 @@ jobs:
         cmake -E make_directory ${{env.SOURCE_DIR}}
         cmake -E make_directory ${{env.TOOSL_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
-    
+
     - name: Cache Qt
       id: cache-qt
       uses: actions/cache@v1  # not v2!
       with:
         path: ${{env.TOOSL_DIR}}/qt
         key: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-2021-11-04
-        
+
     - name: Install Qt
       # You may pin to the exact commit or the version.
       # uses: jurplel/install-qt-action@a962fb91949c8e846a3e4a944d50e7ef5cc3a28a
@@ -110,7 +110,7 @@ jobs:
         additionalCachedPaths: $VCPKG_ROOT/installed
         vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
         vcpkgArguments: 'zlib openssl libpng libjpeg-turbo opus ffmpeg libyuv ' #opencv'
-        
+
     - name: Cache installed
       uses: actions/cache@v2
       id: cache-installed
@@ -118,7 +118,7 @@ jobs:
         path: |
           ${{env.INSTALL_DIR}}
         key: cache-installed-android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}
-        
+
     - name: build log4qt
       working-directory: ${{env.SOURCE_DIR}}
       env:
@@ -143,7 +143,7 @@ jobs:
             cmake --build . --config ${{matrix.BUILD_TYPE}}
             cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
         fi
-        
+
     - name: git clone RabbitCommon
       working-directory: ${{env.SOURCE_DIR}}
       run: git clone https://github.com/KangLin/RabbitCommon.git
@@ -174,7 +174,7 @@ jobs:
             cmake --build . --config ${{matrix.BUILD_TYPE}}
             cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
         fi
-        
+
     - name: build qzxing
       working-directory: ${{env.SOURCE_DIR}}
       env:
@@ -201,7 +201,7 @@ jobs:
             cmake --build . --config ${{matrix.BUILD_TYPE}}
             cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
         fi
-        
+
     - name: build RabbitIm
       env:
         RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
