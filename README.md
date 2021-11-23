@@ -4,6 +4,7 @@
 
 --------------------------------------------------------
 
+[![Gitter](https://badges.gitter.im/RabbitIm/community.svg)](https://gitter.im/RabbitIm/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![GitHub stars](https://img.shields.io/github/stars/KangLin/RabbitIm)](https://github.com/KangLin/RabbitIm/stars)
 [![GitHub forks](https://img.shields.io/github/forks/KangLin/RabbitIm)](https://github.com/KangLin/RabbitIm/forks)
 [![GitHub issues](https://img.shields.io/github/issues/KangLin/RabbitIm)](https://github.com/KangLin/RabbitIm/issues)
