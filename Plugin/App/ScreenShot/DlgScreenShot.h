@@ -28,7 +28,8 @@ protected:
 private:
     void initSelectParam();
     QImage drawWindow();
-
+    QImage GetScreenShot(int x, int y, int w, int h);
+    
 private slots:
     void onSigReset();
     void onSigSelectedImg(const QPixmap& pix);

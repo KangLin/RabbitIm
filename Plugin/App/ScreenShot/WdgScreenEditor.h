@@ -19,7 +19,7 @@ class CWdgScreenEditor : public QWidget
 public:
     CWdgScreenEditor(QWidget* parent = 0);
     ~CWdgScreenEditor();
-    void resetByImg(const QPixmap& img);
+    void resetByImg(const QImage& img);
     QPixmap getSelectedImg();
 
 private:
@@ -35,7 +35,7 @@ protected:
     virtual void showEvent(QShowEvent* );
 
 private:
-    void updateForImg(const QPixmap& img);
+    void updateForImg(const QImage& img);
     void initToolBar();
     void paint();
     bool save(const QString& path);

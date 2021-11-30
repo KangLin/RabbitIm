@@ -141,7 +141,7 @@ void CWdgScreenEditor::hideEvent(QHideEvent *)
     toolBar.hide();
 }
 
-void CWdgScreenEditor::resetByImg(const QPixmap &img)
+void CWdgScreenEditor::resetByImg(const QImage &img)
 {
     updateForImg(img);
     repaint();
@@ -154,9 +154,9 @@ QPixmap CWdgScreenEditor::getSelectedImg()
     return pix;
 }
 
-void CWdgScreenEditor::updateForImg(const QPixmap &img)
+void CWdgScreenEditor::updateForImg(const QImage &img)
 {
-    m_image = img;
+    m_image = QPixmap::fromImage(img);
 
     resize(img.width(), img.height() + 40);
     setAttribute(Qt::WA_TranslucentBackground,true);

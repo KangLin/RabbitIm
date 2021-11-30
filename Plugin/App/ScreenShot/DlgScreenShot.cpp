@@ -48,31 +48,36 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
     setAttribute(Qt::WA_TranslucentBackground, true);
     setCursor(Qt::CrossCursor);
 
-//#ifdef ANDROID
-    QPixmap pix(pDesktop->size());
-    pDesktop->render(&pix);
-    m_imgDesktop = pix.toImage();
-//#else
-//    WId id = qApp->desktop()->winId();  
-//    QScreen *pScreen = QGuiApplication::primaryScreen();
-//    m_imgDesktop = pScreen->grabWindow(id//,
-////                                       0,
-////                                       0, 
-////                                       pScreen->geometry().width(), //pScreen->availableGeometry().width(), 
-////                                       pScreen->geometry().height() //pScreen->availableGeometry().height() 
-//                                       ).toImage();
-//#endif
+    m_imgDesktop = GetScreenShot(rect().x(), rect().y(), rect().width(), rect().height());
+    
     initSelectParam();
 
     m_Editor.hide();
-    connect(&m_Editor,SIGNAL(sigReset()),this,SLOT(onSigReset()));
-    connect(&m_Editor,SIGNAL(sigSelectImg(QPixmap)),this,SLOT(onSigSelectedImg(QPixmap)));
-    connect(&m_Editor,SIGNAL(sigCancel()),this,SLOT(onSigCancel()));
+    connect(&m_Editor, SIGNAL(sigReset()), this, SLOT(onSigReset()));
+    connect(&m_Editor, SIGNAL(sigSelectImg(QPixmap)),
+            this, SLOT(onSigSelectedImg(QPixmap)));
+    connect(&m_Editor, SIGNAL(sigCancel()), this, SLOT(onSigCancel()));
 }
 
 CDlgScreenShot::~CDlgScreenShot()
 {
     LOG_MODEL_DEBUG("screen shot", "CDlgScreenShot::~CDlgScreenShot");
+}
+
+QImage CDlgScreenShot::GetScreenShot(int x, int y, int w, int h)
+{
+    QDesktopWidget* pDesktop = qApp->desktop();
+    
+    //        QPixmap pix(pDesktop->size());
+    //        pDesktop->render(&pix);
+    //        QImage img = pix.copy(x, y, w, h).toImage();
+    //        return img;
+    
+    WId id = qApp->desktop()->winId();  
+    QScreen *pScreen = QGuiApplication::primaryScreen();
+    QPoint pos = mapToGlobal(QPoint(x, y));
+    return pScreen->grabWindow(id, pos.x(), pos.y(), w, h).toImage();
+    
 }
 
 QPixmap CDlgScreenShot::getSelectedImg()
@@ -101,10 +106,9 @@ QImage CDlgScreenShot::drawWindow()
     pen.setWidth(penWidth);
     painter.setPen(pen);
     painter.fillRect(m_x, m_y, m_width, m_height, Qt::transparent);
-    painter.drawRect(m_x - penWidth, m_y - penWidth, 
-                     m_width + 2 * penWidth, 
+    painter.drawRect(m_x - penWidth, m_y - penWidth,
+                     m_width + 2 * penWidth,
                      m_height + 2 * penWidth);
-
     return img;
 }
 
@@ -119,7 +123,7 @@ void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)
     }
     if(e->buttons() & Qt::LeftButton)
     {
-        QPoint pos = QCursor::pos();//e->pos();
+        QPoint pos = e->pos();
         m_width = pos.x() - m_x;
         m_height = pos.y() - m_y;
         this->update();
@@ -137,7 +141,7 @@ void CDlgScreenShot::mousePressEvent(QMouseEvent *e)
             QWidget::mousePressEvent(e);
             return;
         }
-        QPoint pos = QCursor::pos();
+        QPoint pos = e->pos(); //QCursor::pos();
         m_x = pos.x();
         m_y = pos.y();
     }
@@ -179,10 +183,7 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
                         rect.height(),
                         this->width(),
                         this->height());
-        QPixmap pix = QPixmap();
-        QScreen *pScreen = QGuiApplication::primaryScreen();
-        pix = pScreen->grabWindow(id, rect.x(), rect.y(), rect.width(), rect.height());
-
+        
         int x = rect.x(), y = rect.y() + rect.height();
         m_Editor.toolBar.show(); //需要先显示，才能得到正确的大小  
         QRect rectToolBar = m_Editor.toolBar.frameGeometry();
@@ -206,7 +207,7 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
                             x);
         }
         m_Editor.toolBar.move(x, y);
-        m_Editor.resetByImg(pix);
+        m_Editor.resetByImg(GetScreenShot(rect.x(), rect.y(), rect.width(), rect.height()));
         m_Editor.move(rect.topLeft());//移动到当前选择的rect的左上角  
         m_Editor.show();
     }
