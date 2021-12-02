@@ -30,12 +30,12 @@ APPVERYOR_VERSION="version: '${VERSION}.{build}'"
 #sed -i "s/^version: '.*{build}'/${APPVERYOR_VERSION}/g" ${SOURCE_DIR}/appveyor.yml
 #sed -i "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/ci/build.sh
 sed -i "s/RabbitIm_VERSION:.*/RabbitIm_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/cmake_android.yml
-sed -i "s/RabbitIm_VERSION:.*/RabbitIm_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/cmake_ubuntu.yml
 sed -i "s/RabbitIm_VERSION:.*/RabbitIm_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/cmake_windows.yml
 
 DEBIAN_VERSION=`echo ${VERSION}|cut -d "v" -f 2`
 sed -i "s/rabbitim (.*)/rabbitim (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/debian/changelog
 sed -i "s/^\Standards-Version:.*/Standards-Version:\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/debian/control
+sed -i "s/RabbitIm_VERSION:.*/RabbitIm_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/cmake_ubuntu.yml
 
 sed -i "s/[0-9]\+\.[0-9]\+\.[0-9]\+/${DEBIAN_VERSION}/g" ${SOURCE_DIR}/android/AndroidManifest.xml
 

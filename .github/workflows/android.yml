@@ -1,4 +1,4 @@
-name: CMake android
+name: android
 
 on: [push]
 
@@ -28,7 +28,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/source
       TOOSL_DIR:   ${{github.workspace}}/tools
       INSTALL_DIR: ${{github.workspace}}/install
-      RabbitIm_VERSION: 0.1.1
+      RabbitIm_VERSION: v0.1.1
       VCPKGGITCOMMITID: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
       qt_modules: qtwebengine
 
@@ -142,7 +142,7 @@ jobs:
                 -DANDROID_ABI=${{matrix.ANDROID_ABI}} \
                 -DANDROID_PLATFORM=${{matrix.ANDROID_PLATFORM}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
+            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         fi
 
     - name: git clone RabbitCommon
@@ -174,7 +174,7 @@ jobs:
                 -DANDROID_ABI=${{matrix.ANDROID_ABI}} \
                 -DANDROID_PLATFORM=${{matrix.ANDROID_PLATFORM}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
+            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         fi
 
     - name: build qzxing
@@ -202,7 +202,7 @@ jobs:
                 -DANDROID_ABI=${{matrix.ANDROID_ABI}} \
                 -DANDROID_PLATFORM=${{matrix.ANDROID_PLATFORM}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install/strip
+            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         fi
 
     - name: build RabbitIm
@@ -256,7 +256,6 @@ jobs:
       env:
         QT_ROOT: ${{env.Qt5_Dir}}
         RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
-        RabbitIm_VERSION: 0.1.1
       run: |
         APK_FILE=`find . -name "install-release-signed.apk"`
         APK_NAME=RabbitIm_${{matrix.ANDROID_ABI}}_${RabbitIm_VERSION}.apk
@@ -274,39 +273,22 @@ jobs:
         sed -i "s/<MIN_UPDATE_VERSION>.*</<MIN_UPDATE_VERSION>${RabbitIm_VERSION}</g" update_android.xml
 
     - name: update 
+      if: ${{ matrix.BUILD_TYPE == 'Release' }}
       uses: actions/upload-artifact@v2
       with:
         name: rabbitreim_android_${{matrix.ANDROID_ABI}}_${{env.RabbitIm_VERSION}}
         path: |
           ${{env.INSTALL_DIR}}/RabbitIm_${{matrix.ANDROID_ABI}}_${{env.RabbitIm_VERSION}}.apk
-          ${{env.INSTALL_DIR}}/update_*.xml
-      if: ${{ matrix.BUILD_TYPE == 'Release' }}
 
-#    - name: Upload To Github Release
-#      # You may pin to the exact commit or the version.
-#      # uses: xresloader/upload-to-github-release@3ad14478ee4fb9bd65e84c6d496a7d6862892f43
-#      uses: xresloader/upload-to-github-release@v1.2.2
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      with:
-#        # The files or file patterns to upload. You can upload multiple files by split them by semicolon. You can use the glob pattern to find the files.
-#        file: ${{github.workspace}}/build/RabbitIm-Setup-*.exe #;${{github.workspace}}/build/update_*.xml # default is 
-#        # The files or file patterns to delete before uploading new files. You can delete multiple files by split them by semicolon. You can use the glob pattern to find the files.
-#        #delete_file: # optional, default is 
-#        # If you need to overwrite existing files, add overwrite: true to the with.
-#        #overwrite: # optional, default is false
-#        # The resultant deployment is a draft Release that only repository collaborators can see. This gives you an opportunity to examine and edit the draft release.
-#        draft: false # optional, default is true
-#        # The resultant deployment is a Prerelease. This gives you an opportunity to examine and edit the prerelease.
-#        prerelease: true # optional, default is false
-#        # With tags: true, your Releases deployment will trigger if and only if the build is a tagged build.
-#        tags: true # optional, default is false
-#        # Only work on these branches(splited by semicolon), set to nothing to accept all branches.
-#        branches: master # optional, default is 
-#        # With verbose: true, be verbose.
-#        verbose: true # optional, default is false
-#        # Set custom tag name.
-#        tag_name: 'v0.0.8'
-#        # If try to update latest release.
-#        update_latest_release: true # optional, default is false
-#      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }} 
+    - name: Upload To Github Release
+      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }} 
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        prerelease: true
+        body: |
+          [修改日志](ChangeLog.md)
+        files: |
+          ${{env.INSTALL_DIR}}/RabbitIm_${{matrix.ANDROID_ABI}}_${{env.RabbitIm_VERSION}}.apk
+          ${{env.INSTALL_DIR}}/update_*.xml
