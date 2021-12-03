@@ -50,12 +50,12 @@ SetCompressor lzma
 !insertmacro MUI_LANGUAGE "SimpChinese"
 
 LangString LANG_PRODUCT_NAME ${LANG_ENGLISH} "RabbitIM"
-LangString LANG_PRODUCT_NAME ${LANG_SIMPCHINESE} "玉兔即时通讯系统"
+LangString LANG_PRODUCT_NAME ${LANG_SIMPCHINESE} "玉兔即时通讯"
 
 LangString LANG_UNINSTALL_CONFIRM ${LANG_ENGLISH} "Thank you very much! $(^Name) has been successfully removed."
 LangString LANG_UNINSTALL_CONFIRM ${LANG_SIMPCHINESE} "非常感谢您的使用！ $(^Name) 已成功地从您的计算机中移除。"
 
-LangString LANG_REMOVE_COMPONENT ${LANG_ENGLISH} "You sure you want to completely remove $ (^ Name), and all of its components?"
+LangString LANG_REMOVE_COMPONENT ${LANG_ENGLISH} "You sure you want to completely remove $(^Name), and all of its components?"
 LangString LANG_REMOVE_COMPONENT ${LANG_SIMPCHINESE} "你确实要完全移除 $(^Name) ，其及所有的组件？"
 
 LangString LANG_AUTO_BOOT ${LANG_ENGLISH} "Start from reboot"
@@ -68,7 +68,7 @@ LangString LANG_DIRECTORY_PERMISSION ${LANG_SIMPCHINESE} "无目录访问权限"
 
 Name "$(LANG_PRODUCT_NAME) ${PRODUCT_VERSION}"
 Caption "$(LANG_PRODUCT_NAME) ${PRODUCT_VERSION}"
-OutFile "${PRODUCT_NAME}-Setup-${PRODUCT_VERSION}.exe"
+OutFile "${PRODUCT_NAME}_setup_${PRODUCT_VERSION}.exe"
 InstallDir "$LOCALAPPDATA\${PRODUCT_NAME}"
 ;InstallDirRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_DIR_REGKEY}" ""
 
@@ -189,12 +189,12 @@ Section "${PRODUCT_NAME}" SEC01
 SectionEnd
 
 Section -AdditionalIcons
-  CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\$(LANG_PRODUCT_NAME).lnk" "$INSTDIR\bin\${PRODUCT_APP_NAME}.exe"
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\uninst.exe"
+  CreateDirectory "$SMPROGRAMS\${LANG_PRODUCT_NAME}"
+  CreateShortCut "$SMPROGRAMS\${LANG_PRODUCT_NAME}\$(LANG_PRODUCT_NAME).lnk" "$INSTDIR\bin\${PRODUCT_APP_NAME}.exe"
+  CreateShortCut "$SMPROGRAMS\${LANG_PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\uninst.exe"
 
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
+  CreateShortCut "$SMPROGRAMS\${LANG_PRODUCT_NAME}\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
     
   CreateShortCut "$DESKTOP\$(LANG_PRODUCT_NAME).lnk" "$INSTDIR\bin\${PRODUCT_APP_NAME}.exe"
 SectionEnd
@@ -234,7 +234,7 @@ FunctionEnd
 
 Section Uninstall
   ;SetShellVarContext all
-  RMDir /r "$SMPROGRAMS\${PRODUCT_NAME}"
+  RMDir /r "$SMPROGRAMS\${LANG_PRODUCT_NAME}"
   SetOutPath "$SMPROGRAMS"
   Delete "$DESKTOP\$(LANG_PRODUCT_NAME).lnk"
   RMDIR /r "$INSTDIR"

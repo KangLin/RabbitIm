@@ -218,7 +218,7 @@ jobs:
         makensis Install.nsi
         ${{github.workspace}}\build\install\bin\RabbitImApp.exe ^
             -f "update_windows.xml" ^
-            --pf RabbitIm-Setup-${{env.RabbitIm_VERSION}}.exe -m "${{env.RabbitIm_VERSION}}"
+            --pf RabbitIm_setup_${{env.RabbitIm_VERSION}}.exe -m "${{env.RabbitIm_VERSION}}"
 
     - name: update
       if: ${{ matrix.BUILD_TYPE == 'Release' }}
@@ -226,7 +226,7 @@ jobs:
       with:
         name: rabbitim_${{env.RabbitIm_VERSION}}_${{ matrix.os }}
         path: |
-          ${{github.workspace}}/build/RabbitIm-Setup-*.exe
+          ${{github.workspace}}/build/RabbitIm_setup_*.exe
 
     - name: Upload To Github Release
       if: ${{ matrix.BUILD_TYPE == 'Release' && '5.12.11' == matrix.qt_version && startsWith(github.ref, 'refs/tags/') }}
@@ -239,5 +239,5 @@ jobs:
           [修改日志](ChangeLog.md)
         files: |
           ${{github.workspace}}\build\RabbitIm_${{env.RabbitIm_VERSION}}.zip
-          ${{github.workspace}}\build\RabbitIm-Setup-v${{env.RabbitIm_VERSION}}.exe
+          ${{github.workspace}}\build\RabbitIm_setup_v${{env.RabbitIm_VERSION}}.exe
           ${{github.workspace}}\build\update_windows.xml
