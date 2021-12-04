@@ -16,9 +16,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
-      SOURCE_DIR:  ${{github.workspace}}/source
-      TOOSL_DIR:   ${{github.workspace}}/tools
-      INSTALL_DIR: ${{github.workspace}}/install
+      SOURCE_DIR:  ${{github.workspace}}/3th_2021_12_04/source
+      TOOSL_DIR:   ${{github.workspace}}/3th_2021_12_04/tools
+      INSTALL_DIR: ${{github.workspace}}/3th_2021_12_04/install
       RabbitIm_VERSION: 0.1.0
 
     steps:

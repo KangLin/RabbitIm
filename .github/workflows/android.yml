@@ -25,9 +25,9 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      SOURCE_DIR:  ${{github.workspace}}/source
-      TOOSL_DIR:   ${{github.workspace}}/tools
-      INSTALL_DIR: ${{github.workspace}}/install
+      SOURCE_DIR:  ${{github.workspace}}/3th_2021_12_04/source
+      TOOSL_DIR:   ${{github.workspace}}/3th_2021_12_04/tools
+      INSTALL_DIR: ${{github.workspace}}/3th_2021_12_04/install
       RabbitIm_VERSION: v0.1.1
       VCPKGGITCOMMITID: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
       qt_modules: qtwebengine
@@ -54,7 +54,6 @@ jobs:
 
     - name: Install Qt
       # You may pin to the exact commit or the version.
-      # uses: jurplel/install-qt-action@a962fb91949c8e846a3e4a944d50e7ef5cc3a28a
       uses: jurplel/install-qt-action@v2.11.1
       with:
         # Directory to install Qt
@@ -168,8 +167,7 @@ jobs:
                 -DQt5Network_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Network \
                 -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} \
                 -DCMAKE_PREFIX_PATH=${{env.QT_ROOT}} \
-                -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake \
-                -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+                -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
                 -DANDROID_ABI=${{matrix.ANDROID_ABI}} \
                 -DANDROID_PLATFORM=${{matrix.ANDROID_PLATFORM}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
