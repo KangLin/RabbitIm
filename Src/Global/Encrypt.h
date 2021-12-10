@@ -2,7 +2,7 @@
  * 加密接口类
  * 作者:康林
  * 用法:
- *         本类可以单独使用,它信赖c++标准库,openssl库(-lcrypto)  
+ *         本类可以单独使用,它依赖c++标准库,openssl库(-lcrypto)  
  */
 
 #ifndef CENCRYPT_H
