@@ -20,9 +20,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent
 #ifndef MOBILE
                 , Qt::WindowCloseButtonHint 
-                #ifndef DEBUG
-                | Qt::WindowStaysOnTopHint
-                #endif
+//                #ifndef DEBUG
+//                | Qt::WindowStaysOnTopHint
+//                #endif
 #endif
                 ),
     ui(new Ui::MainWindow),
