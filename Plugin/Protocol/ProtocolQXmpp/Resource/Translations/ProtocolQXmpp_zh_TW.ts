@@ -20,17 +20,15 @@
 <context>
     <name>CManageCallWebrtcXmpp</name>
     <message>
-        <location filename="../../ManageCallWebrtcXmpp.cpp" line="85"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
-        <translation>好友離線，不能發起呼叫。</translation>
+        <translation type="vanished">好友離線，不能發起呼叫。</translation>
     </message>
 </context>
 <context>
     <name>CManageCallXmpp</name>
     <message>
-        <location filename="../../ManageCallXmpp.cpp" line="97"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
-        <translation>好友離線，不能發起呼叫。</translation>
+        <translation type="vanished">好友離線，不能發起呼叫。</translation>
     </message>
 </context>
 <context>

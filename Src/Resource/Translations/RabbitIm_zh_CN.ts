@@ -71,7 +71,7 @@
 <context>
     <name>CCallObject</name>
     <message>
-        <location filename="../../Call/CallObject.cpp" line="134"/>
+        <location filename="../../Call/CallObject.cpp" line="165"/>
         <source>Be talking with %1</source>
         <translation>正在与 %1 通话</translation>
     </message>
@@ -1452,22 +1452,22 @@
         <translation>正在登录……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="304"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="308"/>
         <source>Network error</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="307"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="311"/>
         <source>Keep active error</source>
         <translation>保持活动错误</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="310"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="314"/>
         <source>Login fail</source>
         <translation>登录失败</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="313"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="317"/>
         <source>Username or Password error</source>
         <translation>用户名或密码错误</translation>
     </message>
@@ -1716,7 +1716,7 @@
     </message>
     <message>
         <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="154"/>
-        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="636"/>
+        <location filename="../../Widgets/FrmUserList/FrmUserList.cpp" line="640"/>
         <source>My friends</source>
         <translation>我的好友</translation>
     </message>
@@ -1859,33 +1859,33 @@
 <context>
     <name>CGlobal</name>
     <message>
-        <location filename="../../Global/Global.cpp" line="365"/>
+        <location filename="../../Global/Global.cpp" line="358"/>
         <source>OnLine</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="367"/>
+        <location filename="../../Global/Global.cpp" line="360"/>
         <source>Temporarily away</source>
         <translation>临时离开</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="369"/>
+        <location filename="../../Global/Global.cpp" line="362"/>
         <source>Chat</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="371"/>
+        <location filename="../../Global/Global.cpp" line="364"/>
         <source>Do not disturb</source>
         <translation>请勿打扰</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="373"/>
-        <location filename="../../Global/Global.cpp" line="377"/>
+        <location filename="../../Global/Global.cpp" line="366"/>
+        <location filename="../../Global/Global.cpp" line="370"/>
         <source>Invisible</source>
         <translation>离线</translation>
     </message>
     <message>
-        <location filename="../../Global/Global.cpp" line="375"/>
+        <location filename="../../Global/Global.cpp" line="368"/>
         <source>OffLine</source>
         <translation>离线</translation>
     </message>
@@ -1893,17 +1893,17 @@
 <context>
     <name>CManageCall</name>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="90"/>
+        <location filename="../../Call/ManageCall.cpp" line="88"/>
         <source>The roster is offline, don&apos;t launch a call.</source>
         <translation>好友离线状态，不能发起呼叫。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="103"/>
+        <location filename="../../Call/ManageCall.cpp" line="101"/>
         <source>Being talk with %1, please stop it.</source>
         <translation>正在与 %1 通话，请停止它。</translation>
     </message>
     <message>
-        <location filename="../../Call/ManageCall.cpp" line="187"/>
+        <location filename="../../Call/ManageCall.cpp" line="185"/>
         <source> is calling</source>
         <translation>正在呼叫</translation>
     </message>
@@ -1943,12 +1943,12 @@
 <context>
     <name>CQRCode</name>
     <message>
-        <location filename="../../common/QRCode.cpp" line="253"/>
+        <location filename="../../common/QRCode.cpp" line="262"/>
         <source>Do you add roster </source>
         <translation>是否增加好友 </translation>
     </message>
     <message>
-        <location filename="../../common/QRCode.cpp" line="272"/>
+        <location filename="../../common/QRCode.cpp" line="281"/>
         <source>Do open </source>
         <translation>是否打开 </translation>
     </message>
@@ -1956,7 +1956,7 @@
 <context>
     <name>CTool</name>
     <message>
-        <location filename="../../common/Tool.h" line="220"/>
+        <location filename="../../common/Tool.h" line="156"/>
         <source>Open file</source>
         <translation>打开文件</translation>
     </message>
