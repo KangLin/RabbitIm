@@ -23,6 +23,12 @@
 
 --------------------------------------------------------
 
+## 点赞时间线
+
+[![Stargazers over time](https://starchart.cc/KangLin/RabbitIm.svg)](https://starchart.cc/KangLin/RabbitIm)
+
+--------------------------------------------------------
+
 ### 介绍
 
 - [项目主页](http://kanglin.github.io/RabbitIm/)
