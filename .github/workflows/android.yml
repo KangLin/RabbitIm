@@ -262,7 +262,7 @@ jobs:
         sed -i "s/<VERSION>.*</<VERSION>${RabbitIm_VERSION}</g" update_android.xml
         sed -i "s/<INFO>.*</<INFO>Release RabbitIm ${RabbitIm_VERSION}</g" update_android.xml
         sed -i "s/<TIME>.*</<TIME>`date`</g" update_android.xml
-        sed -i "s/<ARCHITECTURE>.*</<ARCHITECTURE>${BUILD_ARCH}</g" update_android.xml
+        sed -i "s/<ARCHITECTURE>.*</<ARCHITECTURE>${{matrix.ANDROID_ABI}}</g" update_android.xml
         sed -i "s/<MD5SUM>.*</<MD5SUM>${MD5}</g" update_android.xml
         sed -i "s:<URL>.*<:<URL>https\://github.com/KangLin/RabbitIm/releases/download/${RabbitIm_VERSION}/${APK_NAME}<:g" update_android.xml
         sed -i "s/<MIN_UPDATE_VERSION>.*</<MIN_UPDATE_VERSION>${RabbitIm_VERSION}</g" update_android.xml
