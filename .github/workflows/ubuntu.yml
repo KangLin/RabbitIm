@@ -13,14 +13,14 @@ jobs:
         # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
         BUILD_TYPE: [Release, Debug]
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{matrix.os}}
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
-      SOURCE_DIR:  ${{github.workspace}}/3th_2021_12_04/source
-      TOOSL_DIR:   ${{github.workspace}}/3th_2021_12_04/tools
-      INSTALL_DIR: ${{github.workspace}}/3th_2021_12_04/install
-      RabbitIm_VERSION: 0.1.0
-
+      SOURCE_DIR:  ${{github.workspace}}/.cache/source
+      TOOSL_DIR:   ${{github.workspace}}/.cache/tools
+      INSTALL_DIR: ${{github.workspace}}/.cache/install_ubuntu_2022_02_14
+      RabbitIM_VERSION: 0.0.18
+      
     steps:
     - uses: actions/checkout@v2
       with:
@@ -31,11 +31,11 @@ jobs:
         cmake -E make_directory ${{env.SOURCE_DIR}}
         cmake -E make_directory ${{env.TOOSL_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
-        
+  
     - name: git clone RabbitCommon
       working-directory: ${{env.SOURCE_DIR}}
       run: git clone https://github.com/KangLin/RabbitCommon.git
-      
+
     - name: apt helper action
       uses: ryankurte/action-apt@v0.2.0
       with:
@@ -70,7 +70,9 @@ jobs:
         cd qzxing
         cmake -E make_directory build
         cd build
-        cmake .. -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON
+        cmake .. -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
+            -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} \
+            -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         
     - name: build_debpackage.sh

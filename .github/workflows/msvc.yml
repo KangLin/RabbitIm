@@ -4,51 +4,48 @@ on: [push]
 
 jobs:
   use_install_qt:
-    name: ${{matrix.os}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
+    name: ${{matrix.os}}-vc-${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
 
     strategy:
       matrix:
         BUILD_TYPE: [Release, Debug]
-        #os: [windows-2019, windows-2016]
-        qt_version: [5.15.2, 5.12.11]
+	CMAKE_GENERATOR: [Visual Studio 17 2022]
+        os: [windows-latest]
+        CMAKE_GENERATOR_PLATFORM: [x64, Win32]
+        # VCPKG_PLATFORM_TOOLSET: [v142, v141, v140]
         include:
-#          - os: windows-2019
-#            triplet: x64-windows
-#            VCPKG_PLATFORM_TOOLSET: v142
-#            qt_version: 6.2.0
-#            qt_arch: win64_msvc2019_64
-#            CMAKE_GENERATOR: "Visual Studio 16 2019"
-#            CMAKE_GENERATOR_PLATFORM: x64
-            
-          - os: windows-2019
-            triplet: x64-windows
+          - triplet: x64-windows
+            VCPKG_PLATFORM_TOOLSET: v142
+            qt_version: 6.2.2
+            qt_arch: win64_msvc2019_64
+            CMAKE_GENERATOR_PLATFORM: x64
+            qt_modules: qtscxml qtpositioning
+
+          - triplet: x64-windows
             VCPKG_PLATFORM_TOOLSET: v142
             qt_version: 5.15.2
             qt_arch: win64_msvc2019_64
-            CMAKE_GENERATOR: "Visual Studio 16 2019"
             CMAKE_GENERATOR_PLATFORM: x64
-            
-          - os: windows-2016
-            triplet: x86-windows
+
+          - triplet: x86-windows
             VCPKG_PLATFORM_TOOLSET: v141
-            qt_version: 5.12.11
+            qt_version: 5.12.12
             qt_arch: win32_msvc2017
-            CMAKE_GENERATOR: "Visual Studio 15 2017"
             CMAKE_GENERATOR_PLATFORM: Win32
-        
+
     runs-on: ${{ matrix.os }}
 
     env:
-      SOURCE_DIR:  ${{github.workspace}}\3th_2021_12_04\source
-      TOOSL_DIR:   ${{github.workspace}}\3th_2021_12_04\tools
-      INSTALL_DIR: ${{github.workspace}}\3th_2021_12_04\install
+      SOURCE_DIR:  ${{github.workspace}}\.cache\source
+      TOOSL_DIR:   ${{github.workspace}}\.cache\tools
+      INSTALL_DIR: ${{github.workspace}}\.cache\install_msvc_${{matrix.triplet}}_${{matrix.BUILD_TYPE}}_2022_02_14
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
-      CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
+      CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
       RabbitIm_VERSION: v0.1.0
-      VCPKGGITCOMMITID: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
-      qt_modules: qtwebengine
-      
+      VCPKGGITCOMMITID: faed44dfa013088fe1910908a8a65887622f412f
+      qt_modules: qtwebengine ${{matrix.qt_modules}}
+
     defaults:
       run:
         shell: cmd
@@ -58,11 +55,19 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: make_directory
+    - name: make directory
       run: |
         cmake -E make_directory ${{env.SOURCE_DIR}}
         cmake -E make_directory ${{env.TOOSL_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
+
+    - name: Cache installed
+      uses: actions/cache@v2
+      id: cache-installed
+      with:
+        path: |
+          ${{env.INSTALL_DIR}}
+        key: RabbitRemoteControl_msvc_cache-installed-${{matrix.os}}-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
 
     - name: run-vcpkg
       uses: lukka/run-vcpkg@v7.4
@@ -71,10 +76,10 @@ jobs:
         #setupOnly: # optional
         #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
         vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
-        vcpkgDirectory: ${{ runner.workspace }}/vcpkg/
+        vcpkgDirectory: ${{runner.workspace}}/vcpkg/
         # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
         # compute its hash and append this to the computed cache's key.
-        appendedCacheKey: cache-vcpkg-msvc-${{matrix.os}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
+        appendedCacheKey: cache-vcpkg-msvc-${{matrix.os}}-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
         #additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
         vcpkgTriplet: '${{ matrix.triplet }}'
         vcpkgArguments: 'zlib openssl libpng opus libjpeg-turbo libvpx libyuv ffmpeg opencv'
@@ -84,12 +89,11 @@ jobs:
       uses: actions/cache@v1  # not v2!
       with:
         path: ${{env.TOOSL_DIR}}/qt
-        key: cache-qt-${{ matrix.os }}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-2021-11-04
-        
+        key: rabbitremotecontrol_msvc_qt-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
     - name: Install Qt
       # You may pin to the exact commit or the version.
       # uses: jurplel/install-qt-action@a962fb91949c8e846a3e4a944d50e7ef5cc3a28a
-      uses: jurplel/install-qt-action@v2.11.1
+      uses: jurplel/install-qt-action@v2.14.0
       with:
         # Directory to install Qt
         dir: ${{env.TOOSL_DIR}}/qt # optional
@@ -122,13 +126,6 @@ jobs:
         # Any extra arguments to append to the back
         #extra: # optional
 
-    - name: Cache installed
-      uses: actions/cache@v2
-      id: cache-installed
-      with:
-        path: ${{env.INSTALL_DIR}}
-        key: cache-installed-msvc-${{matrix.os}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
-        
     - name: build log4qt
       working-directory: ${{env.SOURCE_DIR}}
       run: |
@@ -138,8 +135,11 @@ jobs:
             cmake -E make_directory build
             cd build
             cmake .. ^
+                -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
+                -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
                 -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
-                -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}}
+                -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} ^
+                -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
             cmake --build . --config ${{matrix.BUILD_TYPE}}
             cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
         )
@@ -153,9 +153,11 @@ jobs:
             cmake -E make_directory build
             cd build
             cmake .. ^
+                -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
+                -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
                 -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
+                -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF ^
                 -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} ^
-                -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DWITH_VPX=ON -DWITH_OPUS=ON ^
                 -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
             cmake --build . --config ${{matrix.BUILD_TYPE}}
             cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
@@ -171,6 +173,8 @@ jobs:
             cd build
             cmake .. ^
                 -DBUILD_EXAMPLES=OFF -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON ^
+                -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
+                -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
                 -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
                 -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} ^
                 -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
@@ -189,6 +193,8 @@ jobs:
         cmake -E make_directory ${{github.workspace}}/build
         cd ${{github.workspace}}\build
         cmake ${{github.workspace}}  ^
+            -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
+            -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
             -DCMARK_SHARED=OFF ^
             -DCMARK_TESTS=OFF ^
             -DCMARK_STATIC=ON ^
@@ -206,7 +212,6 @@ jobs:
     - name: Package
       if: ${{ matrix.BUILD_TYPE == 'Release' }}
       working-directory: ${{github.workspace}}/build
-      shell: cmd
       run: |
         cmake --build . --config ${{matrix.BUILD_TYPE}} --target install-runtime
         move /Y install\plugins\*crypto*.dll install\bin

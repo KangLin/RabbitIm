@@ -10,9 +10,9 @@ jobs:
       matrix:
         BUILD_TYPE: [Release]
         ANDROID_ABI: [armeabi-v7a, x86]
-        ANDROID_PLATFORM: [android-26]
+        ANDROID_PLATFORM: [android-28]
         os: [Ubuntu-18.04]
-        qt_version: [5.12.11]
+        qt_version: [5.12.12]
         include:
           - VCPKG_TARGET_TRIPLET: arm-android
             qt_arch: android_armv7
@@ -25,9 +25,9 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      SOURCE_DIR:  ${{github.workspace}}/3th_2021_12_04/source
-      TOOSL_DIR:   ${{github.workspace}}/3th_2021_12_04/tools
-      INSTALL_DIR: ${{github.workspace}}/3th_2021_12_04/install
+      SOURCE_DIR:  ${{github.workspace}}/.cache/source
+      TOOSL_DIR:   ${{github.workspace}}/.cache/tools
+      INSTALL_DIR: ${{github.workspace}}/.cache/install
       RabbitIm_VERSION: v0.1.1
       VCPKGGITCOMMITID: 973a7d517c09c8cfb7e6a548fcc260ca34ba7b60
       qt_modules: qtwebengine
@@ -39,7 +39,7 @@ jobs:
 
     - uses: snickerbockers/submodules-init@v4
 
-    - name: make_directory
+    - name: make directory
       run: |
         cmake -E make_directory ${{env.SOURCE_DIR}}
         cmake -E make_directory ${{env.TOOSL_DIR}}
@@ -50,11 +50,12 @@ jobs:
       uses: actions/cache@v1  # not v2!
       with:
         path: ${{env.TOOSL_DIR}}/qt
-        key: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}
-
+        key: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-2021-11-03
+        
     - name: Install Qt
       # You may pin to the exact commit or the version.
-      uses: jurplel/install-qt-action@v2.11.1
+      # uses: jurplel/install-qt-action@a962fb91949c8e846a3e4a944d50e7ef5cc3a28a
+      uses: jurplel/install-qt-action@v2.14.0
       with:
         # Directory to install Qt
         dir: ${{env.TOOSL_DIR}}/qt # optional
