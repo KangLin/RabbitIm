@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         BUILD_TYPE: [Release, Debug]
-	CMAKE_GENERATOR: [Visual Studio 17 2022]
+        CMAKE_GENERATOR: [Visual Studio 17 2022]
         os: [windows-latest]
         CMAKE_GENERATOR_PLATFORM: [x64, Win32]
         # VCPKG_PLATFORM_TOOLSET: [v142, v141, v140]
