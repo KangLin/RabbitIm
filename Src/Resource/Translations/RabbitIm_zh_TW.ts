@@ -1452,22 +1452,22 @@
         <translation>正在登錄……</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="308"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="299"/>
         <source>Network error</source>
         <translation>網絡錯誤</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="311"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="302"/>
         <source>Keep active error</source>
         <translation>保持活動錯誤</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="314"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="305"/>
         <source>Login fail</source>
         <translation>登錄失敗</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="317"/>
+        <location filename="../../Widgets/FrmLogin/FrmLogin.cpp" line="308"/>
         <source>Username or Password error</source>
         <translation>用戶名或密碼錯誤</translation>
     </message>

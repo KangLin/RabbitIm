@@ -156,7 +156,4 @@ IF(OpenSSL_FOUND)
     if(WIN32)
         INSTALL_TARGETS(TARGETS OpenSSL::SSL OpenSSL::Crypto)
     endif()
-    
-    LIST(APPEND RABBITIM_SOURCES Global/Encrypt.cpp)
-    LIST(APPEND RABBITIM_HEADER_FILES Global/Encrypt.h)
 ENDIF()

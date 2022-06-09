@@ -4,10 +4,10 @@
 #include "DlgLoginSettings.h"
 #include <QSettings>
 #include "MainWindow.h"
-#include "Global/Encrypt.h"
 #include <string>
 #include "Tool.h"
 #include "RabbitCommonDir.h"
+#include "RabbitCommonEncrypt.h"
 
 CFrmLogin::CFrmLogin(QWidget *parent) :
     QFrame(parent),
@@ -196,18 +196,12 @@ static QString gPassword("RabbitIm.KangLin");
 //加密密码  
 QString CFrmLogin::EncryptPassword(QString szPassword)
 {
-#ifdef RABBITIM_USE_OPENSSL
-    CEncrypt  e;
-    char* pOut = nullptr;
-    int nLen = 0;
+    RabbitCommon::CEncrypt e;
     e.SetPassword(gPassword.toStdString().c_str());
-    e.Encode(szPassword.toStdString().c_str(), szPassword.toStdString().size(),
-             &pOut, nLen);
-    QByteArray ba(pOut, nLen);
+    QByteArray ba;
+    int nRet = e.Encode(szPassword, ba);
+    if(nRet) return szPassword;
     return ba.toHex();
-#else
-    return szPassword;
-#endif
 }
 
 //解密密码  
@@ -215,18 +209,15 @@ QString CFrmLogin::DecryptPassword(QString szPassword)
 {
     if(szPassword.isEmpty())
         return szPassword;
-#ifdef RABBITIM_USE_OPENSSL
-    CEncrypt  e;
+
+    RabbitCommon::CEncrypt  e;
     QByteArray ba;
     ba = QByteArray::fromHex(QByteArray(szPassword.toStdString().c_str(),
                                         szPassword.toStdString().size()));
-    std::string szOut;
+    QString szOut;
     e.SetPassword(gPassword.toStdString().c_str());
-    e.Dencode(ba.data(), ba.length(), szOut);
-    return szOut.c_str();
-#else
-    return szPassword;
-#endif
+    e.Dencode(ba.data(), szOut);
+    return szOut;
 }
 
 void CFrmLogin::on_chkLogin_stateChanged(int state)
