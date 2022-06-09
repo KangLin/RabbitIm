@@ -22,6 +22,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}\3th_2021_12_04\source
       TOOSL_DIR:   ${{github.workspace}}\3th_2021_12_04\tools
       INSTALL_DIR: ${{github.workspace}}\3th_2021_12_04\install
+      RabbitIm_VERSION: v0.1.0
 
     steps:
     - uses: actions/checkout@v2
@@ -147,8 +148,7 @@ jobs:
             -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install ^
             -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake ^
             -DLog4Qt_DIR=/lib/cmake/Log4Qt ^
-            -DQXmpp_DIR=${{env.INSTALL_DIR}}\lib\cmake\qxmpp ^
-            -DQZXing_DIR=${{env.INSTALL_DIR}}\lib\cmake\QZXing 
+            -DQZXing_DIR=${{env.INSTALL_DIR}}\lib\cmake\QZXing
         cmake --build . --config ${{ matrix.BUILD_TYPE }}
         cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install-runtime
 
@@ -163,7 +163,8 @@ jobs:
         makensis ${{github.workspace}}/build/Install.nsi
         ${{github.workspace}}/build/install/bin/RabbitImApp.exe ^
             -f "${{github.workspace}}/build/update_windows.xml" ^
-            --pf RabbitIm-Setup-v0.1.0.exe -m "v0.1.0"
+            --pf RabbitIM_setup_${{env.RabbitIm_VERSION}}.exe ^
+            -m "${{env.RabbitIm_VERSION}}"
       if: ${{ matrix.BUILD_TYPE == 'Release' }}
 
     - name: update 
@@ -171,7 +172,7 @@ jobs:
       with:
         name: rabbitreim_mingw
         path: |
-          ${{github.workspace}}/build/RabbitIm-Setup-*.exe
+          ${{github.workspace}}/build/RabbitIM_setup_*.exe
           ${{github.workspace}}/build/update_*.xml
       if: ${{ matrix.BUILD_TYPE == 'Release' }}
     

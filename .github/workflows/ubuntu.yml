@@ -19,7 +19,7 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_ubuntu_2022_02_14
-      RabbitIM_VERSION: 0.0.18
+      RabbitIM_VERSION: 0.1.0
       
     steps:
     - uses: actions/checkout@v2
@@ -83,7 +83,7 @@ jobs:
         Log4Qt_DIR: ${{env.INSTALL_DIR}}/lib/cmake/Log4Qt
       run: |
         ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
-        cp ../rabbitim_${{env.RabbitIm_VERSION}}_amd64.deb .
+        cp ../rabbitim_*_amd64.deb .
         
 #    - name: update xml file
 #      working-directory: ${{github.workspace}}
@@ -100,7 +100,7 @@ jobs:
       with:
           name: rabbitim_${{env.RabbitIm_VERSION}}_${{ matrix.os }}
           path: |
-            rabbitim*
+            rabbitim_*_amd64.deb
             update_linux.xml
       if: ${{ matrix.BUILD_TYPE == 'Release' }} 
      
