@@ -109,7 +109,7 @@ jobs:
         appendedCacheKey: android_${{matrix.os}}-qt${{matrix.qt_version}}-${{matrix.VCPKG_TARGET_TRIPLET}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
         additionalCachedPaths: $VCPKG_ROOT/installed
         vcpkgTriplet: '${{ matrix.VCPKG_TARGET_TRIPLET }}'
-        vcpkgArguments: 'openssl ffmpeg' #zlib libpng libjpeg-turbo opus libyuv opencv'
+        vcpkgArguments: 'openssl ffmpeg zlib libpng libjpeg-turbo opus libyuv' # opencv'
 
     - name: Cache installed
       uses: actions/cache@v2
@@ -137,7 +137,8 @@ jobs:
                 -DQt5Test_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Test \
                 -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} \
                 -DCMAKE_PREFIX_PATH=${{env.QT_ROOT}} \
-                -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+                -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake \
+                -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
                 -DANDROID_ABI=${{matrix.ANDROID_ABI}} \
                 -DANDROID_PLATFORM=${{matrix.ANDROID_PLATFORM}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
@@ -168,7 +169,8 @@ jobs:
                 -DQt5Network_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Network \
                 -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} \
                 -DCMAKE_PREFIX_PATH=${{env.QT_ROOT}} \
-                -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+                -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake \
+                -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
                 -DANDROID_ABI=${{matrix.ANDROID_ABI}} \
                 -DANDROID_PLATFORM=${{matrix.ANDROID_PLATFORM}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
@@ -195,7 +197,8 @@ jobs:
                 -DQt5Multimedia_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5Multimedia \
                 -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} \
                 -DCMAKE_PREFIX_PATH=${{env.QT_ROOT}} \
-                -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+                -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake \
+                -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
                 -DANDROID_ABI=${{matrix.ANDROID_ABI}} \
                 -DANDROID_PLATFORM=${{matrix.ANDROID_PLATFORM}}
             cmake --build . --config ${{matrix.BUILD_TYPE}}
@@ -239,7 +242,8 @@ jobs:
             -DQt5WebEngineWidgets_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5WebEngineWidgets \
             -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} \
             -DCMAKE_PREFIX_PATH=${{env.QT_ROOT}} \
-            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake \
+            -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
             -DANDROID_ABI=${{matrix.ANDROID_ABI}} \
             -DANDROID_PLATFORM=${{matrix.ANDROID_PLATFORM}}
         cmake --build . --config ${{ matrix.BUILD_TYPE }}
