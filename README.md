@@ -119,7 +119,7 @@
 
 #### 捐赠资金：
 
-[![捐赠](https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png "捐赠")](https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png "捐赠")
+[![捐赠](https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png "捐赠")](https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png "捐赠")
 
 如果不能显示，请打开：
 - https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png
