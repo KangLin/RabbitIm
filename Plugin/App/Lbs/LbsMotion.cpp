@@ -7,7 +7,6 @@
 #include <QThread>
 #include "LbsCamera.h"
 #include "Global/GlobalDir.h"
-#include "RabbitCommonLog.h"
 
 CLbsMotion::CLbsMotion(QWidget *parent) :
     QFrame(parent),
@@ -60,7 +59,7 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
             //p->setUpdateInterval(1000);
         }
         else
-            LOG_MODEL_ERROR("CLbsTrack", "don't open file:%s",
+            qCritical("don't open file:%s",
                             m_inFile.fileName().toStdString().c_str());
     }//*/    
 #endif
@@ -82,7 +81,7 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
         }
     }
     else
-        LOG_MODEL_ERROR("CLbsMotion", "QGeoPositionInfoSource is null");
+        qCritical("QGeoPositionInfoSource is null");
 
     check = connect(&m_Timer, SIGNAL(timeout()),
                          SLOT(OnTimeOut()));
@@ -101,7 +100,7 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
 
 CLbsMotion::~CLbsMotion()
 {
-    LOG_MODEL_DEBUG("CLbsMotion", "~CLbsMotion");
+    qDebug("~CLbsMotion");
     if(m_bStart)
         on_pbStart_clicked();
 
@@ -124,7 +123,7 @@ void CLbsMotion::positionUpdated(const QGeoPositionInfo &info)
 {
     if(!info.isValid())
     {
-        LOG_MODEL_ERROR("CLbsMotion", "QGeoPositionInfo is invalid\n");
+        qCritical("QGeoPositionInfo is invalid\n");
         return;
     }
 
@@ -164,7 +163,7 @@ void CLbsMotion::positionUpdated(const QGeoPositionInfo &info)
     if(m_lastPostion.isValid() && m_lastPostion.coordinate().isValid())
     {
         m_Distance += info.coordinate().distanceTo(m_lastPostion.coordinate());
-        //LOG_MODEL_DEBUG("CLbsMotion", "distanceTo:%f", info.coordinate().distanceTo(m_lastPostion.coordinate()));
+        //qDebug("distanceTo:%f", info.coordinate().distanceTo(m_lastPostion.coordinate()));
     }
     m_lastPostion = info;
 }
@@ -307,7 +306,7 @@ void CLbsMotion::OnTimeOut()
                                 QString::number(m_Distance / 1000, 'f', 3)));
     ui->lbSpeed->setText(tr("%1\nSpeed(km/h)").arg(
                           QString::number(m_Distance * 3.6 / sec , 'f', 3)));
-    /*LOG_MODEL_DEBUG("CLbsMotion", "time:%d;distance:%f;speed:%f",
+    /*qDebug("time:%d;distance:%f;speed:%f",
                     sec,
                     m_Distance,
                     m_Distance / sec);*/
@@ -337,7 +336,7 @@ int CLbsMotion::onUploadServer()
 
 void CLbsMotion::slotExitMessageBox(int nRet)
 {
-    LOG_MODEL_DEBUG("CLbsMotion", "CLbsMotion::slotExitMessageBox, nRet=%d", nRet);
+    qDebug("CLbsMotion::slotExitMessageBox, nRet=%d", nRet);
     if(0 == nRet)
     {
         m_MessageBox.setText(tr("Upload succeed"));
@@ -354,12 +353,12 @@ void CLbsMotion::on_pbCamera_clicked()
     CLbsCamera* p = CLbsCamera::Instance();
     if(p)
         p->slotOpen();
-    LOG_MODEL_DEBUG("CLbsMotion", "on_pbCamera_clicked");
+    qDebug("on_pbCamera_clicked");
 }
 
 void CLbsMotion::slotPhotograph(const QString &szFile)
 {
-    LOG_MODEL_DEBUG("CLbsMotion", "slotPhotograph:%s", szFile.toStdString().c_str());
+    qDebug("slotPhotograph:%s", szFile.toStdString().c_str());
 }
 
 void CLbsMotion::on_pbBack_clicked()

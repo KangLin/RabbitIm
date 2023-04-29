@@ -72,7 +72,7 @@ int CFrmAppList::LoadGroupNodeStateFromStorage()
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
-        LOG_MODEL_WARNING("CFrmAppList", "Don't open file:%s",
+        qWarning("Don't open file:%s",
                           szFile.toStdString().c_str());
         return -1;
     }
@@ -82,7 +82,7 @@ int CFrmAppList::LoadGroupNodeStateFromStorage()
         //版本号  
         int nVersion = 0;
         s >> nVersion;
-        LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
+        qDebug("Version:%d", nVersion);
         int nRowCount = 0;
         s >> nRowCount;
         while(nRowCount--)
@@ -92,7 +92,7 @@ int CFrmAppList::LoadGroupNodeStateFromStorage()
             s >> szGroup;
             bool bState;
             s >> bState;
-            LOG_MODEL_DEBUG("CFrmUserList", "Group:%s; State:%d", szGroup.toStdString().c_str(), bState);
+            qDebug("Group:%s; State:%d", szGroup.toStdString().c_str(), bState);
             QStandardItem* pItem = nullptr;
             QModelIndexList lstIndexs = m_pModel->match(
                         m_pModel->index(0, 0),
@@ -129,8 +129,7 @@ int CFrmAppList::LoadGroupNodeStateFromStorage()
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CFrmAppList",
-               "CFrmAppList::LoadGroupNodeStateFromStorage exception");
+        qCritical() << "CFrmAppList::LoadGroupNodeStateFromStorage exception";
         return -2;
     }
 
@@ -145,7 +144,7 @@ int CFrmAppList::SaveGroupNodeStateToStorage()
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
-        LOG_MODEL_WARNING("CFrmAppList", "Don't open file:%s",
+        qWarning("Don't open file:%s",
                           szFile.toStdString().c_str());
         return -3;
     }
@@ -164,7 +163,7 @@ int CFrmAppList::SaveGroupNodeStateToStorage()
             QModelIndex index;
             index = m_pModel->index(i, 0);
             QStandardItem* item = m_pModel->itemFromIndex(index);
-            LOG_MODEL_DEBUG("CFrmAppList", "text:%s",
+            qDebug("text:%s",
                             item->text().toStdString().c_str());
             s << item->text()
               << m_AppList.isExpanded(index);
@@ -172,8 +171,7 @@ int CFrmAppList::SaveGroupNodeStateToStorage()
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CFrmAppList",
-                "CFrmAppList::SaveGroupNodeStateToStorage exception");
+        qCritical() << "CFrmAppList::SaveGroupNodeStateToStorage exception";
         return -4;
     }
 
@@ -270,7 +268,7 @@ int CFrmAppList::InitList()
 
 void CFrmAppList::clicked(const QModelIndex &index)
 {
-    LOG_MODEL_DEBUG("CFrmAppList", "CFrmAppList::clicked, row:%d; column:%d",
+    qDebug("CFrmAppList::clicked, row:%d; column:%d",
            index.row(), index.column());
 
 #ifdef MOBILE
@@ -282,7 +280,7 @@ void CFrmAppList::clicked(const QModelIndex &index)
     const QAbstractItemModel *m = index.model();
     if(!m)
     {
-        LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::clicked model is null");   
+        qCritical("CFrmAppList::clicked model is null");   
         return;
     }
 
@@ -292,7 +290,7 @@ void CFrmAppList::clicked(const QModelIndex &index)
 
 void CFrmAppList::doubleClicked(const QModelIndex &index)
 {
-    LOG_MODEL_DEBUG("CFrmAppList", "CFrmAppList::doubleClicked, row:%d; column:%d",
+    qDebug("CFrmAppList::doubleClicked, row:%d; column:%d",
            index.row(), index.column());
 
 #ifndef MOBILE
@@ -304,7 +302,7 @@ void CFrmAppList::doubleClicked(const QModelIndex &index)
     const QAbstractItemModel *m = index.model();
     if(!m)
     {
-        LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::doubleClicked model is null");
+        qCritical("CFrmAppList::doubleClicked model is null");
         return;
     }
 
@@ -332,7 +330,7 @@ void CFrmAppList::slotOpenApp()
     const QAbstractItemModel *m = index.model();
     if(!m)
     {
-        LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::slotOpenApp model is null");
+        qCritical("CFrmAppList::slotOpenApp model is null");
         return;
     }
 
@@ -345,13 +343,13 @@ void CFrmAppList::slotOpenApp()
     }
     if(szApp.isEmpty())
     {
-        LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::slotOpenApp App name is empty");
+        qCritical("CFrmAppList::slotOpenApp App name is empty");
         return;
     }
     QSharedPointer<CManagePluginApp> plugin = GETMANAGER->GetManagePluginApp();
     if(plugin.isNull())
     {
-        LOG_MODEL_ERROR("CFrmAppList", "CFrmAppList::slotOpenApp plugin is null");
+        qCritical("CFrmAppList::slotOpenApp plugin is null");
         return;
     }
     plugin->GetPlugin(szApp)->Open(NULL, this);

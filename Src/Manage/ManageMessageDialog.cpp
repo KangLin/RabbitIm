@@ -8,7 +8,7 @@ CManageMessageDialog::CManageMessageDialog(QObject *parent) : CManage(parent)
 
 CManageMessageDialog::~CManageMessageDialog()
 {
-    LOG_MODEL_DEBUG("CManageMessageDialog", "CManageMessageDialog::~CManageMessageDialog()");
+    qDebug("CManageMessageDialog::~CManageMessageDialog()");
 }
 
 int CManageMessageDialog::LoginInit(const QString &szId)
@@ -26,7 +26,7 @@ int CManageMessageDialog::LoginInit(const QString &szId)
 
 int CManageMessageDialog::LogoutClean()
 {
-    LOG_MODEL_DEBUG("CManageMessageDialog", "CManageMessageDialog::Clean()");
+    qDebug("CManageMessageDialog::Clean()");
     QMap<QString, QFrame*>::iterator it;
     for(it = m_DlgMessage.begin(); it != m_DlgMessage.end(); it++)
     {
@@ -57,7 +57,7 @@ int CManageMessageDialog::ShowDialog(const QString &szId)
             QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
             if(gc.isNull())
             {
-                LOG_MODEL_ERROR("CFrmContainer", "Don't group chat:%s", qPrintable(szId));
+                qCritical("Don't group chat:%s", qPrintable(szId));
                 return -3;
             }
             pFrame = new CFrmGroupChat(szId);
@@ -65,7 +65,7 @@ int CManageMessageDialog::ShowDialog(const QString &szId)
 
         if(!pFrame)
         {
-            LOG_MODEL_ERROR("CFrmContainer", "pFrame is null");
+            qCritical("pFrame is null");
             return -4;
         }
         bool check = connect(pFrame, SIGNAL(sigClose(QFrame*)),

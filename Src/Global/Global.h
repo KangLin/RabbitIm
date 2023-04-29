@@ -7,7 +7,7 @@
 #include <QDateTime>
 #include "Manage/Manager.h"
 #include "common/Tool.h"
-#include "RabbitCommonLog.h"
+
 #include <QDebug>
 
 class RABBITIM_SHARED_LIBRARY MainWindow;

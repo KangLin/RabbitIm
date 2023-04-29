@@ -11,7 +11,7 @@ CManageMessage::CManageMessage(QObject *parent) :
 CManageMessage::~CManageMessage()
 {
     m_Message.clear();
-    LOG_MODEL_DEBUG("CMessage", "CMessage::~CMessage");
+    qDebug("CMessage::~CMessage");
 }
 
 int CManageMessage::GetUnReadCount()
@@ -41,7 +41,7 @@ std::vector<QSharedPointer<CChatAction> > CManageMessage::GetUnreadMessage()
 #ifdef DEBUG
     if(!m_nUnreadCount)
     {
-        LOG_MODEL_DEBUG("CMessage", "CMessage::GetUnreadMessage() unread count is zero");
+        qDebug("CMessage::GetUnreadMessage() unread count is zero");
     }
 #endif
 

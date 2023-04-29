@@ -13,7 +13,7 @@ CMainAnimation::CMainAnimation(QWidget *parent)
 void CMainAnimation::enterEvent(QEvent* event)
 {
     Q_UNUSED(event)
-    LOG_MODEL_DEBUG("CMainAnimation", "MainWindow::enterEvent");
+    qDebug("MainWindow::enterEvent");
 
 #ifndef MOBILE
     emit sigShow();

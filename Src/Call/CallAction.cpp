@@ -29,14 +29,14 @@ CCallAction::~CCallAction()
 {
     if(m_Timer.isActive())
         m_Timer.stop();
-    LOG_MODEL_DEBUG("CCallAction", "CCallAction::~CCallAction");
+    qDebug("CCallAction::~CCallAction");
 }
 
 QString CCallAction::getMessage()
 {
     QString szMsg;
     szMsg = "<table>";
-    //LOG_MODEL_DEBUG("CCallAction", "state:%d", m_Call->GetState());
+    //qDebug("state:%d", m_Call->GetState());
     if(m_Call.isNull())
         return QString();
     switch(m_Call->GetState())

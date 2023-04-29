@@ -1,5 +1,4 @@
 #include "ConverFormatOpenCV.h"
-#include "RabbitCommonLog.h"
 
 #if OpenCV_VERSION_MAJOR == 3 || OpenCV_VERSION_MAJOR == 2
 #include "opencv/cv.hpp"
@@ -18,7 +17,7 @@ QImage CConverFormatOpenCV::onConverFormatToRGB888(const QVideoFrame &frame)
         return img;
     if(!videoFrame.map(QAbstractVideoBuffer::ReadOnly))
     {
-        LOG_MODEL_ERROR("CImageTool", "videoFrame.map fail");
+        qCritical("videoFrame.map fail");
         return img;
     }
     do{
@@ -97,9 +96,8 @@ QImage CConverFormatOpenCV::onConverFormatToRGB888(const QVideoFrame &frame)
         }
             break;
 
-
         default:
-            LOG_MODEL_WARNING("CImageTool",  "OpenCVConverFormatToRGB888 Don't conver format: %d",
+            qWarning("OpenCVConverFormatToRGB888 Don't conver format: %d",
                             videoFrame.pixelFormat());
         }
 

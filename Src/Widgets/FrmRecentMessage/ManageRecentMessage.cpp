@@ -45,7 +45,7 @@ int CManageRecentMessage::LoadFromStorage(const QString &szId)
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
-        LOG_MODEL_WARNING("CManageRecentMessage", "Don't open file:%s", szFile.toStdString().c_str());
+        qWarning() << "Don't open file:" << szFile;
         return -1;
     }
 
@@ -73,7 +73,7 @@ int CManageRecentMessage::LoadFromStorage(const QString &szId)
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CManageRecentMessage", "CManageRecentMessage::LoadFromStorage exception");
+        qCritical() << "CManageRecentMessage::LoadFromStorage exception";
         nRet = -1;
     }
 
@@ -86,7 +86,7 @@ int CManageRecentMessage::SaveToStorage()
     int nRet = 0;
     if(USER_INFO_LOCALE.isNull())
     {
-        LOG_MODEL_ERROR("CManageRecentMessage", "USER_INFO_LOCALE is null");
+        qCritical() << "USER_INFO_LOCALE is null";
         return -1;
     }
     QString szFile = CGlobalDir::Instance()->GetDirUserData(USER_INFO_LOCALE->GetInfo()->GetId()) 
@@ -95,7 +95,7 @@ int CManageRecentMessage::SaveToStorage()
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
-        LOG_MODEL_WARNING("CManageRecentMessage", "Don't open file:%s", szFile.toStdString().c_str());
+        qWarning() << "Don't open file:" << szFile;
         return -1;
     }
 
@@ -119,7 +119,7 @@ int CManageRecentMessage::SaveToStorage()
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CManageRecentMessage", "CManageRecentMessage::SaveToStorage exception");
+        qCritical() << "CManageRecentMessage::SaveToStorage exception";
         return -1;
     }
 

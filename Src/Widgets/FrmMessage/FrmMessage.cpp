@@ -36,7 +36,7 @@ CFrmMessage::CFrmMessage(const QString &szId, QWidget *parent, Qt::WindowFlags f
 
 CFrmMessage::~CFrmMessage()
 {
-    LOG_MODEL_DEBUG("Message", "CFrmMessage::~CFrmMessage");
+    qDebug("CFrmMessage::~CFrmMessage");
     CGlobal::Instance()->GetMainWindow()->disconnect(this);
     GET_CLIENT.data()->disconnect(this);
     delete ui;
@@ -68,7 +68,7 @@ int CFrmMessage::Init(const QString &szId)
     m_User = GLOBAL_USER->GetUserInfoRoster(szId);
     if(m_User.isNull())
     {
-        LOG_MODEL_ERROR("CFrmMessage", "roster[%s] isn't exist.", szId.toStdString().c_str());
+        qCritical("roster[%s] isn't exist.", szId.toStdString().c_str());
         return -1;
     }
 
@@ -149,12 +149,12 @@ void CFrmMessage::on_pbShotScreen_clicked()
 
 void CFrmMessage::hideEvent(QHideEvent *)
 {
-    LOG_MODEL_DEBUG("Message", "CFrmMessage::hideEvent");
+    qDebug("CFrmMessage::hideEvent");
 }
 
 void CFrmMessage::closeEvent(QCloseEvent *e)
 {
-    LOG_MODEL_DEBUG("Message", "CFrmMessage::closeEvent");
+    qDebug("CFrmMessage::closeEvent");
     if(GETMANAGER->GetFileTransfer()->GetFileTransfers(m_User->GetInfo()->GetId()))
     {
         QMessageBox msg(QMessageBox::Question,
@@ -197,7 +197,7 @@ void CFrmMessage::changeEvent(QEvent *e)
 void CFrmMessage::dropEvent(QDropEvent *event)
 {
     Q_UNUSED(event);
-    LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::dropEvent");
+    qDebug("CFrmMessage::dropEvent");
 }
 
 bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
@@ -226,7 +226,7 @@ bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
         }
         else if(event->type() == QEvent::Drop)
         {
-            LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::eventFilter dropEvent");
+            qDebug("CFrmMessage::eventFilter dropEvent");
             QDropEvent *dropEvent = static_cast<QDropEvent*>(event);
             if(dropEvent->mimeData()->hasUrls())
             {
@@ -246,7 +246,7 @@ bool CFrmMessage::eventFilter(QObject *target, QEvent *event)
 
 void CFrmMessage::showEvent(QShowEvent *)
 {
-    LOG_MODEL_DEBUG("Message", "CFrmMessage::showEvent");
+    qDebug("CFrmMessage::showEvent");
     //TODO:重读数据  
     if(m_User.isNull())
     {
@@ -369,7 +369,7 @@ void CFrmMessage::SlotChangedStatus(const QString &szId)
 
 void CFrmMessage::slotAnchorClicked(const QUrl &url)
 {
-    LOG_MODEL_DEBUG("CFrmMessage", "CFrmMessage::slotAnchorClicked:scheme:%s;host:%s;query:%s",
+    qDebug("CFrmMessage::slotAnchorClicked:scheme:%s;host:%s;query:%s",
                     qPrintable(url.scheme()),
                     qPrintable(url.host()),
                     qPrintable(url.query()));

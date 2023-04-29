@@ -144,7 +144,7 @@ void CDlgRegister::on_pbCancel_clicked()
 
 void CDlgRegister::hideEvent(QHideEvent *)
 {
-    LOG_MODEL_DEBUG("Register", "CFrmRegister::hideEvent");
+    qDebug("CFrmRegister::hideEvent");
 }
 
 void CDlgRegister::changeEvent(QEvent *e)
@@ -177,7 +177,7 @@ void CDlgRegister::on_pbBrowse_clicked()
     QImageWriter imageWriter(&m_PhotoBuffer, "png");
     m_PhotoBuffer.open(QIODevice::WriteOnly);
     if(!imageWriter.write(map.toImage()))
-        LOG_MODEL_ERROR("CDlgRegister", "error:%s", imageWriter.errorString().toStdString().c_str());
+        qCritical("error:%s", imageWriter.errorString().toStdString().c_str());
     m_PhotoBuffer.close();
 
     ui->lbPhoto->setPixmap(map);

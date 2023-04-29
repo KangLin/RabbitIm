@@ -49,7 +49,7 @@ CDlgUservCard::CDlgUservCard(QSharedPointer<CUserInfo> user, bool bModify, QWidg
 
 CDlgUservCard::~CDlgUservCard()
 {
-    LOG_MODEL_DEBUG("CDlgUservCard", "CDlgUservCard::~CDlgUservCard");
+    qDebug( "CDlgUservCard::~CDlgUservCard");
     GET_CLIENT.data()->disconnect(this);
     delete ui;
 }
@@ -64,7 +64,7 @@ int CDlgUservCard::Init()
 
 void CDlgUservCard::showEvent(QShowEvent *)
 {
-    LOG_MODEL_DEBUG("CDlgUservCard", "CDlgUservCard::showEvent");
+    qDebug( "CDlgUservCard::showEvent");
 
     if(m_UserInfo.isNull())
         return;
@@ -79,7 +79,7 @@ void CDlgUservCard::showEvent(QShowEvent *)
     QImageWriter imageWriter(&m_PhotoBuffer, "png");
     m_PhotoBuffer.open(QIODevice::WriteOnly);
     if(!imageWriter.write(m_UserInfo->GetPhoto()))
-        LOG_MODEL_ERROR("CDlgUservCard", "error:%s", imageWriter.errorString().toStdString().c_str());
+        qCritical("error:%s", imageWriter.errorString().toStdString().c_str());
     m_PhotoBuffer.close();
 
     QPixmap pixmap;
@@ -135,7 +135,7 @@ void CDlgUservCard::on_pbBrowse_clicked()
     QImageWriter imageWriter(&m_PhotoBuffer, "png");
     m_PhotoBuffer.open(QIODevice::WriteOnly);
     if(!imageWriter.write(map.toImage()))
-        LOG_MODEL_ERROR("CDlgUservCard", "error:%s", imageWriter.errorString().toStdString().c_str());
+        qCritical("error:%s", imageWriter.errorString().toStdString().c_str());
     m_PhotoBuffer.close();
 
     ui->lbPhoto->setPixmap(map);
@@ -189,6 +189,6 @@ void CDlgUservCard::on_pbSaveAs_clicked()
         return;
 
     if(!m_Image.save(szFile))
-        LOG_MODEL_ERROR("CDlgAbout", "Save qrencode fail:%s",
+        qCritical("Save qrencode fail:%s",
                         szFile.toStdString().c_str());
 }

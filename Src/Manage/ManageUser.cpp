@@ -59,7 +59,7 @@ int CManageUser::SaveToStorage()
     nRet = SaveLocaleToStorage();
     if(nRet)
     {
-        LOG_MODEL_ERROR("CManageUser", "SaveLocaleToStorage fail:%d", nRet);
+        qCritical("SaveLocaleToStorage fail:%d", nRet);
         return nRet;
     }
     nRet = SaveRosterToStorage();
@@ -74,7 +74,7 @@ int CManageUser::LoadLocaleFromStorage(const QString &szId)
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
-        LOG_MODEL_WARNING("CManageUser", "Don't open file:%s", szFile.toStdString().c_str());
+        qWarning("Don't open file:%s", szFile.toStdString().c_str());
         if(m_UserLocale.isNull())
         {
             m_UserLocale = NewUser();
@@ -89,7 +89,7 @@ int CManageUser::LoadLocaleFromStorage(const QString &szId)
         int nVersion = 0;
         s >> nVersion;
         //本地用户信息  
-        LOG_MODEL_DEBUG("CManageUser", "Version:%d", nVersion);
+        qDebug("Version:%d", nVersion);
         if(m_UserLocale.isNull())
         {
             m_UserLocale = NewUser();
@@ -99,7 +99,7 @@ int CManageUser::LoadLocaleFromStorage(const QString &szId)
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CManageUser", "CManageUser::LoadLocaleFromStorage exception");
+        qCritical("CManageUser::LoadLocaleFromStorage exception");
         nRet = -1;
     }
 
@@ -117,7 +117,7 @@ int CManageUser::SaveLocaleToStorage()
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
-        LOG_MODEL_WARNING("CManageUser", "Don't open file:%s", szFile.toStdString().c_str());
+        qWarning() << "Don't open file:" << szFile;
         return -1;
     }
 
@@ -133,7 +133,7 @@ int CManageUser::SaveLocaleToStorage()
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CManageUser", "CManageUser::SaveLocaleToStorage exception");
+        qCritical("CManageUser::SaveLocaleToStorage exception");
         return -1;
     }
 
@@ -148,7 +148,7 @@ int CManageUser::LoadRosterFromStorage(QString szId)
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
-        LOG_MODEL_WARNING("CGlobalUser", "Don't open file:%s", szFile.toStdString().c_str());
+        qWarning("Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
 
@@ -159,7 +159,7 @@ int CManageUser::LoadRosterFromStorage(QString szId)
         int nVersion = 0;
         s >> nVersion;
         //本地用户信息  
-        LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
+        qDebug("Version:%d", nVersion);
         int nSize =0;
         s >> nSize;
         while(nSize--)
@@ -171,7 +171,7 @@ int CManageUser::LoadRosterFromStorage(QString szId)
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CGlobalUser", "CFrmUserList::LoadUserList exception");
+        qCritical("CFrmUserList::LoadUserList exception");
         nRet = -1;
     }
 
@@ -187,7 +187,7 @@ int CManageUser::SaveRosterToStorage()
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
-        LOG_MODEL_WARNING("CGlobalUser", "Don't open file:%s", szFile.toStdString().c_str());
+        qWarning() << "Don't open file:" << szFile;
         return -1;
     }
 
@@ -206,7 +206,7 @@ int CManageUser::SaveRosterToStorage()
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CGlobalUser", "CFrmUserList::SaveUserList exception");
+        qCritical("CFrmUserList::SaveUserList exception");
         return -1;
     }
 
@@ -225,7 +225,7 @@ QSharedPointer<CUser> CManageUser::GetUserInfoRoster(const QString &szId)
     it = m_UseRoster.find(szId);
     if(m_UseRoster.end() == it)
     {
-        LOG_MODEL_WARNING("GlobalUser", "Don't find roster:%s", szId.toStdString().c_str());
+        qWarning() << "Don't find roster:" << szId;
         QSharedPointer<CUser> roster;
         return roster;
     }
@@ -236,7 +236,7 @@ QSharedPointer<CUser> CManageUser::GetUserInfoRoster(const QString &szId)
 QSharedPointer<CUser> CManageUser::AddUserInfoRoster(const QString &szId)
 {
     Q_UNUSED(szId);
-    LOG_MODEL_ERROR("CGlobalUser", "The CGlobalUser::AddUserInfoRoster function must be implemented by derived classes");
+    qDebug("The CGlobalUser::AddUserInfoRoster function must be implemented by derived classes");
     QSharedPointer<CUser> user;
     return user;
 }

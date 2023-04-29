@@ -7,7 +7,6 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QNmeaPositionInfoSource>
-#include "RabbitCommonLog.h"
 #include <QQuickItem>
 
 CLbsTrack::CLbsTrack(QWidget *parent) :
@@ -42,7 +41,7 @@ CLbsTrack::CLbsTrack(QWidget *parent) :
             //p->setUpdateInterval(1000);
         }
         else
-            LOG_MODEL_ERROR("CLbsTrack", "don't open file:%s",
+            qCritical("don't open file:%s",
                             m_inFile.fileName().toStdString().c_str());
     }//*/
     

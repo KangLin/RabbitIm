@@ -11,7 +11,7 @@ CFileTransfer::CFileTransfer(QObject *parent) :
 
 CFileTransfer::~CFileTransfer()
 {
-    LOG_MODEL_DEBUG("CFileTransfer", "CFileTransfer::~CFileTransfer:id:%d", m_nId);
+    qDebug("CFileTransfer::~CFileTransfer:id:%d", m_nId);
 }
 
 QString CFileTransfer::GetFileTranserId()
@@ -27,77 +27,77 @@ QString CFileTransfer::GetId()
 int CFileTransfer::Accept(const QString &szFile)
 {
     Q_UNUSED(szFile);
-    LOG_MODEL_WARNING("CFileTransfer", "The Accept function must be implemented by derived classes");
+    qWarning("The Accept function must be implemented by derived classes");
     Q_ASSERT(false);
     return 0;
 }
 
 int CFileTransfer::Abort()
 {
-    LOG_MODEL_WARNING("CFileTransfer", "The Abort function must be implemented by derived classes");
+    qWarning("The Abort function must be implemented by derived classes");
     Q_ASSERT(false);
     return 0;
 }
 
 QUrl CFileTransfer::GetLocalFileUrl()
 {
-    LOG_MODEL_WARNING("CFileTransfer", "The GetLocalFileUrl function must be implemented by derived classes");
+    qWarning("The GetLocalFileUrl function must be implemented by derived classes");
     Q_ASSERT(false);
     return QUrl();
 }
 
 QString CFileTransfer::GetFile()
 {
-    LOG_MODEL_WARNING("CFileTransfer", "The GetFile function must be implemented by derived classes");
+    qWarning("The GetFile function must be implemented by derived classes");
     Q_ASSERT(false);
     return 0;
 }
 
 qint64 CFileTransfer::GetFileSize()
 {
-    LOG_MODEL_WARNING("CFileTransfer", "The GetFileSize function must be implemented by derived classes");
+    qWarning("The GetFileSize function must be implemented by derived classes");
     Q_ASSERT(false);
     return 0;
 }
 
 CFileTransfer::Direction CFileTransfer::GetDirection()
 {
-    LOG_MODEL_WARNING("CFileTransfer", "The GetDirection function must be implemented by derived classes");
+    qWarning("The GetDirection function must be implemented by derived classes");
     Q_ASSERT(false);
     return IncomingDirection;
 }
 
 QString CFileTransfer::GetDescription()
 {
-    LOG_MODEL_WARNING("CFileTransfer", "The GetDescription function must be implemented by derived classes");
+    qWarning("The GetDescription function must be implemented by derived classes");
     Q_ASSERT(false);
     return QString();
 }
 
 CFileTransfer::State CFileTransfer::GetState()
 {
-    LOG_MODEL_WARNING("CFileTransfer", "The GetState function must be implemented by derived classes");
+    qWarning("The GetState function must be implemented by derived classes");
     Q_ASSERT(false);
     return OfferState;
 }
 
 CFileTransfer::Error CFileTransfer::GetError()
 {
-    LOG_MODEL_WARNING("CFileTransfer", "The GetError function must be implemented by derived classes");
+    qWarning("The GetError function must be implemented by derived classes");
     Q_ASSERT(false);
     return NoError;
 }
 
 qint64 CFileTransfer::GetSpeed()
 {
-    LOG_MODEL_WARNING("CFileTransfer", "The GetSpeed function must be implemented by derived classes");
+    qWarning("The GetSpeed function must be implemented by derived classes");
     Q_ASSERT(false);
     return 0;
 }
 
 qint64 CFileTransfer::GetDoneSize()
 {
-    LOG_MODEL_WARNING("CFileTransfer", "The GetDoneSize function must be implemented by derived classes");
+    qWarning("The GetDoneSize function must be implemented by derived classes");
     Q_ASSERT(false);
     return 0;
 }

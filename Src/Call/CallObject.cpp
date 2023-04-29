@@ -28,7 +28,7 @@ CCallObject::CCallObject(const QString &szId, bool bVideo, QObject *parent) :
 
 CCallObject::~CCallObject()
 {
-    LOG_MODEL_DEBUG("CCallObject", "CCallObject::~CCallObject.id:%d", qPrintable(m_szId));
+    qDebug("CCallObject::~CCallObject.id:%d", qPrintable(m_szId));
     StopCallSound();
     CloseDevices();
 }
@@ -90,7 +90,7 @@ void CCallObject::PlayCallSound()
 {
     if(IsMonitor())
         return;
-    //LOG_MODEL_DEBUG("CCallObject", "CCallObject::PlayCallSound");
+    //qDebug("CCallObject::PlayCallSound");
     QString file;
     if(GetDirection() == CCallObject::OutgoingDirection)
         file = ":/sound/Call";
@@ -108,7 +108,7 @@ void CCallObject::PlayCallSound()
 
 void CCallObject::StopCallSound()
 {
-    //LOG_MODEL_DEBUG("CCallObject", "CCallObject::StopCallSound");
+    //qDebug("CCallObject::StopCallSound");
     if(m_pSound)
     {
         m_pSound->stop();
@@ -142,7 +142,7 @@ int CCallObject::OpenVideoWindow()
     //防止重复打开  
     if(m_pFrmVideo)
     {
-        LOG_MODEL_WARNING("CCallObject", "Video window is opened");
+        qWarning("Video window is opened");
         return -2;
     }
 
@@ -158,7 +158,7 @@ int CCallObject::OpenVideoWindow()
             = GLOBAL_USER->GetUserInfoRoster(this->GetId());
     if(roster.isNull())
     {
-        LOG_MODEL_WARNING("CCallObjectQXmpp", "The roster is null");
+        qWarning("The roster is null");
         return false;
     }
     m_pFrmVideo->setWindowTitle(
@@ -259,7 +259,7 @@ bool CCallObject::IsMonitor()
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(this->GetId());
     if(roster.isNull())
     {
-        LOG_MODEL_WARNING("CCallObjectQXmpp", "roster is null");
+        qWarning("roster is null");
         return false;
     }
     if(GetDirection() == CCallObject::IncomingDirection
@@ -323,13 +323,13 @@ int CCallObject::OpenAudioDevice(QAudioFormat inFormat,
     {
         QAudioDeviceInfo infoAudioInput(lstInputs.value(CGlobal::Instance()->GetAudioInputDevice()));
         if (!infoAudioInput.isFormatSupported(inFormat)) {
-            LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio input format not supported - trying to use nearest");
+            qWarning("Default audio input format not supported - trying to use nearest");
             //TODO:增加格式转换
             inFormat = infoAudioInput.nearestFormat(inFormat);
         }
         m_pAudioInput = new QAudioInput(infoAudioInput, inFormat, this);
         if(!m_pAudioInput)
-            LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioInput device instance fail.");
+            qCritical("Create QAudioInput device instance fail.");
         else if( (outDevice->openMode() & QIODevice::WriteOnly)
                 && (m_pAudioInput->state() != QAudio::ActiveState) )
             m_pAudioInput->start(outDevice);
@@ -343,13 +343,13 @@ int CCallObject::OpenAudioDevice(QAudioFormat inFormat,
     {
         QAudioDeviceInfo infoAudioOutput(lstOutputs.value(CGlobal::Instance()->GetAudioOutputDevice()));
         if (!infoAudioOutput.isFormatSupported(outFormat)) {
-            LOG_MODEL_WARNING("CCallVideoQXmpp", "Default audio output format not supported - trying to use nearest");
+            qWarning("Default audio output format not supported - trying to use nearest");
             //TODO:增加格式转换
             outFormat = infoAudioOutput.nearestFormat(outFormat);
         }
         m_pAudioOutput = new QAudioOutput(infoAudioOutput, outFormat, this);
         if(!m_pAudioOutput)
-            LOG_MODEL_ERROR("CCallVideoQXmpp", "Create QAudioOutput device instance fail.");
+            qCritical("Create QAudioOutput device instance fail.");
         else if((outDevice->openMode() & QIODevice::ReadOnly) && (m_pAudioOutput->state() != QAudio::ActiveState) )
             m_pAudioOutput->start(outDevice);
     }

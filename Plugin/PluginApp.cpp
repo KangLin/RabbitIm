@@ -13,7 +13,7 @@ CPluginApp::CPluginApp()
 
 CPluginApp::~CPluginApp()
 {
-    LOG_MODEL_DEBUG("CPluginApp", "CPluginApp::~CPluginApp");
+    qDebug("CPluginApp::~CPluginApp");
 }
 
 int CPluginApp::About()
@@ -70,12 +70,12 @@ int CPluginApp::LoadTranslate(const QString &szDir)
         szPlugin = szDir + QDir::separator() + "translations"
                + QDir::separator() + ID() + "_" + szLocale + ".qm";
 #endif
-    LOG_MODEL_DEBUG("CPluginApp", "locale language:%s; Translate dir:%s; dir:%s",
+    qDebug("locale language:%s; Translate dir:%s; dir:%s",
                     szLocale.toStdString().c_str(), qPrintable(szPlugin),
                     szDir.toStdString().c_str());
     bool bRet = m_TranslatorPlugin->load(szPlugin);
     if(!bRet)
-        LOG_MODEL_ERROR("CPluginApp", "load translator[%s] fail.Dir: %s",
+        qCritical("load translator[%s] fail.Dir: %s",
                         szPlugin.toStdString().c_str(),
                         szDir.toStdString().c_str());
     

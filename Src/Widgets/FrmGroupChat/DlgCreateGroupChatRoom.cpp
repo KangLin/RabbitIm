@@ -82,7 +82,7 @@ void CDlgCreateGroupChatRoom::on_pbOK_clicked()
     QSharedPointer<CManageGroupChat> groupChat = GETMANAGER->GetManageGroupChat();
     if(groupChat.isNull())
     {
-        LOG_MODEL_ERROR("CDlgCreateGroupChatRoom", "CManageGroupChat is null");
+        qCritical("CManageGroupChat is null");
         return;
     }
     

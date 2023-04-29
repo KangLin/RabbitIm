@@ -21,19 +21,19 @@ CCustomTreeView::CCustomTreeView(QWidget *parent) :
 
 void CCustomTreeView::mousePressEvent(QMouseEvent *event)
 {
-    LOG_MODEL_DEBUG("Roster", "CTreeUserList::mousePressEvent");
+    qDebug() << "CTreeUserList::mousePressEvent";
     m_MousePressTime = QTime::currentTime();
     QTreeView::mousePressEvent(event);
 }
 
 void CCustomTreeView::mouseReleaseEvent(QMouseEvent *event)
 {
-    LOG_MODEL_DEBUG("Roster", "CTreeUserList::mouseReleaseEvent");
+    qDebug() << "CTreeUserList::mouseReleaseEvent";
 #ifdef ANDROID
     //模拟右键菜单  
     QTime cur = QTime::currentTime();
     int sec = m_MousePressTime.secsTo(cur);
-    LOG_MODEL_DEBUG("Roster", "m_MousePressTime:%s;currentTime:%s;sect:%d",
+    qDebug("m_MousePressTime:%s;currentTime:%s;sect:%d",
                     qPrintable(m_MousePressTime.toString("hh:mm:ss.zzz")),
                     qPrintable(cur.toString("hh:mm:ss.zzz")),
                     sec);
@@ -49,7 +49,7 @@ void CCustomTreeView::mouseReleaseEvent(QMouseEvent *event)
 
 void CCustomTreeView::contextMenuEvent(QContextMenuEvent *event)
 {
-    LOG_MODEL_DEBUG("CCustomTreeView", "CTreeUserList::mouseReleaseEvent");
+    qDebug() << "CTreeUserList::mouseReleaseEvent";
     QTreeView::contextMenuEvent(event);
 }
 

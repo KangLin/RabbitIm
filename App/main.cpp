@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
     //QFontDatabase::addApplicationFont("://DejaVuSans.ttf");
     //a.setFont(QFont(DejaVuSans));
-    LOG_MODEL_DEBUG("main", "font:%s;codec:%s",
+    qDebug("font:%s;codec:%s",
                     app.font().family().toStdString().c_str(),
                     QTextCodec::codecForLocale()->name().data());
 
@@ -138,9 +138,9 @@ int main(int argc, char *argv[])
     //*/
         nRet = app.exec();
     } catch(std::exception &e) {
-        LOG_MODEL_ERROR("main", "exception: %s", e.what());
+        qCritical("exception: %s", e.what());
     } catch(...) {
-        LOG_MODEL_ERROR("main", "exception");
+        qCritical("exception");
     }
     
 #ifndef BUILD_QUIWidget

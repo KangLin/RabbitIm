@@ -10,7 +10,7 @@ CUser::CUser(QObject *parent) :
 
 CUser::~CUser()
 {
-    LOG_MODEL_DEBUG("CUser", "CUser::~CUser");
+    qDebug("CUser::~CUser");
 }
 
 QSharedPointer<CUserInfo> CUser::GetInfo()

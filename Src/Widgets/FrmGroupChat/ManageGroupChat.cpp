@@ -35,7 +35,7 @@ int CManageGroupChat::LoadFromStorage(const QString &szId)
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
-        LOG_MODEL_WARNING("CManageGroupChat", "Don't open file:%s", szFile.toStdString().c_str());
+        qWarning("Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
 
@@ -56,7 +56,7 @@ int CManageGroupChat::LoadFromStorage(const QString &szId)
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CManageGroupChat", "CManageGroupChat::LoadFromStorage exception");
+        qCritical("CManageGroupChat::LoadFromStorage exception");
         nRet = -1;
     }
 
@@ -69,7 +69,7 @@ int CManageGroupChat::SaveToStorage()
     int nRet = 0;
     if(USER_INFO_LOCALE.isNull())
     {
-        LOG_MODEL_ERROR("CManageGroupChat", "USER_INFO_LOCALE is null");
+        qCritical("USER_INFO_LOCALE is null");
         return -1;
     }
     QString szFile = CGlobalDir::Instance()->GetDirUserData(USER_INFO_LOCALE->GetInfo()->GetId()) 
@@ -78,7 +78,7 @@ int CManageGroupChat::SaveToStorage()
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
-        LOG_MODEL_WARNING("CManageGroupChat", "Don't open file:%s", szFile.toStdString().c_str());
+        qWarning("Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
 
@@ -97,7 +97,7 @@ int CManageGroupChat::SaveToStorage()
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CManageGroupChat", "CManageGroupChat::SaveToStorage exception");
+        qCritical("CManageGroupChat::SaveToStorage exception");
         return -1;
     }
 
@@ -111,7 +111,7 @@ int CManageGroupChat::slotLeave(const QString &szId)
     it = m_GroupChat.find(szId);
     if(m_GroupChat.end() == it)
     {
-        LOG_MODEL_DEBUG("CManageGroupChat", "Leave:Don't find %s", szId.toStdString().c_str());
+        qDebug("Leave:Don't find %s", szId.toStdString().c_str());
         return -1;
     }
     emit sigLeave(szId);

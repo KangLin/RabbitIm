@@ -15,7 +15,7 @@ CFrmLogin::CFrmLogin(QWidget *parent) :
     m_StateMenu(this),
     m_ActionGroupStatus(this)
 {
-    LOG_MODEL_DEBUG("Login", "CFrmLogin::CFrmLogin");
+    qDebug("CFrmLogin::CFrmLogin");
 
     ui->setupUi(this);
 
@@ -63,7 +63,7 @@ CFrmLogin::~CFrmLogin()
 {
     delete ui;
 
-    LOG_MODEL_DEBUG("Login", "CFrmLogin::~CFrmLogin");
+    qDebug("CFrmLogin::~CFrmLogin");
 }
 
 void CFrmLogin::changeEvent(QEvent *e)
@@ -153,7 +153,7 @@ int CFrmLogin::SetLoginInformation(QString szName, QString szPassword)
 
 int CFrmLogin::SaveConf()
 {
-    LOG_MODEL_DEBUG("Login", "CFrmLogin::SaveConf");
+    qDebug("CFrmLogin::SaveConf");
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                    QSettings::IniFormat);
     int total = conf.value("Login/UserTotal", 0).toInt();
@@ -315,8 +315,7 @@ void CFrmLogin::slotClientError(CClient::ERROR_TYPE e)
 
 void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
 {
-    LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::on_cmbUser_currentIndexChanged:%d",
-                    index);
+    qDebug() << "CFrmLogin::on_cmbUser_currentIndexChanged:" << index;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                    QSettings::IniFormat);
     ui->lnPassword->setText(this->DecryptPassword(conf.value("Login/Password"
@@ -329,7 +328,7 @@ void CFrmLogin::on_cmbUser_currentIndexChanged(int index)
 
 void CFrmLogin::on_cmbUser_currentTextChanged(const QString &arg1)
 {
-    LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::on_cmbUser_currentTextChanged:%s",
+    qDebug("CFrmLogin::on_cmbUser_currentTextChanged:%s",
                     qPrintable(arg1));
     QString szId = arg1;
     ComposeAvatar(szId);
@@ -343,7 +342,7 @@ void CFrmLogin::on_cmbUser_currentTextChanged(const QString &arg1)
 
 void CFrmLogin::ComposeAvatar(const QString &id)
 {
-    LOG_MODEL_DEBUG("CFrmLogin", "CFrmLogin::ComposeAvatar:%s", qPrintable(id));
+    qDebug("CFrmLogin::ComposeAvatar:%s", qPrintable(id));
     QString szId = id;
 #ifdef RABBITIM_USE_QXMPP
     if(szId.indexOf("@") == -1)

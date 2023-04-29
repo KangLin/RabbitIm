@@ -7,7 +7,7 @@ CManageMessageDialogBigScreen::CManageMessageDialogBigScreen(QObject *parent) : 
 
 CManageMessageDialogBigScreen::~CManageMessageDialogBigScreen()
 {
-    LOG_MODEL_DEBUG("CManageMessageDialogBigScreen", "CManageMessageDialogBigScreen::~CManageMessageDialogBigScreen()");
+    qDebug("CManageMessageDialogBigScreen::~CManageMessageDialogBigScreen()");
     LogoutClean();
 }
 
@@ -19,7 +19,7 @@ int CManageMessageDialogBigScreen::LoginInit(const QString &szId)
 
 int CManageMessageDialogBigScreen::LogoutClean()
 {
-    LOG_MODEL_DEBUG("CManageMessageDialogBigScreen", "CManageMessageDialogBigScreen::Clean()");
+    qDebug("CManageMessageDialogBigScreen::Clean()");
     std::list<CFrmContainer*>::iterator it;
     for(it = m_Container.begin(); it != m_Container.end(); it++)
     {

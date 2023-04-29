@@ -40,7 +40,7 @@ void CItemModelCustom::slotTreeItemChanged(QStandardItem *pItem)
     //检查记数器，防止信号递归调用  
     if(m_nCount > 0)
         return;
-    LOG_MODEL_DEBUG("CItemModelCustom", "CItemModelCustom::slotTreeItemChanged:m_nCount:%d", m_nCount);
+    qDebug("CItemModelCustom::slotTreeItemChanged:m_nCount:%d", m_nCount);
     m_nCount++;
     m_bSignal = false;//禁止选择信号,防止递归调用  
 
@@ -85,7 +85,7 @@ void CItemModelCustom::treeItem_checkAllChild(QStandardItem * pItem, bool bCheck
 {
     if(!pItem)
         return;
-    LOG_MODEL_DEBUG("CItemModelCustom", "CItemModelCustom::treeItem_checkAllChild");
+    qDebug("CItemModelCustom::treeItem_checkAllChild");
     int rowCount = pItem->rowCount();//得到条目的子条目数  
     for(int i = 0; i < rowCount; ++i)
     {
@@ -110,7 +110,7 @@ void CItemModelCustom::treeItem_CheckChildChanged(QStandardItem* pItem)
 {
     if(nullptr == pItem)
         return;
-    LOG_MODEL_DEBUG("CItemModelCustom", "CItemModelCustom::treeItem_CheckChildChanged");
+    qDebug("CItemModelCustom::treeItem_CheckChildChanged");
     Qt::CheckState siblingState = checkSibling(pItem);
     QStandardItem* parentItem = pItem->parent();
     if(nullptr == parentItem)
@@ -145,7 +145,7 @@ void CItemModelCustom::treeItem_CheckChildChanged(QStandardItem* pItem)
 ///
 Qt::CheckState CItemModelCustom::checkSibling(QStandardItem* pItem)
 {
-    LOG_MODEL_DEBUG("CItemModelCustom", "CItemModelCustom::checkSibling");
+    qDebug("CItemModelCustom::checkSibling");
     //先通过父节点获取兄弟节点
     QStandardItem * parent = pItem->parent();
     if(nullptr == parent)
@@ -173,7 +173,7 @@ Qt::CheckState CItemModelCustom::checkSibling(QStandardItem* pItem)
 /*
 void CItemModelCustom::slotCurrentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
-    LOG_MODEL_DEBUG("CItemModelCustom", "CItemModelCustom::slotCurrentChanged:current.row:%d;previous.row:%d", current.row(), previous.row());
+    qDebug("CItemModelCustom::slotCurrentChanged:current.row:%d;previous.row:%d", current.row(), previous.row());
     QStandardItem* pItem = this->itemFromIndex(current);
     if(pItem->isCheckable())
         pItem->setCheckState(pItem->checkState() == Qt::Unchecked ? Qt::Checked : Qt::Unchecked);
@@ -183,7 +183,7 @@ void CItemModelCustom::slotSelectionChanged(const QItemSelection &selected, cons
 {
     if(!m_bSignal)
         return;
-    LOG_MODEL_DEBUG("CItemModelCustom", "CItemModelCustom::slotCurrentChanged:selected:%d;deselected:%d", selected.size(), deselected.size());
+    qDebug("CItemModelCustom::slotCurrentChanged:selected:%d;deselected:%d", selected.size(), deselected.size());
     QModelIndexList indexs = selected.indexes();
     foreach(QModelIndex index, indexs)
     {

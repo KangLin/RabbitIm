@@ -12,7 +12,7 @@ CManageCall::CManageCall(QObject *parent) : CManage(parent)
 
 CManageCall::~CManageCall()
 {
-    LOG_MODEL_DEBUG("Call", "CManageCall::~CManageCall");
+    qDebug("CManageCall::~CManageCall");
 }
 
 int CManageCall::LoginInit(const QString &szId)
@@ -38,7 +38,7 @@ int CManageCall::LogoutClean()
 
     //清理所有呼叫，因为些操作是在 Logout 之后，就可能会导致视频停止信令发送不出  
     // @see CManageCall::slotRosterStatusChanged
-    LOG_MODEL_DEBUG("Call", "CManageCall::LogoutClean() stop call");
+    qDebug("CManageCall::LogoutClean() stop call");
     QMap<QString, QSharedPointer<CCallObject> >::iterator it;
     it = m_Call.begin();
     while(it != m_Call.end())
@@ -76,14 +76,14 @@ int CManageCall::Call(const QString &szId, bool bVideo)
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("CManageCall", "Don't get roster:%s", qPrintable(szId));
+        qCritical("Don't get roster:%s", qPrintable(szId));
         return -1;
     }
 
     //检查被叫方是否在线  
     if(roster->GetInfo()->GetStatus() == CUserInfo::OffLine)
     {
-        //LOG_MODEL_ERROR("Call", "CClientXmpp::Call the roster status is OffLine");
+        //qCritical("CClientXmpp::Call the roster status is OffLine");
         roster->GetMessage()->AddMessage(szId,
                 tr("The roster is offline, don't launch a call."), true);
         emit GET_CLIENT->sigMessageUpdate(szId);
@@ -109,7 +109,7 @@ int CManageCall::Call(const QString &szId, bool bVideo)
     nRet = OnCall(szId, call, bVideo);
     if(nRet || call.isNull())
     {
-        LOG_MODEL_ERROR("Call", "OnCall is faile");
+        qCritical("OnCall is faile");
         return nRet;
     }
     
@@ -139,7 +139,7 @@ void CManageCall::slotCallReceived(QSharedPointer<CCallObject> call)
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(call->GetId());
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("Call", "Don't get roster:%s", qPrintable(call->GetId()));
+        qCritical("Don't get roster:%s", qPrintable(call->GetId()));
         call->Stop();
         return;
     }
@@ -157,7 +157,7 @@ void CManageCall::slotCallReceived(QSharedPointer<CCallObject> call)
         GET_MAINWINDOW->ShowTrayIconMessage(roster->GetInfo()->GetShowName(), szMsg);
         emit GET_CLIENT->sigMessageUpdate(call->GetId());
         //*/
-        LOG_MODEL_ERROR("Call", "The call [%s] is exist.", qPrintable(call->GetId()));
+        qCritical("The call [%s] is exist.", qPrintable(call->GetId()));
         call->Stop();
         return;
     }
@@ -188,7 +188,7 @@ void CManageCall::slotCallReceived(QSharedPointer<CCallObject> call)
 
 void CManageCall::slotCallFinished(CCallObject *pCall)
 {
-    LOG_MODEL_DEBUG("CManageCall", "CManageCall::slotCallFinished");
+    qDebug("CManageCall::slotCallFinished");
     pCall->disconnect();
     m_Call.remove(pCall->GetId());
 }
@@ -209,7 +209,7 @@ int CManageCall::Accept(QString szId)
             = m_Call.find(szId);
     if(m_Call.end() != it)
         return it.value()->Accept();
-    LOG_MODEL_ERROR("CManageCall", "The call [%s] isn't exist",
+    qCritical("The call [%s] isn't exist",
                     szId.toStdString().c_str());
     return -1;
 }
@@ -249,14 +249,14 @@ int CManageCall::ProcessCommandCall(const QString &szId, const QString &szComman
     QMap<QString, QSharedPointer<CCallObject> >::iterator it = m_Call.find(szId);
     if(m_Call.end() == it)
     {
-        LOG_MODEL_ERROR("Call", "The call[%s] isn't exist", qPrintable(szId));
+        qCritical("The call[%s] isn't exist", qPrintable(szId));
         return -1;
     }
 
     QSharedPointer<CCallObject> call = it.value();
     if(call.isNull())
     {
-        LOG_MODEL_ERROR("Call", "The call[%s] isn't exist. szCmd:%s",
+        qCritical("The call[%s] isn't exist. szCmd:%s",
                         qPrintable(szId), qPrintable(szCmd));
         return -1;
     }
@@ -267,7 +267,7 @@ int CManageCall::ProcessCommandCall(const QString &szId, const QString &szComman
         call->Stop();
     else
     {
-        LOG_MODEL_DEBUG("Call", "command isn't exist. szCmd:%s", qPrintable(szCmd));
+        qDebug("command isn't exist. szCmd:%s", qPrintable(szCmd));
         return -1;
     }
     return 0;
@@ -278,6 +278,6 @@ int CManageCall::OnCall(const QString &szId, QSharedPointer<CCallObject> &call, 
     Q_UNUSED(szId)
     Q_UNUSED(call)
     Q_UNUSED(bVideo)
-    LOG_MODEL_DEBUG("Call", "Please implement this interface in the inherited class");
+    qDebug("Please implement this interface in the inherited class");
     return 0;
 }

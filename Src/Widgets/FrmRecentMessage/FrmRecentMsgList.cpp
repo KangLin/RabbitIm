@@ -129,7 +129,7 @@ int CFrmRecentMsgList::InsertItem(const QString &szId, int nRow)
     }
     else
     {
-        LOG_MODEL_DEBUG("CFrmRecentMsgList", "CFrmRecentMsgList::InsertItem: don't exist:%s", qPrintable(szId));
+        qDebug("CFrmRecentMsgList::InsertItem: don't exist:%s", qPrintable(szId));
         return -1;
     }
 
@@ -174,7 +174,7 @@ int CFrmRecentMsgList::RemoveItem(const QString &szId)
         QModelIndex index;
         foreach(index, lstIndexs)
         {
-            LOG_MODEL_DEBUG("CFrmRecentMsgList", "index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(szId));
+            qDebug("index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(szId));
             m_pModel->removeRow(index.row());
         }
     }
@@ -205,7 +205,7 @@ int CFrmRecentMsgList::UpdateItem(const QString &szId)
     }
     else
     {
-        LOG_MODEL_WARNING("CFrmRecentMsgList", "CFrmRecentMsgList::UpdateItem: don't exist:%s", qPrintable(szId));
+        qWarning("CFrmRecentMsgList::UpdateItem: don't exist:%s", qPrintable(szId));
         return -1;
     }
 
@@ -216,7 +216,7 @@ int CFrmRecentMsgList::UpdateItem(const QString &szId)
                                                 Qt::MatchContains | Qt::MatchStartsWith | Qt::MatchWrap | Qt::MatchRecursive);
     if(lstIndexs.isEmpty())
     {
-       LOG_MODEL_ERROR("CFrmRecentMsgList", "Dn't the roster item:%s", qPrintable(szId));
+       qCritical("Dn't the roster item:%s", qPrintable(szId));
        return -1;
     }
 
@@ -266,7 +266,7 @@ void CFrmRecentMsgList::slotMessageUpdate(const QString &szId)
     }
     else
     {
-        LOG_MODEL_DEBUG("CFrmRecentMsgList", "CFrmRecentMsgList::slotMessageUpdate is exist:%s", qPrintable(szId));
+        qDebug("CFrmRecentMsgList::slotMessageUpdate is exist:%s", qPrintable(szId));
         return;
     }
 
@@ -298,7 +298,7 @@ void CFrmRecentMsgList::SlotChangedStatus(const QString &szId)
 
 void CFrmRecentMsgList::resizeEvent(QResizeEvent *e)
 {
-    LOG_MODEL_DEBUG("CFrmRecentMsgList", "CFrmUserList::resizeEvent:e.size:%d;genmetry.size:%d",
+    qDebug("CFrmUserList::resizeEvent:e.size:%d;genmetry.size:%d",
                     e->size().width(),
                     geometry().size().width());
     //m_MsgList.resize(this->geometry().size());
@@ -321,7 +321,7 @@ void CFrmRecentMsgList::changeEvent(QEvent *e)
 
 void CFrmRecentMsgList::clicked(const QModelIndex &index)
 {
-    LOG_MODEL_DEBUG("CFrmRecentMsgList", "CFrmRecentMsgList::Clicked, row:%d; column:%d",
+    qDebug("CFrmRecentMsgList::Clicked, row:%d; column:%d",
            index.row(), index.column());
 #ifdef ANDROID
     const QAbstractItemModel *m = index.model();
@@ -335,7 +335,7 @@ void CFrmRecentMsgList::clicked(const QModelIndex &index)
 
 void CFrmRecentMsgList::doubleClicked(const QModelIndex &index)
 {
-    LOG_MODEL_DEBUG("CFrmRecentMsgList", "CFrmRecentMsgList::doubleClicked, row:%d; column:%d",
+    qDebug("CFrmRecentMsgList::doubleClicked, row:%d; column:%d",
            index.row(), index.column());
 
 #ifndef ANDROID

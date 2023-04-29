@@ -146,7 +146,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::~MainWindow()");
+    qDebug() << "MainWindow::~MainWindow()";
     //TODO:可能会引起程序core  
     //emit sigRemoveMenu(ui->menuOperator_O);
 
@@ -175,7 +175,7 @@ void MainWindow::resizeEvent(QResizeEvent * e)
 {
     Q_UNUSED(e)
     /*
-    LOG_MODEL_DEBUG("MainWindow", "\ngeometry:top:%d;left:%d;right:%d;bottom:%d;\nheight:%d;width:%d;\nframegeometry:top:%d;left:%d;right:%d;bottom:%d",
+    qDebug("\ngeometry:top:%d;left:%d;right:%d;bottom:%d;\nheight:%d;width:%d;\nframegeometry:top:%d;left:%d;right:%d;bottom:%d",
                     geometry().top(), geometry().left(),
                     geometry().right(), geometry().bottom(),
                     geometry().height(), geometry().width(),
@@ -196,16 +196,16 @@ void MainWindow::showEvent(QShowEvent *)
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent");
+    qDebug("MainWindow::closeEvent");
     if(!m_bLogin)
     {
-        LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent QApplication::quit()");
+        qDebug() << "MainWindow::closeEvent QApplication::quit()";
         e->accept(); 
         //QApplication::quit();
         return;
     }
     
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::closeEvent start");
+    qDebug() << "MainWindow::closeEvent start";
     int type = CGlobal::Instance()->GetCloseType();
     switch (type) {
     case CGlobal::E_CLOSE_TYPE_NO:
@@ -255,7 +255,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::changeEvent(QEvent *e)
 {
-    //LOG_MODEL_DEBUG("MainWindow", "MainWindow::changeEvent.e->type:%d", e->type());
+    //qDebug("MainWindow::changeEvent.e->type:%d", e->type());
     switch(e->type())
     {
     case QEvent::LanguageChange:
@@ -324,7 +324,7 @@ bool MainWindow::eventFilter(QObject *target, QEvent *event)
     if (target == this) { 
         if(event->type() == QEvent::Enter)
         {
-            LOG_MODEL_DEBUG("MainWindow", "QEvent::Enter");
+            qDebug() << "QEvent::Enter";
         }
     }
     return QMainWindow::eventFilter(target, event);
@@ -350,7 +350,7 @@ void MainWindow::slotClientConnected()
         this->setCentralWidget(m_TableMain.data());
     }
     else
-        LOG_MODEL_ERROR("MainWindow", "new CWdgTableMain fail");
+        qCritical() << "new CWdgTableMain fail";
 
     bool check = connect(this, SIGNAL(sigRefresh()),
                     this, SLOT(slotUpdateLocaleUserInfo()));
@@ -363,7 +363,7 @@ void MainWindow::slotClientConnected()
 
 void MainWindow::slotClientDisconnected()
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow:: slotClientDisconnected");
+    qDebug("MainWindow::slotClientDisconnected");
     m_bLogin = false;
     if(m_Login.isNull())
     {
@@ -399,13 +399,13 @@ void MainWindow::slotUpdateLocaleUserInfo()
     QSharedPointer<CUser> user = USER_INFO_LOCALE;
     if(user.isNull())
     {
-        LOG_MODEL_ERROR("MainWindow", "Locale is null");
+        qCritical() << "Locale is null";
         return;
     }
     QSharedPointer<CUserInfo> info = user->GetInfo();
     if(info.isNull())
     {
-        LOG_MODEL_ERROR("MainWindow", "info is null");
+        qCritical() << "info is null";
         return;
     }
     user->GetInfo()->SetStatus(CGlobal::Instance()->GetStatus());
@@ -462,7 +462,7 @@ int MainWindow::InitLoginedMenu()
 
 int MainWindow::InitOperatorMenu()
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::InitOperatorMenu");
+    qDebug() << "MainWindow::InitOperatorMenu";
     ui->menuOperator_O->addMenu(&m_MenuStyle);
     ui->menuOperator_O->addMenu(&m_MenuTranslate);
     ui->menuOperator_O->addSeparator();
@@ -604,8 +604,7 @@ int MainWindow::InitMenuTranslate()
         m_ActionGroupTranslator.addAction(it.value());
     }
 
-    LOG_MODEL_DEBUG("MainWindow",
-                    "MainWindow::InitMenuTranslate m_ActionTranslator size:%d",
+    qDebug("MainWindow::InitMenuTranslate m_ActionTranslator size:%d",
                     m_ActionTranslator.size());
 
     bool check = connect(&m_ActionGroupTranslator, SIGNAL(triggered(QAction*)),
@@ -618,13 +617,11 @@ int MainWindow::InitMenuTranslate()
     QAction* pAct = m_ActionTranslator[szLocale];
     if(pAct)
     {
-        LOG_MODEL_DEBUG("MainWindow",
-                        "MainWindow::InitMenuTranslate setchecked locale:%s",
+        qDebug("MainWindow::InitMenuTranslate setchecked locale:%s",
                         szLocale.toStdString().c_str());
         pAct->setChecked(true);
         m_MenuTranslate.setIcon(pAct->icon());
-        LOG_MODEL_DEBUG("MainWindow",
-                        "MainWindow::InitMenuTranslate setchecked end");
+        qDebug("MainWindow::InitMenuTranslate setchecked end");
     }
 
     return 0;
@@ -641,8 +638,7 @@ int MainWindow::ClearMenuTranslate()
     m_ActionTranslator.clear();
     m_MenuTranslate.clear();    
 
-    LOG_MODEL_DEBUG("MainWindow",
-                    "MainWindow::ClearMenuTranslate m_ActionTranslator size:%d",
+    qDebug("MainWindow::ClearMenuTranslate m_ActionTranslator size:%d",
                     m_ActionTranslator.size());
     
     return 0;
@@ -694,7 +690,7 @@ int MainWindow::LoadTranslate(QString szLocale)
     {
         qApp->installTranslator(m_TranslatorQt.data());
     } else {
-        LOG_MODEL_ERROR("MainWindow", "Load traslator qt fail");
+        qCritical("Load traslator qt fail");
     }
 
 
@@ -706,7 +702,7 @@ int MainWindow::LoadTranslate(QString szLocale)
     }
     else
     {
-        LOG_MODEL_ERROR("MainWindow", "Load app translator fail. %s",
+        qCritical("Load app translator fail. %s",
                         qPrintable(RabbitCommon::CDir::Instance()->GetDirTranslations()
                                    + QDir::separator() + "RabbitImApp_" + szLocale + ".qm"));
     }
@@ -719,7 +715,7 @@ int MainWindow::LoadTranslate(QString szLocale)
     }
     else
     {
-        LOG_MODEL_ERROR("MainWindow", "Load src translator fail. %s",
+        qCritical("Load src translator fail. %s",
                         qPrintable(RabbitCommon::CDir::Instance()->GetDirTranslations()
                                    + QDir::separator() + "RabbitIm_" + szLocale + ".qm"));
     }
@@ -733,7 +729,7 @@ int MainWindow::LoadTranslate(QString szLocale)
 
 void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotActionGroupTranslateTriggered");
+    qDebug("MainWindow::slotActionGroupTranslateTriggered");
     QMap<QString, QAction*>::iterator it;
     for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
     {
@@ -743,8 +739,7 @@ void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
             QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
                            QSettings::IniFormat);
             conf.setValue("Global/Language", szLocale);
-            LOG_MODEL_DEBUG("MainWindow",
-                            "MainWindow::slotActionGroupTranslateTriggered:%s",
+            qDebug("MainWindow::slotActionGroupTranslateTriggered:%s",
                             it.key().toStdString().c_str());
             LoadTranslate(it.key());
             pAct->setChecked(true);
@@ -759,7 +754,7 @@ void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
 
 void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::TrayIconActive:%d", e);
+    qDebug("MainWindow::TrayIconActive:%d", e);
     if(QSystemTrayIcon::Trigger == e)
     {
         slotMessageClicked();
@@ -770,7 +765,7 @@ void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 
 void MainWindow::slotMessageClicked()
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::slotMessageClicked");
+    qDebug("MainWindow::slotMessageClicked");
     CGlobal::Instance()->GetManager()->GetRecentMessage()->ShowLastMessageDialog();
 }
 
@@ -922,7 +917,7 @@ void MainWindow::on_actionScan_qrencode_S_triggered()
 
 void MainWindow::slotAbout()
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::About");
+    qDebug("MainWindow::About");
 #ifdef RABBITCOMMON
     CDlgAbout about;
     about.m_AppIcon = QImage(":/icon/AppIcon");    
@@ -993,7 +988,7 @@ int MainWindow::LoadStyle()
         }
         else
         {
-            LOG_MODEL_ERROR("app", "file open file [%s] fail:%d",
+            qCritical("file open file [%s] fail:%d",
                         CGlobal::Instance()->GetStyle().toStdString().c_str(),
                         file.error());
         }
@@ -1023,7 +1018,7 @@ int MainWindow::OpenCustomStyleMenu()
     }
     else
     {
-        LOG_MODEL_ERROR("app", "file open file [%s] fail:%d", 
+        qCritical("file open file [%s] fail:%d", 
                         szFile.toStdString().c_str(), file.error());
     }
     return 0;
@@ -1034,7 +1029,7 @@ int MainWindow::AnimationWindows(const QRect &startRect, const QRect &endRect)
 {
     if(m_Animation->state() != QAbstractAnimation::Stopped)
     {
-        LOG_MODEL_DEBUG("MainWindow", "animation is run");
+        qDebug("animation is run");
         return -1;//m_Animation->stop();
     }
     m_Animation->setDuration(CGlobal::Instance()->GetAnimationDuration());
@@ -1058,7 +1053,7 @@ void MainWindow::slotCheckHideWindows()
 
     if(m_Animation->state() != QAbstractAnimation::Stopped)
     {
-        LOG_MODEL_DEBUG("MainWindow", "animation is run");
+        qDebug("animation is run");
         return;
     }
 
@@ -1141,7 +1136,7 @@ void MainWindow::slotCheckShowWindows()
 
     if(m_Animation->state() != QAbstractAnimation::Stopped)
     {
-        LOG_MODEL_DEBUG("MainWindow", "animation is run");
+        qDebug("animation is run");
         return;//m_Animation->stop();
     }
 
@@ -1183,7 +1178,7 @@ void MainWindow::slotCheckShowWindows()
     }
     else
     {
-        LOG_MODEL_ERROR("MainWindow", "CheckShowWindows error");
+        qCritical("CheckShowWindows error");
         return;
     }
 

@@ -78,7 +78,7 @@ CFrmGroupChat::CFrmGroupChat(const QString &szId, QWidget *parent) :
 
 CFrmGroupChat::~CFrmGroupChat()
 {
-    LOG_MODEL_DEBUG("Group chat", "CFrmGroupChat::~CFrmGroupChat");
+    qDebug("CFrmGroupChat::~CFrmGroupChat");
 
     if(m_pModelMembers)
         delete m_pModelMembers;
@@ -206,7 +206,7 @@ void CFrmGroupChat::on_lstMembers_doubleClicked(const QModelIndex &index)
 
 void CFrmGroupChat::slotParticipantAdd(const QString &szId)
 {
-    LOG_MODEL_DEBUG("CFrmGroupChat", "CFrmGroupChat::slotParticipantAdd:%s", qPrintable(szId));
+    qDebug( "CFrmGroupChat::slotParticipantAdd:%s", qPrintable(szId));
     AddMember(szId);
 }
 

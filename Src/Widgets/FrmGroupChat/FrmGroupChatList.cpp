@@ -305,7 +305,7 @@ void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
     QSharedPointer<CManageGroupChat> mgc = GETMANAGER->GetManageGroupChat();
     if(mgc.isNull())
     {
-        LOG_MODEL_ERROR("CFrmGroupChatList", "GETMANAGER->GetManageGroupChat() is null");
+        qCritical("GETMANAGER->GetManageGroupChat() is null");
         return;
     }
     QSharedPointer<CGroupChat> gc = mgc->Get(szId);
@@ -350,7 +350,7 @@ void CFrmGroupChatList::slotUpdateMessage(const QString &szId)
     QModelIndex index;
     foreach(index, lstIndexs)
     {
-        LOG_MODEL_DEBUG("CFrmGroupChatList", "index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(szId));
+        qDebug("index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(szId));
         QStandardItem* pItem = m_pModel->itemFromIndex(index);
         if(NULL == pItem) continue;
         if(pItem->data(GROUP_ITEM_ROLE_PROPERTIES) == PROPERTIES_ITEM)

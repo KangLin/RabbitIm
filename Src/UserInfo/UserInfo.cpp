@@ -157,7 +157,7 @@ QString CUserInfo::GetSubscriptionTypeStr(SUBSCRIPTION_TYPE type) const
         return tr("[remove]");
     default:
         {
-            LOG_MODEL_WARNING("Roster", "QXmppRosterIq::Item::getTypeStr(): invalid type");
+            qWarning() << "QXmppRosterIq::Item::getTypeStr(): invalid type";
             return "";
         }
     }

@@ -7,7 +7,7 @@ CDlgLoginSettings::CDlgLoginSettings(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CDlgLoginSettings)
 {
-    LOG_MODEL_DEBUG("Login", "CFrmLoginSettings::CFrmLoginSettings");
+    qDebug("CFrmLoginSettings::CFrmLoginSettings");
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
 
@@ -25,7 +25,7 @@ CDlgLoginSettings::CDlgLoginSettings(QWidget *parent) :
 CDlgLoginSettings::~CDlgLoginSettings()
 {
     delete ui;
-    LOG_MODEL_DEBUG("Login", "CFrmLoginSettings::~CFrmLoginSettings");
+    qDebug("CFrmLoginSettings::~CFrmLoginSettings");
 }
 
 void CDlgLoginSettings::closeEvent(QCloseEvent *)

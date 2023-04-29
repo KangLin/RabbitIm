@@ -34,7 +34,7 @@ int CDlgInviter::ItemInsertRoster(const QString& szId)
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(szId));
+        qCritical("Dn't the roster:%s", qPrintable(szId));
         return -1;
     }
 

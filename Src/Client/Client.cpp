@@ -36,7 +36,7 @@ void CClient::slotClientConnected(const QString &szId)
         nRet = CGlobal::Instance()->GetManager()->LoginInit(szId);
         if(nRet)
         {
-            LOG_MODEL_ERROR("CClientXmpp", "Init GlobalUser fail");
+            qCritical() << "Init GlobalUser fail";
             return;
         }
 

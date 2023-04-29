@@ -23,7 +23,7 @@ CWdgScreenEditor::CWdgScreenEditor(QWidget *parent)
 CWdgScreenEditor::~CWdgScreenEditor()
 {
     m_stackImages.clear();
-    LOG_MODEL_DEBUG("CWdgScreenEditor", "CWdgScreenEditor::~CWdgScreenEditor");
+    qDebug("CWdgScreenEditor::~CWdgScreenEditor");
 }
 
 void CWdgScreenEditor::initToolBar(){

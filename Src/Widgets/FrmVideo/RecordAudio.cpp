@@ -20,7 +20,7 @@ bool CRecordAudio::open(OpenMode mode, QIODevice *pChannel, QIODevice *pOutDevic
     if(!m_RecordFile.fileName().isEmpty())
     {
         if(!m_RecordFile.open(mode))
-            LOG_MODEL_ERROR("RecordAudio", "fail:CRecordAudio::open file:%s\n" , qPrintable(m_RecordFile.fileName()));
+            qCritical() << "fail:CRecordAudio::open file:" << m_RecordFile.fileName();
     }
 
     if(m_pChannel && m_pOutDevice)
@@ -71,14 +71,14 @@ void CRecordAudio::slotReadyRead()
     //LOG_MODEL_DEBUG("RecordAudio", "bytesAvailable:%d", size);
     if(0 >= size)
     {
-        LOG_MODEL_ERROR("RecordAudio", "bytesAvailable is 0");
+        qCritical("bytesAvailable is 0");
         return;
     }
 
     char* pBuf = new char[size];
     if(NULL == pBuf)
     {
-        LOG_MODEL_ERROR("RecordAudio", "don't has memory");
+        qCritical("don't has memory");
         return;
     }
 
@@ -91,7 +91,7 @@ void CRecordAudio::slotReadyRead()
             m_RecordFile.write(pBuf, nLen);
     }
     else
-       LOG_MODEL_DEBUG("RecordAudio", "CRecordAudio::slotReadyRead is 0");
+        qDebug() << "CRecordAudio::slotReadyRead is 0";
 
     delete[] pBuf;
 }

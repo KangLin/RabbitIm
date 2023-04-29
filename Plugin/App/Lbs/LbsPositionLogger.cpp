@@ -1,6 +1,6 @@
 #include "LbsPositionLogger.h"
 #include <QDateTime>
-#include "RabbitCommonLog.h"
+
 #include "Nmea.h"
 
 CLbsPositionLogger::CLbsPositionLogger(QObject *parent)
@@ -57,7 +57,7 @@ int CLbsPositionLogger::OpenFile(const char *pszFile)
     m_logFile.setFileName(m_szFile);
     if(!m_logFile.open(QIODevice::ReadOnly | QIODevice::WriteOnly))
     {
-        LOG_MODEL_ERROR("CLbsPositionLogger", "open file fail:%s",
+        qCritical("open file fail:%s",
                         m_szFile.toStdString().c_str());
         return -1;
     }
@@ -127,7 +127,7 @@ void CLbsPositionLogger::readNextPosition()
 {
     QByteArray line = m_logFile.readLine().trimmed();
     if (line.isEmpty()) {
-        LOG_MODEL_ERROR("CLbsPositionLogger", "no readlien");
+        qCritical("no readlien");
         return;
     }
     

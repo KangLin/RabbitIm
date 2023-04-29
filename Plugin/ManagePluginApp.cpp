@@ -41,7 +41,7 @@ int CManagePluginApp::RegisterPlugin(const QString &szId,
 {
     if(m_Plugins.find(szId) != m_Plugins.end())
     {
-        LOG_MODEL_ERROR("CManagePlugin", "Plugin [%s] is registered",
+        qCritical("Plugin [%s] is registered",
                         szId.toStdString().c_str());
         return -1;
     }
@@ -128,7 +128,7 @@ int CManagePluginApp::LoadFromStorage(const QString &szId)
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
-        LOG_MODEL_WARNING("CManagePlugin", "Don't open file:%s", szFile.toStdString().c_str());
+        qWarning( "Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
 
@@ -149,7 +149,7 @@ int CManagePluginApp::LoadFromStorage(const QString &szId)
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CManagePlugin", "CManagePlugin::LoadFromStorage exception");
+        qCritical("CManagePlugin::LoadFromStorage exception");
         nRet = -1;
     }
 
@@ -162,7 +162,7 @@ int CManagePluginApp::SaveToStorage()
     int nRet = 0;
     if(USER_INFO_LOCALE.isNull())
     {
-        LOG_MODEL_ERROR("CManagePlugin", "USER_INFO_LOCALE is null");
+        qCritical("USER_INFO_LOCALE is null");
         return -1;
     }
     QString szFile = CGlobalDir::Instance()->GetDirUserData(USER_INFO_LOCALE->GetInfo()->GetId()) 
@@ -171,7 +171,7 @@ int CManagePluginApp::SaveToStorage()
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
-        LOG_MODEL_WARNING("CManagePlugin", "Don't open file:%s", szFile.toStdString().c_str());
+        qWarning( "Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
 
@@ -193,7 +193,7 @@ int CManagePluginApp::SaveToStorage()
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CManagePlugin", "CManagePlugin::SaveToStorage exception");
+        qCritical("CManagePlugin::SaveToStorage exception");
         return -1;
     }
 

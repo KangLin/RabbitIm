@@ -38,7 +38,7 @@ CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, con
 
 CFileTransferAction::~CFileTransferAction()
 {
-    LOG_MODEL_DEBUG("CFileTransferAction", "CFileTransferAction::~CFileTransferAction");
+    qDebug("CFileTransferAction::~CFileTransferAction");
 }
 
 void CFileTransferAction::slotUpdateHtml()
@@ -228,7 +228,7 @@ QString CFileTransferAction::drawBottomFinished()
 #endif
     QFileInfo info(m_File->GetLocalFileUrl().toLocalFile());
     QString filename = info.absolutePath();
-    LOG_MODEL_DEBUG("CFileTransferAction", "file:%s", qPrintable(filename));
+    qDebug() << "file:" << filename;
 
     content += filename + "'>";
     content += tr("Open folder");

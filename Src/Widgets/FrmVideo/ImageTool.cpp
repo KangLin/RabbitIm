@@ -3,7 +3,7 @@
     #include "libyuv.h"
 #endif
 #include "RabbitCommonDir.h"
-#include "RabbitCommonLog.h"
+
 #include <QFileInfo>
 #include <QDir>
 #include <QGuiApplication>
@@ -18,6 +18,7 @@
 #include <QFile>
 #include <QPainter>
 #include <QPluginLoader>
+#include <QDebug>
 
 CImageTool::CImageTool(QObject *parent) : QObject(parent)
 {
@@ -75,7 +76,7 @@ QImage CImageTool::ConverFormatToRGB888(const QVideoFrame &frame)
 #endif
         if(QVideoFrame::Format_YUV420P != frame.pixelFormat())
         {
-            LOG_MODEL_WARNING("CImageTool", "Please use one of opencv, ffmpeg, libyuv");
+            qWarning("Please use one of opencv, ffmpeg, libyuv");
         }
         break;
     }
@@ -114,7 +115,7 @@ QImage CImageTool::ConverFormatToRGB888(const QVideoFrame &frame)
                              videoFrame.width(), videoFrame.height());
                 break;
             default:
-                LOG_MODEL_ERROR("CImageTool",  "Don't implement conver format: %d",
+                qCritical("Don't implement conver format: %d",
                                 videoFrame.pixelFormat());
             }
         }
@@ -219,7 +220,7 @@ QImage CImageTool::LibyuvConverFormatToRGB888(const QVideoFrame &frame)
         }
             break;
         default:
-            LOG_MODEL_WARNING("CImageTool",  "LibyuvConverFormatToRGB888 Don't implement conver format: %d",
+            qWarning( "LibyuvConverFormatToRGB888 Don't implement conver format: %d",
                             videoFrame.pixelFormat());
         }
         
@@ -328,8 +329,7 @@ int CImageTool::FindPlugins(QDir dir, QStringList filters)
                 m_ConverFormat.push_back(pConverFormat);
             }
         }else{
-            LOG_MODEL_ERROR("CImageTool", "load plugin error:%s",
-                            loader.errorString().toStdString().c_str());
+            qCritical() << "Load plugin error:" << loader.errorString();
         }
     }
 

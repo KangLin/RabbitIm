@@ -3,7 +3,6 @@
 #include "curl/curl.h"
 #endif
 #include <QDebug>
-#include "RabbitCommonLog.h"
 #include <math.h>
 #include <QJsonDocument>
 #include <QVariant>
@@ -223,7 +222,7 @@ int CNmea::GetHttpOpenGts(std::list<QGeoPositionInfo> &lstInfo,
         url += "&tf=" + QDateTime::fromTime_t(startTime).toUTC().toString("yyyy/mm/dd/HH:MM:SS").toStdString();
     if(endTime)
         url += "&tt=" + QDateTime::fromTime_t(endTime).toUTC().toString("yyyy/mm/dd/HH:MM:SS").toStdString();
-    LOG_MODEL_DEBUG("CNmea", "GetHttpOpenGts url:%s", url.c_str());
+    qDebug("GetHttpOpenGts url:%s", url.c_str());
     curl_easy_setopt(pCurl, CURLOPT_URL, url.c_str());
     /* Define our callback to get called when there's data to be written */
     curl_easy_setopt(pCurl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
@@ -267,12 +266,12 @@ int CNmea::GetHttpOpenGts(std::list<QGeoPositionInfo> &lstInfo,
     curl_easy_cleanup(pCurl);
     
     if(CURLE_OK != res) {
-        LOG_MODEL_ERROR("CNmea", "GetHttpOpenGts error:url:%s", szUrl.c_str());
+        qCritical("GetHttpOpenGts error:url:%s", szUrl.c_str());
         return -1;
     }
     curl_global_cleanup();
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
-    LOG_MODEL_DEBUG("CNmea", "GetHttpOpenGts:%s", data.toStdString().c_str());
+    qDebug("GetHttpOpenGts:%s", data.toStdString().c_str());
 #endif //#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
 
 #endif //RABBITIM_USE_LIBCURL
@@ -281,13 +280,13 @@ int CNmea::GetHttpOpenGts(std::list<QGeoPositionInfo> &lstInfo,
     QJsonDocument jsonDoc = QJsonDocument::fromJson(data, &error);
     if(error.error != QJsonParseError::NoError)
     {
-        LOG_MODEL_ERROR("CNmea", "GetHttpOpenGts::fromJson error.");
+        qCritical("GetHttpOpenGts::fromJson error.");
         return -2;
     }
     
     if(!jsonDoc.isObject())
     {
-        LOG_MODEL_ERROR("CNmea", "isn't object error.");
+        qCritical("isn't object error.");
         return -3;
     }
     
@@ -296,7 +295,7 @@ int CNmea::GetHttpOpenGts(std::list<QGeoPositionInfo> &lstInfo,
     foreach (QVariant device, lstDevice)
     {
         QVariantMap devMap = device.toMap();
-        LOG_MODEL_DEBUG("CNmea", "device:%s",
+        qDebug("device:%s",
                         devMap["Device"].toString().toStdString().c_str());
         QList<QVariant> lstEvent = devMap["EventData"].toList();
         foreach(QVariant eventData, lstEvent)

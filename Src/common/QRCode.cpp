@@ -12,6 +12,9 @@
     #include "QZXing.h"
 #endif
 
+#include <QLoggingCategory>
+Q_LOGGING_CATEGORY(logQRCode, "QRCode");
+
 #define RABBITIM_ID "rabbitim://id/"
 #define RABBITIM_USERINFO "rabbitim://userinfo/"
 
@@ -203,7 +206,7 @@ int CQRCode::ProcessQRFile(const QString &szFile, QString &szText)
     QImage img(szFile);
     if(img.isNull())
     {
-        LOG_MODEL_ERROR("CQRCode", "This isn't image file:%s",
+        qCritical(logQRCode, "This isn't image file:%s",
                         szFile.toStdString().c_str());
         return 1;
     }
@@ -244,14 +247,14 @@ int CQRCode::ProcessMessage(const QString &szMessage)
             int nRight = szMessage.indexOf(";", nId);
             szId = szMessage.mid(nId, nRight - nId);
         }
-        LOG_MODEL_DEBUG("CQRCode", "ID:%s", szId.toStdString().c_str());
+        qDebug(logQRCode) << "ID:" << szId;
         if(szId.isEmpty())
             return -1;
         if(USER_INFO_LOCALE.isNull())
             return -2;
         if(USER_INFO_LOCALE->GetInfo()->GetId() == szId)
         {
-            LOG_MODEL_ERROR("CQRCode", "Roster[%s] is self.",
+            qCritical(logQRCode, "Roster[%s] is self.",
                             szId.toStdString().c_str());
             return 0;
         }
@@ -267,7 +270,7 @@ int CQRCode::ProcessMessage(const QString &szMessage)
                 GET_CLIENT->RosterAdd(szId);
             }
         } else  {
-            LOG_MODEL_ERROR("CQRCode", "Roster[%s] has exist.",
+           qCritical(logQRCode, "Roster[%s] has exist.",
                             szId.toStdString().c_str());
         }
         return 0;

@@ -19,7 +19,7 @@ CManageFileTransfer::CManageFileTransfer(QObject *parent) :
 CManageFileTransfer::~CManageFileTransfer()
 {
     LogoutClean();
-    LOG_MODEL_DEBUG("CManageFileTransfer", "CManageFileTransfer::~CManageFileTransfer");
+    qDebug() << "CManageFileTransfer::~CManageFileTransfer";
 }
 
 int CManageFileTransfer::LoginInit(const QString &szId)
@@ -63,7 +63,7 @@ int CManageFileTransfer::SendFile(const QString &szId, const QString &szFile, co
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("CManageFileTransfer", "There isn't roster:%s", szId.toStdString().c_str());
+        qCritical() << "There isn't roster:" << szId;
         return -1;
     }
 
@@ -82,7 +82,7 @@ void CManageFileTransfer::slotFileReceived(const QString& szId, QSharedPointer<C
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("CManageFileTransfer", "There isn't roster:%s", szId.toStdString().c_str());
+        qCritical() << "There isn't roster:" << szId;
         return;
     }
 
@@ -128,8 +128,8 @@ int CManageFileTransfer::ProcessCommand(const QString &szId, const QString &szCo
     QStringList szPara;
     szPara = szCommand.split("&");
     QString szCmd = szPara.at(0).split("=").at(1);//命令  
-    QString szFileId = szPara.at(1).split("=").at(1);//文件id  
-    LOG_MODEL_DEBUG("CManageFileTransfer", "cmd:%s;id:%s", qPrintable(szCmd), qPrintable(szId));
+    QString szFileId = szPara.at(1).split("=").at(1);//文件id
+    qDebug("cmd:%s;id:%s", qPrintable(szCmd), qPrintable(szId));
     QMap<QString, QSharedPointer<CFileTransfer> >::iterator it = m_FileTransfer.find(szId);
     while (m_FileTransfer.end() != it)
     {
@@ -145,7 +145,7 @@ int CManageFileTransfer::ProcessCommand(const QString &szId, const QString &szCo
         }
         it++;
     }
-    LOG_MODEL_DEBUG("CManageFileTransfer", "There isn't szId:%s;Fileid:%s", qPrintable(szId), qPrintable(szFileId));
+    qDebug("There isn't szId:%s;Fileid:%s", qPrintable(szId), qPrintable(szFileId));
     return nRet;
 }
 

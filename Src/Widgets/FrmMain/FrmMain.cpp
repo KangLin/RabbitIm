@@ -55,7 +55,7 @@ CFrmMain::CFrmMain(QWidget *parent) :
 
     if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
     {
-        LOG_MODEL_ERROR("CFrmMain", "locale user is null");
+        qCritical("Locale user is null");
         return;
     }
     QSettings conf(CGlobalDir::Instance()->GetUserConfigureFile(
@@ -118,13 +118,13 @@ void CFrmMain::slotUpdateLocaleUserInfo()
     QSharedPointer<CUser> user = USER_INFO_LOCALE;
     if(user.isNull())
     {
-        LOG_MODEL_ERROR("CFrmMain", "User is null");
+        qCritical("User is null");
         return;
     }
     QSharedPointer<CUserInfo> info = user->GetInfo();
     if(info.isNull())
     {
-        LOG_MODEL_ERROR("CFrmMain", "User is null");
+        qCritical("User is null");
         return;
     }
 

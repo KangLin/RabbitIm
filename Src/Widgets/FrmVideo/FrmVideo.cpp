@@ -19,7 +19,7 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     m_LocalePlayer(this)
 
 {
-    LOG_MODEL_DEBUG("Video", "CFrmVideo::CFrmVideo");
+    qDebug("CFrmVideo::CFrmVideo");
     ui->setupUi(this);
 
     QDesktopWidget *pDesk = QApplication::desktop();
@@ -51,7 +51,7 @@ CFrmVideo::~CFrmVideo()
 void CFrmVideo::closeEvent(QCloseEvent *e)
 {
     Q_UNUSED(e)
-    LOG_MODEL_DEBUG("Video", "CFrmVideo::closeEvent");
+    qDebug("CFrmVideo::closeEvent");
 }
 
 //调整视频播放窗口的位置  
@@ -135,7 +135,7 @@ void CFrmVideo::changeEvent(QEvent *e)
 //当tracking为on时，没鼠标键按下，也会有mouseEvent事件  
 void CFrmVideo::mouseMoveEvent(QMouseEvent *event)
 {
-    LOG_MODEL_DEBUG("Video", "CFrmVideo::mouseMoveEvent");
+    qDebug("CFrmVideo::mouseMoveEvent");
     Q_UNUSED(event)
     //ShowToolBar(true);
 }
@@ -184,17 +184,17 @@ void CFrmVideo::slotDisplayRemoteVideo(const QImage &frame)
 
 void CFrmVideo::on_pbOK_clicked()
 {
-    LOG_MODEL_DEBUG("Video", "CFrmVideo::on_pbOK_clicked");
+    qDebug("CFrmVideo::on_pbOK_clicked");
 }
 
 void CFrmVideo::on_pbCancel_clicked()
 {
-    LOG_MODEL_DEBUG("Video", "CFrmVideo::on_pbCancel_clicked");
+    qDebug("CFrmVideo::on_pbCancel_clicked");
 }
 
 void CFrmVideo::on_cmbCamera_currentIndexChanged(int index)
 {
-    LOG_MODEL_DEBUG("Video", "CFrmVideo::on_cmbCamera_currentIndexChanged");
+    qDebug("CFrmVideo::on_cmbCamera_currentIndexChanged");
     Q_UNUSED(index)
 }
 

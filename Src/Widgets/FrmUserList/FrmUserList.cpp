@@ -13,6 +13,10 @@
 #include <memory> 
 #include "Tool.h"
 
+#include <QLoggingCategory>
+
+Q_LOGGING_CATEGORY(logUserList, "UserList")
+
 #ifdef WIN32
 #undef GetMessage
 #endif
@@ -138,7 +142,7 @@ int CFrmUserList::LoadGroupNodeStateFromStorage()
     QFile in(szFile);
     if(!in.open(QFile::ReadOnly))
     {
-        LOG_MODEL_WARNING("CFrmUserList", "Don't open file:%s", szFile.toStdString().c_str());
+        qWarning(logUserList, "Don't open file:%s", szFile.toStdString().c_str());
         return -1;
     }
 
@@ -157,7 +161,7 @@ int CFrmUserList::LoadGroupNodeStateFromStorage()
             while(nRowCount--)
             {
                 //本地用户信息  
-                LOG_MODEL_DEBUG("CFrmUserList", "Version:%d", nVersion);
+                qDebug(logUserList, "Version:%d", nVersion);
                 QString szGroup;
                 s >> szGroup;
                 ItemInsertGroup(szGroup);
@@ -191,8 +195,8 @@ int CFrmUserList::LoadGroupNodeStateFromStorage()
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CFrmUserList",
-               "CFrmUserList::LoadGroupNodeStateFromStorage exception");
+        qCritical(logUserList) <<
+               "CFrmUserList::LoadGroupNodeStateFromStorage exception";
         return -2;
     }
 
@@ -207,8 +211,7 @@ int CFrmUserList::SaveGroupNodeStateToStorage()
     QFile out(szFile);
     if(!out.open(QFile::WriteOnly))
     {
-        LOG_MODEL_WARNING("CFrmUserList", "Don't open file:%s",
-                          szFile.toStdString().c_str());
+        qWarning(logUserList) << "Don't open file:" << szFile;
         return -3;
     }
 
@@ -228,15 +231,15 @@ int CFrmUserList::SaveGroupNodeStateToStorage()
             QStandardItem* item = m_pModel->itemFromIndex(index);
             if(item->data(USERLIST_ITEM_ROLE_PROPERTIES) != PROPERTIES_GROUP)
                 continue;
-            LOG_MODEL_DEBUG("CFrmUserList", "text:%s", item->text().toStdString().c_str());
+            qDebug(logUserList) << "text:" << item->text();
             s << item->text()
               << m_UserList.isExpanded(index);
         }
     }
     catch(...)
     {
-        LOG_MODEL_ERROR("CFrmUserList",
-                "CFrmUserList::SaveGroupNodeStateToStorage exception");
+        qCritical(logUserList) <<
+                "CFrmUserList::SaveGroupNodeStateToStorage exception";
         return -4;
     }
 
@@ -414,14 +417,14 @@ void CFrmUserList::slotUpdateMenu()
         QSharedPointer<CUser> user = GLOBAL_USER->GetUserInfoRoster(bareJid);
         if(user.isNull())
         {
-            LOG_MODEL_ERROR("FrmUserList", "Don't roster:%s", bareJid.toStdString().c_str());
+            qCritical(logUserList) << "Don't roster:" << bareJid;
             return;
         }
         
         QSharedPointer<CUserInfo> info = user->GetInfo();
         if(info.isNull())
         {
-            LOG_MODEL_ERROR("FrmUserList", "Don't roster:%s", bareJid.toStdString().c_str());
+            qCritical(logUserList) << "Don't roster:" << bareJid;
             return;
         }
 
@@ -613,7 +616,7 @@ void CFrmUserList::slotMonitor()
 
 void CFrmUserList::slotRosterAddReceived(const QString &szId, const CClient::SUBSCRIBE_TYPE &type)
 {
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::subscriptionReceived:%s", qPrintable(szId));
+    qDebug(logUserList) <<  "CFrmUserList::subscriptionReceived:" << szId;
     Q_UNUSED(type);
     CDlgAddRoster dlgAddRoster;
     dlgAddRoster.Init( GetGroupsName(), szId, true);
@@ -670,7 +673,7 @@ int CFrmUserList::ItemInsertRoster(const QString& szId)
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(szId));
+        qCritical(logUserList) <<  "Dn't the roster:" << szId;
         return -1;
     }
 
@@ -724,7 +727,7 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
     QSharedPointer<CUser> roster = GLOBAL_USER->GetUserInfoRoster(szId);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("FrmUserList", "Dn't the roster:%s", qPrintable(szId));
+        qCritical(logUserList) << "Dn't the roster:" << szId;
         return -1;
     }
 
@@ -741,10 +744,10 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
         nRet = ItemInsertRoster(szId);
         if(nRet)
         {
-            LOG_MODEL_ERROR("FrmUserList", "Insert roster %s fail", qPrintable(szId));
+            qCritical(logUserList, "Insert roster %s fail", qPrintable(szId));
             return nRet;
         }
-        LOG_MODEL_DEBUG("FrmUserList", "Insert roster %s", qPrintable(szId));
+        qDebug(logUserList, "Insert roster %s", qPrintable(szId));
         lstIndexs = m_pModel->match(m_pModel->index(0, 0),
                                     USERLIST_ITEM_ROLE_JID, 
                                     info->GetId(), 
@@ -755,7 +758,7 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
     QModelIndex index;
     foreach(index, lstIndexs)
     {
-        LOG_MODEL_DEBUG("FrmUserList", "index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(info->GetId()));
+        qDebug(logUserList, "index:row:%d;column:%d;id:%s", index.row(), index.column(), qPrintable(info->GetId()));
         QStandardItem* pItem = m_pModel->itemFromIndex(index);
         if(!pItem) continue;
         if(pItem->data(USERLIST_ITEM_ROLE_PROPERTIES) == PROPERTIES_ROSTER)
@@ -824,7 +827,7 @@ int CFrmUserList::ItemRemoveRoster(const QString &szId)
 //得到好友列表  
 void CFrmUserList::slotLoadRosterFromStorage()
 {
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList:: Roster received");
+    qDebug(logUserList, "CFrmUserList:: Roster received");
 
     GLOBAL_USER->ProcessRoster(this);
 }
@@ -854,7 +857,7 @@ void CFrmUserList::SlotChangedStatus(const QString &szId)
 
 void CFrmUserList::clicked(const QModelIndex &index)
 {
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::clicked, row:%d; column:%d",
+    qDebug(logUserList, "CFrmUserList::clicked, row:%d; column:%d",
            index.row(), index.column());
 
 #ifdef MOBILE
@@ -873,7 +876,7 @@ void CFrmUserList::clicked(const QModelIndex &index)
 
 void CFrmUserList::doubleClicked(const QModelIndex &index)
 {
-    LOG_MODEL_DEBUG("Roster", "CFrmUserList::doubleClicked, row:%d; column:%d",
+    qDebug(logUserList, "CFrmUserList::doubleClicked, row:%d; column:%d",
            index.row(), index.column());
 
 #ifndef MOBILE
@@ -893,7 +896,7 @@ void CFrmUserList::doubleClicked(const QModelIndex &index)
 void CFrmUserList::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
-    /*LOG_MODEL_DEBUG("CFrmUserList", "CFrmUserList::resizeEvent:e.size:%d;genmetry.size:%d;userlist.framewidth:%d;width:%d",
+    /*qDebug(logUserList, "CFrmUserList::resizeEvent:e.size:%d;genmetry.size:%d;userlist.framewidth:%d;width:%d",
                     e->size().width(),
                     geometry().size().width(),
                     m_UserList.frameGeometry().width(),
@@ -950,13 +953,13 @@ QString CFrmUserList::GetCurrentRoster()
 void CFrmUserList::slotItemChanged(QStandardItem *item)
 {
     Q_UNUSED(item);
-    LOG_MODEL_DEBUG("CFrmUserList", "CFrmUserList::slotItemChanged");
+    qDebug(logUserList) << "CFrmUserList::slotItemChanged";
 }
 
 void CFrmUserList::slotEntered(const QModelIndex &index)
 {
     Q_UNUSED(index);
-    LOG_MODEL_DEBUG("CFrmUserList", "CFrmUserList::slotEntered");
+    qDebug(logUserList) << "CFrmUserList::slotEntered";
 }
 
 void CFrmUserList::slotRefresh()

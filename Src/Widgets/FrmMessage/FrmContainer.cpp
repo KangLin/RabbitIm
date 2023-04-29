@@ -55,7 +55,7 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
 
 CFrmContainer::~CFrmContainer()
 {
-    LOG_MODEL_DEBUG("CFrmContainer", "CFrmContainer::~CFrmContainer()");
+    qDebug("CFrmContainer::~CFrmContainer()");
     GET_CLIENT->disconnect(this);
     GETMANAGER->GetManageGroupChat()->disconnect(this);
     CGlobal::Instance()->GetMainWindow()->disconnect(this);
@@ -103,7 +103,7 @@ int CFrmContainer::ShowDialog(const QString &szId)
         nIndex = m_tabWidget.addTab(pFrame, QIcon(pixmap), info->GetShowName());
         if(nIndex < 0)
         {
-            LOG_MODEL_ERROR("CFrmContainer", "add tab fail");
+            qCritical() << "add tab fail";
             return -2;
         }
     }
@@ -113,7 +113,7 @@ int CFrmContainer::ShowDialog(const QString &szId)
         QSharedPointer<CGroupChat> gc = GETMANAGER->GetManageGroupChat()->Get(szId);
         if(gc.isNull())
         {
-            LOG_MODEL_ERROR("CFrmContainer", "Don't group chat:%s", qPrintable(szId));
+            qCritical("Don't group chat:%s", qPrintable(szId));
             return -3;
         }
         pFrame = new CFrmGroupChat(szId, &m_tabWidget);
@@ -123,7 +123,7 @@ int CFrmContainer::ShowDialog(const QString &szId)
         nIndex = m_tabWidget.addTab(pFrame, gc->Icon(), szText);
         if(nIndex < 0)
         {
-            LOG_MODEL_ERROR("CFrmContainer", "add tab fail");
+            qCritical() << "add tab fail";
             return -2;
         }
     }
@@ -148,7 +148,7 @@ void CFrmContainer::resizeEvent(QResizeEvent *e)
 
 void CFrmContainer::closeEvent(QCloseEvent *e)
 {
-    LOG_MODEL_DEBUG("CFrmContainer", "CFrmContainer::closeEvent");
+    qDebug() << "CFrmContainer::closeEvent";
     m_bClose = true;
     QMap<QString, QFrame* >::iterator it, oldIt;
     it = m_Frame.begin();
@@ -252,7 +252,7 @@ void CFrmContainer::slotUpdateRoster(const QString& szId, QSharedPointer<CUser> 
             int index = m_tabWidget.currentIndex();
             if(-1 == index)
             {
-                LOG_MODEL_ERROR("CFrmContainer", "There isn't the widget");
+                qCritical() << "There isn't the widget";
                 continue;
             }
             QSharedPointer<CUserInfo> info = roster->GetInfo();
@@ -281,7 +281,7 @@ void CFrmContainer::slotRefresh()
             int index = m_tabWidget.currentIndex();
             if(-1 == index)
             {
-                LOG_MODEL_ERROR("CFrmContainer", "There isn't the widget");
+                qCritical() << "There isn't the widget";
                 continue;
             }
             QSharedPointer<CUserInfo> info = roster->GetInfo();

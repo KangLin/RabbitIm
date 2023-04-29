@@ -44,7 +44,7 @@ int CPluginScreenShot::Open(void *pPara, QWidget *parent)
             QString szText;
             /*QString fileName = "ShotScreen" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss.PNG");
             QString filePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) +QDir::separator() +  fileName;
-            LOG_MODEL_DEBUG("Message", QString("filePath = %1").arg(filePath).toLocal8Bit().data());
+            qDebug(QString("filePath = %1").arg(filePath).toLocal8Bit().data());
             bool isOk = image.save(filePath);
             if(isOk)
             {
@@ -77,7 +77,7 @@ int CPluginScreenShot::Open(void *pPara, QWidget *parent)
                 bool isOk = image.save(szFile);
                 if(!isOk)
                 {
-                    LOG_MODEL_ERROR("Message", "save file [%s] is error", szFile.toStdString().c_str());
+                    qCritical("save file [%s] is error", szFile.toStdString().c_str());
                 }
             }
         }
@@ -85,7 +85,7 @@ int CPluginScreenShot::Open(void *pPara, QWidget *parent)
         {
             QString fileName = "ShotScreen" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss.PNG");
             QString filePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) +QDir::separator() +  fileName;
-            LOG_MODEL_DEBUG("Message", QString("filePath = %1").arg(filePath).toLocal8Bit().data());
+            qDebug(QString("filePath = %1").arg(filePath).toLocal8Bit().data());
             bool isOk = image.save(filePath);
             if(isOk)
             {
@@ -95,7 +95,7 @@ int CPluginScreenShot::Open(void *pPara, QWidget *parent)
             }
             else
             {
-                LOG_MODEL_ERROR("Message", "save file [%s] is error", filePath.toStdString().c_str());
+                qCritical("save file [%s] is error", filePath.toStdString().c_str());
             }
         }
     }

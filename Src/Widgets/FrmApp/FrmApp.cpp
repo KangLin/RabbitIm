@@ -18,7 +18,7 @@ CFrmApp::CFrmApp(QWidget *parent) :
 
     if(USER_INFO_LOCALE.isNull() || USER_INFO_LOCALE->GetInfo().isNull())
     {
-        LOG_MODEL_ERROR("CFrmMain", "locale user is null");
+        qCritical("Locale user is null");
         return;
     }
     QSettings conf(CGlobalDir::Instance()->GetUserConfigureFile(

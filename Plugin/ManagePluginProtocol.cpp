@@ -23,7 +23,7 @@ int CManagePluginProtocol::RegisterPlugin(const QString &szProtocol,
 {
     if(m_Plugins.find(szProtocol) != m_Plugins.end())
     {
-        LOG_MODEL_ERROR("CManagePluginProtocol", "Plugin [%s] is registered",
+        qCritical("Plugin [%s] is registered",
                         szProtocol.toStdString().c_str());
         return -1;
     }
@@ -50,7 +50,7 @@ CPluginProtocol *CManagePluginProtocol::GetPlugin(
     it = m_Plugins.find(szProtocol);
     if(m_Plugins.end() == it)
     {
-        LOG_MODEL_ERROR("CManagePluginProtocol", "GetPlugin %s is fail",
+        qCritical("GetPlugin %s is fail",
                         szProtocol.toStdString().c_str());
         return NULL;
     }

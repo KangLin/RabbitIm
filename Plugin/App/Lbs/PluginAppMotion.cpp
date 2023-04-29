@@ -1,6 +1,5 @@
 #include "PluginAppMotion.h"
 #include <QMessageBox>
-#include "RabbitCommonLog.h"
 
 CPluginAppMotion::CPluginAppMotion(QObject *parent) : QObject(parent), CPluginApp()
 {
@@ -8,7 +7,7 @@ CPluginAppMotion::CPluginAppMotion(QObject *parent) : QObject(parent), CPluginAp
 
 CPluginAppMotion::~CPluginAppMotion()
 {
-    LOG_MODEL_DEBUG("CPluginAppMotion", "CPluginAppMotion::~CPluginAppMotion");
+    qDebug("CPluginAppMotion::~CPluginAppMotion");
 }
 
 int CPluginAppMotion::Init(const QString &szId)

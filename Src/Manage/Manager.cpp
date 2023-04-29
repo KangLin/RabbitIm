@@ -53,7 +53,7 @@ CManager::CManager():
 
 CManager::~CManager()
 {
-    LOG_MODEL_DEBUG("CManager", "CManager::~CManager()");
+    qDebug("CManager::~CManager()");
     //增加移除插件  
     std::list<CPluginProtocol*> lstProtocol = GetManagePluginProtocol()->GetAllPlugins();
     std::list<CPluginProtocol*>::iterator it;
@@ -134,7 +134,7 @@ int CManager::Clean()
 
 int CManager::LoginInit(const QString &szId)
 {
-    LOG_MODEL_DEBUG("CManager", "CManager::LoginInit()");
+    qDebug("CManager::LoginInit()");
     //注意:初始化顺序  
     GetManageUser()->LoginInit(szId);
     GetManagePluginProtocol()->LoginInit(szId);
@@ -150,7 +150,7 @@ int CManager::LoginInit(const QString &szId)
 
 int CManager::LogoutClean()
 {
-    LOG_MODEL_DEBUG("CManager", "CManager::LogoutClean()");
+    qDebug("CManager::LogoutClean()");
     //注意:清理顺序  
     GetManagePluginApp()->LogoutClean();
     if(GetCall())
@@ -223,8 +223,7 @@ int CManager::FindPlugins(QDir dir)
                 continue;
             }
         }else{
-            LOG_MODEL_ERROR("CManager", "load plugin error:%s",
-                            loader.errorString().toStdString().c_str());
+            qCritical() << "Load plugin error:" << loader.errorString();
         }
     }
     

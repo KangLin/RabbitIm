@@ -61,7 +61,7 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
 
 CDlgScreenShot::~CDlgScreenShot()
 {
-    LOG_MODEL_DEBUG("screen shot", "CDlgScreenShot::~CDlgScreenShot");
+    qDebug("CDlgScreenShot::~CDlgScreenShot");
 }
 
 QImage CDlgScreenShot::GetScreenShot(int x, int y, int w, int h)
@@ -114,7 +114,7 @@ QImage CDlgScreenShot::drawWindow()
 
 void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)
 {
-    LOG_MODEL_DEBUG("screen shot", "mouseMoveEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
+    qDebug("mouseMoveEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
                     e->pos().x(), e->pos().y(),
                     QCursor::pos().x(), QCursor::pos().y());
     if(!m_bGrabing){
@@ -132,7 +132,7 @@ void CDlgScreenShot::mouseMoveEvent(QMouseEvent *e)
 
 void CDlgScreenShot::mousePressEvent(QMouseEvent *e)
 {
-    LOG_MODEL_DEBUG("screen shot", "mousePressEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
+    qDebug("mousePressEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
                     e->pos().x(), e->pos().y(),
                     QCursor::pos().x(), QCursor::pos().y());
     if(e->button() == Qt::LeftButton)
@@ -162,7 +162,7 @@ void CDlgScreenShot::mousePressEvent(QMouseEvent *e)
 
 void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
 {
-    LOG_MODEL_DEBUG("screen shot", "mouseReleaseEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
+    qDebug("mouseReleaseEvent:e->pos:x:%d;y:%d;QCursor::pos:x:%d;y:%d",
                     e->pos().x(), e->pos().y(),
                     QCursor::pos().x(), QCursor::pos().y());
     if(!m_bGrabing)
@@ -176,7 +176,7 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         setCursor(Qt::ArrowCursor);
         WId id = qApp->desktop()->winId();
         QRect rect = QRect(m_x,m_y,m_width,m_height).normalized();
-        LOG_MODEL_DEBUG("screen shot", "x:%d;y:%d;width:%d;height:%d;DlgWidth:%d;DlgHeight:%d",
+        qDebug("x:%d;y:%d;width:%d;height:%d;DlgWidth:%d;DlgHeight:%d",
                         rect.x(),
                         rect.y(),
                         rect.width(),
@@ -187,7 +187,7 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         int x = rect.x(), y = rect.y() + rect.height();
         m_Editor.toolBar.show(); //需要先显示，才能得到正确的大小  
         QRect rectToolBar = m_Editor.toolBar.frameGeometry();
-        LOG_MODEL_DEBUG("screen shot", "x:%d;y:%d;width:%d;height:%d",
+        qDebug("x:%d;y:%d;width:%d;height:%d",
                         rectToolBar.x(),
                         rectToolBar.y(),
                         rectToolBar.width(),
@@ -199,7 +199,7 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
         else if(x + rectToolBar.width() >= this->width())
         {
             x = this->width() - rectToolBar.width();
-            LOG_MODEL_ERROR("screen shot", "x:%d;y:%d;width:%d;height:%d;toolx:%d",
+            qCritical("x:%d;y:%d;width:%d;height:%d;toolx:%d",
                             rectToolBar.x(),
                             rectToolBar.y(),
                             rectToolBar.width(),

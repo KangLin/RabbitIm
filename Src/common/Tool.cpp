@@ -84,8 +84,7 @@ int CTool::ImageRotate(const QVideoFrame &inFrame, QVideoFrame &outFrame, double
         {
             if(QVideoFrame::Format_NV21 != frame.pixelFormat())
             {
-                LOG_MODEL_WARNING("Video",
-                     "CFrameProcess::slotCaptureFrame:don't Format_NV21");
+                qWarning("CFrameProcess::slotCaptureFrame:don't Format_NV21");
                 nRet = -2;
                 break;
             }
@@ -96,7 +95,7 @@ int CTool::ImageRotate(const QVideoFrame &inFrame, QVideoFrame &outFrame, double
                                  frame.bytesPerLine(), frame.pixelFormat());
             if(!outFrame.map(QAbstractVideoBuffer::WriteOnly))
             {
-                 LOG_MODEL_ERROR("CFrameProcess", "QVideoFrame outFrame map is fail");
+                 qCritical("QVideoFrame outFrame map is fail");
                 break;
             }
             if (CGlobal::Instance()->GetVideoCaptureDevice() == 1)
@@ -427,7 +426,7 @@ int CTool::SetWindowsGeometry(QWidget *pWindow)
     //*/
     //*
     QScreen *pScreen = QGuiApplication::primaryScreen();
-    LOG_MODEL_DEBUG("CTool", "availableGeometry:%d,%d; geometry:%d,%d",
+    qDebug("availableGeometry:%d,%d; geometry:%d,%d",
                     pScreen->availableGeometry().width(),
                     pScreen->availableGeometry().height(),
                     pScreen->geometry().width(),
@@ -489,7 +488,7 @@ QByteArray CTool::GetFileMd5Sum(QString filePath)
     
     if (!localFile.open(QFile::ReadOnly))
     {
-        LOG_MODEL_ERROR("CTool", "file open error.");
+        qCritical("file open error.");
         return 0;
     }
     

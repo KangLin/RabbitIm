@@ -28,7 +28,7 @@ QString CGlobalDir::GetDirMotion(const QString &szId)
         }
         else
         {
-            LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
+            qCritical("Don't initialization GetGlobalUser or GetUserInfoLocale");
             Q_ASSERT(false);
         }
     }
@@ -58,7 +58,7 @@ QString CGlobalDir::GetDirUserConfigure(const QString &szId)
         }
         else
         {
-            LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
+            qCritical("Don't initialization GetGlobalUser or GetUserInfoLocale");
             Q_ASSERT(false);
         }
     }
@@ -87,7 +87,7 @@ QString CGlobalDir::GetDirUserData(const QString &szId)
         }
         else
         {
-            LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
+            qCritical("Don't initialization GetGlobalUser or GetUserInfoLocale");
             Q_ASSERT(false);
         }
     }
@@ -110,7 +110,7 @@ QString CGlobalDir::GetDirTempDir(const QString &szId)
     QDir d;
     if(!d.exists(dirHeads))
         if(!d.mkdir(dirHeads))
-            LOG_MODEL_ERROR("CGlobal", "mkdir GetDirTempDir error:%s", qPrintable(dirHeads));
+            qCritical("mkdir GetDirTempDir error:%s", qPrintable(dirHeads));
     return dirHeads;
 }
 
@@ -120,7 +120,7 @@ QString CGlobalDir::GetDirUserAvatar(const QString &szId)
     QDir d;
     if(!d.exists(dirHeads))
         if(!d.mkdir(dirHeads))
-            LOG_MODEL_ERROR("CGlobal", "mkdir GetUserDataAvatar error:%s", qPrintable(dirHeads));
+            qCritical("mkdir GetUserDataAvatar error:%s", qPrintable(dirHeads));
     return dirHeads;
 }
 
@@ -130,7 +130,7 @@ QString CGlobalDir::GetDirReceiveFile(const QString &szId)
     QDir d;
     if(!d.exists(dir))
         if(!d.mkdir(dir))
-            LOG_MODEL_ERROR("CGlobal", "mkdir GetUserDataAvatar error:%s", qPrintable(dir));
+            qCritical("mkdir GetUserDataAvatar error:%s", qPrintable(dir));
     return dir;
 }
 
@@ -146,7 +146,7 @@ QString CGlobalDir::GetFileUserAvatar(const QString &szId, const QString &szLoca
         }
         else
         {
-            LOG_MODEL_ERROR("Global", "Don't initialization GetGlobalUser or GetUserInfoLocale");
+            qCritical("Don't initialization GetGlobalUser or GetUserInfoLocale");
             return QString();
             Q_ASSERT(false);
         }

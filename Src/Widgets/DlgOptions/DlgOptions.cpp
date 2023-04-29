@@ -17,7 +17,7 @@ CDlgOptions::CDlgOptions(QWidget *parent) :
 {
     ui->setupUi(this);
     CTool::SetWindowsGeometry(this);
-    LOG_MODEL_DEBUG("CDlgOptions", "CDlgOptions::CDlgOptions:w:%d, h:%d",
+    qDebug("CDlgOptions::CDlgOptions:w:%d, h:%d",
                     this->width(), this->height());
     //控件初始化工作放到showEvent中  
     int nIndex = 0;
@@ -177,7 +177,7 @@ void CDlgOptions::changeEvent(QEvent *e)
 
 void CDlgOptions::resizeEvent(QResizeEvent *e)
 {
-    LOG_MODEL_DEBUG("MainWindow", "MainWindow::resizeEvent:e.size:%d;genmetry.size:%d,frame.size:%d",
+    qDebug("MainWindow::resizeEvent:e.size:%d;genmetry.size:%d,frame.size:%d",
                     e->size().width(),
                     geometry().size().width(),
                     this->frameGeometry().width());
