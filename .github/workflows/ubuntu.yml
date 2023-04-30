@@ -1,125 +1,167 @@
-name: Ubuntu
+name: ubuntu
 
-on: [push]
+on:
+  workflow_call:
+    outputs:
+      name:
+        description: "The artifact name"
+        value: ${{ jobs.build_ubuntu.outputs.name }}
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
 jobs:
-  build:
+  build_ubuntu:
     strategy:
       matrix:
-        os: [Ubuntu-20.04, Ubuntu-18.04]
-        # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
         BUILD_TYPE: [Release, Debug]
 
-    runs-on: ${{matrix.os}}
+    runs-on: ubuntu-latest
+
     env:
-      BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
+      BUILD_TYPE:  ${{matrix.BUILD_TYPE}}
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOSL_DIR:   ${{github.workspace}}/.cache/tools
-      INSTALL_DIR: ${{github.workspace}}/.cache/install_ubuntu_2022_02_14
-      RabbitIM_VERSION: 0.1.0
-      
+      INSTALL_DIR: ${{github.workspace}}/.cache/install_ubuntu_${{matrix.BUILD_TYPE}}
+      RabbitIM_VERSION: 0.0.27
+      artifact_name: build_ubuntu
+
+    # Map the job outputs to step outputs
+    outputs:
+      name: ${{ env.artifact_name }}
+
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    
-    - name: make_directory
-      run: |
-        cmake -E make_directory ${{env.SOURCE_DIR}}
-        cmake -E make_directory ${{env.TOOSL_DIR}}
-        cmake -E make_directory ${{env.INSTALL_DIR}}
-  
-    - name: git clone RabbitCommon
-      working-directory: ${{env.SOURCE_DIR}}
-      run: git clone https://github.com/KangLin/RabbitCommon.git
+      - name: core dump infomations
+        if: false
+        run: |
+          echo "# ulimit -a"
+          ulimit -a
+          echo "# cat /proc/sys/kernel/core_pattern"
+          cat /proc/sys/kernel/core_pattern
+          echo "# ulimit -c unlimited"
+          ulimit -c unlimited
+          echo "# sudo sysctl -w kernel.core_pattern=core"
+          sudo sysctl -w kernel.core_pattern=${{github.workspace}}/core
+          echo "# ulimit -a"
+          ulimit -a
+          echo "# cat /proc/sys/kernel/core_pattern"
+          cat /proc/sys/kernel/core_pattern
 
-    - name: apt helper action
-      uses: ryankurte/action-apt@v0.2.0
-      with:
-        # architectures to pass to dpkg --add-architecture
-        #architectures: # optional
-        # apt packages to install
-        packages: cmake build-essential libqxmpp-dev ffmpeg libopencv-dev debhelper dh-systemd fakeroot doxygen qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools qtmultimedia5-dev qtlocation5-dev libqt5svg5-dev qtpositioning5-dev qtwebengine5-dev
+#        See: https://www.cnblogs.com/cong-wang/p/15026524.html
+#        Naming of core dump files
+#               By default, a core dump file is named core, but the /proc/sys/kernel/core_pattern file (since  Linux  2.6  and
+#               2.4.21)  can  be  set  to  define a template that is used to name core dump files.  The template can contain %
+#               specifiers which are substituted by the following values when a core file is created:
+#
+#                   %%  a single % character
+#                   %c  core file size soft resource limit of crashing process (since Linux 2.6.24)
+#                   %d  dump mode—same as value returned by prctl(2) PR_GET_DUMPABLE (since Linux 3.7)
+#                   %e  executable filename (without path prefix)
+#                   %E  pathname of executable, with slashes ('/') replaced by exclamation marks ('!') (since Linux 3.0).
+#                   %g  (numeric) real GID of dumped process
+#                   %h  hostname (same as nodename returned by uname(2))
+#                   %i  TID of thread that triggered core dump, as seen in the PID  namespace  in  which  the  thread  resides
+#                       (since Linux 3.18)
+#                   %I  TID of thread that triggered core dump, as seen in the initial PID namespace (since Linux 3.18)
+#                   %p  PID of dumped process, as seen in the PID namespace in which the process resides
+#                   %P  PID of dumped process, as seen in the initial PID namespace (since Linux 3.12)
+#                   %s  number of signal causing dump
+#                   %t  time of dump, expressed as seconds since the Epoch, 1970-01-01 00:00:00 +0000 (UTC)
+#                   %u  (numeric) real UID of dumped process
 
-    - name: build log4qt
-      working-directory: ${{env.SOURCE_DIR}}
-      env:
-        QT_ROOT: /usr/lib/`uname -m`-linux-gnu/qt5
-      run: |
-        if [ ! -d ${{env.INSTALL_DIR}}/lib/cmake/Log4Qt ]; then
-            git clone -b v1.5.1 "https://github.com/MEONMedical/Log4Qt.git"
-            cd Log4Qt
-            cmake -E make_directory build
-            cd build
-            cmake .. -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
-                -DQT_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5 \
-                -DQt5_DIR=${{env.QT_ROOT}}/lib/cmake/Qt5 \
-                -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} \
-                -DCMAKE_PREFIX_PATH=${{env.QT_ROOT}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
-        fi
-    
-    - name: build qzxing
-      working-directory: ${{env.SOURCE_DIR}}
-      run: |
-        git clone "https://github.com/KangLin/qzxing.git"
-        cd qzxing
-        cmake -E make_directory build
-        cd build
-        cmake .. -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
-            -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} \
-            -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON
-        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
-        
-    - name: build_debpackage.sh
-      working-directory: ${{github.workspace}}
-      env:
-        RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
-        THIRD_LIBRARY_PATH: ${{env.INSTALL_DIR}}
-        Log4Qt_DIR: ${{env.INSTALL_DIR}}/lib/cmake/Log4Qt
-      run: |
-        ./build_debpackage.sh /usr/lib/`uname -m`-linux-gnu/qt5
-        cp ../rabbitim_*_amd64.deb .
-        
-#    - name: update xml file
-#      working-directory: ${{github.workspace}}
-#      run: |
-#        sudo apt-get install -y -qq xvfb xpra
-#        sudo Xvfb :99 -ac &
-#        export DISPLAY=:99.0
-#        sudo dpkg -i rabbitim_${{env.RabbitIm_VERSION}}_amd64.deb
-#        /opt/RabbitIm/bin/RabbitImApp -f "`pwd`/update_linux.xml" --pf rabbitim_${{env.RabbitIm_VERSION}}_amd64.deb -m "${{env.RabbitIm_VERSION}}"
-#      if: ${{ matrix.BUILD_TYPE == 'Release' }}
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
 
-    - name: update 
-      uses: actions/upload-artifact@v2
-      with:
-          name: rabbitim_${{env.RabbitIm_VERSION}}_${{ matrix.os }}
+      - name: Make directories
+        run: |
+          cmake -E make_directory ${{env.SOURCE_DIR}}
+          cmake -E make_directory ${{env.TOOSL_DIR}}
+          cmake -E make_directory ${{env.INSTALL_DIR}}
+          cmake -E make_directory ${{github.workspace}}/build
+
+      - name: git clone RabbitCommon
+        working-directory: ${{env.SOURCE_DIR}}
+        run: |
+            git clone -b v2 https://github.com/KangLin/RabbitCommon.git
+
+      - name: Install apt packages
+        run: |
+          sudo apt-get update -y
+          sudo apt-get upgrade -y
+          sudo apt install -y -q cmake build-essential xvfb xpra \
+              libglu1-mesa-dev libpulse-mainloop-glib0 \
+              cmake debhelper fakeroot \
+              qt6-tools-dev qt6-tools-dev-tools \
+              qt6-base-dev qt6-base-dev-tools qt6-qpa-plugins \
+              libqt6svg6-dev qt6-l10n-tools qt6-translations-l10n \
+              qt6-scxml-dev qt6-multimedia-dev libqt6serialport6-dev \
+              qt6-webengine-dev qt6-webengine-dev-tools \
+              libxkbcommon-dev libxkbcommon-x11-dev xorg-dev libx11-xcb-dev \
+              libx11-dev libxfixes-dev
+
+      - name: Cache installed
+        uses: actions/cache@v3
+        id: cache-installed
+        with:
           path: |
-            rabbitim_*_amd64.deb
-            update_linux.xml
-      if: ${{ matrix.BUILD_TYPE == 'Release' }} 
-     
-    #- name: Release
-    #  uses: fnkr/github-action-ghr@v1
-    #  if: startsWith(github.ref, 'refs/tags/')
-    #  env:
-    #    GHR_COMPRESS: xz
-    #    GHR_PATH: ${{github.workspace}}/rabbitim_*.deb
-    #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            ${{env.INSTALL_DIR}}
+          key: cache-installed-ubuntu
 
-    - name: Upload To Github Release
-      if: ${{ matrix.BUILD_TYPE == 'Release' && startsWith(github.ref, 'refs/tags/') }} 
-      uses: softprops/action-gh-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        prerelease: true
-        body: |
-          [修改日志](ChangeLog.md)
-        files: |
-          ${{github.workspace}}/build/rabbitim_${{env.RabbitIm_VERSION}}_amd64.deb
+      - name: build_debpackage.sh
+        working-directory: ${{github.workspace}}
+        env:
+          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+        run: |
+          if [ ${{matrix.BUILD_TYPE}} == 'Release' ]; then
+              export BUILD_VIEWER_TERMINAL=OFF
+          else
+              export tigervnc_DIR=${{env.INSTALL_DIR}}/lib/cmake/tigervnc
+          fi
+          export Qt6_DIR=/usr/lib/`uname-a`-linux-gnu/cmake/Qt6
+          ./build_debpackage.sh
+          cp ../RabbitIM_${{env.RabbitIM_VERSION}}_amd64.deb RabbitIM_${{env.RabbitIM_VERSION}}_amd64.deb
+          md5sum RabbitIM_${{env.RabbitIM_VERSION}}_amd64.deb > RabbitIM_${{env.RabbitIM_VERSION}}_amd64.deb.md5sum
+
+      - name: update xml file
+        if: ${{ matrix.BUILD_TYPE == 'Release'}}
+        working-directory: ${{github.workspace}}
+        #continue-on-error: true
+        run: |
+          #sudo apt update -y -qq
+          #sudo apt-get install -y -qq xvfb xpra
+          sudo Xvfb :99 -ac &
+          export DISPLAY=:99.0
+          echo "Install rabbit remote control ......"
+          sudo apt install ./RabbitIM_${{env.RabbitIM_VERSION}}_amd64.deb
+          #echo "ls -l /opt/RabbitIM/bin/"
+          #ls -l /opt/RabbitIM/bin/
+          echo "Update update_linux.xml ......"
+          export QT_XCB_GL_INTEGRATION=none
+          MD5SUM=`cat RabbitIM_${{env.RabbitIM_VERSION}}_amd64.deb.md5sum|awk '{print $1}'`
+          echo "MD5SUM RabbitIM_${{env.RabbitIM_VERSION}}_amd64.deb: ${MD5SUM}"
+          #ulimit -c unlimited
+          #echo "# sudo sysctl -w kernel.core_pattern=core"
+          #sudo sysctl -w kernel.core_pattern=${{github.workspace}}/core
+          /opt/RabbitIM/bin/RabbitIM.sh \
+            -f "`pwd`/update_linux.xml" \
+            -u "https://github.com/KangLin/RabbitIM/releases/download/${{env.RabbitIM_VERSION}}/RabbitIM_${{env.RabbitIM_VERSION}}_amd64.deb;https://sourceforge.net/projects/RabbitIM/files/${{env.RabbitIM_VERSION}}/RabbitIM_${{env.RabbitIM_VERSION}}_amd64.deb" \
+            --md5 "${MD5SUM}" \
+            --pf RabbitIM_${{env.RabbitIM_VERSION}}_amd64.deb \
+            -m "v${{env.RabbitIM_VERSION}}"
+
+      - name: dump core
+        if: false
+        working-directory: ${{github.workspace}}
+        run: |
+          gdb /opt/RabbitIM/bin/RabbitIMApp core
+
+      - name: Update artifact
+        if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        uses: actions/upload-artifact@v3
+        with:
+            name: ${{ env.artifact_name }}
+            path: |
+              ${{github.workspace}}/RabbitIM_*.deb
+              ${{github.workspace}}/update_linux.xml

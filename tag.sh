@@ -29,13 +29,13 @@ sed -i "s/^\SET(BUILD_VERSION.*/SET(BUILD_VERSION \"${VERSION}\")/g" ${SOURCE_DI
 APPVERYOR_VERSION="version: '${VERSION}.{build}'"
 #sed -i "s/^version: '.*{build}'/${APPVERYOR_VERSION}/g" ${SOURCE_DIR}/appveyor.yml
 #sed -i "s/export VERSION=.*/export VERSION=\"${VERSION}\"/g" ${SOURCE_DIR}/ci/build.sh
-sed -i "s/RabbitIm_VERSION:.*/RabbitIm_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/cmake_android.yml
-sed -i "s/RabbitIm_VERSION:.*/RabbitIm_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/cmake_windows.yml
+sed -i "s/RabbitIM_VERSION:.*/RabbitIM_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/android.yml
+sed -i "s/RabbitIM_VERSION:.*/RabbitIM_VERSION: \"${VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/msvc.yml
 
 DEBIAN_VERSION=`echo ${VERSION}|cut -d "v" -f 2`
 sed -i "s/rabbitim (.*)/rabbitim (${DEBIAN_VERSION})/g" ${SOURCE_DIR}/debian/changelog
 sed -i "s/^\Standards-Version:.*/Standards-Version:\"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/debian/control
-sed -i "s/RabbitIm_VERSION:.*/RabbitIm_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/cmake_ubuntu.yml
+sed -i "s/RabbitIM_VERSION:.*/RabbitIM_VERSION: \"${DEBIAN_VERSION}\"/g" ${SOURCE_DIR}/.github/workflows/ubuntu.yml
 
 sed -i "s/[0-9]\+\.[0-9]\+\.[0-9]\+/${DEBIAN_VERSION}/g" ${SOURCE_DIR}/android/AndroidManifest.xml
 

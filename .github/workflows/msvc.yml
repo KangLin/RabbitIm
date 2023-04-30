@@ -1,154 +1,114 @@
-name: msvc
+name: build_msvc
 
-on: [push]
+on:
+  workflow_call:
+    outputs:
+      name:
+        description: "The artifact name"
+        value: ${{ jobs.build_msvc.outputs.name }}
 
 jobs:
-  use_install_qt:
-    name: ${{matrix.os}}-vc-${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
+  build_msvc:
 
     strategy:
       matrix:
         BUILD_TYPE: [Release, Debug]
-        CMAKE_GENERATOR: [Visual Studio 17 2022]
-        os: [windows-latest]
-        CMAKE_GENERATOR_PLATFORM: [x64, Win32]
-        # VCPKG_PLATFORM_TOOLSET: [v142, v141, v140]
+        qt_version: [5.15.2, 5.12.12]
         include:
-          - triplet: x64-windows
+#          - qt_version: 6.4.2
+#            triplet: x64-windows
+#            VCPKG_PLATFORM_TOOLSET: v142
+#            qt_arch: win64_msvc2019_64
+#            CMAKE_GENERATOR_PLATFORM: x64
+#            qt_modules: qtscxml qtpositioning
+
+          - qt_version: 5.15.2
+            triplet: x64-windows
             VCPKG_PLATFORM_TOOLSET: v142
-            qt_version: 6.2.2
             qt_arch: win64_msvc2019_64
             CMAKE_GENERATOR_PLATFORM: x64
-            qt_modules: qtscxml qtpositioning
 
-          - triplet: x64-windows
-            VCPKG_PLATFORM_TOOLSET: v142
-            qt_version: 5.15.2
-            qt_arch: win64_msvc2019_64
-            CMAKE_GENERATOR_PLATFORM: x64
-
-          - triplet: x86-windows
+          - qt_version: 5.12.12
+            triplet: x86-windows
             VCPKG_PLATFORM_TOOLSET: v141
-            qt_version: 5.12.12
             qt_arch: win32_msvc2017
             CMAKE_GENERATOR_PLATFORM: Win32
 
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
 
     env:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOSL_DIR:   ${{github.workspace}}\.cache\tools
-      INSTALL_DIR: ${{github.workspace}}\.cache\install_msvc_${{matrix.triplet}}_${{matrix.BUILD_TYPE}}_2022_02_14
+      INSTALL_DIR: ${{github.workspace}}\.cache\install_msvc_qt${{matrix.qt_version}}_${{matrix.triplet}}_${{matrix.BUILD_TYPE}}
+      CMAKE_GENERATOR: "Visual Studio 17 2022"
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
-      CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
-      RabbitIm_VERSION: v0.1.0
-      VCPKGGITCOMMITID: faed44dfa013088fe1910908a8a65887622f412f
+      RabbitIM_VERSION: v0.0.27
+      VCPKGGITCOMMITID: 2b1757dd1d5ed7d9d5bb65fd8316631b157e7afc
       qt_modules: qtwebengine ${{matrix.qt_modules}}
+      artifact_name: build_msvc
 
+    # Map the job outputs to step outputs
+    outputs:
+      name: ${{ env.artifact_name }}
+      
     defaults:
       run:
         shell: cmd
-        
+
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
 
-    - name: make directory
-      run: |
-        cmake -E make_directory ${{env.SOURCE_DIR}}
-        cmake -E make_directory ${{env.TOOSL_DIR}}
-        cmake -E make_directory ${{env.INSTALL_DIR}}
+      - name: Make directories
+        run: |
+          cmake -E make_directory ${{github.workspace}}/build
+          cmake -E make_directory ${{env.SOURCE_DIR}}
+          cmake -E make_directory ${{env.TOOSL_DIR}}
+          cmake -E make_directory ${{env.INSTALL_DIR}}
+          
+      - name: Cache installed
+        uses: actions/cache@v3
+        id: cache-installed
+        with:
+          path: |
+            ${{env.INSTALL_DIR}}
+          key: cache-installed-msvc
 
-    - name: Cache installed
-      uses: actions/cache@v2
-      id: cache-installed
-      with:
-        path: |
-          ${{env.INSTALL_DIR}}
-        key: RabbitRemoteControl_msvc_cache-installed-${{matrix.os}}-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
+      - name: run-vcpkg
+        uses: lukka/run-vcpkg@v7.4
+        with:
+          vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
+          vcpkgDirectory: ${{runner.workspace}}/vcpkg/
+          # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
+          # compute its hash and append this to the computed cache's key.
+          appendedCacheKey: cache-vcpkg-${{env.VCPKGGITCOMMITID}}
+          vcpkgTriplet: '${{matrix.triplet}}'
+          vcpkgArguments: 'openssl x264 x265 libvpx libyuv opus libsodium libqrencode ffmpeg opencv'
 
-    - name: run-vcpkg
-      uses: lukka/run-vcpkg@v7.4
-      with:
-        # Indicates whether to only setup vcpkg (i.e. installing it and setting the environment variables VCPKG_ROOT, RUNVCPK_VCPKG_ROOT), without installing any port.
-        #setupOnly: # optional
-        #vcpkgGitURL: https://github.com/KangLin/vcpkg.git
-        vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
-        vcpkgDirectory: ${{runner.workspace}}/vcpkg/
-        # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
-        # compute its hash and append this to the computed cache's key.
-        appendedCacheKey: cache-vcpkg-msvc-${{matrix.os}}-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}-${{env.VCPKGGITCOMMITID}}
-        #additionalCachedPaths: ${{ env.VCPKG_ROOT }}/installed
-        vcpkgTriplet: '${{ matrix.triplet }}'
-        vcpkgArguments: 'zlib openssl libpng opus libjpeg-turbo libvpx libyuv ffmpeg opencv'
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1  # not v2!
+        with:
+          path: ${{env.TOOSL_DIR}}/qt
+          key: qt_${{matrix.qt_version}}_${{matrix.qt_arch}}
 
-    - name: Cache Qt
-      id: cache-qt
-      uses: actions/cache@v1  # not v2!
-      with:
-        path: ${{env.TOOSL_DIR}}/qt
-        key: rabbitremotecontrol_msvc_qt-vc${{matrix.VCPKG_PLATFORM_TOOLSET}}-${{matrix.triplet}}-qt${{matrix.qt_version}}-${{matrix.BUILD_TYPE}}
-    - name: Install Qt
-      # You may pin to the exact commit or the version.
-      # uses: jurplel/install-qt-action@a962fb91949c8e846a3e4a944d50e7ef5cc3a28a
-      uses: jurplel/install-qt-action@v2.14.0
-      with:
-        # Directory to install Qt
-        dir: ${{env.TOOSL_DIR}}/qt # optional
-        # Version of Qt to install
-        version: ${{matrix.qt_version}} # optional, default is 5.15.2
-        # Host platform
-        #host: linux # optional
-        # Target platform for build
-        #target: desktop # optional, default is desktop
-        # Architecture for Windows/Android
-        arch: ${{matrix.qt_arch}} # optional
-        # Whether or not to install Qt dependencies on Linux
-        #install-deps: true # optional, default is true
-        # Additional Qt modules to install
-        modules: ${{env.qt_modules}} # optional
-        # Force a Qt mirror in case the default is not working
-        #mirror: # optional
-        # Whether or not to actually download Qt
-        cached: ${{ steps.cache-qt.outputs.cache-hit }} # optional, default is false
-        # Whether or not to automatically run setup-python to find a valid python version.
-        #setup-python: false # optional, default is true
-        # Qt tools to download--specify comma-separated argument lists which are themselves separated by spaces: <tool_name>,<tool_version>,<tool_arch>
-        #tools: # optional
-        # Whether or not to actually install Qt or just the tools from the tools argument
-        #tools-only: false # optional, default is false
-        # Version of aqtinstall to use in case of issues
-        #aqtversion: # optional, default is ==0.10.0
-        # Version of py7zr to use in case of issues
-        #py7zrversion: # optional, default is ==0.11.0
-        # Any extra arguments to append to the back
-        #extra: # optional
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          dir: '${{env.TOOSL_DIR}}/qt' # optional
+          version: '${{matrix.qt_version}}' # optional, default is 5.15.2
+          arch: '${{matrix.qt_arch}}' # optional
+          modules: '${{env.qt_modules}}' # optional
+          cached: '${{steps.cache-qt.outputs.cache-hit}}' # optional, default is false
 
-    - name: build log4qt
-      working-directory: ${{env.SOURCE_DIR}}
-      run: |
-        IF NOT EXIST ${{env.INSTALL_DIR}}\lib\cmake\Log4Qt (
-            git clone -b v1.5.1 "https://github.com/MEONMedical/Log4Qt.git"
-            cd Log4Qt
-            cmake -E make_directory build
-            cd build
-            cmake .. ^
-                -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
-                -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
-                -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
-                -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} ^
-                -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
-            cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
-        )
-
-    - name: build qxmpp
-      working-directory: ${{env.SOURCE_DIR}}
-      run: |
-        IF NOT EXIST ${{env.INSTALL_DIR}}\lib\cmake\qxmpp (
-            git clone -b v1.2.1 https://github.com/qxmpp-project/qxmpp.git
+      - name: build qxmpp
+        working-directory: ${{env.SOURCE_DIR}}
+        run: |
+          IF NOT EXIST ${{env.INSTALL_DIR}}\lib\cmake\qxmpp (
+            git clone -b v1.4.0 "https://github.com/qxmpp-project/qxmpp.git"
             cd qxmpp
             cmake -E make_directory build
             cd build
@@ -161,88 +121,79 @@ jobs:
                 -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
             cmake --build . --config ${{matrix.BUILD_TYPE}}
             cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
-        )
+          )
 
-    - name: build qzxing
-      working-directory: ${{env.SOURCE_DIR}}
-      run: |
-        IF NOT EXIST ${{env.INSTALL_DIR}}\lib\cmake\QZXing (
-            git clone "https://github.com/KangLin/qzxing.git"
-            cd qzxing
-            cmake -E make_directory build
-            cd build
-            cmake .. ^
-                -DBUILD_EXAMPLES=OFF -DQZXING_QML=OFF -DQZXING_ENABLE_ENCODER=ON ^
-                -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
-                -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
-                -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
-                -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} ^
-                -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
-            cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --build . --config ${{matrix.BUILD_TYPE}} --target install
-        )
+      - name: git clone RabbitCommon
+        working-directory: ${{env.SOURCE_DIR}}
+        run: git clone https://github.com/KangLin/RabbitCommon.git
 
-    - name: git clone RabbitCommon
-      working-directory: ${{env.SOURCE_DIR}}
-      run: git clone https://github.com/KangLin/RabbitCommon.git
+      - name: Build RabbitIM
+        working-directory: ${{github.workspace}}\build
+        env:
+          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+        run: |
+          cmake -E make_directory ${{github.workspace}}/build
+          cd ${{github.workspace}}/build
+          cmake ${{github.workspace}} ^
+              -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
+              -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
+              -DCMARK_SHARED=OFF ^
+              -DCMARK_TESTS=OFF ^
+              -DCMARK_STATIC=ON ^
+              -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
+              -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install ^
+              -DBUILD_QUIWidget=OFF ^
+              -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp ^
+              -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake
+          cmake --build . --config ${{matrix.BUILD_TYPE}}
+          IF "${{matrix.BUILD_TYPE}}" == "Release" (
+            cmake --install . --config ${{matrix.BUILD_TYPE}} --strip
+          ) else (
+            cmake --install . --config ${{matrix.BUILD_TYPE}}
+          )
 
-    - name: build RabbitIm
-      env:
-        RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
-      run: |
-        cmake -E make_directory ${{github.workspace}}/build
-        cd ${{github.workspace}}\build
-        cmake ${{github.workspace}}  ^
-            -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
-            -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
-            -DCMARK_SHARED=OFF ^
-            -DCMARK_TESTS=OFF ^
-            -DCMARK_STATIC=ON ^
-            -DBUILD_PLUGIN_APP=OFF ^
-            -DRABBITIM_USE_QXMPP_CALL=ON ^
-            -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
-            -DCMAKE_INSTALL_PREFIX=${{github.workspace}}\build\install ^
-            -DLog4Qt_DIR=/lib/cmake/Log4Qt ^
-            -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}} ^
-            -DQXmpp_DIR=${{env.INSTALL_DIR}}\lib\cmake\qxmpp ^
-            -DQZXing_DIR=${{env.INSTALL_DIR}}\lib\cmake\QZXing ^
-            -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}\scripts\buildsystems\vcpkg.cmake
-        cmake --build . --config ${{matrix.BUILD_TYPE}}
+      - name: Package
+        if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        working-directory: ${{github.workspace}}\build
+        run: |
+          move /Y install\plugins\*crypto*.dll install\bin
+          move /Y install\plugins\*ssl*.dll install\bin
+          copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
+          copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
+          copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
+          7z a RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip .\install\*
+          md5sum RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip > RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip.md5sum
+          makensis Install.nsi
+          md5sum RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe > RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe.md5sum
+          ${{github.workspace}}\build\install\bin\RabbitIMApp.exe ^
+                -f "update_windows.xml" ^
+                -u https://github.com/KangLin/RabbitIM/releases/download/${{env.RabbitIM_VERSION}}/RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe;https://sourceforge.net/projects/RabbitIM/files/${{env.RabbitIM_VERSION}}/RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe ^
+                --pf RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe ^
+                -m "${{env.RabbitIM_VERSION}}"
 
-    - name: Package
-      if: ${{ matrix.BUILD_TYPE == 'Release' }}
-      working-directory: ${{github.workspace}}/build
-      run: |
-        cmake --build . --config ${{matrix.BUILD_TYPE}} --target install-runtime
-        move /Y install\plugins\*crypto*.dll install\bin
-        move /Y install\plugins\*ssl*.dll install\bin
-        copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
-        copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
-        copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
-        7z a RabbitIm_${{env.RabbitIm_VERSION}}.zip .\install\*
-        makensis Install.nsi
-        ${{github.workspace}}\build\install\bin\RabbitImApp.exe ^
-            -f "update_windows.xml" ^
-            --pf RabbitIm_setup_${{env.RabbitIm_VERSION}}.exe -m "${{env.RabbitIm_VERSION}}"
+      - name: Update artifact
+        if: ${{ matrix.BUILD_TYPE == 'Release' && '5.12.12' == matrix.qt_version }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.artifact_name }}
+          path: |
+            ${{github.workspace}}\build\RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe
+            ${{github.workspace}}\build\update_windows.xml
+        #if: ${{ matrix.BUILD_TYPE == 'Release' }}
 
-    - name: update
-      if: ${{ matrix.BUILD_TYPE == 'Release' }}
-      uses: actions/upload-artifact@v2
-      with:
-        name: rabbitim_${{env.RabbitIm_VERSION}}_${{ matrix.os }}
-        path: |
-          ${{github.workspace}}/build/RabbitIm_setup_*.exe
-
-    - name: Upload To Github Release
-      if: ${{ matrix.BUILD_TYPE == 'Release' && '5.12.11' == matrix.qt_version && startsWith(github.ref, 'refs/tags/') }}
-      uses: softprops/action-gh-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        prerelease: true
-        body: |
-          [修改日志](ChangeLog.md)
-        files: |
-          ${{github.workspace}}\build\RabbitIm_${{env.RabbitIm_VERSION}}.zip
-          ${{github.workspace}}\build\RabbitIm_setup_v${{env.RabbitIm_VERSION}}.exe
-          ${{github.workspace}}\build\update_windows.xml
+#    - name: Upload To Github Release
+#      if: ${{ matrix.BUILD_TYPE == 'Release' && '5.12.12' == matrix.qt_version && startsWith(github.ref, 'refs/tags/') }}
+#      uses: softprops/action-gh-release@v0.1.14
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      with:
+#        prerelease: true
+##        body: |
+##          [:cn: 修改日志](ChangeLog_zh_CN.md) [:cn: 说明](README_zh_CN.md)
+##          [:us: Change log](ChangeLog.md) [:us: README](README.md)
+#        files: |
+#          ${{github.workspace}}\build\RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip
+#          ${{github.workspace}}\build\RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip.md5sum
+#          ${{github.workspace}}\build\RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe
+#          ${{github.workspace}}\build\RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe.md5sum
+#          ${{github.workspace}}\build\update_windows.xml

@@ -1,0 +1,117 @@
+name: build_macos
+
+on:
+  workflow_call:
+    outputs:
+      name:
+        description: "The artifact name"
+        value: ${{ jobs.build_macos.outputs.name }}
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+jobs:
+  build_macos:
+    strategy:
+      matrix:
+        # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+        BUILD_TYPE: [Release, Debug]
+        qt_version: [5.15.2, 5.12.12]
+        include:
+#          - qt_version: 6.4.2
+#            qt_modules: qtscxml qtpositioning qt5compat
+
+          - qt_version: 5.15.2
+            qt_modules: ""
+          - qt_version: 5.12.12
+            qt_modules: ""
+
+    runs-on: macos-latest
+
+    env:
+      BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
+      SOURCE_DIR:  ${{github.workspace}}/.cache/source
+      TOOSL_DIR:   ${{github.workspace}}/.cache/tools
+      INSTALL_DIR: ${{github.workspace}}/.cache/install_macos_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}
+      qt_modules: ${{matrix.qt_modules}}
+      RabbitIM_VERSION: v1.0.9
+      VCPKGGITCOMMITID: 2b1757dd1d5ed7d9d5bb65fd8316631b157e7afc
+      artifact_name: build_macos
+
+    # Map the job outputs to step outputs
+    outputs:
+      name: ${{ env.artifact_name }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+    
+      - name: Make directories
+        run: |
+          cmake -E make_directory ${{env.SOURCE_DIR}}
+          cmake -E make_directory ${{env.TOOSL_DIR}}
+          cmake -E make_directory ${{env.INSTALL_DIR}}
+          cmake -E make_directory ${{github.workspace}}/build
+
+      - name: Cache installed
+        uses: actions/cache@v3
+        id: cache-installed
+        with:
+          path: |
+            ${{env.INSTALL_DIR}}
+          key: Cache-installed-macos
+
+      - name: run-vcpkg
+        uses: lukka/run-vcpkg@v7.4
+        with:
+          vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
+          vcpkgDirectory: ${{runner.workspace}}/vcpkg/
+          # Since the cache must be invalidated when content of the vcpkg.json file changes, let's
+          # compute its hash and append this to the computed cache's key.
+          appendedCacheKey: cache-vcpkg-${{env.VCPKGGITCOMMITID}}
+          vcpkgArguments: 'openssl libssh libpng pixman libjpeg-turbo libdatachannel freerdp'
+
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1  # not v2!
+        with:
+          path: ${{env.TOOSL_DIR}}/qt
+          key: qt${{matrix.qt_version}}-${{matrix.qt_arch}}
+        
+      - name: Install Qt
+        # You may pin to the exact commit or the version.
+        # uses: jurplel/install-qt-action@a962fb91949c8e846a3e4a944d50e7ef5cc3a28a
+        uses: jurplel/install-qt-action@v3
+        with:
+          # Directory to install Qt
+          dir: ${{env.TOOSL_DIR}}/qt # optional
+          # Version of Qt to install
+          version: ${{matrix.qt_version}} # optional, default is 5.15.2
+          modules: ${{env.qt_modules}} # optional
+
+      - name: Compile
+        working-directory: ${{github.workspace}}/build
+        run: |
+          cmake ${{github.workspace}} \
+              -DCMARK_SHARED=OFF \
+              -DCMARK_TESTS=OFF \
+              -DCMARK_STATIC=ON \
+              -Dcmark-gfm_DIR=${{env.INSTALL_DIR}}/lib/cmake \
+              -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
+              -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install \
+              -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake \
+              -DCMAKE_TOOLCHAIN_FILE="${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake"
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
+          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target package
+          7z a RabbitCommon_${{env.RabbitIM_VERSION}}_macos.zip ./install/*
+
+      - name: Update artifact
+        if: ${{ matrix.BUILD_TYPE == 'Release' }} 
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.artifact_name }}
+          path: |
+            ${{github.workspace}}/build/RabbitCommon-*.tar.gz
+            ${{github.workspace}}/build/RabbitCommon_${{env.RabbitIM_VERSION}}_macos.zip
