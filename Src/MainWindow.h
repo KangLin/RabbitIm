@@ -112,18 +112,6 @@ public:
 #endif
 
 private:
-    //样式菜单  
-    QMenu m_MenuStyle;
-    QActionGroup m_ActionGroupStyle;
-    QMap<QString, QAction*> m_ActionStyles;
-    int InitMenuStyles();
-    int ClearMenuStyles();
-    int OpenCustomStyleMenu();
-    int LoadStyle();
-private slots:
-    void slotActionGroupStyleTriggered(QAction* act);//改变样式菜单触发  
-
-private:
     //状态菜单  
     QMenu m_MenuStatus;
     QActionGroup m_ActionGroupStatus;
@@ -132,27 +120,6 @@ private:
     int ClearMenuStatus();
 private slots:
     void slotActionGroupStatusTriggered(QAction* act);//状态菜单组点击触发  
-
-private:
-    //翻译菜单  
-    struct _MENU{
-        QString icon;
-        QString text;
-    };
-    QMenu m_MenuTranslate;
-    QMap<QString, QAction*> m_ActionTranslator;
-    QActionGroup m_ActionGroupTranslator;
-    QSharedPointer<QTranslator> m_TranslatorQt;
-    QSharedPointer<QTranslator> m_TranslatorApp;
-    QSharedPointer<QTranslator> m_TranslatorSrc;
-    int InitMenuTranslate();  //增加翻译菜单  
-    int ClearMenuTranslate();
-    //加载翻译资源  
-    int LoadTranslate(QString szLocale = QString());
-    int ClearTranslate(); //卸载翻译资源  
-private slots:
-    //翻译菜单组点击触发  
-    void slotActionGroupTranslateTriggered(QAction* pAct);
 
 //private:
     //CDlgSendManage* m_pSendManageDlg;//文件发送管理窗口  

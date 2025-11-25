@@ -4,6 +4,7 @@
 #include <QMessageBox>
 
 #include "RabbitCommonDir.h"
+#include "RabbitCommonTools.h"
 #include "FrmUpdater/FrmUpdater.h"
 #include "DlgAbout/DlgAbout.h"
 #include "Widgets/FrmUserList/FrmUserList.h"
@@ -32,9 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_nLoginFlag(0),
     m_TrayIconMenu(this),
     m_TrayIcon(this),
-    m_ActionGroupStyle(this),
-    m_ActionGroupStatus(this),
-    m_ActionGroupTranslator(this)
+    m_ActionGroupStatus(this)
 {
     CGlobal::Instance()->SetMainWindow(this);
 #ifdef DEBUG
@@ -63,8 +62,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionUpdate->setIcon(updater.windowIcon());
 #endif
 
-    LoadStyle();
-    LoadTranslate();
     ReInitMenuOperator();
 
     //初始化子窗体  
@@ -165,8 +162,6 @@ MainWindow::~MainWindow()
 #endif
 
     this->ClearMenuStatus();
-    this->ClearMenuStyles();
-    this->ClearTranslate();
     delete ui;
 #ifdef DEBUG
     Q_CLEANUP_RESOURCE(translations_RabbitIm);
@@ -423,13 +418,6 @@ int MainWindow::ReInitMenuOperator()
 {
     ui->menuOperator_O->clear();
 
-    //初始化翻译菜单  
-    ClearMenuTranslate();
-    InitMenuTranslate();
-    //初始化样式菜单  
-    ClearMenuStyles();
-    InitMenuStyles();
-
     if(m_bLogin)
         InitLoginedMenu();
     else
@@ -464,8 +452,7 @@ int MainWindow::InitLoginedMenu()
 int MainWindow::InitOperatorMenu()
 {
     qDebug(log) << Q_FUNC_INFO;
-    ui->menuOperator_O->addMenu(&m_MenuStyle);
-    ui->menuOperator_O->addMenu(&m_MenuTranslate);
+    RabbitCommon::CTools::AddStyleMenu(ui->menuOperator_O);
     ui->menuOperator_O->addSeparator();
     if(m_bLogin)
         ui->menuOperator_O->addAction(QIcon(":/icon/Logout"), 
@@ -474,48 +461,6 @@ int MainWindow::InitOperatorMenu()
     ui->menuOperator_O->addAction(QIcon(":/icon/Close"), 
                                   tr("Close(&E)"),
                                   this, SLOT(close()));
-    return 0;
-}
-
-int MainWindow::InitMenuStyles()
-{
-    m_ActionStyles["Custom"] = m_MenuStyle.addAction(tr("Custom"));
-    m_ActionStyles["System"] = m_MenuStyle.addAction(tr("System"));
-    m_ActionStyles["Black"] = m_MenuStyle.addAction(tr("Black"));
-    //*
-    m_ActionStyles["Blue"] = m_MenuStyle.addAction(tr("Blue"));
-    m_ActionStyles["Gradient blue"] = m_MenuStyle.addAction(tr("Gradient blue"));
-    m_ActionStyles["Dark"] = m_MenuStyle.addAction(tr("Dark"));
-    m_ActionStyles["Gradient Dark"] = m_MenuStyle.addAction(tr("Gradient Dark"));//*/
-    QMap<QString, QAction*>::iterator it;
-    for(it = m_ActionStyles.begin(); it != m_ActionStyles.end(); it++)
-    {
-        it.value()->setCheckable(true);
-        m_ActionGroupStyle.addAction(it.value());
-    }
-    bool check = connect(&m_ActionGroupStyle, SIGNAL(triggered(QAction*)),
-                         SLOT(slotActionGroupStyleTriggered(QAction*)));
-    Q_ASSERT(check);
-    QAction* pAct = m_ActionStyles[CGlobal::Instance()->GetStyleMenu()];
-    if(pAct)
-    {
-        pAct->setChecked(true);
-    }
-    m_MenuStyle.setIcon(QIcon(":/icon/Stype"));
-    m_MenuStyle.setTitle(tr("Change Style Sheet(&S)"));
-    return 0;
-}
-
-int MainWindow::ClearMenuStyles()
-{
-    QMap<QString, QAction*>::iterator it;
-    for(it = m_ActionStyles.begin(); it != m_ActionStyles.end(); it++)
-    {
-        m_ActionGroupStyle.removeAction(it.value());
-    }
-    m_ActionGroupStyle.disconnect();
-    m_ActionStyles.clear();
-    m_MenuStyle.clear();
     return 0;
 }
 
@@ -577,182 +522,6 @@ int MainWindow::ClearMenuStatus()
     return 0;
 }
 
-int MainWindow::InitMenuTranslate()
-{
-    m_MenuTranslate.setTitle(tr("Language(&L)"));
-    m_MenuTranslate.setIcon(QIcon(":/icon/Language"));
-    
-    QMap<QString, _MENU> m;
-    m["Default"] = {QLocale::system().name(), tr("Default")};
-    m["en"] = {":/icon/English", tr("English")};
-    m["zh_CN"] = {":/icon/China", tr("Chinese")};
-    m["zh_TW"] = {":/icon/China", tr("Chinese(TaiWan)")};
-    m["Default"].icon = m[QLocale::system().name()].icon;
-    
-    QMap<QString, _MENU>::iterator itMenu;
-    for(itMenu = m.begin(); itMenu != m.end(); itMenu++)
-    {
-        _MENU v = itMenu.value();
-        m_ActionTranslator[itMenu.key()] =
-                m_MenuTranslate.addAction(
-                    QIcon(v.icon), v.text);
-    }
-
-    QMap<QString, QAction*>::iterator it;
-    for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
-    {
-        it.value()->setCheckable(true);
-        m_ActionGroupTranslator.addAction(it.value());
-    }
-
-    qDebug(log, "MainWindow::InitMenuTranslate m_ActionTranslator size:%d",
-                    m_ActionTranslator.size());
-
-    bool check = connect(&m_ActionGroupTranslator, SIGNAL(triggered(QAction*)),
-                        SLOT(slotActionGroupTranslateTriggered(QAction*)));
-    Q_ASSERT(check);
-
-    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                   QSettings::IniFormat);
-    QString szLocale = conf.value("Global/Language", "Default").toString();
-    QAction* pAct = m_ActionTranslator[szLocale];
-    if(pAct)
-    {
-        qDebug(log, "MainWindow::InitMenuTranslate setchecked locale:%s",
-                        szLocale.toStdString().c_str());
-        pAct->setChecked(true);
-        m_MenuTranslate.setIcon(pAct->icon());
-        qDebug(log, "MainWindow::InitMenuTranslate setchecked end");
-    }
-
-    return 0;
-}
-
-int MainWindow::ClearMenuTranslate()
-{
-    QMap<QString, QAction*>::iterator it;
-    for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
-    {
-        m_ActionGroupTranslator.removeAction(it.value());
-    }
-    m_ActionGroupTranslator.disconnect();
-    m_ActionTranslator.clear();
-    m_MenuTranslate.clear();    
-
-    qDebug(log, "MainWindow::ClearMenuTranslate m_ActionTranslator size:%d",
-                    m_ActionTranslator.size());
-    
-    return 0;
-}
-
-int MainWindow::ClearTranslate()
-{
-    if(!m_TranslatorQt.isNull())
-    {
-        qApp->removeTranslator(m_TranslatorQt.data());
-        m_TranslatorQt.clear();
-    }
-
-    if(!m_TranslatorApp.isNull())
-    {
-        qApp->removeTranslator(m_TranslatorApp.data());
-        m_TranslatorApp.clear();
-    }
-
-    if(!m_TranslatorSrc.isNull())
-    {
-        qApp->removeTranslator(m_TranslatorSrc.data());
-        m_TranslatorSrc.clear();
-    }
-    return 0;
-}
-
-int MainWindow::LoadTranslate(QString szLocale)
-{
-    //初始化翻译  
-    if(szLocale.isEmpty())
-    {
-        QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                       QSettings::IniFormat);
-        szLocale = conf.value("Global/Language",
-                              QLocale::system().name()).toString();
-    }
-
-    if("Default" == szLocale)
-    {
-        szLocale = QLocale::system().name();
-    }
-
-    ClearTranslate();
-
-    m_TranslatorQt = QSharedPointer<QTranslator>(new QTranslator(this));
-    if(m_TranslatorQt->load("qt_" + szLocale + ".qm",
-                         RabbitCommon::CDir::Instance()->GetDirTranslations()))
-    {
-        qApp->installTranslator(m_TranslatorQt.data());
-    } else {
-        qCritical("Load traslator qt fail");
-    }
-
-
-    m_TranslatorApp = QSharedPointer<QTranslator>(new QTranslator(this));
-    if(m_TranslatorApp->load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-                          + QDir::separator() + "RabbitImApp_" + szLocale + ".qm"))
-    {
-        qApp->installTranslator(m_TranslatorApp.data());
-    }
-    else
-    {
-        qCritical("Load app translator fail. %s",
-                        qPrintable(RabbitCommon::CDir::Instance()->GetDirTranslations()
-                                   + QDir::separator() + "RabbitImApp_" + szLocale + ".qm"));
-    }
-
-    m_TranslatorSrc = QSharedPointer<QTranslator>(new QTranslator(this));
-    if(m_TranslatorSrc->load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-                          + QDir::separator() + "RabbitIm_" + szLocale + ".qm"))
-    {
-        qApp->installTranslator(m_TranslatorSrc.data());
-    }
-    else
-    {
-        qCritical("Load src translator fail. %s",
-                        qPrintable(RabbitCommon::CDir::Instance()->GetDirTranslations()
-                                   + QDir::separator() + "RabbitIm_" + szLocale + ".qm"));
-    }
-
-    ui->retranslateUi(this);
-
-    //TODO: 通知插件翻译资源变化
-
-    return 0;
-}
-
-void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
-{
-    qDebug(log) << Q_FUNC_INFO;
-    QMap<QString, QAction*>::iterator it;
-    for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
-    {
-        if(it.value() == pAct)
-        {
-            QString szLocale = it.key();
-            QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                           QSettings::IniFormat);
-            conf.setValue("Global/Language", szLocale);
-            qDebug("MainWindow::slotActionGroupTranslateTriggered:%s",
-                            it.key().toStdString().c_str());
-            LoadTranslate(it.key());
-            pAct->setChecked(true);
-            QMessageBox::information(this, tr("Information"),
-                                     tr("Change language must reset program."));
-            close();
-            //ReInitMenuOperator();
-            return;
-        }
-    }
-}
-
 void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 {
     qDebug(log) << Q_FUNC_INFO << e;
@@ -808,14 +577,12 @@ void MainWindow::slotTrayIconMenuUpdate()
     if(m_bLogin)
     {
         m_TrayIconMenu.addMenu(&m_MenuStatus);
-
         m_TrayIconMenu.addAction(QIcon(":/icon/Information"),
                     tr("Edit Locale User Infomation(&E)"),
                     this, SLOT(slotEditInformation()));
     }
 
     m_TrayIconMenu.addAction(ui->actionOptions_O);
-    m_TrayIconMenu.addMenu(&m_MenuTranslate);
 
     QString szTitle;
     if(this->isHidden() || this->isMinimized()
@@ -951,87 +718,6 @@ void MainWindow::on_actionUpdate_triggered()
 #endif
 }
 
-void MainWindow::slotActionGroupStyleTriggered(QAction* act)
-{
-    QMap<QString, QAction*>::iterator it;
-    for(it = m_ActionStyles.begin(); it != m_ActionStyles.end(); it++)
-    {
-        if(it.value() == act)
-        {
-            act->setChecked(true);
-            if(it.key() == "Blue")
-                CGlobal::Instance()->SetStyleMenu("Blue", ":/sink/Blue");
-            else if(it.key() == "Black")
-                CGlobal::Instance()->SetStyleMenu("Black", ":/sink/Black");
-            else if(it.key() == "Dark")
-                CGlobal::Instance()->SetStyleMenu("Dark", ":/sink/Dark");
-            else if(it.key() == "Gradient blue")
-                CGlobal::Instance()->SetStyleMenu("Gradient blue", ":/sink/Gradient_blue");
-            else if(it.key() == "Gradient Dark")
-                CGlobal::Instance()->SetStyleMenu("Gradient Dark", ":/sink/Gradient_Dark");
-            else if(it.key() == "Custom")
-                OpenCustomStyleMenu();
-            else
-                CGlobal::Instance()->SetStyleMenu("System", "");
-        }
-    }
-
-    LoadStyle();
-}
-
-int MainWindow::LoadStyle()
-{
-    //*从配置文件中加载应用程序样式  
-    QString szFile = CGlobal::Instance()->GetStyle();
-    if(szFile.isEmpty())
-        qApp->setStyleSheet("");
-    else
-    {
-        QFile file(szFile);//从资源文件中加载  
-        if(file.open(QFile::ReadOnly))
-        {
-            QString stylesheet= file.readAll();
-            qApp->setStyleSheet(stylesheet);
-            file.close();
-        }
-        else
-        {
-            qCritical("file open file [%s] fail:%d",
-                        CGlobal::Instance()->GetStyle().toStdString().c_str(),
-                        file.error());
-        }
-    }
-    return 0;
-}
-
-int MainWindow::OpenCustomStyleMenu()
-{
-    QString szFile;
-    QString szFilter("*.qss *.*");
-    szFile = CTool::FileDialog(this, QString(), szFilter, tr("Open File"));
-    if(szFile.isEmpty())
-        return -1;
-
-    QFile file(szFile);//从资源文件中加载  
-    if(file.open(QFile::ReadOnly))
-    {
-        QString stylesheet= file.readAll();
-        qApp->setStyleSheet(stylesheet);
-        file.close();
-        QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(),
-                       QSettings::IniFormat);
-        conf.setValue("UI/StyleSheet", szFile);
-        
-        CGlobal::Instance()->SetStyleMenu("Custom", szFile);
-    }
-    else
-    {
-        qCritical("file open file [%s] fail:%d", 
-                        szFile.toStdString().c_str(), file.error());
-    }
-    return 0;
-}
-
 #ifndef MOBILE
 int MainWindow::AnimationWindows(const QRect &startRect, const QRect &endRect)
 {
@@ -1072,7 +758,7 @@ void MainWindow::slotCheckHideWindows()
     QRect startRect, endRect;
     startRect = this->frameGeometry();
     endRect = startRect;
-    QSize desktopSize = QApplication::primaryScreen()->availableSize();
+    QSize desktopSize = QApplication::primaryScreen()->availableGeometry().size();
     int desktopWidth = desktopSize.width();
     int desktopHeight = desktopSize.height();
     if(this->frameGeometry().top() < m_nBorderSize)//向上边隐藏  
@@ -1151,7 +837,7 @@ void MainWindow::slotCheckShowWindows()
         return;//m_Animation->stop();
     }
     
-    QSize desktopSize = QApplication::primaryScreen()->availableSize();
+    QSize desktopSize = QApplication::primaryScreen()->availableGeometry().size();
     int desktopHeight = desktopSize.height();
     QRect startRect = m_MainAnimation.frameGeometry();
     QRect endRect = this->frameGeometry();
