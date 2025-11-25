@@ -8,12 +8,14 @@
 #include "MainWindow.h"
 #include "ClientXmpp.h"
 #include "QXmppDiscoveryManager.h"
+#include <QLoggingCategory>
 
 #ifdef WIN32
 #undef GetMessage
 #undef SendMessage
 #endif
 
+static Q_LOGGING_CATEGORY(log, "qxmpp.group")
 CGroupChatQxmpp::CGroupChatQxmpp(QXmppMucRoom *pRoom, QObject *parent) :
     CGroupChat(parent)
 {
@@ -96,26 +98,24 @@ CGroupChatQxmpp::CGroupChatQxmpp(QXmppMucRoom *pRoom, QObject *parent) :
 
 void CGroupChatQxmpp::slotJoined()
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotJoined:%s", qPrintable(Id()));
+    qDebug(log) << "CGroupChatQxmpp::slotJoined:" << Id();
     emit GETMANAGER->GetManageGroupChat()->sigJoined(Id());
 }
 
 void CGroupChatQxmpp::slotAllowedActionsChanged(QXmppMucRoom::Actions actions)
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotAllowedActionsChanged:%d", actions);
+    qDebug(log) << "CGroupChatQxmpp::slotAllowedActionsChanged:" << actions;
 }
 
 void CGroupChatQxmpp::slotConfigurationReceived(const QXmppDataForm &configuration)
 {
     Q_UNUSED(configuration);
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotConfigurationReceived");
+    qDebug(log) << Q_FUNC_INFO;
 }
 
 void CGroupChatQxmpp::slotError(const QXmppStanza::Error &error)
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotError:%s;code:%d",
-                    qPrintable(error.text()),
-                    error.code());
+    qDebug(log) << Q_FUNC_INFO << error.text() << error.code();
     switch(error.code())
     {
     case 401:
@@ -130,23 +130,23 @@ void CGroupChatQxmpp::slotError(const QXmppStanza::Error &error)
 void CGroupChatQxmpp::slotKicked(const QString &jid, const QString &reason)
 {
     Q_UNUSED(reason);
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotKicked:%s", qPrintable(jid));
+    qDebug(log) << Q_FUNC_INFO << jid;
 }
 
 void CGroupChatQxmpp::slotIsJoinedChanged()
 {
-     LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotIsJoinedChanged");
+     qDebug(log) << Q_FUNC_INFO;
 }
 
 void CGroupChatQxmpp::slotLeft()
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotLeft");
+    qDebug(log) << Q_FUNC_INFO;
     GETMANAGER->GetManageGroupChat()->slotLeave(Id());
 }
 
 void CGroupChatQxmpp::slotMessageReceived(const QXmppMessage &message)
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotMessageReceived:%s", message.body().toStdString().c_str());
+    qDebug(log) << Q_FUNC_INFO << message.body();
     //是组消息,qxmpp在房间中响应此消息  
     if(QXmppMessage::GroupChat == message.type()
             && QXmppMessage::None == message.state())
@@ -166,44 +166,44 @@ void CGroupChatQxmpp::slotMessageReceived(const QXmppMessage &message)
 
 void CGroupChatQxmpp::slotNameChanged(const QString &name)
 {
-     LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotNameChanged:%s", qPrintable(name));
+     qDebug(log) << Q_FUNC_INFO << name;
 }
 
 void CGroupChatQxmpp::slotNickNameChanged(const QString &nickName)
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotNickNameChanged:%s", qPrintable(nickName));
+    qDebug(log) << Q_FUNC_INFO << nickName;
 }
 
 /*void CGroupChatQxmpp::slotParticipantAdded(const QString &jid)
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotParticipantAdded:%s", qPrintable(jid));
+    qDebug(log) << Q_FUNC_INFO << jid;
     emit sigParticipantAdd(jid);
 }*/
 
 void CGroupChatQxmpp::slotParticipantChanged(const QString &jid)
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotParticipantChanged:%s", qPrintable(jid));
+    qDebug(log) << Q_FUNC_INFO << jid;
 }
 /*
 void CGroupChatQxmpp::slotParticipantRemoved(const QString &jid)
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotParticipantRemoved:%s", qPrintable(jid));
+    qDebug(log) << Q_FUNC_INFO << jid;
     emit sigParticipantRemoved(jid);
 }*/
 
 void CGroupChatQxmpp::slotParticipantsChanged()
 {
-     LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotParticipantsChanged");
+     qDebug(log) << Q_FUNC_INFO;
 }
 
 void CGroupChatQxmpp::slotPermissionsReceived(const QList<QXmppMucItem> &permissions)
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotPermissionsReceived");
+    qDebug(log) << Q_FUNC_INFO;
     m_Permissions = permissions;
 #ifdef DEBUG
     foreach(QXmppMucItem item, permissions)
     {
-        LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotPermissionsReceived:room:%s,jid:%s, nick:%s, afficilatioin:%s, role:%s",
+        qDebug(log, "CGroupChatQxmpp::slotPermissionsReceived:room:%s,jid:%s, nick:%s, afficilatioin:%s, role:%s",
                         Id().toStdString().c_str(),
                         item.jid().toStdString().c_str(),
                         item.nick().toStdString().c_str(),
@@ -215,7 +215,7 @@ void CGroupChatQxmpp::slotPermissionsReceived(const QList<QXmppMucItem> &permiss
 
 void CGroupChatQxmpp::slotSubjectChanged(const QString &subject)
 {
-    LOG_MODEL_DEBUG("CGroupChatQxmpp", "CGroupChatQxmpp::slotSubjectChanged:%s", qPrintable(subject));
+    qDebug(log) << Q_FUNC_INFO << subject;
 }
 
 void CGroupChatQxmpp::slotInfoReceived(const QXmppDiscoveryIq &iq)
@@ -238,7 +238,7 @@ QString CGroupChatQxmpp::ShowName()
     if(m_pRoom)
     {
         szName = m_pRoom->name();
-        LOG_MODEL_DEBUG("CGroupChatQxmpp", "name:%s", m_pRoom->name().toStdString().c_str());
+        qDebug(log) << "name:" << m_pRoom->name();
         if(szName.isEmpty())
         {
             szName = QXmppUtils::jidToUser(m_pRoom->jid());

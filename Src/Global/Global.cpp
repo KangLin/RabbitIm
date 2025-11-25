@@ -1,15 +1,19 @@
-#include "Global.h"
-#include "common/Tool.h"
-#include "../MainWindow.h"
-#include <QCameraInfo>
 #include <QMetaType>
 #include <QApplication>
 #include <QDir>
 #include <QDebug>
 #include <string>
 #include <QSettings>
-#include <QAudioDeviceInfo>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    #include <QCameraInfo>
+    #include <QAudioDeviceInfo>
+#endif
+
 #include "RabbitCommonDir.h"
+#include "Global.h"
+#include "common/Tool.h"
+#include "../MainWindow.h"
 
 CGlobal::CGlobal(QObject *parent) :
     QObject(parent)

@@ -6,10 +6,17 @@
 #include <QObject>
 #include <QIODevice>
 #include <QTime>
-#include <QSound>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #include <QSoundEffect>
+#else
+    #include <QSound>
+#endif
+
 #include <QVideoFrame>
 #include <QAudioInput>
 #include <QAudioOutput>
+#include <QAudioFormat>
 #include <QCamera>
 #include "Global/GlobalDir.h"
 
@@ -167,8 +174,13 @@ private:
     QString m_szError;
     int m_nError;
     QString m_szId;        ///< 用户 ID  
-    Direction m_Direction; ///< 呼叫方向  
-    QSound* m_pSound;      ///< 铃音  
+    Direction m_Direction; ///< 呼叫方向
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QSoundEffect* m_pSound;
+#else
+    QSound* m_pSound;      ///< 铃音
+#endif
 
 protected:
     bool m_bVideo;          ///< 是否包含视频

@@ -4,7 +4,9 @@
 #include <QImageWriter>
 #include <QImageReader>
 #include <QBuffer>
+#include <QLoggingCategory>
 
+static Q_LOGGING_CATEGORY(log, "qxmpp.user")
 CUserInfoXmpp::CUserInfoXmpp(QObject *parent) :
     CUserInfo(parent)
 {
@@ -94,7 +96,7 @@ int CUserInfoXmpp::UpdateUserInfo(const QXmppVCardIq &vCard, QString jid)
     //保存头像到本地  
     QImageWriter imageWriter(CGlobalDir::Instance()->GetFileUserAvatar(GetId()), "png");
     if(!imageWriter.write(GetPhoto()))
-        LOG_MODEL_ERROR("CUserInfo", "Save avater error, %s", imageWriter.errorString().toStdString().c_str());
+        qCritical(log) << "Save avater error," << imageWriter.errorString();
 
     return 0;
 }
@@ -113,7 +115,7 @@ int CUserInfoXmpp::UpdateStatus(const USER_INFO_STATUS status, const QString jid
 {
     if(jid.isEmpty())
     {
-        LOG_MODEL_ERROR("CUserInfoXmpp", "CUserInfoXmpp::UpdateStatus jid is empty");
+        qCritical(log) << "CUserInfoXmpp::UpdateStatus jid is empty";
         return -1;
     }
     SetStatus(status);

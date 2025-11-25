@@ -1,10 +1,31 @@
+#include <QLoggingCategory>
 #include "ConverFormatFFmpeg.h"
-#include "RabbitCommonLog.h"
+
+static Q_LOGGING_CATEGORY(log, "Conver.FFmpeg")
 
 //设置日志的回调函数
-void Log(void*, int, const char* fmt, va_list vl)
+void Log(void*, int level, const char* fmt, va_list vl)
 {
-    LOG_MODEL_DEBUG("ffmpeg", fmt, vl);
+    switch(level) {
+    case AV_LOG_FATAL:
+        qFatal(fmt, vl);
+        break;
+    case AV_LOG_ERROR:
+        qCritical(log, fmt, vl);
+        break;
+    case AV_LOG_WARNING:
+        qWarning(log, fmt, vl);
+        break;
+    case AV_LOG_INFO:
+        qInfo(log, fmt, vl);
+        break;
+    case AV_LOG_VERBOSE:
+    case AV_LOG_DEBUG:
+    case AV_LOG_TRACE:
+    default:
+        qDebug(log, fmt, vl);
+        break;
+    }
 }
 
 CConverFormatFFmpeg::CConverFormatFFmpeg(QObject *parent) : CPluginConverFormat(parent)
@@ -39,7 +60,7 @@ AVPixelFormat CConverFormatFFmpeg::QVideoFrameFormatToFFMpegPixFormat(
         return AV_PIX_FMT_YUV420P;
     case QVideoFrame::Format_YV12:
     default:
-        LOG_MODEL_ERROR("CConverFormatFFmpeg",  "Don't conver format: %d", format);
+        qWarning(log) << "Don't conver format:" << format;
         return AV_PIX_FMT_NONE;
     }
 }
@@ -54,13 +75,13 @@ AVPixelFormat CConverFormatFFmpeg::QImageFormatToFFMpegPixFormat(const QImage::F
 //如果转换成功，则调用者使用完 pOutFrame 后，需要调用 avpicture_free(pOutFrame) 释放内存
 //成功返回0，不成功返回非0
 int CConverFormatFFmpeg::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
-                         /*[in]*/ int nInWidth,
-                         /*[in]*/ int nInHeight,
-                         /*[in]*/ AVPixelFormat inPixelFormat,
-                         /*[out]*/AVPicture &outFrame,
-                         /*[in]*/ int nOutWidth,
-                         /*[in]*/ int nOutHeight,
-                         /*[in]*/ AVPixelFormat outPixelFormat)
+                         /*[in]*/  int nInWidth,
+                         /*[in]*/  int nInHeight,
+                         /*[in]*/  AVPixelFormat inPixelFormat,
+                         /*[out]*/ AVPicture &outFrame,
+                         /*[in]*/  int nOutWidth,
+                         /*[in]*/  int nOutHeight,
+                         /*[in]*/  AVPixelFormat outPixelFormat)
 {
     int nRet = 0;
     struct SwsContext* pSwsCtx = NULL;
@@ -94,7 +115,7 @@ int CConverFormatFFmpeg::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
                                     NULL, NULL, NULL);
     if(NULL == pSwsCtx)
     {
-        LOG_MODEL_ERROR("Tool", "sws_getContext false");
+        qCritical(log) << "sws_getContext false";
         return -3;
     }
 
@@ -105,7 +126,7 @@ int CConverFormatFFmpeg::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
                      outFrame.data, outFrame.linesize);
     if(nRet < 0)
     {
-        LOG_MODEL_ERROR("Tool", "sws_scale fail:%x", nRet);
+        qCritical(log) << "sws_scale fail:" << nRet;
     }
     else
     {
@@ -137,7 +158,7 @@ QImage CConverFormatFFmpeg::onConverFormatToRGB888(const QVideoFrame &frame)
                               img.height());
         if(nRet < 0)
         {
-            LOG_MODEL_ERROR("CConverFormatFFmpeg", "avpicture_get_size fail:%d", nRet);
+            qCritical(log) << "avpicture_get_size fail:" << nRet;
             break;
         }
         nRet = avpicture_fill(&inPic, videoFrame.bits(),
@@ -146,7 +167,7 @@ QImage CConverFormatFFmpeg::onConverFormatToRGB888(const QVideoFrame &frame)
                               videoFrame.height());
         if(nRet < 0)
         {
-            LOG_MODEL_ERROR("CConverFormatFFmpeg", "avpicture_fill is fail");
+            qCritical(log) << "avpicture_fill is fail";
             break;
         }
 

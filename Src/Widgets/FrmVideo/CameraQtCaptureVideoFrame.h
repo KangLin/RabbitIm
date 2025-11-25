@@ -34,15 +34,18 @@
  *   camera.start();
  */
 
-#ifndef CAPTUREVIDEOFRAME_H_KL_2020_08_18
-#define CAPTUREVIDEOFRAME_H_KL_2020_08_18
-
 #pragma once
 
-#include <QAbstractVideoSurface>
-#ifdef ANDROID
-#include <QVideoProbe>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #include <QVideoSink>
+#else
+    #include <QAbstractVideoSurface>
 #endif
+
+#ifdef ANDROID
+    #include <QVideoProbe>
+#endif
+
 #include <QCamera>
 #include <QImage>
 #include "../../Global/Global.h"
@@ -52,18 +55,23 @@
  * @ingroup RABBITIM_IMPLEMENT_CAMERA_QT
  */
 class RABBITIM_SHARED_LIBRARY CCameraQtCaptureVideoFrame
-        : public QAbstractVideoSurface
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    : public QVideoSink
+#else
+    : public QAbstractVideoSurface
+#endif
 {
     Q_OBJECT
 
 public:
     explicit CCameraQtCaptureVideoFrame(QObject *parent = nullptr);
     virtual ~CCameraQtCaptureVideoFrame();
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     //设置支持的捕获格式  
     virtual QList<QVideoFrame::PixelFormat> supportedPixelFormats(
-            QAbstractVideoBuffer::HandleType handleType = QAbstractVideoBuffer::NoHandle) const;
-    //bool isFormatSupported(const QVideoSurfaceFormat &format) const;
+            QAbstractVideoBuffer::HandleType handleType = QAbstractVideoBuffer::NoHandle) const override;
+    //bool isFormatSupported(const QVideoSurfaceFormat &format) const override;
+#endif
 
     int SetCameraAngle(int angle);
     
@@ -73,10 +81,10 @@ Q_SIGNALS:
     void sigCaptureFrame(const QImage &frame);
 
 private Q_SLOTS:
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     virtual bool present(const QVideoFrame &frame);
+#endif
 
 private:    
      int m_Angle;
 };
-
-#endif // CAPTUREVIDEOFRAME_H_KL_2020_08_18

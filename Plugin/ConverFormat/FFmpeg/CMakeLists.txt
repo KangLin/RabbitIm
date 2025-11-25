@@ -10,7 +10,7 @@ if(FFMPEG_FOUND)
 else()
     return()
 endif()
-message("== FFMPGE:${FFMPEG_FOUND}")
+message("== FFMPGE: ${FFMPEG_FOUND}; Versoin: ${FFMPEG_VERSION}")
 
 project(FFMpeg)
 

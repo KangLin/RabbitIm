@@ -1,7 +1,9 @@
 #include "FileTransferQXmpp.h"
 #include "Global/Global.h"
 #include "QXmppUtils.h"
+#include <QLoggingCategory>
 
+static Q_LOGGING_CATEGORY(log, "qxmpp.file")
 CFileTransferQXmpp::CFileTransferQXmpp(QXmppTransferJob *pJob, QObject *parent) :
     CFileTransfer(parent)
 {
@@ -33,7 +35,7 @@ CFileTransferQXmpp::CFileTransferQXmpp(QXmppTransferJob *pJob, QObject *parent) 
 
 CFileTransferQXmpp::~CFileTransferQXmpp()
 {
-    LOG_MODEL_DEBUG("CFileTransferQXmpp", "CFileTransferQXmpp::~CFileTransferQXmpp");
+    qDebug(log) << Q_FUNC_INFO;
     if(m_pJob)
         m_pJob->deleteLater();
 }
@@ -111,7 +113,7 @@ qint64 CFileTransferQXmpp::GetDoneSize()
 
 void CFileTransferQXmpp::slotError(QXmppTransferJob::Error error)
 {
-    LOG_MODEL_DEBUG("CFileTransferQXmpp", "Error:%d", error);
+    qDebug(log) << Q_FUNC_INFO << error;
     m_Error = (Error)error;
     emit sigUpdate();
 
@@ -130,14 +132,14 @@ void CFileTransferQXmpp::slotProgress(qint64 done, qint64 total)
     
     if(total != m_pJob->fileSize())
     {
-        LOG_MODEL_ERROR("CFileTransferQXmpp", "file size is equet:total:%d;fileSize:%d", total, m_pJob->fileSize());
+        qCritical(log, "file size is equet:total:%d;fileSize:%d", total, m_pJob->fileSize());
     }
     emit sigUpdate();
 }
 
 void CFileTransferQXmpp::slotStateChanged(QXmppTransferJob::State state)
 {
-    LOG_MODEL_DEBUG("CFileTransferQXmpp", "state:%d", state);
+    qDebug(log, "state:%d", state);
     m_State = (State) state;
     if(TransferState == m_State)
         m_LastUpdateTime = QDateTime::currentDateTime();

@@ -5,6 +5,7 @@
 #include <QTranslator>
 #include <QSsl>
 #include <QSslSocket>
+#include <QLoggingCategory>
 
 #ifdef RABBITCOMMON
     #include "RabbitCommonTools.h"
@@ -19,6 +20,7 @@
     #include <QtAndroid>
 #endif
 
+static Q_LOGGING_CATEGORY(log, "App.Main")
 int main(int argc, char *argv[])
 {
     int nRet = 0;
@@ -49,10 +51,28 @@ int main(int argc, char *argv[])
 
 #ifdef RABBITCOMMON
     RabbitCommon::CTools::Instance()->Init();
-    CFrmUpdater *pUpdate = new CFrmUpdater();
-    pUpdate->SetTitle(QImage(":/icon/AppIcon"));
-    if(!pUpdate->GenerateUpdateXml())
-        return 0;
+
+    // Check update version
+    if(qEnvironmentVariable("SNAP").isEmpty()
+        && qEnvironmentVariable("FLATPAK_ID").isEmpty()) {
+        QSharedPointer<CFrmUpdater> pUpdater(new CFrmUpdater());
+        if(pUpdater) {
+            pUpdater->SetTitle(QImage(":/icon/AppIcon"));
+            if(app.arguments().length() > 1) {
+                try{
+                    pUpdater->GenerateUpdateJson();
+                    pUpdater->GenerateUpdateXml();
+                } catch(...) {
+                    qCritical(log) << "Generate update fail";
+                }
+                qInfo(log) << app.applicationName() + " " + app.applicationVersion()
+                                  + " " + QObject::tr("Generate update json file End");
+                return 0;
+            }
+        } else {
+            qCritical(log) << "new CFrmUpdater() fail";
+        }
+    }
 #endif
 
     QTranslator translator;
@@ -60,7 +80,7 @@ int main(int argc, char *argv[])
                     + QDir::separator() + "RabbitImApp_"
                     + QLocale::system().name() + ".qm");
     qApp->installTranslator(&translator);
-    
+
     app.setApplicationDisplayName(QObject::tr("Rabbit immediate communicate"));
 
     //QFontDatabase::addApplicationFont("://DejaVuSans.ttf");
@@ -76,10 +96,10 @@ int main(int argc, char *argv[])
 
     CManager manager;
     CGlobal::Instance()->SetManager(&manager);
-        
+
     //*
     MainWindow* w = new MainWindow();
-    
+
     try {
 #ifndef MOBILE
         //加载窗口位置  
@@ -108,27 +128,15 @@ int main(int argc, char *argv[])
                                 :  pScreen->availableGeometry().height()  - 120
                                   ).toInt();
 #endif
-#ifdef BUILD_QUIWidget
-        QSharedPointer<QUIWidget> quiwidget(new QUIWidget(nullptr, true));
-        //quiwidget.setPixmap(QUIWidget::Lab_Ico, ":/image/App");
-        //quiwidget.setTitle(a.applicationDisplayName());
-        quiwidget->setVisible(QUIWidget::BtnMenu_Max, false);
-        quiwidget->setMainWidget(w);
-        #ifndef MOBILE
-        quiwidget->resize(Width, Height);
-        quiwidget->move(left, top);
-        #endif
-        quiwidget->show();
-#else
+
 #ifndef MOBILE
         w->resize(Width, Height);
         w->move(left, top);
 #endif
         w->show();
-#endif
-        
+
         //*/
-        
+
         /*以下为视频捕获、显示测试代码(CFrmPlayer::TestCamera())  
 #ifdef DEBUG
     CFrmPlayer player;
@@ -142,11 +150,11 @@ int main(int argc, char *argv[])
     } catch(...) {
         qCritical("exception");
     }
-    
+
 #ifndef BUILD_QUIWidget
     delete w;
 #endif
-    
+
 #ifdef RABBITCOMMON
     RabbitCommon::CTools::Instance()->Clean();
 #endif

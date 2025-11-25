@@ -1,9 +1,12 @@
+#include <QCameraInfo>
+#include <QLoggingCategory>
+
 #include "CallObject.h"
 #include "Global/Global.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
 #include "Widgets/FrmVideo/CameraQtCaptureVideoFrame.h"
 
-#include <QCameraInfo>
+static Q_LOGGING_CATEGORY(log, "Call")
 
 CCallObject::CCallObject(const QString &szId, bool bVideo, QObject *parent) :
     QObject(parent)
@@ -98,17 +101,26 @@ void CCallObject::PlayCallSound()
         file = ":/sound/Receive";
 
     StopCallSound();
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    m_pSound = new QSoundEffect();
+    if(m_pSound) {
+        m_pSound->setSource(QUrl::fromLocalFile(file));
+        m_pSound->setLoopCount(20);
+        m_pSound->play();
+    }
+#else
     m_pSound = new QSound(file);
     if(m_pSound)
     {
         m_pSound->setLoops(20);
         m_pSound->play();
     }
+#endif
 }
 
 void CCallObject::StopCallSound()
 {
-    //qDebug("CCallObject::StopCallSound");
+    qDebug(log) << Q_FUNC_INFO;
     if(m_pSound)
     {
         m_pSound->stop();

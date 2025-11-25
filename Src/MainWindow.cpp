@@ -1,21 +1,23 @@
-#include "MainWindow.h"
-#include "ui_MainWindow.h"
 #include <iostream>
 #include <QIcon>
-#include "DlgAbout/DlgAbout.h"
+#include <QLoggingCategory>
 #include <QMessageBox>
+
+#include "RabbitCommonDir.h"
+#include "FrmUpdater/FrmUpdater.h"
+#include "DlgAbout/DlgAbout.h"
 #include "Widgets/FrmUserList/FrmUserList.h"
 #include "Widgets/FrmLogin/FrmLogin.h"
-#include "Global/Global.h"
 #include "Widgets/FrmVideo/FrmVideo.h"
 #include "Widgets/DlgOptions/DlgOptions.h"
 //#include "Widgets/FrmSendFile/DlgSendManage.h"
 #include "Widgets/DlgUservCard/DlgUservCard.h"
+
 #include "Global/Global.h"
+#include "MainWindow.h"
+#include "ui_MainWindow.h"
 
-#include "RabbitCommonDir.h"
-#include "FrmUpdater/FrmUpdater.h"
-
+static Q_LOGGING_CATEGORY(log, "windows")
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent
 #ifndef MOBILE
@@ -146,7 +148,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    qDebug() << "MainWindow::~MainWindow()";
+    qDebug(log) << Q_FUNC_INFO;
     //TODO:可能会引起程序core  
     //emit sigRemoveMenu(ui->menuOperator_O);
 
@@ -196,16 +198,15 @@ void MainWindow::showEvent(QShowEvent *)
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    qDebug("MainWindow::closeEvent");
+    qDebug(log) << Q_FUNC_INFO;
     if(!m_bLogin)
     {
-        qDebug() << "MainWindow::closeEvent QApplication::quit()";
+        qDebug(log) << "MainWindow::closeEvent QApplication::quit()";
         e->accept(); 
         //QApplication::quit();
         return;
     }
-    
-    qDebug() << "MainWindow::closeEvent start";
+
     int type = CGlobal::Instance()->GetCloseType();
     switch (type) {
     case CGlobal::E_CLOSE_TYPE_NO:
@@ -255,7 +256,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::changeEvent(QEvent *e)
 {
-    //qDebug("MainWindow::changeEvent.e->type:%d", e->type());
+    //qDebug(log) << Q_FUNC_INFO << e;
     switch(e->type())
     {
     case QEvent::LanguageChange:
@@ -324,7 +325,7 @@ bool MainWindow::eventFilter(QObject *target, QEvent *event)
     if (target == this) { 
         if(event->type() == QEvent::Enter)
         {
-            qDebug() << "QEvent::Enter";
+            qDebug(log) << "QEvent::Enter";
         }
     }
     return QMainWindow::eventFilter(target, event);
@@ -363,7 +364,7 @@ void MainWindow::slotClientConnected()
 
 void MainWindow::slotClientDisconnected()
 {
-    qDebug("MainWindow::slotClientDisconnected");
+    qDebug(log) << Q_FUNC_INFO;
     m_bLogin = false;
     if(m_Login.isNull())
     {
@@ -462,7 +463,7 @@ int MainWindow::InitLoginedMenu()
 
 int MainWindow::InitOperatorMenu()
 {
-    qDebug() << "MainWindow::InitOperatorMenu";
+    qDebug(log) << Q_FUNC_INFO;
     ui->menuOperator_O->addMenu(&m_MenuStyle);
     ui->menuOperator_O->addMenu(&m_MenuTranslate);
     ui->menuOperator_O->addSeparator();
@@ -604,7 +605,7 @@ int MainWindow::InitMenuTranslate()
         m_ActionGroupTranslator.addAction(it.value());
     }
 
-    qDebug("MainWindow::InitMenuTranslate m_ActionTranslator size:%d",
+    qDebug(log, "MainWindow::InitMenuTranslate m_ActionTranslator size:%d",
                     m_ActionTranslator.size());
 
     bool check = connect(&m_ActionGroupTranslator, SIGNAL(triggered(QAction*)),
@@ -617,11 +618,11 @@ int MainWindow::InitMenuTranslate()
     QAction* pAct = m_ActionTranslator[szLocale];
     if(pAct)
     {
-        qDebug("MainWindow::InitMenuTranslate setchecked locale:%s",
+        qDebug(log, "MainWindow::InitMenuTranslate setchecked locale:%s",
                         szLocale.toStdString().c_str());
         pAct->setChecked(true);
         m_MenuTranslate.setIcon(pAct->icon());
-        qDebug("MainWindow::InitMenuTranslate setchecked end");
+        qDebug(log, "MainWindow::InitMenuTranslate setchecked end");
     }
 
     return 0;
@@ -638,7 +639,7 @@ int MainWindow::ClearMenuTranslate()
     m_ActionTranslator.clear();
     m_MenuTranslate.clear();    
 
-    qDebug("MainWindow::ClearMenuTranslate m_ActionTranslator size:%d",
+    qDebug(log, "MainWindow::ClearMenuTranslate m_ActionTranslator size:%d",
                     m_ActionTranslator.size());
     
     return 0;
@@ -729,7 +730,7 @@ int MainWindow::LoadTranslate(QString szLocale)
 
 void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
 {
-    qDebug("MainWindow::slotActionGroupTranslateTriggered");
+    qDebug(log) << Q_FUNC_INFO;
     QMap<QString, QAction*>::iterator it;
     for(it = m_ActionTranslator.begin(); it != m_ActionTranslator.end(); it++)
     {
@@ -754,7 +755,7 @@ void MainWindow::slotActionGroupTranslateTriggered(QAction *pAct)
 
 void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 {
-    qDebug("MainWindow::TrayIconActive:%d", e);
+    qDebug(log) << Q_FUNC_INFO << e;
     if(QSystemTrayIcon::Trigger == e)
     {
         slotMessageClicked();
@@ -765,7 +766,7 @@ void MainWindow::slotTrayIconActive(QSystemTrayIcon::ActivationReason e)
 
 void MainWindow::slotMessageClicked()
 {
-    qDebug("MainWindow::slotMessageClicked");
+    qDebug(log) << Q_FUNC_INFO;
     CGlobal::Instance()->GetManager()->GetRecentMessage()->ShowLastMessageDialog();
 }
 
@@ -785,9 +786,16 @@ int MainWindow::ShowTrayIconMessage(const QString &szTitle, const QString &szMes
     }
     if(CGlobal::Instance()->IsNotifiationFlashs())
         slotTrayTimerStart();
-
-    if(CGlobal::Instance()->GetMessageSound())
+    
+    if(CGlobal::Instance()->GetMessageSound()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QSoundEffect effect;
+        effect.setSource(QUrl::fromLocalFile(":/sound/Message"));
+        effect.play();
+#else
         QSound::play(":/sound/Message");
+#endif
+    }
 
     return 0;
 }
@@ -917,7 +925,7 @@ void MainWindow::on_actionScan_qrencode_S_triggered()
 
 void MainWindow::slotAbout()
 {
-    qDebug("MainWindow::About");
+    qDebug(log) << Q_FUNC_INFO;
 #ifdef RABBITCOMMON
     CDlgAbout about;
     about.m_AppIcon = QImage(":/icon/AppIcon");    
@@ -1029,7 +1037,7 @@ int MainWindow::AnimationWindows(const QRect &startRect, const QRect &endRect)
 {
     if(m_Animation->state() != QAbstractAnimation::Stopped)
     {
-        qDebug("animation is run");
+        qDebug(log) << "animation is run";
         return -1;//m_Animation->stop();
     }
     m_Animation->setDuration(CGlobal::Instance()->GetAnimationDuration());
@@ -1053,7 +1061,7 @@ void MainWindow::slotCheckHideWindows()
 
     if(m_Animation->state() != QAbstractAnimation::Stopped)
     {
-        qDebug("animation is run");
+        qDebug(log) << "animation is run";
         return;
     }
 
@@ -1064,6 +1072,9 @@ void MainWindow::slotCheckHideWindows()
     QRect startRect, endRect;
     startRect = this->frameGeometry();
     endRect = startRect;
+    QSize desktopSize = QApplication::primaryScreen()->availableSize();
+    int desktopWidth = desktopSize.width();
+    int desktopHeight = desktopSize.height();
     if(this->frameGeometry().top() < m_nBorderSize)//向上边隐藏  
     {
         endRect.setHeight(m_nHideSize);
@@ -1072,23 +1083,23 @@ void MainWindow::slotCheckHideWindows()
         {
             endRect.moveLeft(0);
         }
-        else if(this->frameGeometry().right() > QApplication::desktop()->width())
+        else if(this->frameGeometry().right() > desktopWidth)
         {
-            endRect.moveRight(QApplication::desktop()->width());
+            endRect.moveRight(desktopWidth);
         }
     }
-    else if(this->frameGeometry().bottom() > QApplication::desktop()->height()
+    else if(this->frameGeometry().bottom() > desktopHeight
             - m_nBorderSize)//向下边隐藏  
     {
         endRect.setHeight(m_nHideSize);
-        endRect.moveBottom(QApplication::desktop()->height());
+        endRect.moveBottom(desktopHeight);
         if(this->frameGeometry().left() < 0)
         {
             endRect.moveLeft(0);
         }
-        else if(this->frameGeometry().right() > QApplication::desktop()->width())
+        else if(this->frameGeometry().right() > desktopWidth)
         {
-            endRect.moveRight(QApplication::desktop()->width());
+            endRect.moveRight(desktopWidth);
         }
     }
     else if(this->frameGeometry().left() < m_nBorderSize)//向左边隐藏  
@@ -1099,23 +1110,23 @@ void MainWindow::slotCheckHideWindows()
         {
             endRect.moveTop(0);
         }
-        else if(this->frameGeometry().bottom() > QApplication::desktop()->height())
+        else if(this->frameGeometry().bottom() > desktopHeight)
         {
-            endRect.moveBottom(QApplication::desktop()->height());
+            endRect.moveBottom(desktopHeight);
         }
     }
-    else if(this->frameGeometry().right() > QApplication::desktop()->width()
+    else if(this->frameGeometry().right() > desktopWidth
             - m_nBorderSize)//向右边隐藏  
     {
         endRect.setWidth(m_nHideSize);
-        endRect.moveRight(QApplication::desktop()->width());
+        endRect.moveRight(desktopWidth);
         if(this->frameGeometry().top() < 0)
         {
             endRect.moveTop(0);
         }
-        else if(this->frameGeometry().bottom() > QApplication::desktop()->height())
+        else if(this->frameGeometry().bottom() > desktopHeight)
         {
-            endRect.moveBottom(QApplication::desktop()->height());
+            endRect.moveBottom(desktopHeight);
         }
     }
     else
@@ -1136,23 +1147,25 @@ void MainWindow::slotCheckShowWindows()
 
     if(m_Animation->state() != QAbstractAnimation::Stopped)
     {
-        qDebug("animation is run");
+        qDebug(log) << "animation is run";
         return;//m_Animation->stop();
     }
-
+    
+    QSize desktopSize = QApplication::primaryScreen()->availableSize();
+    int desktopHeight = desktopSize.height();
     QRect startRect = m_MainAnimation.frameGeometry();
     QRect endRect = this->frameGeometry();
     if(m_MainAnimation.frameGeometry().height() <= m_nHideSize)
     {
         if(m_MainAnimation.frameGeometry().bottom() 
-                < QApplication::desktop()->height() >> 2)//向上边隐藏  
+                < desktopHeight >> 2)//向上边隐藏  
         {
             endRect.moveTop(0);
         }
         else if(m_MainAnimation.frameGeometry().top()
-                > QApplication::desktop()->height() >> 2)//向下边隐藏  
+                > desktopHeight >> 2)//向下边隐藏  
         {
-            endRect.moveBottom(QApplication::desktop()->height());           
+            endRect.moveBottom(desktopHeight);           
         }
         if(this->frameGeometry().left() < 0)
             endRect.moveLeft(0);
@@ -1173,8 +1186,8 @@ void MainWindow::slotCheckShowWindows()
         }
         if(this->frameGeometry().top() < 0)
             endRect.moveTop(0);
-        else if(this->frameGeometry().bottom() > QApplication::desktop()->height())
-            endRect.moveBottom(QApplication::desktop()->height());
+        else if(this->frameGeometry().bottom() > desktopHeight)
+            endRect.moveBottom(desktopHeight);
     }
     else
     {

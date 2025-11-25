@@ -6,7 +6,9 @@
 #include "QXmppVCardManager.h"
 #include "QXmppUtils.h"
 #include <QDir>
+#include <QLoggingCategory>
 
+static Q_LOGGING_CATEGORY(log, "qxmpp.user")
 CManageUserQXmpp::CManageUserQXmpp(QObject *parent) 
     : CManageUser(parent)
 {
@@ -29,7 +31,7 @@ QSharedPointer<CUser> CManageUserQXmpp::AddUserInfoRoster(const QString &szId)
     QSharedPointer<CUser> user =this->GetUserInfoRoster(szId);
     if(!user.isNull())
     {
-        LOG_MODEL_ERROR("CGlobalUserQXmpp", "AddUserInfoRoster:roster is exist:%s", szId.toStdString().c_str());
+        qCritical(log) << "AddUserInfoRoster:roster is exist:" << szId;
         return user;
     }
 
@@ -59,7 +61,7 @@ int CManageUserQXmpp::UpdateUserInfoRoster(const QXmppRosterIq::Item &rosterItem
     QSharedPointer<CUser> roster = GetUserInfoRoster(jid);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("CGlobalUserQXmpp", "There are not the roster:%s", jid.toStdString().c_str());
+        qCritical(log) << "There are not the roster:" << jid;
         return -1;
     }
     SetModify(true);
@@ -74,7 +76,7 @@ int CManageUserQXmpp::UpdateUserInfoRoster(const QXmppVCardIq &vCard, QString ji
     QSharedPointer<CUser> roster = GetUserInfoRoster(szBareJid);
     if(roster.isNull())
     {
-        LOG_MODEL_ERROR("CGlobalUserQXmpp", "There are not the roster:%s", jid.toStdString().c_str());
+        qCritical(log) << "There are not the roster:" << jid;
         return -1;
     }
     SetModify(true);

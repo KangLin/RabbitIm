@@ -6,7 +6,7 @@ if(POLICY CMP0020)
     cmake_policy(SET CMP0020 NEW)
 endif()
 
-set(QT_COMPONENTS Multimedia)
+set(QT_COMPONENTS Multimedia Xml)
 
 #QZXing库
 OPTION(OPTION_RABBITIM_USE_QZXING "Use QZXing library" ON)

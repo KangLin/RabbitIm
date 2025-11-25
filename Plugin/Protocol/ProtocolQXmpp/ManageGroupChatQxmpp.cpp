@@ -1,10 +1,14 @@
-#include "ManageGroupChatQxmpp.h"
-#include "Global/Global.h"
-#include "ClientXmpp.h"
+#include <QMessageBox>
+#include <QLoggingCategory>
+
 #include "GroupChatQxmpp.h"
 #include "QXmppUtils.h"
-#include <QMessageBox>
 
+#include "Global/Global.h"
+#include "ClientXmpp.h"
+#include "ManageGroupChatQxmpp.h"
+
+static Q_LOGGING_CATEGORY(log, "qxmpp.group")
 CManageGroupChatQxmpp::CManageGroupChatQxmpp(QObject *parent) :
     CManageGroupChat(parent)
 {
@@ -65,7 +69,7 @@ QSharedPointer<CGroupChatQxmpp> CManageGroupChatQxmpp::Join1(const QString &szId
         return QSharedPointer<CGroupChatQxmpp>();
     if(GET_CLIENT.isNull())
     {
-        LOG_MODEL_ERROR("CManageGroupChatQxmpp", "GET_CLIENT is null");
+        qCritical(log) << "GET_CLIENT is null";
         return QSharedPointer<CGroupChatQxmpp>();
     }
     CClientXmpp* client =(CClientXmpp*) GET_CLIENT.data();

@@ -1,14 +1,18 @@
-#include "CameraQtCaptureVideoFrame.h"
-#include "ImageTool.h"
-
 #include <QThread>
 #include <QTime>
 #include <QVideoFrame>
 #include <QImage>
 #include <QDebug>
 
+#include "CameraQtCaptureVideoFrame.h"
+#include "ImageTool.h"
+
 CCameraQtCaptureVideoFrame::CCameraQtCaptureVideoFrame(QObject *parent)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    : QVideoSink(parent)
+#else
     : QAbstractVideoSurface(parent)
+#endif
 {
     m_Angle = 0;
 }
@@ -17,6 +21,7 @@ CCameraQtCaptureVideoFrame::~CCameraQtCaptureVideoFrame()
 {
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 //选择需要捕获视频帧的格式  
 QList<QVideoFrame::PixelFormat> 
 CCameraQtCaptureVideoFrame::supportedPixelFormats(
@@ -79,6 +84,7 @@ bool CCameraQtCaptureVideoFrame::present(const QVideoFrame &frame)
     emit sigCaptureFrame(img);
     return true;
 }
+#endif // QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 
 int CCameraQtCaptureVideoFrame::SetCameraAngle(int angle)
 {

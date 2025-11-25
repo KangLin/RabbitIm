@@ -4,7 +4,6 @@
 #include <QDir>
 #include <QGuiApplication>
 #include <QScreen>
-#include <QDesktopWidget>
 #include <QApplication>
 #include <QFileDialog>
 #include <sstream>
@@ -13,7 +12,10 @@
 #include <QCryptographicHash>
 #include <QFile>
 #include <QPainter>
-
+#include <QVideoFrame>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #include <QTransform>
+#endif
 #ifdef ANDROID
     #include <QtAndroidExtras/QAndroidJniObject>
 #endif
@@ -50,6 +52,13 @@ cv::Mat CTool::ImageRotate(cv::Mat & src, const cv::Point &_center,
 }
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+int CTool::ImageRotate(const QVideoFrame &inFrame, QVideoFrame &outFrame, double nAngle)
+{
+    //TODO: qt6 isn't finish
+    return 0;
+}
+#else
 int CTool::ImageRotate(const QVideoFrame &inFrame, QVideoFrame &outFrame, double nAngle)
 {
     int nRet = 0;
@@ -75,7 +84,11 @@ int CTool::ImageRotate(const QVideoFrame &inFrame, QVideoFrame &outFrame, double
                          frame.width(),
                          frame.height(),
                          f);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            QTransform matrix;
+#else
             QMatrix matrix;
+#endif
             matrix.rotate(nAngle);
             outImage = image.transformed(matrix);
             outFrame = QVideoFrame(outImage);
@@ -128,6 +141,7 @@ int CTool::ImageRotate(const QVideoFrame &inFrame, QVideoFrame &outFrame, double
 
     return nRet;    
 }
+#endif
 
 int CTool::ImageTransformed(const QVideoFrame &inFrame, QVideoFrame &outFrame, double nScale, double nAngle)
 {

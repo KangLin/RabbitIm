@@ -20,8 +20,8 @@ class CFrmMessage : public QFrame
     Q_OBJECT
 
 public:
-    explicit CFrmMessage(QWidget *parent = nullptr, Qt::WindowFlags f = nullptr);
-    explicit CFrmMessage(const QString &szId,  QWidget *parent = nullptr, Qt::WindowFlags f = nullptr);
+    explicit CFrmMessage(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit CFrmMessage(const QString &szId,  QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     ~CFrmMessage();
 
 signals:

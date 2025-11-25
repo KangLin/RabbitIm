@@ -1,6 +1,8 @@
 #include "MessageAction.h"
 #include "Emoji/Emoji.h"
 #include "Global/Global.h"
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 CMessageAction::CMessageAction(const QString &szId, const QString &message, const QTime &date, const bool &me) :
     CChatAction(me, szId, date),
@@ -24,7 +26,7 @@ void CMessageAction::setup(QTextCursor cursor, QTextEdit *)
 QString CMessageAction::getMessage()
 {
     QString message_ = CEmoji::getInstance().smileyfied(toHtmlChars(m_szMessage));
-
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     // detect urls
     QRegExp exp("(www\\.|http[s]?:\\/\\/|ftp:\\/\\/)\\S+");
     int offset = 0;
@@ -41,6 +43,33 @@ QString CMessageAction::getMessage()
 
         offset += htmledUrl.length();
     }
+#else
+    // detect urls
+    QRegularExpression exp("(www\\.|http[s]?:\\/\\/|ftp:\\/\\/)\\S+");
+    int offset = 0;
+    QRegularExpressionMatch match;
+    
+    while (offset <= message_.length()) {
+        match = exp.match(message_, offset);
+        if (!match.hasMatch())
+            break;
+        
+        QString url = match.captured(0);
+        QString prefix = match.captured(1);
+        
+        // add scheme if not specified
+        if (prefix == "www.")
+            url.prepend("http://");
+        
+        QString htmledUrl = QString("<a href=\"%1\">%1</a>").arg(url);
+        
+        int matchStart = match.capturedStart(0);
+        int matchLength = match.capturedLength(0);
+        
+        message_.replace(matchStart, matchLength, htmledUrl);
+        offset = matchStart + htmledUrl.length();
+    }
+#endif
 
     message_ = message_.replace(QString("\n"), QString("<br/>"));
 
