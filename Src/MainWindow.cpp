@@ -692,16 +692,11 @@ void MainWindow::on_actionScan_qrencode_S_triggered()
 
 void MainWindow::slotAbout()
 {
-    qDebug(log) << Q_FUNC_INFO;
-#ifdef RABBITCOMMON
-    CDlgAbout about;
-    about.m_AppIcon = QImage(":/icon/AppIcon");    
-    about.m_szCopyrightStartTime = "2013";
-    if(about.isHidden())
-#if defined (Q_OS_ANDROID)
-        about.showMaximized();
-#endif
-        about.exec();
+#ifdef HAVE_ABOUT
+        CDlgAbout *about = new CDlgAbout(this);
+        about->m_AppIcon = QImage(":/icon/AppIcon");
+        about->m_szCopyrightStartTime = "2013";
+        RC_SHOW_WINDOW(about);
 #endif
 }
 

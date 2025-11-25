@@ -1,16 +1,41 @@
 # https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html
+# The desktop directory:
+# /usr/share/applications/
+# /usr/local/share/applications/
+# ~/.local/share/applications/
+# Use follow order to update desktop datebase
+# `sudo update-desktop-database`
 
 [Desktop Entry]
 Type=Application
-Icon=RabbitIm
-TryExec=/opt/RabbitIm/bin/RabbitImApp
-Exec=/opt/RabbitIm/bin/RabbitImApp
-Path=/opt/RabbitIm/bin
+# Icon path
+# The freedesktop.org standard specifies in which order and directories programs should look for icons:
+#
+#    $HOME/.icons (for backwards compatibility)
+#    $XDG_DATA_DIRS/icons
+#    /usr/share/pixmaps
+Icon=@APP_ID@
+TryExec=RabbitImApp
+Exec=RabbitImApp
+Path=@CMAKE_INSTALL_PREFIX@/bin
 Terminal=false
 StartupNotify=true
-Categories=Application;Development;Utility;Chat
+
+# Find WM_CLASS:
+# Open terminal, run `xprop WM_CLASS` .
+# Your mouse cursor will change to a crosshair. Click on any window of RabbitRemoteControl.
+StartupWMClass=RabbitIm
+
+# https://specifications.freedesktop.org/menu-spec/latest/apa.html
+Categories=Application;Utility;Chat;Network;P2P
+
+# https://www.freedesktop.org/wiki/Specifications/mime-apps-spec/
+# https://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec/
 MimeType=application/ogg;application/x-ogg;application/sdp;application/smil;application/x-smil;application/streamingmedia;application/x-streamingmedia;application/vnd.rn-realmedia;application/vnd.rn-realmedia-vbr;audio/aac;audio/x-aac;audio/m4a;audio/x-m4a;audio/mp1;audio/x-mp1;audio/mp2;audio/x-mp2;audio/mp3;audio/x-mp3;audio/mpeg;audio/x-mpeg;audio/mpegurl;audio/x-mpegurl;audio/mpg;audio/x-mpg;audio/rn-mpeg;audio/scpls;audio/x-scpls;audio/vnd.rn-realaudio;audio/wav;audio/x-pn-windows-pcm;audio/x-realaudio;audio/x-pn-realaudio;audio/x-ms-wma;audio/x-pls;audio/x-wav;video/mpeg;video/x-mpeg;video/x-mpeg2;video/mp4;video/msvideo;video/x-msvideo;video/quicktime;video/vnd.rn-realvideo;video/x-ms-afs;video/x-ms-asf;video/x-ms-wmv;video/x-ms-wmx;video/x-ms-wvxvideo;video/x-avi;video/x-fli;video/x-flv;video/x-theora;video/x-matroska;video/webm;audio/x-flac;audio/x-vorbis+ogg;video/x-ogm+ogg;audio/x-shorten;audio/x-ape;audio/x-wavpack;audio/x-tta;audio/AMR;audio/ac3;video/mp2t;audio/flac;
+
 X-KDE-Protocols=ftp,http,https,mms,rtmp,rtsp,sftp,smb
+
+Keywords=Rabbit Im;IM;Rabbit Instant Messaging;玉兔即时通信
 
 Name=RabbitIm
 GenericName=RabbitIm

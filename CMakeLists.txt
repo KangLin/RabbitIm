@@ -21,34 +21,6 @@ if(POLICY CMP0021)
     cmake_policy(SET CMP0021 NEW)
 endif()
 
-SET(BUILD_VERSION "v0.1.0")
-# Find Git Version Patch
-IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-    if(NOT GIT)
-        SET(GIT $ENV{GIT})
-    endif()
-    if(NOT GIT)
-        FIND_PROGRAM(GIT NAMES git git.exe git.cmd)
-    endif()
-    IF(GIT)
-        EXECUTE_PROCESS(
-            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-            COMMAND ${GIT} describe --tags
-            OUTPUT_VARIABLE GIT_VERSION  OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-        if(NOT GIT_VERSION)
-            EXECUTE_PROCESS(
-                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                COMMAND ${GIT} rev-parse --short HEAD
-                OUTPUT_VARIABLE GIT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
-            )
-        endif()
-        SET(BUILD_VERSION ${GIT_VERSION})
-    ENDIF(GIT)
-ENDIF()
-message("BUILD_VERSION:${BUILD_VERSION}")
-set(VERSION ${BUILD_VERSION})
-
 #需要的QT组件
 if(CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -153,6 +125,18 @@ else()
     message("   ag:")
     message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
 endif()
+
+GET_VERSION(OUT_VERSION RabbitIm_VERSION
+    OUT_REVISION RabbitIm_REVISION
+    OUT_TAG RabbitImTag)
+IF(NOT RabbitIm_VERSION)
+    SET(RabbitIm_VERSION "0.1.0")
+ENDIF()
+IF(NOT RabbitImTag)
+    SET(RabbitImTag "0.1.0")
+ENDIF()
+message("RabbitIm_VERSION:${RabbitIm_VERSION};Revision:${RabbitIm_REVISION};Tag:${RabbitImTag}")
+set(VERSION ${RabbitIm_VERSION})
 
 option(BUILD_PLUGIN_APP "Build plugin applications" OFF)
 add_subdirectory(Src)

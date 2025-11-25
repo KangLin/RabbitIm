@@ -43,11 +43,12 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(translations_RabbitImApp);
 #endif
 
+    QApplication::setApplicationVersion(RabbitIm_VERSION);
+    QApplication::setApplicationName("RabbitIm");
+    QApplication::setApplicationDisplayName(QObject::tr("Rabbit Im"));
+    QApplication::setOrganizationName("KangLin studio");
+
     QApplication app(argc, argv);
-    app.setApplicationVersion(BUILD_VERSION);
-    
-    app.setApplicationName("RabbitIm");
-    app.setOrganizationName("KangLin studio");
 
 #ifdef RABBITCOMMON
     RabbitCommon::CTools::Instance()->Init();

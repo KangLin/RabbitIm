@@ -15,7 +15,7 @@ set(SOURCES_FILES
     )
 
 SET(PRIVATE_DEFINITIONS
-    BUILD_VERSION="${BUILD_VERSION}"
+    RabbitIm_VERSION="${RabbitIm_VERSION}"
     BUILD_ARCH="${BUILD_ARCH}"
     BUILD_PLATFORM="${BUILD_PLATFORM}"
     )
@@ -38,6 +38,7 @@ if(ANDROID)
     list(APPEND INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni>)
 endif()
 
+set(APP_ID io.github.KangLin.RabbitIm)
 ADD_TARGET(NAME ${PROJECT_NAME}
     ISEXE
     SOURCE_FILES ${SOURCES_FILES} ${RCC_FILES}
@@ -56,27 +57,17 @@ IF(WIN32)
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/Resource/png/RabbitIm.ico
         DESTINATION .
             COMPONENT Runtime)
-  
-    #安装第三方库
-#    INSTALL(DIRECTORY ${THIRD_LIBRARY_PATH}/bin/
-#        ${THIRD_LIBRARY_PATH}/lib/
-#        DESTINATION ${CMAKE_INSTALL_BINDIR}
-#            COMPONENT Runtime
-#        FILES_MATCHING PATTERN "*.dll")
-
-#    IF(NOT EXISTS ${CMAKE_BINARY_DIR}/bin/qxmpp.dll)
-#        FILE(COPY ${THIRD_LIBRARY_PATH}/bin/
-#            ${THIRD_LIBRARY_PATH}/lib/
-#            DESTINATION ${CMAKE_BINARY_DIR}/bin
-#            FILES_MATCHING PATTERN "*.dll")
-#    ENDIF()
 ENDIF()
 
 if(UNIX AND NOT ANDROID)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/debian/RabbitIm.desktop
-        DESTINATION "share/applications"
-            COMPONENT Runtime)
+    configure_file(${CMAKE_SOURCE_DIR}/debian/RabbitIm.desktop.in
+        ${CMAKE_BINARY_DIR}/${APP_ID}.desktop)
+    INSTALL(FILES ${CMAKE_BINARY_DIR}/${APP_ID}.desktop
+        DESTINATION share/applications
+            COMPONENT Application)
+    # Flatpak: https://docs.flatpak.org/en/latest/conventions.html#application-icons
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/Resource/png/RabbitIm.png
-        DESTINATION "share/pixmaps"
-            COMPONENT Runtime)
+        DESTINATION share/icons/hicolor/scalable/apps
+            COMPONENT Application
+        RENAME ${APP_ID}.svg)
 endif()
