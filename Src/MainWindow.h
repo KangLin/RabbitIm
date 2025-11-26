@@ -96,6 +96,7 @@ private:
 
 private:
     Ui::MainWindow *ui;
+    QSharedPointer<QTranslator> m_Translator;
     QSharedPointer<CFrmLogin> m_Login;
     QSharedPointer<CFrmMain> m_TableMain;
     bool m_bLogin;//是否登录标志  

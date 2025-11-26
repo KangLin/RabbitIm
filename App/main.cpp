@@ -30,18 +30,6 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_ANDROID) && QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
     QtAndroid::hideSplashScreen();
 #endif
-//#ifdef ANDROID
-//    Q_INIT_RESOURCE(Android);
-//#endif
-#if defined(ANDROID) || defined(RABBITIM_STATIC)
-    Q_INIT_RESOURCE(Resource);
-    //Q_INIT_RESOURCE(style);
-
-#endif
-
-#ifdef DEBUG
-    Q_INIT_RESOURCE(translations_RabbitImApp);
-#endif
 
     QApplication::setApplicationVersion(RabbitIm_VERSION);
     QApplication::setApplicationName("RabbitIm");
@@ -76,11 +64,8 @@ int main(int argc, char *argv[])
     }
 #endif
 
-    QTranslator translator;
-    translator.load(RabbitCommon::CDir::Instance()->GetDirTranslations()
-                    + QDir::separator() + "RabbitImApp_"
-                    + QLocale::system().name() + ".qm");
-    qApp->installTranslator(&translator);
+    QSharedPointer<QTranslator> tApp =
+        RabbitCommon::CTools::Instance()->InstallTranslator("RabbitImApp");
 
     app.setApplicationDisplayName(QObject::tr("Rabbit immediate communicate"));
 
@@ -156,12 +141,11 @@ int main(int argc, char *argv[])
     delete w;
 #endif
 
+    if(tApp)
+        RabbitCommon::CTools::Instance()->RemoveTranslator(tApp);
+
 #ifdef RABBITCOMMON
     RabbitCommon::CTools::Instance()->Clean();
-#endif
-    app.removeTranslator(&translator);
-#if defined (_DEBUG) || !defined(BUILD_SHARED_LIBS)
-    Q_CLEANUP_RESOURCE(translations_RabbitImApp);
 #endif
 
     return nRet;

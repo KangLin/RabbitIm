@@ -36,14 +36,16 @@ MainWindow::MainWindow(QWidget *parent) :
     m_ActionGroupStatus(this)
 {
     CGlobal::Instance()->SetMainWindow(this);
-#ifdef DEBUG
-    Q_INIT_RESOURCE(translations_RabbitIm);
-#endif
+
 #ifdef MOBILE
     CTool::SetWindowsGeometry(this);
 #endif
     ui->setupUi(this);
 #ifndef MOBILE
+
+    m_Translator = RabbitCommon::CTools::Instance()->InstallTranslator(
+        "RabbitIm", RabbitCommon::CTools::TranslationType::Library);
+
     m_bAnimationHide = false;
     m_nHideSize = 5;
     m_nBorderSize = 30;
@@ -163,9 +165,9 @@ MainWindow::~MainWindow()
 
     this->ClearMenuStatus();
     delete ui;
-#ifdef DEBUG
-    Q_CLEANUP_RESOURCE(translations_RabbitIm);
-#endif
+
+    if(m_Translator)
+        RabbitCommon::CTools::Instance()->RemoveTranslator(m_Translator);
 }
 
 void MainWindow::resizeEvent(QResizeEvent * e)
