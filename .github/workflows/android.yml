@@ -28,7 +28,7 @@ jobs:
       BUILD_DIR:   ${{github.workspace}}/build
       INSTALL_DIR: ${{github.workspace}}/.cache/install_anrdoi_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.BUILD_TYPE}}
       RabbitIM_VERSION: v0.0.25
-      VCPKGGITCOMMITID: 6adca01a3fadca0cc0b80f03ec57c7c3a0be5c02
+      VCPKGGITCOMMITID: 4c5ae6b55f3e3e39d291679f89822f496cf190ee
       qt_modules: '${{matrix.qt_modules}}'
 
     steps:
