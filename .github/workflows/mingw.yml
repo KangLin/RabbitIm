@@ -1,4 +1,6 @@
-name: build_mingw
+# Author: Kang Lin <kl222@126.com>
+
+name: mingw
 
 on:
   workflow_call:
@@ -9,22 +11,25 @@ on:
 
 jobs:
   build_mingw:
-    name: build mingw
 
     strategy:
       matrix:
-        BUILD_TYPE: [Release, Debug]
+        BUILD_TYPE: [Release]
 
     defaults:
       run:
         shell: cmd
         
+    # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
+    # See: [Choosing the runner for a job](https://docs.github.com/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job)
+    # See: https://github.com/actions/runner-images/
     runs-on: windows-latest
 
     env:
       BUILD_TYPE:  ${{ matrix.BUILD_TYPE }}
+      BUILD_DIR:   ${{github.workspace}}\build
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
-      TOOSL_DIR:   ${{github.workspace}}\.cache\tools
+      TOOLS_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install_mingw_${{matrix.BUILD_TYPE}}
       RabbitIM_VERSION: v0.0.27
       artifact_name: build_mingw
@@ -37,12 +42,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          submodules: true
+          submodules: recursive
+          fetch-depth: 0
             
       - name: pacman
         env:
           PATH: C:\msys64\usr\bin
-        run: | 
+        run: |
+          C:\msys64\usr\bin\pacman.exe -Syu --noconfirm
           C:\msys64\usr\bin\pacman.exe -S --noconfirm ^
             mingw-w64-x86_64-cmake ^
             mingw-w64-x86_64-make ^
@@ -65,17 +72,18 @@ jobs:
 
       - name: make_directory
         run: |
+          cmake -E make_directory ${{env.BUILD_DIR}}
           cmake -E make_directory ${{env.SOURCE_DIR}}
-          cmake -E make_directory ${{env.TOOSL_DIR}}
+          cmake -E make_directory ${{env.TOOLS_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
     
       - name: Cache installed
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-installed
         with:
           path: |
             ${{env.INSTALL_DIR}}
-          key: cache-installed-mingw
+          key: install_mingw_${{matrix.BUILD_TYPE}}
         
       - name: git clone RabbitCommon
         working-directory: ${{env.SOURCE_DIR}}
@@ -96,14 +104,8 @@ jobs:
             -DCMARK_STATIC=ON ^
             -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
             -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install ^
-            -DBUILD_FREERDP=ON ^
-            -DBUILD_LibVNCServer=OFF ^
-            -Dtigervnc_DIR=${{env.INSTALL_DIR}}/lib/cmake ^
-            -Dlibdatachannel_DIR=${{env.INSTALL_DIR}}/share/cmake/libdatachannel ^
-            -DQtService_DIR=${{env.INSTALL_DIR}}/lib/cmake/QtService ^
             -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
-          cmake --build . --config ${{ matrix.BUILD_TYPE }} --target install
 
       - name: Package
         if: ${{ matrix.BUILD_TYPE == 'Release' }}

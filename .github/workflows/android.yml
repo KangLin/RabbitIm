@@ -24,7 +24,8 @@ jobs:
 
     env:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
-      TOOSL_DIR:   ${{github.workspace}}/.cache/tools
+      TOOLS_DIR:   ${{github.workspace}}/.cache/tools
+      BUILD_DIR:   ${{github.workspace}}/build
       INSTALL_DIR: ${{github.workspace}}/.cache/install_anrdoi_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.BUILD_TYPE}}
       RabbitIM_VERSION: v0.0.25
       VCPKGGITCOMMITID: 6adca01a3fadca0cc0b80f03ec57c7c3a0be5c02
@@ -40,14 +41,15 @@ jobs:
     - name: make directory
       run: |
         cmake -E make_directory ${{env.SOURCE_DIR}}
-        cmake -E make_directory ${{env.TOOSL_DIR}}
+        cmake -E make_directory ${{env.TOOLS_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
+        cmake -E make_directory ${{env.BUILD_DIR}}
 
     - name: Cache Qt
       id: cache-qt
       uses: actions/cache@v1  # not v2!
       with:
-        path: ${{env.TOOSL_DIR}}/qt
+        path: ${{env.TOOLS_DIR}}/qt
         key: qt_${{matrix.qt_version}}_${{matrix.qt_arch}}
 
     - name: Install Qt
@@ -56,7 +58,7 @@ jobs:
       uses: jurplel/install-qt-action@v3
       with:
         # Directory to install Qt
-        dir: '${{env.TOOSL_DIR}}/qt' # optional
+        dir: '${{env.TOOLS_DIR}}/qt' # optional
         # Version of Qt to install
         version: '${{matrix.qt_version}}' # optional, default is 5.15.2
         # Host platform

@@ -1,3 +1,5 @@
+# Author: Kang Lin <kl222@126.com>
+
 name: ubuntu
 
 on:
@@ -15,13 +17,18 @@ jobs:
     strategy:
       matrix:
         BUILD_TYPE: [Release, Debug]
+        os: [ubuntu-24.04, ubuntu-24.04-arm]
 
-    runs-on: ubuntu-latest
+    # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
+    # See: [Choosing the runner for a job](https://docs.github.com/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job)
+    # See: https://github.com/actions/runner-images/
+    runs-on: ${{matrix.os}}
 
     env:
       BUILD_TYPE:  ${{matrix.BUILD_TYPE}}
+      BUILD_DIR:   ${{github.workspace}}/build
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
-      TOOSL_DIR:   ${{github.workspace}}/.cache/tools
+      TOOLS_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_ubuntu_${{matrix.BUILD_TYPE}}
       RabbitIM_VERSION: 0.0.27
       artifact_name: build_ubuntu
@@ -76,10 +83,10 @@ jobs:
 
       - name: Make directories
         run: |
+          cmake -E make_directory ${{env.BUILD_DIR}}
           cmake -E make_directory ${{env.SOURCE_DIR}}
-          cmake -E make_directory ${{env.TOOSL_DIR}}
+          cmake -E make_directory ${{env.TOOLS_DIR}}
           cmake -E make_directory ${{env.INSTALL_DIR}}
-          cmake -E make_directory ${{github.workspace}}/build
 
       - name: git clone RabbitCommon
         working-directory: ${{env.SOURCE_DIR}}
@@ -102,7 +109,7 @@ jobs:
               libx11-dev libxfixes-dev
 
       - name: Cache installed
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-installed
         with:
           path: |
@@ -159,7 +166,7 @@ jobs:
 
       - name: Update artifact
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
             name: ${{ env.artifact_name }}
             path: |
