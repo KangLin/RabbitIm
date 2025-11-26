@@ -1,0 +1,21 @@
+{
+  "name": "rabbitim",
+  "version-string": "0.5.26",
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/KangLin/RabbitIm",
+
+  "dependencies": [
+    "openssl",
+    "cmark-gfm"
+  ],
+
+  "features": {
+    "qt": {
+      "description": "qt",
+      "dependencies": [
+        "qt"
+      ]
+    }
+  }
+
+}

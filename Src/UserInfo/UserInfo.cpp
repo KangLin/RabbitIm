@@ -3,6 +3,9 @@
 #include <QSettings>
 #include <QBuffer>
 #include <QImageReader>
+#include <QLoggingCategory>
+
+static Q_LOGGING_CATEGORY(log, "UserInfo")
 
 CUserInfo::CUserInfo(QObject *parent) :
     QObject(parent)
@@ -157,7 +160,7 @@ QString CUserInfo::GetSubscriptionTypeStr(SUBSCRIPTION_TYPE type) const
         return tr("[remove]");
     default:
         {
-            qWarning() << "QXmppRosterIq::Item::getTypeStr(): invalid type";
+            qWarning(log) << "QXmppRosterIq::Item::getTypeStr(): invalid type";
             return "";
         }
     }
