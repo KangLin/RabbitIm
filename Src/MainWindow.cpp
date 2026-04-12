@@ -2,7 +2,9 @@
 #include <QIcon>
 #include <QLoggingCategory>
 #include <QMessageBox>
-
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #include <QScreen>
+#endif
 #include "RabbitCommonDir.h"
 #include "RabbitCommonTools.h"
 #include "FrmUpdater/FrmUpdater.h"
@@ -833,7 +835,14 @@ void MainWindow::slotCheckShowWindows()
         qDebug(log) << "animation is run";
         return;//m_Animation->stop();
     }
-    
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QDesktopWidget *pDesk = QApplication::desktop();
+#else
+    QScreen* pDesk = QApplication::primaryScreen();
+#endif
+    QRect rDesk = pDesk->geometry();
+
     QSize desktopSize = QApplication::primaryScreen()->availableGeometry().size();
     int desktopHeight = desktopSize.height();
     QRect startRect = m_MainAnimation.frameGeometry();
@@ -852,18 +861,18 @@ void MainWindow::slotCheckShowWindows()
         }
         if(this->frameGeometry().left() < 0)
             endRect.moveLeft(0);
-        else if(this->frameGeometry().right() > QApplication::desktop()->width())
-            endRect.moveRight(QApplication::desktop()->width());
+        else if(this->frameGeometry().right() > rDesk.width())
+            endRect.moveRight(rDesk.width());
     }
     else if(m_MainAnimation.frameGeometry().width() <= m_nHideSize)
     {
         if(m_MainAnimation.frameGeometry().left()
-                >= QApplication::desktop()->width() >> 2) //向右边隐藏  
+                >= rDesk.width() >> 2) //向右边隐藏
         {
-            endRect.moveRight(QApplication::desktop()->width());
+            endRect.moveRight(rDesk.width());
         }
         else if(m_MainAnimation.frameGeometry().right()
-                <= QApplication::desktop()->width() >> 2) //向左边隐藏  
+                <= rDesk.width() >> 2) //向左边隐藏
         {
             endRect.moveLeft(0);
         }

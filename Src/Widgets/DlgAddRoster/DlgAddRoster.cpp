@@ -1,10 +1,12 @@
+#include <QMessageBox>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    #include <QDesktopWidget>
+#endif
+
+#include "../../Global/Global.h"
+#include "Tool.h"
 #include "DlgAddRoster.h"
 #include "ui_DlgAddRoster.h"
-#include "../../Global/Global.h"
-#include <string>
-#include <QMessageBox>
-#include <QDesktopWidget>
-#include "Tool.h"
 
 CDlgAddRoster::CDlgAddRoster(QWidget *parent) :
     QDialog(parent),

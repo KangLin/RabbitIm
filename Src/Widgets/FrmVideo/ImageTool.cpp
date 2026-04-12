@@ -1,17 +1,12 @@
-#include "ImageTool.h"
-#if HAVE_LIBYUV
-    #include "libyuv.h"
-#endif
-#include "RabbitCommonDir.h"
-
 #include <QFileInfo>
 #include <QDir>
 #include <QGuiApplication>
 #include <QScreen>
-#include <QDesktopWidget>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    #include <QDesktopWidget>
+#endif
 #include <QApplication>
 #include <QFileDialog>
-#include <sstream>
 #include <QString>
 #include <QByteArray>
 #include <QCryptographicHash>
@@ -19,6 +14,13 @@
 #include <QPainter>
 #include <QPluginLoader>
 #include <QDebug>
+
+#include "RabbitCommonDir.h"
+#if HAVE_LIBYUV
+#include "libyuv.h"
+#endif
+
+#include "ImageTool.h"
 
 CImageTool::CImageTool(QObject *parent) : QObject(parent)
 {
@@ -53,6 +55,7 @@ CImageTool* CImageTool::Instance()
 // 图像格式介绍：
 //    https://blog.csdn.net/byhook/article/details/84037338
 //    https://blog.csdn.net/cgwang_1580/article/details/79595958
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 QImage CImageTool::ConvertFormatToRGB888(const QVideoFrame &frame)
 {
     //LOG_MODEL_DEBUG("CImageTool", "Frame format:%d", frame.pixelFormat());
@@ -123,6 +126,78 @@ QImage CImageTool::ConvertFormatToRGB888(const QVideoFrame &frame)
     videoFrame.unmap();
     return img;
 }
+#else
+QImage CImageTool::ConvertFormatToRGB888(const QVideoFrame &frame)
+{
+    //LOG_MODEL_DEBUG("CImageTool", "Frame format:%d", frame.pixelFormat());
+    switch(frame.pixelFormat())
+    {
+    case QVideoFrameFormat::PixelFormat::Format_YUV420P:
+    case QVideoFrameFormat::PixelFormat::Format_YV12:
+    case QVideoFrameFormat::PixelFormat::Format_NV21:
+    case QVideoFrameFormat::PixelFormat::Format_NV12:
+    case QVideoFrameFormat::PixelFormat::Format_YUYV:
+    case QVideoFrameFormat::PixelFormat::Format_UYVY:
+    {
+        foreach(auto p, m_ConvertFormat)
+        {
+            QImage image = p->onConvertFormatToRGB888(frame);
+            if(!image.isNull()) return image;
+        }
+
+#ifdef HAVE_LIBYUV
+        return  LibyuvConvertFormatToRGB888(frame);
+#endif
+        if(QVideoFrameFormat::PixelFormat::Format_YUV420P != frame.pixelFormat())
+        {
+            qWarning("Please use one of opencv, ffmpeg, libyuv");
+        }
+        break;
+    }
+    default:
+        break;
+    }
+
+    QImage img;
+    QVideoFrame videoFrame = frame;
+    if(!videoFrame.isValid())
+        return img;
+    if(!videoFrame.map(QVideoFrame::MapMode::ReadOnly))
+        return img;
+    do{
+        QImage::Format f = QVideoFrameFormat::imageFormatFromPixelFormat(
+            videoFrame.pixelFormat());
+        if(QImage::Format_Invalid != f)
+        {
+            img = QImage(videoFrame.bits(),
+                         videoFrame.width(),
+                         videoFrame.height(),
+                         videoFrame.bytesPerLine(),
+                         f).convertToFormat(QImage::Format_RGB888);
+        } else {
+            switch(videoFrame.pixelFormat())
+            {
+            case QVideoFrameFormat::Format_Jpeg:
+            {
+                img.loadFromData(videoFrame.bits(),
+                                 videoFrame.mappedBytes(),
+                                 "JPEG");
+            }
+            break;
+            case QVideoFrameFormat::Format_YUV420P:
+                YUV420_2_RGB(videoFrame.bits(), img.bits(),
+                             videoFrame.width(), videoFrame.height());
+                break;
+            default:
+                qCritical("Don't implement convert format: %d",
+                          videoFrame.pixelFormat());
+            }
+        }
+    }while(0);
+    videoFrame.unmap();
+    return img;
+}
+#endif
 
 #if HAVE_LIBYUV
 QImage CImageTool::LibyuvConvertFormatToRGB888(const QVideoFrame &frame)
