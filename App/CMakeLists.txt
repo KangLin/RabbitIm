@@ -8,6 +8,7 @@ set(SOURCES_FILES
 
 SET(PRIVATE_DEFINITIONS
     RabbitIm_VERSION="${RabbitIm_VERSION}"
+    RabbitIm_REVISION="${RabbitIm_REVISION}"
     )
 
 LIST(APPEND RCC_FILES ${CMAKE_SOURCE_DIR}/Resource/Resource.qrc)

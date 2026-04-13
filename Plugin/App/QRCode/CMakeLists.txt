@@ -1,11 +1,13 @@
 #QZXing库
 OPTION(OPTION_RABBITIM_USE_QZXING "Use QZXing library" ON)
 if(OPTION_RABBITIM_USE_QZXING)
-    FIND_PACKAGE(QZXing)
-    if(NOT QZXing_FOUND)
+    FIND_PACKAGE(qzxing)
+    if(NOT qzxing_FOUND)
         message("Download from https://github.com/ftylitak/qzxing.git")
         return()
     endif()
+else()
+    return()
 endif()
 
 PROJECT(QRCode)
@@ -21,8 +23,8 @@ ADD_PLUGIN_TARGET(
         CPluginQRCode.cpp
         FrmScanQRcode.cpp
         FrmScanQRcode.ui
-    INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>
-    PRIVATE_LIBS RabbitIm QZXing
+    INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src> ${QZXing_INCLUDE_DIRS}
+    PRIVATE_LIBS RabbitIm qzxing
     OUTPUT_DIR ${PLUGIN_OUTPUT_DIR}
     INSTALL_DIR ${PLUGIN_INSTALL_DIR}
     VERSION ${RabbitIm_VERSION}
@@ -33,8 +35,8 @@ if(BUILD_PLUGIN_APP)
         NAME ${PROJECT_NAME}App
         ISEXE
         SOURCE_FILES main.cpp
-        PRIVATE_LIBS ${PROJECT_NAME} RabbitIm QZXing
-        INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
+        PRIVATE_LIBS ${PROJECT_NAME} RabbitIm qzxing
+        INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}> ${QZXing_INCLUDE_DIRS}
         OUTPUT_DIR ${PLUGIN_OUTPUT_DIR}
         INSTALL_DIR "${CMAKE_INSTALL_BINDIR}"
         VERSION ${RabbitIm_VERSION}

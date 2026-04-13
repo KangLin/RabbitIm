@@ -2,6 +2,8 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QPainter>
+#include <QLoggingCategory>
+
 #include "MainWindow.h"
 
 #ifdef RABBITIM_USE_LIBQRENCODE
@@ -24,7 +26,7 @@ CQRCode::CQRCode() : QObject()
 
 //http://stackoverflow.com/questions/21400254/how-to-draw-a-qr-code-with-qt-in-native-c-c
 QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage, const QSize &size)
-{  
+{
 #ifdef RABBITIM_USE_LIBQRENCODE
     QImage image(size, QImage::Format_RGB32);
     QPainter painter(&image);
@@ -95,7 +97,7 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage,
     return image;
 #endif //RABBITIM_USE_LIBQRENCODE
     
-#ifdef RABBITIM_USE_QZXING
+#if RABBITIM_USE_QZXING && ENABLE_ENCODER_GENERIC
     try{
         QZXing encoder;
         QImage image = encoder.encodeData(szData);
@@ -109,7 +111,7 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage,
             qreal y = (size.height() >> 1) - (size.height() / 10);
             qreal w = size.width() / 5;
             qreal h = size.height() / 5;
-            LOG_MODEL_DEBUG("CQRCode", "x:%f, y:%f", x, y);
+            qDebug(logQRCode, "x:%f, y:%f", x, y);
             int penw = 3;
             painter.setBrush(QBrush(QColor(255, 255, 255)));
             painter.drawRect(x - penw, y - penw, w + (penw << 1), h + (penw << 1));
@@ -155,12 +157,12 @@ int CQRCode::ProcessQImage(QImage image, QString &szText)
         szMessage = decoder.decodeImage(image);
         if(szMessage.isEmpty())
         {
-            LOG_MODEL_ERROR("CQRCode", "Scan image fail.");
+            qCritical(logQRCode, "Scan image fail.");
             return 1;
         }
-        LOG_MODEL_DEBUG("CQRCode", "Decode:%s", szMessage.toStdString().c_str());
+        qDebug(logQRCode, "Decode:%s", szMessage.toStdString().c_str());
     }catch(...){
-        LOG_MODEL_ERROR("CQRCode", "Exception:Scan image fail.");
+        qCritical(logQRCode, "Exception:Scan image fail.");
         return 1;
     }
 #endif

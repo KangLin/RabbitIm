@@ -15,23 +15,23 @@ jobs:
     strategy:
       matrix:
         include:
-          - CMAKE_GENERATOR_PLATFORM: x64
-            VCPKG_TARGET_TRIPLET: x64-windows
-            VCPKG_PLATFORM_TOOLSET: v143
-            BUILD_TYPE: Release
-            qt_version: 6.10.3
-            qt_arch: win64_msvc2022_64
-            qt_modules: qtscxml qtmultimedia qtimageformats qt5compat qtpositioning
-            os: windows-2022
+          # - CMAKE_GENERATOR_PLATFORM: x64
+          #   VCPKG_TARGET_TRIPLET: x64-windows
+          #   VCPKG_PLATFORM_TOOLSET: v143
+          #   BUILD_TYPE: Release
+          #   qt_version: 6.10.3
+          #   qt_arch: win64_msvc2022_64
+          #   qt_modules: qtscxml qtmultimedia qtimageformats qt5compat qtpositioning
+          #   os: windows-2022
 
-          - CMAKE_GENERATOR_PLATFORM: arm64
-            VCPKG_TARGET_TRIPLET: arm64-windows
-            VCPKG_PLATFORM_TOOLSET: v143
-            BUILD_TYPE: Release
-            qt_version: 6.10.3
-            qt_arch: win64_msvc2022_arm64
-            qt_modules: qt5compat qtimageformats qtmultimedia qtpositioning qtscxml
-            os: windows-11-arm
+          # - CMAKE_GENERATOR_PLATFORM: arm64
+          #   VCPKG_TARGET_TRIPLET: arm64-windows
+          #   VCPKG_PLATFORM_TOOLSET: v143
+          #   BUILD_TYPE: Release
+          #   qt_version: 6.10.3
+          #   qt_arch: win64_msvc2022_arm64
+          #   qt_modules: qt5compat qtimageformats qtmultimedia qtpositioning qtscxml
+          #   os: windows-11-arm
 
           - CMAKE_GENERATOR_PLATFORM: Win32
             VCPKG_TARGET_TRIPLET: x86-windows
@@ -52,7 +52,7 @@ jobs:
     env:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOLS_DIR:   ${{github.workspace}}\.cache\tools
-      INSTALL_DIR: ${{github.workspace}}\.cache\install_msvc_qt${{matrix.qt_version}}_${{matrix.triplet}}_${{matrix.BUILD_TYPE}}
+      INSTALL_DIR: ${{github.workspace}}\.cache\install_${{matrix.BUILD_TYPE}}
       BUILD_DIR:   ${{github.workspace}}\build
       VCPKGGITCOMMITID: 7213cf8135c329c37c7e2778e40774489a0583a8
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
@@ -143,31 +143,19 @@ jobs:
 
       - name: build qzxing
         working-directory: ${{env.SOURCE_DIR}}
-        if: false
         run: |
-          IF NOT EXIST ${{env.INSTALL_DIR}}/lib/cmake/qzxing (
-            git clone git clone https://github.com/ftylitak/qzxing.git
+          IF NOT EXIST ${{env.INSTALL_DIR}}/lib/cmake/qzxing/ (
+            git clone https://github.com/KangLin/qzxing.git
             cd qzxing
-            ;git checkout -b v1.10.2 v1.10.2
+            git submodule update --init --recursive
             cmake -E make_directory build
             cd build
             cmake .. ^
                 -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
                 -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
                 -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
-                -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF ^
-                -DBUILD_DOCUMENTATION=OFF ^
-                -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} ^
-                -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake ^
-                -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake ^
-                -DVCPKG_INSTALLED_DIR=${{env.INSTALL_DIR}}/qxmpp/vcpkg_installed ^
-                -DVCPKG_VERBOSE=ON ^
-                -DVCPKG_TARGET_TRIPLET=${{matrix.VCPKG_TARGET_TRIPLET}} ^
-                -DX_VCPKG_APPLOCAL_DEPS_INSTALL=OFF ^
-                -DVCPKG_APPLOCAL_DEPS=OFF ^
-                -DVCPKG_TRACE_FIND_PACKAGE=ON
-            cmake --build . --config ${{matrix.BUILD_TYPE}}
-            cmake --install . --config ${{matrix.BUILD_TYPE}} --strip
+                -DCMAKE_INSTALL_PREFIX=${{env.BUILD_DIR}}/install ^
+                -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}
           )
 
       - name: git clone RabbitCommon
@@ -190,6 +178,7 @@ jobs:
               -DRABBIT_ENABLE_INSTALL_DEPENDENT=ON ^
               -DRABBIT_ENABLE_INSTALL_QT=ON ^
               -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=ON ^
+              -DRABBIT_ENABLE_INSTALL_TARGETS=ON ^
               -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
               -DCMAKE_INSTALL_PREFIX=${{env.BUILD_DIR}}/install ^
               -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}} ^
@@ -220,15 +209,13 @@ jobs:
 
       - name: Package
         if: ${{ matrix.BUILD_TYPE == 'Release' }}
-        working-directory: ${{github.workspace}}\build
+        working-directory: ${{env.BUILD_DIR}}
         run: |
           move /Y install\plugins\*crypto*.dll install\bin
           move /Y install\plugins\*ssl*.dll install\bin
           copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
           copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
           copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
-          7z a RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip .\install\*
-          md5sum RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip > RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip.md5sum
           makensis Install.nsi
           copy /Y RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe
           md5sum RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe > RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe.md5sum
@@ -239,7 +226,6 @@ jobs:
                 -m "${{env.RabbitIM_VERSION}}"
 
       - name: Update artifact
-        if: ${{ matrix.BUILD_TYPE == 'Release' && '5.12.12' == matrix.qt_version }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifact_name }}

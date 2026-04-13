@@ -700,6 +700,7 @@ void MainWindow::slotAbout()
         CDlgAbout *about = new CDlgAbout(this);
         about->m_AppIcon = QImage(":/icon/AppIcon");
         about->m_szCopyrightStartTime = "2013";
+        about->m_szVersionRevision = RabbitIm_REVISION;
         RC_SHOW_WINDOW(about);
 #endif
 }

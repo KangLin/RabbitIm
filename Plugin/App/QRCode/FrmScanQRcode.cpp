@@ -1,12 +1,14 @@
-#include "FrmScanQRcode.h"
-#include "ui_FrmScanQRcode.h"
-#include "Global/Global.h"
-#include "QRCode.h"
 #include <QPainter>
 #include <QDir>
 #include <QStandardPaths>
 #include <QCameraInfo>
+#include <QLoggingCategory>
+#include "FrmScanQRcode.h"
+#include "ui_FrmScanQRcode.h"
+#include "Global/Global.h"
+#include "QRCode.h"
 
+static Q_LOGGING_CATEGORY(log, "App.QRcode")
 CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::CFrmScanQRcode),
@@ -37,14 +39,14 @@ CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
             Q_ASSERT(check);
         } else {
             ui->lbText->setText(tr("The camera does not exist."));
-            LOG_MODEL_ERROR("CFrmScanQRcode", "The camera does not exist.");
+            qCritical(log) << "The camera does not exist.";
         }
     }
 }
 
 CFrmScanQRcode::~CFrmScanQRcode()
 {
-    LOG_MODEL_DEBUG("CDlgScanQRcode", "CDlgScanQRcode::~CDlgScanQRcode");
+    qDebug(log) << Q_FUNC_INFO;
     if(m_pCamera)
     {
         Stop();
@@ -53,7 +55,6 @@ CFrmScanQRcode::~CFrmScanQRcode()
         m_pCamera = nullptr;
     }
     delete ui;
-    LOG_MODEL_DEBUG("CDlgScanQRcode", "CDlgScanQRcode::~CDlgScanQRcode end");
 }
 
 void CFrmScanQRcode::showEvent(QShowEvent *)
@@ -105,8 +106,7 @@ int CFrmScanQRcode::ProcessQRFile(QString szFile)
     QImage img(szFile);
     if(img.isNull())
     {
-        LOG_MODEL_ERROR("CDlgScanQRcode", "This isn't image file:%s",
-                        szFile.toStdString().c_str());
+        qCritical(log) << "This isn't image file:" << szFile;
         return -1;
     }
 
@@ -193,8 +193,7 @@ void CFrmScanQRcode::on_pbSaveAs_clicked()
     if(szFile.isEmpty())
        return; 
     if(!m_Generate.save(szFile))
-        LOG_MODEL_ERROR("CDlgScanQRcode", "Save qrencode fail:%s",
-                        szFile.toStdString().c_str());
+        qCritical(log) << "Save qrencode fail:" << szFile;
 }
 
 void CFrmScanQRcode::on_Cancel_2_clicked()

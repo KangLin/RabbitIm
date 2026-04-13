@@ -7,7 +7,9 @@ project(RabbitIm
     HOMEPAGE_URL "https://github.com/KangLin/RabbitIm"
     )
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+if(CMAKE_VERSION VERSION_LESS "3.7.0")
+   set(CMAKE_INCLUDE_CURRENT_DIR ON)
+endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # 避免使用编译器特定的扩展语法，从而提高跨平台一致性。
@@ -34,9 +36,6 @@ if(POLICY CMP0021)
 endif()
 
 #需要的QT组件
-if(CMAKE_VERSION VERSION_LESS "3.7.0")
-    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-endif()
 SET(QT_COMPONENTS Core Gui Widgets)
 if(ANDROID)
     SET(QT_COMPONENTS ${QT_COMPONENTS} AndroidExtras)

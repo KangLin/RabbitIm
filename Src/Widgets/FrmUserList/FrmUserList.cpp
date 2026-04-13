@@ -799,7 +799,11 @@ int CFrmUserList::ItemUpdateRoster(const QString &szId)
                 pItemUnReadMessageCount->setText(QString::number(nCount));
             else
                 pItemUnReadMessageCount->setText(QString(""));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            pItemUnReadMessageCount->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::ForegroundRole);
+#else
             pItemUnReadMessageCount->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
+#endif
             //pItemUnReadMessageCount->setData(roster->GetBareJid(), USERLIST_ITEM_ROLE_JID);
             //pItemUnReadMessageCount->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
             //pItemUnReadMessageCount->setEditable(false);//禁止双击编辑  
