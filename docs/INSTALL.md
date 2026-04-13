@@ -205,8 +205,8 @@
         * 下载：`git clone https://github.com/fukuchi/libqrencode.git`
          * 当前使用版本：v4.0.2
     2. qzxing
-        * 主页：http://sourceforge.net/projects/qzxing
-        * 下载:` git clone git://git.code.sf.net/p/qzxing/code`
+        * 主页：https://github.com/ftylitak/qzxing.git
+        * 下载: `git clone https://github.com/ftylitak/qzxing.git`
         * 当前使用版本：
             git库版本 —— d61f2ac9821a1f52655092c588c498ca8db1f2c9
 11. [可选] toxcore

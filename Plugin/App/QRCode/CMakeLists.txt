@@ -3,6 +3,7 @@ OPTION(OPTION_RABBITIM_USE_QZXING "Use QZXing library" ON)
 if(OPTION_RABBITIM_USE_QZXING)
     FIND_PACKAGE(QZXing)
     if(NOT QZXing_FOUND)
+        message("Download from https://github.com/ftylitak/qzxing.git")
         return()
     endif()
 endif()
@@ -24,6 +25,7 @@ ADD_PLUGIN_TARGET(
     PRIVATE_LIBS RabbitIm QZXing
     OUTPUT_DIR ${PLUGIN_OUTPUT_DIR}
     INSTALL_DIR ${PLUGIN_INSTALL_DIR}
+    VERSION ${RabbitIm_VERSION}
     )
 
 if(BUILD_PLUGIN_APP)
@@ -34,5 +36,7 @@ if(BUILD_PLUGIN_APP)
         PRIVATE_LIBS ${PROJECT_NAME} RabbitIm QZXing
         INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
         OUTPUT_DIR ${PLUGIN_OUTPUT_DIR}
-        INSTALL_DIR "${CMAKE_INSTALL_BINDIR}")
+        INSTALL_DIR "${CMAKE_INSTALL_BINDIR}"
+        VERSION ${RabbitIm_VERSION}
+    )
 endif()

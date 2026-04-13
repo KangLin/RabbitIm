@@ -1,12 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
-
-if(POLICY CMP0083)
-    cmake_policy(SET CMP0083 NEW)
-endif()
-
-if(POLICY CMP0020)
-    cmake_policy(SET CMP0020 NEW)
-endif()
+# Author: Kang Lin(kl222@126.com)
 
 project(RabbitImApp)
 
@@ -16,13 +8,7 @@ set(SOURCES_FILES
 
 SET(PRIVATE_DEFINITIONS
     RabbitIm_VERSION="${RabbitIm_VERSION}"
-    BUILD_ARCH="${BUILD_ARCH}"
-    BUILD_PLATFORM="${BUILD_PLATFORM}"
     )
-if(MSVC)
-    list(APPEND PRIVATE_DEFINITIONS "$<$<C_COMPILER_ID:MSVC>:/utf-8>"
-         "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-endif()
 
 LIST(APPEND RCC_FILES ${CMAKE_SOURCE_DIR}/Resource/Resource.qrc)
 if(WIN32)
@@ -45,7 +31,7 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     PRIVATE_LIBS ${QT_LIBRARIES} RabbitIm
     PRIVATE_DEFINITIONS ${PRIVATE_DEFINITIONS}
     INCLUDE_DIRS ${INCLUDE_DIRS}
-    VERSION ${BUILD_VERSION}
+    VERSION ${RabbitIm_VERSION}
     ANDROID_SOURCES_DIR ${CMAKE_SOURCE_DIR}/android
     )
 
@@ -71,3 +57,13 @@ if(UNIX AND NOT ANDROID)
             COMPONENT Application
         RENAME ${APP_ID}.svg)
 endif()
+
+#安装相关文件
+set(OTHER_FILES
+    ${CMAKE_SOURCE_DIR}/License.md
+    ${CMAKE_SOURCE_DIR}/Authors.md
+    ${CMAKE_SOURCE_DIR}/ChangeLog.md
+    )
+INSTALL_FILE(SOURCES ${OTHER_FILES}
+    DESTINATION ${CMAKE_INSTALL_DOCDIR}
+        COMPONENT Application)

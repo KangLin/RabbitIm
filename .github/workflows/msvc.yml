@@ -18,30 +18,30 @@ jobs:
           - CMAKE_GENERATOR_PLATFORM: x64
             VCPKG_TARGET_TRIPLET: x64-windows
             VCPKG_PLATFORM_TOOLSET: v143
-            qt_version: 6.9.3
-            qt_arch: win64_msvc2022_64
-            qt_modules: qtscxml qtmultimedia qtimageformats qtserialport qt5compat qtwebsockets qtpositioning qtwebchannel qtwebengine
             BUILD_TYPE: Release
+            qt_version: 6.10.3
+            qt_arch: win64_msvc2022_64
+            qt_modules: qtscxml qtmultimedia qtimageformats qt5compat qtpositioning
             os: windows-2022
 
           - CMAKE_GENERATOR_PLATFORM: arm64
             VCPKG_TARGET_TRIPLET: arm64-windows
             VCPKG_PLATFORM_TOOLSET: v143
-            qt_version: 6.9.3
-            qt_arch: win64_msvc2022_arm64
-            qt_modules: qt5compat qtimageformats qtmultimedia qtpositioning qtscxml qtserialport qtwebchannel qtwebsockets
             BUILD_TYPE: Release
+            qt_version: 6.10.3
+            qt_arch: win64_msvc2022_arm64
+            qt_modules: qt5compat qtimageformats qtmultimedia qtpositioning qtscxml
             os: windows-11-arm
 
           - CMAKE_GENERATOR_PLATFORM: Win32
             VCPKG_TARGET_TRIPLET: x86-windows
             VCPKG_PLATFORM_TOOLSET: v143
             VCPKG_OVERLAY_PORTS: "vcpkg/ports"
+            BUILD_TYPE: Release
             #VCPKG_MANIFEST_FEATURES: "ffmpeg"
             qt_version: 5.15.2
             qt_arch: win32_msvc2019
             qt_modules: qtwebengine
-            BUILD_TYPE: Release
             os: windows-2022
 
     # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
@@ -54,18 +54,18 @@ jobs:
       TOOLS_DIR:   ${{github.workspace}}\.cache\tools
       INSTALL_DIR: ${{github.workspace}}\.cache\install_msvc_qt${{matrix.qt_version}}_${{matrix.triplet}}_${{matrix.BUILD_TYPE}}
       BUILD_DIR:   ${{github.workspace}}\build
-      VCPKGGITCOMMITID: 4c5ae6b55f3e3e39d291679f89822f496cf190ee
+      VCPKGGITCOMMITID: 7213cf8135c329c37c7e2778e40774489a0583a8
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_DEFAULT_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
-      VCPKG_OVERLAY_PORTS: "${{github.workspace}}/${{matrix.VCPKG_OVERLAY_PORTS}}"
-      VCPKG_MANIFEST_FEATURES: "freerdp;vnc;terminal;filetransfer"
+      #VCPKG_OVERLAY_PORTS: "${{github.workspace}}/${{matrix.VCPKG_OVERLAY_PORTS}}"
+      #VCPKG_MANIFEST_FEATURES: ""
       VCPKG_INSTALLED_DIR: ${{github.workspace}}\.cache\install
       CMAKE_GENERATOR: "Visual Studio 17 2022"
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
       qt_modules: "${{matrix.qt_modules}}"
-      RabbitIM_VERSION: v0.0.27
       artifact_name: build_msvc
+      RabbitIM_VERSION: v0.0.27
 
     # Map the job outputs to step outputs
     outputs:
@@ -77,7 +77,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
@@ -119,7 +119,36 @@ jobs:
           IF NOT EXIST ${{env.INSTALL_DIR}}/lib/cmake/qxmpp (
             git clone https://invent.kde.org/libraries/qxmpp.git
             cd qxmpp
-            git checkout -b v1.10.3 v1.10.3
+            git checkout -b v1.10.2 v1.10.2
+            cmake -E make_directory build
+            cd build
+            cmake .. ^
+                -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
+                -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
+                -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
+                -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF ^
+                -DBUILD_DOCUMENTATION=OFF ^
+                -DCMAKE_INSTALL_PREFIX=${{env.INSTALL_DIR}} ^
+                -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}/lib/cmake ^
+                -DCMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake ^
+                -DVCPKG_INSTALLED_DIR=${{env.INSTALL_DIR}}/qxmpp/vcpkg_installed ^
+                -DVCPKG_VERBOSE=ON ^
+                -DVCPKG_TARGET_TRIPLET=${{matrix.VCPKG_TARGET_TRIPLET}} ^
+                -DX_VCPKG_APPLOCAL_DEPS_INSTALL=OFF ^
+                -DVCPKG_APPLOCAL_DEPS=OFF ^
+                -DVCPKG_TRACE_FIND_PACKAGE=ON
+            cmake --build . --config ${{matrix.BUILD_TYPE}}
+            cmake --install . --config ${{matrix.BUILD_TYPE}} --strip
+          )
+
+      - name: build qzxing
+        working-directory: ${{env.SOURCE_DIR}}
+        if: false
+        run: |
+          IF NOT EXIST ${{env.INSTALL_DIR}}/lib/cmake/qzxing (
+            git clone git clone https://github.com/ftylitak/qzxing.git
+            cd qzxing
+            ;git checkout -b v1.10.2 v1.10.2
             cmake -E make_directory build
             cd build
             cmake .. ^
@@ -148,7 +177,7 @@ jobs:
       - name: Build RabbitIM
         working-directory: ${{env.BUILD_DIR}}
         env:
-          RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+          RabbitCommon_ROOT: ${{env.SOURCE_DIR}}/RabbitCommon
         run: |
           cmake ${{github.workspace}} ^
               -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
@@ -169,7 +198,8 @@ jobs:
               -DVCPKG_TARGET_TRIPLET=${{matrix.VCPKG_TARGET_TRIPLET}} ^
               -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON ^
               -DVCPKG_APPLOCAL_DEPS=ON ^
-              -DVCPKG_TRACE_FIND_PACKAGE=ON
+              -DVCPKG_TRACE_FIND_PACKAGE=ON ^
+              -DENABLE_UPDATE_TRANSLATIONS=ON
           cmake --build . --config ${{matrix.BUILD_TYPE}}
           IF "${{matrix.BUILD_TYPE}}" == "Release" (
             echo "cmake install config: ${{matrix.BUILD_TYPE}} component: Runtime"
@@ -200,11 +230,12 @@ jobs:
           7z a RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip .\install\*
           md5sum RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip > RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip.md5sum
           makensis Install.nsi
-          md5sum RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe > RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe.md5sum
+          copy /Y RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe
+          md5sum RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe > RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe.md5sum
           ${{github.workspace}}\build\install\bin\RabbitIMApp.exe ^
-                -f "update_windows.xml" ^
-                -u https://github.com/KangLin/RabbitIM/releases/download/${{env.RabbitIM_VERSION}}/RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe;https://sourceforge.net/projects/RabbitIM/files/${{env.RabbitIM_VERSION}}/RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe ^
-                --pf RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe ^
+                -f "update_msvc_${{matrix.qt_arch}}_qt${{matrix.qt_version}}.json" ^
+                -u https://github.com/KangLin/RabbitIM/releases/download/${{env.RabbitIM_VERSION}}/RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe;https://sourceforge.net/projects/RabbitIM/files/${{env.RabbitIM_VERSION}}/RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe ^
+                --pf RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe ^
                 -m "${{env.RabbitIM_VERSION}}"
 
       - name: Update artifact
@@ -213,23 +244,5 @@ jobs:
         with:
           name: ${{ env.artifact_name }}
           path: |
-            ${{github.workspace}}\build\RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe
-            ${{github.workspace}}\build\update_windows.xml
-        #if: ${{ matrix.BUILD_TYPE == 'Release' }}
-
-#    - name: Upload To Github Release
-#      if: ${{ matrix.BUILD_TYPE == 'Release' && '5.12.12' == matrix.qt_version && startsWith(github.ref, 'refs/tags/') }}
-#      uses: softprops/action-gh-release@v0.1.14
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      with:
-#        prerelease: true
-##        body: |
-##          [:cn: 修改日志](ChangeLog_zh_CN.md) [:cn: 说明](README_zh_CN.md)
-##          [:us: Change log](ChangeLog.md) [:us: README](README.md)
-#        files: |
-#          ${{github.workspace}}\build\RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip
-#          ${{github.workspace}}\build\RabbitIM_windows_${{env.RabbitIM_VERSION}}.zip.md5sum
-#          ${{github.workspace}}\build\RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe
-#          ${{github.workspace}}\build\RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe.md5sum
-#          ${{github.workspace}}\build\update_windows.xml
+            ${{github.workspace}}\build\RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe
+            ${{github.workspace}}\build\update_msvc_${{matrix.qt_arch}}_qt${{matrix.qt_version}}.json

@@ -18,6 +18,7 @@ if(QXmpp_FOUND)
         list(APPEND QXMPP_DEFINES "-DQXMPP_STATIC")
     ENDIF()
 else()
+    message("Download from https://invent.kde.org/libraries/qxmpp.git")
     return()
 endif()
 
@@ -94,4 +95,5 @@ ADD_PLUGIN_TARGET(
     PRIVATE_LIBS RabbitIm QXmpp::QXmpp ${RABBITIM_LIBS}
     OUTPUT_DIR ${PLUGIN_OUTPUT_DIR}
     INSTALL_DIR ${PLUGIN_INSTALL_DIR}
+    VERSION ${RabbitIm_VERSION}
     )

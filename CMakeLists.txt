@@ -1,13 +1,25 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+# Author: Kang Lin(kl222@126.com)
 
-project(RabbitIm)
+cmake_minimum_required(VERSION 3.21)
+MESSAGE(STATUS "Found CMake ${CMAKE_VERSION}")
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+project(RabbitIm
+    HOMEPAGE_URL "https://github.com/KangLin/RabbitIm"
+    )
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-#set(CMAKE_CXX_EXTENSIONS OFF)
+# 避免使用编译器特定的扩展语法，从而提高跨平台一致性。
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_C_STANDARD 17)
+# 确保编译器支持 C17
+set(CMAKE_C_STANDARD_REQUIRED ON)
+# 避免使用编译器特定的扩展语法，从而提高跨平台一致性。
+set(CMAKE_C_EXTENSIONS OFF)
+
 set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "verbose")
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 if(POLICY CMP0083)
     cmake_policy(SET CMP0083 NEW)
@@ -49,18 +61,6 @@ SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTORCC ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
-
-IF(MSVC)
-    # This option is to enable the /MP switch for Visual Studio 2005 and above compilers
-    OPTION(WIN32_USE_MP "Set to ON to build with the /MP option (Visual Studio 2005 and above)." ON)
-    MARK_AS_ADVANCED(WIN32_USE_MP)
-    IF(WIN32_USE_MP)
-        #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
-        add_compile_options(/MP)
-    ENDIF(WIN32_USE_MP)
-    add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-ENDIF(MSVC)
 
 SET(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libs")
 if (BUILD_SHARED_LIBS)
@@ -106,24 +106,29 @@ else()
     set(BUILD_ARCH ${CMAKE_SYSTEM_PROCESSOR})
 endif()
 
-if(NOT RabbitCommon_DIR)
-    set(RabbitCommon_DIR $ENV{RabbitCommon_DIR})
-    if(NOT RabbitCommon_DIR)
-        set(RabbitCommon_DIR ${CMAKE_SOURCE_DIR}/../RabbitCommon)
+if(NOT RabbitCommon_ROOT)
+    set(RabbitCommon_ROOT $ENV{RabbitCommon_ROOT})
+    if(NOT RabbitCommon_ROOT)
+        set(RabbitCommon_ROOT ${CMAKE_SOURCE_DIR}/../RabbitCommon)
     endif()
 endif()
-if(DEFINED RabbitCommon_DIR AND EXISTS ${RabbitCommon_DIR}/Src)
-    add_subdirectory(${RabbitCommon_DIR}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
-    #list(APPEND CMAKE_MODULE_PATH ${RabbitCommon_DIR}/cmake)
-    include(${RabbitCommon_DIR}/cmake/Translations.cmake)
-    include(${RabbitCommon_DIR}/cmake/RabbitCommonUtils.cmake)
+if(DEFINED RabbitCommon_ROOT AND EXISTS ${RabbitCommon_ROOT}/Src)
+    message("Use RabbitCommon source code")
+    add_subdirectory(${RabbitCommon_ROOT}/Src ${CMAKE_BINARY_DIR}/RabbitCommon)
 else()
-    message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
-    message("   ag:")
-    message("       git clone https://github.com/KangLin/RabbitCommon.git")
-    message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root directory.")
-    message("   ag:")
-    message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
+    find_package(RabbitCommon)
+    if(NOT RabbitCommon_FOUND)
+        message(FATAL_ERROR
+            "RabbitCommon_ROOT is not found. Please use one of the following ways to set it:\n"
+            "1. Set RabbitCommon_ROOT to the install prefix of RabbitCommon.\n"
+            "2. Set RabbitCommon_ROOT to source code root of RabbitCommon.\n"
+            "2.1 Please download the source code of RabbitCommon from https://github.com/KangLin/RabbitCommon\n"
+            "   ag:\n"
+            "       git clone https://github.com/KangLin/RabbitCommon.git ${CMAKE_SOURCE_DIR}/..\n"
+            "2.2 Then set cmake variable or environment variable RabbitCommon_ROOT to download root directory.\n"
+            "   ag:\n"
+            "       cmake -DRabbitCommon_ROOT=${CMAKE_SOURCE_DIR}/.. ")
+    endif()
 endif()
 
 GET_VERSION(OUT_VERSION RabbitIm_VERSION
@@ -132,6 +137,9 @@ GET_VERSION(OUT_VERSION RabbitIm_VERSION
 IF(NOT RabbitIm_VERSION)
     SET(RabbitIm_VERSION "0.1.0")
 ENDIF()
+if(NOT(RabbitIm_VERSION MATCHES "[0-9]+\\.[0-9]+\\.[0-9]+[+\\-^_~0-9A-Za-z]*"))
+    SET(RabbitIm_VERSION "0.0.36")
+endif()
 IF(NOT RabbitImTag)
     SET(RabbitImTag "0.1.0")
 ENDIF()
@@ -142,41 +150,6 @@ option(BUILD_PLUGIN_APP "Build plugin applications" OFF)
 add_subdirectory(Src)
 add_subdirectory(App)
 add_subdirectory(Plugin)
-
-# Create install runtime target
-add_custom_target(install-runtime
-  COMMAND
-     "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=Runtime 
-     -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_install.cmake"
-)
-# Create uninstall runtime target
-add_custom_target(uninstall-runtime
-  COMMAND
-     "${CMAKE_COMMAND}" -DCMAKE_INSTALL_COMPONENT=Runtime 
-     -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-)
-# Create will be delete files
-CONFIGURE_FILE(
-    "${RabbitCommon_DIR}/cmake/cmake_uninstall.cmake.in"
-    "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
-    IMMEDIATE @ONLY)
-# Create uninstall target
-ADD_CUSTOM_TARGET(uninstall
-    "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
-    DEPENDS uninstall-runtime)
-
-
-#安装相关文件
-set(OTHER_FILES
-    License.md
-    Authors.md
-    ChangeLog.md
-    )
-if(ANDROID)
-    INSTALL(FILES ${OTHER_FILES} DESTINATION "assets" COMPONENT Runtime)
-else()
-    INSTALL(FILES ${OTHER_FILES} DESTINATION "." COMPONENT Runtime)
-endif()
 
 option(BUILD_DOCS "Generating API documentation" OFF)
 if(BUILD_DOCS)

@@ -1,10 +1,6 @@
-cmake_minimum_required(VERSION 2.8)
+# Author: Kang Lin(kl222@126.com)
 
 project(RabbitIm)
-
-if(POLICY CMP0020)
-    cmake_policy(SET CMP0020 NEW)
-endif()
 
 set(QT_COMPONENTS Multimedia Xml)
 

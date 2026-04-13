@@ -19,7 +19,7 @@ SetCompressor lzma
 ; MUI Settings
 !define MUI_ABORTWARNING
 !define MUI_ICON "install\RabbitIm.ico"
-!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
+!define MUI_UNICON "install\RabbitIm.ico"
 
 ; Language Selection Dialog Settings
 !define MUI_LANGDLL_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
@@ -29,7 +29,7 @@ SetCompressor lzma
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!insertmacro MUI_PAGE_LICENSE "install\LICENSE.md"
+!insertmacro MUI_PAGE_LICENSE "install\share\doc\RabbitIm\LICENSE.md"
 ; Components page
 !insertmacro MUI_PAGE_COMPONENTS
 ; Directory page
