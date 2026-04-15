@@ -1,5 +1,4 @@
 #include <QPainter>
-#include <QDesktopWidget>
 #include <QApplication>
 #include <QMouseEvent>
 #include <QImageWriter>
@@ -42,9 +41,9 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
     m_height(0),
     m_Editor(this)
 {
-    QDesktopWidget* pDesktop = qApp->desktop();
-    this->setFixedSize(pDesktop->size());
-    resize(pDesktop->size());
+    auto size = qApp->primaryScreen()->availableSize();
+    this->setFixedSize(size);
+    resize(size);
     setAttribute(Qt::WA_TranslucentBackground, true);
     setCursor(Qt::CrossCursor);
 
@@ -66,17 +65,9 @@ CDlgScreenShot::~CDlgScreenShot()
 
 QImage CDlgScreenShot::GetScreenShot(int x, int y, int w, int h)
 {
-    QDesktopWidget* pDesktop = qApp->desktop();
-    
-    //        QPixmap pix(pDesktop->size());
-    //        pDesktop->render(&pix);
-    //        QImage img = pix.copy(x, y, w, h).toImage();
-    //        return img;
-    
-    WId id = qApp->desktop()->winId();  
     QScreen *pScreen = QGuiApplication::primaryScreen();
     QPoint pos = mapToGlobal(QPoint(x, y));
-    return pScreen->grabWindow(id, pos.x(), pos.y(), w, h).toImage();
+    return pScreen->grabWindow(0, pos.x(), pos.y(), w, h).toImage();
     
 }
 
@@ -174,7 +165,6 @@ void CDlgScreenShot::mouseReleaseEvent(QMouseEvent *e)
     {
         m_bGrabing = false;
         setCursor(Qt::ArrowCursor);
-        WId id = qApp->desktop()->winId();
         QRect rect = QRect(m_x,m_y,m_width,m_height).normalized();
         qDebug("x:%d;y:%d;width:%d;height:%d;DlgWidth:%d;DlgHeight:%d",
                         rect.x(),

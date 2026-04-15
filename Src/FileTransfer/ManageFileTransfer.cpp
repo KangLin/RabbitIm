@@ -4,7 +4,6 @@
 #include "MainWindow.h"
 #include "Tool.h"
 #include <QFileDialog>
-#include <QDesktopWidget>
 #include <QApplication>
 #include <QScreen>
 #include <QMessageBox>
@@ -98,7 +97,7 @@ void CManageFileTransfer::slotFileReceived(const QString& szId, QSharedPointer<C
 
 void CManageFileTransfer::slotFinished(const QString &szId, const QString &szFileTransferId)
 {
-    QMap<QString, QSharedPointer<CFileTransfer> >::iterator it = m_FileTransfer.find(szId);
+    auto it = m_FileTransfer.find(szId);
     while (m_FileTransfer.end() != it)
     {
         if(it.value()->GetFileTranserId() == szFileTransferId)
@@ -112,7 +111,7 @@ void CManageFileTransfer::slotFinished(const QString &szId, const QString &szFil
 
 int CManageFileTransfer::CancelSend(const QString &szId)
 {
-    QMap<QString, QSharedPointer<CFileTransfer> >::iterator it = m_FileTransfer.find(szId);
+    auto it = m_FileTransfer.find(szId);
     while (m_FileTransfer.end() != it)
     {
         it.value()->Abort();
@@ -130,7 +129,7 @@ int CManageFileTransfer::ProcessCommand(const QString &szId, const QString &szCo
     QString szCmd = szPara.at(0).split("=").at(1);//命令  
     QString szFileId = szPara.at(1).split("=").at(1);//文件id
     qDebug("cmd:%s;id:%s", qPrintable(szCmd), qPrintable(szId));
-    QMap<QString, QSharedPointer<CFileTransfer> >::iterator it = m_FileTransfer.find(szId);
+    auto it = m_FileTransfer.find(szId);
     while (m_FileTransfer.end() != it)
     {
         if(it.value()->GetFileTranserId() == szFileId)

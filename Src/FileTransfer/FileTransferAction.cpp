@@ -6,9 +6,7 @@
 #include <QPainter>
 #include <QFileInfo>
 #include <QDir>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QDesktopWidget>
-#endif
+#include <QScreen>
 #include <QApplication>
 #include "Global/Global.h"
 #include <math.h>
@@ -18,7 +16,7 @@ CFileTransferAction::CFileTransferAction(QSharedPointer<CFileTransfer> file, con
 {
     m_File = file;
 #ifdef MOBILE
-     QDesktopWidget *pDesk = QApplication::desktop();
+     auto *pDesk = QApplication::primaryScreen();
      int nWidth;
      if(pDesk->availableGeometry().width() > pDesk->availableGeometry().height())
          nWidth = pDesk->availableGeometry().height();

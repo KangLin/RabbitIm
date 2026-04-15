@@ -307,7 +307,8 @@ int CNmea::GetHttpOpenGts(std::list<QGeoPositionInfo> &lstInfo,
             coord.setLongitude(eventMap["GPSPoint_lon"].toDouble());
             coord.setAltitude(eventMap["Altitude_meters"].toDouble());
             info.setCoordinate(coord);
-            info.setTimestamp(QDateTime::fromTime_t(
+            info.setTimestamp(
+                QDateTime::fromSecsSinceEpoch(
                                   eventMap["Timestamp"].toLongLong(),
                               Qt::UTC));
             info.setAttribute(QGeoPositionInfo::GroundSpeed,

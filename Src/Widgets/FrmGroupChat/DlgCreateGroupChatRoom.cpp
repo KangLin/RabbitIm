@@ -1,12 +1,10 @@
-#include "DlgCreateGroupChatRoom.h"
-#include "ui_DlgCreateGroupChatRoom.h"
 #include <QMessageBox>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QDesktopWidget>
-#endif
+#include <QRegExp>
 #include "Global/Global.h"
 #include "ManageGroupChat.h"
 #include "Tool.h"
+#include "DlgCreateGroupChatRoom.h"
+#include "ui_DlgCreateGroupChatRoom.h"
 
 CDlgCreateGroupChatRoom::CDlgCreateGroupChatRoom(QWidget *parent) :
     QDialog(parent),
@@ -53,6 +51,8 @@ void CDlgCreateGroupChatRoom::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;
+    default:
+        break;
     }
 }
 
@@ -64,7 +64,7 @@ void CDlgCreateGroupChatRoom::on_pbOK_clicked()
         QMessageBox::critical(this, tr("Error"), tr("Please fill room name."));
         return;
     }
-    if(szName.indexOf(QRegExp("[^a-zA-Z0-9]")) != -1)
+    if(szName.indexOf(QRegularExpression("[^a-zA-Z0-9]")) != -1)
     {
         QMessageBox::critical(this, tr("Error"), tr("Name must only be letters or numbers."));
         return;

@@ -32,7 +32,8 @@ private:
     CEmoji& operator=(const CEmoji&) = delete;
     ~CEmoji() override;
 
-    bool load(const QString& filename);
+    static void load(const QString& filename, CEmoji* pThis);
+    void onLoad(const QString& filename);
     void constructRegex();
 
     mutable std::map<QString, std::shared_ptr<QIcon>> cachedIcon;

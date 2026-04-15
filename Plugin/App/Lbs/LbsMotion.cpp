@@ -223,7 +223,7 @@ void CLbsMotion::on_pbStart_clicked()
  
         m_PauseTime = 0;
         m_Distance = 0;
-        m_StartTime = QDateTime::currentDateTime().toTime_t();
+        m_StartTime = QDateTime::currentDateTime().toSecsSinceEpoch();
         m_Timer.start(1000);
 
         ui->pbStart->setText(tr("Stop"));
@@ -249,9 +249,9 @@ void CLbsMotion::on_pbStart_clicked()
 void CLbsMotion::on_pbPause_clicked()
 {
     if(m_bPause)
-        m_StartTime += QDateTime::fromTime_t(m_PauseTime).secsTo(
+        m_StartTime += QDateTime::fromSecsSinceEpoch(m_PauseTime).secsTo(
                     QDateTime::currentDateTime());
-    m_PauseTime = QDateTime::currentDateTime().toTime_t();
+    m_PauseTime = QDateTime::currentDateTime().toSecsSinceEpoch();
     m_bPause = !m_bPause;
     if(m_bPause)
         ui->pbPause->setText(tr("Continue"));
@@ -295,7 +295,7 @@ void CLbsMotion::OnTimeOut()
 {
     if(m_bPause)
         return;
-    long sec = QDateTime::fromTime_t(m_StartTime).secsTo(
+    long sec = QDateTime::fromSecsSinceEpoch(m_StartTime).secsTo(
                 QDateTime::currentDateTime());
     QTime t(0, 0, 0);
     t = t.addSecs(sec);

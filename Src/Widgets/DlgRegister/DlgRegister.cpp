@@ -1,9 +1,10 @@
-#include "DlgRegister.h"
-#include "ui_DlgRegister.h"
+#include <QRegExp>
 #include "../FrmLogin/FrmLogin.h"
 #include "../../MainWindow.h"
 #include "Global/Global.h"
 #include "Tool.h"
+#include "DlgRegister.h"
+#include "ui_DlgRegister.h"
 
 CDlgRegister::CDlgRegister(QWidget *parent) :
     QDialog(parent),
@@ -77,7 +78,7 @@ void CDlgRegister::on_pbCreate_clicked()
         msg.exec();
         return;
     }
-    if(ui->txtId->text().indexOf(QRegExp("[^a-zA-Z0-9]")) != -1)
+    if(ui->txtId->text().indexOf(QRegularExpression("[^a-zA-Z0-9]")) != -1)
     {
         QMessageBox::critical(this, tr("Register error"), 
                               tr("User id contains illegal characters. Only letters, numbers, combinations"));
@@ -102,7 +103,7 @@ void CDlgRegister::on_pbCreate_clicked()
         msg.exec();
         return;
     }
-    if(ui->txtPassword->text().indexOf(QRegExp("[^a-zA-Z0-9`~!@#$%^&*()]")) != -1)
+    if(ui->txtPassword->text().indexOf(QRegularExpression("[^a-zA-Z0-9`~!@#$%^&*()]")) != -1)
     {
         QMessageBox::critical(this, tr("Register error"), 
                               tr("Password contains illegal characters. Only letters, numbers, `~!@#$%^&*() combinations"));

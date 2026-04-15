@@ -2,7 +2,6 @@
 #include "ui_DlgUservCard.h"
 #include "../../Global/Global.h"
 #include <QImageWriter>
-#include <QDesktopWidget>
 #include "common/Tool.h"
 #include "common/QRCode.h"
 
@@ -111,6 +110,8 @@ void CDlgUservCard::changeEvent(QEvent *e)
     {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+        break;
+    default:
         break;
     }
 }

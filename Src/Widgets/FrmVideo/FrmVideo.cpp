@@ -10,7 +10,7 @@
 #include "ui_FrmVideo.h"
 #include "MainWindow.h"
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 
 CFrmVideo::CFrmVideo(QWidget *parent) :
     QFrame(parent),
@@ -22,9 +22,12 @@ CFrmVideo::CFrmVideo(QWidget *parent) :
     qDebug("CFrmVideo::CFrmVideo");
     ui->setupUi(this);
 
-    QDesktopWidget *pDesk = QApplication::desktop();
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
+    auto *pDesk = QApplication::primaryScreen();
+    if(pDesk) {
+        auto rect = pDesk->availableGeometry();
+        move((rect.width() - width()) / 2,
+             (rect.height() - height()) / 2);
+    }
 
     /*设置提示文本颜色  
     QPalette pe;

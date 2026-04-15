@@ -1,3 +1,4 @@
+#include <QScreen>
 #include "FrmContainer.h"
 #include "ui_FrmContainer.h"
 #include "FrmMessage.h"
@@ -45,11 +46,7 @@ CFrmContainer::CFrmContainer(QWidget *parent) :
                     SLOT(slotRemove(QString)));
     Q_ASSERT(check);
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QDesktopWidget *pDesk = QApplication::desktop();
-#else
     QScreen* pDesk = QApplication::primaryScreen();
-#endif
 #ifdef MOBILE
     this->resize(pDesk->geometry().size());
 #else

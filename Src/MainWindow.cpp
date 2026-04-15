@@ -837,11 +837,7 @@ void MainWindow::slotCheckShowWindows()
         return;//m_Animation->stop();
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QDesktopWidget *pDesk = QApplication::desktop();
-#else
     QScreen* pDesk = QApplication::primaryScreen();
-#endif
     QRect rDesk = pDesk->geometry();
 
     QSize desktopSize = QApplication::primaryScreen()->availableGeometry().size();

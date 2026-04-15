@@ -3,7 +3,6 @@
 #include "GroupChat.h"
 #include "Global/Global.h"
 #include "ManageGroupChat.h"
-#include <QDesktopWidget>
 
 CDlgGroupChatInfo::CDlgGroupChatInfo(const QString &szId, QWidget *parent) :
     QDialog(parent),

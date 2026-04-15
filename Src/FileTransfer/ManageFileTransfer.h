@@ -2,7 +2,7 @@
 #define FILETRANSFER_H
 
 #include <QObject>
-#include <QMap>
+#include <QMultiMap>
 #include <QSharedPointer>
 #include "Manage/Manage.h"
 #include "FileTransfer.h"
@@ -98,7 +98,7 @@ public slots:
     void slotFinished(const QString& szId, const QString& szFileTransferId);
 
 private:
-    QMap<QString, QSharedPointer<CFileTransfer> > m_FileTransfer;
+    QMultiMap<QString, QSharedPointer<CFileTransfer> > m_FileTransfer;
 };
 
 #endif // FILETRANSFER_H

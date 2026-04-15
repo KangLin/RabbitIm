@@ -1,10 +1,10 @@
+#include <QMessageBox>
+#include <QScreen>
 #include "FrmGroupChat.h"
 #include "ui_FrmGroupChat.h"
 #include "../../Global/Global.h"
-#include <QMessageBox>
 #include "../../MainWindow.h"
 #include "../DlgUservCard/DlgUservCard.h"
-#include <QDesktopWidget>
 #include "ChatActionGroupChat.h"
 
 #ifdef WIN32
@@ -40,9 +40,9 @@ CFrmGroupChat::CFrmGroupChat(const QString &szId, QWidget *parent) :
         ui->lstMembers->setModel(m_pModelMembers);
     }
 
-    QDesktopWidget *pDesk = QApplication::desktop();
-    move((pDesk->width() - width()) / 2,
-         (pDesk->height() - height()) / 2);
+    auto *pDesk = QApplication::primaryScreen();
+    move((pDesk->availableGeometry().width() - width()) / 2,
+         (pDesk->availableGeometry().height() - height()) / 2);
 
     QSharedPointer<CManageGroupChat> mgc = GETMANAGER->GetManageGroupChat();
     m_Room = mgc->Get(szId);
@@ -161,6 +161,8 @@ void CFrmGroupChat::changeEvent(QEvent *e)
     {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+        break;
+    default:
         break;
     }
 }

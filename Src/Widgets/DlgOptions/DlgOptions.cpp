@@ -1,15 +1,22 @@
-#include "DlgOptions.h"
-#include "ui_DlgOptions.h"
+#include <QDir>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #include <QMediaDevices>
+    #include <QAudioDevice>
+#else
+    #include <QCameraInfo>
+    #include <QAudioDeviceInfo>
+#endif
+
 #include "../../Global/Global.h"
 #include "../../MainWindow.h"
-#include <QDesktopWidget>
 #include <QColorDialog>
 #include <QAudioInput>
 #include <QAudioOutput>
-#include <QDir>
-#include <QCameraInfo>
 #include "Tool.h"
 #include "RabbitCommonDir.h"
+
+#include "DlgOptions.h"
+#include "ui_DlgOptions.h"
 
 CDlgOptions::CDlgOptions(QWidget *parent) :
     QDialog(parent),
@@ -137,23 +144,43 @@ void CDlgOptions::showEvent(QShowEvent *)
     }
 
     ui->cbVideo->addItem(tr("no device"));
-    QList<QCameraInfo> info = QCameraInfo::availableCameras();
-    foreach(auto i, info)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    auto camera = QMediaDevices::videoInputs();
+    auto audioInput = QMediaDevices::audioInputs();
+    auto audioOutput = QMediaDevices::audioOutputs();
+#else
+    auto camera = QCameraInfo::availableCameras();
+    auto audioInput = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
+    auto audioOutput = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+#endif
+    foreach(auto i, camera)
     {
-        ui->cbVideo->addItem(i.description() + "[" + i.deviceName() + "]");
+        ui->cbVideo->addItem(i.description() + "[" +
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                             i.id()
+#else
+                             i.deviceName()
+#endif
+                             + "]");
     }
     ui->cbVideo->setCurrentIndex(CGlobal::Instance()->GetVideoCaptureDevice() + 1);
 
     ui->cbAudioInput->addItem(tr("no device"));
-    QList<QAudioDeviceInfo> infos = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
-    foreach (QAudioDeviceInfo info, infos) {
+    foreach (auto info, audioInput) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        ui->cbAudioInput->addItem(info.description());
+#else
         ui->cbAudioInput->addItem(info.deviceName());
+#endif
     }
     ui->cbAudioOutput->addItem(tr("no device"));
     ui->cbAudioInput->setCurrentIndex(CGlobal::Instance()->GetAudioInputDevice() + 1);
-    infos = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
-    foreach (QAudioDeviceInfo info, infos) {
+    foreach (auto info, audioOutput) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        ui->cbAudioOutput->addItem(info.description());
+#else
         ui->cbAudioOutput->addItem(info.deviceName());
+#endif
     }
     ui->cbAudioOutput->setCurrentIndex(CGlobal::Instance()->GetAudioOutputDevice() + 1);
 
@@ -171,6 +198,8 @@ void CDlgOptions::changeEvent(QEvent *e)
     {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
+        break;
+    default:
         break;
     }
 }

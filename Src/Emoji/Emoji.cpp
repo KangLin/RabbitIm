@@ -91,7 +91,7 @@ CEmoji::CEmoji()
     : cleanupTimer{new QTimer(this)}
 {
     loadingMutex.lock();
-    QtConcurrent::run(this, &CEmoji::load, CGlobal::Instance()->GetFileEmoji());
+    QtConcurrent::run(&load, CGlobal::Instance()->GetFileEmoji(), this);
     connect(CGlobal::Instance(), &CGlobal::sigEmojiChanged, this,
             &CEmoji::onSmileyPackChanged);
     connect(cleanupTimer, &QTimer::timeout, this, &CEmoji::cleanupIconsCache);
@@ -169,18 +169,24 @@ QList<QPair<QString, QString>> CEmoji::listSmileyPacks(const QStringList& paths)
     return smileyPacks;
 }
 
+void CEmoji::load(const QString& filename, CEmoji* pThis)
+{
+    if(!pThis) return;
+    return pThis->onLoad(filename);
+}
+
 /**
  * @brief Load smile pack
  * @note The caller must lock loadingMutex and should run it in a thread
  * @param filename Filename of smilepack.
  * @return False if cannot open file, true otherwise.
  */
-bool CEmoji::load(const QString& filename)
+void CEmoji::onLoad(const QString& filename)
 {
     QFile xmlFile(filename);
     if (!xmlFile.exists() || !xmlFile.open(QIODevice::ReadOnly)) {
         loadingMutex.unlock();
-        return false;
+        return;
     }
 
     QDomDocument doc;
@@ -230,7 +236,7 @@ bool CEmoji::load(const QString& filename)
     constructRegex();
 
     loadingMutex.unlock();
-    return true;
+    return;
 }
 
 /**
@@ -317,5 +323,5 @@ std::shared_ptr<QIcon> CEmoji::getAsIcon(const QString& emoticon) const
 void CEmoji::onSmileyPackChanged()
 {
     loadingMutex.lock();
-    QtConcurrent::run(this, &CEmoji::load, CGlobal::Instance()->GetFileEmoji());
+    QtConcurrent::run(&load, CGlobal::Instance()->GetFileEmoji(), this);
 }

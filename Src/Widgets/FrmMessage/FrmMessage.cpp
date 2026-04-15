@@ -108,11 +108,7 @@ int CFrmMessage::Init(const QString &szId)
 
     ui->tbMore->setMenu(&m_MoreMenu);
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QDesktopWidget *pDesk = QApplication::desktop();
-#else
     QScreen* pDesk = QApplication::primaryScreen();
-#endif
 #ifdef MOBILE
     this->resize(pDesk->geometry().size());
 #else

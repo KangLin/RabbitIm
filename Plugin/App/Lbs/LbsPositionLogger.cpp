@@ -78,8 +78,10 @@ void CLbsPositionLogger::requestUpdate(int timeout)
     // now, no data will be added to the file later
     if (m_logFile.canReadLine())
         readNextPosition();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     else
         emit updateTimeout();
+#endif
 }
 
 QGeoPositionInfoSource::Error CLbsPositionLogger::error() const
@@ -104,7 +106,7 @@ int CLbsPositionLogger::Write(const QGeoPositionInfo &info)
     int nRet = 0;
 
     QString szContext;
-    szContext = QString::number(info.timestamp().toUTC().toTime_t()) + ","
+    szContext = QString::number(info.timestamp().toUTC().toSecsSinceEpoch()) + ","
             + QString::number(info.coordinate().latitude()) + ","
             + QString::number(info.coordinate().longitude()) + ",";
     if(!qIsNaN(info.coordinate().altitude()))
@@ -137,7 +139,7 @@ void CLbsPositionLogger::readNextPosition()
     QGeoPositionInfo info;
     
     bool hasTimestamp = false;
-    QDateTime timestamp = QDateTime::fromTime_t(data.value(0).toLong(&hasTimestamp), Qt::UTC);
+    QDateTime timestamp = QDateTime::fromSecsSinceEpoch(data.value(0).toLong(&hasTimestamp), Qt::UTC);
     if(hasTimestamp && timestamp.isValid())
         info.setTimestamp(timestamp);
     double latitude;

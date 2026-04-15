@@ -1,7 +1,6 @@
 #include "DlgInviter.h"
 #include "ui_DlgInviter.h"
 #include "Global/Global.h"
-#include <QDesktopWidget>
 
 CDlgInviter::CDlgInviter(const QString &szId, QWidget *parent) :
     QDialog(parent),
@@ -95,7 +94,11 @@ QStandardItem*  CDlgInviter::ItemInsertGroup(QString szGroup)
     lstGroup->setEditable(false);  //禁止双击编辑 
     lstGroup->setData(PROPERTIES_GROUP, USERLIST_ITEM_ROLE_PROPERTIES);
     lstGroup->setData("", USERLIST_ITEM_ROLE_ID);
-    lstGroup->setTristate(true);  //设置三态复选框状态  
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+    lstGroup->setTristate(true);  //设置三态复选框状态
+#else
+    lstGroup->setUserTristate(true);
+#endif
     lstGroup->setCheckable(true); //设置复选框可用  
     m_pTreeModel->appendRow(lstGroup);
     m_Groups.insert(szGroup, lstGroup);

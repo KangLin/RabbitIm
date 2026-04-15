@@ -4,8 +4,6 @@
 #include "ManageGroupChat.h"
 #include "Tool.h"
 #include <QMessageBox>
-#include <QApplication>
-#include <QDesktopWidget>
 
 CDlgJoinGroupChat::CDlgJoinGroupChat(QWidget *parent) :
     QDialog(parent),
@@ -65,13 +63,13 @@ void CDlgJoinGroupChat::on_buttonBox_accepted()
         return;
     }
 
-    if(ui->txtId->text().indexOf(QRegExp("[^a-zA-Z0-9@\.]")) != -1)
+    if(ui->txtId->text().indexOf(QRegularExpression("[^a-zA-Z0-9@\.]")) != -1)
     {
         QMessageBox::critical(this, tr("Error"), tr("Name must only be letters or numbers."));
         return;
     }
 
-    if(ui->txtNick->text().indexOf(QRegExp("[^a-zA-Z0-9]")) != -1)
+    if(ui->txtNick->text().indexOf(QRegularExpression("[^a-zA-Z0-9]")) != -1)
     {
         QMessageBox::critical(this, tr("Error"), tr("Nick must only be letters or numbers."));
         return;

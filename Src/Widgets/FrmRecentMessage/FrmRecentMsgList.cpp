@@ -152,7 +152,7 @@ int CFrmRecentMsgList::InsertItem(const QString &szId, int nRow)
         pMessageCountItem->setText("");
     pMessageCountItem->setData(szId, USERLIST_ITEM_ROLE_JID);
     pMessageCountItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, USERLIST_ITEM_ROLE_PROPERTIES);
-    pMessageCountItem->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
+    pMessageCountItem->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::ForegroundRole);
     pMessageCountItem->setEditable(false);//禁止双击编辑  
 
     QList<QStandardItem *> lstItems;
@@ -245,7 +245,7 @@ int CFrmRecentMsgList::UpdateItem(const QString &szId)
                 pItemUnReadMessageCount->setText(QString::number(nCount));
             else
                 pItemUnReadMessageCount->setText(QString(""));
-            pItemUnReadMessageCount->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
+            pItemUnReadMessageCount->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::ForegroundRole);
         }
     }
     return 0;

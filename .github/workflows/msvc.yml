@@ -65,7 +65,7 @@ jobs:
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
       qt_modules: "${{matrix.qt_modules}}"
       artifact_name: build_msvc
-      RabbitIM_VERSION: v0.0.27
+      RabbitIM_VERSION: v0.1.0
 
     # Map the job outputs to step outputs
     outputs:

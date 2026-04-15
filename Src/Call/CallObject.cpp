@@ -1,5 +1,12 @@
-#include <QCameraInfo>
 #include <QLoggingCategory>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #include <QMediaDevices>
+    #include <QAudioDevice>
+#else
+    #include <QCameraInfo>
+    #include <QAudioDeviceInfo>
+#endif
 
 #include "CallObject.h"
 #include "Global/Global.h"
@@ -287,17 +294,19 @@ int CCallObject::OpenCamera()
 {
     int nRet = 0;
 
-    QList<QCameraInfo> info = QCameraInfo::availableCameras();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    auto info = QCameraInfo::availableCameras();
     if(info.isEmpty())
         return -1;
 
     Q_ASSERT(!m_pCamera);
-    m_pCamera = new QCamera(QCameraInfo::availableCameras().value(
+    m_pCamera = new QCamera(info.value(
                                 CGlobal::Instance()->GetVideoCaptureDevice()),
                             this);
     if(!m_pCamera) return -2;
     m_pCamera->setViewfinder(m_CaptureVideoFrame.data());
     m_pCamera->start();
+#endif
 
     return nRet;
 }
@@ -306,10 +315,12 @@ int CCallObject::CloseCamera()
 {
     int nRet = 0;
     if(!m_pCamera) return -1;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_pCamera->stop();
     m_pCamera->unload();
     delete m_pCamera;
     m_pCamera = nullptr;
+#endif
     return nRet;
 }
 
@@ -326,7 +337,7 @@ int CCallObject::OpenAudioDevice(QAudioFormat inFormat,
                                  QIODevice *outDevice)
 {
     int nRet = 0;
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QList<QAudioDeviceInfo> lstInputs 
             = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
     if(!lstInputs.isEmpty()
@@ -365,11 +376,13 @@ int CCallObject::OpenAudioDevice(QAudioFormat inFormat,
         else if((outDevice->openMode() & QIODevice::ReadOnly) && (m_pAudioOutput->state() != QAudio::ActiveState) )
             m_pAudioOutput->start(outDevice);
     }
+#endif
     return nRet;
 }
 
 int CCallObject::CloseAudioDevice()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if(m_pAudioInput)
     {
         m_pAudioInput->stop();
@@ -383,6 +396,6 @@ int CCallObject::CloseAudioDevice()
         delete m_pAudioOutput;
         m_pAudioOutput = NULL;
     }
-
+#endif
     return 0;
 }

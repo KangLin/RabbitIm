@@ -1,12 +1,10 @@
+#include <QScreen>
 #include "FrmGroupChatList.h"
 #include "ui_FrmGroupChatList.h"
 #include "../../Global/Global.h"
 #include "FrmGroupChatFind.h"
 #include "../../MainWindow.h"
 #include "DlgCreateGroupChatRoom.h"
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    #include <QDesktopWidget>
-#endif
 #include "ManageGroupChat.h"
 #include "Global/Global.h"
 #include "DlgJoinGroupChat.h"
@@ -25,11 +23,7 @@ CFrmGroupChatList::CFrmGroupChatList(QWidget *parent) :
     ui->setupUi(this);
     ui->gridLayout->addWidget(&m_GroupList);
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QDesktopWidget *pDesk = QApplication::desktop();
-#else
     QScreen* pDesk = QApplication::primaryScreen();
-#endif
     move((pDesk->geometry().width() - width()) / 2,
          (pDesk->geometry().height() - height()) / 2);
 
@@ -329,11 +323,7 @@ void CFrmGroupChatList::slotJoinedGroup(const QString &szId)
     QStandardItem* pMessageCountItem = new QStandardItem("");
     pMessageCountItem->setData(gc->Id(), GROUP_ITEM_ROLE_JID);
     pMessageCountItem->setData(PROPERTIES_UNREAD_MESSAGE_COUNT, GROUP_ITEM_ROLE_PROPERTIES);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    pMessageCountItem->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
-#else
     pMessageCountItem->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::ForegroundRole);
-#endif
     pMessageCountItem->setEditable(false);//禁止双击编辑  
 
     QList<QStandardItem *> lstItems;
@@ -383,11 +373,7 @@ void CFrmGroupChatList::slotUpdateMessage(const QString &szId)
                 pItem->setText(QString::number(nCount));
             else
                 pItem->setText(QString(""));
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            pItem->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::TextColorRole);
-#else
             pItem->setData(CGlobal::Instance()->GetUnreadMessageCountColor(), Qt::ForegroundRole);
-#endif
         }
     }
 }

@@ -5,7 +5,10 @@
 #include <string>
 #include <QSettings>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #include <QMediaDevices>
+    #include <QAudioDevice>
+#else
     #include <QCameraInfo>
     #include <QAudioDeviceInfo>
 #endif
@@ -47,17 +50,17 @@ CGlobal::CGlobal(QObject *parent) :
 #endif
 
     m_szXmppDomain = conf.value("Login/XmppDomain", "rabbitim.com").toString();
-    m_szXmppServer = conf.value("Login/XmppServer", "124.248.65.243").toString();
+    m_szXmppServer = conf.value("Login/XmppServer", "").toString();
     //m_szXmppServer = conf.value("Login/XmppServer", "rabbitim.wicp.net").toString();
     m_szXmppServerPort = conf.value("Login/XmppServerPort", 5222).toInt();
-    m_szStunServer = conf.value("Login/StunServer", "124.248.65.243").toString();
+    m_szStunServer = conf.value("Login/StunServer", "").toString();
     //m_szStunServer = conf.value("Login/StunServer", "rabbitim.wicp.net").toString();
-    m_szTurnServer = conf.value("Login/TurnServer", "124.248.65.243").toString();
+    m_szTurnServer = conf.value("Login/TurnServer", "").toString();
     //m_szTurnServer = conf.value("Login/TurnServer", "rabbitim.wicp.net").toString();
     m_nStunServerPort = conf.value("Login/StunServerPort", 3478).toInt();
     m_nTurnServerPort = conf.value("Login/TurnServerPort", 3478).toInt();
-    m_szTurnUser = conf.value("Login/TurnServerUser", "a").toString();
-    m_szTurnPassword = conf.value("Login/TurnServerPassword", "a").toString();
+    m_szTurnUser = conf.value("Login/TurnServerUser", "").toString();
+    m_szTurnPassword = conf.value("Login/TurnServerPassword", "").toString();
 
     m_AutoLogin = conf.value("Login/AutoLogin", false).toBool();
     m_nAutoLoginDelayTime = conf.value("Login/AutoLoginDelayTime", "3").toInt();
@@ -85,16 +88,24 @@ CGlobal::CGlobal(QObject *parent) :
     m_bHideMessageBox = conf.value(
                 "Options/ScreenShot/HideMessageBox", false).toBool();
 
-    QList<QCameraInfo> info = QCameraInfo::availableCameras();
-    if(info.size() > 0)
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    auto camera = QMediaDevices::videoInputs();
+    auto audioInput = QMediaDevices::audioInputs();
+    auto audioOutput = QMediaDevices::audioOutputs();
+    #else
+    auto camera = QCameraInfo::availableCameras();
+    auto audioInput = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
+    auto audioOutput = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+    #endif
+    if(camera.size() > 0)
         m_nVideoCaptureDevice = conf.value("Device/Video/Capture", 0).toInt();
     else
         m_nVideoCaptureDevice = conf.value("Device/Video/Capture", -1).toInt();
-    if(QAudioDeviceInfo::availableDevices(QAudio::AudioInput).size() > 0)
+    if(audioInput.size() > 0)
         m_nAudioInputDevice = conf.value("Device/Audio/Input", 0).toInt();
     else
         m_nAudioInputDevice = conf.value("Device/Audio/Input", -1).toInt();
-    if(QAudioDeviceInfo::availableDevices(QAudio::AudioOutput).size() > 0)
+    if(audioOutput.size() > 0)
         m_nAudioOutputDevice = conf.value("Device/Audio/Output", 0).toInt();
     else
         m_nAudioOutputDevice = conf.value("Device/Audio/Output", -1).toInt();

@@ -422,22 +422,6 @@ bool CTool::removeDirectory(QString dirName)
  */
 int CTool::SetWindowsGeometry(QWidget *pWindow)
 {
-    /*
-    QDesktopWidget *pDesk = QApplication::desktop();
-    LOG_MODEL_DEBUG("CTool", "availableGeometry:%d,%d; screenGeometry:%d,%d; geometry:%d,%d",
-                    pDesk->availableGeometry().width(),
-                    pDesk->availableGeometry().height(),
-                    pDesk->screenGeometry().width(),
-                    pDesk->screenGeometry().height(),
-                    pDesk->geometry().width(),
-                    pDesk->geometry().height());
-#ifdef MOBILE
-    pWindow->setGeometry(pDesk->availableGeometry());
-#else
-    pWindow->move((pDesk->width() - pWindow->width()) / 2,
-         (pDesk->height() - pWindow->height()) / 2);
-#endif
-    //*/
     //*
     QScreen *pScreen = QGuiApplication::primaryScreen();
     qDebug("availableGeometry:%d,%d; geometry:%d,%d",

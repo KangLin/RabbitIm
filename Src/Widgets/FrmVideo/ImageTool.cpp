@@ -2,9 +2,6 @@
 #include <QDir>
 #include <QGuiApplication>
 #include <QScreen>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    #include <QDesktopWidget>
-#endif
 #include <QApplication>
 #include <QFileDialog>
 #include <QString>
@@ -165,6 +162,9 @@ QImage CImageTool::ConvertFormatToRGB888(const QVideoFrame &frame)
     if(!videoFrame.map(QVideoFrame::MapMode::ReadOnly))
         return img;
     do{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        img = videoFrame.toImage().convertToFormat(QImage::Format_RGB888);
+#else
         QImage::Format f = QVideoFrameFormat::imageFormatFromPixelFormat(
             videoFrame.pixelFormat());
         if(QImage::Format_Invalid != f)
@@ -193,6 +193,7 @@ QImage CImageTool::ConvertFormatToRGB888(const QVideoFrame &frame)
                           videoFrame.pixelFormat());
             }
         }
+#endif
     }while(0);
     videoFrame.unmap();
     return img;

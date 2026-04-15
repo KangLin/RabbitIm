@@ -42,9 +42,9 @@ void CItemModelCustom::slotTreeItemChanged(QStandardItem *pItem)
         return;
     qDebug("CItemModelCustom::slotTreeItemChanged:m_nCount:%d", m_nCount);
     m_nCount++;
-    m_bSignal = false;//禁止选择信号,防止递归调用  
+    m_bSignal = false;//禁止选择信号,防止递归调用
 
-    if(pItem->isTristate())//节点是三态复选框  
+    if(pItem->isUserTristate())//节点是三态复选框
     {
         Qt::CheckState state = pItem->checkState();
         if(Qt::Unchecked == state)
@@ -117,7 +117,7 @@ void CItemModelCustom::treeItem_CheckChildChanged(QStandardItem* pItem)
         return;
     if(Qt::PartiallyChecked == siblingState)
     {
-        if(parentItem->isCheckable() && parentItem->isTristate())
+        if(parentItem->isCheckable() && parentItem->isUserTristate())
             parentItem->setCheckState(Qt::PartiallyChecked);
     }
     else if(Qt::Checked == siblingState)
