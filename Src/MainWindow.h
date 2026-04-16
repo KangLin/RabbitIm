@@ -71,18 +71,22 @@ public slots:
     void slotEditInformation();
 
 protected:
-    virtual void resizeEvent(QResizeEvent *e);
-    virtual void showEvent(QShowEvent *);
-    virtual void closeEvent(QCloseEvent *e);
-    virtual void changeEvent(QEvent* e);
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void enterEvent(QEvent* event);
-    virtual void leaveEvent(QEvent* event);
-    virtual void moveEvent(QMoveEvent* event);
+    virtual void resizeEvent(QResizeEvent *e) override;
+    virtual void showEvent(QShowEvent *) override;
+    virtual void closeEvent(QCloseEvent *e) override;
+    virtual void changeEvent(QEvent* e) override;
+    virtual void mousePressEvent(QMouseEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent *event) override;
+    virtual void mouseReleaseEvent(QMouseEvent *event) override;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    virtual void enterEvent(QEnterEvent *event) override;
+#else
+    virtual void enterEvent(QEvent* event) override;
+#endif
+    virtual void leaveEvent(QEvent* event) override;
+    virtual void moveEvent(QMoveEvent* event) override;
     //事件监听器  
-    virtual bool eventFilter(QObject *target, QEvent *event);
+    virtual bool eventFilter(QObject *target, QEvent *event) override;
 
 private slots:
     void on_actionOptions_O_triggered();

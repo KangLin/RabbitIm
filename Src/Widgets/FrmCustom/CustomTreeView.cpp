@@ -1,8 +1,11 @@
+#include <QResizeEvent>
+#include <QLoggingCategory>
+
 #include "../FrmCustom/CustomTreeView.h"
 #include "../../Global/Global.h"
 #include "Tool.h"
-#include <QResizeEvent>
 
+static Q_LOGGING_CATEGORY(log, "View.Custom")
 CCustomTreeView::CCustomTreeView(QWidget *parent) :
     QTreeView(parent)
 {
@@ -21,19 +24,19 @@ CCustomTreeView::CCustomTreeView(QWidget *parent) :
 
 void CCustomTreeView::mousePressEvent(QMouseEvent *event)
 {
-    qDebug() << "CTreeUserList::mousePressEvent";
+    qDebug(log) << "CTreeUserList::mousePressEvent";
     m_MousePressTime = QTime::currentTime();
     QTreeView::mousePressEvent(event);
 }
 
 void CCustomTreeView::mouseReleaseEvent(QMouseEvent *event)
 {
-    qDebug() << "CTreeUserList::mouseReleaseEvent";
+    qDebug(log) << "CTreeUserList::mouseReleaseEvent";
 #ifdef ANDROID
     //模拟右键菜单  
     QTime cur = QTime::currentTime();
     int sec = m_MousePressTime.secsTo(cur);
-    qDebug("m_MousePressTime:%s;currentTime:%s;sect:%d",
+    qDebug(log, "m_MousePressTime:%s;currentTime:%s;sect:%d",
                     qPrintable(m_MousePressTime.toString("hh:mm:ss.zzz")),
                     qPrintable(cur.toString("hh:mm:ss.zzz")),
                     sec);
@@ -49,13 +52,13 @@ void CCustomTreeView::mouseReleaseEvent(QMouseEvent *event)
 
 void CCustomTreeView::contextMenuEvent(QContextMenuEvent *event)
 {
-    qDebug() << "CTreeUserList::mouseReleaseEvent";
+    qDebug(log) << "CTreeUserList::mouseReleaseEvent";
     QTreeView::contextMenuEvent(event);
 }
 
 void CCustomTreeView::resizeEvent(QResizeEvent *event)
 {
-    /*LOG_MODEL_DEBUG("CCustomTreeView", "CTreeUserList::resizeEvent:width:%d,event size:%d", 
+    /*LOG_MODEL_DEBUG(log, "CCustomTreeView", "CTreeUserList::resizeEvent:width:%d,event size:%d",
                     this->geometry().width(),
                     event->size().width());*/
     Q_UNUSED(event);
@@ -66,6 +69,8 @@ void CCustomTreeView::changeEvent(QEvent *e)
     switch(e->type())
     {
     case QEvent::LanguageChange:
+        break;
+    default:
         break;
     }
 }

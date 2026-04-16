@@ -279,10 +279,14 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
     Q_UNUSED(event)
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void MainWindow::enterEvent(QEnterEvent *event)
+#else
 void MainWindow::enterEvent(QEvent* event)
+#endif
 {
     Q_UNUSED(event)
-    //LOG_MODEL_DEBUG("MainWindow", "MainWindow::enterEvent");
+    qDebug(log) << Q_FUNC_INFO;
 
 #ifndef MOBILE
     m_timerAnimation.stop();
@@ -293,7 +297,7 @@ void MainWindow::enterEvent(QEvent* event)
 void MainWindow::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    //LOG_MODEL_DEBUG("MainWindow", "MainWindow::leaveEvent");
+    qDebug(log) << Q_FUNC_INFO;
 
 #ifndef MOBILE
     //启动窗口隐藏检测定时器  
