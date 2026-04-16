@@ -171,6 +171,8 @@ private slots:
     void slotItemRemoved(const QString& szId);
     //接收消息  
     void slotMessageReceived(const QXmppMessage &message);
+    void slotSSlError(const QList<QSslError> &errors);
+    void slotCredentialsChanged();
 
      /**
       * @brief 文件接收消息  

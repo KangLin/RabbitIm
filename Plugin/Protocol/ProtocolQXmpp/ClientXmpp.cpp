@@ -26,6 +26,7 @@
 #endif
 
 static Q_LOGGING_CATEGORY(log, "qxmpp.client")
+static Q_LOGGING_CATEGORY(logQxmpp, "qxmpp.log")
 CClientXmpp::CClientXmpp(QObject *parent)
     : CClient(parent),
       m_User(NULL)
@@ -119,6 +120,14 @@ int CClientXmpp::InitConnect()
                     SLOT(slotFileReceived(QXmppTransferJob*)));
     Q_ASSERT(check);
 
+    check = connect(&m_Client, SIGNAL(sslErrors(const QList<QSslError>)),
+                    this, SLOT(slotSSlError(const QList<QSslError>)));
+    Q_ASSERT(check);
+
+    check = connect(&m_Client, SIGNAL(credentialsChanged()),
+                    this, SLOT(slotCredentialsChanged()));
+    Q_ASSERT(check);
+
     return 0;
 }
 
@@ -183,7 +192,6 @@ int CClientXmpp::Login(const QString &szUserName,
         config.setUseSASLAuthentication(true);
         config.setUseNonSASLAuthentication(true);
     }
-    //config.setIgnoreSslErrors(true);
 
     config.setHost(CGlobal::Instance()->GetXmppServer());
     config.setPort(CGlobal::Instance()->GetXmppServerPort());
@@ -687,5 +695,48 @@ void CClientXmpp::slotFileReceived(QXmppTransferJob *job)
 
 void CClientXmpp::slotMessage(QXmppLogger::MessageType type, const QString &text)
 {
-    qDebug(log) << Q_FUNC_INFO << "type:" << type << "message:" << text;
+    switch (type) {
+    case QXmppLogger::MessageType::DebugMessage:
+        qDebug(logQxmpp) << text;
+        break;
+    case QXmppLogger::MessageType::InformationMessage:
+        qInfo(logQxmpp) << text;
+        break;
+    case QXmppLogger::MessageType::WarningMessage:
+        qWarning(logQxmpp) << text;
+        break;
+    default:
+        qDebug(logQxmpp) << "Type:" << type << "; Message:" << text;
+        break;
+    }
+
+}
+
+void CClientXmpp::slotSSlError(const QList<QSslError> &errors)
+{
+    QString szErr;
+    foreach (auto e, errors) {
+        szErr += e.errorString() + "\n";
+    }
+    QMessageBox::StandardButton reply = QMessageBox::question(
+        nullptr,
+        "证书验证失败",
+        "服务器的证书不受信任：\n\n" + szErr +
+            "\n\n是否仍然连接？",
+        QMessageBox::Yes | QMessageBox::No
+        );
+    if (reply == QMessageBox::Yes) {
+        // 用户选择信任，则忽略这些错误
+        m_Client.configuration().setIgnoreSslErrors(true);
+    } else {
+        // 用户选择断开连接
+        Logout();
+    }
+}
+
+void CClientXmpp::slotCredentialsChanged()
+{
+    foreach (auto cert, m_Client.configuration().caCertificates()) {
+        qDebug(log) << cert;
+    }
 }
