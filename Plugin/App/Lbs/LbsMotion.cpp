@@ -71,13 +71,15 @@ CLbsMotion::CLbsMotion(QWidget *parent) :
                         SLOT(positionUpdated(QGeoPositionInfo)));
         Q_ASSERT(check);
         
-        //在地图上显示轨迹  
+        //在地图上显示轨迹
         QQuickItem * pRoot = ui->qwMap->rootObject();
-        QObject* pMap = pRoot->findChild<QObject*>("objNameMap");
-        if(pMap)
-        {
-            QGeoPositionInfo pos = m_Source->lastKnownPosition();
-            pMap->setProperty("center", QVariant::fromValue(pos.coordinate()));
+        if(pRoot) {
+            QObject* pMap = pRoot->findChild<QObject*>("objNameMap");
+            if(pMap)
+            {
+                QGeoPositionInfo pos = m_Source->lastKnownPosition();
+                pMap->setProperty("center", QVariant::fromValue(pos.coordinate()));
+            }
         }
     }
     else
