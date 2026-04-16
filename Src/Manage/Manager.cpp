@@ -1,11 +1,13 @@
+#include <QPluginLoader>
+#include <QApplication>
+#include <QLoggingCategory>
 #include "Manager.h"
 #include "ManageMessageDialogBigScreen.h"
 #include "FileTransfer/ManageFileTransfer.h"
 #include "Global/Global.h"
-#include <QPluginLoader>
-#include <QApplication>
 #include "RabbitCommonDir.h"
 
+static Q_LOGGING_CATEGORY(log, "Manager")
 CManager::CManager():
     m_PluginProtocol(nullptr),
     m_ManagePluginProtocol(new CManagePluginProtocol()),
@@ -53,7 +55,7 @@ CManager::CManager():
 
 CManager::~CManager()
 {
-    qDebug("CManager::~CManager()");
+    qDebug(log) << Q_FUNC_INFO;
     //增加移除插件  
     std::list<CPluginProtocol*> lstProtocol = GetManagePluginProtocol()->GetAllPlugins();
     std::list<CPluginProtocol*>::iterator it;
@@ -134,7 +136,7 @@ int CManager::Clean()
 
 int CManager::LoginInit(const QString &szId)
 {
-    qDebug("CManager::LoginInit()");
+    qDebug(log) << Q_FUNC_INFO << szId;
     //注意:初始化顺序  
     GetManageUser()->LoginInit(szId);
     GetManagePluginProtocol()->LoginInit(szId);
@@ -150,7 +152,7 @@ int CManager::LoginInit(const QString &szId)
 
 int CManager::LogoutClean()
 {
-    qDebug("CManager::LogoutClean()");
+    qDebug(log) << Q_FUNC_INFO;
     //注意:清理顺序  
     GetManagePluginApp()->LogoutClean();
     if(GetCall())
@@ -213,6 +215,7 @@ int CManager::FindPlugins(QDir dir)
             {
                 pluginApp->InitInstance(dir.absolutePath());
                 GetManagePluginApp()->RegisterPlugin(pluginApp->ID(), pluginApp);
+                qInfo(log) << "Load app plugin:" << pluginApp->Name() << ";" << szPlugins;
                 continue;
             }
             CPluginProtocol* pluginProtocol = qobject_cast<CPluginProtocol* >(plugin);
@@ -220,10 +223,11 @@ int CManager::FindPlugins(QDir dir)
             {
                 pluginProtocol->InitInstance(dir.absolutePath());
                 GetManagePluginProtocol()->RegisterPlugin(pluginProtocol->ID(), pluginProtocol);
+                qInfo(log) << "Load protocol plugin:" << pluginProtocol->Name() << ";" << szPlugins;
                 continue;
             }
         }else{
-            qCritical() << "Load plugin error:" << loader.errorString();
+            qCritical(log) << "Load plugin error:" << loader.errorString() << ";" << szPlugins;
         }
     }
     

@@ -1,4 +1,8 @@
-#include "ClientXmpp.h"
+#include <QSslConfiguration>
+#include <QHostAddress>
+#include <QImageWriter>
+#include <QBuffer>
+
 #include "QXmppMessage.h"
 #include "QXmppRosterManager.h"
 #include "QXmppConfiguration.h"
@@ -11,11 +15,10 @@
 #include "UserInfoXmpp.h"
 #include "ManageUserQXmpp.h"
 #include "Global/Global.h"
-#include <QImageWriter>
-#include <QBuffer>
 #include "MainWindow.h"
 #include "FileTransferQXmpp.h"
-#include <QHostAddress>
+
+#include "ClientXmpp.h"
 
 #ifdef WIN32
 #undef GetMessage
