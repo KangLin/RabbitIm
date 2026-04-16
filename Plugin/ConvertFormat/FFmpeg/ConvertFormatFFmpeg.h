@@ -9,16 +9,16 @@ extern "C" {
 #undef PixelFormat
 }
 
-class CConvertFormatFFmpeg : public CPluginConverFormat
+class CConvertFormatFFmpeg : public CPluginConvertFormat
 {
     Q_OBJECT
 public:
     explicit CConvertFormatFFmpeg(QObject *parent = nullptr);
     virtual QImage onConverFormatToRGB888(const QVideoFrame &frame);
 
-    Q_INTERFACES(CPluginConverFormat)
+    Q_INTERFACES(CPluginConvertFormat)
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-    Q_PLUGIN_METADATA(IID rabbitim_plugin_conver_format_iid)
+    Q_PLUGIN_METADATA(IID rabbitim_plugin_convert_format_iid)
 #endif
 
 

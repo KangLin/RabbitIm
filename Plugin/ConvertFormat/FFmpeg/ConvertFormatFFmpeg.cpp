@@ -28,7 +28,8 @@ void Log(void*, int level, const char* fmt, va_list vl)
     }
 }
 
-CConvertFormatFFmpeg::CConvertFormatFFmpeg(QObject *parent) : CPluginConverFormat(parent)
+CConvertFormatFFmpeg::CConvertFormatFFmpeg(QObject *parent)
+    : CPluginConvertFormat(parent)
 {
     SetFFmpegLog();
 }

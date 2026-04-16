@@ -1,4 +1,4 @@
-option(USE_FFMPEG "Use ffmpeg" ON)
+option(USE_FFMPEG "Use ffmpeg" OFF)
 message(STATUS "== Use ffmpeg: ${USE_FFMPEG}")
 if(NOT USE_FFMPEG)
     return()
