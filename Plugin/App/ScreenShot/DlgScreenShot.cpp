@@ -34,6 +34,7 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
              | Qt::Tool
              | Qt::WindowStaysOnTopHint
              | Qt::CustomizeWindowHint
+             | Qt::WindowSystemMenuHint
              ),
     m_x(0),
     m_y(0),
@@ -45,6 +46,7 @@ CDlgScreenShot::CDlgScreenShot(QWidget *parent)
     this->setFixedSize(size);
     resize(size);
     setAttribute(Qt::WA_TranslucentBackground, true);
+    setAttribute(Qt::WA_NoSystemBackground, true);    // 告诉Qt不要绘制系统默认背景
     setCursor(Qt::CrossCursor);
 
     m_imgDesktop = GetScreenShot(rect().x(), rect().y(), rect().width(), rect().height());
@@ -68,7 +70,6 @@ QImage CDlgScreenShot::GetScreenShot(int x, int y, int w, int h)
     QScreen *pScreen = QGuiApplication::primaryScreen();
     QPoint pos = mapToGlobal(QPoint(x, y));
     return pScreen->grabWindow(0, pos.x(), pos.y(), w, h).toImage();
-    
 }
 
 QPixmap CDlgScreenShot::getSelectedImg()
