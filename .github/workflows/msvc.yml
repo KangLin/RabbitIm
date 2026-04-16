@@ -231,7 +231,7 @@ jobs:
       - name: Update artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.artifact_name }}
+          name: ${{ env.artifact_name }}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}
           path: |
             ${{github.workspace}}\build\RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe
             ${{github.workspace}}\build\update_msvc_${{matrix.qt_arch}}_qt${{matrix.qt_version}}.json
