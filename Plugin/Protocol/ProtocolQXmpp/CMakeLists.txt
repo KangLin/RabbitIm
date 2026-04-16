@@ -1,21 +1,20 @@
 #qxmpp库
 #OPTION(OPTION_RABBITIM_USE_QXMPP "Use qxmpp library" ON)
 PROJECT(ProtocolQXmpp)
-
-find_package(QXmpp)
-if(QXmpp_FOUND)
-#    if(QXmpp_VERSION VERSION_GREATER_EQUAL 1.3.0)
-#        message(AUTHOR_WARNING "Please use qxmpp version < v1.3.0")
-#        return()
-#    endif()
+if(${QT_VERSION_MAJOR} EQUAL 6)
+    SET(QXMPP_NAME QXmppQt6)
+else()
+    SET(QXMPP_NAME QXmpp)
+endif()
+find_package(${QXMPP_NAME})
+if(${QXMPP_NAME}_FOUND)
     list(APPEND QXMPP_DEFINES RABBITIM_USE_QXMPP)
-    
     IF(BUILD_SHARED_LIBS)
         INSTALL_TARGETS(TARGETS QXmpp::QXmpp)
     ELSE()
-        #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。
-        #生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
-        list(APPEND QXMPP_DEFINES "-DQXMPP_STATIC")
+    #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。
+    #生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
+    list(APPEND QXMPP_DEFINES "-DQXMPP_STATIC")
     ENDIF()
 else()
     message("Download from https://invent.kde.org/libraries/qxmpp.git")
