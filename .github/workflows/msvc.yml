@@ -15,23 +15,23 @@ jobs:
     strategy:
       matrix:
         include:
-          # - CMAKE_GENERATOR_PLATFORM: x64
-          #   VCPKG_TARGET_TRIPLET: x64-windows
-          #   VCPKG_PLATFORM_TOOLSET: v143
-          #   BUILD_TYPE: Release
-          #   qt_version: 6.10.3
-          #   qt_arch: win64_msvc2022_64
-          #   qt_modules: qtscxml qtmultimedia qtimageformats qt5compat qtpositioning
-          #   os: windows-2022
+          - CMAKE_GENERATOR_PLATFORM: x64
+            VCPKG_TARGET_TRIPLET: x64-windows
+            VCPKG_PLATFORM_TOOLSET: v143
+            BUILD_TYPE: Release
+            qt_version: 6.10.3
+            qt_arch: win64_msvc2022_64
+            qt_modules: qtscxml qtmultimedia qtimageformats qt5compat qtpositioning
+            os: windows-2022
 
-          # - CMAKE_GENERATOR_PLATFORM: arm64
-          #   VCPKG_TARGET_TRIPLET: arm64-windows
-          #   VCPKG_PLATFORM_TOOLSET: v143
-          #   BUILD_TYPE: Release
-          #   qt_version: 6.10.3
-          #   qt_arch: win64_msvc2022_arm64
-          #   qt_modules: qt5compat qtimageformats qtmultimedia qtpositioning qtscxml
-          #   os: windows-11-arm
+          - CMAKE_GENERATOR_PLATFORM: arm64
+            VCPKG_TARGET_TRIPLET: arm64-windows
+            VCPKG_PLATFORM_TOOLSET: v143
+            BUILD_TYPE: Release
+            qt_version: 6.10.3
+            qt_arch: win64_msvc2022_arm64
+            qt_modules: qt5compat qtimageformats qtmultimedia qtpositioning qtscxml
+            os: windows-11-arm
 
           - CMAKE_GENERATOR_PLATFORM: Win32
             VCPKG_TARGET_TRIPLET: x86-windows
@@ -156,6 +156,8 @@ jobs:
                 -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
                 -DCMAKE_INSTALL_PREFIX=${{env.BUILD_DIR}}/install ^
                 -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}
+            cmake --build . --config ${{matrix.BUILD_TYPE}}
+            cmake --install . --config ${{matrix.BUILD_TYPE}} --strip
           )
 
       - name: git clone RabbitCommon
