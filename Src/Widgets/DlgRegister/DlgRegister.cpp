@@ -32,7 +32,7 @@ void CDlgRegister::clientError(CClient::ERROR_TYPE e)
     }
     else
     {
-        QString szReason(tr("Unknow error"));
+        QString szReason(tr("Unknown error"));
         if(CClient::Conflict == e)
         {
             szReason = tr("User") + " [" + ui->txtUser->text() + "] " + tr("had exist");

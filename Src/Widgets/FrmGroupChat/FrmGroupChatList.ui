@@ -76,9 +76,9 @@
     <string>Join chat room</string>
    </property>
   </action>
-  <action name="actionRoom_infomation">
+  <action name="actionRoom_information">
    <property name="text">
-    <string>Room infomation</string>
+    <string>Room information</string>
    </property>
   </action>
   <action name="actionOpen_chat_room">

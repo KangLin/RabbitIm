@@ -79,7 +79,7 @@ You'll need to have depot tools installed:
 
 https://sites.google.com/a/chromium.org/dev/developers/how-tos/depottools 
 
-Refer to chromium instructions for each platform for other prerequesites:
+Refer to chromium instructions for each platform for other prerequisites:
 
 
 Getting the Code

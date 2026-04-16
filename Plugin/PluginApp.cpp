@@ -18,7 +18,7 @@ CPluginApp::~CPluginApp()
 
 int CPluginApp::About()
 {
-    QMessageBox::information(NULL, QObject::tr("Application Infomation"),
+    QMessageBox::information(NULL, QObject::tr("Application Information"),
                              QObject::tr("Application:") + Name());
     return 0;
 }

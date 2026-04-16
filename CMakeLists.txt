@@ -121,7 +121,7 @@ else()
     message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon")
     message("   ag:")
     message("       git clone https://github.com/KangLin/RabbitCommon.git")
-    message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root dirctory.")
+    message("2. Then set cmake value or environment variable RabbitCommon_DIR to download root directory.")
     message("   ag:")
     message(FATAL_ERROR "       cmake -DRabbitCommon_DIR= ")
 endif()
@@ -160,7 +160,7 @@ CONFIGURE_FILE(
     "${RabbitCommon_DIR}/cmake/cmake_uninstall.cmake.in"
     "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
     IMMEDIATE @ONLY)
-# Create unistall target
+# Create uninstall target
 ADD_CUSTOM_TARGET(uninstall
     "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake"
     DEPENDS uninstall-runtime)

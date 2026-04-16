@@ -318,8 +318,8 @@ int CFrmAppList::InitMenu()
     m_Menu.addAction(ui->actionCollect_Application);
     connect(ui->actionCollect_Application, SIGNAL(triggered(bool)),
             SLOT(slotCollectApp()));
-    m_Menu.addAction(ui->actionApplication_Infomation);
-    connect(ui->actionApplication_Infomation, SIGNAL(triggered()),
+    m_Menu.addAction(ui->actionApplication_information);
+    connect(ui->actionApplication_information, SIGNAL(triggered()),
             SLOT(slotAboutApp()));
     return 0;
 }

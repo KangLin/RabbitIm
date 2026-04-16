@@ -1,7 +1,6 @@
-#ifndef CCONVERFORMATFFMPEG_H
-#define CCONVERFORMATFFMPEG_H
 
-#include "PluginConverFormat.h"
+#pragma once
+#include "PluginConvertFormat.h"
 
 extern "C" {
 #include "libavformat/avformat.h"
@@ -10,11 +9,11 @@ extern "C" {
 #undef PixelFormat
 }
 
-class CConverFormatFFmpeg : public CPluginConverFormat
+class CConvertFormatFFmpeg : public CPluginConverFormat
 {
     Q_OBJECT
 public:
-    explicit CConverFormatFFmpeg(QObject *parent = nullptr);
+    explicit CConvertFormatFFmpeg(QObject *parent = nullptr);
     virtual QImage onConverFormatToRGB888(const QVideoFrame &frame);
 
     Q_INTERFACES(CPluginConverFormat)
@@ -35,7 +34,7 @@ public:
             const QVideoFrame::PixelFormat format);
     static AVPixelFormat QImageFormatToFFMpegPixFormat(
             const QImage::Format format);
-    static QImage FFMpegConverFormatToRGB888(const QVideoFrame &frame);
+    static QImage FFMpegConvertFormatToRGB888(const QVideoFrame &frame);
 
 private:
     /**
@@ -60,5 +59,3 @@ private:
                              /*[in]*/  int nOutHeight,               /** 转换后的帧的高度 */
                              /*[in]*/  AVPixelFormat outPixelFormat);/** 转换后的帧的格式 */
 };
-
-#endif // CCONVERFORMATFFMPEG_H

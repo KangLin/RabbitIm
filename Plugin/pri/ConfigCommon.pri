@@ -80,7 +80,7 @@ contains(TEMPLATE, lib){ #生成库
         message("Don't find RabbitCommon, in environment variable RabbitCommon_DIR:$$RabbitCommon_DIR")
         message("1. Please download RabbitCommon source code from https://github.com/KangLin/RabbitCommon ag:")
         message("   git clone https://github.com/KangLin/RabbitCommon.git")
-        error  ("2. Then set environment variable RabbitCommon_DIR to download dirctory")
+        error  ("2. Then set environment variable RabbitCommon_DIR to download directory")
     }
 
 } else { #生成App

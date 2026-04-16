@@ -184,16 +184,16 @@ void CItemModelCustom::slotSelectionChanged(const QItemSelection &selected, cons
     if(!m_bSignal)
         return;
     qDebug("CItemModelCustom::slotCurrentChanged:selected:%d;deselected:%d", selected.size(), deselected.size());
-    QModelIndexList indexs = selected.indexes();
-    foreach(QModelIndex index, indexs)
+    QModelIndexList indexes = selected.indexes();
+    foreach(QModelIndex index, indexes)
     {
         QStandardItem* pItem = this->itemFromIndex(index);
         if(pItem->isCheckable())
             pItem->setCheckState(Qt::Checked);
     }
 
-    indexs = deselected.indexes();
-    foreach(QModelIndex index, indexs)
+    indexes = deselected.indexes();
+    foreach(QModelIndex index, indexes)
     {
         QStandardItem* pItem = this->itemFromIndex(index);
         if(pItem->isCheckable())

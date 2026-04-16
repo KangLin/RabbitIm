@@ -65,7 +65,7 @@ windows原生编译
         -where DIRECTORY                 Use specified DIRECTORY as working
                                          directory
         -[use-]full-path                 Use full currnent PATH variable
-                                         instead of triming to minimal
+                                         instead of trimming to minimal
         -help | --help | -? | /?         Display this help and exit
 
     Any parameter that cannot be treated as valid option and all
@@ -330,7 +330,7 @@ windows下用mingw交叉编译
         -where DIRECTORY                 Use specified DIRECTORY as working
                                          directory
         -[use-]full-path                 Use full currnent PATH variable
-                                         instead of triming to minimal
+                                         instead of trimming to minimal
         -help | --help | -? | /?         Display this help and exit
 
     Any parameter that cannot be treated as valid option and all

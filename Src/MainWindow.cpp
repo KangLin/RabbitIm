@@ -440,7 +440,7 @@ int MainWindow::InitLoginedMenu()
 
     ui->menuOperator_O->addMenu(&m_MenuStatus);
     ui->menuOperator_O->addAction(QIcon(":/icon/Information"),
-                tr("Edit Locale User Infomation(&E)"),
+                tr("Edit Locale User Information(&E)"),
                 this, SLOT(slotEditInformation()));
     //注册菜单  
     emit sigMenuInitOperator(ui->menuOperator_O);
@@ -580,7 +580,7 @@ void MainWindow::slotTrayIconMenuUpdate()
     {
         m_TrayIconMenu.addMenu(&m_MenuStatus);
         m_TrayIconMenu.addAction(QIcon(":/icon/Information"),
-                    tr("Edit Locale User Infomation(&E)"),
+                    tr("Edit Locale User Information(&E)"),
                     this, SLOT(slotEditInformation()));
     }
 

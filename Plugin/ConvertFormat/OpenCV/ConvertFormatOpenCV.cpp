@@ -1,4 +1,4 @@
-#include "ConverFormatOpenCV.h"
+#include "ConvertFormatOpenCV.h"
 
 #if OpenCV_VERSION_MAJOR == 3 || OpenCV_VERSION_MAJOR == 2
 #include "opencv/cv.hpp"
@@ -6,10 +6,10 @@
 #include "opencv2/opencv.hpp"
 #endif
 
-CConverFormatOpenCV::CConverFormatOpenCV(QObject *parent) : CPluginConverFormat(parent)
+CConvertFormatOpenCV::CConvertFormatOpenCV(QObject *parent) : CPluginConvertFormat(parent)
 {}
 
-QImage CConverFormatOpenCV::onConverFormatToRGB888(const QVideoFrame &frame)
+QImage CConvertFormatOpenCV::onConvertFormatToRGB888(const QVideoFrame &frame)
 {
     QImage img;
     QVideoFrame videoFrame = frame;

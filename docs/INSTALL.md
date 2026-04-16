@@ -265,7 +265,7 @@
             PATH=${MSYS32_ROOT}/mingw32/bin;${RabbitImRoot}/ThirdLibrary/${PLATFORM}/bin
         * 构建->构建环境变量:设置 ANDROID_NDK_PLATFORM 到指定的API。例如：android-18 
 
-    2. 用 Qt Createor 和 CMake 编译 CMakeLists.txt
+    2. 用 Qt Creator 和 CMake 编译 CMakeLists.txt
         1. windows、linux平台
             * 用 Qt Creator 打开本工程根目录下的 CMakeLists.txt 文件。
             * 打开菜单：文件->打开文件，选中 CMakeLists.txt 文件

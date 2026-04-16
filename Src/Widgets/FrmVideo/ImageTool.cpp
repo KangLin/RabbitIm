@@ -24,14 +24,14 @@ CImageTool::CImageTool(QObject *parent) : QObject(parent)
 {
     foreach (QObject *plugin, QPluginLoader::staticInstances())
     {
-        CPluginConverFormat* pConverFormat = qobject_cast<CPluginConverFormat*>(plugin);
+        CPluginConvertFormat* pConverFormat = qobject_cast<CPluginConvertFormat*>(plugin);
         if(pConverFormat)
-            m_ConverFormat.push_back(pConverFormat);
+            m_ConvertFormat.push_back(pConverFormat);
     }
 
     QString szPath = RabbitCommon::CDir::Instance()->GetDirPlugins();
 #if !defined (Q_OS_ANDROID)
-    szPath = szPath + QDir::separator() + "ConverFormat";
+    szPath = szPath + QDir::separator() + "ConvertFormat";
 #endif
     QStringList filters;
 #if defined (Q_OS_WINDOWS)
@@ -53,7 +53,7 @@ CImageTool* CImageTool::Instance()
 // 图像格式介绍：
 //    https://blog.csdn.net/byhook/article/details/84037338
 //    https://blog.csdn.net/cgwang_1580/article/details/79595958
-QImage CImageTool::ConverFormatToRGB888(const QVideoFrame &frame)
+QImage CImageTool::ConvertFormatToRGB888(const QVideoFrame &frame)
 {
     //LOG_MODEL_DEBUG("CImageTool", "Frame format:%d", frame.pixelFormat());
     switch(frame.pixelFormat())
@@ -65,14 +65,14 @@ QImage CImageTool::ConverFormatToRGB888(const QVideoFrame &frame)
     case QVideoFrame::Format_YUYV:
     case QVideoFrame::Format_UYVY:
     {
-        foreach(auto p, m_ConverFormat)
+        foreach(auto p, m_ConvertFormat)
         {
-            QImage image = p->onConverFormatToRGB888(frame);
+            QImage image = p->onConvertFormatToRGB888(frame);
             if(!image.isNull()) return image;
         }
 
 #ifdef HAVE_LIBYUV
-        return  LibyuvConverFormatToRGB888(frame);
+        return  LibyuvConvertFormatToRGB888(frame);
 #endif
         if(QVideoFrame::Format_YUV420P != frame.pixelFormat())
         {
@@ -115,7 +115,7 @@ QImage CImageTool::ConverFormatToRGB888(const QVideoFrame &frame)
                              videoFrame.width(), videoFrame.height());
                 break;
             default:
-                qCritical("Don't implement conver format: %d",
+                qCritical("Don't implement convert format: %d",
                                 videoFrame.pixelFormat());
             }
         }
@@ -125,7 +125,7 @@ QImage CImageTool::ConverFormatToRGB888(const QVideoFrame &frame)
 }
 
 #if HAVE_LIBYUV
-QImage CImageTool::LibyuvConverFormatToRGB888(const QVideoFrame &frame)
+QImage CImageTool::LibyuvConvertFormatToRGB888(const QVideoFrame &frame)
 {
     QImage img;
     QVideoFrame videoFrame = frame;
@@ -134,7 +134,7 @@ QImage CImageTool::LibyuvConverFormatToRGB888(const QVideoFrame &frame)
     if(!videoFrame.map(QAbstractVideoBuffer::ReadOnly))
         return img;
     
-    PERFORMANCE(LibyuvConverFormatToRGB888)
+    PERFORMANCE(LibyuvConvertFormatToRGB888)
     do{
         img = QImage(videoFrame.width(),
                      videoFrame.height(),
@@ -220,13 +220,13 @@ QImage CImageTool::LibyuvConverFormatToRGB888(const QVideoFrame &frame)
         }
             break;
         default:
-            qWarning( "LibyuvConverFormatToRGB888 Don't implement conver format: %d",
+            qWarning( "LibyuvConvertFormatToRGB888 Don't implement convert format: %d",
                             videoFrame.pixelFormat());
         }
         
     }while(0);
     videoFrame.unmap();
-    PERFORMANCE_ADD_TIME(LibyuvConverFormatToRGB888, "LibyuvConverFormatToRGB888")
+    PERFORMANCE_ADD_TIME(LibyuvConvertFormatToRGB888, "LibyuvConvertFormatToRGB888")
     return img;
 }
 #endif
@@ -323,10 +323,10 @@ int CImageTool::FindPlugins(QDir dir, QStringList filters)
         QPluginLoader loader(szPlugins);
         QObject *plugin = loader.instance();
         if (plugin) {
-            CPluginConverFormat* pConverFormat = qobject_cast<CPluginConverFormat*>(plugin);
+            CPluginConvertFormat* pConverFormat = qobject_cast<CPluginConvertFormat*>(plugin);
             if(pConverFormat)
             {
-                m_ConverFormat.push_back(pConverFormat);
+                m_ConvertFormat.push_back(pConverFormat);
             }
         }else{
             qCritical() << "Load plugin error:" << loader.errorString();

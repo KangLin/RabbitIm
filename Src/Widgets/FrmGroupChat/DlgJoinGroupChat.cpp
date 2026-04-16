@@ -90,7 +90,7 @@ void CDlgJoinGroupChat::on_buttonBox_accepted()
 void CDlgJoinGroupChat::slotError(const QString &szId, CGroupChat::Condition c, int errorno)
 {
     Q_UNUSED(szId);
-    QString szText = tr("Unknow error.");
+    QString szText = tr("Unknown error.");
     switch (c) {
     case CGroupChat::NotAuthorized:
         szText = tr("Not authorized.");

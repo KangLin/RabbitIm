@@ -62,7 +62,7 @@ void CFileTransferAction::slotUpdateHtml()
     // restore old slider value
     m_pEdit->verticalScrollBar()->setValue(vSliderVal);
 
-    // Free our ressources if we'll never need to update again
+    // Free our resources if we'll never need to update again
     if(m_File->GetError() == CFileTransfer::AbortError
             || m_File->GetState() == CFileTransfer::FinishedState)
     {

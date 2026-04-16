@@ -10,7 +10,7 @@ if(FFMPEG_FOUND)
 else()
     return()
 endif()
-message("== FFMPGE: ${FFMPEG_FOUND}; Versoin: ${FFMPEG_VERSION}")
+message("== FFMPGE: ${FFMPEG_FOUND}; Version: ${FFMPEG_VERSION}")
 
 project(FFMpeg)
 
@@ -20,7 +20,7 @@ if(NOT ANDROID)
     set(PLUGIN_INSTALL_DIR plugins/${PLUGIN_RELATIVE_DIR})
 endif()
 ADD_PLUGIN_TARGET(
-    SOURCE_FILES ConverFormatFFmpeg.cpp ConverFormatFFmpeg.h
+    SOURCE_FILES ConvertFormatFFmpeg.cpp ConvertFormatFFmpeg.h
     INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src>
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Plugin>
     PRIVATE_LIBS RabbitIm ${FFMPEG_LIBRARIES}

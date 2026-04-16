@@ -605,7 +605,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Cancle</string>
+        <string>Cancel</string>
        </property>
        <property name="text">
         <string>Cancel(&amp;C)</string>

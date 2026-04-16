@@ -38,7 +38,7 @@ SET(RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
     
     ${CMAKE_SOURCE_DIR}/Plugin/PluginApp.h
     ${CMAKE_SOURCE_DIR}/Plugin/PluginProtocol.h
-    ${CMAKE_SOURCE_DIR}/Plugin/PluginConverFormat.h
+    ${CMAKE_SOURCE_DIR}/Plugin/PluginConvertFormat.h
     ${CMAKE_SOURCE_DIR}/Plugin/ManagePluginApp.h
     ${CMAKE_SOURCE_DIR}/Plugin/ManagePluginProtocol.h
     )
@@ -106,7 +106,7 @@ SET(RABBITIM_SOURCES
     Widgets/FrmApp/FrmFavorites.cpp 
     ${CMAKE_SOURCE_DIR}/Plugin/PluginApp.cpp 
     ${CMAKE_SOURCE_DIR}/Plugin/PluginProtocol.cpp 
-    ${CMAKE_SOURCE_DIR}/Plugin/PluginConverFormat.cpp
+    ${CMAKE_SOURCE_DIR}/Plugin/PluginConvertFormat.cpp
     ${CMAKE_SOURCE_DIR}/Plugin/ManagePluginApp.cpp 
     ${CMAKE_SOURCE_DIR}/Plugin/ManagePluginProtocol.cpp
     Widgets/MainAnimation.cpp

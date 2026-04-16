@@ -1,5 +1,5 @@
 #include <QLoggingCategory>
-#include "ConverFormatFFmpeg.h"
+#include "ConvertFormatFFmpeg.h"
 
 static Q_LOGGING_CATEGORY(log, "Conver.FFmpeg")
 
@@ -28,19 +28,19 @@ void Log(void*, int level, const char* fmt, va_list vl)
     }
 }
 
-CConverFormatFFmpeg::CConverFormatFFmpeg(QObject *parent) : CPluginConverFormat(parent)
+CConvertFormatFFmpeg::CConvertFormatFFmpeg(QObject *parent) : CPluginConverFormat(parent)
 {
     SetFFmpegLog();
 }
 
-int CConverFormatFFmpeg::SetFFmpegLog()
+int CConvertFormatFFmpeg::SetFFmpegLog()
 {
     //在程序初始化时设置ffmpeg日志的回调函数
     av_log_set_callback(Log);
     return 0;
 }
 
-AVPixelFormat CConverFormatFFmpeg::QVideoFrameFormatToFFMpegPixFormat(
+AVPixelFormat CConvertFormatFFmpeg::QVideoFrameFormatToFFMpegPixFormat(
         const QVideoFrame::PixelFormat format)
 {
     switch (format) {
@@ -65,7 +65,7 @@ AVPixelFormat CConverFormatFFmpeg::QVideoFrameFormatToFFMpegPixFormat(
     }
 }
 
-AVPixelFormat CConverFormatFFmpeg::QImageFormatToFFMpegPixFormat(const QImage::Format format)
+AVPixelFormat CConvertFormatFFmpeg::QImageFormatToFFMpegPixFormat(const QImage::Format format)
 {
     if(QImage::Format_RGB32 == format)
         return AV_PIX_FMT_RGB32;
@@ -74,7 +74,7 @@ AVPixelFormat CConverFormatFFmpeg::QImageFormatToFFMpegPixFormat(const QImage::F
 
 //如果转换成功，则调用者使用完 pOutFrame 后，需要调用 avpicture_free(pOutFrame) 释放内存
 //成功返回0，不成功返回非0
-int CConverFormatFFmpeg::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
+int CConvertFormatFFmpeg::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
                          /*[in]*/  int nInWidth,
                          /*[in]*/  int nInHeight,
                          /*[in]*/  AVPixelFormat inPixelFormat,
@@ -137,7 +137,7 @@ int CConverFormatFFmpeg::ConvertFormat(/*[in]*/ const AVPicture &inFrame,
     return nRet;
 }
 
-QImage CConverFormatFFmpeg::onConverFormatToRGB888(const QVideoFrame &frame)
+QImage CConvertFormatFFmpeg::onConverFormatToRGB888(const QVideoFrame &frame)
 {
     int nRet = 0;
     AVPicture inPic, outPic;

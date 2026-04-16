@@ -19,7 +19,7 @@
 #include <QFileDialog>
 #include <QMetaClassInfo>
 
-#include "Plugin/PluginConverFormat.h"
+#include "Plugin/PluginConvertFormat.h"
 
 /**
  * @brief 图形工具，提供一些图形格式转换功能  
@@ -35,16 +35,16 @@ public:
     static CImageTool* Instance();
 
 public:
-    QImage ConverFormatToRGB888(const QVideoFrame &frame);
+    QImage ConvertFormatToRGB888(const QVideoFrame &frame);
 
 private:
-    QList<CPluginConverFormat*> m_ConverFormat;
+    QList<CPluginConvertFormat*> m_ConvertFormat;
     
     int FindPlugins(QDir dir, QStringList filters);
     static void YUV420_2_RGB(unsigned char* pYUV, unsigned char* pRGB, int width, int height);
     
 #if HAVE_LIBYUV
-    static QImage LibyuvConverFormatToRGB888(const QVideoFrame &frame);
+    static QImage LibyuvConvertFormatToRGB888(const QVideoFrame &frame);
 #endif
 
 };

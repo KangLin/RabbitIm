@@ -56,7 +56,7 @@ public:
     
     enum Condition
     {
-        Unknow = -2,
+        Unknown = -2,
         NoError = -1,
         BadRequest,
         Conflict,

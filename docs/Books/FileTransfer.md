@@ -229,7 +229,7 @@ QXmppDiscoveryManager：实现 XEP-0030
 
 * xmpp.filetransfer.enabled = true
 * xmpp.proxy.service=proxy
-* xmpp.proxy.enabled=ture
+* xmpp.proxy.enabled=true
 * xmpp.proxy.port=7777
 * xmpp.proxy.externalip=127.0.0.1
 

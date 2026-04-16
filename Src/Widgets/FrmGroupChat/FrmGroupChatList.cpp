@@ -125,7 +125,7 @@ int CFrmGroupChatList::InitMenu()
     m_Menu.addAction(ui->actionJoin_chat_room);
     m_Menu.addAction(ui->actionLeave_room);
     m_Menu.addAction(ui->actionInviter);
-    m_Menu.addAction(ui->actionRoom_infomation);
+    m_Menu.addAction(ui->actionRoom_information);
     //TODO:1、增加到菜单  
     
     bool check = connect(GET_MAINWINDOW, SIGNAL(sigMenuInitOperator(QMenu*)),
@@ -174,7 +174,7 @@ void CFrmGroupChatList::slotUpdateMenu()
     {
         ui->actionLeave_room->setVisible(false);
         ui->actionOpen_chat_room->setVisible(false);
-        ui->actionRoom_infomation->setVisible(false);
+        ui->actionRoom_information->setVisible(false);
         ui->actionInviter->setVisible(false);
         return;
     }
@@ -182,7 +182,7 @@ void CFrmGroupChatList::slotUpdateMenu()
     //TODO:2、设置是否可以显示  
     ui->actionLeave_room->setVisible(true);
     ui->actionOpen_chat_room->setVisible(true);
-    ui->actionRoom_infomation->setVisible(true);
+    ui->actionRoom_information->setVisible(true);
     ui->actionInviter->setVisible(true);
 }
 
@@ -225,7 +225,7 @@ void CFrmGroupChatList::on_actionLeave_room_triggered()
     ItemRemove(szId);
 }
 
-void CFrmGroupChatList::on_actionRoom_infomation_triggered()
+void CFrmGroupChatList::on_actionRoom_information_triggered()
 {
     QString szId = GetCurrentRoom();
     if(szId.isEmpty())

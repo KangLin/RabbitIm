@@ -13,7 +13,7 @@ QXmppCallManager::hangup()
 audioModeChanged:0
 videoModeChanged:0
 stateChanged:Disconnecting Call
-stateChanged:Finished Call
+stateChanged:finished Call
 finished
 
 
@@ -27,7 +27,7 @@ videoModeChanged:1
 
 audioModeChanged:0
 videoModeChanged:0
-stateChanged:Finished Call
+stateChanged:finished Call
 finished
 
 
@@ -42,7 +42,7 @@ videoModeChanged:3
 
 audioModeChanged:0
 videoModeChanged:0
-stateChanged:Finished Call
+stateChanged:finished Call
 finished
 
 被动呼叫，主动关闭
@@ -57,8 +57,8 @@ QXmppCallManager::hangup()
 audioModeChanged:0
 videoModeChanged:0
 stateChanged:Disconnecting Call
-stateChanged:Finished Call
-finishe
+stateChanged:finished Call
+finished
 
 connected：是信令通道建立连接后触发
 audioModeChanged:是ICE数据通道建立连接后触发

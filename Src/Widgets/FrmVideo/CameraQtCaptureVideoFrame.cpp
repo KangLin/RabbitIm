@@ -78,7 +78,7 @@ bool CCameraQtCaptureVideoFrame::present(const QVideoFrame &frame)
 {
     emit sigCaptureFrame(frame);
 
-    QImage img = CImageTool::Instance()->ConverFormatToRGB888(frame);
+    QImage img = CImageTool::Instance()->ConvertFormatToRGB888(frame);
     if(m_Angle)
         img = img.transformed(QTransform().rotate(-1 * m_Angle));
     emit sigCaptureFrame(img);

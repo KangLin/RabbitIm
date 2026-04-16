@@ -8,7 +8,7 @@ if [ -n "$1" ]; then
         VERSION=` git rev-parse HEAD`
     fi
     
-    echo "Current verion: $VERSION, The version to will be set: $1"
+    echo "Current version: $VERSION, The version to will be set: $1"
     read -t 30 -p "Be sure to input Y, not input N: " INPUT
     if [ "$INPUT" != "Y" -a "$INPUT" != "y" ]; then
         exit 0

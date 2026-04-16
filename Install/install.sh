@@ -14,7 +14,7 @@ case "$1" in
 
     install|*)
         echo "install ..."
-        # Install destop
+        # Install desktop
         if [ -f /usr/share/applications/RabbitIm.desktop ]; then
             rm /usr/share/applications/RabbitIm.desktop
         fi

@@ -112,8 +112,8 @@ int CFrmFavorites::InitMenu()
     m_Menu.addAction(ui->actionOpen_Application);
     connect(ui->actionOpen_Application, SIGNAL(triggered()),
             SLOT(slotOpenApp()));
-    m_Menu.addAction(ui->actionApplication_Infomation);
-    connect(ui->actionApplication_Infomation, SIGNAL(triggered()),
+    m_Menu.addAction(ui->actionApplication_information);
+    connect(ui->actionApplication_information, SIGNAL(triggered()),
             SLOT(slotAboutApp()));
     m_Menu.addAction(ui->actionRemove_Application);
     connect(ui->actionRemove_Application, SIGNAL(triggered()),

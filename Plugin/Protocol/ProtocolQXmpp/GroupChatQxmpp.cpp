@@ -122,7 +122,7 @@ void CGroupChatQxmpp::slotError(const QXmppStanza::Error &error)
         SetError(CGroupChat::NotAuthorized);
         break;
     default:
-        SetError(CGroupChat::Unknow);
+        SetError(CGroupChat::Unknown);
     }
     GETMANAGER->GetManageGroupChat()->slotError(Id(), Error(), error.code());
 }

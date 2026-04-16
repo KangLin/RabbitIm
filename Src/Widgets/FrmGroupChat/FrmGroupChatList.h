@@ -79,7 +79,7 @@ private slots:
     //离开群组菜单  
     void on_actionLeave_room_triggered();
     //组信息菜单  
-    void on_actionRoom_infomation_triggered();
+    void on_actionRoom_information_triggered();
     //邀请  
     void on_actionInviter_triggered();
 
