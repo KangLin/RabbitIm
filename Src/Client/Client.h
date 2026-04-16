@@ -1,6 +1,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include <QSslError>
 #include <QObject>
 #include "../UserInfo/User.h"
 #include "FileTransfer/FileTransfer.h"

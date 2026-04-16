@@ -183,7 +183,8 @@ int CClientXmpp::Login(const QString &szUserName,
         config.setUseSASLAuthentication(true);
         config.setUseNonSASLAuthentication(true);
     }
-    
+    //config.setIgnoreSslErrors(true);
+
     config.setHost(CGlobal::Instance()->GetXmppServer());
     config.setPort(CGlobal::Instance()->GetXmppServerPort());
     config.setDomain(CGlobal::Instance()->GetXmppDomain());

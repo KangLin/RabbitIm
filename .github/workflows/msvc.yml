@@ -142,6 +142,7 @@ jobs:
           )
 
       - name: build qzxing
+        if: ${{ matrix.qt_version == '5.15.2' }}
         working-directory: ${{env.SOURCE_DIR}}
         run: |
           IF NOT EXIST ${{env.INSTALL_DIR}}/lib/cmake/qzxing/ (
