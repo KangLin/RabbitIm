@@ -148,6 +148,8 @@ private:
 
     //配置选项  
 public:
+    int SetIgnoreSSLError(bool ignore);
+    bool GetIgnoreSSLError();
     //设置自动登录  
     int SetAutoLogin(bool bAuto);
     bool GetAutoLogin();
@@ -177,6 +179,7 @@ public:
     int SetIsAnimationHideMainWindow(bool bHide);
 
 private:
+    bool m_bIgnoreSSLError;
     bool m_AutoLogin;               ///< 自动登录  
     int m_nAutoLoginDelayTime;
     bool m_bNotifiationBarShowMessage;

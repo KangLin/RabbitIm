@@ -61,7 +61,8 @@ CGlobal::CGlobal(QObject *parent) :
     m_nTurnServerPort = conf.value("Login/TurnServerPort", 3478).toInt();
     m_szTurnUser = conf.value("Login/TurnServerUser", "").toString();
     m_szTurnPassword = conf.value("Login/TurnServerPassword", "").toString();
-
+    
+    m_bIgnoreSSLError = conf.value("Login/IgnoreSSLError", false).toBool();
     m_AutoLogin = conf.value("Login/AutoLogin", false).toBool();
     m_nAutoLoginDelayTime = conf.value("Login/AutoLoginDelayTime", "3").toInt();
     m_bNotifiationBarShowMessage = conf.value(
@@ -428,6 +429,8 @@ CGlobal::E_CLOSE_TYPE CGlobal::GetCloseType()
 
 int CGlobal::SetCloseType(E_CLOSE_TYPE type)
 {
+    if(m_CloseType == type)
+        return 0;
     m_CloseType = type;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Logout/type", type);
@@ -436,6 +439,8 @@ int CGlobal::SetCloseType(E_CLOSE_TYPE type)
 
 int CGlobal::SetMessageSendType(E_MESSAGE_SEND_TYPE type)
 {
+    if(m_MessageSendType == type)
+        return 0;
     m_MessageSendType = type;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Options/Message/SendType", m_MessageSendType);
@@ -447,8 +452,25 @@ CGlobal::E_MESSAGE_SEND_TYPE CGlobal::GetMessageSendType()
     return m_MessageSendType;
 }
 
+int CGlobal::SetIgnoreSSLError(bool ignore)
+{
+    if(m_bIgnoreSSLError == ignore)
+        return 0;
+    m_bIgnoreSSLError = ignore;
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
+    conf.setValue("Login/IgnoreSSLError", bAuto);
+    return 0;
+}
+
+bool CGlobal::GetIgnoreSSLError()
+{
+    return m_bIgnoreSSLError;
+}
+
 int CGlobal::SetAutoLogin(bool bAuto)
 {
+    if(m_AutoLogin == bAuto)
+        return 0;
     m_AutoLogin = bAuto;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Login/AutoLogin", bAuto);
@@ -462,6 +484,8 @@ bool CGlobal::GetAutoLogin()
 
 int CGlobal::SetAutoLoginDelayTime(int nTime)
 {
+    if(m_nAutoLoginDelayTime == nTime)
+        return 0;
     m_nAutoLoginDelayTime = nTime;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Login/AutoLoginDelayTime", m_nAutoLoginDelayTime);
@@ -475,19 +499,23 @@ int CGlobal::GetAutoLoginDelayTime()
 
 int CGlobal::SetNotifiationBarShowMessage(bool bShowMessage)
 {
-     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
-     conf.setValue("Options/NotifiationBar/ShowMessage", bShowMessage);
-     m_bNotifiationBarShowMessage = bShowMessage;
-     return 0;
+    if(m_bNotifiationBarShowMessage == bShowMessage)
+        return 0;
+    QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
+    conf.setValue("Options/NotifiationBar/ShowMessage", bShowMessage);
+    m_bNotifiationBarShowMessage = bShowMessage;
+    return 0;
 }
 
 bool CGlobal::IsNotifiationBarShowMessage()
 {
-     return m_bNotifiationBarShowMessage;
+    return m_bNotifiationBarShowMessage;
 }
 
 int CGlobal::SetNotifiationBarShowMessageDelay(int nMs)
 {
+    if(m_nShowMessageDelay == nMs)
+        return 0;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Options/NotifiationBar/ShowMessageDelay", nMs);
     m_nShowMessageDelay = nMs;
@@ -501,6 +529,8 @@ int CGlobal::GetNotifiationBarShowMessageDelay()
 
 int CGlobal::SetNotifiationFlashs(bool bFlashs)
 {
+    if(bFlashs == m_bNotifiationBarFlashs)
+        return 0;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Options/NotifiationBar/Flashs", bFlashs);
     m_bNotifiationBarFlashs = bFlashs;
@@ -514,6 +544,8 @@ bool CGlobal::IsNotifiationFlashs()
 
 int CGlobal::SetNotifiationFlashInterval(int nMs)
 {
+    if(m_nFlashInterval == nMs)
+        return 0;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Options/NotifiationBar/FlashsInterval", nMs);
     m_nFlashInterval = nMs;
@@ -527,6 +559,8 @@ int CGlobal::GetNotifiationFlashInterval()
 
 int CGlobal::SetMessageSound(bool bSound)
 {
+    if(m_bMessageSound == bSound)
+        return 0;
     m_bMessageSound = bSound;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Options/Message/ReceiveMessageSound", bSound);
@@ -540,6 +574,8 @@ bool CGlobal::GetMessageSound()
 
 int CGlobal::SetAnimationHideMainWindow(int nMs)
 {
+    if(m_nAnimationHideMainWindow == nMs)
+        return 0;
     m_nAnimationHideMainWindow = nMs;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("UI/MainWindow/AnimationHide", m_nAnimationHideMainWindow);
@@ -553,6 +589,8 @@ int CGlobal::GetAnimationHideMainWindow()
 
 int CGlobal::SetAnimationDuration(int nMs)
 {
+    if(m_nAnimationDuration == nMs)
+        return 0;
     m_nAnimationDuration = nMs;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("UI/MainWindow/AnimationDuration", m_nAnimationDuration);
@@ -571,6 +609,8 @@ bool CGlobal::IsAnimationHideMainWindow()
 
 int CGlobal::SetIsAnimationHideMainWindow(bool bHide)
 {
+    if(m_bAnimationHideMainWindows == bHide)
+        return 0;
     m_bAnimationHideMainWindows = bHide;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("UI/MainWindow/AutoHide", m_bAnimationHideMainWindows);
@@ -579,6 +619,8 @@ int CGlobal::SetIsAnimationHideMainWindow(bool bHide)
 
 int CGlobal::SetRosterShowType(E_ROSTER_SHOW_TYPE type)
 {
+    if(m_RosterShowType == type)
+        return 0;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Options/Roster/ShowType", type);
     m_RosterShowType = type;
@@ -592,6 +634,8 @@ CGlobal::E_SCREEN_SHOT_TO_TYPE CGlobal::GetScreenShotToType()
 
 int CGlobal::SetScreenShotToType(CGlobal::E_SCREEN_SHOT_TO_TYPE type)
 {
+    if(m_ScreenShotToType == type)
+        return 0;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Options/ScreenShot/ToType", type);
     m_ScreenShotToType = type;
@@ -605,6 +649,8 @@ bool CGlobal::IsHideMessageBox()
 
 int CGlobal::SetHideMessageBox(bool bHide)
 {
+    if(m_bHideMessageBox == bHide)
+        return 0;
     m_bHideMessageBox = bHide;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Options/ScreenShot/HideMessageBox", m_bHideMessageBox);
@@ -640,6 +686,8 @@ int CGlobal::GetAudioInputDevice()
 
 int CGlobal::SetAudioInputDevice(int nIndex)
 {
+    if(m_nAudioInputDevice == nIndex)
+        return 0;
     m_nAudioInputDevice = nIndex;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Device/Audio/Input", nIndex);
@@ -653,6 +701,8 @@ int CGlobal::GetAudioOutputDevice()
 
 int CGlobal::SetAudioOutputDevice(int nIndex)
 {
+    if(m_nAudioOutputDevice == nIndex)
+        return 0;
     m_nAudioOutputDevice = nIndex;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Device/Audio/Output", nIndex);
@@ -666,6 +716,8 @@ bool CGlobal::GetIsShowLocaleVideo()
 
 int CGlobal::SetIsShowLocaleVideo(bool bShow)
 {
+    if(m_bShowLocaleVideo == bShow)
+        return 0;
     m_bShowLocaleVideo = bShow;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Video/Locale/Show", bShow);
@@ -679,6 +731,8 @@ bool CGlobal::GetIsMonitor()
 
 int CGlobal::SetMonitor(bool bMonitor)
 {
+    if(m_bMonitor == bMonitor)
+        return 0;
     m_bMonitor = bMonitor;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Video/Monitor", bMonitor);
@@ -712,6 +766,8 @@ QString CGlobal::GetFileEmoji()
 
 int CGlobal::SetFileEmoji(const QString &szFile)
 {
+    if(m_szEmoji == szFile)
+        return 0;
     m_szEmoji = szFile;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
     conf.setValue("Options/Emoji/File", m_szEmoji);

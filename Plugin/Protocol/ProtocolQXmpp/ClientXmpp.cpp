@@ -715,20 +715,32 @@ void CClientXmpp::slotMessage(QXmppLogger::MessageType type, const QString &text
 void CClientXmpp::slotSSlError(const QList<QSslError> &errors)
 {
     QString szErr;
+    if(CGlobal::Instance()->GetIgnoreSSLError()) {
+        m_Client.configuration().setIgnoreSslErrors(true);
+        return;
+    }
+
     foreach (auto e, errors) {
         szErr += e.errorString() + "\n";
     }
     QMessageBox::StandardButton reply = QMessageBox::question(
         nullptr,
-        "证书验证失败",
-        "服务器的证书不受信任：\n\n" + szErr +
-            "\n\n是否仍然连接？",
-        QMessageBox::Yes | QMessageBox::No
+        tr("Certificate verification failed"),
+        tr("The server's certificate is not trusted:") + "\n\n" + szErr + "\n\n"
+            + tr("Still connected?)" + "\n\n"
+                     + tr("- Ignore: Accept only this time") + "\n\n"
+                     + tr("- Yes: Always accept") + "\n\n"
+                     + tr("- No: Refuse") + "\n\n",
+                 QMessageBox::Ignore | QMessageBox::Yes | QMessageBox::No
         );
-    if (reply == QMessageBox::Yes) {
+    switch(reply) {
+    case QMessageBox::Yes:
+        CGlobal::Instance()->SetIgnoreSSLError(true);
+    case QMessageBox::Ignore:
         // 用户选择信任，则忽略这些错误
         m_Client.configuration().setIgnoreSslErrors(true);
-    } else {
+        break;
+    case QMessageBox::No:
         // 用户选择断开连接
         Logout();
     }
