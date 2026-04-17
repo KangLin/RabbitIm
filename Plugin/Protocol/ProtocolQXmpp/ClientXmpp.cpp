@@ -727,7 +727,7 @@ void CClientXmpp::slotSSlError(const QList<QSslError> &errors)
         nullptr,
         tr("Certificate verification failed"),
         tr("The server's certificate is not trusted:") + "\n\n" + szErr + "\n\n"
-            + tr("Still connected?)" + "\n\n"
+            + tr("Still connected?") + "\n\n"
                      + tr("- Ignore: Accept only this time") + "\n\n"
                      + tr("- Yes: Always accept") + "\n\n"
                      + tr("- No: Refuse") + "\n\n",

@@ -1,7 +1,7 @@
 #include <QLoggingCategory>
 #include "ConvertFormatFFmpeg.h"
 
-static Q_LOGGING_CATEGORY(log, "Conver.FFmpeg")
+static Q_LOGGING_CATEGORY(log, "Convert.FFmpeg")
 
 //设置日志的回调函数
 void Log(void*, int level, const char* fmt, va_list vl)
@@ -61,7 +61,7 @@ AVPixelFormat CConvertFormatFFmpeg::QVideoFrameFormatToFFMpegPixFormat(
         return AV_PIX_FMT_YUV420P;
     case QVideoFrame::Format_YV12:
     default:
-        qWarning(log) << "Don't conver format:" << format;
+        qWarning(log) << "Don't convert format:" << format;
         return AV_PIX_FMT_NONE;
     }
 }

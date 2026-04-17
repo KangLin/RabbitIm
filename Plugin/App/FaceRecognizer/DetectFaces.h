@@ -13,7 +13,7 @@ public:
     bool DetectFaces(cv::Mat frame, cv::Mat &frame_gray, CV_OUT std::vector<cv::Rect>&faces, double scale);
     bool DetectFaces(cv::Mat frame, cv::Mat &frame_gray, bool bShow = true);
 
-    int AddImage(cv::Mat image, int lable);
+    int AddImage(cv::Mat image, int label);
     int Train();
     int Recognizer(cv::Mat image, int &label, double &confidence);
     
@@ -28,7 +28,7 @@ private:
     cv::Ptr<cv::face::EigenFaceRecognizer> m_Model;
 
     std::vector<cv::Mat> m_Images;
-    std::vector<int> m_Lables;
+    std::vector<int> m_labels;
     int m_nWidth, m_nHeight;
 };
 

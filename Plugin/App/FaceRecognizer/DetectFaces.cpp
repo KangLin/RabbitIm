@@ -138,7 +138,7 @@ bool CDetectFaces::DetectFaces(cv::Mat frame,
     return bFind;
 }
 
-int CDetectFaces::AddImage(cv::Mat image, int lable)
+int CDetectFaces::AddImage(cv::Mat image, int label)
 {
     if(image.empty())
         return -1;
@@ -154,7 +154,7 @@ int CDetectFaces::AddImage(cv::Mat image, int lable)
     cv::resize(image, img, img.size(), 0, 0, cv::INTER_LINEAR);
 
     m_Images.push_back(img);
-    m_Lables.push_back(lable);
+    m_labels.push_back(label);
     return 0;
 }
 
@@ -163,7 +163,7 @@ int CDetectFaces::Train()
     int nRet = 0;
     double t = 0;
     t = (double)cvGetTickCount();
-    m_Model->train(m_Images, m_Lables);
+    m_Model->train(m_Images, m_labels);
     t = (double)cvGetTickCount() - t;
     qDebug() << "Detection eye time = " << t / ((double)cvGetTickFrequency() * 1000) << "ms";    
     m_Model->save("MyFaceLBPHModel.xml");

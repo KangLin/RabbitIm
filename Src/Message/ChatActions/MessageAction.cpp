@@ -12,9 +12,9 @@ CMessageAction::CMessageAction(const QString &szId, const QString &message, cons
 
 void CMessageAction::setup(QTextCursor cursor, QTextEdit *)
 {
-    // When this function is called, we're supposed to only update ourselve when needed
+    // When this function is called, we're supposed to only update ourselves when needed
     // Nobody should ask us to do anything with our content, we're on our own
-    // Except we never udpate on our own, so we can safely free our resources
+    // Except we never update on our own, so we can safely free our resources
 
     (void) cursor;
     m_szMessage.clear();
@@ -26,24 +26,7 @@ void CMessageAction::setup(QTextCursor cursor, QTextEdit *)
 QString CMessageAction::getMessage()
 {
     QString message_ = CEmoji::getInstance().smileyfied(toHtmlChars(m_szMessage));
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-    // detect urls
-    QRegExp exp("(www\\.|http[s]?:\\/\\/|ftp:\\/\\/)\\S+");
-    int offset = 0;
-    while ((offset = exp.indexIn(message_, offset)) != -1)
-    {
-        QString url = exp.cap();
 
-        // add scheme if not specified
-        if (exp.cap(1) == "www.")
-            url.prepend("http://");
-
-        QString htmledUrl = QString("<a href=\"%1\">%1</a>").arg(url);
-        message_.replace(offset, exp.cap().length(), htmledUrl);
-
-        offset += htmledUrl.length();
-    }
-#else
     // detect urls
     QRegularExpression exp("(www\\.|http[s]?:\\/\\/|ftp:\\/\\/)\\S+");
     int offset = 0;
@@ -69,7 +52,6 @@ QString CMessageAction::getMessage()
         message_.replace(matchStart, matchLength, htmledUrl);
         offset = matchStart + htmledUrl.length();
     }
-#endif
 
     message_ = message_.replace(QString("\n"), QString("<br/>"));
 

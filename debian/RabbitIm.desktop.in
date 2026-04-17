@@ -3,7 +3,7 @@
 # /usr/share/applications/
 # /usr/local/share/applications/
 # ~/.local/share/applications/
-# Use follow order to update desktop datebase
+# Use follow order to update desktop database
 # `sudo update-desktop-database`
 
 [Desktop Entry]

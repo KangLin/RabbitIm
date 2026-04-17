@@ -458,7 +458,7 @@ int CGlobal::SetIgnoreSSLError(bool ignore)
         return 0;
     m_bIgnoreSSLError = ignore;
     QSettings conf(RabbitCommon::CDir::Instance()->GetFileUserConfigure(), QSettings::IniFormat);
-    conf.setValue("Login/IgnoreSSLError", bAuto);
+    conf.setValue("Login/IgnoreSSLError", m_bIgnoreSSLError);
     return 0;
 }
 

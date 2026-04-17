@@ -220,7 +220,7 @@ MACRO(COMPILE_QT_HEADERS _TARGET)
     ELSE(CMAKE_AUTOMOC)
       SET(_FILES "${ARGN}")
       IF(_FILES)
-        # Generate .cpp from .h witout notice messages
+        # Generate .cpp from .h without notice messages
         IF(QT5)
           QT5_WRAP_CPP(QT_MOCS_CPPS ${_FILES} OPTIONS -nn)
         ELSE(QT5)

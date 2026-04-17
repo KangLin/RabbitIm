@@ -126,7 +126,7 @@ QImage CConvertFormatOpenCV::onConvertFormatToRGB888(const QVideoFrame &frame)
             break;
 
         default:
-            qWarning("OpenCVConverFormatToRGB888 Don't conver format: %d",
+            qWarning("OpenCVConverFormatToRGB888 Don't convert format: %d",
                             videoFrame.pixelFormat());
         }
 

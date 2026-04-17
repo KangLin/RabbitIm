@@ -266,7 +266,7 @@ void CEmoji::constructRegex()
 }
 
 /**
- * @brief Replaces all found text emoticons to HTML reference with its according icon filename
+ * @brief Replaces all found text emoticons to HTML reference with its occurring icon filename
  * @param msg Message where to search for emoticons
  * @return Formatted copy of message
  */
@@ -289,7 +289,7 @@ QString CEmoji::smileyfied(const QString& msg)
 }
 
 /**
- * @brief Returns all emoticons that was extracted from files, grouped by according icon file
+ * @brief Returns all emoticons that was extracted from files, grouped by occurring icon file
  */
 QList<QStringList> CEmoji::getEmoticons() const
 {
@@ -298,9 +298,9 @@ QList<QStringList> CEmoji::getEmoticons() const
 }
 
 /**
- * @brief Gets icon accoring to passed emoticon
+ * @brief Gets icon according to passed emoticon
  * @param emoticon Passed emoticon
- * @return Returns cached icon according to passed emoticon, null if no icon mapped to this emoticon
+ * @return Returns cached icon occurring to passed emoticon, null if no icon mapped to this emoticon
  */
 std::shared_ptr<QIcon> CEmoji::getAsIcon(const QString& emoticon) const
 {

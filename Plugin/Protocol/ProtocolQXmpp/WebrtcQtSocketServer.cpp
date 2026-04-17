@@ -15,8 +15,8 @@ bool CWebrtcQtSocketServer::Wait(int cms, bool process_io)
 
 void CWebrtcQtSocketServer::WakeUp()
 {
-    QEvent *pEvent = new QEvent(QEvent::User);
-    qApp->postEvent(CWebrtcFilter::Instance(), pEvent);
+    QEvent *event = new QEvent(QEvent::User);
+    qApp->postEvent(CWebrtcFilter::Instance(), event);
 }
 
 CWebrtcQtSocketServer* CWebrtcQtSocketServer::Instance(){

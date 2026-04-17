@@ -63,7 +63,7 @@ QString CChatAction::drawButton(const QString &szHref, const QString &szText, co
 
 QString CChatAction::drawAccept(QString szHref)
 {
-    return drawButton(szHref, tr("Accpet"), ":/icon/Accept");
+    return drawButton(szHref, tr("Accept"), ":/icon/Accept");
 }
 
 QString CChatAction::drawCancel(QString szHref)

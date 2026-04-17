@@ -10,7 +10,7 @@
 #define CHECK_EXCEPTION() \
     if(env->ExceptionCheck())\
     {\
-        LOG_MODEL_ERROR("CCameraAndroid", "exception occured"); \
+        LOG_MODEL_ERROR("CCameraAndroid", "exception occurred"); \
         env->ExceptionClear();\
     }
 
@@ -23,7 +23,7 @@ void CCameraAndroid::slotOpen(const QString &szSaveFile)
 {
     QAndroidJniEnvironment env;
 
-    //constuct Intent for IMAGE_CAPTURE
+    //construct Intent for IMAGE_CAPTURE
     QAndroidJniObject action = QAndroidJniObject::fromString(
                 "android.media.action.IMAGE_CAPTURE");
     QAndroidJniObject intent("android/content/Intent",

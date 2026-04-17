@@ -109,7 +109,7 @@ int CManageCall::Call(const QString &szId, bool bVideo)
     nRet = OnCall(szId, call, bVideo);
     if(nRet || call.isNull())
     {
-        qCritical("OnCall is faile");
+        qCritical("OnCall is failed");
         return nRet;
     }
     
