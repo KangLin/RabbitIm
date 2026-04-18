@@ -105,15 +105,3 @@ jobs:
             -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/build/install ^
             -DCMAKE_PREFIX_PATH=${{env.INSTALL_DIR}}
           cmake --build . --config ${{ matrix.BUILD_TYPE }}
-
-      - name: Package
-        if: ${{ matrix.BUILD_TYPE == 'Release' }}
-        working-directory: ${{github.workspace}}/build
-        run: |
-          move /Y install\plugins\*crypto*.dll install\bin
-          move /Y install\plugins\*ssl*.dll install\bin
-          copy /Y C:\msys64\mingw64\bin\*.dll install\bin
-          copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
-          copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
-          makensis ${{github.workspace}}/build/Install.nsi
-          md5sum RabbitIM_setup_${{env.RabbitIM_VERSION}}.exe > RabbitIM_setup_${{env.RabbitIM_VERSION}}.exe.md5

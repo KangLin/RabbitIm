@@ -1,0 +1,223 @@
+# Author: Kang Lin <kl222@126.com>
+
+name: docker
+
+on:
+  workflow_call:
+    outputs:
+      name:
+        description: "The artifact name"
+        value: ${{ jobs.build_docker.outputs.name }}
+
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+jobs:
+  build_docker:
+    strategy:
+      matrix:
+        variant:
+          - PACKAGE: deb
+            image: ubuntu
+            lable: "25.04"
+            os: ubuntu-24.04
+          - PACKAGE: deb
+            image: ubuntu
+            lable: "25.04"
+            os: ubuntu-24.04-arm
+          - PACKAGE: deb
+            image: ubuntu
+            lable: "26.04"
+            os: ubuntu-24.04
+          - PACKAGE: deb
+            image: ubuntu
+            lable: "26.04"
+            os: ubuntu-24.04-arm
+
+          - PACKAGE: deb
+            image: debian
+            lable: "12"
+            os: ubuntu-24.04
+          - PACKAGE: deb
+            image: debian
+            lable: "12"
+            os: ubuntu-24.04-arm
+          - PACKAGE: deb
+            image: debian
+            lable: "13"
+            os: ubuntu-24.04
+          - PACKAGE: deb
+            image: debian
+            lable: "13"
+            os: ubuntu-24.04-arm
+
+          # - PACKAGE: deb
+          #   image: linuxdeepin/beige
+          #   lable: "latest"
+          #   os: ubuntu-24.04
+          # - PACKAGE: deb
+          #   image: linuxdeepin/beige
+          #   platform: linux/arm64
+          #   lable: "latest"
+          #   os: ubuntu-24.04-arm
+
+          - PACKAGE: appimage
+            image: ubuntu
+            lable: "25.04"
+            os: ubuntu-24.04
+          - PACKAGE: appimage
+            image: ubuntu
+            lable: "25.04"
+            os: ubuntu-24.04-arm
+          # - PACKAGE: appimage
+          #   image: fedora
+          #   lable: "42"
+          #   os: ubuntu-24.04
+          # - PACKAGE: appimage
+          #   image: fedora
+          #   lable: "42"
+          #   os: ubuntu-24.04-arm
+
+          - PACKAGE: rpm
+            image: fedora
+            lable: "43"
+            os: ubuntu-24.04
+          - PACKAGE: rpm
+            image: fedora
+            lable: "43"
+            os: ubuntu-24.04-arm
+          - PACKAGE: rpm
+            image: fedora
+            lable: "42"
+            os: ubuntu-24.04
+          - PACKAGE: rpm
+            image: fedora
+            lable: "42"
+            os: ubuntu-24.04-arm
+          - PACKAGE: rpm
+            image: fedora
+            lable: "41"
+            os: ubuntu-24.04
+          - PACKAGE: rpm
+            image: fedora
+            lable: "41"
+            os: ubuntu-24.04-arm
+
+    # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
+    # See: [Choosing the runner for a job](https://docs.github.com/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job)
+    # See: https://github.com/actions/runner-images/
+    runs-on: ${{matrix.variant.os}}
+
+    env:
+      RabbitIm_VERSION: 0.1.0-dev
+      artifact_name: build_docker
+      BUILD_DIR:   ${{github.workspace}}/build
+      SOURCE_DIR:  ${{github.workspace}}/.cache/source
+      TOOLS_DIR:   ${{github.workspace}}/.cache/tools_${{matrix.variant.os}}
+      INSTALL_DIR: ${{github.workspace}}/.cache/install_docker_${{matrix.variant.PACKAGE}}_${{matrix.variant.image}}_${{matrix.variant.lable}}_${{matrix.variant.os}}
+      BUILD_VERBOSE: ${{matrix.variant.BUILD_VERBOSE}}
+
+    # Map the job outputs to step outputs
+    outputs:
+      name: ${{ env.artifact_name }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Make directories
+        run: |
+          cmake -E make_directory ${{env.BUILD_DIR}}
+          cmake -E make_directory ${{env.SOURCE_DIR}}
+          cmake -E make_directory ${{env.TOOLS_DIR}}
+          cmake -E make_directory ${{env.INSTALL_DIR}}
+
+      - name: Cache installed
+        uses: actions/cache@v4
+        id: cache-installed
+        with:
+          path: |
+            ${{env.INSTALL_DIR}}
+            ${{env.TOOLS_DIR}}/linuxdeploy-*
+            ${{env.TOOLS_DIR}}/qt_*
+          key: install_docker_${{matrix.variant.PACKAGE}}_${{matrix.variant.image}}${{matrix.variant.lable}}_${{matrix.variant.os}}
+
+      - name: run docker
+        run: |
+          if [ -n "${{matrix.variant.lable}}" ]; then
+            docker_image="${{matrix.variant.image}}:${{matrix.variant.lable}}"
+          else
+            docker_image="${{matrix.variant.image}}"
+          fi
+          ./Script/build_linux.sh --docker --docker-image="${docker_image}" --docker-platform="${{matrix.variant.platform}}" --${{matrix.variant.PACKAGE}}
+
+      - name: Rename deb file
+        if: ${{ matrix.variant.PACKAGE == 'deb' }}
+        #continue-on-error: true
+        run: |
+          cd ${{env.BUILD_DIR}}/build_linux
+          if [ -n "${{matrix.variant.lable}}" ]; then
+            docker_image="${{matrix.variant.image}}${{matrix.variant.lable}}"
+          else
+            docker_image="${{matrix.variant.image}}"
+          fi
+          mv rabbitim*.deb RabbitIm_${{env.RabbitIm_VERSION}}_${docker_image}_`uname -m`.deb
+
+      - name: AppIagme update configure file
+        if: ${{ matrix.variant.PACKAGE == 'appimage' && matrix.variant.image == 'ubuntu'}}
+        #continue-on-error: true
+        run: |
+          #sudo ./Script/build_depend.sh --system_update --base
+          sudo apt update -y -q
+          sudo apt install -y -q libgl1-mesa-dev libglx-dev libglu1-mesa-dev libvulkan-dev mesa-common-dev
+          sudo apt install -y -q libfuse-dev libfuse3-dev
+          sudo Xvfb :91.0 -ac -screen 0 1200x900x24 &
+          sleep 1
+          export DISPLAY=:91.0
+          ARCH=`uname -m`
+          pushd ${{env.BUILD_DIR}}/build_linux/install
+          sudo mv -f RabbitIm_${ARCH}.AppImage RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}.AppImage
+          popd
+          pushd ${{env.BUILD_DIR}}/build_linux
+          mv install RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}_Setup
+          zip RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}_Setup.zip RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}_Setup/*
+
+          md5sum RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}_Setup.zip > RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}_Setup.zip.md5sum
+          MD5SUM=`cat RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}_Setup.zip.md5sum|awk '{print $1}'`
+          echo "MD5SUM RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}_Setup.zip: ${MD5SUM}"
+          echo "Generate update configure file ......"
+          pushd RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}_Setup
+          ./RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}.AppImage \
+             -f "${{github.workspace}}/update_appimage_${{matrix.variant.os}}.json" \
+             --foc 1 \
+             --file-name ../RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}_Setup.zip \
+             -u "https://github.com/KangLin/RabbitIm/releases/download/v${{env.RabbitIm_VERSION}}/RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}_Setup.zip;https://master.dl.sourceforge.net/project/RabbitIm/v${{env.RabbitIm_VERSION}}/RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${ARCH}_Setup.zip?viasf=1" \
+             --md5 "${MD5SUM}"
+          popd
+          popd
+
+      - name: AppIagme update configure file
+        if: ${{ matrix.variant.PACKAGE == 'appimage' && matrix.variant.image == 'fedora'}}
+        #continue-on-error: true
+        run: |
+          ARCH=`uname -m`
+          pushd ${{env.BUILD_DIR}}/build_linux/install
+          sudo mv -f RabbitIm_${ARCH}.AppImage RabbitIm_${{env.RabbitIm_VERSION}}_fedora_${ARCH}.AppImage
+          popd
+          pushd ${{env.BUILD_DIR}}/build_linux
+          mv install RabbitIm_${{env.RabbitIm_VERSION}}_fedora_${ARCH}_Setup
+          zip RabbitIm_${{env.RabbitIm_VERSION}}_fedora_${ARCH}_Setup.zip RabbitIm_${{env.RabbitIm_VERSION}}_fedora_${ARCH}_Setup/*
+
+      - name: Update artifact
+        #if: ${{matrix.variant.PACKAGE != 'deb'}}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.artifact_name }}_${{matrix.variant.PACKAGE}}_${{matrix.variant.image}}_${{matrix.variant.lable}}_${{matrix.variant.os}}
+          path: |
+            ${{env.BUILD_DIR}}/build_linux/RabbitIm*.rpm
+            ${{env.BUILD_DIR}}/build_linux/rabbitim_*.deb
+            ${{env.BUILD_DIR}}/build_linux/RabbitIm_*_Setup.zip
+            ${{env.BUILD_DIR}}/build_linux/update_appimage_*.json

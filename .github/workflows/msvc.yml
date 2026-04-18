@@ -23,6 +23,7 @@ jobs:
             qt_arch: win64_msvc2022_64
             qt_modules: qtscxml qtmultimedia qtimageformats qt5compat qtpositioning
             os: windows-2022
+            QXMPP_VERSION: v1.15.1
 
           - CMAKE_GENERATOR_PLATFORM: arm64
             VCPKG_TARGET_TRIPLET: arm64-windows
@@ -32,17 +33,18 @@ jobs:
             qt_arch: win64_msvc2022_arm64
             qt_modules: qt5compat qtimageformats qtmultimedia qtpositioning qtscxml
             os: windows-11-arm
+            QXMPP_VERSION: v1.15.1
 
           - CMAKE_GENERATOR_PLATFORM: Win32
             VCPKG_TARGET_TRIPLET: x86-windows
             VCPKG_PLATFORM_TOOLSET: v143
             VCPKG_OVERLAY_PORTS: "vcpkg/ports"
             BUILD_TYPE: Release
-            #VCPKG_MANIFEST_FEATURES: "ffmpeg"
             qt_version: 5.15.2
             qt_arch: win32_msvc2019
             qt_modules: qtwebengine
             os: windows-2022
+            QXMPP_VERSION: v1.10.2
 
     # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
     # See: [Choosing the runner for a job](https://docs.github.com/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job)
@@ -52,14 +54,14 @@ jobs:
     env:
       SOURCE_DIR:  ${{github.workspace}}\.cache\source
       TOOLS_DIR:   ${{github.workspace}}\.cache\tools
-      INSTALL_DIR: ${{github.workspace}}\.cache\install_${{matrix.BUILD_TYPE}}
+      INSTALL_DIR: ${{github.workspace}}\.cache\install_${{matrix.BUILD_TYPE}}_${{matrix.qt_version}}_${{matrix.qt_arch}}
       BUILD_DIR:   ${{github.workspace}}\build
       VCPKGGITCOMMITID: 7213cf8135c329c37c7e2778e40774489a0583a8
       VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_DEFAULT_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
       VCPKG_PLATFORM_TOOLSET: ${{matrix.VCPKG_PLATFORM_TOOLSET}}
       #VCPKG_OVERLAY_PORTS: "${{github.workspace}}/${{matrix.VCPKG_OVERLAY_PORTS}}"
-      #VCPKG_MANIFEST_FEATURES: ""
+      VCPKG_MANIFEST_FEATURES: "qxmpp"
       VCPKG_INSTALLED_DIR: ${{github.workspace}}\.cache\install
       CMAKE_GENERATOR: "Visual Studio 17 2022"
       CMAKE_GENERATOR_PLATFORM: ${{matrix.CMAKE_GENERATOR_PLATFORM}}
@@ -119,7 +121,7 @@ jobs:
           IF NOT EXIST ${{env.INSTALL_DIR}}/lib/cmake/qxmpp (
             git clone https://invent.kde.org/libraries/qxmpp.git
             cd qxmpp
-            git checkout -b v1.10.2 v1.10.2
+            git checkout -b ${{matrix.QXMPP_VERSION}} ${{matrix.QXMPP_VERSION}}
             cmake -E make_directory build
             cd build
             cmake .. ^
