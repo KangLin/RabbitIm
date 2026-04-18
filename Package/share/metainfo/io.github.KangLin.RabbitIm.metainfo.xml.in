@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>io.github.KangLin.RabbitIm</id>
+  <launchable type="desktop-id">io.github.KangLin.RabbitIm.desktop</launchable>
+
+  <name>Rabbit Instant Messaging</name>
+  <name xml:lang="zh_CN">玉兔即时通讯</name>
+  <name xml:lang="zh_TW">玉兔即時通訊</name>
+
+  <summary>Remote control software</summary>
+  <summary xml:lang="zh_CN">即时通讯软件</summary>
+  <summary xml:lang="zh_TW">即時通訊軟件</summary>
+
+  <description>
+    <p xml:lang="zh_CN">玉兔即时通讯是一款跨操作系统平台、支持多种协议的即时通讯软件</p>
+
+    <p xml:lang="zh_TW">玉兔即時通訊是一款跨操作系統平臺、支持多種協議的即時通訊軟件</p>
+  </description>
+
+  <developer id="io.github.KangLin">
+    <name>KangLin</name>
+    <name xml:lang="zh_CN">康林</name>
+    <name xml:lang="zh_TW">康林</name>
+  </developer>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0</project_license>
+  <content_rating type="oars-1.1" />
+
+  <url type="homepage">https://github.com/KangLin/RabbitIm</url>
+  <url type="bugtracker">https://github.com/KangLin/RabbitIm/issues</url>
+  <url type="contribute">https://github.com/KangLin/RabbitIm/pull</url>
+  <url type="help">https://github.com/KangLin/RabbitIm/discussions</url>
+  <url type="vcs-browser">https://github.com/KangLin/RabbitIm</url>
+  <url type="donation">https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png</url>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#99c1f1</color>
+    <color type="primary" scheme_preference="dark">#a599a5</color>
+  </branding>
+
+  <screenshots>
+    <screenshot type="default">
+      <image xml:lang="zh_CN">https://github.com/KangLin/RabbitIm/raw/master/docs/Screenshots/ubuntu_login.png</image>
+      <caption xml:lang="zh_CN">登录窗口</caption>
+    </screenshot>
+    <screenshot>
+      <image xml:lang="zh_CN">https://github.com/KangLin/RabbitIm/raw/master/docs/Screenshots/ubuntu_list.png</image>
+      <caption xml:lang="zh_CN">好友列表窗口</caption>
+    </screenshot>
+    <screenshot>  
+      <image xml:lang="zh_CN">https://github.com/KangLin/RabbitIm/raw/master/docs/Screenshots/ubuntu_char.png</image>
+      <caption xml:lang="zh_CN">聊天窗口</caption>
+    </screenshot>
+    <screenshot>
+      <image xml:lang="zh_CN">https://github.com/KangLin/RabbitIm/raw/master/docs/Screenshots/ubuntu_file_transfer.png</image>
+      <caption xml:lang="zh_CN">文件传输</caption>
+    </screenshot>
+    <screenshot>
+      <image xml:lang="zh_CN">https://github.com/KangLin/RabbitIm/raw/master/docs/Screenshots/ubuntu_video.png</image>
+      <caption xml:lang="zh_CN">视频</caption>
+    </screenshot>
+  </screenshots>
+
+  <releases>
+    <release version="@RabbitIm_VERSION@" date="@BUILD_DATE@">
+        <url type="details">https://github.com/KangLin/RabbitIm/blob/@RabbitIm_REVISION@/ChangeLog.md</url>
+    </release>
+  </releases>
+
+</component>

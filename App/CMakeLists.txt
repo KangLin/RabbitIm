@@ -47,7 +47,7 @@ IF(WIN32)
 ENDIF()
 
 if(UNIX AND NOT ANDROID)
-    configure_file(${CMAKE_SOURCE_DIR}/Package/debian/${APP_ID}.desktop.in
+    configure_file(${CMAKE_SOURCE_DIR}/Package/share/applications/${APP_ID}.desktop.in
         ${CMAKE_BINARY_DIR}/${APP_ID}.desktop)
     INSTALL(FILES ${CMAKE_BINARY_DIR}/${APP_ID}.desktop
         DESTINATION share/applications
@@ -57,6 +57,12 @@ if(UNIX AND NOT ANDROID)
         DESTINATION share/pixmaps
             COMPONENT Application
         RENAME ${APP_ID}.png)
+    string(TIMESTAMP BUILD_DATE "%Y-%m-%d")
+    configure_file(${CMAKE_SOURCE_DIR}/Package/share/metainfo/${APP_ID}.metainfo.xml.in
+        ${CMAKE_BINARY_DIR}/${APP_ID}.metainfo.xml @ONLY)
+    INSTALL(FILES ${CMAKE_BINARY_DIR}/${APP_ID}.metainfo.xml
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/metainfo"
+        COMPONENT Application)
 endif()
 
 #安装相关文件

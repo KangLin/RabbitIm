@@ -418,7 +418,7 @@ if [ $DOCKER -eq 1 ]; then
             cp \${SOURCE_CODE_DIR}/RabbitIm/RabbitIm_`uname -m`.AppImage .
             chmod a+rx RabbitIm_`uname -m`.AppImage
             cp \${SOURCE_CODE_DIR}/RabbitIm/build_appimage/AppDir/usr/share/applications/io.github.KangLin.RabbitIm.desktop .
-            cp \${SOURCE_CODE_DIR}/RabbitIm/build_appimage/AppDir/usr/share/icons/hicolor/scalable/apps/io.github.KangLin.RabbitIm.svg .
+            cp \${SOURCE_CODE_DIR}/RabbitIm/build_appimage/AppDir/usr/share/pixmaps/io.github.KangLin.RabbitIm.png .
             cp \${SOURCE_CODE_DIR}/RabbitIm/Script/install_appimage.sh install.sh
             chmod a+rx install.sh
             popd
@@ -521,7 +521,7 @@ if [ $RPM -eq 1 ]; then
     echo_status "build rpm package ......"
     #dnf builddep -y ${REPO_ROOT}/Package/rpm/RabbitIm.spec
     ./build_depend.sh --system_update --base --default --package-tool=dnf \
-        --rabbitcommon --tigervnc --pcapplusplus --qftpserver \
+        --rabbitcommon \
         --install=${INSTALL_DIR} \
         --source=${SOURCE_DIR} \
         --tools=${TOOLS_DIR} \

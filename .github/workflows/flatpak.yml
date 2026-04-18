@@ -1,0 +1,52 @@
+# Author: Kang Lin<kl222@126.com>
+name: flatpak
+
+on:
+  workflow_call:
+    outputs:
+      name:
+        description: "The artifact name"
+        value: ${{ jobs.build_flatpak.outputs.name }}
+
+jobs:
+  build_flatpak:
+    strategy:
+      matrix:
+        variant:
+          - arch: x86_64
+            os: ubuntu-24.04
+          - arch: aarch64
+            os: ubuntu-24.04-arm
+
+    env:
+      artifact_name: build_flatpak
+      RabbitIm_VERSION: v0.1.0-dev
+
+    # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
+    # See: [Choosing the runner for a job](https://docs.github.com/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job)
+    # See: https://github.com/actions/runner-images/
+    runs-on: ${{ matrix.variant.os }}
+
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-44
+      options: --privileged
+
+    # Map the job outputs to step outputs
+    outputs:
+      name: ${{ env.artifact_name }}
+  
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Flatpak build
+        uses: flathub-infra/flatpak-github-actions/flatpak-builder@master
+        with:
+          bundle: RabbitIm_${{env.RabbitIm_VERSION}}_Linux_${{ matrix.variant.arch }}.flatpak
+          manifest-path: Package/Flatpak/io.github.KangLin.RabbitIm.yml
+          cache-key: flatpak-builder-${{ github.sha }}
+          arch: ${{ matrix.variant.arch }}
+          verbose: true

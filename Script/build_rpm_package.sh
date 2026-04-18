@@ -27,7 +27,7 @@ usage_long() {
 # [如何使用getopt和getopts命令解析命令行选项和参数](https://zhuanlan.zhihu.com/p/673908518)
 # [【Linux】Shell命令 getopts/getopt用法详解](https://blog.csdn.net/arpospf/article/details/103381621)
 if command -V getopt >/dev/null; then
-    echo_error "getopt is exits"
+    echo "getopt is exits"
     #echo "original parameters=[$@]"
     # -o 或 --options 选项后面是可接受的短选项，如 ab:c:: ，表示可接受的短选项为 -a -b -c ，
     # 其中 -a 选项不接参数，-b 选项后必须接参数，-c 选项的参数为可选的
@@ -127,13 +127,19 @@ echo "INSTALL_DIR: $INSTALL_DIR"
 
 pushd $REPO_ROOT
 
-if [ ! -f ~/rpmbuild/SOURCES/RabbitRemoteControl.tar.gz ]; then
+if [ ! -f ~/rpmbuild/SOURCES/RabbitIm.tar.gz ]; then
     mkdir -p ~/rpmbuild/SOURCES/
-    git archive --format=tar.gz --prefix=RabbitRemoteControl/ -o ~/rpmbuild/SOURCES/RabbitRemoteControl.tar.gz HEAD
+    git archive --format=tar.gz --prefix=RabbitIm/ -o ~/rpmbuild/SOURCES/RabbitIm.tar.gz HEAD
 fi
-export RabbitCommon_ROOT=${SOURCE_DIR}/RabbitCommon
+if [ -z "$RabbitCommon_ROOT" ]; then
+    if [ -d ${SOURCE_DIR}/RabbitCommon ]; then
+        export RabbitCommon_ROOT=${SOURCE_DIR}/RabbitCommon
+    elif [ -d ${REPO_ROOT}/../RabbitCommon ]; then
+        export RabbitCommon_ROOT=${REPO_ROOT}/../RabbitCommon
+    fi
+fi
 export CMAKE_PREFIX_PATH=${INSTALL_DIR}:${CMAKE_PREFIX_PATH}
 export INSTALL_DIR=${INSTALL_DIR}
-rpmbuild --nodebuginfo -bb Package/rpm/rabbitremotecontrol.spec
+rpmbuild --nodebuginfo -bb Package/rpm/rabbitim.spec
 
 popd

@@ -1,0 +1,146 @@
+# [flatpak manifest](https://docs.flatpak.org/en/latest/flatpak-builder-command-reference.html#flatpak-manifest)
+id: "io.github.KangLin.RabbitIm"
+# See: [available runtimes](https://docs.flatpak.org/en/latest/available-runtimes.html)
+# See: [flatpak kde runtime](https://invent.kde.org/packaging/flatpak-kde-runtime)
+runtime: "org.kde.Platform"
+runtime-version: "6.10"
+sdk: "org.kde.Sdk"
+command: RabbitImApp
+
+base: io.qt.qtwebengine.BaseApp
+base-version: '6.10'
+cleanup-commands:
+  - /app/cleanup-BaseApp.sh
+
+build-options:
+  env:
+    V: "1"
+    # 修复 qtwebengine 沙箱权限问题
+    QTWEBENGINE_DISABLE_SANDBOX: '1'
+
+cleanup:
+  - "*.la"
+  - "*.a"
+  - "/include"
+  - "/lib/cmake"
+  - "/lib/pkgconfig"
+  - "/share/licenses"
+
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=pulseaudio
+  - --socket=pcsc
+  - --socket=ssh-auth
+  - --socket=x11
+  - --device=all
+  - --filesystem=xdg-documents
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --system-talk-name=org.freedesktop.Avahi
+  # Because the file chooser somehow doesn't show the files on the host, we export some directory for reading pcap files
+  # https://bugs.wireshark.org/bugzilla/show_bug.cgi?id=15507
+  - --filesystem=xdg-public-share
+  - --filesystem=home:ro
+  # https://github.com/flathub/io.qt.qtwebengine.BaseApp
+  - --device=dri
+  - --env=QTWEBENGINEPROCESS_PATH=/app/bin/QtWebEngineProcess
+
+modules:
+  - shared-modules/libusb/libusb.json
+  - shared-modules/libsecret/libsecret.json
+
+  # Unity 2021 and older require OpenSSL 1.0 or 1.1. Bundle a copy of OpenSSL 1.1.
+  # https://github.com/flathub/com.unity.UnityHub/pull/73#issuecomment-1407370899
+  # https://forum.unity.com/threads/workaround-for-libssl-issue-on-ubuntu-22-04.1271405/#post-8098841
+  - name: openssl-1.1
+    disabled: false
+    buildsystem: simple
+    build-commands:
+      - ./config --prefix=/app
+      - make -j $FLATPAK_BUILDER_N_JOBS
+      - make install
+    cleanup:
+      - /share/doc
+      - /share/man
+      - '*.a'
+      # Don't mask CLI tools provided by runtime - we just want the versioned shared library
+      - /bin
+      # Don't mask unversion library symlinks from library
+      - /lib/libcrypto.so
+      - /lib/libssl.so
+    sources:
+      - type: archive
+        url: https://www.openssl.org/source/openssl-1.1.1w.tar.gz
+        sha256: cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8
+        x-checker-data:
+          type: anitya
+          project-id: 20333
+          url-template: https://www.openssl.org/source/openssl-$version.tar.gz
+
+  - name: qxmpp
+    disabled: false
+    sources:
+      - type: git
+        url: https://invent.kde.org/libraries/qxmpp.git
+        tag: v1.15.1
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_DOCUMENTATION=OFF
+      - -DBUILD_EXAMPLES=OFF
+      - -DBUILD_TESTING=OFF
+
+  - name: RabbitCommon
+    disabled: false
+    sources:
+      - type: git
+        url: https://github.com/KangLin/RabbitCommon.git
+        branch: master
+        #tag: v2.3.3
+        #commit: d4db633bb48fc777042d6494d2f883b29779e2a2
+        #disable-shallow-clone: true
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_MimeTypeBrowser=OFF
+      - -DBUILD_APP=OFF
+      - -DBUILD_TEST=OFF
+      - -DCMARK_SHARED=OFF
+      - -DCMARK_TESTS=OFF
+      - -DCMARK_STATIC=ON
+      - -DWITH_CMARK=OFF
+      - -DWITH_CMARK_GFM=ON
+      - -DWITH_WebEngineWidgets=ON
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    cleanup:
+      - /bin
+      - /etc
+      - /share/applications
+      - /share/doc
+
+  - name: RabbitIm
+    disabled: false
+    sources:
+      - type: dir
+        path: ../..
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DENABLE_UPDATE_TRANSLATIONS=ON
+    cleanup:
+      - -usr/bin/cmark
+      - -usr/bin/cmark-gfm
+      - -usr/local/bin/cmark
+      - -usr/local/bin/cmark-gfm
+      - -usr/local/include
+      - -usr/local/lib/cmake*
+      - -usr/local/lib/pkgconfig
+      - -usr/local/lib/*.a
+    post-install:
+      - desktop-file-edit --set-key=Path --set-value=/bin /app/share/applications/io.github.KangLin.RabbitIm.desktop
+      - install -Dm0644 io.github.KangLin.RabbitIm.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo/

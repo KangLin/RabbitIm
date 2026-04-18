@@ -35,11 +35,11 @@ MimeType=application/ogg;application/x-ogg;application/sdp;application/smil;appl
 
 X-KDE-Protocols=ftp,http,https,mms,rtmp,rtsp,sftp,smb
 
-Keywords=Rabbit Im;IM;Rabbit Instant Messaging;玉兔即时通信
+Keywords=Rabbit Im;IM;Rabbit Instant Messaging;Instant Messaging;即时通信;即时通迅;玉兔即时通信
 
-Name=RabbitIm
-GenericName=RabbitIm
-Comment=RabbitIm
+Name=Rabbit Instant Messaging
+GenericName=Rabbit Instant Messaging
+Comment=Rabbit Instant Messaging
 
 Name[zh_CN]=玉兔即时通迅
 GenericName[zh_CN]=玉兔即时通迅

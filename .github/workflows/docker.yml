@@ -59,23 +59,23 @@ jobs:
           #   lable: "13"
           #   os: ubuntu-24.04-arm
 
-          - PACKAGE: deb
-            image: linuxdeepin/beige
-            lable: "latest"
-            os: ubuntu-24.04
-          - PACKAGE: deb
-            image: linuxdeepin/beige
-            platform: linux/arm64
-            lable: "latest"
-            os: ubuntu-24.04-arm
+          # - PACKAGE: deb
+          #   image: linuxdeepin/beige
+          #   lable: "latest"
+          #   os: ubuntu-24.04
+          # - PACKAGE: deb
+          #   image: linuxdeepin/beige
+          #   platform: linux/arm64
+          #   lable: "latest"
+          #   os: ubuntu-24.04-arm
 
           - PACKAGE: appimage
             image: ubuntu
-            lable: "25.04"
+            lable: "24.04"
             os: ubuntu-24.04
           - PACKAGE: appimage
             image: ubuntu
-            lable: "25.04"
+            lable: "24.04"
             os: ubuntu-24.04-arm
           # - PACKAGE: appimage
           #   image: fedora

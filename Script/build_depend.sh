@@ -471,7 +471,7 @@ if [ $BASE_LIBS -eq 1 ]; then
         # OpenGL
         #package_install libgl1-mesa-dev libglx-dev libglu1-mesa-dev libvulkan-dev mesa-common-dev
         # Virtual desktop (virtual framebuffer X server for X Version 11). Needed by CI
-        if [ -z "$RabbitRemoteControl_VERSION" ]; then
+        if [ -z "$RabbitIm_VERSION" ]; then
             package_install xvfb #xpra
         fi
         # RabbitCommon dependency
@@ -534,7 +534,7 @@ if [ $DEFAULT_LIBS -eq 1 ]; then
             fi
         fi
 
-        dnf builddep -y ${REPO_ROOT}/Package/rpm/rabbitremotecontrol.spec
+        dnf builddep -y ${REPO_ROOT}/Package/rpm/rabbitim.spec
     fi
 
     if [ $MACOS -eq 1 ]; then
