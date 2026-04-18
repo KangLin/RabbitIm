@@ -3,7 +3,7 @@ Section: main
 Priority: optional
 Maintainer: Kang Lin <kl222@126.com>
 Build-Depends: debhelper(>=13), debhelper-compat(=13), fakeroot, cmake(>=3.21),
-    ninja-build, qt5-qmake, qtbase5-dev, qtbase5-dev-tools, qttools5-dev,
+    ninja-build, qt5-qmake, qtbase5-dev, qtbase5-dev-tools, qttools5-dev, libqt5multimedia5-plugins
     qtmultimedia5-dev, libqt5scxml5-dev, libqt5svg5-dev, qtquickcontrols2-5-dev,
     libcmark-dev, libqxmpp-dev
 Standards-Version:"0.1.0"
