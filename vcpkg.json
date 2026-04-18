@@ -10,10 +10,10 @@
   ],
 
   "features": {
-    "qt": {
-      "description": "qt",
+    "qxmpp": {
+      "description": "qxmpp",
       "dependencies": [
-        "qt"
+        "gstreamer"
       ]
     }
   }

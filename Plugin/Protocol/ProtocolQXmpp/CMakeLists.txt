@@ -12,9 +12,9 @@ if(${QXMPP_NAME}_FOUND)
     IF(BUILD_SHARED_LIBS)
         INSTALL_TARGETS(TARGETS QXmpp::QXmpp)
     ELSE()
-    #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。
-    #生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
-    list(APPEND QXMPP_DEFINES "-DQXMPP_STATIC")
+        #连接静态QXMPP库时，必须加上-DQXMPP_STATIC。
+        #生成静态QXMPP库时，qmake 需要加上 QXMPP_LIBRARY_TYPE=staticlib 参数
+        list(APPEND QXMPP_DEFINES "-DQXMPP_STATIC")
     ENDIF()
 else()
     message("Download from https://invent.kde.org/libraries/qxmpp.git")
@@ -22,6 +22,11 @@ else()
 endif()
 
 message("Use qxmpp library:${QXmpp_FOUND}")
+
+OPTION(INSTALL_QXMPP "Install QXMPP target" OFF)
+if(INSTALL_QXMPP)
+    INSTALL_TARGETS(TARGETS ${QXMPP_NAME})
+endif()
 
 set(QT_COMPONENTS Network Xml)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS})

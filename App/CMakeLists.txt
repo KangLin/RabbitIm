@@ -47,16 +47,16 @@ IF(WIN32)
 ENDIF()
 
 if(UNIX AND NOT ANDROID)
-    configure_file(${CMAKE_SOURCE_DIR}/debian/RabbitIm.desktop.in
+    configure_file(${CMAKE_SOURCE_DIR}/debian/${APP_ID}.desktop.in
         ${CMAKE_BINARY_DIR}/${APP_ID}.desktop)
     INSTALL(FILES ${CMAKE_BINARY_DIR}/${APP_ID}.desktop
         DESTINATION share/applications
             COMPONENT Application)
     # Flatpak: https://docs.flatpak.org/en/latest/conventions.html#application-icons
     INSTALL(FILES ${CMAKE_SOURCE_DIR}/Resource/png/RabbitIm.png
-        DESTINATION share/icons/hicolor/scalable/apps
+        DESTINATION share/pixmaps
             COMPONENT Application
-        RENAME ${APP_ID}.svg)
+        RENAME ${APP_ID}.png)
 endif()
 
 #安装相关文件

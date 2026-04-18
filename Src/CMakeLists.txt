@@ -2,7 +2,7 @@
 
 project(RabbitIm)
 
-set(QT_COMPONENTS Multimedia Xml)
+set(QT_COMPONENTS Multimedia Xml Network)
 
 #QZXing库
 OPTION(OPTION_RABBITIM_USE_QZXING "Use QZXing library" ON)
@@ -11,6 +11,10 @@ if(OPTION_RABBITIM_USE_QZXING)
     if(qzxing_FOUND)
         list(APPEND RABBITIM_DEFINES RABBITIM_USE_QZXING)
         list(APPEND RABBITIM_LIBS qzxing)
+        OPTION(INSTALL_QZXING "Install QZXing target" OFF)
+        if(INSTALL_QZXING)
+            INSTALL_TARGETS(TARGETS qzxing)
+        endif()
     else()
         message("Download from https://github.com/ftylitak/qzxing.git")
     endif()
