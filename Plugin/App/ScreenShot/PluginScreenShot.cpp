@@ -1,13 +1,15 @@
-#include "PluginScreenShot.h"
-#include "DlgScreenShot.h"
 #include <QApplication>
 #include <QClipboard>
 #include <QMessageBox>
 #include <QStandardPaths>
+#include <QLoggingCategory>
 #include "common/Tool.h"
 #include "FileTransfer/ManageFileTransfer.h"
 #include "common/QRCode.h"
+#include "PluginScreenShot.h"
+#include "DlgScreenShot.h"
 
+static Q_LOGGING_CATEGORY(log, "Plugin.App.ScreenShot")
 CPluginScreenShot::CPluginScreenShot(QObject *parent) :
     QObject(parent), 
     CPluginApp()
@@ -77,7 +79,7 @@ int CPluginScreenShot::Open(void *pPara, QWidget *parent)
                 bool isOk = image.save(szFile);
                 if(!isOk)
                 {
-                    qCritical("save file [%s] is error", szFile.toStdString().c_str());
+                    qCritical(log) << "Save file is error:" << szFile;
                 }
             }
         }
@@ -85,7 +87,7 @@ int CPluginScreenShot::Open(void *pPara, QWidget *parent)
         {
             QString fileName = "ShotScreen" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss.PNG");
             QString filePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) +QDir::separator() +  fileName;
-            qDebug(QString("filePath = %1").arg(filePath).toLocal8Bit().data());
+            qDebug(log) << "filePath =" << filePath;
             bool isOk = image.save(filePath);
             if(isOk)
             {
@@ -95,7 +97,7 @@ int CPluginScreenShot::Open(void *pPara, QWidget *parent)
             }
             else
             {
-                qCritical("save file [%s] is error", filePath.toStdString().c_str());
+                qCritical(log) << "Save file is error" << filePath;
             }
         }
     }
