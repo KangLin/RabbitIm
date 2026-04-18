@@ -37,7 +37,7 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     )
 
 IF(WIN32)
-    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Install/Install.nsi
+    INSTALL(FILES ${CMAKE_SOURCE_DIR}/Package/Windows.nsi
         DESTINATION ${CMAKE_BINARY_DIR}
             COMPONENT Runtime)
 

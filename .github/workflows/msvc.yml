@@ -221,7 +221,7 @@ jobs:
           copy /Y ${{env.INSTALL_DIR}}\bin\*.dll install\bin
           copy /Y ${{env.INSTALL_DIR}}\lib\*.dll install\bin
           copy /Y ${{env.RUNVCPKG_VCPKG_ROOT}}\installed\${{env.RUNVCPKG_VCPKG_TRIPLET_OUT}}\bin\*.dll install\bin
-          makensis Install.nsi
+          makensis Windows.nsi
           copy /Y RabbitIM_Setup_${{env.RabbitIM_VERSION}}.exe RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe
           md5sum RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe > RabbitIM_${{env.RabbitIM_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_Setup.exe.md5sum
           ${{github.workspace}}\build\install\bin\RabbitIMApp.exe ^
