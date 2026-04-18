@@ -4,6 +4,8 @@
 *.AppImage
 update*.xml
 update*.json
+debian
+debian/
 debian/files
 debian/rabbitrim
 debian/.debhelper/

@@ -1,0 +1,56 @@
+#!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+#export DH_VERBOSE = 1
+
+# see FEATURE AREAS in dpkg-buildflags(1)
+#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# see ENVIRONMENT in dpkg-buildflags(1)
+# package maintainers to append CFLAGS
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+# package maintainers to append LDFLAGS
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+#export QT_SELECT=qt5
+
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+BUILD_DIR = "build_$(DEB_HOST_MULTIARCH)"
+PACKAGE_DIR = "debian/rabbitim"
+
+%:
+	dh $@
+
+# dh_make generated override targets
+# This is example for Cmake (See https://bugs.debian.org/641051 )
+override_dh_auto_configure:
+	cmake . -GNinja -DCMAKE_MAKE_PROGRAM=ninja -B$(BUILD_DIR) \
+	        -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/RabbitIm \
+		-DRabbitCommon_ROOT=${RabbitCommon_ROOT} \
+		-DENABLE_UPDATE_TRANSLATIONS=ON \
+		-DCMARK_SHARED=OFF \
+		-DCMARK_TESTS=OFF \
+		-DCMARK_STATIC=ON \
+		-DWITH_CMARK=ON \
+		-DWITH_CMARK_GFM=OFF \
+		${CMAKE_CONFIG_PARAS}
+
+override_dh_auto_build:
+	cmake --build $(BUILD_DIR) --config Release --parallel $(nproc)
+
+override_dh_auto_install:
+	cmake --install $(BUILD_DIR) --config Release \
+	        --component DependLibraries --strip \
+		--prefix $(PACKAGE_DIR)/opt/RabbitIm
+	cmake --install $(BUILD_DIR) --config Release \
+	        --component Runtime --strip \
+		--prefix $(PACKAGE_DIR)/opt/RabbitIm
+	cmake --install $(BUILD_DIR) --config Release \
+	        --component Plugin --strip \
+		--prefix $(PACKAGE_DIR)/opt/RabbitIm
+	cmake --install $(BUILD_DIR) --config Release \
+	        --component Application --strip \
+		--prefix $(PACKAGE_DIR)/opt/RabbitIm
+
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/rabbitim/opt/RabbitIm/lib/`uname -m`-linux-gnu:`pwd`/debian/rabbitim/opt/RabbitIm/lib:$(THIRD_LIBRARY_PATH)/lib

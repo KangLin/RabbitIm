@@ -1,7 +1,7 @@
 #!/bin/bash
 
 EXIT_CODE=0
-PROJECT_NAME="RabbitIm"
+PROJECT_NAME="io.github.KangLin.RabbitIm"
 
 if [ -n "$1" ]; then
     echo "$PROJECT_NAME"

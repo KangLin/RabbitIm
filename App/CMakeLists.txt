@@ -47,7 +47,7 @@ IF(WIN32)
 ENDIF()
 
 if(UNIX AND NOT ANDROID)
-    configure_file(${CMAKE_SOURCE_DIR}/debian/${APP_ID}.desktop.in
+    configure_file(${CMAKE_SOURCE_DIR}/Package/debian/${APP_ID}.desktop.in
         ${CMAKE_BINARY_DIR}/${APP_ID}.desktop)
     INSTALL(FILES ${CMAKE_BINARY_DIR}/${APP_ID}.desktop
         DESTINATION share/applications

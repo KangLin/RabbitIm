@@ -27,6 +27,7 @@ function EnumerateDicectory(){
     done
 }
 
+PROJECT_NAME="io.github.KangLin.RabbitIm"
 RABBITIM_INSTALL_PREFIX=/opt/RabbitIm
 case "$1" in
     configure)
@@ -37,30 +38,30 @@ case "$1" in
             ln -s $RABBITIM_INSTALL_PREFIX/log $RABBITIM_INSTALL_PREFIX/bin/log
         fi
         
-        echo "${RABBITIM_INSTALL_PREFIX}/lib" > /etc/ld.so.conf.d/RabbitIm.conf
-        echo "${RABBITIM_INSTALL_PREFIX}/lib/`uname -m`-linux-gnu" >> /etc/ld.so.conf.d/RabbitIm.conf
-        echo "${RABBITIM_INSTALL_PREFIX}/plugins" >> /etc/ld.so.conf.d/RabbitIm.conf
+        echo "${RABBITIM_INSTALL_PREFIX}/lib" > /etc/ld.so.conf.d/${PROJECT_NAME}.conf
+        echo "${RABBITIM_INSTALL_PREFIX}/lib/`uname -m`-linux-gnu" >> /etc/ld.so.conf.d/${PROJECT_NAME}.conf
+        echo "${RABBITIM_INSTALL_PREFIX}/plugins" >> /etc/ld.so.conf.d/${PROJECT_NAME}.conf
         EnumerateDicectory "${RABBITIM_INSTALL_PREFIX}/plugins"
         ldconfig
         
-        if [ ! -f /usr/share/applications/RabbitIm.desktop ]; then
-            ln -s ${RABBITIM_INSTALL_PREFIX}/share/applications/RabbitIm.desktop /usr/share/applications/RabbitIm.desktop
-            ln -s ${RABBITIM_INSTALL_PREFIX}/share/applications/RabbitIm.desktop /etc/xdg/autostart/RabbitIm.desktop
+        if [ ! -f /usr/share/applications/${PROJECT_NAME}.desktop ]; then
+            ln -s ${RABBITIM_INSTALL_PREFIX}/share/applications/${PROJECT_NAME}.desktop /usr/share/applications/${PROJECT_NAME}.desktop
+            ln -s ${RABBITIM_INSTALL_PREFIX}/share/applications/${PROJECT_NAME}.desktop /etc/xdg/autostart/${PROJECT_NAME}.desktop
         fi
-        if [ ! -f /usr/share/pixmaps/RabbitIm.png ]; then
+        if [ ! -f /usr/share/pixmaps/${PROJECT_NAME}.png ]; then
             if [ ! -d /usr/share/pixmaps ]; then
                 mkdir -p /usr/share/pixmaps
             fi
-            ln -s ${RABBITIM_INSTALL_PREFIX}/share/pixmaps/RabbitIm.png /usr/share/pixmaps/RabbitIm.png
+            ln -s ${RABBITIM_INSTALL_PREFIX}/share/pixmaps/${PROJECT_NAME}.png /usr/share/pixmaps/${PROJECT_NAME}.png
         fi
         ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
-        rm -f /usr/share/applications/RabbitIm.desktop
-        rm -f /etc/xdg/autostart/RabbitIm.desktop
-        rm -f /usr/share/pixmaps/RabbitIm.png
+        rm -f /usr/share/applications/${PROJECT_NAME}.desktop
+        rm -f /etc/xdg/autostart/${PROJECT_NAME}.desktop
+        rm -f /usr/share/pixmaps/${PROJECT_NAME}.png
         rm -fr $RABBITIM_INSTALL_PREFIX/log $RABBITIM_INSTALL_PREFIX/bin/log
-        rm -f /etc/ld.so.conf.d/RabbitIm.conf
+        rm -f /etc/ld.so.conf.d/${PROJECT_NAME}.conf
         ldconfig
     ;;
 

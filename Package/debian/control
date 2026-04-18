@@ -2,13 +2,17 @@ Source: rabbitim
 Section: main
 Priority: optional
 Maintainer: Kang Lin <kl222@126.com>
-Build-Depends: debhelper (>= 6)
+Build-Depends: debhelper(>=13), debhelper-compat(=13), fakeroot, cmake(>=3.21),
+    ninja-build, qt5-qmake, qtbase5-dev, qtbase5-dev-tools, qttools5-dev,
+    qtmultimedia5-dev, libqt5scxml5-dev, libqt5svg5-dev, qtquickcontrols2-5-dev,
+    libcmark-dev, libqxmpp-dev
 Standards-Version:"0.1.0"
 Homepage: https://github.com/KangLin/rabbitim
 Vcs-Git: https://github.com/KangLin/rabbitim
 Vcs-Browser: https://github.com/KangLin/rabbitim
 
 Package: rabbitim
+Section: net
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends:  ${shlibs:Depends}, ${misc:Depends}
