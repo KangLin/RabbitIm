@@ -130,6 +130,8 @@ pushd $REPO_ROOT
 if [ ! -f ~/rpmbuild/SOURCES/RabbitIm.tar.gz ]; then
     mkdir -p ~/rpmbuild/SOURCES/
     git archive --format=tar.gz --prefix=RabbitIm/ -o ~/rpmbuild/SOURCES/RabbitIm.tar.gz HEAD
+else
+    echo_warn "~/rpmbuild/SOURCES/RabbitIm.tar.gz is existed. If you are in development, please delete it!"
 fi
 if [ -z "$RabbitCommon_ROOT" ]; then
     if [ -d ${SOURCE_DIR}/RabbitCommon ]; then
