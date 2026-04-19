@@ -1,0 +1,280 @@
+# Author: Kang Lin <kl222@126.com>
+
+name: android
+
+on:
+  workflow_call:
+    outputs:
+      name:
+        description: "The artifact name"
+        value: ${{ jobs.build_android.outputs.name }}
+
+jobs:
+  build_android:
+
+    strategy:
+      matrix:
+        include:
+          - qt_arch: android_arm64_v8a
+            VCPKG_TARGET_TRIPLET: arm64-android
+            ANDROID_ABI: arm64-v8a
+            qt_version: 6.11.0
+            BUILD_TYPE: Release
+
+          - qt_arch: android_x86_64
+            VCPKG_TARGET_TRIPLET: x64-android
+            ANDROID_ABI: x86_64
+            qt_version: 6.11.0
+            BUILD_TYPE: Release
+
+          - qt_arch: android_arm64_v8a
+            VCPKG_TARGET_TRIPLET: arm64-android
+            ANDROID_ABI: arm64-v8a
+            qt_version: 6.10.3
+            BUILD_TYPE: Release
+
+          - qt_arch: android_x86_64
+            VCPKG_TARGET_TRIPLET: x64-android
+            ANDROID_ABI: x86_64
+            qt_version: 6.10.3
+            BUILD_TYPE: Release
+
+    # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
+    # See: [Choosing the runner for a job](https://docs.github.com/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job)
+    # See: https://github.com/actions/runner-images/
+    runs-on: ubuntu-24.04
+
+    env:
+      RabbitIm_VERSION: v0.1.0-dev
+      VCPKGGITCOMMITID: 7213cf8135c329c37c7e2778e40774489a0583a8
+      VCPKG_TARGET_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
+      VCPKG_DEFAULT_TRIPLET: ${{matrix.VCPKG_TARGET_TRIPLET}}
+      VCPKG_DEFAULT_HOST_TRIPLET: x64-linux
+      VCPKG_MANIFEST_FEATURES: "freerdp;vnc;wol;filetransfer"
+      BUILD_DIR:     ${{github.workspace}}/build
+      SOURCE_DIR:    ${{github.workspace}}/.cache/source
+      TOOLS_DIR:     ${{github.workspace}}/.cache/tools
+      INSTALL_DIR:   ${{github.workspace}}/.cache/install
+      artifact_name: build_android
+      #ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/26.3.11579264
+      ANDROID_PLATFORM: android-34
+      ANDROID_NATIVE_API_LEVEL: 34
+      ANDROID_ABI: ${{matrix.ANDROID_ABI}}
+      qt_modules: 'qtimageformats qtmultimedia qtscxml qtserialport qt5compat qtwebsockets qtpositioning qtwebchannel qtspeech' # qtvirtualkeyboard'
+
+    # Map the job outputs to step outputs
+    outputs:
+      name: ${{ env.artifact_name }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: make directory
+        run: |
+          cmake --version
+          cmake -E make_directory ${{env.SOURCE_DIR}}
+          cmake -E make_directory ${{env.TOOLS_DIR}}
+          cmake -E make_directory ${{env.INSTALL_DIR}}
+          cmake -E make_directory ${{env.BUILD_DIR}}
+
+      - name: Install apt packages
+        run: |
+          #sudo apt-get update -y
+          #sudo apt-get upgrade -y
+          sudo apt install -y -q ninja-build nasm
+
+      - name: Cache installed
+        uses: actions/cache@v4
+        id: cache-installed
+        with:
+          path: |
+            ${{env.INSTALL_DIR}}
+          key: install_android_qt${{matrix.qt_version}}_${{matrix.qt_arch}}_${{matrix.BUILD_TYPE}}
+
+      - name: run-vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: ${{env.VCPKGGITCOMMITID}}
+          vcpkgDirectory: ${{env.SOURCE_DIR}}/vcpkg
+
+      - name: run vcpkg
+        if: false
+        working-directory: ${{github.workspace}}
+        run: |
+          vcpkg install --triplet ${{matrix.VCPKG_TARGET_TRIPLET}} --x-feature=vnc
+
+      - name: Install Qt of linux_gcc_64
+        uses: jurplel/install-qt-action@v4
+        if: ${{ matrix.qt_version == '6.10.3' }}
+        with:
+          dir: '${{env.TOOLS_DIR}}/qt' # optional
+          version: '${{matrix.qt_version}}'
+          #host: 'linux'
+          target: 'desktop'
+          arch: 'linux_gcc_64'
+          set-env: false
+          cache: true
+          cache-key-prefix: cached-qt_${{matrix.qt_version}}_${{matrix.qt_arch}}
+
+      - name: Install Qt of gcc_64
+        uses: jurplel/install-qt-action@v4
+        if: ${{  matrix.qt_version == '6.6.3' }}
+        with:
+          dir: '${{env.TOOLS_DIR}}/qt' # optional
+          version: '${{matrix.qt_version}}'
+          #host: 'linux'
+          target: 'desktop'
+          arch: 'gcc_64'
+          set-env: false
+          cache: true
+          cache-key-prefix: cached-qt_${{matrix.qt_version}}_${{matrix.qt_arch}}
+
+      - name: Install Qt of android
+        uses: jurplel/install-qt-action@v4
+        with:
+          # Directory to install Qt
+          dir: '${{env.TOOLS_DIR}}/qt' # optional
+          # Version of Qt to install
+          version: '${{matrix.qt_version}}'
+          # Host platform
+          #host: linux # optional
+          # Target platform for build
+          target: 'android' # optional, default is desktop
+          # Architecture for Windows/Android
+          arch: '${{matrix.qt_arch}}' # optional
+          # Additional Qt modules to install
+          modules: '${{env.qt_modules}}' # optional. See: https://ddalcino.github.io/aqt-list-server/
+          cache: true
+          cache-key-prefix: cached-qt_${{matrix.qt_version}}_${{matrix.qt_arch}}
+
+      - name: chmod qt-cmake
+        run: |
+          sudo chmod 777 ${QT_ROOT_DIR}/bin/qt-cmake
+
+      - name: build qxmpp
+        #if: false
+        working-directory: ${{env.SOURCE_DIR}}
+        env:
+          QT_ROOT: ${{env.QT_ROOT_DIR}}
+        run: |
+          if [ ! -d ${{env.INSTALL_DIR}}/lib/cmake/qxmpp ]; then
+            git clone -b v1.10.3 https://invent.kde.org/libraries/qxmpp.git
+            cd qxmpp
+            cmake -E make_directory build
+            cd build
+            ${QT_ROOT_DIR}/bin/qt-cmake .. \
+                -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} \
+                -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_DIR }} \
+                -DBUILD_SHARED_LIBS=OFF \
+                -DCMAKE_VERBOSE_MAKEFILE=ON \
+                -DCMAKE_AUTOGEN_VERBOSE=ON \
+                -DQT_HOST_PATH=${QT_ROOT_DIR}/../gcc_64 \
+                -DCMAKE_PREFIX_PATH=${QT_ROOT_DIR}:${{env.INSTALL_DIR}}/lib/cmake \
+                -DQt6LinguistTools_DIR=${QT_ROOT_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools \
+                -DQT_CHAINLOAD_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake \
+                -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake \
+                -DVCPKG_VERBOSE=ON \
+                -DVCPKG_TRACE_FIND_PACKAGE=ON \
+                -DVCPKG_TARGET_TRIPLET=${{matrix.VCPKG_TARGET_TRIPLET}} \
+                -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON \
+                -DVCPKG_INSTALLED_DIR=${{env.INSTALL_DIR}}/qxmpp/vcpkg_installed \
+                -DBUILD_EXAMPLES=OFF \
+                -DBUILD_TESTS=OFF -DBUILD_DOCUMENTATION=OFF
+            cmake --build . --parallel $(nproc) --verbose --config ${{matrix.BUILD_TYPE}}
+            cmake --install . --config ${{matrix.BUILD_TYPE}} --strip
+          fi
+      - name: git clone RabbitCommon
+        working-directory: ${{env.SOURCE_DIR}}
+        run: git clone https://github.com/KangLin/RabbitCommon.git
+
+      - name: build RabbitIm
+        working-directory: ${{env.BUILD_DIR}}
+        env:
+          RabbitCommon_ROOT: ${{env.SOURCE_DIR}}/RabbitCommon
+          QT_ANDROID_KEYSTORE_PATH: ${{env.SOURCE_DIR}}/RabbitCommon/RabbitCommon.keystore
+          QT_ANDROID_KEYSTORE_ALIAS: rabbitcommon
+          QT_ANDROID_KEYSTORE_STORE_PASS: ${{secrets.STOREPASS}}
+          JAVA_HOME: ${{env.JAVA_HOME_17_X64}}
+        run: |
+          sudo chmod 777 ${QT_ROOT_DIR}/bin/qt-cmake
+          ${QT_ROOT_DIR}/bin/qt-cmake .. \
+              -GNinja \
+              -DCMARK_SHARED=OFF \
+              -DCMARK_TESTS=OFF \
+              -DCMARK_STATIC=ON \
+              -DWITH_CMARK=ON \
+              -DWITH_CMARK_GFM=OFF \
+              -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} \
+              -DCMAKE_AUTOGEN_VERBOSE=ON \
+              -DANDROID_PLATFORM=${{env.ANDROID_PLATFORM}} \
+              -DQT_CHAINLOAD_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake \
+              -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake \
+              -DVCPKG_TARGET_TRIPLET=${{env.VCPKG_TARGET_TRIPLET}} \
+              -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON \
+              -DVCPKG_VERBOSE=ON \
+              -DRABBIT_ENABLE_INSTALL_DEPENDENT=ON \
+              -DRABBIT_ENABLE_INSTALL_QT=ON \
+              -DRABBIT_ENABLE_INSTALL_TO_BUILD_PATH=ON \
+              -DRABBIT_ENABLE_INSTALL_TARGETS=ON \
+              -DCMAKE_PREFIX_PATH=${QT_ROOT_DIR}:${{env.INSTALL_DIR}} \
+              -DQT_HOST_PATH=${QT_ROOT_DIR}/../gcc_64 \
+              -DQT_ANDROID_SIGN_APK=ON \
+              -DQT_ENABLE_VERBOSE_DEPLOYMENT=ON \
+              -DVCPKG_TRACE_FIND_PACKAGE=ON \
+              -DQt6LinguistTools_DIR=${QT_ROOT_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools \
+              -DCMAKE_INSTALL_PREFIX=`pwd`/install \
+              -DENABLE_UPDATE_TRANSLATIONS=ON \
+              -DQXmpp_DIR=${{env.INSTALL_DIR}}/lib/cmake/qxmpp
+          cmake --build . --parallel $(nproc) --verbose --config ${{matrix.BUILD_TYPE}} --target all
+          APK_FILE=`find . -name "android-*.apk"`
+          cp $APK_FILE RabbitIm_${{env.RabbitIm_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
+
+      - name: Build RabbitIm with cmake preset
+        if: ${{ startsWith(github.ref, 'refs/heads/develop') }}
+        working-directory: ${{github.workspace}}
+        env:
+          # See: https://doc.qt.io/qt-6/cmake-variable-qt-android-sign-apk.html
+          RabbitCommon_ROOT: ${{env.SOURCE_DIR}}/RabbitCommon
+          QT_ANDROID_KEYSTORE_PATH: ${{env.SOURCE_DIR}}/RabbitCommon/RabbitCommon.keystore
+          QT_ANDROID_KEYSTORE_ALIAS: rabbitcommon
+          QT_ANDROID_KEYSTORE_STORE_PASS: ${{secrets.STOREPASS}}
+        run: |
+          export QT_ROOT=${{env.QT_ROOT_DIR}}
+          cmake --preset "android-${{env.ANDROID_ABI}}-qt6" \
+            -DQT_HOST_PATH=${QT_ROOT_DIR}/../gcc_64 \
+            -DQT_ANDROID_SIGN_APK=ON \
+            -DENABLE_UPDATE_TRANSLATIONS=ON \
+            -DQt6LinguistTools_DIR=${QT_ROOT_DIR}/../gcc_64/lib/cmake/Qt6LinguistTools \
+            -DBUILD_LibVNCServer=OFF \
+            -DLibVNCServer_DIR="${{env.INSTALL_DIR}}/lib/cmake/LibVNCServer" \
+            -Dtigervnc_DIR=${{env.INSTALL_DIR}}/lib/cmake/tigervnc \
+            -Dqtermwidget6_DIR=${{env.INSTALL_DIR}}/lib/cmake/qtermwidget6 \
+            -DINSTALL_QTERMWIDGET=ON \
+            -DQt6Keychain_DIR=${{env.INSTALL_DIR}}/lib/cmake/Qt6Keychain \
+            -DINSTALL_QTKEYCHAIN=ON \
+            -DQFtpServerLib_DIR=${{env.INSTALL_DIR}}/lib/cmake/QFtpServerLib \
+            -DINSTALL_QFtpServer=ON \
+            -DRABBIT_ENABLE_INSTALL_TARGETS=ON
+          cmake --build --preset "android-${{env.ANDROID_ABI}}-qt6"
+
+      - name: Update configure file
+        working-directory: ${{github.workspace}}/build
+        run: |
+          ${{env.SOURCE_DIR}}/RabbitCommon/Install/GenerateJsonFile.sh \
+              update_${{matrix.qt_arch}}_${{matrix.qt_version}}.json \
+              RabbitIm_${{env.RabbitIm_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk \
+              android ${{matrix.ANDROID_ABI}} \
+              "https://github.com/KangLin/RabbitIm/releases/download/${{env.RabbitIm_VERSION}}/RabbitIm_${{env.RabbitIm_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk,https://master.dl.sourceforge.net/project/rabbitremotecontrol/${{env.RabbitIm_VERSION}}/RabbitIm_${{env.RabbitIm_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk?viasf=1"
+
+      - name: Update artifact
+        if: ${{ matrix.BUILD_TYPE == 'Release' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.artifact_name }}_${{matrix.qt_version}}_${{matrix.qt_arch}}
+          path: |
+            ${{github.workspace}}/build/RabbitIm_${{env.RabbitIm_VERSION}}_${{matrix.qt_arch}}_qt${{matrix.qt_version}}_${{matrix.BUILD_TYPE}}.apk
+            ${{github.workspace}}/build/update_${{matrix.qt_arch}}_${{matrix.qt_version}}.json
