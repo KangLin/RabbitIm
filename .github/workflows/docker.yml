@@ -42,14 +42,14 @@ jobs:
           #   lable: "26.04"
           #   os: ubuntu-24.04-arm
 
-          - PACKAGE: deb
-            image: debian
-            lable: "12"
-            os: ubuntu-24.04
-          - PACKAGE: deb
-            image: debian
-            lable: "12"
-            os: ubuntu-24.04-arm
+          # - PACKAGE: deb
+          #   image: debian
+          #   lable: "12"
+          #   os: ubuntu-24.04
+          # - PACKAGE: deb
+          #   image: debian
+          #   lable: "12"
+          #   os: ubuntu-24.04-arm
           # - PACKAGE: deb
           #   image: debian
           #   lable: "13"
@@ -102,14 +102,14 @@ jobs:
           #   image: fedora
           #   lable: "42"
           #   os: ubuntu-24.04-arm
-          # - PACKAGE: rpm
-          #   image: fedora
-          #   lable: "41"
-          #   os: ubuntu-24.04
-          # - PACKAGE: rpm
-          #   image: fedora
-          #   lable: "41"
-          #   os: ubuntu-24.04-arm
+          - PACKAGE: rpm
+            image: fedora
+            lable: "41"
+            os: ubuntu-24.04
+          - PACKAGE: rpm
+            image: fedora
+            lable: "41"
+            os: ubuntu-24.04-arm
 
     # See: [About GitHub-hosted runners](https://docs.github.com/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners)
     # See: [Choosing the runner for a job](https://docs.github.com/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job)
