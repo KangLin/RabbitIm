@@ -243,9 +243,9 @@ ${TOOLS_DIR}/linuxdeploy-`uname -m`.AppImage --appdir=AppDir ${DEPLOY_PARA} \
     --output appimage \
     --deploy-deps-only=${INSTALL_APP_DIR}/plugins
 
-chmod a+x RabbitIm-`uname -m`.AppImage
+chmod a+x Rabbit_Instant_Messaging-`uname -m`.AppImage
 
-cp RabbitIm-`uname -m`.AppImage $REPO_ROOT/RabbitIm_`uname -m`.AppImage
+cp Rabbit_Instant_Messaging-`uname -m`.AppImage $REPO_ROOT/RabbitIm_`uname -m`.AppImage
 echo_status "Generated AppImage: $REPO_ROOT/RabbitIm_`uname -m`.AppImage"
 
 popd

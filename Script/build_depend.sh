@@ -487,7 +487,7 @@ if [ $BASE_LIBS -eq 1 ]; then
             ;;
         esac
         # Needed by AppImage
-        package_install libfuse3-dev
+        package_install fuse3
     fi
 
     if [ "$PACKAGE_TOOL" = "dnf" ]; then
