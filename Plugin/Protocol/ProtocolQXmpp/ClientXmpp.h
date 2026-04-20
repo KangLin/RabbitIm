@@ -1,7 +1,8 @@
 #ifndef XMPPCLIENT_H
 #define XMPPCLIENT_H
 
-#include <QObject>
+#include <QSslError>
+
 #include "QXmppClient.h"
 #include "QXmppLogger.h"
 #include "QXmppTransferManager.h"
