@@ -379,7 +379,7 @@ if [ $DOCKER -eq 1 ]; then
                export SOURCE_CODE_DIR=/home
            fi
            \${SOURCE_CODE_DIR}/RabbitIm/Script/build_linux.sh --deb --install=/home/install --tools=/home/tools --verbose=${BUILD_VERBOSE}
-           cp \${SOURCE_CODE_DIR}/RabbitIm*.deb /home/build/
+           cp \${SOURCE_CODE_DIR}/rabbitim*.deb /home/build/
            "
     fi
 
