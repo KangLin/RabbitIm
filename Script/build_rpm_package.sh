@@ -142,6 +142,6 @@ if [ -z "$RabbitCommon_ROOT" ]; then
 fi
 export CMAKE_PREFIX_PATH=${INSTALL_DIR}:${CMAKE_PREFIX_PATH}
 export INSTALL_DIR=${INSTALL_DIR}
-rpmbuild --nodebuginfo -bb Package/rpm/rabbitim.spec
+rpmbuild --nodebuginfo -bb Package/rpm/rabbitim.spec --define "build_time $(date '+%a %b %d %Y')"
 
 popd

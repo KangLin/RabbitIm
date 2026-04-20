@@ -437,7 +437,7 @@ if [ $DOCKER -eq 1 ]; then
             # Install getopt
             dnf install -y util-linux
             ~/RabbitIm/Script/build_linux.sh --rpm --install=/home/install --tools=/home/tools --verbose=${BUILD_VERBOSE}
-            cp ~/rpmbuild/RPMS/`uname -m`/RabbitIm*.rpm /home/build/
+            cp ~/rpmbuild/RPMS/`uname -m`/rabbitim*.rpm /home/build/
             "
     fi
     exit 0

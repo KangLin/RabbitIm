@@ -71,7 +71,8 @@ cmake . -B $RPM_BUILD_DIR  \
     -DWITH_CMARK=OFF \
     -DWITH_CMARK_GFM=ON \
     -DENABLE_UPDATE_TRANSLATIONS=ON \
-    -DRABBIT_ENABLE_INSTALL_TARGETS=ON
+    -DRABBIT_ENABLE_INSTALL_TARGETS=ON \
+    -DINSTALL_QZXING=ON
 cmake --build $RPM_BUILD_DIR --config Release --parallel $(nproc)
 
 %install
@@ -143,5 +144,5 @@ rm -fr /usr/bin/RabbitIm
 
 # 修改历史
 %changelog
-* $RPM_BUILD_TIME Kang Lin <kl222@126.com> - %{version}
+*  %{build_time} Kang Lin <kl222@126.com> - %{version}
 - Initial RPM package
