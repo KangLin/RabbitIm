@@ -144,5 +144,5 @@ rm -fr /usr/bin/RabbitIm
 
 # 修改历史
 %changelog
-*  %{build_time} Kang Lin <kl222@126.com> - %{version}
+* %{build_time} Kang Lin <kl222@126.com> - %{version}
 - Initial RPM package
