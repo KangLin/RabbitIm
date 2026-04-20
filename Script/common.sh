@@ -284,7 +284,7 @@ package_install() {
 create_debian_folder() {
     local repo_root=$1
     if [ ! -d "$repo_root/debian" ]; then
-        echo "Create $repo_root/debian ......"
+        echo_status "Create $repo_root/debian ......"
         ln -s $repo_root/Package/debian $repo_root/debian
 
         if [ ! -f "$repo_root/debian/control" ]; then
@@ -322,7 +322,7 @@ install_debian_depend() {
     local repo_root=$1
     create_debian_folder $repo_root
     if [ -f "$repo_root/debian/control" ]; then
-        echo "Install deb depends ......"
+        echo_status "Install deb depends ......"
         pushd $repo_root
         # 安装编译依赖到系统中
         apt-get build-dep -y .
@@ -406,11 +406,11 @@ install_gnu_getopt() {
 
 # macOS 设置函数
 setup_macos() {
-    echo "Setting up macOS environment..."
+    echo_status "Setting up macOS environment..."
 
     # 检查是否安装了 Homebrew
     if ! command -v brew >/dev/null 2>&1; then
-        echo "Installing Homebrew..."
+        echo_status "Installing Homebrew..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
 
