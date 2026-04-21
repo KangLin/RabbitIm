@@ -40,8 +40,6 @@ private slots:
      * @return 
      */
     virtual int slotCaptureFrame(const QImage &frame);
-    void slotVideoFrameChanged(const QVideoFrame &frame);
-
     void on_pushBrowse_clicked();
     void on_Cancel_clicked();
     void OnTimeOut();

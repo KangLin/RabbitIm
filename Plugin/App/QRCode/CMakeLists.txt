@@ -21,7 +21,9 @@ endif()
 ADD_PLUGIN_TARGET(
     SOURCE_FILES
         CPluginQRCode.cpp
+        CPluginQRCode.h
         FrmScanQRcode.cpp
+        FrmScanQRcode.h
         FrmScanQRcode.ui
     INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/Src> ${QZXing_INCLUDE_DIRS}
     PRIVATE_LIBS RabbitIm qzxing

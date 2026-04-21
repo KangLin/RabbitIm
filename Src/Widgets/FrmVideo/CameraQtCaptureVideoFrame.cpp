@@ -15,6 +15,15 @@ CCameraQtCaptureVideoFrame::CCameraQtCaptureVideoFrame(QObject *parent)
 #endif
 {
     m_Angle = 0;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    bool check = connect(this, &CCameraQtCaptureVideoFrame::videoFrameChanged,
+                         this, [&](const QVideoFrame &frame) {
+                             QImage img = frame.toImage();
+                             emit sigCaptureFrame(img);
+                             emit sigCaptureFrame(frame);
+                         });
+    Q_ASSERT(check);
+#endif
 }
 
 CCameraQtCaptureVideoFrame::~CCameraQtCaptureVideoFrame()
