@@ -4,6 +4,10 @@
 #include <QFrame>
 #include <QTimer>
 #include <QCamera>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #include <QMediaCaptureSession>
+    #include <QVideoSink>
+#endif
 #include "Widgets/FrmVideo/FrmDisplay.h"
 #include "Widgets/FrmVideo/CameraQtCaptureVideoFrame.h"
 #include "qrcode_export.h"
@@ -20,9 +24,9 @@ public:
     explicit CFrmScanQRcode(QWidget *parent = nullptr);
     ~CFrmScanQRcode();
 
-    //识别二维码文件  
+    // 识别二维码文件  
     int ProcessQRFile(QString szFile);
-    
+
 private:
     int Start();
     int Stop();
@@ -36,6 +40,7 @@ private slots:
      * @return 
      */
     virtual int slotCaptureFrame(const QImage &frame);
+    void slotVideoFrameChanged(const QVideoFrame &frame);
 
     void on_pushBrowse_clicked();
     void on_Cancel_clicked();
@@ -46,12 +51,16 @@ private slots:
     void on_pbSaveAs_clicked();
     void on_Cancel_2_clicked();
     void on_pbBrowse_clicked();
-    
+
 private:
     Ui::CFrmScanQRcode *ui;
     QCamera *m_pCamera;
     CFrmDisplay m_Play;
     CCameraQtCaptureVideoFrame m_CaptureVideoFrame;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QMediaCaptureSession m_MediaCaptureSession;
+    QVideoSink* m_pVideoSink;
+#endif
     QTimer m_Timer;
     QImage m_Generate;
     QImage m_Logon;

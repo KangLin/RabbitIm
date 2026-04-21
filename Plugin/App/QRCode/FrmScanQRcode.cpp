@@ -1,7 +1,11 @@
 #include <QPainter>
 #include <QDir>
 #include <QStandardPaths>
-#include <QCameraInfo>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    #include <QCameraInfo>
+#else
+    #include <QMediaDevices>
+#endif
 #include <QLoggingCategory>
 #include "FrmScanQRcode.h"
 #include "ui_FrmScanQRcode.h"
@@ -27,6 +31,11 @@ CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
 
     bool check = connect(&m_Timer, SIGNAL(timeout()), SLOT(OnTimeOut()));
     Q_ASSERT(check);
+    check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(const QImage &)),
+                    this, SLOT(slotCaptureFrame(const QImage &)));
+    Q_ASSERT(check);
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if(!QCameraInfo::availableCameras().isEmpty())
     {
         m_pCamera = new QCamera(QCameraInfo::availableCameras().value(CGlobal::Instance()->GetVideoCaptureDevice()));
@@ -34,14 +43,18 @@ CFrmScanQRcode::CFrmScanQRcode(QWidget *parent) :
         {
             m_pCamera->setViewfinder(&m_CaptureVideoFrame);
             m_pCamera->start();
-            check = connect(&m_CaptureVideoFrame, SIGNAL(sigCaptureFrame(const QImage &)),
-                            this, SLOT(slotCaptureFrame(const QImage &)));
-            Q_ASSERT(check);
         } else {
             ui->lbText->setText(tr("The camera does not exist."));
             qCritical(log) << "The camera does not exist.";
         }
     }
+#else
+    if(!QMediaDevices::videoInputs().isEmpty()) {
+        m_pCamera = new QCamera(QMediaDevices::videoInputs().value(CGlobal::Instance()->GetVideoCaptureDevice()));
+        m_MediaCaptureSession.setCamera(m_pCamera);
+        m_MediaCaptureSession.setVideoSink(&m_CaptureVideoFrame);
+    }
+#endif
 }
 
 CFrmScanQRcode::~CFrmScanQRcode()
@@ -51,7 +64,9 @@ CFrmScanQRcode::~CFrmScanQRcode()
     {
         Stop();
         m_pCamera->stop();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         m_pCamera->unload();
+#endif
         m_pCamera = nullptr;
     }
     delete ui;
