@@ -79,6 +79,17 @@ modules:
           project-id: 20333
           url-template: https://www.openssl.org/source/openssl-$version.tar.gz
 
+  - name: zxing-cpp
+    disabled: false
+    sources:
+      - type: git
+        url: https://github.com/zxing-cpp/zxing-cpp.git
+        tag: v3.0.2
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+
   - name: qxmpp
     disabled: false
     sources:

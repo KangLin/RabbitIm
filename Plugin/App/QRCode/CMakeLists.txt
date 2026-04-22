@@ -1,6 +1,6 @@
 #QZXing库
-OPTION(OPTION_RABBITIM_USE_QZXING "Use QZXing library" ON)
-if(OPTION_RABBITIM_USE_QZXING)
+OPTION(RABBITIM_USE_QZXING "Use QZXing library" ON)
+if(RABBITIM_USE_QZXING)
     FIND_PACKAGE(qzxing)
     if(NOT qzxing_FOUND)
         message("Download from https://github.com/ftylitak/qzxing.git")

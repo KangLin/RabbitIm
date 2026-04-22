@@ -38,6 +38,7 @@ fi
 RabbitCommon=0
 QXMPP=0
 QZXING=0
+ZXING_CPP=0
 
 # Display detailed usage information
 usage_long() {
@@ -107,7 +108,7 @@ parse_with_getopt() {
     # 后面没有冒号表示没有参数。后跟有一个冒号表示有参数。跟两个冒号表示有可选参数。
     # -l 或 --long 选项后面是可接受的长选项，用逗号分开，冒号的意义同短选项。
     # -n 选项后接选项解析错误时提示的脚本名字
-    OPTS=help,install:,source:,tools:,build:,verbose::,package:,package-tool:,system_update::,system-update::,base::,default::,default-qt5::,default-qt6::,macos::,qt::,rabbitcommon::,qxmpp::,qzxing::
+    OPTS=help,install:,source:,tools:,build:,verbose::,package:,package-tool:,system_update::,system-update::,base::,default::,default-qt5::,default-qt6::,macos::,qt::,rabbitcommon::,qxmpp::,qzxing::,zxing-cpp::
     
     # Parse arguments using getopt
     # -o: short options
@@ -280,6 +281,17 @@ parse_with_getopt() {
             esac
             shift 2
             ;;
+        --zxing-cpp)
+            case "$2" in
+                "")
+                    ZXING_CPP=1
+                    ;;
+                *)
+                    ZXING_CPP="$2"
+                    ;;
+            esac
+            shift 2
+            ;;
         --) # End of options
             shift
             break
@@ -337,6 +349,7 @@ show_configuration() {
         echo "  RabbitCommon: $RabbitCommon"
         echo "  QXMPP: $QXMPP"
         echo "  QZXing: $QZXing"
+        echo "  ZXing: $ZXING_CPP"
         echo ""
         echo "Other Settings:"
         echo "  Verbose Mode: $BUILD_VERBOSE"
@@ -511,16 +524,20 @@ if [ $DEFAULT_LIBS -eq 1 ]; then
                     qt6-svg-dev qt6-l10n-tools qt6-translations-l10n \
                     qt6-scxml-dev qt6-multimedia-dev qt6-positioning-dev \
                     libqt6sql6-mysql libqt6sql6-sqlite libqt6sql6-odbc libqt6sql6-psql \
-                    qt6-speech-dev
+                    qt6-speech-dev qt6-declarative-dev qt6-qml-dev
             fi
         else
             if [ $QT -ne 1 ]; then
                 package_install qt5-qmake qtbase5-dev qtbase5-dev-tools qttools5-dev \
                     qtmultimedia5-dev libqt5scxml5-dev libqt5svg5-dev libqt5gstreamer-dev \
-                    qtquickcontrols2-5-dev libqt5multimedia5-plugins
+                    qtquickcontrols2-5-dev libqt5multimedia5-plugins qtdeclarative5-dev
             fi
             package_install libqxmpp-dev
         fi
+        if [ $ZXING_CPP -ne 1 ]; then
+            package_install libzxing-dev
+        fi
+
     fi # apt
 
     if [ "$PACKAGE_TOOL" = "dnf" ]; then
@@ -538,7 +555,7 @@ if [ $DEFAULT_LIBS -eq 1 ]; then
     fi
 
     if [ $MACOS -eq 1 ]; then
-        package_install qt
+        package_install qt zxing-cpp
     fi
 fi
 
@@ -629,6 +646,28 @@ if [ $QZXING -eq 1 ]; then
         cmake -S $SOURCE_DIR/qzxing -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
             -DCMAKE_VERBOSE_MAKEFILE=${BUILD_VERBOSE}
+        cmake --build . --config Release --parallel $(nproc)
+        cmake --install . --config Release
+        popd
+    fi
+    popd
+fi
+
+if [ $ZXING_CPP -eq 1 ]; then
+    echo_status "Install zxing-cpp ......"
+    pushd "$SOURCE_DIR"
+    if [ ! -d ${INSTALL_DIR}/${LIB_PATH}/cmake/ZXing ]; then
+        if [ ! -d qzxing ]; then
+            git clone -b v3.0.2 https://github.com/zxing-cpp/zxing-cpp.git
+            cd zxing-cpp
+            git submodule update --init --recursive
+        fi
+        cmake -E make_directory $BUILD_DEPEND_DIR/zxing-cpp
+        pushd $BUILD_DEPEND_DIR/zxing-cpp
+        cmake -S $SOURCE_DIR/zxing-cpp -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+            -DCMAKE_VERBOSE_MAKEFILE=${BUILD_VERBOSE} \
+            -DZXING_EXAMPLES=OFF
         cmake --build . --config Release --parallel $(nproc)
         cmake --install . --config Release
         popd

@@ -5,8 +5,8 @@ project(RabbitIm)
 set(QT_COMPONENTS Multimedia Xml Network)
 
 #QZXing库
-OPTION(OPTION_RABBITIM_USE_QZXING "Use QZXing library" ON)
-if(OPTION_RABBITIM_USE_QZXING)
+OPTION(RABBITIM_USE_QZXING "Use QZXing library" ON)
+if(RABBITIM_USE_QZXING)
     FIND_PACKAGE(qzxing)
     if(qzxing_FOUND)
         list(APPEND RABBITIM_DEFINES RABBITIM_USE_QZXING)
@@ -20,6 +20,20 @@ if(OPTION_RABBITIM_USE_QZXING)
     endif()
 endif()
 message("Found QZXing: ${qzxing_FOUND}")
+
+OPTION(RABBITIM_USE_ZXING_CPP "Use zxing-cpp library" ON)
+if(RABBITIM_USE_ZXING_CPP)
+    find_package(ZXing)
+    if(ZXing_FOUND)
+        message("ZXing version: ${ZXing_VERSION}")
+        list(APPEND RABBITIM_PRIVATE_LIBS ZXing::ZXing)
+        list(APPEND RABBITIM_DEFINES RABBITIM_USE_ZXING_CPP)
+        OPTION(INSTALL_ZXING_CPP "Install ZXing-cpp target" OFF)
+        if(INSTALL_ZXING_CPP)
+            INSTALL_TARGETS(TARGETS ZXing::ZXing)
+        endif()
+    endif()
+endif()
 
 include(Files.cmake)
 
@@ -84,6 +98,7 @@ endforeach()
 ADD_TARGET(NAME ${PROJECT_NAME}
     SOURCE_FILES ${RABBITIM_SOURCES} ${HEADER_FILES} ${RABBITIM_UIS} ${RABBITIM_RCC_FILES}
     LIBS ${RABBITIM_LIBS} ${QT_LIBRARIES}
+    PRIVATE_LIBS ${RABBITIM_PRIVATE_LIBS}
     DEFINITIONS RABBITCOMMON ${RABBITIM_DEFINES}
         RabbitIm_VERSION="${RabbitIm_VERSION}"
         RabbitIm_REVISION="${RabbitIm_REVISION}"

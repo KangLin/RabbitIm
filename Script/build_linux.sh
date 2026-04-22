@@ -469,8 +469,15 @@ pushd $REPO_ROOT/Script
 if [ $DEB -eq 1 ]; then
     echo_status "build deb package ......"
 
+    if [ "$DEFAULT_QT"="--default-qt6" ]; then
+        depend_para="--zxing-cpp"
+        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
+    else
+        depend_para="--qzxing"
+        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
+    fi
     ./build_depend.sh --system_update --base --default ${DEFAULT_QT} \
-        --rabbitcommon --qzxing \
+        --rabbitcommon ${depend_para} \
         --install=${INSTALL_DIR} \
         --source=${SOURCE_DIR} \
         --tools=${TOOLS_DIR} \
@@ -483,7 +490,7 @@ if [ $DEB -eq 1 ]; then
         git config --global --add safe.directory $REPO_ROOT
     fi
 
-    export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON "
+    export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS "
     ./build_debpackage.sh --install=${INSTALL_DIR} \
         --rabbitcommon=${SOURCE_DIR}/RabbitCommon \
         --verbose=${BUILD_VERBOSE}
@@ -515,6 +522,13 @@ if [ $APPIMAGE -eq 1 ]; then
     *)
     esac
 
+    if [ "$DEFAULT_QT"="--default-qt6" ]; then
+        depend_para="--zxing-cpp"
+        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
+    else
+        depend_para="--qzxing"
+        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
+    fi
     export RabbitCommon_ROOT=${SOURCE_DIR}/RabbitCommon
     export BUILD_FREERDP=ON
     export PKG_CONFIG_PATH=${INSTALL_DIR}/${LIB_PATH}/pkgconfig:$PKG_CONFIG_PATH
@@ -522,7 +536,7 @@ if [ $APPIMAGE -eq 1 ]; then
     export CMAKE_PREFIX_PATH=${INSTALL_DIR}:${CMAKE_PREFIX_PATH}
 
     ./build_depend.sh --system_update --base --default ${DEFAULT_QT} \
-        --rabbitcommon --qzxing ${depend_para} \
+        --rabbitcommon ${depend_para} \
         --install=${INSTALL_DIR} \
         --source=${SOURCE_DIR} \
         --tools=${TOOLS_DIR} \
@@ -541,8 +555,15 @@ fi
 if [ $RPM -eq 1 ]; then
     echo_status "build rpm package ......"
     #dnf builddep -y ${REPO_ROOT}/Package/rpm/RabbitIm.spec
+    if [ "$DEFAULT_QT"="--default-qt6" ]; then
+        depend_para="--zxing-cpp"
+        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
+    else
+        depend_para="--qzxing"
+        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
+    fi
     ./build_depend.sh --system_update --base --default --package-tool=dnf \
-        --rabbitcommon \
+        --rabbitcommon ${depend_para} \
         --install=${INSTALL_DIR} \
         --source=${SOURCE_DIR} \
         --tools=${TOOLS_DIR} \

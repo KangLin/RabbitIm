@@ -1,5 +1,5 @@
 #qxmpp库
-#OPTION(OPTION_RABBITIM_USE_QXMPP "Use qxmpp library" ON)
+#OPTION(RABBITIM_USE_QXMPP "Use qxmpp library" ON)
 PROJECT(ProtocolQXmpp)
 if(${QT_VERSION_MAJOR} EQUAL 6)
     SET(QXMPP_NAME QXmppQt6)

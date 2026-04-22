@@ -163,6 +163,33 @@ jobs:
             cmake --install . --config ${{matrix.BUILD_TYPE}} --strip
           )
 
+      - name: build zxing-cpp
+        working-directory: ${{env.SOURCE_DIR}}
+        run: |
+          IF NOT EXIST ${{env.INSTALL_DIR}}/lib/cmake/ZXing (
+            git clone -b v3.0.2 https://github.com/zxing-cpp/zxing-cpp.git
+            cd zxing-cpp
+            cmake -E make_directory build
+            cd build
+            cmake .. ^
+                -A ${{matrix.CMAKE_GENERATOR_PLATFORM}} ^
+                -T ${{matrix.VCPKG_PLATFORM_TOOLSET}} ^
+                -DCMAKE_BUILD_TYPE=${{matrix.BUILD_TYPE}} ^
+                -DCMAKE_INSTALL_PREFIX="${{env.INSTALL_DIR}}" ^
+                -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ^
+                -DCMAKE_TOOLCHAIN_FILE="${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake" ^
+                -DVCPKG_INSTALLED_DIR=${{env.INSTALL_DIR}}/tigervnc/vcpkg_installed ^
+                -DVCPKG_VERBOSE=ON ^
+                -DVCPKG_TARGET_TRIPLET=${{matrix.VCPKG_TARGET_TRIPLET}} ^
+                -DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON ^
+                -DVCPKG_APPLOCAL_DEPS=ON ^
+                -DVCPKG_TRACE_FIND_PACKAGE=ON ^
+                -DZXING_USE_BUNDLED_ZINT=OFF ^
+                -DZXING_EXAMPLES=OFF
+            cmake --build . --config ${{matrix.BUILD_TYPE}}
+            cmake --install . --config ${{matrix.BUILD_TYPE}} --strip
+          )
+
       - name: git clone RabbitCommon
         working-directory: ${{env.SOURCE_DIR}}
         run: git clone https://github.com/KangLin/RabbitCommon.git

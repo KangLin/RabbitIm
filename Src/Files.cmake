@@ -1,4 +1,4 @@
-SET(INSTALL_HEADER_FILES
+list(APPEND INSTALL_HEADER_FILES
     common/QRCode.h
     common/Tool.h
     Client/Client.h
@@ -11,7 +11,7 @@ SET(INSTALL_HEADER_FILES
     FileTransfer/FileTransfer.h
     )
 
-SET(RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
+list(APPEND RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
     MainWindow.h
     Widgets/MainAnimation.h
     Widgets/FrmLogin/FrmLogin.h
@@ -43,7 +43,7 @@ SET(RABBITIM_HEADER_FILES ${INSTALL_HEADER_FILES}
     ${CMAKE_SOURCE_DIR}/Plugin/ManagePluginProtocol.h
     )
 
-SET(RABBITIM_SOURCES
+list(APPEND RABBITIM_SOURCES
     MainWindow.cpp 
     common/Tool.cpp 
     common/QRCode.cpp 
@@ -112,7 +112,7 @@ SET(RABBITIM_SOURCES
     Widgets/MainAnimation.cpp
 )
 
-SET(RABBITIM_UIS
+list(APPEND RABBITIM_UIS
     MainWindow.ui 
     Widgets/FrmLogin/FrmLogin.ui 
     Widgets/FrmUserList/FrmUserList.ui 

@@ -33,7 +33,7 @@ Requires: zlib gnutls nettle gmp pam
 Requires: qt6-qtbase qt6-qtbase-mysql qt6-qtbase-odbc qt6-qtbase-postgresql
 Requires: qt6-qtmultimedia qt6-qt5compat qt6-qtscxml qt6-qtsvg
 Requires: qt6-qtpositioning qt6-qtspeech
-Requires: qxmpp-qt6
+Requires: qxmpp-qt6 zxing-cpp
 Requires: mysql-libs
 
 %description
@@ -71,8 +71,7 @@ cmake . -B $RPM_BUILD_DIR  \
     -DWITH_CMARK=OFF \
     -DWITH_CMARK_GFM=ON \
     -DENABLE_UPDATE_TRANSLATIONS=ON \
-    -DRABBIT_ENABLE_INSTALL_TARGETS=ON \
-    -DINSTALL_QZXING=ON
+    -DRABBIT_ENABLE_INSTALL_TARGETS=ON ${CMAKE_CONFIG_PARAS}
 cmake --build $RPM_BUILD_DIR --config Release --parallel $(nproc)
 
 %install

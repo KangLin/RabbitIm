@@ -14,14 +14,18 @@
     #include "QZXing.h"
 #endif
 
+#ifdef RABBITIM_USE_ZXING_CPP
+    #include "ZXing/ZXingQt.h"
+#endif
+
 #include <QLoggingCategory>
-Q_LOGGING_CATEGORY(logQRCode, "QRCode");
+static Q_LOGGING_CATEGORY(log, "QRCode");
 
 #define RABBITIM_ID "rabbitim://id/"
 #define RABBITIM_USERINFO "rabbitim://userinfo/"
 
 CQRCode::CQRCode() : QObject()
-{    
+{
 }
 
 //http://stackoverflow.com/questions/21400254/how-to-draw-a-qr-code-with-qt-in-native-c-c
@@ -96,11 +100,18 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage,
     qr = nullptr;
     return image;
 #endif //RABBITIM_USE_LIBQRENCODE
-    
-#if RABBITIM_USE_QZXING && ENABLE_ENCODER_GENERIC
+
     try{
+        QImage image;
+#if RABBITIM_USE_ZXING_CPP
+        auto barcode = ZXingQt::Barcode::fromText(szData, ZXingQt::BarcodeFormat::QRCode, QStringLiteral("ecLevel=50%"));
+        image = barcode.toImage(ZXingQt::WriterOptions().scale(4));
+#elif RABBITIM_USE_QZXING && ENABLE_ENCODER_GENERIC
         QZXing encoder;
-        QImage image = encoder.encodeData(szData);
+        image = encoder.encodeData(szData);
+#endif
+        
+        if(image.isNull()) return image;
         image = image.scaled(size);
         QPainter painter(&image);
 
@@ -111,7 +122,7 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage,
             qreal y = (size.height() >> 1) - (size.height() / 10);
             qreal w = size.width() / 5;
             qreal h = size.height() / 5;
-            qDebug(logQRCode, "x:%f, y:%f", x, y);
+            qDebug(log, "x:%f, y:%f", x, y);
             int penw = 3;
             painter.setBrush(QBrush(QColor(255, 255, 255)));
             painter.drawRect(x - penw, y - penw, w + (penw << 1), h + (penw << 1));
@@ -121,10 +132,13 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage,
             painter.drawImage(rect, inImage);
         }
         return image;
-    }catch(...){
-        ;
+    } catch(std::exception e) {
+        qCritical(log) << e.what();
+    } catch(QException e) {
+        qCritical(log) << e.what();
+    } catch(...) {
+        qCritical(log) << Q_FUNC_INFO << "exception";
     }
-#endif
 
     return QImage();
 }
@@ -132,7 +146,10 @@ QImage CQRCode::QRcodeEncodeString(const QString &szData, const QImage &inImage,
 int CQRCode::ProcessQImage(QImage image, QString &szText)
 {
     QString szMessage;
-#ifdef RABBITIM_USE_QZXING
+#if RABBITIM_USE_ZXING_CPP
+    auto barCode = ZXingQt::ReadBarcode(image);
+    szMessage = barCode.text();
+#elif defined(RABBITIM_USE_QZXING)
     try{
         QZXing decoder;
         decoder.setDecoder(QZXing::DecoderFormat_QR_CODE |
@@ -157,12 +174,12 @@ int CQRCode::ProcessQImage(QImage image, QString &szText)
         szMessage = decoder.decodeImage(image);
         if(szMessage.isEmpty())
         {
-            qCritical(logQRCode, "Scan image fail.");
+            qCritical(log, "Scan image fail.");
             return 1;
         }
-        qDebug(logQRCode, "Decode:%s", szMessage.toStdString().c_str());
+        qDebug(log, "Decode:%s", szMessage.toStdString().c_str());
     }catch(...){
-        qCritical(logQRCode, "Exception:Scan image fail.");
+        qCritical(log, "Exception:Scan image fail.");
         return 1;
     }
 #endif
@@ -208,7 +225,7 @@ int CQRCode::ProcessQRFile(const QString &szFile, QString &szText)
     QImage img(szFile);
     if(img.isNull())
     {
-        qCritical(logQRCode, "This isn't image file:%s",
+        qCritical(log, "This isn't image file:%s",
                         szFile.toStdString().c_str());
         return 1;
     }
@@ -249,14 +266,14 @@ int CQRCode::ProcessMessage(const QString &szMessage)
             int nRight = szMessage.indexOf(";", nId);
             szId = szMessage.mid(nId, nRight - nId);
         }
-        qDebug(logQRCode) << "ID:" << szId;
+        qDebug(log) << "ID:" << szId;
         if(szId.isEmpty())
             return -1;
         if(USER_INFO_LOCALE.isNull())
             return -2;
         if(USER_INFO_LOCALE->GetInfo()->GetId() == szId)
         {
-            qCritical(logQRCode, "Roster[%s] is self.",
+            qCritical(log, "Roster[%s] is self.",
                             szId.toStdString().c_str());
             return 0;
         }
@@ -272,7 +289,7 @@ int CQRCode::ProcessMessage(const QString &szMessage)
                 GET_CLIENT->RosterAdd(szId);
             }
         } else  {
-           qCritical(logQRCode, "Roster[%s] has exist.",
+           qCritical(log, "Roster[%s] has exist.",
                             szId.toStdString().c_str());
         }
         return 0;

@@ -324,4 +324,5 @@ void CEmoji::onSmileyPackChanged()
 {
     loadingMutex.lock();
     QtConcurrent::run(&load, CGlobal::Instance()->GetFileEmoji(), this);
+    return;
 }
