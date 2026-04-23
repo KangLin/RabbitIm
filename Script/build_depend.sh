@@ -530,7 +530,7 @@ if [ $DEFAULT_LIBS -eq 1 ]; then
                     qt6-svg-dev qt6-l10n-tools qt6-translations-l10n \
                     qt6-scxml-dev qt6-multimedia-dev qt6-positioning-dev \
                     libqt6sql6-mysql libqt6sql6-sqlite libqt6sql6-odbc libqt6sql6-psql \
-                    qt6-speech-dev qt6-declarative-dev qt6-qml-dev
+                    qt6-speech-dev
             fi
             package_install libqxmpp-dev
         fi
