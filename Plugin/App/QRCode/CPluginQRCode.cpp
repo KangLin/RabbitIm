@@ -21,20 +21,13 @@ int CPluginQRCode::Open(void *pPara, QWidget *parent)
 {
     Q_UNUSED(pPara);
     Q_UNUSED(parent);
-    if(m_FrmScanQRCode.isNull())
-        m_FrmScanQRCode = QSharedPointer<CFrmScanQRcode>(new CFrmScanQRcode());
-    if(!m_FrmScanQRCode.isNull())
-        m_FrmScanQRCode->show();
+    m_FrmScanQRCode.show();
     return 0;
 }
 
 int CPluginQRCode::Close()
 {
-    if(!m_FrmScanQRCode.isNull())
-    {  
-        m_FrmScanQRCode->close();
-        m_FrmScanQRCode.clear();
-    }
+    m_FrmScanQRCode.close();
     return 0;
 }
 

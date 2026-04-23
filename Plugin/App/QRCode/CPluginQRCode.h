@@ -38,7 +38,7 @@ public:
     virtual QIcon Icon();
 
 private:
-    QSharedPointer<CFrmScanQRcode> m_FrmScanQRCode;
+    CFrmScanQRcode m_FrmScanQRCode;
 };
 
 #endif // CPLUGINQRCODE_H
