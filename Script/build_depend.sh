@@ -517,7 +517,13 @@ fi
 if [ $DEFAULT_LIBS -eq 1 ]; then
     echo_status "Install default dependency libraries ......"
     if [ "$PACKAGE_TOOL" = "apt" ]; then
-        if [ $DEFAULT_QT6 -eq 1 ]; then
+        if [ $DEFAULT_QT5 -eq 1 ]; then
+            if [ $QT -ne 1 ]; then
+                package_install qt5-qmake qtbase5-dev qtbase5-dev-tools qttools5-dev \
+                    qtmultimedia5-dev libqt5scxml5-dev libqt5svg5-dev libqt5gstreamer-dev \
+                    qtquickcontrols2-5-dev libqt5multimedia5-plugins qtdeclarative5-dev
+            fi
+        else
             if [ $QT -ne 1 ]; then
                 package_install qmake6 qt6-tools-dev qt6-tools-dev-tools \
                     qt6-base-dev qt6-base-dev-tools qt6-qpa-plugins \
@@ -525,12 +531,6 @@ if [ $DEFAULT_LIBS -eq 1 ]; then
                     qt6-scxml-dev qt6-multimedia-dev qt6-positioning-dev \
                     libqt6sql6-mysql libqt6sql6-sqlite libqt6sql6-odbc libqt6sql6-psql \
                     qt6-speech-dev qt6-declarative-dev qt6-qml-dev
-            fi
-        else
-            if [ $QT -ne 1 ]; then
-                package_install qt5-qmake qtbase5-dev qtbase5-dev-tools qttools5-dev \
-                    qtmultimedia5-dev libqt5scxml5-dev libqt5svg5-dev libqt5gstreamer-dev \
-                    qtquickcontrols2-5-dev libqt5multimedia5-plugins qtdeclarative5-dev
             fi
             package_install libqxmpp-dev
         fi
@@ -609,12 +609,12 @@ if [ $QXMPP -eq 1 ]; then
     echo_status "Install QXMPP ......"
     pushd "$SOURCE_DIR"
 
-    if [ $DEFAULT_QT6 -eq 1 ]; then
-        QXMPP_INSTALL_DIR="${INSTALL_DIR}/${LIB_PATH}/cmake/QXmppQt6"
-        QXMPP_VERSION=v1.15.1
-    else
+    if [ $DEFAULT_QT5 -eq 1 ]; then
         QXMPP_INSTALL_DIR="${INSTALL_DIR}/${LIB_PATH}/cmake/QXmpp"
         QXMPP_VERSION=v1.10.2
+    else
+        QXMPP_INSTALL_DIR="${INSTALL_DIR}/${LIB_PATH}/cmake/QXmppQt6"
+        QXMPP_VERSION=v1.15.1
     fi
     if [ ! -d ${QXMPP_INSTALL_DIR} ]; then
         if [ ! -d qxmpp ]; then
@@ -657,10 +657,8 @@ if [ $ZXING_CPP -eq 1 ]; then
     echo_status "Install zxing-cpp ......"
     pushd "$SOURCE_DIR"
     if [ ! -d ${INSTALL_DIR}/${LIB_PATH}/cmake/ZXing ]; then
-        if [ ! -d qzxing ]; then
-            git clone -b v3.0.2 https://github.com/zxing-cpp/zxing-cpp.git
-            cd zxing-cpp
-            git submodule update --init --recursive
+        if [ ! -d zxing-cpp ]; then
+            git clone --recursive --depth=1 https://github.com/zxing-cpp/zxing-cpp.git
         fi
         cmake -E make_directory $BUILD_DEPEND_DIR/zxing-cpp
         pushd $BUILD_DEPEND_DIR/zxing-cpp

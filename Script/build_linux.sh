@@ -469,12 +469,12 @@ pushd $REPO_ROOT/Script
 if [ $DEB -eq 1 ]; then
     echo_status "build deb package ......"
 
-    if [ "$DEFAULT_QT"="--default-qt6" ]; then
-        depend_para="--zxing-cpp"
-        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
-    else
+    if [ "$DEFAULT_QT"="--default-qt5" ]; then
         depend_para="--qzxing"
         export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
+    else
+        depend_para="--zxing-cpp"
+        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
     fi
     ./build_depend.sh --system_update --base --default ${DEFAULT_QT} \
         --rabbitcommon ${depend_para} \
@@ -522,12 +522,12 @@ if [ $APPIMAGE -eq 1 ]; then
     *)
     esac
 
-    if [ "$DEFAULT_QT"="--default-qt6" ]; then
-        depend_para="--zxing-cpp"
-        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
-    else
+    if [ "$DEFAULT_QT"="--default-qt5" ]; then
         depend_para="--qzxing"
         export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
+    else
+        depend_para="--zxing-cpp"
+        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
     fi
     export RabbitCommon_ROOT=${SOURCE_DIR}/RabbitCommon
     export BUILD_FREERDP=ON
@@ -555,12 +555,12 @@ fi
 if [ $RPM -eq 1 ]; then
     echo_status "build rpm package ......"
     #dnf builddep -y ${REPO_ROOT}/Package/rpm/RabbitIm.spec
-    if [ "$DEFAULT_QT"="--default-qt6" ]; then
-        depend_para="--zxing-cpp"
-        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
-    else
+    if [ "$DEFAULT_QT"="--default-qt5" ]; then
         depend_para="--qzxing"
         export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
+    else
+        depend_para="--zxing-cpp"
+        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
     fi
     ./build_depend.sh --system_update --base --default --package-tool=dnf \
         --rabbitcommon ${depend_para} \

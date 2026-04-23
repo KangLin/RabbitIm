@@ -187,6 +187,25 @@ jobs:
             cmake --build . --parallel $(nproc) --verbose --config ${{matrix.BUILD_TYPE}}
             cmake --install . --config ${{matrix.BUILD_TYPE}} --strip
           fi
+
+      - name: build qxmpp
+        #if: false
+        working-directory: ${{env.SOURCE_DIR}}
+        run: |
+          if [ ! -d ${INSTALL_DIR}/lib/cmake/ZXing ]; then
+              if [ ! -d zxing-cpp ]; then
+                  git clone --recursive --depth=1 https://github.com/zxing-cpp/zxing-cpp.git
+              fi
+              cd zxing-cpp
+              cmake -E make_directory build
+              cd build
+              cmake .. -DCMAKE_BUILD_TYPE=Release \
+                  -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+                  -DZXING_EXAMPLES=OFF
+              cmake --build . --config ${{matrix.BUILD_TYPE}} --parallel $(nproc)
+              cmake --install . --config ${{matrix.BUILD_TYPE}} --strip
+          fi
+
       - name: git clone RabbitCommon
         working-directory: ${{env.SOURCE_DIR}}
         run: git clone https://github.com/KangLin/RabbitCommon.git

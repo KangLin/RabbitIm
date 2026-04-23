@@ -25,16 +25,6 @@ jobs:
             image: ubuntu
             lable: "24.04"
             os: ubuntu-24.04-arm
-          - PACKAGE: deb
-            image: ubuntu
-            lable: "24.04"
-            os: ubuntu-24.04
-            qt: qt6
-          - PACKAGE: deb
-            image: ubuntu
-            lable: "24.04"
-            os: ubuntu-24.04-arm
-            qt: qt6
           # - PACKAGE: deb
           #   image: ubuntu
           #   lable: "25.04"

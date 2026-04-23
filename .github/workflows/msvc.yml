@@ -167,7 +167,7 @@ jobs:
         working-directory: ${{env.SOURCE_DIR}}
         run: |
           IF NOT EXIST ${{env.INSTALL_DIR}}/lib/cmake/ZXing (
-            git clone -b v3.0.2 https://github.com/zxing-cpp/zxing-cpp.git
+            git clone --recursive --depth=1 https://github.com/zxing-cpp/zxing-cpp.git
             cd zxing-cpp
             cmake -E make_directory build
             cd build
