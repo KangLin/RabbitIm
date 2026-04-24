@@ -29,8 +29,6 @@ PACKAGE=
 SYSTEM_UPDATE=0
 BASE_LIBS=0
 DEFAULT_LIBS=0
-DEFAULT_QT5=0
-DEFAULT_QT6=0
 QT=0
 if [ -z "$QT_VERSION" ]; then
     QT_VERSION=6.10.3
@@ -66,8 +64,6 @@ Package management options:
 Dependency options:
   --base[=1|0]                      Install basic development libraries
   --default[=1|0]                   Install system default dependency libraries
-  --default-qt5[=1|0]               Install system default qt5 libraries
-  --default-qt6[=1|0]               Install system default qt6 libraries
   --qt[=1|0|VERSION]                Install Qt (can specify version)
   --macos[=1|0]                     Install macOS specific tools and dependencies
 
@@ -108,7 +104,7 @@ parse_with_getopt() {
     # 后面没有冒号表示没有参数。后跟有一个冒号表示有参数。跟两个冒号表示有可选参数。
     # -l 或 --long 选项后面是可接受的长选项，用逗号分开，冒号的意义同短选项。
     # -n 选项后接选项解析错误时提示的脚本名字
-    OPTS=help,install:,source:,tools:,build:,verbose::,package:,package-tool:,system_update::,system-update::,base::,default::,default-qt5::,default-qt6::,macos::,qt::,rabbitcommon::,qxmpp::,qzxing::,zxing-cpp::
+    OPTS=help,install:,source:,tools:,build:,verbose::,package:,package-tool:,system_update::,system-update::,base::,default::,macos::,qt::,rabbitcommon::,qxmpp::,qzxing::,zxing-cpp::
     
     # Parse arguments using getopt
     # -o: short options
@@ -196,28 +192,6 @@ parse_with_getopt() {
                     ;;
                 *)
                     DEFAULT_LIBS="$2"
-                    ;;
-            esac
-            shift 2
-            ;;
-        --default-qt5)
-            case "$2" in
-                "")
-                    DEFAULT_QT5=1
-                    ;;
-                *)
-                    DEFAULT_QT5="$2"
-                    ;;
-            esac
-            shift 2
-            ;;
-        --default-qt6)
-            case "$2" in
-                "")
-                    DEFAULT_QT6=1
-                    ;;
-                *)
-                    DEFAULT_QT6="$2"
                     ;;
             esac
             shift 2
@@ -517,23 +491,14 @@ fi
 if [ $DEFAULT_LIBS -eq 1 ]; then
     echo_status "Install default dependency libraries ......"
     if [ "$PACKAGE_TOOL" = "apt" ]; then
-        if [ $DEFAULT_QT5 -eq 1 ]; then
-            if [ $QT -ne 1 ]; then
-                package_install qt5-qmake qtbase5-dev qtbase5-dev-tools qttools5-dev \
-                    qtmultimedia5-dev libqt5scxml5-dev libqt5svg5-dev libqt5gstreamer-dev \
-                    qtquickcontrols2-5-dev libqt5multimedia5-plugins qtdeclarative5-dev
-            fi
-        else
-            if [ $QT -ne 1 ]; then
-                package_install qmake6 qt6-tools-dev qt6-tools-dev-tools \
-                    qt6-base-dev qt6-base-dev-tools qt6-qpa-plugins \
-                    qt6-svg-dev qt6-l10n-tools qt6-translations-l10n \
-                    qt6-scxml-dev qt6-multimedia-dev qt6-positioning-dev \
-                    libqt6sql6-mysql libqt6sql6-sqlite libqt6sql6-odbc libqt6sql6-psql \
-                    qt6-speech-dev
-            fi
-            package_install libqxmpp-dev
-        fi
+
+        package_install qmake6 qt6-tools-dev qt6-tools-dev-tools \
+            qt6-base-dev qt6-base-dev-tools qt6-qpa-plugins \
+            qt6-svg-dev qt6-l10n-tools qt6-translations-l10n \
+            qt6-scxml-dev qt6-multimedia-dev qt6-positioning-dev \
+            libqt6sql6-mysql libqt6sql6-sqlite libqt6sql6-odbc libqt6sql6-psql \
+            qt6-speech-dev
+
         if [ $ZXING_CPP -ne 1 ]; then
             package_install libzxing-dev
         fi
@@ -542,13 +507,9 @@ if [ $DEFAULT_LIBS -eq 1 ]; then
 
     if [ "$PACKAGE_TOOL" = "dnf" ]; then
         if [ $QT -ne 1 ]; then
-            if [ $DEFAULT_QT5 -eq 1 ]; then
-                echo ""
-            else
-                package_install qt6-qttools-devel qt6-qtbase-devel qt6-qtmultimedia-devel \
-                    qt6-qt5compat-devel qt6-qtmultimedia-devel qt6-qtscxml-devel \
-                    qt6-qtsvg-devel qt6-qtpositioning-devel
-            fi
+            package_install qt6-qttools-devel qt6-qtbase-devel qt6-qtmultimedia-devel \
+                qt6-qt5compat-devel qt6-qtmultimedia-devel qt6-qtscxml-devel \
+                qt6-qtsvg-devel qt6-qtpositioning-devel
         fi
 
         dnf builddep -y ${REPO_ROOT}/Package/rpm/rabbitim.spec
@@ -609,13 +570,9 @@ if [ $QXMPP -eq 1 ]; then
     echo_status "Install QXMPP ......"
     pushd "$SOURCE_DIR"
 
-    if [ $DEFAULT_QT5 -eq 1 ]; then
-        QXMPP_INSTALL_DIR="${INSTALL_DIR}/${LIB_PATH}/cmake/QXmpp"
-        QXMPP_VERSION=v1.10.2
-    else
-        QXMPP_INSTALL_DIR="${INSTALL_DIR}/${LIB_PATH}/cmake/QXmppQt6"
-        QXMPP_VERSION=v1.15.1
-    fi
+    QXMPP_INSTALL_DIR="${INSTALL_DIR}/${LIB_PATH}/cmake/QXmppQt6"
+    QXMPP_VERSION=v1.15.1
+
     if [ ! -d ${QXMPP_INSTALL_DIR} ]; then
         if [ ! -d qxmpp ]; then
            git clone -b ${QXMPP_VERSION} --depth=1 https://invent.kde.org/libraries/qxmpp.git

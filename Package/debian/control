@@ -3,9 +3,11 @@ Section: main
 Priority: optional
 Maintainer: Kang Lin <kl222@126.com>
 Build-Depends: debhelper(>=13), debhelper-compat(=13), fakeroot, cmake(>=3.21),
-    ninja-build, qt5-qmake, qtbase5-dev, qtbase5-dev-tools, qttools5-dev, libqt5multimedia5-plugins,
-    qtmultimedia5-dev, libqt5scxml5-dev, libqt5svg5-dev, qtquickcontrols2-5-dev,
-    libcmark-dev, libqxmpp-dev
+  ninja-build, qmake6, qt6-tools-dev, qt6-tools-dev-tools, qt6-base-dev, qt6-base-dev-tools,
+  qt6-qpa-plugins, qt6-svg-dev, qt6-l10n-tools, qt6-translations-l10n,
+  libqt6sql6-mysql, libqt6sql6-odbc, libqt6sql6-sqlite, libqt6sql6-psql,
+  qt6-scxml-dev, qt6-multimedia-dev, qt6-positioning-dev,
+  libcmark-dev
 Standards-Version:"0.1.0"
 Homepage: https://github.com/KangLin/rabbitim
 Vcs-Git: https://github.com/KangLin/rabbitim

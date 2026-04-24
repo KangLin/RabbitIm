@@ -21,7 +21,6 @@ DOCKER=0
 DEB=0
 RPM=0
 APPIMAGE=0
-DEFAULT_QT=
 
 if [ -z "$QT_VERSION" ]; then
     QT_VERSION=6.10.3
@@ -58,10 +57,6 @@ Target options:
 Other options:
   --qt=VERSION    Install Qt (can specify version)(only --appimage)
 
-Dependency options:
-  --qt5[=1|0]               Install system default qt5 libraries
-  --qt6[=1|0]               Install system default qt6 libraries
-
 Examples:
   $0 --base=1 --qt=$QT_VERSION --install=/opt/local -deb
   $0 --verbose --docker --docker-image=$DISTRO:$DISTRO_VERSION --appimage --qt=$QT_VERSION
@@ -84,7 +79,7 @@ parse_with_getopt() {
         # 后面没有冒号表示没有参数。后跟有一个冒号表示有参数。跟两个冒号表示有可选参数。
         # -l 或 --long 选项后面是可接受的长选项，用逗号分开，冒号的意义同短选项。
         # -n 选项后接选项解析错误时提示的脚本名字
-        OPTS=help,verbose::,docker::,deb::,rpm::,appimage::,macos::,docker-image:,docker-platform::,qt:,qt5:,qt6:,install:,source:,tools:,build:
+        OPTS=help,verbose::,docker::,deb::,rpm::,appimage::,macos::,docker-image:,docker-platform::,qt:,install:,source:,tools:,build:
         ARGS=`getopt -o h,v:: -l $OPTS -n $(basename $0) -- "$@"`
         if [ $? != 0 ]; then
             echo_error "exec getopt fail: $?"
@@ -192,22 +187,6 @@ parse_with_getopt() {
                 case $2 in
                     *)
                         QT_VERSION=$2;;
-                esac
-                shift 2
-                ;;
-            --qt5)
-                case "$2" in
-                    *)
-                        DEFAULT_QT="--default-qt5"
-                        ;;
-                esac
-                shift 2
-                ;;
-            --qt6)
-                case "$2" in
-                    *)
-                        DEFAULT_QT="--default-qt6"
-                        ;;
                 esac
                 shift 2
                 ;;
@@ -399,7 +378,7 @@ if [ $DOCKER -eq 1 ]; then
            else
                export SOURCE_CODE_DIR=/home
            fi
-           \${SOURCE_CODE_DIR}/RabbitIm/Script/build_linux.sh --deb --install=/home/install --tools=/home/tools --verbose=${BUILD_VERBOSE} ${DEFAULT_QT}
+           \${SOURCE_CODE_DIR}/RabbitIm/Script/build_linux.sh --deb --install=/home/install --tools=/home/tools --verbose=${BUILD_VERBOSE}
            cp \${SOURCE_CODE_DIR}/rabbitim*.deb /home/build/
            "
     fi
@@ -431,7 +410,7 @@ if [ $DOCKER -eq 1 ]; then
             else
                 export SOURCE_CODE_DIR=/home
             fi
-            \${SOURCE_CODE_DIR}/RabbitIm/Script/build_linux.sh --appimage --install=/home/install --tools=/home/tools --verbose=${BUILD_VERBOSE} ${DEFAULT_QT}
+            \${SOURCE_CODE_DIR}/RabbitIm/Script/build_linux.sh --appimage --install=/home/install --tools=/home/tools --verbose=${BUILD_VERBOSE}
             # Create install script
             echo \"== Create install script ......\"
             mkdir -p /home/build/install
@@ -469,13 +448,8 @@ pushd $REPO_ROOT/Script
 if [ $DEB -eq 1 ]; then
     echo_status "build deb package ......"
 
-    if [ "$DEFAULT_QT"="--default-qt5" ]; then
-        depend_para="--qzxing"
-        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
-    else
-        depend_para="--zxing-cpp"
-    fi
-    ./build_depend.sh --system_update --base --default ${DEFAULT_QT} \
+    depend_para="--zxing-cpp --qxmpp"
+    ./build_depend.sh --system_update --base --default \
         --rabbitcommon ${depend_para} \
         --install=${INSTALL_DIR} \
         --source=${SOURCE_DIR} \
@@ -499,17 +473,6 @@ if [ $APPIMAGE -eq 1 ]; then
     echo_status "build AppImage ......"
     case "$DISTRO" in
     ubuntu)
-#        case "$DISTRO_VERSION" in
-#            "24.04"|"24.10")
-#                depend_para="--qt=${QT_VERSION}"
-#                export QT_ROOT=${TOOLS_DIR}/qt_`uname -m`
-#                export Qt6_DIR=$QT_ROOT
-#                export QMAKE=$QT_ROOT/bin/qmake
-#                export QT_PLUGIN_PATH=$QT_ROOT/plugins
-#                export PATH=$QT_ROOT/libexec:$PATH
-#                export CMAKE_PREFIX_PATH=$QT_ROOT:${INSTALL_DIR}:${CMAKE_PREFIX_PATH}
-#                ;;
-#        esac
         LIB_PATH="lib"
         depend_para="$depend_para "
         ;;
@@ -521,19 +484,15 @@ if [ $APPIMAGE -eq 1 ]; then
     *)
     esac
 
-    if [ "$DEFAULT_QT"="--default-qt5" ]; then
-        depend_para="--qzxing"
-        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
-    else
-        depend_para="--zxing-cpp"
-    fi
+    depend_para="--zxing-cpp --qxmpp"
+
     export RabbitCommon_ROOT=${SOURCE_DIR}/RabbitCommon
     export BUILD_FREERDP=ON
     export PKG_CONFIG_PATH=${INSTALL_DIR}/${LIB_PATH}/pkgconfig:$PKG_CONFIG_PATH
     export LD_LIBRARY_PATH=${INSTALL_DIR}/${LIB_PATH}:$LD_LIBRARY_PATH
     export CMAKE_PREFIX_PATH=${INSTALL_DIR}:${CMAKE_PREFIX_PATH}
 
-    ./build_depend.sh --system_update --base --default ${DEFAULT_QT} \
+    ./build_depend.sh --system_update --base --default \
         --rabbitcommon ${depend_para} \
         --install=${INSTALL_DIR} \
         --source=${SOURCE_DIR} \
@@ -553,12 +512,7 @@ fi
 if [ $RPM -eq 1 ]; then
     echo_status "build rpm package ......"
     #dnf builddep -y ${REPO_ROOT}/Package/rpm/RabbitIm.spec
-    if [ "$DEFAULT_QT"="--default-qt5" ]; then
-        depend_para="--qzxing"
-        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
-    else
-        depend_para="--zxing-cpp"
-    fi
+    depend_para="--zxing-cpp"
     ./build_depend.sh --system_update --base --default --package-tool=dnf \
         --rabbitcommon ${depend_para} \
         --install=${INSTALL_DIR} \
@@ -576,7 +530,7 @@ fi
 if [ $MACOS -eq 1 ]; then
     echo_status "build macos bundle package ......"
     ./build_depend.sh --system_update --base --default --macos \
-        --rabbitcommon --tigervnc --qtermwidget --qftpserver \
+        --rabbitcommon --qxmpp --zxing-cpp \
         --install=${INSTALL_DIR} \
         --source=${SOURCE_DIR} \
         --tools=${TOOLS_DIR} \
