@@ -474,7 +474,6 @@ if [ $DEB -eq 1 ]; then
         export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
     else
         depend_para="--zxing-cpp"
-        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
     fi
     ./build_depend.sh --system_update --base --default ${DEFAULT_QT} \
         --rabbitcommon ${depend_para} \
@@ -527,7 +526,6 @@ if [ $APPIMAGE -eq 1 ]; then
         export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
     else
         depend_para="--zxing-cpp"
-        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
     fi
     export RabbitCommon_ROOT=${SOURCE_DIR}/RabbitCommon
     export BUILD_FREERDP=ON
@@ -560,7 +558,6 @@ if [ $RPM -eq 1 ]; then
         export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_QZXING=ON"
     else
         depend_para="--zxing-cpp"
-        export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DINSTALL_ZXING_CPP=ON"
     fi
     ./build_depend.sh --system_update --base --default --package-tool=dnf \
         --rabbitcommon ${depend_para} \
