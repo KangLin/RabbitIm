@@ -160,7 +160,7 @@ jobs:
           else
             docker_image="${{matrix.variant.image}}"
           fi
-          ./Script/build_linux.sh --docker --docker-image="${docker_image}" --docker-platform="${{matrix.variant.platform}}" --${{matrix.variant.PACKAGE}} ${{matrix.variant.qt}} -v
+          ./Script/build_linux.sh --docker --docker-image="${docker_image}" --docker-platform="${{matrix.variant.platform}}" --${{matrix.variant.PACKAGE}} -v
 
       - name: Rename deb file
         if: ${{ matrix.variant.PACKAGE == 'deb' }}
@@ -172,11 +172,7 @@ jobs:
           else
             docker_image="${{matrix.variant.image}}"
           fi
-          if [ -z "${{matrix.variant.qt}}" ]]; then
-            mv rabbitim*.deb rabbitim_${{env.RabbitIm_VERSION}}_${docker_image}_`uname -m`.deb
-          else
-            mv rabbitim*.deb rabbitim_${{env.RabbitIm_VERSION}}_${{matrix.variant.qt}}_${docker_image}_`uname -m`.deb
-          fi
+          mv rabbitim*.deb rabbitim_${{env.RabbitIm_VERSION}}_${docker_image}_`uname -m`.deb
 
       - name: AppIagme update configure file
         if: ${{ matrix.variant.PACKAGE == 'appimage' && matrix.variant.image == 'ubuntu'}}
@@ -227,7 +223,7 @@ jobs:
         #if: ${{matrix.variant.PACKAGE != 'deb'}}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.artifact_name }}_${{matrix.variant.PACKAGE}}_${{matrix.variant.image}}_${{matrix.variant.lable}}_${{matrix.variant.qt}}_${{matrix.variant.os}}
+          name: ${{ env.artifact_name }}_${{matrix.variant.PACKAGE}}_${{matrix.variant.image}}_${{matrix.variant.lable}}_${{matrix.variant.os}}
           path: |
             ${{env.BUILD_DIR}}/build_linux/RabbitIm*.rpm
             ${{env.BUILD_DIR}}/build_linux/rabbitim_*.deb
