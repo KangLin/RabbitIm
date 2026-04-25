@@ -499,10 +499,6 @@ if [ $DEFAULT_LIBS -eq 1 ]; then
             libqt6sql6-mysql libqt6sql6-sqlite libqt6sql6-odbc libqt6sql6-psql \
             qt6-speech-dev
 
-        if [ $ZXING_CPP -ne 1 ]; then
-            package_install libzxing-dev
-        fi
-
     fi # apt
 
     if [ "$PACKAGE_TOOL" = "dnf" ]; then
@@ -516,7 +512,7 @@ if [ $DEFAULT_LIBS -eq 1 ]; then
     fi
 
     if [ $MACOS -eq 1 ]; then
-        package_install qt zxing-cpp
+        package_install qt
     fi
 fi
 

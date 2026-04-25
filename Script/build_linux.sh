@@ -448,7 +448,7 @@ pushd $REPO_ROOT/Script
 if [ $DEB -eq 1 ]; then
     echo_status "build deb package ......"
 
-    depend_para="--zxing-cpp --qxmpp"
+    depend_para=" --qxmpp"
     ./build_depend.sh --system_update --base --default \
         --rabbitcommon ${depend_para} \
         --install=${INSTALL_DIR} \
@@ -484,7 +484,7 @@ if [ $APPIMAGE -eq 1 ]; then
     *)
     esac
 
-    depend_para="--zxing-cpp --qxmpp"
+    depend_para=" --qxmpp"
 
     export RabbitCommon_ROOT=${SOURCE_DIR}/RabbitCommon
     export BUILD_FREERDP=ON
@@ -512,7 +512,7 @@ fi
 if [ $RPM -eq 1 ]; then
     echo_status "build rpm package ......"
     #dnf builddep -y ${REPO_ROOT}/Package/rpm/RabbitIm.spec
-    depend_para="--zxing-cpp"
+    #depend_para="--zxing-cpp"
     ./build_depend.sh --system_update --base --default --package-tool=dnf \
         --rabbitcommon ${depend_para} \
         --install=${INSTALL_DIR} \
@@ -530,7 +530,7 @@ fi
 if [ $MACOS -eq 1 ]; then
     echo_status "build macos bundle package ......"
     ./build_depend.sh --system_update --base --default --macos \
-        --rabbitcommon --qxmpp --zxing-cpp \
+        --rabbitcommon --qxmpp \
         --install=${INSTALL_DIR} \
         --source=${SOURCE_DIR} \
         --tools=${TOOLS_DIR} \
