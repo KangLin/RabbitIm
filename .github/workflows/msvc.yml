@@ -164,6 +164,7 @@ jobs:
           )
 
       - name: build zxing-cpp
+        if: false
         working-directory: ${{env.SOURCE_DIR}}
         run: |
           IF NOT EXIST ${{env.INSTALL_DIR}}/lib/cmake/ZXing (
