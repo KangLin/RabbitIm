@@ -1,5 +1,4 @@
 #include <QMessageBox>
-#include <QRegExp>
 #include "Global/Global.h"
 #include "ManageGroupChat.h"
 #include "Tool.h"

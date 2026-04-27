@@ -1,4 +1,3 @@
-#include <QRegExp>
 #include "../FrmLogin/FrmLogin.h"
 #include "../../MainWindow.h"
 #include "Global/Global.h"

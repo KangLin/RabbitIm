@@ -463,7 +463,7 @@ if [ $DEB -eq 1 ]; then
         git config --global --add safe.directory $REPO_ROOT
     fi
 
-    export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS "
+    export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DUSE_OPENCV=OFF -DUSE_FFMPEG=OFF"
     ./build_debpackage.sh --install=${INSTALL_DIR} \
         --rabbitcommon=${SOURCE_DIR}/RabbitCommon \
         --verbose=${BUILD_VERBOSE}
