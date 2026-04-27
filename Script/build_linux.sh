@@ -448,7 +448,7 @@ pushd $REPO_ROOT/Script
 if [ $DEB -eq 1 ]; then
     echo_status "build deb package ......"
 
-    depend_para=" --qxmpp"
+    depend_para="--qxmpp --zxing-cpp"
     ./build_depend.sh --system_update --base --default \
         --rabbitcommon ${depend_para} \
         --install=${INSTALL_DIR} \
@@ -463,7 +463,7 @@ if [ $DEB -eq 1 ]; then
         git config --global --add safe.directory $REPO_ROOT
     fi
 
-    export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DUSE_OPENCV=OFF -DUSE_FFMPEG=OFF"
+    export CMAKE_CONFIG_PARAS="$CMAKE_CONFIG_PARAS -DUSE_OPENCV=OFF -DUSE_FFMPEG=OFF -DINSTALL_QXMPP=ON -DINSTALL_ZXING_CPP=ON"
     ./build_debpackage.sh --install=${INSTALL_DIR} \
         --rabbitcommon=${SOURCE_DIR}/RabbitCommon \
         --verbose=${BUILD_VERBOSE}
@@ -484,7 +484,7 @@ if [ $APPIMAGE -eq 1 ]; then
     *)
     esac
 
-    depend_para=" --qxmpp"
+    depend_para="--zxing-cpp --qxmpp"
 
     export RabbitCommon_ROOT=${SOURCE_DIR}/RabbitCommon
     export BUILD_FREERDP=ON

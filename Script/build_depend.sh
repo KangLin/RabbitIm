@@ -573,17 +573,16 @@ if [ $QXMPP -eq 1 ]; then
         if [ ! -d qxmpp ]; then
            git clone -b ${QXMPP_VERSION} --depth=1 https://invent.kde.org/libraries/qxmpp.git
         fi
+        cmake -E make_directory $BUILD_DEPEND_DIR/qxmpp
+        cd $BUILD_DEPEND_DIR/qxmpp
+        cmake -S ${SOURCE_DIR}/qxmpp -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+            -DCMAKE_VERBOSE_MAKEFILE=${BUILD_VERBOSE} \
+            -DBUILD_DOCUMENTATION=OFF \
+            -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF
+        cmake --build . --config Release --parallel $(nproc)
+        cmake --install . --config Release
     fi
-    cmake -E make_directory $BUILD_DEPEND_DIR/qxmpp
-    cd $BUILD_DEPEND_DIR/qxmpp
-    cmake -S ${SOURCE_DIR}/qxmpp -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
-        -DCMAKE_VERBOSE_MAKEFILE=${BUILD_VERBOSE} \
-        -DBUILD_DOCUMENTATION=OFF \
-        -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF
-    cmake --build . --config Release --parallel $(nproc)
-    cmake --install . --config Release
-
     popd
 fi
 
@@ -611,7 +610,7 @@ if [ $ZXING_CPP -eq 1 ]; then
     pushd "$SOURCE_DIR"
     if [ ! -d ${INSTALL_DIR}/${LIB_PATH}/cmake/ZXing ]; then
         if [ ! -d zxing-cpp ]; then
-            git clone --recursive --depth=1 https://github.com/zxing-cpp/zxing-cpp.git
+            git clone -b v3.0.2 --recursive --depth=1 https://github.com/zxing-cpp/zxing-cpp.git
         fi
         cmake -E make_directory $BUILD_DEPEND_DIR/zxing-cpp
         pushd $BUILD_DEPEND_DIR/zxing-cpp
