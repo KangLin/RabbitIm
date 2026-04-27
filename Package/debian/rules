@@ -14,6 +14,15 @@
 
 #export QT_SELECT=qt5
 
+
+ifdef INSTALL_DIR
+    LIB_PARAS += ${INSTALL_DIR}/lib
+endif
+
+ifdef BUILD_VERBOSE
+	CMAKE_CONFIG_PARAS+="-DCMAKE_VERBOSE_MAKEFILE=${BUILD_VERBOSE}"
+endif
+
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 BUILD_DIR = "build_$(DEB_HOST_MULTIARCH)"
 PACKAGE_DIR = "debian/rabbitim"
@@ -53,4 +62,4 @@ override_dh_auto_install:
 		--prefix $(PACKAGE_DIR)/opt/RabbitIm
 
 override_dh_shlibdeps:
-	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/rabbitim/opt/RabbitIm/lib/`uname -m`-linux-gnu:`pwd`/debian/rabbitim/opt/RabbitIm/lib:$(THIRD_LIBRARY_PATH)/lib
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l`pwd`/debian/rabbitim/opt/RabbitIm/lib/`uname -m`-linux-gnu:`pwd`/debian/rabbitim/opt/RabbitIm/lib:$(LIB_PARAS)
