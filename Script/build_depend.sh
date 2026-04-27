@@ -567,7 +567,7 @@ if [ $QXMPP -eq 1 ]; then
     pushd "$SOURCE_DIR"
 
     QXMPP_INSTALL_DIR="${INSTALL_DIR}/${LIB_PATH}/cmake/QXmppQt6"
-    QXMPP_VERSION=v1.15.1
+    QXMPP_VERSION=v1.14.7
 
     if [ ! -d ${QXMPP_INSTALL_DIR} ]; then
         if [ ! -d qxmpp ]; then
