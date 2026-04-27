@@ -1,8 +1,6 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include <QSslError>
-#include <QObject>
 #include "../UserInfo/User.h"
 #include "FileTransfer/FileTransfer.h"
 #include "Call/CallObject.h"
@@ -206,7 +204,7 @@ signals:
     void sigClientDisconnected();
     /**
      * @brief 登录失败触发的信号，通知界面处理错误  
-     * @param e:错误类型  
+     * @param e: 错误类型  
      * @see ERROR_TYPE
      * @see Login
      * @see Logout

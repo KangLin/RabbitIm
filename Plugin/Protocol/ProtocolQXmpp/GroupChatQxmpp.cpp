@@ -203,12 +203,12 @@ void CGroupChatQxmpp::slotPermissionsReceived(const QList<QXmppMucItem> &permiss
 #ifdef DEBUG
     foreach(QXmppMucItem item, permissions)
     {
-        qDebug(log, "CGroupChatQxmpp::slotPermissionsReceived:room:%s,jid:%s, nick:%s, afficilatioin:%s, role:%s",
+        qDebug(log, "CGroupChatQxmpp::slotPermissionsReceived:room:%s,jid:%s, nick:%s, afficilatioin:%d, role:%d",
                         Id().toStdString().c_str(),
                         item.jid().toStdString().c_str(),
                         item.nick().toStdString().c_str(),
-                        item.affiliationToString(item.affiliation()).toStdString().c_str(),
-                        item.roleToString(item.role()).toStdString().c_str());
+                        item.affiliation(),
+                        item.role());
     }
 #endif
 }

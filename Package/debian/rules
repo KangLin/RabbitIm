@@ -32,7 +32,7 @@ override_dh_auto_configure:
 		-DCMARK_TESTS=OFF \
 		-DCMARK_STATIC=ON \
 		-DWITH_CMARK=OFF \
-		-DWITH_CMARK_GFM=ON \
+		-DWITH_CMARK_GFM=OFF \
 		${CMAKE_CONFIG_PARAS}
 
 override_dh_auto_build:
