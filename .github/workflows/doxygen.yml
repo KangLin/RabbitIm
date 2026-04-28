@@ -1,6 +1,13 @@
+# Author: Kang Lin<kl222@126.com>
+
 name: Doxygen
 
-on: [push]
+on:
+  workflow_call:
+    outputs:
+      name:
+        description: "The artifact name"
+        value: ${{ jobs.build_doxygen.outputs.name }}
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -13,11 +20,16 @@ jobs:
       SOURCE_DIR:  ${{github.workspace}}/.cache/source
       TOOLS_DIR:   ${{github.workspace}}/.cache/tools
       INSTALL_DIR: ${{github.workspace}}/.cache/install_ubuntu
-      RabbitRemoteControl_VERSION: v0.0.27
-      DOXYGEN_VERSION: 1.9.5
+      artifact_name: build_doxygen
+      DOXYGEN_VERSION: 1.9.8
+      RabbitIm_VERSION: v0.0.27
 
+    # Map the job outputs to step outputs
+    outputs:
+      name: ${{ env.artifact_name }}
+    
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
     
@@ -26,27 +38,24 @@ jobs:
         cmake -E make_directory ${{env.SOURCE_DIR}}
         cmake -E make_directory ${{env.TOOLS_DIR}}
         cmake -E make_directory ${{env.INSTALL_DIR}}
+        cmake -E make_directory ${{github.workspace}}/build
 
     - name: Cache installed
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       id: cache-installed
       with:
         path: |
           ${{env.TOOLS_DIR}}
-        key: cache-installed-doxygen
+        key: install-doxygen
     
     - name: git clone RabbitCommon
       working-directory: ${{env.SOURCE_DIR}}
       run: git clone https://github.com/KangLin/RabbitCommon.git
-      
-    - name: apt helper action
-      uses: ryankurte/action-apt@v0.2.0
-      with:
-        # architectures to pass to dpkg --add-architecture
-        #architectures: # optional
-        # apt packages to install
-        packages: cmake build-essential graphviz qttools5-dev qttools5-dev-tools qtbase5-dev qtbase5-dev-tools
 
+    - name: install apt packages
+      run: |
+        sudo ./Script/build_depend.sh --system_update --base --default --install ${{env.INSTALL_DIR}}
+      
     - name: Download doxygen
       run: |
         if [ ! -d ${{env.TOOLS_DIR}}/doxygen-${{env.DOXYGEN_VERSION}} ]; then
@@ -80,12 +89,12 @@ jobs:
             -DBUILD_DOCS=ON
         cmake --build . --target doc_Chinese doc_English
 
-    - name: update 
-      uses: actions/upload-artifact@v2
+    - name: Update artifact
+      uses: actions/upload-artifact@v4
       with:
-          name: rabbitremotecontrol_doxygen
-          path: |
-            build/Doxygen
+        name: ${{ env.artifact_name }}
+        path: |
+          ${{github.workspace}}/build/RabbitIm_${{env.RabbitIm_VERSION}}_document.zip
       
     - name: Deploy to GitHub Pages
       if: startsWith(github.ref, 'refs/tags/')
@@ -95,11 +104,3 @@ jobs:
       with:
         target_branch: gh-pages
         build_dir: build/Doxygen
-        
-#    - name: Upload Documentation to Wiki
-#      if: startsWith(github.ref, 'refs/tags/')
-#      uses: SwiftDocOrg/github-wiki-publish-action@v1
-#      with:
-#        path: build/Doxygen
-#      env:
-#        GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
