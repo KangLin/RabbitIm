@@ -68,7 +68,7 @@ jobs:
     - name: build doxygen
       working-directory: ${{github.workspace}}
       env:
-        RabbitCommon_DIR: ${{env.SOURCE_DIR}}/RabbitCommon
+        RabbitCommon_ROOT: ${{env.SOURCE_DIR}}/RabbitCommon
         BUILD_DOCS: ON
       run: |
         cmake -E make_directory ${{github.workspace}}/build
@@ -81,6 +81,8 @@ jobs:
             -DBUILD_ABOUT:BOOL=OFF \
             -DBUILD_ADMINAUTHORISER:BOOL=OFF \
             -DBUILD_UPDATE:BOOL=OFF \
+            -DWITH_CMARK=OFF \
+            -DWITH_CMARK_GFM=OFF \
             -DCMARK_SHARED=OFF \
             -DCMARK_TESTS=OFF \
             -DCMARK_STATIC=ON \
