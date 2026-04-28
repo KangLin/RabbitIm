@@ -1,4 +1,5 @@
 #!/bin/bash
+# Author: Kang Lin <kl222@126.com>
 
 # ==================== ERROR SYMBOLS REFERENCE ====================
 
@@ -116,7 +117,7 @@ check_echo_color_with_tput() {
     fi
 }
 log_info() {
-    echo -e "${GREEN}[i]${NC} $(date '+%Y-%m-%d %H:%M:%S') - $1"
+    echo -e "[i] $(date '+%Y-%m-%d %H:%M:%S') - $1"
 }
 log_warn() {
     echo -e "${YELLOW}[!]${NC} $(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -134,19 +135,31 @@ echo_error() {
     echo -e "${RED}[X]${NC} $1" >&2
 }
 echo_warn() {
-    echo -e "${YELLOW} $1 ${NC}"
+    echo -e "${YELLOW}[!]${NC} $1"
 }
-echo_color_success() {
-    echo -e "${GREEN} $1 ${NC}"
-}
-echo_color_warn() {
-    echo -e "${YELLOW} $1 ${NC}"
-}
-echo_color_error() {
-    echo -e "${RED} $1 ${NC}" >&2
+echo_info() {
+    echo -e "[i] $1"
 }
 echo_status() {
     echo "=== $1"
+}
+echo_color_success() {
+    echo -e "${GREEN}$1${NC}"
+}
+echo_color_warn() {
+    echo -e "${YELLOW}$1${NC}"
+}
+echo_color_error() {
+    echo -e "${RED}$1${NC}" >&2
+}
+echo_color_red() {
+    echo -e "${RED}$1${NC}"
+}
+echo_color_green() {
+    echo -e "${GREEN}$1${NC}"
+}
+echo_color_yellow() {
+    echo -e "${YELLOW}$1${NC}"
 }
 
 # Validate directory path
@@ -647,13 +660,13 @@ VERSION_PATTERN="v?[0-9]+\.[0-9]+\.[0-9]+([-+_~.^][0-9A-Za-z.-]*)?"
 version_parser() {
     local version=$1
     local -n version_data=$2 # 使用引用传递
-    
+
     # 定义版本号模式
     local major minor patch pre build
 
     # 移除 v 前缀
     version=${version#v}
-    
+
     # 正则表达式匹配语义化版本
     local semantic_pattern=${SEMVER_PATTERN}
 
@@ -706,10 +719,10 @@ parse_version_assoc() {
     # 正则表达式匹配语义化版本
     local pattern=$SEMVER_PATTERN
     #local pattern='^([0-9]+)\.([0-9]+)\.([0-9]+)(-([a-zA-Z0-9\.]+))?(\+([a-zA-Z0-9\.]+))?$'
-    
+
     # 移除 v 前缀
     version=${version#v}
-    
+
     if [[ $version =~ $pattern ]]; then
         version_array[major]="${BASH_REMATCH[1]}"
         version_array[minor]="${BASH_REMATCH[2]}"
@@ -727,10 +740,10 @@ parse_version_assoc() {
 compare_pre_release() {
     local pre1=$1
     local pre2=$2
-    
+
     IFS='.' read -ra parts1 <<< "$pre1"
     IFS='.' read -ra parts2 <<< "$pre2"
-    
+
     local i=0
     while [[ $i -lt ${#parts1[@]} ]] && [[ $i -lt ${#parts2[@]} ]]; do
         # 判断是数字还是字符串
@@ -755,14 +768,14 @@ compare_pre_release() {
         fi
         ((i++))
     done
-    
+
     # 如果所有相同部分都相等，较长的预发布版本更高
     if [[ ${#parts1[@]} -gt ${#parts2[@]} ]]; then
         return 1
     elif [[ ${#parts1[@]} -lt ${#parts2[@]} ]]; then
         return 2
     fi
-    
+
     return 0
 }
 
@@ -841,7 +854,7 @@ test_version() {
         "5.6"
         "v5.6.6"
     )
-    
+
     for ver in "${test_versions[@]}"; do
         echo "================================="
         echo "测试版本: $ver"
@@ -850,7 +863,7 @@ test_version() {
             display_version_info "${result[@]}"
         fi
     done
-    
+
     # 使用示例
     local -A version_info #声明关联数组
     if parse_version_assoc "2.1.0-beta.2+build.456" version_info; then
@@ -929,10 +942,12 @@ get_section() {
     ' "$file"
 }
 
-# 初始化，必须放在此文件最后
-init_blobal() {
+# TODO: 初始化，必须放在此文件最后
+init_global() {
     if [ ! $INIT_GLOBAL_RABBIT ]; then
-        echo_status "Init global ......"
+        if [ "$BUILD_VERBOSE" = "ON" ]; then
+            echo_status "Init global ......"
+        fi
         export INIT_GLOBAL_RABBIT=TRUE
         #check_echo_color
         check_echo_color_with_tput
@@ -940,4 +955,4 @@ init_blobal() {
     fi
 }
 
-init_blobal
+init_global
