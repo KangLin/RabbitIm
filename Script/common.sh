@@ -116,7 +116,7 @@ check_echo_color_with_tput() {
     fi
 }
 log_info() {
-    echo -e "${GREEN}[i]${NC} $(date '+%Y-%m-%d %H:%M:%S') - $1"
+    echo -e "[i] $(date '+%Y-%m-%d %H:%M:%S') - $1"
 }
 log_warn() {
     echo -e "${YELLOW}[!]${NC} $(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -134,19 +134,22 @@ echo_error() {
     echo -e "${RED}[X]${NC} $1" >&2
 }
 echo_warn() {
-    echo -e "${YELLOW} $1 ${NC}"
+    echo -e "${YELLOW}[!]${NC} $1"
 }
-echo_color_success() {
-    echo -e "${GREEN} $1 ${NC}"
-}
-echo_color_warn() {
-    echo -e "${YELLOW} $1 ${NC}"
-}
-echo_color_error() {
-    echo -e "${RED} $1 ${NC}" >&2
+echo_info() {
+    echo -e "[i] $1"
 }
 echo_status() {
     echo "=== $1"
+}
+echo_color_success() {
+    echo -e "${GREEN}$1${NC}"
+}
+echo_color_warn() {
+    echo -e "${YELLOW}$1${NC}"
+}
+echo_color_error() {
+    echo -e "${RED}$1${NC}" >&2
 }
 
 # Validate directory path
@@ -929,7 +932,7 @@ get_section() {
     ' "$file"
 }
 
-# 初始化，必须放在此文件最后
+# TODO: 初始化，必须放在此文件最后
 init_blobal() {
     if [ ! $INIT_GLOBAL_RABBIT ]; then
         echo_status "Init global ......"
