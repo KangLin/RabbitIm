@@ -7,7 +7,7 @@ Build-Depends: debhelper(>=13), debhelper-compat(=13), fakeroot, cmake(>=3.21),
   qt6-qpa-plugins, qt6-svg-dev, qt6-l10n-tools, qt6-translations-l10n,
   libqt6sql6-mysql, libqt6sql6-odbc, libqt6sql6-sqlite, libqt6sql6-psql,
   qt6-scxml-dev, qt6-multimedia-dev, qt6-positioning-dev,
-  libcmark-dev
+  libcmark-dev, libqxmppqt6-dev, libavcodec-dev libavformat-dev libswscale-dev, libresample1-dev,
 Standards-Version:"0.1.0"
 Homepage: https://github.com/KangLin/rabbitim
 Vcs-Git: https://github.com/KangLin/rabbitim
@@ -17,5 +17,18 @@ Package: rabbitim
 Section: net
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
-Depends:  ${shlibs:Depends}, ${misc:Depends}
+Depends: libqt6sql6-mysql, libqt6sql6-sqlite, libqt6sql6-odbc, libqt6sql6-psql, libmysqlclient24,
+  ${shlibs:Depends}, ${misc:Depends}
 Description: Rabbit instant messaging
+  Rabbit instant messaging is is a cross-platform,
+  multi-protocol instant messaging software.
+  .
+  Author: Kang Lin <kl222@126.com>
+  .
+  Donation:
+  .
+  https://github.com/KangLin/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+  .
+  https://gitee.com/kl222/RabbitCommon/raw/master/Src/Resource/image/Contribute.png
+  .
+  https://gitlab.com/kl222/RabbitCommon/-/raw/master/Src/Resource/image/Contribute.png
