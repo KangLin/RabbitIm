@@ -10,6 +10,16 @@ else()
     return()
 endif()
 
+set(PLUGIN_HEADERS
+    LbsTrack.h
+    Nmea.h
+    LbsPositionLogger.h
+    LbsMotion.h
+    FrmLbsMain.h
+    LbsCamera.h
+    PluginAppMotion.h
+)
+
 set(PLUGIN_SOURCES
         LbsTrack.cpp
         Nmea.cpp
@@ -24,7 +34,7 @@ set(PLUGIN_SOURCES
 
 IF(ANDROID)
     SET(PLUGIN_SOURCES
-        ${PLUGIN_SOURCES}
+        ${PLUGIN_SOURCES} ${PLUGIN_HEADERS}
         Android/jni/CameraAndroid.cpp
         Android/jni/CameraAndroidResultReceiver.cpp
     )

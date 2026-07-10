@@ -162,7 +162,7 @@ jobs:
           QT_ROOT: ${{env.QT_ROOT_DIR}}
         run: |
           if [ ! -d ${{env.INSTALL_DIR}}/lib/cmake/qxmpp ]; then
-            git clone -b v1.10.3 https://invent.kde.org/libraries/qxmpp.git
+            git clone -b v1.16.1 https://invent.kde.org/libraries/qxmpp.git
             cd qxmpp
             cmake -E make_directory build
             cd build

@@ -23,7 +23,7 @@ jobs:
             qt_arch: win64_msvc2022_64
             qt_modules: qtscxml qtmultimedia qtimageformats qt5compat qtpositioning
             os: windows-2022
-            QXMPP_VERSION: v1.15.1
+            QXMPP_VERSION: v1.16.1
 
           - CMAKE_GENERATOR_PLATFORM: arm64
             VCPKG_TARGET_TRIPLET: arm64-windows
@@ -33,7 +33,7 @@ jobs:
             qt_arch: win64_msvc2022_arm64
             qt_modules: qt5compat qtimageformats qtmultimedia qtpositioning qtscxml
             os: windows-11-arm
-            QXMPP_VERSION: v1.15.1
+            QXMPP_VERSION: v1.16.1
 
           - CMAKE_GENERATOR_PLATFORM: Win32
             VCPKG_TARGET_TRIPLET: x86-windows
