@@ -114,7 +114,7 @@
 
 - 命令行编译：
 
-    $QT_ROOT/bin/qmake THIRD_LIBRARY_PATH= [RabbitCommon_DIR=...]
+    $QT_ROOT/bin/qmake THIRD_LIBRARY_PATH= [RabbitCommon_ROOT=...]
     make
 
 - 用 QtCreator
@@ -352,7 +352,7 @@ https://github.com/ruby/ruby
 
 - 命令行编译：
 
-    $QT_ROOT/bin/qmake THIRD_LIBRARY_PATH= [RabbitCommon_DIR=...]
+    $QT_ROOT/bin/qmake THIRD_LIBRARY_PATH= [RabbitCommon_ROOT=...]
     make
 
 - 用 QtCreator
