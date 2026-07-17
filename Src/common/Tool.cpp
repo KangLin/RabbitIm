@@ -17,7 +17,11 @@
     #include <QTransform>
 #endif
 #ifdef ANDROID
-    #include <QtAndroidExtras/QAndroidJniObject>
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        #include <QJniObject>
+    #else
+        #include <QtAndroidExtras/QAndroidJniObject>
+    #endif
 #endif
 #ifdef WINDOWS
     #include <windows.h>
@@ -616,11 +620,19 @@ bool CTool::EnableWake(bool bWake)
     static bool bSet = false;
 #ifdef ANDROID
     jboolean bPara = bWake;
-    jboolean bRet = QAndroidJniObject::callStaticMethod<jboolean>(
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        jboolean bRet = QJniObject::callStaticMethod<jboolean>(
+            "org/KangLinStudio/RabbitIm/RabbitImActivity",
+            "EnableWake",
+            "(Z)Z",
+            bPara);
+    #else
+        jboolean bRet = QAndroidJniObject::callStaticMethod<jboolean>(
                 "org/KangLinStudio/RabbitIm/RabbitImActivity",
                 "EnableWake",
                 "(Z)Z",
                 bPara);
+    #endif
     return bRet;
 #elif WINDOWS
     if(bWake)

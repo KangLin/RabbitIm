@@ -43,7 +43,9 @@
 #endif
 
 #ifdef ANDROID
-    #include <QVideoProbe>
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        #include <QVideoProbe>
+    #endif
 #endif
 
 #include <QCamera>

@@ -1,7 +1,11 @@
-#ifndef CCAMERAANDROIDRESULTRECEIVER_H
-#define CCAMERAANDROIDRESULTRECEIVER_H
+#pragma once
 
-#include <QAndroidActivityResultReceiver>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #include <QtCore/private/qandroidextras_p.h>
+#else
+    #include <QAndroidActivityResultReceiver>
+#endif
+
 #include <QString>
 class CCameraAndroid;
 class CCameraAndroidResultReceiver : public QAndroidActivityResultReceiver
@@ -11,7 +15,12 @@ public:
     int SetSaveFile(const QString &szFile);
     virtual void handleActivityResult(int receiverRequestCode,
                                       int resultCode,
-                                      const QAndroidJniObject &data);
+                                      #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                                          const QJniObject &data
+                                      #else
+                                          const QAndroidJniObject &data
+                                      #endif
+                                      );
     
 signals:
     void sigPhotograph(const QString& szFile);
@@ -21,4 +30,3 @@ private:
     CCameraAndroid* m_pCamera;
 };
 
-#endif // CCAMERAANDROIDRESULTRECEIVER_H

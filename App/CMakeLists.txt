@@ -24,7 +24,7 @@ if(ANDROID)
     list(APPEND INCLUDE_DIRS $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni>)
 endif()
 
-set(APP_ID io.github.KangLin.RabbitIm)
+set(APP_ID "io.github.KangLin.RabbitIm")
 ADD_TARGET(NAME ${PROJECT_NAME}
     ISEXE
     SOURCE_FILES ${SOURCES_FILES} ${RCC_FILES}
@@ -32,7 +32,7 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     PRIVATE_DEFINITIONS ${PRIVATE_DEFINITIONS}
     INCLUDE_DIRS ${INCLUDE_DIRS}
     VERSION ${RabbitIm_VERSION}
-    ANDROID_SOURCES_DIR ${CMAKE_SOURCE_DIR}/android
+   # ANDROID_SOURCES_DIR ${CMAKE_SOURCE_DIR}/android
     )
 
 IF(WIN32)
@@ -45,7 +45,16 @@ IF(WIN32)
             COMPONENT Runtime)
 ENDIF()
 
-if(UNIX AND NOT ANDROID)
+if(ANDROID)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        # Android 包名
+        QT_ANDROID_PACKAGE_NAME "${APP_ID}"
+        # 最小 SDK 版本
+        QT_ANDROID_MIN_SDK_VERSION 28
+        # 目标 SDK 版本
+        QT_ANDROID_TARGET_SDK_VERSION 34
+        )
+elseif(UNIX)
     configure_file(${CMAKE_SOURCE_DIR}/Package/share/applications/${APP_ID}.desktop.in
         ${CMAKE_BINARY_DIR}/${APP_ID}.desktop)
     INSTALL(FILES ${CMAKE_BINARY_DIR}/${APP_ID}.desktop

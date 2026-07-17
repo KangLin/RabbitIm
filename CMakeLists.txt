@@ -1,6 +1,6 @@
 # Author: Kang Lin(kl222@126.com)
 
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.25)
 MESSAGE(STATUS "Found CMake ${CMAKE_VERSION}")
 
 project(RabbitIm
@@ -10,7 +10,7 @@ project(RabbitIm
 if(CMAKE_VERSION VERSION_LESS "3.7.0")
    set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # 避免使用编译器特定的扩展语法，从而提高跨平台一致性。
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -23,43 +23,30 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "verbose")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-if(POLICY CMP0083)
-    cmake_policy(SET CMP0083 NEW)
-endif()
-
-if(POLICY CMP0020)
-    cmake_policy(SET CMP0020 NEW)
-endif()
-
-if(POLICY CMP0021)
-    cmake_policy(SET CMP0021 NEW)
-endif()
-
-#需要的QT组件
-SET(QT_COMPONENTS Core Gui Widgets)
-if(ANDROID)
-    SET(QT_COMPONENTS ${QT_COMPONENTS} AndroidExtras)
-endif()
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS})
-message("QT_VERSION:${Qt${QT_VERSION_MAJOR}_VERSION}")
-if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 5.10.0 AND ANDROID)
-    message(FATAL_ERROR "Qt must great 5.10.0")
-endif()
-if(Qt${QT_VERSION_MAJOR}_FOUND)
-    FOREACH(_COMPONENT ${QT_COMPONENTS})
-        list(APPEND QT_LIBRARIES Qt${QT_VERSION_MAJOR}::${_COMPONENT})
-    ENDFOREACH()
-endif()
-get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
-message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
-message("QT_LIBRARIES:${QT_LIBRARIES}")
 
 #打开 qt 编译工具
 SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTORCC ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
+
+#需要的QT组件
+SET(QT_COMPONENTS Core Gui Widgets)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS})
+message("QT_VERSION:${Qt${QT_VERSION_MAJOR}_VERSION}")
+if(Qt${QT_VERSION_MAJOR}_FOUND)
+    FOREACH(_COMPONENT ${QT_COMPONENTS})
+        list(APPEND QT_LIBRARIES Qt${QT_VERSION_MAJOR}::${_COMPONENT})
+    ENDFOREACH()
+endif()
+get_filename_component(QT_INSTALL_DIR "${Qt${QT_VERSION_MAJOR}_DIR}/../../.." ABSOLUTE)
+message("QT_ROOT:${QT_ROOT}")
+message("QT_DIR:${QT_DIR}")
+message("Qt${QT_VERSION_MAJOR}_ROOT:${Qt${QT_VERSION_MAJOR}_ROOT}")
+message("Qt${QT_VERSION_MAJOR}_DIR:${Qt${QT_VERSION_MAJOR}_DIR}")
+message("QT_INSTALL_DIR:${QT_INSTALL_DIR}")
+message("${PROJECT_NAME} QT_LIBRARIES:${QT_LIBRARIES}")
 
 SET(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libs")
 if (BUILD_SHARED_LIBS)

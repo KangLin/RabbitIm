@@ -76,7 +76,11 @@ ELSEIF(ANDROID)
     ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/android/QtAndroidUtils/android/QtAndroidUtilsModule/jni
         ${CMAKE_BINARY_DIR}/QtAndroidUtilsModule)
     LIST(APPEND RABBITIM_LIBS QtAndroidUtilsModule)
-    list(APPEND QT_COMPONENTS AndroidExtras)
+    if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_LESS 6.0.0)
+        list(APPEND QT_COMPONENTS AndroidExtras)
+    else()
+        list(APPEND QT_COMPONENTS CorePrivate)
+    endif()
 ELSE(LINUX OR UNIX)
     list(APPEND RABBITIM_DEFINES UNIX)
 ENDIF()
@@ -102,4 +106,5 @@ ADD_TARGET(NAME ${PROJECT_NAME}
     INCLUDE_DIRS ${SRC_INCLUDE_DIRS}
     INSTALL_HEADER_FILES ${INSTALL_HEADER_FILES}
     INSTALL_EXPORT_NAME ${PROJECT_NAME}Targets
+    VERSION "${RabbitIm_VERSION}"
     )
