@@ -7,16 +7,38 @@
 set -e
 #set -v
 
+# 安全的 readlink 函数，兼容各种系统
+safe_readlink() {
+    local path="$1"
+    if [ -L "$path" ]; then
+        if command -v readlink >/dev/null 2>&1; then
+            if readlink -f "$path" >/dev/null 2>&1; then
+                readlink -f "$path"
+            else
+                readlink "$path"
+            fi
+        else
+            ls -l "$path" | awk '{print $NF}'
+        fi
+    elif [ -e "$path" ]; then
+        if command -v realpath >/dev/null 2>&1; then
+            realpath "$path"
+        else
+            echo "$(cd "$(dirname "$path")" && pwd)/$(basename "$path")"
+        fi
+    else
+        echo "$path"
+    fi
+}
+
 if [ -z "$BUILD_VERBOSE" ]; then
     BUILD_VERBOSE=OFF
 fi
 
-source $(dirname $(readlink -f $0))/common.sh
+source $(dirname $(safe_readlink ${BASH_SOURCE[0]}))/common.sh
 
-install_gnu_getopt
 if [ "$DISTRO" = "macOS" ]; then
     MACOS=1
-    setup_macos
 else
     MACOS=0
 fi
@@ -414,7 +436,7 @@ show_configuration
 
 # Set libraries install path
 case "$DISTRO" in
-ubuntu|debian)
+ubuntu|debian|linuxmint)
     LIB_PATH="lib"
     ;;
 fedora)
@@ -446,8 +468,16 @@ if [ -n "$PACKAGE" ]; then
     package_install $PACKAGE
 fi
 
-if [ $BASE_LIBS -eq 1 ]; then
+install_base() {
     echo_status "Install base libraries ......"
+    if is_termux; then
+        package_install wget curl git cmake build-essential libcurl
+	#package_install mesa-dev glu glew glfw libglvnd-dev libglvnd
+        package_install qt6-qttools qt6-qtbase qt6-qttranslations qt6-qt5compat qt6-qtimageformats qt6-qtmultimedia \
+            qt6-qtscxml qt6-qtsvg qt6-qtwayland qt6-qtwebchannel qt6-qtwebengine qt6-qtwebsockets qt6-qtpositioning qt6-qtbase-gtk-platformtheme
+        return 0
+    fi
+
     if [ "$PACKAGE_TOOL" = "apt" ]; then
         # Build tools
         package_install build-essential devscripts equivs debhelper \
@@ -486,30 +516,22 @@ if [ $BASE_LIBS -eq 1 ]; then
     if [ $MACOS -eq 1 ]; then
         package_install nasm autoconf automake libtool pkg-config doxygen zstd curl
     fi
+}
+
+if [ $BASE_LIBS -eq 1 ]; then
+    install_base
 fi
 
 if [ $DEFAULT_LIBS -eq 1 ]; then
     echo_status "Install default dependency libraries ......"
-    if [ "$PACKAGE_TOOL" = "apt" ]; then
-
-        package_install qmake6 qt6-tools-dev qt6-tools-dev-tools \
-            qt6-base-dev qt6-base-dev-tools qt6-qpa-plugins \
-            qt6-svg-dev qt6-l10n-tools qt6-translations-l10n \
-            qt6-scxml-dev qt6-multimedia-dev qt6-positioning-dev \
-            libqt6sql6-mysql libqt6sql6-sqlite libqt6sql6-odbc libqt6sql6-psql \
-            qt6-speech-dev
-
-    fi # apt
-
-    if [ "$PACKAGE_TOOL" = "dnf" ]; then
-        if [ $QT -ne 1 ]; then
-            package_install qt6-qttools-devel qt6-qtbase-devel qt6-qtmultimedia-devel \
-                qt6-qt5compat-devel qt6-qtmultimedia-devel qt6-qtscxml-devel \
-                qt6-qtsvg-devel qt6-qtpositioning-devel
-        fi
-
-        dnf builddep -y ${REPO_ROOT}/Package/rpm/rabbitim.spec
-    fi
+    case "$DISTRO" in
+    ubuntu|debian|deepin|linuxmint)
+        install_debian_depend $REPO_ROOT
+        ;;
+    fedora)
+        dnf builddep -y ${REPO_ROOT}/Package/rpm/rabbitremotecontrol.spec
+        ;;
+    esac
 
     if [ $MACOS -eq 1 ]; then
         package_install qt
@@ -544,12 +566,46 @@ fi
 
 if [ $RabbitCommon -eq 1 ]; then
     echo_status "Install RabbitCommon ......"
-    pushd "$SOURCE_DIR"
-    if [ ! -d RabbitCommon ]; then
-        git clone https://github.com/KangLin/RabbitCommon.git
-    else
-        pushd RabbitCommon
+    if [ -d "$RabbitCommon_ROOT" ]; then
+        pushd $RabbitCommon_ROOT
         git pull
+        popd
+    else
+        pushd "$SOURCE_DIR"
+        if [ ! -d RabbitCommon ]; then
+            git clone https://github.com/KangLin/RabbitCommon.git
+        else
+            pushd RabbitCommon
+            git pull
+            popd
+        fi
+        popd
+    fi
+fi
+
+if [ is_termux ]; then
+	CMAKE_PARA="-DCMAKE_SYSTEM_NAME=Linux"
+fi
+if [ $LIBSSH -eq 1 ]; then
+    echo_status "Install libssh ......"
+    pushd "$SOURCE_DIR"
+    if [ ! -d ${INSTALL_DIR}/${LIB_PATH}/cmake/libssh ]; then
+        if [ ! -d libssh ]; then
+            LIBSSH_VERSION=0.12.2
+            LIBSSH_VERSION_DIR=0.12
+            #git clone -b libssh-${LIBSSH_VERSION} --depth=1 https://git.libssh.org/projects/libssh.git
+            wget https://www.libssh.org/files/${LIBSSH_VERSION_DIR}/libssh-${LIBSSH_VERSION}.tar.xz
+            tar -xf libssh-${LIBSSH_VERSION}.tar.xz
+            mv libssh-${LIBSSH_VERSION} libssh
+        fi
+        cmake -E make_directory $BUILD_DEPEND_DIR/libssh
+        pushd $BUILD_DEPEND_DIR/libssh
+        cmake -S $SOURCE_DIR/libssh -DCMAKE_BUILD_TYPE=Release $CMAKE_PARA \
+            -DCMAKE_VERBOSE_MAKEFILE=${BUILD_VERBOSE} \
+            -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+            -DWITH_EXAMPLES=OFF
+        cmake --build . --config Release --parallel $(nproc)
+        cmake --build . --config Release --target install
         popd
     fi
     popd
@@ -575,7 +631,7 @@ if [ $QXMPP -eq 1 ]; then
         fi
         cmake -E make_directory $BUILD_DEPEND_DIR/qxmpp
         cd $BUILD_DEPEND_DIR/qxmpp
-        cmake -S ${SOURCE_DIR}/qxmpp -DCMAKE_BUILD_TYPE=Release \
+        cmake -S ${SOURCE_DIR}/qxmpp $CMAKE_PARA -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
             -DCMAKE_VERBOSE_MAKEFILE=${BUILD_VERBOSE} \
             -DBUILD_DOCUMENTATION=OFF \
@@ -595,7 +651,7 @@ if [ $QZXING -eq 1 ]; then
         fi
         cmake -E make_directory $BUILD_DEPEND_DIR/qzxing
         pushd $BUILD_DEPEND_DIR/qzxing
-        cmake -S $SOURCE_DIR/qzxing -DCMAKE_BUILD_TYPE=Release \
+        cmake -S $SOURCE_DIR/qzxing $CMAKE_PARA -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
             -DCMAKE_VERBOSE_MAKEFILE=${BUILD_VERBOSE}
         cmake --build . --config Release --parallel $(nproc)

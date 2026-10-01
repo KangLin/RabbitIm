@@ -1,18 +1,42 @@
 #!/bin/bash
+# Build the project in linux
+# Author: Kang Lin <kl222@126.com>
 
 set -e
 #set -x
+
+# 安全的 readlink 函数，兼容各种系统
+safe_readlink() {
+    local path="$1"
+    if [ -L "$path" ]; then
+        if command -v readlink >/dev/null 2>&1; then
+            if readlink -f "$path" >/dev/null 2>&1; then
+                readlink -f "$path"
+            else
+                readlink "$path"
+            fi
+        else
+            ls -l "$path" | awk '{print $NF}'
+        fi
+    elif [ -e "$path" ]; then
+        if command -v realpath >/dev/null 2>&1; then
+            realpath "$path"
+        else
+            echo "$(cd "$(dirname "$path")" && pwd)/$(basename "$path")"
+        fi
+    else
+        echo "$path"
+    fi
+}
 
 if [ -z "$BUILD_VERBOSE" ]; then
     BUILD_VERBOSE=OFF
 fi
 
-source $(dirname $(readlink -f $0))/common.sh
+source $(dirname $(safe_readlink ${BASH_SOURCE[0]}))/common.sh
 
-install_gnu_getopt
 if [ "$OS" = "macOS" ]; then
     MACOS=1
-    setup_macos
 else
     MACOS=0
 fi
@@ -21,6 +45,8 @@ DOCKER=0
 DEB=0
 RPM=0
 APPIMAGE=0
+LINT=0
+TERMUX=0
 
 if [ -z "$QT_VERSION" ]; then
     QT_VERSION=6.10.3
@@ -39,7 +65,7 @@ Options:
 
 Directory options:
   --install=DIR         Set installation directory
-  --source=DIR          Set source code directory  
+  --source=DIR          Set source code directory
   --tools=DIR           Set tools directory
   --build=DIR           Set build directory
 
@@ -53,7 +79,9 @@ Target options:
   --rpm:                Build rpm package
   --appimage:           Build AppImage
   --macos:              Build macOS
-  
+  --termux:             Build termux
+  --lint:               Check with lint
+
 Other options:
   --qt=VERSION    Install Qt (can specify version)(only --appimage)
 
@@ -65,6 +93,8 @@ Environment variables:
   BUILD_VERBOSE     Set verbose mode (ON/OFF, default: $BUILD_VERBOSE)
   QT_VERSION        Set Qt version (default: $QT_VERSION)
 EOF
+    echo ""
+    detect_os_info
     exit 0
 }
 
@@ -79,7 +109,7 @@ parse_with_getopt() {
         # 后面没有冒号表示没有参数。后跟有一个冒号表示有参数。跟两个冒号表示有可选参数。
         # -l 或 --long 选项后面是可接受的长选项，用逗号分开，冒号的意义同短选项。
         # -n 选项后接选项解析错误时提示的脚本名字
-        OPTS=help,verbose::,docker::,deb::,rpm::,appimage::,macos::,docker-image:,docker-platform::,qt:,install:,source:,tools:,build:
+        OPTS=help,verbose::,docker::,deb::,rpm::,appimage::,macos::,termux::,docker-image:,docker-platform::,qt:,install:,source:,tools:,build:,lint::
         ARGS=`getopt -o h,v:: -l $OPTS -n $(basename $0) -- "$@"`
         if [ $? != 0 ]; then
             echo_error "exec getopt fail: $?"
@@ -89,7 +119,7 @@ parse_with_getopt() {
         #将规范化后的命令行参数分配至位置参数（$1,$2,......)
         eval set -- "${ARGS}"
         #echo "formatted parameters=[$@]"
-    
+
         while [ $1 ]
         do
             #echo "\$1: $1"
@@ -183,6 +213,24 @@ parse_with_getopt() {
                 esac
                 shift 2
                 ;;
+            --termux)
+                case $2 in
+                    "")
+                        TERMUX=1;;
+                    *)
+                        TERMUX=$2;;
+                esac
+                shift 2
+                ;;
+            --lint)
+                case $2 in
+                    "")
+                        LINT=1;;
+                    *)
+                        LINT=$2;;
+                esac
+                shift 2
+                ;;
             --qt)
                 case $2 in
                     *)
@@ -235,6 +283,7 @@ show_configuration() {
         echo "  DEB Package: $DEB"
         echo "  RPM Package: $RPM"
         echo "  AppImage Package: $APPIMAGE"
+        echo "  Lint check: $LINT"
         echo ""
         echo "Component Installation:"
         echo "  Qt: $QT_VERSION"
@@ -245,6 +294,7 @@ show_configuration() {
         echo ""
     fi
 
+    echo "RabbitCommon_ROOT: $RabbitCommon_ROOT"
     echo "Repo folder: $REPO_ROOT"
     echo "Old folder: $OLD_CWD"
     echo "Current folder: `pwd`"
@@ -270,7 +320,7 @@ validate_parameters() {
     case "$DOCKER_IMAGE" in
         "")
             ;;
-        ubuntu*|debian*|kali*|*kylin*|*deepin*)
+        ubuntu*|debian*|kali*|*kylin*|*deepin*|linuxmint*)
             if [ $RPM -eq 1 ]; then
               echo_error "Error: Not recommended build rpm package in $DOCKER_IMAGE"
               exit 1
@@ -356,16 +406,20 @@ if [ $DOCKER -eq 1 ]; then
     chmod a+rw ${BUILD_LINUX_DIR}/RabbitIm.tar.gz
     popd
 
+    DOCKER_PARA="$DOCKER_PARA -e CI=${CI}"
+    if [ -d "$RabbitCommon_ROOT" ]; then
+        DOCKER_PARA="$DOCKER_PARA --volume ${RabbitCommon_ROOT}:/home/RabbitCommon -e RabbitCommon_ROOT=/home/RabbitCommon"
+    fi
     if [ $DEB -eq 1 ]; then
-        if [[ "$DOCKER_IMAGE" =~ ^(ubuntu|debian) ]]; then
-            DOCKER_PARA="-e DEBIAN_FRONTEND=noninteractive -e TZ=UTC"
+        if [[ "$DOCKER_IMAGE" =~ ^(ubuntu|debian|linuxmint) ]]; then
+            DOCKER_PARA="$DOCKER_PARA -e DEBIAN_FRONTEND=noninteractive -e TZ=UTC"
         fi
         echo "DOCKER_PLATFORM: $DOCKER_PLATFORM"
         if [ -n "$DOCKER_PLATFORM" ]; then
             DOCKER_PARA="$DOCKER_PARA --platform $DOCKER_PLATFORM"
         fi
+
         docker run --privileged ${DOCKER_PARA} \
-            -e CI=${CI} \
             --volume ${REPO_ROOT}:/home/RabbitIm \
             --volume ${BUILD_LINUX_DIR}:/home/build \
             --volume ${INSTALL_DIR}:/home/install \
@@ -384,12 +438,12 @@ if [ $DOCKER -eq 1 ]; then
     fi
 
     if [ $APPIMAGE -eq 1 ]; then
-        #if [[ "$DOCKER_IMAGE" =~ ^(ubuntu|debian) ]]; then
-        #    DOCKER_PARA="-e DEBIAN_FRONTEND=noninteractive -e TZ=UTC"
+        #if [[ "$DOCKER_IMAGE" =~ ^(ubuntu|debian|linuxmint) ]]; then
+        #    DOCKER_PARA="$DOCKER_PARA -e DEBIAN_FRONTEND=noninteractive -e TZ=UTC"
         #fi
         case "$DISTRO" in
-        ubuntu|debian)
-            DOCKER_PARA="-e DEBIAN_FRONTEND=noninteractive -e TZ=UTC"
+        ubuntu|debian|linuxmint)
+            DOCKER_PARA="$DOCKER_PARA -e DEBIAN_FRONTEND=noninteractive -e TZ=UTC"
             ;;
         fedora)
             # Install getopt
@@ -397,7 +451,6 @@ if [ $DOCKER -eq 1 ]; then
             ;;
         esac
         docker run --privileged ${DOCKER_PARA} \
-            -e CI=${CI} \
             --volume ${REPO_ROOT}:/home/RabbitIm \
             --volume ${BUILD_LINUX_DIR}:/home/build \
             --volume ${INSTALL_DIR}:/home/install \
@@ -426,7 +479,7 @@ if [ $DOCKER -eq 1 ]; then
     fi
 
     if [ $RPM -eq 1 ]; then
-        docker run --volume ${BUILD_LINUX_DIR}:/home/build \
+        docker run ${DOCKER_PARA} --volume ${BUILD_LINUX_DIR}:/home/build \
             --volume ${INSTALL_DIR}:/home/install \
             --volume ${TOOLS_DIR}:/home/tools \
             --privileged --interactive --rm ${DOCKER_IMAGE} \
@@ -547,6 +600,74 @@ if [ $MACOS -eq 1 ]; then
         --source=${SOURCE_DIR} \
         --tools=${TOOLS_DIR} \
         --verbose=${BUILD_VERBOSE}
+fi
+
+if [ $LINT -eq 1 ]; then
+    echo_status "Lint check ......"
+
+    ./build_depend.sh --system_update --base --default \
+        --install=${INSTALL_DIR} \
+        --source=${SOURCE_DIR} \
+        --tools=${TOOLS_DIR} \
+        --verbose=${BUILD_VERBOSE}
+
+    if [ -z "$RabbitCommon_ROOT" ]; then
+        export RabbitCommon_ROOT=${SOURCE_DIR}/RabbitCommon
+    fi
+    # Disable ci warn
+    if [ $CI ]; then
+        git config --global --add safe.directory $REPO_ROOT
+        git config --global --add safe.directory $RabbitCommon_ROOT
+    fi
+
+    export BUILD_FREERDP=ON
+    export PKG_CONFIG_PATH=${INSTALL_DIR}/${LIB_PATH}/pkgconfig:$PKG_CONFIG_PATH
+    export LD_LIBRARY_PATH=${INSTALL_DIR}/${LIB_PATH}:$LD_LIBRARY_PATH
+    export CMAKE_PREFIX_PATH=${INSTALL_DIR}:${CMAKE_PREFIX_PATH}
+
+    ./build_depend.sh --system_update --base --default \
+        --rabbitcommon --qxmpp ${depend_para} \
+        --install=${INSTALL_DIR} \
+        --source=${SOURCE_DIR} \
+        --tools=${TOOLS_DIR} \
+        --verbose=${BUILD_VERBOSE}
+
+    ./build_lint_check.sh
+fi
+
+if [ $TERMUX -eq 1 ]; then
+    if is_termux; then
+        echo_status "build in termux ......"
+
+        ./build_depend.sh --system_update --base \
+            --install=${INSTALL_DIR} \
+            --source=${SOURCE_DIR} \
+            --tools=${TOOLS_DIR} \
+            --verbose=${BUILD_VERBOSE}
+
+        if [ -z "$RabbitCommon_ROOT" ]; then
+            export RabbitCommon_ROOT=${SOURCE_DIR}/RabbitCommon
+        fi
+        # Disable ci warn
+        if [ $CI ]; then
+            git config --global --add safe.directory $REPO_ROOT
+            git config --global --add safe.directory $RabbitCommon_ROOT
+        fi
+
+        ./build_depend.sh ${depend_para} \
+            --rabbitcommon --qxmpp \
+            --install=${INSTALL_DIR} \
+            --source=${SOURCE_DIR} \
+            --tools=${TOOLS_DIR} \
+            --verbose=${BUILD_VERBOSE}
+
+        ./build_termux.sh --install=${INSTALL_DIR} \
+            --source=${SOURCE_DIR} \
+            --tools=${TOOLS_DIR} \
+            --verbose=${BUILD_VERBOSE}
+    else
+        echo_error "There are not termux"
+    fi
 fi
 
 popd
